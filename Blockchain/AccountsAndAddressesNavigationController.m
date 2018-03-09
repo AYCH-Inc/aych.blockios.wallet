@@ -67,7 +67,7 @@
 #endif
 
     CGFloat assetSelectorViewHorizontalPadding = 8;
-    self.assetSelectorView = [[AssetSelectorView alloc] initWithFrame:CGRectMake(assetSelectorViewHorizontalPadding, headerLabel.frame.origin.y + headerLabel.frame.size.height + 8, self.view.frame.size.width - assetSelectorViewHorizontalPadding*2, ASSET_SELECTOR_ROW_HEIGHT) delegate:self];
+    self.assetSelectorView = [[AssetSelectorView alloc] initWithFrame:CGRectMake(assetSelectorViewHorizontalPadding, headerLabel.frame.origin.y + headerLabel.frame.size.height + 8, self.view.frame.size.width - assetSelectorViewHorizontalPadding*2, ASSET_SELECTOR_ROW_HEIGHT) assets:@[[NSNumber numberWithInteger:AssetTypeBitcoin], [NSNumber numberWithInteger:AssetTypeBitcoinCash]] delegate:self];
     [topBar addSubview:self.assetSelectorView];
     
     [self setupBusyView];
@@ -243,13 +243,21 @@
 {
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
         [self.topBar changeHeight:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT];
+        if ([self.visibleViewController isMemberOfClass:[AccountsAndAddressesViewController class]]) {
+            AccountsAndAddressesViewController *accountsAndAddressesViewController = (AccountsAndAddressesViewController *)self.visibleViewController;
+            [accountsAndAddressesViewController.containerView changeYPosition:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT];
+        }
     }];
 }
 
 - (void)didOpenSelector
 {
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [self.topBar changeHeight:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT*3];
+        [self.topBar changeHeight:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT*self.assetSelectorView.assets.count];
+        if ([self.visibleViewController isMemberOfClass:[AccountsAndAddressesViewController class]]) {
+            AccountsAndAddressesViewController *accountsAndAddressesViewController = (AccountsAndAddressesViewController *)self.visibleViewController;
+            [accountsAndAddressesViewController.containerView changeYPosition:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT*self.assetSelectorView.assets.count];
+        }
     }];
 }
 

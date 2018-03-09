@@ -33,9 +33,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.tableView = [[UITableView alloc] initWithFrame:app.window.frame style:UITableViewStyleGrouped];
+    
+    self.view.frame = app.window.frame;
+    
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectOffset(app.window.frame, 0, DEFAULT_HEADER_HEIGHT + ASSET_SELECTOR_ROW_HEIGHT + 8)];
+    [self.view addSubview:containerView];
+    self.containerView = containerView;
+    
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = COLOR_TABLE_VIEW_BACKGROUND_LIGHT_GRAY;
-    [self.view addSubview:self.tableView];
+    [self.containerView addSubview:self.tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:NOTIFICATION_KEY_RELOAD_ACCOUNTS_AND_ADDRESSES object:nil];

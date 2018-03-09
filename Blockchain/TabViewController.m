@@ -279,9 +279,9 @@
 - (void)didOpenSelector
 {    
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [topBar changeHeight:DEFAULT_HEADER_HEIGHT + ASSET_SELECTOR_ROW_HEIGHT*3];
+        [topBar changeHeight:DEFAULT_HEADER_HEIGHT + ASSET_SELECTOR_ROW_HEIGHT*self.assetSelectorView.assets.count];
         self.activeViewController.view.frame = CGRectMake(0,
-                                                          ASSET_SELECTOR_ROW_HEIGHT*3,
+                                                          ASSET_SELECTOR_ROW_HEIGHT*self.assetSelectorView.assets.count,
                                                           [UIScreen mainScreen].bounds.size.width,
                                                           [UIScreen mainScreen].bounds.size.height - DEFAULT_HEADER_HEIGHT - DEFAULT_HEADER_HEIGHT_OFFSET - DEFAULT_FOOTER_HEIGHT);
         [bannerView changeHeight:ASSET_SELECTOR_ROW_HEIGHT*3];

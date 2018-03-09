@@ -16,8 +16,10 @@
 @end
 @interface AssetSelectorView : UIView
 @property (nonatomic) AssetType selectedAsset;
+@property (nonatomic, readonly) NSArray *assets;
 @property (nonatomic, readonly) BOOL isOpen;
 - (id)initWithFrame:(CGRect)frame delegate:(id<AssetSelectorViewDelegate>)delegate;
+- (id)initWithFrame:(CGRect)frame assets:(NSArray *)assets delegate:(id<AssetSelectorViewDelegate>)delegate;
 - (void)close;
 - (void)open;
 

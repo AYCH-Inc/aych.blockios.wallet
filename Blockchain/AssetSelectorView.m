@@ -16,6 +16,7 @@
 @property (nonatomic) UITableView *tableView;
 @property (nonatomic, readwrite) BOOL isOpen;
 @property (nonatomic, weak) id <AssetSelectorViewDelegate> delegate;
+@property (nonatomic, readwrite) NSArray *assets;
 @end
 
 @implementation AssetSelectorView
@@ -36,21 +37,32 @@
         
         self.tableView.backgroundColor = COLOR_BLOCKCHAIN_BLUE;
         self.backgroundColor = [UIColor clearColor];
+        
+        self.assets = @[[NSNumber numberWithInteger:AssetTypeBitcoin],
+                        [NSNumber numberWithInteger:AssetTypeEther],
+                        [NSNumber numberWithInteger:AssetTypeBitcoinCash]];
     }
     
     return self;
 }
 
+- (id)initWithFrame:(CGRect)frame assets:(NSArray *)assets delegate:(id<AssetSelectorViewDelegate>)delegate
+{
+    AssetSelectorView *assetSelectorView = [self initWithFrame:frame delegate:delegate];
+    assetSelectorView.assets = assets;
+    return assetSelectorView;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AssetType asset = self.isOpen ? indexPath.row : self.selectedAsset;
+    AssetType asset = self.isOpen ? [self.assets[indexPath.row] integerValue] : self.selectedAsset;
     AssetSelectionTableViewCell *cell = [[AssetSelectionTableViewCell alloc] initWithAsset:asset];
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.isOpen ? 3 : 1;
+    return self.isOpen ? self.assets.count : 1;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -91,7 +103,7 @@
 
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
         [self.tableView reloadData];
-        [self changeHeight:ASSET_SELECTOR_ROW_HEIGHT * 3];
+        [self changeHeight:ASSET_SELECTOR_ROW_HEIGHT * self.assets.count];
     }];
 }
 

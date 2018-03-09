@@ -194,7 +194,7 @@
         return;
     }
     
-    PrivateKeyReader *reader = [[PrivateKeyReader alloc] initWithSuccess:^(NSString* keyString) {
+    PrivateKeyReader *reader = [[PrivateKeyReader alloc] initWithAssetType:self.assetType success:^(NSString* keyString) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(promptForLabelAfterScan)
                                                      name:NOTIFICATION_KEY_BACKUP_SUCCESS object:nil];
@@ -327,7 +327,7 @@
 {
     if (indexPath.section == 0) {
         int accountIndex = (int) indexPath.row;
-        NSString *accountLabelString = [app.wallet getLabelForAccount:accountIndex];
+        NSString *accountLabelString = [app.wallet getLabelForAccount:accountIndex assetType:self.assetType];
         
         ReceiveTableCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"receiveAccount"];
         
@@ -387,7 +387,7 @@
         cell.labelLabel.text = accountLabelString;
         cell.addressLabel.text = @"";
         
-        uint64_t balance = [app.wallet getBalanceForAccount:accountIndex];
+        uint64_t balance = [[app.wallet getBalanceForAccount:accountIndex assetType:self.assetType] longLongValue];
         
         // Selected cell color
         UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,cell.frame.size.width,cell.frame.size.height)];
@@ -448,7 +448,7 @@
         }
     }
     
-    NSString *label =  [app.wallet labelForLegacyAddress:addr];
+    NSString *label =  [app.wallet labelForLegacyAddress:addr assetType:self.assetType];
     
     if (label)
         cell.labelLabel.text = label;
@@ -457,7 +457,7 @@
     
     cell.addressLabel.text = addr;
     
-    uint64_t balance = [app.wallet getLegacyAddressBalance:addr];
+    uint64_t balance = [app.wallet getLegacyAddressBalance:addr assetType:self.assetType];
     
     // Selected cell color
     UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,cell.frame.size.width,cell.frame.size.height)];

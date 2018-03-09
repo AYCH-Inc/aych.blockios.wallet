@@ -1095,7 +1095,7 @@ NSString *detailLabel;
 {
     mainAddress = address;
     NSString *addr = mainAddress;
-    NSString *label = [app.wallet labelForLegacyAddress:addr];
+    NSString *label = [app.wallet labelForLegacyAddress:addr assetType:self.assetType];
     
     self.clickedAddress = addr;
     didClickAccount = NO;
@@ -1121,7 +1121,7 @@ NSString *detailLabel;
     clickedAccount = account;
     didClickAccount = YES;
     
-    mainLabel = [app.wallet getLabelForAccount:account];
+    mainLabel = [app.wallet getLabelForAccount:account assetType:self.assetType];
     
     [self updateUI];
 }

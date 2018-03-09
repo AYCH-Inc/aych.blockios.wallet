@@ -573,7 +573,7 @@ int lastNumberTransactions = INT_MAX;
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
         return [app.wallet getTotalBalanceForActiveLegacyAddresses];
     } else {
-        return [app.wallet getBalanceForAccount:(int)self.filterIndex];
+        return [app.wallet getBalanceForAccount:(int)self.filterIndex assetType:AssetTypeBitcoin];
     }
 #else
     return [app.wallet getTotalActiveBalance];
@@ -588,7 +588,7 @@ int lastNumberTransactions = INT_MAX;
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
         return BC_STRING_IMPORTED_ADDRESSES;
     } else {
-        return [app.wallet getLabelForAccount:(int)self.filterIndex];
+        return [app.wallet getLabelForAccount:(int)self.filterIndex assetType:AssetTypeBitcoin];
     }
 #else
     return nil;

@@ -88,7 +88,7 @@ typedef enum {
 - (void)resetHeader
 {
     AccountsAndAddressesNavigationController *navigationController = (AccountsAndAddressesNavigationController *)self.navigationController;
-    navigationController.headerLabel.text = self.address ? [app.wallet labelForLegacyAddress:self.address] : [app.wallet getLabelForAccount:self.account];
+    navigationController.headerLabel.text = self.address ? [app.wallet labelForLegacyAddress:self.address assetType:self.assetType] : [app.wallet getLabelForAccount:self.account assetType:self.assetType];
 }
 
 - (void)updateHeaderText:(NSString *)headerText
@@ -138,7 +138,7 @@ typedef enum {
 {
 #ifdef ENABLE_TRANSFER_FUNDS
     if (self.address) {
-        return [app.wallet getLegacyAddressBalance:self.address] >= [app.wallet dust] && ![app.wallet isWatchOnlyLegacyAddress:self.address] && ![self isArchived] && [app.wallet didUpgradeToHd];
+        return [app.wallet getLegacyAddressBalance:self.address assetType:self.assetType] >= [app.wallet dust] && ![app.wallet isWatchOnlyLegacyAddress:self.address] && ![self isArchived] && [app.wallet didUpgradeToHd];
     } else {
         return NO;
     }
@@ -236,7 +236,7 @@ typedef enum {
         if (detailType == DetailTypeEditAddressLabel) {
             
             BCEditAddressView *editAddressView = [[BCEditAddressView alloc] initWithAddress:self.address];
-            editAddressView.labelTextField.text = [app.wallet labelForLegacyAddress:self.address];
+            editAddressView.labelTextField.text = [app.wallet labelForLegacyAddress:self.address assetType:self.assetType];
             
             [self setupModalView:editAddressView inViewController:segue.destinationViewController];
             
@@ -246,7 +246,7 @@ typedef enum {
         } else if (detailType == DetailTypeEditAccountLabel) {
             
             BCEditAccountView *editAccountView = [[BCEditAccountView alloc] init];
-            editAccountView.labelTextField.text = [app.wallet getLabelForAccount:self.account];
+            editAccountView.labelTextField.text = [app.wallet getLabelForAccount:self.account assetType:self.assetType];
             editAccountView.accountIdx = self.account;
             
             [self setupModalView:editAccountView inViewController:segue.destinationViewController];
@@ -532,7 +532,7 @@ typedef enum {
                 } else {
                     cell.textLabel.text = self.address? BC_STRING_LABEL : BC_STRING_NAME;
                     cell.textLabel.textColor = COLOR_TEXT_DARK_GRAY;
-                    cell.detailTextLabel.text = self.address ? [app.wallet labelForLegacyAddress:self.address] : [app.wallet getLabelForAccount:self.account];
+                    cell.detailTextLabel.text = self.address ? [app.wallet labelForLegacyAddress:self.address assetType:self.assetType] : [app.wallet getLabelForAccount:self.account assetType:self.assetType];
                     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 }
                 return cell;

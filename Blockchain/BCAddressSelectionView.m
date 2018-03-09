@@ -76,48 +76,49 @@ int legacyAddressesSectionNumber;
 
         // Select from address
         if ([self showFromAddresses]) {
-            if ([self.delegate getAssetType] == AssetTypeBitcoin || selectMode == SelectModeExchangeAccountFrom) {
+            AssetType assetType = [self.delegate getAssetType];
+            if (assetType == AssetTypeBitcoin || selectMode == SelectModeExchangeAccountFrom) {
                 // First show the HD accounts with positive balance
                 for (int i = 0; i < app.wallet.getActiveAccountsCount; i++) {
-                    if ([app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:i]] > 0) {
+                    if ([[app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:i] assetType:assetType] longLongValue] > 0) {
                         [btcAccounts addObject:[NSNumber numberWithInt:i]];
-                        [btcAccountLabels addObject:[_wallet getLabelForAccount:[app.wallet getIndexOfActiveAccount:i]]];
+                        [btcAccountLabels addObject:[_wallet getLabelForAccount:[app.wallet getIndexOfActiveAccount:i] assetType:assetType]];
                     }
                 }
                 
                 // Then show the HD accounts with a zero balance
                 for (int i = 0; i < app.wallet.getActiveAccountsCount; i++) {
-                    if (!([app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:i]] > 0)) {
+                    if (!([[app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:i] assetType:assetType] longLongValue] > 0)) {
                         [btcAccounts addObject:[NSNumber numberWithInt:i]];
-                        [btcAccountLabels addObject:[_wallet getLabelForAccount:[app.wallet getIndexOfActiveAccount:i]]];
+                        [btcAccountLabels addObject:[_wallet getLabelForAccount:[app.wallet getIndexOfActiveAccount:i] assetType:assetType]];
                     }
                 }
                 
                 // Then show user's active legacy addresses with a positive balance
                 if (![self accountsOnly]) {
                     for (NSString * addr in _wallet.activeLegacyAddresses) {
-                        if ([_wallet getLegacyAddressBalance:addr] > 0) {
+                        if ([_wallet getLegacyAddressBalance:addr assetType:assetType] > 0) {
                             [legacyAddresses addObject:addr];
-                            [legacyAddressLabels addObject:[_wallet labelForLegacyAddress:addr]];
+                            [legacyAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
                         }
                     }
                     
                     // Then show the active legacy addresses with a zero balance
                     for (NSString * addr in _wallet.activeLegacyAddresses) {
-                        if (!([_wallet getLegacyAddressBalance:addr] > 0)) {
+                        if (!([_wallet getLegacyAddressBalance:addr assetType:assetType] > 0)) {
                             [legacyAddresses addObject:addr];
-                            [legacyAddressLabels addObject:[_wallet labelForLegacyAddress:addr]];
+                            [legacyAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
                         }
                     }
                 }
             }
             
-            if ([self.delegate getAssetType] == AssetTypeEther || (selectMode == SelectModeExchangeAccountFrom && [app.wallet hasEthAccount])) {
+            if (assetType == AssetTypeEther || (selectMode == SelectModeExchangeAccountFrom && [app.wallet hasEthAccount])) {
                 [ethAccounts addObject:[NSNumber numberWithInt:0]];
                 [ethAccountLabels addObject:BC_STRING_MY_ETHER_WALLET];
             }
             
-            if ([self.delegate getAssetType] == AssetTypeBitcoinCash || (selectMode == SelectModeExchangeAccountFrom && [app.wallet hasBchAccount])) {
+            if (assetType == AssetTypeBitcoinCash || (selectMode == SelectModeExchangeAccountFrom && [app.wallet hasBchAccount])) {
                 [bchAccounts addObject:[NSNumber numberWithInt:0]];
                 [bchAccountLabels addObject:BC_STRING_MY_BITCOIN_CASH_WALLET];
             }
@@ -151,14 +152,14 @@ int legacyAddressesSectionNumber;
                     // Then show the HD accounts
                     for (int i = 0; i < app.wallet.getActiveAccountsCount; i++) {
                         [btcAccounts addObject:[NSNumber numberWithInt:i]];
-                        [btcAccountLabels addObject:[_wallet getLabelForAccount:[app.wallet getIndexOfActiveAccount:i]]];
+                        [btcAccountLabels addObject:[_wallet getLabelForAccount:[app.wallet getIndexOfActiveAccount:i] assetType:AssetTypeBitcoin]];
                     }
                     
                     // Finally show all the user's active legacy addresses
                     if (![self accountsOnly]) {
                         for (NSString * addr in _wallet.activeLegacyAddresses) {
                             [legacyAddresses addObject:addr];
-                            [legacyAddressLabels addObject:[_wallet labelForLegacyAddress:addr]];
+                            [legacyAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:AssetTypeBitcoin]];
                         }
                     }
                 }
@@ -521,7 +522,7 @@ int legacyAddressesSectionNumber;
             BOOL zeroBalance;
             uint64_t btcBalance = 0;
             if (section == addressBookSectionNumber) {
-                btcBalance = [app.wallet getLegacyAddressBalance:[addressBookAddresses objectAtIndex:row]];
+                btcBalance = [[app.wallet getLegacyAddressBalance:[addressBookAddresses objectAtIndex:row] assetType:AssetTypeBitcoin] longLongValue];
             } else if (section == btcAccountsSectionNumber) {
                 if (selectMode == SelectModeFilter) {
                     if (btcAccounts.count == row - 1) {
@@ -529,13 +530,13 @@ int legacyAddressesSectionNumber;
                     } else if (row == 0) {
                         btcBalance = [app.wallet getTotalActiveBalance];
                     } else {
-                        btcBalance = [app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:[[btcAccounts objectAtIndex:indexPath.row - 1] intValue]]];
+                        btcBalance = [[app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:[[btcAccounts objectAtIndex:indexPath.row - 1] intValue]] assetType:AssetTypeBitcoin] longLongValue];
                     }
                 } else {
-                    btcBalance = [app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:[[btcAccounts objectAtIndex:indexPath.row] intValue]]];
+                    btcBalance = [[app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:[[btcAccounts objectAtIndex:indexPath.row] intValue]] assetType:AssetTypeBitcoin] longLongValue];
                 }
             } else if (section == legacyAddressesSectionNumber) {
-                btcBalance = [app.wallet getLegacyAddressBalance:[legacyAddresses objectAtIndex:row]];
+                btcBalance = [[app.wallet getLegacyAddressBalance:[legacyAddresses objectAtIndex:row] assetType:AssetTypeBitcoin] longLongValue];
             }
 
             if (section == btcAccountsSectionNumber || (btcAccounts.count > 0 && section == legacyAddressesSectionNumber)) {

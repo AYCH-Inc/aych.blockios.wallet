@@ -1027,7 +1027,7 @@
 
 - (NSString *)bitcoinLabelText
 {
-    return [app.wallet getActiveAccountsCount] > 1 ? [app.wallet getLabelForAccount:self.btcAccount] : BC_STRING_BITCOIN;
+    return [app.wallet getActiveAccountsCount] > 1 ? [app.wallet getLabelForAccount:self.btcAccount assetType:AssetTypeBitcoin] : BC_STRING_BITCOIN;
 }
 
 - (NSString *)bitcoinCashLabelText
@@ -1037,7 +1037,7 @@
 
 - (NSString *)etherLabelText
 {
-    return [app.wallet getActiveAccountsCount] > 1 ? [app.wallet getLabelForEthAccount] : BC_STRING_ETHER;
+    return [app.wallet getActiveAccountsCount] > 1 ? [app.wallet getLabelForAccount:0 assetType:AssetTypeEther] : BC_STRING_ETHER;
 }
 
 - (void)didChangeFromOrTo

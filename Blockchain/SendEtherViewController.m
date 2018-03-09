@@ -186,7 +186,7 @@
         self.amountInputView.userInteractionEnabled = YES;
     }
 
-    [app.wallet createNewEtherPayment];
+    [app.wallet createNewPayment:AssetTypeEther];
 
     if (self.addressToSet) {
         [self selectToAddress:self.addressToSet];
@@ -238,7 +238,7 @@
 {
     [super doCurrencyConversion];
     
-    [app.wallet changeEtherPaymentAmount:self.ethAmount];
+    [app.wallet changePaymentAmount:self.ethAmount assetType:AssetTypeEther];
 }
 
 - (void)didUpdatePayment:(NSDictionary *)payment;
@@ -351,7 +351,7 @@
     
     [self checkIfEtherContractAddress:self.toAddress successHandler:^(NSString *nonContractAddress) {
         
-        [app.wallet changeEtherPaymentTo:nonContractAddress];
+        [app.wallet changePaymentToAddress:nonContractAddress assetType:AssetTypeEther];
 
         NSDecimalNumber *totalDecimalNumber = [self.ethAmount decimalNumberByAdding:self.ethFee];
         
@@ -468,7 +468,7 @@
 
 - (BOOL)isEtherAddress:(NSString *)address
 {
-    return [app.wallet isEthAddress:address];
+    return [app.wallet isValidAddress:address assetType:AssetTypeEther];
 }
 
 - (void)selectToAddress:(NSString *)address

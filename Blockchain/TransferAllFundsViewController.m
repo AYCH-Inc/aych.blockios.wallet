@@ -213,7 +213,7 @@
     return AssetTypeBitcoin;
 }
 
-- (void)didSelectFromAccount:(int)account
+- (void)didSelectFromAccount:(int)account assetType:(AssetType)asset
 {
     [self.navigationController popViewControllerAnimated:YES];
     [self.transferPaymentBuilder setupTransfersToAccount:account];

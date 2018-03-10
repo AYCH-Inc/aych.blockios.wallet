@@ -753,7 +753,7 @@ int lastNumberTransactions = INT_MAX;
 
 #pragma mark - Address Selection Delegate
 
-- (void)didSelectFromAccount:(int)account
+- (void)didSelectFromAccount:(int)account assetType:(AssetType)asset
 {
     if (account == FILTER_INDEX_IMPORTED_ADDRESSES) {
         [app filterTransactionsByImportedAddresses];

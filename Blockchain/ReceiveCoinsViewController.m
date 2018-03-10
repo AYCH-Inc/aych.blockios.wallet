@@ -1114,6 +1114,11 @@ NSString *detailLabel;
     [self didSelectFromAddress:address];
 }
 
+- (void)didSelectFromAccount:(int)account assetType:(AssetType)asset
+{
+    [self didSelectFromAccount:account];
+}
+
 - (void)didSelectFromAccount:(int)account
 {
     mainAddress = [app.wallet getReceiveAddressForAccount:account];
@@ -1124,6 +1129,11 @@ NSString *detailLabel;
     mainLabel = [app.wallet getLabelForAccount:account assetType:self.assetType];
     
     [self updateUI];
+}
+
+- (void)didSelectToAccount:(int)account assetType:(AssetType)asset
+{
+    [self didSelectToAccount:account];
 }
 
 - (void)didSelectToAccount:(int)account

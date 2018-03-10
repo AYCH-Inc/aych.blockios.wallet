@@ -2891,6 +2891,11 @@ MyWalletPhone.bch = {
         return bch && bch.defaultAccount;
     },
     
+    getAllAccountsCount : function() {
+        var bch = MyWallet.wallet.bch;
+        return bch.accounts.length;
+    },
+    
     getLabelForDefaultAccount : function() {
         return MyWallet.wallet.bch.defaultAccount.label;
     },
@@ -2905,6 +2910,10 @@ MyWalletPhone.bch = {
     
     getBalance : function() {
         return MyWallet.wallet.bch.balance;
+    },
+    
+    getBalanceForAccount : function(index) {
+        return MyWallet.wallet.bch.accounts[index].balance;
     },
     
     transactions : function() {
@@ -2954,19 +2963,6 @@ MyWalletPhone.bch = {
     
     quickSend : function(id, onSendScreen, secondPassword) {
         MyWalletPhone.quickSend(id, onSendScreen, secondPassword, 'bch');
-    },
-    
-    send : function(secondPassword) {
-        var success = function () {
-            console.log('Send bch success');
-        };
-        
-        var error = function (e) {
-            console.log('Send bch error');
-            console.log(e);
-        };
-        
-        currentBitcoinCashPayment.sign(secondPassword).publish().then(success).catch(error);
     }
 };
 

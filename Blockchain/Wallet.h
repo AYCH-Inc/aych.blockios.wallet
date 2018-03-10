@@ -257,7 +257,7 @@ typedef enum {
 // Fetch String Array Of Addresses
 - (NSArray *)activeLegacyAddresses;
 - (NSArray *)spendableActiveLegacyAddresses;
-- (NSArray *)allLegacyAddresses;
+- (NSArray *)allLegacyAddresses:(AssetType)assetType;
 - (NSArray *)archivedLegacyAddresses;
 
 - (BOOL)isInitialized;
@@ -314,7 +314,7 @@ typedef enum {
 - (int)getDefaultAccountIndex;
 - (void)setDefaultAccount:(int)index;
 - (int)getActiveAccountsCount;
-- (int)getAllAccountsCount;
+- (int)getAllAccountsCount:(AssetType)assetType;
 - (BOOL)hasLegacyAddresses;
 - (Boolean)isAccountArchived:(int)account;
 - (BOOL)isAccountNameValid:(NSString *)name;

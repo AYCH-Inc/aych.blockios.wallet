@@ -245,6 +245,7 @@
         [self.topBar changeHeight:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT];
         if ([self.visibleViewController isMemberOfClass:[AccountsAndAddressesViewController class]]) {
             AccountsAndAddressesViewController *accountsAndAddressesViewController = (AccountsAndAddressesViewController *)self.visibleViewController;
+            accountsAndAddressesViewController.assetType = assetType;
             [accountsAndAddressesViewController.containerView changeYPosition:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT];
         }
     }];

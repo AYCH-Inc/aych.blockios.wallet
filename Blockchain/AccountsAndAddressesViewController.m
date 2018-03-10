@@ -76,7 +76,7 @@
 
 - (void)reload
 {
-    allKeys = [app.wallet allLegacyAddresses];
+    allKeys = [app.wallet allLegacyAddresses:self.assetType];
     [self.tableView reloadData];
     
     [self displayTransferFundsWarningIfAppropriate];
@@ -99,6 +99,13 @@
 }
 
 #pragma mark - Actions
+
+- (void)setAssetType:(AssetType)assetType
+{
+    _assetType = assetType;
+    
+    [self reload];
+}
 
 - (void)didSelectAddress:(NSString *)address
 {
@@ -302,7 +309,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0)
-        return [app.wallet getAllAccountsCount];
+        return [app.wallet getAllAccountsCount:self.assetType];
     else if (section == 1)
         return [allKeys count];
     return 0;
@@ -457,7 +464,7 @@
     
     cell.addressLabel.text = addr;
     
-    uint64_t balance = [app.wallet getLegacyAddressBalance:addr assetType:self.assetType];
+    uint64_t balance = [[app.wallet getLegacyAddressBalance:addr assetType:self.assetType] longLongValue];
     
     // Selected cell color
     UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,cell.frame.size.width,cell.frame.size.height)];

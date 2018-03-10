@@ -309,7 +309,7 @@ NSString *detailLabel;
     if ([app.wallet didUpgradeToHd]) {
         [self didSelectToAccount:[app.wallet getFilteredOrDefaultAccountIndex]];
     } else {
-        [self didSelectToAddress:[[app.wallet allLegacyAddresses] firstObject]];
+        [self didSelectToAddress:[[app.wallet allLegacyAddresses:self.assetType] firstObject]];
     }
 }
 

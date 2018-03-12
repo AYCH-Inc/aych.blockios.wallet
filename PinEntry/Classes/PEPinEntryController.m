@@ -28,6 +28,7 @@
 #import "KeychainItemWrapper+SwipeAddresses.h"
 #import "BCSwipeAddressView.h"
 #import "BCSwipeAddressViewModel.h"
+#import "UIView+ChangeFrameAttribute.h"
 
 #define PS_VERIFY	0
 #define PS_ENTER1	1
@@ -147,13 +148,18 @@ static PEViewController *VerifyController()
         [pinController.scrollView setUserInteractionEnabled:YES];
         
         NSArray *assets = @[[NSNumber numberWithInteger:AssetTypeBitcoin], [NSNumber numberWithInteger:AssetTypeEther], [NSNumber numberWithInteger:AssetTypeBitcoinCash]];
-        UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, [BCSwipeAddressView pageIndicatorYOrigin], 100, 30)];
-        pageControl.center = CGPointMake(self.view.bounds.size.width/2, pageControl.center.y);
-        pageControl.pageIndicatorTintColor = COLOR_BLOCKCHAIN_DARK_BLUE;
-        pageControl.numberOfPages = 1 + assets.count;
-        [self.view addSubview:pageControl];
-        pageControl.hidden = YES;
-        self.pageControl = pageControl;
+        
+        UIPageControl *backgroundViewPageControl = [self pageControlWithAssets:assets];
+        [self.view addSubview:backgroundViewPageControl];
+        backgroundViewPageControl.hidden = YES;
+        self.backgroundViewPageControl = backgroundViewPageControl;
+        
+        UIPageControl *scrollViewPageControl = [self pageControlWithAssets:assets];
+        [scrollViewPageControl changeXPosition:scrollViewPageControl.frame.origin.x + pinController.scrollView.bounds.size.width];
+        [pinController.scrollView addSubview:scrollViewPageControl];
+        scrollViewPageControl.hidden = YES;
+        scrollViewPageControl.currentPage = 1;
+        self.scrollViewPageControl = scrollViewPageControl;
 
         [pinController.scrollView setContentSize:CGSizeMake(pinController.scrollView.frame.size.width * (assets.count + 1), pinController.scrollView.frame.size.height)];
         [pinController.scrollView setPagingEnabled:YES];
@@ -328,7 +334,8 @@ static PEViewController *VerifyController()
     }
     
     if (scrollView.contentOffset.x > self.view.frame.size.width - 1) {
-        self.pageControl.hidden = NO;
+        self.backgroundViewPageControl.hidden = NO;
+        self.scrollViewPageControl.hidden = YES;
     }
 }
 
@@ -341,8 +348,11 @@ static PEViewController *VerifyController()
             self.didScrollToQRCode = YES;
             [self reset];
         }
+        self.backgroundViewPageControl.hidden = NO;
+        self.scrollViewPageControl.hidden = YES;
     } else {
-        self.pageControl.hidden = YES;
+        self.backgroundViewPageControl.hidden = YES;
+        self.scrollViewPageControl.hidden = NO;
         self.didScrollToQRCode = NO;
     }
 }
@@ -350,7 +360,7 @@ static PEViewController *VerifyController()
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
     if (scrollView.contentOffset.x > self.view.frame.size.width - 1) {
-        self.pageControl.hidden = NO;
+        self.backgroundViewPageControl.hidden = NO;
     }
     [self updatePage:scrollView];
 }
@@ -360,7 +370,16 @@ static PEViewController *VerifyController()
     CGFloat pageWidth = scrollView.frame.size.width;
     float fractionalPage = scrollView.contentOffset.x / pageWidth;
     NSInteger page = lround(fractionalPage);
-    self.pageControl.currentPage = page;
+    self.backgroundViewPageControl.currentPage = page;
+}
+
+- (UIPageControl *)pageControlWithAssets:(NSArray *)assets
+{
+    UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, [BCSwipeAddressView pageIndicatorYOrigin], 100, 30)];
+    pageControl.center = CGPointMake(self.view.bounds.size.width/2, pageControl.center.y);
+    pageControl.pageIndicatorTintColor = COLOR_BLOCKCHAIN_DARK_BLUE;
+    pageControl.numberOfPages = 1 + assets.count;
+    return pageControl;
 }
 
 @end

@@ -56,13 +56,13 @@
 @property (nonatomic, readwrite) BOOL inSettings;
 @property (nonatomic) UILongPressGestureRecognizer *longPressGesture;
 @property (nonatomic) UIButton *debugButton;
+@property (nonatomic) UIPageControl *pageControl;
 @property (nonatomic) BOOL didScrollToQRCode;
 
 // Swipe-to-receive
 @property (nonatomic) UIAlertController *errorAlert;
 - (void)paymentReceived;
 - (void)setupQRCode;
-
 - (void)reset;
 
 + (PEPinEntryController *)pinVerifyController;

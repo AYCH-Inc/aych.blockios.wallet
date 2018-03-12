@@ -12,4 +12,5 @@
 @interface BCSwipeAddressView : UIView
 - (id)initWithFrame:(CGRect)frame viewModel:(BCSwipeAddressViewModel *)viewModel;
 - (void)updateAddress:(NSString *)address;
++ (CGFloat)pageIndicatorYOrigin;
 @end

@@ -182,8 +182,9 @@
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showSwipeQR)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
     
+    CGFloat windowWidth = WINDOW_WIDTH;
     CGFloat actionViewOriginX = self.swipeLabelImageView.frame.origin.x - self.swipeLabel.intrinsicContentSize.width - 8;
-    UIView *actionView = [[UIView alloc] initWithFrame:CGRectMake(actionViewOriginX, self.swipeLabel.frame.origin.y, self.view.frame.size.width - actionViewOriginX, self.swipeLabel.frame.size.height)];
+    UIView *actionView = [[UIView alloc] initWithFrame:CGRectMake(actionViewOriginX, self.swipeLabel.frame.origin.y, windowWidth - actionViewOriginX, self.swipeLabel.frame.size.height)];
     [containerView addSubview:actionView];
     [actionView addGestureRecognizer:tapGestureRecognizer];
     actionView.userInteractionEnabled = YES;

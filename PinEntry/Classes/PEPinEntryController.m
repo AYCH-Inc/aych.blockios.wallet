@@ -142,10 +142,19 @@ static PEViewController *VerifyController()
         pinController.swipeLabelImageView.alpha = 1;
         pinController.swipeLabelImageView.hidden = NO;
         
+        pinController.scrollView.backgroundColor = [UIColor clearColor];
+        
         [pinController.scrollView setUserInteractionEnabled:YES];
         
         NSArray *assets = @[[NSNumber numberWithInteger:AssetTypeBitcoin], [NSNumber numberWithInteger:AssetTypeEther], [NSNumber numberWithInteger:AssetTypeBitcoinCash]];
-        
+        UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, [BCSwipeAddressView pageIndicatorYOrigin], 100, 30)];
+        pageControl.center = CGPointMake(self.view.bounds.size.width/2, pageControl.center.y);
+        pageControl.pageIndicatorTintColor = COLOR_BLOCKCHAIN_DARK_BLUE;
+        pageControl.numberOfPages = 1 + assets.count;
+        [self.view addSubview:pageControl];
+        pageControl.hidden = YES;
+        self.pageControl = pageControl;
+
         [pinController.scrollView setContentSize:CGSizeMake(pinController.scrollView.frame.size.width * (assets.count + 1), pinController.scrollView.frame.size.height)];
         [pinController.scrollView setPagingEnabled:YES];
         pinController.scrollView.delegate = self;
@@ -317,18 +326,41 @@ static PEViewController *VerifyController()
         [self presentViewController:self.errorAlert animated:YES completion:nil];
         self.errorAlert = nil;
     }
+    
+    if (scrollView.contentOffset.x > self.view.frame.size.width - 1) {
+        self.pageControl.hidden = NO;
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    [self updatePage:scrollView];
+    
     if (scrollView.contentOffset.x > self.view.frame.size.width - 1) {
         if (!self.didScrollToQRCode) {
             self.didScrollToQRCode = YES;
             [self reset];
         }
     } else {
+        self.pageControl.hidden = YES;
         self.didScrollToQRCode = NO;
     }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.x > self.view.frame.size.width - 1) {
+        self.pageControl.hidden = NO;
+    }
+    [self updatePage:scrollView];
+}
+
+- (void)updatePage:(UIScrollView *)scrollView
+{
+    CGFloat pageWidth = scrollView.frame.size.width;
+    float fractionalPage = scrollView.contentOffset.x / pageWidth;
+    NSInteger page = lround(fractionalPage);
+    self.pageControl.currentPage = page;
 }
 
 @end

@@ -10,6 +10,11 @@
 #import "UIView+ChangeFrameAttribute.h"
 #import "QRCodeGenerator.h"
 
+#define ASSET_IMAGE_VIEW_Y_OFFSET 100
+#define ASSET_IMAGE_VIEW_HEIGHT 80
+#define ASSET_IMAGE_VIEW_SPACING 30
+#define REQUEST_BUTTON_HEIGHT 40
+
 @interface BCSwipeAddressView ()
 @property (nonatomic) BCSwipeAddressViewModel *viewModel;
 @property (nonatomic) UIImageView *qrCodeImageView;
@@ -29,19 +34,19 @@
 
 - (void)setup
 {
-    UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 100, 80, 80)];
+    UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, ASSET_IMAGE_VIEW_Y_OFFSET, ASSET_IMAGE_VIEW_HEIGHT, ASSET_IMAGE_VIEW_HEIGHT)];
     assetImageView.image = [UIImage imageNamed:@"bitcoin"];
     assetImageView.center = CGPointMake(self.bounds.size.width/2, assetImageView.frame.origin.y);
     [self addSubview:assetImageView];
     
-    UIButton *requestButton = [[UIButton alloc] initWithFrame:CGRectMake(0, assetImageView.frame.origin.y + assetImageView.frame.size.height + 30, 0, 0)];
+    UIButton *requestButton = [[UIButton alloc] initWithFrame:CGRectMake(0, assetImageView.frame.origin.y + assetImageView.frame.size.height + ASSET_IMAGE_VIEW_SPACING, 0, 0)];
     requestButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_SMALL];
     CGFloat horizontalPadding = 12;
     requestButton.titleEdgeInsets = UIEdgeInsetsMake(0, horizontalPadding, 0, horizontalPadding);
     [requestButton setTitle:self.viewModel.action forState:UIControlStateNormal];
     [requestButton sizeToFit];
     [requestButton changeWidth:requestButton.frame.size.width + horizontalPadding*2];
-    [requestButton changeHeight:40];
+    [requestButton changeHeight:REQUEST_BUTTON_HEIGHT];
     [requestButton setTitleColor:COLOR_BLOCKCHAIN_LIGHT_BLUE forState:UIControlStateNormal];
     requestButton.backgroundColor = COLOR_BLOCKCHAIN_LIGHTEST_BLUE;
     requestButton.center = CGPointMake(self.bounds.size.width/2, requestButton.center.y);
@@ -93,6 +98,11 @@
         self.qrCodeImageView.hidden = YES;
         self.addressLabel.text = BC_STRING_PLEASE_LOGIN_TO_LOAD_MORE_ADDRESSES;
     }
+}
+
++ (CGFloat)pageIndicatorYOrigin
+{
+    return ASSET_IMAGE_VIEW_Y_OFFSET + ASSET_IMAGE_VIEW_HEIGHT + ASSET_IMAGE_VIEW_SPACING + REQUEST_BUTTON_HEIGHT + 8;
 }
 
 @end

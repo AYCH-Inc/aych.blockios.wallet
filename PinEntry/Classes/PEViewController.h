@@ -33,6 +33,7 @@
 @required
 - (void)pinEntryControllerDidEnteredPin:(PEViewController *)controller;
 - (void)cancelController;
+- (void)updatePage:(UIScrollView *)scrollView;
 @end
 
 

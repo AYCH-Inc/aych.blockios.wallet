@@ -33,7 +33,6 @@
 @required
 - (void)pinEntryControllerDidEnteredPin:(PEViewController *)controller;
 - (void)cancelController;
-- (void)didSelectAsset;
 @end
 
 
@@ -58,7 +57,6 @@
 @property (nonatomic, strong) IBOutlet UIButton *cancelButton;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView * activityIndicator;
 @property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, strong) IBOutlet UISegmentedControl *assetSegmentedControl;
 @property (nonatomic, strong) IBOutlet UILabel *swipeLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *swipeLabelImageView;
 

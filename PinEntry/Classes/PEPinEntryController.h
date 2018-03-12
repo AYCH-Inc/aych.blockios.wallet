@@ -59,8 +59,6 @@
 @property (nonatomic) BOOL didScrollToQRCode;
 
 // Swipe-to-receive
-@property (nonatomic) UIImageView *qrCodeImageView;
-@property (nonatomic) UILabel *addressLabel;
 @property (nonatomic) UIAlertController *errorAlert;
 - (void)paymentReceived;
 - (void)setupQRCode;

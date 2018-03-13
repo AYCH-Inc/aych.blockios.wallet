@@ -423,7 +423,7 @@ BOOL displayingLocalSymbolSend;
     }
     else {
         selectAddressTextField.text = [app.wallet getLabelForAccount:self.fromAccount assetType:self.assetType];
-        availableAmount = [app.wallet getBalanceForAccount:self.fromAccount assetType:self.assetType];
+        availableAmount = [[app.wallet getBalanceForAccount:self.fromAccount assetType:self.assetType] longLongValue];
     }
 }
 
@@ -1706,7 +1706,7 @@ BOOL displayingLocalSymbolSend;
 {
     self.sendFromAddress = false;
     
-    availableAmount = [app.wallet getBalanceForAccount:account assetType:self.assetType];
+    availableAmount = [[app.wallet getBalanceForAccount:account assetType:self.assetType] longLongValue];
     
     selectAddressTextField.text = [app.wallet getLabelForAccount:account assetType:self.assetType];
     self.fromAccount = account;

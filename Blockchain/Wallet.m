@@ -4892,7 +4892,7 @@
     if (assetType == AssetTypeBitcoin) {
         return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getLabelForAccount(%d)", account]] toString];
     } else if (assetType == AssetTypeBitcoinCash) {
-        return [app.wallet getLabelForBitcoinCashAccount:account];
+        return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.getLabelForAccount(%d)", account]] toString];
     } else if (assetType == AssetTypeEther) {
         return [[self.context evaluateScript:@"MyWalletPhone.getLabelForEthAccount()"] toString];
     }

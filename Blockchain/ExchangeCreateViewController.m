@@ -78,7 +78,7 @@
     
     [self setupViews];
     
-    self.btcAccount = [app.wallet getDefaultAccountIndex];
+    self.btcAccount = [app.wallet getDefaultAccountIndexForAssetType:AssetTypeBitcoin];
     
     [self selectFromBitcoin];
     [self selectToEther];

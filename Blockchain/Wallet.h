@@ -311,8 +311,8 @@ typedef enum {
 - (BOOL)isRecoveryPhraseVerified;
 - (void)markRecoveryPhraseVerified;
 - (int)getFilteredOrDefaultAccountIndex;
-- (int)getDefaultAccountIndex;
-- (void)setDefaultAccount:(int)index;
+- (int)getDefaultAccountIndexForAssetType:(AssetType)assetType;
+- (void)setDefaultAccount:(int)index assetType:(AssetType)assetType;
 - (int)getActiveAccountsCount;
 - (int)getAllAccountsCount:(AssetType)assetType;
 - (BOOL)hasLegacyAddresses;

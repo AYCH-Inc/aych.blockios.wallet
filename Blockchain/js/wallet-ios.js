@@ -2900,6 +2900,14 @@ MyWalletPhone.bch = {
         return MyWallet.wallet.bch.defaultAccount.label;
     },
     
+    getDefaultAccountIndex : function() {
+        return MyWallet.wallet.bch.defaultAccountIdx;
+    },
+    
+    setDefaultAccount : function(index) {
+        MyWallet.wallet.bch.defaultAccountIdx = index;
+    },
+    
     getLabelForAccount : function(index) {
         return MyWallet.wallet.bch.accounts[index].label;
     },

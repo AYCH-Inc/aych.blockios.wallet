@@ -188,8 +188,8 @@ typedef enum {
 
 - (void)setDefaultAccount:(int)account
 {
-    [self showBusyViewWithLoadingText:BC_STRING_LOADING_SYNCING_WALLET];
-    [app.wallet setDefaultAccount:account];
+    if (self.assetType == AssetTypeBitcoin) [self showBusyViewWithLoadingText:BC_STRING_LOADING_SYNCING_WALLET];
+    [app.wallet setDefaultAccount:account assetType:self.assetType];
 }
 
 - (void)toggleArchive
@@ -365,7 +365,7 @@ typedef enum {
         }
         return [app.wallet isWatchOnlyLegacyAddress:self.address] ? numberOfSections + 1 : numberOfSections;
     } else {
-        return [app.wallet getDefaultAccountIndex] == self.account ? numberOfSectionsAccountUnarchived - 1 : numberOfSectionsAccountUnarchived;
+        return [app.wallet getDefaultAccountIndexForAssetType:self.assetType] == self.account ? numberOfSectionsAccountUnarchived - 1 : numberOfSectionsAccountUnarchived;
     }
 }
 
@@ -386,7 +386,7 @@ typedef enum {
             if (self.address) {
                 return numberOfRowsAddressUnarchived;
             } else {
-                return [app.wallet getDefaultAccountIndex] == self.account ? numberOfRowsAccountUnarchived - 1 : numberOfRowsAccountUnarchived;
+                return [app.wallet getDefaultAccountIndexForAssetType:self.assetType] == self.account ? numberOfRowsAccountUnarchived - 1 : numberOfRowsAccountUnarchived;
             }
         }
         
@@ -401,7 +401,7 @@ typedef enum {
                 if (self.address) {
                     return numberOfRowsAddressUnarchived;
                 } else {
-                    return [app.wallet getDefaultAccountIndex] == self.account ? numberOfRowsAccountUnarchived - 1 : numberOfRowsAccountUnarchived;
+                    return [app.wallet getDefaultAccountIndexForAssetType:self.assetType] == self.account ? numberOfRowsAccountUnarchived - 1 : numberOfRowsAccountUnarchived;
                 }
             }
         }
@@ -460,7 +460,7 @@ typedef enum {
                     if (self.address) {
                             [self showAddress:self.address];
                     } else {
-                        if ([app.wallet getDefaultAccountIndex] != self.account) {
+                        if ([app.wallet getDefaultAccountIndexForAssetType:self.assetType] != self.account) {
                             [self alertToConfirmSetDefaultAccount:self.account];
                         } else {
                             [self alertToShowAccountXPub];
@@ -545,7 +545,7 @@ typedef enum {
                     cell.textLabel.textColor = COLOR_TEXT_DARK_GRAY;
                     cell.detailTextLabel.text = self.address;
                 } else {
-                    if ([app.wallet getDefaultAccountIndex] != self.account) {
+                    if ([app.wallet getDefaultAccountIndexForAssetType:self.assetType] != self.account) {
                         cell.textLabel.text = BC_STRING_MAKE_DEFAULT;
                         cell.textLabel.textColor = COLOR_TABLE_VIEW_CELL_TEXT_BLUE;
                         cell.accessoryType = UITableViewCellAccessoryNone;

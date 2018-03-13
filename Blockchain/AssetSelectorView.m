@@ -109,12 +109,14 @@
 
 - (void)close
 {
-    self.isOpen = NO;
-    
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [self.tableView reloadData];
-        [self changeHeight:ASSET_SELECTOR_ROW_HEIGHT];
-    }];
+    if (self.isOpen) {
+        self.isOpen = NO;
+        
+        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+            [self.tableView reloadData];
+            [self changeHeight:ASSET_SELECTOR_ROW_HEIGHT];
+        }];
+    }
 }
 
 @end

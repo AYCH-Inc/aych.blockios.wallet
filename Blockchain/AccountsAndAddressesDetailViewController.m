@@ -130,7 +130,7 @@ typedef enum {
     if (self.address) {
       return [app.wallet isAddressArchived:self.address];
     } else {
-      return [app.wallet isAccountArchived:self.account];
+      return [app.wallet isAccountArchived:self.account assetType:self.assetType];
     }
 }
 
@@ -205,7 +205,7 @@ typedef enum {
             [self performSelector:@selector(toggleArchiveLegacyAddress) withObject:nil afterDelay:ANIMATION_DURATION];
         }
     } else {
-        [self showBusyViewWithLoadingText:BC_STRING_LOADING_SYNCING_WALLET];
+        if (self.assetType == AssetTypeBitcoin) [self showBusyViewWithLoadingText:BC_STRING_LOADING_SYNCING_WALLET];
         [self performSelector:@selector(toggleArchiveAccount) withObject:nil afterDelay:ANIMATION_DURATION];
     }
 }
@@ -217,7 +217,7 @@ typedef enum {
 
 - (void)toggleArchiveAccount
 {
-    [app.wallet toggleArchiveAccount:self.account];
+    [app.wallet toggleArchiveAccount:self.account assetType:self.assetType];
 }
 
 #pragma mark - Navigation

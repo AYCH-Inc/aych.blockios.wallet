@@ -233,7 +233,7 @@ typedef enum {
 - (void)loadWalletLogin;
 
 - (void)toggleArchiveLegacyAddress:(NSString *)address;
-- (void)toggleArchiveAccount:(int)account;
+- (void)toggleArchiveAccount:(int)account assetType:(AssetType)assetType;
 - (void)archiveTransferredAddresses:(NSArray *)transferredAddresses;
 
 - (void)sendPaymentWithListener:(transactionProgressListeners*)listener secondPassword:(NSString *)secondPassword;
@@ -316,7 +316,7 @@ typedef enum {
 - (int)getActiveAccountsCount;
 - (int)getAllAccountsCount:(AssetType)assetType;
 - (BOOL)hasLegacyAddresses;
-- (Boolean)isAccountArchived:(int)account;
+- (BOOL)isAccountArchived:(int)account assetType:(AssetType)assetType;
 - (BOOL)isAccountNameValid:(NSString *)name;
 
 - (uint64_t)getTotalActiveBalance;

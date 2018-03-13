@@ -2916,6 +2916,15 @@ MyWalletPhone.bch = {
         MyWallet.wallet.bch.accounts[num].label = label;
     },
     
+    isArchived : function(index) {
+        return MyWallet.wallet.bch.accounts[index].archived;
+    },
+    
+    toggleArchived : function(index) {
+        var account = MyWallet.wallet.bch.accounts[index];
+        account.archived = !account.archived;
+    },
+    
     totalBalance : function() {
         return MyWallet.wallet.bch.balance;
     },

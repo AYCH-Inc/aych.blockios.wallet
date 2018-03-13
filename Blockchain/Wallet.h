@@ -325,7 +325,7 @@ typedef enum {
 - (id)getBalanceForAccount:(int)account assetType:(AssetType)assetType;
 
 - (NSString *)getLabelForAccount:(int)account assetType:(AssetType)assetType;
-- (void)setLabelForAccount:(int)account label:(NSString *)label;
+- (void)setLabelForAccount:(int)account label:(NSString *)label assetType:(AssetType)assetType;
 
 - (void)createAccountWithLabel:(NSString *)label;
 - (void)generateNewKey;

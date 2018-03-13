@@ -4873,14 +4873,17 @@
     return nil;
 }
 
-- (void)setLabelForAccount:(int)account label:(NSString *)label
+- (void)setLabelForAccount:(int)account label:(NSString *)label assetType:(AssetType)assetType
 {
     if ([self isInitialized] && [app checkInternetConnection]) {
-        self.isSyncing = YES;
-        
-        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.setLabelForAccount(%d, \"%@\")", account, [label escapeStringForJS]]];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSetLabelForAccount) name:NOTIFICATION_KEY_BACKUP_SUCCESS object:nil];
+        if (assetType == AssetTypeBitcoin) {
+            self.isSyncing = YES;
+            [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.setLabelForAccount(%d, \"%@\")", account, [label escapeStringForJS]]];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSetLabelForAccount) name:NOTIFICATION_KEY_BACKUP_SUCCESS object:nil];
+        } else if (assetType == AssetTypeBitcoinCash) {
+            [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.setLabelForAccount(%d, \"%@\")", account, [label escapeStringForJS]]];
+            [self getHistory];
+        }
     }
 }
 

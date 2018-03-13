@@ -2267,13 +2267,18 @@
     return [filteredWalletJSON getJSONObject];
 }
 
-- (NSString *)getXpubForAccount:(int)accountIndex
+- (NSString *)getXpubForAccount:(int)accountIndex assetType:(AssetType)assetType
 {
     if (![self isInitialized]) {
         return nil;
     }
     
-    return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getXpubForAccount(%d)", accountIndex]] toString];
+    if (assetType == AssetTypeBitcoin) {
+        return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getXpubForAccount(%d)", accountIndex]] toString];
+    } else if (assetType == AssetTypeBitcoinCash) {
+        return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.getXpubForAccount(%d)", accountIndex]] toString];
+    }
+    return nil;
 }
 
 - (BOOL)isAccountNameValid:(NSString *)name
@@ -3951,7 +3956,7 @@
 {
     DLog(@"on_add_new_account");
     
-    [self subscribeToXPub:[self getXpubForAccount:[self getActiveAccountsCount] - 1]];
+    [self subscribeToXPub:[self getXpubForAccount:[self getActiveAccountsCount] - 1 assetType:AssetTypeBitcoin]];
     
     [app showBusyViewWithLoadingText:BC_STRING_LOADING_SYNCING_WALLET];
 }

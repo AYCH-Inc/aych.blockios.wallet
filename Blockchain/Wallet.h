@@ -333,7 +333,7 @@ typedef enum {
 - (NSString *)getReceiveAddressOfDefaultAccount;
 - (NSString *)getReceiveAddressForAccount:(int)account;
 
-- (NSString *)getXpubForAccount:(int)accountIndex;
+- (NSString *)getXpubForAccount:(int)accountIndex assetType:(AssetType)assetType;
 
 - (void)setPbkdf2Iterations:(int)iterations;
 

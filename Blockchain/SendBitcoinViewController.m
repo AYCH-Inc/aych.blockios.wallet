@@ -489,7 +489,7 @@ BOOL displayingLocalSymbolSend;
 {
     [self didSelectFromAddress:address];
     
-    [self selectToAccount:[app.wallet getDefaultAccountIndex]];
+    [self selectToAccount:[app.wallet getDefaultAccountIndexForAssetType:self.assetType]];
     
     [app.wallet transferFundsToDefaultAccountFromAddress:address];
 }
@@ -963,7 +963,7 @@ BOOL displayingLocalSymbolSend;
 
 - (void)setupPaymentRequest:(ContactTransaction *)transaction
 {
-    int fromAccount = [app.wallet getDefaultAccountIndex];
+    int fromAccount = [app.wallet getDefaultAccountIndexForAssetType:self.assetType];
     
     self.addressFromURLHandler = transaction.address;
     self.amountFromURLHandler = transaction.intendedAmount;
@@ -1169,8 +1169,8 @@ BOOL displayingLocalSymbolSend;
     self.fromAddress = @"";
     self.sendFromAddress = YES;
     self.sendToAddress = NO;
-    self.toAccount = [app.wallet getDefaultAccountIndex];
-    toField.text = [app.wallet getLabelForAccount:[app.wallet getDefaultAccountIndex] assetType:self.assetType];
+    self.toAccount = [app.wallet getDefaultAccountIndexForAssetType:self.assetType];
+    toField.text = [app.wallet getLabelForAccount:[app.wallet getDefaultAccountIndexForAssetType:self.assetType] assetType:self.assetType];
     
     self.feeFromTransactionProposal = [fee longLongValue];
     amountInSatoshi = [amount longLongValue];

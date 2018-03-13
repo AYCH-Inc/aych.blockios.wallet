@@ -58,7 +58,7 @@
     self.transferAllAddressesUnspendable = 0;
     
     // use default account, but can select new destination account by calling setupTransfersToAccount:
-    [self setupTransfersToAccount:[app.wallet getDefaultAccountIndex]];
+    [self setupTransfersToAccount:[app.wallet getDefaultAccountIndexForAssetType:self.assetType]];
 }
 
 - (void)setupTransfersToAccount:(int)account

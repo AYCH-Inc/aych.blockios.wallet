@@ -4778,24 +4778,38 @@
     return [[self.context evaluateScript:@"MyWalletPhone.getDefaultAccountIndex()"] toInt32];
 }
 
-- (int)getDefaultAccountIndex
+- (int)getDefaultAccountIndexForAssetType:(AssetType)assetType
 {
     if (![self isInitialized]) {
         return 0;
     }
     
-    return [[[self.context evaluateScript:@"MyWalletPhone.getDefaultAccountIndex()"] toNumber] intValue];
+    if (assetType == AssetTypeBitcoin) {
+        return [[[self.context evaluateScript:@"MyWalletPhone.getDefaultAccountIndex()"] toNumber] intValue];
+    } else if (assetType == AssetTypeBitcoinCash) {
+        return [[[self.context evaluateScript:@"MyWalletPhone.bch.getDefaultAccountIndex()"] toNumber] intValue];
+    }
+    return 0;
 }
 
-- (void)setDefaultAccount:(int)index
+- (void)setDefaultAccount:(int)index assetType:(AssetType)assetType
 {
     if (![self isInitialized]) {
         return;
     }
     
-    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.setDefaultAccount(%d)", index]];
-    
-    self.isSettingDefaultAccount = YES;
+    if (assetType == AssetTypeBitcoin) {
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.setDefaultAccount(%d)", index]];
+        self.isSettingDefaultAccount = YES;
+    } else if (assetType == AssetTypeBitcoinCash) {
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.setDefaultAccount(%d)", index]];
+        [self getHistory];
+        if ([self.delegate respondsToSelector:@selector(didSetDefaultAccount)]) {
+            [self.delegate didSetDefaultAccount];
+        } else {
+            DLog(@"Error: delegate of class %@ does not respond to selector didSetDefaultAccount!", [delegate class]);
+        }
+    }
 }
 
 - (BOOL)hasLegacyAddresses

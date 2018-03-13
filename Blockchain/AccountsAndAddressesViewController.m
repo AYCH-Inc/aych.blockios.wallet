@@ -344,7 +344,7 @@
             cell.backgroundColor = [UIColor whiteColor];
             cell.balanceLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_EXTRA_SMALL];
 
-            if ([app.wallet getDefaultAccountIndex] == accountIndex) {
+            if ([app.wallet getDefaultAccountIndexForAssetType:self.assetType] == accountIndex) {
                 
                 cell.labelLabel.autoresizingMask = UIViewAutoresizingNone;
                 cell.balanceLabel.autoresizingMask = UIViewAutoresizingNone;

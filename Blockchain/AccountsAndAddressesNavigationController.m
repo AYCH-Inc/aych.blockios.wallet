@@ -18,6 +18,7 @@
 @interface AccountsAndAddressesNavigationController () <AssetSelectorViewDelegate>
 @property (nonatomic) AssetSelectorView *assetSelectorView;
 @property (nonatomic) UIView *topBar;
+@property (nonatomic) BOOL isOpeningSelector;
 @end
 
 @implementation AccountsAndAddressesNavigationController
@@ -77,6 +78,8 @@
 {
     [super viewDidLayoutSubviews];
     
+    if (self.isOpeningSelector) return;
+    
     self.warningButton.frame = CGRectMake(6, 16, 85, 51);
     
     if (self.viewControllers.count == 1 || [self.visibleViewController isMemberOfClass:[AccountsAndAddressesViewController class]]) {
@@ -85,12 +88,16 @@
         self.backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         self.backButton.center = CGPointMake(self.backButton.center.x, self.headerLabel.center.y);
         [self.backButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+        [self.topBar changeHeight:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT];
+        self.assetSelectorView.hidden = NO;
     } else {
         self.backButton.frame = FRAME_BACK_BUTTON;
         self.backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [self.backButton setTitle:@"" forState:UIControlStateNormal];
         self.backButton.imageEdgeInsets = IMAGE_EDGE_INSETS_BACK_BUTTON_CHEVRON;
         [self.backButton setImage:[UIImage imageNamed:@"back_chevron_icon"] forState:UIControlStateNormal];
+        [self.topBar changeHeight:DEFAULT_HEADER_HEIGHT];
+        self.assetSelectorView.hidden = YES;
     }
 }
 
@@ -253,12 +260,16 @@
 
 - (void)didOpenSelector
 {
+    self.isOpeningSelector = YES;
+
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
         [self.topBar changeHeight:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT*self.assetSelectorView.assets.count];
         if ([self.visibleViewController isMemberOfClass:[AccountsAndAddressesViewController class]]) {
             AccountsAndAddressesViewController *accountsAndAddressesViewController = (AccountsAndAddressesViewController *)self.visibleViewController;
             [accountsAndAddressesViewController.containerView changeYPosition:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT*self.assetSelectorView.assets.count];
         }
+    } completion:^(BOOL finished) {
+        self.isOpeningSelector = NO;
     }];
 }
 

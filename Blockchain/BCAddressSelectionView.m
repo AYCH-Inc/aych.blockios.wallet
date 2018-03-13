@@ -266,8 +266,8 @@ int legacyAddressesSectionNumber;
             if (selectMode == SelectModeFilter) {
                 [self filterWithRow:indexPath.row assetType:AssetTypeBitcoin];
             } else {
-                // TODO: Get bch account index
-                [delegate didSelectFromAccount:0 assetType:AssetTypeBitcoinCash];
+                int accountIndex = [app.wallet getIndexOfActiveAccount:[[bchAccounts objectAtIndex:indexPath.row] intValue] assetType:AssetTypeBitcoinCash];
+                [delegate didSelectFromAccount:accountIndex assetType:AssetTypeBitcoinCash];
             }
         } else if (indexPath.section == legacyAddressesSectionNumber) {
             NSString *legacyAddress = [legacyAddresses objectAtIndex:[indexPath row]];
@@ -290,14 +290,13 @@ int legacyAddressesSectionNumber;
             [delegate didSelectToAddress:[addressBookAddresses objectAtIndex:[indexPath row]]];
         }
         else if (indexPath.section == btcAccountsSectionNumber) {
-            [delegate didSelectToAccount: [app.wallet getIndexOfActiveAccount:(int)indexPath.row assetType:AssetTypeBitcoin] assetType:AssetTypeBitcoin];
+            [delegate didSelectToAccount:[app.wallet getIndexOfActiveAccount:(int)indexPath.row assetType:AssetTypeBitcoin] assetType:AssetTypeBitcoin];
         }
         else if (indexPath.section == ethAccountsSectionNumber) {
             [delegate didSelectToAccount:0 assetType:AssetTypeEther];
         }
         else if (indexPath.section == bchAccountsSectionNumber) {
-            // TODO: Get bch account index
-            [delegate didSelectFromAccount:0 assetType:AssetTypeBitcoinCash];
+            [delegate didSelectToAccount:[app.wallet getIndexOfActiveAccount:(int)indexPath.row assetType:AssetTypeBitcoinCash] assetType:AssetTypeBitcoin];
         }
         else if (indexPath.section == legacyAddressesSectionNumber) {
             [delegate didSelectToAddress:[legacyAddresses objectAtIndex:[indexPath row]]];

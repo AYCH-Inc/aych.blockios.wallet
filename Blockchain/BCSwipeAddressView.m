@@ -28,6 +28,7 @@
     if (self == [super initWithFrame:frame]) {
         self.viewModel = viewModel;
         [self setup];
+        [self updateQRCode];
     }
     return self;
 }
@@ -70,13 +71,6 @@
     self.qrCodeImageView = qrCodeImageView;
 }
 
-- (void)setViewModel:(BCSwipeAddressViewModel *)viewModel
-{
-    _viewModel = viewModel;
-    
-    [self updateQRCode];
-}
-
 - (void)updateAddress:(NSString *)address
 {
     self.viewModel.address = address;
@@ -92,6 +86,7 @@
         self.addressLabel.text = address;
     } else if (address) {
         QRCodeGenerator *qrCodeGenerator = [[QRCodeGenerator alloc] init];
+        self.qrCodeImageView.hidden = NO;
         self.qrCodeImageView.image = [qrCodeGenerator qrImageFromAddress:address];
         self.addressLabel.text = address;
     } else {

@@ -358,7 +358,7 @@ BOOL displayingLocalSymbolSend;
 - (void)hideSelectFromAndToButtonsIfAppropriate
 {
     // If we only have one account and no legacy addresses -> can't change from address
-    if ([app.wallet getActiveAccountsCount] + [[app.wallet activeLegacyAddresses] count] == 1) {
+    if ([app.wallet getActiveAccountsCount:self.assetType] + [[app.wallet activeLegacyAddresses] count] == 1) {
         
         [selectFromButton setHidden:YES];
         
@@ -1418,7 +1418,7 @@ BOOL displayingLocalSymbolSend;
 - (BOOL)canChangeFromAddress
 {
     if (self.assetType == AssetTypeBitcoin) {
-        return !([app.wallet hasAccount] && ![app.wallet hasLegacyAddresses] && [app.wallet getActiveAccountsCount] == 1);
+        return !([app.wallet hasAccount] && ![app.wallet hasLegacyAddresses] && [app.wallet getActiveAccountsCount:self.assetType] == 1);
     } else if (self.assetType == AssetTypeBitcoinCash) {
         
     }

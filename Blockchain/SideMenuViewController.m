@@ -192,8 +192,6 @@ int accountEntries = 0;
 
 - (void)reload
 {
-    [self reloadNumberOfBalancesToDisplay];
-    
     // Resize table view
     [self reloadTableViewSize];
     
@@ -205,20 +203,9 @@ int accountEntries = 0;
     [self.tableView reloadData];
 }
 
-- (void)reloadNumberOfBalancesToDisplay
-{
-    // Total entries: 1 entry for the total balance, 1 for each HD account, 1 for the total legacy addresses balance (if needed)
-    int numberOfAccounts = [app.wallet getActiveAccountsCount];
-    balanceEntries = [[app.wallet activeLegacyAddresses] count] > 0 ? numberOfAccounts + 1 : numberOfAccounts;
-    accountEntries = numberOfAccounts;
-}
-
 - (void)reloadTableViewSize
 {
-    self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width - sideMenu.anchorLeftPeekAmount, MENU_ENTRY_HEIGHT * self.menuEntriesCount + BALANCE_ENTRY_HEIGHT * (balanceEntries + 1) + SECTION_HEADER_HEIGHT + MENU_TOP_BANNER_HEIGHT);
-    if (![self showBalances]) {
-        self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width - sideMenu.anchorLeftPeekAmount, MENU_ENTRY_HEIGHT * self.menuEntriesCount + MENU_TOP_BANNER_HEIGHT);
-    }
+    self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width - sideMenu.anchorLeftPeekAmount, MENU_ENTRY_HEIGHT * self.menuEntriesCount + MENU_TOP_BANNER_HEIGHT);
     
     // If the tableView is bigger than the screen, enable scrolling and resize table view to screen size
     if (self.tableView.frame.size.height > self.view.frame.size.height ) {
@@ -232,12 +219,6 @@ int accountEntries = 0;
     else {
         self.tableView.scrollEnabled = NO;
     }
-}
-
-- (Boolean)showBalances
-{
-    // Return true if the user has upgraded and either legacy adresses or multiple accounts
-    return [app.wallet didUpgradeToHd] && ([[app.wallet activeLegacyAddresses] count] > 0 || [app.wallet getActiveAccountsCount] >= 2);
 }
 
 - (void)removeTransactionsFilter
@@ -272,38 +253,6 @@ int accountEntries = 0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self showBalances]) {
-        if (indexPath.section != 1) {
-#ifdef ENABLE_TRANSACTION_FILTERING
-            BOOL deselected = NO;
-            
-            if (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1 && [[app.wallet activeLegacyAddresses] count] > 0) {
-                if ([app filterIndex] == FILTER_INDEX_IMPORTED_ADDRESSES) {
-                    deselected = YES;
-                } else {
-                }
-            } else {
-                if ([app.wallet getIndexOfActiveAccount:(int)indexPath.row] == [app filterIndex]) {
-                    deselected = YES;
-                } else {
-                    
-                }
-            }
-            
-            if (deselected) {
-                [self removeTransactionsFilter];
-                [tableView deselectRowAtIndexPath:indexPath animated:NO];
-            } else {
-                UITableViewHeaderFooterView *headerView = [tableView headerViewForSection:indexPath.section];
-                UIView *backgroundView = [[UIView alloc] initWithFrame:headerView.frame];
-                [backgroundView setBackgroundColor:COLOR_BLOCKCHAIN_BLUE];
-                headerView.backgroundView = backgroundView;
-            }
-#endif
-            return;
-        }
-    }
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     NSString *rowKey = [self getMenuEntry:indexPath.row][@"key"];
@@ -340,12 +289,6 @@ int accountEntries = 0;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![self showBalances]) {
-        return MENU_ENTRY_HEIGHT;
-    }
-    if (indexPath.section != 2) {
-        return BALANCE_ENTRY_HEIGHT;
-    }
     return MENU_ENTRY_HEIGHT;
 }
 
@@ -440,19 +383,8 @@ int accountEntries = 0;
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        if ([self showBalances]) {
-            // Custom separator inset
-            float leftInset = (indexPath.section != 1) ? 56 : 15;
-            [cell setSeparatorInset:UIEdgeInsetsMake(0, leftInset, 0, 0)];
-            
-            // No separator for non-account side menu items
-            if ((indexPath.section == 0 && indexPath.row == balanceEntries - 1) || indexPath.section == 1) {
-                [cell setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, CGRectGetWidth(cell.bounds)-15)];
-            }
-        } else {
-            // No separator
-            [cell setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, CGRectGetWidth(cell.bounds)-15)];
-        }
+        // No separator
+        [cell setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, CGRectGetWidth(cell.bounds)-15)];
     }
 }
 

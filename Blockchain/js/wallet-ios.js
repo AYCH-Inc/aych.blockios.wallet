@@ -2916,6 +2916,16 @@ MyWalletPhone.bch = {
         MyWallet.wallet.bch.accounts[num].label = label;
     },
     
+    getIndexOfActiveAccount : function(index) {
+        var activeAccounts = MyWallet.wallet.bch.activeAccounts;
+        var realNum = activeAccounts[index].index;
+        return realNum;
+    },
+    
+    getActiveAccountsCount : function() {
+        return MyWallet.wallet.bch.activeAccounts.length;
+    },
+    
     isArchived : function(index) {
         return MyWallet.wallet.bch.accounts[index].archived;
     },

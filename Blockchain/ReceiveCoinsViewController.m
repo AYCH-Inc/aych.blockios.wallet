@@ -369,7 +369,7 @@ NSString *detailLabel;
 {
     // Get an address: the first empty receive address for the default HD account
     // Or the first active legacy address if there are no HD accounts
-    if ([app.wallet getActiveAccountsCount] > 0) {
+    if ([app.wallet getActiveAccountsCount:self.assetType] > 0) {
         [self didSelectFromAccount:[app.wallet getFilteredOrDefaultAccountIndex]];
     }
     else if (activeKeys.count > 0) {
@@ -399,7 +399,7 @@ NSString *detailLabel;
     
     [self.view addSubview:self.headerView];
     
-    if ([app.wallet getActiveAccountsCount] > 0 || activeKeys.count > 0) {
+    if ([app.wallet getActiveAccountsCount:self.assetType] > 0 || activeKeys.count > 0) {
         
         BOOL isUsing4SScreenSize = IS_USING_SCREEN_SIZE_4S;
         BOOL isUsing5SScreenSize = IS_USING_SCREEN_SIZE_5S;

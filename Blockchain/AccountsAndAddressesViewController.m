@@ -88,6 +88,7 @@
 {
     if ([segue.identifier isEqualToString:SEGUE_IDENTIFIER_ACCOUNTS_AND_ADDRESSES_DETAIL]) {
         AccountsAndAddressesDetailViewController *detailViewController = segue.destinationViewController;
+        detailViewController.assetType = self.assetType;
         if (self.clickedAddress) {
             detailViewController.address = self.clickedAddress;
             detailViewController.account = -1;

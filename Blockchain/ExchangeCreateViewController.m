@@ -1032,7 +1032,7 @@
 
 - (NSString *)bitcoinCashLabelText
 {
-    return [app.wallet getActiveAccountsCount:AssetTypeBitcoinCash] > 1 ? [app.wallet getLabelForDefaultBchAccount] : BC_STRING_BITCOIN_CASH;
+    return [app.wallet getActiveAccountsCount:AssetTypeBitcoinCash] > 1 ? [app.wallet getLabelForAccount:self.bchAccount assetType:AssetTypeBitcoinCash] : BC_STRING_BITCOIN_CASH;
 }
 
 - (NSString *)etherLabelText

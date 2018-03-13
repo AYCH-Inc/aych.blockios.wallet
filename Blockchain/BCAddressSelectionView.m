@@ -319,7 +319,7 @@ typedef enum {
             [delegate didSelectToAccount:0 assetType:AssetTypeEther];
         }
         else if (indexPath.section == bchAccountsSectionNumber) {
-            [delegate didSelectToAccount:[app.wallet getIndexOfActiveAccount:(int)indexPath.row assetType:AssetTypeBitcoinCash] assetType:AssetTypeBitcoin];
+            [delegate didSelectToAccount:[app.wallet getIndexOfActiveAccount:(int)indexPath.row assetType:AssetTypeBitcoinCash] assetType:AssetTypeBitcoinCash];
         }
         else if (indexPath.section == legacyAddressesSectionNumber) {
             [delegate didSelectToAddress:[legacyAddresses objectAtIndex:[indexPath row]]];

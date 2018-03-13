@@ -1289,9 +1289,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5149BD03205718ED00DC88A0 /* Crashlytics.framework in Frameworks */,
 				515315F32056C1A0000161DF /* libcrypto.a in Frameworks */,
+				5164E4D220584D2800FC706A /* Charts.framework in Frameworks */,
 				515315F12056C0EE000161DF /* libicucore.tbd in Frameworks */,
-				513468012056BC6700DE6A1E /* Crashlytics.framework in Frameworks */,
 				513468002056BC6700DE6A1E /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

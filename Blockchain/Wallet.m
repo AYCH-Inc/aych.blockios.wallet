@@ -1753,13 +1753,18 @@
     return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.isArchived(MyWalletPhone.getIndexOfActiveAccount(%d))", account]] toBool];
 }
 
-- (Boolean)isAccountArchived:(int)account
+- (BOOL)isAccountArchived:(int)account assetType:(AssetType)assetType
 {
     if (![self isInitialized]) {
-        return FALSE;
+        return NO;
     }
     
-    return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.isArchived(%d)", account]] toBool];
+    if (assetType == AssetTypeBitcoin) {
+        return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.isArchived(%d)", account]] toBool];
+    } else if (assetType == AssetTypeBitcoinCash) {
+        return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.isArchived(%d)", account]] toBool];
+    }
+    return NO;
 }
 
 - (BOOL)isValidAddress:(NSString*)string assetType:(AssetType)assetType
@@ -1848,7 +1853,7 @@
     [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.toggleArchived(\"%@\")", [address escapeStringForJS]]];
 }
 
-- (void)toggleArchiveAccount:(int)account
+- (void)toggleArchiveAccount:(int)account assetType:(AssetType)assetType
 {
     if (![self isInitialized] || ![app checkInternetConnection]) {
         return;
@@ -1856,7 +1861,12 @@
     
     self.isSyncing = YES;
     
-    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.toggleArchived(%d)", account]];
+    if (assetType == AssetTypeBitcoin) {
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.toggleArchived(%d)", account]];
+    } else if (assetType == AssetTypeBitcoinCash) {
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.toggleArchived(%d)", account]];
+        [self reload];
+    }
 }
 
 - (void)archiveTransferredAddresses:(NSArray *)transferredAddresses

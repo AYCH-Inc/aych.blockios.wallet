@@ -402,7 +402,7 @@
         [v setBackgroundColor:COLOR_BLOCKCHAIN_BLUE];
         [cell setSelectedBackgroundView:v];
         
-        if ([app.wallet isAccountArchived:accountIndex]) {
+        if ([app.wallet isAccountArchived:accountIndex assetType:self.assetType]) {
             cell.balanceLabel.text = BC_STRING_ARCHIVED;
             cell.balanceLabel.textColor = COLOR_BUTTON_BLUE;
         } else {

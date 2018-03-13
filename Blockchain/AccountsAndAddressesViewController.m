@@ -406,7 +406,7 @@
             cell.balanceLabel.text = BC_STRING_ARCHIVED;
             cell.balanceLabel.textColor = COLOR_BUTTON_BLUE;
         } else {
-            cell.balanceLabel.text = [NSNumberFormatter formatMoney:balance];
+            cell.balanceLabel.text = self.assetType == AssetTypeBitcoin ? [NSNumberFormatter formatMoney:balance] : [NSNumberFormatter formatBchWithSymbol:balance];
             cell.balanceLabel.textColor = COLOR_BLOCKCHAIN_GREEN;
         }
         cell.balanceLabel.minimumScaleFactor = 0.75f;
@@ -476,7 +476,7 @@
         cell.balanceLabel.text = BC_STRING_ARCHIVED;
         cell.balanceLabel.textColor = COLOR_BUTTON_BLUE;
     } else {
-        cell.balanceLabel.text = [NSNumberFormatter formatMoney:balance];
+        cell.balanceLabel.text = self.assetType == AssetTypeBitcoin ? [NSNumberFormatter formatMoney:balance] : [NSNumberFormatter formatBchWithSymbol:balance];
         cell.balanceLabel.textColor = COLOR_LABEL_BALANCE_GREEN;
     }
     cell.balanceLabel.minimumScaleFactor = 0.75f;

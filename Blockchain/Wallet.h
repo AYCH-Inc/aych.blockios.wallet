@@ -296,7 +296,7 @@ typedef enum {
 
 - (BOOL)isAddressAvailable:(NSString *)address;
 - (BOOL)isAccountAvailable:(int)account;
-- (int)getIndexOfActiveAccount:(int)account;
+- (int)getIndexOfActiveAccount:(int)account assetType:(AssetType)assetType;
 
 - (void)fetchMoreTransactions;
 - (void)reloadFilter;
@@ -313,7 +313,7 @@ typedef enum {
 - (int)getFilteredOrDefaultAccountIndex;
 - (int)getDefaultAccountIndexForAssetType:(AssetType)assetType;
 - (void)setDefaultAccount:(int)index assetType:(AssetType)assetType;
-- (int)getActiveAccountsCount;
+- (int)getActiveAccountsCount:(AssetType)assetType;
 - (int)getAllAccountsCount:(AssetType)assetType;
 - (BOOL)hasLegacyAddresses;
 - (BOOL)isAccountArchived:(int)account assetType:(AssetType)assetType;

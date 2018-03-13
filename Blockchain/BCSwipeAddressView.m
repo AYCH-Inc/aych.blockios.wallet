@@ -35,12 +35,14 @@
 
 - (void)setup
 {
-    UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, ASSET_IMAGE_VIEW_Y_OFFSET, ASSET_IMAGE_VIEW_HEIGHT, ASSET_IMAGE_VIEW_HEIGHT)];
+    CGFloat yOffset = IS_USING_SCREEN_SIZE_4S ? 70 : ASSET_IMAGE_VIEW_Y_OFFSET;
+    UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, yOffset, ASSET_IMAGE_VIEW_HEIGHT, ASSET_IMAGE_VIEW_HEIGHT)];
     assetImageView.image = [UIImage imageNamed:@"bitcoin"];
     assetImageView.center = CGPointMake(self.bounds.size.width/2, assetImageView.frame.origin.y);
     [self addSubview:assetImageView];
     
-    UIButton *requestButton = [[UIButton alloc] initWithFrame:CGRectMake(0, assetImageView.frame.origin.y + assetImageView.frame.size.height + ASSET_IMAGE_VIEW_SPACING, 0, 0)];
+    CGFloat spacing = IS_USING_SCREEN_SIZE_4S ? 12 : ASSET_IMAGE_VIEW_SPACING;
+    UIButton *requestButton = [[UIButton alloc] initWithFrame:CGRectMake(0, assetImageView.frame.origin.y + assetImageView.frame.size.height + spacing, 0, 0)];
     requestButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_SMALL];
     CGFloat horizontalPadding = 12;
     requestButton.titleEdgeInsets = UIEdgeInsetsMake(0, horizontalPadding, 0, horizontalPadding);
@@ -97,7 +99,8 @@
 
 + (CGFloat)pageIndicatorYOrigin
 {
-    return ASSET_IMAGE_VIEW_Y_OFFSET + ASSET_IMAGE_VIEW_HEIGHT + ASSET_IMAGE_VIEW_SPACING + REQUEST_BUTTON_HEIGHT + 8;
+    CGFloat yOrigin = ASSET_IMAGE_VIEW_Y_OFFSET + ASSET_IMAGE_VIEW_HEIGHT + ASSET_IMAGE_VIEW_SPACING + REQUEST_BUTTON_HEIGHT + 8;
+    return IS_USING_SCREEN_SIZE_LARGER_THAN_5S ? yOrigin : IS_USING_SCREEN_SIZE_4S ? yOrigin - 94 : yOrigin - 30;
 }
 
 @end

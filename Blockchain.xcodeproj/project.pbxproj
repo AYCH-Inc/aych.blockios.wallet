@@ -1692,8 +1692,8 @@
 				516594A4204F1A3B00C50E78 /* Config */,
 				9FB3637B14B60128004BEA02 /* Blockchain */,
 				515902322049AF5000A4C2D8 /* WalletTests */,
-				9FB3637414B60128004BEA02 /* Frameworks */,
 				9FB3637214B60128004BEA02 /* Products */,
+				9FB3637414B60128004BEA02 /* Frameworks */,
 				C9D4B2AE193E020D00EDA9EA /* Third Party */,
 			);
 			sourceTree = "<group>";

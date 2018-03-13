@@ -350,8 +350,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		220348A919A4D5FA00611AC3 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
-		220348AB19A4D60000611AC3 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		220ADA6919A3796200EB7599 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		220ADA6C19A3798A00EB7599 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/BCAddressSelectionView.strings; sourceTree = "<group>"; };
 		220ADA6E19A3798A00EB7599 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/ReceiveCoins.strings; sourceTree = "<group>"; };
@@ -798,7 +796,6 @@
 		23BF73381C454B8C00204503 /* AccountsAndAddressesNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountsAndAddressesNavigationController.m; sourceTree = "<group>"; };
 		23BF733A1C455DDB00204503 /* AccountsAndAddressesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountsAndAddressesViewController.h; sourceTree = "<group>"; };
 		23BF733B1C455DDB00204503 /* AccountsAndAddressesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountsAndAddressesViewController.m; sourceTree = "<group>"; };
-		23C543A01D0F415C007A5F58 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		23C543A21D0F4197007A5F58 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		23C95EA41C0779C600E4692A /* SettingsChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsChangePasswordViewController.h; sourceTree = "<group>"; };
 		23C95EA51C0779C600E4692A /* SettingsChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsChangePasswordViewController.m; sourceTree = "<group>"; };
@@ -964,9 +961,6 @@
 		6780DB941A40BDCF0048EED2 /* InOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InOut.m; sourceTree = "<group>"; };
 		6780DB961A40BDF40048EED2 /* AccountInOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountInOut.h; sourceTree = "<group>"; };
 		6780DB971A40BDF40048EED2 /* AccountInOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountInOut.m; sourceTree = "<group>"; };
-		67812A761A4A0DDA00B04EBF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		67812A781A4A0E1800B04EBF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		67812A7C1A4A0E6800B04EBF /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		678AD5E519D45FA300E9A778 /* BCModalContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCModalContentView.h; sourceTree = "<group>"; };
 		678AD5E819D4610000E9A778 /* BCModalContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCModalContentView.m; sourceTree = "<group>"; };
 		678CD7461A2777E600748AA5 /* BCCreateAccountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCCreateAccountView.h; sourceTree = "<group>"; };
@@ -996,7 +990,6 @@
 		67FA1A4C1ABA092D000C9196 /* RegExCategories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegExCategories.m; sourceTree = "<group>"; };
 		6E2D90A01BBEC34800B719EC /* BCRecoveryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCRecoveryView.h; sourceTree = "<group>"; };
 		6E2D90A11BBEC34800B719EC /* BCRecoveryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCRecoveryView.m; sourceTree = "<group>"; };
-		84AEEC651987C49A000E8DC8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		84B601C5197ACD6300DA1829 /* UITextField+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Blocks.h"; sourceTree = "<group>"; };
 		84B601C6197ACD6300DA1829 /* UITextField+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Blocks.m"; sourceTree = "<group>"; };
 		84B601C8197AD03800DA1829 /* BCModalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCModalView.h; sourceTree = "<group>"; };
@@ -1014,7 +1007,6 @@
 		84FC02F91981452D00B97D5B /* NSString+JSONParser_NSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSONParser_NSString.m"; sourceTree = "<group>"; };
 		84FC02FB19815F1B00B97D5B /* crypto_scrypt-nosse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "crypto_scrypt-nosse.c"; path = "Library/keys/src/crypto_scrypt-nosse.c"; sourceTree = "<group>"; };
 		84FC02FC19815F1B00B97D5B /* sha256.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sha256.c; path = Library/keys/src/sha256.c; sourceTree = "<group>"; };
-		84FC02FF198162AE00B97D5B /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "Library/OpenSSL-for-iPhone/lib/libcrypto.a"; sourceTree = "<group>"; };
 		9F0CBAA8151351F400CD945D /* Wallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wallet.h; sourceTree = "<group>"; };
 		9F0CBAA9151351F400CD945D /* Wallet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wallet.m; sourceTree = "<group>"; };
 		9F0CBAD61513CA2600CD945D /* BCFadeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCFadeView.h; sourceTree = "<group>"; };
@@ -1040,12 +1032,9 @@
 		9F4A5091152F585E00F9ED9D /* UIDevice+Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Hardware.m"; sourceTree = "<group>"; };
 		9F61B89C151519EF0083C57A /* BCAddressSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCAddressSelectionView.h; sourceTree = "<group>"; };
 		9F61B89D151519EF0083C57A /* BCAddressSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCAddressSelectionView.m; sourceTree = "<group>"; };
-		9F7480C71514021000BC4292 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9F7480D21514030800BC4292 /* alert-received.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "alert-received.wav"; sourceTree = "<group>"; };
-		9F7480D41514041A00BC4292 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9F7480E115140EA500BC4292 /* TabViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabViewController.h; sourceTree = "<group>"; };
 		9F7480E215140EA500BC4292 /* TabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabViewController.m; sourceTree = "<group>"; };
-		9F749DFF1514F1EF00B3A8B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9F765F3014BC622E00048EFB /* TransactionsBitcoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransactionsBitcoinViewController.h; sourceTree = "<group>"; };
 		9F765F3114BC622E00048EFB /* TransactionsBitcoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransactionsBitcoinViewController.m; sourceTree = "<group>"; };
 		9F765F3714BC7BAC00048EFB /* TransactionTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransactionTableCell.h; sourceTree = "<group>"; };
@@ -1054,13 +1043,9 @@
 		9F765F3C14BC7C4F00048EFB /* Transaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Transaction.m; sourceTree = "<group>"; };
 		9F765F4514BC8AEF00048EFB /* MultiAddressResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiAddressResponse.h; sourceTree = "<group>"; };
 		9F765F4614BC8AEF00048EFB /* MultiAddressResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiAddressResponse.m; sourceTree = "<group>"; };
-		9F7DCCEA15345213000CBFC8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		9F7DCCEC15345245000CBFC8 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9F91B605151666EB00ACB32D /* BCCreateWalletView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCCreateWalletView.h; sourceTree = "<group>"; };
 		9F91B606151666EB00ACB32D /* BCCreateWalletView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCCreateWalletView.m; sourceTree = "<group>"; };
 		9FB3637114B60128004BEA02 /* Blockchain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blockchain.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9FB3637514B60128004BEA02 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		9FB3637714B60128004BEA02 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9FB3637D14B60128004BEA02 /* Blockchain-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Blockchain-Info.plist"; sourceTree = "<group>"; };
 		9FB3638114B60128004BEA02 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9FB3638314B60128004BEA02 /* Blockchain-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Blockchain-Prefix.pch"; sourceTree = "<group>"; };
@@ -1283,7 +1268,6 @@
 		FA63233D1A433DEB00EB3974 /* MerchantMapView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MerchantMapView.xib; sourceTree = "<group>"; };
 		FA63233F1A446B0C00EB3974 /* MerchantLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantLocation.h; sourceTree = "<group>"; };
 		FA6323401A446B0C00EB3974 /* MerchantLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantLocation.m; sourceTree = "<group>"; };
-		FA6323421A44758700EB3974 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		FACF694E1A570AEF00590E04 /* MerchantDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MerchantDetailView.xib; sourceTree = "<group>"; };
 		FACF69501A57164B00590E04 /* MerchantMapDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantMapDetailViewController.h; sourceTree = "<group>"; };
 		FACF69511A57164B00590E04 /* MerchantMapDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantMapDetailViewController.m; sourceTree = "<group>"; };
@@ -1731,22 +1715,6 @@
 				513467FF2056BC6700DE6A1E /* Crashlytics.framework */,
 				513467FE2056BC6600DE6A1E /* Fabric.framework */,
 				23C543A21D0F4197007A5F58 /* libicucore.tbd */,
-				23C543A01D0F415C007A5F58 /* CFNetwork.framework */,
-				67812A7C1A4A0E6800B04EBF /* CoreImage.framework */,
-				67812A781A4A0E1800B04EBF /* QuartzCore.framework */,
-				67812A761A4A0DDA00B04EBF /* CoreGraphics.framework */,
-				9F7480D41514041A00BC4292 /* AudioToolbox.framework */,
-				9F749DFF1514F1EF00B3A8B8 /* AVFoundation.framework */,
-				FA6323421A44758700EB3974 /* MapKit.framework */,
-				84AEEC651987C49A000E8DC8 /* CoreLocation.framework */,
-				9FB3637714B60128004BEA02 /* Foundation.framework */,
-				84FC02FF198162AE00B97D5B /* libcrypto.a */,
-				9F7DCCEC15345245000CBFC8 /* MessageUI.framework */,
-				9F7DCCEA15345213000CBFC8 /* Security.framework */,
-				220348AB19A4D60000611AC3 /* Social.framework */,
-				9F7480C71514021000BC4292 /* SystemConfiguration.framework */,
-				220348A919A4D5FA00611AC3 /* Twitter.framework */,
-				9FB3637514B60128004BEA02 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

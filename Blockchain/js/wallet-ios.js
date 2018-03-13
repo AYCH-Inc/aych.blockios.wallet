@@ -2916,6 +2916,10 @@ MyWalletPhone.bch = {
         return MyWallet.wallet.bch.accounts[index].balance;
     },
     
+    getXpubForAccount : function(index) {
+        return MyWallet.wallet.bch.accounts[index].xpub;
+    },
+    
     transactions : function() {
         return MyWallet.wallet.bch.txs;
     },

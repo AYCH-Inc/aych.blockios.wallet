@@ -248,6 +248,7 @@ typedef enum {
             BCEditAccountView *editAccountView = [[BCEditAccountView alloc] init];
             editAccountView.labelTextField.text = [app.wallet getLabelForAccount:self.account assetType:self.assetType];
             editAccountView.accountIdx = self.account;
+            editAccountView.assetType = self.assetType;
             
             [self setupModalView:editAccountView inViewController:segue.destinationViewController];
             

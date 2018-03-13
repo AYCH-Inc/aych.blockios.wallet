@@ -2904,6 +2904,10 @@ MyWalletPhone.bch = {
         return MyWallet.wallet.bch.accounts[index].label;
     },
     
+    setLabelForAccount : function(num, label) {
+        MyWallet.wallet.bch.accounts[num].label = label;
+    },
+    
     totalBalance : function() {
         return MyWallet.wallet.bch.balance;
     },

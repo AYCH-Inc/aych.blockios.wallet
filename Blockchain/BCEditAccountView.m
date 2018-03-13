@@ -78,7 +78,9 @@
     
     [self.labelTextField resignFirstResponder];
     
-    [app showBusyViewWithLoadingText:BC_STRING_LOADING_SYNCING_WALLET];
+    if (self.assetType == AssetTypeBitcoin) {
+        [app showBusyViewWithLoadingText:BC_STRING_LOADING_SYNCING_WALLET];
+    }
     
     [app closeModalWithTransition:kCATransitionFade];
     
@@ -87,9 +89,8 @@
 
 - (void)changeAccountName:(NSString *)name
 {
-    [app.wallet setLabelForAccount:self.accountIdx label:name];
+    [app.wallet setLabelForAccount:self.accountIdx label:name assetType:self.assetType];
 }
-
 
 #pragma mark - Textfield Delegates
 

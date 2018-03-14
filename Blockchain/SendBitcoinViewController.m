@@ -1501,6 +1501,23 @@ BOOL displayingLocalSymbolSend;
     }
 }
 
+#pragma mark - Address Book
+
+- (NSString *)labelForLegacyAddress:(NSString *)address
+{
+    if ([[app.wallet.addressBook objectForKey:address] length] > 0) {
+        return [app.wallet.addressBook objectForKey:address];
+        
+    }
+    else if ([[app.wallet allLegacyAddresses:self.assetType] containsObject:address]) {
+        NSString *label = [app.wallet labelForLegacyAddress:address assetType:self.assetType];
+        if (label && ![label isEqualToString:@""])
+            return label;
+    }
+    
+    return address;
+}
+
 #pragma mark - Textfield Delegates
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField

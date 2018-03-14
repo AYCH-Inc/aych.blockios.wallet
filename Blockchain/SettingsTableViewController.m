@@ -33,7 +33,7 @@ const int sectionPreferences = 1;
 const int preferencesEmailNotifications = 0;
 const int preferencesSMSNotifications = 1;
 
-#ifdef ENABLE_DEBUG_MENU
+#ifdef DEBUG
 #ifdef ENABLE_CONTACTS
 const int preferencesPushNotifications = 2;
 const int preferencesLocalCurrency = 3;
@@ -1192,7 +1192,7 @@ const int aboutPrivacyPolicy = 2;
 {
     switch (section) {
         case sectionProfile: return 4;
-#ifdef ENABLE_DEBUG_MENU
+#ifdef DEBUG
         case sectionPreferences: return 5;
 #else
         case sectionPreferences: return 4;

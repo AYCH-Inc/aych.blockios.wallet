@@ -5027,7 +5027,7 @@
 
 - (void)useDebugSettingsIfSet
 {
-#ifdef ENABLE_DEBUG_MENU
+#ifdef DEBUG
     [self updateServerURL:URL_SERVER];
     
     [self updateWebSocketURL:URL_WEBSOCKET];

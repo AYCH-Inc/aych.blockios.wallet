@@ -179,7 +179,7 @@
     self.pageControl.center = CGPointMake(cardsView.center.x, self.pageControl.center.y);
     self.pageControl.numberOfPages = numberOfCards;
     self.pageControl.currentPageIndicatorTintColor = COLOR_BLOCKCHAIN_BLUE;
-    self.pageControl.pageIndicatorTintColor = COLOR_BLOCKCHAIN_LIGHTEST_BLUE;
+    self.pageControl.pageIndicatorTintColor = COLOR_BLOCKCHAIN_LIGHTER_BLUE;
     [self.pageControl addTarget:self action:@selector(pageControlChanged:) forControlEvents:UIControlEventValueChanged];
     [cardsView addSubview:self.pageControl];
     
@@ -205,7 +205,7 @@
     self.skipAllButton = [[UIButton alloc] initWithFrame:CGRectMake(cardsView.frame.size.width - skipAllButtonWidth, self.pageControl.frame.origin.y, skipAllButtonWidth, skipAllButtonHeight)];
     self.skipAllButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_SMALL];
     self.skipAllButton.backgroundColor = [UIColor clearColor];
-    [self.skipAllButton setTitleColor:COLOR_BLOCKCHAIN_LIGHTEST_BLUE forState:UIControlStateNormal];
+    [self.skipAllButton setTitleColor:COLOR_BLOCKCHAIN_LIGHTER_BLUE forState:UIControlStateNormal];
     [self.skipAllButton setTitle:BC_STRING_SKIP_ALL forState:UIControlStateNormal];
     [self.skipAllButton addTarget:self action:@selector(closeCardsView) forControlEvents:UIControlEventTouchUpInside];
     [cardsView addSubview:self.skipAllButton];

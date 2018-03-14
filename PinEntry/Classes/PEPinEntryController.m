@@ -377,8 +377,8 @@ static PEViewController *VerifyController()
 {
     UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, [BCSwipeAddressView pageIndicatorYOrigin], 100, 30)];
     pageControl.center = CGPointMake(self.view.bounds.size.width/2, pageControl.center.y);
-    pageControl.pageIndicatorTintColor = COLOR_BLOCKCHAIN_DARK_BLUE;
-    pageControl.currentPageIndicatorTintColor = COLOR_BLOCKCHAIN_LIGHTEST_BLUE;
+    pageControl.pageIndicatorTintColor = COLOR_BLOCKCHAIN_LIGHTEST_BLUE;
+    pageControl.currentPageIndicatorTintColor = COLOR_BLOCKCHAIN_DARK_BLUE;
     pageControl.numberOfPages = 1 + assets.count;
     return pageControl;
 }

@@ -28,7 +28,6 @@
 #import "UITextField+Blocks.h"
 #import "PairingCodeParser.h"
 #import "PrivateKeyReader.h"
-#import "MerchantMapViewController.h"
 #import "NSData+Hex.h"
 #import "Reachability.h"
 #import "SideMenuViewController.h"
@@ -1759,9 +1758,7 @@ void (^secondPasswordSuccess)(NSString *);
     self.wallet.sessionToken = nil;
     
     [KeychainItemWrapper removeAllSwipeAddresses];
-    
-    self.merchantViewController = nil;
-    
+        
     self.isVerifyingMobileNumber = NO;
     
     [KeychainItemWrapper removeGuidFromKeychain];
@@ -3076,18 +3073,6 @@ void (^secondPasswordSuccess)(NSString *);
     WebLoginViewController *webLoginViewController = [[WebLoginViewController alloc] init];
     BCNavigationController *navigationController = [[BCNavigationController alloc] initWithRootViewController:webLoginViewController title:BC_STRING_LOG_IN_TO_WEB_WALLET];
     [self.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
-}
-
-- (IBAction)merchantClicked:(UIButton *)sender
-{
-    if (!self.tabControllerManager.tabViewController.presentedViewController) {
-        if (!_merchantViewController) {
-            _merchantViewController = [[MerchantMapViewController alloc] initWithNibName:NIB_NAME_MERCHANT_MAP_VIEW bundle:[NSBundle mainBundle]];
-        }
-        
-        _merchantViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [self.tabControllerManager.tabViewController presentViewController:_merchantViewController animated:YES completion:nil];
-    }
 }
 
 - (IBAction)mainPasswordClicked:(id)sender

@@ -286,11 +286,13 @@
     
     if (section == 0) {
         labelString = BC_STRING_WALLETS;
-        UIButton *addButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 20 - 30, 4, 50, 40)];
-        [addButton setImage:[[UIImage imageNamed:@"new"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        addButton.imageView.tintColor = COLOR_BLOCKCHAIN_BLUE;
-        [addButton addTarget:self action:@selector(newAccountClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:addButton];
+        if (self.assetType == AssetTypeBitcoin) {
+            UIButton *addButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 20 - 30, 4, 50, 40)];
+            [addButton setImage:[[UIImage imageNamed:@"new"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+            addButton.imageView.tintColor = COLOR_BLOCKCHAIN_BLUE;
+            [addButton addTarget:self action:@selector(newAccountClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [view addSubview:addButton];
+        }
     }
     else if (section == 1) {
         labelString = BC_STRING_IMPORTED_ADDRESSES;
@@ -318,7 +320,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return self.assetType == AssetTypeBitcoin ? 2 : 1;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

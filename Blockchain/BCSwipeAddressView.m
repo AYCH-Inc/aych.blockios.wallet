@@ -44,6 +44,8 @@
     CGFloat spacing = IS_USING_SCREEN_SIZE_4S ? 12 : ASSET_IMAGE_VIEW_SPACING;
     UIButton *requestButton = [[UIButton alloc] initWithFrame:CGRectMake(0, assetImageView.frame.origin.y + assetImageView.frame.size.height + spacing, 0, 0)];
     requestButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_SMALL];
+    requestButton.layer.borderColor = [COLOR_BLOCKCHAIN_LIGHT_BLUE CGColor];
+    requestButton.layer.borderWidth = 1.0;
     CGFloat horizontalPadding = 12;
     requestButton.titleEdgeInsets = UIEdgeInsetsMake(0, horizontalPadding, 0, horizontalPadding);
     [requestButton setTitle:self.viewModel.action forState:UIControlStateNormal];

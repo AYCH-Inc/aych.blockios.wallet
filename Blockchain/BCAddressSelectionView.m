@@ -122,7 +122,6 @@ typedef enum {
                                 [legacyAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
                             }
                         }
-                        
                         // Then show the active legacy addresses with a zero balance
                         for (NSString * addr in _wallet.activeLegacyAddresses) {
                             if (!([_wallet getLegacyAddressBalance:addr assetType:assetType] > 0)) {

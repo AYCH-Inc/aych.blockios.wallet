@@ -37,7 +37,6 @@ NSString *entryKeySettings = @"settings";
 NSString *entryKeyAccountsAndAddresses = @"accounts_and_addresses";
 NSString *entryKeyWebLogin = @"web_login";
 NSString *entryKeyContacts = @"contacts";
-NSString *entryKeyMerchantMap = @"merchant_map";
 NSString *entryKeySupport = @"support";
 NSString *entryKeyLogout = @"logout";
 NSString *entryKeyBuyBitcoin = @"buy_bitcoin";
@@ -123,7 +122,6 @@ int accountEntries = 0;
 #endif
     [self addMenuEntry:entryKeyAccountsAndAddresses text:BC_STRING_BITCOIN_ADDRESSES icon:@"wallet"];
     [self addMenuEntry:entryKeyWebLogin text:BC_STRING_LOG_IN_TO_WEB_WALLET icon:@"web"];
-    [self addMenuEntry:entryKeyMerchantMap text:BC_STRING_BITCOIN_MERCHANT_MAP icon:@"merchant"];
     [self addMenuEntry:entryKeySupport text:BC_STRING_SUPPORT icon:@"help"];
     [self addMenuEntry:entryKeyLogout text:BC_STRING_LOGOUT icon:@"logout"];
 
@@ -272,8 +270,6 @@ int accountEntries = 0;
         [app contactsClicked:nil];
     } else if (rowKey == entryKeyWebLogin) {
         [app webLoginClicked:nil];
-    } else if (rowKey == entryKeyMerchantMap) {
-        [app merchantClicked:nil];
     } else if (rowKey == entryKeySupport) {
         [app supportClicked:nil];
     } else if (rowKey == entryKeyLogout) {

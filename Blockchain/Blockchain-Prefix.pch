@@ -233,7 +233,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define CELL_IDENTIFIER_CONTACT_MESSAGE @"contactMessage"
 
 #define CELL_IDENTIFIER_LOCAL_CURRENCY @"localCurrency"
-#define CELL_IDENTIFIER_BITCOIN_UNIT @"bitcoinUnit"
 
 #define LOCALE_IDENTIFIER_EN_US @"en_US"
 #define LOCALE_IDENTIFIER_AR @"ar"
@@ -336,7 +335,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define URL_SHAPESHIFT @"shapeshift.io"
 
 #define SEGUE_IDENTIFIER_CURRENCY @"currency"
-#define SEGUE_IDENTIFIER_BTC_UNIT @"btcUnit"
 #define SEGUE_IDENTIFIER_ABOUT @"about"
 #define SEGUE_IDENTIFIER_CHANGE_PASSWORD @"changePassword"
 #define SEGUE_IDENTIFIER_ACCOUNTS_AND_ADDRESSES_DETAIL @"accountsAndAddressesDetail"
@@ -490,20 +488,12 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define CURRENCY_SYMBOL_ETH @"ETH"
 
 #define CURRENCY_SYMBOL_BCH @"BCH"
-#define CURRENCY_SYMBOL_BCH_MILLIBITS @"mBCH"
-#define CURRENCY_SYMBOL_BCH_BITS @"bits"
 
 #define CURRENCY_SYMBOL_BTC @"BTC"
-#define CURRENCY_SYMBOL_MBC @"mBTC"
-#define CURRENCY_SYMBOL_UBC @"bits"
 
 #define CURRENCY_CONVERSION_BTC @100000000
-#define CURRENCY_CONVERSION_MBC @100000
-#define CURRENCY_CONVERSION_UBC @100
 
 #define CURRENCY_NAME_BTC @"Bitcoin"
-#define CURRENCY_NAME_MBC @"MilliBit (mBTC)"
-#define CURRENCY_NAME_UBC @"Bits (uBTC)"
 
 #define CURRENCY_CODE_USD @"USD"
 #define CURRENCY_CODE_EUR @"EUR"

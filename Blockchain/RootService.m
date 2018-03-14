@@ -169,7 +169,7 @@ void (^secondPasswordSuccess)(NSString *);
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING : @YES}];
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{USER_DEFAULTS_KEY_SWIPE_TO_RECEIVE_ENABLED : @YES}];
-#ifndef ENABLE_DEBUG_MENU
+#ifndef DEBUG
     [[NSUserDefaults standardUserDefaults] setObject:ENV_INDEX_PRODUCTION forKey:USER_DEFAULTS_KEY_ENV];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING];
     
@@ -1023,7 +1023,7 @@ void (^secondPasswordSuccess)(NSString *);
         
         NSTimeInterval timeIntervalBetweenPrompts = TIME_INTERVAL_SECURITY_REMINDER_PROMPT;
         
-#ifdef ENABLE_DEBUG_MENU
+#ifdef DEBUG
         id customTimeValue = [[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_DEBUG_SECURITY_REMINDER_CUSTOM_TIMER];
         if (customTimeValue) {
             timeIntervalBetweenPrompts = [customTimeValue doubleValue];

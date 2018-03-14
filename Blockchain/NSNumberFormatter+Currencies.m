@@ -51,14 +51,7 @@
     } else if (app.latestResponse.symbol_btc) {
         NSDecimalNumber * number = [(NSDecimalNumber*)[NSDecimalNumber numberWithLongLong:value] decimalNumberByDividingBy:(NSDecimalNumber*)[NSDecimalNumber numberWithLongLong:app.latestResponse.symbol_btc.conversion]];
         
-        // mBTC display -> Always 2 decimal places
-        if (app.latestResponse.symbol_btc.conversion == 100) {
-            [app.btcFormatter setMinimumFractionDigits:2];
-        }
-        // otherwise -> no min decimal places
-        else {
-            [app.btcFormatter setMinimumFractionDigits:0];
-        }
+        [app.btcFormatter setMinimumFractionDigits:0];
         
         NSString * string = [app.btcFormatter stringFromNumber:number];
         
@@ -321,25 +314,11 @@
     } else if (app.latestResponse.symbol_btc) {
         NSDecimalNumber * number = [(NSDecimalNumber*)[NSDecimalNumber numberWithLongLong:value] decimalNumberByDividingBy:(NSDecimalNumber*)[NSDecimalNumber numberWithLongLong:app.latestResponse.symbol_btc.conversion]];
         
-        // mBTC display -> Always 2 decimal places
-        if (app.latestResponse.symbol_btc.conversion == 100) {
-            [app.btcFormatter setMinimumFractionDigits:2];
-        }
-        // otherwise -> no min decimal places
-        else {
-            [app.btcFormatter setMinimumFractionDigits:0];
-        }
+        [app.btcFormatter setMinimumFractionDigits:0];
         
         NSString * string = [app.btcFormatter stringFromNumber:number];
         
-        NSString *currencyCode = app.latestResponse.symbol_btc.code;
-        if ([currencyCode isEqualToString:CURRENCY_SYMBOL_MBC]) {
-            currencyCode = CURRENCY_SYMBOL_BCH_MILLIBITS;
-        } else if ([currencyCode isEqualToString:CURRENCY_CODE_UBC]) {
-            currencyCode = CURRENCY_SYMBOL_BCH_BITS;
-        } else {
-            currencyCode = CURRENCY_SYMBOL_BCH;
-        }
+        NSString *currencyCode = CURRENCY_SYMBOL_BCH;
         
         return [string stringByAppendingFormat:@" %@", currencyCode];
     }

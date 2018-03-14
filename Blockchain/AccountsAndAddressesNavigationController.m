@@ -88,16 +88,21 @@
         self.backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         self.backButton.center = CGPointMake(self.backButton.center.x, self.headerLabel.center.y);
         [self.backButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
-        [self.topBar changeHeight:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT];
-        self.assetSelectorView.hidden = NO;
+        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+            [self.topBar changeHeight:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT];
+            [self.assetSelectorView show];
+            [self resetAddressesViewControllerContainerFrame];
+        }];
     } else {
         self.backButton.frame = FRAME_BACK_BUTTON;
         self.backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [self.backButton setTitle:@"" forState:UIControlStateNormal];
         self.backButton.imageEdgeInsets = IMAGE_EDGE_INSETS_BACK_BUTTON_CHEVRON;
         [self.backButton setImage:[UIImage imageNamed:@"back_chevron_icon"] forState:UIControlStateNormal];
-        [self.topBar changeHeight:DEFAULT_HEADER_HEIGHT];
-        self.assetSelectorView.hidden = YES;
+        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+            [self.assetSelectorView hide];
+            [self.topBar changeHeight:DEFAULT_HEADER_HEIGHT];
+        }];
     }
 }
 
@@ -244,18 +249,27 @@
     }
 }
 
+- (void)resetAddressesViewControllerContainerFrame
+{
+    if ([self.visibleViewController isMemberOfClass:[AccountsAndAddressesViewController class]]) {
+        AccountsAndAddressesViewController *accountsAndAddressesViewController = (AccountsAndAddressesViewController *)self.visibleViewController;
+        [accountsAndAddressesViewController.containerView changeYPosition:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT];
+    }
+}
+
 #pragma mark - Asset Selector View Delegate
 
 - (void)didSelectAsset:(AssetType)assetType
 {
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
         [self.topBar changeHeight:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT];
-        if ([self.visibleViewController isMemberOfClass:[AccountsAndAddressesViewController class]]) {
-            AccountsAndAddressesViewController *accountsAndAddressesViewController = (AccountsAndAddressesViewController *)self.visibleViewController;
-            accountsAndAddressesViewController.assetType = assetType;
-            [accountsAndAddressesViewController.containerView changeYPosition:DEFAULT_HEADER_HEIGHT + 8 + ASSET_SELECTOR_ROW_HEIGHT];
-        }
+        [self resetAddressesViewControllerContainerFrame];
     }];
+    
+    if ([self.visibleViewController isMemberOfClass:[AccountsAndAddressesViewController class]]) {
+        AccountsAndAddressesViewController *accountsAndAddressesViewController = (AccountsAndAddressesViewController *)self.visibleViewController;
+        accountsAndAddressesViewController.assetType = assetType;
+    };
 }
 
 - (void)didOpenSelector

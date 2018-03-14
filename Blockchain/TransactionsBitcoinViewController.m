@@ -272,7 +272,7 @@ int lastNumberTransactions = INT_MAX;
     self.bounceView.backgroundColor = bounceViewBackgroundColor;
     refreshControl.tintColor = refreshControlTintColor;
     
-    BOOL shouldShowFilterButton = ([app.wallet didUpgradeToHd] && ([[app.wallet activeLegacyAddresses] count] > 0 || [app.wallet getActiveAccountsCount] >= 2));
+    BOOL shouldShowFilterButton = ([app.wallet didUpgradeToHd] && ([[app.wallet activeLegacyAddresses] count] > 0 || [app.wallet getActiveAccountsCount:AssetTypeBitcoin] >= 2));
     
     self.filterAccountButton.hidden = !shouldShowFilterButton;
     
@@ -560,7 +560,7 @@ int lastNumberTransactions = INT_MAX;
 
 - (CGFloat)heightForFilterTableView
 {
-    CGFloat estimatedHeight = 44 * ([app.wallet getActiveAccountsCount] + 2);
+    CGFloat estimatedHeight = 44 * ([app.wallet getActiveAccountsCount:AssetTypeBitcoin] + 2);
     CGFloat largestAcceptableHeight = [[UIScreen mainScreen] bounds].size.height - 150;
     return estimatedHeight > largestAcceptableHeight ? largestAcceptableHeight : estimatedHeight;
 }
@@ -573,7 +573,7 @@ int lastNumberTransactions = INT_MAX;
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
         return [app.wallet getTotalBalanceForActiveLegacyAddresses];
     } else {
-        return [app.wallet getBalanceForAccount:(int)self.filterIndex];
+        return [[app.wallet getBalanceForAccount:(int)self.filterIndex assetType:AssetTypeBitcoin] longLongValue];
     }
 #else
     return [app.wallet getTotalActiveBalance];
@@ -588,7 +588,7 @@ int lastNumberTransactions = INT_MAX;
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
         return BC_STRING_IMPORTED_ADDRESSES;
     } else {
-        return [app.wallet getLabelForAccount:(int)self.filterIndex];
+        return [app.wallet getLabelForAccount:(int)self.filterIndex assetType:AssetTypeBitcoin];
     }
 #else
     return nil;
@@ -753,7 +753,7 @@ int lastNumberTransactions = INT_MAX;
 
 #pragma mark - Address Selection Delegate
 
-- (void)didSelectFromAccount:(int)account
+- (void)didSelectFromAccount:(int)account assetType:(AssetType)asset
 {
     if (account == FILTER_INDEX_IMPORTED_ADDRESSES) {
         [app filterTransactionsByImportedAddresses];

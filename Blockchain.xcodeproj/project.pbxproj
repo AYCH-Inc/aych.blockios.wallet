@@ -2163,9 +2163,9 @@
 				23321D781BB072AB0005624F /* Update, Clean, Build My-Wallet-V3 */,
 				23321D7B1BB084320005624F /* Build Image Assets from PSDs */,
 				23FDEFA31D6E22C900FC80D6 /* Get SSL Certificate */,
-				C718594D1F460C4A00745A87 /* Run Fabric */,
 				9FB3636F14B60128004BEA02 /* Resources */,
 				5149BD072057192900DC88A0 /* Embed Frameworks */,
+				C718594D1F460C4A00745A87 /* Run Fabric */,
 			);
 			buildRules = (
 			);
@@ -2436,7 +2436,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Frameworks/Fabric.framework/run 697b88bc5b5646cd6ac3aebf86e525ff14c51426 5363de5bd3f55e431daa7e96f98e3c71eb89a36580e67612a5d5dd9a9a948aee";
+			shellScript = "if [ -f ./Config/fabric-secret.sh ]; then\n    source ./Config/fabric-secret.sh\n    ./Frameworks/Fabric.framework/run $API_KEY $SECRET_KEY\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 

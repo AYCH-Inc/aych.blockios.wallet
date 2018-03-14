@@ -2891,12 +2891,48 @@ MyWalletPhone.bch = {
         return bch && bch.defaultAccount;
     },
     
+    getAllAccountsCount : function() {
+        var bch = MyWallet.wallet.bch;
+        return bch.accounts.length;
+    },
+    
     getLabelForDefaultAccount : function() {
         return MyWallet.wallet.bch.defaultAccount.label;
     },
     
+    getDefaultAccountIndex : function() {
+        return MyWallet.wallet.bch.defaultAccountIdx;
+    },
+    
+    setDefaultAccount : function(index) {
+        MyWallet.wallet.bch.defaultAccountIdx = index;
+    },
+    
     getLabelForAccount : function(index) {
         return MyWallet.wallet.bch.accounts[index].label;
+    },
+    
+    setLabelForAccount : function(num, label) {
+        MyWallet.wallet.bch.accounts[num].label = label;
+    },
+    
+    getIndexOfActiveAccount : function(index) {
+        var activeAccounts = MyWallet.wallet.bch.activeAccounts;
+        var realNum = activeAccounts[index].index;
+        return realNum;
+    },
+    
+    getActiveAccountsCount : function() {
+        return MyWallet.wallet.bch.activeAccounts.length;
+    },
+    
+    isArchived : function(index) {
+        return MyWallet.wallet.bch.accounts[index].archived;
+    },
+    
+    toggleArchived : function(index) {
+        var account = MyWallet.wallet.bch.accounts[index];
+        account.archived = !account.archived;
     },
     
     totalBalance : function() {
@@ -2905,6 +2941,14 @@ MyWalletPhone.bch = {
     
     getBalance : function() {
         return MyWallet.wallet.bch.balance;
+    },
+    
+    getBalanceForAccount : function(index) {
+        return MyWallet.wallet.bch.accounts[index].balance;
+    },
+    
+    getXpubForAccount : function(index) {
+        return MyWallet.wallet.bch.accounts[index].xpub;
     },
     
     transactions : function() {
@@ -2954,19 +2998,6 @@ MyWalletPhone.bch = {
     
     quickSend : function(id, onSendScreen, secondPassword) {
         MyWalletPhone.quickSend(id, onSendScreen, secondPassword, 'bch');
-    },
-    
-    send : function(secondPassword) {
-        var success = function () {
-            console.log('Send bch success');
-        };
-        
-        var error = function (e) {
-            console.log('Send bch error');
-            console.log(e);
-        };
-        
-        currentBitcoinCashPayment.sign(secondPassword).publish().then(success).catch(error);
     }
 };
 

@@ -736,7 +736,7 @@ void (^secondPasswordSuccess)(NSString *);
 
 - (void)filterTransactionsByAccount:(int)accountIndex
 {
-    [self.tabControllerManager filterTransactionsByAccount:accountIndex filterLabel:[app.wallet getLabelForAccount:accountIndex]];
+    [self.tabControllerManager filterTransactionsByAccount:accountIndex filterLabel:[app.wallet getLabelForAccount:accountIndex assetType:self.tabControllerManager.assetType]];
     
     [self.wallet reloadFilter];
     
@@ -1675,7 +1675,7 @@ void (^secondPasswordSuccess)(NSString *);
         return;
     }
     
-    PrivateKeyReader *reader = [[PrivateKeyReader alloc] initWithSuccess:^(NSString* privateKeyString) {
+    PrivateKeyReader *reader = [[PrivateKeyReader alloc] initWithAssetType:self.tabControllerManager.assetType success:^(NSString* privateKeyString) {
         [app.wallet addKey:privateKeyString toWatchOnlyAddress:address];
     } error:nil acceptPublicKeys:NO busyViewText:BC_STRING_LOADING_IMPORT_KEY];
     

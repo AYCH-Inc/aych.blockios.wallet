@@ -8,21 +8,21 @@
 
 #import "PrivateKeyReader.h"
 #import "RootService.h"
-
 @interface PrivateKeyReader()
 @property (nonatomic, copy) void (^onClose)();
 @property (nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property (nonatomic) AVCaptureSession *captureSession;
+@property (nonatomic) AssetType assetType;
 @end
 @implementation PrivateKeyReader
 
-- (id)initWithSuccess:(void (^)(NSString*))__success error:(void (^)(NSString*))__error acceptPublicKeys:(BOOL)acceptPublicKeys busyViewText:(NSString *)text
+- (id)initWithAssetType:(AssetType)assetType success:(void (^)(NSString*))__success error:(void (^)(NSString*))__error acceptPublicKeys:(BOOL)acceptPublicKeys busyViewText:(NSString *)text
 {
     self = [super init];
     
     if (self) {
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        
+        self.assetType = assetType;
         self.success = __success;
         self.error = __error;
         self.acceptsPublicKeys = acceptPublicKeys;
@@ -151,7 +151,7 @@
                     [app hideBusyView];
                     
                     if (self.acceptsPublicKeys) {
-                        if ([app.wallet isBitcoinAddress:scannedString]) {
+                        if ([app.wallet isValidAddress:scannedString assetType:self.assetType]) {
                             [app askUserToAddWatchOnlyAddress:scannedString success:self.success];
                         } else {
                             self.onClose = ^(){

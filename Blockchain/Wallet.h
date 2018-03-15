@@ -310,7 +310,6 @@ typedef enum {
 - (void)getRecoveryPhrase:(NSString *)secondPassword;
 - (BOOL)isRecoveryPhraseVerified;
 - (void)markRecoveryPhraseVerified;
-- (int)getFilteredOrDefaultAccountIndex;
 - (int)getDefaultAccountIndexForAssetType:(AssetType)assetType;
 - (void)setDefaultAccount:(int)index assetType:(AssetType)assetType;
 - (int)getActiveAccountsCount:(AssetType)assetType;
@@ -330,8 +329,8 @@ typedef enum {
 - (void)createAccountWithLabel:(NSString *)label;
 - (void)generateNewKey;
 
-- (NSString *)getReceiveAddressOfDefaultAccount;
-- (NSString *)getReceiveAddressForAccount:(int)account;
+- (NSString *)getReceiveAddressOfDefaultAccount:(AssetType)assetType;
+- (NSString *)getReceiveAddressForAccount:(int)account assetType:(AssetType)assetType;
 
 - (NSString *)getXpubForAccount:(int)accountIndex assetType:(AssetType)assetType;
 

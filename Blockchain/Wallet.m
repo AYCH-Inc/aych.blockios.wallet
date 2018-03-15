@@ -4775,21 +4775,6 @@
     return 0;
 }
 
-- (int)getFilteredOrDefaultAccountIndex
-{
-    if (![self isInitialized]) {
-        return 0;
-    }
-    
-    NSInteger filterIntex = [app filterIndex];
-    
-    if (filterIntex != FILTER_INDEX_ALL && filterIntex!= FILTER_INDEX_IMPORTED_ADDRESSES && 0 <= filterIntex < [self getActiveAccountsCount:AssetTypeBitcoin]) {
-        return (int)filterIntex;
-    }
-    
-    return [[self.context evaluateScript:@"MyWalletPhone.getDefaultAccountIndex()"] toInt32];
-}
-
 - (int)getDefaultAccountIndexForAssetType:(AssetType)assetType
 {
     if (![self isInitialized]) {
@@ -4935,18 +4920,30 @@
     }
 }
 
-- (NSString *)getReceiveAddressOfDefaultAccount
+- (NSString *)getReceiveAddressOfDefaultAccount:(AssetType)assetType
 {
-    return [[self.context evaluateScript:@"MyWalletPhone.getReceiveAddressOfDefaultAccount()"] toString];
+    if (assetType == AssetTypeBitcoin) {
+        return [[self.context evaluateScript:@"MyWalletPhone.getReceiveAddressOfDefaultAccount()"] toString];
+    } else if (assetType == AssetTypeBitcoinCash) {
+        return [[self.context evaluateScript:@"MyWalletPhone.bch.getReceiveAddressOfDefaultAccount()"] toString];
+    }
+    DLog(@"Warning: unknown asset type!");
+    return nil;
 }
 
-- (NSString *)getReceiveAddressForAccount:(int)account
+- (NSString *)getReceiveAddressForAccount:(int)account assetType:(AssetType)assetType
 {
     if (![self isInitialized]) {
         return nil;
     }
     
-    return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getReceivingAddressForAccount(%d)", account]] toString];
+    if (assetType == AssetTypeBitcoin) {
+        return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getReceivingAddressForAccount(%d)", account]] toString];
+    } else if (assetType == AssetTypeBitcoinCash) {
+        return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.getReceivingAddressForAccount(%d)", account]] toString];
+    }
+    DLog(@"Warning: unknown asset type!");
+    return nil;
 }
 
 - (void)setPbkdf2Iterations:(int)iterations

@@ -22,7 +22,7 @@
 #import "BCDescriptionView.h"
 
 @class BCTotalAmountView;
-@interface ReceiveCoinsViewController : UIViewController <UITextFieldDelegate> {
+@interface ReceiveBitcoinViewController : UIViewController <UITextFieldDelegate> {
     IBOutlet UIImageView *qrCodeMainImageView;
     
     // Label Address
@@ -37,6 +37,7 @@
     // Keyboard accessory view
     UIView *amountKeyboardAccessoryView;
 }
+@property (nonatomic) AssetType assetType;
 
 @property(nonatomic, strong) NSArray *activeKeys;
 @property(nonatomic, strong) UITapGestureRecognizer *tapGesture;

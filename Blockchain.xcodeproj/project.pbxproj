@@ -183,7 +183,7 @@
 		9FB3637814B60128004BEA02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB3637714B60128004BEA02 /* Foundation.framework */; };
 		9FB3638214B60128004BEA02 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB3638114B60128004BEA02 /* main.m */; };
 		9FB3638614B60128004BEA02 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB3638514B60128004BEA02 /* AppDelegate.m */; };
-		9FCA4D161514949500ECDFBE /* ReceiveCoinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA4D151514949500ECDFBE /* ReceiveCoinsViewController.m */; };
+		9FCA4D161514949500ECDFBE /* ReceiveBitcoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA4D151514949500ECDFBE /* ReceiveBitcoinViewController.m */; };
 		9FCA4D1B151494BF00ECDFBE /* SendBitcoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA4D1A151494BF00ECDFBE /* SendBitcoinViewController.m */; };
 		A2599B9F1B0B5FC800C2EA81 /* BackupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2599B9E1B0B5FC800C2EA81 /* BackupViewController.swift */; };
 		A2599BA51B0B725400C2EA81 /* BackupWordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2599BA41B0B725400C2EA81 /* BackupWordsViewController.swift */; };
@@ -1077,8 +1077,8 @@
 		9FB3638314B60128004BEA02 /* Blockchain-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Blockchain-Prefix.pch"; sourceTree = "<group>"; };
 		9FB3638414B60128004BEA02 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9FB3638514B60128004BEA02 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		9FCA4D141514949500ECDFBE /* ReceiveCoinsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiveCoinsViewController.h; sourceTree = "<group>"; };
-		9FCA4D151514949500ECDFBE /* ReceiveCoinsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReceiveCoinsViewController.m; sourceTree = "<group>"; };
+		9FCA4D141514949500ECDFBE /* ReceiveBitcoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiveBitcoinViewController.h; sourceTree = "<group>"; };
+		9FCA4D151514949500ECDFBE /* ReceiveBitcoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReceiveBitcoinViewController.m; sourceTree = "<group>"; };
 		9FCA4D19151494BF00ECDFBE /* SendBitcoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendBitcoinViewController.h; sourceTree = "<group>"; };
 		9FCA4D1A151494BF00ECDFBE /* SendBitcoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendBitcoinViewController.m; sourceTree = "<group>"; };
 		A2599B9D1B0B5FC700C2EA81 /* Blockchain-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Blockchain-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -2230,8 +2230,8 @@
 				6775569819E752A00054699B /* BCWebViewController.m */,
 				CFA0671E1E65D426008456C1 /* WebLoginViewController.m */,
 				CFA067201E65D49C008456C1 /* WebLoginViewController.h */,
-				9FCA4D141514949500ECDFBE /* ReceiveCoinsViewController.h */,
-				9FCA4D151514949500ECDFBE /* ReceiveCoinsViewController.m */,
+				9FCA4D141514949500ECDFBE /* ReceiveBitcoinViewController.h */,
+				9FCA4D151514949500ECDFBE /* ReceiveBitcoinViewController.m */,
 				9FCA4D19151494BF00ECDFBE /* SendBitcoinViewController.h */,
 				9FCA4D1A151494BF00ECDFBE /* SendBitcoinViewController.m */,
 				67E9674C19DF285000305358 /* SideMenuViewController.h */,
@@ -3657,7 +3657,7 @@
 				9F0CBAD81513CA2600CD945D /* BCFadeView.m in Sources */,
 				67E9674E19DF285000305358 /* SideMenuViewController.m in Sources */,
 				C7CE34BB1F4DE14500032806 /* DashboardViewController.m in Sources */,
-				9FCA4D161514949500ECDFBE /* ReceiveCoinsViewController.m in Sources */,
+				9FCA4D161514949500ECDFBE /* ReceiveBitcoinViewController.m in Sources */,
 				2322DCBD1D771831000E5AC1 /* SRHTTPConnectMessage.m in Sources */,
 				C790E0F81E4E60AE0063D141 /* NSDateFormatter+TimeAgoString.m in Sources */,
 				230FD2D31C5BD04000336683 /* BCEditAddressView.m in Sources */,

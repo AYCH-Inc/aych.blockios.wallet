@@ -2908,6 +2908,14 @@ MyWalletPhone.bch = {
         MyWallet.wallet.bch.defaultAccountIdx = index;
     },
     
+    getReceiveAddressOfDefaultAccount : function() {
+        return Helpers.toBitcoinCash(MyWallet.wallet.bch.defaultAccount.receiveAddress);
+    },
+    
+    getReceivingAddressForAccount : function(index) {
+        return Helpers.toBitcoinCash(MyWallet.wallet.bch.accounts[index].receiveAddress);
+    },
+    
     getLabelForAccount : function(index) {
         return MyWallet.wallet.bch.accounts[index].label;
     },

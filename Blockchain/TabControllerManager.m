@@ -282,7 +282,7 @@
 {
     if (self.assetType == AssetTypeBitcoin) {
         if (!_receiveBitcoinViewController) {
-            _receiveBitcoinViewController = [[ReceiveCoinsViewController alloc] initWithNibName:NIB_NAME_RECEIVE_COINS bundle:[NSBundle mainBundle]];
+            _receiveBitcoinViewController = [[ReceiveBitcoinViewController alloc] initWithNibName:NIB_NAME_RECEIVE_COINS bundle:[NSBundle mainBundle]];
         }
         
         [_tabViewController setActiveViewController:_receiveBitcoinViewController animated:TRUE index:TAB_RECEIVE];
@@ -293,6 +293,13 @@
         
         [_tabViewController setActiveViewController:_receiveEtherViewController animated:TRUE index:TAB_RECEIVE];
         [_receiveEtherViewController showEtherAddress];
+    } else if (self.assetType == AssetTypeBitcoinCash) {
+        if (!_receiveBitcoinCashViewController) {
+            _receiveBitcoinCashViewController = [[ReceiveBitcoinViewController alloc] initWithNibName:NIB_NAME_RECEIVE_COINS bundle:[NSBundle mainBundle]];
+            _receiveBitcoinCashViewController.assetType = AssetTypeBitcoinCash;
+        }
+        
+        [_tabViewController setActiveViewController:_receiveBitcoinCashViewController animated:TRUE index:TAB_RECEIVE];
     }
 }
 

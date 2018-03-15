@@ -139,43 +139,6 @@ typedef enum {
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
-- (NSDictionary *)getURLUserDefaultsKeys
-{
-    NSString *serverKey;
-    NSString *webSocketKey;
-    NSString *apiKey;
-    NSString *buyKey;
-    
-    NSInteger env = [[[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_ENV] integerValue];
-    
-    if (env == env_dev) {
-        serverKey = USER_DEFAULTS_KEY_DEBUG_DEV_SERVER_URL;
-        webSocketKey = USER_DEFAULTS_KEY_DEBUG_DEV_WEB_SOCKET_URL;
-        apiKey = USER_DEFAULTS_KEY_DEBUG_DEV_API_URL;
-        buyKey = USER_DEFAULTS_KEY_DEBUG_DEV_BUY_WEBVIEW_URL;
-    } else if (env == env_staging) {
-        serverKey = USER_DEFAULTS_KEY_DEBUG_STAGING_SERVER_URL;
-        webSocketKey = USER_DEFAULTS_KEY_DEBUG_STAGING_WEB_SOCKET_URL;
-        apiKey = USER_DEFAULTS_KEY_DEBUG_STAGING_API_URL;
-        buyKey = USER_DEFAULTS_KEY_DEBUG_STAGING_BUY_WEBVIEW_URL;
-    } else if (env == env_production) {
-        serverKey = USER_DEFAULTS_KEY_DEBUG_PRODUCTION_SERVER_URL;
-        webSocketKey = USER_DEFAULTS_KEY_DEBUG_PRODUCTION_WEB_SOCKET_URL;
-        apiKey = USER_DEFAULTS_KEY_DEBUG_PRODUCTION_API_URL;
-        buyKey = USER_DEFAULTS_KEY_DEBUG_PRODUCTION_BUY_WEBVIEW_URL;
-    } else if (env == env_testnet) {
-        serverKey = USER_DEFAULTS_KEY_DEBUG_TESTNET_SERVER_URL;
-        webSocketKey = USER_DEFAULTS_KEY_DEBUG_TESTNET_WEB_SOCKET_URL;
-        apiKey = USER_DEFAULTS_KEY_DEBUG_TESTNET_API_URL;
-        buyKey = USER_DEFAULTS_KEY_DEBUG_TESTNET_BUY_WEBVIEW_URL;
-    }
-    
-    return @{DICTIONARY_KEY_SERVER : serverKey,
-             DICTIONARY_KEY_WEB_SOCKET : webSocketKey,
-             DICTIONARY_KEY_API : apiKey,
-             DICTIONARY_KEY_BUY_WEBVIEW: buyKey};
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -251,8 +214,6 @@ typedef enum {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *keys = [self getURLUserDefaultsKeys];
-    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     switch (indexPath.row) {
         case RowWalletJSON: {

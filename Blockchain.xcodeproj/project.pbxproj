@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		220348AA19A4D5FA00611AC3 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 220348A919A4D5FA00611AC3 /* Twitter.framework */; };
-		220348AC19A4D60000611AC3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 220348AB19A4D60000611AC3 /* Social.framework */; };
 		220ADA6A19A3796200EB7599 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 220ADA6819A3796200EB7599 /* Localizable.strings */; };
 		220E374F19A3604500E06996 /* ReceiveCoins.xib in Resources */ = {isa = PBXBuildFile; fileRef = 220E375119A3604500E06996 /* ReceiveCoins.xib */; };
 		220E375719A3613600E06996 /* BCAddressSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 220E375919A3613600E06996 /* BCAddressSelectionView.xib */; };
@@ -85,8 +83,6 @@
 		23BD046D1D79F1EC00DB69E6 /* TransactionDetailNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23BD046C1D79F1EC00DB69E6 /* TransactionDetailNavigationController.m */; };
 		23BF73391C454B8C00204503 /* AccountsAndAddressesNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23BF73381C454B8C00204503 /* AccountsAndAddressesNavigationController.m */; };
 		23BF733C1C455DDB00204503 /* AccountsAndAddressesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23BF733B1C455DDB00204503 /* AccountsAndAddressesViewController.m */; };
-		23C543A11D0F415C007A5F58 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C543A01D0F415C007A5F58 /* CFNetwork.framework */; };
-		23C543A31D0F4197007A5F58 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C543A21D0F4197007A5F58 /* libicucore.tbd */; };
 		23C95EA61C0779C600E4692A /* SettingsChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23C95EA51C0779C600E4692A /* SettingsChangePasswordViewController.m */; };
 		23D423991D0878BE000054AA /* ModuleXMLHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 23D423981D0878BE000054AA /* ModuleXMLHttpRequest.m */; };
 		23D5DB501C4415AE007AD0A2 /* AccountsAndAddresses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23D5DB521C4415AE007AD0A2 /* AccountsAndAddresses.storyboard */; };
@@ -112,10 +108,17 @@
 		23FDEFA21D6E21A800FC80D6 /* blockchain.der in Resources */ = {isa = PBXBuildFile; fileRef = 23FDEFA11D6E21A800FC80D6 /* blockchain.der */; };
 		23FDEFA91D6E43DE00FC80D6 /* TransactionDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEFA81D6E43DE00FC80D6 /* TransactionDetailTableCell.m */; };
 		23FDEFAC1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEFAB1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m */; };
+		513468002056BC6700DE6A1E /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 513467FE2056BC6600DE6A1E /* Fabric.framework */; };
+		5149BD03205718ED00DC88A0 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 513467FF2056BC6700DE6A1E /* Crashlytics.framework */; };
+		515315F12056C0EE000161DF /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C543A21D0F4197007A5F58 /* libicucore.tbd */; };
+		515315F32056C1A0000161DF /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 515315F22056C1A0000161DF /* libcrypto.a */; };
 		515902342049AF5000A4C2D8 /* WalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515902332049AF5000A4C2D8 /* WalletTests.swift */; };
+		5164E4D220584D2800FC706A /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5164E4CF20584D0700FC706A /* Charts.framework */; };
+		5164E4D320584D2800FC706A /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5164E4CF20584D0700FC706A /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5164E4D72059734800FC706A /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5164E4D62059734800FC706A /* Config.swift */; };
+		5164E4D82059734800FC706A /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5164E4D62059734800FC706A /* Config.swift */; };
 		670595A41AB0F59D00D2D6D9 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 670595A31AB0F59D00D2D6D9 /* KeychainItemWrapper.m */; };
 		6710DA0E1A8E82D80089DDED /* BCLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6710DA0D1A8E82D80089DDED /* BCLine.m */; };
-		673107EF19F6BAF200BE6899 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F749DFF1514F1EF00B3A8B8 /* AVFoundation.framework */; };
 		673107F219F6D49F00BE6899 /* PrivateKeyReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 673107F119F6D49F00BE6899 /* PrivateKeyReader.m */; };
 		674709EC19D1D14300757D46 /* BCWelcomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 674709EB19D1D14300757D46 /* BCWelcomeView.m */; };
 		67470A0819D43AFE00757D46 /* BCManualPairView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67470A0719D43AFE00757D46 /* BCManualPairView.m */; };
@@ -126,9 +129,6 @@
 		6780DB921A40BDA70048EED2 /* AddressInOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 6780DB911A40BDA70048EED2 /* AddressInOut.m */; };
 		6780DB951A40BDCF0048EED2 /* InOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 6780DB941A40BDCF0048EED2 /* InOut.m */; };
 		6780DB981A40BDF40048EED2 /* AccountInOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 6780DB971A40BDF40048EED2 /* AccountInOut.m */; };
-		67812A771A4A0DDA00B04EBF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67812A761A4A0DDA00B04EBF /* CoreGraphics.framework */; };
-		67812A791A4A0E1800B04EBF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67812A781A4A0E1800B04EBF /* QuartzCore.framework */; };
-		67812A7D1A4A0E6800B04EBF /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67812A7C1A4A0E6800B04EBF /* CoreImage.framework */; };
 		678AD5E919D4610000E9A778 /* BCModalContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 678AD5E819D4610000E9A778 /* BCModalContentView.m */; };
 		678CD7481A2777E600748AA5 /* BCCreateAccountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 678CD7471A2777E600748AA5 /* BCCreateAccountView.m */; };
 		67D95A261B3DD86B0012EBB1 /* BCTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D95A251B3DD86B0012EBB1 /* BCTextField.swift */; };
@@ -146,7 +146,6 @@
 		67EEE7731A8E547900288753 /* PEPin-on@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EEE7711A8E547900288753 /* PEPin-on@3x.png */; };
 		67FA1A4D1ABA092D000C9196 /* RegExCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FA1A4C1ABA092D000C9196 /* RegExCategories.m */; };
 		6E2D90A21BBEC34800B719EC /* BCRecoveryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2D90A11BBEC34800B719EC /* BCRecoveryView.m */; };
-		84AEEC661987C49A000E8DC8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84AEEC651987C49A000E8DC8 /* CoreLocation.framework */; };
 		84B601C7197ACD6300DA1829 /* UITextField+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B601C6197ACD6300DA1829 /* UITextField+Blocks.m */; };
 		84B601CA197AD03800DA1829 /* BCModalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B601C9197AD03800DA1829 /* BCModalView.m */; };
 		84CCFAAF197D859C00DA4482 /* NSString+NSString_EscapeQuotes.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CCFAAE197D859C00DA4482 /* NSString+NSString_EscapeQuotes.m */; };
@@ -154,7 +153,6 @@
 		84FC02FA1981452D00B97D5B /* NSString+JSONParser_NSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FC02F91981452D00B97D5B /* NSString+JSONParser_NSString.m */; };
 		84FC02FD19815F1B00B97D5B /* crypto_scrypt-nosse.c in Sources */ = {isa = PBXBuildFile; fileRef = 84FC02FB19815F1B00B97D5B /* crypto_scrypt-nosse.c */; };
 		84FC02FE19815F1B00B97D5B /* sha256.c in Sources */ = {isa = PBXBuildFile; fileRef = 84FC02FC19815F1B00B97D5B /* sha256.c */; };
-		84FC0301198162AE00B97D5B /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FC02FF198162AE00B97D5B /* libcrypto.a */; };
 		9F0CBAAA151351F400CD945D /* Wallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CBAA9151351F400CD945D /* Wallet.m */; };
 		9F0CBAD81513CA2600CD945D /* BCFadeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CBAD71513CA2600CD945D /* BCFadeView.m */; };
 		9F1831E21516A39500FB3D52 /* NSData+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1831E11516A39500FB3D52 /* NSData+Hex.m */; };
@@ -169,19 +167,13 @@
 		9F45F82C1514E53C00018AED /* UIButtonPressAndHold.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F45F81D1514D81700018AED /* UIButtonPressAndHold.m */; };
 		9F4A5092152F585E00F9ED9D /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A5091152F585E00F9ED9D /* UIDevice+Hardware.m */; };
 		9F61B89E151519EF0083C57A /* BCAddressSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F61B89D151519EF0083C57A /* BCAddressSelectionView.m */; };
-		9F7480CB1514022200BC4292 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7480C71514021000BC4292 /* SystemConfiguration.framework */; };
 		9F7480D31514030800BC4292 /* alert-received.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9F7480D21514030800BC4292 /* alert-received.wav */; };
-		9F7480D51514041B00BC4292 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7480D41514041A00BC4292 /* AudioToolbox.framework */; };
 		9F7480E315140EF200BC4292 /* TabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7480E215140EA500BC4292 /* TabViewController.m */; };
 		9F765F3214BC622E00048EFB /* TransactionsBitcoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F765F3114BC622E00048EFB /* TransactionsBitcoinViewController.m */; };
 		9F765F3914BC7BAC00048EFB /* TransactionTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F765F3814BC7BAC00048EFB /* TransactionTableCell.m */; };
 		9F765F3D14BC7C4F00048EFB /* Transaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F765F3C14BC7C4F00048EFB /* Transaction.m */; };
 		9F765F4714BC8AEF00048EFB /* MultiAddressResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F765F4614BC8AEF00048EFB /* MultiAddressResponse.m */; };
-		9F7DCCEB15345213000CBFC8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7DCCEA15345213000CBFC8 /* Security.framework */; };
-		9F7DCCED15345245000CBFC8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7DCCEC15345245000CBFC8 /* MessageUI.framework */; };
 		9F91B607151666EC00ACB32D /* BCCreateWalletView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F91B606151666EB00ACB32D /* BCCreateWalletView.m */; };
-		9FB3637614B60128004BEA02 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB3637514B60128004BEA02 /* UIKit.framework */; };
-		9FB3637814B60128004BEA02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB3637714B60128004BEA02 /* Foundation.framework */; };
 		9FB3638214B60128004BEA02 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB3638114B60128004BEA02 /* main.m */; };
 		9FB3638614B60128004BEA02 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB3638514B60128004BEA02 /* AppDelegate.m */; };
 		9FCA4D161514949500ECDFBE /* ReceiveCoinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCA4D151514949500ECDFBE /* ReceiveCoinsViewController.m */; };
@@ -195,8 +187,6 @@
 		C70FF55E1E76D5C600AC7F8B /* BuyBitcoinNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C70FF55D1E76D5C600AC7F8B /* BuyBitcoinNavigationController.m */; };
 		C70FF5661E7B051C00AC7F8B /* ContactTransactionTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C70FF5651E7B051C00AC7F8B /* ContactTransactionTableCell.xib */; };
 		C71859471F3E227D00745A87 /* BCDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C71859461F3E227C00745A87 /* BCDescriptionView.m */; };
-		C71859501F460C8900745A87 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C718594E1F460C8900745A87 /* Fabric.framework */; };
-		C71859511F460C8900745A87 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C718594F1F460C8900745A87 /* Crashlytics.framework */; };
 		C71859541F4B647100745A87 /* SendEtherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C71859531F4B647100745A87 /* SendEtherViewController.m */; };
 		C71859571F4B695700745A87 /* TabControllerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C71859561F4B695700745A87 /* TabControllerManager.m */; };
 		C71859591F4B791600745A87 /* TabController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71859581F4B791600745A87 /* TabController.xib */; };
@@ -260,13 +250,10 @@
 		C79261B51E8ADF0300C87CED /* BCCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79261B41E8ADF0300C87CED /* BCCardView.m */; };
 		C793E1FC1F8E7921001F171C /* ExchangeOverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C793E1FB1F8E7921001F171C /* ExchangeOverviewViewController.m */; };
 		C79672841FDEF4CC00F07C69 /* NSDateFormatter+VerboseString.m in Sources */ = {isa = PBXBuildFile; fileRef = C79672831FDEF4CC00F07C69 /* NSDateFormatter+VerboseString.m */; };
-		C79ABF321F852C2B0062726C /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C79ABF291F852C040062726C /* Charts.framework */; };
 		C79EEFC21E898E380087DDCD /* WalletSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C79EEFC11E898E380087DDCD /* WalletSetupViewController.m */; };
 		C7A0E90E1FA796EC004F4267 /* BCChartMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A0E90D1FA796EC004F4267 /* BCChartMarkerView.swift */; };
 		C7A0E9261FA89FE9004F4267 /* ExchangeModalView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A0E9251FA89FE9004F4267 /* ExchangeModalView.m */; };
 		C7A0E92E1FA8FFBF004F4267 /* ExchangeConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A0E92D1FA8FFBF004F4267 /* ExchangeConfirmViewController.m */; };
-		C7A923E41F852DC7003D9DAF /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C79ABF291F852C040062726C /* Charts.framework */; };
-		C7A923E51F852DC7003D9DAF /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C79ABF291F852C040062726C /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C7A923ED1F8531FD003D9DAF /* GraphTimeFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A923EC1F8531FD003D9DAF /* GraphTimeFrame.m */; };
 		C7A9E7A61FAB5FF600027F22 /* UILabel+CGRectForSubstring.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A9E7A51FAB5FF600027F22 /* UILabel+CGRectForSubstring.m */; };
 		C7B6855B1F17AE2A00A18A5C /* BCEmptyPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B6855A1F17AE2A00A18A5C /* BCEmptyPageView.m */; };
@@ -313,7 +300,6 @@
 		FA63233C1A433BEA00EB3974 /* MerchantMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63233B1A433BEA00EB3974 /* MerchantMapViewController.m */; };
 		FA63233E1A433DEB00EB3974 /* MerchantMapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA63233D1A433DEB00EB3974 /* MerchantMapView.xib */; };
 		FA6323411A446B0C00EB3974 /* MerchantLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6323401A446B0C00EB3974 /* MerchantLocation.m */; };
-		FA6323431A44758700EB3974 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA6323421A44758700EB3974 /* MapKit.framework */; };
 		FACF694F1A570AEF00590E04 /* MerchantDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FACF694E1A570AEF00590E04 /* MerchantDetailView.xib */; };
 		FACF69521A57164B00590E04 /* MerchantMapDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FACF69511A57164B00590E04 /* MerchantMapDetailViewController.m */; };
 		FCB33B6F1FC369D700317E6B /* ExchangeDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB33B6E1FC369D700317E6B /* ExchangeDetailView.m */; };
@@ -328,37 +314,23 @@
 			remoteGlobalIDString = 9FB3637014B60128004BEA02;
 			remoteInfo = Blockchain;
 		};
-		C79ABF281F852C040062726C /* PBXContainerItemProxy */ = {
+		5164E4CE20584D0700FC706A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C79ABD8F1F852C030062726C /* Charts.xcodeproj */;
+			containerPortal = 5164E4C920584D0700FC706A /* Charts.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 65AD9E95D9ED4DC0BD73A743;
 			remoteInfo = Charts;
 		};
-		C79ABF2A1F852C040062726C /* PBXContainerItemProxy */ = {
+		5164E4D020584D0700FC706A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C79ABD8F1F852C030062726C /* Charts.xcodeproj */;
+			containerPortal = 5164E4C920584D0700FC706A /* Charts.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 1CBBC58C6CE1EBEE9852CE41;
 			remoteInfo = ChartsTests;
 		};
-		C79ABF2D1F852C040062726C /* PBXContainerItemProxy */ = {
+		5164E4D420584D2800FC706A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C79ABE171F852C040062726C /* ChartsDemo-OSX.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 65B3F63E1C73B4F5000983D0;
-			remoteInfo = "ChartsDemo-OSX";
-		};
-		C79ABF301F852C040062726C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C79ABD931F852C040062726C /* ChartsDemo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5B57BBAF1A9B26AA0036A6CC;
-			remoteInfo = ChartsDemo;
-		};
-		C7A923E61F852DC7003D9DAF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C79ABD8F1F852C030062726C /* Charts.xcodeproj */;
+			containerPortal = 5164E4C920584D0700FC706A /* Charts.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = A58A4ED274A941CA248EA921;
 			remoteInfo = Charts;
@@ -366,13 +338,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C7A923EA1F852DC7003D9DAF /* Embed Frameworks */ = {
+		5149BD072057192900DC88A0 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C7A923E51F852DC7003D9DAF /* Charts.framework in Embed Frameworks */,
+				5164E4D320584D2800FC706A /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,8 +352,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		220348A919A4D5FA00611AC3 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
-		220348AB19A4D60000611AC3 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		220ADA6919A3796200EB7599 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		220ADA6C19A3798A00EB7599 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/BCAddressSelectionView.strings; sourceTree = "<group>"; };
 		220ADA6E19A3798A00EB7599 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/ReceiveCoins.strings; sourceTree = "<group>"; };
@@ -828,7 +798,6 @@
 		23BF73381C454B8C00204503 /* AccountsAndAddressesNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountsAndAddressesNavigationController.m; sourceTree = "<group>"; };
 		23BF733A1C455DDB00204503 /* AccountsAndAddressesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountsAndAddressesViewController.h; sourceTree = "<group>"; };
 		23BF733B1C455DDB00204503 /* AccountsAndAddressesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountsAndAddressesViewController.m; sourceTree = "<group>"; };
-		23C543A01D0F415C007A5F58 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		23C543A21D0F4197007A5F58 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		23C95EA41C0779C600E4692A /* SettingsChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsChangePasswordViewController.h; sourceTree = "<group>"; };
 		23C95EA51C0779C600E4692A /* SettingsChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsChangePasswordViewController.m; sourceTree = "<group>"; };
@@ -956,9 +925,18 @@
 		23FDEFA81D6E43DE00FC80D6 /* TransactionDetailTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransactionDetailTableCell.m; sourceTree = "<group>"; };
 		23FDEFAA1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+SendSynchronousRequest.h"; sourceTree = "<group>"; };
 		23FDEFAB1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+SendSynchronousRequest.m"; sourceTree = "<group>"; };
+		513467FE2056BC6600DE6A1E /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = Frameworks/Fabric.framework; sourceTree = "<group>"; };
+		513467FF2056BC6700DE6A1E /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Frameworks/Crashlytics.framework; sourceTree = "<group>"; };
+		515315F22056C1A0000161DF /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "Submodules/OpenSSL-for-iPhone/lib/libcrypto.a"; sourceTree = "<group>"; };
 		515902312049AF5000A4C2D8 /* WalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		515902332049AF5000A4C2D8 /* WalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletTests.swift; sourceTree = "<group>"; };
 		515902352049AF5000A4C2D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5164E4C920584D0700FC706A /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "../../Downloads/Charts-master/Charts.xcodeproj"; sourceTree = "<group>"; };
+		5164E4D62059734800FC706A /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		516594A5204F1A7400C50E78 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
+		516594A6204F1C0400C50E78 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
+		516594A7204F1DE600C50E78 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
+		516594A9204F1E1000C50E78 /* Testnet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Testnet.xcconfig; sourceTree = "<group>"; };
 		670595A21AB0F59D00D2D6D9 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
 		670595A31AB0F59D00D2D6D9 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
 		6710DA0C1A8E82D80089DDED /* BCLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCLine.h; sourceTree = "<group>"; };
@@ -984,9 +962,6 @@
 		6780DB941A40BDCF0048EED2 /* InOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InOut.m; sourceTree = "<group>"; };
 		6780DB961A40BDF40048EED2 /* AccountInOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountInOut.h; sourceTree = "<group>"; };
 		6780DB971A40BDF40048EED2 /* AccountInOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountInOut.m; sourceTree = "<group>"; };
-		67812A761A4A0DDA00B04EBF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		67812A781A4A0E1800B04EBF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		67812A7C1A4A0E6800B04EBF /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		678AD5E519D45FA300E9A778 /* BCModalContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCModalContentView.h; sourceTree = "<group>"; };
 		678AD5E819D4610000E9A778 /* BCModalContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCModalContentView.m; sourceTree = "<group>"; };
 		678CD7461A2777E600748AA5 /* BCCreateAccountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCCreateAccountView.h; sourceTree = "<group>"; };
@@ -1016,7 +991,6 @@
 		67FA1A4C1ABA092D000C9196 /* RegExCategories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegExCategories.m; sourceTree = "<group>"; };
 		6E2D90A01BBEC34800B719EC /* BCRecoveryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCRecoveryView.h; sourceTree = "<group>"; };
 		6E2D90A11BBEC34800B719EC /* BCRecoveryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCRecoveryView.m; sourceTree = "<group>"; };
-		84AEEC651987C49A000E8DC8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		84B601C5197ACD6300DA1829 /* UITextField+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Blocks.h"; sourceTree = "<group>"; };
 		84B601C6197ACD6300DA1829 /* UITextField+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Blocks.m"; sourceTree = "<group>"; };
 		84B601C8197AD03800DA1829 /* BCModalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCModalView.h; sourceTree = "<group>"; };
@@ -1034,7 +1008,6 @@
 		84FC02F91981452D00B97D5B /* NSString+JSONParser_NSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSONParser_NSString.m"; sourceTree = "<group>"; };
 		84FC02FB19815F1B00B97D5B /* crypto_scrypt-nosse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "crypto_scrypt-nosse.c"; path = "Library/keys/src/crypto_scrypt-nosse.c"; sourceTree = "<group>"; };
 		84FC02FC19815F1B00B97D5B /* sha256.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sha256.c; path = Library/keys/src/sha256.c; sourceTree = "<group>"; };
-		84FC02FF198162AE00B97D5B /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "Library/OpenSSL-for-iPhone/lib/libcrypto.a"; sourceTree = "<group>"; };
 		9F0CBAA8151351F400CD945D /* Wallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wallet.h; sourceTree = "<group>"; };
 		9F0CBAA9151351F400CD945D /* Wallet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wallet.m; sourceTree = "<group>"; };
 		9F0CBAD61513CA2600CD945D /* BCFadeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCFadeView.h; sourceTree = "<group>"; };
@@ -1060,12 +1033,9 @@
 		9F4A5091152F585E00F9ED9D /* UIDevice+Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Hardware.m"; sourceTree = "<group>"; };
 		9F61B89C151519EF0083C57A /* BCAddressSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCAddressSelectionView.h; sourceTree = "<group>"; };
 		9F61B89D151519EF0083C57A /* BCAddressSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCAddressSelectionView.m; sourceTree = "<group>"; };
-		9F7480C71514021000BC4292 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9F7480D21514030800BC4292 /* alert-received.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "alert-received.wav"; sourceTree = "<group>"; };
-		9F7480D41514041A00BC4292 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9F7480E115140EA500BC4292 /* TabViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabViewController.h; sourceTree = "<group>"; };
 		9F7480E215140EA500BC4292 /* TabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabViewController.m; sourceTree = "<group>"; };
-		9F749DFF1514F1EF00B3A8B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9F765F3014BC622E00048EFB /* TransactionsBitcoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransactionsBitcoinViewController.h; sourceTree = "<group>"; };
 		9F765F3114BC622E00048EFB /* TransactionsBitcoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransactionsBitcoinViewController.m; sourceTree = "<group>"; };
 		9F765F3714BC7BAC00048EFB /* TransactionTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransactionTableCell.h; sourceTree = "<group>"; };
@@ -1074,13 +1044,9 @@
 		9F765F3C14BC7C4F00048EFB /* Transaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Transaction.m; sourceTree = "<group>"; };
 		9F765F4514BC8AEF00048EFB /* MultiAddressResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiAddressResponse.h; sourceTree = "<group>"; };
 		9F765F4614BC8AEF00048EFB /* MultiAddressResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiAddressResponse.m; sourceTree = "<group>"; };
-		9F7DCCEA15345213000CBFC8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		9F7DCCEC15345245000CBFC8 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9F91B605151666EB00ACB32D /* BCCreateWalletView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCCreateWalletView.h; sourceTree = "<group>"; };
 		9F91B606151666EB00ACB32D /* BCCreateWalletView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCCreateWalletView.m; sourceTree = "<group>"; };
 		9FB3637114B60128004BEA02 /* Blockchain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blockchain.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9FB3637514B60128004BEA02 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		9FB3637714B60128004BEA02 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9FB3637D14B60128004BEA02 /* Blockchain-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Blockchain-Info.plist"; sourceTree = "<group>"; };
 		9FB3638114B60128004BEA02 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9FB3638314B60128004BEA02 /* Blockchain-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Blockchain-Prefix.pch"; sourceTree = "<group>"; };
@@ -1125,8 +1091,6 @@
 		C70FF5651E7B051C00AC7F8B /* ContactTransactionTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTransactionTableCell.xib; sourceTree = "<group>"; };
 		C71859451F3E227C00745A87 /* BCDescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCDescriptionView.h; sourceTree = "<group>"; };
 		C71859461F3E227C00745A87 /* BCDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCDescriptionView.m; sourceTree = "<group>"; };
-		C718594E1F460C8900745A87 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		C718594F1F460C8900745A87 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		C71859521F4B647100745A87 /* SendEtherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendEtherViewController.h; sourceTree = "<group>"; };
 		C71859531F4B647100745A87 /* SendEtherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendEtherViewController.m; sourceTree = "<group>"; };
 		C71859551F4B695700745A87 /* TabControllerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabControllerManager.h; sourceTree = "<group>"; };
@@ -1231,376 +1195,6 @@
 		C793E1FB1F8E7921001F171C /* ExchangeOverviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExchangeOverviewViewController.m; sourceTree = "<group>"; };
 		C79672821FDEF4CC00F07C69 /* NSDateFormatter+VerboseString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+VerboseString.h"; sourceTree = "<group>"; };
 		C79672831FDEF4CC00F07C69 /* NSDateFormatter+VerboseString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+VerboseString.m"; sourceTree = "<group>"; };
-		C79ABD841F852C030062726C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		C79ABD851F852C030062726C /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
-		C79ABD861F852C030062726C /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
-		C79ABD881F852C030062726C /* feature_graphic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feature_graphic.png; sourceTree = "<group>"; };
-		C79ABD891F852C030062726C /* feature_graphic.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = feature_graphic.psd; sourceTree = "<group>"; };
-		C79ABD8A1F852C030062726C /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
-		C79ABD8B1F852C030062726C /* Cartfile.private */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
-		C79ABD8C1F852C030062726C /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
-		C79ABD8D1F852C030062726C /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		C79ABD8E1F852C030062726C /* Charts.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Charts.podspec; sourceTree = "<group>"; };
-		C79ABD8F1F852C030062726C /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Charts.xcodeproj; sourceTree = "<group>"; };
-		C79ABD931F852C040062726C /* ChartsDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ChartsDemo.xcodeproj; sourceTree = "<group>"; };
-		C79ABD981F852C040062726C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		C79ABD991F852C040062726C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C79ABD9B1F852C040062726C /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
-		C79ABD9C1F852C040062726C /* RadarMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarMarkerView.swift; sourceTree = "<group>"; };
-		C79ABD9D1F852C040062726C /* RadarMarkerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RadarMarkerView.xib; sourceTree = "<group>"; };
-		C79ABD9E1F852C040062726C /* XYMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYMarkerView.swift; sourceTree = "<group>"; };
-		C79ABD9F1F852C040062726C /* DemoBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoBaseViewController.h; sourceTree = "<group>"; };
-		C79ABDA01F852C040062726C /* DemoBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoBaseViewController.m; sourceTree = "<group>"; };
-		C79ABDA11F852C040062726C /* DemoListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoListViewController.h; sourceTree = "<group>"; };
-		C79ABDA21F852C040062726C /* DemoListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoListViewController.m; sourceTree = "<group>"; };
-		C79ABDA31F852C040062726C /* DemoListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DemoListViewController.xib; sourceTree = "<group>"; };
-		C79ABDA51F852C040062726C /* AnotherBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnotherBarChartViewController.h; sourceTree = "<group>"; };
-		C79ABDA61F852C040062726C /* AnotherBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnotherBarChartViewController.m; sourceTree = "<group>"; };
-		C79ABDA71F852C040062726C /* AnotherBarChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnotherBarChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDA81F852C040062726C /* BarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BarChartViewController.h; sourceTree = "<group>"; };
-		C79ABDA91F852C040062726C /* BarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BarChartViewController.m; sourceTree = "<group>"; };
-		C79ABDAA1F852C040062726C /* BarChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BarChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDAB1F852C040062726C /* BubbleChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BubbleChartViewController.h; sourceTree = "<group>"; };
-		C79ABDAC1F852C040062726C /* BubbleChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleChartViewController.m; sourceTree = "<group>"; };
-		C79ABDAD1F852C040062726C /* BubbleChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BubbleChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDAE1F852C040062726C /* CandleStickChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CandleStickChartViewController.h; sourceTree = "<group>"; };
-		C79ABDAF1F852C040062726C /* CandleStickChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CandleStickChartViewController.m; sourceTree = "<group>"; };
-		C79ABDB01F852C040062726C /* CandleStickChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CandleStickChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDB11F852C040062726C /* ColoredLineChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColoredLineChartViewController.h; sourceTree = "<group>"; };
-		C79ABDB21F852C040062726C /* ColoredLineChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColoredLineChartViewController.m; sourceTree = "<group>"; };
-		C79ABDB31F852C040062726C /* ColoredLineChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColoredLineChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDB41F852C040062726C /* CombinedChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CombinedChartViewController.h; sourceTree = "<group>"; };
-		C79ABDB51F852C040062726C /* CombinedChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CombinedChartViewController.m; sourceTree = "<group>"; };
-		C79ABDB61F852C040062726C /* CombinedChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CombinedChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDB71F852C040062726C /* CubicLineChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CubicLineChartViewController.h; sourceTree = "<group>"; };
-		C79ABDB81F852C040062726C /* CubicLineChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CubicLineChartViewController.m; sourceTree = "<group>"; };
-		C79ABDB91F852C040062726C /* CubicLineChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CubicLineChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDBA1F852C040062726C /* HalfPieChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HalfPieChartViewController.h; sourceTree = "<group>"; };
-		C79ABDBB1F852C040062726C /* HalfPieChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HalfPieChartViewController.m; sourceTree = "<group>"; };
-		C79ABDBC1F852C040062726C /* HalfPieChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HalfPieChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDBD1F852C040062726C /* HorizontalBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HorizontalBarChartViewController.h; sourceTree = "<group>"; };
-		C79ABDBE1F852C040062726C /* HorizontalBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HorizontalBarChartViewController.m; sourceTree = "<group>"; };
-		C79ABDBF1F852C040062726C /* HorizontalBarChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HorizontalBarChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDC01F852C040062726C /* LineChart1ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineChart1ViewController.h; sourceTree = "<group>"; };
-		C79ABDC11F852C040062726C /* LineChart1ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LineChart1ViewController.m; sourceTree = "<group>"; };
-		C79ABDC21F852C040062726C /* LineChart1ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LineChart1ViewController.xib; sourceTree = "<group>"; };
-		C79ABDC31F852C040062726C /* LineChart2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineChart2ViewController.h; sourceTree = "<group>"; };
-		C79ABDC41F852C040062726C /* LineChart2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LineChart2ViewController.m; sourceTree = "<group>"; };
-		C79ABDC51F852C040062726C /* LineChart2ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LineChart2ViewController.xib; sourceTree = "<group>"; };
-		C79ABDC61F852C040062726C /* LineChartFilledViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineChartFilledViewController.h; sourceTree = "<group>"; };
-		C79ABDC71F852C040062726C /* LineChartFilledViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LineChartFilledViewController.m; sourceTree = "<group>"; };
-		C79ABDC81F852C040062726C /* LineChartFilledViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LineChartFilledViewController.xib; sourceTree = "<group>"; };
-		C79ABDC91F852C040062726C /* LineChartTimeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineChartTimeViewController.h; sourceTree = "<group>"; };
-		C79ABDCA1F852C040062726C /* LineChartTimeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LineChartTimeViewController.m; sourceTree = "<group>"; };
-		C79ABDCB1F852C040062726C /* LineChartTimeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LineChartTimeViewController.xib; sourceTree = "<group>"; };
-		C79ABDCC1F852C040062726C /* MultipleBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MultipleBarChartViewController.h; sourceTree = "<group>"; };
-		C79ABDCD1F852C040062726C /* MultipleBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultipleBarChartViewController.m; sourceTree = "<group>"; };
-		C79ABDCE1F852C040062726C /* MultipleBarChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MultipleBarChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDCF1F852C040062726C /* MultipleLinesChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MultipleLinesChartViewController.h; sourceTree = "<group>"; };
-		C79ABDD01F852C040062726C /* MultipleLinesChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultipleLinesChartViewController.m; sourceTree = "<group>"; };
-		C79ABDD11F852C040062726C /* MultipleLinesChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MultipleLinesChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDD21F852C040062726C /* NegativeStackedBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NegativeStackedBarChartViewController.h; sourceTree = "<group>"; };
-		C79ABDD31F852C040062726C /* NegativeStackedBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NegativeStackedBarChartViewController.m; sourceTree = "<group>"; };
-		C79ABDD41F852C040062726C /* NegativeStackedBarChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NegativeStackedBarChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDD51F852C040062726C /* PieChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PieChartViewController.h; sourceTree = "<group>"; };
-		C79ABDD61F852C040062726C /* PieChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PieChartViewController.m; sourceTree = "<group>"; };
-		C79ABDD71F852C040062726C /* PieChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PieChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDD81F852C040062726C /* PiePolylineChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiePolylineChartViewController.h; sourceTree = "<group>"; };
-		C79ABDD91F852C040062726C /* PiePolylineChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiePolylineChartViewController.m; sourceTree = "<group>"; };
-		C79ABDDA1F852C040062726C /* PiePolylineChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PiePolylineChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDDB1F852C040062726C /* PositiveNegativeBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PositiveNegativeBarChartViewController.h; sourceTree = "<group>"; };
-		C79ABDDC1F852C040062726C /* PositiveNegativeBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PositiveNegativeBarChartViewController.m; sourceTree = "<group>"; };
-		C79ABDDD1F852C040062726C /* PositiveNegativeBarChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PositiveNegativeBarChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDDE1F852C040062726C /* RadarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RadarChartViewController.h; sourceTree = "<group>"; };
-		C79ABDDF1F852C040062726C /* RadarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RadarChartViewController.m; sourceTree = "<group>"; };
-		C79ABDE01F852C040062726C /* RadarChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RadarChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDE11F852C040062726C /* ScatterChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScatterChartViewController.h; sourceTree = "<group>"; };
-		C79ABDE21F852C040062726C /* ScatterChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScatterChartViewController.m; sourceTree = "<group>"; };
-		C79ABDE31F852C040062726C /* ScatterChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScatterChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDE41F852C040062726C /* SinusBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SinusBarChartViewController.h; sourceTree = "<group>"; };
-		C79ABDE51F852C040062726C /* SinusBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SinusBarChartViewController.m; sourceTree = "<group>"; };
-		C79ABDE61F852C040062726C /* SinusBarChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SinusBarChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDE71F852C040062726C /* StackedBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StackedBarChartViewController.h; sourceTree = "<group>"; };
-		C79ABDE81F852C040062726C /* StackedBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StackedBarChartViewController.m; sourceTree = "<group>"; };
-		C79ABDE91F852C040062726C /* StackedBarChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StackedBarChartViewController.xib; sourceTree = "<group>"; };
-		C79ABDEB1F852C040062726C /* DateValueFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateValueFormatter.h; sourceTree = "<group>"; };
-		C79ABDEC1F852C040062726C /* DateValueFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateValueFormatter.m; sourceTree = "<group>"; };
-		C79ABDED1F852C040062726C /* DayAxisValueFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DayAxisValueFormatter.h; sourceTree = "<group>"; };
-		C79ABDEE1F852C040062726C /* DayAxisValueFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DayAxisValueFormatter.m; sourceTree = "<group>"; };
-		C79ABDEF1F852C040062726C /* IntAxisValueFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntAxisValueFormatter.h; sourceTree = "<group>"; };
-		C79ABDF01F852C040062726C /* IntAxisValueFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntAxisValueFormatter.m; sourceTree = "<group>"; };
-		C79ABDF11F852C040062726C /* LargeValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeValueFormatter.swift; sourceTree = "<group>"; };
-		C79ABDF21F852C040062726C /* RealmDemosViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RealmDemosViewController.h; sourceTree = "<group>"; };
-		C79ABDF31F852C040062726C /* RealmDemosViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RealmDemosViewController.m; sourceTree = "<group>"; };
-		C79ABDF41F852C040062726C /* RealmDemosViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RealmDemosViewController.xib; sourceTree = "<group>"; };
-		C79ABDF71F852C040062726C /* Icon-29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29@2x.png"; sourceTree = "<group>"; };
-		C79ABDF81F852C040062726C /* Icon-29@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29@3x.png"; sourceTree = "<group>"; };
-		C79ABDF91F852C040062726C /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@2x.png"; sourceTree = "<group>"; };
-		C79ABDFA1F852C040062726C /* Icon-40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@3x.png"; sourceTree = "<group>"; };
-		C79ABDFB1F852C040062726C /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
-		C79ABDFC1F852C040062726C /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
-		C79ABDFD1F852C040062726C /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
-		C79ABDFE1F852C040062726C /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
-		C79ABDFF1F852C040062726C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		C79ABE011F852C040062726C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		C79ABE021F852C040062726C /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
-		C79ABE031F852C040062726C /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
-		C79ABE041F852C040062726C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		C79ABE061F852C040062726C /* radar_marker@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radar_marker@3x.png"; sourceTree = "<group>"; };
-		C79ABE081F852C040062726C /* ChartsDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChartsDemo-Bridging-Header.h"; sourceTree = "<group>"; };
-		C79ABE091F852C040062726C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C79ABE0A1F852C040062726C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C79ABE0D1F852C040062726C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C79ABE0E1F852C040062726C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C79ABE101F852C040062726C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		C79ABE121F852C040062726C /* BarDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarDemoViewController.swift; sourceTree = "<group>"; };
-		C79ABE131F852C040062726C /* LineDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineDemoViewController.swift; sourceTree = "<group>"; };
-		C79ABE141F852C040062726C /* PieDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieDemoViewController.swift; sourceTree = "<group>"; };
-		C79ABE151F852C040062726C /* RadarDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarDemoViewController.swift; sourceTree = "<group>"; };
-		C79ABE161F852C040062726C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C79ABE171F852C040062726C /* ChartsDemo-OSX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "ChartsDemo-OSX.xcodeproj"; sourceTree = "<group>"; };
-		C79ABE1B1F852C040062726C /* PlaygroundChart.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = PlaygroundChart.playground; sourceTree = "<group>"; };
-		C79ABE1C1F852C040062726C /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
-		C79ABE1D1F852C040062726C /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
-		C79ABE1E1F852C040062726C /* Gemfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; };
-		C79ABE1F1F852C040062726C /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		C79ABE201F852C040062726C /* Rakefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rakefile; sourceTree = "<group>"; };
-		C79ABE211F852C040062726C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		C79ABE231F852C040062726C /* build-dependencies.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-dependencies.sh"; sourceTree = "<group>"; };
-		C79ABE241F852C040062726C /* copy-carthage-frameworks.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "copy-carthage-frameworks.sh"; sourceTree = "<group>"; };
-		C79ABE281F852C040062726C /* Animator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
-		C79ABE291F852C040062726C /* ChartAnimationEasing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartAnimationEasing.swift; sourceTree = "<group>"; };
-		C79ABE2B1F852C040062726C /* BarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
-		C79ABE2C1F852C040062726C /* BarLineChartViewBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarLineChartViewBase.swift; sourceTree = "<group>"; };
-		C79ABE2D1F852C040062726C /* BubbleChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleChartView.swift; sourceTree = "<group>"; };
-		C79ABE2E1F852C040062726C /* CandleStickChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartView.swift; sourceTree = "<group>"; };
-		C79ABE2F1F852C040062726C /* ChartViewBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewBase.swift; sourceTree = "<group>"; };
-		C79ABE301F852C040062726C /* CombinedChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedChartView.swift; sourceTree = "<group>"; };
-		C79ABE311F852C040062726C /* HorizontalBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBarChartView.swift; sourceTree = "<group>"; };
-		C79ABE321F852C040062726C /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
-		C79ABE331F852C040062726C /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
-		C79ABE341F852C040062726C /* PieRadarChartViewBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieRadarChartViewBase.swift; sourceTree = "<group>"; };
-		C79ABE351F852C040062726C /* RadarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarChartView.swift; sourceTree = "<group>"; };
-		C79ABE361F852C040062726C /* ScatterChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterChartView.swift; sourceTree = "<group>"; };
-		C79ABE381F852C040062726C /* AxisBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxisBase.swift; sourceTree = "<group>"; };
-		C79ABE391F852C040062726C /* ChartLimitLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartLimitLine.swift; sourceTree = "<group>"; };
-		C79ABE3A1F852C040062726C /* ComponentBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentBase.swift; sourceTree = "<group>"; };
-		C79ABE3B1F852C040062726C /* Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Description.swift; sourceTree = "<group>"; };
-		C79ABE3C1F852C040062726C /* IMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMarker.swift; sourceTree = "<group>"; };
-		C79ABE3D1F852C040062726C /* Legend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Legend.swift; sourceTree = "<group>"; };
-		C79ABE3E1F852C040062726C /* LegendEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendEntry.swift; sourceTree = "<group>"; };
-		C79ABE3F1F852C040062726C /* MarkerImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerImage.swift; sourceTree = "<group>"; };
-		C79ABE401F852C040062726C /* MarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerView.swift; sourceTree = "<group>"; };
-		C79ABE411F852C040062726C /* XAxis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XAxis.swift; sourceTree = "<group>"; };
-		C79ABE421F852C040062726C /* YAxis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YAxis.swift; sourceTree = "<group>"; };
-		C79ABE451F852C040062726C /* ChartBaseDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartBaseDataSet.swift; sourceTree = "<group>"; };
-		C79ABE471F852C040062726C /* BarChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartData.swift; sourceTree = "<group>"; };
-		C79ABE481F852C040062726C /* BarChartDataEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartDataEntry.swift; sourceTree = "<group>"; };
-		C79ABE491F852C040062726C /* BarChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE4A1F852C040062726C /* BarLineScatterCandleBubbleChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleChartData.swift; sourceTree = "<group>"; };
-		C79ABE4B1F852C040062726C /* BarLineScatterCandleBubbleChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE4C1F852C040062726C /* BubbleChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleChartData.swift; sourceTree = "<group>"; };
-		C79ABE4D1F852C040062726C /* BubbleChartDataEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleChartDataEntry.swift; sourceTree = "<group>"; };
-		C79ABE4E1F852C040062726C /* BubbleChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE4F1F852C040062726C /* CandleChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleChartData.swift; sourceTree = "<group>"; };
-		C79ABE501F852C040062726C /* CandleChartDataEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleChartDataEntry.swift; sourceTree = "<group>"; };
-		C79ABE511F852C040062726C /* CandleChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE521F852C040062726C /* ChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartData.swift; sourceTree = "<group>"; };
-		C79ABE531F852C040062726C /* ChartDataEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataEntry.swift; sourceTree = "<group>"; };
-		C79ABE541F852C040062726C /* ChartDataEntryBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataEntryBase.swift; sourceTree = "<group>"; };
-		C79ABE551F852C040062726C /* ChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE561F852C040062726C /* CombinedChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedChartData.swift; sourceTree = "<group>"; };
-		C79ABE571F852C040062726C /* LineChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartData.swift; sourceTree = "<group>"; };
-		C79ABE581F852C040062726C /* LineChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE591F852C040062726C /* LineRadarChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineRadarChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE5A1F852C040062726C /* LineScatterCandleRadarChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineScatterCandleRadarChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE5B1F852C040062726C /* PieChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartData.swift; sourceTree = "<group>"; };
-		C79ABE5C1F852C040062726C /* PieChartDataEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartDataEntry.swift; sourceTree = "<group>"; };
-		C79ABE5D1F852C040062726C /* PieChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE5E1F852C040062726C /* RadarChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarChartData.swift; sourceTree = "<group>"; };
-		C79ABE5F1F852C040062726C /* RadarChartDataEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarChartDataEntry.swift; sourceTree = "<group>"; };
-		C79ABE601F852C040062726C /* RadarChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE611F852C040062726C /* ScatterChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterChartData.swift; sourceTree = "<group>"; };
-		C79ABE621F852C040062726C /* ScatterChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE641F852C040062726C /* IBarChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBarChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE651F852C040062726C /* IBarLineScatterCandleBubbleChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBarLineScatterCandleBubbleChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE661F852C040062726C /* IBubbleChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBubbleChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE671F852C040062726C /* ICandleChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICandleChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE681F852C040062726C /* IChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE691F852C040062726C /* ILineChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ILineChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE6A1F852C040062726C /* ILineRadarChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ILineRadarChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE6B1F852C040062726C /* ILineScatterCandleRadarChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ILineScatterCandleRadarChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE6C1F852C040062726C /* IPieChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPieChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE6D1F852C040062726C /* IRadarChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRadarChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE6E1F852C040062726C /* IScatterChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IScatterChartDataSet.swift; sourceTree = "<group>"; };
-		C79ABE701F852C040062726C /* DataApproximator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataApproximator.swift; sourceTree = "<group>"; };
-		C79ABE721F852C040062726C /* DefaultAxisValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAxisValueFormatter.swift; sourceTree = "<group>"; };
-		C79ABE731F852C040062726C /* DefaultFillFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFillFormatter.swift; sourceTree = "<group>"; };
-		C79ABE741F852C040062726C /* DefaultValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultValueFormatter.swift; sourceTree = "<group>"; };
-		C79ABE751F852C040062726C /* IAxisValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAxisValueFormatter.swift; sourceTree = "<group>"; };
-		C79ABE761F852C040062726C /* IFillFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IFillFormatter.swift; sourceTree = "<group>"; };
-		C79ABE771F852C040062726C /* IndexAxisValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexAxisValueFormatter.swift; sourceTree = "<group>"; };
-		C79ABE781F852C040062726C /* IValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IValueFormatter.swift; sourceTree = "<group>"; };
-		C79ABE7A1F852C040062726C /* BarHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarHighlighter.swift; sourceTree = "<group>"; };
-		C79ABE7B1F852C040062726C /* ChartHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartHighlighter.swift; sourceTree = "<group>"; };
-		C79ABE7C1F852C040062726C /* CombinedHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedHighlighter.swift; sourceTree = "<group>"; };
-		C79ABE7D1F852C040062726C /* Highlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highlight.swift; sourceTree = "<group>"; };
-		C79ABE7E1F852C040062726C /* HorizontalBarHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBarHighlighter.swift; sourceTree = "<group>"; };
-		C79ABE7F1F852C040062726C /* IHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IHighlighter.swift; sourceTree = "<group>"; };
-		C79ABE801F852C040062726C /* PieHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieHighlighter.swift; sourceTree = "<group>"; };
-		C79ABE811F852C040062726C /* PieRadarHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieRadarHighlighter.swift; sourceTree = "<group>"; };
-		C79ABE821F852C040062726C /* RadarHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarHighlighter.swift; sourceTree = "<group>"; };
-		C79ABE831F852C040062726C /* Range.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
-		C79ABE851F852C040062726C /* BarChartDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartDataProvider.swift; sourceTree = "<group>"; };
-		C79ABE861F852C040062726C /* BarLineScatterCandleBubbleChartDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleChartDataProvider.swift; sourceTree = "<group>"; };
-		C79ABE871F852C040062726C /* BubbleChartDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleChartDataProvider.swift; sourceTree = "<group>"; };
-		C79ABE881F852C040062726C /* CandleChartDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleChartDataProvider.swift; sourceTree = "<group>"; };
-		C79ABE891F852C040062726C /* ChartDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataProvider.swift; sourceTree = "<group>"; };
-		C79ABE8A1F852C040062726C /* CombinedChartDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedChartDataProvider.swift; sourceTree = "<group>"; };
-		C79ABE8B1F852C040062726C /* LineChartDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartDataProvider.swift; sourceTree = "<group>"; };
-		C79ABE8C1F852C040062726C /* ScatterChartDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterChartDataProvider.swift; sourceTree = "<group>"; };
-		C79ABE8E1F852C040062726C /* AnimatedMoveViewJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedMoveViewJob.swift; sourceTree = "<group>"; };
-		C79ABE8F1F852C040062726C /* AnimatedViewPortJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedViewPortJob.swift; sourceTree = "<group>"; };
-		C79ABE901F852C040062726C /* AnimatedZoomViewJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedZoomViewJob.swift; sourceTree = "<group>"; };
-		C79ABE911F852C040062726C /* MoveViewJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveViewJob.swift; sourceTree = "<group>"; };
-		C79ABE921F852C040062726C /* ViewPortJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPortJob.swift; sourceTree = "<group>"; };
-		C79ABE931F852C040062726C /* ZoomViewJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomViewJob.swift; sourceTree = "<group>"; };
-		C79ABE951F852C040062726C /* AxisRendererBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxisRendererBase.swift; sourceTree = "<group>"; };
-		C79ABE961F852C040062726C /* BarChartRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartRenderer.swift; sourceTree = "<group>"; };
-		C79ABE971F852C040062726C /* BarLineScatterCandleBubbleRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleRenderer.swift; sourceTree = "<group>"; };
-		C79ABE981F852C040062726C /* BubbleChartRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleChartRenderer.swift; sourceTree = "<group>"; };
-		C79ABE991F852C040062726C /* CandleStickChartRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartRenderer.swift; sourceTree = "<group>"; };
-		C79ABE9A1F852C040062726C /* ChartDataRendererBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataRendererBase.swift; sourceTree = "<group>"; };
-		C79ABE9B1F852C040062726C /* CombinedChartRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedChartRenderer.swift; sourceTree = "<group>"; };
-		C79ABE9C1F852C040062726C /* HorizontalBarChartRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBarChartRenderer.swift; sourceTree = "<group>"; };
-		C79ABE9D1F852C040062726C /* LegendRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendRenderer.swift; sourceTree = "<group>"; };
-		C79ABE9E1F852C040062726C /* LineChartRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartRenderer.swift; sourceTree = "<group>"; };
-		C79ABE9F1F852C040062726C /* LineRadarRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineRadarRenderer.swift; sourceTree = "<group>"; };
-		C79ABEA01F852C040062726C /* LineScatterCandleRadarRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineScatterCandleRadarRenderer.swift; sourceTree = "<group>"; };
-		C79ABEA11F852C040062726C /* PieChartRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartRenderer.swift; sourceTree = "<group>"; };
-		C79ABEA21F852C040062726C /* RadarChartRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarChartRenderer.swift; sourceTree = "<group>"; };
-		C79ABEA31F852C040062726C /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
-		C79ABEA51F852C040062726C /* ChevronDownShapeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChevronDownShapeRenderer.swift; sourceTree = "<group>"; };
-		C79ABEA61F852C040062726C /* ChevronUpShapeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChevronUpShapeRenderer.swift; sourceTree = "<group>"; };
-		C79ABEA71F852C040062726C /* CircleShapeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleShapeRenderer.swift; sourceTree = "<group>"; };
-		C79ABEA81F852C040062726C /* CrossShapeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossShapeRenderer.swift; sourceTree = "<group>"; };
-		C79ABEA91F852C040062726C /* IShapeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IShapeRenderer.swift; sourceTree = "<group>"; };
-		C79ABEAA1F852C040062726C /* SquareShapeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareShapeRenderer.swift; sourceTree = "<group>"; };
-		C79ABEAB1F852C040062726C /* TriangleShapeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleShapeRenderer.swift; sourceTree = "<group>"; };
-		C79ABEAC1F852C040062726C /* XShapeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XShapeRenderer.swift; sourceTree = "<group>"; };
-		C79ABEAD1F852C040062726C /* ScatterChartRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterChartRenderer.swift; sourceTree = "<group>"; };
-		C79ABEAE1F852C040062726C /* XAxisRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XAxisRenderer.swift; sourceTree = "<group>"; };
-		C79ABEAF1F852C040062726C /* XAxisRendererHorizontalBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XAxisRendererHorizontalBarChart.swift; sourceTree = "<group>"; };
-		C79ABEB01F852C040062726C /* XAxisRendererRadarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XAxisRendererRadarChart.swift; sourceTree = "<group>"; };
-		C79ABEB11F852C040062726C /* YAxisRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YAxisRenderer.swift; sourceTree = "<group>"; };
-		C79ABEB21F852C040062726C /* YAxisRendererHorizontalBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YAxisRendererHorizontalBarChart.swift; sourceTree = "<group>"; };
-		C79ABEB31F852C040062726C /* YAxisRendererRadarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YAxisRendererRadarChart.swift; sourceTree = "<group>"; };
-		C79ABEB51F852C040062726C /* ChartColorTemplates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartColorTemplates.swift; sourceTree = "<group>"; };
-		C79ABEB61F852C040062726C /* ChartUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartUtils.swift; sourceTree = "<group>"; };
-		C79ABEB71F852C040062726C /* Fill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fill.swift; sourceTree = "<group>"; };
-		C79ABEB81F852C040062726C /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
-		C79ABEB91F852C040062726C /* Transformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
-		C79ABEBA1F852C040062726C /* TransformerHorizontalBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformerHorizontalBarChart.swift; sourceTree = "<group>"; };
-		C79ABEBB1F852C040062726C /* ViewPortHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPortHandler.swift; sourceTree = "<group>"; };
-		C79ABEBD1F852C040062726C /* Charts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Charts.h; sourceTree = "<group>"; };
-		C79ABEBE1F852C040062726C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C79ABEC11F852C040062726C /* BarChartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartTests.swift; sourceTree = "<group>"; };
-		C79ABEC21F852C040062726C /* ChartUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartUtilsTests.swift; sourceTree = "<group>"; };
-		C79ABEC31F852C040062726C /* LineChartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartTests.swift; sourceTree = "<group>"; };
-		C79ABEC41F852C040062726C /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
-		C79ABEC71F852C040062726C /* testDefaultValues_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDefaultValues_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEC81F852C040062726C /* testDefaultValues_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDefaultValues_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEC91F852C040062726C /* testDefaultValues_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDefaultValues_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABECA1F852C040062726C /* testDefaultValues_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDefaultValues_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABECB1F852C040062726C /* testDefaultValues_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDefaultValues_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABECC1F852C040062726C /* testDefaultValues_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDefaultValues_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABECD1F852C040062726C /* testDefaultValues_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testDefaultValues_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABECE1F852C040062726C /* testDrawIcons_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDrawIcons_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABECF1F852C040062726C /* testDrawIcons_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDrawIcons_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABED01F852C040062726C /* testDrawIcons_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDrawIcons_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABED11F852C040062726C /* testDrawIcons_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDrawIcons_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABED21F852C040062726C /* testDrawIcons_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDrawIcons_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABED31F852C040062726C /* testDrawIcons_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDrawIcons_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABED41F852C040062726C /* testDrawIcons_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testDrawIcons_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABED51F852C040062726C /* testHideHorizontalGridlines_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideHorizontalGridlines_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABED61F852C040062726C /* testHideHorizontalGridlines_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideHorizontalGridlines_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABED71F852C040062726C /* testHideHorizontalGridlines_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideHorizontalGridlines_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABED81F852C040062726C /* testHideHorizontalGridlines_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideHorizontalGridlines_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABED91F852C040062726C /* testHideHorizontalGridlines_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideHorizontalGridlines_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEDA1F852C040062726C /* testHideHorizontalGridlines_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideHorizontalGridlines_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEDB1F852C040062726C /* testHideHorizontalGridlines_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testHideHorizontalGridlines_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABEDC1F852C040062726C /* testHideLeftAxis_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideLeftAxis_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEDD1F852C040062726C /* testHideLeftAxis_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideLeftAxis_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEDE1F852C040062726C /* testHideLeftAxis_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideLeftAxis_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEDF1F852C040062726C /* testHideLeftAxis_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideLeftAxis_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABEE01F852C040062726C /* testHideLeftAxis_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideLeftAxis_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEE11F852C040062726C /* testHideLeftAxis_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideLeftAxis_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEE21F852C040062726C /* testHideLeftAxis_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testHideLeftAxis_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABEE31F852C040062726C /* testHideRightAxis_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideRightAxis_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEE41F852C040062726C /* testHideRightAxis_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideRightAxis_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEE51F852C040062726C /* testHideRightAxis_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideRightAxis_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEE61F852C040062726C /* testHideRightAxis_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideRightAxis_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABEE71F852C040062726C /* testHideRightAxis_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideRightAxis_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEE81F852C040062726C /* testHideRightAxis_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideRightAxis_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEE91F852C040062726C /* testHideRightAxis_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testHideRightAxis_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABEEA1F852C040062726C /* testHidesValues_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHidesValues_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEEB1F852C040062726C /* testHidesValues_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHidesValues_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEEC1F852C040062726C /* testHidesValues_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHidesValues_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEED1F852C040062726C /* testHidesValues_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHidesValues_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABEEE1F852C040062726C /* testHidesValues_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHidesValues_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEEF1F852C040062726C /* testHidesValues_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHidesValues_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEF01F852C040062726C /* testHidesValues_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testHidesValues_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABEF11F852C040062726C /* testHideVerticalGridlines_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideVerticalGridlines_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEF21F852C040062726C /* testHideVerticalGridlines_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideVerticalGridlines_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEF31F852C040062726C /* testHideVerticalGridlines_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideVerticalGridlines_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEF41F852C040062726C /* testHideVerticalGridlines_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideVerticalGridlines_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABEF51F852C040062726C /* testHideVerticalGridlines_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideVerticalGridlines_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEF61F852C040062726C /* testHideVerticalGridlines_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHideVerticalGridlines_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEF71F852C040062726C /* testHideVerticalGridlines_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testHideVerticalGridlines_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABEF91F852C040062726C /* testDefaultValues_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDefaultValues_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEFA1F852C040062726C /* testDefaultValues_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDefaultValues_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEFB1F852C040062726C /* testDefaultValues_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDefaultValues_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEFC1F852C040062726C /* testDefaultValues_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDefaultValues_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABEFD1F852C040062726C /* testDefaultValues_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDefaultValues_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEFE1F852C040062726C /* testDefaultValues_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDefaultValues_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABEFF1F852C040062726C /* testDefaultValues_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testDefaultValues_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABF001F852C040062726C /* testDoesntDrawCircleHole_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDoesntDrawCircleHole_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF011F852C040062726C /* testDoesntDrawCircleHole_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDoesntDrawCircleHole_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF021F852C040062726C /* testDoesntDrawCircleHole_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDoesntDrawCircleHole_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF031F852C040062726C /* testDoesntDrawCircleHole_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDoesntDrawCircleHole_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABF041F852C040062726C /* testDoesntDrawCircleHole_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDoesntDrawCircleHole_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF051F852C040062726C /* testDoesntDrawCircleHole_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDoesntDrawCircleHole_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF061F852C040062726C /* testDoesntDrawCircleHole_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testDoesntDrawCircleHole_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABF071F852C040062726C /* testDoesntDrawCircles_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDoesntDrawCircles_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF081F852C040062726C /* testDoesntDrawCircles_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDoesntDrawCircles_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF091F852C040062726C /* testDoesntDrawCircles_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDoesntDrawCircles_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF0A1F852C040062726C /* testDoesntDrawCircles_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDoesntDrawCircles_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABF0B1F852C040062726C /* testDoesntDrawCircles_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDoesntDrawCircles_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF0C1F852C040062726C /* testDoesntDrawCircles_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDoesntDrawCircles_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF0D1F852C040062726C /* testDoesntDrawCircles_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testDoesntDrawCircles_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABF0E1F852C040062726C /* testDrawIcons_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDrawIcons_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF0F1F852C040062726C /* testDrawIcons_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDrawIcons_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF101F852C040062726C /* testDrawIcons_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDrawIcons_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF111F852C040062726C /* testDrawIcons_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDrawIcons_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABF121F852C040062726C /* testDrawIcons_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDrawIcons_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF131F852C040062726C /* testDrawIcons_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testDrawIcons_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF141F852C040062726C /* testDrawIcons_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testDrawIcons_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABF151F852C040062726C /* testHidesValues_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHidesValues_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF161F852C040062726C /* testHidesValues_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHidesValues_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF171F852C040062726C /* testHidesValues_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHidesValues_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF181F852C040062726C /* testHidesValues_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHidesValues_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABF191F852C040062726C /* testHidesValues_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHidesValues_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF1A1F852C040062726C /* testHidesValues_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testHidesValues_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF1B1F852C040062726C /* testHidesValues_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testHidesValues_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABF1C1F852C040062726C /* testIsCubic_iOS_1024.0_1366.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testIsCubic_iOS_1024.0_1366.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF1D1F852C040062726C /* testIsCubic_iOS_320.0_568.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testIsCubic_iOS_320.0_568.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF1E1F852C040062726C /* testIsCubic_iOS_375.0_667.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testIsCubic_iOS_375.0_667.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF1F1F852C040062726C /* testIsCubic_iOS_414.0_736.0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testIsCubic_iOS_414.0_736.0@3x.png"; sourceTree = "<group>"; };
-		C79ABF201F852C040062726C /* testIsCubic_iOS_768.0_1024.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testIsCubic_iOS_768.0_1024.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF211F852C040062726C /* testIsCubic_iOS_834.0_1112.0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testIsCubic_iOS_834.0_1112.0@2x.png"; sourceTree = "<group>"; };
-		C79ABF221F852C040062726C /* testIsCubic_tvOS_1920.0_1080.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testIsCubic_tvOS_1920.0_1080.0.png; sourceTree = "<group>"; };
-		C79ABF241F852C040062726C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C79ABF251F852C040062726C /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		C79EEFC01E898E380087DDCD /* WalletSetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WalletSetupViewController.h; sourceTree = "<group>"; };
 		C79EEFC11E898E380087DDCD /* WalletSetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WalletSetupViewController.m; sourceTree = "<group>"; };
 		C7A0E90D1FA796EC004F4267 /* BCChartMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCChartMarkerView.swift; sourceTree = "<group>"; };
@@ -1675,7 +1269,6 @@
 		FA63233D1A433DEB00EB3974 /* MerchantMapView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MerchantMapView.xib; sourceTree = "<group>"; };
 		FA63233F1A446B0C00EB3974 /* MerchantLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantLocation.h; sourceTree = "<group>"; };
 		FA6323401A446B0C00EB3974 /* MerchantLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantLocation.m; sourceTree = "<group>"; };
-		FA6323421A44758700EB3974 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		FACF694E1A570AEF00590E04 /* MerchantDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MerchantDetailView.xib; sourceTree = "<group>"; };
 		FACF69501A57164B00590E04 /* MerchantMapDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantMapDetailViewController.h; sourceTree = "<group>"; };
 		FACF69511A57164B00590E04 /* MerchantMapDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantMapDetailViewController.m; sourceTree = "<group>"; };
@@ -1697,27 +1290,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C79ABF321F852C2B0062726C /* Charts.framework in Frameworks */,
-				23C543A31D0F4197007A5F58 /* libicucore.tbd in Frameworks */,
-				23C543A11D0F415C007A5F58 /* CFNetwork.framework in Frameworks */,
-				C7A923E41F852DC7003D9DAF /* Charts.framework in Frameworks */,
-				C71859511F460C8900745A87 /* Crashlytics.framework in Frameworks */,
-				67812A7D1A4A0E6800B04EBF /* CoreImage.framework in Frameworks */,
-				67812A791A4A0E1800B04EBF /* QuartzCore.framework in Frameworks */,
-				67812A771A4A0DDA00B04EBF /* CoreGraphics.framework in Frameworks */,
-				C71859501F460C8900745A87 /* Fabric.framework in Frameworks */,
-				FA6323431A44758700EB3974 /* MapKit.framework in Frameworks */,
-				673107EF19F6BAF200BE6899 /* AVFoundation.framework in Frameworks */,
-				220348AC19A4D60000611AC3 /* Social.framework in Frameworks */,
-				220348AA19A4D5FA00611AC3 /* Twitter.framework in Frameworks */,
-				84AEEC661987C49A000E8DC8 /* CoreLocation.framework in Frameworks */,
-				84FC0301198162AE00B97D5B /* libcrypto.a in Frameworks */,
-				9F7DCCED15345245000CBFC8 /* MessageUI.framework in Frameworks */,
-				9F7DCCEB15345213000CBFC8 /* Security.framework in Frameworks */,
-				9F7480D51514041B00BC4292 /* AudioToolbox.framework in Frameworks */,
-				9F7480CB1514022200BC4292 /* SystemConfiguration.framework in Frameworks */,
-				9FB3637614B60128004BEA02 /* UIKit.framework in Frameworks */,
-				9FB3637814B60128004BEA02 /* Foundation.framework in Frameworks */,
+				5149BD03205718ED00DC88A0 /* Crashlytics.framework in Frameworks */,
+				515315F32056C1A0000161DF /* libcrypto.a in Frameworks */,
+				5164E4D220584D2800FC706A /* Charts.framework in Frameworks */,
+				515315F12056C0EE000161DF /* libicucore.tbd in Frameworks */,
+				513468002056BC6700DE6A1E /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1877,6 +1454,26 @@
 				515902352049AF5000A4C2D8 /* Info.plist */,
 			);
 			path = WalletTests;
+			sourceTree = "<group>";
+		};
+		5164E4CA20584D0700FC706A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5164E4CF20584D0700FC706A /* Charts.framework */,
+				5164E4D120584D0700FC706A /* ChartsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		516594A4204F1A3B00C50E78 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				516594A5204F1A7400C50E78 /* Development.xcconfig */,
+				516594A9204F1E1000C50E78 /* Testnet.xcconfig */,
+				516594A7204F1DE600C50E78 /* Staging.xcconfig */,
+				516594A6204F1C0400C50E78 /* Production.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		670595A11AB0F59D00D2D6D9 /* KeychainItemWrapper */ = {
@@ -2093,10 +1690,11 @@
 		9FB3636614B60128004BEA02 = {
 			isa = PBXGroup;
 			children = (
+				516594A4204F1A3B00C50E78 /* Config */,
 				9FB3637B14B60128004BEA02 /* Blockchain */,
 				515902322049AF5000A4C2D8 /* WalletTests */,
-				9FB3637414B60128004BEA02 /* Frameworks */,
 				9FB3637214B60128004BEA02 /* Products */,
+				9FB3637414B60128004BEA02 /* Frameworks */,
 				C9D4B2AE193E020D00EDA9EA /* Third Party */,
 			);
 			sourceTree = "<group>";
@@ -2113,25 +1711,10 @@
 		9FB3637414B60128004BEA02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				515315F22056C1A0000161DF /* libcrypto.a */,
+				513467FF2056BC6700DE6A1E /* Crashlytics.framework */,
+				513467FE2056BC6600DE6A1E /* Fabric.framework */,
 				23C543A21D0F4197007A5F58 /* libicucore.tbd */,
-				C718594E1F460C8900745A87 /* Fabric.framework */,
-				C718594F1F460C8900745A87 /* Crashlytics.framework */,
-				23C543A01D0F415C007A5F58 /* CFNetwork.framework */,
-				67812A7C1A4A0E6800B04EBF /* CoreImage.framework */,
-				67812A781A4A0E1800B04EBF /* QuartzCore.framework */,
-				67812A761A4A0DDA00B04EBF /* CoreGraphics.framework */,
-				9F7480D41514041A00BC4292 /* AudioToolbox.framework */,
-				9F749DFF1514F1EF00B3A8B8 /* AVFoundation.framework */,
-				FA6323421A44758700EB3974 /* MapKit.framework */,
-				84AEEC651987C49A000E8DC8 /* CoreLocation.framework */,
-				9FB3637714B60128004BEA02 /* Foundation.framework */,
-				84FC02FF198162AE00B97D5B /* libcrypto.a */,
-				9F7DCCEC15345245000CBFC8 /* MessageUI.framework */,
-				9F7DCCEA15345213000CBFC8 /* Security.framework */,
-				220348AB19A4D60000611AC3 /* Social.framework */,
-				9F7480C71514021000BC4292 /* SystemConfiguration.framework */,
-				220348A919A4D5FA00611AC3 /* Twitter.framework */,
-				9FB3637514B60128004BEA02 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2142,6 +1725,7 @@
 				C790E0F21E4913F00063D141 /* Blockchain.entitlements */,
 				9FB3638414B60128004BEA02 /* AppDelegate.h */,
 				9FB3638514B60128004BEA02 /* AppDelegate.m */,
+				5164E4D62059734800FC706A /* Config.swift */,
 				67D95A271B3DDC900012EBB1 /* Constants.swift */,
 				84F4BDF8197F21D700B7BF7B /* PairingCodeParser.h */,
 				84F4BDF9197F21D700B7BF7B /* PairingCodeParser.m */,
@@ -2327,721 +1911,6 @@
 			name = Montserrat;
 			sourceTree = "<group>";
 		};
-		C79ABD831F852C030062726C /* Charts */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABD841F852C030062726C /* .gitignore */,
-				C79ABD851F852C030062726C /* .swift-version */,
-				C79ABD861F852C030062726C /* .travis.yml */,
-				C79ABD871F852C030062726C /* Assets */,
-				C79ABD8A1F852C030062726C /* Cartfile */,
-				C79ABD8B1F852C030062726C /* Cartfile.private */,
-				C79ABD8C1F852C030062726C /* Cartfile.resolved */,
-				C79ABD8D1F852C030062726C /* CHANGELOG.md */,
-				C79ABD8E1F852C030062726C /* Charts.podspec */,
-				C79ABD8F1F852C030062726C /* Charts.xcodeproj */,
-				C79ABD921F852C040062726C /* ChartsDemo */,
-				C79ABE0B1F852C040062726C /* ChartsDemo-OSX */,
-				C79ABE1C1F852C040062726C /* CONTRIBUTING.md */,
-				C79ABE1D1F852C040062726C /* Gemfile */,
-				C79ABE1E1F852C040062726C /* Gemfile.lock */,
-				C79ABE1F1F852C040062726C /* LICENSE */,
-				C79ABE201F852C040062726C /* Rakefile */,
-				C79ABE211F852C040062726C /* README.md */,
-				C79ABE221F852C040062726C /* scripts */,
-				C79ABE251F852C040062726C /* Source */,
-				C79ABEBF1F852C040062726C /* Tests */,
-			);
-			name = Charts;
-			path = Submodules/Charts;
-			sourceTree = "<group>";
-		};
-		C79ABD871F852C030062726C /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABD881F852C030062726C /* feature_graphic.png */,
-				C79ABD891F852C030062726C /* feature_graphic.psd */,
-			);
-			path = Assets;
-			sourceTree = "<group>";
-		};
-		C79ABD901F852C030062726C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABF291F852C040062726C /* Charts.framework */,
-				C79ABF2B1F852C040062726C /* ChartsTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C79ABD921F852C040062726C /* ChartsDemo */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABD931F852C040062726C /* ChartsDemo.xcodeproj */,
-				C79ABD971F852C040062726C /* Classes */,
-				C79ABDF51F852C040062726C /* Resources */,
-				C79ABE071F852C040062726C /* Supporting Files */,
-			);
-			path = ChartsDemo;
-			sourceTree = "<group>";
-		};
-		C79ABD941F852C040062726C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABF311F852C040062726C /* ChartsDemo.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C79ABD971F852C040062726C /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABD981F852C040062726C /* AppDelegate.h */,
-				C79ABD991F852C040062726C /* AppDelegate.m */,
-				C79ABD9A1F852C040062726C /* Components */,
-				C79ABD9F1F852C040062726C /* DemoBaseViewController.h */,
-				C79ABDA01F852C040062726C /* DemoBaseViewController.m */,
-				C79ABDA11F852C040062726C /* DemoListViewController.h */,
-				C79ABDA21F852C040062726C /* DemoListViewController.m */,
-				C79ABDA31F852C040062726C /* DemoListViewController.xib */,
-				C79ABDA41F852C040062726C /* Demos */,
-				C79ABDEA1F852C040062726C /* Formatters */,
-				C79ABDF21F852C040062726C /* RealmDemosViewController.h */,
-				C79ABDF31F852C040062726C /* RealmDemosViewController.m */,
-				C79ABDF41F852C040062726C /* RealmDemosViewController.xib */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		C79ABD9A1F852C040062726C /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABD9B1F852C040062726C /* BalloonMarker.swift */,
-				C79ABD9C1F852C040062726C /* RadarMarkerView.swift */,
-				C79ABD9D1F852C040062726C /* RadarMarkerView.xib */,
-				C79ABD9E1F852C040062726C /* XYMarkerView.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		C79ABDA41F852C040062726C /* Demos */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABDA51F852C040062726C /* AnotherBarChartViewController.h */,
-				C79ABDA61F852C040062726C /* AnotherBarChartViewController.m */,
-				C79ABDA71F852C040062726C /* AnotherBarChartViewController.xib */,
-				C79ABDA81F852C040062726C /* BarChartViewController.h */,
-				C79ABDA91F852C040062726C /* BarChartViewController.m */,
-				C79ABDAA1F852C040062726C /* BarChartViewController.xib */,
-				C79ABDAB1F852C040062726C /* BubbleChartViewController.h */,
-				C79ABDAC1F852C040062726C /* BubbleChartViewController.m */,
-				C79ABDAD1F852C040062726C /* BubbleChartViewController.xib */,
-				C79ABDAE1F852C040062726C /* CandleStickChartViewController.h */,
-				C79ABDAF1F852C040062726C /* CandleStickChartViewController.m */,
-				C79ABDB01F852C040062726C /* CandleStickChartViewController.xib */,
-				C79ABDB11F852C040062726C /* ColoredLineChartViewController.h */,
-				C79ABDB21F852C040062726C /* ColoredLineChartViewController.m */,
-				C79ABDB31F852C040062726C /* ColoredLineChartViewController.xib */,
-				C79ABDB41F852C040062726C /* CombinedChartViewController.h */,
-				C79ABDB51F852C040062726C /* CombinedChartViewController.m */,
-				C79ABDB61F852C040062726C /* CombinedChartViewController.xib */,
-				C79ABDB71F852C040062726C /* CubicLineChartViewController.h */,
-				C79ABDB81F852C040062726C /* CubicLineChartViewController.m */,
-				C79ABDB91F852C040062726C /* CubicLineChartViewController.xib */,
-				C79ABDBA1F852C040062726C /* HalfPieChartViewController.h */,
-				C79ABDBB1F852C040062726C /* HalfPieChartViewController.m */,
-				C79ABDBC1F852C040062726C /* HalfPieChartViewController.xib */,
-				C79ABDBD1F852C040062726C /* HorizontalBarChartViewController.h */,
-				C79ABDBE1F852C040062726C /* HorizontalBarChartViewController.m */,
-				C79ABDBF1F852C040062726C /* HorizontalBarChartViewController.xib */,
-				C79ABDC01F852C040062726C /* LineChart1ViewController.h */,
-				C79ABDC11F852C040062726C /* LineChart1ViewController.m */,
-				C79ABDC21F852C040062726C /* LineChart1ViewController.xib */,
-				C79ABDC31F852C040062726C /* LineChart2ViewController.h */,
-				C79ABDC41F852C040062726C /* LineChart2ViewController.m */,
-				C79ABDC51F852C040062726C /* LineChart2ViewController.xib */,
-				C79ABDC61F852C040062726C /* LineChartFilledViewController.h */,
-				C79ABDC71F852C040062726C /* LineChartFilledViewController.m */,
-				C79ABDC81F852C040062726C /* LineChartFilledViewController.xib */,
-				C79ABDC91F852C040062726C /* LineChartTimeViewController.h */,
-				C79ABDCA1F852C040062726C /* LineChartTimeViewController.m */,
-				C79ABDCB1F852C040062726C /* LineChartTimeViewController.xib */,
-				C79ABDCC1F852C040062726C /* MultipleBarChartViewController.h */,
-				C79ABDCD1F852C040062726C /* MultipleBarChartViewController.m */,
-				C79ABDCE1F852C040062726C /* MultipleBarChartViewController.xib */,
-				C79ABDCF1F852C040062726C /* MultipleLinesChartViewController.h */,
-				C79ABDD01F852C040062726C /* MultipleLinesChartViewController.m */,
-				C79ABDD11F852C040062726C /* MultipleLinesChartViewController.xib */,
-				C79ABDD21F852C040062726C /* NegativeStackedBarChartViewController.h */,
-				C79ABDD31F852C040062726C /* NegativeStackedBarChartViewController.m */,
-				C79ABDD41F852C040062726C /* NegativeStackedBarChartViewController.xib */,
-				C79ABDD51F852C040062726C /* PieChartViewController.h */,
-				C79ABDD61F852C040062726C /* PieChartViewController.m */,
-				C79ABDD71F852C040062726C /* PieChartViewController.xib */,
-				C79ABDD81F852C040062726C /* PiePolylineChartViewController.h */,
-				C79ABDD91F852C040062726C /* PiePolylineChartViewController.m */,
-				C79ABDDA1F852C040062726C /* PiePolylineChartViewController.xib */,
-				C79ABDDB1F852C040062726C /* PositiveNegativeBarChartViewController.h */,
-				C79ABDDC1F852C040062726C /* PositiveNegativeBarChartViewController.m */,
-				C79ABDDD1F852C040062726C /* PositiveNegativeBarChartViewController.xib */,
-				C79ABDDE1F852C040062726C /* RadarChartViewController.h */,
-				C79ABDDF1F852C040062726C /* RadarChartViewController.m */,
-				C79ABDE01F852C040062726C /* RadarChartViewController.xib */,
-				C79ABDE11F852C040062726C /* ScatterChartViewController.h */,
-				C79ABDE21F852C040062726C /* ScatterChartViewController.m */,
-				C79ABDE31F852C040062726C /* ScatterChartViewController.xib */,
-				C79ABDE41F852C040062726C /* SinusBarChartViewController.h */,
-				C79ABDE51F852C040062726C /* SinusBarChartViewController.m */,
-				C79ABDE61F852C040062726C /* SinusBarChartViewController.xib */,
-				C79ABDE71F852C040062726C /* StackedBarChartViewController.h */,
-				C79ABDE81F852C040062726C /* StackedBarChartViewController.m */,
-				C79ABDE91F852C040062726C /* StackedBarChartViewController.xib */,
-			);
-			path = Demos;
-			sourceTree = "<group>";
-		};
-		C79ABDEA1F852C040062726C /* Formatters */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABDEB1F852C040062726C /* DateValueFormatter.h */,
-				C79ABDEC1F852C040062726C /* DateValueFormatter.m */,
-				C79ABDED1F852C040062726C /* DayAxisValueFormatter.h */,
-				C79ABDEE1F852C040062726C /* DayAxisValueFormatter.m */,
-				C79ABDEF1F852C040062726C /* IntAxisValueFormatter.h */,
-				C79ABDF01F852C040062726C /* IntAxisValueFormatter.m */,
-				C79ABDF11F852C040062726C /* LargeValueFormatter.swift */,
-			);
-			path = Formatters;
-			sourceTree = "<group>";
-		};
-		C79ABDF51F852C040062726C /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABDF61F852C040062726C /* app-icon */,
-				C79ABDFF1F852C040062726C /* Images.xcassets */,
-				C79ABE001F852C040062726C /* launch-image */,
-				C79ABE051F852C040062726C /* markers */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		C79ABDF61F852C040062726C /* app-icon */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABDF71F852C040062726C /* Icon-29@2x.png */,
-				C79ABDF81F852C040062726C /* Icon-29@3x.png */,
-				C79ABDF91F852C040062726C /* Icon-40@2x.png */,
-				C79ABDFA1F852C040062726C /* Icon-40@3x.png */,
-				C79ABDFB1F852C040062726C /* Icon-60@2x.png */,
-				C79ABDFC1F852C040062726C /* Icon-60@3x.png */,
-				C79ABDFD1F852C040062726C /* iTunesArtwork */,
-				C79ABDFE1F852C040062726C /* iTunesArtwork@2x */,
-			);
-			path = "app-icon";
-			sourceTree = "<group>";
-		};
-		C79ABE001F852C040062726C /* launch-image */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE011F852C040062726C /* Default-568h@2x.png */,
-				C79ABE021F852C040062726C /* Default-667h@2x.png */,
-				C79ABE031F852C040062726C /* Default-736h@3x.png */,
-				C79ABE041F852C040062726C /* Default@2x.png */,
-			);
-			path = "launch-image";
-			sourceTree = "<group>";
-		};
-		C79ABE051F852C040062726C /* markers */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE061F852C040062726C /* radar_marker@3x.png */,
-			);
-			path = markers;
-			sourceTree = "<group>";
-		};
-		C79ABE071F852C040062726C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE081F852C040062726C /* ChartsDemo-Bridging-Header.h */,
-				C79ABE091F852C040062726C /* Info.plist */,
-				C79ABE0A1F852C040062726C /* main.m */,
-			);
-			path = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		C79ABE0B1F852C040062726C /* ChartsDemo-OSX */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE0C1F852C040062726C /* ChartsDemo-OSX */,
-				C79ABE171F852C040062726C /* ChartsDemo-OSX.xcodeproj */,
-				C79ABE1B1F852C040062726C /* PlaygroundChart.playground */,
-			);
-			path = "ChartsDemo-OSX";
-			sourceTree = "<group>";
-		};
-		C79ABE0C1F852C040062726C /* ChartsDemo-OSX */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE0D1F852C040062726C /* AppDelegate.swift */,
-				C79ABE0E1F852C040062726C /* Assets.xcassets */,
-				C79ABE0F1F852C040062726C /* Main.storyboard */,
-				C79ABE111F852C040062726C /* Demos */,
-				C79ABE161F852C040062726C /* Info.plist */,
-			);
-			path = "ChartsDemo-OSX";
-			sourceTree = "<group>";
-		};
-		C79ABE111F852C040062726C /* Demos */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE121F852C040062726C /* BarDemoViewController.swift */,
-				C79ABE131F852C040062726C /* LineDemoViewController.swift */,
-				C79ABE141F852C040062726C /* PieDemoViewController.swift */,
-				C79ABE151F852C040062726C /* RadarDemoViewController.swift */,
-			);
-			path = Demos;
-			sourceTree = "<group>";
-		};
-		C79ABE181F852C040062726C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABF2E1F852C040062726C /* ChartsDemo-OSX.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C79ABE221F852C040062726C /* scripts */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE231F852C040062726C /* build-dependencies.sh */,
-				C79ABE241F852C040062726C /* copy-carthage-frameworks.sh */,
-			);
-			path = scripts;
-			sourceTree = "<group>";
-		};
-		C79ABE251F852C040062726C /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE261F852C040062726C /* Charts */,
-				C79ABEBC1F852C040062726C /* Supporting Files */,
-			);
-			path = Source;
-			sourceTree = "<group>";
-		};
-		C79ABE261F852C040062726C /* Charts */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE271F852C040062726C /* Animation */,
-				C79ABE2A1F852C040062726C /* Charts */,
-				C79ABE371F852C040062726C /* Components */,
-				C79ABE431F852C040062726C /* Data */,
-				C79ABE6F1F852C040062726C /* Filters */,
-				C79ABE711F852C040062726C /* Formatters */,
-				C79ABE791F852C040062726C /* Highlight */,
-				C79ABE841F852C040062726C /* Interfaces */,
-				C79ABE8D1F852C040062726C /* Jobs */,
-				C79ABE941F852C040062726C /* Renderers */,
-				C79ABEB41F852C040062726C /* Utils */,
-			);
-			path = Charts;
-			sourceTree = "<group>";
-		};
-		C79ABE271F852C040062726C /* Animation */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE281F852C040062726C /* Animator.swift */,
-				C79ABE291F852C040062726C /* ChartAnimationEasing.swift */,
-			);
-			path = Animation;
-			sourceTree = "<group>";
-		};
-		C79ABE2A1F852C040062726C /* Charts */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE2B1F852C040062726C /* BarChartView.swift */,
-				C79ABE2C1F852C040062726C /* BarLineChartViewBase.swift */,
-				C79ABE2D1F852C040062726C /* BubbleChartView.swift */,
-				C79ABE2E1F852C040062726C /* CandleStickChartView.swift */,
-				C79ABE2F1F852C040062726C /* ChartViewBase.swift */,
-				C79ABE301F852C040062726C /* CombinedChartView.swift */,
-				C79ABE311F852C040062726C /* HorizontalBarChartView.swift */,
-				C79ABE321F852C040062726C /* LineChartView.swift */,
-				C79ABE331F852C040062726C /* PieChartView.swift */,
-				C79ABE341F852C040062726C /* PieRadarChartViewBase.swift */,
-				C79ABE351F852C040062726C /* RadarChartView.swift */,
-				C79ABE361F852C040062726C /* ScatterChartView.swift */,
-			);
-			path = Charts;
-			sourceTree = "<group>";
-		};
-		C79ABE371F852C040062726C /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE381F852C040062726C /* AxisBase.swift */,
-				C79ABE391F852C040062726C /* ChartLimitLine.swift */,
-				C79ABE3A1F852C040062726C /* ComponentBase.swift */,
-				C79ABE3B1F852C040062726C /* Description.swift */,
-				C79ABE3C1F852C040062726C /* IMarker.swift */,
-				C79ABE3D1F852C040062726C /* Legend.swift */,
-				C79ABE3E1F852C040062726C /* LegendEntry.swift */,
-				C79ABE3F1F852C040062726C /* MarkerImage.swift */,
-				C79ABE401F852C040062726C /* MarkerView.swift */,
-				C79ABE411F852C040062726C /* XAxis.swift */,
-				C79ABE421F852C040062726C /* YAxis.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		C79ABE431F852C040062726C /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE441F852C040062726C /* Implementations */,
-				C79ABE631F852C040062726C /* Interfaces */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
-		C79ABE441F852C040062726C /* Implementations */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE451F852C040062726C /* ChartBaseDataSet.swift */,
-				C79ABE461F852C040062726C /* Standard */,
-			);
-			path = Implementations;
-			sourceTree = "<group>";
-		};
-		C79ABE461F852C040062726C /* Standard */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE471F852C040062726C /* BarChartData.swift */,
-				C79ABE481F852C040062726C /* BarChartDataEntry.swift */,
-				C79ABE491F852C040062726C /* BarChartDataSet.swift */,
-				C79ABE4A1F852C040062726C /* BarLineScatterCandleBubbleChartData.swift */,
-				C79ABE4B1F852C040062726C /* BarLineScatterCandleBubbleChartDataSet.swift */,
-				C79ABE4C1F852C040062726C /* BubbleChartData.swift */,
-				C79ABE4D1F852C040062726C /* BubbleChartDataEntry.swift */,
-				C79ABE4E1F852C040062726C /* BubbleChartDataSet.swift */,
-				C79ABE4F1F852C040062726C /* CandleChartData.swift */,
-				C79ABE501F852C040062726C /* CandleChartDataEntry.swift */,
-				C79ABE511F852C040062726C /* CandleChartDataSet.swift */,
-				C79ABE521F852C040062726C /* ChartData.swift */,
-				C79ABE531F852C040062726C /* ChartDataEntry.swift */,
-				C79ABE541F852C040062726C /* ChartDataEntryBase.swift */,
-				C79ABE551F852C040062726C /* ChartDataSet.swift */,
-				C79ABE561F852C040062726C /* CombinedChartData.swift */,
-				C79ABE571F852C040062726C /* LineChartData.swift */,
-				C79ABE581F852C040062726C /* LineChartDataSet.swift */,
-				C79ABE591F852C040062726C /* LineRadarChartDataSet.swift */,
-				C79ABE5A1F852C040062726C /* LineScatterCandleRadarChartDataSet.swift */,
-				C79ABE5B1F852C040062726C /* PieChartData.swift */,
-				C79ABE5C1F852C040062726C /* PieChartDataEntry.swift */,
-				C79ABE5D1F852C040062726C /* PieChartDataSet.swift */,
-				C79ABE5E1F852C040062726C /* RadarChartData.swift */,
-				C79ABE5F1F852C040062726C /* RadarChartDataEntry.swift */,
-				C79ABE601F852C040062726C /* RadarChartDataSet.swift */,
-				C79ABE611F852C040062726C /* ScatterChartData.swift */,
-				C79ABE621F852C040062726C /* ScatterChartDataSet.swift */,
-			);
-			path = Standard;
-			sourceTree = "<group>";
-		};
-		C79ABE631F852C040062726C /* Interfaces */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE641F852C040062726C /* IBarChartDataSet.swift */,
-				C79ABE651F852C040062726C /* IBarLineScatterCandleBubbleChartDataSet.swift */,
-				C79ABE661F852C040062726C /* IBubbleChartDataSet.swift */,
-				C79ABE671F852C040062726C /* ICandleChartDataSet.swift */,
-				C79ABE681F852C040062726C /* IChartDataSet.swift */,
-				C79ABE691F852C040062726C /* ILineChartDataSet.swift */,
-				C79ABE6A1F852C040062726C /* ILineRadarChartDataSet.swift */,
-				C79ABE6B1F852C040062726C /* ILineScatterCandleRadarChartDataSet.swift */,
-				C79ABE6C1F852C040062726C /* IPieChartDataSet.swift */,
-				C79ABE6D1F852C040062726C /* IRadarChartDataSet.swift */,
-				C79ABE6E1F852C040062726C /* IScatterChartDataSet.swift */,
-			);
-			path = Interfaces;
-			sourceTree = "<group>";
-		};
-		C79ABE6F1F852C040062726C /* Filters */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE701F852C040062726C /* DataApproximator.swift */,
-			);
-			path = Filters;
-			sourceTree = "<group>";
-		};
-		C79ABE711F852C040062726C /* Formatters */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE721F852C040062726C /* DefaultAxisValueFormatter.swift */,
-				C79ABE731F852C040062726C /* DefaultFillFormatter.swift */,
-				C79ABE741F852C040062726C /* DefaultValueFormatter.swift */,
-				C79ABE751F852C040062726C /* IAxisValueFormatter.swift */,
-				C79ABE761F852C040062726C /* IFillFormatter.swift */,
-				C79ABE771F852C040062726C /* IndexAxisValueFormatter.swift */,
-				C79ABE781F852C040062726C /* IValueFormatter.swift */,
-			);
-			path = Formatters;
-			sourceTree = "<group>";
-		};
-		C79ABE791F852C040062726C /* Highlight */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE7A1F852C040062726C /* BarHighlighter.swift */,
-				C79ABE7B1F852C040062726C /* ChartHighlighter.swift */,
-				C79ABE7C1F852C040062726C /* CombinedHighlighter.swift */,
-				C79ABE7D1F852C040062726C /* Highlight.swift */,
-				C79ABE7E1F852C040062726C /* HorizontalBarHighlighter.swift */,
-				C79ABE7F1F852C040062726C /* IHighlighter.swift */,
-				C79ABE801F852C040062726C /* PieHighlighter.swift */,
-				C79ABE811F852C040062726C /* PieRadarHighlighter.swift */,
-				C79ABE821F852C040062726C /* RadarHighlighter.swift */,
-				C79ABE831F852C040062726C /* Range.swift */,
-			);
-			path = Highlight;
-			sourceTree = "<group>";
-		};
-		C79ABE841F852C040062726C /* Interfaces */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE851F852C040062726C /* BarChartDataProvider.swift */,
-				C79ABE861F852C040062726C /* BarLineScatterCandleBubbleChartDataProvider.swift */,
-				C79ABE871F852C040062726C /* BubbleChartDataProvider.swift */,
-				C79ABE881F852C040062726C /* CandleChartDataProvider.swift */,
-				C79ABE891F852C040062726C /* ChartDataProvider.swift */,
-				C79ABE8A1F852C040062726C /* CombinedChartDataProvider.swift */,
-				C79ABE8B1F852C040062726C /* LineChartDataProvider.swift */,
-				C79ABE8C1F852C040062726C /* ScatterChartDataProvider.swift */,
-			);
-			path = Interfaces;
-			sourceTree = "<group>";
-		};
-		C79ABE8D1F852C040062726C /* Jobs */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE8E1F852C040062726C /* AnimatedMoveViewJob.swift */,
-				C79ABE8F1F852C040062726C /* AnimatedViewPortJob.swift */,
-				C79ABE901F852C040062726C /* AnimatedZoomViewJob.swift */,
-				C79ABE911F852C040062726C /* MoveViewJob.swift */,
-				C79ABE921F852C040062726C /* ViewPortJob.swift */,
-				C79ABE931F852C040062726C /* ZoomViewJob.swift */,
-			);
-			path = Jobs;
-			sourceTree = "<group>";
-		};
-		C79ABE941F852C040062726C /* Renderers */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABE951F852C040062726C /* AxisRendererBase.swift */,
-				C79ABE961F852C040062726C /* BarChartRenderer.swift */,
-				C79ABE971F852C040062726C /* BarLineScatterCandleBubbleRenderer.swift */,
-				C79ABE981F852C040062726C /* BubbleChartRenderer.swift */,
-				C79ABE991F852C040062726C /* CandleStickChartRenderer.swift */,
-				C79ABE9A1F852C040062726C /* ChartDataRendererBase.swift */,
-				C79ABE9B1F852C040062726C /* CombinedChartRenderer.swift */,
-				C79ABE9C1F852C040062726C /* HorizontalBarChartRenderer.swift */,
-				C79ABE9D1F852C040062726C /* LegendRenderer.swift */,
-				C79ABE9E1F852C040062726C /* LineChartRenderer.swift */,
-				C79ABE9F1F852C040062726C /* LineRadarRenderer.swift */,
-				C79ABEA01F852C040062726C /* LineScatterCandleRadarRenderer.swift */,
-				C79ABEA11F852C040062726C /* PieChartRenderer.swift */,
-				C79ABEA21F852C040062726C /* RadarChartRenderer.swift */,
-				C79ABEA31F852C040062726C /* Renderer.swift */,
-				C79ABEA41F852C040062726C /* Scatter */,
-				C79ABEAD1F852C040062726C /* ScatterChartRenderer.swift */,
-				C79ABEAE1F852C040062726C /* XAxisRenderer.swift */,
-				C79ABEAF1F852C040062726C /* XAxisRendererHorizontalBarChart.swift */,
-				C79ABEB01F852C040062726C /* XAxisRendererRadarChart.swift */,
-				C79ABEB11F852C040062726C /* YAxisRenderer.swift */,
-				C79ABEB21F852C040062726C /* YAxisRendererHorizontalBarChart.swift */,
-				C79ABEB31F852C040062726C /* YAxisRendererRadarChart.swift */,
-			);
-			path = Renderers;
-			sourceTree = "<group>";
-		};
-		C79ABEA41F852C040062726C /* Scatter */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABEA51F852C040062726C /* ChevronDownShapeRenderer.swift */,
-				C79ABEA61F852C040062726C /* ChevronUpShapeRenderer.swift */,
-				C79ABEA71F852C040062726C /* CircleShapeRenderer.swift */,
-				C79ABEA81F852C040062726C /* CrossShapeRenderer.swift */,
-				C79ABEA91F852C040062726C /* IShapeRenderer.swift */,
-				C79ABEAA1F852C040062726C /* SquareShapeRenderer.swift */,
-				C79ABEAB1F852C040062726C /* TriangleShapeRenderer.swift */,
-				C79ABEAC1F852C040062726C /* XShapeRenderer.swift */,
-			);
-			path = Scatter;
-			sourceTree = "<group>";
-		};
-		C79ABEB41F852C040062726C /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABEB51F852C040062726C /* ChartColorTemplates.swift */,
-				C79ABEB61F852C040062726C /* ChartUtils.swift */,
-				C79ABEB71F852C040062726C /* Fill.swift */,
-				C79ABEB81F852C040062726C /* Platform.swift */,
-				C79ABEB91F852C040062726C /* Transformer.swift */,
-				C79ABEBA1F852C040062726C /* TransformerHorizontalBarChart.swift */,
-				C79ABEBB1F852C040062726C /* ViewPortHandler.swift */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		C79ABEBC1F852C040062726C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABEBD1F852C040062726C /* Charts.h */,
-				C79ABEBE1F852C040062726C /* Info.plist */,
-			);
-			path = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		C79ABEBF1F852C040062726C /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABEC01F852C040062726C /* Charts */,
-				C79ABEC51F852C040062726C /* ReferenceImages_64 */,
-				C79ABF231F852C040062726C /* Supporting Files */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		C79ABEC01F852C040062726C /* Charts */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABEC11F852C040062726C /* BarChartTests.swift */,
-				C79ABEC21F852C040062726C /* ChartUtilsTests.swift */,
-				C79ABEC31F852C040062726C /* LineChartTests.swift */,
-				C79ABEC41F852C040062726C /* Snapshot.swift */,
-			);
-			path = Charts;
-			sourceTree = "<group>";
-		};
-		C79ABEC51F852C040062726C /* ReferenceImages_64 */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABEC61F852C040062726C /* ChartsTests.BarChartTests */,
-				C79ABEF81F852C040062726C /* ChartsTests.LineChartTests */,
-			);
-			path = ReferenceImages_64;
-			sourceTree = "<group>";
-		};
-		C79ABEC61F852C040062726C /* ChartsTests.BarChartTests */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABEC71F852C040062726C /* testDefaultValues_iOS_1024.0_1366.0@2x.png */,
-				C79ABEC81F852C040062726C /* testDefaultValues_iOS_320.0_568.0@2x.png */,
-				C79ABEC91F852C040062726C /* testDefaultValues_iOS_375.0_667.0@2x.png */,
-				C79ABECA1F852C040062726C /* testDefaultValues_iOS_414.0_736.0@3x.png */,
-				C79ABECB1F852C040062726C /* testDefaultValues_iOS_768.0_1024.0@2x.png */,
-				C79ABECC1F852C040062726C /* testDefaultValues_iOS_834.0_1112.0@2x.png */,
-				C79ABECD1F852C040062726C /* testDefaultValues_tvOS_1920.0_1080.0.png */,
-				C79ABECE1F852C040062726C /* testDrawIcons_iOS_1024.0_1366.0@2x.png */,
-				C79ABECF1F852C040062726C /* testDrawIcons_iOS_320.0_568.0@2x.png */,
-				C79ABED01F852C040062726C /* testDrawIcons_iOS_375.0_667.0@2x.png */,
-				C79ABED11F852C040062726C /* testDrawIcons_iOS_414.0_736.0@3x.png */,
-				C79ABED21F852C040062726C /* testDrawIcons_iOS_768.0_1024.0@2x.png */,
-				C79ABED31F852C040062726C /* testDrawIcons_iOS_834.0_1112.0@2x.png */,
-				C79ABED41F852C040062726C /* testDrawIcons_tvOS_1920.0_1080.0.png */,
-				C79ABED51F852C040062726C /* testHideHorizontalGridlines_iOS_1024.0_1366.0@2x.png */,
-				C79ABED61F852C040062726C /* testHideHorizontalGridlines_iOS_320.0_568.0@2x.png */,
-				C79ABED71F852C040062726C /* testHideHorizontalGridlines_iOS_375.0_667.0@2x.png */,
-				C79ABED81F852C040062726C /* testHideHorizontalGridlines_iOS_414.0_736.0@3x.png */,
-				C79ABED91F852C040062726C /* testHideHorizontalGridlines_iOS_768.0_1024.0@2x.png */,
-				C79ABEDA1F852C040062726C /* testHideHorizontalGridlines_iOS_834.0_1112.0@2x.png */,
-				C79ABEDB1F852C040062726C /* testHideHorizontalGridlines_tvOS_1920.0_1080.0.png */,
-				C79ABEDC1F852C040062726C /* testHideLeftAxis_iOS_1024.0_1366.0@2x.png */,
-				C79ABEDD1F852C040062726C /* testHideLeftAxis_iOS_320.0_568.0@2x.png */,
-				C79ABEDE1F852C040062726C /* testHideLeftAxis_iOS_375.0_667.0@2x.png */,
-				C79ABEDF1F852C040062726C /* testHideLeftAxis_iOS_414.0_736.0@3x.png */,
-				C79ABEE01F852C040062726C /* testHideLeftAxis_iOS_768.0_1024.0@2x.png */,
-				C79ABEE11F852C040062726C /* testHideLeftAxis_iOS_834.0_1112.0@2x.png */,
-				C79ABEE21F852C040062726C /* testHideLeftAxis_tvOS_1920.0_1080.0.png */,
-				C79ABEE31F852C040062726C /* testHideRightAxis_iOS_1024.0_1366.0@2x.png */,
-				C79ABEE41F852C040062726C /* testHideRightAxis_iOS_320.0_568.0@2x.png */,
-				C79ABEE51F852C040062726C /* testHideRightAxis_iOS_375.0_667.0@2x.png */,
-				C79ABEE61F852C040062726C /* testHideRightAxis_iOS_414.0_736.0@3x.png */,
-				C79ABEE71F852C040062726C /* testHideRightAxis_iOS_768.0_1024.0@2x.png */,
-				C79ABEE81F852C040062726C /* testHideRightAxis_iOS_834.0_1112.0@2x.png */,
-				C79ABEE91F852C040062726C /* testHideRightAxis_tvOS_1920.0_1080.0.png */,
-				C79ABEEA1F852C040062726C /* testHidesValues_iOS_1024.0_1366.0@2x.png */,
-				C79ABEEB1F852C040062726C /* testHidesValues_iOS_320.0_568.0@2x.png */,
-				C79ABEEC1F852C040062726C /* testHidesValues_iOS_375.0_667.0@2x.png */,
-				C79ABEED1F852C040062726C /* testHidesValues_iOS_414.0_736.0@3x.png */,
-				C79ABEEE1F852C040062726C /* testHidesValues_iOS_768.0_1024.0@2x.png */,
-				C79ABEEF1F852C040062726C /* testHidesValues_iOS_834.0_1112.0@2x.png */,
-				C79ABEF01F852C040062726C /* testHidesValues_tvOS_1920.0_1080.0.png */,
-				C79ABEF11F852C040062726C /* testHideVerticalGridlines_iOS_1024.0_1366.0@2x.png */,
-				C79ABEF21F852C040062726C /* testHideVerticalGridlines_iOS_320.0_568.0@2x.png */,
-				C79ABEF31F852C040062726C /* testHideVerticalGridlines_iOS_375.0_667.0@2x.png */,
-				C79ABEF41F852C040062726C /* testHideVerticalGridlines_iOS_414.0_736.0@3x.png */,
-				C79ABEF51F852C040062726C /* testHideVerticalGridlines_iOS_768.0_1024.0@2x.png */,
-				C79ABEF61F852C040062726C /* testHideVerticalGridlines_iOS_834.0_1112.0@2x.png */,
-				C79ABEF71F852C040062726C /* testHideVerticalGridlines_tvOS_1920.0_1080.0.png */,
-			);
-			path = ChartsTests.BarChartTests;
-			sourceTree = "<group>";
-		};
-		C79ABEF81F852C040062726C /* ChartsTests.LineChartTests */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABEF91F852C040062726C /* testDefaultValues_iOS_1024.0_1366.0@2x.png */,
-				C79ABEFA1F852C040062726C /* testDefaultValues_iOS_320.0_568.0@2x.png */,
-				C79ABEFB1F852C040062726C /* testDefaultValues_iOS_375.0_667.0@2x.png */,
-				C79ABEFC1F852C040062726C /* testDefaultValues_iOS_414.0_736.0@3x.png */,
-				C79ABEFD1F852C040062726C /* testDefaultValues_iOS_768.0_1024.0@2x.png */,
-				C79ABEFE1F852C040062726C /* testDefaultValues_iOS_834.0_1112.0@2x.png */,
-				C79ABEFF1F852C040062726C /* testDefaultValues_tvOS_1920.0_1080.0.png */,
-				C79ABF001F852C040062726C /* testDoesntDrawCircleHole_iOS_1024.0_1366.0@2x.png */,
-				C79ABF011F852C040062726C /* testDoesntDrawCircleHole_iOS_320.0_568.0@2x.png */,
-				C79ABF021F852C040062726C /* testDoesntDrawCircleHole_iOS_375.0_667.0@2x.png */,
-				C79ABF031F852C040062726C /* testDoesntDrawCircleHole_iOS_414.0_736.0@3x.png */,
-				C79ABF041F852C040062726C /* testDoesntDrawCircleHole_iOS_768.0_1024.0@2x.png */,
-				C79ABF051F852C040062726C /* testDoesntDrawCircleHole_iOS_834.0_1112.0@2x.png */,
-				C79ABF061F852C040062726C /* testDoesntDrawCircleHole_tvOS_1920.0_1080.0.png */,
-				C79ABF071F852C040062726C /* testDoesntDrawCircles_iOS_1024.0_1366.0@2x.png */,
-				C79ABF081F852C040062726C /* testDoesntDrawCircles_iOS_320.0_568.0@2x.png */,
-				C79ABF091F852C040062726C /* testDoesntDrawCircles_iOS_375.0_667.0@2x.png */,
-				C79ABF0A1F852C040062726C /* testDoesntDrawCircles_iOS_414.0_736.0@3x.png */,
-				C79ABF0B1F852C040062726C /* testDoesntDrawCircles_iOS_768.0_1024.0@2x.png */,
-				C79ABF0C1F852C040062726C /* testDoesntDrawCircles_iOS_834.0_1112.0@2x.png */,
-				C79ABF0D1F852C040062726C /* testDoesntDrawCircles_tvOS_1920.0_1080.0.png */,
-				C79ABF0E1F852C040062726C /* testDrawIcons_iOS_1024.0_1366.0@2x.png */,
-				C79ABF0F1F852C040062726C /* testDrawIcons_iOS_320.0_568.0@2x.png */,
-				C79ABF101F852C040062726C /* testDrawIcons_iOS_375.0_667.0@2x.png */,
-				C79ABF111F852C040062726C /* testDrawIcons_iOS_414.0_736.0@3x.png */,
-				C79ABF121F852C040062726C /* testDrawIcons_iOS_768.0_1024.0@2x.png */,
-				C79ABF131F852C040062726C /* testDrawIcons_iOS_834.0_1112.0@2x.png */,
-				C79ABF141F852C040062726C /* testDrawIcons_tvOS_1920.0_1080.0.png */,
-				C79ABF151F852C040062726C /* testHidesValues_iOS_1024.0_1366.0@2x.png */,
-				C79ABF161F852C040062726C /* testHidesValues_iOS_320.0_568.0@2x.png */,
-				C79ABF171F852C040062726C /* testHidesValues_iOS_375.0_667.0@2x.png */,
-				C79ABF181F852C040062726C /* testHidesValues_iOS_414.0_736.0@3x.png */,
-				C79ABF191F852C040062726C /* testHidesValues_iOS_768.0_1024.0@2x.png */,
-				C79ABF1A1F852C040062726C /* testHidesValues_iOS_834.0_1112.0@2x.png */,
-				C79ABF1B1F852C040062726C /* testHidesValues_tvOS_1920.0_1080.0.png */,
-				C79ABF1C1F852C040062726C /* testIsCubic_iOS_1024.0_1366.0@2x.png */,
-				C79ABF1D1F852C040062726C /* testIsCubic_iOS_320.0_568.0@2x.png */,
-				C79ABF1E1F852C040062726C /* testIsCubic_iOS_375.0_667.0@2x.png */,
-				C79ABF1F1F852C040062726C /* testIsCubic_iOS_414.0_736.0@3x.png */,
-				C79ABF201F852C040062726C /* testIsCubic_iOS_768.0_1024.0@2x.png */,
-				C79ABF211F852C040062726C /* testIsCubic_iOS_834.0_1112.0@2x.png */,
-				C79ABF221F852C040062726C /* testIsCubic_tvOS_1920.0_1080.0.png */,
-			);
-			path = ChartsTests.LineChartTests;
-			sourceTree = "<group>";
-		};
-		C79ABF231F852C040062726C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C79ABF241F852C040062726C /* Info.plist */,
-				C79ABF251F852C040062726C /* Media.xcassets */,
-			);
-			path = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		C9B32CF9194F3F5800BDF3A0 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -3113,7 +1982,7 @@
 		C9D4B2AE193E020D00EDA9EA /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
-				C79ABD831F852C030062726C /* Charts */,
+				5164E4C920584D0700FC706A /* Charts.xcodeproj */,
 				23444F7B1DCD210B00573C8C /* CoreBitcoin */,
 				2322DC811D771831000E5AC1 /* SocketRocket */,
 				670595A11AB0F59D00D2D6D9 /* KeychainItemWrapper */,
@@ -3298,14 +2167,14 @@
 				23321D781BB072AB0005624F /* Update, Clean, Build My-Wallet-V3 */,
 				23321D7B1BB084320005624F /* Build Image Assets from PSDs */,
 				23FDEFA31D6E22C900FC80D6 /* Get SSL Certificate */,
-				C718594D1F460C4A00745A87 /* Run Fabric */,
 				9FB3636F14B60128004BEA02 /* Resources */,
-				C7A923EA1F852DC7003D9DAF /* Embed Frameworks */,
+				5149BD072057192900DC88A0 /* Embed Frameworks */,
+				C718594D1F460C4A00745A87 /* Run Fabric */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C7A923E71F852DC7003D9DAF /* PBXTargetDependency */,
+				5164E4D520584D2800FC706A /* PBXTargetDependency */,
 			);
 			name = Blockchain;
 			productName = Blockchain;
@@ -3396,16 +2265,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = C79ABD901F852C030062726C /* Products */;
-					ProjectRef = C79ABD8F1F852C030062726C /* Charts.xcodeproj */;
-				},
-				{
-					ProductGroup = C79ABE181F852C040062726C /* Products */;
-					ProjectRef = C79ABE171F852C040062726C /* ChartsDemo-OSX.xcodeproj */;
-				},
-				{
-					ProductGroup = C79ABD941F852C040062726C /* Products */;
-					ProjectRef = C79ABD931F852C040062726C /* ChartsDemo.xcodeproj */;
+					ProductGroup = 5164E4CA20584D0700FC706A /* Products */;
+					ProjectRef = 5164E4C920584D0700FC706A /* Charts.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -3417,32 +2278,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		C79ABF291F852C040062726C /* Charts.framework */ = {
+		5164E4CF20584D0700FC706A /* Charts.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Charts.framework;
-			remoteRef = C79ABF281F852C040062726C /* PBXContainerItemProxy */;
+			remoteRef = 5164E4CE20584D0700FC706A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C79ABF2B1F852C040062726C /* ChartsTests.xctest */ = {
+		5164E4D120584D0700FC706A /* ChartsTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ChartsTests.xctest;
-			remoteRef = C79ABF2A1F852C040062726C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C79ABF2E1F852C040062726C /* ChartsDemo-OSX.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "ChartsDemo-OSX.app";
-			remoteRef = C79ABF2D1F852C040062726C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C79ABF311F852C040062726C /* ChartsDemo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = ChartsDemo.app;
-			remoteRef = C79ABF301F852C040062726C /* PBXContainerItemProxy */;
+			remoteRef = 5164E4D020584D0700FC706A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -3593,7 +2440,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 697b88bc5b5646cd6ac3aebf86e525ff14c51426 5363de5bd3f55e431daa7e96f98e3c71eb89a36580e67612a5d5dd9a9a948aee";
+			shellScript = "if [ -f ./Config/fabric-secret.sh ]; then\n    source ./Config/fabric-secret.sh\n    ./Frameworks/Fabric.framework/run $API_KEY $SECRET_KEY\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3603,6 +2450,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				515902342049AF5000A4C2D8 /* WalletTests.swift in Sources */,
+				5164E4D82059734800FC706A /* Config.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3707,6 +2555,7 @@
 				C7E2750B1F589C8D0054EFA5 /* ReceiveEtherViewController.m in Sources */,
 				9FCA4D1B151494BF00ECDFBE /* SendBitcoinViewController.m in Sources */,
 				237451C91D624C1C00CF7049 /* RootService.m in Sources */,
+				5164E4D72059734800FC706A /* Config.swift in Sources */,
 				C7CE34BE1F4E128900032806 /* BCAmountInputView.m in Sources */,
 				23964C001DC93882001323BE /* ContactsViewController.m in Sources */,
 				67D95A261B3DD86B0012EBB1 /* BCTextField.swift in Sources */,
@@ -3835,10 +2684,10 @@
 			target = 9FB3637014B60128004BEA02 /* Blockchain */;
 			targetProxy = 515902362049AF5000A4C2D8 /* PBXContainerItemProxy */;
 		};
-		C7A923E71F852DC7003D9DAF /* PBXTargetDependency */ = {
+		5164E4D520584D2800FC706A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Charts;
-			targetProxy = C7A923E61F852DC7003D9DAF /* PBXContainerItemProxy */;
+			targetProxy = 5164E4D420584D2800FC706A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4325,19 +3174,12 @@
 			name = Backup.storyboard;
 			sourceTree = "<group>";
 		};
-		C79ABE0F1F852C040062726C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C79ABE101F852C040062726C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		515902392049AF5000A4C2D8 /* Debug */ = {
+		515902392049AF5000A4C2D8 /* Debug Production */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 516594A6204F1C0400C50E78 /* Production.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -4378,10 +3220,120 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
 			};
-			name = Debug;
+			name = "Debug Production";
 		};
-		5159023A2049AF5000A4C2D8 /* Release */ = {
+		51659492204EFD1000C50E78 /* Debug Staging */ = {
 			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_THUMB_SUPPORT = NO;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug Staging";
+		};
+		51659493204EFD1000C50E78 /* Debug Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 516594A7204F1DE600C50E78 /* Staging.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Blockchain/Blockchain.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYMROOT)/Release$(EFFECTIVE_PLATFORM_NAME)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Blockchain/Blockchain-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_THUMB_SUPPORT = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/Submodules/OpenSSL-for-iPhone/include",
+					"$(SRCROOT)/Submodules/SocketRocket",
+					"$(SRCROOT)/Submodules/Charts",
+				);
+				INFOPLIST_FILE = "Blockchain/Blockchain-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Submodules/OpenSSL-for-iPhone/lib",
+					"$(inherited)",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rainydayapps.Blockchain$(BUNDLE_ID_SUFFIX)";
+				PRODUCT_NAME = Blockchain;
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Debug Staging";
+		};
+		51659494204EFD1000C50E78 /* Debug Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 516594A7204F1DE600C50E78 /* Staging.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -4403,10 +3355,9 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
-				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -4414,19 +3365,21 @@
 				INFOPLIST_FILE = WalletTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.blockchain.WalletTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
 			};
-			name = Release;
+			name = "Debug Staging";
 		};
-		9FB3638714B60128004BEA02 /* Debug */ = {
+		517F5A3D205811AA004826CA /* Debug Dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -4445,21 +3398,21 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -4471,13 +3424,116 @@
 				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = "Debug Dev";
 		};
-		9FB3638814B60128004BEA02 /* Release */ = {
+		517F5A3E205811AA004826CA /* Debug Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 516594A5204F1A7400C50E78 /* Development.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Blockchain/Blockchain.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYMROOT)/Release$(EFFECTIVE_PLATFORM_NAME)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Blockchain/Blockchain-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_THUMB_SUPPORT = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/Submodules/OpenSSL-for-iPhone/include",
+					"$(SRCROOT)/Submodules/SocketRocket",
+					"$(SRCROOT)/Submodules/Charts",
+				);
+				INFOPLIST_FILE = "Blockchain/Blockchain-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Submodules/OpenSSL-for-iPhone/lib",
+					"$(inherited)",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rainydayapps.Blockchain$(BUNDLE_ID_SUFFIX)";
+				PRODUCT_NAME = Blockchain;
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Debug Dev";
+		};
+		517F5A3F205811AA004826CA /* Debug Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 516594A5204F1A7400C50E78 /* Development.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = WalletTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockchain.WalletTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Debug Dev";
+		};
+		517F5A40205811B9004826CA /* Debug Testnet */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -4496,14 +3552,21 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = "ENABLE_CERTIFICATE_PINNING=1";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -4512,34 +3575,39 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_INCLUDE_PATHS = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = "Debug Testnet";
 		};
-		9FB3638A14B60128004BEA02 /* Debug */ = {
+		517F5A41205811B9004826CA /* Debug Testnet */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 516594A9204F1E1000C50E78 /* Testnet.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Blockchain/Blockchain.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
+					"$(SYMROOT)/Release$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Blockchain/Blockchain-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_THUMB_SUPPORT = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4551,38 +3619,149 @@
 				INFOPLIST_FILE = "Blockchain/Blockchain-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Submodules/OpenSSL-for-iPhone/lib";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rainydayapps.Blockchain;
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Submodules/OpenSSL-for-iPhone/lib",
+					"$(inherited)",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rainydayapps.Blockchain$(BUNDLE_ID_SUFFIX)";
 				PRODUCT_NAME = Blockchain;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
 				WRAPPER_EXTENSION = app;
 			};
-			name = Debug;
+			name = "Debug Testnet";
 		};
-		9FB3638B14B60128004BEA02 /* Release */ = {
+		517F5A42205811B9004826CA /* Debug Testnet */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 516594A9204F1E1000C50E78 /* Testnet.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = WalletTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockchain.WalletTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Debug Testnet";
+		};
+		517F5A43205811DF004826CA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_THUMB_SUPPORT = NO;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		517F5A44205811DF004826CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 516594A6204F1C0400C50E78 /* Production.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Blockchain/Blockchain.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
+					"$(SYMROOT)/Release$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Blockchain/Blockchain-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_THUMB_SUPPORT = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4594,17 +3773,178 @@
 				INFOPLIST_FILE = "Blockchain/Blockchain-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Submodules/OpenSSL-for-iPhone/lib";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rainydayapps.Blockchain;
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Submodules/OpenSSL-for-iPhone/lib",
+					"$(inherited)",
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rainydayapps.Blockchain$(BUNDLE_ID_SUFFIX)";
 				PRODUCT_NAME = Blockchain;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
+		};
+		517F5A45205811DF004826CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 516594A6204F1C0400C50E78 /* Production.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = WalletTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockchain.WalletTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = Release;
+		};
+		9FB3638714B60128004BEA02 /* Debug Production */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_THUMB_SUPPORT = NO;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug Production";
+		};
+		9FB3638A14B60128004BEA02 /* Debug Production */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 516594A6204F1C0400C50E78 /* Production.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Blockchain/Blockchain.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYMROOT)/Release$(EFFECTIVE_PLATFORM_NAME)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Blockchain/Blockchain-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_THUMB_SUPPORT = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/Submodules/OpenSSL-for-iPhone/include",
+					"$(SRCROOT)/Submodules/SocketRocket",
+					"$(SRCROOT)/Submodules/Charts",
+				);
+				INFOPLIST_FILE = "Blockchain/Blockchain-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Submodules/OpenSSL-for-iPhone/lib",
+					"$(inherited)",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rainydayapps.Blockchain$(BUNDLE_ID_SUFFIX)";
+				PRODUCT_NAME = Blockchain;
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Debug Production";
 		};
 /* End XCBuildConfiguration section */
 
@@ -4612,29 +3952,38 @@
 		515902382049AF5000A4C2D8 /* Build configuration list for PBXNativeTarget "WalletTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				515902392049AF5000A4C2D8 /* Debug */,
-				5159023A2049AF5000A4C2D8 /* Release */,
+				515902392049AF5000A4C2D8 /* Debug Production */,
+				51659494204EFD1000C50E78 /* Debug Staging */,
+				517F5A3F205811AA004826CA /* Debug Dev */,
+				517F5A42205811B9004826CA /* Debug Testnet */,
+				517F5A45205811DF004826CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Debug Production";
 		};
 		9FB3636B14B60128004BEA02 /* Build configuration list for PBXProject "Blockchain" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9FB3638714B60128004BEA02 /* Debug */,
-				9FB3638814B60128004BEA02 /* Release */,
+				9FB3638714B60128004BEA02 /* Debug Production */,
+				51659492204EFD1000C50E78 /* Debug Staging */,
+				517F5A3D205811AA004826CA /* Debug Dev */,
+				517F5A40205811B9004826CA /* Debug Testnet */,
+				517F5A43205811DF004826CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Debug Production";
 		};
 		9FB3638914B60128004BEA02 /* Build configuration list for PBXNativeTarget "Blockchain" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9FB3638A14B60128004BEA02 /* Debug */,
-				9FB3638B14B60128004BEA02 /* Release */,
+				9FB3638A14B60128004BEA02 /* Debug Production */,
+				51659493204EFD1000C50E78 /* Debug Staging */,
+				517F5A3E205811AA004826CA /* Debug Dev */,
+				517F5A41205811B9004826CA /* Debug Testnet */,
+				517F5A44205811DF004826CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Debug Production";
 		};
 /* End XCConfigurationList section */
 	};

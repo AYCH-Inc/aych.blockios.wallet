@@ -8,13 +8,14 @@
 #import <openssl/x509.h>
 #import "CertificatePinner.h"
 #import "SessionManager.h"
+#import "Blockchain-Swift.h"
 
 @implementation CertificatePinner
 
 - (void)pinCertificate
 {
     NSURLSession *session = [SessionManager sharedSession];
-    NSURL *url = [NSURL URLWithString:URL_SERVER];
+    NSURL *url = [NSURL URLWithString:[NSBundle urlForWallet]];
     session.sessionDescription = url.host;
     NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         // response management code

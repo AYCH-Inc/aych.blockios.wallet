@@ -215,12 +215,12 @@ typedef enum {
         }
         case RowServerURL: {
             cell.textLabel.text = DEBUG_STRING_SERVER_URL;
-            cell.detailTextLabel.text =  URL_SERVER;
+            cell.detailTextLabel.text =  [NSBundle urlForWallet];
             break;
         }
         case RowWebsocketURL: {
             cell.textLabel.text = DEBUG_STRING_WEBSOCKET_URL;
-            cell.detailTextLabel.text = URL_WEBSOCKET;
+            cell.detailTextLabel.text = [NSBundle uriForWebSocket];
             break;
         }
         case RowMerchantURL: {
@@ -230,12 +230,12 @@ typedef enum {
         }
         case RowAPIURL: {
             cell.textLabel.text = DEBUG_STRING_API_URL;
-            cell.detailTextLabel.text = URL_API;
+            cell.detailTextLabel.text = [NSBundle urlForAPI];
             break;
         }
         case RowBuyURL: {
             cell.textLabel.text = DEBUG_STRING_BUY_WEBVIEW_URL;
-            cell.detailTextLabel.text = URL_BUY_WEBVIEW;
+            cell.detailTextLabel.text = [NSBundle urlForBuyWebView];
             break;
         }
         case RowSurgeToggle: {
@@ -299,19 +299,19 @@ typedef enum {
             break;
         }
         case RowServerURL:
-            [self alertToChangeURLName:DEBUG_STRING_SERVER_URL userDefaultKey:keys[DICTIONARY_KEY_SERVER] currentURL:URL_SERVER];
+            [self alertToChangeURLName:DEBUG_STRING_SERVER_URL userDefaultKey:keys[DICTIONARY_KEY_SERVER] currentURL:[NSBundle urlForWallet]];
             break;
         case RowWebsocketURL:
-            [self alertToChangeURLName:DEBUG_STRING_WEBSOCKET_URL userDefaultKey:keys[DICTIONARY_KEY_WEB_SOCKET] currentURL:URL_WEBSOCKET];
+            [self alertToChangeURLName:DEBUG_STRING_WEBSOCKET_URL userDefaultKey:keys[DICTIONARY_KEY_WEB_SOCKET] currentURL:[NSBundle uriForWebSocket]];
             break;
         case RowMerchantURL:
             [self alertToChangeURLName:DEBUG_STRING_MERCHANT_URL userDefaultKey:keys[DICTIONARY_KEY_MERCHANT] currentURL:URL_MERCHANT];
             break;
         case RowAPIURL:
-            [self alertToChangeURLName:DEBUG_STRING_API_URL userDefaultKey:keys[DICTIONARY_KEY_API] currentURL:URL_API];
+            [self alertToChangeURLName:DEBUG_STRING_API_URL userDefaultKey:keys[DICTIONARY_KEY_API] currentURL:[NSBundle urlForAPI]];
             break;
         case RowBuyURL:
-            [self alertToChangeURLName:DEBUG_STRING_BUY_WEBVIEW_URL userDefaultKey:keys[DICTIONARY_KEY_BUY_WEBVIEW] currentURL:URL_BUY_WEBVIEW];
+            [self alertToChangeURLName:DEBUG_STRING_BUY_WEBVIEW_URL userDefaultKey:keys[DICTIONARY_KEY_BUY_WEBVIEW] currentURL:[NSBundle urlForBuyWebView]];
             break;
         case RowDontShowAgain: {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:DEBUG_STRING_DEBUG message:DEBUG_STRING_RESET_DONT_SHOW_AGAIN_PROMPT_MESSAGE preferredStyle:UIAlertControllerStyleAlert];

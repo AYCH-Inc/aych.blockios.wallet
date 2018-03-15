@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "BCSwipeAddressViewModel.h"
-
+@protocol SwipeAddressViewDelegate
+- (void)requestButtonClickedForAddress:(NSString *)address;
+@end
 @interface BCSwipeAddressView : UIView
-- (id)initWithFrame:(CGRect)frame viewModel:(BCSwipeAddressViewModel *)viewModel;
+- (id)initWithFrame:(CGRect)frame viewModel:(BCSwipeAddressViewModel *)viewModel delegate:(id<SwipeAddressViewDelegate>)delegate;
 - (void)updateAddress:(NSString *)address;
 + (CGFloat)pageIndicatorYOrigin;
 @end

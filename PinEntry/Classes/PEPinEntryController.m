@@ -26,7 +26,6 @@
 #import "QRCodeGenerator.h"
 #import "RootService.h"
 #import "KeychainItemWrapper+SwipeAddresses.h"
-#import "BCSwipeAddressView.h"
 #import "BCSwipeAddressViewModel.h"
 #import "UIView+ChangeFrameAttribute.h"
 
@@ -168,7 +167,7 @@ static PEViewController *VerifyController()
         for (int assetIndex = 0; assetIndex < assets.count; assetIndex++) {
             AssetType asset = [assets[assetIndex] integerValue];
             BCSwipeAddressViewModel *viewModel = [[BCSwipeAddressViewModel alloc] initWithAssetType:asset address:nil];
-            BCSwipeAddressView *swipeView = [[BCSwipeAddressView alloc] initWithFrame:CGRectMake(pinController.scrollView.bounds.size.width * (assetIndex + 1), 0, pinController.scrollView.bounds.size.width, pinController.scrollView.bounds.size.height) viewModel:viewModel];
+            BCSwipeAddressView *swipeView = [[BCSwipeAddressView alloc] initWithFrame:CGRectMake(pinController.scrollView.bounds.size.width * (assetIndex + 1), 0, pinController.scrollView.bounds.size.width, pinController.scrollView.bounds.size.height) viewModel:viewModel delegate:self];
             [self addAddressToSwipeView:swipeView assetType:asset];
             [pinController.scrollView addSubview:swipeView];
         }
@@ -326,6 +325,8 @@ static PEViewController *VerifyController()
     }
 }
 
+#pragma mark - Scroll View Delegate
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     if (scrollView.contentOffset.x > 0 && self.errorAlert) {
@@ -365,6 +366,8 @@ static PEViewController *VerifyController()
     [self updatePage:scrollView];
 }
 
+#pragma mark - Page Control
+
 - (void)updatePage:(UIScrollView *)scrollView
 {
     CGFloat pageWidth = scrollView.frame.size.width;
@@ -381,6 +384,19 @@ static PEViewController *VerifyController()
     pageControl.currentPageIndicatorTintColor = COLOR_BLOCKCHAIN_DARK_BLUE;
     pageControl.numberOfPages = 1 + assets.count;
     return pageControl;
+}
+
+#pragma mark - Swipe View Delegate
+
+- (void)requestButtonClickedForAddress:(NSString *)address
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_COPY_ADDRESS message:BC_STRING_COPY_WARNING_TEXT preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_COPY_ADDRESS style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [UIPasteboard generalPasteboard].string = address;
+    }]];
+
+    [self.view.window.rootViewController presentViewController:alert animated:YES completion:nil];
 }
 
 @end

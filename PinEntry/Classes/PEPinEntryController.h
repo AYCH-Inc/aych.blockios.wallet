@@ -24,6 +24,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PEViewController.h"
+#import "BCSwipeAddressView.h"
 
 @class PEPinEntryController;
 
@@ -41,7 +42,7 @@
 @class PEViewController;
 
 
-@interface PEPinEntryController : UINavigationController <PEViewControllerDelegate, UIScrollViewDelegate>
+@interface PEPinEntryController : UINavigationController <PEViewControllerDelegate, UIScrollViewDelegate, SwipeAddressViewDelegate>
 {
 	BOOL verifyOnly;
     BOOL verifyOptional;

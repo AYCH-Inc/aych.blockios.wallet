@@ -32,6 +32,7 @@
 #import "PrivateHeaders.h"
 #import "Assets.h"
 #import "ExchangeTrade.h"
+#import "Blockchain-Swift.h"
 
 #import "BTCKey.h"
 #import "BTCData.h"
@@ -1220,7 +1221,7 @@
         if (self.swipeAddressToSubscribe) {
             NSDictionary *message = [string getJSONObject];
             NSString *hash = message[@"x"][DICTIONARY_KEY_HASH];
-            NSURL *URL = [NSURL URLWithString:[URL_SERVER stringByAppendingString:[NSString stringWithFormat:TRANSACTION_RESULT_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT, hash, self.swipeAddressToSubscribe]]];
+            NSURL *URL = [NSURL URLWithString:[[NSBundle urlForWallet] stringByAppendingString:[NSString stringWithFormat:TRANSACTION_RESULT_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT, hash, self.swipeAddressToSubscribe]]];
             NSURLRequest *request = [NSURLRequest requestWithURL:URL];
             
             NSURLSessionDataTask *task = [[SessionManager sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -5028,7 +5029,7 @@
 - (void)useDebugSettingsIfSet
 {
 #ifdef DEBUG
-    [self updateServerURL:URL_SERVER];
+    [self updateServerURL:[NSBundle urlForWallet]];
     
     [self updateWebSocketURL:URL_WEBSOCKET];
     

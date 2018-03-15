@@ -1010,7 +1010,7 @@
     if (assetType == AssetTypeBitcoin) {
         websocketURL = [NSBundle uriForWebSocket];
     } else if (assetType == AssetTypeEther) {
-        websocketURL = URL_WEBSOCKET_ETH;
+        websocketURL = [NSBundle uriForEthereumWebSocket];
     }
     
     NSMutableURLRequest *webSocketRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSBundle uriForWebSocket]]];

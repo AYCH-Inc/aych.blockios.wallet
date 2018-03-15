@@ -192,12 +192,8 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 
 #define DATE_SURVEY_END @"June 30, 2017"
 
+// DEBUG MENU STRINGS
 #define DEBUG_STRING_DEBUG NSLocalizedString(@"Debug", nil)
-#define DEBUG_STRING_SERVER_URL NSLocalizedString(@"Server URL", nil)
-#define DEBUG_STRING_WEBSOCKET_URL NSLocalizedString(@"WebSocket URL", nil)
-#define DEBUG_STRING_MERCHANT_URL NSLocalizedString(@"Merchant URL", nil)
-#define DEBUG_STRING_API_URL NSLocalizedString(@"API URL", nil)
-#define DEBUG_STRING_BUY_WEBVIEW_URL NSLocalizedString(@"Buy Webview URL", nil)
 #define DEBUG_STRING_WALLET_JSON NSLocalizedString(@"Wallet JSON", nil)
 #define DEBUG_STRING_SIMULATE_SURGE NSLocalizedString(@"Simulate surge", nil)
 #define DEBUG_STRING_RESET_DONT_SHOW_AGAIN_PROMPT NSLocalizedString(@"Show all 'Dont Show Again' alerts", nil)

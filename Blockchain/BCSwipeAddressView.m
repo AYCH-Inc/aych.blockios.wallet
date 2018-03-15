@@ -19,14 +19,16 @@
 @property (nonatomic) BCSwipeAddressViewModel *viewModel;
 @property (nonatomic) UIImageView *qrCodeImageView;
 @property (nonatomic) UILabel *addressLabel;
+@property (nonatomic, weak) id <SwipeAddressViewDelegate> delegate;
 @end
 
 @implementation BCSwipeAddressView
 
-- (id)initWithFrame:(CGRect)frame viewModel:(BCSwipeAddressViewModel *)viewModel
+- (id)initWithFrame:(CGRect)frame viewModel:(BCSwipeAddressViewModel *)viewModel delegate:(id<SwipeAddressViewDelegate>)delegate
 {
     if (self == [super initWithFrame:frame]) {
         self.viewModel = viewModel;
+        self.delegate = delegate;
         [self setup];
         [self updateQRCode];
     }
@@ -56,6 +58,7 @@
     requestButton.backgroundColor = COLOR_BLOCKCHAIN_LIGHTEST_BLUE;
     requestButton.center = CGPointMake(self.bounds.size.width/2, requestButton.center.y);
     requestButton.layer.cornerRadius = 8;
+    [requestButton addTarget:self action:@selector(requestButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:requestButton];
     
     CGFloat addressLabelHeight = 30;
@@ -103,6 +106,14 @@
 {
     CGFloat yOrigin = ASSET_IMAGE_VIEW_Y_OFFSET + ASSET_IMAGE_VIEW_HEIGHT + ASSET_IMAGE_VIEW_SPACING + REQUEST_BUTTON_HEIGHT + 8;
     return IS_USING_SCREEN_SIZE_LARGER_THAN_5S ? yOrigin : IS_USING_SCREEN_SIZE_4S ? yOrigin - 94 : yOrigin - 30;
+}
+
+- (void)requestButtonClicked
+{
+    NSString *address = self.viewModel.address;
+    if (address) {
+        [self.delegate requestButtonClickedForAddress:address];
+    }
 }
 
 @end

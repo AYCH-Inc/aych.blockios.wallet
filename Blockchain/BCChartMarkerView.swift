@@ -6,11 +6,9 @@
 //  Copyright © 2017 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
 import Charts
 
-class BCChartMarkerView : MarkerView
-{
+class BCChartMarkerView : MarkerView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.layer.borderWidth = 3.0
@@ -19,15 +17,15 @@ class BCChartMarkerView : MarkerView
         self.layer.masksToBounds = true
         self.backgroundColor = UIColor.white
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
+
     override func offsetForDrawing(atPoint point: CGPoint) -> CGPoint {
         return CGPoint(x: -(self.bounds.size.width/2), y: -(self.bounds.size.height/2))
     }
-    
+
     private func dateFromTimeInterval(timeInterval: TimeInterval) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, MMM dd, HH:mm"

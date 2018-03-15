@@ -33,7 +33,7 @@ const int sectionPreferences = 1;
 const int preferencesEmailNotifications = 0;
 const int preferencesSMSNotifications = 1;
 
-#ifdef ENABLE_DEBUG_MENU
+#ifdef DEBUG
 #ifdef ENABLE_CONTACTS
 const int preferencesPushNotifications = 2;
 const int preferencesLocalCurrency = 3;
@@ -402,7 +402,7 @@ const int aboutPrivacyPolicy = 2;
 - (void)termsOfServiceClicked
 {
     SettingsWebViewController *aboutViewController = [[SettingsWebViewController alloc] init];
-    aboutViewController.urlTargetString = [URL_SERVER stringByAppendingString:URL_SUFFIX_TERMS_OF_SERVICE];
+    aboutViewController.urlTargetString = [[NSBundle urlForWallet] stringByAppendingString:URL_SUFFIX_TERMS_OF_SERVICE];
     BCNavigationController *navigationController = [[BCNavigationController alloc] initWithRootViewController:aboutViewController title:BC_STRING_SETTINGS_TERMS_OF_SERVICE];
     [self presentViewController:navigationController animated:YES completion:nil];
 }
@@ -410,7 +410,7 @@ const int aboutPrivacyPolicy = 2;
 - (void)showPrivacyPolicy
 {
     SettingsWebViewController *aboutViewController = [[SettingsWebViewController alloc] init];
-    aboutViewController.urlTargetString = [URL_SERVER stringByAppendingString:URL_SUFFIX_PRIVACY_POLICY];
+    aboutViewController.urlTargetString = [[NSBundle urlForWallet] stringByAppendingString:URL_SUFFIX_PRIVACY_POLICY];
     BCNavigationController *navigationController = [[BCNavigationController alloc] initWithRootViewController:aboutViewController title:BC_STRING_SETTINGS_PRIVACY_POLICY];
     [self presentViewController:navigationController animated:YES completion:nil];
 }
@@ -1192,7 +1192,7 @@ const int aboutPrivacyPolicy = 2;
 {
     switch (section) {
         case sectionProfile: return 4;
-#ifdef ENABLE_DEBUG_MENU
+#ifdef DEBUG
         case sectionPreferences: return 5;
 #else
         case sectionPreferences: return 4;

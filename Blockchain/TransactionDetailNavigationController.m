@@ -8,6 +8,7 @@
 
 #import "TransactionDetailNavigationController.h"
 #import "TransactionRecipientsViewController.h"
+#import "Blockchain-Swift.h"
 
 @implementation TransactionDetailNavigationController
 
@@ -144,7 +145,7 @@
 
 - (void)share
 {
-    NSURL *url = [NSURL URLWithString:[URL_SERVER stringByAppendingFormat:@"/tx/%@", self.transactionHash]];
+    NSURL *url = [NSURL URLWithString:[[NSBundle urlForWallet] stringByAppendingFormat:@"/tx/%@", self.transactionHash]];
         
     NSArray *activityItems = @[self, url];
     

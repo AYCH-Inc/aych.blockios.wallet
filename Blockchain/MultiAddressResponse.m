@@ -27,7 +27,7 @@
     symbol.symbol = [dict objectForKey:DICTIONARY_KEY_SYMBOL];
     NSNumber *last = [dict objectForKey:DICTIONARY_KEY_LAST];
     
-#ifdef ENABLE_DEBUG_MENU
+#ifdef DEBUG
     if ([[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_DEBUG_SIMULATE_ZERO_TICKER]) last = 0;
 #endif
     if (!last || [last isEqualToNumber:@0]) {

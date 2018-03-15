@@ -1008,13 +1008,13 @@
     NSString *websocketURL;
     
     if (assetType == AssetTypeBitcoin) {
-        websocketURL = URL_WEBSOCKET;
+        websocketURL = [NSBundle uriForWebSocket];
     } else if (assetType == AssetTypeEther) {
         websocketURL = URL_WEBSOCKET_ETH;
     }
     
-    NSMutableURLRequest *webSocketRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL_WEBSOCKET]];
-    [webSocketRequest addValue:URL_SERVER forHTTPHeaderField:@"Origin"];
+    NSMutableURLRequest *webSocketRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSBundle uriForWebSocket]]];
+    [webSocketRequest addValue:[NSBundle urlForWallet] forHTTPHeaderField:@"Origin"];
     
 #ifdef ENABLE_CERTIFICATE_PINNING
     if ([[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING]) {
@@ -5031,7 +5031,7 @@
 #ifdef DEBUG
     [self updateServerURL:[NSBundle urlForWallet]];
     
-    [self updateWebSocketURL:URL_WEBSOCKET];
+    [self updateWebSocketURL:[NSBundle uriForWebSocket]];
     
     [self updateAPIURL:[NSBundle urlForAPI]];
     

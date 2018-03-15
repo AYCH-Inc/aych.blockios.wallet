@@ -595,6 +595,8 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define USER_DEFAULTS_KEY_HIDE_TRANSFER_ALL_FUNDS_ALERT @"hideTransferAllFundsAlert"
 #define USER_DEFAULTS_KEY_HAS_SEEN_CUSTOM_FEE_WARNING @"hasSeenCustomFeeWarning"
 
+// TODO: - Migrate debug flags to DebugTableViewController
+
 #define USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING @"certificatePinning"
 #define USER_DEFAULTS_KEY_DEBUG_SIMULATE_SURGE @"simulateSurge"
 #define USER_DEFAULTS_KEY_DEBUG_SIMULATE_ZERO_TICKER @"zeroTicker"

@@ -235,7 +235,7 @@ typedef enum {
         }
         case RowBuyURL: {
             cell.textLabel.text = DEBUG_STRING_BUY_WEBVIEW_URL;
-            cell.detailTextLabel.text = URL_BUY_WEBVIEW;
+            cell.detailTextLabel.text = [NSBundle urlForBuyWebView];
             break;
         }
         case RowSurgeToggle: {
@@ -311,7 +311,7 @@ typedef enum {
             [self alertToChangeURLName:DEBUG_STRING_API_URL userDefaultKey:keys[DICTIONARY_KEY_API] currentURL:URL_API];
             break;
         case RowBuyURL:
-            [self alertToChangeURLName:DEBUG_STRING_BUY_WEBVIEW_URL userDefaultKey:keys[DICTIONARY_KEY_BUY_WEBVIEW] currentURL:URL_BUY_WEBVIEW];
+            [self alertToChangeURLName:DEBUG_STRING_BUY_WEBVIEW_URL userDefaultKey:keys[DICTIONARY_KEY_BUY_WEBVIEW] currentURL:[NSBundle urlForBuyWebView]];
             break;
         case RowDontShowAgain: {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:DEBUG_STRING_DEBUG message:DEBUG_STRING_RESET_DONT_SHOW_AGAIN_PROMPT_MESSAGE preferredStyle:UIAlertControllerStyleAlert];

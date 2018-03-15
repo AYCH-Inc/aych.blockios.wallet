@@ -358,8 +358,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 
 #define USER_DEFAULTS_KEY_ENV @"environment"
 
-#define INTERNAL_GET_URL [NSUserDefaults standardUserDefaults] objectForKey:
-
 #define ENV_INDEX_DEV @0
 #define ENV_INDEX_STAGING @1
 #define ENV_INDEX_PRODUCTION @2

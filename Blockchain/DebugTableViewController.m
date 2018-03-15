@@ -215,7 +215,7 @@ typedef enum {
         }
         case RowServerURL: {
             cell.textLabel.text = DEBUG_STRING_SERVER_URL;
-            cell.detailTextLabel.text =  URL_SERVER;
+            cell.detailTextLabel.text =  [NSBundle urlForWallet];
             break;
         }
         case RowWebsocketURL: {
@@ -299,7 +299,7 @@ typedef enum {
             break;
         }
         case RowServerURL:
-            [self alertToChangeURLName:DEBUG_STRING_SERVER_URL userDefaultKey:keys[DICTIONARY_KEY_SERVER] currentURL:URL_SERVER];
+            [self alertToChangeURLName:DEBUG_STRING_SERVER_URL userDefaultKey:keys[DICTIONARY_KEY_SERVER] currentURL:[NSBundle urlForWallet]];
             break;
         case RowWebsocketURL:
             [self alertToChangeURLName:DEBUG_STRING_WEBSOCKET_URL userDefaultKey:keys[DICTIONARY_KEY_WEB_SOCKET] currentURL:URL_WEBSOCKET];

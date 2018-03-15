@@ -230,7 +230,7 @@ typedef enum {
         }
         case RowAPIURL: {
             cell.textLabel.text = DEBUG_STRING_API_URL;
-            cell.detailTextLabel.text = URL_API;
+            cell.detailTextLabel.text = [NSBundle urlForAPI];
             break;
         }
         case RowBuyURL: {
@@ -308,7 +308,7 @@ typedef enum {
             [self alertToChangeURLName:DEBUG_STRING_MERCHANT_URL userDefaultKey:keys[DICTIONARY_KEY_MERCHANT] currentURL:URL_MERCHANT];
             break;
         case RowAPIURL:
-            [self alertToChangeURLName:DEBUG_STRING_API_URL userDefaultKey:keys[DICTIONARY_KEY_API] currentURL:URL_API];
+            [self alertToChangeURLName:DEBUG_STRING_API_URL userDefaultKey:keys[DICTIONARY_KEY_API] currentURL:[NSBundle urlForAPI]];
             break;
         case RowBuyURL:
             [self alertToChangeURLName:DEBUG_STRING_BUY_WEBVIEW_URL userDefaultKey:keys[DICTIONARY_KEY_BUY_WEBVIEW] currentURL:[NSBundle urlForBuyWebView]];

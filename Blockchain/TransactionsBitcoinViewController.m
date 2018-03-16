@@ -70,7 +70,7 @@
         return app.wallet.pendingContactTransactions.count;
     } else if (section == self.sectionMain) {
         NSInteger transactionCount = [data.transactions count] + app.wallet.rejectedContactTransactions.count;
-#if defined(ENABLE_TRANSACTION_FILTERING) && defined(ENABLE_TRANSACTION_FETCHING)
+#ifdef ENABLE_TRANSACTION_FETCHING
         if (data != nil && transactionCount == 0 && !self.loadedAllTransactions && self.clickedFetchMore) {
             [app.wallet fetchMoreTransactions];
         }
@@ -182,7 +182,7 @@
 
 - (void)tableView:(UITableView *)_tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-#if defined(ENABLE_TRANSACTION_FILTERING) && defined(ENABLE_TRANSACTION_FETCHING)
+#ifdef ENABLE_TRANSACTION_FETCHING
     if (!self.loadedAllTransactions) {
         if (indexPath.row == (int)[data.transactions count] - 1) {
             // If user scrolled down at all or if the user clicked fetch more and the table isn't filled, fetch
@@ -278,9 +278,7 @@
     if (!self.data) {
         self.noTransactionsView.hidden = YES;
         
-#ifdef ENABLE_TRANSACTION_FILTERING
         self.filterIndex = FILTER_INDEX_ALL;
-#endif
         
         [balanceBigButton setTitle:@"" forState:UIControlStateNormal];
         [self changeFilterLabel:@""];
@@ -289,7 +287,7 @@
     else if (self.data.transactions.count == 0 && app.wallet.pendingContactTransactions.count == 0 && app.wallet.rejectedContactTransactions.count == 0) {
         self.noTransactionsView.hidden = NO;
         
-#if defined(ENABLE_TRANSACTION_FILTERING) && defined(ENABLE_TRANSACTION_FETCHING)
+#ifdef ENABLE_TRANSACTION_FETCHING
         if (!self.loadedAllTransactions) {
             [self showMoreButton];
         } else {
@@ -452,7 +450,7 @@
 {
     self.lastNumberTransactions = data.n_transactions;
 
-#if defined(ENABLE_TRANSACTION_FILTERING) && defined(ENABLE_TRANSACTION_FETCHING)
+#ifdef ENABLE_TRANSACTION_FETCHING
     if (self.loadedAllTransactions) {
         self.loadedAllTransactions = NO;
         self.clickedFetchMore = YES;
@@ -543,7 +541,6 @@
 
 - (uint64_t)getBalance
 {
-#ifdef ENABLE_TRANSACTION_FILTERING
     if (self.filterIndex == FILTER_INDEX_ALL) {
         return [app.wallet getTotalActiveBalance];
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
@@ -551,14 +548,10 @@
     } else {
         return [[app.wallet getBalanceForAccount:(int)self.filterIndex assetType:self.assetType] longLongValue];
     }
-#else
-    return [app.wallet getTotalActiveBalance];
-#endif
 }
 
 - (NSString *)getFilterLabel
 {
-#ifdef ENABLE_TRANSACTION_FILTERING
     if (self.filterIndex == FILTER_INDEX_ALL) {
         return BC_STRING_BITCOIN_BALANCES;
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
@@ -566,9 +559,6 @@
     } else {
         return [app.wallet getLabelForAccount:(int)self.filterIndex assetType:self.assetType];
     }
-#else
-    return nil;
-#endif
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
@@ -786,8 +776,7 @@
     
     [balanceBigButton addTarget:app action:@selector(toggleSymbol) forControlEvents:UIControlEventTouchUpInside];
     
-#if defined(ENABLE_TRANSACTION_FILTERING) && defined(ENABLE_TRANSACTION_FETCHING)
-    
+#ifdef ENABLE_TRANSACTION_FETCHING
     self.moreButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [self.moreButton setTitle:BC_STRING_LOAD_MORE_TRANSACTIONS forState:UIControlStateNormal];
     self.moreButton.titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -817,9 +806,9 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-#ifdef ENABLE_TRANSACTION_FILTERING
+
     app.wallet.isFetchingTransactions = NO;
-#endif
+
     app.mainTitleLabel.hidden = NO;
 }
 

@@ -13,11 +13,24 @@
 @property (nonatomic) UILabel *noTransactionsTitle;
 @property (nonatomic) UILabel *noTransactionsDescription;
 @property (nonatomic) UIButton *getBitcoinButton;
-
 @property (nonatomic) UIView *noTransactionsView;
+@property (nonatomic) UIView *filterSelectorView;
+@property (nonatomic) UILabel *filterSelectorLabel;
 @end
 
 @implementation TransactionsViewController
+
+- (void)setupFilter
+{
+    self.filterIndex = FILTER_INDEX_ALL;
+    
+    self.filterSelectorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+    self.filterSelectorView.backgroundColor = COLOR_LIGHT_GRAY;
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(filterSelectorViewTapped)];
+    [self.filterSelectorView addGestureRecognizer:tapGesture];
+    
+    [self.view addSubview:self.filterSelectorView];
+}
 
 - (void)setupNoTransactionsViewInView:(UIView *)view assetType:(AssetType)assetType
 {
@@ -97,6 +110,16 @@
     self.noTransactionsTitle.center = CGPointMake(self.noTransactionsTitle.center.x, self.noTransactionsDescription.frame.origin.y - self.noTransactionsTitle.frame.size.height - 8 + self.noTransactionsTitle.frame.size.height/2);
     self.getBitcoinButton.center = CGPointMake(self.getBitcoinButton.center.x, self.noTransactionsDescription.frame.origin.y + self.noTransactionsDescription.frame.size.height + 16 + self.noTransactionsDescription.frame.size.height/2);
     self.getBitcoinButton.hidden = NO;
+}
+
+- (void)filterSelectorViewTapped
+{
+    // Overridden by subclass
+}
+
+- (void)changeFilterLabel:(NSString *)newText
+{
+    // Overridden by subclass
 }
 
 @end

@@ -17,15 +17,17 @@
 #import "ContactTransactionTableViewCell.h"
 #import "BCAddressSelectionView.h"
 #import "TransactionDetailNavigationController.h"
+#import "UIView+ChangeFrameAttribute.h"
 
 @interface TransactionsViewController ()
 @property (nonatomic) UILabel *noTransactionsTitle;
 @property (nonatomic) UILabel *noTransactionsDescription;
 @property (nonatomic) UIButton *getBitcoinButton;
-
 @property (nonatomic) UIView *noTransactionsView;
-
+@property (nonatomic) UIView *filterSelectorView;
+@property (nonatomic) UILabel *filterSelectorLabel;
 - (void)setupNoTransactionsViewInView:(UIView *)view assetType:(AssetType)assetType;
+- (void)setupFilter;
 @end
 
 @interface TransactionsBitcoinViewController () <AddressSelectionDelegate, UIScrollViewDelegate, ContactTransactionCellDelegate>
@@ -271,8 +273,6 @@
     self.refreshControl.tintColor = refreshControlTintColor;
     
     BOOL shouldShowFilterButton = ([app.wallet didUpgradeToHd] && ([[app.wallet activeLegacyAddresses] count] > 0 || [app.wallet getActiveAccountsCount:AssetTypeBitcoin] >= 2));
-    
-    self.filterAccountButton.hidden = !shouldShowFilterButton;
     
     // Data not loaded yet
     if (!self.data) {
@@ -541,28 +541,6 @@
     }
 }
 
-- (void)changeFilterLabel:(NSString *)newText
-{
-    [self.filterAccountButton setTitle:newText forState:UIControlStateNormal];
-    
-    if (newText.length > 0) {
-        UIButton *buttonForTitleWidth = [[UIButton alloc] initWithFrame:self.filterAccountButton.frame];
-        buttonForTitleWidth.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_EXTRALIGHT size:FONT_SIZE_SMALL];
-        [buttonForTitleWidth setTitle:newText forState:UIControlStateNormal];
-        [buttonForTitleWidth sizeToFit];
-        
-        self.filterAccountButton.imageEdgeInsets = UIEdgeInsetsMake(0, -self.filterAccountButton.imageView.bounds.size.width + self.filterAccountButton.frame.size.width/2 + buttonForTitleWidth.frame.size.width/2 + 20, 0, 0);
-        self.filterAccountButton.titleEdgeInsets = UIEdgeInsetsMake(0, -self.filterAccountButton.imageView.bounds.size.width, 0, 0);
-    }
-}
-
-- (CGFloat)heightForFilterTableView
-{
-    CGFloat estimatedHeight = 44 * ([app.wallet getActiveAccountsCount:AssetTypeBitcoin] + 2);
-    CGFloat largestAcceptableHeight = [[UIScreen mainScreen] bounds].size.height - 150;
-    return estimatedHeight > largestAcceptableHeight ? largestAcceptableHeight : estimatedHeight;
-}
-
 - (uint64_t)getBalance
 {
 #ifdef ENABLE_TRANSACTION_FILTERING
@@ -711,12 +689,6 @@
     [app setupPaymentRequest:transaction];
 }
 
-- (void)showFilterMenu
-{
-    BCAddressSelectionView *filterView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:SelectModeFilter delegate:self];
-    [app showModalWithContent:filterView closeType:ModalCloseTypeBack headerText:BC_STRING_BALANCES];
-}
-
 - (void)completeReceiveRequestOptimisticallyForTransaction:(Transaction *)transaction
 {
     if (app.wallet.pendingContactTransactions.count > 0) {
@@ -749,35 +721,38 @@
     };
 }
 
+#pragma mark - Filtering
+
+- (void)changeFilterLabel:(NSString *)newText
+{
+    self.filterSelectorLabel.text = newText;
+}
+
+- (void)filterSelectorViewTapped
+{
+    [self showFilterMenu];
+}
+
+- (void)showFilterMenu
+{
+    BCAddressSelectionView *filterView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:SelectModeFilter delegate:self];
+    [app showModalWithContent:filterView closeType:ModalCloseTypeBack headerText:BC_STRING_BALANCES];
+}
+
 #pragma mark - Address Selection Delegate
 
-- (void)didSelectFromAccount:(int)account assetType:(AssetType)asset
+- (AssetType)getAssetType
 {
-    if (account == FILTER_INDEX_IMPORTED_ADDRESSES) {
+    return self.assetType;
+}
+
+- (void)didSelectFilter:(int)filter
+{
+    if (filter == FILTER_INDEX_IMPORTED_ADDRESSES) {
         [app filterTransactionsByImportedAddresses];
     } else {
-        [app filterTransactionsByAccount:account];
+        [app filterTransactionsByAccount:filter assetType:self.assetType];
     }
-}
-
-- (void)didSelectToAddress:(NSString *)address
-{
-    DLog(@"TransactionsViewController Warning: filtering by single imported address!")
-}
-
-- (void)didSelectToAccount:(int)account
-{
-    DLog(@"TransactionsViewController Warning: selected to account!")
-}
-
-- (void)didSelectFromAddress:(NSString *)address
-{
-    DLog(@"TransactionsViewController Warning: selected from address!")
-}
-
-- (void)didSelectContact:(Contact *)contact
-{
-    DLog(@"TransactionsViewController Warning: selected contact!")
 }
 
 #pragma mark - View lifecycle
@@ -785,6 +760,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setupFilter];
+    
+    [self.tableView changeYPosition:self.filterSelectorView.frame.origin.y + self.filterSelectorView.frame.size.height];
+    [self.tableView changeHeight:self.tableView.frame.size.height - self.filterSelectorView.frame.size.height];
     
     self.lastNumberTransactions = INT_MAX;
     
@@ -821,18 +801,6 @@
     [self setupBlueBackgroundForBounceArea];
     
     [self setupPullToRefresh];
-    
-#ifdef ENABLE_TRANSACTION_FILTERING
-    
-    self.filterAccountButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL_MEDIUM];
-    [self.filterAccountButton.titleLabel setMinimumScaleFactor:1];
-    [self.filterAccountButton.titleLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.filterAccountButton addTarget:self action:@selector(showFilterMenu) forControlEvents:UIControlEventTouchUpInside];
-
-    self.filterIndex = FILTER_INDEX_ALL;
-#else
-    filterAccountButton.hidden = YES;
-#endif
     
     [self reload];
 }

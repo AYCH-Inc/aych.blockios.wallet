@@ -379,14 +379,18 @@
     [_sendBitcoinViewController reload];
 }
 
-- (void)filterTransactionsByAccount:(int)accountIndex filterLabel:(NSString *)filterLabel
+- (void)filterTransactionsByAccount:(int)accountIndex filterLabel:(NSString *)filterLabel assetType:(AssetType)assetType
 {
-    _transactionsBitcoinViewController.clickedFetchMore = NO;
-    _transactionsBitcoinViewController.filterIndex = accountIndex;
-    [_transactionsBitcoinViewController changeFilterLabel:filterLabel];
-    
-    [_sendBitcoinViewController resetFromAddress];
-    [_receiveBitcoinViewController reloadMainAddress];
+    if (self.assetType == AssetTypeBitcoin) {
+        _transactionsBitcoinViewController.clickedFetchMore = NO;
+        _transactionsBitcoinViewController.filterIndex = accountIndex;
+        [_transactionsBitcoinViewController changeFilterLabel:filterLabel];
+        [_sendBitcoinViewController resetFromAddress];
+        [_receiveBitcoinViewController reloadMainAddress];
+    } else {
+        _transactionsBitcoinCashViewController.filterIndex = accountIndex;
+        [_transactionsBitcoinCashViewController changeFilterLabel:filterLabel];
+    }
 }
 
 - (NSInteger)getFilterIndex
@@ -420,11 +424,6 @@
 - (void)setTransactionsViewControllerMessageIdentifier:(NSString *)identifier
 {
     self.transactionsBitcoinViewController.messageIdentifier = identifier;
-}
-
-- (void)showFilterResults
-{
-    [_tabViewController setActiveViewController:_transactionsBitcoinViewController animated:FALSE index:1];
 }
 
 - (void)selectorButtonClicked

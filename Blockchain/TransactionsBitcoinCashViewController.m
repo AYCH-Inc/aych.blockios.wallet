@@ -11,13 +11,17 @@
 #import "NSNumberFormatter+Currencies.h"
 #import "TransactionTableCell.h"
 #import "Transaction.h"
+#import "UIView+ChangeFrameAttribute.h"
 
-@interface TransactionsViewController ()
+@interface TransactionsViewController () <AddressSelectionDelegate>
 @property (nonatomic) UILabel *noTransactionsTitle;
 @property (nonatomic) UILabel *noTransactionsDescription;
 @property (nonatomic) UIButton *getBitcoinButton;
 @property (nonatomic) UIView *noTransactionsView;
+@property (nonatomic) UILabel *filterSelectorView;
+@property (nonatomic) UILabel *filterSelectorLabel;
 - (void)setupNoTransactionsViewInView:(UIView *)view assetType:(AssetType)assetType;
+- (void)setupFilter;
 @end
 
 @interface TransactionsBitcoinCashViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -37,12 +41,17 @@
                                  [UIScreen mainScreen].bounds.size.width,
                                  [UIScreen mainScreen].bounds.size.height - DEFAULT_HEADER_HEIGHT - DEFAULT_HEADER_HEIGHT_OFFSET - DEFAULT_FOOTER_HEIGHT);
     
+    [self setupFilter];
+
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+    [self.tableView changeYPosition:self.filterSelectorView.frame.origin.y + self.filterSelectorView.frame.size.height];
+    [self.tableView changeHeight:self.tableView.frame.size.height - self.filterSelectorView.frame.size.height];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc] init];
     [self.view addSubview:self.tableView];
+    
     
     [self setupPullToRefresh];
 
@@ -65,7 +74,7 @@
 
 - (void)loadTransactions
 {
-    self.transactions = [app.wallet getBitcoinCashTransactions];
+    self.transactions = [app.wallet getBitcoinCashTransactions:self.filterIndex];
     
     self.noTransactionsView.hidden = self.transactions.count > 0;
     
@@ -135,6 +144,37 @@
     TransactionTableCell *cell = (TransactionTableCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     
     [cell bitcoinCashTransactionClicked];
+}
+
+#pragma mark - Filtering
+
+- (void)filterSelectorViewTapped
+{
+    [self showFilterMenu];
+}
+
+- (void)changeFilterLabel:(NSString *)newText
+{
+    self.filterSelectorLabel.text = newText;
+}
+
+- (void)showFilterMenu
+{
+    BCAddressSelectionView *filterView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:SelectModeFilter delegate:self];
+    [app showModalWithContent:filterView closeType:ModalCloseTypeBack headerText:BC_STRING_BALANCES];
+}
+
+#pragma mark - Address Selection Delegate
+
+- (AssetType)getAssetType
+{
+    return AssetTypeBitcoinCash;
+}
+
+- (void)didSelectFilter:(int)filter
+{
+    self.filterIndex = filter;
+    [self reload];
 }
 
 @end

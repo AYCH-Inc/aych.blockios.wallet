@@ -2964,10 +2964,10 @@
     }
 }
 
-- (NSArray *)getBitcoinCashTransactions
+- (NSArray *)getBitcoinCashTransactions:(NSInteger)filterType
 {
     if ([self isInitialized]) {
-        NSArray *fetchedTransactions = [[self.context evaluateScript:@"MyWalletPhone.bch.transactions()"] toArray];
+        NSArray *fetchedTransactions = [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.transactions(%d)", filterType]] toArray];
         NSMutableArray *transactions = [NSMutableArray new];
         for (NSDictionary *data in fetchedTransactions) {
             Transaction *transaction = [Transaction fromJSONDict:data];

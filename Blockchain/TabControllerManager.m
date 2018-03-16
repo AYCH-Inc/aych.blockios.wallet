@@ -352,7 +352,7 @@
         
         [_tabViewController setActiveViewController:_transactionsEtherViewController animated:YES index:TAB_TRANSACTIONS];
     } else if (self.assetType == AssetTypeBitcoinCash) {
-        if (!_transactionsEtherViewController) {
+        if (!_transactionsBitcoinCashViewController) {
             _transactionsBitcoinCashViewController = [[TransactionsBitcoinCashViewController alloc] init];
         }
         

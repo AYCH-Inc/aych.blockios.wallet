@@ -32,6 +32,9 @@
     } else if (assetType == AssetTypeEther) {
         descriptionText = BC_STRING_NO_TRANSACTIONS_TEXT_ETHER;
         buttonText = BC_STRING_REQUEST_ETHER;
+    } else if (assetType == AssetTypeBitcoinCash) {
+        descriptionText = BC_STRING_NO_TRANSACTIONS_TEXT_BITCOIN_CASH;
+        buttonText = BC_STRING_REQUEST_BITCOIN_CASH;
     }
     
     self.noTransactionsView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, 0, self.view.frame.size.width, self.view.frame.size.height)];

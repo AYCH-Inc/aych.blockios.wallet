@@ -727,6 +727,7 @@
 #define BC_STRING_NO_TRANSACTIONS_TITLE NSLocalizedString(@"No Transactions", nil)
 #define BC_STRING_NO_TRANSACTIONS_TEXT_BITCOIN NSLocalizedString(@"Transactions occur when you send and request bitcoin.", nil)
 #define BC_STRING_NO_TRANSACTIONS_TEXT_ETHER NSLocalizedString(@"Transactions occur when you send and request ether.", nil)
+#define BC_STRING_NO_TRANSACTIONS_TEXT_BITCOIN_CASH NSLocalizedString(@"Transactions occur when you send and request bitcoin cash.", nil)
 
 #define BC_STRING_YOUR_TRANSACTIONS NSLocalizedString(@"Your Transactions", nil)
 
@@ -770,6 +771,8 @@
 #define BC_STRING_GET_BITCOIN NSLocalizedString(@"Get Bitcoin", nil)
 #define BC_STRING_GET_ETHER NSLocalizedString(@"Get Ether", nil)
 #define BC_STRING_REQUEST_ETHER NSLocalizedString(@"Request Ether", nil)
+#define BC_STRING_GET_BITCOIN_CASH NSLocalizedString(@"Get Bitcoin Cash", nil)
+#define BC_STRING_REQUEST_BITCOIN_CASH NSLocalizedString(@"Request Bitcoin Cash", nil)
 #define BC_STRING_OVERVIEW NSLocalizedString(@"Overview", nil)
 #define BC_STRING_DASHBOARD NSLocalizedString(@"Dashboard", nil)
 

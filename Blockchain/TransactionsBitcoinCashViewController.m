@@ -12,6 +12,14 @@
 #import "TransactionTableCell.h"
 #import "Transaction.h"
 
+@interface TransactionsViewController ()
+@property (nonatomic) UILabel *noTransactionsTitle;
+@property (nonatomic) UILabel *noTransactionsDescription;
+@property (nonatomic) UIButton *getBitcoinButton;
+@property (nonatomic) UIView *noTransactionsView;
+- (void)setupNoTransactionsViewInView:(UIView *)view assetType:(AssetType)assetType;
+@end
+
 @interface TransactionsBitcoinCashViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic) UITableView *tableView;
 @property (nonatomic) UIRefreshControl *refreshControl;
@@ -37,9 +45,9 @@
     [self.view addSubview:self.tableView];
     
     [self setupPullToRefresh];
-//
-//    [self setupNoTransactionsViewInView:self.tableView assetType:AssetTypeEther];
-//
+
+    [self setupNoTransactionsViewInView:self.tableView assetType:AssetTypeBitcoinCash];
+
     [self loadTransactions];
 }
 
@@ -59,7 +67,7 @@
 {
     self.transactions = [app.wallet getBitcoinCashTransactions];
     
-//    self.noTransactionsView.hidden = self.transactions.count > 0;
+    self.noTransactionsView.hidden = self.transactions.count > 0;
     
     [self.tableView reloadData];
     [self.refreshControl endRefreshing];

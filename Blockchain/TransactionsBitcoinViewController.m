@@ -36,19 +36,17 @@
 @property (nonatomic) UIView *bounceView;
 
 @property (nonatomic) NSArray *finishedTransactions;
+@property (nonatomic) BOOL receivedTransactionMessage;
+@property (nonatomic) BOOL hasZeroTotalBalance;
 
+@property (nonatomic) UIRefreshControl *refreshControl;
+@property (nonatomic) int lastNumberTransactions;
 @end
 
 @implementation TransactionsBitcoinViewController
 
 @synthesize data;
 @synthesize latestBlock;
-
-BOOL didReceiveTransactionMessage;
-BOOL hasZeroTotalBalance = NO;
-
-UIRefreshControl *refreshControl;
-int lastNumberTransactions = INT_MAX;
 
 - (void)awakeFromNib
 {
@@ -264,13 +262,13 @@ int lastNumberTransactions = INT_MAX;
 
 - (void)setText
 {
-    [self setupNoTransactionsViewInView:tableView assetType:AssetTypeBitcoin];
+    [self setupNoTransactionsViewInView:tableView assetType:self.assetType];
     
     UIColor *bounceViewBackgroundColor = [UIColor whiteColor];
     UIColor *refreshControlTintColor = [UIColor lightGrayColor];
     
     self.bounceView.backgroundColor = bounceViewBackgroundColor;
-    refreshControl.tintColor = refreshControlTintColor;
+    self.refreshControl.tintColor = refreshControlTintColor;
     
     BOOL shouldShowFilterButton = ([app.wallet didUpgradeToHd] && ([[app.wallet activeLegacyAddresses] count] > 0 || [app.wallet getActiveAccountsCount:AssetTypeBitcoin] >= 2));
     
@@ -351,7 +349,7 @@ int lastNumberTransactions = INT_MAX;
 
 - (void)didReceiveTransactionMessage
 {
-    didReceiveTransactionMessage = YES;
+    self.receivedTransactionMessage = YES;
 }
 
 - (void)didGetMessages
@@ -386,8 +384,8 @@ int lastNumberTransactions = INT_MAX;
     [self reloadLastNumberOfTransactions];
     
     // This should be done when request has finished but there is no callback
-    if (refreshControl && refreshControl.isRefreshing) {
-        [refreshControl endRefreshing];
+    if (self.refreshControl && self.refreshControl.isRefreshing) {
+        [self.refreshControl endRefreshing];
     }
 }
 
@@ -410,8 +408,8 @@ int lastNumberTransactions = INT_MAX;
 
 - (void)reloadNewTransactions
 {
-    if (data.n_transactions > lastNumberTransactions) {
-        uint32_t numNewTransactions = data.n_transactions - lastNumberTransactions;
+    if (data.n_transactions > self.lastNumberTransactions) {
+        uint32_t numNewTransactions = data.n_transactions - self.lastNumberTransactions;
         // Max number displayed
         if (numNewTransactions > data.transactions.count) {
             numNewTransactions = (uint32_t) data.transactions.count;
@@ -432,13 +430,13 @@ int lastNumberTransactions = INT_MAX;
 
 - (void)animateFirstCell
 {
-    if (data.transactions.count > 0 && didReceiveTransactionMessage) {
+    if (data.transactions.count > 0 && self.receivedTransactionMessage) {
         
-        didReceiveTransactionMessage = NO;
+        self.receivedTransactionMessage = NO;
 
         [self performSelector:@selector(didGetNewTransaction) withObject:nil afterDelay:0.1f];
     } else {
-        hasZeroTotalBalance = [app.wallet getTotalActiveBalance] == 0;
+        self.hasZeroTotalBalance = [app.wallet getTotalActiveBalance] == 0;
     }
 }
 
@@ -446,13 +444,13 @@ int lastNumberTransactions = INT_MAX;
 {
     // If all the data is available, set the lastNumberTransactions - reload gets called once when wallet is loaded and once when latest block is loaded
     if (app.latestResponse) {
-        lastNumberTransactions = data.n_transactions;
+        self.lastNumberTransactions = data.n_transactions;
     }
 }
 
 - (void)loadTransactions
 {
-    lastNumberTransactions = data.n_transactions;
+    self.lastNumberTransactions = data.n_transactions;
 
 #if defined(ENABLE_TRANSACTION_FILTERING) && defined(ENABLE_TRANSACTION_FETCHING)
     if (self.loadedAllTransactions) {
@@ -502,7 +500,7 @@ int lastNumberTransactions = INT_MAX;
 
         [self completeReceiveRequestOptimisticallyForTransaction:transaction];
         
-        BOOL shouldShowBackupReminder = (hasZeroTotalBalance && [app.wallet getTotalActiveBalance] > 0 &&
+        BOOL shouldShowBackupReminder = (self.hasZeroTotalBalance && [app.wallet getTotalActiveBalance] > 0 &&
                                          ![app.wallet isRecoveryPhraseVerified]);
         
         [app paymentReceived:[self getAmountForReceivedTransaction:transaction] showBackupReminder:shouldShowBackupReminder];
@@ -573,7 +571,7 @@ int lastNumberTransactions = INT_MAX;
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
         return [app.wallet getTotalBalanceForActiveLegacyAddresses];
     } else {
-        return [[app.wallet getBalanceForAccount:(int)self.filterIndex assetType:AssetTypeBitcoin] longLongValue];
+        return [[app.wallet getBalanceForAccount:(int)self.filterIndex assetType:self.assetType] longLongValue];
     }
 #else
     return [app.wallet getTotalActiveBalance];
@@ -588,7 +586,7 @@ int lastNumberTransactions = INT_MAX;
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
         return BC_STRING_IMPORTED_ADDRESSES;
     } else {
-        return [app.wallet getLabelForAccount:(int)self.filterIndex assetType:AssetTypeBitcoin];
+        return [app.wallet getLabelForAccount:(int)self.filterIndex assetType:self.assetType];
     }
 #else
     return nil;
@@ -788,6 +786,8 @@ int lastNumberTransactions = INT_MAX;
 {
     [super viewDidLoad];
     
+    self.lastNumberTransactions = INT_MAX;
+    
     self.loadedAllTransactions = NO;
     
     self.view.frame = CGRectMake(0,
@@ -873,11 +873,11 @@ int lastNumberTransactions = INT_MAX;
     // Tricky way to get the refreshController to work on a UIViewController - @see http://stackoverflow.com/a/12502450/2076094
     UITableViewController *tableViewController = [[UITableViewController alloc] init];
     tableViewController.tableView = self.tableView;
-    refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self
                        action:@selector(loadTransactions)
              forControlEvents:UIControlEventValueChanged];
-    tableViewController.refreshControl = refreshControl;
+    tableViewController.refreshControl = self.refreshControl;
 }
 
 - (void)getAssetButtonClicked

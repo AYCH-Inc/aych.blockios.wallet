@@ -2409,7 +2409,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -f ./Config/fabric-secret.sh ]; then\n    source ./Config/fabric-secret.sh\n    ./Frameworks/Fabric.framework/run $API_KEY $SECRET_KEY\nfi";
+			shellScript = "./Frameworks/Fabric.framework/run ${FABRIC_API_KEY} ${FABRIC_SECRET_KEY}";
 		};
 /* End PBXShellScriptBuildPhase section */
 

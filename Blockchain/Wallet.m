@@ -1954,7 +1954,7 @@
     if (assetType == AssetTypeBitcoin) {
         [self.context evaluateScript:@"MyWalletPhone.createNewBitcoinPayment()"];
     } else if (assetType == AssetTypeBitcoinCash) {
-        [self.context evaluateScript:@"MyWalletPhone.bch.createNewPayment()"];
+        DLog(@"Bitcoin cash - creating payment is done in selecting from");
     } else if (assetType == AssetTypeEther) {
         [self.context evaluateScript:@"MyWalletPhone.createNewEtherPayment()"];
     }
@@ -3297,7 +3297,6 @@
     [self getFinalBalance];
     
     NSString *filter = @"";
-#ifdef ENABLE_TRANSACTION_FILTERING
     
     TransactionsBitcoinViewController *transactionsBitcoinViewController = app.tabControllerManager.transactionsBitcoinViewController;
     
@@ -3310,7 +3309,6 @@
     } else {
         filter = [NSString stringWithFormat:@"%d", filterIndex];
     }
-#endif
     
     NSString *multiAddrJSON = [[self.context evaluateScript:[NSString stringWithFormat:@"JSON.stringify(MyWalletPhone.getMultiAddrResponse(\"%@\"))", filter]] toString];
     

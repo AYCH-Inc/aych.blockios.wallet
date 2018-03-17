@@ -28,11 +28,16 @@
     self.filterSelectorView.backgroundColor = COLOR_TABLE_VIEW_BACKGROUND_LIGHT_GRAY;
     
     CGFloat padding = 8;
-    self.filterSelectorLabel = [[UILabel alloc] initWithFrame:CGRectMake(padding, 0, self.filterSelectorView.bounds.size.width - padding*2, self.filterSelectorView.bounds.size.height)];
+    CGFloat imageViewWidth = 10;
+    self.filterSelectorLabel = [[UILabel alloc] initWithFrame:CGRectMake(padding, 0, self.filterSelectorView.bounds.size.width - padding*3 - imageViewWidth, self.filterSelectorView.bounds.size.height)];
     self.filterSelectorLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_SMALL];
     self.filterSelectorLabel.textColor = COLOR_TEXT_DARK_GRAY;
     self.filterSelectorLabel.text = BC_STRING_ALL_WALLETS;
     [self.filterSelectorView addSubview:self.filterSelectorLabel];
+    
+    UIImageView *chevronImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.filterSelectorView.frame.size.width - imageViewWidth - padding, (self.filterSelectorView.frame.size.height - imageViewWidth)/2, imageViewWidth, imageViewWidth + 2)];
+    chevronImageView.image = [UIImage imageNamed:@"chevron_right"];
+    [self.filterSelectorView addSubview:chevronImageView];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(filterSelectorViewTapped)];
     [self.filterSelectorView addGestureRecognizer:tapGesture];

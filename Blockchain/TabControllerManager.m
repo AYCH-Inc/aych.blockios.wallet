@@ -30,15 +30,19 @@
     
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.assetType] forKey:USER_DEFAULTS_KEY_ASSET_TYPE];
     
-    if (self.tabViewController.selectedIndex == TAB_SEND) {
-        [self showSendCoins];
-    } else if (self.tabViewController.selectedIndex == TAB_DASHBOARD) {
-        [self showDashboard];
-    } else if (self.tabViewController.selectedIndex == TAB_TRANSACTIONS) {
-        [self showTransactions];
-    } else if (self.tabViewController.selectedIndex == TAB_RECEIVE) {
-        [self showReceive];
-    }
+    BOOL animated = NO;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ANIMATION_DURATION * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.tabViewController.selectedIndex == TAB_SEND) {
+            [self showSendCoinsAnimated:animated];
+        } else if (self.tabViewController.selectedIndex == TAB_DASHBOARD) {
+            [self showDashboardAnimated:animated];
+        } else if (self.tabViewController.selectedIndex == TAB_TRANSACTIONS) {
+            [self showTransactionsAnimated:animated];
+        } else if (self.tabViewController.selectedIndex == TAB_RECEIVE) {
+            [self showReceiveAnimated:animated];
+        }
+    });
 }
 
 - (void)reload
@@ -92,27 +96,27 @@
     return self.sendBitcoinViewController.isSending;
 }
 
-- (void)showSendCoins
+- (void)showSendCoinsAnimated:(BOOL)animated
 {
     if (self.assetType == AssetTypeBitcoin) {
         if (!_sendBitcoinViewController) {
             _sendBitcoinViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
         }
         
-        [_tabViewController setActiveViewController:_sendBitcoinViewController animated:TRUE index:TAB_SEND];
+        [_tabViewController setActiveViewController:_sendBitcoinViewController animated:animated index:TAB_SEND];
     } else if (self.assetType == AssetTypeEther) {
         if (!_sendEtherViewController) {
             _sendEtherViewController = [[SendEtherViewController alloc] init];
         }
         
-        [_tabViewController setActiveViewController:_sendEtherViewController animated:TRUE index:TAB_SEND];
+        [_tabViewController setActiveViewController:_sendEtherViewController animated:animated index:TAB_SEND];
     } else if (self.assetType == AssetTypeBitcoinCash) {
         if (!_sendBitcoinCashViewController) {
             _sendBitcoinCashViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
             _sendBitcoinCashViewController.assetType = AssetTypeBitcoinCash;
         }
         
-        [_tabViewController setActiveViewController:_sendBitcoinCashViewController animated:TRUE index:TAB_SEND];
+        [_tabViewController setActiveViewController:_sendBitcoinCashViewController animated:animated index:TAB_SEND];
     }
 }
 
@@ -122,7 +126,7 @@
        _sendBitcoinViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
     }
     
-    [self showSendCoins];
+    [self showSendCoinsAnimated:YES];
     
     [_sendBitcoinViewController setupTransferAll];
 }
@@ -156,13 +160,13 @@
         _sendBitcoinViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
     }
     
-    [self showSendCoins];
+    [self showSendCoinsAnimated:YES];
     [_sendBitcoinViewController setupPaymentRequest:transaction];
 }
 
 - (void)setupSendToAddress:(NSString *)address
 {
-    [self showSendCoins];
+    [self showSendCoinsAnimated:YES];
     
     if (self.assetType == AssetTypeBitcoin) {
         self.sendBitcoinViewController.addressFromURLHandler = address;
@@ -259,7 +263,7 @@
 {
     [self.sendEtherViewController reload];
     [self.tabViewController didSendEther];
-    [self showTransactions];
+    [self showTransactionsAnimated:YES];
 }
 
 - (void)didErrorDuringEtherSend:(NSString *)error
@@ -278,20 +282,20 @@
 
 #pragma mark - Receive
 
-- (void)showReceive
+- (void)showReceiveAnimated:(BOOL)animated
 {
     if (self.assetType == AssetTypeBitcoin) {
         if (!_receiveBitcoinViewController) {
             _receiveBitcoinViewController = [[ReceiveBitcoinViewController alloc] initWithNibName:NIB_NAME_RECEIVE_COINS bundle:[NSBundle mainBundle]];
         }
         
-        [_tabViewController setActiveViewController:_receiveBitcoinViewController animated:TRUE index:TAB_RECEIVE];
+        [_tabViewController setActiveViewController:_receiveBitcoinViewController animated:animated index:TAB_RECEIVE];
     } else if (self.assetType == AssetTypeEther) {
         if (!_receiveEtherViewController) {
             _receiveEtherViewController = [[ReceiveEtherViewController alloc] init];
         }
         
-        [_tabViewController setActiveViewController:_receiveEtherViewController animated:TRUE index:TAB_RECEIVE];
+        [_tabViewController setActiveViewController:_receiveEtherViewController animated:animated index:TAB_RECEIVE];
         [_receiveEtherViewController showEtherAddress];
     } else if (self.assetType == AssetTypeBitcoinCash) {
         if (!_receiveBitcoinCashViewController) {
@@ -299,7 +303,7 @@
             _receiveBitcoinCashViewController.assetType = AssetTypeBitcoinCash;
         }
         
-        [_tabViewController setActiveViewController:_receiveBitcoinCashViewController animated:TRUE index:TAB_RECEIVE];
+        [_tabViewController setActiveViewController:_receiveBitcoinCashViewController animated:animated index:TAB_RECEIVE];
     }
 }
 
@@ -330,40 +334,40 @@
 
 #pragma mark - Dashboard
 
-- (void)showDashboard
+- (void)showDashboardAnimated:(BOOL)animated
 {
     if (!_dashboardViewController) {
         DashboardViewController *dashboardViewController = [DashboardViewController new];
         self.dashboardViewController = dashboardViewController;
     }
     
-    [_tabViewController setActiveViewController:self.dashboardViewController animated:TRUE index:TAB_DASHBOARD];
+    [_tabViewController setActiveViewController:self.dashboardViewController animated:animated index:TAB_DASHBOARD];
     
     self.dashboardViewController.assetType = self.assetType;
 }
 
 #pragma mark - Transactions
 
-- (void)showTransactions
+- (void)showTransactionsAnimated:(BOOL)animated
 {
     if (self.assetType == AssetTypeBitcoin) {
         if (!_transactionsBitcoinViewController) {
             _transactionsBitcoinViewController = [[[NSBundle mainBundle] loadNibNamed:NIB_NAME_TRANSACTIONS owner:self options:nil] firstObject];
         }
         
-        [_tabViewController setActiveViewController:_transactionsBitcoinViewController animated:YES index:TAB_TRANSACTIONS];
+        [_tabViewController setActiveViewController:_transactionsBitcoinViewController animated:animated index:TAB_TRANSACTIONS];
     } else if (self.assetType == AssetTypeEther) {
         if (!_transactionsEtherViewController) {
             _transactionsEtherViewController = [[TransactionsEtherViewController alloc] init];
         }
         
-        [_tabViewController setActiveViewController:_transactionsEtherViewController animated:YES index:TAB_TRANSACTIONS];
+        [_tabViewController setActiveViewController:_transactionsEtherViewController animated:animated index:TAB_TRANSACTIONS];
     } else if (self.assetType == AssetTypeBitcoinCash) {
         if (!_transactionsEtherViewController) {
             _transactionsBitcoinCashViewController = [[TransactionsBitcoinCashViewController alloc] init];
         }
         
-        [_tabViewController setActiveViewController:_transactionsBitcoinCashViewController animated:YES index:TAB_TRANSACTIONS];
+        [_tabViewController setActiveViewController:_transactionsBitcoinCashViewController animated:animated index:TAB_TRANSACTIONS];
     }
 }
 
@@ -482,7 +486,7 @@
 - (void)didRejectContactTransaction
 {
     [self.sendBitcoinViewController reload];
-    [self showTransactions];
+    [self showTransactionsAnimated:YES];
 }
 
 - (void)hideSendAndReceiveKeyboards
@@ -537,12 +541,12 @@
 
 - (void)dashBoardClicked:(UITabBarItem *)sender
 {
-    [self showDashboard];
+    [self showDashboardAnimated:YES];
 }
 
 - (void)receiveCoinClicked:(UITabBarItem *)sender
 {
-    [self showReceive];
+    [self showReceiveAnimated:YES];
 }
 
 - (void)showReceiveEther
@@ -559,7 +563,7 @@
 
 - (void)transactionsClicked:(UITabBarItem *)sender
 {
-    [self showTransactions];
+    [self showTransactionsAnimated:YES];
     
     if (sender &&
         [[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAUTS_KEY_HAS_ENDED_FIRST_SESSION] &&
@@ -591,7 +595,7 @@
 
 - (void)sendCoinsClicked:(UITabBarItem *)sender
 {
-    [self showSendCoins];
+    [self showSendCoinsAnimated:YES];
 }
 
 - (void)qrCodeButtonClicked
@@ -692,7 +696,7 @@
     [showGetAssetsAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [app closeSideMenu];
         [self.tabViewController dismissViewControllerAnimated:YES completion:nil];
-        [self showDashboard];
+        [self showDashboardAnimated:YES];
     }]];
     
     [self.tabViewController.presentedViewController presentViewController:showGetAssetsAlert animated:YES completion:nil];

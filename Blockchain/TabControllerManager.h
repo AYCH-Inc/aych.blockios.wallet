@@ -70,7 +70,7 @@
 
 // Send Bitcoin View Controller
 - (BOOL)isSending;
-- (void)showSendCoins;
+- (void)showSendCoinsAnimated:(BOOL)animated;
 - (void)setupTransferAllFunds;
 - (void)hideSendKeyboard;
 - (void)reloadSendController;
@@ -126,7 +126,7 @@
 
 - (void)hideSendAndReceiveKeyboards;
 
-- (void)showTransactions;
+- (void)showTransactionsAnimated:(BOOL)animated;
 
 - (void)updateBadgeNumber:(NSInteger)number forSelectedIndex:(int)index;
 

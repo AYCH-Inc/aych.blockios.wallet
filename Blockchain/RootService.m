@@ -1053,7 +1053,7 @@ void (^secondPasswordSuccess)(NSString *);
     if (showType == ShowTypeSendCoins) {
         [self showSendCoins];
     } else if (showType == ShowTypeNewPayment) {
-        [self.tabControllerManager showTransactions];
+        [self.tabControllerManager showTransactionsAnimated:YES];
     } else if (showType == ShowTypeNewContact) {
         [self.wallet loadContacts];
         [self showContacts];
@@ -2636,12 +2636,12 @@ void (^secondPasswordSuccess)(NSString *);
 
 - (void)showTransactions
 {
-    [self.tabControllerManager showTransactions];
+    [self.tabControllerManager showTransactionsAnimated:YES];
 }
 
 - (void)showSendCoins
 {
-    [self.tabControllerManager showSendCoins];
+    [self.tabControllerManager showSendCoinsAnimated:YES];
 }
 
 - (void)showDebugMenu:(int)presenter

@@ -267,12 +267,6 @@
 #define BC_STRING_LOADING_CREATING_INVITATION NSLocalizedString(@"Creating invitation", nil)
 #define BC_STRING_IDENTIFIER NSLocalizedString(@"Identifier", nil)
 
-#define BC_STRING_BITCOIN_MERCHANT_MAP NSLocalizedString(@"Bitcoin Merchant Map", nil)
-#define BC_STRING_MERCHANT NSLocalizedString(@"Merchant", nil)
-#define BC_STRING_MERCHANT_MAP_ASK_TO_ENABLE_LOCATION_SERVICES_ALERTVIEW_TITLE NSLocalizedString(@"Enable Location Services", nil)
-#define BC_STRING_MERCHANT_MAP_ASK_TO_ENABLE_LOCATION_SERVICES_ALERTVIEW_MESSAGE NSLocalizedString(@"Blockchain needs Location Services enabled in order to access your location.", nil)
-#define BC_STRING_MERCHANT_MAP_ASK_TO_ENABLE_LOCATION_SERVICES_ALERTVIEW_MESSAGE_GLOBALLY_IOS_8_AND_ABOVE NSLocalizedString(@"Blockchain needs Location Services enabled in order to access your location. You can enable access in Settings->Privacy->Location Services", nil)
-#define BC_STRING_MERCHANT_MAP_ASK_TO_ENABLE_LOCATION_SERVICES_ALERTVIEW_MESSAGE_GLOBALLY_IOS_7 NSLocalizedString(@"Blockchain needs Location Services enabled in order to access your location. You can enable access in Settings->Privacy->Location->Location Services", nil)
 #define BC_STRING_GO_TO_SETTINGS NSLocalizedString(@"Go to Settings", nil)
 
 #define BC_STRING_SUPPORT NSLocalizedString(@"Support", nil)
@@ -581,7 +575,6 @@
 #define BC_STRING_LOADING_RECOVERY_CREATING_WALLET NSLocalizedString(@"Creating Wallet", nil)
 #define BC_STRING_INVALID_RECOVERY_PHRASE NSLocalizedString(@"Invalid recovery phrase. Please try again", nil)
 
-#define BC_STRING_MERCHANT_DIRECTORY_UNAVAILABLE NSLocalizedString(@"Merchant Directory is currently unavailable. Please try again later.", nil)
 #define BC_STRING_SEND_ERROR_NO_INTERNET_CONNECTION NSLocalizedString(@"No internet connection available. Please check your network settings.", nil)
 #define BC_STRING_SEND_ERROR_FEE_TOO_LOW NSLocalizedString(@"The fee you have specified is too low.", nil)
 #define BC_STRING_HIGH_FEE_WARNING_TITLE NSLocalizedString(@"Large Transaction", nil)
@@ -827,6 +820,7 @@
 #define BC_STRING_GET_STARTED_WITH_ETHER NSLocalizedString(@"Get Started with Ether", nil)
 
 #define BC_STRING_MY_ETHER_WALLET NSLocalizedString(@"My Ether Wallet", nil)
+#define BC_STRING_MY_BITCOIN_CASH_WALLET NSLocalizedString(@"My Bitcoin Cash Wallet", nil)
 
 #define BC_STRING_EXCHANGE NSLocalizedString(@"Exchange", nil)
 #define BC_STRING_NEW_EXCHANGE NSLocalizedString(@"New Exchange", nil)

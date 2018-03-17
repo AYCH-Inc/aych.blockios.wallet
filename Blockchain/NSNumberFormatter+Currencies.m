@@ -51,14 +51,7 @@
     } else if (app.latestResponse.symbol_btc) {
         NSDecimalNumber * number = [(NSDecimalNumber*)[NSDecimalNumber numberWithLongLong:value] decimalNumberByDividingBy:(NSDecimalNumber*)[NSDecimalNumber numberWithLongLong:app.latestResponse.symbol_btc.conversion]];
         
-        // mBTC display -> Always 2 decimal places
-        if (app.latestResponse.symbol_btc.conversion == 100) {
-            [app.btcFormatter setMinimumFractionDigits:2];
-        }
-        // otherwise -> no min decimal places
-        else {
-            [app.btcFormatter setMinimumFractionDigits:0];
-        }
+        [app.btcFormatter setMinimumFractionDigits:0];
         
         NSString * string = [app.btcFormatter stringFromNumber:number];
         
@@ -285,6 +278,17 @@
 
 #pragma mark - Bitcoin Cash
 
++ (NSString*)formatBCH:(uint64_t)value
+{
+    NSDecimalNumber * number = [(NSDecimalNumber*)[NSDecimalNumber numberWithLongLong:value] decimalNumberByDividingBy:(NSDecimalNumber*)[NSDecimalNumber numberWithDouble:SATOSHI]];
+    
+    [app.btcFormatter setMinimumFractionDigits:0];
+    
+    NSString * string = [app.btcFormatter stringFromNumber:number];
+    
+    return [string stringByAppendingString:@" BCH"];
+}
+
 + (NSString*)formatBchWithSymbol:(uint64_t)value
 {
     return [self formatBchWithSymbol:value localCurrency:app->symbolLocal];
@@ -310,27 +314,13 @@
     } else if (app.latestResponse.symbol_btc) {
         NSDecimalNumber * number = [(NSDecimalNumber*)[NSDecimalNumber numberWithLongLong:value] decimalNumberByDividingBy:(NSDecimalNumber*)[NSDecimalNumber numberWithLongLong:app.latestResponse.symbol_btc.conversion]];
         
-        // mBTC display -> Always 2 decimal places
-        if (app.latestResponse.symbol_btc.conversion == 100) {
-            [app.btcFormatter setMinimumFractionDigits:2];
-        }
-        // otherwise -> no min decimal places
-        else {
-            [app.btcFormatter setMinimumFractionDigits:0];
-        }
+        [app.btcFormatter setMinimumFractionDigits:0];
         
         NSString * string = [app.btcFormatter stringFromNumber:number];
         
-        NSString *currencySymbol = app.latestResponse.symbol_btc.symbol;
-        if ([currencySymbol isEqualToString:CURRENCY_SYMBOL_MBC]) {
-            currencySymbol = CURRENCY_SYMBOL_BCH_MILLIBITS;
-        } else if ([currencySymbol isEqualToString:CURRENCY_CODE_UBC]) {
-            currencySymbol = CURRENCY_SYMBOL_BCH_BITS;
-        } else {
-            currencySymbol = CURRENCY_SYMBOL_BCH;
-        }
+        NSString *currencyCode = CURRENCY_SYMBOL_BCH;
         
-        return [string stringByAppendingFormat:@" %@", currencySymbol];
+        return [string stringByAppendingFormat:@" %@", currencyCode];
     }
     
     return [NSNumberFormatter formatBTC:value];

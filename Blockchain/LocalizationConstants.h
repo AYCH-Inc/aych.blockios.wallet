@@ -10,7 +10,7 @@
 #define BC_STRING_BITCOIN NSLocalizedString(@"Bitcoin", nil)
 #define BC_STRING_ETHER NSLocalizedString(@"Ether", nil)
 
-#define BC_STRING_BITCOIN_BALANCES NSLocalizedString(@"Bitcoin Balances", nil)
+#define BC_STRING_ALL_WALLETS NSLocalizedString(@"All Wallets", nil)
 #define BC_STRING_WALLETS NSLocalizedString(@"Wallets", nil)
 
 #define BC_STRING_ANY_ADDRESS NSLocalizedString(@"Any address", nil)

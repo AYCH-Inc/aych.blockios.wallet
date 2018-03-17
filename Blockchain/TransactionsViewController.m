@@ -8,6 +8,7 @@
 
 #import "TransactionsViewController.h"
 #import "Assets.h"
+#import "BCLine.h"
 
 @interface TransactionsViewController ()
 @property (nonatomic) UILabel *noTransactionsTitle;
@@ -38,6 +39,9 @@
     UIImageView *chevronImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.filterSelectorView.frame.size.width - imageViewWidth - padding, (self.filterSelectorView.frame.size.height - imageViewWidth)/2, imageViewWidth, imageViewWidth + 2)];
     chevronImageView.image = [UIImage imageNamed:@"chevron_right"];
     [self.filterSelectorView addSubview:chevronImageView];
+    
+    BCLine *lineAboveButtonsView = [[BCLine alloc] initWithYPosition:self.filterSelectorView.bounds.size.height - 1];
+    [self.filterSelectorView addSubview:lineAboveButtonsView];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(filterSelectorViewTapped)];
     [self.filterSelectorView addGestureRecognizer:tapGesture];

@@ -233,20 +233,22 @@ typedef enum {
 - (void)loadWalletLogin;
 
 - (void)toggleArchiveLegacyAddress:(NSString *)address;
-- (void)toggleArchiveAccount:(int)account;
+- (void)toggleArchiveAccount:(int)account assetType:(AssetType)assetType;
 - (void)archiveTransferredAddresses:(NSArray *)transferredAddresses;
 
 - (void)sendPaymentWithListener:(transactionProgressListeners*)listener secondPassword:(NSString *)secondPassword;
 - (void)sendFromWatchOnlyAddress:(NSString *)watchOnlyAddress privateKey:(NSString *)privateKeyString;
 
-- (NSString *)labelForLegacyAddress:(NSString *)address;
+- (NSString *)labelForLegacyAddress:(NSString *)address assetType:(AssetType)assetType;
+- (NSString *)labelForContactLegacyAddress:(NSString *)address contactTransaction:(ContactTransaction *)contactTransaction;
+
 - (Boolean)isAddressArchived:(NSString *)address;
 
 - (void)subscribeToSwipeAddress:(NSString *)address;
 
 - (void)addToAddressBook:(NSString *)address label:(NSString *)label;
 
-- (BOOL)isBitcoinAddress:(NSString *)string;
+- (BOOL)isValidAddress:(NSString *)string assetType:(AssetType)assetType;
 - (BOOL)isWatchOnlyLegacyAddress:(NSString*)address;
 
 - (BOOL)addKey:(NSString *)privateKeyString;
@@ -255,7 +257,7 @@ typedef enum {
 // Fetch String Array Of Addresses
 - (NSArray *)activeLegacyAddresses;
 - (NSArray *)spendableActiveLegacyAddresses;
-- (NSArray *)allLegacyAddresses;
+- (NSArray *)allLegacyAddresses:(AssetType)assetType;
 - (NSArray *)archivedLegacyAddresses;
 
 - (BOOL)isInitialized;
@@ -271,11 +273,12 @@ typedef enum {
 - (void)getHistoryIfNoTransactionMessage;
 - (void)getWalletAndHistory;
 
-- (uint64_t)getLegacyAddressBalance:(NSString *)address;
+- (id)getLegacyAddressBalance:(NSString *)address assetType:(AssetType)assetType;
 - (uint64_t)parseBitcoinValueFromTextField:(UITextField *)textField;
 - (uint64_t)parseBitcoinValueFromString:(NSString *)inputString;
 - (void)changeLocalCurrency:(NSString *)currencyCode;
 - (void)changeBtcCurrency:(NSString *)btcCode;
+- (uint64_t)conversionForBitcoinAssetType:(AssetType)assetType;
 
 - (void)parsePairingCode:(NSString *)code;
 - (void)makePairingCode;
@@ -293,7 +296,7 @@ typedef enum {
 
 - (BOOL)isAddressAvailable:(NSString *)address;
 - (BOOL)isAccountAvailable:(int)account;
-- (int)getIndexOfActiveAccount:(int)account;
+- (int)getIndexOfActiveAccount:(int)account assetType:(AssetType)assetType;
 
 - (void)fetchMoreTransactions;
 - (void)reloadFilter;
@@ -308,21 +311,21 @@ typedef enum {
 - (BOOL)isRecoveryPhraseVerified;
 - (void)markRecoveryPhraseVerified;
 - (int)getFilteredOrDefaultAccountIndex;
-- (int)getDefaultAccountIndex;
-- (void)setDefaultAccount:(int)index;
-- (int)getActiveAccountsCount;
-- (int)getAllAccountsCount;
+- (int)getDefaultAccountIndexForAssetType:(AssetType)assetType;
+- (void)setDefaultAccount:(int)index assetType:(AssetType)assetType;
+- (int)getActiveAccountsCount:(AssetType)assetType;
+- (int)getAllAccountsCount:(AssetType)assetType;
 - (BOOL)hasLegacyAddresses;
-- (Boolean)isAccountArchived:(int)account;
+- (BOOL)isAccountArchived:(int)account assetType:(AssetType)assetType;
 - (BOOL)isAccountNameValid:(NSString *)name;
 
 - (uint64_t)getTotalActiveBalance;
 - (uint64_t)getTotalBalanceForActiveLegacyAddresses;
 - (uint64_t)getTotalBalanceForSpendableActiveLegacyAddresses;
-- (uint64_t)getBalanceForAccount:(int)account;
+- (id)getBalanceForAccount:(int)account assetType:(AssetType)assetType;
 
-- (NSString *)getLabelForAccount:(int)account;
-- (void)setLabelForAccount:(int)account label:(NSString *)label;
+- (NSString *)getLabelForAccount:(int)account assetType:(AssetType)assetType;
+- (void)setLabelForAccount:(int)account label:(NSString *)label assetType:(AssetType)assetType;
 
 - (void)createAccountWithLabel:(NSString *)label;
 - (void)generateNewKey;
@@ -330,7 +333,7 @@ typedef enum {
 - (NSString *)getReceiveAddressOfDefaultAccount;
 - (NSString *)getReceiveAddressForAccount:(int)account;
 
-- (NSString *)getXpubForAccount:(int)accountIndex;
+- (NSString *)getXpubForAccount:(int)accountIndex assetType:(AssetType)assetType;
 
 - (void)setPbkdf2Iterations:(int)iterations;
 
@@ -385,12 +388,12 @@ typedef enum {
 - (int)securityCenterCompletedItemsCount;
 
 // Payment Spender
-- (void)createNewBitcoinPayment;
-- (void)changePaymentFromAddress:(NSString *)fromString isAdvanced:(BOOL)isAdvanced;
-- (void)changePaymentFromAccount:(int)fromInt isAdvanced:(BOOL)isAdvanced;
-- (void)changePaymentToAccount:(int)toInt;
-- (void)changePaymentToAddress:(NSString *)toString;
-- (void)changePaymentAmount:(uint64_t)amount;
+- (void)createNewPayment:(AssetType)assetType;
+- (void)changePaymentFromAddress:(NSString *)fromString isAdvanced:(BOOL)isAdvanced assetType:(AssetType)assetType;
+- (void)changePaymentFromAccount:(int)fromInt isAdvanced:(BOOL)isAdvanced assetType:(AssetType)assetType;
+- (void)changePaymentToAccount:(int)toInt assetType:(AssetType)assetType;
+- (void)changePaymentToAddress:(NSString *)toString assetType:(AssetType)assetType;
+- (void)changePaymentAmount:(id)amount assetType:(AssetType)assetType;
 - (void)sweepPaymentRegular;
 - (void)sweepPaymentRegularThenConfirm;
 - (void)sweepPaymentAdvanced;
@@ -447,13 +450,8 @@ typedef enum {
 - (NSArray *)getEthTransactions;
 - (void)getEthHistory;
 - (void)getEthExchangeRate;
-- (NSString *)getLabelForEthAccount;
 
 // Ether send
-- (void)createNewEtherPayment;
-- (void)changeEtherPaymentTo:(NSString *)to;
-- (void)changeEtherPaymentAmount:(id)amount;
-- (BOOL)isEthAddress:(NSString *)address;
 - (void)sendEtherPaymentWithNote:(NSString *)note;
 - (NSString *)getEtherAddress;
 - (void)isEtherContractAddress:(NSString *)address completion:(void (^ __nullable)(NSData *data, NSURLResponse *response, NSError *error))completion;
@@ -461,12 +459,19 @@ typedef enum {
 - (BOOL)hasEthAccount;
 - (BOOL)isWaitingOnEtherTransaction;
 
-// Bitcoin cash
+// Bitcoin Cash
 - (void)getBitcoinCashHistory;
 - (void)fetchBitcoinCashExchangeRates;
+- (NSString *)getLabelForBitcoinCashAccount:(int)account;
+- (void)buildBitcoinCashPayment;
+- (void)sendBitcoinCashPaymentWithListener:(transactionProgressListeners*)listener;
+- (BOOL)hasBchAccount;
+- (uint64_t)getBchBalance;
 - (NSString *)bitcoinCashExchangeRate;
+- (uint64_t)getBitcoinCashConversion;
 - (uint64_t)bitcoinCashTotalBalance;
 - (NSArray *)getBitcoinCashTransactions;
+- (NSString *_Nullable)getLabelForDefaultBchAccount;
 
 // Exchange
 - (void)createEthAccountForExchange:(NSString *)secondPassword;

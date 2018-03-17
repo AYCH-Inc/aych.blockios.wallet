@@ -35,6 +35,7 @@
 #define ESTIMATED_KEYBOARD_PLUS_ACCESSORY_VIEW_HEIGHT 205.5
 
 @interface ReceiveCoinsViewController() <UIActivityItemSource, AddressSelectionDelegate>
+@property (nonatomic) AssetType assetType;
 @property (nonatomic) UITextField *lastSelectedField;
 @property (nonatomic) QRCodeGenerator *qrCodeGenerator;
 @property (nonatomic) uint64_t lastRequestedAmount;
@@ -308,7 +309,7 @@ NSString *detailLabel;
     if ([app.wallet didUpgradeToHd]) {
         [self didSelectToAccount:[app.wallet getFilteredOrDefaultAccountIndex]];
     } else {
-        [self didSelectToAddress:[[app.wallet allLegacyAddresses] firstObject]];
+        [self didSelectToAddress:[[app.wallet allLegacyAddresses:self.assetType] firstObject]];
     }
 }
 
@@ -368,7 +369,7 @@ NSString *detailLabel;
 {
     // Get an address: the first empty receive address for the default HD account
     // Or the first active legacy address if there are no HD accounts
-    if ([app.wallet getActiveAccountsCount] > 0) {
+    if ([app.wallet getActiveAccountsCount:self.assetType] > 0) {
         [self didSelectFromAccount:[app.wallet getFilteredOrDefaultAccountIndex]];
     }
     else if (activeKeys.count > 0) {
@@ -398,7 +399,7 @@ NSString *detailLabel;
     
     [self.view addSubview:self.headerView];
     
-    if ([app.wallet getActiveAccountsCount] > 0 || activeKeys.count > 0) {
+    if ([app.wallet getActiveAccountsCount:self.assetType] > 0 || activeKeys.count > 0) {
         
         BOOL isUsing4SScreenSize = IS_USING_SCREEN_SIZE_4S;
         BOOL isUsing5SScreenSize = IS_USING_SCREEN_SIZE_5S;
@@ -574,6 +575,10 @@ NSString *detailLabel;
         }];
     }];
 }
+
+#pragma mark - Asset Agnostic Methods
+
+
 
 #pragma mark - Actions
 
@@ -754,8 +759,7 @@ NSString *detailLabel;
     
     SelectMode selectMode = self.fromContact ? SelectModeReceiveFromContact : SelectModeReceiveTo;
     
-    BCAddressSelectionView *addressSelectionView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:selectMode];
-    addressSelectionView.delegate = self;
+    BCAddressSelectionView *addressSelectionView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:selectMode delegate:self];
     
     [app showModalWithContent:addressSelectionView closeType:ModalCloseTypeBack showHeader:YES headerText:BC_STRING_RECEIVE_TO onDismiss:nil onResume:nil];
 }
@@ -834,9 +838,8 @@ NSString *detailLabel;
         return;
     }
     
-    BCAddressSelectionView *addressSelectionView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:SelectModeContact];
+    BCAddressSelectionView *addressSelectionView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:SelectModeContact delegate:self];
     addressSelectionView.previouslySelectedContact = self.fromContact;
-    addressSelectionView.delegate = self;
     [addressSelectionView reloadTableView];
     
     [app showModalWithContent:addressSelectionView closeType:ModalCloseTypeBack showHeader:YES headerText:BC_STRING_REQUEST_FROM onDismiss:nil onResume:nil];
@@ -1083,11 +1086,16 @@ NSString *detailLabel;
 
 #pragma mark - BCAddressSelectionView Delegate
 
+- (AssetType)getAssetType
+{
+    return self.assetType;
+}
+
 - (void)didSelectFromAddress:(NSString*)address
 {
     mainAddress = address;
     NSString *addr = mainAddress;
-    NSString *label = [app.wallet labelForLegacyAddress:addr];
+    NSString *label = [app.wallet labelForLegacyAddress:addr assetType:self.assetType];
     
     self.clickedAddress = addr;
     didClickAccount = NO;
@@ -1106,6 +1114,11 @@ NSString *detailLabel;
     [self didSelectFromAddress:address];
 }
 
+- (void)didSelectFromAccount:(int)account assetType:(AssetType)asset
+{
+    [self didSelectFromAccount:account];
+}
+
 - (void)didSelectFromAccount:(int)account
 {
     mainAddress = [app.wallet getReceiveAddressForAccount:account];
@@ -1113,9 +1126,14 @@ NSString *detailLabel;
     clickedAccount = account;
     didClickAccount = YES;
     
-    mainLabel = [app.wallet getLabelForAccount:account];
+    mainLabel = [app.wallet getLabelForAccount:account assetType:self.assetType];
     
     [self updateUI];
+}
+
+- (void)didSelectToAccount:(int)account assetType:(AssetType)asset
+{
+    [self didSelectToAccount:account];
 }
 
 - (void)didSelectToAccount:(int)account

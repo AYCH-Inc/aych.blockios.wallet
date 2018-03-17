@@ -47,6 +47,8 @@
 
 @property (nonatomic) id amount;
 @property (nonatomic) int btcAccount;
+@property (nonatomic) int ethAccount;
+@property (nonatomic) int bchAccount;
 
 @property (nonatomic) NSString *fromSymbol;
 @property (nonatomic) NSString *toSymbol;
@@ -76,7 +78,7 @@
     
     [self setupViews];
     
-    self.btcAccount = [app.wallet getDefaultAccountIndex];
+    self.btcAccount = [app.wallet getDefaultAccountIndexForAssetType:AssetTypeBitcoin];
     
     [self selectFromBitcoin];
     [self selectToEther];
@@ -689,8 +691,7 @@
 
 - (void)selectAccountClicked:(SelectMode)selectMode
 {
-    BCAddressSelectionView *selectorView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:selectMode];
-    selectorView.delegate = self;
+    BCAddressSelectionView *selectorView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:selectMode delegate:self];
     selectorView.frame = CGRectMake(0, DEFAULT_HEADER_HEIGHT, self.view.frame.size.width, self.view.frame.size.height);
     
     UIViewController *viewController = [UIViewController new];
@@ -789,6 +790,16 @@
     [self clearAvailableBalance];
 
     [self didChangeFromOrTo];
+}
+
+- (void)selectFromBitcoinCash
+{
+    // TODO: implement
+}
+
+- (void)selectToBitcoinCash
+{
+    // TODO: implement
 }
 
 - (void)selectToEther
@@ -1016,12 +1027,17 @@
 
 - (NSString *)bitcoinLabelText
 {
-    return [app.wallet getActiveAccountsCount] > 1 ? [app.wallet getLabelForAccount:self.btcAccount] : BC_STRING_BITCOIN;
+    return [app.wallet getActiveAccountsCount:AssetTypeBitcoin] > 1 ? [app.wallet getLabelForAccount:self.btcAccount assetType:AssetTypeBitcoin] : BC_STRING_BITCOIN;
+}
+
+- (NSString *)bitcoinCashLabelText
+{
+    return [app.wallet getActiveAccountsCount:AssetTypeBitcoinCash] > 1 ? [app.wallet getLabelForAccount:self.bchAccount assetType:AssetTypeBitcoinCash] : BC_STRING_BITCOIN_CASH;
 }
 
 - (NSString *)etherLabelText
 {
-    return [app.wallet getActiveAccountsCount] > 1 ? [app.wallet getLabelForEthAccount] : BC_STRING_ETHER;
+    return [app.wallet getActiveAccountsCount:AssetTypeEther] > 1 ? [app.wallet getLabelForAccount:0 assetType:AssetTypeEther] : BC_STRING_ETHER;
 }
 
 - (void)didChangeFromOrTo
@@ -1043,75 +1059,60 @@
         
 #pragma mark - Address Selection Delegate
 
-- (void)didSelectFromEthAccount
+- (AssetType)getAssetType
+{
+    // Exchange controller uses all assets 
+    return -1;
+}
+
+- (void)didSelectFromAccount:(int)account assetType:(AssetType)asset
 {
     [self.navigationController popViewControllerAnimated:YES];
-    
-    [self selectFromEther];
-    [self selectToBitcoin];
-    
-    self.fromToView.fromLabel.text = [self etherLabelText];
-    self.fromToView.toLabel.text = [self bitcoinLabelText];
-    
+
+    switch (asset) {
+        case AssetTypeBitcoin:
+            self.btcAccount = account;
+            [self selectFromBitcoin];
+            self.fromToView.fromLabel.text = [self bitcoinLabelText];
+            break;
+        case AssetTypeBitcoinCash:
+            self.bchAccount = account;
+            [self selectFromBitcoinCash];
+            self.fromToView.fromLabel.text = [self bitcoinCashLabelText];
+            break;
+        case AssetTypeEther:
+            self.ethAccount = account;
+            [self selectFromEther];
+            self.fromToView.fromLabel.text = [self etherLabelText];
+            break;
+    }
+
     [self getRate];
 }
 
-- (void)didSelectToEthAccount
+- (void)didSelectToAccount:(int)account assetType:(AssetType)asset
 {
     [self.navigationController popViewControllerAnimated:YES];
-    
-    [self selectFromBitcoin];
-    [self selectToEther];
-    
-    self.fromToView.fromLabel.text = [self bitcoinLabelText];
-    self.fromToView.toLabel.text = [self etherLabelText];
-    
+
+    switch (asset) {
+        case AssetTypeBitcoin:
+            self.btcAccount = account;
+            [self selectToBitcoin];
+            self.fromToView.toLabel.text = [self bitcoinLabelText];
+            break;
+        case AssetTypeBitcoinCash:
+            self.bchAccount = account;
+            [self selectToBitcoinCash];
+            self.fromToView.toLabel.text = [self bitcoinCashLabelText];
+            break;
+        case AssetTypeEther:
+            self.ethAccount = account;
+            [self selectToEther];
+            self.fromToView.toLabel.text = [self etherLabelText];
+            break;
+    }
+
     [self getRate];
-}
-
-- (void)didSelectFromAccount:(int)account
-{
-    [self.navigationController popViewControllerAnimated:YES];
-    
-    self.btcAccount = account;
-    
-    [self selectFromBitcoin];
-    [self selectToEther];
-    
-    self.fromToView.fromLabel.text = [self bitcoinLabelText];
-    self.fromToView.toLabel.text = [self etherLabelText];
-    
-    [self getRate];
-}
-
-- (void)didSelectToAccount:(int)account
-{
-    [self.navigationController popViewControllerAnimated:YES];
-    
-    self.btcAccount = account;
-    
-    [self selectFromEther];
-    [self selectToBitcoin];
-    
-    self.fromToView.fromLabel.text = [self etherLabelText];
-    self.fromToView.toLabel.text = [self bitcoinLabelText];
-    
-    [self getRate];
-}
-
-- (void)didSelectToAddress:(NSString *)address
-{
-    // required by protocol
-}
-
-- (void)didSelectContact:(Contact *)contact
-{
-    // required by protocol
-}
-
-- (void)didSelectFromAddress:(NSString *)address
-{
-    // required by protocol
 }
 
 #pragma mark - Continue Button Input Accessory View Delegate

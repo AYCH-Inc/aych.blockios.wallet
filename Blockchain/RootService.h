@@ -33,7 +33,7 @@
 
 @protocol TopViewController;
 
-@class TransactionsBitcoinViewController, BCFadeView, ReceiveCoinsViewController, SendBitcoinViewController, BCCreateWalletView, BCManualPairView, MultiAddressResponse, PairingCodeParser, MerchantMapViewController, BCWebViewController, BackupNavigationViewController, ContactsViewController, ContactTransaction, BuyBitcoinViewController;
+@class TransactionsBitcoinViewController, BCFadeView, ReceiveCoinsViewController, SendBitcoinViewController, BCCreateWalletView, BCManualPairView, MultiAddressResponse, PairingCodeParser, BCWebViewController, BackupNavigationViewController, ContactsViewController, ContactTransaction, BuyBitcoinViewController;
 
 @interface RootService : NSObject <UIApplicationDelegate, WalletDelegate, PEPinEntryControllerDelegate, MFMailComposeViewControllerDelegate, CertificatePinnerDelegate, UNUserNotificationCenterDelegate, ReminderModalDelegate, SetupDelegate, TabControllerDelegate> {
 
@@ -79,7 +79,6 @@
 
 @property (strong, nonatomic) IBOutlet ECSlidingViewController *slidingViewController;
 @property (nonatomic) TabControllerManager *tabControllerManager;
-@property (strong, nonatomic) IBOutlet MerchantMapViewController *merchantViewController;
 @property (strong, nonatomic) IBOutlet BCWebViewController *bcWebViewController;
 @property (strong, nonatomic) IBOutlet BackupNavigationViewController *backupNavigationViewController;
 @property (strong, nonatomic) SettingsNavigationController *settingsNavigationController;
@@ -195,7 +194,6 @@
 - (void)showBackupReminder:(BOOL)firstReceive;
 
 - (IBAction)webLoginClicked:(id)sender;
-- (IBAction)merchantClicked:(UIButton *)sender;
 - (IBAction)forgetWalletClicked:(id)sender;
 - (IBAction)scanAccountQRCodeclicked:(id)sender;
 - (IBAction)secondPasswordClicked:(id)sender;

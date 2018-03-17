@@ -9,7 +9,6 @@
 #import "SettingsTableViewController.h"
 #import "SettingsSelectorTableViewController.h"
 #import "SettingsWebViewController.h"
-#import "SettingsBitcoinUnitTableViewController.h"
 #import "SettingsTwoStepViewController.h"
 #import "Blockchain-Swift.h"
 #import "RootService.h"
@@ -37,16 +36,13 @@ const int preferencesSMSNotifications = 1;
 #ifdef ENABLE_CONTACTS
 const int preferencesPushNotifications = 2;
 const int preferencesLocalCurrency = 3;
-const int preferencesBtcUnit = 4;
 #else
 const int preferencesPushNotifications = -1;
 const int preferencesLocalCurrency = 2;
-const int preferencesBtcUnit = 3;
 #endif
 #else
 const int preferencesPushNotifications = -1;
 const int preferencesLocalCurrency = 2;
-const int preferencesBtcUnit = 3;
 #endif
 
 const int sectionSecurity = 2;
@@ -1096,9 +1092,6 @@ const int aboutPrivacyPolicy = 2;
         SettingsSelectorTableViewController *settingsSelectorTableViewController = segue.destinationViewController;
         settingsSelectorTableViewController.itemsDictionary = self.availableCurrenciesDictionary;
         settingsSelectorTableViewController.allCurrencySymbolsDictionary = self.allCurrencySymbolsDictionary;
-    } else if ([segue.identifier isEqualToString:SEGUE_IDENTIFIER_BTC_UNIT]) {
-        SettingsBitcoinUnitTableViewController *settingsBtcUnitTableViewController = segue.destinationViewController;
-        settingsBtcUnitTableViewController.itemsDictionary = [app.wallet getBtcCurrencies];
     } else if ([segue.identifier isEqualToString:SEGUE_IDENTIFIER_TWO_STEP]) {
         SettingsTwoStepViewController *twoStepViewController = (SettingsTwoStepViewController *)segue.destinationViewController;
         twoStepViewController.settingsController = self;
@@ -1138,10 +1131,6 @@ const int aboutPrivacyPolicy = 2;
             switch (indexPath.row) {
                 case preferencesLocalCurrency: {
                     [self performSingleSegueWithIdentifier:SEGUE_IDENTIFIER_CURRENCY sender:nil];
-                    return;
-                }
-                case preferencesBtcUnit: {
-                    [self performSingleSegueWithIdentifier:SEGUE_IDENTIFIER_BTC_UNIT sender:nil];
                     return;
                 }
             }
@@ -1193,9 +1182,9 @@ const int aboutPrivacyPolicy = 2;
     switch (section) {
         case sectionProfile: return 4;
 #ifdef ENABLE_DEBUG_MENU
-        case sectionPreferences: return 5;
-#else
         case sectionPreferences: return 4;
+#else
+        case sectionPreferences: return 3;
 #endif
         case sectionSecurity: {
             NSInteger numberOfRows = 0;
@@ -1339,16 +1328,6 @@ const int aboutPrivacyPolicy = 2;
                     cell.textLabel.text = BC_STRING_SETTINGS_LOCAL_CURRENCY;
                     cell.detailTextLabel.text = [[NSString alloc] initWithFormat:@"%@ (%@)", currencyName, self.allCurrencySymbolsDictionary[selectedCurrencyCode][@"symbol"]];
                     if (currencyName == nil || self.allCurrencySymbolsDictionary[selectedCurrencyCode][@"symbol"] == nil) {
-                        cell.detailTextLabel.text = @"";
-                    }
-                    return cell;
-                }
-                case preferencesBtcUnit: {
-                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                    NSString *selectedCurrencyCode = [self getBtcSymbolFromLatestResponse].name;
-                    cell.textLabel.text = BC_STRING_SETTINGS_BTC;
-                    cell.detailTextLabel.text = selectedCurrencyCode;
-                    if (selectedCurrencyCode == nil) {
                         cell.detailTextLabel.text = @"";
                     }
                     return cell;

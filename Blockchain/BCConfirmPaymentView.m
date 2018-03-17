@@ -15,12 +15,6 @@
 
 #define CELL_HEIGHT 60
 
-const int cellRowFrom = 0;
-const int cellRowTo = 1;
-const int cellRowDescription = 2;
-const int cellRowAmount = 3;
-const int cellRowFee = 4;
-
 @interface BCConfirmPaymentView () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 @property (nonatomic) BCSecureTextField *descriptionField;
 @property (nonatomic) ContactTransaction *contactTransaction;
@@ -105,7 +99,7 @@ const int cellRowFee = 4;
     self.rows = [NSMutableArray new];
     if (self.viewModel.from) [self.rows addObject:@[BC_STRING_FROM, self.viewModel.from]];
     if (self.viewModel.to) [self.rows addObject:@[BC_STRING_TO, self.viewModel.to]];
-    [self.rows addObject:@[BC_STRING_DESCRIPTION, self.viewModel.noteText ? : @""]];
+    if (self.viewModel.showDescription) [self.rows addObject:@[BC_STRING_DESCRIPTION, self.viewModel.noteText ? : @""]];
     if (self.viewModel.btcWithFiatAmountText) [self.rows addObject:@[BC_STRING_AMOUNT, self.viewModel.btcWithFiatAmountText]];
     if (self.viewModel.btcWithFiatFeeText) [self.rows addObject:@[BC_STRING_FEE, self.viewModel.btcWithFiatFeeText]];
 }

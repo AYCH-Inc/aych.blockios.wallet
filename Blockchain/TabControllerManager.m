@@ -381,16 +381,11 @@
 
 - (void)filterTransactionsByAccount:(int)accountIndex filterLabel:(NSString *)filterLabel assetType:(AssetType)assetType
 {
-    if (self.assetType == AssetTypeBitcoin) {
-        _transactionsBitcoinViewController.clickedFetchMore = NO;
-        _transactionsBitcoinViewController.filterIndex = accountIndex;
-        [_transactionsBitcoinViewController changeFilterLabel:filterLabel];
-        [_sendBitcoinViewController resetFromAddress];
-        [_receiveBitcoinViewController reloadMainAddress];
-    } else {
-        _transactionsBitcoinCashViewController.filterIndex = accountIndex;
-        [_transactionsBitcoinCashViewController changeFilterLabel:filterLabel];
-    }
+    _transactionsBitcoinViewController.clickedFetchMore = NO;
+    _transactionsBitcoinViewController.filterIndex = accountIndex;
+    [_transactionsBitcoinViewController changeFilterLabel:filterLabel];
+    [_sendBitcoinViewController resetFromAddress];
+    [_receiveBitcoinViewController reloadMainAddress];
 }
 
 - (NSInteger)getFilterIndex

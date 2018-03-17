@@ -25,7 +25,15 @@
     self.filterIndex = FILTER_INDEX_ALL;
     
     self.filterSelectorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
-    self.filterSelectorView.backgroundColor = COLOR_LIGHT_GRAY;
+    self.filterSelectorView.backgroundColor = COLOR_TABLE_VIEW_BACKGROUND_LIGHT_GRAY;
+    
+    CGFloat padding = 8;
+    self.filterSelectorLabel = [[UILabel alloc] initWithFrame:CGRectMake(padding, 0, self.filterSelectorView.bounds.size.width - padding*2, self.filterSelectorView.bounds.size.height)];
+    self.filterSelectorLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_SMALL];
+    self.filterSelectorLabel.textColor = COLOR_TEXT_DARK_GRAY;
+    self.filterSelectorLabel.text = BC_STRING_ALL_WALLETS;
+    [self.filterSelectorView addSubview:self.filterSelectorLabel];
+    
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(filterSelectorViewTapped)];
     [self.filterSelectorView addGestureRecognizer:tapGesture];
     

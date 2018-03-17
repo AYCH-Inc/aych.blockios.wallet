@@ -153,11 +153,6 @@
     [self showFilterMenu];
 }
 
-- (void)changeFilterLabel:(NSString *)newText
-{
-    self.filterSelectorLabel.text = newText;
-}
-
 - (void)showFilterMenu
 {
     BCAddressSelectionView *filterView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:SelectModeFilter delegate:self];
@@ -174,6 +169,11 @@
 - (void)didSelectFilter:(int)filter
 {
     self.filterIndex = filter;
+    if (filter == FILTER_INDEX_ALL) {
+        self.filterSelectorLabel.text = BC_STRING_ALL_WALLETS;
+    } else {
+        self.filterSelectorLabel.text = [app.wallet getLabelForAccount:filter assetType:AssetTypeBitcoinCash];
+    }
     [self reload];
 }
 

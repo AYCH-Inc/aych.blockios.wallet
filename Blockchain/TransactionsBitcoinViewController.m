@@ -553,7 +553,7 @@
 - (NSString *)getFilterLabel
 {
     if (self.filterIndex == FILTER_INDEX_ALL) {
-        return BC_STRING_BITCOIN_BALANCES;
+        return BC_STRING_ALL_WALLETS;
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
         return BC_STRING_IMPORTED_ADDRESSES;
     } else {

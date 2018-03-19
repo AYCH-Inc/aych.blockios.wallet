@@ -2273,7 +2273,7 @@ MyWalletPhone.canUseSfox = function() {
     var wallet = MyWallet.wallet
     var options = walletOptions.getValue()
     var accountInfo = wallet.accountInfo;
-    var isSfoxCountryState = accountInfo && options.partners.sfox.countries.indexOf(accountInfo.countryCodeGuess) > -1 && options.partners.sfox.states.indexOf(accountInfo.stateCodeGuess) > -1;
+    var isSfoxCountryState = accountInfo && options.partners.sfox.countries.indexOf(accountInfo.countryCodeGuess) > -1 && (options.partners.sfox.states.indexOf(accountInfo.stateCodeGuess) > -1 || accountInfo.stateCodeGuess === undefined);
     var isSfoxInvited = accountInfo && accountInfo.invited && accountInfo.invited.sfox;
     
     var external = MyWallet.wallet && MyWallet.wallet.external;

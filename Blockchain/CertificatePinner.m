@@ -46,12 +46,11 @@
     
     // Get local and remote cert data
     NSData *remoteCertificateData = CFBridgingRelease(SecCertificateCopyData(certificate));
-    
-    NSString *pathToCert = [[NSBundle mainBundle] pathForResource:[self getCertificateName] ofType:CERTIFICATE_FILE_TYPE_DER];
+
+    NSString *pathToCert = [NSBundle localCertificatePath];
     NSData *localCertificate = [NSData dataWithContentsOfFile:pathToCert];
     
     // The pinnning check
-    
     NSString *remoteKeyString = [self getPublicKeyStringFromData:remoteCertificateData];
     NSString *localKeyString = [self getPublicKeyStringFromData:localCertificate];
     

@@ -38,4 +38,13 @@ extension Bundle {
         }
         return "https://\(hostAndPath)"
     }
+    static var localCertificatePath: String? {
+        guard let certificateFile = Bundle.main.infoDictionary!["LOCAL_CERTIFICATE_FILE"] as? String else {
+            return nil
+        }
+        guard let path = Bundle.main.path(forResource: certificateFile, ofType: "der", inDirectory: "Cert") else {
+            return nil
+        }
+        return path
+    }
 }

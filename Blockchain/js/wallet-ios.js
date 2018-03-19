@@ -18,6 +18,7 @@ var Metadata = Blockchain.Metadata;
 var SharedMetadata = Blockchain.SharedMetadata;
 var Contacts = Blockchain.Contacts;
 var EthSocket = Blockchain.EthSocket;
+var BlockchainSocket = Blockchain.BlockchainSocket;
 
 function NativeEthSocket () {
   this.handlers = []
@@ -905,7 +906,7 @@ MyWalletPhone.changeLastUsedReceiveIndexOfDefaultAccount = function() {
     MyWallet.wallet.hdwallet.defaultAccount.lastUsedReceiveIndex = MyWallet.wallet.hdwallet.defaultAccount.receiveIndex;
 }
 
-MyWalletPhone.getSwipeAddresses = function(numberOfAddresses, label) {
+MyWalletPhone.getBtcSwipeAddresses = function(numberOfAddresses, label) {
 
     var addresses = [];
     var account = MyWallet.wallet.hdwallet.defaultAccount;
@@ -918,7 +919,7 @@ MyWalletPhone.getSwipeAddresses = function(numberOfAddresses, label) {
         MyWalletPhone.changeLastUsedReceiveIndexOfDefaultAccount();
     }
 
-    objc_did_get_swipe_addresses(addresses);
+    objc_did_get_btc_swipe_addresses(addresses);
 }
 
 MyWalletPhone.getReceiveAddressOfDefaultAccount = function() {
@@ -3006,6 +3007,21 @@ MyWalletPhone.bch = {
     
     quickSend : function(id, onSendScreen, secondPassword) {
         MyWalletPhone.quickSend(id, onSendScreen, secondPassword, 'bch');
+    },
+    
+    getSocketOnOpenMessage : function() {
+        return BlockchainSocket.xpubSub(MyWallet.wallet.bch.activeAccounts.map(function(account) {return account.xpub}));
+    },
+    
+    getSwipeAddresses : function(numberOfAddresses) {
+        var addresses = [];
+        
+        for (var i = 0; i < numberOfAddresses; i++) {
+            var address = Blockchain.Helpers.toBitcoinCash(Blockchain.MyWallet.wallet.hdwallet.accounts[0].receiveAddressAtIndex(i));
+            addresses.push(address);
+        }
+        
+        objc_did_get_bch_swipe_addresses(addresses);
     }
 };
 

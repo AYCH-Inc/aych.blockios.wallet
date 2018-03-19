@@ -129,7 +129,7 @@
 - (void)didCompleteTrade:(NSDictionary *)trade;
 - (void)didPushTransaction;
 - (void)showCompletedTrade:(NSString *)txHash;
-- (void)didGetSwipeAddresses:(NSArray *)newSwipeAddresses;
+- (void)didGetSwipeAddresses:(NSArray *)newSwipeAddresses assetType:(AssetType)assetType;
 - (void)didFetchEthHistory;
 - (void)didUpdateEthPayment:(NSDictionary *)payment;
 - (void)didFetchEthExchangeRate:(NSNumber *)rate;
@@ -189,12 +189,15 @@
 @property NSString *twoFactorInput;
 @property (nonatomic) NSDictionary *currencySymbols;
 
-@property (nonatomic) SRWebSocket *webSocket;
+@property (nonatomic) SRWebSocket *btcSocket;
+@property (nonatomic) SRWebSocket *bchSocket;
 @property (nonatomic) SRWebSocket *ethSocket;
 @property (nonatomic) NSMutableArray *pendingEthSocketMessages;
 
-@property (nonatomic) NSTimer *webSocketTimer;
-@property (nonatomic) NSString *swipeAddressToSubscribe;
+@property (nonatomic) NSTimer *btcSocketTimer;
+@property (nonatomic) NSTimer *bchSocketTimer;
+@property (nonatomic) NSString *btcSwipeAddressToSubscribe;
+@property (nonatomic) NSString *bchSwipeAddressToSubscribe;
 
 @property (nonatomic) int lastLabelledAddressesCount;
 
@@ -244,7 +247,7 @@ typedef enum {
 
 - (Boolean)isAddressArchived:(NSString *)address;
 
-- (void)subscribeToSwipeAddress:(NSString *)address;
+- (void)subscribeToSwipeAddress:(NSString *)address assetType:(AssetType)assetType;
 
 - (void)addToAddressBook:(NSString *)address label:(NSString *)label;
 
@@ -409,7 +412,7 @@ typedef enum {
 - (void)getTransactionFeeWithUpdateType:(FeeUpdateType)updateType;
 - (void)getSurgeStatus;
 - (uint64_t)dust;
-- (NSArray *)getSwipeAddresses:(int)numberOfAddresses label:(NSString *)label;
+- (void)getSwipeAddresses:(int)numberOfAddresses assetType:(AssetType)assetType;
 
 // Recover with passphrase
 - (void)recoverWithEmail:(NSString *)email password:(NSString *)recoveryPassword passphrase:(NSString *)passphrase;

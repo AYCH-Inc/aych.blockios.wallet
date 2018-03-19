@@ -300,13 +300,13 @@ void (^secondPasswordSuccess)(NSString *);
             [KeychainItemWrapper removeSwipeEtherAddress];
         }
         
-        int numberOfAddressesToDerive = SWIPE_TO_RECEIVE_ADDRESS_COUNT;
-        NSArray *swipeAddresses = [KeychainItemWrapper getSwipeAddresses];
-        if (swipeAddresses) {
-            numberOfAddressesToDerive = SWIPE_TO_RECEIVE_ADDRESS_COUNT - (int)swipeAddresses.count;
+        int numberOfBitcoinAddressesToDerive = SWIPE_TO_RECEIVE_ADDRESS_COUNT;
+        NSArray *bitcoinSwipeAddresses = [KeychainItemWrapper getSwipeAddressesForAssetType:AssetTypeBitcoin];
+        if (bitcoinSwipeAddresses) {
+            numberOfBitcoinAddressesToDerive = SWIPE_TO_RECEIVE_ADDRESS_COUNT - (int)bitcoinSwipeAddresses.count;
         }
         
-        [app.wallet getSwipeAddresses:numberOfAddressesToDerive label:@"Swipe Address"];
+        [app.wallet getSwipeAddresses:numberOfBitcoinAddressesToDerive assetType:AssetTypeBitcoin];
     }
     
     [self.loginTimer invalidate];
@@ -371,7 +371,7 @@ void (^secondPasswordSuccess)(NSString *);
     
     [self setupBuySellWebview];
     
-    [self.wallet.webSocket closeWithCode:WEBSOCKET_CODE_BACKGROUNDED_APP reason:WEBSOCKET_CLOSE_REASON_USER_BACKGROUNDED];
+    [self.wallet.btcSocket closeWithCode:WEBSOCKET_CODE_BACKGROUNDED_APP reason:WEBSOCKET_CLOSE_REASON_USER_BACKGROUNDED];
     [self.wallet.ethSocket closeWithCode:WEBSOCKET_CODE_BACKGROUNDED_APP reason:WEBSOCKET_CLOSE_REASON_USER_BACKGROUNDED];
     
     if (hasGuidAndSharedKey) {
@@ -1003,7 +1003,7 @@ void (^secondPasswordSuccess)(NSString *);
 {
     DLog(@"walletDidFinishLoad");
     
-    self.wallet.swipeAddressToSubscribe = nil;
+    self.wallet.btcSwipeAddressToSubscribe = nil;
     
     self.wallet.twoFactorInput = nil;
         
@@ -1098,7 +1098,7 @@ void (^secondPasswordSuccess)(NSString *);
     int newDefaultAccountLabeledAddressesCount = [self.wallet getDefaultAccountLabelledAddressesCount];
     NSNumber *lastCount = [[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_DEFAULT_ACCOUNT_LABELLED_ADDRESSES_COUNT];
     if (lastCount && [lastCount intValue] != newDefaultAccountLabeledAddressesCount) {
-        [KeychainItemWrapper removeAllSwipeAddresses];
+        [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoin];
     }
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:newDefaultAccountLabeledAddressesCount] forKey:USER_DEFAULTS_KEY_DEFAULT_ACCOUNT_LABELLED_ADDRESSES_COUNT];
 }
@@ -1725,7 +1725,7 @@ void (^secondPasswordSuccess)(NSString *);
     [self reload];
     
     [self.wallet.ethSocket closeWithCode:WEBSOCKET_CODE_LOGGED_OUT reason:WEBSOCKET_CLOSE_REASON_LOGGED_OUT];
-    [self.wallet.webSocket closeWithCode:WEBSOCKET_CODE_LOGGED_OUT reason:WEBSOCKET_CLOSE_REASON_LOGGED_OUT];
+    [self.wallet.btcSocket closeWithCode:WEBSOCKET_CODE_LOGGED_OUT reason:WEBSOCKET_CLOSE_REASON_LOGGED_OUT];
 }
 
 - (void)buyBitcoinClicked:(id)sender
@@ -1757,7 +1757,7 @@ void (^secondPasswordSuccess)(NSString *);
     
     self.wallet.sessionToken = nil;
     
-    [KeychainItemWrapper removeAllSwipeAddresses];
+    [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoin];
         
     self.isVerifyingMobileNumber = NO;
     
@@ -2098,7 +2098,7 @@ void (^secondPasswordSuccess)(NSString *);
 
 - (void)didSetDefaultAccount
 {
-    [KeychainItemWrapper removeAllSwipeAddresses];
+    [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoin];
     [self.tabControllerManager didSetDefaultAccount];
 }
 
@@ -2482,7 +2482,7 @@ void (^secondPasswordSuccess)(NSString *);
     [self.wallet getMessages];
 }
 
-- (void)didGetSwipeAddresses:(NSArray *)newSwipeAddresses
+- (void)didGetSwipeAddresses:(NSArray *)newSwipeAddresses assetType:(AssetType)assetType
 {
     if (!newSwipeAddresses) {
         DLog(@"Error: no new swipe addresses found!");
@@ -2490,10 +2490,21 @@ void (^secondPasswordSuccess)(NSString *);
     }
     
     for (NSString *swipeAddress in newSwipeAddresses) {
-        [KeychainItemWrapper addSwipeAddress:swipeAddress];
+        [KeychainItemWrapper addSwipeAddress:swipeAddress assetType:assetType];
     }
     
-    [self.pinEntryViewController setupQRCode];
+    if (assetType == AssetTypeBitcoin) {
+        
+        int numberOfBitcoinCashAddressesToDerive = SWIPE_TO_RECEIVE_ADDRESS_COUNT;
+        NSArray *bitcoinCashSwipeAddresses = [KeychainItemWrapper getSwipeAddressesForAssetType:AssetTypeBitcoin];
+        if (bitcoinCashSwipeAddresses) {
+            numberOfBitcoinCashAddressesToDerive = SWIPE_TO_RECEIVE_ADDRESS_COUNT - (int)bitcoinCashSwipeAddresses.count;
+        }
+        
+        [app.wallet getSwipeAddresses:numberOfBitcoinCashAddressesToDerive assetType:AssetTypeBitcoinCash];
+    } else {
+        [self.pinEntryViewController setupQRCode];
+    }
 }
 
 - (void)didFetchEthHistory
@@ -3303,7 +3314,7 @@ void (^secondPasswordSuccess)(NSString *);
     [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
 }
 
-- (void)checkForUnusedAddress:(NSString *)address success:(void (^)(NSString *, BOOL))successBlock error:(void (^)())errorBlock
+- (void)checkForUnusedAddress:(NSString *)address success:(void (^)(NSString *, BOOL))successBlock error:(void (^)())errorBlock assetType:(AssetType)assetType
 {
     NSURL *URL = [NSURL URLWithString:[URL_SERVER stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT, address]]];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];

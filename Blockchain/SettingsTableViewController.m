@@ -591,7 +591,10 @@ const int aboutPrivacyPolicy = 2;
         [swipeToReceiveAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_ENABLE style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [[NSUserDefaults standardUserDefaults] setBool:!swipeToReceiveEnabled forKey:USER_DEFAULTS_KEY_SWIPE_TO_RECEIVE_ENABLED];
             // Clear all swipe addresses in case default account has changed
-            if (!swipeToReceiveEnabled) [KeychainItemWrapper removeAllSwipeAddresses];
+            if (!swipeToReceiveEnabled) {
+                [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoin];
+                [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoinCash];
+            }
         }]];
         [swipeToReceiveAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:PINSwipeToReceive inSection:sectionSecurity];
@@ -601,7 +604,10 @@ const int aboutPrivacyPolicy = 2;
     } else {
         [[NSUserDefaults standardUserDefaults] setBool:!swipeToReceiveEnabled forKey:USER_DEFAULTS_KEY_SWIPE_TO_RECEIVE_ENABLED];
         // Clear all swipe addresses in case default account has changed
-        if (!swipeToReceiveEnabled) [KeychainItemWrapper removeAllSwipeAddresses];
+        if (!swipeToReceiveEnabled) {
+            [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoin];
+            [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoinCash];
+        }
     }
 }
 

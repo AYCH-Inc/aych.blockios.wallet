@@ -398,7 +398,7 @@ const int aboutPrivacyPolicy = 2;
 - (void)termsOfServiceClicked
 {
     SettingsWebViewController *aboutViewController = [[SettingsWebViewController alloc] init];
-    aboutViewController.urlTargetString = [[NSBundle urlForWallet] stringByAppendingString:URL_SUFFIX_TERMS_OF_SERVICE];
+    aboutViewController.urlTargetString = [[NSBundle walletUrl] stringByAppendingString:URL_SUFFIX_TERMS_OF_SERVICE];
     BCNavigationController *navigationController = [[BCNavigationController alloc] initWithRootViewController:aboutViewController title:BC_STRING_SETTINGS_TERMS_OF_SERVICE];
     [self presentViewController:navigationController animated:YES completion:nil];
 }
@@ -406,7 +406,7 @@ const int aboutPrivacyPolicy = 2;
 - (void)showPrivacyPolicy
 {
     SettingsWebViewController *aboutViewController = [[SettingsWebViewController alloc] init];
-    aboutViewController.urlTargetString = [[NSBundle urlForWallet] stringByAppendingString:URL_SUFFIX_PRIVACY_POLICY];
+    aboutViewController.urlTargetString = [[NSBundle walletUrl] stringByAppendingString:URL_SUFFIX_PRIVACY_POLICY];
     BCNavigationController *navigationController = [[BCNavigationController alloc] initWithRootViewController:aboutViewController title:BC_STRING_SETTINGS_PRIVACY_POLICY];
     [self presentViewController:navigationController animated:YES completion:nil];
 }

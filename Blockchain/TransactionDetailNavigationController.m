@@ -145,7 +145,7 @@
 
 - (void)share
 {
-    NSURL *url = [NSURL URLWithString:[[NSBundle urlForWallet] stringByAppendingFormat:@"/tx/%@", self.transactionHash]];
+    NSURL *url = [NSURL URLWithString:[[NSBundle walletUrl] stringByAppendingFormat:@"/tx/%@", self.transactionHash]];
         
     NSArray *activityItems = @[self, url];
     

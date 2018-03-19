@@ -140,16 +140,12 @@ void (^secondPasswordSuccess)(NSString *);
 
 - (CertificatePinner *)certificatePinner
 {
-#ifdef ENABLE_CERTIFICATE_PINNING
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING]) {
-        if (!_certificatePinner) _certificatePinner = [[CertificatePinner alloc] init];
-        _certificatePinner.delegate = self;
-        return _certificatePinner;
-    } else {
-        return nil;
-    }
-#else
+#ifdef DISABLE_CERTIFICATE_PINNING
     return nil;
+#else
+    if (!_certificatePinner) _certificatePinner = [[CertificatePinner alloc] init];
+    _certificatePinner.delegate = self;
+    return _certificatePinner;
 #endif
 }
 

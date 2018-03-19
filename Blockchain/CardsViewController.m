@@ -42,6 +42,7 @@
                                  [UIScreen mainScreen].bounds.size.width,
                                  [UIScreen mainScreen].bounds.size.height - DEFAULT_HEADER_HEIGHT - DEFAULT_HEADER_HEIGHT_OFFSET);
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    self.scrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.scrollView];
 }
 
@@ -60,7 +61,7 @@
         [self removeCardsView];
     }
     
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.contentView.frame.size.height + DEFAULT_HEADER_HEIGHT + (self.showAnnouncementCard || self.showCards ? self.cardsViewHeight : 0));
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.contentView.frame.size.height + (self.showAnnouncementCard || self.showCards ? self.cardsViewHeight : 0));
 }
 
 - (void)setupCardsViewWithConfiguration:(CardConfiguration)configuration

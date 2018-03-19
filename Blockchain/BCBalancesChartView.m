@@ -136,6 +136,7 @@
     PieChartData *data = [[PieChartData alloc] initWithDataSet:dataSet];
     [data setValueTextColor:UIColor.whiteColor];
     self.chartView.data = data;
+    [self.chartView animateWithYAxisDuration:1.0];
     
     [self.bitcoinLegendKey changeBalance:[self.bitcoinBalance stringByAppendingFormat:@" %@", CURRENCY_SYMBOL_BTC]];
     [self.bitcoinLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSString stringWithFormat:@"%.2f", self.bitcoinFiatBalance]]];

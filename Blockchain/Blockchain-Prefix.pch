@@ -208,7 +208,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define CERTIFICATE_SERVER_NAME_STAGING @"staging"
 #define CERTIFICATE_SERVER_NAME_DEV @"dev"
 #define CERTIFICATE_SERVER_NAME_TESTNET @"testnet"
-#define CERTIFICATE_FILE_TYPE_DER @"der"
 
 #define WEBSOCKET_ERROR_INVALID_SERVER_CERTIFICATE @"Invalid server certificate."
 

@@ -64,7 +64,7 @@
         };
         self.contactName = transaction.contactName;
         self.detailButtonTitle = [[NSString stringWithFormat:@"%@ %@",BC_STRING_VIEW_ON_URL_ARGUMENT, HOST_NAME_WALLET_SERVER] uppercaseString];
-        self.detailButtonLink = [[NSBundle urlForWallet] stringByAppendingFormat:@"/tx/%@", self.myHash];
+        self.detailButtonLink = [[NSBundle walletUrl] stringByAppendingFormat:@"/tx/%@", self.myHash];
     }
     return self;
 }

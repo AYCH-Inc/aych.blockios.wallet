@@ -1,6 +1,5 @@
-.env
 *.der
-
+Cert
 Config
 DerivedData
 # Xcode

@@ -83,15 +83,4 @@
     return publicKeyString;
 }
 
-- (NSString *)getCertificateName
-{
-    NSDictionary *certNames = @{ENV_INDEX_DEV : CERTIFICATE_SERVER_NAME_DEV,
-                                ENV_INDEX_STAGING : CERTIFICATE_SERVER_NAME_STAGING,
-                                ENV_INDEX_PRODUCTION : CERTIFICATE_SERVER_NAME_PRODUCTION,
-                                ENV_INDEX_TESTNET : CERTIFICATE_SERVER_NAME_TESTNET};
-    
-    NSString *certName = [certNames objectForKey:[[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_ENV]];
-    return certName;
-}
-
 @end

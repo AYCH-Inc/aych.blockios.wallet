@@ -8,31 +8,31 @@
 
 @objc
 extension Bundle {
-    class func urlForAPI() -> String? {
+    static var apiUrl: String? {
         guard let host = Bundle.main.infoDictionary!["API_URL"] as? String else {
             return nil
         }
         return "https://\(host)"
     }
-    class func urlForWallet() -> String? {
+    static var walletUrl: String? {
         guard let host = Bundle.main.infoDictionary!["WALLET_SERVER"] as? String else {
             return nil
         }
         return "https://\(host)"
     }
-    class func uriForWebSocket() -> String? {
+    static var webSocketUri: String? {
         guard let hostAndPath = Bundle.main.infoDictionary!["WEBSOCKET_SERVER"] as? String else {
             return nil
         }
         return "wss://\(hostAndPath)"
     }
-    class func uriForEthereumWebSocket() -> String? {
+    static var ethereumWebSocketUri: String? {
         guard let hostAndPath = Bundle.main.infoDictionary!["WEBSOCKET_SERVER_ETH"] as? String else {
             return nil
         }
         return "wss://\(hostAndPath)"
     }
-    class func urlForBuyWebView() -> String? {
+    static var buyWebViewUrl: String? {
         guard let hostAndPath = Bundle.main.infoDictionary!["BUY_WEBVIEW_URL"] as? String else {
             return nil
         }

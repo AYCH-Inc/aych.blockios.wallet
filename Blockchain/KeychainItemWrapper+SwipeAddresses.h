@@ -7,12 +7,13 @@
 //
 
 #import "KeychainItemWrapper.h"
+#import "Assets.h"
 
 @interface KeychainItemWrapper (SwipeAddresses)
-+ (NSArray *)getSwipeAddresses;
-+ (void)addSwipeAddress:(NSString *)swipeAddress;
-+ (void)removeFirstSwipeAddress;
-+ (void)removeAllSwipeAddresses;
++ (NSArray *)getSwipeAddressesForAssetType:(AssetType)assetType;
++ (void)addSwipeAddress:(NSString *)swipeAddress assetType:(AssetType)assetType;
++ (void)removeFirstSwipeAddressForAssetType:(AssetType)assetType;
++ (void)removeAllSwipeAddressesForAssetType:(AssetType)assetType;
 
 + (void)setSwipeEtherAddress:(NSString *)swipeAddress;
 + (NSString *)getSwipeEtherAddress;

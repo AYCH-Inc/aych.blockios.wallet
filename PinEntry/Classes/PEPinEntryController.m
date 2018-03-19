@@ -152,7 +152,7 @@ static PEViewController *VerifyController()
         [self.view addSubview:backgroundViewPageControl];
         backgroundViewPageControl.hidden = YES;
         self.backgroundViewPageControl = backgroundViewPageControl;
-        
+
         UIPageControl *scrollViewPageControl = [self pageControlWithAssets:assets];
         [scrollViewPageControl changeXPosition:scrollViewPageControl.frame.origin.x + pinController.scrollView.bounds.size.width];
         [pinController.scrollView addSubview:scrollViewPageControl];
@@ -183,8 +183,8 @@ static PEViewController *VerifyController()
 
 - (void)addAddressToSwipeView:(BCSwipeAddressView *)swipeView assetType:(AssetType)assetType
 {
-    if (assetType == AssetTypeBitcoin) {
-        NSString *nextAddress = [[KeychainItemWrapper getSwipeAddresses] firstObject];
+    if (assetType == AssetTypeBitcoin || assetType == AssetTypeBitcoinCash) {
+        NSString *nextAddress = [[KeychainItemWrapper getSwipeAddressesForAssetType:assetType] firstObject];
         
         if (nextAddress) {
             
@@ -194,7 +194,7 @@ static PEViewController *VerifyController()
                     [swipeView updateAddress:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION];
                 }]];
                 [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_CONTINUE style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [app.wallet subscribeToSwipeAddress:nextAddress];
+                    [app.wallet subscribeToSwipeAddress:nextAddress assetType:assetType];
                     [swipeView updateAddress:nextAddress];
                 }]];
                 self.errorAlert = alert;
@@ -203,28 +203,26 @@ static PEViewController *VerifyController()
             void (^success)(NSString *, BOOL) = ^(NSString *address, BOOL isUnused) {
                 
                 if (isUnused) {
-                    [app.wallet subscribeToSwipeAddress:nextAddress];
+                    [app.wallet subscribeToSwipeAddress:nextAddress assetType:assetType];
                     [swipeView updateAddress:address];
                     self.errorAlert = nil;
                 } else {
-                    [KeychainItemWrapper removeFirstSwipeAddress];
+                    [KeychainItemWrapper removeFirstSwipeAddressForAssetType:assetType];
                     self.errorAlert = nil;
                 }
             };
-            [app checkForUnusedAddress:nextAddress success:success error:error];
+            [app checkForUnusedAddress:nextAddress success:success error:error assetType:assetType];
         }
     } else if (assetType == AssetTypeEther) {
         NSString *etherAddress = [KeychainItemWrapper getSwipeEtherAddress];
         [swipeView updateAddress:etherAddress];
-    } else if (assetType == AssetTypeBitcoinCash) {
-        
     }
 }
 
 - (void)paymentReceived
 {
-    if ([KeychainItemWrapper getSwipeAddresses].count > 0) {
-        [KeychainItemWrapper removeFirstSwipeAddress];
+    if ([KeychainItemWrapper getSwipeAddressesForAssetType:AssetTypeBitcoin].count > 0) {
+        [KeychainItemWrapper removeFirstSwipeAddressForAssetType:AssetTypeBitcoin];
         [self setupQRCode];
     } else {
         

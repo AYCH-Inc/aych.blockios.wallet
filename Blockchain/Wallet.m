@@ -1017,19 +1017,17 @@
     NSMutableURLRequest *webSocketRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSBundle webSocketUri]]];
     [webSocketRequest addValue:[NSBundle walletUrl] forHTTPHeaderField:@"Origin"];
     
-#ifdef ENABLE_CERTIFICATE_PINNING
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING]) {
-        NSString *cerPath = [[NSBundle mainBundle] pathForResource:[app.certificatePinner getCertificateName] ofType:@"der"];
-        NSData *certData = [[NSData alloc] initWithContentsOfFile:cerPath];
-        CFDataRef certDataRef = (__bridge CFDataRef)certData;
-        SecCertificateRef certRef = SecCertificateCreateWithData(NULL, certDataRef);
-        id certificate = (__bridge id)certRef;
-        
-        [webSocketRequest setSR_SSLPinnedCertificates:@[certificate]];
-        [webSocketRequest setSR_comparesPublicKeys:YES];
-        
-        CFRelease(certRef);
-    }
+#if CERTIFICATE_PINNING == YES
+    NSString *cerPath = [NSBundle localCertificatePath];
+    NSData *certData = [[NSData alloc] initWithContentsOfFile:cerPath];
+    CFDataRef certDataRef = (__bridge CFDataRef)certData;
+    SecCertificateRef certRef = SecCertificateCreateWithData(NULL, certDataRef);
+    id certificate = (__bridge id)certRef;
+
+    [webSocketRequest setSR_SSLPinnedCertificates:@[certificate]];
+    [webSocketRequest setSR_comparesPublicKeys:YES];
+
+    CFRelease(certRef);
 #endif
     
     return webSocketRequest;

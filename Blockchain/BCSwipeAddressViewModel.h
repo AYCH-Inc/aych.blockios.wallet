@@ -11,7 +11,9 @@
 
 @interface BCSwipeAddressViewModel : NSObject
 @property (nonatomic) NSString *address;
+@property (nonatomic) NSString *textAddress;
 @property (nonatomic) NSString *action;
 @property (nonatomic) NSString *assetImageViewName;
-- (id)initWithAssetType:(AssetType)assetType address:(NSString *)address;
+@property (nonatomic) AssetType assetType;
+- (id)initWithAssetType:(AssetType)assetType;
 @end

@@ -94,8 +94,8 @@
     } else if (address) {
         QRCodeGenerator *qrCodeGenerator = [[QRCodeGenerator alloc] init];
         self.qrCodeImageView.hidden = NO;
-        self.qrCodeImageView.image = [qrCodeGenerator qrImageFromAddress:address];
-        self.addressLabel.text = address;
+        self.qrCodeImageView.image = [qrCodeGenerator createQRImageFromString:address];
+        self.addressLabel.text = self.viewModel.textAddress;
     } else {
         self.qrCodeImageView.hidden = YES;
         self.addressLabel.text = BC_STRING_PLEASE_LOGIN_TO_LOAD_MORE_ADDRESSES;

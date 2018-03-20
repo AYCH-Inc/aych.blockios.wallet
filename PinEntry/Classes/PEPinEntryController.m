@@ -166,7 +166,7 @@ static PEViewController *VerifyController()
         
         for (int assetIndex = 0; assetIndex < assets.count; assetIndex++) {
             AssetType asset = [assets[assetIndex] integerValue];
-            BCSwipeAddressViewModel *viewModel = [[BCSwipeAddressViewModel alloc] initWithAssetType:asset address:nil];
+            BCSwipeAddressViewModel *viewModel = [[BCSwipeAddressViewModel alloc] initWithAssetType:asset];
             BCSwipeAddressView *swipeView = [[BCSwipeAddressView alloc] initWithFrame:CGRectMake(pinController.scrollView.bounds.size.width * (assetIndex + 1), 0, pinController.scrollView.bounds.size.width, pinController.scrollView.bounds.size.height) viewModel:viewModel delegate:self];
             [self addAddressToSwipeView:swipeView assetType:asset];
             [pinController.scrollView addSubview:swipeView];

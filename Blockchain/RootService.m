@@ -3321,8 +3321,8 @@ void (^secondPasswordSuccess)(NSString *);
     if (assetType == AssetTypeBitcoin) {
         URLString = [URL_SERVER stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT, address]];
     } else if (assetType == AssetTypeBitcoinCash) {
-        address = [app.wallet fromBitcoinCash:address];
-        URLString = [URL_API stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_BCH_ADDRESS_ARGUMENT, address]];
+        NSString *addressToCheck = [app.wallet fromBitcoinCash:address];
+        URLString = [URL_API stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_BCH_ADDRESS_ARGUMENT, addressToCheck]];
     } else {
         DLog(@"checking for unused address: unsupported asset type!");
     }

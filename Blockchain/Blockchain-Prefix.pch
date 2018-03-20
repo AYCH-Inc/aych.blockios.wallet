@@ -242,6 +242,7 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 
 #define PREFIX_BITCOIN_URI @"bitcoin:"
 #define PREFIX_ETHEREUM_URI @"ethereum:"
+#define PREFIX_BITCOIN_CASH @"bitcoincash:"
 #define PREFIX_BLOCKCHAIN_WALLET_URI @"blockchain-wallet://"
 #define PREFIX_MAIL_URI @"message://"
 #define PREFIX_BLOCKCHAIN_URI @"blockchain://"

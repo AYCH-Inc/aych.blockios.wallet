@@ -2389,7 +2389,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "set -ue\ncd ${SRCROOT}/Cert\nopenssl s_client -connect ${WALLET_SERVER}:443 -showcerts < /dev/null | openssl x509 -outform DER > blockchain${BUNDLE_ID_SUFFIX}.der";
+			shellScript = "set -ue\ncd ${SRCROOT}/Cert\nopenssl s_client -connect ${WALLET_SERVER}:443 -showcerts < /dev/null | openssl x509 -outform DER > ${LOCAL_CERTIFICATE_FILE}.der";
 		};
 		C718594D1F460C4A00745A87 /* Run Fabric */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -3013,8 +3013,10 @@ MyWalletPhone.bch = {
     
     getSwipeAddresses : function(numberOfAddresses) {
         var addresses = [];
-        
-        var receiveIndex = MyWallet.wallet.hdwallet.defaultAccount.receiveIndex;
+
+        var xpub = MyWallet.wallet.bch.defaultAccount.xpub
+        var receiveIndex = MyWallet.wallet.bch.getAccountIndexes(xpub).receive;
+
         for (var i = 0; i < numberOfAddresses; i++) {
             var address = Helpers.toBitcoinCash(Blockchain.MyWallet.wallet.hdwallet.accounts[0].receiveAddressAtIndex(receiveIndex + i));
             addresses.push(address);

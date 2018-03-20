@@ -14,7 +14,7 @@
 + (void)addSwipeAddress:(NSString *)swipeAddress assetType:(AssetType)assetType;
 + (void)removeFirstSwipeAddressForAssetType:(AssetType)assetType;
 + (void)removeAllSwipeAddressesForAssetType:(AssetType)assetType;
-
++ (void)removeAllSwipeAddresses;
 + (void)setSwipeEtherAddress:(NSString *)swipeAddress;
 + (NSString *)getSwipeEtherAddress;
 + (void)removeSwipeEtherAddress;

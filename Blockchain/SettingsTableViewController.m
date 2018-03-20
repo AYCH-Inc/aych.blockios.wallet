@@ -592,8 +592,7 @@ const int aboutPrivacyPolicy = 2;
             [[NSUserDefaults standardUserDefaults] setBool:!swipeToReceiveEnabled forKey:USER_DEFAULTS_KEY_SWIPE_TO_RECEIVE_ENABLED];
             // Clear all swipe addresses in case default account has changed
             if (!swipeToReceiveEnabled) {
-                [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoin];
-                [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoinCash];
+                [KeychainItemWrapper removeAllSwipeAddresses];
             }
         }]];
         [swipeToReceiveAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -605,8 +604,7 @@ const int aboutPrivacyPolicy = 2;
         [[NSUserDefaults standardUserDefaults] setBool:!swipeToReceiveEnabled forKey:USER_DEFAULTS_KEY_SWIPE_TO_RECEIVE_ENABLED];
         // Clear all swipe addresses in case default account has changed
         if (!swipeToReceiveEnabled) {
-            [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoin];
-            [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoinCash];
+            [KeychainItemWrapper removeAllSwipeAddresses];
         }
     }
 }

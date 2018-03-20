@@ -18,6 +18,8 @@
         return KEYCHAIN_KEY_BTC_SWIPE_ADDRESSES;
     } else if (assetType == AssetTypeBitcoinCash) {
         return KEYCHAIN_KEY_BCH_SWIPE_ADDRESSES;
+    } else if (assetType == AssetTypeEther) {
+        return KEYCHAIN_KEY_ETHER_ADDRESS;
     } else {
         DLog(@"KeychainItemWrapper error: Unsupported asset type!")
         return nil;
@@ -79,8 +81,13 @@
 
     KeychainItemWrapper *keychain = [[KeychainItemWrapper alloc] initWithIdentifier:keychainKey accessGroup:nil];
     [keychain resetKeychainItem];
-    
-    [self removeSwipeEtherAddress];
+}
+
++ (void)removeAllSwipeAddresses
+{
+    [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoin];
+    [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoinCash];
+    [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeEther];
 }
 
 + (void)setSwipeEtherAddress:(NSString *)swipeAddress
@@ -94,13 +101,13 @@
 
 + (void)removeSwipeEtherAddress
 {
-    KeychainItemWrapper *etherKeychain = [[KeychainItemWrapper alloc] initWithIdentifier:KEYCHAIN_KEY_ETHER_ADDRESS accessGroup:nil];
+    KeychainItemWrapper *etherKeychain = [[KeychainItemWrapper alloc] initWithIdentifier:[self keychainKeyForAssetType:AssetTypeEther] accessGroup:nil];
     [etherKeychain resetKeychainItem];
 }
 
 + (NSString *)getSwipeEtherAddress
 {
-    KeychainItemWrapper *keychain = [[KeychainItemWrapper alloc] initWithIdentifier:KEYCHAIN_KEY_ETHER_ADDRESS accessGroup:nil];
+    KeychainItemWrapper *keychain = [[KeychainItemWrapper alloc] initWithIdentifier:[self keychainKeyForAssetType:AssetTypeEther] accessGroup:nil];
     NSData *etherAddressData = [keychain objectForKey:(__bridge id)kSecValueData];
     NSString *etherAddress = [[NSString alloc] initWithData:etherAddressData encoding:NSUTF8StringEncoding];
     

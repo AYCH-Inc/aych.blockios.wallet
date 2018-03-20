@@ -373,7 +373,8 @@ void (^secondPasswordSuccess)(NSString *);
     
     [self.wallet.btcSocket closeWithCode:WEBSOCKET_CODE_BACKGROUNDED_APP reason:WEBSOCKET_CLOSE_REASON_USER_BACKGROUNDED];
     [self.wallet.ethSocket closeWithCode:WEBSOCKET_CODE_BACKGROUNDED_APP reason:WEBSOCKET_CLOSE_REASON_USER_BACKGROUNDED];
-    
+    [self.wallet.bchSocket closeWithCode:WEBSOCKET_CODE_BACKGROUNDED_APP reason:WEBSOCKET_CLOSE_REASON_USER_BACKGROUNDED];
+
     if (hasGuidAndSharedKey) {
         [SessionManager resetSessionWithCompletionHandler:^{
             // completion handler must be non-null
@@ -1726,6 +1727,7 @@ void (^secondPasswordSuccess)(NSString *);
     
     [self.wallet.ethSocket closeWithCode:WEBSOCKET_CODE_LOGGED_OUT reason:WEBSOCKET_CLOSE_REASON_LOGGED_OUT];
     [self.wallet.btcSocket closeWithCode:WEBSOCKET_CODE_LOGGED_OUT reason:WEBSOCKET_CLOSE_REASON_LOGGED_OUT];
+    [self.wallet.bchSocket closeWithCode:WEBSOCKET_CODE_LOGGED_OUT reason:WEBSOCKET_CLOSE_REASON_LOGGED_OUT];
 }
 
 - (void)buyBitcoinClicked:(id)sender
@@ -2099,6 +2101,7 @@ void (^secondPasswordSuccess)(NSString *);
 - (void)didSetDefaultAccount
 {
     [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoin];
+    [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoinCash];
     [self.tabControllerManager didSetDefaultAccount];
 }
 

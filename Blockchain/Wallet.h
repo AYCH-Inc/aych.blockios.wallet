@@ -462,6 +462,7 @@ typedef enum {
 - (BOOL)isWaitingOnEtherTransaction;
 
 // Bitcoin Cash
+- (NSString *)fromBitcoinCash:(NSString *)address;
 - (void)getBitcoinCashHistory;
 - (void)fetchBitcoinCashExchangeRates;
 - (NSString *)getLabelForBitcoinCashAccount:(int)account;

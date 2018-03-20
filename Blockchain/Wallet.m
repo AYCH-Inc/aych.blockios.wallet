@@ -3027,6 +3027,11 @@
 
 # pragma mark - Bitcoin cash
 
+- (NSString *)fromBitcoinCash:(NSString *)address
+{
+    return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.fromBitcoinCash(\"%@\")", [address escapeStringForJS]]] toString];
+}
+
 - (void)getBitcoinCashHistory
 {
     if ([self isInitialized]) {

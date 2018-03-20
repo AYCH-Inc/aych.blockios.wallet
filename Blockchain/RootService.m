@@ -2496,7 +2496,7 @@ void (^secondPasswordSuccess)(NSString *);
     if (assetType == AssetTypeBitcoin) {
         
         int numberOfBitcoinCashAddressesToDerive = SWIPE_TO_RECEIVE_ADDRESS_COUNT;
-        NSArray *bitcoinCashSwipeAddresses = [KeychainItemWrapper getSwipeAddressesForAssetType:AssetTypeBitcoin];
+        NSArray *bitcoinCashSwipeAddresses = [KeychainItemWrapper getSwipeAddressesForAssetType:AssetTypeBitcoinCash];
         if (bitcoinCashSwipeAddresses) {
             numberOfBitcoinCashAddressesToDerive = SWIPE_TO_RECEIVE_ADDRESS_COUNT - (int)bitcoinCashSwipeAddresses.count;
         }
@@ -3316,7 +3316,18 @@ void (^secondPasswordSuccess)(NSString *);
 
 - (void)checkForUnusedAddress:(NSString *)address success:(void (^)(NSString *, BOOL))successBlock error:(void (^)())errorBlock assetType:(AssetType)assetType
 {
-    NSURL *URL = [NSURL URLWithString:[URL_SERVER stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT, address]]];
+    NSString *URLString;
+    
+    if (assetType == AssetTypeBitcoin) {
+        URLString = [URL_SERVER stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT, address]];
+    } else if (assetType == AssetTypeBitcoinCash) {
+        address = [app.wallet fromBitcoinCash:address];
+        URLString = [URL_API stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_BCH_ADDRESS_ARGUMENT, address]];
+    } else {
+        DLog(@"checking for unused address: unsupported asset type!");
+    }
+    
+    NSURL *URL = [NSURL URLWithString:URLString];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     NSURLSession *session = [SessionManager sharedSession];

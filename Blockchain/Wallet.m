@@ -1223,7 +1223,7 @@
         if (error) DLog(@"Error subscribing to address: %@", [error localizedDescription]);
     } else if (webSocket == self.bchSocket) {
         DLog(@"bch websocket opened");
-        NSString *message = [[self.context evaluateScript:@"MyWalletPhone.bch.getSocketOnOpenMessage()"] toString];
+         NSString *message = self.bchSwipeAddressToSubscribe ? [NSString stringWithFormat:@"{\"op\":\"addr_sub\",\"addr\":\"%@\"}", self.bchSwipeAddressToSubscribe] : [[self.context evaluateScript:@"MyWalletPhone.bch.getSocketOnOpenMessage()"] toString];
         NSError *error;
         [webSocket sendString:message error:&error];
         if (error) DLog(@"Error subscribing to address: %@", [error localizedDescription]);

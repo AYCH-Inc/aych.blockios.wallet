@@ -909,8 +909,6 @@ MyWalletPhone.changeLastUsedReceiveIndexOfDefaultAccount = function() {
 MyWalletPhone.getBtcSwipeAddresses = function(numberOfAddresses, label) {
 
     var addresses = [];
-    var account = MyWallet.wallet.hdwallet.defaultAccount;
-    var accountIndex = MyWallet.wallet.hdwallet.defaultAccountIndex;
 
     MyWalletPhone.changeLastUsedReceiveIndexOfDefaultAccount();
 
@@ -3016,12 +3014,20 @@ MyWalletPhone.bch = {
     getSwipeAddresses : function(numberOfAddresses) {
         var addresses = [];
         
+        var receiveIndex = MyWallet.wallet.hdwallet.defaultAccount.receiveIndex;
         for (var i = 0; i < numberOfAddresses; i++) {
-            var address = Blockchain.Helpers.toBitcoinCash(Blockchain.MyWallet.wallet.hdwallet.accounts[0].receiveAddressAtIndex(i));
+            var address = Helpers.toBitcoinCash(Blockchain.MyWallet.wallet.hdwallet.accounts[0].receiveAddressAtIndex(receiveIndex + i));
             addresses.push(address);
         }
-        
+
         objc_did_get_bch_swipe_addresses(addresses);
+    },
+    
+    fromBitcoinCash : function(address) {
+        var base = 'bitcoincash:';
+        var prefixed = address.includes(base);
+        if (!prefixed) address = base + address;
+        return Helpers.fromBitcoinCash(address);
     }
 };
 

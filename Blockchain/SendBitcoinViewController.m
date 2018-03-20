@@ -2148,6 +2148,8 @@ BOOL displayingLocalSymbolSend;
                     return;
                 }
                 
+                if ([address containsString:PREFIX_BITCOIN_CASH]) address = [address substringFromIndex:[PREFIX_BITCOIN_CASH length]];
+
                 toField.text = [app.wallet labelForLegacyAddress:address assetType:self.assetType];
                 self.toAddress = address;
                 self.sendToAddress = true;

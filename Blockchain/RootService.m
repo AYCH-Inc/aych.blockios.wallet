@@ -3266,7 +3266,7 @@ void (^secondPasswordSuccess)(NSString *);
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[APP_STORE_LINK_PREFIX stringByAppendingString:APP_STORE_ID]]];
 }
 
-- (void)paymentReceived:(NSDecimalNumber *)amount showBackupReminder:(BOOL)showBackupReminder
+- (void)paymentReceived:(uint64_t)amount showBackupReminder:(BOOL)showBackupReminder
 {
     if (self.tabControllerManager.tabViewController.selectedIndex == TAB_RECEIVE && ![self.tabControllerManager isSending]) {
         [self.tabControllerManager paymentReceived:amount showBackupReminder:showBackupReminder];

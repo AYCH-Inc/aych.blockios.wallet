@@ -1269,15 +1269,20 @@
         [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.didReceiveEthSocketMessage(\"%@\")", [string escapeStringForJS]]];
     } else {
         DLog(@"received websocket message string");
-        [self.context evaluateScript:[NSString stringWithFormat:@"MyWallet.getSocketOnMessage(\"%@\", { checksum: null })", [string escapeStringForJS]]];
+        
+        if (webSocket == self.btcSocket) {
+            [self.context evaluateScript:[NSString stringWithFormat:@"MyWallet.getSocketOnMessage(\"%@\", { checksum: null })", [string escapeStringForJS]]];
+        } else if (webSocket == self.bchSocket) {
+            [self.context evaluateScript:@"MyWalletPhone.bch.didGetTxMessage()"];
+        }
         
         NSDictionary *message = [string getJSONObject];
         NSDictionary *transaction = message[@"x"];
         
-        if (webSocket == self.btcSocket) {
+        if (webSocket == self.btcSocket && self.btcSwipeAddressToSubscribe) {
             NSString *hash = transaction[DICTIONARY_KEY_HASH];
             [self getAmountReceivedForTransactionHash:hash socket:webSocket];
-        } else if (webSocket == self.bchSocket) {
+        } else if (webSocket == self.bchSocket && self.bchSwipeAddressToSubscribe) {
             NSArray *outputs = transaction[DICTIONARY_KEY_OUT];
             NSString *address = [self fromBitcoinCash:self.bchSwipeAddressToSubscribe];
             uint64_t amountReceived = 0;
@@ -3060,7 +3065,7 @@
 - (NSArray *)getBitcoinCashTransactions:(NSInteger)filterType
 {
     if ([self isInitialized]) {
-        NSArray *fetchedTransactions = [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.transactions(%d)", filterType]] toArray];
+        NSArray *fetchedTransactions = [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.transactions(%ld)", filterType]] toArray];
         NSMutableArray *transactions = [NSMutableArray new];
         for (NSDictionary *data in fetchedTransactions) {
             Transaction *transaction = [Transaction fromJSONDict:data];

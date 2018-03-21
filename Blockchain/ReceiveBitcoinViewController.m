@@ -750,12 +750,11 @@
     [self updateAmounts];
 }
 
-- (void)paymentReceived:(NSDecimalNumber *)amount showBackupReminder:(BOOL)showBackupReminder
+- (void)paymentReceived:(uint64_t)amountReceived showBackupReminder:(BOOL)showBackupReminder
 {
-    u_int64_t amountReceived = [[amount decimalNumberByMultiplyingBy:(NSDecimalNumber *)[NSDecimalNumber numberWithDouble:SATOSHI]] longLongValue];
-    NSString *btcAmountString = [NSNumberFormatter formatMoney:amountReceived localCurrency:NO];
-    NSString *localCurrencyAmountString = [NSNumberFormatter formatMoney:amountReceived localCurrency:YES];
-    [self alertUserOfPaymentWithMessage:[[NSString alloc] initWithFormat:@"%@\n%@", btcAmountString,localCurrencyAmountString] showBackupReminder:showBackupReminder];
+    NSString *btcAmountString = self.assetType == AssetTypeBitcoin ? [NSNumberFormatter formatMoney:amountReceived localCurrency:NO] : [NSNumberFormatter formatBchWithSymbol:amountReceived localCurrency:NO];
+    NSString *localCurrencyAmountString = self.assetType == AssetTypeBitcoin ? [NSNumberFormatter formatMoney:amountReceived localCurrency:YES] : [NSNumberFormatter formatBchWithSymbol:amountReceived localCurrency:YES];
+    [self alertUserOfPaymentWithMessage:[[NSString alloc] initWithFormat:@"%@\n%@", btcAmountString, localCurrencyAmountString] showBackupReminder:showBackupReminder];
 }
 
 - (void)selectDestination

@@ -12,4 +12,5 @@
 @interface TransactionsBitcoinCashViewController : TransactionsViewController
 @property(nonatomic) TransactionDetailViewController *detailViewController;
 - (void)reload;
+- (void)didReceiveTransactionMessage;
 @end

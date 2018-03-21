@@ -2860,9 +2860,10 @@ MyWalletPhone.fiatExchangeHardLimit = function() {
 
 MyWalletPhone.bch = {
     getHistory : function() {
-        var success = function() {
+        var success = function(promise) {
             console.log('Success fetching bch history')
             objc_on_fetch_bch_history_success();
+            return promise;
         };
         
         var error = function(error) {
@@ -2871,7 +2872,7 @@ MyWalletPhone.bch = {
             objc_on_fetch_bch_history_error(error);
         };
         
-        MyWallet.wallet.bch.getHistory().then(success).catch(error);
+        return MyWallet.wallet.bch.getHistory().then(success).catch(error);
     },
     
     fetchExchangeRates : function() {
@@ -3008,6 +3009,10 @@ MyWalletPhone.bch = {
     
     quickSend : function(id, onSendScreen, secondPassword) {
         MyWalletPhone.quickSend(id, onSendScreen, secondPassword, 'bch');
+    },
+    
+    didGetTxMessage : function() {
+        MyWalletPhone.bch.getHistory().then(function(){objc_on_tx_received()});
     },
     
     getSocketOnOpenMessage : function() {

@@ -1271,10 +1271,32 @@
         DLog(@"received websocket message string");
         [self.context evaluateScript:[NSString stringWithFormat:@"MyWallet.getSocketOnMessage(\"%@\", { checksum: null })", [string escapeStringForJS]]];
         
-        if (self.btcSwipeAddressToSubscribe || self.bchSwipeAddressToSubscribe) {
-            NSDictionary *message = [string getJSONObject];
-            NSString *hash = message[@"x"][DICTIONARY_KEY_HASH];
+        NSDictionary *message = [string getJSONObject];
+        NSDictionary *transaction = message[@"x"];
+        
+        if (webSocket == self.btcSocket) {
+            NSString *hash = transaction[DICTIONARY_KEY_HASH];
             [self getAmountReceivedForTransactionHash:hash socket:webSocket];
+        } else if (webSocket == self.bchSocket) {
+            NSArray *outputs = transaction[DICTIONARY_KEY_OUT];
+            NSString *address = [self fromBitcoinCash:self.bchSwipeAddressToSubscribe];
+            uint64_t amountReceived = 0;
+            for (NSDictionary *output in outputs) {
+                if ([[output objectForKey:DICTIONARY_KEY_ADDRESS_OUTPUT] isEqualToString:address]) amountReceived = amountReceived + [[output objectForKey:DICTIONARY_KEY_VALUE] longLongValue];
+            };
+            
+            self.bchSwipeAddressToSubscribe = nil;
+            
+            if (amountReceived > 0) {
+                if ([delegate respondsToSelector:@selector(paymentReceivedOnPINScreen:)]) {
+                    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
+                        NSString *amountString = [NSNumberFormatter formatBchWithSymbol:amountReceived localCurrency:NO];
+                        [delegate paymentReceivedOnPINScreen:amountString];
+                    }
+                } else {
+                    DLog(@"Error: delegate of class %@ does not respond to selector paymentReceivedOnPINScreen:!", [delegate class]);
+                }
+            }
         }
     }
 }
@@ -1295,14 +1317,8 @@
         
         uint64_t amountReceived = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] longLongValue];
         
-        NSString *amountString;
-        if (webSocket == self.btcSocket) {
-            self.btcSwipeAddressToSubscribe = nil;
-            amountString = [NSNumberFormatter formatMoney:amountReceived localCurrency:NO];
-        } else {
-            self.bchSwipeAddressToSubscribe = nil;
-            amountString = [NSNumberFormatter formatBchWithSymbol:amountReceived localCurrency:NO];
-        }
+        NSString *amountString = [NSNumberFormatter formatMoney:amountReceived localCurrency:NO];
+        self.btcSwipeAddressToSubscribe = nil;
         
         if (amountReceived > 0) {
             if ([delegate respondsToSelector:@selector(paymentReceivedOnPINScreen:)]) {

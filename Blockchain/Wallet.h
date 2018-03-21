@@ -473,7 +473,7 @@ typedef enum {
 - (NSString *)bitcoinCashExchangeRate;
 - (uint64_t)getBitcoinCashConversion;
 - (uint64_t)bitcoinCashTotalBalance;
-- (NSArray *)getBitcoinCashTransactions;
+- (NSArray *)getBitcoinCashTransactions:(NSInteger)filterType;
 - (NSString *_Nullable)getLabelForDefaultBchAccount;
 
 // Exchange

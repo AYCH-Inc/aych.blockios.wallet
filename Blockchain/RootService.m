@@ -734,13 +734,11 @@ void (^secondPasswordSuccess)(NSString *);
     return [self.tabControllerManager getFilterIndex];
 }
 
-- (void)filterTransactionsByAccount:(int)accountIndex
+- (void)filterTransactionsByAccount:(int)accountIndex assetType:(AssetType)assetType
 {
-    [self.tabControllerManager filterTransactionsByAccount:accountIndex filterLabel:[app.wallet getLabelForAccount:accountIndex assetType:self.tabControllerManager.assetType]];
+    [self.tabControllerManager filterTransactionsByAccount:accountIndex filterLabel:[app.wallet getLabelForAccount:accountIndex assetType:self.tabControllerManager.assetType] assetType:assetType];
     
     [self.wallet reloadFilter];
-    
-    [self showFilterResults];
 }
 
 - (void)filterTransactionsByImportedAddresses
@@ -748,22 +746,12 @@ void (^secondPasswordSuccess)(NSString *);
     [self.tabControllerManager filterTransactionsByImportedAddresses];
     
     [self.wallet reloadFilter];
-    
-    [self showFilterResults];
 }
 
 - (void)removeTransactionsFilter
 {
     [self.tabControllerManager removeTransactionsFilter];
     [self.wallet reloadFilter];
-    
-    [self showFilterResults];
-}
-
-- (void)showFilterResults
-{
-    [self closeSideMenu];
-    [self.tabControllerManager showFilterResults];
 }
 
 - (void)reloadSymbols
@@ -1079,7 +1067,7 @@ void (^secondPasswordSuccess)(NSString *);
     
     [self.tabControllerManager updateTransactionsViewControllerData:response];
     
-#if defined(ENABLE_TRANSACTION_FILTERING) && defined(ENABLE_TRANSACTION_FETCHING)
+#ifdef ENABLE_TRANSACTION_FETCHING
     if (app.wallet.isFetchingTransactions) {
         [_transactionsViewController reload];
         app.wallet.isFetchingTransactions = NO;

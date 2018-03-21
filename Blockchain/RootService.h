@@ -179,7 +179,7 @@
 - (void)logoutAndShowPasswordModal;
 
 - (NSInteger)filterIndex;
-- (void)filterTransactionsByAccount:(int)accountIndex;
+- (void)filterTransactionsByAccount:(int)accountIndex assetType:(AssetType)assetType;
 - (void)filterTransactionsByImportedAddresses;
 - (void)removeTransactionsFilter;
 

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TransactionsViewController.h"
 @class TransactionDetailViewController;
-@interface TransactionsBitcoinCashViewController : UIViewController
+@interface TransactionsBitcoinCashViewController : TransactionsViewController
 @property(nonatomic) TransactionDetailViewController *detailViewController;
 - (void)reload;
 @end

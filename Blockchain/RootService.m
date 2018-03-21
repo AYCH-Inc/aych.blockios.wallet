@@ -3289,14 +3289,14 @@ void (^secondPasswordSuccess)(NSString *);
     }
 }
 
-- (void)paymentReceivedOnPINScreen:(NSString *)amount
+- (void)paymentReceivedOnPINScreen:(NSString *)amount assetType:(AssetType)assetType
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_PAYMENT_RECEIVED message:amount preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
-        [self.pinEntryViewController paymentReceived];
+        [self.pinEntryViewController paymentReceived:assetType];
     });
 }
 

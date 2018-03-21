@@ -17,15 +17,17 @@
 #import "ContactTransactionTableViewCell.h"
 #import "BCAddressSelectionView.h"
 #import "TransactionDetailNavigationController.h"
+#import "UIView+ChangeFrameAttribute.h"
 
 @interface TransactionsViewController ()
 @property (nonatomic) UILabel *noTransactionsTitle;
 @property (nonatomic) UILabel *noTransactionsDescription;
 @property (nonatomic) UIButton *getBitcoinButton;
-
 @property (nonatomic) UIView *noTransactionsView;
-
+@property (nonatomic) UIView *filterSelectorView;
+@property (nonatomic) UILabel *filterSelectorLabel;
 - (void)setupNoTransactionsViewInView:(UIView *)view assetType:(AssetType)assetType;
+- (void)setupFilter;
 @end
 
 @interface TransactionsBitcoinViewController () <AddressSelectionDelegate, UIScrollViewDelegate, ContactTransactionCellDelegate>
@@ -36,19 +38,17 @@
 @property (nonatomic) UIView *bounceView;
 
 @property (nonatomic) NSArray *finishedTransactions;
+@property (nonatomic) BOOL receivedTransactionMessage;
+@property (nonatomic) BOOL hasZeroTotalBalance;
 
+@property (nonatomic) UIRefreshControl *refreshControl;
+@property (nonatomic) int lastNumberTransactions;
 @end
 
 @implementation TransactionsBitcoinViewController
 
 @synthesize data;
 @synthesize latestBlock;
-
-BOOL didReceiveTransactionMessage;
-BOOL hasZeroTotalBalance = NO;
-
-UIRefreshControl *refreshControl;
-int lastNumberTransactions = INT_MAX;
 
 - (void)awakeFromNib
 {
@@ -70,7 +70,7 @@ int lastNumberTransactions = INT_MAX;
         return app.wallet.pendingContactTransactions.count;
     } else if (section == self.sectionMain) {
         NSInteger transactionCount = [data.transactions count] + app.wallet.rejectedContactTransactions.count;
-#if defined(ENABLE_TRANSACTION_FILTERING) && defined(ENABLE_TRANSACTION_FETCHING)
+#ifdef ENABLE_TRANSACTION_FETCHING
         if (data != nil && transactionCount == 0 && !self.loadedAllTransactions && self.clickedFetchMore) {
             [app.wallet fetchMoreTransactions];
         }
@@ -182,7 +182,7 @@ int lastNumberTransactions = INT_MAX;
 
 - (void)tableView:(UITableView *)_tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-#if defined(ENABLE_TRANSACTION_FILTERING) && defined(ENABLE_TRANSACTION_FETCHING)
+#ifdef ENABLE_TRANSACTION_FETCHING
     if (!self.loadedAllTransactions) {
         if (indexPath.row == (int)[data.transactions count] - 1) {
             // If user scrolled down at all or if the user clicked fetch more and the table isn't filled, fetch
@@ -264,25 +264,21 @@ int lastNumberTransactions = INT_MAX;
 
 - (void)setText
 {
-    [self setupNoTransactionsViewInView:tableView assetType:AssetTypeBitcoin];
+    [self setupNoTransactionsViewInView:tableView assetType:self.assetType];
     
     UIColor *bounceViewBackgroundColor = [UIColor whiteColor];
     UIColor *refreshControlTintColor = [UIColor lightGrayColor];
     
     self.bounceView.backgroundColor = bounceViewBackgroundColor;
-    refreshControl.tintColor = refreshControlTintColor;
+    self.refreshControl.tintColor = refreshControlTintColor;
     
     BOOL shouldShowFilterButton = ([app.wallet didUpgradeToHd] && ([[app.wallet activeLegacyAddresses] count] > 0 || [app.wallet getActiveAccountsCount:AssetTypeBitcoin] >= 2));
-    
-    self.filterAccountButton.hidden = !shouldShowFilterButton;
     
     // Data not loaded yet
     if (!self.data) {
         self.noTransactionsView.hidden = YES;
         
-#ifdef ENABLE_TRANSACTION_FILTERING
         self.filterIndex = FILTER_INDEX_ALL;
-#endif
         
         [balanceBigButton setTitle:@"" forState:UIControlStateNormal];
         [self changeFilterLabel:@""];
@@ -291,7 +287,7 @@ int lastNumberTransactions = INT_MAX;
     else if (self.data.transactions.count == 0 && app.wallet.pendingContactTransactions.count == 0 && app.wallet.rejectedContactTransactions.count == 0) {
         self.noTransactionsView.hidden = NO;
         
-#if defined(ENABLE_TRANSACTION_FILTERING) && defined(ENABLE_TRANSACTION_FETCHING)
+#ifdef ENABLE_TRANSACTION_FETCHING
         if (!self.loadedAllTransactions) {
             [self showMoreButton];
         } else {
@@ -351,7 +347,7 @@ int lastNumberTransactions = INT_MAX;
 
 - (void)didReceiveTransactionMessage
 {
-    didReceiveTransactionMessage = YES;
+    self.receivedTransactionMessage = YES;
 }
 
 - (void)didGetMessages
@@ -386,8 +382,8 @@ int lastNumberTransactions = INT_MAX;
     [self reloadLastNumberOfTransactions];
     
     // This should be done when request has finished but there is no callback
-    if (refreshControl && refreshControl.isRefreshing) {
-        [refreshControl endRefreshing];
+    if (self.refreshControl && self.refreshControl.isRefreshing) {
+        [self.refreshControl endRefreshing];
     }
 }
 
@@ -410,8 +406,8 @@ int lastNumberTransactions = INT_MAX;
 
 - (void)reloadNewTransactions
 {
-    if (data.n_transactions > lastNumberTransactions) {
-        uint32_t numNewTransactions = data.n_transactions - lastNumberTransactions;
+    if (data.n_transactions > self.lastNumberTransactions) {
+        uint32_t numNewTransactions = data.n_transactions - self.lastNumberTransactions;
         // Max number displayed
         if (numNewTransactions > data.transactions.count) {
             numNewTransactions = (uint32_t) data.transactions.count;
@@ -432,13 +428,13 @@ int lastNumberTransactions = INT_MAX;
 
 - (void)animateFirstCell
 {
-    if (data.transactions.count > 0 && didReceiveTransactionMessage) {
+    if (data.transactions.count > 0 && self.receivedTransactionMessage) {
         
-        didReceiveTransactionMessage = NO;
+        self.receivedTransactionMessage = NO;
 
         [self performSelector:@selector(didGetNewTransaction) withObject:nil afterDelay:0.1f];
     } else {
-        hasZeroTotalBalance = [app.wallet getTotalActiveBalance] == 0;
+        self.hasZeroTotalBalance = [app.wallet getTotalActiveBalance] == 0;
     }
 }
 
@@ -446,15 +442,15 @@ int lastNumberTransactions = INT_MAX;
 {
     // If all the data is available, set the lastNumberTransactions - reload gets called once when wallet is loaded and once when latest block is loaded
     if (app.latestResponse) {
-        lastNumberTransactions = data.n_transactions;
+        self.lastNumberTransactions = data.n_transactions;
     }
 }
 
 - (void)loadTransactions
 {
-    lastNumberTransactions = data.n_transactions;
+    self.lastNumberTransactions = data.n_transactions;
 
-#if defined(ENABLE_TRANSACTION_FILTERING) && defined(ENABLE_TRANSACTION_FETCHING)
+#ifdef ENABLE_TRANSACTION_FETCHING
     if (self.loadedAllTransactions) {
         self.loadedAllTransactions = NO;
         self.clickedFetchMore = YES;
@@ -502,7 +498,7 @@ int lastNumberTransactions = INT_MAX;
 
         [self completeReceiveRequestOptimisticallyForTransaction:transaction];
         
-        BOOL shouldShowBackupReminder = (hasZeroTotalBalance && [app.wallet getTotalActiveBalance] > 0 &&
+        BOOL shouldShowBackupReminder = (self.hasZeroTotalBalance && [app.wallet getTotalActiveBalance] > 0 &&
                                          ![app.wallet isRecoveryPhraseVerified]);
         
         [app paymentReceived:[self getAmountForReceivedTransaction:transaction] showBackupReminder:shouldShowBackupReminder];
@@ -543,56 +539,26 @@ int lastNumberTransactions = INT_MAX;
     }
 }
 
-- (void)changeFilterLabel:(NSString *)newText
-{
-    [self.filterAccountButton setTitle:newText forState:UIControlStateNormal];
-    
-    if (newText.length > 0) {
-        UIButton *buttonForTitleWidth = [[UIButton alloc] initWithFrame:self.filterAccountButton.frame];
-        buttonForTitleWidth.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_EXTRALIGHT size:FONT_SIZE_SMALL];
-        [buttonForTitleWidth setTitle:newText forState:UIControlStateNormal];
-        [buttonForTitleWidth sizeToFit];
-        
-        self.filterAccountButton.imageEdgeInsets = UIEdgeInsetsMake(0, -self.filterAccountButton.imageView.bounds.size.width + self.filterAccountButton.frame.size.width/2 + buttonForTitleWidth.frame.size.width/2 + 20, 0, 0);
-        self.filterAccountButton.titleEdgeInsets = UIEdgeInsetsMake(0, -self.filterAccountButton.imageView.bounds.size.width, 0, 0);
-    }
-}
-
-- (CGFloat)heightForFilterTableView
-{
-    CGFloat estimatedHeight = 44 * ([app.wallet getActiveAccountsCount:AssetTypeBitcoin] + 2);
-    CGFloat largestAcceptableHeight = [[UIScreen mainScreen] bounds].size.height - 150;
-    return estimatedHeight > largestAcceptableHeight ? largestAcceptableHeight : estimatedHeight;
-}
-
 - (uint64_t)getBalance
 {
-#ifdef ENABLE_TRANSACTION_FILTERING
     if (self.filterIndex == FILTER_INDEX_ALL) {
         return [app.wallet getTotalActiveBalance];
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
         return [app.wallet getTotalBalanceForActiveLegacyAddresses];
     } else {
-        return [[app.wallet getBalanceForAccount:(int)self.filterIndex assetType:AssetTypeBitcoin] longLongValue];
+        return [[app.wallet getBalanceForAccount:(int)self.filterIndex assetType:self.assetType] longLongValue];
     }
-#else
-    return [app.wallet getTotalActiveBalance];
-#endif
 }
 
 - (NSString *)getFilterLabel
 {
-#ifdef ENABLE_TRANSACTION_FILTERING
     if (self.filterIndex == FILTER_INDEX_ALL) {
-        return BC_STRING_BITCOIN_BALANCES;
+        return BC_STRING_ALL_WALLETS;
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
         return BC_STRING_IMPORTED_ADDRESSES;
     } else {
-        return [app.wallet getLabelForAccount:(int)self.filterIndex assetType:AssetTypeBitcoin];
+        return [app.wallet getLabelForAccount:(int)self.filterIndex assetType:self.assetType];
     }
-#else
-    return nil;
-#endif
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
@@ -713,12 +679,6 @@ int lastNumberTransactions = INT_MAX;
     [app setupPaymentRequest:transaction];
 }
 
-- (void)showFilterMenu
-{
-    BCAddressSelectionView *filterView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:SelectModeFilter delegate:self];
-    [app showModalWithContent:filterView closeType:ModalCloseTypeBack headerText:BC_STRING_BALANCES];
-}
-
 - (void)completeReceiveRequestOptimisticallyForTransaction:(Transaction *)transaction
 {
     if (app.wallet.pendingContactTransactions.count > 0) {
@@ -751,35 +711,38 @@ int lastNumberTransactions = INT_MAX;
     };
 }
 
+#pragma mark - Filtering
+
+- (void)changeFilterLabel:(NSString *)newText
+{
+    self.filterSelectorLabel.text = newText;
+}
+
+- (void)filterSelectorViewTapped
+{
+    [self showFilterMenu];
+}
+
+- (void)showFilterMenu
+{
+    BCAddressSelectionView *filterView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:SelectModeFilter delegate:self];
+    [app showModalWithContent:filterView closeType:ModalCloseTypeBack headerText:BC_STRING_BALANCES];
+}
+
 #pragma mark - Address Selection Delegate
 
-- (void)didSelectFromAccount:(int)account assetType:(AssetType)asset
+- (AssetType)getAssetType
 {
-    if (account == FILTER_INDEX_IMPORTED_ADDRESSES) {
+    return self.assetType;
+}
+
+- (void)didSelectFilter:(int)filter
+{
+    if (filter == FILTER_INDEX_IMPORTED_ADDRESSES) {
         [app filterTransactionsByImportedAddresses];
     } else {
-        [app filterTransactionsByAccount:account];
+        [app filterTransactionsByAccount:filter assetType:self.assetType];
     }
-}
-
-- (void)didSelectToAddress:(NSString *)address
-{
-    DLog(@"TransactionsViewController Warning: filtering by single imported address!")
-}
-
-- (void)didSelectToAccount:(int)account
-{
-    DLog(@"TransactionsViewController Warning: selected to account!")
-}
-
-- (void)didSelectFromAddress:(NSString *)address
-{
-    DLog(@"TransactionsViewController Warning: selected from address!")
-}
-
-- (void)didSelectContact:(Contact *)contact
-{
-    DLog(@"TransactionsViewController Warning: selected contact!")
 }
 
 #pragma mark - View lifecycle
@@ -787,6 +750,13 @@ int lastNumberTransactions = INT_MAX;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setupFilter];
+    
+    [self.tableView changeYPosition:self.filterSelectorView.frame.origin.y + self.filterSelectorView.frame.size.height];
+    [self.tableView changeHeight:self.tableView.frame.size.height - self.filterSelectorView.frame.size.height];
+    
+    self.lastNumberTransactions = INT_MAX;
     
     self.loadedAllTransactions = NO;
     
@@ -806,8 +776,7 @@ int lastNumberTransactions = INT_MAX;
     
     [balanceBigButton addTarget:app action:@selector(toggleSymbol) forControlEvents:UIControlEventTouchUpInside];
     
-#if defined(ENABLE_TRANSACTION_FILTERING) && defined(ENABLE_TRANSACTION_FETCHING)
-    
+#ifdef ENABLE_TRANSACTION_FETCHING
     self.moreButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [self.moreButton setTitle:BC_STRING_LOAD_MORE_TRANSACTIONS forState:UIControlStateNormal];
     self.moreButton.titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -821,18 +790,6 @@ int lastNumberTransactions = INT_MAX;
     [self setupBlueBackgroundForBounceArea];
     
     [self setupPullToRefresh];
-    
-#ifdef ENABLE_TRANSACTION_FILTERING
-    
-    self.filterAccountButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL_MEDIUM];
-    [self.filterAccountButton.titleLabel setMinimumScaleFactor:1];
-    [self.filterAccountButton.titleLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.filterAccountButton addTarget:self action:@selector(showFilterMenu) forControlEvents:UIControlEventTouchUpInside];
-
-    self.filterIndex = FILTER_INDEX_ALL;
-#else
-    filterAccountButton.hidden = YES;
-#endif
     
     [self reload];
 }
@@ -849,9 +806,9 @@ int lastNumberTransactions = INT_MAX;
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-#ifdef ENABLE_TRANSACTION_FILTERING
+
     app.wallet.isFetchingTransactions = NO;
-#endif
+
     app.mainTitleLabel.hidden = NO;
 }
 
@@ -873,11 +830,11 @@ int lastNumberTransactions = INT_MAX;
     // Tricky way to get the refreshController to work on a UIViewController - @see http://stackoverflow.com/a/12502450/2076094
     UITableViewController *tableViewController = [[UITableViewController alloc] init];
     tableViewController.tableView = self.tableView;
-    refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self
                        action:@selector(loadTransactions)
              forControlEvents:UIControlEventValueChanged];
-    tableViewController.refreshControl = refreshControl;
+    tableViewController.refreshControl = self.refreshControl;
 }
 
 - (void)getAssetButtonClicked

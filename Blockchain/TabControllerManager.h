@@ -109,7 +109,7 @@
 
 // Transactions View Controller
 - (void)updateTransactionsViewControllerData:(MultiAddressResponse *)data;
-- (void)filterTransactionsByAccount:(int)accountIndex filterLabel:(NSString *)filterLabel;
+- (void)filterTransactionsByAccount:(int)accountIndex filterLabel:(NSString *)filterLabel assetType:(AssetType)assetType;
 - (NSInteger)getFilterIndex;
 - (void)filterTransactionsByImportedAddresses;
 - (void)selectPayment:(NSString *)payment;
@@ -117,7 +117,6 @@
 - (void)setTransactionsViewControllerMessageIdentifier:(NSString *)identifier;
 
 - (void)removeTransactionsFilter;
-- (void)showFilterResults;
 - (void)reloadSymbols;
 - (void)didChangeLocalCurrency;
 

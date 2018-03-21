@@ -1288,15 +1288,17 @@
             self.bchSwipeAddressToSubscribe = nil;
             
             if (amountReceived > 0) {
-                if ([delegate respondsToSelector:@selector(paymentReceivedOnPINScreen:)]) {
+                if ([delegate respondsToSelector:@selector(paymentReceivedOnPINScreen:assetType:)]) {
                     if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
                         NSString *amountString = [NSNumberFormatter formatBchWithSymbol:amountReceived localCurrency:NO];
-                        [delegate paymentReceivedOnPINScreen:amountString];
+                        [delegate paymentReceivedOnPINScreen:amountString assetType:AssetTypeBitcoinCash];
                     }
                 } else {
                     DLog(@"Error: delegate of class %@ does not respond to selector paymentReceivedOnPINScreen:!", [delegate class]);
                 }
             }
+            
+            [webSocket closeWithCode:WEBSOCKET_CODE_RECEIVED_TO_SWIPE_ADDRESS reason:WEBSOCKET_CLOSE_REASON_RECEIVED_TO_SWIPE_ADDRESS];
         }
     }
 }
@@ -1321,9 +1323,9 @@
         self.btcSwipeAddressToSubscribe = nil;
         
         if (amountReceived > 0) {
-            if ([delegate respondsToSelector:@selector(paymentReceivedOnPINScreen:)]) {
+            if ([delegate respondsToSelector:@selector(paymentReceivedOnPINScreen:assetType:)]) {
                 if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
-                    [delegate paymentReceivedOnPINScreen:amountString];
+                    [delegate paymentReceivedOnPINScreen:amountString assetType:AssetTypeBitcoin];
                 }
             } else {
                 DLog(@"Error: delegate of class %@ does not respond to selector paymentReceivedOnPINScreen:!", [delegate class]);

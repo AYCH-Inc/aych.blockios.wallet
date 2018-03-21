@@ -2951,8 +2951,11 @@ MyWalletPhone.bch = {
         return MyWallet.wallet.bch.accounts[index].xpub;
     },
     
-    transactions : function() {
-        return MyWallet.wallet.bch.txs;
+    transactions : function(filter) {
+        return MyWallet.wallet.bch.txs.filter((tx) => {
+            if (filter == -1) return true;
+            else return tx.belongsTo(filter);
+        });
     },
     
     isValidAddress : function(address) {

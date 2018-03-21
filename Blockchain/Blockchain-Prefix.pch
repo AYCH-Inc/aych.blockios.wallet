@@ -593,6 +593,9 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define DICTIONARY_KEY_HASH @"hash"
 #define DICTIONARY_KEY_ACCOUNT_INDEX @"accountIndex"
 
+#define DICTIONARY_KEY_OUT @"out"
+#define DICTIONARY_KEY_ADDRESS_OUTPUT @"addr"
+
 #define DICTIONARY_KEY_PRICE @"price"
 #define DICTIONARY_KEY_TIMESTAMP @"timestamp"
 

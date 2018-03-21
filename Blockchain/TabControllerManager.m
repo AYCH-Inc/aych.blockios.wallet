@@ -8,6 +8,7 @@
 
 #import "TabControllerManager.h"
 #import "BCNavigationController.h"
+#import "Transaction.h"
 
 @implementation TabControllerManager
 
@@ -234,9 +235,22 @@
 
 - (void)receivedTransactionMessage
 {
-    [_transactionsBitcoinViewController didReceiveTransactionMessage];
-    
-    [_receiveBitcoinViewController storeRequestedAmount];
+    if (self.assetType == AssetTypeBitcoin) {
+        if (_transactionsBitcoinViewController) {
+            [_transactionsBitcoinViewController didReceiveTransactionMessage];
+            [_receiveBitcoinViewController storeRequestedAmount];
+        } else {
+            Transaction *transaction = app.latestResponse.transactions.firstObject;
+            [_receiveBitcoinViewController paymentReceived:ABS(transaction.amount) showBackupReminder:NO];
+        }
+    } else if (self.assetType == AssetTypeBitcoinCash) {
+        if (_transactionsBitcoinCashViewController) {
+            [_transactionsBitcoinCashViewController didReceiveTransactionMessage];
+        } else {
+            Transaction *transaction = [[app.wallet getBitcoinCashTransactions:FILTER_INDEX_ALL] firstObject];
+            [_receiveBitcoinCashViewController paymentReceived:ABS(transaction.amount) showBackupReminder:NO];
+        }
+    }
 }
 
 #pragma mark - Eth Send
@@ -309,9 +323,13 @@
     [self.receiveBitcoinViewController reloadMainAddress];
 }
 
-- (void)paymentReceived:(NSDecimalNumber *)amount showBackupReminder:(BOOL)showBackupReminder
+- (void)paymentReceived:(uint64_t)amount showBackupReminder:(BOOL)showBackupReminder
 {
-    [_receiveBitcoinViewController paymentReceived:amount showBackupReminder:showBackupReminder];
+    if (self.assetType == AssetTypeBitcoin) {
+        [_receiveBitcoinViewController paymentReceived:amount showBackupReminder:showBackupReminder];
+    } else if (self.assetType == AssetTypeBitcoinCash) {
+        [_receiveBitcoinCashViewController paymentReceived:amount showBackupReminder:showBackupReminder];
+    }
 }
 
 - (NSDecimalNumber *)lastEthExchangeRate

@@ -213,6 +213,8 @@ static PEViewController *VerifyController()
                 }
             };
             [app checkForUnusedAddress:nextAddress success:success error:error assetType:assetType];
+        } else {
+            [swipeView updateAddress:nextAddress];
         }
     } else if (assetType == AssetTypeEther) {
         NSString *etherAddress = [KeychainItemWrapper getSwipeEtherAddress];

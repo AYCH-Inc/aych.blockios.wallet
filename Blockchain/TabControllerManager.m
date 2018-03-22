@@ -239,11 +239,9 @@
         if (_transactionsBitcoinViewController) {
             [_transactionsBitcoinViewController didReceiveTransactionMessage];
             [_receiveBitcoinViewController storeRequestedAmount];
-        } else {
-            Transaction *transaction = app.latestResponse.transactions.firstObject;
-            [_receiveBitcoinViewController paymentReceived:ABS(transaction.amount) showBackupReminder:NO];
         }
     } else if (self.assetType == AssetTypeBitcoinCash) {
+        [_receiveBitcoinCashViewController reload];
         if (_transactionsBitcoinCashViewController) {
             [_transactionsBitcoinCashViewController didReceiveTransactionMessage];
         } else {

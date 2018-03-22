@@ -6,6 +6,8 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import Foundation
+
 @objc
 extension Bundle {
     static var apiUrl: String? {

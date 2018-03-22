@@ -2991,8 +2991,15 @@ MyWalletPhone.bch = {
         });
     },
     
-    changePaymentTo : function(to) {
-        console.log('Changing bch payment to');
+    changePaymentToAccount : function(to) {
+        console.log('Changing bch payment to account');
+        var account = MyWallet.wallet.bch.accounts[to];
+        var address = account.receiveAddress;
+        currentBitcoinCashPayment.to(address);
+    },
+    
+    changePaymentToAddress : function(to) {
+        console.log('Changing bch payment to address');
         currentBitcoinCashPayment.to(Helpers.fromBitcoinCash('bitcoincash:' + to));
     },
     

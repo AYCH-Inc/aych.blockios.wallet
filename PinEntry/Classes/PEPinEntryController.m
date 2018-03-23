@@ -152,7 +152,7 @@ static PEViewController *VerifyController()
         [self.view addSubview:backgroundViewPageControl];
         backgroundViewPageControl.hidden = YES;
         self.backgroundViewPageControl = backgroundViewPageControl;
-        
+
         UIPageControl *scrollViewPageControl = [self pageControlWithAssets:assets];
         [scrollViewPageControl changeXPosition:scrollViewPageControl.frame.origin.x + pinController.scrollView.bounds.size.width];
         [pinController.scrollView addSubview:scrollViewPageControl];
@@ -166,9 +166,10 @@ static PEViewController *VerifyController()
         
         for (int assetIndex = 0; assetIndex < assets.count; assetIndex++) {
             AssetType asset = [assets[assetIndex] integerValue];
-            BCSwipeAddressViewModel *viewModel = [[BCSwipeAddressViewModel alloc] initWithAssetType:asset address:nil];
+            BCSwipeAddressViewModel *viewModel = [[BCSwipeAddressViewModel alloc] initWithAssetType:asset];
             BCSwipeAddressView *swipeView = [[BCSwipeAddressView alloc] initWithFrame:CGRectMake(pinController.scrollView.bounds.size.width * (assetIndex + 1), 0, pinController.scrollView.bounds.size.width, pinController.scrollView.bounds.size.height) viewModel:viewModel delegate:self];
             [self addAddressToSwipeView:swipeView assetType:asset];
+            [self.swipeViews setObject:swipeView forKey:[NSNumber numberWithInteger:asset]];
             [pinController.scrollView addSubview:swipeView];
         }
     } else {
@@ -183,8 +184,8 @@ static PEViewController *VerifyController()
 
 - (void)addAddressToSwipeView:(BCSwipeAddressView *)swipeView assetType:(AssetType)assetType
 {
-    if (assetType == AssetTypeBitcoin) {
-        NSString *nextAddress = [[KeychainItemWrapper getSwipeAddresses] firstObject];
+    if (assetType == AssetTypeBitcoin || assetType == AssetTypeBitcoinCash) {
+        NSString *nextAddress = [[KeychainItemWrapper getSwipeAddressesForAssetType:assetType] firstObject];
         
         if (nextAddress) {
             
@@ -194,7 +195,7 @@ static PEViewController *VerifyController()
                     [swipeView updateAddress:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION];
                 }]];
                 [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_CONTINUE style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [app.wallet subscribeToSwipeAddress:nextAddress];
+                    [app.wallet subscribeToSwipeAddress:nextAddress assetType:assetType];
                     [swipeView updateAddress:nextAddress];
                 }]];
                 self.errorAlert = alert;
@@ -203,31 +204,31 @@ static PEViewController *VerifyController()
             void (^success)(NSString *, BOOL) = ^(NSString *address, BOOL isUnused) {
                 
                 if (isUnused) {
-                    [app.wallet subscribeToSwipeAddress:nextAddress];
+                    [app.wallet subscribeToSwipeAddress:nextAddress assetType:assetType];
                     [swipeView updateAddress:address];
                     self.errorAlert = nil;
                 } else {
-                    [KeychainItemWrapper removeFirstSwipeAddress];
+                    [KeychainItemWrapper removeFirstSwipeAddressForAssetType:assetType];
                     self.errorAlert = nil;
                 }
             };
-            [app checkForUnusedAddress:nextAddress success:success error:error];
+            [app checkForUnusedAddress:nextAddress success:success error:error assetType:assetType];
+        } else {
+            [swipeView updateAddress:nextAddress];
         }
     } else if (assetType == AssetTypeEther) {
         NSString *etherAddress = [KeychainItemWrapper getSwipeEtherAddress];
         [swipeView updateAddress:etherAddress];
-    } else if (assetType == AssetTypeBitcoinCash) {
-        
     }
 }
 
-- (void)paymentReceived
+- (void)paymentReceived:(AssetType)assetType
 {
-    if ([KeychainItemWrapper getSwipeAddresses].count > 0) {
-        [KeychainItemWrapper removeFirstSwipeAddress];
-        [self setupQRCode];
-    } else {
-        
+    if ((assetType == AssetTypeBitcoin || assetType == AssetTypeBitcoinCash) &&
+        [KeychainItemWrapper getSwipeAddressesForAssetType:assetType].count > 0) {
+        [KeychainItemWrapper removeFirstSwipeAddressForAssetType:assetType];
+        BCSwipeAddressView *swipeView = [self.swipeViews objectForKey:[NSNumber numberWithInteger:assetType]];
+        [self addAddressToSwipeView:swipeView assetType:assetType];
     }
 }
 
@@ -288,6 +289,12 @@ static PEViewController *VerifyController()
 - (void)cancelController
 {
 	[self.pinDelegate pinEntryControllerDidCancel:self];
+}
+
+- (NSMutableDictionary *)swipeViews
+{
+    if (!_swipeViews) _swipeViews = [[NSMutableDictionary alloc] init];
+    return _swipeViews;
 }
 
 #pragma mark Debug Menu

@@ -28,6 +28,7 @@
 @property (nonatomic) UILabel *filterSelectorLabel;
 - (void)setupNoTransactionsViewInView:(UIView *)view assetType:(AssetType)assetType;
 - (void)setupFilter;
+- (uint64_t)getAmountForReceivedTransaction:(Transaction *)transaction;
 @end
 
 @interface TransactionsBitcoinViewController () <AddressSelectionDelegate, UIScrollViewDelegate, ContactTransactionCellDelegate>
@@ -473,13 +474,6 @@
     
     [app.wallet performSelector:@selector(getHistory) withObject:nil afterDelay:0.1f];
 #endif
-}
-
-- (NSDecimalNumber *)getAmountForReceivedTransaction:(Transaction *)transaction
-{
-    NSDecimalNumber * number = [(NSDecimalNumber*)[NSDecimalNumber numberWithLongLong:ABS(transaction.amount)] decimalNumberByDividingBy:(NSDecimalNumber*)[NSDecimalNumber numberWithLongLong:SATOSHI]];
-    DLog(@"TransactionsViewController: getting amount for received transaction");
-    return number;
 }
 
 - (void)didGetNewTransaction

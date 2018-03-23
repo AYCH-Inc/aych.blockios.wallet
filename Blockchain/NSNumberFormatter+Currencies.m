@@ -323,7 +323,7 @@
         return [string stringByAppendingFormat:@" %@", currencyCode];
     }
     
-    return [NSNumberFormatter formatBTC:value];
+    return [NSNumberFormatter formatBCH:value];
 }
 
 // Format amount in satoshi as NSString (without symbol)

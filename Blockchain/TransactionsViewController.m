@@ -9,6 +9,8 @@
 #import "TransactionsViewController.h"
 #import "Assets.h"
 #import "BCLine.h"
+#import "Transaction.h"
+#import "NSNumberFormatter+Currencies.h"
 
 @interface TransactionsViewController ()
 @property (nonatomic) UILabel *noTransactionsTitle;
@@ -137,6 +139,12 @@
 - (void)changeFilterLabel:(NSString *)newText
 {
     // Overridden by subclass
+}
+
+- (uint64_t)getAmountForReceivedTransaction:(Transaction *)transaction
+{
+    DLog(@"TransactionsViewController: getting amount for received transaction");
+    return ABS(transaction.amount);
 }
 
 @end

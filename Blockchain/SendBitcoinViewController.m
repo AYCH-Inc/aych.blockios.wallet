@@ -252,7 +252,7 @@ BOOL displayingLocalSymbolSend;
     if ([app.wallet hasAccount]) {
         // Default setting: send from default account
         self.sendFromAddress = false;
-        int defaultAccountIndex = [app.wallet getFilteredOrDefaultAccountIndex];
+        int defaultAccountIndex = [app.wallet getDefaultAccountIndexForAssetType:self.assetType];
         self.fromAccount = defaultAccountIndex;
         if (self.isReloading) return; // didSelectFromAccount will be called in reloadAfterMultiAddressResponse
         [self didSelectFromAccount:self.fromAccount];
@@ -2148,6 +2148,8 @@ BOOL displayingLocalSymbolSend;
                     return;
                 }
                 
+                if ([address containsString:PREFIX_BITCOIN_CASH]) address = [address substringFromIndex:[PREFIX_BITCOIN_CASH length]];
+
                 toField.text = [app.wallet labelForLegacyAddress:address assetType:self.assetType];
                 self.toAddress = address;
                 self.sendToAddress = true;

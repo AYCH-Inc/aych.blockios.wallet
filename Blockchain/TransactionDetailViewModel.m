@@ -99,6 +99,8 @@
 - (id)initWithBitcoinCashTransaction:(Transaction *)transaction
 {
     TransactionDetailViewModel *model = [self initWithTransaction:transaction];
+    NSString *convertedAddress = [app.wallet toBitcoinCash:model.toString includePrefix:NO];
+    model.toString = convertedAddress ? : model.toString;
     model.assetType = AssetTypeBitcoinCash;
     model.hideNote = YES;
     model.detailButtonTitle = [[BC_STRING_VIEW_ON_URL_ARGUMENT stringByAppendingFormat:@" %@", URL_BLOCKCHAIR] uppercaseString];

@@ -10,7 +10,7 @@
 #define BC_STRING_BITCOIN NSLocalizedString(@"Bitcoin", nil)
 #define BC_STRING_ETHER NSLocalizedString(@"Ether", nil)
 
-#define BC_STRING_BITCOIN_BALANCES NSLocalizedString(@"Bitcoin Balances", nil)
+#define BC_STRING_ALL_WALLETS NSLocalizedString(@"All Wallets", nil)
 #define BC_STRING_WALLETS NSLocalizedString(@"Wallets", nil)
 
 #define BC_STRING_ANY_ADDRESS NSLocalizedString(@"Any address", nil)
@@ -727,6 +727,7 @@
 #define BC_STRING_NO_TRANSACTIONS_TITLE NSLocalizedString(@"No Transactions", nil)
 #define BC_STRING_NO_TRANSACTIONS_TEXT_BITCOIN NSLocalizedString(@"Transactions occur when you send and request bitcoin.", nil)
 #define BC_STRING_NO_TRANSACTIONS_TEXT_ETHER NSLocalizedString(@"Transactions occur when you send and request ether.", nil)
+#define BC_STRING_NO_TRANSACTIONS_TEXT_BITCOIN_CASH NSLocalizedString(@"Transactions occur when you send and request bitcoin cash.", nil)
 
 #define BC_STRING_YOUR_TRANSACTIONS NSLocalizedString(@"Your Transactions", nil)
 
@@ -770,6 +771,8 @@
 #define BC_STRING_GET_BITCOIN NSLocalizedString(@"Get Bitcoin", nil)
 #define BC_STRING_GET_ETHER NSLocalizedString(@"Get Ether", nil)
 #define BC_STRING_REQUEST_ETHER NSLocalizedString(@"Request Ether", nil)
+#define BC_STRING_GET_BITCOIN_CASH NSLocalizedString(@"Get Bitcoin Cash", nil)
+#define BC_STRING_REQUEST_BITCOIN_CASH NSLocalizedString(@"Request Bitcoin Cash", nil)
 #define BC_STRING_OVERVIEW NSLocalizedString(@"Overview", nil)
 #define BC_STRING_DASHBOARD NSLocalizedString(@"Dashboard", nil)
 
@@ -888,3 +891,5 @@
 #define BC_STRING_BITCOIN_CASH_PRICE NSLocalizedString(@"Bitcoin Cash Price", nil)
 #define BC_STRING_BUY_SELL_CARD_DESCRIPTION NSLocalizedString(@"Buy and sell bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab.", nil)
 #define BC_STRING_BUY_SELL_CARD_ACTION_TITLE BC_STRING_GET_STARTED
+
+#define BC_STRING_COPY_WARNING_TEXT NSLocalizedString(@"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information.", nil)

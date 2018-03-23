@@ -2691,15 +2691,30 @@ MyWalletPhone.buildExchangeTrade = function(from, to, coinPair, amount, fee) {
         });
     };
 
-    var fromArg;
-    var toArg;
     var coins = coinPair.split('_');
-    if (coins[0] == 'btc') {
+    
+    var fromArg;
+    var fromSymbol = coins[0];
+    if (fromSymbol == 'btc') {
         fromArg = MyWallet.wallet.hdwallet.accounts[from];
-        toArg = MyWallet.wallet.eth.defaultAccount;
-    } else {
+    } else if (fromSymbol == 'eth') {
         fromArg = MyWallet.wallet.eth.defaultAccount;
+    } else if (fromSymbol == 'bch') {
+        fromArg = MyWallet.wallet.bch.accounts[from];
+    } else {
+        console.log('Error building trade: unsupported asset type');
+    }
+    
+    var toArg;
+    var toSymbol = coins[1];
+    if (toSymbol == 'btc') {
         toArg = MyWallet.wallet.hdwallet.accounts[to];
+    } else if (toSymbol == 'eth') {
+        toArg = MyWallet.wallet.eth.defaultAccount;
+    } else if (toSymbol == 'bch') {
+        toArg = MyWallet.wallet.bch.accounts[to];
+    } else {
+        console.log('Error building trade: unsupported asset type');
     }
 
     MyWallet.wallet.shapeshift.getQuote(fromArg, toArg, amount).then(buildPayment).catch(error);
@@ -2884,6 +2899,21 @@ MyWalletPhone.bch = {
             console.log(e);
         }
         BlockchainAPI.getExchangeRate('USD', 'BCH').then(success).catch(error);
+    },
+    
+    getAvailableBalanceForAccount : function(accountIndex) {
+        var success = function(result) {
+            objc_on_get_available_btc_balance_success(result);
+        }
+        
+        var error = function(e) {
+            console.log('Error getting btc balance');
+            console.log(e);
+            objc_on_get_available_btc_balance_error(e);
+        }
+        
+        var options = walletOptions.getValue();
+        MyWallet.wallet.bch.accounts[accountIndex].getAvailableBalance(options.bcash.feePerByte).then(success).catch(error);
     },
     
     hasAccount : function() {

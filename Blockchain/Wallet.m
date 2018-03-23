@@ -2675,6 +2675,11 @@
     if ([self isInitialized]) [self.context evaluateScript:@"MyWalletPhone.getAvailableEthBalance()"];
 }
 
+- (void)getAvailableBchBalanceForAccount:(int)account
+{
+    if ([self isInitialized]) [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.getAvailableBalanceForAccount(\"%d\")", account]];
+}
+
 - (void)buildExchangeTradeFromAccount:(int)fromAccount toAccount:(int)toAccount coinPair:(NSString *)coinPair amount:(NSString *)amount fee:(NSString *)fee
 {
     if ([self isInitialized]) {

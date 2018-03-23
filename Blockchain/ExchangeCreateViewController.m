@@ -36,8 +36,10 @@
 // Digital asset input
 @property (nonatomic) BCSecureTextField *topLeftField;
 @property (nonatomic) BCSecureTextField *topRightField;
+
 @property (nonatomic) BCSecureTextField *btcField;
 @property (nonatomic) BCSecureTextField *ethField;
+@property (nonatomic) BCSecureTextField *bchField;
 
 // Fiat input
 @property (nonatomic) BCSecureTextField *bottomLeftField;
@@ -50,6 +52,7 @@
 @property (nonatomic) int ethAccount;
 @property (nonatomic) int bchAccount;
 
+@property (nonatomic) NSString *availableBalanceFromSymbol;
 @property (nonatomic) NSString *fromSymbol;
 @property (nonatomic) NSString *toSymbol;
 @property (nonatomic) NSString *fromAddress;
@@ -257,14 +260,20 @@
     [self enableAssetToggleButton];
     [self.spinner stopAnimating];
     
-    if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+    if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC] || [self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
         NSString *minNumberString = [result objectForKey:DICTIONARY_KEY_TRADE_MINIMUM];
         self.minimum = [NSNumber numberWithLongLong:[NSNumberFormatter parseBtcValueFromString:minNumberString]];
         NSString *maxNumberString = [result objectForKey:DICTIONARY_KEY_TRADE_MAX_LIMIT];
         self.maximum = [NSNumber numberWithLongLong:[NSNumberFormatter parseBtcValueFromString:maxNumberString]];
         NSString *hardLimitString = [result objectForKey:DICTIONARY_KEY_BTC_HARD_LIMIT];
         self.maximumHardLimit = [NSNumber numberWithLongLong:[NSNumberFormatter parseBtcValueFromString:hardLimitString]];
-        [app.wallet getAvailableBtcBalanceForAccount:self.btcAccount];
+        if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+            [app.wallet getAvailableBtcBalanceForAccount:self.btcAccount];
+            self.availableBalanceFromSymbol = self.fromSymbol;
+        } else {
+            [app.wallet getAvailableBchBalanceForAccount:self.btcAccount];
+            self.availableBalanceFromSymbol = self.fromSymbol;
+        }
     } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
         self.minimum = [NSDecimalNumber decimalNumberWithString:[result objectForKey:DICTIONARY_KEY_TRADE_MINIMUM]];
         self.maximum = [NSDecimalNumber decimalNumberWithString:[result objectForKey:DICTIONARY_KEY_TRADE_MAX_LIMIT]];
@@ -286,7 +295,7 @@
 - (void)didGetAvailableBtcBalance:(NSDictionary *)result
 {
     if (!result) {
-        NSString *amountText = [[NSNumberFormatter satoshiToBTC:[self.minimum longLongValue]] stringByAppendingFormat:@" %@", CURRENCY_SYMBOL_BTC];
+        NSString *amountText = [[NSNumberFormatter satoshiToBTC:[self.minimum longLongValue]] stringByAppendingFormat:@" %@", self.availableBalanceFromSymbol];
         NSString *errorText = [NSString stringWithFormat:BC_STRING_ARGUMENT_NEEDED_TO_EXCHANGE, amountText];
         [self showErrorText:errorText];
         return;
@@ -311,7 +320,7 @@
     
     NSString *errorText;
     
-    if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+    if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC] || [self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
         
         uint64_t amount = [self.amount longLongValue];
         
@@ -319,23 +328,23 @@
         DLog(@"available: %lld", [self.availableBalance longLongValue]);
         DLog(@"max: %lld", [self.maximum longLongValue])
         
-        if (![self hasEnoughFunds:CURRENCY_SYMBOL_BTC]) {
+        if (![self hasEnoughFunds:self.fromSymbol]) {
             DLog(@"not enough btc");
             notEnoughToExchange = YES;
-            NSString *amountText = [[NSNumberFormatter satoshiToBTC:[self.minimum longLongValue]] stringByAppendingFormat:@" %@", CURRENCY_SYMBOL_BTC];
+            NSString *amountText = [[NSNumberFormatter satoshiToBTC:[self.minimum longLongValue]] stringByAppendingFormat:@" %@", self.fromSymbol];
             errorText = [NSString stringWithFormat:BC_STRING_ARGUMENT_NEEDED_TO_EXCHANGE, amountText];
         } else if (amount == 0) {
             zeroAmount = YES;
         } else if (amount > [self.availableBalance longLongValue]) {
-            DLog(@"btc over available");
+            DLog(@"%@ over available", self.fromSymbol);
             overAvailable = YES;
             errorText = BC_STRING_NOT_ENOUGH_TO_EXCHANGE;
         } else if (amount > [self.maximum longLongValue] || amount > [self.maximumHardLimit longLongValue]) {
-            DLog(@"btc over max");
+            DLog(@"%@ over max", self.fromSymbol);
             overMax = YES;
             errorText = BC_STRING_ABOVE_MAXIMUM_LIMIT;
         } else if (amount < [self.minimum longLongValue] ) {
-            DLog(@"btc under min");
+            DLog(@"%@ under min", self.fromSymbol);
             underMin = YES;
             errorText = BC_STRING_BELOW_MINIMUM_LIMIT;
         }
@@ -417,15 +426,25 @@
         
         NSString *btcResult = [self convertBtcAmountToFiat:self.btcField.text];
         NSString *ethResult = [self convertEthAmountToFiat:self.ethField.text];
-        
+        NSString *bchResult = [self convertBchAmountToFiat:self.bchField.text];
+
         if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
-            self.bottomRightField.text = btcResult;
             self.bottomLeftField.text = ethResult;
             self.amount = [NSDecimalNumber decimalNumberWithString:depositAmountString];
         } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
             self.bottomLeftField.text = btcResult;
-            self.bottomRightField.text = ethResult;
             self.amount = [NSNumber numberWithLongLong:[NSNumberFormatter parseBtcValueFromString:depositAmountString]];
+        } else if ([self.toSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+            self.bottomLeftField.text = bchResult;
+            self.amount = [NSNumber numberWithLongLong:[NSNumberFormatter parseBtcValueFromString:depositAmountString]];
+        }
+        
+        if ([self.toSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
+            self.bottomRightField.text = ethResult;
+        } else if ([self.toSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+            self.bottomRightField.text = btcResult;
+        } else if ([self.toSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+            self.bottomRightField.text = bchResult;
         }
         
         [self updateAvailableBalance];
@@ -489,7 +508,7 @@
     }
     
     // When entering amount in BTC, max 8 decimal places
-    else if (textField == self.btcField) {
+    else if (textField == self.btcField || textField == self.bchField) {
         // Max number of decimal places depends on bitcoin unit
         NSUInteger maxlength = [@(SATOSHI) stringValue].length - [@(SATOSHI / app.latestResponse.symbol_btc.conversion) stringValue].length;
         
@@ -537,7 +556,7 @@
 {
     if (textField == self.ethField) {
         self.amount = [NSDecimalNumber decimalNumberWithString:amountString];
-    } else if (textField == self.btcField) {
+    } else if (textField == self.btcField || textField == self.bchField) {
         self.amount = [NSNumber numberWithLongLong:[NSNumberFormatter parseBtcValueFromString:amountString]];
     } else {
         if (textField == self.bottomLeftField) {
@@ -545,12 +564,16 @@
                 [self convertFiatStringToEth:amountString];
             } else if (self.topLeftField == self.btcField) {
                 [self convertFiatStringToBtc:amountString];
+            } else if (self.topLeftField == self.bchField) {
+                [self convertFiatStringToBch:amountString];
             }
         } else if (textField == self.bottomRightField) {
             if (self.topRightField == self.ethField) {
                 [self convertFiatStringToEth:amountString];
             } else if (self.topRightField == self.btcField) {
                 [self convertFiatStringToBtc:amountString];
+            } else if (self.topRightField == self.bchField) {
+                [self convertFiatStringToBch:amountString];
             }
         }
     }
@@ -567,7 +590,17 @@
     self.amount = [NSNumber numberWithLongLong:app.latestResponse.symbol_local.conversion * [amountString doubleValue]];
 }
 
+- (void)convertFiatStringToBch:(NSString *)amountString
+{
+    self.amount = [NSNumber numberWithLongLong:[app.wallet getBitcoinCashConversion] * [amountString doubleValue]];
+}
+
 - (NSString *)convertBtcAmountToFiat
+{
+    return [self convertBtcAmountToFiat:self.amount];
+}
+
+- (NSString *)convertBchAmountToFiat
 {
     return [self convertBtcAmountToFiat:self.amount];
 }
@@ -608,6 +641,11 @@
     return result;
 }
 
+- (NSString *)convertBchAmountToFiat:(id)amount
+{
+    return [self convertBtcAmountToFiat:amount];
+}
+
 - (void)doCurrencyConversionAfterTyping
 {
     [self doCurrencyConversion];
@@ -629,7 +667,7 @@
         
         if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
             self.bottomRightField.text = result;
-        } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+        } else {
             self.bottomLeftField.text = result;
         }
         
@@ -639,7 +677,17 @@
 
         if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
             self.bottomLeftField.text = result;
-        } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+        } else {
+            self.bottomRightField.text = result;
+        }
+        
+    } else if ([self.bchField isFirstResponder]) {
+        
+        NSString *result = [self convertBchAmountToFiat];
+        
+        if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+            self.bottomLeftField.text = result;
+        } else {
             self.bottomRightField.text = result;
         }
         
@@ -647,18 +695,23 @@
         
         NSString *ethString = [self.amount stringValue];
         NSString *btcString = [NSNumberFormatter satoshiToBTC:[self.amount longLongValue]];
-        
+        NSString *bchString = [NSNumberFormatter satoshiToBTC:[self.amount longLongValue]];
+
         if ([self.bottomLeftField isFirstResponder]) {
             if (self.topLeftField == self.ethField) {
                 self.ethField.text = ethString;
             } else if (self.topLeftField == self.btcField) {
                 self.btcField.text = btcString;
+            } else if (self.topLeftField == self.btcField) {
+                self.bchField.text = bchString;
             }
         } else if ([self.bottomRightField isFirstResponder]) {
             if (self.topRightField == self.ethField) {
                 self.ethField.text = ethString;
             } else if (self.topRightField == self.btcField) {
                 self.btcField.text = btcString;
+            } else if (self.topRightField == self.btcField) {
+                self.bchField.text = bchString;
             }
         }
     }
@@ -794,12 +847,26 @@
 
 - (void)selectFromBitcoinCash
 {
-    // TODO: implement
+    self.fromSymbol = CURRENCY_SYMBOL_BCH;
+    self.bchField = self.topLeftField;
+    self.fromToView.fromLabel.text = [self bitcoinCashLabelText];
+    self.leftLabel.text = CURRENCY_SYMBOL_BCH;
+    self.fromAddress = [app.wallet getReceiveAddressForAccount:self.bchAccount assetType:AssetTypeBitcoin];
+    
+    [self clearAvailableBalance];
+    
+    [self didChangeFromOrTo];
 }
 
 - (void)selectToBitcoinCash
 {
-    // TODO: implement
+    self.toSymbol = CURRENCY_SYMBOL_BCH;
+    self.bchField = self.topRightField;
+    self.fromToView.toLabel.text = [self bitcoinCashLabelText];
+    self.rightLabel.text = CURRENCY_SYMBOL_BCH;
+    self.toAddress = [app.wallet getReceiveAddressForAccount:self.bchAccount assetType:AssetTypeBitcoinCash];
+    
+    [self didChangeFromOrTo];
 }
 
 - (void)selectToEther
@@ -837,6 +904,8 @@
         fiatResult = [self convertEthAmountToFiat];
     } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
         fiatResult = [self convertBtcAmountToFiat];
+    } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+        fiatResult = [self convertBchAmountToFiat];
     }
     self.bottomLeftField.text = fiatResult;
     
@@ -915,9 +984,29 @@
 
 - (void)buildTrade
 {
-    BOOL fromBtc = [self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC];
-    int fromAccount = fromBtc ? self.btcAccount : 0;
-    int toAccount = fromBtc ? self.btcAccount : 0;
+    int fromAccount;
+    if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+        fromAccount = self.btcAccount;
+    } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
+        fromAccount = self.ethAccount;
+    } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+        fromAccount = self.bchAccount;
+    } else {
+        DLog(@"buildTrade: unsupported asset type");
+        return;
+    }
+    
+    int toAccount;
+    if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+        toAccount = self.btcAccount;
+    } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
+        toAccount = self.ethAccount;
+    } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+        toAccount = self.bchAccount;
+    } else {
+        DLog(@"buildTrade: unsupported asset type");
+        return;
+    }
     
     [app.wallet buildExchangeTradeFromAccount:fromAccount toAccount:toAccount coinPair:[self coinPair] amount:[self amountString:self.amount] fee:[self feeString:self.fee]];
 }
@@ -1048,7 +1137,7 @@
 
 - (BOOL)hasEnoughFunds:(NSString *)currencySymbol
 {
-    if ([currencySymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+    if ([currencySymbol isEqualToString:CURRENCY_SYMBOL_BTC] || [currencySymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
         return !([self.availableBalance longLongValue] < [self.minimum longLongValue] && [self.minimum longLongValue] > 0);
     } else if ([currencySymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
         return !([self.availableBalance compare:self.minimum] == NSOrderedAscending && [self.minimum compare:@0] == NSOrderedDescending);

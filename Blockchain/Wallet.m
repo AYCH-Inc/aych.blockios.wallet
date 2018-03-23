@@ -32,6 +32,7 @@
 #import "PrivateHeaders.h"
 #import "Assets.h"
 #import "ExchangeTrade.h"
+#import "Blockchain-Swift.h"
 
 #import "BTCKey.h"
 #import "BTCData.h"
@@ -1027,29 +1028,27 @@
     NSString *websocketURL;
     
     if (assetType == AssetTypeBitcoin) {
-        websocketURL = URL_WEBSOCKET;
+        websocketURL = [NSBundle webSocketUri];
     } else if (assetType == AssetTypeEther) {
-        websocketURL = URL_WEBSOCKET_ETH;
+        websocketURL = [NSBundle ethereumWebSocketUri];
     } else if (assetType == AssetTypeBitcoinCash) {
         websocketURL = @"wss://ws.blockchain.info/bch/inv";
     }
     
     NSMutableURLRequest *webSocketRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:websocketURL]];
-    [webSocketRequest addValue:URL_SERVER forHTTPHeaderField:@"Origin"];
-    
-#ifdef ENABLE_CERTIFICATE_PINNING
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING]) {
-        NSString *cerPath = [[NSBundle mainBundle] pathForResource:[app.certificatePinner getCertificateName] ofType:@"der"];
-        NSData *certData = [[NSData alloc] initWithContentsOfFile:cerPath];
-        CFDataRef certDataRef = (__bridge CFDataRef)certData;
-        SecCertificateRef certRef = SecCertificateCreateWithData(NULL, certDataRef);
-        id certificate = (__bridge id)certRef;
-        
-        [webSocketRequest setSR_SSLPinnedCertificates:@[certificate]];
-        [webSocketRequest setSR_comparesPublicKeys:YES];
-        
-        CFRelease(certRef);
-    }
+    [webSocketRequest addValue:[NSBundle walletUrl] forHTTPHeaderField:@"Origin"];
+
+#if CERTIFICATE_PINNING == YES
+    NSString *cerPath = [NSBundle localCertificatePath];
+    NSData *certData = [[NSData alloc] initWithContentsOfFile:cerPath];
+    CFDataRef certDataRef = (__bridge CFDataRef)certData;
+    SecCertificateRef certRef = SecCertificateCreateWithData(NULL, certDataRef);
+    id certificate = (__bridge id)certRef;
+
+    [webSocketRequest setSR_SSLPinnedCertificates:@[certificate]];
+    [webSocketRequest setSR_comparesPublicKeys:YES];
+
+    CFRelease(certRef);
 #endif
     
     return webSocketRequest;
@@ -1310,7 +1309,7 @@
 
 - (void)getAmountReceivedForTransactionHash:(NSString *)txHash socket:(SRWebSocket *)webSocket
 {
-    NSURL *URL = [NSURL URLWithString:[URL_SERVER stringByAppendingString:[NSString stringWithFormat:TRANSACTION_RESULT_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT, txHash, self.btcSwipeAddressToSubscribe]]];
+    NSURL *URL = [NSURL URLWithString:[[NSBundle walletUrl] stringByAppendingString:[NSString stringWithFormat:TRANSACTION_RESULT_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT, txHash, self.btcSwipeAddressToSubscribe]]];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     NSURLSessionDataTask *task = [[SessionManager sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -2463,7 +2462,7 @@
         symbol = CURRENCY_SYMBOL_BCH;
     }
     
-    NSURL *URL = [NSURL URLWithString:[URL_API stringByAppendingString:[NSString stringWithFormat:URL_SUFFIX_PRICE_INDEX_ARGUMENTS_BASE_QUOTE_TIME, symbol, currencyCode, time]]];
+    NSURL *URL = [NSURL URLWithString:[[NSBundle apiUrl] stringByAppendingString:[NSString stringWithFormat:URL_SUFFIX_PRICE_INDEX_ARGUMENTS_BASE_QUOTE_TIME, symbol, currencyCode, time]]];
 
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     NSURLSessionDataTask *task = [[SessionManager sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -3014,7 +3013,7 @@
 
 - (void)isEtherContractAddress:(NSString *)address completion:(void (^ _Nullable)(NSData *, NSURLResponse *, NSError *))completion
 {
-    NSURL *URL = [NSURL URLWithString:[URL_API stringByAppendingString:[NSString stringWithFormat:URL_SUFFIX_ETH_IS_CONTRACT_ADDRESS_ARGUMENT, address]]];
+    NSURL *URL = [NSURL URLWithString:[[NSBundle apiUrl] stringByAppendingString:[NSString stringWithFormat:URL_SUFFIX_ETH_IS_CONTRACT_ADDRESS_ARGUMENT, address]]];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     NSURLSessionDataTask *task = [[SessionManager sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -5256,12 +5255,12 @@
 
 - (void)useDebugSettingsIfSet
 {
-#ifdef ENABLE_DEBUG_MENU
-    [self updateServerURL:URL_SERVER];
+#ifdef DEBUG
+    [self updateServerURL:[NSBundle walletUrl]];
     
-    [self updateWebSocketURL:URL_WEBSOCKET];
+    [self updateWebSocketURL:[NSBundle webSocketUri]];
     
-    [self updateAPIURL:URL_API];
+    [self updateAPIURL:[NSBundle apiUrl]];
     
     BOOL testnetOn = [[[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_ENV] isEqual:ENV_INDEX_TESTNET];
     NSString *network;

@@ -302,7 +302,7 @@ static PEViewController *VerifyController()
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-#ifdef ENABLE_DEBUG_MENU
+#ifdef DEBUG
     if (self.verifyOnly) {
         self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
         self.longPressGesture.minimumPressDuration = DURATION_LONG_PRESS_GESTURE_DEBUG;

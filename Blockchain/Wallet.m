@@ -3055,6 +3055,14 @@
     return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.fromBitcoinCash(\"%@\")", [address escapeStringForJS]]] toString];
 }
 
+- (NSString *)toBitcoinCash:(NSString *)address includePrefix:(BOOL)includePrefix
+{
+    JSValue *result = [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.toBitcoinCash(\"%@\", %d)", [address escapeStringForJS], includePrefix]];
+    if ([result isUndefined]) return nil;
+    NSString *bitcoinCashAddress = [result toString];
+    return includePrefix ? bitcoinCashAddress : [bitcoinCashAddress substringFromIndex:[PREFIX_BITCOIN_CASH length]];
+}
+
 - (void)getBitcoinCashHistory
 {
     if ([self isInitialized]) {

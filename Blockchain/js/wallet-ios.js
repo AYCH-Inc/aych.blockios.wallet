@@ -3045,6 +3045,10 @@ MyWalletPhone.bch = {
         var prefixed = address.includes(base);
         if (!prefixed) address = base + address;
         return Helpers.fromBitcoinCash(address);
+    },
+    
+    toBitcoinCash : function(address) {
+        return Helpers.toBitcoinCash(address);
     }
 };
 

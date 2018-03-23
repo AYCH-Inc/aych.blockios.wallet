@@ -463,6 +463,7 @@ typedef enum {
 
 // Bitcoin Cash
 - (NSString *)fromBitcoinCash:(NSString *)address;
+- (NSString *)toBitcoinCash:(NSString *)address includePrefix:(BOOL)includePrefix;
 - (void)getBitcoinCashHistory;
 - (void)fetchBitcoinCashExchangeRates;
 - (NSString *)getLabelForBitcoinCashAccount:(int)account;

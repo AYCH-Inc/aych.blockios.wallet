@@ -1032,7 +1032,7 @@
     } else if (assetType == AssetTypeEther) {
         websocketURL = [NSBundle ethereumWebSocketUri];
     } else if (assetType == AssetTypeBitcoinCash) {
-        websocketURL = @"wss://ws.blockchain.info/bch/inv";
+        websocketURL = [NSBundle bitcoinCashWebSocketUri];
     }
     
     NSMutableURLRequest *webSocketRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:websocketURL]];

@@ -135,8 +135,9 @@ class BackupWordsViewController: UIViewController, SecondPasswordDelegate, UIScr
     }
 
     func updateCurrentPageLabel(_ page: Int) {
-        let progressLabelText = "Word \(String(page + 1)) of \(String(Constants.Defaults.NumberOfRecoveryPhraseWords))"
-        wordsProgressLabel.text = NSLocalizedString(progressLabelText, comment: "")
+        let format = NSLocalizedString("Word %@ of %@", comment: "")
+        let progressLabelText = String.localizedStringWithFormat(format, String(page + 1), String(Constants.Defaults.NumberOfRecoveryPhraseWords))
+        wordsProgressLabel.text = progressLabelText
         if let count = wordLabels?.count {
             if wordsPageControl.currentPage == count-1 {
                 nextWordButton.backgroundColor = Constants.Colors.BlockchainBlue

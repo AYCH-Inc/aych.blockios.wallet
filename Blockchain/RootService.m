@@ -140,16 +140,12 @@ void (^secondPasswordSuccess)(NSString *);
 
 - (CertificatePinner *)certificatePinner
 {
-#ifdef ENABLE_CERTIFICATE_PINNING
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING]) {
-        if (!_certificatePinner) _certificatePinner = [[CertificatePinner alloc] init];
-        _certificatePinner.delegate = self;
-        return _certificatePinner;
-    } else {
-        return nil;
-    }
-#else
+#ifdef DISABLE_CERTIFICATE_PINNING
     return nil;
+#else
+    if (!_certificatePinner) _certificatePinner = [[CertificatePinner alloc] init];
+    _certificatePinner.delegate = self;
+    return _certificatePinner;
 #endif
 }
 
@@ -168,7 +164,7 @@ void (^secondPasswordSuccess)(NSString *);
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING : @YES}];
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{USER_DEFAULTS_KEY_SWIPE_TO_RECEIVE_ENABLED : @YES}];
-#ifndef ENABLE_DEBUG_MENU
+#ifndef DEBUG
     [[NSUserDefaults standardUserDefaults] setObject:ENV_INDEX_PRODUCTION forKey:USER_DEFAULTS_KEY_ENV];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING];
     
@@ -547,7 +543,7 @@ void (^secondPasswordSuccess)(NSString *);
     NSString *preferredLanguage = [[NSLocale preferredLanguages] firstObject];
     const char *languageString = [preferredLanguage UTF8String];
 
-    NSMutableURLRequest *notificationsRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:URL_PUSH_NOTIFICATIONS_SERVER_ARGUMENT_GUID_ARGUMENT_SHAREDKEY_ARGUMENT_TOKEN_ARGUMENT_LENGTH_ARGUMENT_LANGUAGE_ARGUMENT, URL_SERVER, [self.wallet guid], [self.wallet sharedKey], self.deviceToken, (unsigned long)[self.deviceToken length], languageString]]];
+    NSMutableURLRequest *notificationsRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:URL_PUSH_NOTIFICATIONS_SERVER_ARGUMENT_GUID_ARGUMENT_SHAREDKEY_ARGUMENT_TOKEN_ARGUMENT_LENGTH_ARGUMENT_LANGUAGE_ARGUMENT, [NSBundle walletUrl], [self.wallet guid], [self.wallet sharedKey], self.deviceToken, (unsigned long)[self.deviceToken length], languageString]]];
     [notificationsRequest setHTTPMethod:@"POST"];
     
     NSURLSessionDataTask *dataTask = [[SessionManager sharedSession] dataTaskWithRequest:notificationsRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -1010,7 +1006,7 @@ void (^secondPasswordSuccess)(NSString *);
         
         NSTimeInterval timeIntervalBetweenPrompts = TIME_INTERVAL_SECURITY_REMINDER_PROMPT;
         
-#ifdef ENABLE_DEBUG_MENU
+#ifdef DEBUG
         id customTimeValue = [[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_DEBUG_SECURITY_REMINDER_CUSTOM_TIMER];
         if (customTimeValue) {
             timeIntervalBetweenPrompts = [customTimeValue doubleValue];
@@ -2364,7 +2360,7 @@ void (^secondPasswordSuccess)(NSString *);
     }
     
     NSURLSession *session = [SessionManager sharedSession];
-    NSURL *URL = [NSURL URLWithString:[URL_SERVER stringByAppendingFormat:URL_SUFFIX_EVENT_NAME_ARGUMENT, eventName]];
+    NSURL *URL = [NSURL URLWithString:[[NSBundle walletUrl] stringByAppendingFormat:URL_SUFFIX_EVENT_NAME_ARGUMENT, eventName]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL];
     request.HTTPMethod = @"POST";
@@ -3293,11 +3289,11 @@ void (^secondPasswordSuccess)(NSString *);
 
 - (void)checkForUnusedAddress:(NSString *)address success:(void (^)(NSString *, BOOL))successBlock error:(void (^)())errorBlock
 {
-    NSURL *URL = [NSURL URLWithString:[URL_SERVER stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT, address]]];
+    NSURL *URL = [NSURL URLWithString:[[NSBundle walletUrl] stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT, address]]];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     NSURLSession *session = [SessionManager sharedSession];
-    NSURL *url = [NSURL URLWithString:URL_SERVER];
+    NSURL *url = [NSURL URLWithString:[NSBundle walletUrl]];
     session.sessionDescription = url.host;
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         

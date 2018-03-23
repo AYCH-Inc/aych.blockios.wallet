@@ -10,10 +10,10 @@
 
 @implementation BCSwipeAddressViewModel
 
-- (id)initWithAssetType:(AssetType)assetType address:(NSString *)address
+- (id)initWithAssetType:(AssetType)assetType
 {
     if (self == [super init]) {
-        self.address = address;
+        self.assetType = assetType;
         NSString *suffix;
         NSString *assetImageViewName;
         if (assetType == AssetTypeBitcoin) {
@@ -29,6 +29,13 @@
         self.action = [[[BC_STRING_REQUEST stringByAppendingString:@" "] stringByAppendingString:suffix] uppercaseString];
     }
     return self;
+}
+
+- (void)setAddress:(NSString *)address
+{
+    _address = address;
+    
+    self.textAddress = self.assetType == AssetTypeBitcoinCash ? [address substringFromIndex:[PREFIX_BITCOIN_CASH length]] : address;
 }
 
 @end

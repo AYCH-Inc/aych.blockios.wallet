@@ -103,7 +103,7 @@
 - (void)didErrorDuringTransferAll:(NSString *)error secondPassword:(NSString *)secondPassword;
 - (void)updateLoadedAllTransactions:(NSNumber *)loadedAll;
 - (void)receivedTransactionMessage;
-- (void)paymentReceivedOnPINScreen:(NSString *)amount;
+- (void)paymentReceivedOnPINScreen:(NSString *)amount assetType:(AssetType)assetType;
 - (void)didReceivePaymentNotice:(NSString *)notice;
 - (void)didGetFiatAtTime:(NSNumber *)fiatAmount currencyCode:(NSString *)currencyCode assetType:(AssetType)assetType;
 - (void)didErrorWhenGettingFiatAtTime:(NSString *)error;
@@ -129,7 +129,7 @@
 - (void)didCompleteTrade:(NSDictionary *)trade;
 - (void)didPushTransaction;
 - (void)showCompletedTrade:(NSString *)txHash;
-- (void)didGetSwipeAddresses:(NSArray *)newSwipeAddresses;
+- (void)didGetSwipeAddresses:(NSArray *)newSwipeAddresses assetType:(AssetType)assetType;
 - (void)didFetchEthHistory;
 - (void)didUpdateEthPayment:(NSDictionary *)payment;
 - (void)didFetchEthExchangeRate:(NSNumber *)rate;
@@ -189,12 +189,15 @@
 @property NSString *twoFactorInput;
 @property (nonatomic) NSDictionary *currencySymbols;
 
-@property (nonatomic) SRWebSocket *webSocket;
+@property (nonatomic) SRWebSocket *btcSocket;
+@property (nonatomic) SRWebSocket *bchSocket;
 @property (nonatomic) SRWebSocket *ethSocket;
 @property (nonatomic) NSMutableArray *pendingEthSocketMessages;
 
-@property (nonatomic) NSTimer *webSocketTimer;
-@property (nonatomic) NSString *swipeAddressToSubscribe;
+@property (nonatomic) NSTimer *btcSocketTimer;
+@property (nonatomic) NSTimer *bchSocketTimer;
+@property (nonatomic) NSString *btcSwipeAddressToSubscribe;
+@property (nonatomic) NSString *bchSwipeAddressToSubscribe;
 
 @property (nonatomic) int lastLabelledAddressesCount;
 
@@ -244,7 +247,7 @@ typedef enum {
 
 - (Boolean)isAddressArchived:(NSString *)address;
 
-- (void)subscribeToSwipeAddress:(NSString *)address;
+- (void)subscribeToSwipeAddress:(NSString *)address assetType:(AssetType)assetType;
 
 - (void)addToAddressBook:(NSString *)address label:(NSString *)label;
 
@@ -310,7 +313,6 @@ typedef enum {
 - (void)getRecoveryPhrase:(NSString *)secondPassword;
 - (BOOL)isRecoveryPhraseVerified;
 - (void)markRecoveryPhraseVerified;
-- (int)getFilteredOrDefaultAccountIndex;
 - (int)getDefaultAccountIndexForAssetType:(AssetType)assetType;
 - (void)setDefaultAccount:(int)index assetType:(AssetType)assetType;
 - (int)getActiveAccountsCount:(AssetType)assetType;
@@ -330,8 +332,8 @@ typedef enum {
 - (void)createAccountWithLabel:(NSString *)label;
 - (void)generateNewKey;
 
-- (NSString *)getReceiveAddressOfDefaultAccount;
-- (NSString *)getReceiveAddressForAccount:(int)account;
+- (NSString *)getReceiveAddressOfDefaultAccount:(AssetType)assetType;
+- (NSString *)getReceiveAddressForAccount:(int)account assetType:(AssetType)assetType;
 
 - (NSString *)getXpubForAccount:(int)accountIndex assetType:(AssetType)assetType;
 
@@ -410,7 +412,7 @@ typedef enum {
 - (void)getTransactionFeeWithUpdateType:(FeeUpdateType)updateType;
 - (void)getSurgeStatus;
 - (uint64_t)dust;
-- (NSArray *)getSwipeAddresses:(int)numberOfAddresses label:(NSString *)label;
+- (void)getSwipeAddresses:(int)numberOfAddresses assetType:(AssetType)assetType;
 
 // Recover with passphrase
 - (void)recoverWithEmail:(NSString *)email password:(NSString *)recoveryPassword passphrase:(NSString *)passphrase;
@@ -460,6 +462,8 @@ typedef enum {
 - (BOOL)isWaitingOnEtherTransaction;
 
 // Bitcoin Cash
+- (NSString *)fromBitcoinCash:(NSString *)address;
+- (NSString *)toBitcoinCash:(NSString *)address includePrefix:(BOOL)includePrefix;
 - (void)getBitcoinCashHistory;
 - (void)fetchBitcoinCashExchangeRates;
 - (NSString *)getLabelForBitcoinCashAccount:(int)account;

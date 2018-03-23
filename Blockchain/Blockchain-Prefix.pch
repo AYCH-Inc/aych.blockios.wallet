@@ -234,6 +234,7 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 
 #define PREFIX_BITCOIN_URI @"bitcoin:"
 #define PREFIX_ETHEREUM_URI @"ethereum:"
+#define PREFIX_BITCOIN_CASH @"bitcoincash:"
 #define PREFIX_BLOCKCHAIN_WALLET_URI @"blockchain-wallet://"
 #define PREFIX_MAIL_URI @"message://"
 #define PREFIX_BLOCKCHAIN_URI @"blockchain://"
@@ -360,6 +361,7 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define CHARTS_URL_SUFFIX_ARGUMENTS_BASE_QUOTE_START_SCALE @"/price/index-series?base=%@&quote=%@&start=%@&scale=%@&omitnull=true"
 #define TRANSACTION_RESULT_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT @"/q/txresult/%@/%@"
 #define ADDRESS_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT @"/address/%@?format=json"
+#define ADDRESS_URL_SUFFIX_BCH_ADDRESS_ARGUMENT @"/bch/multiaddr?active=%@"
 
 #define URL_SURVEY @"https://blockchain.co1.qualtrics.com/SE/?SID=SV_8c6uSMW5eBV9nal"
 
@@ -494,6 +496,9 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define DICTIONARY_KEY_HASH @"hash"
 #define DICTIONARY_KEY_ACCOUNT_INDEX @"accountIndex"
 
+#define DICTIONARY_KEY_OUT @"out"
+#define DICTIONARY_KEY_ADDRESS_OUTPUT @"addr"
+
 #define DICTIONARY_KEY_PRICE @"price"
 #define DICTIONARY_KEY_TIMESTAMP @"timestamp"
 
@@ -546,6 +551,9 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define DICTIONARY_KEY_BTC_HARD_LIMIT @"btcHardLimit"
 #define DICTIONARY_KEY_ETH_HARD_LIMIT @"ethHardLimit"
 #define DICTIONARY_KEY_ETH_HARD_LIMIT_RATE @"ethHardLimitRate"
+
+#define DICTIONARY_KEY_BITCOIN @"bitcoin"
+#define DICTIONARY_KEY_BITCOIN_CASH @"bitcoinCash"
 
 #define ERROR_MINIMUM @"minimum"
 #define ERROR_MAXIMUM @"maximum"
@@ -600,7 +608,8 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define KEYCHAIN_KEY_SHARED_KEY @"sharedKey"
 #define KEYCHAIN_KEY_GUID @"guid"
 #define KEYCHAIN_KEY_PIN @"pin"
-#define KEYCHAIN_KEY_SWIPE_ADDRESSES @"swipeAddresses"
+#define KEYCHAIN_KEY_BTC_SWIPE_ADDRESSES @"btcSwipeAddresses"
+#define KEYCHAIN_KEY_BCH_SWIPE_ADDRESSES @"bchSwipeAddresses"
 #define KEYCHAIN_KEY_ETHER_ADDRESS @"etherAddress"
 
 #define QR_CODE_KEY_GUID @"guid"

@@ -18,6 +18,7 @@ var Metadata = Blockchain.Metadata;
 var SharedMetadata = Blockchain.SharedMetadata;
 var Contacts = Blockchain.Contacts;
 var EthSocket = Blockchain.EthSocket;
+var BlockchainSocket = Blockchain.BlockchainSocket;
 
 function NativeEthSocket () {
   this.handlers = []
@@ -905,11 +906,9 @@ MyWalletPhone.changeLastUsedReceiveIndexOfDefaultAccount = function() {
     MyWallet.wallet.hdwallet.defaultAccount.lastUsedReceiveIndex = MyWallet.wallet.hdwallet.defaultAccount.receiveIndex;
 }
 
-MyWalletPhone.getSwipeAddresses = function(numberOfAddresses, label) {
+MyWalletPhone.getBtcSwipeAddresses = function(numberOfAddresses, label) {
 
     var addresses = [];
-    var account = MyWallet.wallet.hdwallet.defaultAccount;
-    var accountIndex = MyWallet.wallet.hdwallet.defaultAccountIndex;
 
     MyWalletPhone.changeLastUsedReceiveIndexOfDefaultAccount();
 
@@ -918,7 +917,7 @@ MyWalletPhone.getSwipeAddresses = function(numberOfAddresses, label) {
         MyWalletPhone.changeLastUsedReceiveIndexOfDefaultAccount();
     }
 
-    objc_did_get_swipe_addresses(addresses);
+    objc_did_get_btc_swipe_addresses(addresses);
 }
 
 MyWalletPhone.getReceiveAddressOfDefaultAccount = function() {
@@ -2861,9 +2860,10 @@ MyWalletPhone.fiatExchangeHardLimit = function() {
 
 MyWalletPhone.bch = {
     getHistory : function() {
-        var success = function() {
+        var success = function(promise) {
             console.log('Success fetching bch history')
             objc_on_fetch_bch_history_success();
+            return promise;
         };
         
         var error = function(error) {
@@ -2872,7 +2872,7 @@ MyWalletPhone.bch = {
             objc_on_fetch_bch_history_error(error);
         };
         
-        MyWallet.wallet.bch.getHistory().then(success).catch(error);
+        return MyWallet.wallet.bch.getHistory().then(success).catch(error);
     },
     
     fetchExchangeRates : function() {
@@ -2906,6 +2906,14 @@ MyWalletPhone.bch = {
     
     setDefaultAccount : function(index) {
         MyWallet.wallet.bch.defaultAccountIdx = index;
+    },
+    
+    getReceiveAddressOfDefaultAccount : function() {
+        return Helpers.toBitcoinCash(MyWallet.wallet.bch.defaultAccount.receiveAddress);
+    },
+    
+    getReceivingAddressForAccount : function(index) {
+        return Helpers.toBitcoinCash(MyWallet.wallet.bch.accounts[index].receiveAddress);
     },
     
     getLabelForAccount : function(index) {
@@ -2983,8 +2991,15 @@ MyWalletPhone.bch = {
         });
     },
     
-    changePaymentTo : function(to) {
-        console.log('Changing bch payment to');
+    changePaymentToAccount : function(to) {
+        console.log('Changing bch payment to account');
+        var account = MyWallet.wallet.bch.accounts[to];
+        var address = account.receiveAddress;
+        currentBitcoinCashPayment.to(address);
+    },
+    
+    changePaymentToAddress : function(to) {
+        console.log('Changing bch payment to address');
         currentBitcoinCashPayment.to(Helpers.fromBitcoinCash('bitcoincash:' + to));
     },
     
@@ -3001,6 +3016,39 @@ MyWalletPhone.bch = {
     
     quickSend : function(id, onSendScreen, secondPassword) {
         MyWalletPhone.quickSend(id, onSendScreen, secondPassword, 'bch');
+    },
+    
+    didGetTxMessage : function() {
+        MyWalletPhone.bch.getHistory().then(function(){objc_on_tx_received()});
+    },
+    
+    getSocketOnOpenMessage : function() {
+        return BlockchainSocket.xpubSub(MyWallet.wallet.bch.activeAccounts.map(function(account) {return account.xpub}));
+    },
+    
+    getSwipeAddresses : function(numberOfAddresses) {
+        var addresses = [];
+
+        var xpub = MyWallet.wallet.bch.defaultAccount.xpub
+        var receiveIndex = MyWallet.wallet.bch.getAccountIndexes(xpub).receive;
+
+        for (var i = 0; i < numberOfAddresses; i++) {
+            var address = Helpers.toBitcoinCash(Blockchain.MyWallet.wallet.hdwallet.accounts[0].receiveAddressAtIndex(receiveIndex + i));
+            addresses.push(address);
+        }
+
+        objc_did_get_bch_swipe_addresses(addresses);
+    },
+    
+    fromBitcoinCash : function(address) {
+        var base = 'bitcoincash:';
+        var prefixed = address.includes(base);
+        if (!prefixed) address = base + address;
+        return Helpers.fromBitcoinCash(address);
+    },
+    
+    toBitcoinCash : function(address) {
+        return Helpers.toBitcoinCash(address);
     }
 };
 

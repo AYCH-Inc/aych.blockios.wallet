@@ -34,6 +34,12 @@ extension Bundle {
         }
         return "wss://\(hostAndPath)"
     }
+    static var bitcoinCashWebSocketUri: String? {
+        guard let hostAndPath = Bundle.main.infoDictionary!["WEBSOCKET_SERVER_BCH"] as? String else {
+            return nil
+        }
+        return "wss://\(hostAndPath)"
+    }
     static var buyWebViewUrl: String? {
         guard let hostAndPath = Bundle.main.infoDictionary!["BUY_WEBVIEW_URL"] as? String else {
             return nil

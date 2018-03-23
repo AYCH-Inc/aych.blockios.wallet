@@ -11,7 +11,7 @@
 #import "Assets.h"
 #import "TransactionsBitcoinViewController.h"
 #import "SendBitcoinViewController.h"
-#import "ReceiveCoinsViewController.h"
+#import "ReceiveBitcoinViewController.h"
 #import "DashboardViewController.h"
 #import "SendEtherViewController.h"
 #import "TransactionsEtherViewController.h"
@@ -34,7 +34,8 @@
 @property (strong, nonatomic) DashboardViewController *dashboardViewController;
 
 @property (strong, nonatomic) TransactionsBitcoinViewController *transactionsBitcoinViewController;
-@property (strong, nonatomic) ReceiveCoinsViewController *receiveBitcoinViewController;
+@property (strong, nonatomic) ReceiveBitcoinViewController *receiveBitcoinViewController;
+@property (strong, nonatomic) ReceiveBitcoinViewController *receiveBitcoinCashViewController;
 @property (strong, nonatomic) SendBitcoinViewController *sendBitcoinViewController;
 @property (strong, nonatomic) SendBitcoinViewController *sendBitcoinCashViewController;
 
@@ -69,7 +70,7 @@
 
 // Send Bitcoin View Controller
 - (BOOL)isSending;
-- (void)showSendCoins;
+- (void)showSendCoinsAnimated:(BOOL)animated;
 - (void)setupTransferAllFunds;
 - (void)hideSendKeyboard;
 - (void)reloadSendController;
@@ -105,7 +106,7 @@
 - (void)didGetEtherAddressWithSecondPassword;
 - (void)clearReceiveAmounts;
 - (void)didSetDefaultAccount;
-- (void)paymentReceived:(NSDecimalNumber *)amount showBackupReminder:(BOOL)showBackupReminder;
+- (void)paymentReceived:(uint64_t)amount showBackupReminder:(BOOL)showBackupReminder;
 
 // Transactions View Controller
 - (void)updateTransactionsViewControllerData:(MultiAddressResponse *)data;
@@ -124,7 +125,7 @@
 
 - (void)hideSendAndReceiveKeyboards;
 
-- (void)showTransactions;
+- (void)showTransactionsAnimated:(BOOL)animated;
 
 - (void)updateBadgeNumber:(NSInteger)number forSelectedIndex:(int)index;
 

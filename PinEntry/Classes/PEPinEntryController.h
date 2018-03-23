@@ -25,6 +25,7 @@
 #import <UIKit/UIKit.h>
 #import "PEViewController.h"
 #import "BCSwipeAddressView.h"
+#import "Assets.h"
 
 @class PEPinEntryController;
 
@@ -60,10 +61,11 @@
 @property (nonatomic) UIPageControl *scrollViewPageControl;
 @property (nonatomic) UIPageControl *backgroundViewPageControl;
 @property (nonatomic) BOOL didScrollToQRCode;
+@property (nonatomic) NSMutableDictionary *swipeViews;
 
 // Swipe-to-receive
 @property (nonatomic) UIAlertController *errorAlert;
-- (void)paymentReceived;
+- (void)paymentReceived:(AssetType)assetType;
 - (void)setupQRCode;
 - (void)reset;
 

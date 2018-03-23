@@ -22,6 +22,7 @@
 @property (nonatomic) UILabel *filterSelectorLabel;
 - (void)setupNoTransactionsViewInView:(UIView *)view assetType:(AssetType)assetType;
 - (void)setupFilter;
+- (uint64_t)getAmountForReceivedTransaction:(Transaction *)transaction;
 @end
 
 @interface TransactionsBitcoinCashViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -92,6 +93,27 @@
     [app showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
 
     [app.wallet performSelector:@selector(getBitcoinCashHistory) withObject:nil afterDelay:0.1f];
+}
+
+- (void)didReceiveTransactionMessage
+{
+    [self performSelector:@selector(didGetNewTransaction) withObject:nil afterDelay:0.1f];
+}
+
+- (void)didGetNewTransaction
+{
+    Transaction *transaction = [self.transactions firstObject];
+    
+    if ([transaction.txType isEqualToString:TX_TYPE_SENT]) {
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    } else if ([transaction.txType isEqualToString:TX_TYPE_RECEIVED]) {
+        
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        
+        [app paymentReceived:[self getAmountForReceivedTransaction:transaction] showBackupReminder:NO];
+    } else {
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 #pragma mark - Table View Data Source

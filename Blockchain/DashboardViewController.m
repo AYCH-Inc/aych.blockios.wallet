@@ -47,7 +47,8 @@
     // This contentView can be any custom view - intended to be placed at the top of the scroll view, moved down when the cards view is present, and moved back up when the cards view is dismissed
     self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1000)];
     self.contentView.clipsToBounds = YES;
-    self.contentView.backgroundColor = COLOR_BACKGROUND_LIGHT_GRAY;
+    self.contentView.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = COLOR_BACKGROUND_LIGHT_GRAY;
     [self.scrollView addSubview:self.contentView];
     
     [self setupPieChart];

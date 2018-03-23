@@ -286,7 +286,7 @@ typedef enum {
             [delegate didSelectFromAccount:0 assetType:AssetTypeEther];
         } else if (indexPath.section == bchAccountsSectionNumber) {
             if (selectMode == SelectModeFilter) {
-                [self filterWithRow:indexPath.row assetType:AssetTypeBitcoin];
+                [self filterWithRow:indexPath.row assetType:AssetTypeBitcoinCash];
             } else {
                 int accountIndex = [app.wallet getIndexOfActiveAccount:[[bchAccounts objectAtIndex:indexPath.row] intValue] assetType:AssetTypeBitcoinCash];
                 [delegate didSelectFromAccount:accountIndex assetType:AssetTypeBitcoinCash];
@@ -416,6 +416,9 @@ typedef enum {
             return ethAccounts.count;
         }
         else if (section == bchAccountsSectionNumber) {
+            if (selectMode == SelectModeFilter) {
+                return bchAccounts.count + 1;
+            }
             return bchAccounts.count;
         }
         else if (section == legacyAddressesSectionNumber) {
@@ -499,7 +502,17 @@ typedef enum {
             cell.addressLabel.text = nil;
         }
         else if (section == bchAccountsSectionNumber) {
-            label = [bchAccountLabels objectAtIndex:row];
+            if (selectMode == SelectModeFilter) {
+                if (bchAccounts.count == row - 1) {
+                    label = BC_STRING_IMPORTED_ADDRESSES;
+                } else if (row == 0) {
+                    label = BC_STRING_TOTAL_BALANCE;
+                } else {
+                    label = bchAccountLabels[indexPath.row - 1];
+                }
+            } else {
+                label = bchAccountLabels[indexPath.row];
+            }
             cell.addressLabel.text = nil;
         }
         else if (section == legacyAddressesSectionNumber) {
@@ -567,7 +580,12 @@ typedef enum {
                 zeroBalance = result == NSOrderedDescending || result == NSOrderedSame;
                 cell.balanceLabel.text = app->symbolLocal ? [NSNumberFormatter formatEthToFiatWithSymbol:[ethBalance stringValue] exchangeRate:app.tabControllerManager.latestEthExchangeRate] : [NSNumberFormatter formatEth:[NSNumberFormatter localFormattedString:[ethBalance stringValue]]];
             } else {
-                uint64_t bchBalance = [[app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:[[bchAccounts objectAtIndex:indexPath.row] intValue] assetType:AssetTypeBitcoin] assetType:AssetTypeBitcoinCash] longLongValue];
+                uint64_t bchBalance = 0;
+                if (row == 0) {
+                    bchBalance = [app.wallet bitcoinCashTotalBalance];
+                } else {
+                    bchBalance = [[app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:[[bchAccounts objectAtIndex:indexPath.row - 1] intValue] assetType:AssetTypeBitcoin] assetType:AssetTypeBitcoinCash] longLongValue];
+                }
                 zeroBalance = bchBalance == 0;
                 cell.balanceLabel.text = [NSNumberFormatter formatBchWithSymbol:bchBalance];
             }

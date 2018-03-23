@@ -13,6 +13,7 @@
 #import "NSNumberFormatter+Currencies.h"
 #import "RootService.h"
 #import "NSDateFormatter+VerboseString.h"
+#import "Blockchain-Swift.h"
 
 #define URL_BLOCKCHAIR @"blockchair.com"
 #define URL_PREFIX_VIEW_TRANSACTION_BITCOIN_CASH @"https://blockchair.com/bitcoin-cash/transaction/"
@@ -63,7 +64,7 @@
         };
         self.contactName = transaction.contactName;
         self.detailButtonTitle = [[NSString stringWithFormat:@"%@ %@",BC_STRING_VIEW_ON_URL_ARGUMENT, HOST_NAME_WALLET_SERVER] uppercaseString];
-        self.detailButtonLink = [URL_SERVER stringByAppendingFormat:@"/tx/%@", self.myHash];
+        self.detailButtonLink = [[NSBundle walletUrl] stringByAppendingFormat:@"/tx/%@", self.myHash];
     }
     return self;
 }

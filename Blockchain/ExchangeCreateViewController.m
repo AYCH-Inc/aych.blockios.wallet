@@ -819,7 +819,7 @@
     self.btcField = self.topRightField;
     self.fromToView.toLabel.text = [self bitcoinLabelText];
     self.rightLabel.text = CURRENCY_SYMBOL_BTC;
-    self.toAddress = [app.wallet getReceiveAddressForAccount:self.btcAccount assetType:AssetTypeBitcoinCash];
+    self.toAddress = [app.wallet getReceiveAddressForAccount:self.btcAccount assetType:AssetTypeBitcoin];
     
     [self didChangeFromOrTo];
 }

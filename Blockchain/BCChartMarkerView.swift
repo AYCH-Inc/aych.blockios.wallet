@@ -8,12 +8,12 @@
 
 import Charts
 
-class BCChartMarkerView : MarkerView {
+class BCChartMarkerView: MarkerView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.layer.borderWidth = 3.0
         self.layer.borderColor = Constants.Colors.BlockchainLightestBlue.cgColor
-        self.layer.cornerRadius = self.frame.width / 2;
+        self.layer.cornerRadius = self.frame.width / 2
         self.layer.masksToBounds = true
         self.backgroundColor = UIColor.white
     }

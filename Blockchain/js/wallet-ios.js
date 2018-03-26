@@ -2677,7 +2677,7 @@ MyWalletPhone.buildExchangeTrade = function(from, to, coinPair, amount, fee) {
 
     var buildPayment = function(quote) {
         var expiration = quote.expires;
-        currentShiftPayment = MyWallet.wallet.shapeshift.buildPayment(quote, fee, fromArg);
+        currentShiftPayment = MyWallet.wallet.shapeshift.buildPayment(quote, Number(fee), fromArg);
 
         var depositAmount = currentShiftPayment.quote.depositAmount;
         var rate = currentShiftPayment.quote.rate;

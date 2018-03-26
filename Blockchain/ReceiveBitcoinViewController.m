@@ -351,7 +351,7 @@
 
 - (void)reloadAddresses
 {
-    self.activeKeys = [app.wallet activeLegacyAddresses];
+    self.activeKeys = [app.wallet activeLegacyAddresses:self.assetType];
 }
 
 - (void)resetContactInfo

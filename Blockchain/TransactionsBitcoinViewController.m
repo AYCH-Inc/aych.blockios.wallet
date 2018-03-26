@@ -273,8 +273,6 @@
     self.bounceView.backgroundColor = bounceViewBackgroundColor;
     self.refreshControl.tintColor = refreshControlTintColor;
     
-    BOOL shouldShowFilterButton = ([app.wallet didUpgradeToHd] && ([[app.wallet activeLegacyAddresses] count] > 0 || [app.wallet getActiveAccountsCount:AssetTypeBitcoin] >= 2));
-    
     // Data not loaded yet
     if (!self.data) {
         self.noTransactionsView.hidden = YES;

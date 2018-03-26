@@ -2964,6 +2964,10 @@ MyWalletPhone.bch = {
         return MyWallet.wallet.bch.activeAccounts.length;
     },
     
+    getActiveLegacyAddresses : function() {
+        return MyWallet.wallet.bch.importedAddresses.addresses;
+    },
+    
     isArchived : function(index) {
         return MyWallet.wallet.bch.accounts[index].archived;
     },

@@ -16,7 +16,7 @@
 
 @implementation BCPricePreviewView
 
-- (id)initWithFrame:(CGRect)frame assetName:(NSString *)name price:(NSString *)price
+- (id)initWithFrame:(CGRect)frame assetName:(NSString *)name price:(NSString *)price assetImage:(NSString *)assetImage
 {
     if (self == [super initWithFrame:frame]) {
         
@@ -41,7 +41,7 @@
         
         UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, titleLabel.frame.origin.y + titleLabel.frame.size.height + 8, 0, 30)];
         priceLabel.text = price;
-        priceLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_LARGE];
+        priceLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_EXTRA_LARGE];
         priceLabel.textColor = COLOR_BLOCKCHAIN_DARK_BLUE;
         [priceLabel sizeToFit];
         priceLabel.center = CGPointMake(self.frame.size.width/2, priceLabel.center.y);
@@ -49,22 +49,24 @@
         
         self.priceLabel = priceLabel;
         
-        CGFloat buttonWidth = 40;
-        
         UILabel *seeChartsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         seeChartsLabel.textColor = COLOR_BLOCKCHAIN_LIGHT_BLUE;
         seeChartsLabel.text = BC_STRING_SEE_CHARTS;
         seeChartsLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_EXTRA_SMALL];
         [seeChartsLabel sizeToFit];
         seeChartsLabel.center = CGPointMake(seeChartsLabel.center.x, 20);
-        [seeChartsLabel changeXPosition:buttonWidth];
         
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        imageView.backgroundColor = COLOR_BLOCKCHAIN_LIGHT_BLUE;
+        CGFloat imageViewWidth = 22;
+        [seeChartsLabel changeXPosition:imageViewWidth + 8];
         
-        UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, priceLabel.frame.origin.y + priceLabel.frame.size.height + 8, buttonWidth + seeChartsLabel.frame.size.width, 40)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, imageViewWidth, imageViewWidth)];
+        imageView.image = [[UIImage imageNamed:assetImage] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        imageView.tintColor = COLOR_BLOCKCHAIN_LIGHT_BLUE;
+        
+        UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, priceLabel.frame.origin.y + priceLabel.frame.size.height + 8, imageViewWidth + seeChartsLabel.frame.size.width + 8, 40)];
         [containerView addSubview:seeChartsLabel];
         [containerView addSubview:imageView];
+        [imageView changeYPosition:(containerView.frame.size.height - imageViewWidth)/2];
         [self addSubview:containerView];
         
         containerView.center = CGPointMake(frame.size.width/2, containerView.center.y);

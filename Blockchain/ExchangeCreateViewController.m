@@ -320,7 +320,8 @@
     
     NSString *errorText;
     
-    if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC] || [self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+    NSString *fromSymbol = self.fromSymbol;
+    if ([fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC] || [fromSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
         
         uint64_t amount = [self.amount longLongValue];
         
@@ -329,27 +330,27 @@
         DLog(@"max: %lld", [self.maximum longLongValue])
         
         if (![self hasEnoughFunds:self.fromSymbol]) {
-            DLog(@"not enough btc");
+            DLog(@"not enough %@", fromSymbol);
             notEnoughToExchange = YES;
             NSString *amountText = [[NSNumberFormatter satoshiToBTC:[self.minimum longLongValue]] stringByAppendingFormat:@" %@", self.fromSymbol];
             errorText = [NSString stringWithFormat:BC_STRING_ARGUMENT_NEEDED_TO_EXCHANGE, amountText];
         } else if (amount == 0) {
             zeroAmount = YES;
         } else if (amount > [self.availableBalance longLongValue]) {
-            DLog(@"%@ over available", self.fromSymbol);
+            DLog(@"%@ over available", fromSymbol);
             overAvailable = YES;
             errorText = BC_STRING_NOT_ENOUGH_TO_EXCHANGE;
         } else if (amount > [self.maximum longLongValue] || amount > [self.maximumHardLimit longLongValue]) {
-            DLog(@"%@ over max", self.fromSymbol);
+            DLog(@"%@ over max", fromSymbol);
             overMax = YES;
             errorText = BC_STRING_ABOVE_MAXIMUM_LIMIT;
         } else if (amount < [self.minimum longLongValue] ) {
-            DLog(@"%@ under min", self.fromSymbol);
+            DLog(@"%@ under min", fromSymbol);
             underMin = YES;
             errorText = BC_STRING_BELOW_MINIMUM_LIMIT;
         }
         
-    } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
+    } else if ([fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
         DLog(@"eth amount: %@", [self.amount stringValue]);
         DLog(@"available: %@", [self.availableBalance stringValue]);
         DLog(@"max: %@", [self.maximum stringValue])

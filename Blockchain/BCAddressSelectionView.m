@@ -581,11 +581,16 @@ typedef enum {
                 cell.balanceLabel.text = app->symbolLocal ? [NSNumberFormatter formatEthToFiatWithSymbol:[ethBalance stringValue] exchangeRate:app.tabControllerManager.latestEthExchangeRate] : [NSNumberFormatter formatEth:[NSNumberFormatter localFormattedString:[ethBalance stringValue]]];
             } else {
                 uint64_t bchBalance = 0;
-                if (row == 0) {
-                    bchBalance = [app.wallet bitcoinCashTotalBalance];
+                if (selectMode == SelectModeFilter) {
+                    if (row == 0) {
+                        bchBalance = [app.wallet bitcoinCashTotalBalance];
+                    } else {
+                        bchBalance = [[app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:[[bchAccounts objectAtIndex:indexPath.row - 1] intValue] assetType:AssetTypeBitcoin] assetType:AssetTypeBitcoinCash] longLongValue];
+                    }
                 } else {
-                    bchBalance = [[app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:[[bchAccounts objectAtIndex:indexPath.row - 1] intValue] assetType:AssetTypeBitcoin] assetType:AssetTypeBitcoinCash] longLongValue];
+                    bchBalance = [[app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:[[bchAccounts objectAtIndex:indexPath.row] intValue] assetType:AssetTypeBitcoin] assetType:AssetTypeBitcoinCash] longLongValue];
                 }
+
                 zeroBalance = bchBalance == 0;
                 cell.balanceLabel.text = [NSNumberFormatter formatBchWithSymbol:bchBalance];
             }

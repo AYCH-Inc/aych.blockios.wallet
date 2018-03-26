@@ -258,7 +258,7 @@ typedef enum {
 - (BOOL)addKey:(NSString*)privateKeyString toWatchOnlyAddress:(NSString *)watchOnlyAddress;
 
 // Fetch String Array Of Addresses
-- (NSArray *)activeLegacyAddresses;
+- (NSArray *)activeLegacyAddresses:(AssetType)assetType;
 - (NSArray *)spendableActiveLegacyAddresses;
 - (NSArray *)allLegacyAddresses:(AssetType)assetType;
 - (NSArray *)archivedLegacyAddresses;

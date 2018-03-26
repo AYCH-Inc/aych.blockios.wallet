@@ -74,6 +74,9 @@ typedef enum {
 @property(nonatomic, strong) NSMutableArray *bchAccounts;
 @property(nonatomic, strong) NSMutableArray *bchAccountLabels;
 
+@property(nonatomic, strong) NSMutableArray *bchAddresses;
+@property(nonatomic, strong) NSMutableArray *bchAddressLabels;
+
 @property(nonatomic, strong) Wallet *wallet;
 @property(nonatomic, strong) Contact *previouslySelectedContact;
 @property(nonatomic, strong) id<AddressSelectionDelegate> delegate;

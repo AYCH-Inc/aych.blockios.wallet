@@ -358,7 +358,7 @@ BOOL displayingLocalSymbolSend;
 - (void)hideSelectFromAndToButtonsIfAppropriate
 {
     // If we only have one account and no legacy addresses -> can't change from address
-    if ([app.wallet getActiveAccountsCount:self.assetType] + [[app.wallet activeLegacyAddresses] count] == 1) {
+    if ([app.wallet getActiveAccountsCount:self.assetType] + [[app.wallet activeLegacyAddresses:self.assetType] count] == 1) {
         
         [selectFromButton setHidden:YES];
         

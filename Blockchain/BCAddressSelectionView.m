@@ -35,6 +35,9 @@
 @synthesize bchAccounts;
 @synthesize bchAccountLabels;
 
+@synthesize bchAddresses;
+@synthesize bchAddressLabels;
+
 @synthesize wallet;
 @synthesize delegate;
 
@@ -46,6 +49,7 @@ int btcAccountsSectionNumber;
 int ethAccountsSectionNumber;
 int bchAccountsSectionNumber;
 int legacyAddressesSectionNumber;
+int bchAddressesSectionNumber;
 
 typedef enum {
     GetAccountsAll,
@@ -82,6 +86,9 @@ typedef enum {
         
         bchAccounts = [NSMutableArray array];
         bchAccountLabels = [NSMutableArray array];
+        
+        bchAddresses = [NSMutableArray array];
+        bchAddressLabels = [NSMutableArray array];
 
         AssetType assetType = [self.delegate getAssetType];
 
@@ -113,22 +120,18 @@ typedef enum {
                 [accounts addObjectsFromArray:accountsAndLabelsZeroBalance[DICTIONARY_KEY_ACCOUNTS]];
                 [accountLabels addObjectsFromArray:accountsAndLabelsZeroBalance[DICTIONARY_KEY_ACCOUNT_LABELS]];
                 
+                // Finally show all the user's active legacy addresses
                 if (assetType == AssetTypeBitcoin) {
-                    // Then show user's active legacy addresses with a positive balance
-                    if (![self accountsOnly]) {
-                        for (NSString * addr in _wallet.activeLegacyAddresses) {
-                            if ([_wallet getLegacyAddressBalance:addr assetType:assetType] > 0) {
-                                [legacyAddresses addObject:addr];
-                                [legacyAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
-                            }
-                        }
-                        // Then show the active legacy addresses with a zero balance
-                        for (NSString * addr in _wallet.activeLegacyAddresses) {
-                            if (!([_wallet getLegacyAddressBalance:addr assetType:assetType] > 0)) {
-                                [legacyAddresses addObject:addr];
-                                [legacyAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
-                            }
-                        }
+                    for (NSString * addr in [_wallet activeLegacyAddresses:assetType]) {
+                        [legacyAddresses addObject:addr];
+                        [legacyAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
+                    }
+                }
+                
+                if (assetType == AssetTypeBitcoinCash) {
+                    for (NSString * addr in [_wallet activeLegacyAddresses:assetType]) {
+                        [bchAddresses addObject:addr];
+                        [bchAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
                     }
                 }
             }
@@ -144,6 +147,7 @@ typedef enum {
             ethAccountsSectionNumber = ethAccounts.count > 0 ? btcAccountsSectionNumber + 1 : -1;
             bchAccountsSectionNumber = bchAccounts.count > 0 ? ethAccountsSectionNumber + 1 : -1;
             legacyAddressesSectionNumber = (legacyAddresses.count > 0) ? btcAccountsSectionNumber + 1 : -1;
+            bchAddressesSectionNumber = (bchAddresses.count > 0) ? bchAccountsSectionNumber + 1 : -1;
         }
         // Select to address
         else {
@@ -181,9 +185,16 @@ typedef enum {
                     
                     // Finally show all the user's active legacy addresses
                     if (![self accountsOnly] && assetType == AssetTypeBitcoin) {
-                        for (NSString * addr in _wallet.activeLegacyAddresses) {
+                        for (NSString * addr in [_wallet activeLegacyAddresses:assetType]) {
                             [legacyAddresses addObject:addr];
                             [legacyAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
+                        }
+                    }
+                    
+                    if (![self accountsOnly] && assetType == AssetTypeBitcoinCash) {
+                        for (NSString * addr in [_wallet activeLegacyAddresses:assetType]) {
+                            [bchAddresses addObject:addr];
+                            [bchAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
                         }
                     }
                 }
@@ -199,6 +210,7 @@ typedef enum {
             ethAccountsSectionNumber = ethAccounts.count > 0 ? btcAccountsSectionNumber + 1 : -1;
             bchAccountsSectionNumber = bchAccounts.count > 0 ? ethAccountsSectionNumber + 1 : -1;
             legacyAddressesSectionNumber = (legacyAddresses.count > 0) ? btcAccountsSectionNumber + 1 : -1;
+            bchAddressesSectionNumber = (bchAddresses.count > 0) ? bchAccountsSectionNumber + 1 : -1;
             if (addressBookAddresses.count > 0) {
                 addressBookSectionNumber = (legacyAddressesSectionNumber > 0) ? legacyAddressesSectionNumber + 1 : btcAccountsSectionNumber + 1;
             } else {
@@ -340,7 +352,8 @@ typedef enum {
         return (btcAccounts.count > 0 ? 1 : 0) +
         (ethAccounts.count > 0 ? 1 : 0) +
         (bchAccounts.count > 0 ? 1 : 0) +
-        (legacyAddresses.count > 0 && selectMode != SelectModeFilter ? 1 : 0);
+        (legacyAddresses.count > 0 && selectMode != SelectModeFilter ? 1 : 0) +
+        (bchAddresses.count > 0 && selectMode != SelectModeFilter ? 1 : 0);
     }
     
     return (addressBookAddresses.count > 0 ? 1 : 0) +
@@ -348,7 +361,8 @@ typedef enum {
     (ethAccounts.count > 0 ? 1 : 0) +
     (bchAccounts.count > 0 ? 1 : 0) +
     (legacyAddresses.count > 0 ? 1 : 0) +
-    (contacts.count > 0 ? 1 : 0);
+    (contacts.count > 0 ? 1 : 0) +
+    (bchAddresses.count > 0 ? 1 : 0);
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -427,6 +441,9 @@ typedef enum {
         else if (section == contactsSectionNumber) {
             return contacts.count;
         }
+        else if (section == bchAddressesSectionNumber) {
+            return bchAddresses.count;
+        }
     }
     else {
         if (section == addressBookSectionNumber) {
@@ -446,6 +463,9 @@ typedef enum {
         }
         else if (section == contactsSectionNumber) {
             return contacts.count;
+        }
+        else if (section == bchAddressesSectionNumber) {
+            return bchAddresses.count;
         }
     }
     

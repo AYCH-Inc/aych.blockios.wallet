@@ -196,7 +196,7 @@ typedef enum {
 {
     if (self.address) {
         
-        NSArray *activeLegacyAddresses = [app.wallet activeLegacyAddresses];
+        NSArray *activeLegacyAddresses = [app.wallet activeLegacyAddresses:self.assetType];
         
         if (![app.wallet didUpgradeToHd] && [activeLegacyAddresses count] == 1 && [[activeLegacyAddresses firstObject] isEqualToString:self.address]) {
             [app standardNotifyAutoDismissingController:BC_STRING_AT_LEAST_ONE_ADDRESS_REQUIRED];

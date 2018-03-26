@@ -4786,7 +4786,7 @@
 {
     NSDictionary *tradeInfo = @{
         DICTIONARY_KEY_DEPOSIT_AMOUNT : depositAmount,
-        DICTIONARY_KEY_FEE : [[from lowercaseString] isEqualToString:[CURRENCY_SYMBOL_BTC lowercaseString]] ? [NSNumberFormatter satoshiToBTC:[fee longLongValue]] : [fee stringValue],
+        DICTIONARY_KEY_FEE : [[from lowercaseString] isEqualToString:[CURRENCY_SYMBOL_ETH lowercaseString]] ? [fee stringValue] : [NSNumberFormatter satoshiToBTC:[fee longLongValue]],
         DICTIONARY_KEY_RATE : rate,
         DICTIONARY_KEY_MINER_FEE : minerFee,
         DICTIONARY_KEY_WITHDRAWAL_AMOUNT : withdrawalAmount,

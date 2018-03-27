@@ -21,6 +21,7 @@
 #import "BCPriceChartContainerViewController.h"
 
 #define DASHBOARD_HORIZONTAL_PADDING 15
+#define PRICE_CHART_PADDING 20
 
 @import Charts;
 
@@ -215,7 +216,8 @@
 {
     [self showChartContainerViewController];
     
-    BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*3/4) assetType:AssetTypeBitcoin dataPoints:nil delegate:self];
+    CGFloat padding = PRICE_CHART_PADDING;
+    BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(padding, padding, self.view.frame.size.width - padding, self.view.frame.size.height*3/4 - padding) assetType:AssetTypeBitcoin dataPoints:nil delegate:self];
     [self.chartContainerViewController addPriceChartView:priceChartView atIndex:0];
     [self fetchChartDataForAsset:AssetTypeBitcoin];
 }
@@ -224,7 +226,8 @@
 {
     [self showChartContainerViewController];
     
-    BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*3/4) assetType:AssetTypeEther dataPoints:nil delegate:self];
+    CGFloat padding = PRICE_CHART_PADDING;
+    BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(padding, padding, self.view.frame.size.width - padding, self.view.frame.size.height*3/4 - padding) assetType:AssetTypeEther dataPoints:nil delegate:self];
     [self.chartContainerViewController addPriceChartView:priceChartView atIndex:1];
     [self.chartContainerViewController updateEthExchangeRate:self.lastEthExchangeRate];
     [self fetchChartDataForAsset:AssetTypeEther];
@@ -234,7 +237,8 @@
 {
     [self showChartContainerViewController];
 
-    BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*3/4) assetType:AssetTypeBitcoinCash dataPoints:nil delegate:self];
+    CGFloat padding = PRICE_CHART_PADDING;
+    BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(padding, padding, self.view.frame.size.width - padding, self.view.frame.size.height*3/4 - padding) assetType:AssetTypeBitcoinCash dataPoints:nil delegate:self];
     [self.chartContainerViewController addPriceChartView:priceChartView atIndex:2];
     [self fetchChartDataForAsset:AssetTypeBitcoinCash];
 }

@@ -11,5 +11,6 @@
 
 @interface AssetSelectionTableViewCell : UITableViewCell
 @property (nonatomic, readonly) AssetType assetType;
+@property (nonatomic) UIImageView *downwardChevron;
 - (id)initWithAsset:(AssetType)assetType;
 @end

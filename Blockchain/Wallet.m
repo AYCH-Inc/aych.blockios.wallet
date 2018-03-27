@@ -1968,18 +1968,18 @@
     if (![self isInitialized]) {
         return errorBalance;
     }
-    
-    if ([self checkIfWalletHasAddress:address]) {
-        if (assetType == AssetTypeBitcoin) {
+
+    if (assetType == AssetTypeBitcoin) {
+        if ([self checkIfWalletHasAddress:address]) {
             return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWallet.wallet.key(\"%@\").balance", [address escapeStringForJS]]] toNumber];
-        } else if (assetType == AssetTypeBitcoinCash) {
-            
+        } else {
+            DLog(@"Wallet error: Tried to get balance of address %@, which was not found in this wallet", address);
+            return errorBalance;
         }
-        return 0;
-    } else {
-        DLog(@"Wallet error: Tried to get balance of address %@, which was not found in this wallet", address);
-        return errorBalance;
+    } else if (assetType == AssetTypeBitcoinCash) {
+        return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.getBalanceForAddress(\"%@\")", [address escapeStringForJS]]] toNumber];
     }
+    return 0;
 }
 
 - (BOOL)addKey:(NSString*)privateKeyString

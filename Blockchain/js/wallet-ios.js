@@ -2989,6 +2989,10 @@ MyWalletPhone.bch = {
         return MyWallet.wallet.bch.accounts[index].balance;
     },
     
+    getBalanceForAddress : function(address) {
+        return MyWallet.wallet.bch.getAddressBalance(address);
+    },
+    
     getXpubForAccount : function(index) {
         return MyWallet.wallet.bch.accounts[index].xpub;
     },

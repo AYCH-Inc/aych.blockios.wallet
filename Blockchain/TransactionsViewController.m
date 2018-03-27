@@ -39,7 +39,8 @@
     [self.filterSelectorView addSubview:self.filterSelectorLabel];
     
     UIImageView *chevronImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.filterSelectorView.frame.size.width - imageViewWidth - padding, (self.filterSelectorView.frame.size.height - imageViewWidth)/2, imageViewWidth, imageViewWidth + 2)];
-    chevronImageView.image = [UIImage imageNamed:@"chevron_right"];
+    chevronImageView.image = [[UIImage imageNamed:@"chevron_right_white"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    chevronImageView.tintColor = COLOR_DARK_GRAY;
     [self.filterSelectorView addSubview:chevronImageView];
     
     BCLine *lineAboveButtonsView = [[BCLine alloc] initWithYPosition:self.filterSelectorView.bounds.size.height - 1];

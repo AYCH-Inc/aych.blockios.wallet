@@ -48,7 +48,7 @@
     self.chartView.drawCenterTextEnabled = YES;
     self.chartView.drawHoleEnabled = YES;
     self.chartView.holeColor = [UIColor clearColor];
-    self.chartView.holeRadiusPercent = 0.6;
+    self.chartView.holeRadiusPercent = 0.64;
     [self.chartView animateWithYAxisDuration:0.5];
     self.chartView.rotationEnabled = NO;
     self.chartView.legend.enabled = NO;

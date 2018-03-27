@@ -2990,7 +2990,7 @@ MyWalletPhone.bch = {
     },
     
     getBalanceForAddress : function(address) {
-        return MyWallet.wallet.bch.getAddressBalance(address);
+        return MyWallet.wallet.bch.getAddressBalance(Helpers.fromBitcoinCash('bitcoincash:' + address));
     },
     
     getXpubForAccount : function(index) {

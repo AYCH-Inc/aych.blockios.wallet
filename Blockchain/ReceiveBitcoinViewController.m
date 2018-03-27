@@ -108,6 +108,11 @@
 {
     [super viewDidAppear:animated];
     app.mainTitleLabel.text = BC_STRING_REQUEST;
+    
+    self.view.frame = CGRectMake(0,
+                                 DEFAULT_HEADER_HEIGHT_OFFSET,
+                                 [UIScreen mainScreen].bounds.size.width,
+                                 [UIScreen mainScreen].bounds.size.height - DEFAULT_HEADER_HEIGHT - DEFAULT_HEADER_HEIGHT_OFFSET - DEFAULT_FOOTER_HEIGHT);
 }
 
 - (void)viewWillDisappear:(BOOL)animated

@@ -271,7 +271,7 @@
             [app.wallet getAvailableBtcBalanceForAccount:self.btcAccount];
             self.availableBalanceFromSymbol = self.fromSymbol;
         } else {
-            [app.wallet getAvailableBchBalanceForAccount:self.btcAccount];
+            [app.wallet getAvailableBchBalanceForAccount:self.bchAccount];
             self.availableBalanceFromSymbol = self.fromSymbol;
         }
     } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {

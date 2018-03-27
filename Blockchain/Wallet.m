@@ -1868,11 +1868,13 @@
         return nil;
     }
     
+    NSString *allAddressesJSON;
     if (assetType == AssetTypeBitcoin) {
-        NSString * allAddressesJSON = [[self.context evaluateScript:@"JSON.stringify(MyWallet.wallet.addresses)"] toString];
+        allAddressesJSON = [[self.context evaluateScript:@"JSON.stringify(MyWallet.wallet.addresses)"] toString];
         return [allAddressesJSON getJSONObject];
     } else if (assetType == AssetTypeBitcoinCash) {
-        return nil;
+        allAddressesJSON = [[self.context evaluateScript:@"JSON.stringify(MyWalletPhone.bch.getActiveLegacyAddresses())"] toString];
+        return [allAddressesJSON getJSONObject];
     }
     return nil;
 }

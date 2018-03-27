@@ -2965,7 +2965,10 @@ MyWalletPhone.bch = {
     },
     
     getActiveLegacyAddresses : function() {
-        return MyWallet.wallet.bch.importedAddresses.addresses;
+        return MyWallet.wallet.bch.importedAddresses.addresses.map(function(address) {
+            var prefix = 'bitcoincash:';
+            return Helpers.toBitcoinCash(address).slice(prefix.length);
+        });
     },
     
     isArchived : function(index) {

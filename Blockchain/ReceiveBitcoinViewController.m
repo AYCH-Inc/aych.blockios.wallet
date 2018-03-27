@@ -187,11 +187,11 @@
         [self.bottomContainerView addSubview:lineAboveAmounts];
     }
 
-    BCLine *lineBelowAmounts = [[BCLine alloc] initWithFrame:CGRectMake(leftPadding, 50, self.view.frame.size.width - 15, 1)];
+    BCLine *lineBelowAmounts = [[BCLine alloc] initWithFrame:CGRectMake(leftPadding, 50, self.view.frame.size.width - leftPadding, 1)];
     lineBelowAmounts.backgroundColor = COLOR_LINE_GRAY;
     [self.bottomContainerView addSubview:lineBelowAmounts];
     
-    BCLine *lineBelowToField = [[BCLine alloc] initWithFrame:CGRectMake(0, lineBelowAmounts.frame.origin.y + 50, self.view.frame.size.width - 15, 1)];
+    BCLine *lineBelowToField = [[BCLine alloc] initWithFrame:CGRectMake(0, lineBelowAmounts.frame.origin.y + 50, self.view.frame.size.width, 1)];
     lineBelowToField.backgroundColor = COLOR_LINE_GRAY;
     [self.bottomContainerView addSubview:lineBelowToField];
     

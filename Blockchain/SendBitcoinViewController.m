@@ -178,7 +178,7 @@ BOOL displayingLocalSymbolSend;
     
     feeField.delegate = self;
         
-    toField.placeholder = BC_STRING_ENTER_BITCOIN_ADDRESS_OR_SELECT;
+    toField.placeholder =  self.assetType == AssetTypeBitcoin ? BC_STRING_ENTER_BITCOIN_ADDRESS_OR_SELECT : BC_STRING_ENTER_BITCOIN_CASH_ADDRESS_OR_SELECT;
     feeField.placeholder = BC_STRING_SATOSHI_PER_BYTE_ABBREVIATED;
     btcAmountField.placeholder = [NSString stringWithFormat:BTC_PLACEHOLDER_DECIMAL_SEPARATOR_ARGUMENT, [[NSLocale currentLocale] objectForKey:NSLocaleDecimalSeparator]];
     fiatAmountField.placeholder = [NSString stringWithFormat:FIAT_PLACEHOLDER_DECIMAL_SEPARATOR_ARGUMENT, [[NSLocale currentLocale] objectForKey:NSLocaleDecimalSeparator]];

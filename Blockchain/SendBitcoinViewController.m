@@ -255,7 +255,7 @@ BOOL displayingLocalSymbolSend;
         int defaultAccountIndex = [app.wallet getDefaultAccountIndexForAssetType:self.assetType];
         self.fromAccount = defaultAccountIndex;
         if (self.isReloading) return; // didSelectFromAccount will be called in reloadAfterMultiAddressResponse
-        [self didSelectFromAccount:self.fromAccount];
+        [self didSelectFromAccount:self.fromAccount assetType:self.assetType];
     }
     else {
         // Default setting: send from any address

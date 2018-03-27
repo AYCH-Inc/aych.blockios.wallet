@@ -318,6 +318,8 @@ typedef enum {
             } else {
                 [delegate didSelectFromAddress:legacyAddress];
             }
+        } else if (indexPath.section == bchAddressesSectionNumber) {
+            [delegate didSelectFromAddress:[bchAddresses objectAtIndex:[indexPath row]]];
         }
     } else {
         if (indexPath.section == addressBookSectionNumber) {
@@ -338,6 +340,8 @@ typedef enum {
         else if (indexPath.section == contactsSectionNumber) {
             [delegate didSelectContact:[contacts objectAtIndex:[indexPath row]]];
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        } else if (indexPath.section == bchAddressesSectionNumber) {
+            [delegate didSelectToAddress:[bchAddresses objectAtIndex:[indexPath row]]];
         }
     }
     
@@ -538,6 +542,9 @@ typedef enum {
         else if (section == legacyAddressesSectionNumber) {
             label = [legacyAddressLabels objectAtIndex:row];
             cell.addressLabel.text = [legacyAddresses objectAtIndex:row];
+        } else if (section == bchAddressesSectionNumber) {
+            label = [bchAddressLabels objectAtIndex:row];
+            cell.addressLabel.text = [bchAddresses objectAtIndex:row];
         }
         else if (section == contactsSectionNumber) {
             Contact *contact = [contacts objectAtIndex:row];

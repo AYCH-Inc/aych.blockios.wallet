@@ -49,7 +49,9 @@
         self.scrollView.pagingEnabled = YES;
         self.scrollView.scrollEnabled = YES;
         self.scrollView.delegate = self;
+        self.isUsingPageControl = YES;
         [self.scrollView setContentOffset:CGPointMake(pageIndex * self.scrollView.frame.size.width, 0) animated:NO];
+        self.isUsingPageControl = NO;
         [self.view addSubview:self.scrollView];
         
         priceChartView.center = CGPointMake(pageIndex * self.scrollView.frame.size.width + self.scrollView.frame.size.width/2, self.scrollView.frame.size.height/2);
@@ -64,7 +66,7 @@
         
         CGFloat buttonWidth = 50;
         UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(pageIndex*self.view.frame.size.width + self.view.frame.size.width - 8 - buttonWidth, 30, buttonWidth, buttonWidth)];
-        self.closeButtonOriginX = closeButton.frame.origin.x;
+        self.closeButtonOriginX = self.view.frame.size.width - 8 - buttonWidth;
         [closeButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
         [closeButton addTarget:self action:@selector(closeButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         self.scrollViewCloseButton = closeButton;

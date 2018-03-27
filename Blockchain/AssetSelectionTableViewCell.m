@@ -14,7 +14,6 @@
 @property (nonatomic) UIView *containerView;
 @property (nonatomic) UILabel *label;
 @property (nonatomic) UIImageView *assetImageView;
-@property (nonatomic) UIImageView *downwardChevron;
 @end
 
 @implementation AssetSelectionTableViewCell
@@ -31,20 +30,16 @@
         
         NSString *text;
         NSString *assetImage;
-        CGFloat chevronImageViewHeight = 0;
         
         if (assetType == AssetTypeBitcoin) {
             text = BC_STRING_BITCOIN;
             assetImage = @"bitcoin_white";
-            chevronImageViewHeight = 14;
         } else if (assetType == AssetTypeEther) {
             text = BC_STRING_ETHER;
             assetImage = @"ether_white";
-            chevronImageViewHeight = 0;
         } else if (assetType == AssetTypeBitcoinCash) {
             text = BC_STRING_BITCOIN_CASH;
             assetImage = @"bitcoin_cash_white";
-            chevronImageViewHeight = 0;
         }
         
         self.label = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -59,6 +54,7 @@
         self.assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, (containerViewHeight - assetImageViewHeight)/2, assetImageViewHeight, assetImageViewHeight)];
         self.assetImageView.image = [UIImage imageNamed:assetImage];
         
+        CGFloat chevronImageViewHeight = 14;
         self.downwardChevron = [[UIImageView alloc] initWithFrame:CGRectMake(0, (containerViewHeight - chevronImageViewHeight)/2, chevronImageViewHeight, chevronImageViewHeight)];
         self.downwardChevron.image = [UIImage imageNamed:@"chevron_down_white"];
         

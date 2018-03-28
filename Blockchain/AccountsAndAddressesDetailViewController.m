@@ -342,7 +342,7 @@ typedef enum {
             if (self.address) {
                 return [app.wallet isWatchOnlyLegacyAddress:self.address] ? BC_STRING_WATCH_ONLY_FOOTER_TITLE : BC_STRING_ARCHIVE_FOOTER_TITLE;
             } else {
-                return [NSString stringWithFormat:@"%@\n\n%@", BC_STRING_EXTENDED_PUBLIC_KEY_FOOTER_TITLE_ONE, BC_STRING_EXTENDED_PUBLIC_KEY_FOOTER_TITLE_TWO];
+                return BC_STRING_EXTENDED_PUBLIC_KEY_FOOTER_TITLE;
             }
         }
     } else if (section == sectionArchived) {

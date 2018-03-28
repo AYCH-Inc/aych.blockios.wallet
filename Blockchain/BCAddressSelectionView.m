@@ -128,7 +128,7 @@ typedef enum {
                     }
                 }
                 
-                if (assetType == AssetTypeBitcoinCash) {
+                if (assetType == AssetTypeBitcoinCash && selectMode == SelectModeSendFrom) {
                     for (NSString * addr in [_wallet activeLegacyAddresses:assetType]) {
                         [bchAddresses addObject:addr];
                         [bchAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
@@ -188,13 +188,6 @@ typedef enum {
                         for (NSString * addr in [_wallet activeLegacyAddresses:assetType]) {
                             [legacyAddresses addObject:addr];
                             [legacyAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
-                        }
-                    }
-                    
-                    if (![self accountsOnly] && assetType == AssetTypeBitcoinCash) {
-                        for (NSString * addr in [_wallet activeLegacyAddresses:assetType]) {
-                            [bchAddresses addObject:addr];
-                            [bchAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
                         }
                     }
                 }

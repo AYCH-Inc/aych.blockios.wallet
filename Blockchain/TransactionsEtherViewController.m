@@ -77,6 +77,8 @@
 
 - (void)reloadSymbols
 {
+    [self updateBalance];
+    
     [self.tableView reloadData];
     
     [self.detailViewController reloadSymbols];

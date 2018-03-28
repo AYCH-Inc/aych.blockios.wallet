@@ -399,6 +399,8 @@
 
 - (void)reloadSymbols
 {
+    [self setText];
+
     [self reloadData];
     
     [self.detailViewController reloadSymbols];

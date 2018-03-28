@@ -70,7 +70,9 @@
 
 - (void)updateBalance
 {
-    self.balance = app->symbolLocal ? [NSNumberFormatter formatEthToFiatWithSymbol:[app.wallet getEthBalance] exchangeRate:app.tabControllerManager.latestEthExchangeRate] : [NSNumberFormatter formatEth:[app.wallet getEthBalance]];
+    NSString *balance = [app.wallet getEthBalanceTruncated];
+    
+    self.balance = app->symbolLocal ? [NSNumberFormatter formatEthToFiatWithSymbol:balance exchangeRate:app.tabControllerManager.latestEthExchangeRate] : [NSNumberFormatter formatEth:balance];
 }
 
 - (void)reloadSymbols

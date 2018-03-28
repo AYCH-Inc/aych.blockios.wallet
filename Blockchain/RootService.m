@@ -413,8 +413,6 @@ void (^secondPasswordSuccess)(NSString *);
         [self.pinEntryViewController setupQRCode];
     }
 #endif
-    
-    [self performSelector:@selector(showPinModalIfBackgroundedDuringLoad) withObject:nil afterDelay:0.3];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
@@ -1221,13 +1219,6 @@ void (^secondPasswordSuccess)(NSString *);
     if (self.backgroundUpdateTask != UIBackgroundTaskInvalid) {
         [[UIApplication sharedApplication] endBackgroundTask:self.backgroundUpdateTask];
         self.backgroundUpdateTask = UIBackgroundTaskInvalid;
-    }
-}
-
-- (void)showPinModalIfBackgroundedDuringLoad
-{
-    if (![self.pinEntryViewController.view isDescendantOfView:app.window.rootViewController.view] && !self.wallet.isInitialized && [KeychainItemWrapper sharedKey] && [KeychainItemWrapper guid] && !modalView) {
-        [self showPinModalAsView:YES];
     }
 }
 

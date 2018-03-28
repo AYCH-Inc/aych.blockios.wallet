@@ -315,8 +315,13 @@
 {
     if (section == 0)
         return [app.wallet getAllAccountsCount:self.assetType];
-    else if (section == 1)
-        return [allKeys count];
+    else if (section == 1) {
+        if (self.assetType == AssetTypeBitcoin) {
+            return [allKeys count];
+        } else {
+            return [allKeys count] > 0 ? 1 : 0;
+        }
+    }
     return 0;
 }
 
@@ -331,7 +336,7 @@
     if (indexPath.section == 0) {
         [self didSelectAccount:(int)indexPath.row];
     } else if (indexPath.section == 1) {
-        [self didSelectAddress:allKeys[indexPath.row]];
+        if (self.assetType == AssetTypeBitcoin) [self didSelectAddress:allKeys[indexPath.row]];
     }
 }
 
@@ -460,16 +465,16 @@
         }
     }
     
-    NSString *label =  [app.wallet labelForLegacyAddress:addr assetType:self.assetType];
+    NSString *label = self.assetType == AssetTypeBitcoin ? [app.wallet labelForLegacyAddress:addr assetType:self.assetType] : BC_STRING_IMPORTED_ADDRESSES;
     
     if (label)
         cell.labelLabel.text = label;
     else
         cell.labelLabel.text = BC_STRING_NO_LABEL;
     
-    cell.addressLabel.text = addr;
+    cell.addressLabel.text = self.assetType == AssetTypeBitcoin ? addr : nil;
     
-    uint64_t balance = [[app.wallet getLegacyAddressBalance:addr assetType:self.assetType] longLongValue];
+    uint64_t balance = self.assetType == AssetTypeBitcoin ? [[app.wallet getLegacyAddressBalance:addr assetType:self.assetType] longLongValue] : [app.wallet getTotalBalanceForActiveLegacyAddresses:self.assetType];
     
     // Selected cell color
     UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,cell.frame.size.width,cell.frame.size.height)];

@@ -35,6 +35,7 @@
 
 static PEViewController *EnterController()
 {
+
 	PEViewController *c = [[PEViewController alloc] init];
 	c.prompt = BC_STRING_PLEASE_ENTER_PIN;
 	c.title = @"";
@@ -135,6 +136,11 @@ static PEViewController *VerifyController()
 #ifdef ENABLE_SWIPE_TO_RECEIVE
     if (self.verifyOnly &&
         [[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_SWIPE_TO_RECEIVE_ENABLED]) {
+        
+        for (NSNumber *key in self.swipeViews) {
+            BCSwipeAddressView *swipeView = [self.swipeViews objectForKey:key];
+            [swipeView removeFromSuperview];
+        }
         
         pinController.swipeLabel.alpha = 1;
         pinController.swipeLabel.hidden = NO;

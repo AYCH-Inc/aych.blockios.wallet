@@ -245,10 +245,9 @@ typedef enum {
             
         } else if (detailType == DetailTypeEditAccountLabel) {
             
-            BCEditAccountView *editAccountView = [[BCEditAccountView alloc] init];
+            BCEditAccountView *editAccountView = [[BCEditAccountView alloc] initWithAssetType:self.assetType];
             editAccountView.labelTextField.text = [app.wallet getLabelForAccount:self.account assetType:self.assetType];
             editAccountView.accountIdx = self.account;
-            editAccountView.assetType = self.assetType;
             
             [self setupModalView:editAccountView inViewController:segue.destinationViewController];
             

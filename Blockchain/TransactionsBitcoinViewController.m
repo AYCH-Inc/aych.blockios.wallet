@@ -792,7 +792,9 @@
     [super viewWillAppear:animated];
     
     self.balance = @"";
-
+    [self setText];
+    [self reloadData];
+    
     app.mainTitleLabel.hidden = YES;
     app.mainTitleLabel.adjustsFontSizeToFitWidth = YES;
     

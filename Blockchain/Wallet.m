@@ -4948,13 +4948,19 @@
     return [[[self.context evaluateScript:@"MyWallet.wallet.balanceActive"] toNumber] longLongValue];
 }
 
-- (uint64_t)getTotalBalanceForActiveLegacyAddresses
+- (uint64_t)getTotalBalanceForActiveLegacyAddresses:(AssetType)assetType
 {
     if (![self isInitialized]) {
         return 0;
     }
     
-    return [[[self.context evaluateScript:@"MyWallet.wallet.balanceActiveLegacy"] toNumber] longLongValue];
+    if (assetType == AssetTypeBitcoin) {
+        return [[[self.context evaluateScript:@"MyWallet.wallet.balanceActiveLegacy"] toNumber] longLongValue];
+    } else if (assetType == AssetTypeBitcoinCash) {
+        return [[[self.context evaluateScript:@"MyWalletPhone.bch.balanceActiveLegacy()"] toNumber] longLongValue];
+    }
+    DLog(@"Error getting total balance for active legacy addresses: unsupported asset type!");
+    return 0;
 }
 
 - (uint64_t)getTotalBalanceForSpendableActiveLegacyAddresses

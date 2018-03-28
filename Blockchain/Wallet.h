@@ -322,7 +322,7 @@ typedef enum {
 - (BOOL)isAccountNameValid:(NSString *)name;
 
 - (uint64_t)getTotalActiveBalance;
-- (uint64_t)getTotalBalanceForActiveLegacyAddresses;
+- (uint64_t)getTotalBalanceForActiveLegacyAddresses:(AssetType)assetType;
 - (uint64_t)getTotalBalanceForSpendableActiveLegacyAddresses;
 - (id)getBalanceForAccount:(int)account assetType:(AssetType)assetType;
 

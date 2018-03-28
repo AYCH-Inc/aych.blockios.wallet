@@ -144,10 +144,6 @@
 
 - (void)updateTopBarForIndex:(int)newIndex
 {
-    titleLabel.hidden = NO;
-    balanceLabel.hidden = YES;
-    balanceLabel.userInteractionEnabled = NO;
-    
     if (newIndex == TAB_DASHBOARD) {
         titleLabel.text = BC_STRING_DASHBOARD;
         [UIView animateWithDuration:ANIMATION_DURATION animations:^{
@@ -161,6 +157,16 @@
         }];
         [self.assetSelectorView show];
         [self.bannerSelectorView changeHeight:ASSET_SELECTOR_ROW_HEIGHT];
+    }
+    
+    if (newIndex == TAB_TRANSACTIONS) {
+        balanceLabel.hidden = NO;
+        balanceLabel.userInteractionEnabled = YES;
+        titleLabel.hidden = YES;
+    } else {
+        balanceLabel.hidden = YES;
+        balanceLabel.userInteractionEnabled = NO;
+        titleLabel.hidden = NO;
     }
 }
 
@@ -206,6 +212,11 @@
 {
     titleLabel.text = text;
     titleLabel.hidden = NO;
+}
+
+- (void)updateBalanceLabelText:(NSString *)text
+{
+    balanceLabel.text = text;
 }
 
 - (void)selectAsset:(AssetType)assetType

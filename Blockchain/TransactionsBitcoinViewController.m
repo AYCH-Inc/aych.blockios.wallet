@@ -26,6 +26,7 @@
 @property (nonatomic) UIView *noTransactionsView;
 @property (nonatomic) UIView *filterSelectorView;
 @property (nonatomic) UILabel *filterSelectorLabel;
+@property (nonatomic) NSString *balance;
 - (void)setupNoTransactionsViewInView:(UIView *)view assetType:(AssetType)assetType;
 - (void)setupFilter;
 - (uint64_t)getAmountForReceivedTransaction:(Transaction *)transaction;
@@ -279,7 +280,7 @@
         
         self.filterIndex = FILTER_INDEX_ALL;
         
-        [balanceBigButton setTitle:@"" forState:UIControlStateNormal];
+        self.balance = @"";
         [self changeFilterLabel:@""];
     }
     // Data loaded, but no transactions yet
@@ -294,7 +295,7 @@
         }
 #endif
         // Balance
-        [balanceBigButton setTitle:[NSNumberFormatter formatMoney:[self getBalance] localCurrency:app->symbolLocal] forState:UIControlStateNormal];
+        self.balance = [NSNumberFormatter formatMoney:[self getBalance] localCurrency:app->symbolLocal];
         [self changeFilterLabel:[self getFilterLabel]];
 
     }
@@ -303,7 +304,7 @@
         self.noTransactionsView.hidden = YES;
         
         // Balance
-        [balanceBigButton setTitle:[NSNumberFormatter formatMoney:[self getBalance] localCurrency:app->symbolLocal] forState:UIControlStateNormal];
+        self.balance = [NSNumberFormatter formatMoney:[self getBalance] localCurrency:app->symbolLocal];
         [self changeFilterLabel:[self getFilterLabel]];
     }
 }
@@ -536,7 +537,7 @@
     if (self.filterIndex == FILTER_INDEX_ALL) {
         return [app.wallet getTotalActiveBalance];
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
-        return [app.wallet getTotalBalanceForActiveLegacyAddresses];
+        return [app.wallet getTotalBalanceForActiveLegacyAddresses:AssetTypeBitcoin];
     } else {
         return [[app.wallet getBalanceForAccount:(int)self.filterIndex assetType:self.assetType] longLongValue];
     }
@@ -789,6 +790,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.balance = @"";
+
     app.mainTitleLabel.hidden = YES;
     app.mainTitleLabel.adjustsFontSizeToFitWidth = YES;
     

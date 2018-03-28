@@ -11,6 +11,7 @@
 #import "BCLine.h"
 #import "Transaction.h"
 #import "NSNumberFormatter+Currencies.h"
+#import "RootService.h"
 
 @interface TransactionsViewController ()
 @property (nonatomic) UILabel *noTransactionsTitle;
@@ -19,6 +20,7 @@
 @property (nonatomic) UIView *noTransactionsView;
 @property (nonatomic) UIView *filterSelectorView;
 @property (nonatomic) UILabel *filterSelectorLabel;
+@property (nonatomic) NSString *balance;
 @end
 
 @implementation TransactionsViewController
@@ -146,6 +148,18 @@
 {
     DLog(@"TransactionsViewController: getting amount for received transaction");
     return ABS(transaction.amount);
+}
+
+- (void)setBalance:(NSString *)balance
+{
+    _balance = balance;
+    
+    [self updateBalanceLabel];
+}
+
+- (void)updateBalanceLabel
+{
+    [app.tabControllerManager.tabViewController updateBalanceLabelText:self.balance];
 }
 
 @end

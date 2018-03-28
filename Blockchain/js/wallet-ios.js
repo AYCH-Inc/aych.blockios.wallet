@@ -2981,6 +2981,10 @@ MyWalletPhone.bch = {
         return MyWallet.wallet.bch.balance;
     },
     
+    balanceActiveLegacy : function() {
+        return MyWallet.wallet.bch.importedAddresses.balance;
+    },
+    
     getBalance : function() {
         return MyWallet.wallet.bch.balance;
     },

@@ -45,7 +45,6 @@
 
 @property (strong, nonatomic) TransactionsBitcoinCashViewController *transactionsBitcoinCashViewController;
 
-
 @property (strong, nonatomic) ExchangeOverviewViewController *exchangeOverviewViewController;
 
 - (void)reload;

@@ -15,7 +15,7 @@
 @property (nonatomic) UILabel *noTransactionsTitle;
 @property (nonatomic) UILabel *noTransactionsDescription;
 @property (nonatomic) UIButton *getBitcoinButton;
-
+@property (nonatomic) NSString *balance;
 @property (nonatomic) UIView *noTransactionsView;
 
 - (void)setupNoTransactionsViewInView:(UIView *)view assetType:(AssetType)assetType;
@@ -49,12 +49,28 @@
     
     [self setupNoTransactionsViewInView:self.tableView assetType:AssetTypeEther];
     
-    [self loadTransactions];
+    [self reload];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.balance = @"";
+    
+    [self reload];
 }
 
 - (void)reload
 {
     [self loadTransactions];
+    
+    [self updateBalance];
+}
+
+- (void)updateBalance
+{
+    self.balance = app->symbolLocal ? [NSNumberFormatter formatEthToFiatWithSymbol:[app.wallet getEthBalance] exchangeRate:app.tabControllerManager.latestEthExchangeRate] : [NSNumberFormatter formatEth:[app.wallet getEthBalance]];
 }
 
 - (void)reloadSymbols

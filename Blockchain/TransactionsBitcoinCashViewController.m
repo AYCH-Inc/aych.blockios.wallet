@@ -20,6 +20,7 @@
 @property (nonatomic) UIView *noTransactionsView;
 @property (nonatomic) UILabel *filterSelectorView;
 @property (nonatomic) UILabel *filterSelectorLabel;
+@property (nonatomic) NSString *balance;
 - (void)setupNoTransactionsViewInView:(UIView *)view assetType:(AssetType)assetType;
 - (void)setupFilter;
 - (uint64_t)getAmountForReceivedTransaction:(Transaction *)transaction;
@@ -73,6 +74,40 @@
     tableViewController.refreshControl = self.refreshControl;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.balance = @"";
+    
+    [self reload];
+}
+
+- (void)reload
+{
+    [self loadTransactions];
+    
+    [self updateBalance];
+    
+    [self.detailViewController didGetHistory];
+}
+
+- (void)updateBalance
+{
+    self.balance = [NSNumberFormatter formatBchWithSymbol:[self getBalance]];
+}
+
+- (uint64_t)getBalance
+{
+    if (self.filterIndex == FILTER_INDEX_ALL) {
+        return [app.wallet getBchBalance];
+    } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
+        return [app.wallet getTotalBalanceForActiveLegacyAddresses:AssetTypeBitcoinCash];
+    } else {
+        return [[app.wallet getBalanceForAccount:(int)self.filterIndex assetType:AssetTypeBitcoinCash] longLongValue];
+    }
+}
+
 - (void)loadTransactions
 {
     self.transactions = [app.wallet getBitcoinCashTransactions:self.filterIndex];
@@ -83,9 +118,11 @@
     [self.refreshControl endRefreshing];
 }
 
-- (void)reload
+- (void)reloadSymbols
 {
-    [self loadTransactions];
+    [self reload];
+    
+    [self.detailViewController reloadSymbols];
 }
 
 - (void)getHistory
@@ -193,6 +230,8 @@
     self.filterIndex = filter;
     if (filter == FILTER_INDEX_ALL) {
         self.filterSelectorLabel.text = BC_STRING_ALL_WALLETS;
+    } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
+        self.filterSelectorLabel.text = BC_STRING_IMPORTED_ADDRESSES;
     } else {
         self.filterSelectorLabel.text = [app.wallet getLabelForAccount:filter assetType:AssetTypeBitcoinCash];
     }

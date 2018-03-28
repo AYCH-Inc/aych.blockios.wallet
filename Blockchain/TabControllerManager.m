@@ -445,8 +445,10 @@
 - (void)reloadSymbols
 {
     [_sendBitcoinViewController reloadSymbols];
+    [_sendBitcoinCashViewController reloadSymbols];
     [_transactionsBitcoinViewController reloadSymbols];
     [_transactionsEtherViewController reloadSymbols];
+    [_transactionsBitcoinCashViewController reloadSymbols];
     [_tabViewController reloadSymbols];
     [_exchangeOverviewViewController reloadSymbols];
 }

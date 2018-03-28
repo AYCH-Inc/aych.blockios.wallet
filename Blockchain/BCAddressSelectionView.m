@@ -435,9 +435,14 @@ typedef enum {
         }
         else if (section == bchAccountsSectionNumber) {
             if (selectMode == SelectModeFilter) {
-                return bchAccounts.count + 1;
+                if (bchAddresses.count > 0) {
+                    return bchAccounts.count + 2;
+                } else {
+                    return bchAccounts.count + 1;
+                }
+            } else {
+                return bchAccounts.count;
             }
-            return bchAccounts.count;
         }
         else if (section == legacyAddressesSectionNumber) {
             return legacyAddresses.count;
@@ -585,7 +590,7 @@ typedef enum {
             } else if (section == btcAccountsSectionNumber) {
                 if (selectMode == SelectModeFilter) {
                     if (btcAccounts.count == row - 1) {
-                        btcBalance = [app.wallet getTotalBalanceForActiveLegacyAddresses];
+                        btcBalance = [app.wallet getTotalBalanceForActiveLegacyAddresses:AssetTypeBitcoin];
                     } else if (row == 0) {
                         btcBalance = [app.wallet getTotalActiveBalance];
                     } else {
@@ -610,7 +615,9 @@ typedef enum {
                 uint64_t bchBalance = 0;
                 if (section == bchAccountsSectionNumber) {
                     if (selectMode == SelectModeFilter) {
-                        if (row == 0) {
+                        if (bchAccounts.count == row - 1) {
+                            bchBalance = [app.wallet getTotalBalanceForActiveLegacyAddresses:AssetTypeBitcoinCash];
+                        } else if (row == 0) {
                             bchBalance = [app.wallet bitcoinCashTotalBalance];
                         } else {
                             bchBalance = [[app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:[[bchAccounts objectAtIndex:indexPath.row - 1] intValue] assetType:AssetTypeBitcoinCash] assetType:AssetTypeBitcoinCash] longLongValue];

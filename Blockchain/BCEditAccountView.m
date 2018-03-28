@@ -12,13 +12,14 @@
 
 @implementation BCEditAccountView
 
--(id)init
+-(id)initWithAssetType:(AssetType)assetType
 {
     UIWindow *window = app.window;
     
     self = [super initWithFrame:CGRectMake(0, DEFAULT_HEADER_HEIGHT, window.frame.size.width, window.frame.size.height - DEFAULT_HEADER_HEIGHT)];
     
     if (self) {
+        self.assetType = assetType;
         self.backgroundColor = [UIColor whiteColor];
         
         UILabel *labelLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 55, window.frame.size.width - 40, 25)];

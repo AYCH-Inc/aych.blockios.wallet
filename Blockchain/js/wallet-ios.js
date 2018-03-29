@@ -2992,7 +2992,8 @@ MyWalletPhone.bch = {
     transactions : function(filter) {
         return MyWallet.wallet.bch.txs.filter((tx) => {
             if (filter == -1) return true;
-            else return tx.belongsTo(filter);
+            if (filter == -2) filter = 'imported';
+            return tx.belongsTo(filter);
         });
     },
     

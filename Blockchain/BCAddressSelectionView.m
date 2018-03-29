@@ -128,7 +128,7 @@ typedef enum {
                     }
                 }
                 
-                if (assetType == AssetTypeBitcoinCash && selectMode == SelectModeSendFrom) {
+                if (assetType == AssetTypeBitcoinCash && (selectMode == SelectModeSendFrom || selectMode == SelectModeFilter)) {
                     [bchAddresses addObject:BC_STRING_IMPORTED_ADDRESSES];
                     [bchAddressLabels addObject:BC_STRING_IMPORTED_ADDRESSES];
                 }
@@ -310,7 +310,9 @@ typedef enum {
                 [delegate didSelectFromAddress:legacyAddress];
             }
         } else if (indexPath.section == bchAddressesSectionNumber) {
-            [delegate didSelectFromAddress:[bchAddresses objectAtIndex:[indexPath row]]];
+            if (selectMode == SelectModeFilter) {
+                [self filterWithRow:indexPath.row assetType:AssetTypeBitcoinCash];
+            }
         }
     } else {
         if (indexPath.section == addressBookSectionNumber) {

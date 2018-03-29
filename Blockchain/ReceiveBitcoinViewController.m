@@ -396,6 +396,10 @@
 {
     self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.bottomContainerView.frame.origin.y)];
     
+    if (!(IS_USING_SCREEN_SIZE_4S) && self.assetType == AssetTypeBitcoinCash) {
+        self.headerView.center = CGPointMake(self.headerView.center.x, (self.bottomContainerView.frame.origin.y + AMOUNT_INPUT_VIEW_HEIGHT)/2);
+    }
+    
     UILabel *instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 42)];
     instructionsLabel.textAlignment = NSTextAlignmentCenter;
     instructionsLabel.textColor = COLOR_TEXT_DARK_GRAY;

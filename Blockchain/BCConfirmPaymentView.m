@@ -24,7 +24,7 @@
 @end
 @implementation BCConfirmPaymentView
 
-- (id)initWithWindow:(UIView *)window viewModel:(BCConfirmPaymentViewModel *)viewModel
+- (id)initWithWindow:(UIView *)window viewModel:(BCConfirmPaymentViewModel *)viewModel sendButtonFrame:(CGRect)sendButtonFrame
 {
     self = [super initWithFrame:CGRectMake(0, DEFAULT_HEADER_HEIGHT, window.frame.size.width, window.frame.size.height - DEFAULT_HEADER_HEIGHT)];
     
@@ -70,8 +70,6 @@
         
         self.tableView = summaryTableView;
         
-        CGFloat buttonHeight = 40;
-        CGRect buttonFrame = CGRectMake(0, app.window.frame.size.height - DEFAULT_HEADER_HEIGHT - buttonHeight, app.window.frame.size.width, buttonHeight);;
         NSString *buttonTitle;
         
         if (self.contactTransaction) {
@@ -80,8 +78,10 @@
             buttonTitle = BC_STRING_SEND;
         }
         
-        self.reallyDoPaymentButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        self.reallyDoPaymentButton.frame = buttonFrame;
+        self.reallyDoPaymentButton = [[UIButton alloc] initWithFrame:sendButtonFrame];
+        self.reallyDoPaymentButton.layer.cornerRadius = CORNER_RADIUS_BUTTON;
+        [self.reallyDoPaymentButton changeYPosition:self.bounds.size.height - 12 - sendButtonFrame.size.height];
+        
         [self.reallyDoPaymentButton setTitle:buttonTitle forState:UIControlStateNormal];
         self.reallyDoPaymentButton.backgroundColor = COLOR_BLOCKCHAIN_LIGHT_BLUE;
         self.reallyDoPaymentButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:17.0];

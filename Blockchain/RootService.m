@@ -411,6 +411,8 @@ void (^secondPasswordSuccess)(NSString *);
         [self.pinEntryViewController setupQRCode];
     }
 #endif
+    
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options

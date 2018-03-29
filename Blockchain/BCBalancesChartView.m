@@ -107,7 +107,11 @@
 
 - (void)updateBitcoinBalance:(NSString *)balance
 {
-    self.bitcoinBalance = balance;
+    if (!balance) {
+        self.bitcoinBalance = @"0";
+    } else {
+        self.bitcoinBalance = balance;
+    }
 }
 
 - (void)updateEtherBalance:(NSString *)balance
@@ -117,7 +121,11 @@
 
 - (void)updateBitcoinCashBalance:(NSString *)balance
 {
-    self.bitcoinCashBalance = balance;
+    if (!balance) {
+        self.bitcoinCashBalance = @"0";
+    } else {
+        self.bitcoinCashBalance = balance;
+    }
 }
 
 - (void)updateChart

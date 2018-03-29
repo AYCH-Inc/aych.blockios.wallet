@@ -130,28 +130,40 @@
 
 - (void)updateChart
 {
+    BOOL hasZeroBalances = !self.bitcoinFiatBalance && !self.etherFiatBalance && !self.bitcoinCashFiatBalance;
+
     ChartDataEntry *bitcoinValue = [[PieChartDataEntry alloc] initWithValue:self.bitcoinFiatBalance];
     
     ChartDataEntry *etherValue = [[PieChartDataEntry alloc] initWithValue:self.etherFiatBalance];
     
     ChartDataEntry *bitcoinCashValue = [[PieChartDataEntry alloc] initWithValue:self.bitcoinCashFiatBalance];
-    
-    PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithValues:@[bitcoinValue, etherValue, bitcoinCashValue] label:BC_STRING_BALANCES];
+
+    PieChartDataSet *dataSet;
+
+    if (hasZeroBalances) {
+        ChartDataEntry *emptyValue = [[PieChartDataEntry alloc] initWithValue:1];
+        dataSet = [[PieChartDataSet alloc] initWithValues:@[emptyValue] label:BC_STRING_BALANCES];
+        dataSet.colors = @[COLOR_EMPTY_CHART_GRAY];
+    } else {
+        dataSet = [[PieChartDataSet alloc] initWithValues:@[bitcoinValue, etherValue, bitcoinCashValue] label:BC_STRING_BALANCES];
+        dataSet.colors = @[COLOR_BLOCKCHAIN_BLUE, COLOR_BLOCKCHAIN_LIGHT_BLUE, COLOR_BLOCKCHAIN_LIGHTER_BLUE];
+    }
+
     dataSet.drawValuesEnabled = NO;
-    
-    dataSet.colors = @[COLOR_BLOCKCHAIN_BLUE, COLOR_BLOCKCHAIN_LIGHT_BLUE, COLOR_BLOCKCHAIN_LIGHTER_BLUE];
     
     PieChartData *data = [[PieChartData alloc] initWithDataSet:dataSet];
     [data setValueTextColor:UIColor.whiteColor];
     self.chartView.data = data;
-    [self.chartView animateWithYAxisDuration:1.0];
-    
+    if (!hasZeroBalances) {
+        [self.chartView animateWithYAxisDuration:1.0];
+    }
+
     [self.bitcoinLegendKey changeBalance:[self.bitcoinBalance stringByAppendingFormat:@" %@", CURRENCY_SYMBOL_BTC]];
     [self.bitcoinLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSString stringWithFormat:@"%.2f", self.bitcoinFiatBalance]]];
-    
+
     [self.etherLegendKey changeBalance:[self.etherBalance stringByAppendingFormat:@" %@", CURRENCY_SYMBOL_ETH]];
     [self.etherLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSString stringWithFormat:@"%.2f", self.etherFiatBalance]]];
-    
+
     [self.bitcoinCashLegendKey changeBalance:[self.bitcoinCashBalance stringByAppendingFormat:@" %@", CURRENCY_SYMBOL_BCH]];
     [self.bitcoinCashLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSString stringWithFormat:@"%.2f", self.bitcoinCashFiatBalance]]];
 }

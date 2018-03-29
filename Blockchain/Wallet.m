@@ -2060,7 +2060,7 @@
     if (assetType == AssetTypeBitcoin) {
         [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.changePaymentFrom(\"%@\", %d)", [address escapeStringForJS], isAdvanced]];
     } else if (assetType == AssetTypeBitcoinCash) {
-        
+        [self.context evaluateScript:@"MyWalletPhone.bch.changePaymentFromImportedAddresses()"];
     }
 }
 
@@ -2073,7 +2073,7 @@
     if (assetType == AssetTypeBitcoin) {
         [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.changePaymentFrom(%d, %d)", fromInt, isAdvanced]];
     } else if (assetType == AssetTypeBitcoinCash) {
-        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.changePaymentFrom(\"%d\")", fromInt]];
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.changePaymentFromAccount(\"%d\")", fromInt]];
     }
 }
 

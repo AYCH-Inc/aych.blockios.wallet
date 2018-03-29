@@ -30,8 +30,7 @@ const int profileWebLogin = 3;
 
 const int sectionPreferences = 1;
 const int preferencesEmailNotifications = 0;
-const int preferencesPushNotifications = 1;
-const int preferencesLocalCurrency = 2;
+const int preferencesLocalCurrency = 1;
 
 const int sectionSecurity = 2;
 const int securityTwoStep = 0;
@@ -604,12 +603,6 @@ const int aboutPrivacyPolicy = 2;
     return [app.wallet emailNotificationsEnabled];
 }
 
-- (BOOL)pushNotificationsEnabled
-{
-    BOOL isEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_ENABLE_PUSH_NOTIFICATIONS];
-    return isEnabled;
-}
-
 - (void)toggleEmailNotifications
 {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:preferencesEmailNotifications inSection:sectionPreferences];
@@ -655,8 +648,6 @@ const int aboutPrivacyPolicy = 2;
     [navigationController.busyView fadeIn];
 
     UITableViewCell *changeEmailNotificationsCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:preferencesEmailNotifications inSection:sectionPreferences]];
-    UITableViewCell *changePushNotificationsCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:preferencesPushNotifications inSection:sectionPreferences]];
-    changePushNotificationsCell.userInteractionEnabled = YES;
     changeEmailNotificationsCell.userInteractionEnabled = YES;
 }
 
@@ -668,16 +659,6 @@ const int aboutPrivacyPolicy = 2;
     UITableViewCell *changeEmailNotificationsCell = [self.tableView cellForRowAtIndexPath:indexPath];
     changeEmailNotificationsCell.userInteractionEnabled = YES;
 
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
-- (void)togglePushNotifications
-{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL isEnabled = [userDefaults boolForKey:USER_DEFAULTS_KEY_ENABLE_PUSH_NOTIFICATIONS];
-    [[NSUserDefaults standardUserDefaults] setBool:!isEnabled forKey:USER_DEFAULTS_KEY_ENABLE_PUSH_NOTIFICATIONS];
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:preferencesPushNotifications inSection:sectionPreferences];
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
@@ -1229,15 +1210,6 @@ const int aboutPrivacyPolicy = 2;
                     switchForEmailNotifications.on = [self emailNotificationsEnabled];
                     [switchForEmailNotifications addTarget:self action:@selector(toggleEmailNotifications) forControlEvents:UIControlEventTouchUpInside];
                     cell.accessoryView = switchForEmailNotifications;
-                    return cell;
-                }
-                case preferencesPushNotifications: {
-                    cell.textLabel.text = BC_STRING_SETTINGS_PUSH_NOTIFICATIONS;
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    UISwitch *switchForPushNotifications = [[UISwitch alloc] init];
-                    switchForPushNotifications.on = [self pushNotificationsEnabled];
-                    [switchForPushNotifications addTarget:self action:@selector(togglePushNotifications) forControlEvents:UIControlEventTouchUpInside];
-                    cell.accessoryView = switchForPushNotifications;
                     return cell;
                 }
                 case preferencesLocalCurrency: {

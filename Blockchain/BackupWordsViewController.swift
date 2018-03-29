@@ -49,8 +49,8 @@ class BackupWordsViewController: UIViewController, SecondPasswordDelegate, UIScr
 
         wordLabels = [UILabel]()
         wordLabels.insert(wordLabel, at: 0)
-        for i in 1 ..< Constants.Defaults.NumberOfRecoveryPhraseWords {
-            let offset: CGFloat = CGFloat(i) * wordLabel.frame.width
+        for idx in 1 ..< Constants.Defaults.NumberOfRecoveryPhraseWords {
+            let offset: CGFloat = CGFloat(idx) * wordLabel.frame.width
             let posX = wordLabel.frame.origin.x + offset
             let posY = wordLabel.frame.origin.y
             let labelWidth = wordLabel.frame.size.width
@@ -187,8 +187,8 @@ class BackupWordsViewController: UIViewController, SecondPasswordDelegate, UIScr
     // swiftlint:disable block_based_kvo
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         let words = wallet!.recoveryPhrase.components(separatedBy: " ")
-        for i in 0 ..< Constants.Defaults.NumberOfRecoveryPhraseWords {
-            wordLabels[i].text = words[i]
+        for idx in 0 ..< Constants.Defaults.NumberOfRecoveryPhraseWords {
+            wordLabels[idx].text = words[idx]
         }
     }
 

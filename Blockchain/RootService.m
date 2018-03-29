@@ -228,7 +228,7 @@ void (^secondPasswordSuccess)(NSString *);
     
     [self showWelcomeOrPinScreen];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_ENABLE_PUSH_NOTIFICATIONS]) [self requestAuthorizationForPushNotifications];
+    [self requestAuthorizationForPushNotifications];
     
     app.mainTitleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_TOP_BAR_TEXT];
     
@@ -1035,7 +1035,7 @@ void (^secondPasswordSuccess)(NSString *);
     // Enabling touch ID and immediately backgrounding the app hides the status bar
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_ENABLE_PUSH_NOTIFICATIONS]) [self registerDeviceForPushNotifications];
+    [self registerDeviceForPushNotifications];
 
     if (showType == ShowTypeSendCoins) {
         [self showSendCoins];

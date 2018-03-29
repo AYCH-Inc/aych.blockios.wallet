@@ -832,7 +832,7 @@ BOOL displayingLocalSymbolSend;
                                                       surge:surgePresent];
         }
         
-        self.confirmPaymentView = [[BCConfirmPaymentView alloc] initWithWindow:app.window viewModel:confirmPaymentViewModel];
+        self.confirmPaymentView = [[BCConfirmPaymentView alloc] initWithWindow:app.window viewModel:confirmPaymentViewModel sendButtonFrame:continuePaymentButton.frame];
         
         self.confirmPaymentView.confirmDelegate = self;
         

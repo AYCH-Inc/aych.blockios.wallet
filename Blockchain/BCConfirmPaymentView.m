@@ -90,6 +90,20 @@
         
         [self addSubview:self.reallyDoPaymentButton];
         
+        if (viewModel.warningText) {
+            UITextView *warning = [[UITextView alloc] initWithFrame:self.reallyDoPaymentButton.frame];
+            warning.textContainerInset = UIEdgeInsetsMake(8, 8, 8, 8);
+            warning.editable = NO;
+            warning.scrollEnabled = NO;
+            warning.selectable = NO;
+            warning.backgroundColor = COLOR_BLOCKCHAIN_YELLOW;
+            [self addSubview:warning];
+            warning.attributedText = viewModel.warningText;
+            CGSize fittedSize = [warning sizeThatFits:CGSizeMake(self.reallyDoPaymentButton.frame.size.width + warning.textContainerInset.right, CGFLOAT_MAX)];
+            [warning changeWidth:self.reallyDoPaymentButton.frame.size.width];
+            [warning changeHeight:fittedSize.height];
+            [warning changeYPosition:self.reallyDoPaymentButton.frame.origin.y - warning.frame.size.height - 12];
+        }
     }
     return self;
 }

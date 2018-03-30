@@ -3107,6 +3107,12 @@ MyWalletPhone.bch = {
     }
 };
 
+MyWalletPhone.loadMetadata = function() {
+    MyWallet.wallet.loadMetadata().then(function() {
+        objc_reload();
+    });
+}
+
 MyWalletPhone.getHistoryForAllAssets = function() {
     var getBitcoinHistory = MyWallet.wallet.getHistory();
     var getEtherHistory = MyWallet.wallet.eth.fetchHistory();

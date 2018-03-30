@@ -3642,6 +3642,7 @@
 {
     DLog(@"on_add_private_key");
     self.isSyncing = YES;
+    self.shouldLoadMetadata = YES;
     
     if (![self isWatchOnlyLegacyAddress:address]) {
         [self subscribeToAddress:address assetType:AssetTypeBitcoin];
@@ -3670,6 +3671,7 @@
 {
     DLog(@"on_add_private_key_to_legacy_address:");
     self.isSyncing = YES;
+    self.shouldLoadMetadata = YES;
     
     [self subscribeToAddress:address assetType:AssetTypeBitcoin];
     

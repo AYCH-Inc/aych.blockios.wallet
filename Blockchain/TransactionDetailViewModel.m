@@ -99,6 +99,9 @@
 - (id)initWithBitcoinCashTransaction:(Transaction *)transaction
 {
     TransactionDetailViewModel *model = [self initWithTransaction:transaction];
+    if ([app.wallet isValidAddress:model.fromString assetType:AssetTypeBitcoinCash]) {
+        model.fromString = [app.wallet toBitcoinCash:model.fromString includePrefix:NO];
+    }
     NSString *convertedAddress = [app.wallet toBitcoinCash:model.toString includePrefix:NO];
     model.toString = convertedAddress ? : model.toString;
     model.assetType = AssetTypeBitcoinCash;

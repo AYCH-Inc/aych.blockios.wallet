@@ -327,7 +327,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [allKeys count] > 0 ? 2 : 1;
+    if (self.assetType == AssetTypeBitcoin) {
+        return 2;
+    } else {
+        return [app.wallet hasLegacyAddresses:self.assetType] ? 2 : 1;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

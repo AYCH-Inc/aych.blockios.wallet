@@ -83,6 +83,11 @@
     [self reload];
 }
 
+- (void)getAssetButtonClicked
+{
+    [app.tabControllerManager receiveCoinClicked:nil];
+}
+
 - (void)reload
 {
     [self loadTransactions];

@@ -18,14 +18,15 @@
         NSString *assetImageViewName;
         if (assetType == AssetTypeBitcoin) {
             suffix = BC_STRING_BITCOIN;
-            assetImageViewName = @"bitcoin";
+            assetImageViewName = @"bitcoin_large";
         } else if (assetType == AssetTypeEther) {
             suffix = BC_STRING_ETHER;
-            assetImageViewName = @"ether";
+            assetImageViewName = @"ether_large";
         } else if (assetType == AssetTypeBitcoinCash) {
             suffix = BC_STRING_BITCOIN_CASH;
-            assetImageViewName = @"bitcoin_cash";
+            assetImageViewName = @"bitcoin_cash_large";
         }
+        self.assetImageViewName = assetImageViewName;
         self.action = [[[BC_STRING_REQUEST stringByAppendingString:@" "] stringByAppendingString:suffix] uppercaseString];
     }
     return self;

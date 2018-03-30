@@ -317,7 +317,7 @@ typedef enum {
 - (void)setDefaultAccount:(int)index assetType:(AssetType)assetType;
 - (int)getActiveAccountsCount:(AssetType)assetType;
 - (int)getAllAccountsCount:(AssetType)assetType;
-- (BOOL)hasLegacyAddresses;
+- (BOOL)hasLegacyAddresses:(AssetType)assetType;
 - (BOOL)isAccountArchived:(int)account assetType:(AssetType)assetType;
 - (BOOL)isAccountNameValid:(NSString *)name;
 

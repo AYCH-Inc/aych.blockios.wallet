@@ -2981,6 +2981,14 @@ MyWalletPhone.bch = {
         return MyWallet.wallet.bch.accounts[index].balance;
     },
     
+    hasLegacyAddresses : function() {
+        if (MyWallet.wallet.bch.importedAddresses) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    
     getBalanceForAddress : function(address) {
         return MyWallet.wallet.bch.getAddressBalance(Helpers.fromBitcoinCash('bitcoincash:' + address));
     },

@@ -163,6 +163,9 @@
         [self.sendBitcoinViewController reload];
     } else if (self.assetType == AssetTypeEther) {
         self.sendEtherViewController.addressToSet = address;
+    } else if (self.assetType == AssetTypeBitcoinCash) {
+        self.sendBitcoinCashViewController.addressFromURLHandler = address;
+        [self.sendBitcoinCashViewController reload];
     }
 }
 

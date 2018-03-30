@@ -1855,7 +1855,7 @@
     if (assetType == AssetTypeBitcoin) {
         return [[self.context evaluateScript:[NSString stringWithFormat:@"Helpers.isBitcoinAddress(\"%@\");", [string escapeStringForJS]]] toBool];
     } else if (assetType == AssetTypeBitcoinCash) {
-        return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.isValidAddress(\"%@\")", [string escapeStringForJS]]] toBool];
+        return [[self.context evaluateScript:[NSString stringWithFormat:@"Helpers.isBitcoinAddress(\"%@\");", [string escapeStringForJS]]] toBool] || [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.isValidAddress(\"%@\")", [string escapeStringForJS]]] toBool];
     } else if (assetType == AssetTypeEther) {
         return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.isEthAddress(\"%@\")", string]] toBool];
     }
@@ -2060,7 +2060,7 @@
     if (assetType == AssetTypeBitcoin) {
         [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.changePaymentFrom(\"%@\", %d)", [address escapeStringForJS], isAdvanced]];
     } else if (assetType == AssetTypeBitcoinCash) {
-        
+        [self.context evaluateScript:@"MyWalletPhone.bch.changePaymentFromImportedAddresses()"];
     }
 }
 
@@ -2073,7 +2073,7 @@
     if (assetType == AssetTypeBitcoin) {
         [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.changePaymentFrom(%d, %d)", fromInt, isAdvanced]];
     } else if (assetType == AssetTypeBitcoinCash) {
-        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.changePaymentFrom(\"%d\")", fromInt]];
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.changePaymentFromAccount(\"%d\")", fromInt]];
     }
 }
 
@@ -2319,24 +2319,6 @@
     [self.context evaluateScript:@"MyWalletPhone.disableEmailNotifications()"];
 }
 
-- (void)enableSMSNotifications
-{
-    if (![self isInitialized]) {
-        return;
-    }
-    
-    [self.context evaluateScript:@"MyWalletPhone.enableSMSNotifications()"];
-}
-
-- (void)disableSMSNotifications
-{
-    if (![self isInitialized]) {
-        return;
-    }
-    
-    [self.context evaluateScript:@"MyWalletPhone.disableSMSNotifications()"];
-}
-
 - (void)updateServerURL:(NSString *)newURL
 {
     [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.updateServerURL(\"%@\")", [newURL escapeStringForJS]]];
@@ -2430,15 +2412,6 @@
     }
     
     return [[self.context evaluateScript:@"MyWalletPhone.emailNotificationsEnabled()"] toBool];
-}
-
-- (BOOL)SMSNotificationsEnabled
-{
-    if (![self isInitialized]) {
-        return NO;
-    }
-    
-    return [[self.context evaluateScript:@"MyWalletPhone.SMSNotificationsEnabled()"] toBool];
 }
 
 - (void)saveNote:(NSString *)note forTransaction:(NSString *)hash

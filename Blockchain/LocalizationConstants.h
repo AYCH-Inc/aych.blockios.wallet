@@ -891,4 +891,7 @@
 #define BC_STRING_BUY_SELL_CARD_DESCRIPTION NSLocalizedString(@"Buy and sell bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab.", nil)
 #define BC_STRING_BUY_SELL_CARD_ACTION_TITLE BC_STRING_GET_STARTED
 
+#define BC_STRING_BITCOIN_CASH_WARNING_CONFIRM_VALID_ADDRESS_ONE NSLocalizedString(@"Are you sure this is a bitcoin cash address?", nil)
+#define BC_STRING_BITCOIN_CASH_WARNING_CONFIRM_VALID_ADDRESS_TWO NSLocalizedString(@"Sending funds to a bitcoin address by accident will result in loss of funds.", nil)
+
 #define BC_STRING_COPY_WARNING_TEXT NSLocalizedString(@"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information.", nil)

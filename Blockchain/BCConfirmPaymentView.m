@@ -24,7 +24,7 @@
 @end
 @implementation BCConfirmPaymentView
 
-- (id)initWithWindow:(UIView *)window viewModel:(BCConfirmPaymentViewModel *)viewModel
+- (id)initWithWindow:(UIView *)window viewModel:(BCConfirmPaymentViewModel *)viewModel sendButtonFrame:(CGRect)sendButtonFrame
 {
     self = [super initWithFrame:CGRectMake(0, DEFAULT_HEADER_HEIGHT, window.frame.size.width, window.frame.size.height - DEFAULT_HEADER_HEIGHT)];
     
@@ -70,8 +70,6 @@
         
         self.tableView = summaryTableView;
         
-        CGFloat buttonHeight = 40;
-        CGRect buttonFrame = CGRectMake(0, app.window.frame.size.height - DEFAULT_HEADER_HEIGHT - buttonHeight, app.window.frame.size.width, buttonHeight);;
         NSString *buttonTitle;
         
         if (self.contactTransaction) {
@@ -80,8 +78,10 @@
             buttonTitle = BC_STRING_SEND;
         }
         
-        self.reallyDoPaymentButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        self.reallyDoPaymentButton.frame = buttonFrame;
+        self.reallyDoPaymentButton = [[UIButton alloc] initWithFrame:sendButtonFrame];
+        self.reallyDoPaymentButton.layer.cornerRadius = CORNER_RADIUS_BUTTON;
+        [self.reallyDoPaymentButton changeYPosition:self.bounds.size.height - 12 - sendButtonFrame.size.height];
+        
         [self.reallyDoPaymentButton setTitle:buttonTitle forState:UIControlStateNormal];
         self.reallyDoPaymentButton.backgroundColor = COLOR_BLOCKCHAIN_LIGHT_BLUE;
         self.reallyDoPaymentButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:17.0];
@@ -90,6 +90,20 @@
         
         [self addSubview:self.reallyDoPaymentButton];
         
+        if (viewModel.warningText) {
+            UITextView *warning = [[UITextView alloc] initWithFrame:self.reallyDoPaymentButton.frame];
+            warning.textContainerInset = UIEdgeInsetsMake(8, 8, 8, 8);
+            warning.editable = NO;
+            warning.scrollEnabled = NO;
+            warning.selectable = NO;
+            warning.backgroundColor = COLOR_BLOCKCHAIN_YELLOW;
+            [self addSubview:warning];
+            warning.attributedText = viewModel.warningText;
+            CGSize fittedSize = [warning sizeThatFits:CGSizeMake(self.reallyDoPaymentButton.frame.size.width + warning.textContainerInset.right, CGFLOAT_MAX)];
+            [warning changeWidth:self.reallyDoPaymentButton.frame.size.width];
+            [warning changeHeight:fittedSize.height];
+            [warning changeYPosition:self.reallyDoPaymentButton.frame.origin.y - warning.frame.size.height - 12];
+        }
     }
     return self;
 }

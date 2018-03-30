@@ -128,11 +128,9 @@ typedef enum {
                     }
                 }
                 
-                if (assetType == AssetTypeBitcoinCash && selectMode == SelectModeSendFrom) {
-                    for (NSString * addr in [_wallet activeLegacyAddresses:assetType]) {
-                        [bchAddresses addObject:addr];
-                        [bchAddressLabels addObject:[_wallet labelForLegacyAddress:addr assetType:assetType]];
-                    }
+                if (assetType == AssetTypeBitcoinCash && (selectMode == SelectModeSendFrom || selectMode == SelectModeFilter)) {
+                    [bchAddresses addObject:BC_STRING_IMPORTED_ADDRESSES];
+                    [bchAddressLabels addObject:BC_STRING_IMPORTED_ADDRESSES];
                 }
             }
             
@@ -312,7 +310,9 @@ typedef enum {
                 [delegate didSelectFromAddress:legacyAddress];
             }
         } else if (indexPath.section == bchAddressesSectionNumber) {
-            [delegate didSelectFromAddress:[bchAddresses objectAtIndex:[indexPath row]]];
+            if (selectMode == SelectModeFilter) {
+                [self filterWithRow:indexPath.row assetType:AssetTypeBitcoinCash];
+            }
         }
     } else {
         if (indexPath.section == addressBookSectionNumber) {
@@ -542,7 +542,7 @@ typedef enum {
             cell.addressLabel.text = [legacyAddresses objectAtIndex:row];
         } else if (section == bchAddressesSectionNumber) {
             label = [bchAddressLabels objectAtIndex:row];
-            cell.addressLabel.text = [bchAddresses objectAtIndex:row];
+            cell.addressLabel.text = nil;
         }
         else if (section == contactsSectionNumber) {
             Contact *contact = [contacts objectAtIndex:row];
@@ -619,7 +619,7 @@ typedef enum {
                         bchBalance = [[app.wallet getBalanceForAccount:[app.wallet getIndexOfActiveAccount:[[bchAccounts objectAtIndex:indexPath.row] intValue] assetType:AssetTypeBitcoinCash] assetType:AssetTypeBitcoinCash] longLongValue];
                     }
                 } else if (section == bchAddressesSectionNumber) {
-                    bchBalance = [[app.wallet getLegacyAddressBalance:[bchAddresses objectAtIndex:row] assetType:AssetTypeBitcoinCash] longLongValue];
+                    bchBalance = [app.wallet getTotalBalanceForActiveLegacyAddresses:AssetTypeBitcoinCash];
                 }
                 zeroBalance = bchBalance == 0;
                 cell.balanceLabel.text = [NSNumberFormatter formatBchWithSymbol:bchBalance];

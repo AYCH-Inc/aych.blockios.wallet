@@ -1731,24 +1731,12 @@ MyWalletPhone.emailNotificationsEnabled = function() {
     return MyWallet.wallet.accountInfo.notifications.email;
 }
 
-MyWalletPhone.SMSNotificationsEnabled = function() {
-    return MyWallet.wallet.accountInfo.notifications.sms;
-}
-
 MyWalletPhone.enableEmailNotifications = function() {
     MyWalletPhone.updateNotification({email: 'enable'});
 }
 
 MyWalletPhone.disableEmailNotifications = function() {
     MyWalletPhone.updateNotification({email: 'disable'});
-}
-
-MyWalletPhone.enableSMSNotifications = function() {
-    MyWalletPhone.updateNotification({sms: 'enable'});
-}
-
-MyWalletPhone.disableSMSNotifications = function() {
-    MyWalletPhone.updateNotification({sms: 'disable'});
 }
 
 MyWalletPhone.updateNotification = function(updates) {
@@ -3004,7 +2992,8 @@ MyWalletPhone.bch = {
     transactions : function(filter) {
         return MyWallet.wallet.bch.txs.filter((tx) => {
             if (filter == -1) return true;
-            else return tx.belongsTo(filter);
+            if (filter == -2) filter = 'imported';
+            return tx.belongsTo(filter);
         });
     },
     
@@ -3017,13 +3006,29 @@ MyWalletPhone.bch = {
     
     // Payment
     
-    changePaymentFrom : function(from) {
-        console.log('Changing bch payment from');
+    changePaymentFromAccount : function(from) {
+        console.log('Changing bch payment from account');
         var bchAccount = MyWallet.wallet.bch.accounts[from];
         currentBitcoinCashPayment = bchAccount.createPayment();
         
         var options = walletOptions.getValue();
         bchAccount.getAvailableBalance(options.bcash.feePerByte).then(function(balance) {
+            var fee = balance.sweepFee;
+            var maxAvailable = balance.amount;
+            objc_update_total_available_final_fee(maxAvailable, fee);
+        }).catch(function(e) {
+            console.log(e);
+            objc_update_total_available_final_fee(0, 0);
+        });
+    },
+    
+    changePaymentFromImportedAddresses : function() {
+        console.log('Changing bch payment from address');
+        var importedAddresses = MyWallet.wallet.bch.importedAddresses;
+        currentBitcoinCashPayment = importedAddresses.createPayment();
+        
+        var options = walletOptions.getValue();
+        importedAddresses.getAvailableBalance(options.bcash.feePerByte).then(function(balance) {
             var fee = balance.sweepFee;
             var maxAvailable = balance.amount;
             objc_update_total_available_final_fee(maxAvailable, fee);

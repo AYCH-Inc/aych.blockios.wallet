@@ -301,12 +301,12 @@
 
 - (NSString *)getBtcPrice
 {
-    return [NSNumberFormatter formatMoney:SATOSHI localCurrency:YES];
+    return app.wallet.isInitialized ? [NSNumberFormatter formatMoney:SATOSHI localCurrency:YES] : nil;
 }
 
 - (NSString *)getBchPrice
 {
-    return [NSNumberFormatter formatBchWithSymbol:SATOSHI localCurrency:YES];
+    return app.wallet.isInitialized ? [NSNumberFormatter formatBchWithSymbol:SATOSHI localCurrency:YES] : nil;
 }
 
 - (NSString *)getEthPrice

@@ -314,6 +314,8 @@ typedef enum {
         } else if (indexPath.section == bchAddressesSectionNumber) {
             if (selectMode == SelectModeFilter) {
                 [self filterWithRow:indexPath.row assetType:AssetTypeBitcoinCash];
+            } else {
+                [delegate didSelectFromAddress:BC_STRING_IMPORTED_ADDRESSES];
             }
         }
     } else {

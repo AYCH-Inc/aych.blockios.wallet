@@ -1418,7 +1418,7 @@ BOOL displayingLocalSymbolSend;
 - (BOOL)canChangeFromAddress
 {
     if (self.assetType == AssetTypeBitcoin) {
-        return !([app.wallet hasAccount] && ![app.wallet hasLegacyAddresses] && [app.wallet getActiveAccountsCount:self.assetType] == 1);
+        return !([app.wallet hasAccount] && ![app.wallet hasLegacyAddresses:self.assetType] && [app.wallet getActiveAccountsCount:self.assetType] == 1);
     } else if (self.assetType == AssetTypeBitcoinCash) {
         
     }

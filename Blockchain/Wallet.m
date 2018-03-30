@@ -4903,13 +4903,18 @@
     }
 }
 
-- (BOOL)hasLegacyAddresses
+- (BOOL)hasLegacyAddresses:(AssetType)assetType
 {
     if (![self isInitialized]) {
         return NO;
     }
     
-    return [[self.context evaluateScript:@"MyWallet.wallet.addresses.length > 0"] toBool];
+    if (assetType == AssetTypeBitcoin) {
+        return [[self.context evaluateScript:@"MyWallet.wallet.addresses.length > 0"] toBool];
+    } else if (assetType == AssetTypeBitcoinCash) {
+        return [[self.context evaluateScript:@"MyWalletPhone.bch.hasLegacyAddresses()"] toBool];
+    }
+    return NO;
 }
 
 - (uint64_t)getTotalActiveBalance

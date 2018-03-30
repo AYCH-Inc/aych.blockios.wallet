@@ -129,8 +129,10 @@ typedef enum {
                 }
                 
                 if (assetType == AssetTypeBitcoinCash && (selectMode == SelectModeSendFrom || selectMode == SelectModeFilter)) {
-                    [bchAddresses addObject:BC_STRING_IMPORTED_ADDRESSES];
-                    [bchAddressLabels addObject:BC_STRING_IMPORTED_ADDRESSES];
+                    if ([_wallet hasLegacyAddresses:AssetTypeBitcoinCash]) {
+                        [bchAddresses addObject:BC_STRING_IMPORTED_ADDRESSES];
+                        [bchAddressLabels addObject:BC_STRING_IMPORTED_ADDRESSES];
+                    }
                 }
             }
             

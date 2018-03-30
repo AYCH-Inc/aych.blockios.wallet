@@ -97,5 +97,8 @@ module.exports = (grunt) ->
     "shell:svg:chevron_right_white:30:30"
     "shell:svg:bitcoin_cash:36"
     "shell:svg:ether:36"
+    "shell:svg:bitcoin_large:80"
+    "shell:svg:ether_large:80"
+    "shell:svg:bitcoin_cash_large:80"
     "shell:svg:buy_available:110:110"
   ]

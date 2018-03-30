@@ -39,7 +39,8 @@
 {
     CGFloat yOffset = IS_USING_SCREEN_SIZE_4S ? 70 : ASSET_IMAGE_VIEW_Y_OFFSET;
     UIImageView *assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, yOffset, ASSET_IMAGE_VIEW_HEIGHT, ASSET_IMAGE_VIEW_HEIGHT)];
-    assetImageView.image = [UIImage imageNamed:@"bitcoin"];
+    assetImageView.image = [[UIImage imageNamed:self.viewModel.assetImageViewName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    assetImageView.tintColor = COLOR_DARK_GRAY;
     assetImageView.center = CGPointMake(self.bounds.size.width/2, assetImageView.frame.origin.y);
     [self addSubview:assetImageView];
     

@@ -158,6 +158,11 @@
     }
 }
 
+- (void)getAssetButtonClicked
+{
+    [app.tabControllerManager receiveCoinClicked:nil];
+}
+
 #pragma mark - Table View Data Source
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -172,6 +172,8 @@
 @property(nonatomic) NSDictionary *accountInfo;
 @property(nonatomic) BOOL hasLoadedAccountInfo;
 
+@property(nonatomic) BOOL shouldLoadMetadata;
+
 @property(nonatomic) NSString *lastScannedWatchOnlyAddress;
 @property(nonatomic) NSString *lastImportedAddress;
 @property(nonatomic) BOOL didReceiveMessageForLastTransaction;

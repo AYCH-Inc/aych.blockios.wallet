@@ -1818,7 +1818,7 @@
         }
         return address;
     } else if (assetType == AssetTypeBitcoinCash) {
-        return address;
+        return BC_STRING_IMPORTED_ADDRESSES;
     }
     return nil;
 }

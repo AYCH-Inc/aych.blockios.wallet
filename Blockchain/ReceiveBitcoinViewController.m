@@ -645,7 +645,10 @@
 
 - (NSString*)formatPaymentRequestWithAmount:(NSString *)amount url:(NSString*)url
 {
-    return [NSString stringWithFormat:BC_STRING_PAYMENT_REQUEST_BITCOIN_ARGUMENT_ARGUMENT, amount, url];
+    if (self.assetType == AssetTypeBitcoin) {
+        return [NSString stringWithFormat:BC_STRING_PAYMENT_REQUEST_BITCOIN_ARGUMENT_ARGUMENT, amount, url];
+    }
+    return [NSString stringWithFormat:BC_STRING_PAYMENT_REQUEST_BITCOIN_CASH_ARGUMENT, url];
 }
 
 - (NSString*)formatPaymentRequestHTML:(NSString*)url

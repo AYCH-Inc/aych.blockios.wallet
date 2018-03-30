@@ -2499,7 +2499,7 @@
 
 - (BOOL)canUseSfox
 {
-    return [[self.context evaluateScript:@"MyWalletPhone.canUseSfox()"] toBool];
+    return YES;
 }
 
 - (void)setupBuySellWebview

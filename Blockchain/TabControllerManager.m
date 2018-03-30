@@ -50,11 +50,13 @@
 {
     [_sendBitcoinViewController reload];
     [_sendEtherViewController reload];
+    [_sendBitcoinCashViewController reload];
     [_transactionsBitcoinViewController reload];
     [_transactionsEtherViewController reload];
     [_transactionsBitcoinCashViewController reload];
     [_receiveBitcoinViewController reload];
     [_receiveEtherViewController reload];
+    [_receiveBitcoinCashViewController reload];
 }
 
 - (void)reloadAfterMultiAddressResponse

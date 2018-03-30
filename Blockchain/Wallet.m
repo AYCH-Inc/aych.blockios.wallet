@@ -1391,6 +1391,13 @@
     return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getPasswordStrength(\"%@\")", [passwordString escapeStringForJS]]] toDouble];
 }
 
+- (void)loadMetadata
+{
+    if ([self isInitialized]) {
+        [self.context evaluateScript:@"MyWalletPhone.loadMetadata()"];
+    }
+}
+
 - (void)getHistoryForAllAssets
 {
     if ([self isInitialized])
@@ -3635,6 +3642,7 @@
 {
     DLog(@"on_add_private_key");
     self.isSyncing = YES;
+    self.shouldLoadMetadata = YES;
     
     if (![self isWatchOnlyLegacyAddress:address]) {
         [self subscribeToAddress:address assetType:AssetTypeBitcoin];
@@ -3663,6 +3671,7 @@
 {
     DLog(@"on_add_private_key_to_legacy_address:");
     self.isSyncing = YES;
+    self.shouldLoadMetadata = YES;
     
     [self subscribeToAddress:address assetType:AssetTypeBitcoin];
     
@@ -3813,6 +3822,11 @@
         } else {
             DLog(@"Error: delegate of class %@ does not respond to selector didSetDefaultAccount!", [delegate class]);
         }
+    }
+    
+    if (self.shouldLoadMetadata) {
+        self.shouldLoadMetadata = NO;
+        [self loadMetadata];
     }
 }
 
@@ -5017,6 +5031,7 @@
         [self loading_start_create_account];
         
         self.isSyncing = YES;
+        self.shouldLoadMetadata = YES;
         
         // Wait a little bit to make sure the loading text is showing - then execute the blocking and kind of long create account
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ANIMATION_DURATION * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

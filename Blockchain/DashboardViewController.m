@@ -46,7 +46,7 @@
     [super viewDidLoad];
     
     // This contentView can be any custom view - intended to be placed at the top of the scroll view, moved down when the cards view is present, and moved back up when the cards view is dismissed
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1000)];
+    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
     self.contentView.clipsToBounds = YES;
     self.contentView.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = COLOR_BACKGROUND_LIGHT_GRAY;
@@ -55,6 +55,15 @@
     [self setupPieChart];
     
     [self setupPriceCharts];
+
+    CGFloat balancesChartHeight = _balancesChartView.frame.size.height;
+    CGFloat titleLabelHeight = 2 * (40 + 16);
+    CGFloat pricePreviewHeight = 3 * 140;
+    CGFloat privePreviewSpacing = 3 * 16;
+    CGFloat bottomPadding = 8;
+    CGFloat contentHeight = balancesChartHeight + titleLabelHeight + pricePreviewHeight + privePreviewSpacing + bottomPadding;
+    CGRect contentViewFrame = CGRectMake(0, 0, self.view.frame.size.width, contentHeight);
+    self.contentView.frame = contentViewFrame;
 }
 
 - (void)setAssetType:(AssetType)assetType

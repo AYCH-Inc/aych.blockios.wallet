@@ -276,6 +276,7 @@ typedef enum {
 - (void)getHistory;
 - (void)getHistoryWithoutBusyView;
 - (void)getHistoryIfNoTransactionMessage;
+- (void)getBitcoinCashHistoryIfNoTransactionMessage;
 - (void)getWalletAndHistory;
 
 - (id)getLegacyAddressBalance:(NSString *)address assetType:(AssetType)assetType;

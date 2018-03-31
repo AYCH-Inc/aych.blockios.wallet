@@ -645,7 +645,10 @@
 
 - (NSString*)formatPaymentRequestWithAmount:(NSString *)amount url:(NSString*)url
 {
-    return [NSString stringWithFormat:BC_STRING_PAYMENT_REQUEST_BITCOIN_ARGUMENT_ARGUMENT, amount, url];
+    if (self.assetType == AssetTypeBitcoin) {
+        return [NSString stringWithFormat:BC_STRING_PAYMENT_REQUEST_BITCOIN_ARGUMENT_ARGUMENT, amount, url];
+    }
+    return [NSString stringWithFormat:BC_STRING_PAYMENT_REQUEST_BITCOIN_CASH_ARGUMENT, url];
 }
 
 - (NSString*)formatPaymentRequestHTML:(NSString*)url
@@ -906,8 +909,8 @@
     
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
     
-    activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePostToFacebook];
-    
+    activityViewController.excludedActivityTypes = @[UIActivityTypeAddToReadingList, UIActivityTypeAssignToContact, UIActivityTypeOpenInIBooks, UIActivityTypePostToFacebook, UIActivityTypePostToFlickr, UIActivityTypePostToVimeo];
+
     [activityViewController setValue:BC_STRING_PAYMENT_REQUEST_BITCOIN_SUBJECT forKey:@"subject"];
     
     [self.amountInputView.btcField resignFirstResponder];

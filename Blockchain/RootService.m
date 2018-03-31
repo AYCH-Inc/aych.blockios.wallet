@@ -1033,7 +1033,8 @@ void (^secondPasswordSuccess)(NSString *);
     }
     
     [self.tabControllerManager.sendBitcoinViewController reload];
-    
+    [self.tabControllerManager.sendBitcoinCashViewController reload];
+
     // Enabling touch ID and immediately backgrounding the app hides the status bar
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
     

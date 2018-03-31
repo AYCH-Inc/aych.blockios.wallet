@@ -1,3 +1,4 @@
+
 //
 //  Wallet.m
 //  Blockchain
@@ -924,8 +925,8 @@
         [app standardNotify:[error toString]];
     };
     
-    self.context[@"objc_did_get_bitcoin_cash_exchange_rates"] = ^(JSValue *result) {
-        [weakSelf did_get_bitcoin_cash_exchange_rates:[result toDictionary]];
+    self.context[@"objc_did_get_bitcoin_cash_exchange_rates"] = ^(JSValue *result, JSValue *onLogin) {
+        [weakSelf did_get_bitcoin_cash_exchange_rates:[result toDictionary] onLogin:[onLogin toBool]];
     };
     
     self.context[@"objc_did_get_bch_swipe_addresses"] = ^(NSArray *swipeAddresses) {
@@ -3054,10 +3055,10 @@
     return includePrefix ? bitcoinCashAddress : [bitcoinCashAddress substringFromIndex:[PREFIX_BITCOIN_CASH length]];
 }
 
-- (void)getBitcoinCashHistory
+- (void)getBitcoinCashHistoryAndRates
 {
     if ([self isInitialized]) {
-        [self.context evaluateScript:@"MyWalletPhone.bch.getHistory()"];
+        [self.context evaluateScript:@"MyWalletPhone.bch.getHistoryAndRates()"];
     }
 }
 
@@ -4680,14 +4681,14 @@
     }
 }
 
-- (void)did_get_bitcoin_cash_exchange_rates:(NSDictionary *)rates
+- (void)did_get_bitcoin_cash_exchange_rates:(NSDictionary *)rates onLogin:(BOOL)onLogin
 {
     if ([self.delegate respondsToSelector:@selector(didGetBitcoinCashExchangeRates)]) {
         NSString *currency = [self.accountInfo objectForKey:DICTIONARY_KEY_CURRENCY];
         double lastPrice = [[[rates objectForKey:currency] objectForKey:DICTIONARY_KEY_LAST] doubleValue];
         self.bitcoinCashConversion = [[[(NSDecimalNumber *)[NSDecimalNumber numberWithDouble:SATOSHI] decimalNumberByDividingBy: (NSDecimalNumber *)[NSDecimalNumber numberWithDouble:lastPrice]] stringValue] longLongValue];
         self.bitcoinCashExchangeRates = rates;
-        [self.delegate didGetBitcoinCashExchangeRates];
+        if (onLogin) [self.delegate didGetBitcoinCashExchangeRates];
     } else {
         DLog(@"Error: delegate of class %@ does not respond to selector didGetBitcoinCashExchangeRates!", [delegate class]);
     }

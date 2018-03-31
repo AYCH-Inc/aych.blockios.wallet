@@ -69,7 +69,7 @@
     tableViewController.tableView = self.tableView;
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self
-                            action:@selector(getHistory)
+                            action:@selector(getHistoryAndRates)
                   forControlEvents:UIControlEventValueChanged];
     tableViewController.refreshControl = self.refreshControl;
 }
@@ -125,11 +125,11 @@
     [self.detailViewController reloadSymbols];
 }
 
-- (void)getHistory
+- (void)getHistoryAndRates
 {
     [app showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
 
-    [app.wallet performSelector:@selector(getBitcoinCashHistory) withObject:nil afterDelay:0.1f];
+    [app.wallet performSelector:@selector(getBitcoinCashHistoryAndRates) withObject:nil afterDelay:0.1f];
 }
 
 - (void)didReceiveTransactionMessage

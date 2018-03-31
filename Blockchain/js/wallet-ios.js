@@ -3063,7 +3063,15 @@ MyWalletPhone.bch = {
         currentBitcoinCashPayment.amount(amount);
     },
     
-    buildPayment : function() {
+    buildPayment : function(to, amount) {
+        if (Helpers.isNumber(to)) {
+            MyWalletPhone.bch.changePaymentToAccount(to);
+        } else {
+            MyWalletPhone.bch.changePaymentToAddress(to);
+        }
+        
+        MyWalletPhone.bch.changePaymentAmount(amount);
+        
         var options = walletOptions.getValue()
         currentBitcoinCashPayment.feePerByte(options.bcash.feePerByte);
         currentBitcoinCashPayment.build();

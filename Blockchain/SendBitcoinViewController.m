@@ -1438,10 +1438,11 @@ BOOL displayingLocalSymbolSend;
 - (void)getTransactionFeeWithUpdateType:(FeeUpdateType)updateType
 {
     if (self.assetType == AssetTypeBitcoin) {
-       [app.wallet getTransactionFeeWithUpdateType:updateType];
+        [app.wallet getTransactionFeeWithUpdateType:updateType];
     } else if (self.assetType == AssetTypeBitcoinCash) {
-       [app.wallet buildBitcoinCashPayment];
-       [self showSummary];
+        id to = self.sendToAddress ? self.toAddress : [NSNumber numberWithInt:self.toAccount];
+        [app.wallet buildBitcoinCashPaymentTo:to amount:amountInSatoshi];
+        [self showSummary];
     }
 }
 

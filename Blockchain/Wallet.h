@@ -466,7 +466,7 @@ typedef enum {
 - (void)getBitcoinCashHistory;
 - (void)fetchBitcoinCashExchangeRates;
 - (NSString *)getLabelForBitcoinCashAccount:(int)account;
-- (void)buildBitcoinCashPayment;
+- (void)buildBitcoinCashPaymentTo:(id)to amount:(uint64_t)amount;
 - (void)sendBitcoinCashPaymentWithListener:(transactionProgressListeners*)listener;
 - (BOOL)hasBchAccount;
 - (uint64_t)getBchBalance;

@@ -85,7 +85,7 @@
     
     UIView *cardsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.scrollView.frame.size.width, self.cardsViewHeight)];
     cardsView.clipsToBounds = YES;
-    cardsView.backgroundColor = COLOR_TABLE_VIEW_BACKGROUND_LIGHT_GRAY;
+    cardsView.backgroundColor = COLOR_BACKGROUND_LIGHT_GRAY;
     
     return cardsView;
 }

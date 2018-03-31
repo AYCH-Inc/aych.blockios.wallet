@@ -2875,9 +2875,27 @@ MyWalletPhone.bch = {
         return MyWallet.wallet.bch.getHistory().then(success).catch(error);
     },
     
+    getHistoryAndRates : function() {
+        var success = function(result) {
+            objc_did_get_bitcoin_cash_exchange_rates(result[1], false);
+            objc_on_fetch_bch_history_success();
+            return result;
+        }
+        
+        var error = function(e) {
+            console.log('Error fetching bch history and rates')
+            console.log(e);
+        }
+        
+        var getBitcoinCashHistory = MyWallet.wallet.bch.getHistory();
+        var getBitcoinCashExchangeRates = BlockchainAPI.getExchangeRate('USD', 'BCH');
+        return Promise.all([getBitcoinCashHistory, getBitcoinCashExchangeRates]).then(success).catch(error);
+    },
+    
     fetchExchangeRates : function() {
         var success = function(result) {
-            objc_did_get_bitcoin_cash_exchange_rates(result);
+            objc_did_get_bitcoin_cash_exchange_rates(result, true);
+            return result;
         }
         
         var error = function(e) {

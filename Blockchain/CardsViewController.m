@@ -274,15 +274,34 @@
 - (void)closeBuySellCard
 {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_SHOULD_HIDE_BUY_SELL_CARD];
-    
-    [self reloadCards];
+    [self closeAnnouncementCard:CardConfigurationBuySell];
 }
 
 - (void)closeBitcoinCashCard
 {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_SHOULD_HIDE_BITCOIN_CASH_CARD];
-    
-    [self reloadCards];
+    [self closeAnnouncementCard:CardConfigurationBitcoinCash];
+}
+
+- (void)closeAnnouncementCard:(CardConfiguration)cardConfiguration
+{
+    if (self.announcementCards.count == 1) {
+        [self closeCardsView];
+    } else {
+        [UIView animateWithDuration:ANIMATION_DURATION_LONG animations:^{
+            CGFloat newY = ANNOUNCEMENT_CARD_HEIGHT * (self.announcementCards.count - 1);
+            if ([self.announcementCards.firstObject integerValue] == cardConfiguration) {
+                for (UIView *cardView in self.cardsView.subviews) {
+                    cardView.frame = CGRectOffset(cardView.frame, 0, -ANNOUNCEMENT_CARD_HEIGHT);
+                }
+            }
+            [self.cardsView changeHeight:newY];
+            self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.contentView ? self.contentView.frame.size.height : 0);
+            [self.contentView changeYPosition:newY];
+        } completion:^(BOOL finished) {
+            [self reloadCards];
+        }];
+    }
 }
 
 - (void)cardActionClicked:(ActionType)actionType

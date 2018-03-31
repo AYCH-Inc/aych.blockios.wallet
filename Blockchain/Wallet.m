@@ -1818,7 +1818,7 @@
         }
         return address;
     } else if (assetType == AssetTypeBitcoinCash) {
-        return BC_STRING_IMPORTED_ADDRESSES;
+        return address;
     }
     return nil;
 }
@@ -3091,10 +3091,14 @@
     return nil;
 }
 
-- (void)buildBitcoinCashPayment
+- (void)buildBitcoinCashPaymentTo:(id)to amount:(uint64_t)amount
 {
     if ([self isInitialized]) {
-        [self.context evaluateScript:@"MyWalletPhone.bch.buildPayment()"];
+        if ([to isKindOfClass:[NSString class]]) {
+            [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.buildPayment(\"%@\", %lld)", [to escapeStringForJS], amount]];
+        } else {
+            [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.buildPayment(%d, %lld)", [to intValue], amount]];
+        }
     }
 }
 

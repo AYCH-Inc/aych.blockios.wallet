@@ -1426,8 +1426,16 @@
 - (void)getHistoryIfNoTransactionMessage
 {
     if (!self.didReceiveMessageForLastTransaction) {
-        DLog(@"Did not receive tx message for %f seconds - getting history", DELAY_GET_HISTORY_BACKUP);
+        DLog(@"Did not receive btc tx message for %f seconds - getting history", DELAY_GET_HISTORY_BACKUP);
         [self getHistoryWithoutBusyView];
+    }
+}
+
+- (void)getBitcoinCashHistoryIfNoTransactionMessage
+{
+    if (!self.didReceiveMessageForLastTransaction) {
+        DLog(@"Did not receive bch tx message for %f seconds - getting history", DELAY_GET_HISTORY_BACKUP);
+        [self getBitcoinCashHistoryAndRates];
     }
 }
 

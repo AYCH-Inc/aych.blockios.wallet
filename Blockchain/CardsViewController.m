@@ -109,13 +109,13 @@
     for (int index = 0; index < configurations.count; index++) {
         NSNumber *configuration = configurations[index];
         if ([configuration integerValue] == CardConfigurationBuySell) {
-            BCCardView *buySellCard = [[BCCardView alloc] initWithContainerFrame:cardFrame title:[BC_STRING_BUY_SELL_CARD_TITLE uppercaseString] description:BC_STRING_BUY_SELL_CARD_DESCRIPTION actionType:ActionTypeGetStarted imageName:@"buy_sell_partial" reducedHeightForPageIndicator:NO delegate:self];
+            BCCardView *buySellCard = [[BCCardView alloc] initWithContainerFrame:cardFrame title:[BC_STRING_BUY_SELL_CARD_TITLE uppercaseString] description:BC_STRING_BUY_SELL_CARD_DESCRIPTION actionType:ActionTypeBuySell imageName:@"buy_sell_partial" reducedHeightForPageIndicator:NO delegate:self];
             [buySellCard setupCloseButton];
             [buySellCard.closeButton addTarget:self action:@selector(closeBuySellCard) forControlEvents:UIControlEventTouchUpInside];
             [buySellCard changeYPosition:ANNOUNCEMENT_CARD_HEIGHT * index];
             [cardsView addSubview:buySellCard];
         } else if ([configuration integerValue] == CardConfigurationBitcoinCash) {
-            BCCardView *bitcoinCashCard = [[BCCardView alloc] initWithContainerFrame:cardFrame title:[BC_STRING_BITCOIN_CASH_CARD_TITLE uppercaseString] description:BC_STRING_BITCOIN_CASH_CARD_DESCRIPTION actionType:ActionTypeGetStarted imageName:@"buy_sell_partial" reducedHeightForPageIndicator:NO delegate:self];
+            BCCardView *bitcoinCashCard = [[BCCardView alloc] initWithContainerFrame:cardFrame title:[BC_STRING_BITCOIN_CASH_CARD_TITLE uppercaseString] description:BC_STRING_BITCOIN_CASH_CARD_DESCRIPTION actionType:ActionTypeBitcoinCash imageName:@"bitcoin_cash_partial" reducedHeightForPageIndicator:NO delegate:self];
             [bitcoinCashCard setupCloseButton];
             [bitcoinCashCard.closeButton addTarget:self action:@selector(closeBitcoinCashCard) forControlEvents:UIControlEventTouchUpInside];
             [bitcoinCashCard changeYPosition:ANNOUNCEMENT_CARD_HEIGHT * index];
@@ -312,8 +312,10 @@
         [app.tabControllerManager receiveCoinClicked:nil];
     } else if (actionType == ActionTypeScanQR) {
         [app.tabControllerManager qrCodeButtonClicked];
-    } else if (actionType == ActionTypeGetStarted) {
+    } else if (actionType == ActionTypeBuySell) {
         [app buyBitcoinClicked:nil];
+    } else if (actionType == ActionTypeBitcoinCash) {
+        [app.tabControllerManager showReceiveBitcoinCash];
     }
 }
 

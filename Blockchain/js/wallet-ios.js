@@ -2999,6 +2999,17 @@ MyWalletPhone.bch = {
     
     transactions : function(filter) {
         return MyWallet.wallet.bch.txs.filter((tx) => {
+
+            var indexFromCoinType = function(coinType) {
+                return coinType !== 'external' && coinType !== 'legacy' ? parseInt(coinType.charAt(0)) : null;
+            };
+
+            var fromIndex = indexFromCoinType(tx.from.coinType);
+            if (fromIndex != null) tx.from.label = MyWallet.wallet.bch.accounts[fromIndex].label;
+
+            var toIndex = indexFromCoinType(tx.to[0].coinType);
+            if (toIndex != null) tx.to[0].label = MyWallet.wallet.bch.accounts[toIndex].label;
+
             if (filter == -1) return true;
             if (filter == -2) filter = 'imported';
             return tx.belongsTo(filter);

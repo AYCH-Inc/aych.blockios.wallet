@@ -553,16 +553,22 @@
     [self showReceiveAnimated:YES];
 }
 
-- (void)showReceiveEther
+- (void)showReceiveBitcoinCash
 {
-    _tabViewController.assetSelectorView.selectedAsset = AssetTypeEther;
+    self.assetType = AssetTypeBitcoinCash;
     
-    if (!_receiveEtherViewController) {
-        _receiveEtherViewController = [[ReceiveEtherViewController alloc] init];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.assetType] forKey:USER_DEFAULTS_KEY_ASSET_TYPE];
+    
+    self.tabViewController.assetSelectorView.selectedAsset = self.assetType;
+    [self.tabViewController.assetSelectorView reload];
+    
+    if (!_receiveBitcoinCashViewController) {
+        _receiveBitcoinCashViewController = [[ReceiveBitcoinViewController alloc] init];
+        _receiveBitcoinCashViewController.assetType = AssetTypeBitcoinCash;
     }
     
-    [_tabViewController setActiveViewController:_receiveEtherViewController animated:TRUE index:TAB_RECEIVE];
-    [_receiveEtherViewController showEtherAddress];
+    [_tabViewController setActiveViewController:_receiveBitcoinCashViewController animated:TRUE index:TAB_RECEIVE];
+    [_receiveBitcoinCashViewController reload];
 }
 
 - (void)transactionsClicked:(UITabBarItem *)sender

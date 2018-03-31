@@ -65,7 +65,7 @@
 - (void)sendCoinsClicked:(UITabBarItem *)sender;
 - (void)qrCodeButtonClicked;
 
-- (void)showReceiveEther;
+- (void)showReceiveBitcoinCash;
 
 // Send Bitcoin View Controller
 - (BOOL)isSending;

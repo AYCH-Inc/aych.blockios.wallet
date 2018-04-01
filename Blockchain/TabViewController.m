@@ -288,11 +288,12 @@
 }
 
 - (void)didOpenSelector
-{    
+{
+    CGFloat bannerOffset = 2;
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [topBar changeHeight:DEFAULT_HEADER_HEIGHT + ASSET_SELECTOR_ROW_HEIGHT*self.assetSelectorView.assets.count];
+        [topBar changeHeight:DEFAULT_HEADER_HEIGHT + ASSET_SELECTOR_ROW_HEIGHT*self.assetSelectorView.assets.count + bannerOffset];
         self.activeViewController.view.frame = CGRectMake(0,
-                                                          ASSET_SELECTOR_ROW_HEIGHT*self.assetSelectorView.assets.count,
+                                                          ASSET_SELECTOR_ROW_HEIGHT*self.assetSelectorView.assets.count + bannerOffset,
                                                           [UIScreen mainScreen].bounds.size.width,
                                                           [UIScreen mainScreen].bounds.size.height - DEFAULT_HEADER_HEIGHT - DEFAULT_HEADER_HEIGHT_OFFSET - DEFAULT_FOOTER_HEIGHT);
         [bannerView changeHeight:ASSET_SELECTOR_ROW_HEIGHT*3];

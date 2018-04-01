@@ -46,10 +46,13 @@
     self.dateLabel.frame = CGRectMake(self.dateLabel.frame.origin.x, 11, self.dateLabel.frame.size.width, self.dateLabel.frame.size.height);
     
     if (app->symbolLocal) {
-        if ([[[trade withdrawalCurrency] lowercaseString] isEqualToString:[CURRENCY_SYMBOL_BTC lowercaseString]]) {
+        NSString *lowercaseWithdrawalCurrencySymbol = [[trade withdrawalCurrency] lowercaseString];
+        if ([lowercaseWithdrawalCurrencySymbol isEqualToString:[CURRENCY_SYMBOL_BTC lowercaseString]]) {
             amountString = [NSNumberFormatter formatMoney:ABS([NSNumberFormatter parseBtcValueFromString:[trade.withdrawalAmount stringValue]])];
-        } else if ([[[trade withdrawalCurrency] lowercaseString] isEqualToString:[CURRENCY_SYMBOL_ETH lowercaseString]]) {
+        } else if ([lowercaseWithdrawalCurrencySymbol isEqualToString:[CURRENCY_SYMBOL_ETH lowercaseString]]) {
             amountString = [NSNumberFormatter formatEthWithLocalSymbol:[trade.withdrawalAmount stringValue] exchangeRate:app.tabControllerManager.latestEthExchangeRate];
+        } else if ([lowercaseWithdrawalCurrencySymbol isEqualToString:[CURRENCY_SYMBOL_BCH lowercaseString]]) {
+            amountString = [NSNumberFormatter formatBchWithSymbol:ABS([NSNumberFormatter parseBtcValueFromString:[trade.withdrawalAmount stringValue]])];
         } else {
             DLog(@"Warning: unsupported withdrawal currency for trade: %@", [trade withdrawalCurrency]);
         }

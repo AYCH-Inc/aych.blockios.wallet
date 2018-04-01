@@ -34,10 +34,11 @@
 }
 
 -(IBAction)transactionClicked:(UIButton *)button;
+- (void)bitcoinCashTransactionClicked;
 -(IBAction)btcbuttonclicked:(id)sender;
 
 @property(nonatomic, strong)  Transaction * transaction;
 
--(void)reload;
-
+- (void)reload;
+- (void)changeBtcButtonTitleText:(NSString *)text;
 @end

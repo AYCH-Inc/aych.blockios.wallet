@@ -40,4 +40,9 @@
 
 + (uint64_t)parseBtcValueFromString:(NSString *)inputString;
 
++ (NSString*)formatBCH:(uint64_t)value;
++ (NSString*)formatBch:(uint64_t)value localCurrency:(BOOL)fsymbolLocal;
++ (NSString*)formatBchWithSymbol:(uint64_t)value;
++ (NSString *)formatBchWithSymbol:(uint64_t)amount localCurrency:(BOOL)localCurrency;
+
 @end

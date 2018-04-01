@@ -496,6 +496,12 @@ void (^secondPasswordSuccess)(NSString *);
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler
 {
     DLog(@"didReceiveRemoteNotification");
+    if (application.applicationState == UIApplicationStateInactive) {
+        NSInteger badgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:badgeNumber + 1];
+    }
+    
+    completionHandler(UIBackgroundFetchResultNoData);
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

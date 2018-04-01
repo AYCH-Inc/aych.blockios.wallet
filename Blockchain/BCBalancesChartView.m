@@ -48,7 +48,7 @@
     self.chartView.drawCenterTextEnabled = YES;
     self.chartView.drawHoleEnabled = YES;
     self.chartView.holeColor = [UIColor clearColor];
-    self.chartView.holeRadiusPercent = 0.6;
+    self.chartView.holeRadiusPercent = 0.64;
     [self.chartView animateWithYAxisDuration:0.5];
     self.chartView.rotationEnabled = NO;
     self.chartView.legend.enabled = NO;
@@ -71,12 +71,18 @@
     CGFloat legendKeyHeight = legendKeyContainerView.frame.size.height;
     
     self.bitcoinLegendKey = [[BCBalanceChartLegendKeyView alloc] initWithFrame:CGRectMake(0, 0, legendKeyWidth, legendKeyHeight) assetColor:COLOR_BLOCKCHAIN_BLUE assetName:BC_STRING_BITCOIN];
+    UITapGestureRecognizer *tapGestureBitcoin = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bitcoinLegendTapped)];
+    [self.bitcoinLegendKey addGestureRecognizer:tapGestureBitcoin];
     [legendKeyContainerView addSubview:self.bitcoinLegendKey];
     
-    self.etherLegendKey = [[BCBalanceChartLegendKeyView alloc] initWithFrame:CGRectMake(legendKeyWidth + legendKeySpacing, 0, legendKeyWidth, legendKeyHeight) assetColor:COLOR_BLOCKCHAIN_LIGHT_BLUE assetName:BC_STRING_ETHER];
-    [legendKeyContainerView addSubview:self.etherLegendKey];
-    
+     self.etherLegendKey = [[BCBalanceChartLegendKeyView alloc] initWithFrame:CGRectMake(legendKeyWidth + legendKeySpacing, 0, legendKeyWidth, legendKeyHeight) assetColor:COLOR_BLOCKCHAIN_LIGHT_BLUE assetName:BC_STRING_ETHER];
+    UITapGestureRecognizer *tapGestureEther = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(etherLegendTapped)];
+    [self.etherLegendKey addGestureRecognizer:tapGestureEther];
+     [legendKeyContainerView addSubview:self.etherLegendKey];
+
     self.bitcoinCashLegendKey = [[BCBalanceChartLegendKeyView alloc] initWithFrame:CGRectMake((legendKeyWidth + legendKeySpacing)*2, 0, legendKeyWidth, legendKeyHeight) assetColor:COLOR_BLOCKCHAIN_LIGHTER_BLUE assetName:BC_STRING_BITCOIN_CASH];
+    UITapGestureRecognizer *tapGestureBitcoinCash = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bitcoinCashLegendTapped)];
+    [self.bitcoinCashLegendKey addGestureRecognizer:tapGestureBitcoinCash];
     [legendKeyContainerView addSubview:self.bitcoinCashLegendKey];
 }
 
@@ -107,7 +113,11 @@
 
 - (void)updateBitcoinBalance:(NSString *)balance
 {
-    self.bitcoinBalance = balance;
+    if (!balance) {
+        self.bitcoinBalance = @"0";
+    } else {
+        self.bitcoinBalance = balance;
+    }
 }
 
 - (void)updateEtherBalance:(NSString *)balance
@@ -117,33 +127,49 @@
 
 - (void)updateBitcoinCashBalance:(NSString *)balance
 {
-    self.bitcoinCashBalance = balance;
+    if (!balance) {
+        self.bitcoinCashBalance = @"0";
+    } else {
+        self.bitcoinCashBalance = balance;
+    }
 }
 
 - (void)updateChart
 {
+    BOOL hasZeroBalances = !self.bitcoinFiatBalance && !self.etherFiatBalance && !self.bitcoinCashFiatBalance;
+
     ChartDataEntry *bitcoinValue = [[PieChartDataEntry alloc] initWithValue:self.bitcoinFiatBalance];
     
     ChartDataEntry *etherValue = [[PieChartDataEntry alloc] initWithValue:self.etherFiatBalance];
     
     ChartDataEntry *bitcoinCashValue = [[PieChartDataEntry alloc] initWithValue:self.bitcoinCashFiatBalance];
-    
-    PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithValues:@[bitcoinValue, etherValue, bitcoinCashValue] label:BC_STRING_BALANCES];
+
+    PieChartDataSet *dataSet;
+
+    if (hasZeroBalances) {
+        ChartDataEntry *emptyValue = [[PieChartDataEntry alloc] initWithValue:1];
+        dataSet = [[PieChartDataSet alloc] initWithValues:@[emptyValue] label:BC_STRING_BALANCES];
+        dataSet.colors = @[COLOR_EMPTY_CHART_GRAY];
+    } else {
+        dataSet = [[PieChartDataSet alloc] initWithValues:@[bitcoinValue, etherValue, bitcoinCashValue] label:BC_STRING_BALANCES];
+        dataSet.colors = @[COLOR_BLOCKCHAIN_BLUE, COLOR_BLOCKCHAIN_LIGHT_BLUE, COLOR_BLOCKCHAIN_LIGHTER_BLUE];
+    }
+
     dataSet.drawValuesEnabled = NO;
-    
-    dataSet.colors = @[COLOR_BLOCKCHAIN_BLUE, COLOR_BLOCKCHAIN_LIGHT_BLUE, COLOR_BLOCKCHAIN_LIGHTER_BLUE];
     
     PieChartData *data = [[PieChartData alloc] initWithDataSet:dataSet];
     [data setValueTextColor:UIColor.whiteColor];
     self.chartView.data = data;
-    [self.chartView animateWithYAxisDuration:1.0];
-    
+    if (!hasZeroBalances) {
+        [self.chartView animateWithYAxisDuration:1.0];
+    }
+
     [self.bitcoinLegendKey changeBalance:[self.bitcoinBalance stringByAppendingFormat:@" %@", CURRENCY_SYMBOL_BTC]];
     [self.bitcoinLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSString stringWithFormat:@"%.2f", self.bitcoinFiatBalance]]];
-    
+
     [self.etherLegendKey changeBalance:[self.etherBalance stringByAppendingFormat:@" %@", CURRENCY_SYMBOL_ETH]];
     [self.etherLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSString stringWithFormat:@"%.2f", self.etherFiatBalance]]];
-    
+
     [self.bitcoinCashLegendKey changeBalance:[self.bitcoinCashBalance stringByAppendingFormat:@" %@", CURRENCY_SYMBOL_BCH]];
     [self.bitcoinCashLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSString stringWithFormat:@"%.2f", self.bitcoinCashFiatBalance]]];
 }
@@ -157,6 +183,22 @@
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:text attributes:attributesDictionary];
     
     return attributedString;
+}
+
+- (void)bitcoinLegendTapped
+{
+    [self.delegate bitcoinLegendTapped];
+}
+
+- (void)etherLegendTapped
+{
+    [self.delegate etherLegendTapped];
+}
+
+- (void)bitcoinCashLegendTapped
+{
+    [self.delegate bitcoinCashLegendTapped];
+
 }
 
 @end

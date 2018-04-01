@@ -227,10 +227,10 @@ extension MutableCollection where Index == Int {
         if count < 2 {
             return
         }
-        for i in startIndex..<endIndex - 1 {
-            let j = Int(arc4random_uniform(UInt32(endIndex - i))) + i
-            guard i != j else { continue }
-            self.swapAt(i, j)
+        for idx in startIndex..<endIndex - 1 {
+            let rand = Int(arc4random_uniform(UInt32(endIndex - idx))) + idx
+            guard idx != rand else { continue }
+            self.swapAt(idx, rand)
         }
     }
 }

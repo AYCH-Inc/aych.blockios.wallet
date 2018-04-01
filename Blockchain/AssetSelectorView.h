@@ -22,7 +22,7 @@
 - (id)initWithFrame:(CGRect)frame assets:(NSArray *)assets delegate:(id<AssetSelectorViewDelegate>)delegate;
 - (void)close;
 - (void)open;
-
 - (void)hide;
 - (void)show;
+- (void)reload;
 @end

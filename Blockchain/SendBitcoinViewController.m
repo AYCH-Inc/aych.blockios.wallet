@@ -178,7 +178,7 @@ BOOL displayingLocalSymbolSend;
     
     feeField.delegate = self;
         
-    toField.placeholder = BC_STRING_ENTER_BITCOIN_ADDRESS_OR_SELECT;
+    toField.placeholder =  self.assetType == AssetTypeBitcoin ? BC_STRING_ENTER_BITCOIN_ADDRESS_OR_SELECT : BC_STRING_ENTER_BITCOIN_CASH_ADDRESS_OR_SELECT;
     feeField.placeholder = BC_STRING_SATOSHI_PER_BYTE_ABBREVIATED;
     btcAmountField.placeholder = [NSString stringWithFormat:BTC_PLACEHOLDER_DECIMAL_SEPARATOR_ARGUMENT, [[NSLocale currentLocale] objectForKey:NSLocaleDecimalSeparator]];
     fiatAmountField.placeholder = [NSString stringWithFormat:FIAT_PLACEHOLDER_DECIMAL_SEPARATOR_ARGUMENT, [[NSLocale currentLocale] objectForKey:NSLocaleDecimalSeparator]];
@@ -255,7 +255,7 @@ BOOL displayingLocalSymbolSend;
         int defaultAccountIndex = [app.wallet getDefaultAccountIndexForAssetType:self.assetType];
         self.fromAccount = defaultAccountIndex;
         if (self.isReloading) return; // didSelectFromAccount will be called in reloadAfterMultiAddressResponse
-        [self didSelectFromAccount:self.fromAccount];
+        [self didSelectFromAccount:self.fromAccount assetType:self.assetType];
     }
     else {
         // Default setting: send from any address
@@ -358,7 +358,7 @@ BOOL displayingLocalSymbolSend;
 - (void)hideSelectFromAndToButtonsIfAppropriate
 {
     // If we only have one account and no legacy addresses -> can't change from address
-    if ([app.wallet getActiveAccountsCount:self.assetType] + [[app.wallet activeLegacyAddresses] count] == 1) {
+    if ([app.wallet getActiveAccountsCount:self.assetType] + [[app.wallet activeLegacyAddresses:self.assetType] count] == 1) {
         
         [selectFromButton setHidden:YES];
         
@@ -585,7 +585,11 @@ BOOL displayingLocalSymbolSend;
              [self enablePaymentButtons];
              
              // Fields are automatically reset by reload, called by MyWallet.wallet.getHistory() after a utx websocket message is received. However, we cannot rely on the websocket 100% of the time.
-             [app.wallet performSelector:@selector(getHistoryIfNoTransactionMessage) withObject:nil afterDelay:DELAY_GET_HISTORY_BACKUP];
+             if (self.assetType == AssetTypeBitcoin) {
+                 [app.wallet performSelector:@selector(getHistoryIfNoTransactionMessage) withObject:nil afterDelay:DELAY_GET_HISTORY_BACKUP];
+             } else {
+                 [app.wallet performSelector:@selector(getBitcoinCashHistoryIfNoTransactionMessage) withObject:nil afterDelay:DELAY_GET_HISTORY_BACKUP];
+             }
              
              // Close transaction modal, go to transactions view, scroll to top and animate new transaction
              [app closeModalWithTransition:kCATransitionFade];
@@ -731,7 +735,11 @@ BOOL displayingLocalSymbolSend;
     [self enablePaymentButtons];
     
     // Fields are automatically reset by reload, called by MyWallet.wallet.getHistory() after a utx websocket message is received. However, we cannot rely on the websocket 100% of the time.
-    [app.wallet performSelector:@selector(getHistoryIfNoTransactionMessage) withObject:nil afterDelay:DELAY_GET_HISTORY_BACKUP];
+    if (self.assetType == AssetTypeBitcoin) {
+        [app.wallet performSelector:@selector(getHistoryIfNoTransactionMessage) withObject:nil afterDelay:DELAY_GET_HISTORY_BACKUP];
+    } else {
+        [app.wallet performSelector:@selector(getBitcoinCashHistoryIfNoTransactionMessage) withObject:nil afterDelay:DELAY_GET_HISTORY_BACKUP];
+    }
     
     // Close transaction modal, go to transactions view, scroll to top and animate new transaction
     [app closeAllModals];
@@ -832,7 +840,7 @@ BOOL displayingLocalSymbolSend;
                                                       surge:surgePresent];
         }
         
-        self.confirmPaymentView = [[BCConfirmPaymentView alloc] initWithWindow:app.window viewModel:confirmPaymentViewModel];
+        self.confirmPaymentView = [[BCConfirmPaymentView alloc] initWithWindow:app.window viewModel:confirmPaymentViewModel sendButtonFrame:continuePaymentButton.frame];
         
         self.confirmPaymentView.confirmDelegate = self;
         
@@ -1418,7 +1426,7 @@ BOOL displayingLocalSymbolSend;
 - (BOOL)canChangeFromAddress
 {
     if (self.assetType == AssetTypeBitcoin) {
-        return !([app.wallet hasAccount] && ![app.wallet hasLegacyAddresses] && [app.wallet getActiveAccountsCount:self.assetType] == 1);
+        return !([app.wallet hasAccount] && ![app.wallet hasLegacyAddresses:self.assetType] && [app.wallet getActiveAccountsCount:self.assetType] == 1);
     } else if (self.assetType == AssetTypeBitcoinCash) {
         
     }
@@ -1438,10 +1446,11 @@ BOOL displayingLocalSymbolSend;
 - (void)getTransactionFeeWithUpdateType:(FeeUpdateType)updateType
 {
     if (self.assetType == AssetTypeBitcoin) {
-       [app.wallet getTransactionFeeWithUpdateType:updateType];
+        [app.wallet getTransactionFeeWithUpdateType:updateType];
     } else if (self.assetType == AssetTypeBitcoinCash) {
-       [app.wallet buildBitcoinCashPayment];
-       [self showSummary];
+        id to = self.sendToAddress ? self.toAddress : [NSNumber numberWithInt:self.toAccount];
+        [app.wallet buildBitcoinCashPaymentTo:to amount:amountInSatoshi];
+        [self showSummary];
     }
 }
 

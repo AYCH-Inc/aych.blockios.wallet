@@ -228,9 +228,7 @@ void (^secondPasswordSuccess)(NSString *);
     
     [self showWelcomeOrPinScreen];
     
-#ifdef ENABLE_CONTACTS
     [self requestAuthorizationForPushNotifications];
-#endif
     
     app.mainTitleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_TOP_BAR_TEXT];
     
@@ -414,7 +412,7 @@ void (^secondPasswordSuccess)(NSString *);
     }
 #endif
     
-    [self performSelector:@selector(showPinModalIfBackgroundedDuringLoad) withObject:nil afterDelay:0.3];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
@@ -498,6 +496,12 @@ void (^secondPasswordSuccess)(NSString *);
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler
 {
     DLog(@"didReceiveRemoteNotification");
+    if (application.applicationState == UIApplicationStateInactive) {
+        NSInteger badgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:badgeNumber + 1];
+    }
+    
+    completionHandler(UIBackgroundFetchResultNoData);
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -526,7 +530,9 @@ void (^secondPasswordSuccess)(NSString *);
         center.delegate = self;
         [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
              if (!error) {
-                 [[UIApplication sharedApplication] registerForRemoteNotifications];
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     [[UIApplication sharedApplication] registerForRemoteNotifications];
+                 });
                  DLog( @"Push registration success." );
              } else {
                  DLog( @"Push registration FAILED" );
@@ -994,7 +1000,8 @@ void (^secondPasswordSuccess)(NSString *);
     DLog(@"walletDidFinishLoad");
     
     self.wallet.btcSwipeAddressToSubscribe = nil;
-    
+    self.wallet.bchSwipeAddressToSubscribe = nil;
+
     self.wallet.twoFactorInput = nil;
         
     [manualPairView clearTextFields];
@@ -1033,13 +1040,13 @@ void (^secondPasswordSuccess)(NSString *);
     }
     
     [self.tabControllerManager.sendBitcoinViewController reload];
-    
+    [self.tabControllerManager.sendBitcoinCashViewController reload];
+
     // Enabling touch ID and immediately backgrounding the app hides the status bar
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
     
-#ifdef ENABLE_CONTACTS
     [self registerDeviceForPushNotifications];
-#endif
+
     if (showType == ShowTypeSendCoins) {
         [self showSendCoins];
     } else if (showType == ShowTypeNewPayment) {
@@ -1221,13 +1228,6 @@ void (^secondPasswordSuccess)(NSString *);
     if (self.backgroundUpdateTask != UIBackgroundTaskInvalid) {
         [[UIApplication sharedApplication] endBackgroundTask:self.backgroundUpdateTask];
         self.backgroundUpdateTask = UIBackgroundTaskInvalid;
-    }
-}
-
-- (void)showPinModalIfBackgroundedDuringLoad
-{
-    if (![self.pinEntryViewController.view isDescendantOfView:app.window.rootViewController.view] && !self.wallet.isInitialized && [KeychainItemWrapper sharedKey] && [KeychainItemWrapper guid] && !modalView) {
-        [self showPinModalAsView:YES];
     }
 }
 

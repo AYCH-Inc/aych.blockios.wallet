@@ -222,6 +222,7 @@
 #define BC_STRING_TRY_AGAIN NSLocalizedString(@"Try again", nil)
 
 #define BC_STRING_PAYMENT_REQUEST_BITCOIN_ARGUMENT_ARGUMENT NSLocalizedString(@"Please send %@ to bitcoin address.\n%@", nil)
+#define BC_STRING_PAYMENT_REQUEST_BITCOIN_CASH_ARGUMENT NSLocalizedString(@"Please send BCH to the Bitcoin Cash address\n%@", nil)
 #define BC_STRING_PAYMENT_REQUEST_ETHER_ARGUMENT NSLocalizedString(@"Please send ether to %@.", nil)
 #define BC_STRING_AMOUNT NSLocalizedString(@"Amount", nil)
 #define BC_STRING_PAYMENT_REQUEST_HTML NSLocalizedString(@"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@", nil)
@@ -605,13 +606,12 @@
 #define BC_STRING_ARCHIVE_FOOTER_TITLE NSLocalizedString(@"Archive this if you do NOT want to use it anymore. Your funds will remain safe, and you can unarchive it at any time.", nil)
 #define BC_STRING_ARCHIVED_FOOTER_TITLE NSLocalizedString(@"This is archived. Though you cannot send funds from here, any and all funds will remain safe. Simply unarchive to start using it again.", nil)
 #define BC_STRING_TRANSFER_FOOTER_TITLE NSLocalizedString(@"For your safety, we recommend you to transfer any balances in your imported addresses into your Blockchain wallet.", nil)
-#define BC_STRING_EXTENDED_PUBLIC_KEY_FOOTER_TITLE_ONE NSLocalizedString(@"If you are a merchant, view your extended public key (xPub) and use the Blockchain Merchant app to receive funds.", nil)
-#define BC_STRING_EXTENDED_PUBLIC_KEY_FOOTER_TITLE_TWO NSLocalizedString(@"Keep your xPub private. Someone with access to your xPub will be able to see all of your funds and transactions.", nil)
+#define BC_STRING_EXTENDED_PUBLIC_KEY_FOOTER_TITLE NSLocalizedString(@"Keep your xPub private. Someone with access to your xPub will be able to see all of your funds and transactions.", nil)
 #define BC_STRING_EXTENDED_PUBLIC_KEY_WARNING NSLocalizedString(@"Sharing your xPub authorizes others to track your transaction history. As authorized persons may be able to disrupt you from accessing your wallet, only share your xPub with people you trust.", nil)
 #define BC_STRING_WATCH_ONLY_FOOTER_TITLE NSLocalizedString(@"This is a watch-only address. To spend your funds from this wallet, please scan your private key.", nil)
 #define BC_STRING_SET_DEFAULT_ACCOUNT NSLocalizedString(@"Set as Default?", nil)
 #define BC_STRING_AT_LEAST_ONE_ADDRESS_REQUIRED NSLocalizedString(@"You must have at least one active address", nil)
-#define BC_STRING_EXTENDED_PUBLIC_KEY_DETAIL_HEADER_TITLE NSLocalizedString(@"Scan or copy this code into your Blockchain Merchant app to securely receive Bitcoin.", nil)
+#define BC_STRING_EXTENDED_PUBLIC_KEY_DETAIL_HEADER_TITLE NSLocalizedString(@"Your xPub is an advanced feature that contains all of your public addresses.", nil)
 #define BC_STRING_COPY_XPUB NSLocalizedString(@"Copy xPub", nil)
 #define BC_STRING_ADDRESS_NOT_PRESENT_IN_WALLET NSLocalizedString(@"Your wallet does not contain this address.", nil)
 #define BC_STRING_ADDRESS_NOT_WATCH_ONLY NSLocalizedString(@"This address is not watch-only.", nil)
@@ -823,7 +823,6 @@
 #define BC_STRING_GET_STARTED_WITH_ETHER NSLocalizedString(@"Get Started with Ether", nil)
 
 #define BC_STRING_MY_ETHER_WALLET NSLocalizedString(@"My Ether Wallet", nil)
-#define BC_STRING_MY_BITCOIN_CASH_WALLET NSLocalizedString(@"My Bitcoin Cash Wallet", nil)
 
 #define BC_STRING_EXCHANGE NSLocalizedString(@"Exchange", nil)
 #define BC_STRING_NEW_EXCHANGE NSLocalizedString(@"New Exchange", nil)
@@ -889,7 +888,15 @@
 
 #define BC_STRING_BITCOIN_CASH NSLocalizedString(@"Bitcoin Cash", nil)
 #define BC_STRING_BITCOIN_CASH_PRICE NSLocalizedString(@"Bitcoin Cash Price", nil)
+#define BC_STRING_ENTER_BITCOIN_CASH_ADDRESS_OR_SELECT NSLocalizedString(@"Enter Bitcoin Cash address or select", nil)
 #define BC_STRING_BUY_SELL_CARD_DESCRIPTION NSLocalizedString(@"Buy and sell bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab.", nil)
 #define BC_STRING_BUY_SELL_CARD_ACTION_TITLE BC_STRING_GET_STARTED
+
+#define BC_STRING_BITCOIN_CASH_CARD_TITLE BC_STRING_BITCOIN_CASH
+#define BC_STRING_BITCOIN_CASH_CARD_DESCRIPTION NSLocalizedString(@"We are excited to announce that your Blockchain wallet will allow to seamlessly send, receive and exchange Bitcoin Cash!", nil)
+#define BC_STRING_BITCOIN_CASH_CARD_ACTION_TITLE BC_STRING_GET_STARTED
+
+#define BC_STRING_BITCOIN_CASH_WARNING_CONFIRM_VALID_ADDRESS_ONE NSLocalizedString(@"Are you sure this is a bitcoin cash address?", nil)
+#define BC_STRING_BITCOIN_CASH_WARNING_CONFIRM_VALID_ADDRESS_TWO NSLocalizedString(@"Sending funds to a bitcoin address by accident will result in loss of funds.", nil)
 
 #define BC_STRING_COPY_WARNING_TEXT NSLocalizedString(@"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information.", nil)

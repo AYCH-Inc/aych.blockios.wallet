@@ -30,20 +30,7 @@ const int profileWebLogin = 3;
 
 const int sectionPreferences = 1;
 const int preferencesEmailNotifications = 0;
-const int preferencesSMSNotifications = 1;
-
-#ifdef DEBUG
-#ifdef ENABLE_CONTACTS
-const int preferencesPushNotifications = 2;
-const int preferencesLocalCurrency = 3;
-#else
-const int preferencesPushNotifications = -1;
-const int preferencesLocalCurrency = 2;
-#endif
-#else
-const int preferencesPushNotifications = -1;
-const int preferencesLocalCurrency = 2;
-#endif
+const int preferencesLocalCurrency = 1;
 
 const int sectionSecurity = 2;
 const int securityTwoStep = 0;
@@ -349,15 +336,11 @@ const int aboutPrivacyPolicy = 2;
 - (void)changeMobileNumber:(NSString *)newNumber
 {
     self.enteredMobileNumberString = newNumber;
-
-    if ([app.wallet SMSNotificationsEnabled]) {
-        [self alertUserAboutDisablingSMSNotifications:newNumber];
-    } else {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMobileNumberSuccess) name:NOTIFICATION_KEY_CHANGE_MOBILE_NUMBER_SUCCESS object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMobileNumberError) name:NOTIFICATION_KEY_CHANGE_MOBILE_NUMBER_ERROR object:nil];
-
-        [app.wallet changeMobileNumber:newNumber];
-    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMobileNumberSuccess) name:NOTIFICATION_KEY_CHANGE_MOBILE_NUMBER_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMobileNumberError) name:NOTIFICATION_KEY_CHANGE_MOBILE_NUMBER_ERROR object:nil];
+    
+    [app.wallet changeMobileNumber:newNumber];
 }
 
 - (BOOL)showVerifyAlertIfNeeded
@@ -445,41 +428,6 @@ const int aboutPrivacyPolicy = 2;
 }
 
 #pragma mark - Change Mobile Number
-
-- (void)alertUserAboutDisablingSMSNotifications:(NSString *)newNumber
-{
-    UIAlertController *alertForChangingEmail = [UIAlertController alertControllerWithTitle:BC_STRING_SETTINGS_NEW_MOBILE_NUMBER message:BC_STRING_SETTINGS_NEW_MOBILE_NUMBER_WARNING_DISABLE_NOTIFICATIONS preferredStyle:UIAlertControllerStyleAlert];
-    [alertForChangingEmail addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:nil]];
-    [alertForChangingEmail addAction:[UIAlertAction actionWithTitle:BC_STRING_CONTINUE style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self disableNotificationsThenChangeMobileNumber:newNumber];
-    }]];
-
-    if (self.alertTargetViewController) {
-        [self.alertTargetViewController presentViewController:alertForChangingEmail animated:YES completion:nil];
-    } else {
-        [self presentViewController:alertForChangingEmail animated:YES completion:nil];
-    }
-}
-
-- (void)disableNotificationsThenChangeMobileNumber:(NSString *)newNumber
-{
-    SettingsNavigationController *navigationController = (SettingsNavigationController *)self.navigationController;
-    [navigationController.busyView fadeIn];
-
-    [app.wallet disableSMSNotifications];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMobileNumberAfterDisablingNotifications) name:NOTIFICATION_KEY_BACKUP_SUCCESS object:nil];
-}
-
-- (void)changeMobileNumberAfterDisablingNotifications
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_KEY_BACKUP_SUCCESS object:nil];
-
-    [app.wallet changeMobileNumber:self.enteredMobileNumberString];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMobileNumberSuccess) name:NOTIFICATION_KEY_CHANGE_MOBILE_NUMBER_SUCCESS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMobileNumberError) name:NOTIFICATION_KEY_CHANGE_MOBILE_NUMBER_ERROR object:nil];
-}
 
 - (void)changeMobileNumberSuccess
 {
@@ -655,16 +603,6 @@ const int aboutPrivacyPolicy = 2;
     return [app.wallet emailNotificationsEnabled];
 }
 
-- (BOOL)SMSNotificationsEnabled
-{
-    return [app.wallet SMSNotificationsEnabled];
-}
-
-- (BOOL)pushNotificationsEnabled
-{
-    return NO;
-}
-
 - (void)toggleEmailNotifications
 {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:preferencesEmailNotifications inSection:sectionPreferences];
@@ -710,8 +648,6 @@ const int aboutPrivacyPolicy = 2;
     [navigationController.busyView fadeIn];
 
     UITableViewCell *changeEmailNotificationsCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:preferencesEmailNotifications inSection:sectionPreferences]];
-    UITableViewCell *changeSMSNotificationsCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:preferencesSMSNotifications inSection:sectionPreferences]];
-    changeSMSNotificationsCell.userInteractionEnabled = YES;
     changeEmailNotificationsCell.userInteractionEnabled = YES;
 }
 
@@ -724,36 +660,6 @@ const int aboutPrivacyPolicy = 2;
     changeEmailNotificationsCell.userInteractionEnabled = YES;
 
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
-- (void)toggleSMSNotifications
-{
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:preferencesSMSNotifications inSection:sectionPreferences];
-
-    if ([app checkInternetConnection]) {
-        if ([self SMSNotificationsEnabled]) {
-            [app.wallet disableSMSNotifications];
-        } else {
-            if ([app.wallet.accountInfo[DICTIONARY_KEY_ACCOUNT_SETTINGS_SMS_VERIFIED] boolValue] == YES) {
-                [app.wallet enableSMSNotifications];
-            } else {
-                [self alertUserOfError:BC_STRING_PLEASE_VERIFY_MOBILE_NUMBER_FIRST];
-                [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                return;
-            }
-        }
-
-        UITableViewCell *changeSMSNotificationsCell = [self.tableView cellForRowAtIndexPath:indexPath];
-        changeSMSNotificationsCell.userInteractionEnabled = NO;
-        [self addObserversForChangingNotifications];
-    } else {
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-}
-
-- (void)togglePushNotifications
-{
-
 }
 
 #pragma mark - Change Two Step
@@ -1304,25 +1210,6 @@ const int aboutPrivacyPolicy = 2;
                     switchForEmailNotifications.on = [self emailNotificationsEnabled];
                     [switchForEmailNotifications addTarget:self action:@selector(toggleEmailNotifications) forControlEvents:UIControlEventTouchUpInside];
                     cell.accessoryView = switchForEmailNotifications;
-                    return cell;
-                }
-                case preferencesSMSNotifications: {
-                    cell.accessoryType = UITableViewCellAccessoryNone;
-                    cell.textLabel.text = BC_STRING_SETTINGS_SMS_NOTIFICATIONS;
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    UISwitch *switchForSMSNotifications = [[UISwitch alloc] init];
-                    switchForSMSNotifications.on = [self SMSNotificationsEnabled];
-                    [switchForSMSNotifications addTarget:self action:@selector(toggleSMSNotifications) forControlEvents:UIControlEventTouchUpInside];
-                    cell.accessoryView = switchForSMSNotifications;
-                    return cell;
-                }
-                case preferencesPushNotifications: {
-                    cell.textLabel.text = BC_STRING_SETTINGS_PUSH_NOTIFICATIONS;
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    UISwitch *switchForPushNotifications = [[UISwitch alloc] init];
-                    switchForPushNotifications.on = [self pushNotificationsEnabled];
-                    [switchForPushNotifications addTarget:self action:@selector(togglePushNotifications) forControlEvents:UIControlEventTouchUpInside];
-                    cell.accessoryView = switchForPushNotifications;
                     return cell;
                 }
                 case preferencesLocalCurrency: {

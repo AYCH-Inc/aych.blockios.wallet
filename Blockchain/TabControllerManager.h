@@ -45,7 +45,6 @@
 
 @property (strong, nonatomic) TransactionsBitcoinCashViewController *transactionsBitcoinCashViewController;
 
-
 @property (strong, nonatomic) ExchangeOverviewViewController *exchangeOverviewViewController;
 
 - (void)reload;
@@ -66,7 +65,10 @@
 - (void)sendCoinsClicked:(UITabBarItem *)sender;
 - (void)qrCodeButtonClicked;
 
-- (void)showReceiveEther;
+- (void)showReceiveBitcoinCash;
+- (void)showTransactionsBitcoin;
+- (void)showTransactionsEther;
+- (void)showTransactionsBitcoinCash;
 
 // Send Bitcoin View Controller
 - (BOOL)isSending;

@@ -57,6 +57,7 @@
 {
     AssetType asset = self.isOpen ? [self.assets[indexPath.row] integerValue] : self.selectedAsset;
     AssetSelectionTableViewCell *cell = [[AssetSelectionTableViewCell alloc] initWithAsset:asset];
+    cell.downwardChevron.hidden = indexPath.row != 0;
     return cell;
 }
 
@@ -117,6 +118,11 @@
             [self changeHeight:ASSET_SELECTOR_ROW_HEIGHT];
         }];
     }
+}
+
+- (void)reload
+{
+    [self.tableView reloadData];
 }
 
 @end

@@ -196,7 +196,7 @@ typedef enum {
 {
     if (self.address) {
         
-        NSArray *activeLegacyAddresses = [app.wallet activeLegacyAddresses];
+        NSArray *activeLegacyAddresses = [app.wallet activeLegacyAddresses:self.assetType];
         
         if (![app.wallet didUpgradeToHd] && [activeLegacyAddresses count] == 1 && [[activeLegacyAddresses firstObject] isEqualToString:self.address]) {
             [app standardNotifyAutoDismissingController:BC_STRING_AT_LEAST_ONE_ADDRESS_REQUIRED];
@@ -245,10 +245,9 @@ typedef enum {
             
         } else if (detailType == DetailTypeEditAccountLabel) {
             
-            BCEditAccountView *editAccountView = [[BCEditAccountView alloc] init];
+            BCEditAccountView *editAccountView = [[BCEditAccountView alloc] initWithAssetType:self.assetType];
             editAccountView.labelTextField.text = [app.wallet getLabelForAccount:self.account assetType:self.assetType];
             editAccountView.accountIdx = self.account;
-            editAccountView.assetType = self.assetType;
             
             [self setupModalView:editAccountView inViewController:segue.destinationViewController];
             
@@ -342,7 +341,7 @@ typedef enum {
             if (self.address) {
                 return [app.wallet isWatchOnlyLegacyAddress:self.address] ? BC_STRING_WATCH_ONLY_FOOTER_TITLE : BC_STRING_ARCHIVE_FOOTER_TITLE;
             } else {
-                return [NSString stringWithFormat:@"%@\n\n%@", BC_STRING_EXTENDED_PUBLIC_KEY_FOOTER_TITLE_ONE, BC_STRING_EXTENDED_PUBLIC_KEY_FOOTER_TITLE_TWO];
+                return BC_STRING_EXTENDED_PUBLIC_KEY_FOOTER_TITLE;
             }
         }
     } else if (section == sectionArchived) {

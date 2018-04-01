@@ -10,7 +10,7 @@
 
 @interface BCPricePreviewView : UIView
 
-- (id)initWithFrame:(CGRect)frame assetName:(NSString *)name price:(NSString *)price;
+- (id)initWithFrame:(CGRect)frame assetName:(NSString *)name price:(NSString *)price assetImage:(NSString *)assetImage;
 - (void)updatePrice:(NSString *)price;
 
 @end

@@ -11,6 +11,7 @@
 #import "BCLine.h"
 #import "Transaction.h"
 #import "NSNumberFormatter+Currencies.h"
+#import "RootService.h"
 
 @interface TransactionsViewController ()
 @property (nonatomic) UILabel *noTransactionsTitle;
@@ -19,6 +20,7 @@
 @property (nonatomic) UIView *noTransactionsView;
 @property (nonatomic) UIView *filterSelectorView;
 @property (nonatomic) UILabel *filterSelectorLabel;
+@property (nonatomic) NSString *balance;
 @end
 
 @implementation TransactionsViewController
@@ -39,7 +41,8 @@
     [self.filterSelectorView addSubview:self.filterSelectorLabel];
     
     UIImageView *chevronImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.filterSelectorView.frame.size.width - imageViewWidth - padding, (self.filterSelectorView.frame.size.height - imageViewWidth)/2, imageViewWidth, imageViewWidth + 2)];
-    chevronImageView.image = [UIImage imageNamed:@"chevron_right"];
+    chevronImageView.image = [[UIImage imageNamed:@"chevron_right_white"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    chevronImageView.tintColor = COLOR_DARK_GRAY;
     [self.filterSelectorView addSubview:chevronImageView];
     
     BCLine *lineAboveButtonsView = [[BCLine alloc] initWithYPosition:self.filterSelectorView.bounds.size.height - 1];
@@ -145,6 +148,21 @@
 {
     DLog(@"TransactionsViewController: getting amount for received transaction");
     return ABS(transaction.amount);
+}
+
+- (void)setBalance:(NSString *)balance
+{
+    _balance = balance;
+    
+    [self updateBalanceLabel];
+}
+
+- (void)updateBalanceLabel
+{
+    TabViewcontroller *tabViewController = app.tabControllerManager.tabViewController;
+    if (tabViewController.activeViewController == self) {
+        [tabViewController updateBalanceLabelText:self.balance];
+    }
 }
 
 @end

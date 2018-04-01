@@ -296,11 +296,13 @@
     }
     else if (section == 1) {
         labelString = BC_STRING_IMPORTED_ADDRESSES;
-        UIButton *addButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 20 - 30, 4, 50, 40)];
-        [addButton setImage:[[UIImage imageNamed:@"new"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        addButton.imageView.tintColor = COLOR_BLOCKCHAIN_BLUE;
-        [addButton addTarget:self action:@selector(newAddressClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:addButton];
+        if (self.assetType == AssetTypeBitcoin) {
+            UIButton *addButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 20 - 30, 4, 50, 40)];
+            [addButton setImage:[[UIImage imageNamed:@"new"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+            addButton.imageView.tintColor = COLOR_BLOCKCHAIN_BLUE;
+            [addButton addTarget:self action:@selector(newAddressClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [view addSubview:addButton];
+        }
     } else
         @throw @"Unknown Section";
     
@@ -313,14 +315,23 @@
 {
     if (section == 0)
         return [app.wallet getAllAccountsCount:self.assetType];
-    else if (section == 1)
-        return [allKeys count];
+    else if (section == 1) {
+        if (self.assetType == AssetTypeBitcoin) {
+            return [allKeys count];
+        } else {
+            return [allKeys count] > 0 ? 1 : 0;
+        }
+    }
     return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.assetType == AssetTypeBitcoin ? 2 : 1;
+    if (self.assetType == AssetTypeBitcoin) {
+        return 2;
+    } else {
+        return [app.wallet hasLegacyAddresses:self.assetType] ? 2 : 1;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -329,7 +340,7 @@
     if (indexPath.section == 0) {
         [self didSelectAccount:(int)indexPath.row];
     } else if (indexPath.section == 1) {
-        [self didSelectAddress:allKeys[indexPath.row]];
+        if (self.assetType == AssetTypeBitcoin) [self didSelectAddress:allKeys[indexPath.row]];
     }
 }
 
@@ -458,16 +469,16 @@
         }
     }
     
-    NSString *label =  [app.wallet labelForLegacyAddress:addr assetType:self.assetType];
+    NSString *label = self.assetType == AssetTypeBitcoin ? [app.wallet labelForLegacyAddress:addr assetType:self.assetType] : BC_STRING_IMPORTED_ADDRESSES;
     
     if (label)
         cell.labelLabel.text = label;
     else
         cell.labelLabel.text = BC_STRING_NO_LABEL;
     
-    cell.addressLabel.text = addr;
+    cell.addressLabel.text = self.assetType == AssetTypeBitcoin ? addr : nil;
     
-    uint64_t balance = [[app.wallet getLegacyAddressBalance:addr assetType:self.assetType] longLongValue];
+    uint64_t balance = self.assetType == AssetTypeBitcoin ? [[app.wallet getLegacyAddressBalance:addr assetType:self.assetType] longLongValue] : [app.wallet getTotalBalanceForActiveLegacyAddresses:self.assetType];
     
     // Selected cell color
     UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,cell.frame.size.width,cell.frame.size.height)];

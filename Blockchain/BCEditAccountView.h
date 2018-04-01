@@ -15,5 +15,5 @@
 @property int accountIdx;
 @property (nonatomic) AssetType assetType;
 @property (nonatomic, strong) BCSecureTextField *labelTextField;
-
+- (id)initWithAssetType:(AssetType)assetType;
 @end

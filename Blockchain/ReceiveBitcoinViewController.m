@@ -108,6 +108,11 @@
 {
     [super viewDidAppear:animated];
     app.mainTitleLabel.text = BC_STRING_REQUEST;
+    
+    self.view.frame = CGRectMake(0,
+                                 DEFAULT_HEADER_HEIGHT_OFFSET,
+                                 [UIScreen mainScreen].bounds.size.width,
+                                 [UIScreen mainScreen].bounds.size.height - DEFAULT_HEADER_HEIGHT - DEFAULT_HEADER_HEIGHT_OFFSET - DEFAULT_FOOTER_HEIGHT);
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -187,11 +192,11 @@
         [self.bottomContainerView addSubview:lineAboveAmounts];
     }
 
-    BCLine *lineBelowAmounts = [[BCLine alloc] initWithFrame:CGRectMake(leftPadding, 50, self.view.frame.size.width - 15, 1)];
+    BCLine *lineBelowAmounts = [[BCLine alloc] initWithFrame:CGRectMake(leftPadding, 50, self.view.frame.size.width - leftPadding, 1)];
     lineBelowAmounts.backgroundColor = COLOR_LINE_GRAY;
     [self.bottomContainerView addSubview:lineBelowAmounts];
     
-    BCLine *lineBelowToField = [[BCLine alloc] initWithFrame:CGRectMake(0, lineBelowAmounts.frame.origin.y + 50, self.view.frame.size.width - 15, 1)];
+    BCLine *lineBelowToField = [[BCLine alloc] initWithFrame:CGRectMake(0, lineBelowAmounts.frame.origin.y + 50, self.view.frame.size.width, 1)];
     lineBelowToField.backgroundColor = COLOR_LINE_GRAY;
     [self.bottomContainerView addSubview:lineBelowToField];
     
@@ -351,7 +356,7 @@
 
 - (void)reloadAddresses
 {
-    self.activeKeys = [app.wallet activeLegacyAddresses];
+    self.activeKeys = [app.wallet activeLegacyAddresses:self.assetType];
 }
 
 - (void)resetContactInfo
@@ -390,6 +395,10 @@
 - (void)setupHeaderView
 {
     self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.bottomContainerView.frame.origin.y)];
+    
+    if (!(IS_USING_SCREEN_SIZE_4S) && self.assetType == AssetTypeBitcoinCash) {
+        self.headerView.center = CGPointMake(self.headerView.center.x, (self.bottomContainerView.frame.origin.y + AMOUNT_INPUT_VIEW_HEIGHT)/2);
+    }
     
     UILabel *instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 42)];
     instructionsLabel.textAlignment = NSTextAlignmentCenter;
@@ -636,7 +645,10 @@
 
 - (NSString*)formatPaymentRequestWithAmount:(NSString *)amount url:(NSString*)url
 {
-    return [NSString stringWithFormat:BC_STRING_PAYMENT_REQUEST_BITCOIN_ARGUMENT_ARGUMENT, amount, url];
+    if (self.assetType == AssetTypeBitcoin) {
+        return [NSString stringWithFormat:BC_STRING_PAYMENT_REQUEST_BITCOIN_ARGUMENT_ARGUMENT, amount, url];
+    }
+    return [NSString stringWithFormat:BC_STRING_PAYMENT_REQUEST_BITCOIN_CASH_ARGUMENT, url];
 }
 
 - (NSString*)formatPaymentRequestHTML:(NSString*)url
@@ -897,8 +909,8 @@
     
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
     
-    activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePostToFacebook];
-    
+    activityViewController.excludedActivityTypes = @[UIActivityTypeAddToReadingList, UIActivityTypeAssignToContact, UIActivityTypeOpenInIBooks, UIActivityTypePostToFacebook, UIActivityTypePostToFlickr, UIActivityTypePostToVimeo];
+
     [activityViewController setValue:BC_STRING_PAYMENT_REQUEST_BITCOIN_SUBJECT forKey:@"subject"];
     
     [self.amountInputView.btcField resignFirstResponder];

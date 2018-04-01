@@ -44,4 +44,5 @@
 @property (nonatomic) NSString *buttonTitle;
 @property (nonatomic) BOOL showDescription;
 @property (nonatomic) BOOL surgeIsOccurring;
+@property (nonatomic) NSAttributedString *warningText;
 @end

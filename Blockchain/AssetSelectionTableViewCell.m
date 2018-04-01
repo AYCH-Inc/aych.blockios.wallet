@@ -14,7 +14,6 @@
 @property (nonatomic) UIView *containerView;
 @property (nonatomic) UILabel *label;
 @property (nonatomic) UIImageView *assetImageView;
-@property (nonatomic) UIImageView *downwardChevron;
 @end
 
 @implementation AssetSelectionTableViewCell
@@ -29,15 +28,18 @@
         
         self.backgroundColor = [UIColor clearColor];
         
-        CGFloat imageViewHeight = 26;
         NSString *text;
+        NSString *assetImage;
         
         if (assetType == AssetTypeBitcoin) {
             text = BC_STRING_BITCOIN;
+            assetImage = @"bitcoin_white";
         } else if (assetType == AssetTypeEther) {
             text = BC_STRING_ETHER;
+            assetImage = @"ether_white";
         } else if (assetType == AssetTypeBitcoinCash) {
             text = BC_STRING_BITCOIN_CASH;
+            assetImage = @"bitcoin_cash_white";
         }
         
         self.label = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -46,20 +48,24 @@
         self.label.text = text;
         [self.label sizeToFit];
         
-        self.assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, imageViewHeight, imageViewHeight)];
-        self.assetImageView.image = [UIImage imageNamed:@"bitcoin"];
+        CGFloat containerViewHeight = 26;
         
-        self.downwardChevron = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, imageViewHeight, imageViewHeight)];
-        self.downwardChevron.image = [UIImage imageNamed:@"chevron_right"];
+        CGFloat assetImageViewHeight = 20;
+        self.assetImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, (containerViewHeight - assetImageViewHeight)/2, assetImageViewHeight, assetImageViewHeight)];
+        self.assetImageView.image = [UIImage imageNamed:assetImage];
         
-        self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.assetImageView.bounds.size.width + self.label.bounds.size.width + self.downwardChevron.bounds.size.width, imageViewHeight)];
+        CGFloat chevronImageViewHeight = 14;
+        self.downwardChevron = [[UIImageView alloc] initWithFrame:CGRectMake(0, (containerViewHeight - chevronImageViewHeight)/2, chevronImageViewHeight, chevronImageViewHeight)];
+        self.downwardChevron.image = [UIImage imageNamed:@"chevron_down_white"];
+        
+        self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.assetImageView.bounds.size.width + 8 + self.label.bounds.size.width + 8 + self.downwardChevron.bounds.size.width, 26)];
         [self.containerView addSubview:self.label];
         [self.containerView addSubview:self.assetImageView];
         [self.containerView addSubview:self.downwardChevron];
 
         [self.assetImageView changeXPosition:0];
-        [self.label changeXPosition:self.assetImageView.bounds.size.width];
-        [self.downwardChevron changeXPosition:self.label.frame.origin.x + self.label.frame.size.width];
+        self.label.frame = CGRectMake(self.assetImageView.bounds.size.width + 8, (containerViewHeight - self.label.bounds.size.height)/2, self.label.bounds.size.width, self.label.bounds.size.height);
+        [self.downwardChevron changeXPosition:self.label.frame.origin.x + self.label.frame.size.width + 8];
         [self addSubview:self.containerView];
     }
     

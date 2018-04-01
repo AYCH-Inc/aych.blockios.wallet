@@ -402,9 +402,17 @@ const CGFloat rowHeightValueReceived = 80;
         labelString = self.transactionModel.toString;
     }
     
+    if (self.transactionModel.assetType == AssetTypeBitcoinCash && [app.wallet isValidAddress:address assetType:AssetTypeBitcoinCash]) {
+        address = [app.wallet toBitcoinCash:address includePrefix:NO];
+    }
+    
     UIAlertController *copyAddressController = [UIAlertController alertControllerWithTitle:labelString message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     [copyAddressController addAction:[UIAlertAction actionWithTitle:BC_STRING_COPY_ADDRESS style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [UIPasteboard generalPasteboard].string = address;
+        if (address) {
+            [UIPasteboard generalPasteboard].string = address;
+        } else {
+            [app standardNotify:BC_STRING_ERROR_COPYING_TO_CLIPBOARD];
+        }
     }]];
     [copyAddressController addAction:[UIAlertAction actionWithTitle:BC_STRING_SEND_TO_ADDRESS style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self dismissViewControllerAnimated:YES completion:^{

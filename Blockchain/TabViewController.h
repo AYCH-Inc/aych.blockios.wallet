@@ -52,6 +52,7 @@
 - (int)selectedIndex;
 - (void)updateBadgeNumber:(NSInteger)number forSelectedIndex:(int)index;
 - (void)setTitleLabelText:(NSString *)text;
+- (void)updateBalanceLabelText:(NSString *)text;
 - (void)didFetchEthExchangeRate;
 - (void)didSendEther;
 - (void)didErrorDuringEtherSend:(NSString *)error;

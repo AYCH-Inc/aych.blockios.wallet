@@ -20,6 +20,7 @@
 @property (nonatomic) UIView *noTransactionsView;
 @property (nonatomic) UILabel *filterSelectorView;
 @property (nonatomic) UILabel *filterSelectorLabel;
+@property (nonatomic) NSString *balance;
 - (void)setupNoTransactionsViewInView:(UIView *)view assetType:(AssetType)assetType;
 - (void)setupFilter;
 - (uint64_t)getAmountForReceivedTransaction:(Transaction *)transaction;
@@ -68,9 +69,43 @@
     tableViewController.tableView = self.tableView;
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self
-                            action:@selector(getHistory)
+                            action:@selector(getHistoryAndRates)
                   forControlEvents:UIControlEventValueChanged];
     tableViewController.refreshControl = self.refreshControl;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.balance = @"";
+    
+    [self reload];
+}
+
+- (void)reload
+{
+    [self loadTransactions];
+    
+    [self updateBalance];
+    
+    [self.detailViewController didGetHistory];
+}
+
+- (void)updateBalance
+{
+    self.balance = [NSNumberFormatter formatBchWithSymbol:[self getBalance]];
+}
+
+- (uint64_t)getBalance
+{
+    if (self.filterIndex == FILTER_INDEX_ALL) {
+        return [app.wallet getBchBalance];
+    } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
+        return [app.wallet getTotalBalanceForActiveLegacyAddresses:AssetTypeBitcoinCash];
+    } else {
+        return [[app.wallet getBalanceForAccount:(int)self.filterIndex assetType:AssetTypeBitcoinCash] longLongValue];
+    }
 }
 
 - (void)loadTransactions
@@ -83,16 +118,18 @@
     [self.refreshControl endRefreshing];
 }
 
-- (void)reload
+- (void)reloadSymbols
 {
-    [self loadTransactions];
+    [self reload];
+    
+    [self.detailViewController reloadSymbols];
 }
 
-- (void)getHistory
+- (void)getHistoryAndRates
 {
     [app showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
 
-    [app.wallet performSelector:@selector(getBitcoinCashHistory) withObject:nil afterDelay:0.1f];
+    [app.wallet performSelector:@selector(getBitcoinCashHistoryAndRates) withObject:nil afterDelay:0.1f];
 }
 
 - (void)didReceiveTransactionMessage
@@ -114,6 +151,11 @@
     } else {
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     }
+}
+
+- (void)getAssetButtonClicked
+{
+    [app.tabControllerManager receiveCoinClicked:nil];
 }
 
 #pragma mark - Table View Data Source
@@ -193,6 +235,8 @@
     self.filterIndex = filter;
     if (filter == FILTER_INDEX_ALL) {
         self.filterSelectorLabel.text = BC_STRING_ALL_WALLETS;
+    } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
+        self.filterSelectorLabel.text = BC_STRING_IMPORTED_ADDRESSES;
     } else {
         self.filterSelectorLabel.text = [app.wallet getLabelForAccount:filter assetType:AssetTypeBitcoinCash];
     }

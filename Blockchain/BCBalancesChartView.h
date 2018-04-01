@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@protocol BCBalancesChartViewDelegate
+- (void)bitcoinLegendTapped;
+- (void)etherLegendTapped;
+- (void)bitcoinCashLegendTapped;
+@end
 @interface BCBalancesChartView : UIView
-
+@property (nonatomic, weak) id<BCBalancesChartViewDelegate> delegate;
 - (void)updateBitcoinFiatBalance:(double)fiatBalance;
 - (void)updateEtherFiatBalance:(double)fiatBalance;
 - (void)updateBitcoinCashFiatBalance:(double)fiatBalance;

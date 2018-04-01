@@ -25,6 +25,18 @@
 
 @implementation TransactionsViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    CGFloat statusBarAdjustment = [[UIApplication sharedApplication] statusBarFrame].size.height > DEFAULT_STATUS_BAR_HEIGHT ? DEFAULT_STATUS_BAR_HEIGHT : 0;
+    
+    self.view.frame = CGRectMake(0,
+                                 DEFAULT_HEADER_HEIGHT_OFFSET,
+                                 [UIScreen mainScreen].bounds.size.width,
+                                 [UIScreen mainScreen].bounds.size.height - DEFAULT_HEADER_HEIGHT - DEFAULT_HEADER_HEIGHT_OFFSET - DEFAULT_FOOTER_HEIGHT - statusBarAdjustment);
+}
+
 - (void)setupFilter
 {
     self.filterIndex = FILTER_INDEX_ALL;

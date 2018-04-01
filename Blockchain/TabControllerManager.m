@@ -555,20 +555,40 @@
 
 - (void)showReceiveBitcoinCash
 {
-    self.assetType = AssetTypeBitcoinCash;
+    [self changeAssetSelectorAsset:AssetTypeBitcoinCash];
+    [self showReceiveAnimated:YES];
+    [_receiveBitcoinCashViewController reload];
+}
+
+- (void)showTransactionsBitcoin
+{
+    [self changeAssetSelectorAsset:AssetTypeBitcoin];
+    [self showTransactionsAnimated:YES];
+    [_transactionsBitcoinViewController reload];
+}
+
+- (void)showTransactionsEther
+{
+    [self changeAssetSelectorAsset:AssetTypeEther];
+    [self showTransactionsAnimated:YES];
+    [_transactionsEtherViewController reload];
+}
+
+- (void)showTransactionsBitcoinCash
+{
+    [self changeAssetSelectorAsset:AssetTypeBitcoinCash];
+    [self showTransactionsAnimated:YES];
+    [_transactionsBitcoinCashViewController reload];
+}
+
+- (void)changeAssetSelectorAsset:(AssetType)assetType
+{
+    self.assetType = assetType;
     
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.assetType] forKey:USER_DEFAULTS_KEY_ASSET_TYPE];
     
     self.tabViewController.assetSelectorView.selectedAsset = self.assetType;
     [self.tabViewController.assetSelectorView reload];
-    
-    if (!_receiveBitcoinCashViewController) {
-        _receiveBitcoinCashViewController = [[ReceiveBitcoinViewController alloc] init];
-        _receiveBitcoinCashViewController.assetType = AssetTypeBitcoinCash;
-    }
-    
-    [_tabViewController setActiveViewController:_receiveBitcoinCashViewController animated:TRUE index:TAB_RECEIVE];
-    [_receiveBitcoinCashViewController reload];
 }
 
 - (void)transactionsClicked:(UITabBarItem *)sender

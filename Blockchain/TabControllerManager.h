@@ -66,6 +66,9 @@
 - (void)qrCodeButtonClicked;
 
 - (void)showReceiveBitcoinCash;
+- (void)showTransactionsBitcoin;
+- (void)showTransactionsEther;
+- (void)showTransactionsBitcoinCash;
 
 // Send Bitcoin View Controller
 - (BOOL)isSending;

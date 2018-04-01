@@ -71,12 +71,18 @@
     CGFloat legendKeyHeight = legendKeyContainerView.frame.size.height;
     
     self.bitcoinLegendKey = [[BCBalanceChartLegendKeyView alloc] initWithFrame:CGRectMake(0, 0, legendKeyWidth, legendKeyHeight) assetColor:COLOR_BLOCKCHAIN_BLUE assetName:BC_STRING_BITCOIN];
+    UITapGestureRecognizer *tapGestureBitcoin = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bitcoinLegendTapped)];
+    [self.bitcoinLegendKey addGestureRecognizer:tapGestureBitcoin];
     [legendKeyContainerView addSubview:self.bitcoinLegendKey];
     
      self.etherLegendKey = [[BCBalanceChartLegendKeyView alloc] initWithFrame:CGRectMake(legendKeyWidth + legendKeySpacing, 0, legendKeyWidth, legendKeyHeight) assetColor:COLOR_BLOCKCHAIN_LIGHT_BLUE assetName:BC_STRING_ETHER];
+    UITapGestureRecognizer *tapGestureEther = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(etherLegendTapped)];
+    [self.etherLegendKey addGestureRecognizer:tapGestureEther];
      [legendKeyContainerView addSubview:self.etherLegendKey];
 
     self.bitcoinCashLegendKey = [[BCBalanceChartLegendKeyView alloc] initWithFrame:CGRectMake((legendKeyWidth + legendKeySpacing)*2, 0, legendKeyWidth, legendKeyHeight) assetColor:COLOR_BLOCKCHAIN_LIGHTER_BLUE assetName:BC_STRING_BITCOIN_CASH];
+    UITapGestureRecognizer *tapGestureBitcoinCash = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bitcoinCashLegendTapped)];
+    [self.bitcoinCashLegendKey addGestureRecognizer:tapGestureBitcoinCash];
     [legendKeyContainerView addSubview:self.bitcoinCashLegendKey];
 }
 
@@ -177,6 +183,22 @@
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:text attributes:attributesDictionary];
     
     return attributedString;
+}
+
+- (void)bitcoinLegendTapped
+{
+    [self.delegate bitcoinLegendTapped];
+}
+
+- (void)etherLegendTapped
+{
+    [self.delegate etherLegendTapped];
+}
+
+- (void)bitcoinCashLegendTapped
+{
+    [self.delegate bitcoinCashLegendTapped];
+
 }
 
 @end

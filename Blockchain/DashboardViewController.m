@@ -30,7 +30,7 @@
 @property (nonatomic) UIView *contentView;
 @end
 
-@interface DashboardViewController () <IChartAxisValueFormatter, BCPriceChartViewDelegate>
+@interface DashboardViewController () <IChartAxisValueFormatter, BCPriceChartViewDelegate, BCBalancesChartViewDelegate>
 @property (nonatomic) BCBalancesChartView *balancesChartView;
 @property (nonatomic) BCPriceChartContainerViewController *chartContainerViewController;
 @property (nonatomic) BCPricePreviewView *bitcoinPricePreview;
@@ -84,6 +84,7 @@
     [self.contentView addSubview:balancesLabel];
     
     self.balancesChartView = [[BCBalancesChartView alloc] initWithFrame:CGRectMake(horizontalPadding, balancesLabel.frame.origin.y + balancesLabel.frame.size.height, self.view.frame.size.width - horizontalPadding*2, 320)];
+    self.balancesChartView.delegate = self;
     self.balancesChartView.layer.masksToBounds = NO;
     self.balancesChartView.layer.shadowOffset = CGSizeMake(0, 2);
     self.balancesChartView.layer.shadowRadius = 3;
@@ -252,6 +253,23 @@
     BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(padding, padding, self.view.frame.size.width - padding, self.view.frame.size.height*3/4 - padding) assetType:AssetTypeBitcoinCash dataPoints:nil delegate:self];
     [self.chartContainerViewController addPriceChartView:priceChartView atIndex:2];
     [self fetchChartDataForAsset:AssetTypeBitcoinCash];
+}
+
+#pragma mark - Balances Chart Delegate
+
+- (void)bitcoinLegendTapped
+{
+    [app.tabControllerManager showTransactionsBitcoin];
+}
+
+- (void)etherLegendTapped
+{
+    [app.tabControllerManager showTransactionsEther];
+}
+
+- (void)bitcoinCashLegendTapped
+{
+    [app.tabControllerManager showTransactionsBitcoinCash];
 }
 
 #pragma mark - View Helpers

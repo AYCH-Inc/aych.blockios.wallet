@@ -994,7 +994,8 @@ void (^secondPasswordSuccess)(NSString *);
     DLog(@"walletDidFinishLoad");
     
     self.wallet.btcSwipeAddressToSubscribe = nil;
-    
+    self.wallet.bchSwipeAddressToSubscribe = nil;
+
     self.wallet.twoFactorInput = nil;
         
     [manualPairView clearTextFields];

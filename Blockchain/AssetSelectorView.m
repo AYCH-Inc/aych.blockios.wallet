@@ -29,6 +29,7 @@
         
         self.delegate = delegate;
         self.tableView = [[UITableView alloc] initWithFrame:self.bounds];
+        self.tableView.separatorColor = [UIColor clearColor];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         [self addSubview:self.tableView];

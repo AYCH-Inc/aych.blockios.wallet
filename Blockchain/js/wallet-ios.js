@@ -3016,7 +3016,7 @@ MyWalletPhone.bch = {
     },
     
     transactions : function(filter) {
-        return MyWallet.wallet.bch.txs.filter((tx) => {
+        return MyWallet.wallet.bch.txs.filter(function(tx) {
 
             var indexFromCoinType = function(coinType) {
                 return coinType !== 'external' && coinType !== 'legacy' ? parseInt(coinType.charAt(0)) : null;

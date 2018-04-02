@@ -704,6 +704,7 @@ void (^secondPasswordSuccess)(NSString *);
 - (void)reloadAfterMultiAddressResponse
 {
     if (self.wallet.didReceiveMessageForLastTransaction) {
+        self.wallet.didReceiveMessageForLastTransaction = NO;
         Transaction *transaction = app.latestResponse.transactions.firstObject;
         [self.tabControllerManager.receiveBitcoinViewController paymentReceived:ABS(transaction.amount) showBackupReminder:NO];
     }

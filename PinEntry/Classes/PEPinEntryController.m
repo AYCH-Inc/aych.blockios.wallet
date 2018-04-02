@@ -152,28 +152,24 @@ static PEViewController *VerifyController()
         
         [pinController.scrollView setUserInteractionEnabled:YES];
         
-        NSArray *assets = @[[NSNumber numberWithInteger:AssetTypeBitcoin], [NSNumber numberWithInteger:AssetTypeEther], [NSNumber numberWithInteger:AssetTypeBitcoinCash]];
+        NSArray *assets = [self assets];
         
         UIPageControl *backgroundViewPageControl = [self pageControlWithAssets:assets];
         [self.view addSubview:backgroundViewPageControl];
         backgroundViewPageControl.hidden = YES;
         self.backgroundViewPageControl = backgroundViewPageControl;
 
-        UIPageControl *scrollViewPageControl = [self pageControlWithAssets:assets];
-        [scrollViewPageControl changeXPosition:scrollViewPageControl.frame.origin.x + pinController.scrollView.bounds.size.width];
-        [pinController.scrollView addSubview:scrollViewPageControl];
-        scrollViewPageControl.hidden = YES;
-        scrollViewPageControl.currentPage = 1;
-        self.scrollViewPageControl = scrollViewPageControl;
+        CGFloat windowWidth = WINDOW_WIDTH;
+        CGFloat windowHeight = WINDOW_HEIGHT;
 
-        [pinController.scrollView setContentSize:CGSizeMake(pinController.scrollView.frame.size.width * (assets.count + 1), pinController.scrollView.frame.size.height)];
+        [pinController.scrollView setContentSize:CGSizeMake(windowWidth * (assets.count + 1), windowHeight)];
         [pinController.scrollView setPagingEnabled:YES];
         pinController.scrollView.delegate = self;
         
         for (int assetIndex = 0; assetIndex < assets.count; assetIndex++) {
             AssetType asset = [assets[assetIndex] integerValue];
             BCSwipeAddressViewModel *viewModel = [[BCSwipeAddressViewModel alloc] initWithAssetType:asset];
-            BCSwipeAddressView *swipeView = [[BCSwipeAddressView alloc] initWithFrame:CGRectMake(pinController.scrollView.bounds.size.width * (assetIndex + 1), 0, pinController.scrollView.bounds.size.width, pinController.scrollView.bounds.size.height) viewModel:viewModel delegate:self];
+            BCSwipeAddressView *swipeView = [[BCSwipeAddressView alloc] initWithFrame:CGRectMake(windowWidth * (assetIndex + 1), 0, windowWidth, windowHeight) viewModel:viewModel delegate:self];
             [self addAddressToSwipeView:swipeView assetType:asset];
             [self.swipeViews setObject:swipeView forKey:[NSNumber numberWithInteger:asset]];
             [pinController.scrollView addSubview:swipeView];
@@ -303,6 +299,11 @@ static PEViewController *VerifyController()
     return _swipeViews;
 }
 
+- (NSArray *)assets
+{
+    return @[[NSNumber numberWithInteger:AssetTypeBitcoin], [NSNumber numberWithInteger:AssetTypeEther], [NSNumber numberWithInteger:AssetTypeBitcoinCash]];
+}
+
 #pragma mark Debug Menu
 
 - (void)viewDidAppear:(BOOL)animated
@@ -355,6 +356,16 @@ static PEViewController *VerifyController()
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if (!self.scrollViewPageControl) {
+        CGFloat windowWidth = WINDOW_WIDTH;
+        UIPageControl *scrollViewPageControl = [self pageControlWithAssets:[self assets]];
+        [scrollViewPageControl changeXPosition:scrollViewPageControl.frame.origin.x + windowWidth];
+        [pinController.scrollView addSubview:scrollViewPageControl];
+        scrollViewPageControl.hidden = YES;
+        scrollViewPageControl.currentPage = 1;
+        self.scrollViewPageControl = scrollViewPageControl;
+    }
+    
     [self updatePage:scrollView];
     
     if (scrollView.contentOffset.x > self.view.frame.size.width - 1) {

@@ -44,7 +44,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetScrollView) name:@"applicationDidEnterBackground" object:nil];
     // This contentView can be any custom view - intended to be placed at the top of the scroll view, moved down when the cards view is present, and moved back up when the cards view is dismissed
     self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
     self.contentView.clipsToBounds = YES;
@@ -66,7 +66,7 @@
     self.contentView.frame = contentViewFrame;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)resetScrollView
 {
     [self.scrollView setContentOffset:CGPointZero animated:NO];
 }

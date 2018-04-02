@@ -66,6 +66,11 @@
     self.contentView.frame = contentViewFrame;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.scrollView setContentOffset:CGPointZero animated:NO];
+}
+
 - (void)setAssetType:(AssetType)assetType
 {
     _assetType = assetType;

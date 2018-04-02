@@ -41,7 +41,6 @@
     headerLabel.textColor = [UIColor whiteColor];
     headerLabel.textAlignment = NSTextAlignmentCenter;
     headerLabel.adjustsFontSizeToFitWidth = YES;
-    headerLabel.text = BC_STRING_BITCOIN_ADDRESSES;
     headerLabel.center = CGPointMake(topBar.center.x, headerLabel.center.y);
     [topBar addSubview:headerLabel];
     self.headerLabel = headerLabel;

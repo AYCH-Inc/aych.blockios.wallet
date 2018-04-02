@@ -461,6 +461,10 @@
 
 - (NSString *)uriURL
 {
+    if (self.assetType == AssetTypeBitcoinCash) {
+        return self.clickedAddress;
+    }
+
     double amount = (double)[self getInputAmountInSatoshi] / SATOSHI;
     
     app.btcFormatter.usesGroupingSeparator = NO;
@@ -904,7 +908,7 @@
     NSString *message = [self formatPaymentRequestWithAmount:amountString url:@""];
     
     NSURL *url = [NSURL URLWithString:[self uriURL]];
-    
+
     NSArray *activityItems = @[message, self, url];
     
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];

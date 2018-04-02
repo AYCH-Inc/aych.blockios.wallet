@@ -301,6 +301,8 @@ void (^secondPasswordSuccess)(NSString *);
         }
         
         [app.wallet getSwipeAddresses:numberOfBitcoinAddressesToDerive assetType:AssetTypeBitcoin];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"applicationDidEnterBackground" object:self];
     }
     
     [self.loginTimer invalidate];

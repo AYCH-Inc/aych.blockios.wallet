@@ -3084,7 +3084,11 @@ MyWalletPhone.bch = {
     
     changePaymentToAddress : function(to) {
         console.log('Changing bch payment to address');
-        currentBitcoinCashPayment.to(Helpers.fromBitcoinCash('bitcoincash:' + to));
+        if (Helpers.isBitcoinAddress(to)) {
+            currentBitcoinCashPayment.to(to);
+        } else {
+            currentBitcoinCashPayment.to(Helpers.fromBitcoinCash('bitcoincash:' + to));
+        }
     },
     
     changePaymentAmount : function(amount) {

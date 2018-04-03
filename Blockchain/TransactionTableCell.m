@@ -162,7 +162,11 @@
 
 - (IBAction)btcbuttonclicked:(id)sender
 {
-    [self transactionClicked:nil];
+    if (self.assetType == AssetTypeBitcoin) {
+        [self transactionClicked:nil];
+    } else {
+        [self bitcoinCashTransactionClicked];
+    }
 }
 
 - (void)changeBtcButtonTitleText:(NSString *)text

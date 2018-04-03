@@ -1091,11 +1091,7 @@ const int aboutPrivacyPolicy = 2;
 {
     switch (section) {
         case sectionProfile: return 4;
-#ifdef DEBUG
-        case sectionPreferences: return 4;
-#else
-        case sectionPreferences: return 3;
-#endif
+        case sectionPreferences: return 2;
         case sectionSecurity: {
             NSInteger numberOfRows = 0;
 

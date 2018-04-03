@@ -335,7 +335,10 @@
 
 - (NSString *)getEthPrice
 {
-    return self.lastEthExchangeRate ? [NSNumberFormatter formatEthToFiatWithSymbol:@"1" exchangeRate:self.lastEthExchangeRate] : nil;
+    if (!app.wallet.isInitialized || !self.lastEthExchangeRate) {
+        return nil;
+    }
+    return [NSNumberFormatter formatEthToFiatWithSymbol:@"1" exchangeRate:self.lastEthExchangeRate];
 }
 
 - (double)getBtcBalance

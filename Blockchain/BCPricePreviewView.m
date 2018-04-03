@@ -24,6 +24,7 @@
         CGFloat shadowRadius = 3;
         float shadowOpacity = 0.25;
         
+        self.layer.cornerRadius = 2;
         self.layer.masksToBounds = NO;
         self.layer.shadowOffset = shadowOffset;
         self.layer.shadowRadius = shadowRadius;

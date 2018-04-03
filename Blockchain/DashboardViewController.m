@@ -91,6 +91,7 @@
     self.balancesChartView = [[BCBalancesChartView alloc] initWithFrame:CGRectMake(horizontalPadding, balancesLabel.frame.origin.y + balancesLabel.frame.size.height, self.view.frame.size.width - horizontalPadding*2, 320)];
     self.balancesChartView.delegate = self;
     self.balancesChartView.layer.masksToBounds = NO;
+    self.balancesChartView.layer.cornerRadius = 2;
     self.balancesChartView.layer.shadowOffset = CGSizeMake(0, 2);
     self.balancesChartView.layer.shadowRadius = 3;
     self.balancesChartView.layer.shadowOpacity = 0.25;

@@ -49,8 +49,9 @@
     if (self == [super initWithFrame:frame]) {
         self.assetType = assetType;
         self.delegate = delegate;
-        
+
         self.backgroundColor = [UIColor whiteColor];
+        self.layer.cornerRadius = 2;
         
         UIView *titleContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 16, self.frame.size.width, 60)];
         titleContainerView.backgroundColor = [UIColor clearColor];

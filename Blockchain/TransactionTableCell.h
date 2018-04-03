@@ -20,6 +20,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BCInsetLabel.h"
+#import "Assets.h"
 
 @class LatestBlock, Transaction;
 
@@ -38,6 +39,7 @@
 -(IBAction)btcbuttonclicked:(id)sender;
 
 @property(nonatomic, strong)  Transaction * transaction;
+@property(nonatomic)  AssetType assetType;
 
 - (void)reload;
 - (void)changeBtcButtonTitleText:(NSString *)text;

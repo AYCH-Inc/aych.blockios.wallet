@@ -164,12 +164,14 @@
     if (indexPath.section == self.sectionContactsPending) {
         
         TransactionTableCell *cell = (TransactionTableCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-        
+        cell.assetType = AssetTypeBitcoin;
+
         [cell transactionClicked:nil];
         
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     } else if (indexPath.section == self.sectionMain) {
         TransactionTableCell *cell = (TransactionTableCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        cell.assetType = AssetTypeBitcoin;
         if ([cell.transaction isMemberOfClass:[ContactTransaction class]]) {
             ContactTransaction *contactTransaction = (ContactTransaction *)cell.transaction;
             if (contactTransaction.transactionState == ContactTransactionStateCancelled ||

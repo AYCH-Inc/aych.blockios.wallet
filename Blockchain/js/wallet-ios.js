@@ -3164,7 +3164,9 @@ MyWalletPhone.loadMetadata = function() {
 
 MyWalletPhone.getHistoryForAllAssets = function() {
     var getBitcoinHistory = MyWallet.wallet.getHistory();
-    var getEtherHistory = MyWallet.wallet.eth.fetchHistory();
-    var getBitcoinCashHistory = MyWallet.wallet.bch.getHistory();
+    var eth = MyWallet.wallet.eth;
+    var getEtherHistory = eth ? eth.fetchHistory() : {};
+    var bch = MyWallet.wallet.bch;
+    var getBitcoinCashHistory = bch ? bch.getHistory() : {};
     return Promise.all([getBitcoinHistory, getEtherHistory, getBitcoinCashHistory]);
 }

@@ -20,6 +20,14 @@ var Contacts = Blockchain.Contacts;
 var EthSocket = Blockchain.EthSocket;
 var BlockchainSocket = Blockchain.BlockchainSocket;
 
+if (typeof Buffer.prototype.reverse !== 'function') {
+    // required for sending BCH on iOS 9
+    console.log('reverse not defined - polyfill');
+    Buffer.prototype.reverse = function () {
+        return [].reverse.call(this)
+    }
+}
+
 function NativeEthSocket () {
   this.handlers = []
 }

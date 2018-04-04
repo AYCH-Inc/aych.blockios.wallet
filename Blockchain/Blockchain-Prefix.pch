@@ -347,6 +347,9 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define HOST_NAME_ETHERSCAN @"etherscan.io"
 #define URL_ETHERSCAN @"https://etherscan.io"
 
+#define URL_BLOCKCHAIR @"blockchair.com"
+#define URL_PREFIX_VIEW_TRANSACTION_BITCOIN_CASH @"https://blockchair.com/bitcoin-cash/transaction/"
+
 #define NETWORK_MAINNET @"bitcoin"
 #define NETWORK_TESTNET @"testnet"
 

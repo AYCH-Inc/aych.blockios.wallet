@@ -429,6 +429,8 @@
         
         return cell;
     }
+
+    // Imported addresses
     
     NSString *addr = [allKeys objectAtIndex:[indexPath row]];
     
@@ -466,6 +468,13 @@
             cell.balanceButton.frame = UIEdgeInsetsInsetRect(cell.contentView.frame, contentInsets);
             
             [cell.watchLabel setHidden:TRUE];
+
+            // Disable cell highlighting for BCH imported addresses
+            if (self.assetType == AssetTypeBitcoinCash) {
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            } else {
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            }
         }
     }
     

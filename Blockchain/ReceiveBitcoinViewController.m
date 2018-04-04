@@ -640,7 +640,7 @@
 - (IBAction)mainQRClicked:(id)sender
 {
     if ([self.mainAddress isKindOfClass:[NSString class]]) {
-        [UIPasteboard generalPasteboard].string = self.mainAddress;
+        [UIPasteboard generalPasteboard].string = self.mainAddressLabel.text;
         [self.mainAddressLabel animateFromText:[[self.mainAddress componentsSeparatedByString:@":"] lastObject] toIntermediateText:BC_STRING_COPIED_TO_CLIPBOARD speed:1 gestureReceiver:qrCodeMainImageView];
     } else {
         [app standardNotifyAutoDismissingController:BC_STRING_ERROR_COPYING_TO_CLIPBOARD];

@@ -15,9 +15,6 @@
 #import "NSDateFormatter+VerboseString.h"
 #import "Blockchain-Swift.h"
 
-#define URL_BLOCKCHAIR @"blockchair.com"
-#define URL_PREFIX_VIEW_TRANSACTION_BITCOIN_CASH @"https://blockchair.com/bitcoin-cash/transaction/"
-
 @interface TransactionDetailViewModel ()
 @property (nonatomic) NSString *amountString;
 @property (nonatomic) uint64_t feeInSatoshi;

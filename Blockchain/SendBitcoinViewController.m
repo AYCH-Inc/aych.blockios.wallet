@@ -450,7 +450,7 @@ BOOL displayingLocalSymbolSend;
 {
     if (app.latestResponse.symbol_local && app.latestResponse.symbol_btc) {
         fiatLabel.text = app.latestResponse.symbol_local.code;
-        btcLabel.text = app.latestResponse.symbol_btc.symbol;
+        btcLabel.text = self.assetType == AssetTypeBitcoin ? app.latestResponse.symbol_btc.symbol : CURRENCY_SYMBOL_BCH;
     }
     
     if (app->symbolLocal && app.latestResponse.symbol_local && app.latestResponse.symbol_local.conversion > 0) {

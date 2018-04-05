@@ -91,7 +91,9 @@
     
     [self disablePaymentButtons];
     
-    if ([app.wallet getTotalActiveBalance] > 0 || [[NSDecimalNumber decimalNumberWithString:[app.wallet getEthBalance]] compare:@0] == NSOrderedDescending) {
+    if ([app.wallet getTotalActiveBalance] > 0 ||
+        [[NSDecimalNumber decimalNumberWithString:[app.wallet getEthBalance]] compare:@0] == NSOrderedDescending ||
+        [app.wallet getBchBalance] > 0) {
         [self getRate];
     } else {
         [app showGetAssetsAlert];

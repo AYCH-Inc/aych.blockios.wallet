@@ -724,7 +724,7 @@
                 [app buyBitcoinClicked:nil];
             } else {
                 [app closeSideMenu];
-                [self.tabViewController selectAsset:AssetTypeBitcoin];
+                [self changeAssetSelectorAsset:AssetTypeBitcoin];
                 [self receiveCoinClicked:nil];
             }
         }];
@@ -732,7 +732,14 @@
     [showGetAssetsAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_GET_ETHER style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self.tabViewController dismissViewControllerAnimated:YES completion:^{
             [app closeSideMenu];
-            [self.tabViewController selectAsset:AssetTypeEther];
+            [self changeAssetSelectorAsset:AssetTypeEther];
+            [self receiveCoinClicked:nil];
+        }];
+    }]];
+    [showGetAssetsAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_GET_BITCOIN_CASH style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.tabViewController dismissViewControllerAnimated:YES completion:^{
+            [app closeSideMenu];
+            [self changeAssetSelectorAsset:AssetTypeBitcoinCash];
             [self receiveCoinClicked:nil];
         }];
     }]];

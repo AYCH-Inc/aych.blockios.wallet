@@ -106,6 +106,8 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 
 #define COLOR_TABLE_VIEW_CELL_TEXT_BLUE COLOR_BLOCKCHAIN_LIGHT_BLUE
 
+#define COLOR_PRICE_PREVIEW_CHART_MARKER UIColorFromRGB(0x5F5F5F)
+
 #pragma mark - Measurements
 
 #define HEIGHT_IPHONE_4S 480.0

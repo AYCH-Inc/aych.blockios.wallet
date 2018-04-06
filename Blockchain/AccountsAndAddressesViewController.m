@@ -41,6 +41,7 @@
     self.containerView = containerView;
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+    [self.tableView changeHeight:self.view.frame.size.height - CELL_HEIGHT_DEFAULT*2];
     self.tableView.backgroundColor = COLOR_TABLE_VIEW_BACKGROUND_LIGHT_GRAY;
     [self.containerView addSubview:self.tableView];
     self.tableView.delegate = self;

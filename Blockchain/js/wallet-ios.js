@@ -2309,17 +2309,6 @@ MyWalletPhone.isBuyFeatureEnabled = function () {
   return userHasAccess && wallet.external && canBuy(wallet.accountInfo, options)
 }
 
-MyWalletPhone.checkForMaintenance = function(languageCode) {
-    walletOptions.fetch().then(function(result) {
-        if (result && result.maintenance && result.maintenance === true) {
-            var message = result.mobileInfo[languageCode] ? result.mobileInfo[languageCode] : result.mobileInfo['en'];
-            objc_show_maintenance_alert(message);
-        } else {
-            objc_login();
-        }
-    });
-}
-
 MyWalletPhone.setupBuySellWebview = function() {
     walletOptions.fetch().then(function() {
         objc_initialize_webview();

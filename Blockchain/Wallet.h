@@ -499,5 +499,4 @@ typedef enum {
 - (NSDecimalNumber *)ethDecimalBalance;
 
 - (NSString *)getMobileMessage;
-- (void)checkForMaintenance;
 @end

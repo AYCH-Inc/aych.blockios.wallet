@@ -346,8 +346,6 @@ void (^secondPasswordSuccess)(NSString *);
         [self.pinEntryViewController reset];
     }
     
-    self.pinEntryViewController.view.userInteractionEnabled = NO;
-    
     BOOL hasGuidAndSharedKey = [KeychainItemWrapper guid] && [KeychainItemWrapper sharedKey];
     
     if ([wallet isInitialized]) {
@@ -390,8 +388,6 @@ void (^secondPasswordSuccess)(NSString *);
             [self authenticateWithTouchID];
         }
 #endif
-        [app.wallet checkForMaintenance];
-        
         return;
     }
     
@@ -401,8 +397,6 @@ void (^secondPasswordSuccess)(NSString *);
         if ([KeychainItemWrapper guid] && [KeychainItemWrapper sharedKey]) {
             [self showPasswordModal];
         }
-        
-        [app.wallet checkForMaintenance];
     }
 }
 

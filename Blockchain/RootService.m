@@ -631,6 +631,7 @@ void (^secondPasswordSuccess)(NSString *);
 #endif
         } else {
             // No PIN set we need to ask for the main password
+            [self checkForMaintenance];
             [self showPasswordModal];
             [self checkAndWarnOnJailbrokenPhones];
         }
@@ -2577,6 +2578,11 @@ void (^secondPasswordSuccess)(NSString *);
     [self.tabControllerManager showGetAssetsAlert];
 }
 
+- (void)checkForMaintenance
+{
+    [self checkForMaintenanceWithPinKey:nil pin:nil];
+}
+
 - (void)checkForMaintenanceWithPinKey:(NSString *)pinKey pin:(NSString *)pin
 {
     NSURLSession *session = [SessionManager sharedSession];
@@ -2606,7 +2612,9 @@ void (^secondPasswordSuccess)(NSString *);
                     [self.pinEntryViewController reset];
                     [self showMaintenanceAlertWithTitle:BC_STRING_INFORMATION message:message];
                 } else {
-                    [self.wallet apiGetPINValue:pinKey pin:pin];
+                    if (pinKey && pin) {
+                        [self.wallet apiGetPINValue:pinKey pin:pin];
+                    }
                 }
             }
         });
@@ -2808,6 +2816,8 @@ void (^secondPasswordSuccess)(NSString *);
 
 - (void)showWelcome
 {
+    [self checkForMaintenance];
+    
     BCWelcomeView *welcomeView = [[BCWelcomeView alloc] init];
     [welcomeView.createWalletButton addTarget:self action:@selector(showCreateWallet:) forControlEvents:UIControlEventTouchUpInside];
     [welcomeView.existingWalletButton addTarget:self action:@selector(showPairWallet:) forControlEvents:UIControlEventTouchUpInside];

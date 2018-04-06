@@ -64,9 +64,11 @@
     [_dashboardViewController reload];
     [_sendBitcoinViewController reloadAfterMultiAddressResponse];
     [_sendEtherViewController reloadAfterMultiAddressResponse];
+    [_sendBitcoinCashViewController reloadAfterMultiAddressResponse];
     [_transactionsBitcoinViewController reload];
     [_receiveBitcoinViewController reload];
     [_receiveEtherViewController reload];
+    [_receiveBitcoinCashViewController reload];
 }
 
 - (void)reloadMessageViews
@@ -89,6 +91,7 @@
 {
     self.receiveBitcoinViewController = nil;
     self.receiveEtherViewController = nil;
+    self.receiveBitcoinCashViewController = nil;
     [_transactionsBitcoinViewController setData:nil];
 }
 
@@ -324,6 +327,7 @@
 - (void)didSetDefaultAccount
 {
     [self.receiveBitcoinViewController reloadMainAddress];
+    [self.receiveBitcoinCashViewController reloadMainAddress];
 }
 
 - (void)paymentReceived:(uint64_t)amount showBackupReminder:(BOOL)showBackupReminder

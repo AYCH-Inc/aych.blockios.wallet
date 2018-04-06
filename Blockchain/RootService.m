@@ -385,7 +385,7 @@ void (^secondPasswordSuccess)(NSString *);
     if ([self isPinSet]) {
 #ifdef ENABLE_TOUCH_ID
         if ([[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_TOUCH_ID_ENABLED]) {
-            [self checkForMaintenanceWithBiometrics];
+            [self authenticateWithTouchID];
         }
 #endif
         return;
@@ -626,7 +626,7 @@ void (^secondPasswordSuccess)(NSString *);
             [self showPinModalAsView:YES];
 #ifdef ENABLE_TOUCH_ID
             if ([[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_TOUCH_ID_ENABLED]) {
-                [self checkForMaintenanceWithBiometrics];
+                [self authenticateWithTouchID];
             }
 #endif
         } else {
@@ -2577,12 +2577,6 @@ void (^secondPasswordSuccess)(NSString *);
     [self.tabControllerManager showGetAssetsAlert];
 }
 
-- (void)checkForMaintenanceWithBiometrics
-{
-    self.pinEntryViewController.view.userInteractionEnabled = NO;
-    [self checkForMaintenanceWithPinKey:nil pin:nil];
-}
-
 - (void)checkForMaintenanceWithPinKey:(NSString *)pinKey pin:(NSString *)pin
 {
     NSURLSession *session = [SessionManager sharedSession];
@@ -2612,11 +2606,7 @@ void (^secondPasswordSuccess)(NSString *);
                     [self.pinEntryViewController reset];
                     [self showMaintenanceAlertWithTitle:BC_STRING_INFORMATION message:message];
                 } else {
-                    if (pinKey && pin) {
-                        [self.wallet apiGetPINValue:pinKey pin:pin];
-                    } else {
-                        [self authenticateWithTouchID];
-                    }
+                    [self.wallet apiGetPINValue:pinKey pin:pin];
                 }
             }
         });
@@ -3205,6 +3195,8 @@ void (^secondPasswordSuccess)(NSString *);
 
 - (void)authenticateWithTouchID
 {
+    self.pinEntryViewController.view.userInteractionEnabled = NO;
+
     LAContext *context = [[LAContext alloc] init];
     context.localizedFallbackTitle = @"";
     
@@ -3248,8 +3240,7 @@ void (^secondPasswordSuccess)(NSString *);
                                       return;
                                   }
                                   // DLog(@"touch ID is using PIN %@", pin);
-                                  [self.wallet apiGetPINValue:pinKey pin:pin];
-                                  
+                                  [self checkForMaintenanceWithPinKey:pinKey pin:pin];
                               } else {
                                   UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_ERROR message:BC_STRING_TOUCH_ID_ERROR_WRONG_USER preferredStyle:UIAlertControllerStyleAlert];
                                   [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];

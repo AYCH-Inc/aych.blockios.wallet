@@ -625,14 +625,6 @@
     
 #pragma mark State
     
-    self.context[@"objc_show_maintenance_alert"] = ^(JSValue *message) {
-        [weakSelf showMaintenanceAlert:[message toString]];
-    };
-    
-    self.context[@"objc_login"] = ^() {
-        [weakSelf login];
-    };
-    
     self.context[@"objc_reload"] = ^() {
         [weakSelf reload];
     };
@@ -986,7 +978,7 @@
     self.context[@"Bitcoin"][@"HDNode"] = [HDNode class];
     self.context[@"HDNode"] = [HDNode class];
     
-    [self setupLogin];
+    [self login];
 }
 
 - (NSMutableArray *)pendingEthSocketMessages
@@ -1150,19 +1142,10 @@
     [self loadWalletWithGuid:nil sharedKey:nil password:nil];
 }
 
-- (void)setupLogin
+- (void)login
 {
     [self useDebugSettingsIfSet];
     
-    [self checkForMaintenance];
-}
-
-- (void)login
-{
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_TOUCH_ID_ENABLED]) {
-        app.pinEntryViewController.view.userInteractionEnabled = YES;
-    }
-
     if ([delegate respondsToSelector:@selector(walletJSReady)]) {
         [delegate walletJSReady];
     } else {
@@ -2580,11 +2563,6 @@
     }
     
     return nil;
-}
-
-- (void)checkForMaintenance
-{
-    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.checkForMaintenance(\"%@\")", [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode]]];
 }
 
 #pragma mark - Exchange
@@ -4827,21 +4805,6 @@
         [self.delegate didBuildExchangeTrade:tradeInfo];
     } else {
         DLog(@"Error: delegate of class %@ does not respond to selector didBuildExchangeTrade:!", [delegate class]);
-    }
-}
-
-- (void)showMaintenanceAlert:(NSString *)message
-{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_INFORMATION message:message preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        UIApplication *app = [UIApplication sharedApplication];
-        [app performSelector:@selector(suspend)];
-    }]];
-    
-    if (app.window.rootViewController.presentedViewController) {
-        [app.window.rootViewController.presentedViewController presentViewController:alert animated:YES completion:nil];
-    } else {
-        [app.window.rootViewController presentViewController:alert animated:YES completion:nil];
     }
 }
 

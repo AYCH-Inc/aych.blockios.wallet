@@ -329,6 +329,7 @@ void (^secondPasswordSuccess)(NSString *);
     app.tabControllerManager.transactionsBitcoinViewController.messageIdentifier = nil;
     app.wallet.isFetchingTransactions = NO;
     app.wallet.isFilteringTransactions = NO;
+    app.wallet.didReceiveMessageForLastTransaction = NO;
     
     [createWalletView showPassphraseTextField];
     

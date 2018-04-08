@@ -2132,3 +2132,60 @@
 
 /* (No Commment) */
 "Buy and sell bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab." = "Покупать и продавать биткойны прямо из своего кошелька blockchain. Начните с создания учетной записи в разделе Купить и продать.";
+
+/* (No Commment) */
+"All Wallets" = "Все Кошельки";
+
+/* (No Commment) */
+"Keep your xPub private. Someone with access to your xPub will be able to see all of your funds and transactions." = "Держите ваши Частная xPub. Кто-то имеет доступ к вашему xPub сможете увидеть все свои средства и операции.";
+
+/* (No Commment) */
+"Your xPub is an advanced feature that contains all of your public addresses." = "Ваш xPub-это дополнительная функция, которая содержит все ваши публичные выступления.";
+
+/* (No Commment) */
+"Transactions occur when you send and request bitcoin cash." = "Заключение сделок происходит, когда вы посылаете и запрос биткоин наличные.";
+
+/* (No Commment) */
+"Get Bitcoin Cash" = "Получить Bitcoin Наличных";
+
+/* (No Commment) */
+"Request Bitcoin Cash" = "Запрос Биткоин Наличные";
+
+/* (No Commment) */
+"Price" = "Цена";
+
+/* (No Commment) */
+"See charts" = "Смотрите графики";
+
+/* (No Commment) */
+"Price charts" = "Ценовые графики";
+
+/* (No Commment) */
+"Bitcoin Cash" = "Биткоин Наличка";
+
+/* (No Commment) */
+"Bitcoin Cash Price" = "Цена Bitcoin Наличных";
+
+/* (No Commment) */
+"Enter Bitcoin Cash address or select" = "Введите Биткоин наличные адреса или выбора";
+
+/* (No Commment) */
+"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Копия этого получите адрес в буфер обмена? Если это так, что другие приложения могут посмотреть эту информацию.";
+
+/* (No Commment) */
+"Please send BCH to the Bitcoin Cash address\n%@" = "Пожалуйста, отправьте ВСН на Биткоин наличных адреса\n%@";
+
+/* (No Commment) */
+"Transaction fees impact how quickly the mining network will confirm your transactions, and depend on the current network conditions." = "Сборы воздействия сделки как быстро горнодобывающей сеть будет подтвердить свои сделки, и зависит от текущего состояния сети.";
+
+/* (No Commment) */
+"Trade Refunded" = "Торговля Возвращается";
+
+/* (No Commment) */
+"We are excited to announce that your Blockchain wallet will allow you to seamlessly send, receive, and exchange Bitcoin Cash!" = "Мы рады сообщить, что ваш blockchain кошелек позволит вам легко отправлять, получать и обмен Биткоина Наличные деньги!";
+
+/* (No Commment) */
+"Are you sure this is a bitcoin cash address?" = "Вы уверены, что это биткоин наличные адреса?";
+
+/* (No Commment) */
+"Sending funds to a bitcoin address by accident will result in loss of funds." = "Отправка средств в биткоин-адрес случайно приведет к потере средств.";

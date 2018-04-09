@@ -2189,3 +2189,51 @@
 
 /* (No Commment) */
 "Sending funds to a bitcoin address by accident will result in loss of funds." = "Spenden an eine bitcoin-Adresse durch einen Unfall führt zu einem Verlust der Mittel.";
+
+/* (No Commment) */
+"All Wallets" = "Alle Wallets";
+
+/* (No Commment) */
+"Keep your xPub private. Someone with access to your xPub will be able to see all of your funds and transactions." = "Garantieren Sie die Privatsphäre von Ihrem xPub. Jeder, der Zugang zu Ihrem xPub hat, kann Ihr gesamtes Guthaben und alle Ihre Transaktionen einsehen.";
+
+/* (No Commment) */
+"Your xPub is an advanced feature that contains all of your public addresses." = "Bei Ihrem xPub handelt es sich um eine erweiterte Funktion, die über die Gesamtheit Ihrer öffentlichen Adressen verfügt.";
+
+/* (No Commment) */
+"Transactions occur when you send and request bitcoin cash." = "Transaktionen kommen zustande, wenn Sie Bitcoin Cash senden oder anfordern.";
+
+/* (No Commment) */
+"Get Bitcoin Cash" = "Holen Sie sich Bitcoin Cash";
+
+/* (No Commment) */
+"Request Bitcoin Cash" = "Fordern Sie Bitcoin Cash an";
+
+/* (No Commment) */
+"Price" = "Preis";
+
+/* (No Commment) */
+"See charts" = "Diagramme ansehen";
+
+/* (No Commment) */
+"Price charts" = "Preisdiagramme";
+
+/* (No Commment) */
+"Bitcoin Cash" = "Bitcoin Cash";
+
+/* (No Commment) */
+"Bitcoin Cash Price" = "Bitcoin-Cash-Preis";
+
+/* (No Commment) */
+"Enter Bitcoin Cash address or select" = "Geben Sie die Bitcoin-Cash-Adresse ein oder wählen Sie";
+
+/* (No Commment) */
+"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Diese Empfangsadresse in die Zwischenablage kopieren? Wenn ja, möchten wir Sie darauf hinweisen, dass diese Informationen für andere Anwendungen einsehbar sind.";
+
+/* (No Commment) */
+"Start trading" = "Beginnen Sie mit dem Handel";
+
+/* (No Commment) */
+"Trade bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab." = "Handeln Sie mit Bitcoin direkt von Ihrer Blockchain-Wallet aus. Erstellen Sie zuerst ein Konto im „Kaufen und verkaufen-Tab.";
+
+/* (No Commment) */
+"The wait is over" = "Das Warten ist vorbei";

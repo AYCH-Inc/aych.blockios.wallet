@@ -2189,3 +2189,51 @@
 
 /* (No Commment) */
 "Sending funds to a bitcoin address by accident will result in loss of funds." = "L'invio di fondi per un bitcoin indirizzo incidente provoca la perdita dei fondi.";
+
+/* (No Commment) */
+"All Wallets" = "Tutti i Wallet";
+
+/* (No Commment) */
+"Keep your xPub private. Someone with access to your xPub will be able to see all of your funds and transactions." = "Manteni privato il tuo xPub. Qualcuno con l'accesso al tuo xPub potrà vedere tutti i tuoi fondi e le tue transazioni.";
+
+/* (No Commment) */
+"Your xPub is an advanced feature that contains all of your public addresses." = "Il tuo xPub è una funzione avanzata che contiene tutti i tuoi indirizzi pubblici.";
+
+/* (No Commment) */
+"Transactions occur when you send and request bitcoin cash." = "Le transazioni vengono eseguite quando invii e richiedi Bitcoin Cash.";
+
+/* (No Commment) */
+"Get Bitcoin Cash" = "Ottieni Bitcoin Cash";
+
+/* (No Commment) */
+"Request Bitcoin Cash" = "Richiedi Bitcoin Cash";
+
+/* (No Commment) */
+"Price" = "Prezzo";
+
+/* (No Commment) */
+"See charts" = "Vedi grafici";
+
+/* (No Commment) */
+"Price charts" = "Grafici del prezzo";
+
+/* (No Commment) */
+"Bitcoin Cash" = "Bitcoin Cash";
+
+/* (No Commment) */
+"Bitcoin Cash Price" = "Prezzo Bitcoin Cash";
+
+/* (No Commment) */
+"Enter Bitcoin Cash address or select" = "Inserisci o seleziona l'indirizzo Bitcoin Cash";
+
+/* (No Commment) */
+"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Vuoi copiare questo indirizzo di ricezione negli appunti? Se è così, ricordati che altre applicazioni potrebbero avere accesso a queste informazioni.";
+
+/* (No Commment) */
+"Start trading" = "Inizia a fare trading";
+
+/* (No Commment) */
+"Trade bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab." = "Fai trading di Bitcoin direttamente dal tuo wallet Blockchain. Inizia creando un account dalla scheda Acquista e Vendi.";
+
+/* (No Commment) */
+"The wait is over" = "L'attesa è finita";

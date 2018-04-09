@@ -2189,3 +2189,51 @@
 
 /* (No Commment) */
 "Sending funds to a bitcoin address by accident will result in loss of funds." = "Відправка коштів у биткоин-адреса випадково призведе до втрати коштів.";
+
+/* (No Commment) */
+"All Wallets" = "Всі гаманці";
+
+/* (No Commment) */
+"Keep your xPub private. Someone with access to your xPub will be able to see all of your funds and transactions." = "Зберігайте свій xPub приватним. Той, хто має доступ до вашого xPub, зможе бачити всі ваші кошти та транзакції.";
+
+/* (No Commment) */
+"Your xPub is an advanced feature that contains all of your public addresses." = "Ваш xPub - це додаткова можливість, яка містить всі ваші загальнодоступні адреси.";
+
+/* (No Commment) */
+"Transactions occur when you send and request bitcoin cash." = "Операції відбуваються, коли ви відправляєте та надсилаєте запити на валюту біткойн.";
+
+/* (No Commment) */
+"Get Bitcoin Cash" = "Отримати валюту Біткойн";
+
+/* (No Commment) */
+"Request Bitcoin Cash" = "Надіслати запит на валюту Біткойн";
+
+/* (No Commment) */
+"Price" = "Ціна";
+
+/* (No Commment) */
+"See charts" = "Подивитися графіки";
+
+/* (No Commment) */
+"Price charts" = "Графіки з цінами";
+
+/* (No Commment) */
+"Bitcoin Cash" = "Валюта Біткойн";
+
+/* (No Commment) */
+"Bitcoin Cash Price" = "Ціна валюти Біткойн";
+
+/* (No Commment) */
+"Enter Bitcoin Cash address or select" = "Введіть адресу валюти Біткойн або виберіть";
+
+/* (No Commment) */
+"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Скопіювати цю адресу в буфер обміну? Якщо так, пам'ятайте, що інші програми можуть переглядати цю інформацію.";
+
+/* (No Commment) */
+"Start trading" = "Почніть торгувати";
+
+/* (No Commment) */
+"Trade bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab." = "Торгуйте біткойн прямо з вашого гаманця Blockchain. Почніть зі створення облікового запису у вкладці Купівля та продаж.";
+
+/* (No Commment) */
+"The wait is over" = "Очікування закінчилося";

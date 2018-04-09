@@ -2450,3 +2450,51 @@
 
 /* (No Commment) */
 "Sending funds to a bitcoin address by accident will result in loss of funds." = "Het verzenden van geld aan een bitcoin adres door ongeval zal resulteren in verlies van fondsen.";
+
+/* (No Commment) */
+"All Wallets" = "Alle portefeuilles";
+
+/* (No Commment) */
+"Keep your xPub private. Someone with access to your xPub will be able to see all of your funds and transactions." = "Houd je xPub privé. Iemand met toegang tot je xPub zal al je gelden en transacties kunnen zien.";
+
+/* (No Commment) */
+"Your xPub is an advanced feature that contains all of your public addresses." = "Je xPub is een geavanceerde functie die al je openbare adressen bevat.";
+
+/* (No Commment) */
+"Transactions occur when you send and request bitcoin cash." = "Er vinden transacties plaats wanneer je bitcoin-contanten verstuurt en aanvraagt.";
+
+/* (No Commment) */
+"Get Bitcoin Cash" = "Haal Bitcoin-contanten";
+
+/* (No Commment) */
+"Request Bitcoin Cash" = "Verzoek Bitcoin-contanten";
+
+/* (No Commment) */
+"Price" = "Prijs";
+
+/* (No Commment) */
+"See charts" = "Zie tabellen";
+
+/* (No Commment) */
+"Price charts" = "Prijstabellen";
+
+/* (No Commment) */
+"Bitcoin Cash" = "Bitcoin-contanten";
+
+/* (No Commment) */
+"Bitcoin Cash Price" = "Prijs van Bitcoin-contanten";
+
+/* (No Commment) */
+"Enter Bitcoin Cash address or select" = "Voer adres voor Bitcoin-contanten in of selecteer";
+
+/* (No Commment) */
+"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Dit ontvangstadres naar het klembord kopiëren? Zo ja, houd er dan rekening mee dat andere apps deze informatie kunnen bekijken.";
+
+/* (No Commment) */
+"Start trading" = "Begin met handelen";
+
+/* (No Commment) */
+"Trade bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab." = "Verhandel bitcoin direct vanuit je Blockchain-portefeuille. Begin met het aanmaken van een account in het tabblad Kopen en Verkopen.";
+
+/* (No Commment) */
+"The wait is over" = "Het wachten is voorbij";

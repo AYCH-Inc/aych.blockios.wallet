@@ -2500,3 +2500,51 @@
 
 /* (No Commment) */
 "Sending funds to a bitcoin address by accident will result in loss of funds." = "Zaslání finančních prostředků na bitcoin adresu, náhodou bude mít za následek ztrátu finančních prostředků.";
+
+/* (No Commment) */
+"All Wallets" = "Všechny peněženky";
+
+/* (No Commment) */
+"Keep your xPub private. Someone with access to your xPub will be able to see all of your funds and transactions." = "Uchovejte svůj xPub soukromý. Kdokoliv s přístupem k vašemu xPub bude moct vidět všechny vaše prostředky a transakce.";
+
+/* (No Commment) */
+"Your xPub is an advanced feature that contains all of your public addresses." = "Váš xPub má pokročilou funkci, která obsahuje všechny vaše veřejné adresy.";
+
+/* (No Commment) */
+"Transactions occur when you send and request bitcoin cash." = "Transakce nastanou, když odešlete a požádáte o bitcoin cash.";
+
+/* (No Commment) */
+"Get Bitcoin Cash" = "Získat Bitcoin Cash";
+
+/* (No Commment) */
+"Request Bitcoin Cash" = "Požádat o Bitcoin Cash";
+
+/* (No Commment) */
+"Price" = "Cena";
+
+/* (No Commment) */
+"See charts" = "Zobrazit grafy";
+
+/* (No Commment) */
+"Price charts" = "Cenové grafy";
+
+/* (No Commment) */
+"Bitcoin Cash" = "Bitcoin Cash";
+
+/* (No Commment) */
+"Bitcoin Cash Price" = "Cena Bitcoin Cash";
+
+/* (No Commment) */
+"Enter Bitcoin Cash address or select" = "Zadejte adresu Bitcoin Cash nebo vyberte";
+
+/* (No Commment) */
+"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Zkopírovat tuto adresy do schránky? Pokud ano, vezměte na vědomí, že tyto informace mohou vidět ostatní aplikace.";
+
+/* (No Commment) */
+"Start trading" = "Začít obchodovat";
+
+/* (No Commment) */
+"Trade bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab." = "Obchodujte bitcoin přímo ze své peněženky Blockchain. Začněte tak, že si na kartě Koupit a prodat založíte svůj účet.";
+
+/* (No Commment) */
+"The wait is over" = "Čekání je u konce";

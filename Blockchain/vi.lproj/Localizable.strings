@@ -2164,3 +2164,51 @@
 
 /* (No Commment) */
 "Sending funds to a bitcoin address by accident will result in loss of funds." = "Gửi tiền để trên địa chỉ bởi tai nạn sẽ dẫn đến sự mất mát của quỹ.";
+
+/* (No Commment) */
+"All Wallets" = "Tất cả Ví";
+
+/* (No Commment) */
+"Keep your xPub private. Someone with access to your xPub will be able to see all of your funds and transactions." = "Đảm bảo sự bảo mật cho xPub của bạn. Khi có ai đó truy cập vào xPub của bạn, họ sẽ có thể xem toàn bộ các khoản tiền và giao dịch của bạn.";
+
+/* (No Commment) */
+"Your xPub is an advanced feature that contains all of your public addresses." = "xPub là một tính năng nâng cao chứa tất cả địa chỉ công khai của bạn.";
+
+/* (No Commment) */
+"Transactions occur when you send and request bitcoin cash." = "Giao dịch xảy ra khi bạn gửi và yêu cầu bitcoin cash.";
+
+/* (No Commment) */
+"Get Bitcoin Cash" = "Nhận Bitcoin Cash";
+
+/* (No Commment) */
+"Request Bitcoin Cash" = "Yêu cầu Bitcoin Cash";
+
+/* (No Commment) */
+"Price" = "Giá";
+
+/* (No Commment) */
+"See charts" = "Xem bảng";
+
+/* (No Commment) */
+"Price charts" = "Bảng giá";
+
+/* (No Commment) */
+"Bitcoin Cash" = "Bitcoin Cash";
+
+/* (No Commment) */
+"Bitcoin Cash Price" = "Giá Bitcoin Cash";
+
+/* (No Commment) */
+"Enter Bitcoin Cash address or select" = "Nhập địa chỉ Bitcoin Cash hoặc chọn";
+
+/* (No Commment) */
+"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Sao chép địa chỉ nhận này vào bộ nhớ đệm? Nếu thực hiện điều này, xin lưu ý tất cả các ứng dụng khác sẽ có thể xem thông tin này.";
+
+/* (No Commment) */
+"Start trading" = "Bắt đầu giao dịch";
+
+/* (No Commment) */
+"Trade bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab." = "Giao dịch bitcoin trực tiếp từ ví Blockchain của bạn. Hãy bắt đầu bằng cách tạo một tài khoản trong tab Mua & Bán.";
+
+/* (No Commment) */
+"The wait is over" = "Thời gian chờ đã hết";

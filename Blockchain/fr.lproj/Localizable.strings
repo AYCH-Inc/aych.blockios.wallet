@@ -2189,3 +2189,51 @@
 
 /* (No Commment) */
 "Sending funds to a bitcoin address by accident will result in loss of funds." = "L'envoi de fonds à une adresse bitcoin par accident entraîne la perte de fonds.";
+
+/* (No Commment) */
+"All Wallets" = "Tous les portefeuilles";
+
+/* (No Commment) */
+"Keep your xPub private. Someone with access to your xPub will be able to see all of your funds and transactions." = "Conservez votre xPub confidentiel. Une personne ayant accès à votre xPub pourra voir tous vos fonds et transactions.";
+
+/* (No Commment) */
+"Your xPub is an advanced feature that contains all of your public addresses." = "Votre xPub est une fonction avancée qui contient toutes vos adresses publiques.";
+
+/* (No Commment) */
+"Transactions occur when you send and request bitcoin cash." = "Les transactions se produisent lorsque vous envoyez et demandez des Bitcoin Cash.";
+
+/* (No Commment) */
+"Get Bitcoin Cash" = "Recevez des Bitcoin Cash ";
+
+/* (No Commment) */
+"Request Bitcoin Cash" = "Demandez des Bitcoin Cash";
+
+/* (No Commment) */
+"Price" = "Prix";
+
+/* (No Commment) */
+"See charts" = "Afficher les graphiques";
+
+/* (No Commment) */
+"Price charts" = "Graphiques de prix";
+
+/* (No Commment) */
+"Bitcoin Cash" = "Bitcoin Cash";
+
+/* (No Commment) */
+"Bitcoin Cash Price" = "Prix du Bitcoin Cash";
+
+/* (No Commment) */
+"Enter Bitcoin Cash address or select" = "Entrez une adresse Bitcoin Cash ou sélectionnez";
+
+/* (No Commment) */
+"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Copier cette adresse de réception dans le presse-papiers ? Si c'est le cas, sachez que d'autres applications peuvent être en mesure de visualiser ces informations.";
+
+/* (No Commment) */
+"Start trading" = "Commencez à trader";
+
+/* (No Commment) */
+"Trade bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab." = "Tradez le bitcoin directement depuis votre portefeuille Blockchain. Commencez par créer un compte dans l'onglet Acheter et Vendre.";
+
+/* (No Commment) */
+"The wait is over" = "L'attente est terminée";

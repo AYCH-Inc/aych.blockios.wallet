@@ -41,6 +41,7 @@
     self.containerView = containerView;
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+    [self.tableView changeHeight:self.view.frame.size.height - CELL_HEIGHT_DEFAULT*2];
     self.tableView.backgroundColor = COLOR_TABLE_VIEW_BACKGROUND_LIGHT_GRAY;
     [self.containerView addSubview:self.tableView];
     self.tableView.delegate = self;
@@ -53,7 +54,7 @@
 {
     [super viewWillAppear:animated];
     AccountsAndAddressesNavigationController *navigationController = (AccountsAndAddressesNavigationController *)self.navigationController;
-    navigationController.headerLabel.text = BC_STRING_BITCOIN_ADDRESSES;
+    navigationController.headerLabel.text = BC_STRING_ADDRESSES;
     
     if (IS_USING_SCREEN_SIZE_4S) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -228,7 +229,7 @@
 {
     AccountsAndAddressesNavigationController *navigationController = (AccountsAndAddressesNavigationController *)self.navigationController;
     
-    if ([app.wallet didUpgradeToHd] && [app.wallet getTotalBalanceForSpendableActiveLegacyAddresses] >= [app.wallet dust] && navigationController.visibleViewController == self) {
+    if (self.assetType == AssetTypeBitcoin && [app.wallet didUpgradeToHd] && [app.wallet getTotalBalanceForSpendableActiveLegacyAddresses] >= [app.wallet dust] && navigationController.visibleViewController == self) {
         navigationController.warningButton.hidden = NO;
     } else {
         navigationController.warningButton.hidden = YES;
@@ -429,6 +430,8 @@
         
         return cell;
     }
+
+    // Imported addresses
     
     NSString *addr = [allKeys objectAtIndex:[indexPath row]];
     
@@ -466,6 +469,13 @@
             cell.balanceButton.frame = UIEdgeInsetsInsetRect(cell.contentView.frame, contentInsets);
             
             [cell.watchLabel setHidden:TRUE];
+
+            // Disable cell highlighting for BCH imported addresses
+            if (self.assetType == AssetTypeBitcoinCash) {
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            } else {
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            }
         }
     }
     

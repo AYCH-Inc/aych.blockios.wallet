@@ -654,7 +654,7 @@
 #define BC_STRING_SURGE_OCCURRING_TITLE NSLocalizedString(@"Surge Occurring", nil)
 #define BC_STRING_SURGE_OCCURRING_MESSAGE NSLocalizedString(@"The Bitcoin mining network is currently experiencing a high volume of activity, resulting in recommended fees that are higher than usual.", nil)
 #define BC_STRING_FEE_INFORMATION_TITLE NSLocalizedString(@"Transaction Fees", nil)
-#define BC_STRING_FEE_INFORMATION_MESSAGE NSLocalizedString(@"Transaction fees impact how quickly the Bitcoin mining network will confirm your transactions, and depend on the current network conditions.", nil)
+#define BC_STRING_FEE_INFORMATION_MESSAGE NSLocalizedString(@"Transaction fees impact how quickly the mining network will confirm your transactions, and depend on the current network conditions.", nil)
 #define BC_STRING_FEE_INFORMATION_MESSAGE_APPEND_REGULAR_SEND NSLocalizedString (@" We recommend the fee shown for the transaction at this time.", nil)
 #define BC_STRING_FEE_INFORMATION_DUST NSLocalizedString(@"This transaction requires a higher fee for dust consumption due to the small amount of change to be returned.", nil)
 
@@ -834,7 +834,7 @@
 #define BC_STRING_EXCHANGE_DESCRIPTION_IN_PROGRESS NSLocalizedString(@"Exchanges can take up to two hours, you can keep track of your exchange progress in the Order History. Once the trade is complete, your ether will arrive in your wallet.", nil)
 #define BC_STRING_EXCHANGE_DESCRIPTION_CANCELED NSLocalizedString(@"Your trade has been canceled. Please return to the exchange tab to start your trade again.", nil)
 #define BC_STRING_FAILED NSLocalizedString(@"Failed", nil)
-#define BC_STRING_EXCHANGE_TITLE_FAILED NSLocalizedString(@"Exchange Failed", nil)
+#define BC_STRING_EXCHANGE_TITLE_REFUNDED NSLocalizedString(@"Trade Refunded", nil)
 #define BC_STRING_EXCHANGE_DESCRIPTION_FAILED NSLocalizedString(@"This trade has failed. Any funds sent from your wallet will be returned minus the transaction fee. Please return to the exchange tab to start a new trade.", nil)
 #define BC_STRING_EXCHANGE_DESCRIPTION_EXPIRED NSLocalizedString(@"Your trade has expired. Please return to the exchange tab to start a new trade.", nil)
 #define BC_STRING_EXCHANGE_CARD_DESCRIPTION NSLocalizedString(@"You can now exchange your bitcoin for ether and vice versa directly from your Blockchain wallet!", nil)
@@ -893,7 +893,7 @@
 #define BC_STRING_BUY_SELL_CARD_ACTION_TITLE BC_STRING_GET_STARTED
 
 #define BC_STRING_BITCOIN_CASH_CARD_TITLE BC_STRING_BITCOIN_CASH
-#define BC_STRING_BITCOIN_CASH_CARD_DESCRIPTION NSLocalizedString(@"We are excited to announce that your Blockchain wallet will allow to seamlessly send, receive and exchange Bitcoin Cash!", nil)
+#define BC_STRING_BITCOIN_CASH_CARD_DESCRIPTION NSLocalizedString(@"We are excited to announce that your Blockchain wallet will allow you to seamlessly send, receive, and exchange Bitcoin Cash!", nil)
 #define BC_STRING_BITCOIN_CASH_CARD_ACTION_TITLE BC_STRING_GET_STARTED
 
 #define BC_STRING_BITCOIN_CASH_WARNING_CONFIRM_VALID_ADDRESS_ONE NSLocalizedString(@"Are you sure this is a bitcoin cash address?", nil)

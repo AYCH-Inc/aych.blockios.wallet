@@ -49,6 +49,7 @@
         self.scrollView.pagingEnabled = YES;
         self.scrollView.scrollEnabled = YES;
         self.scrollView.delegate = self;
+        self.scrollView.showsHorizontalScrollIndicator = NO;
         self.isUsingPageControl = YES;
         [self.scrollView setContentOffset:CGPointMake(pageIndex * self.scrollView.frame.size.width, 0) animated:NO];
         self.isUsingPageControl = NO;

@@ -31,7 +31,7 @@
                [status isEqualToString:TRADE_STATUS_EXPIRED] ||
                [status isEqualToString:TRADE_STATUS_RESOLVED]) {
         statusColor = COLOR_BLOCKCHAIN_RED;
-        displayStatus = BC_STRING_FAILED;
+        displayStatus = BC_STRING_EXCHANGE_TITLE_REFUNDED;
     }
     
     self.actionLabel.textColor = statusColor;

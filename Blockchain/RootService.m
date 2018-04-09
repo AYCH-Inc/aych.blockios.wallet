@@ -301,6 +301,8 @@ void (^secondPasswordSuccess)(NSString *);
         }
         
         [app.wallet getSwipeAddresses:numberOfBitcoinAddressesToDerive assetType:AssetTypeBitcoin];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"applicationDidEnterBackground" object:self];
     }
     
     [self.loginTimer invalidate];
@@ -327,6 +329,7 @@ void (^secondPasswordSuccess)(NSString *);
     app.tabControllerManager.transactionsBitcoinViewController.messageIdentifier = nil;
     app.wallet.isFetchingTransactions = NO;
     app.wallet.isFilteringTransactions = NO;
+    app.wallet.didReceiveMessageForLastTransaction = NO;
     
     [createWalletView showPassphraseTextField];
     
@@ -628,6 +631,7 @@ void (^secondPasswordSuccess)(NSString *);
 #endif
         } else {
             // No PIN set we need to ask for the main password
+            [self checkForMaintenance];
             [self showPasswordModal];
             [self checkAndWarnOnJailbrokenPhones];
         }
@@ -704,6 +708,7 @@ void (^secondPasswordSuccess)(NSString *);
 - (void)reloadAfterMultiAddressResponse
 {
     if (self.wallet.didReceiveMessageForLastTransaction) {
+        self.wallet.didReceiveMessageForLastTransaction = NO;
         Transaction *transaction = app.latestResponse.transactions.firstObject;
         [self.tabControllerManager.receiveBitcoinViewController paymentReceived:ABS(transaction.amount) showBackupReminder:NO];
     }
@@ -1926,10 +1931,7 @@ void (^secondPasswordSuccess)(NSString *);
     NSString *errorMessage = [error length] == 0 ? BC_STRING_SEND_ERROR_NO_INTERNET_CONNECTION : error;
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_ERROR message:errorMessage preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        UIApplication *app = [UIApplication sharedApplication];
-        [app performSelector:@selector(suspend)];
-    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];
     
     [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
 }
@@ -2573,6 +2575,65 @@ void (^secondPasswordSuccess)(NSString *);
     [self.tabControllerManager showGetAssetsAlert];
 }
 
+- (void)checkForMaintenance
+{
+    [self checkForMaintenanceWithPinKey:nil pin:nil];
+}
+
+- (void)checkForMaintenanceWithPinKey:(NSString *)pinKey pin:(NSString *)pin
+{
+    NSURLSession *session = [SessionManager sharedSession];
+    NSURL *url = [NSURL URLWithString:[[NSBundle walletUrl] stringByAppendingString:URL_SUFFIX_WALLET_OPTIONS]];
+    session.sessionDescription = url.host;
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error) {
+                DLog(@"Error checking for maintenance in wallet options: %@", [error localizedDescription]);
+                [self hideBusyView];
+                [self.pinEntryViewController reset];
+                [self showMaintenanceAlertWithTitle:BC_STRING_ERROR message:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION];
+            }
+            NSError *jsonError;
+            NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+            if (jsonError) {
+                DLog(@"Error parsing response from checking for maintenance in wallet options: %@", [error localizedDescription]);
+                [self hideBusyView];
+                [self.pinEntryViewController reset];
+                [self showMaintenanceAlertWithTitle:BC_STRING_ERROR message:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION];
+            } else {
+                if ([[result objectForKey:DICTIONARY_KEY_MAINTENANCE] boolValue]) {
+                    NSDictionary *mobileInfo = [result objectForKey:DICTIONARY_KEY_MOBILE_INFO];
+                    NSString *message = [mobileInfo objectForKey:[[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode]] ? : [mobileInfo objectForKey:@"en"];
+                    [self hideBusyView];
+                    [self.pinEntryViewController reset];
+                    [self showMaintenanceAlertWithTitle:BC_STRING_INFORMATION message:message];
+                } else {
+                    if (pinKey && pin) {
+                        [self.wallet apiGetPINValue:pinKey pin:pin];
+                    }
+                }
+            }
+        });
+    }];
+    [task resume];
+}
+
+- (void)showMaintenanceAlertWithTitle:(NSString *)title message:(NSString *)message
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        UIApplication *app = [UIApplication sharedApplication];
+        [app performSelector:@selector(suspend)];
+    }]];
+    
+    if (app.window.rootViewController.presentedViewController) {
+        [app.window.rootViewController.presentedViewController presentViewController:alert animated:YES completion:nil];
+    } else {
+        [app.window.rootViewController presentViewController:alert animated:YES completion:nil];
+    }
+}
+
 #pragma mark - Show Screens
 
 - (void)showContacts
@@ -2752,6 +2813,8 @@ void (^secondPasswordSuccess)(NSString *);
 
 - (void)showWelcome
 {
+    [self checkForMaintenance];
+    
     BCWelcomeView *welcomeView = [[BCWelcomeView alloc] init];
     [welcomeView.createWalletButton addTarget:self action:@selector(showCreateWallet:) forControlEvents:UIControlEventTouchUpInside];
     [welcomeView.existingWalletButton addTarget:self action:@selector(showPairWallet:) forControlEvents:UIControlEventTouchUpInside];
@@ -3140,7 +3203,7 @@ void (^secondPasswordSuccess)(NSString *);
 - (void)authenticateWithTouchID
 {
     self.pinEntryViewController.view.userInteractionEnabled = NO;
-    
+
     LAContext *context = [[LAContext alloc] init];
     context.localizedFallbackTitle = @"";
     
@@ -3184,8 +3247,7 @@ void (^secondPasswordSuccess)(NSString *);
                                       return;
                                   }
                                   // DLog(@"touch ID is using PIN %@", pin);
-                                  [app.wallet apiGetPINValue:pinKey pin:pin];
-                                  
+                                  [self checkForMaintenanceWithPinKey:pinKey pin:pin];
                               } else {
                                   UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_ERROR message:BC_STRING_TOUCH_ID_ERROR_WRONG_USER preferredStyle:UIAlertControllerStyleAlert];
                                   [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];
@@ -3470,7 +3532,7 @@ void (^secondPasswordSuccess)(NSString *);
 #endif
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [app.wallet apiGetPINValue:pinKey pin:pin];
+        [self checkForMaintenanceWithPinKey:pinKey pin:pin];
     });
     
     self.pinViewControllerCallback = callback;

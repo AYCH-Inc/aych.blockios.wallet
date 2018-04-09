@@ -64,9 +64,11 @@
     [_dashboardViewController reload];
     [_sendBitcoinViewController reloadAfterMultiAddressResponse];
     [_sendEtherViewController reloadAfterMultiAddressResponse];
+    [_sendBitcoinCashViewController reloadAfterMultiAddressResponse];
     [_transactionsBitcoinViewController reload];
     [_receiveBitcoinViewController reload];
     [_receiveEtherViewController reload];
+    [_receiveBitcoinCashViewController reload];
 }
 
 - (void)reloadMessageViews
@@ -89,6 +91,7 @@
 {
     self.receiveBitcoinViewController = nil;
     self.receiveEtherViewController = nil;
+    self.receiveBitcoinCashViewController = nil;
     [_transactionsBitcoinViewController setData:nil];
 }
 
@@ -324,6 +327,7 @@
 - (void)didSetDefaultAccount
 {
     [self.receiveBitcoinViewController reloadMainAddress];
+    [self.receiveBitcoinCashViewController reloadMainAddress];
 }
 
 - (void)paymentReceived:(uint64_t)amount showBackupReminder:(BOOL)showBackupReminder
@@ -724,7 +728,7 @@
                 [app buyBitcoinClicked:nil];
             } else {
                 [app closeSideMenu];
-                [self.tabViewController selectAsset:AssetTypeBitcoin];
+                [self changeAssetSelectorAsset:AssetTypeBitcoin];
                 [self receiveCoinClicked:nil];
             }
         }];
@@ -732,7 +736,14 @@
     [showGetAssetsAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_GET_ETHER style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self.tabViewController dismissViewControllerAnimated:YES completion:^{
             [app closeSideMenu];
-            [self.tabViewController selectAsset:AssetTypeEther];
+            [self changeAssetSelectorAsset:AssetTypeEther];
+            [self receiveCoinClicked:nil];
+        }];
+    }]];
+    [showGetAssetsAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_GET_BITCOIN_CASH style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.tabViewController dismissViewControllerAnimated:YES completion:^{
+            [app closeSideMenu];
+            [self changeAssetSelectorAsset:AssetTypeBitcoinCash];
             [self receiveCoinClicked:nil];
         }];
     }]];

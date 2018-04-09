@@ -145,7 +145,7 @@
 
 - (void)share
 {
-    NSURL *url = [NSURL URLWithString:[[NSBundle walletUrl] stringByAppendingFormat:@"/tx/%@", self.transactionHash]];
+    NSURL *url = app.tabControllerManager.assetType == AssetTypeBitcoin ? [NSURL URLWithString:[[NSBundle walletUrl] stringByAppendingFormat:@"/tx/%@", self.transactionHash]] : [NSURL URLWithString:[URL_PREFIX_VIEW_TRANSACTION_BITCOIN_CASH stringByAppendingString:self.transactionHash]];
         
     NSArray *activityItems = @[self, url];
     

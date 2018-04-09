@@ -2264,3 +2264,51 @@
 
 /* (No Commment) */
 "Sending funds to a bitcoin address by accident will result in loss of funds." = "Wysyłanie środków w btc-adres przypadkowo spowoduje utratę środków.";
+
+/* (No Commment) */
+"All Wallets" = "Wszystkie Portfele";
+
+/* (No Commment) */
+"Keep your xPub private. Someone with access to your xPub will be able to see all of your funds and transactions." = "Chroń prywatność swojego xPub. Osoba posiadająca dostęp do Twojego xPub będzie mogła przeglądać Twoje konto oraz transakcje.";
+
+/* (No Commment) */
+"Your xPub is an advanced feature that contains all of your public addresses." = "xPub to zaawansowana funkcja zawierająca wszystkie Twoje publiczne adresy.";
+
+/* (No Commment) */
+"Transactions occur when you send and request bitcoin cash." = "Transakcje odbywają się, gdy wysyłasz lub prosisz o wysłanie bitcoin cash.";
+
+/* (No Commment) */
+"Get Bitcoin Cash" = "Odbierz Bitcoin Cash";
+
+/* (No Commment) */
+"Request Bitcoin Cash" = "Poproś o Bitcoin Cash";
+
+/* (No Commment) */
+"Price" = "Cena";
+
+/* (No Commment) */
+"See charts" = "Zobacz tabele";
+
+/* (No Commment) */
+"Price charts" = "Tabele cen";
+
+/* (No Commment) */
+"Bitcoin Cash" = "Bitcoin Cash";
+
+/* (No Commment) */
+"Bitcoin Cash Price" = "Cena Bitcoin Cash";
+
+/* (No Commment) */
+"Enter Bitcoin Cash address or select" = "Wprowadź lub wybierz adres Bitcoin Cash";
+
+/* (No Commment) */
+"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Skopiować ten adres odbioru do schowka? Jeśli tak, pamiętaj, że inne aplikacje mogą uzyskać podgląd skopiowanych danych.";
+
+/* (No Commment) */
+"Start trading" = "Zacznij handlować";
+
+/* (No Commment) */
+"Trade bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab." = "Handluj walutą bitcoin bezpośrednio ze swojego portfela Blockchain. Rozpocznij od utworzenia konta w zakładce Kup i Sprzedaj.";
+
+/* (No Commment) */
+"The wait is over" = "Nie trzeba dłużej czekać";

@@ -2189,3 +2189,51 @@
 
 /* (No Commment) */
 "Sending funds to a bitcoin address by accident will result in loss of funds." = "Отправка средств в биткоин-адрес случайно приведет к потере средств.";
+
+/* (No Commment) */
+"All Wallets" = "Все кошельки";
+
+/* (No Commment) */
+"Keep your xPub private. Someone with access to your xPub will be able to see all of your funds and transactions." = "Сохраняйте конфиденциальность вашего xPub. Тот, у кого есть доступ к вашему xPub сможет увидеть все ваши средства и транзакции.";
+
+/* (No Commment) */
+"Your xPub is an advanced feature that contains all of your public addresses." = "Ваш xPub – это расширенная функция. xPub содержит все ваши публичные адреса.";
+
+/* (No Commment) */
+"Transactions occur when you send and request bitcoin cash." = "Транзакции осуществляются, когда вы отправляете и запрашиваете наличные биткоин.";
+
+/* (No Commment) */
+"Get Bitcoin Cash" = "Получить наличные биткоин";
+
+/* (No Commment) */
+"Request Bitcoin Cash" = "Запросить наличные биткоин";
+
+/* (No Commment) */
+"Price" = "Цена";
+
+/* (No Commment) */
+"See charts" = "Смотреть графики";
+
+/* (No Commment) */
+"Price charts" = "Ценовые графики";
+
+/* (No Commment) */
+"Bitcoin Cash" = "Наличные биткоин";
+
+/* (No Commment) */
+"Bitcoin Cash Price" = "Цена наличных биткоин";
+
+/* (No Commment) */
+"Enter Bitcoin Cash address or select" = "Введите или выберите адрес наличных биткоин";
+
+/* (No Commment) */
+"Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Скопировать этот адрес получения в буфер обмена? Если так, информируем вас о том, что эта информация может быть видна другим приложениям.";
+
+/* (No Commment) */
+"Start trading" = "Начать торговлю";
+
+/* (No Commment) */
+"Trade bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab." = "Торгуйте биткоин прямо из своего кошелька Blockchain. Начните с создания счета во вкладке Купля-продажа.";
+
+/* (No Commment) */
+"The wait is over" = "Период ожидания истек";

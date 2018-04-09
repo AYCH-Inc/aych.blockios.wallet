@@ -168,6 +168,7 @@
 
     if (cell == nil) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"TransactionCell" owner:nil options:nil] objectAtIndex:0];
+        cell.assetType = AssetTypeBitcoinCash;
     }
     
     cell.transaction = transaction;

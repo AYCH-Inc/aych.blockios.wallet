@@ -106,6 +106,8 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 
 #define COLOR_TABLE_VIEW_CELL_TEXT_BLUE COLOR_BLOCKCHAIN_LIGHT_BLUE
 
+#define COLOR_PRICE_PREVIEW_CHART_MARKER UIColorFromRGB(0x5F5F5F)
+
 #pragma mark - Measurements
 
 #define HEIGHT_IPHONE_4S 480.0
@@ -180,6 +182,8 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #pragma mark - Strings
 
 #define URL_PUSH_NOTIFICATIONS_SERVER_ARGUMENT_GUID_ARGUMENT_SHAREDKEY_ARGUMENT_TOKEN_ARGUMENT_LENGTH_ARGUMENT_LANGUAGE_ARGUMENT @"%@/wallet?method=update-ios&guid=%@&sharedKey=%@&payload=%@&length=%lu&lang=%s"
+
+#define URL_SUFFIX_WALLET_OPTIONS @"/Resources/wallet-options.json"
 
 #define COPYRIGHT_YEAR @"2018"
 
@@ -347,6 +351,9 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define HOST_NAME_ETHERSCAN @"etherscan.io"
 #define URL_ETHERSCAN @"https://etherscan.io"
 
+#define URL_BLOCKCHAIR @"blockchair.com"
+#define URL_PREFIX_VIEW_TRANSACTION_BITCOIN_CASH @"https://blockchair.com/bitcoin-cash/transaction/"
+
 #define NETWORK_MAINNET @"bitcoin"
 #define NETWORK_TESTNET @"testnet"
 
@@ -430,6 +437,9 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 
 #define DICTIONARY_KEY_SUCCESS @"success"
 #define DICTIONARY_KEY_ERROR @"error"
+
+#define DICTIONARY_KEY_MOBILE_INFO @"mobileInfo"
+#define DICTIONARY_KEY_MAINTENANCE @"maintenance"
 
 #define DICTIONARY_KEY_STATE @"state"
 #define DICTIONARY_KEY_INTENDED_AMOUNT @"intended_amount"

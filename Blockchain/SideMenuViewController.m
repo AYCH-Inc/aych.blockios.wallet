@@ -120,7 +120,7 @@ int accountEntries = 0;
 #ifdef ENABLE_CONTACTS
     [self addMenuEntry:entryKeyContacts text:BC_STRING_CONTACTS icon:@"icon_contact_small"];
 #endif
-    [self addMenuEntry:entryKeyAccountsAndAddresses text:BC_STRING_BITCOIN_ADDRESSES icon:@"wallet"];
+    [self addMenuEntry:entryKeyAccountsAndAddresses text:BC_STRING_ADDRESSES icon:@"wallet"];
     [self addMenuEntry:entryKeyWebLogin text:BC_STRING_LOG_IN_TO_WEB_WALLET icon:@"web"];
     [self addMenuEntry:entryKeySupport text:BC_STRING_SUPPORT icon:@"help"];
     [self addMenuEntry:entryKeyLogout text:BC_STRING_LOGOUT icon:@"logout"];

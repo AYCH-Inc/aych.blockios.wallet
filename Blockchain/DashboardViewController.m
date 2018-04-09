@@ -44,7 +44,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetScrollView) name:@"applicationDidEnterBackground" object:nil];
     // This contentView can be any custom view - intended to be placed at the top of the scroll view, moved down when the cards view is present, and moved back up when the cards view is dismissed
     self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
     self.contentView.clipsToBounds = YES;
@@ -64,6 +64,11 @@
     CGFloat contentHeight = balancesChartHeight + titleLabelHeight + pricePreviewHeight + privePreviewSpacing + bottomPadding;
     CGRect contentViewFrame = CGRectMake(0, 0, self.view.frame.size.width, contentHeight);
     self.contentView.frame = contentViewFrame;
+}
+
+- (void)resetScrollView
+{
+    [self.scrollView setContentOffset:CGPointZero animated:NO];
 }
 
 - (void)setAssetType:(AssetType)assetType
@@ -86,6 +91,7 @@
     self.balancesChartView = [[BCBalancesChartView alloc] initWithFrame:CGRectMake(horizontalPadding, balancesLabel.frame.origin.y + balancesLabel.frame.size.height, self.view.frame.size.width - horizontalPadding*2, 320)];
     self.balancesChartView.delegate = self;
     self.balancesChartView.layer.masksToBounds = NO;
+    self.balancesChartView.layer.cornerRadius = 2;
     self.balancesChartView.layer.shadowOffset = CGSizeMake(0, 2);
     self.balancesChartView.layer.shadowRadius = 3;
     self.balancesChartView.layer.shadowOpacity = 0.25;
@@ -329,7 +335,10 @@
 
 - (NSString *)getEthPrice
 {
-    return self.lastEthExchangeRate ? [NSNumberFormatter formatEthToFiatWithSymbol:@"1" exchangeRate:self.lastEthExchangeRate] : nil;
+    if (!app.wallet.isInitialized || !self.lastEthExchangeRate) {
+        return nil;
+    }
+    return [NSNumberFormatter formatEthToFiatWithSymbol:@"1" exchangeRate:self.lastEthExchangeRate];
 }
 
 - (double)getBtcBalance

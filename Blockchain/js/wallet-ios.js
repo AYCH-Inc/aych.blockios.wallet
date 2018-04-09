@@ -20,6 +20,14 @@ var Contacts = Blockchain.Contacts;
 var EthSocket = Blockchain.EthSocket;
 var BlockchainSocket = Blockchain.BlockchainSocket;
 
+if (typeof Buffer.prototype.reverse !== 'function') {
+    // required for sending BCH on iOS 9
+    console.log('reverse not defined - polyfill');
+    Buffer.prototype.reverse = function () {
+        return [].reverse.call(this)
+    }
+}
+
 function NativeEthSocket () {
   this.handlers = []
 }
@@ -3084,7 +3092,11 @@ MyWalletPhone.bch = {
     
     changePaymentToAddress : function(to) {
         console.log('Changing bch payment to address');
-        currentBitcoinCashPayment.to(Helpers.fromBitcoinCash('bitcoincash:' + to));
+        if (Helpers.isBitcoinAddress(to)) {
+            currentBitcoinCashPayment.to(to);
+        } else {
+            currentBitcoinCashPayment.to(Helpers.fromBitcoinCash('bitcoincash:' + to));
+        }
     },
     
     changePaymentAmount : function(amount) {
@@ -3152,7 +3164,9 @@ MyWalletPhone.loadMetadata = function() {
 
 MyWalletPhone.getHistoryForAllAssets = function() {
     var getBitcoinHistory = MyWallet.wallet.getHistory();
-    var getEtherHistory = MyWallet.wallet.eth.fetchHistory();
-    var getBitcoinCashHistory = MyWallet.wallet.bch.getHistory();
+    var eth = MyWallet.wallet.eth;
+    var getEtherHistory = eth ? eth.fetchHistory() : {};
+    var bch = MyWallet.wallet.bch;
+    var getBitcoinCashHistory = bch ? bch.getHistory() : {};
     return Promise.all([getBitcoinHistory, getEtherHistory, getBitcoinCashHistory]);
 }

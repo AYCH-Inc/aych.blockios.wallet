@@ -9,6 +9,7 @@
 #import "BCBalancesChartView.h"
 #import "UIView+ChangeFrameAttribute.h"
 #import "BCBalanceChartLegendKeyView.h"
+#import "Blockchain-Swift.h"
 
 #define CHART_VIEW_BOTTOM_PADDING 16
 
@@ -43,19 +44,25 @@
 
 - (void)setupChartViewWithFrame:(CGRect)frame
 {
-    CGFloat bottomPadding = CHART_VIEW_BOTTOM_PADDING;
-    self.chartView = [[PieChartView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height * 4/5 - bottomPadding)];
+    self.chartView = [[PieChartView alloc] initWithFrame:CGRectMake(0, 15, frame.size.width, 210)];
     self.chartView.drawCenterTextEnabled = YES;
     self.chartView.drawHoleEnabled = YES;
     self.chartView.holeColor = [UIColor clearColor];
-    self.chartView.holeRadiusPercent = 0.64;
+    self.chartView.holeRadiusPercent = 0.7;
     [self.chartView animateWithYAxisDuration:0.5];
     self.chartView.rotationEnabled = NO;
     self.chartView.legend.enabled = NO;
     self.chartView.chartDescription.enabled = NO;
     self.chartView.highlightPerTapEnabled = NO;
     self.chartView.transparentCircleColor = [UIColor whiteColor];
-    
+    self.chartView.drawMarkers = YES;
+    BCPriceMarker *marker = [[BCPriceMarker alloc]
+                             initWithColor: [UIColor whiteColor]
+                             font: [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:14]
+                             textColor: COLOR_PRICE_PREVIEW_CHART_MARKER
+                             insets: UIEdgeInsetsMake(10, 10, 10, 10)];
+    marker.chartView = self.chartView;
+    self.chartView.marker = marker;
     [self addSubview:self.chartView];
 }
 
@@ -138,21 +145,25 @@
 {
     BOOL hasZeroBalances = !self.bitcoinFiatBalance && !self.etherFiatBalance && !self.bitcoinCashFiatBalance;
 
-    ChartDataEntry *bitcoinValue = [[PieChartDataEntry alloc] initWithValue:self.bitcoinFiatBalance];
-    
-    ChartDataEntry *etherValue = [[PieChartDataEntry alloc] initWithValue:self.etherFiatBalance];
-    
-    ChartDataEntry *bitcoinCashValue = [[PieChartDataEntry alloc] initWithValue:self.bitcoinCashFiatBalance];
-
     PieChartDataSet *dataSet;
 
     if (hasZeroBalances) {
         ChartDataEntry *emptyValue = [[PieChartDataEntry alloc] initWithValue:1];
         dataSet = [[PieChartDataSet alloc] initWithValues:@[emptyValue] label:BC_STRING_BALANCES];
         dataSet.colors = @[COLOR_EMPTY_CHART_GRAY];
+        dataSet.selectionShift = 5;
+        self.chartView.highlightPerTapEnabled = NO;
     } else {
+        NSDictionary *btcChartEntryData = @{@"currency": BC_STRING_BITCOIN, @"symbol": self.fiatSymbol};
+        NSDictionary *ethChartEntryData = @{@"currency": BC_STRING_ETHER, @"symbol": self.fiatSymbol};
+        NSDictionary *bchChartEntryData = @{@"currency": BC_STRING_BITCOIN_CASH, @"symbol": self.fiatSymbol};
+        ChartDataEntry *bitcoinValue = [[PieChartDataEntry alloc] initWithValue:self.bitcoinFiatBalance data:btcChartEntryData];
+        ChartDataEntry *etherValue = [[PieChartDataEntry alloc] initWithValue:self.etherFiatBalance data:ethChartEntryData];
+        ChartDataEntry *bitcoinCashValue = [[PieChartDataEntry alloc] initWithValue:self.bitcoinCashFiatBalance data:bchChartEntryData];
         dataSet = [[PieChartDataSet alloc] initWithValues:@[bitcoinValue, etherValue, bitcoinCashValue] label:BC_STRING_BALANCES];
         dataSet.colors = @[COLOR_BLOCKCHAIN_BLUE, COLOR_BLOCKCHAIN_LIGHT_BLUE, COLOR_BLOCKCHAIN_LIGHTER_BLUE];
+        dataSet.selectionShift = 5;
+        self.chartView.highlightPerTapEnabled = YES;
     }
 
     dataSet.drawValuesEnabled = NO;

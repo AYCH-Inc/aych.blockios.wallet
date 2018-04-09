@@ -116,6 +116,7 @@
 		5164E4D320584D2800FC706A /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5164E4CF20584D0700FC706A /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5164E4D72059734800FC706A /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5164E4D62059734800FC706A /* Config.swift */; };
 		5164E4D82059734800FC706A /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5164E4D62059734800FC706A /* Config.swift */; };
+		51E5C73C2076936C0000A7FD /* BCPriceMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E5C73A2076936B0000A7FD /* BCPriceMarker.swift */; };
 		51F6A9BD206964D6002968EC /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 51F6A9BB206964D6002968EC /* Release.xcconfig */; };
 		670595A41AB0F59D00D2D6D9 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 670595A31AB0F59D00D2D6D9 /* KeychainItemWrapper.m */; };
 		6710DA0E1A8E82D80089DDED /* BCLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6710DA0D1A8E82D80089DDED /* BCLine.m */; };
@@ -923,12 +924,13 @@
 		515902312049AF5000A4C2D8 /* WalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		515902332049AF5000A4C2D8 /* WalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletTests.swift; sourceTree = "<group>"; };
 		515902352049AF5000A4C2D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5164E4C920584D0700FC706A /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Submodules/Charts/Charts.xcodeproj"; sourceTree = "<group>"; };
+		5164E4C920584D0700FC706A /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Submodules/Charts/Charts.xcodeproj; sourceTree = "<group>"; };
 		5164E4D62059734800FC706A /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		516594A5204F1A7400C50E78 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
 		516594A6204F1C0400C50E78 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
 		516594A7204F1DE600C50E78 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
 		516594A9204F1E1000C50E78 /* Testnet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Testnet.xcconfig; sourceTree = "<group>"; };
+		51E5C73A2076936B0000A7FD /* BCPriceMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BCPriceMarker.swift; path = Blockchain/BCPriceMarker.swift; sourceTree = SOURCE_ROOT; };
 		51F6A9BB206964D6002968EC /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		670595A21AB0F59D00D2D6D9 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
 		670595A31AB0F59D00D2D6D9 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
@@ -2049,6 +2051,7 @@
 				C7A0E9241FA89FE9004F4267 /* ExchangeModalView.h */,
 				C7A0E9251FA89FE9004F4267 /* ExchangeModalView.m */,
 				C7A0E90D1FA796EC004F4267 /* BCChartMarkerView.swift */,
+				51E5C73A2076936B0000A7FD /* BCPriceMarker.swift */,
 				C7559CB51F570602005B2375 /* TransactionEtherTableViewCell.h */,
 				C7559CB61F570602005B2375 /* TransactionEtherTableViewCell.m */,
 				C7CE34BC1F4E128900032806 /* BCAmountInputView.h */,
@@ -2633,6 +2636,7 @@
 				9F2780B715343A7D0015F83F /* UncaughtExceptionHandler.m in Sources */,
 				673107F219F6D49F00BE6899 /* PrivateKeyReader.m in Sources */,
 				C7559CAF1F55E874005B2375 /* BCConfirmPaymentViewModel.m in Sources */,
+				51E5C73C2076936C0000A7FD /* BCPriceMarker.swift in Sources */,
 				84FC02FE19815F1B00B97D5B /* sha256.c in Sources */,
 				2322DCBF1D771831000E5AC1 /* SRMutex.m in Sources */,
 				C7559CB71F570602005B2375 /* TransactionEtherTableViewCell.m in Sources */,

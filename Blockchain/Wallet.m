@@ -4556,6 +4556,7 @@
     DLog(@"did_archive_or_unarchive");
     
     [self.btcSocket closeWithCode:WEBSOCKET_CODE_ARCHIVE_UNARCHIVE reason:WEBSOCKET_CLOSE_REASON_ARCHIVED_UNARCHIVED];
+    [self.bchSocket closeWithCode:WEBSOCKET_CODE_ARCHIVE_UNARCHIVE reason:WEBSOCKET_CLOSE_REASON_ARCHIVED_UNARCHIVED];
 }
 
 - (void)did_get_swipe_addresses:(NSArray *)swipeAddresses asset_type:(AssetType)assetType

@@ -116,7 +116,7 @@
     self.noTransactionsDescription = noTransactionsDescription;
     
     // Get bitcoin button Y origin will be 16 points under description label
-    self.getBitcoinButton = [[UIButton alloc] initWithFrame:CGRectMake(0, noTransactionsDescription.frame.origin.y + noTransactionsDescription.frame.size.height + 16, 160, 30)];
+    self.getBitcoinButton = [[UIButton alloc] initWithFrame:CGRectMake(0, noTransactionsDescription.frame.origin.y + noTransactionsDescription.frame.size.height + 16, 240, 44)];
     self.getBitcoinButton.clipsToBounds = YES;
     self.getBitcoinButton.layer.cornerRadius = CORNER_RADIUS_BUTTON;
     self.getBitcoinButton.backgroundColor = COLOR_BLOCKCHAIN_LIGHT_BLUE;

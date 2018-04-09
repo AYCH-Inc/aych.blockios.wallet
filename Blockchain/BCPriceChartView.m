@@ -49,12 +49,13 @@
     if (self == [super initWithFrame:frame]) {
         self.assetType = assetType;
         self.delegate = delegate;
-        
+
         self.backgroundColor = [UIColor whiteColor];
+        self.layer.cornerRadius = 2;
         
         UIView *titleContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 16, self.frame.size.width, 60)];
         titleContainerView.backgroundColor = [UIColor clearColor];
-        titleContainerView.center = CGPointMake(self.center.x, titleContainerView.center.y);
+        titleContainerView.center = CGPointMake(self.bounds.size.width/2, titleContainerView.center.y);
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         titleLabel.textColor = COLOR_BLOCKCHAIN_BLUE;

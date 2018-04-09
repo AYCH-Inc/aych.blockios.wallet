@@ -52,6 +52,9 @@
 @property (nonatomic) int ethAccount;
 @property (nonatomic) int bchAccount;
 
+@property (nonatomic) NSString *oldFromSymbol;
+@property (nonatomic) NSString *oldToSymbol;
+
 @property (nonatomic) NSString *availableBalanceFromSymbol;
 @property (nonatomic) NSString *fromSymbol;
 @property (nonatomic) NSString *toSymbol;
@@ -835,6 +838,8 @@
 
 - (void)selectFromEther
 {
+    self.oldFromSymbol = self.fromSymbol;
+    
     self.fromSymbol = CURRENCY_SYMBOL_ETH;
     self.ethField = self.topLeftField;
     self.fromToView.fromLabel.text = [self etherLabelText];
@@ -843,11 +848,13 @@
     
     [self clearAvailableBalance];
 
-    [self didChangeFromOrTo];
+    [self didChangeFrom];
 }
 
 - (void)selectFromBitcoin
 {
+    self.oldFromSymbol = self.fromSymbol;
+
     self.fromSymbol = CURRENCY_SYMBOL_BTC;
     self.btcField = self.topLeftField;
     self.fromToView.fromLabel.text = [self bitcoinLabelText];
@@ -856,11 +863,13 @@
     
     [self clearAvailableBalance];
 
-    [self didChangeFromOrTo];
+    [self didChangeFrom];
 }
 
 - (void)selectFromBitcoinCash
 {
+    self.oldFromSymbol = self.fromSymbol;
+
     self.fromSymbol = CURRENCY_SYMBOL_BCH;
     self.bchField = self.topLeftField;
     self.fromToView.fromLabel.text = [self bitcoinCashLabelText];
@@ -869,40 +878,70 @@
     
     [self clearAvailableBalance];
     
-    [self didChangeFromOrTo];
+    [self didChangeFrom];
 }
 
 - (void)selectToBitcoinCash
 {
+    self.oldToSymbol = self.toSymbol;
+
     self.toSymbol = CURRENCY_SYMBOL_BCH;
     self.bchField = self.topRightField;
     self.fromToView.toLabel.text = [self bitcoinCashLabelText];
     self.rightLabel.text = CURRENCY_SYMBOL_BCH;
     self.toAddress = [app.wallet getReceiveAddressForAccount:self.bchAccount assetType:AssetTypeBitcoinCash];
     
-    [self didChangeFromOrTo];
+    [self didChangeTo];
 }
 
 - (void)selectToEther
 {
+    self.oldToSymbol = self.toSymbol;
+
     self.toSymbol = CURRENCY_SYMBOL_ETH;
     self.ethField = self.topRightField;
-    self.fromToView.toLabel.text = [self etherLabelText];;
+    self.fromToView.toLabel.text = [self etherLabelText];
     self.rightLabel.text = CURRENCY_SYMBOL_ETH;
     self.toAddress = [app.wallet getEtherAddress];
     
-    [self didChangeFromOrTo];
+    [self didChangeTo];
 }
 
 - (void)selectToBitcoin
 {
+    self.oldToSymbol = self.toSymbol;
+
     self.toSymbol = CURRENCY_SYMBOL_BTC;
     self.btcField = self.topRightField;
     self.fromToView.toLabel.text = [self bitcoinLabelText];
     self.rightLabel.text = CURRENCY_SYMBOL_BTC;
     self.toAddress = [app.wallet getReceiveAddressForAccount:self.btcAccount assetType:AssetTypeBitcoin];
     
-    [self didChangeFromOrTo];
+    [self didChangeTo];
+}
+
+- (void)switchToSymbol
+{
+    if ([self.oldFromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+        [self selectToBitcoin];
+    } else if ([self.oldFromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
+        [self selectToEther];
+    } else if ([self.oldFromSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+        [self selectToBitcoinCash];
+    }
+    [self getRate];
+}
+
+- (void)switchFromSymbol
+{
+    if ([self.oldToSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+        [self selectFromBitcoin];
+    } else if ([self.oldToSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
+        [self selectFromEther];
+    } else if ([self.oldToSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+        [self selectFromBitcoinCash];
+    }
+    [self getRate];
 }
 
 - (void)autoFillFromAmount:(id)amount
@@ -1149,10 +1188,24 @@
     return [app.wallet getActiveAccountsCount:AssetTypeEther] > 1 ? [app.wallet getLabelForAccount:0 assetType:AssetTypeEther] : BC_STRING_ETHER;
 }
 
-- (void)didChangeFromOrTo
+- (void)didChangeFrom
 {
     [self clearAmount];
     [self clearFields];
+    
+    if ([self.fromSymbol isEqualToString:self.toSymbol]) {
+        [self switchToSymbol];
+    }
+}
+
+- (void)didChangeTo
+{
+    [self clearAmount];
+    [self clearFields];
+    
+    if ([self.fromSymbol isEqualToString:self.toSymbol]) {
+        [self switchFromSymbol];
+    }
 }
 
 - (BOOL)hasEnoughFunds:(NSString *)currencySymbol
@@ -1207,17 +1260,14 @@
         case AssetTypeBitcoin:
             self.btcAccount = account;
             [self selectToBitcoin];
-            self.fromToView.toLabel.text = [self bitcoinLabelText];
             break;
         case AssetTypeBitcoinCash:
             self.bchAccount = account;
             [self selectToBitcoinCash];
-            self.fromToView.toLabel.text = [self bitcoinCashLabelText];
             break;
         case AssetTypeEther:
             self.ethAccount = account;
             [self selectToEther];
-            self.fromToView.toLabel.text = [self etherLabelText];
             break;
     }
 

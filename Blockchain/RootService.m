@@ -2540,6 +2540,11 @@ void (^secondPasswordSuccess)(NSString *);
     [self.tabControllerManager didGetEtherAddressWithSecondPassword];
 }
 
+- (void)reloadEthTransactions
+{
+    [self.tabControllerManager.transactionsEtherViewController reload];
+}
+
 - (void)didGetExchangeTrades:(NSArray *)trades
 {
     [self.tabControllerManager didGetExchangeTrades:trades];

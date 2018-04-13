@@ -738,15 +738,16 @@
 
 - (void)assetToggleButtonClicked
 {
-    if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
-        [self selectFromEther];
-        [self selectToBitcoin];
-    } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
+    [self clearFieldOfSymbol:self.fromSymbol];
+
+    NSString *toSymbol = self.toSymbol;
+    if ([toSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
         [self selectFromBitcoin];
-        [self selectToEther];
+    } else if ([toSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
+        [self selectFromEther];
+    } else if ([toSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+        [self selectFromBitcoinCash];
     }
-    
-    [self getRate];
 }
 
 - (void)fromButtonClicked

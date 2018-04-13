@@ -835,6 +835,27 @@
     self.topLeftField.text = nil;
     self.bottomLeftField.text = nil;
 }
+    
+- (void)clearFromFieldReference
+{
+    [self clearFieldOfSymbol:self.fromSymbol];
+}
+
+- (void)clearToFieldReference
+{
+    [self clearFieldOfSymbol:self.toSymbol];
+}
+
+- (void)clearFieldOfSymbol:(NSString *)symbol
+{
+    if ([symbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+        self.btcField = nil;
+    } else if ([symbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
+        self.ethField = nil;
+    } else if ([symbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+        self.bchField = nil;
+    }
+}
 
 - (void)selectFromEther
 {
@@ -1231,6 +1252,8 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 
+    [self clearFieldOfSymbol:self.fromSymbol];
+
     switch (asset) {
         case AssetTypeBitcoin:
             self.btcAccount = account;
@@ -1255,6 +1278,8 @@
 - (void)didSelectToAccount:(int)account assetType:(AssetType)asset
 {
     [self.navigationController popViewControllerAnimated:YES];
+
+    [self clearFieldOfSymbol:self.toSymbol];
 
     switch (asset) {
         case AssetTypeBitcoin:

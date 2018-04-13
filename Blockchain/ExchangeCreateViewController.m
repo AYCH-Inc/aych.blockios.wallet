@@ -835,16 +835,6 @@
     self.topLeftField.text = nil;
     self.bottomLeftField.text = nil;
 }
-    
-- (void)clearFromFieldReference
-{
-    [self clearFieldOfSymbol:self.fromSymbol];
-}
-
-- (void)clearToFieldReference
-{
-    [self clearFieldOfSymbol:self.toSymbol];
-}
 
 - (void)clearFieldOfSymbol:(NSString *)symbol
 {

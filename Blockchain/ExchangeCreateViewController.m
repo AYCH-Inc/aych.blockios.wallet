@@ -719,7 +719,7 @@
                 self.ethField.text = ethString;
             } else if (self.topLeftField == self.btcField) {
                 self.btcField.text = btcString;
-            } else if (self.topLeftField == self.btcField) {
+            } else if (self.topLeftField == self.bchField) {
                 self.bchField.text = bchString;
             }
         } else if ([self.bottomRightField isFirstResponder]) {
@@ -727,7 +727,7 @@
                 self.ethField.text = ethString;
             } else if (self.topRightField == self.btcField) {
                 self.btcField.text = btcString;
-            } else if (self.topRightField == self.btcField) {
+            } else if (self.topRightField == self.bchField) {
                 self.bchField.text = bchString;
             }
         }

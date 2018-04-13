@@ -1248,17 +1248,14 @@
         case AssetTypeBitcoin:
             self.btcAccount = account;
             [self selectFromBitcoin];
-            self.fromToView.fromLabel.text = [self bitcoinLabelText];
             break;
         case AssetTypeBitcoinCash:
             self.bchAccount = account;
             [self selectFromBitcoinCash];
-            self.fromToView.fromLabel.text = [self bitcoinCashLabelText];
             break;
         case AssetTypeEther:
             self.ethAccount = account;
             [self selectFromEther];
-            self.fromToView.fromLabel.text = [self etherLabelText];
             break;
     }
 

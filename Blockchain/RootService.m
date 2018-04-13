@@ -1753,7 +1753,7 @@ void (^secondPasswordSuccess)(NSString *);
     
     self.wallet.sessionToken = nil;
     
-    [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoin];
+    [KeychainItemWrapper removeAllSwipeAddresses];
         
     self.isVerifyingMobileNumber = NO;
     

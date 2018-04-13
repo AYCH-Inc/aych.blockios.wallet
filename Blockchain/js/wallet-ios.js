@@ -3018,8 +3018,13 @@ MyWalletPhone.bch = {
             var fromIndex = indexFromCoinType(tx.from.coinType);
             if (fromIndex != null) tx.from.label = MyWallet.wallet.bch.accounts[fromIndex].label;
 
-            var toIndex = indexFromCoinType(tx.to[0].coinType);
-            if (toIndex != null) tx.to[0].label = MyWallet.wallet.bch.accounts[toIndex].label;
+            if (tx.to && tx.to.length > 0) {
+                var toIndex = indexFromCoinType(tx.to[0].coinType);
+                if (toIndex != null) tx.to[0].label = MyWallet.wallet.bch.accounts[toIndex].label;
+            } else {
+                var address = tx.processedOutputs[0].address;
+                tx.to = [{address: address, label: address, coinType: 'external'}];
+            }
 
             if (filter == -1) return true;
             if (filter == -2) filter = 'imported';

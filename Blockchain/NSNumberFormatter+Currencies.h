@@ -37,7 +37,8 @@
 
 + (NSString *)convertedDecimalString:(NSString *)entryString;
 + (NSString *)localFormattedString:(NSString *)amountString;
-
++ (NSString *)fiatStringFromDouble:(double)fiatBalance;
+    
 + (uint64_t)parseBtcValueFromString:(NSString *)inputString;
 
 + (NSString*)formatBCH:(uint64_t)value;

@@ -181,13 +181,13 @@
     }
 
     [self.bitcoinLegendKey changeBalance:[self.bitcoinBalance stringByAppendingFormat:@" %@", CURRENCY_SYMBOL_BTC]];
-    [self.bitcoinLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSString stringWithFormat:@"%.2f", self.bitcoinFiatBalance]]];
+    [self.bitcoinLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSNumberFormatter fiatStringFromDouble:self.bitcoinFiatBalance]]];
 
     [self.etherLegendKey changeBalance:[self.etherBalance stringByAppendingFormat:@" %@", CURRENCY_SYMBOL_ETH]];
-    [self.etherLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSString stringWithFormat:@"%.2f", self.etherFiatBalance]]];
+    [self.etherLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSNumberFormatter fiatStringFromDouble:self.etherFiatBalance]]];
 
     [self.bitcoinCashLegendKey changeBalance:[self.bitcoinCashBalance stringByAppendingFormat:@" %@", CURRENCY_SYMBOL_BCH]];
-    [self.bitcoinCashLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSString stringWithFormat:@"%.2f", self.bitcoinCashFiatBalance]]];
+    [self.bitcoinCashLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSNumberFormatter fiatStringFromDouble:self.bitcoinCashFiatBalance]]];
 }
 
 - (NSAttributedString *)balanceAttributedStringWithText:(NSString *)text

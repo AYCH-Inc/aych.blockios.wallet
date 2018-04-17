@@ -9,10 +9,32 @@
 
 import Foundation
 
-@objc final class RootServiceSwift: NSObject {
+// TODO: rename RootServiceSwift -> RootService once migration is complete
+
+final class RootServiceSwift {
+
+    // MARK: - Properties
+
+    /// Grants the Root Service access to the application delegate
+    fileprivate let appDelegate: AppDelegate!
+
+    /// Flag used to indicate whether the device is prompting for biometric authentication.
     @objc public private(set) var isPromptingForBiometricAuthentication = false
-    @objc public private(set) var applicationCameFromBackground = false
-    fileprivate var loginTimer: Timer?
+
+    /// The instance variable used to access functions of the `RootServiceSwift` class.
+    static let shared = RootServiceSwift()
+
+    fileprivate var loginTimeout: Timer?
+
+    lazy var busyView: BCFadeView? = {
+        guard let windowFrame = UIApplication.shared.keyWindow?.frame else {
+            return BCFadeView(frame: UIScreen.main.bounds)
+        }
+        print(windowFrame)
+        return BCFadeView(frame: windowFrame)
+    }()
+
+    /// The overlay shown when the application resigns active state.
     lazy var privacyScreen: UIImageView? = {
         let launchImages = [
             "320x480": "LaunchImage-700",
@@ -32,47 +54,101 @@ import Foundation
         return nil
     }()
 
-    // MARK: - UIApplicationDelegate methods
+    // MARK: Initialization
 
-    @objc func applicationDidBecomeActive(_ application: UIApplication) {
-        print("applicationDidBecomeActive")
-        self.hidePrivacyScreen()
+    //: Prevent outside objects from creating their own instances of this class.
+    private init() {
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("No application delegate found!")
+        }
+        appDelegate = delegate
     }
 
-    @objc func applicationWillResignActive(_ application: UIApplication) {
+    // MARK: - Application Lifecycle
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
+        print("applicationDidFinishLaunchingWithOptions")
+
+        //: Global appearance customizations
+        UIApplication.shared.statusBarStyle = .default
+
+        //: Was initialized with `NSNumber numberWithInt:AssetTypeBitcoin` before, could cause side unwanted effects...
+        // TODO: test for potential side effects
+        let assetTypekey = UserDefaults.Keys.assetType.rawValue
+        UserDefaults.standard.register(defaults: [assetTypekey: [AssetType.bitcoin]])
+
+        let certPinningkey = UserDefaults.DebugKeys.enableCertificatePinning.rawValue
+        UserDefaults.standard.register(defaults: [certPinningkey: true])
+
+        let swipeToReceiveEnabledKey = UserDefaults.Keys.swipeToReceiveEnabled.rawValue
+        UserDefaults.standard.register(defaults: [swipeToReceiveEnabledKey: true])
+
+        #if DEBUG
+        let envKey = UserDefaults.Keys.environment.rawValue
+        let environment = Environment.production.rawValue
+        UserDefaults.standard.set(environment, forKey: envKey)
+
+        UserDefaults.standard.set(true, forKey: certPinningkey)
+
+        let securityReminderKey = UserDefaults.DebugKeys.securityReminderTimer.rawValue
+        UserDefaults.standard.removeObject(forKey: securityReminderKey)
+
+        let appReviewPromptKey = UserDefaults.DebugKeys.appReviewPromptTimer.rawValue
+        UserDefaults.standard.removeObject(forKey: appReviewPromptKey)
+
+        let zeroTickerKey = UserDefaults.DebugKeys.simulateZeroTicker.rawValue
+        UserDefaults.standard.set(false, forKey: zeroTickerKey)
+
+        let simulateSurgeKey = UserDefaults.DebugKeys.simulateSurge.rawValue
+        UserDefaults.standard.set(false, forKey: simulateSurgeKey)
+        #endif
+
+        //: ...
+
+        return true
+    }
+
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        print("applicationDidBecomeActive")
+        self.hidePrivacyScreen()
+        UIApplication.shared.applicationIconBadgeNumber = 0
+    }
+
+    func applicationWillResignActive(_ application: UIApplication) {
         print("applicationWillResignActive")
         if !isPromptingForBiometricAuthentication {
             showPrivacyScreen()
         }
     }
 
-    @objc func applicationDidEnterBackground(_ application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         print("applicationDidEnterBackground")
-        applicationCameFromBackground = true
     }
 
-    @objc func applicationWillEnterForeground(_ application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         print("applicationWillEnterForeground")
+    }
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+        return false
     }
 
     // MARK: - Authentication
 
-    //: Optionally handle preflight error by setting USER_DEFAULTS_KEY_TOUCH_ID_ENABLED
-    //: 👆 not implemented b/c biometric authentication is assumed to be preferred by the user (if available)
     @objc func authenticateWithBiometrics() {
-        isPromptingForBiometricAuthentication = true
         app.pinEntryViewController.view.isUserInteractionEnabled = false
+        isPromptingForBiometricAuthentication = true
         AuthenticationManager.shared.authenticateUsingBiometrics { authenticated, authenticationError in
             self.isPromptingForBiometricAuthentication = false
             if let error = authenticationError {
-                self.handleBiometricAuthenticationError(withError: error)
+                self.handleBiometricAuthenticationError(with: error)
             }
             DispatchQueue.main.async {
                 app.pinEntryViewController.view.isUserInteractionEnabled = true
             }
             if authenticated {
                 DispatchQueue.main.async {
-                    self.showVerifyingBusyView(withTime: 30)
+                    self.showVerifyingBusyView(withTimeout: 30)
                 }
                 guard
                     // TODO: read pinKey from UserDefaults extension
@@ -85,7 +161,7 @@ import Foundation
         }
     }
 
-    func handleBiometricAuthenticationError(withError error: AuthenticationError) {
+    func handleBiometricAuthenticationError(with error: AuthenticationError) {
         if let description = error.description {
             let alert = UIAlertController(title: LCStringError, message: description, preferredStyle: .alert)
             let action = UIAlertAction(title: LCStringOK, style: .default, handler: nil)
@@ -96,8 +172,13 @@ import Foundation
         }
     }
 
+    func handlePasscodeAuthenticationError(with error: AuthenticationError) {
+        // TODO: implement handlePasscodeAuthenticationError
+    }
+
     // MARK: - Privacy screen
 
+    /// Fades out the privacy overlay and removes it from its superview.
     func hidePrivacyScreen() {
         UIView.animate(withDuration: 0.25, animations: {
             self.privacyScreen?.alpha = 0
@@ -120,11 +201,12 @@ import Foundation
         alert.addAction(action)
         app.window.rootViewController?.present(alert, animated: true, completion: nil)
     }
-    func showVerifyingBusyView(withTime time: Int) {
+
+    func showVerifyingBusyView(withTimeout seconds: Int) {
         app.showBusyView(withLoadingText: LCStringLoadingVerifying)
         // TODO: refactor showVerifyingBusyView with newer iOS 10+ method
-        loginTimer = Timer.scheduledTimer(
-            timeInterval: TimeInterval(time),
+        loginTimeout = Timer.scheduledTimer(
+            timeInterval: TimeInterval(seconds),
             target: self,
             selector: #selector(showErrorLoading),
             userInfo: nil,
@@ -133,7 +215,7 @@ import Foundation
     }
     @objc func showErrorLoading() {
         // TODO: complete showErrorLoading implementation
-        if let timer = loginTimer {
+        if let timer = loginTimeout {
             timer.invalidate()
         }
 //        if (!self.wallet.guid && busyView.alpha == 1.0 && [busyLabel.text isEqualToString:BC_STRING_LOADING_VERIFYING]) {

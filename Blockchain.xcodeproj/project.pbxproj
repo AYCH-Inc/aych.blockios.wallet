@@ -2397,7 +2397,7 @@
 		};
 		23FDEFA31D6E22C900FC80D6 /* Get SSL Certificate */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -2405,7 +2405,7 @@
 			name = "Get SSL Certificate";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ ! -d ${SRCROOT}/Cert ]; then\n    mkdir ${SRCROOT}/Cert\n    set -ue\n    cd ${SRCROOT}/Cert\n    openssl s_client -connect ${WALLET_SERVER}:443 -showcerts < /dev/null | openssl x509 -outform DER > ${LOCAL_CERTIFICATE_FILE}.der\nfi";
 		};

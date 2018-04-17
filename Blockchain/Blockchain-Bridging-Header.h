@@ -12,3 +12,4 @@
 #import "UIViewController+AutoDismiss.h"
 #import "TransferAllFundsViewController.h"
 #import "BCNavigationController.h"
+#import <openssl/x509.h>

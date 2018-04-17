@@ -14,7 +14,6 @@
 #import "BuyBitcoinViewController.h"
 #import "SessionManager.h"
 #import "SharedSessionDelegate.h"
-#import "AppDelegate.h"
 #import "MultiAddressResponse.h"
 #import "Wallet.h"
 #import "BCFadeView.h"
@@ -37,7 +36,6 @@
 #import "UpgradeViewController.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "UIViewController+AutoDismiss.h"
-#import "DeviceIdentifier.h"
 #import "DebugTableViewController.h"
 #import "KeychainItemWrapper+Credentials.h"
 #import "KeychainItemWrapper+SwipeAddresses.h"
@@ -48,8 +46,6 @@
 #import "BCEmptyPageView.h"
 #import "WebLoginViewController.h"
 #import <JavaScriptCore/JavaScriptCore.h>
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
 
 #define URL_SUPPORT_FORGOT_PASSWORD @"https://support.blockchain.com/hc/en-us/articles/211205343-I-forgot-my-password-What-can-you-do-to-help-"
 #define USER_DEFAULTS_KEY_DID_FAIL_TOUCH_ID_SETUP @"didFailTouchIDSetup"
@@ -58,7 +54,6 @@
 @implementation RootService
 
 RootService * app;
-RootServiceSwift *rootService;
 
 @synthesize wallet;
 @synthesize modalView;
@@ -98,8 +93,6 @@ void (^secondPasswordSuccess)(NSString *);
 
         self.modalChain = [[NSMutableArray alloc] init];
         app = self;
-
-        rootService = [[RootServiceSwift alloc] init];
     }
 
     return self;
@@ -139,51 +132,36 @@ void (^secondPasswordSuccess)(NSString *);
     }
 }
 
-- (CertificatePinner *)certificatePinner
-{
-#ifdef DISABLE_CERTIFICATE_PINNING
-    return nil;
-#else
-    if (!_certificatePinner) _certificatePinner = [[CertificatePinner alloc] init];
-    _certificatePinner.delegate = self;
-    return _certificatePinner;
-#endif
-}
+//- (CertificatePinner *)certificatePinner
+//{
+//#ifdef DISABLE_CERTIFICATE_PINNING
+//    return nil;
+//#else
+//    if (!_certificatePinner) _certificatePinner = [[CertificatePinner alloc] init];
+//    _certificatePinner.delegate = self;
+//    return _certificatePinner;
+//#endif
+//}
 
 #pragma mark - Application Lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [Fabric with:@[[Crashlytics class]]];
+    // TODO: migrate all code below to RootServiceSwift
 
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    app.window = appDelegate.window;
-
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-
-    [userDefaults registerDefaults:@{USER_DEFAULTS_KEY_ASSET_TYPE : [NSNumber numberWithInt:AssetTypeBitcoin]}];
-
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING : @YES}];
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{USER_DEFAULTS_KEY_SWIPE_TO_RECEIVE_ENABLED : @YES}];
-#ifndef DEBUG
-    [[NSUserDefaults standardUserDefaults] setObject:ENV_INDEX_PRODUCTION forKey:USER_DEFAULTS_KEY_ENV];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING];
-
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_DEFAULTS_KEY_DEBUG_SECURITY_REMINDER_CUSTOM_TIMER];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_DEFAULTS_KEY_DEBUG_APP_REVIEW_PROMPT_CUSTOM_TIMER];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:USER_DEFAULTS_KEY_DEBUG_SIMULATE_ZERO_TICKER];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:USER_DEFAULTS_KEY_DEBUG_SIMULATE_SURGE];
-#endif
-
-    SharedSessionDelegate *sharedSessionDelegate = [[SharedSessionDelegate alloc] initWithCertificatePinner:self.certificatePinner];
-
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSString *userAgentString = [NSString stringWithFormat:@"Blockchain-iOS/%@ (iOS/%@; %@)", [self getVersionLabelString], [[UIDevice currentDevice] systemVersion], [DeviceIdentifier deviceName]];
-    configuration.HTTPAdditionalHeaders = @{@"User-Agent" : userAgentString};
-
-    [SessionManager setupSharedSessionConfiguration:configuration delegate:sharedSessionDelegate queue:nil];
-
-    [self.certificatePinner pinCertificate];
+//    SharedSessionDelegate *sharedSessionDelegate = [[SharedSessionDelegate alloc] initWithCertificatePinner:self.certificatePinner];
+//
+//    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+//    NSString *userAgentString = [
+//                                 NSString stringWithFormat:@"Blockchain-iOS/%@ (iOS/%@; %@)",
+//                                 [self getVersionLabelString],
+//                                 [[UIDevice currentDevice] systemVersion], [DeviceIdentifier deviceName]
+//                                 ];
+//    configuration.HTTPAdditionalHeaders = @{@"User-Agent" : userAgentString};
+//
+//    [SessionManager setupSharedSessionConfiguration:configuration delegate:sharedSessionDelegate queue:nil];
+//
+//    [self.certificatePinner pinCertificate];
 
     [self checkForNewInstall];
 
@@ -202,9 +180,6 @@ void (^secondPasswordSuccess)(NSString *);
     NSSetUncaughtExceptionHandler(&HandleException);
 #endif
 
-    // Black status bar
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-
     [[NSNotificationCenter defaultCenter] addObserverForName:NOTIFICATION_KEY_LOADING_TEXT object:nil queue:nil usingBlock:^(NSNotification * notification) {
         self.loadingText = [notification object];
     }];
@@ -215,33 +190,76 @@ void (^secondPasswordSuccess)(NSString *);
 
     [app.window makeKeyAndVisible];
 
-    // Default view in TabViewController: dashboard
+    // TODO: Migrate elsewhere
     [self.tabControllerManager dashBoardClicked:nil];
-    [app.window.rootViewController.view addSubview:busyView];
 
-    busyView.frame = app.window.frame;
-    busyView.alpha = 0.0f;
+    // Add busy view to root vc
+    [app.window.rootViewController.view addSubview:busyView];
 
     // Load settings
     symbolLocal = [[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_SYMBOL_LOCAL];
 
-    [self showWelcomeOrPinScreen];
-
     [self requestAuthorizationForPushNotifications];
 
+    // TODO: Set Montserrat font globally
     app.mainTitleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_TOP_BAR_TEXT];
 
+    // TODO: Migrate elsewhere
     secondPasswordDescriptionLabel.font = [UIFont fontWithName:FONT_GILL_SANS_REGULAR size:FONT_SIZE_SMALL_MEDIUM];
     secondPasswordTextField.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL];
     secondPasswordButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_LARGE];
 
+    // Show welcome screen if guid or sharedKey are not set
+    if (![KeychainItemWrapper guid] || ![KeychainItemWrapper sharedKey]) {
+        [self showWelcomeScreen];
+        [self checkAndWarnOnJailbrokenPhones];
+        return YES;
+    }
+
+    // ... Otherwise show the pin screen
+    //: This step should happen as the app delegate instantiates the login screen from the storyboard
+    [self showPinScreen];
+
     return YES;
+}
+
+- (void)showWelcomeScreen
+{
+    [self checkForMaintenance];
+
+    BCWelcomeView *welcomeView = [[BCWelcomeView alloc] init];
+    [welcomeView.createWalletButton addTarget:self action:@selector(showCreateWallet:) forControlEvents:UIControlEventTouchUpInside];
+    [welcomeView.existingWalletButton addTarget:self action:@selector(showPairWallet:) forControlEvents:UIControlEventTouchUpInside];
+    [welcomeView.recoverWalletButton addTarget:self action:@selector(showRecoverWallet:) forControlEvents:UIControlEventTouchUpInside];
+
+    [app showModalWithContent:welcomeView closeType:ModalCloseTypeNone showHeader:NO headerText:nil onDismiss:nil onResume:nil];
+
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+}
+
+- (void)showPinScreen
+{
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_HAS_SEEN_ALL_CARDS];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_SHOULD_HIDE_ALL_CARDS];
+
+    if ([self isPinSet]) {
+        [self showPinModalAsView:YES];
+        // [rootService authenticateWithBiometrics];
+    } else {
+        [self checkForMaintenance];
+        [self showPasswordModal];
+        [self checkAndWarnOnJailbrokenPhones];
+    }
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadSideMenu) name:NOTIFICATION_KEY_GET_ACCOUNT_INFO_SUCCESS object:nil];
+
+    [self migratePasswordAndPinFromNSUserDefaults];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // TODO: call Swift instance method directly from AppDelegate after refactor
-    [rootService applicationWillResignActive:application];
+    // [rootService applicationWillResignActive:application];
 
     [self hideSendAndReceiveKeyboards];
 
@@ -284,7 +302,7 @@ void (^secondPasswordSuccess)(NSString *);
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     // TODO: call Swift instance method directly from AppDelegate after refactor
-    [rootService applicationDidEnterBackground:application];
+    // [rootService applicationDidEnterBackground:application];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_SWIPE_TO_RECEIVE_ENABLED] &&
         [self.wallet isInitialized] &&
         [self.wallet didUpgradeToHd]) {
@@ -385,7 +403,7 @@ void (^secondPasswordSuccess)(NSString *);
 {
     // Cannot be refactored any further until more code is migrated to RootServiceSwift
     if ([self isPinSet]) {
-        [rootService authenticateWithBiometrics];
+        // [rootService authenticateWithBiometrics];
         return;
     }
 
@@ -401,15 +419,7 @@ void (^secondPasswordSuccess)(NSString *);
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // TODO: call Swift instance method directly from AppDelegate after refactor
-    [rootService applicationDidBecomeActive:application];
-
-#ifdef ENABLE_SWIPE_TO_RECEIVE
-    if (self.pinEntryViewController.verifyOnly) {
-        [self.pinEntryViewController setupQRCode];
-    }
-#endif
-
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    // [rootService applicationDidBecomeActive:application];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
@@ -602,40 +612,34 @@ void (^secondPasswordSuccess)(NSString *);
     _window.rootViewController = _slidingViewController;
 }
 
-- (void)showWelcomeOrPinScreen
-{
-    // Not paired yet
-    if (![KeychainItemWrapper guid] || ![KeychainItemWrapper sharedKey]) {
-        [self showWelcome];
-        [self checkAndWarnOnJailbrokenPhones];
-    }
-    // Paired
-    else {
-
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_HAS_SEEN_ALL_CARDS];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_SHOULD_HIDE_ALL_CARDS];
-
-        // If the PIN is set show the pin modal
-        if ([self isPinSet]) {
-            [self showPinModalAsView:YES];
-#ifdef ENABLE_TOUCH_ID
-            //: 👇 storing this value is unnecessary
-            // if ([[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_TOUCH_ID_ENABLED]) {
-                [rootService authenticateWithBiometrics];
-            // }
-#endif
-        } else {
-            // No PIN set we need to ask for the main password
-            [self checkForMaintenance];
-            [self showPasswordModal];
-            [self checkAndWarnOnJailbrokenPhones];
-        }
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadSideMenu) name:NOTIFICATION_KEY_GET_ACCOUNT_INFO_SUCCESS object:nil];
-
-        [self migratePasswordAndPinFromNSUserDefaults];
-    }
-}
+//- (void)showWelcomeOrPinScreen
+//{
+//    // Not paired yet
+//    if (![KeychainItemWrapper guid] || ![KeychainItemWrapper sharedKey]) {
+//        [self showWelcome];
+//        [self checkAndWarnOnJailbrokenPhones];
+//    }
+//    // Paired
+//    else {
+//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_HAS_SEEN_ALL_CARDS];
+//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_SHOULD_HIDE_ALL_CARDS];
+//
+//        // If the PIN is set show the pin modal
+//        if ([self isPinSet]) {
+//            [self showPinModalAsView:YES];
+//            [rootService authenticateWithBiometrics];
+//        } else {
+//            // No PIN set we need to ask for the main password
+//            [self checkForMaintenance];
+//            [self showPasswordModal];
+//            [self checkAndWarnOnJailbrokenPhones];
+//        }
+//
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadSideMenu) name:NOTIFICATION_KEY_GET_ACCOUNT_INFO_SUCCESS object:nil];
+//
+//        [self migratePasswordAndPinFromNSUserDefaults];
+//    }
+//}
 
 - (void)migratePasswordAndPinFromNSUserDefaults
 {
@@ -2794,20 +2798,6 @@ void (^secondPasswordSuccess)(NSString *);
     }
 }
 
-- (void)showWelcome
-{
-    [self checkForMaintenance];
-
-    BCWelcomeView *welcomeView = [[BCWelcomeView alloc] init];
-    [welcomeView.createWalletButton addTarget:self action:@selector(showCreateWallet:) forControlEvents:UIControlEventTouchUpInside];
-    [welcomeView.existingWalletButton addTarget:self action:@selector(showPairWallet:) forControlEvents:UIControlEventTouchUpInside];
-    [welcomeView.recoverWalletButton addTarget:self action:@selector(showRecoverWallet:) forControlEvents:UIControlEventTouchUpInside];
-
-    [app showModalWithContent:welcomeView closeType:ModalCloseTypeNone showHeader:NO headerText:nil onDismiss:nil onResume:nil];
-
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-}
-
 - (void)showSecurityReminder
 {
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:USER_DEFAULTS_KEY_REMINDER_MODAL_DATE];
@@ -3309,15 +3299,6 @@ void (^secondPasswordSuccess)(NSString *);
     }];
 
     [task resume];
-}
-
-- (NSString *)getVersionLabelString
-{
-    NSDictionary *infoDictionary = [[NSBundle mainBundle]infoDictionary];
-    NSString *version = infoDictionary[@"CFBundleShortVersionString"];
-    NSString *build = infoDictionary[@"CFBundleVersion"];
-    NSString *versionAndBuild = [NSString stringWithFormat:@"%@ b%@", version, build];
-    return [NSString stringWithFormat:@"%@", versionAndBuild];
 }
 
 - (void)openMail

@@ -19,8 +19,8 @@ let LCStringLoadingVerifying = NSLocalizedString("Verifying", comment: "")
 let LCStringAuthCancel = NSLocalizedString("Cancel", comment: "")
 let LCStringAuthUsePasscode = NSLocalizedString("Use Passcode", comment: "")
 
-let LCStringFaceIDAuthenticate = NSLocalizedString("Authenticate with Face ID", comment: "")
-let LCStringTouchIDAuthenticate = NSLocalizedString("Authenticate with Touch ID", comment: "")
+let LCStringFaceIDAuthenticate = NSLocalizedString("Authenticate to unlock your wallet", comment: "")
+let LCStringTouchIDAuthenticate = NSLocalizedString("Authenticate to unlock your wallet", comment: "")
 
 //: Authentication Errors
 let LCStringAuthGenericError = NSLocalizedString("Authentication Failed. Please try again.", comment: "")

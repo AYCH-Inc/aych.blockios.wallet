@@ -79,7 +79,8 @@ static PEViewController *VerifyController()
 	c.delegate = n;
     n->pinController = c;
 	n->pinStage = PS_VERIFY;
-	n->verifyOnly = YES;
+	n->verifyOnly = YES;    
+    [n setupQRCode];
 	return n;
 }
 

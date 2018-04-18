@@ -13,7 +13,7 @@
 //
 
 #import "UncaughtExceptionHandler.h"
-#import "DeviceIdentifier.h"
+//#import "DeviceIdentifier.h"
 #include <libkern/OSAtomic.h>
 #include <sys/sysctl.h>
 #import "KeychainItemWrapper+Credentials.h"
@@ -102,7 +102,7 @@ const NSInteger UncaughtExceptionHandlerReportAddressCount = 5;
                           [app.tabControllerManager.tabViewController.activeViewController class],
                           walletIsLoaded ? @"TRUE" : @"FALSE",
                           walletIsInitialized? @"TRUE" : @"FALSE",
-                          [DeviceIdentifier deviceName],
+                          @"",//[DeviceIdentifier deviceName],
                           [[NSLocale preferredLanguages] firstObject],
                           [KeychainItemWrapper hashedGuid],
                           [exception reason],

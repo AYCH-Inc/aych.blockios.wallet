@@ -1753,7 +1753,7 @@ void (^secondPasswordSuccess)(NSString *);
     
     self.wallet.sessionToken = nil;
     
-    [KeychainItemWrapper removeAllSwipeAddressesForAssetType:AssetTypeBitcoin];
+    [KeychainItemWrapper removeAllSwipeAddresses];
         
     self.isVerifyingMobileNumber = NO;
     
@@ -2540,11 +2540,6 @@ void (^secondPasswordSuccess)(NSString *);
     [self.tabControllerManager didGetEtherAddressWithSecondPassword];
 }
 
-- (void)reloadEthTransactions
-{
-    [self.tabControllerManager.transactionsEtherViewController reload];
-}
-
 - (void)didGetExchangeTrades:(NSArray *)trades
 {
     [self.tabControllerManager didGetExchangeTrades:trades];
@@ -2666,7 +2661,11 @@ void (^secondPasswordSuccess)(NSString *);
     self.accountsAndAddressesNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
     [self.tabControllerManager.tabViewController presentViewController:self.accountsAndAddressesNavigationController animated:YES completion:^{
-        if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_HIDE_TRANSFER_ALL_FUNDS_ALERT] && self.accountsAndAddressesNavigationController.viewControllers.count == 1 && [app.wallet didUpgradeToHd] && [app.wallet getTotalBalanceForSpendableActiveLegacyAddresses] >= [app.wallet dust]) {
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_HIDE_TRANSFER_ALL_FUNDS_ALERT] &&
+            self.accountsAndAddressesNavigationController.viewControllers.count == 1 &&
+            [app.wallet didUpgradeToHd] &&
+            [app.wallet getTotalBalanceForSpendableActiveLegacyAddresses] >= [app.wallet dust] &&
+            self.accountsAndAddressesNavigationController.assetSelectorView.selectedAsset == AssetTypeBitcoin) {
             [self.accountsAndAddressesNavigationController alertUserToTransferAllFunds:NO];
         }
     }];

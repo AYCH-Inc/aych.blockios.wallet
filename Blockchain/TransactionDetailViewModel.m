@@ -27,12 +27,20 @@
 {
     if (self == [super init]) {
         self.assetType = AssetTypeBitcoin;
-        self.fromString = [transaction.from objectForKey:DICTIONARY_KEY_LABEL];
+        
+        id fromLabel = [transaction.from objectForKey:DICTIONARY_KEY_LABEL];
+        id toLabel = [transaction.to.firstObject objectForKey:DICTIONARY_KEY_LABEL];
+        
+        NSString *fromLabelString = [fromLabel isKindOfClass:[NSNumber class]] ? [fromLabel stringValue] : fromLabel;
+        NSString *toLabelString = [toLabel isKindOfClass:[NSNumber class]] ? [toLabel stringValue] : toLabel;
+        
+        self.fromString = fromLabelString;
         self.fromAddress = [transaction.from objectForKey:DICTIONARY_KEY_ADDRESS];
-        self.hasFromLabel = [transaction.from objectForKey:DICTIONARY_KEY_ACCOUNT_INDEX] || ![[transaction.from objectForKey:DICTIONARY_KEY_LABEL] isEqualToString:self.fromAddress];
-        self.hasToLabel = [[transaction.to firstObject] objectForKey:DICTIONARY_KEY_ACCOUNT_INDEX] || ![[[transaction.to firstObject] objectForKey:DICTIONARY_KEY_LABEL] isEqualToString:[[transaction.to firstObject] objectForKey:DICTIONARY_KEY_ADDRESS]];
+        self.hasFromLabel = [transaction.from objectForKey:DICTIONARY_KEY_ACCOUNT_INDEX] || ![fromLabelString isEqualToString:self.fromAddress];
+        self.hasToLabel = [[transaction.to firstObject] objectForKey:DICTIONARY_KEY_ACCOUNT_INDEX] || ![toLabelString isEqualToString:[[transaction.to firstObject] objectForKey:DICTIONARY_KEY_ADDRESS]];
         self.to = transaction.to;
-        self.toString = [transaction.to.firstObject objectForKey:DICTIONARY_KEY_LABEL];
+        self.toString = toLabelString;
+        
         self.amountInSatoshi = ABS(transaction.amount);
         self.feeInSatoshi = transaction.fee;
         self.txType = transaction.txType;
@@ -50,7 +58,8 @@
         app.btcFormatter.locale = [NSLocale localeWithLocaleIdentifier:LOCALE_IDENTIFIER_EN_US];
         CurrencySymbol *currentSymbol = app.latestResponse.symbol_btc;
         app.latestResponse.symbol_btc = [CurrencySymbol btcSymbolFromCode:CURRENCY_CODE_BTC];
-        self.decimalAmount = [NSDecimalNumber decimalNumberWithString:[NSNumberFormatter formatAmount:imaxabs(self.amountInSatoshi) localCurrency:NO]];
+        NSString *decimalString = [NSNumberFormatter formatAmount:imaxabs(self.amountInSatoshi) localCurrency:NO] ? : @"0";
+        self.decimalAmount = [NSDecimalNumber decimalNumberWithString:decimalString];
         app.latestResponse.symbol_btc = currentSymbol;
         app.btcFormatter.locale = currentLocale;
         

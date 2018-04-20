@@ -40,6 +40,8 @@
 @property (nonatomic) BCSecureTextField *btcField;
 @property (nonatomic) BCSecureTextField *ethField;
 @property (nonatomic) BCSecureTextField *bchField;
+    
+@property (nonatomic) UITextField *lastChangedField;
 
 // Fiat input
 @property (nonatomic) BCSecureTextField *bottomLeftField;
@@ -550,6 +552,8 @@
         }
     }
     
+    self.lastChangedField = textField;
+    
     NSString *amountString = [NSNumberFormatter convertedDecimalString:newString];
     
     [self saveAmount:amountString fromField:textField];
@@ -719,7 +723,7 @@
                 self.ethField.text = ethString;
             } else if (self.topLeftField == self.btcField) {
                 self.btcField.text = btcString;
-            } else if (self.topLeftField == self.btcField) {
+            } else if (self.topLeftField == self.bchField) {
                 self.bchField.text = bchString;
             }
         } else if ([self.bottomRightField isFirstResponder]) {
@@ -727,7 +731,7 @@
                 self.ethField.text = ethString;
             } else if (self.topRightField == self.btcField) {
                 self.btcField.text = btcString;
-            } else if (self.topRightField == self.btcField) {
+            } else if (self.topRightField == self.bchField) {
                 self.bchField.text = bchString;
             }
         }
@@ -738,15 +742,16 @@
 
 - (void)assetToggleButtonClicked
 {
-    if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
-        [self selectFromEther];
-        [self selectToBitcoin];
-    } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
+    [self clearFieldOfSymbol:self.fromSymbol];
+
+    NSString *toSymbol = self.toSymbol;
+    if ([toSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
         [self selectFromBitcoin];
-        [self selectToEther];
+    } else if ([toSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
+        [self selectFromEther];
+    } else if ([toSymbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+        [self selectFromBitcoinCash];
     }
-    
-    [self getRate];
 }
 
 - (void)fromButtonClicked
@@ -834,6 +839,17 @@
 {
     self.topLeftField.text = nil;
     self.bottomLeftField.text = nil;
+}
+
+- (void)clearFieldOfSymbol:(NSString *)symbol
+{
+    if ([symbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
+        self.btcField = nil;
+    } else if ([symbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
+        self.ethField = nil;
+    } else if ([symbol isEqualToString:CURRENCY_SYMBOL_BCH]) {
+        self.bchField = nil;
+    }
 }
 
 - (void)selectFromEther
@@ -1002,7 +1018,7 @@
         [self.spinner stopAnimating];
     }
     
-    BOOL usingFromField = ![self.topRightField isFirstResponder] && ![self.bottomRightField isFirstResponder];
+    BOOL usingFromField = self.lastChangedField != self.topRightField && self.lastChangedField != self.bottomRightField;
 
     NSString *amount;
     if ([self hasAmountGreaterThanZero:self.amount]) {
@@ -1231,21 +1247,20 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 
+    [self clearFieldOfSymbol:self.fromSymbol];
+
     switch (asset) {
         case AssetTypeBitcoin:
             self.btcAccount = account;
             [self selectFromBitcoin];
-            self.fromToView.fromLabel.text = [self bitcoinLabelText];
             break;
         case AssetTypeBitcoinCash:
             self.bchAccount = account;
             [self selectFromBitcoinCash];
-            self.fromToView.fromLabel.text = [self bitcoinCashLabelText];
             break;
         case AssetTypeEther:
             self.ethAccount = account;
             [self selectFromEther];
-            self.fromToView.fromLabel.text = [self etherLabelText];
             break;
     }
 
@@ -1255,6 +1270,8 @@
 - (void)didSelectToAccount:(int)account assetType:(AssetType)asset
 {
     [self.navigationController popViewControllerAnimated:YES];
+
+    [self clearFieldOfSymbol:self.toSymbol];
 
     switch (asset) {
         case AssetTypeBitcoin:

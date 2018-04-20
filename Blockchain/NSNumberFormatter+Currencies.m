@@ -265,6 +265,15 @@
     numberFormatter.locale = currentLocale;
     return [numberFormatter stringFromNumber:number];
 }
+    
++ (NSString *)fiatStringFromDouble:(double)fiatBalance
+{
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    NSUInteger decimalPlaces = 2;
+    numberFormatter.minimumFractionDigits = decimalPlaces;
+    numberFormatter.maximumFractionDigits = decimalPlaces;
+    return [numberFormatter stringFromNumber:[NSNumber numberWithDouble:fiatBalance]];
+}
 
 + (uint64_t)parseBtcValueFromString:(NSString *)inputString
 {

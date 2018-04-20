@@ -12,11 +12,10 @@
 #import "RootService.h"
 #import "PrivateKeyReader.h"
 #import "SendBitcoinViewController.h"
-#import "AssetSelectorView.h"
 #import "UIView+ChangeFrameAttribute.h"
 
 @interface AccountsAndAddressesNavigationController () <AssetSelectorViewDelegate>
-@property (nonatomic) AssetSelectorView *assetSelectorView;
+@property (nonatomic, readwrite) AssetSelectorView *assetSelectorView;
 @property (nonatomic) UIView *topBar;
 @property (nonatomic) BOOL isOpeningSelector;
 @end

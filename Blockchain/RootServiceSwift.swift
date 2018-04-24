@@ -96,6 +96,10 @@ final class RootServiceSwift {
         UserDefaults.standard.set(false, forKey: simulateSurgeKey)
         #endif
 
+        CertificatePinner.shared.pinCertificate()
+
+        checkForNewInstall()
+
         AppCoordinator.shared.start()
 
         //: ...
@@ -154,6 +158,7 @@ final class RootServiceSwift {
         }
     }
 
+    // TODO: migrate to the responsible controller that prompts for authentication
     func handleBiometricAuthenticationError(with error: AuthenticationError) {
         if let description = error.description {
             let alert = UIAlertController(title: LocalizationConstants.error, message: description, preferredStyle: .alert)
@@ -165,6 +170,7 @@ final class RootServiceSwift {
         }
     }
 
+    // TODO: migrate to the responsible controller that prompts for authentication
     func handlePasscodeAuthenticationError(with error: AuthenticationError) {
         // TODO: implement handlePasscodeAuthenticationError
     }
@@ -216,5 +222,28 @@ final class RootServiceSwift {
 //            [self hideBusyView];
 //            [self standardNotifyAutoDismissingController:BC_STRING_ERROR_LOADING_WALLET];
 //        }
+    }
+
+    // MARK: - State Checks
+
+    // TODO: move to BlockchainSettings
+    func checkForNewInstall() {
+        if !BlockchainSettings.App.shared.firstRun {
+            if KeychainItemWrapper.guid() != nil && KeychainItemWrapper.sharedKey() != nil && !BlockchainSettings.sharedAppInstance().isPinSet {
+                alertUserAskingToUseOldKeychain()
+            }
+            BlockchainSettings.App.shared.firstRun = true
+        }
+//        if UserDefaults.standard.object(forKey: upgradeKey) != nil {
+//            UserDefaults.standard.removeObject(forKey: upgradeKey)
+//        }
+        // TODO: investigate this further
+        if BlockchainSettings.App.shared.hasSeenUpgradeToHdScreen {
+            BlockchainSettings.App.shared.hasSeenUpgradeToHdScreen = false
+        }
+    }
+
+    func alertUserAskingToUseOldKeychain() {
+        // TODO: implement alertUserAskingToUseOldKeychain
     }
 }

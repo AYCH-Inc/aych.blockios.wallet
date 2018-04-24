@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-#import "BCCreateWalletView.h"
-
 #import "RootService.h"
+#import "BCCreateWalletView.h"
 #import "BuyBitcoinViewController.h"
 #import "Blockchain-Swift.h"
+#import "BCWebViewController.h"
 
 @implementation BCCreateWalletView
 
@@ -49,15 +49,15 @@
     termsOfServiceLabel.font = [UIFont fontWithName:FONT_GILL_SANS_REGULAR size:FONT_SIZE_EXTRA_EXTRA_SMALL];
     termsOfServiceButton.titleLabel.font = [UIFont fontWithName:FONT_GILL_SANS_REGULAR size:FONT_SIZE_EXTRA_EXTRA_SMALL];
     
-    // If loadBlankWallet is called without a delay, app.wallet will still be nil
+    // If loadBlankWallet is called without a delay, WalletManager.sharedInstance.wallet will still be nil
     [self performSelector:@selector(createBlankWallet) withObject:nil afterDelay:0.1f];
 }
 
 - (void)createBlankWallet
 {
-    [app.wallet loadBlankWallet];
+    [WalletManager.sharedInstance.wallet loadBlankWallet];
     
-    [app.wallet setupBuySellWebview];
+    [WalletManager.sharedInstance.wallet setupBuySellWebview];
 }
 
 // Make sure keyboard comes back if use is returning from TOS
@@ -149,13 +149,13 @@
         NSString *trimmedRecoveryPhrase = [recoveryPhrase stringByTrimmingCharactersInSet:
                                    [NSCharacterSet whitespaceCharacterSet]];
         
-        [app.wallet loading_start_recover_wallet];
+        [WalletManager.sharedInstance.wallet loading_start_recover_wallet];
         [self.recoveryPhraseView.recoveryPassphraseTextField resignFirstResponder];
         self.recoveryPhraseView.recoveryPassphraseTextField.hidden = YES;
 
-        [app.wallet recoverWithEmail:emailTextField.text password:passwordTextField.text passphrase:trimmedRecoveryPhrase];
+        [WalletManager.sharedInstance.wallet recoverWithEmail:emailTextField.text password:passwordTextField.text passphrase:trimmedRecoveryPhrase];
         
-        app.wallet.delegate = app;
+        WalletManager.sharedInstance.wallet.delegate = WalletManager.sharedInstance;
     }
 }
 
@@ -171,12 +171,12 @@
         
     // Get callback when wallet is done loading
     // Continue in walletJSReady callback
-    app.wallet.delegate = self;
+    WalletManager.sharedInstance.wallet.delegate = self;
 
     [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_CREATING_WALLET];
  
     // Load the JS without a wallet
-    [app.wallet performSelector:@selector(loadBlankWallet) withObject:nil afterDelay:DELAY_KEYBOARD_DISMISSAL];
+    [WalletManager.sharedInstance.wallet performSelector:@selector(loadBlankWallet) withObject:nil afterDelay:DELAY_KEYBOARD_DISMISSAL];
 }
 
 
@@ -185,13 +185,15 @@
 - (void)walletJSReady
 {
     // JS is loaded - now create the wallet
-    [app.wallet newAccount:self.tmpPassword email:emailTextField.text];
+    [WalletManager.sharedInstance.wallet newAccount:self.tmpPassword email:emailTextField.text];
 }
 
 - (IBAction)termsOfServiceClicked:(id)sender
 {
-    [app pushWebViewController:[[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingString:URL_SUFFIX_TERMS_OF_SERVICE] title:BC_STRING_TERMS_OF_SERVICE];
-    [emailTextField becomeFirstResponder];
+    BCWebViewController *webViewController = [[BCWebViewController alloc] initWithTitle:BC_STRING_TERMS_OF_SERVICE];
+    webViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [webViewController loadURL:[[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingString:URL_SUFFIX_TERMS_OF_SERVICE]];
+    [UIApplication.sharedApplication.keyWindow.rootViewController.topMostViewController presentViewController:webViewController animated:true completion:nil];
 }
 
 - (void)didCreateNewAccount:(NSString*)guid sharedKey:(NSString*)sharedKey password:(NSString*)password
@@ -200,16 +202,16 @@
     passwordTextField.text = nil;
     password2TextField.text = nil;
 
-    app.wallet.delegate = app;
+    WalletManager.sharedInstance.wallet.delegate = WalletManager.sharedInstance;
 
     // Reset wallet
-    [app forgetWallet];
+    [WalletManager.sharedInstance forgetWallet];
         
     // Load the newly created wallet
-    [app.wallet loadWalletWithGuid:guid sharedKey:sharedKey password:password];
+    [WalletManager.sharedInstance.wallet loadWalletWithGuid:guid sharedKey:sharedKey password:password];
     
-    app.wallet.isNew = YES;
-    app.buyBitcoinViewController.isNew = YES;
+    WalletManager.sharedInstance.wallet.isNew = YES;
+    app.buyBitcoinViewController.isNew = YES; // TODO: move this to a coordinator
     
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_DEFAULTS_KEY_HAS_SEEN_ALL_CARDS];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_DEFAULTS_KEY_SHOULD_HIDE_ALL_CARDS];
@@ -221,21 +223,21 @@
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_SHOULD_HIDE_BUY_SELL_CARD];
     
-    [app.wallet getAllCurrencySymbols];
+    [WalletManager.sharedInstance.wallet getAllCurrencySymbols];
 }
 
 - (void)errorCreatingNewAccount:(NSString*)message
 {
     if ([message isEqualToString:@""]) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_NO_INTERNET_CONNECTION title:BC_STRING_ERROR];
+        [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
     } else if ([message isEqualToString:ERROR_TIMEOUT_REQUEST]){
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_TIMED_OUT title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_TIMED_OUT title:BC_STRING_ERROR handler: nil];
     } else if ([message isEqualToString:ERROR_FAILED_NETWORK_REQUEST] || [message containsString:ERROR_TIMEOUT_ERROR] || [[message stringByReplacingOccurrencesOfString:@" " withString:@""] containsString:ERROR_STATUS_ZERO]){
         dispatch_after(DELAY_KEYBOARD_DISMISSAL, dispatch_get_main_queue(), ^{
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION title:BC_STRING_ERROR];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION title:BC_STRING_ERROR handler: nil];
         });
     } else {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:message title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:message title:BC_STRING_ERROR handler: nil];
     }
 }
 
@@ -327,7 +329,7 @@
     UIColor *color;
     NSString *description;
     
-    float passwordStrength = [app.wallet getStrengthForPassword:password];
+    float passwordStrength = [WalletManager.sharedInstance.wallet getStrengthForPassword:password];
 
     if (passwordStrength < 25) {
         color = COLOR_PASSWORD_STRENGTH_WEAK;
@@ -360,7 +362,7 @@
 - (BOOL)isReadyToSubmitForm
 {
     if ([emailTextField.text length] == 0) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_PLEASE_PROVIDE_AN_EMAIL_ADDRESS title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_PLEASE_PROVIDE_AN_EMAIL_ADDRESS title:BC_STRING_ERROR handler: nil];
         [emailTextField becomeFirstResponder];
         return NO;
     }
@@ -368,7 +370,7 @@
     if ([emailTextField.text hasPrefix:@"@"] ||
         [emailTextField.text hasSuffix:@"@"] ||
         [[emailTextField.text componentsSeparatedByString:@"@"] count] != 2) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_INVALID_EMAIL_ADDRESS title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_INVALID_EMAIL_ADDRESS title:BC_STRING_ERROR handler: nil];
         [emailTextField becomeFirstResponder];
         return NO;
     }
@@ -376,36 +378,37 @@
     self.tmpPassword = passwordTextField.text;
     
     if (!self.tmpPassword || [self.tmpPassword length] == 0) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_NO_PASSWORD_ENTERED title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_NO_PASSWORD_ENTERED title:BC_STRING_ERROR handler: nil];
         [passwordTextField becomeFirstResponder];
         return NO;
     }
     
     if ([self.tmpPassword isEqualToString:emailTextField.text]) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_PASSWORD_MUST_BE_DIFFERENT_FROM_YOUR_EMAIL title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_PASSWORD_MUST_BE_DIFFERENT_FROM_YOUR_EMAIL title:BC_STRING_ERROR handler: nil];
         [passwordTextField becomeFirstResponder];
         return NO;
     }
     
     if (self.passwordStrength < 25) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_PASSWORD_NOT_STRONG_ENOUGH title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_PASSWORD_NOT_STRONG_ENOUGH title:BC_STRING_ERROR handler: nil];
         [passwordTextField becomeFirstResponder];
         return NO;
     }
     
     if ([self.tmpPassword length] > 255) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_PASSWORD_MUST_BE_LESS_THAN_OR_EQUAL_TO_255_CHARACTERS title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_PASSWORD_MUST_BE_LESS_THAN_OR_EQUAL_TO_255_CHARACTERS title:BC_STRING_ERROR handler: nil];
         [passwordTextField becomeFirstResponder];
         return NO;
     }
     
     if (![self.tmpPassword isEqualToString:[password2TextField text]]) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_PASSWORDS_DO_NOT_MATCH title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_PASSWORDS_DO_NOT_MATCH title:BC_STRING_ERROR handler: nil];
         [password2TextField becomeFirstResponder];
         return NO;
     }
     
-    if (![app checkInternetConnection]) {
+    if (!Reachability.hasInternetConnection) {
+        [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
         return NO;
     }
     

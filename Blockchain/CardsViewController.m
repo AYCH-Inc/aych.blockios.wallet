@@ -69,11 +69,11 @@
         self.cardsViewHeight = IS_USING_SCREEN_SIZE_4S ? 208 : 240;
     }
     
-    if (self.showCards && app.latestResponse.symbol_local) {
+    if (self.showCards && WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local) {
         [self setupWelcomeCardsView];
     } else if (self.announcementCards.count > 0) {
         [self setupCardsViewWithConfigurations:self.announcementCards];
-    } else if (app.latestResponse.symbol_local) {
+    } else if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local) {
         [self removeCardsView];
     }
     

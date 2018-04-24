@@ -131,7 +131,7 @@
         app.settingsNavigationController = nil;
         [[AppCoordinator sharedInstance] closeSideMenu];
         [app showPasswordModal];
-        app.changedPassword = YES;
+        WalletManager.sharedInstance.didChangePassword = YES;
         [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertForChangePasswordSuccess animated:YES completion:nil];
     }];
 
@@ -244,7 +244,8 @@
         return NO;
     }
     
-    if (![app checkInternetConnection]) {
+    if (!Reachability.hasInternetConnection) {
+        [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
         return NO;
     }
     

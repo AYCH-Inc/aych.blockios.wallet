@@ -14,7 +14,8 @@ import Foundation
     static let shared = LoadingViewPresenter()
 
     private lazy var busyView: BCFadeView = {
-        let busyView = BCFadeView(frame: UIScreen.main.bounds)
+        let busyView = BCFadeView.instanceFromNib()
+        busyView.frame = UIScreen.main.bounds
         busyView.alpha = 0.0
         return busyView
     }()

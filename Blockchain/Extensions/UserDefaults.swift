@@ -25,8 +25,10 @@ extension UserDefaults {
         case environment = "environment"
         case firstRun = "firstRun"
         case hasSeenUpgradeToHdScreen = "hasSeenUpgradeToHdScreen"
+        case passwordPartHash = "passwordPartHash"
+        case pinKey = "pinKey"
         case swipeToReceiveEnabled = "swipeToReceive"
         case symbolLocal = "symbolLocal"
-        case pinKey = "pinKey"
+        case touchIDEnabled = "touchIDEnabled"
     }
 }

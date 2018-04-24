@@ -63,6 +63,8 @@ struct Constants {
     }
     struct NotificationKeys {
         static let modalViewDismissed = NSNotification.Name("modalViewDismissed")
+        static let reloadToDismissViews = NSNotification.Name("reloadToDismissViews")
+        static let newAddress = NSNotification.Name("newAddress")
     }
     struct PushNotificationKeys {
         static let userInfoType = "type"
@@ -81,6 +83,14 @@ struct Constants {
 
     @objc class func notificationKeyModalViewDismissed() -> String {
         return Constants.NotificationKeys.modalViewDismissed.rawValue
+    }
+
+    @objc class func notificationKeyReloadToDismissViews() -> String {
+        return Constants.NotificationKeys.reloadToDismissViews.rawValue
+    }
+
+    @objc class func notificationKeyNewAddress() -> String {
+        return Constants.NotificationKeys.newAddress.rawValue
     }
 }
 

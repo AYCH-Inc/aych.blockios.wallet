@@ -239,12 +239,12 @@ const int aboutPrivacyPolicy = 2;
 
 - (CurrencySymbol *)getLocalSymbolFromLatestResponse
 {
-    return app.latestResponse.symbol_local;
+    return WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local;
 }
 
 - (CurrencySymbol *)getBtcSymbolFromLatestResponse
 {
-    return app.latestResponse.symbol_btc;
+    return WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc;
 }
 
 - (void)alertUserOfErrorLoadingSettings
@@ -565,7 +565,7 @@ const int aboutPrivacyPolicy = 2;
     if (!errorString) {
         [self toggleTouchID];
     } else {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:USER_DEFAULTS_KEY_TOUCH_ID_ENABLED];
+        BlockchainSettings.sharedAppInstance.touchIDEnabled = NO;
 
         UIAlertController *alertTouchIDError = [UIAlertController alertControllerWithTitle:BC_STRING_ERROR message:errorString preferredStyle:UIAlertControllerStyleAlert];
         [alertTouchIDError addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -578,7 +578,7 @@ const int aboutPrivacyPolicy = 2;
 
 - (void)toggleTouchID
 {
-    BOOL touchIDEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_TOUCH_ID_ENABLED];
+    BOOL touchIDEnabled = BlockchainSettings.sharedAppInstance.touchIDEnabled;
 
     if (!(touchIDEnabled == YES)) {
         UIAlertController *alertForTogglingTouchID = [UIAlertController alertControllerWithTitle:BC_STRING_SETTINGS_PIN_USE_TOUCH_ID_AS_PIN message:BC_STRING_TOUCH_ID_WARNING preferredStyle:UIAlertControllerStyleAlert];
@@ -592,7 +592,7 @@ const int aboutPrivacyPolicy = 2;
         [self presentViewController:alertForTogglingTouchID animated:YES completion:nil];
     } else {
         [app disabledTouchID];
-        [[NSUserDefaults standardUserDefaults] setBool:!touchIDEnabled forKey:USER_DEFAULTS_KEY_TOUCH_ID_ENABLED];
+        BlockchainSettings.sharedAppInstance.touchIDEnabled = !touchIDEnabled;
     }
 }
 
@@ -607,7 +607,7 @@ const int aboutPrivacyPolicy = 2;
 {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:preferencesEmailNotifications inSection:sectionPreferences];
 
-    if ([app checkInternetConnection]) {
+    if (Reachability.hasInternetConnection) {
         if ([self emailNotificationsEnabled]) {
             [app.wallet disableEmailNotifications];
         } else {
@@ -624,6 +624,7 @@ const int aboutPrivacyPolicy = 2;
         changeEmailNotificationsCell.userInteractionEnabled = NO;
         [self addObserversForChangingNotifications];
     } else {
+        [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
@@ -702,18 +703,20 @@ const int aboutPrivacyPolicy = 2;
 
 - (void)changeTwoStepVerification
 {
-    if ([app checkInternetConnection]) {
+    if (!Reachability.hasInternetConnection) {
+        [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
+        return;
+    }
 
-        if ([app.wallet getTwoStepType] == TWO_STEP_AUTH_TYPE_NONE) {
-            self.isEnablingTwoStepSMS = YES;
-            if ([app.wallet getSMSVerifiedStatus] == YES) {
-                [self enableTwoStepForSMS];
-            } else {
-                [self mobileNumberClicked];
-            }
+    if ([app.wallet getTwoStepType] == TWO_STEP_AUTH_TYPE_NONE) {
+        self.isEnablingTwoStepSMS = YES;
+        if ([app.wallet getSMSVerifiedStatus] == YES) {
+            [self enableTwoStepForSMS];
         } else {
-            [self disableTwoStep];
+            [self mobileNumberClicked];
         }
+    } else {
+        [self disableTwoStep];
     }
 }
 
@@ -1269,7 +1272,7 @@ const int aboutPrivacyPolicy = 2;
                 cell.textLabel.font = [SettingsTableViewController fontForCell];
                 cell.textLabel.text = BC_STRING_SETTINGS_PIN_USE_TOUCH_ID_AS_PIN;
                 UISwitch *switchForTouchID = [[UISwitch alloc] init];
-                BOOL touchIDEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_TOUCH_ID_ENABLED];
+                BOOL touchIDEnabled = BlockchainSettings.sharedAppInstance.touchIDEnabled;
                 switchForTouchID.on = touchIDEnabled;
                 [switchForTouchID addTarget:self action:@selector(switchTouchIDTapped) forControlEvents:UIControlEventTouchUpInside];
                 cell.accessoryView = switchForTouchID;

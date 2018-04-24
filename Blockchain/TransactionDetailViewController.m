@@ -110,7 +110,7 @@ const CGFloat rowHeightValueReceived = 80;
 
 - (void)getFiatAtTime
 {
-    [app.wallet getFiatAtTime:self.transactionModel.time value:self.transactionModel.decimalAmount currencyCode:[app.latestResponse.symbol_local.code lowercaseString] assetType:self.transactionModel.assetType];
+    [app.wallet getFiatAtTime:self.transactionModel.time value:self.transactionModel.decimalAmount currencyCode:[WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code lowercaseString] assetType:self.transactionModel.assetType];
     self.isGettingFiatAtTime = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDataAfterGetFiatAtTime) name:NOTIFICATION_KEY_GET_FIAT_AT_TIME object:nil];
 }
@@ -178,7 +178,7 @@ const CGFloat rowHeightValueReceived = 80;
     
     NSArray *newTransactions;
     if (self.transactionModel.assetType == AssetTypeBitcoin) {
-        newTransactions = app.latestResponse.transactions;
+        newTransactions = WalletManager.sharedInstance.latestMultiAddressResponse.transactions;
     } else if (self.transactionModel.assetType == AssetTypeEther) {
         newTransactions = app.wallet.etherTransactions;
     } else if (self.transactionModel.assetType == AssetTypeBitcoinCash) {
@@ -220,7 +220,7 @@ const CGFloat rowHeightValueReceived = 80;
 
     if (!didFindTransaction) {
         [self dismissViewControllerAnimated:YES completion:^{
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_COULD_NOT_FIND_TRANSACTION_ARGUMENT, self.transactionModel.myHash] title:BC_STRING_ERROR];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_COULD_NOT_FIND_TRANSACTION_ARGUMENT, self.transactionModel.myHash] title:BC_STRING_ERROR handler: nil];
         }];
     }
 }
@@ -413,7 +413,7 @@ const CGFloat rowHeightValueReceived = 80;
         if (address) {
             [UIPasteboard generalPasteboard].string = address;
         } else {
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_ERROR_COPYING_TO_CLIPBOARD title:BC_STRING_ERROR];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_ERROR_COPYING_TO_CLIPBOARD title:BC_STRING_ERROR handler: nil];
         }
     }]];
     [copyAddressController addAction:[UIAlertAction actionWithTitle:BC_STRING_SEND_TO_ADDRESS style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -470,7 +470,7 @@ const CGFloat rowHeightValueReceived = 80;
 
 - (NSString *)getCurrencyCode
 {
-    return [app.latestResponse.symbol_local.code lowercaseString];
+    return [WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code lowercaseString];
 }
 
 - (CGFloat)getDefaultRowHeight

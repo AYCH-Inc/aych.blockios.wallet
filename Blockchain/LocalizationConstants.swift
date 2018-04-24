@@ -40,6 +40,12 @@ struct LocalizationConstants {
     static let unsafeDeviceWarningMessage = NSLocalizedString("Your device appears to be jailbroken. The security of your wallet may be compromised.", comment: "")
     static let syncingWallet = NSLocalizedString("Syncing Wallet", comment: "")
     static let verifying = NSLocalizedString ("Verifying", comment: "")
+    static let noInternetConnection = NSLocalizedString("No internet connection.", comment: "")
+
+    struct Authentication {
+        static let errorDecryptingWallet = NSLocalizedString("An error occurred due to interruptions during PIN verification. Please close the app and try again.", comment: "")
+        static let invalidSharedKey = NSLocalizedString("Invalid Shared Key", comment: "")
+    }
 
     struct Onboarding {
         static let createNewWallet = NSLocalizedString("Create New Wallet", comment: "")
@@ -52,6 +58,8 @@ struct LocalizationConstants {
 /// LocalizationConstants class wrapper so that LocalizationConstants can be accessed from Obj-C.
 /// Should deprecate this once Obj-C is no longer using this
 @objc class LocalizationConstantsObjcBridge: NSObject {
+
+    @objc class func noInternetConnection() -> String { return LocalizationConstants.noInternetConnection }
 
     @objc class func onboardingRecoverFunds() -> String { return LocalizationConstants.Onboarding.recoverFunds }
 }

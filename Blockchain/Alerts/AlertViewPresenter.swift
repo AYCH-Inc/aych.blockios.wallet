@@ -9,6 +9,8 @@
 import Foundation
 
 @objc class AlertViewPresenter: NSObject {
+    typealias AlertConfirmHandler = ((UIAlertAction) -> Void)
+
     static let shared = AlertViewPresenter()
 
     @objc class func sharedInstance() -> AlertViewPresenter { return shared }
@@ -27,12 +29,25 @@ import Foundation
         )
     }
 
-    @objc func standardNotify(message: String, title: String = LocalizationConstants.error) {
+    @objc func showNoInternetConnectionAlert() {
+        standardNotify(message: LocalizationConstants.noInternetConnection, title: LocalizationConstants.error) { _ in
+            LoadingViewPresenter.shared.hideBusyView()
+            // TODO: this should not be in here. Figure out all areas where pin
+            // should be reset and explicitly reset pin entry there
+            // [self.pinEntryViewController reset];
+        }
+    }
+
+    @objc func standardNotify(
+        message: String,
+        title: String = LocalizationConstants.error,
+        handler: AlertConfirmHandler? = nil
+    ) {
         DispatchQueue.main.async {
             guard UIApplication.shared.applicationState == .active else { return }
 
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: LocalizationConstants.ok, style: .cancel))
+            alert.addAction(UIAlertAction(title: LocalizationConstants.ok, style: .cancel, handler: handler))
 
             let window = UIApplication.shared.keyWindow
             guard let topMostViewController = window?.rootViewController?.topMostViewController else {

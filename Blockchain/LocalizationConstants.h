@@ -141,7 +141,6 @@
 #define BC_STRING_FAILED_VALIDATION_CERTIFICATE_MESSAGE NSLocalizedString(@"A connection cannot be established because the server certificate could not be validated. Please check your network settings and ensure that you are using a secure connection.", nil)
 #define BC_STRING_FAILED_VALIDATION_CERTIFICATE_MESSAGE_CONTACT_SUPPORT_ARGUMENT NSLocalizedString(@"Please contact support:\n%@", nil)
 
-#define BC_STRING_NO_INTERNET_CONNECTION NSLocalizedString(@"No internet connection.", nil)
 #define BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION NSLocalizedString(@"Request failed. Please check your internet connection.", nil)
 #define BC_STRING_SOMETHING_WENT_WRONG_CHECK_INTERNET_CONNECTION NSLocalizedString(@"An error occurred while updating your spendable balance. Please check your internet connection and try again.", nil)
 #define BC_STRING_TIMED_OUT NSLocalizedString(@"Connection timed out. Please check your internet connection.", nil)
@@ -160,9 +159,7 @@
 
 #define BC_STRING_ACTION_REQUIRES_SECOND_PASSWORD NSLocalizedString(@"This action requires the second password for your wallet. Please enter it below and press continue.", nil)
 #define BC_STRING_INVALID_GUID NSLocalizedString(@"Invalid Wallet ID", nil)
-#define BC_STRING_INTERRUPTED_DECRYPTION_PLEASE_CLOSE_THE_APP_AND_TRY_AGAIN NSLocalizedString(@"An error occurred due to interruptions during PIN verification. Please close the app and try again.", nil)
 
-#define BC_STRING_INVALID_SHARED_KEY NSLocalizedString(@"Invalid Shared Key", nil)
 #define BC_STRING_ENTER_YOUR_CHARACTER_WALLET_IDENTIFIER NSLocalizedString(@"Please enter your 36 character wallet identifier correctly. It can be found in the welcome email on startup.", nil)
 #define BC_STRING_INVALID_IDENTIFIER NSLocalizedString(@"Invalid Identifier", nil)
 

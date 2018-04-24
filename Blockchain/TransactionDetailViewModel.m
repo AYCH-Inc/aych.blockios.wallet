@@ -56,11 +56,11 @@
         
         NSLocale *currentLocale = app.btcFormatter.locale;
         app.btcFormatter.locale = [NSLocale localeWithLocaleIdentifier:LOCALE_IDENTIFIER_EN_US];
-        CurrencySymbol *currentSymbol = app.latestResponse.symbol_btc;
-        app.latestResponse.symbol_btc = [CurrencySymbol btcSymbolFromCode:CURRENCY_CODE_BTC];
+        CurrencySymbol *currentSymbol = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc;
+        WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc = [CurrencySymbol btcSymbolFromCode:CURRENCY_CODE_BTC];
         NSString *decimalString = [NSNumberFormatter formatAmount:imaxabs(self.amountInSatoshi) localCurrency:NO] ? : @"0";
         self.decimalAmount = [NSDecimalNumber decimalNumberWithString:decimalString];
-        app.latestResponse.symbol_btc = currentSymbol;
+        WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc = currentSymbol;
         app.btcFormatter.locale = currentLocale;
         
         if ([transaction isMemberOfClass:[ContactTransaction class]]) {

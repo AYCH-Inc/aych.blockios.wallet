@@ -290,7 +290,7 @@ BOOL displayingLocalSymbolSend;
         return;
     }
     
-    if (!app.latestResponse) {
+    if (!WalletManager.sharedInstance.latestMultiAddressResponse) {
         DLog(@"SendViewController: No latest response");
         return;
     }
@@ -452,15 +452,15 @@ BOOL displayingLocalSymbolSend;
 
 - (void)reloadLocalAndBtcSymbolsFromLatestResponse
 {
-    if (app.latestResponse.symbol_local && app.latestResponse.symbol_btc) {
-        fiatLabel.text = app.latestResponse.symbol_local.code;
-        btcLabel.text = self.assetType == AssetTypeBitcoin ? app.latestResponse.symbol_btc.symbol : CURRENCY_SYMBOL_BCH;
+    if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local && WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc) {
+        fiatLabel.text = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code;
+        btcLabel.text = self.assetType == AssetTypeBitcoin ? WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc.symbol : CURRENCY_SYMBOL_BCH;
     }
     
-    if (app->symbolLocal && app.latestResponse.symbol_local && app.latestResponse.symbol_local.conversion > 0) {
+    if (app->symbolLocal && WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local && WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.conversion > 0) {
         displayingLocalSymbol = TRUE;
         displayingLocalSymbolSend = TRUE;
-    } else if (app.latestResponse.symbol_btc) {
+    } else if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc) {
         displayingLocalSymbol = FALSE;
         displayingLocalSymbolSend = FALSE;
     }
@@ -615,13 +615,13 @@ BOOL displayingLocalSymbolSend;
              DLog(@"Send error: %@", error);
                           
              if ([error isEqualToString:ERROR_UNDEFINED]) {
-                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SEND_ERROR_NO_INTERNET_CONNECTION title:BC_STRING_ERROR];
+                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SEND_ERROR_NO_INTERNET_CONNECTION title:BC_STRING_ERROR handler: nil];
              } else if ([error isEqualToString:ERROR_FEE_TOO_LOW]) {
-                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SEND_ERROR_FEE_TOO_LOW title:BC_STRING_ERROR];
+                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SEND_ERROR_FEE_TOO_LOW title:BC_STRING_ERROR handler: nil];
              } else if ([error isEqualToString:ERROR_FAILED_NETWORK_REQUEST]) {
-                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION title:BC_STRING_ERROR];
+                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION title:BC_STRING_ERROR handler: nil];
              } else if (error && error.length != 0)  {
-                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR];
+                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR handler: nil];
              }
              
              [sendProgressActivityIndicator stopAnimating];
@@ -877,7 +877,7 @@ BOOL displayingLocalSymbolSend;
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_NO_AVAILABLE_FUNDS message:BC_STRING_PLEASE_SELECT_DIFFERENT_ADDRESS preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];
-    [[NSNotificationCenter defaultCenter] addObserver:alert selector:@selector(autoDismiss) name:NOTIFICATION_KEY_RELOAD_TO_DISMISS_VIEWS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:alert selector:@selector(autoDismiss) name:ConstantsObjcBridge.notificationKeyReloadToDismissViews object:nil];
     TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
     [tabControllerManager.tabViewController presentViewController:alert animated:YES completion:nil];
     [self enablePaymentButtons];
@@ -1063,10 +1063,10 @@ BOOL displayingLocalSymbolSend;
     if ([self isKeyboardVisible]) {
         [self hideKeyboard];
         dispatch_after(DELAY_KEYBOARD_DISMISSAL, dispatch_get_main_queue(), ^{
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR handler: nil];
         });
     } else {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR handler: nil];
     }
 }
 
@@ -1178,7 +1178,7 @@ BOOL displayingLocalSymbolSend;
     
     if ([amount longLongValue] + [fee longLongValue] > [app.wallet getTotalBalanceForSpendableActiveLegacyAddresses]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * ANIMATION_DURATION * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SOME_FUNDS_CANNOT_BE_TRANSFERRED_AUTOMATICALLY title:BC_STRING_WARNING_TITLE];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SOME_FUNDS_CANNOT_BE_TRANSFERRED_AUTOMATICALLY title:BC_STRING_WARNING_TITLE handler: nil];
             [[LoadingViewPresenter sharedInstance] hideBusyView];
         });
     }
@@ -1599,7 +1599,7 @@ BOOL displayingLocalSymbolSend;
         // When entering amount in BTC, max 8 decimal places
         if (textField == btcAmountField || textField == feeField) {
             // Max number of decimal places depends on bitcoin unit
-            NSUInteger maxlength = [@(SATOSHI) stringValue].length - [@(SATOSHI / app.latestResponse.symbol_btc.conversion) stringValue].length;
+            NSUInteger maxlength = [@(SATOSHI) stringValue].length - [@(SATOSHI / WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc.conversion) stringValue].length;
             
             if (points.count == 2) {
                 NSString *decimalString = points[1];
@@ -2162,7 +2162,7 @@ BOOL displayingLocalSymbolSend;
                 NSString *address = [dict objectForKey:DICTIONARY_KEY_ADDRESS];
                 
                 if (address == nil || ![app.wallet isValidAddress:address assetType:self.assetType]) {
-                    [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_BITCOIN_ADDRESS_ARGUMENT, address] title:BC_STRING_ERROR];
+                    [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_BITCOIN_ADDRESS_ARGUMENT, address] title:BC_STRING_ERROR handler: nil];
                     return;
                 }
                 
@@ -2178,7 +2178,7 @@ BOOL displayingLocalSymbolSend;
                 
                 NSString *amountStringFromDictionary = [dict objectForKey:DICTIONARY_KEY_AMOUNT];
                 if ([NSNumberFormatter stringHasBitcoinValue:amountStringFromDictionary]) {
-                    if (app.latestResponse.symbol_btc) {
+                    if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc) {
                         NSDecimalNumber *amountDecimalNumber = [NSDecimalNumber decimalNumberWithString:amountStringFromDictionary];
                         amountInSatoshi = [[amountDecimalNumber decimalNumberByMultiplyingBy:(NSDecimalNumber *)[NSDecimalNumber numberWithDouble:SATOSHI]] longLongValue];
                     } else {
@@ -2258,7 +2258,7 @@ BOOL displayingLocalSymbolSend;
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];
-    [[NSNotificationCenter defaultCenter] addObserver:alert selector:@selector(autoDismiss) name:NOTIFICATION_KEY_RELOAD_TO_DISMISS_VIEWS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:alert selector:@selector(autoDismiss) name:ConstantsObjcBridge.notificationKeyReloadToDismissViews object:nil];
     TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
     [tabControllerManager.tabViewController presentViewController:alert animated:YES completion:nil];
 }
@@ -2270,9 +2270,9 @@ BOOL displayingLocalSymbolSend;
         uint64_t dust = [self dust];
         
         if (amountInSatoshi == 0) {
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_INVALID_SEND_VALUE title:BC_STRING_ERROR];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_INVALID_SEND_VALUE title:BC_STRING_ERROR handler: nil];
         } else if (amountInSatoshi < dust) {
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_MUST_BE_ABOVE_OR_EQUAL_TO_DUST_THRESHOLD, dust] title:BC_STRING_ERROR];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_MUST_BE_ABOVE_OR_EQUAL_TO_DUST_THRESHOLD, dust] title:BC_STRING_ERROR handler: nil];
         } else {
             [self createSendRequest:RequestTypeSendReason forContact:self.toContact reason:nil];
         }

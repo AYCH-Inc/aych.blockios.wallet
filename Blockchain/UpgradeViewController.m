@@ -34,7 +34,8 @@
 
 - (IBAction)upgradeTapped:(UIButton *)sender
 {
-    if (![app checkInternetConnection]) {
+    if (!Reachability.hasInternetConnection) {
+        [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
         return;
     }
     

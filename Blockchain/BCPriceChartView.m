@@ -315,7 +315,7 @@
     self.titleLabel.center = CGPointMake([self.titleLabel superview].frame.size.width/2, self.titleLabel.center.y);
     
     NSString *formattedString = [NSNumberFormatter localFormattedString:[NSString stringWithFormat:@"%.2f", dataEntry.y]];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@%@", app.latestResponse.symbol_local.symbol, formattedString];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@%@", WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.symbol, formattedString];
     [self.priceLabel sizeToFit];
     
     self.percentageChangeLabel.hidden = YES;

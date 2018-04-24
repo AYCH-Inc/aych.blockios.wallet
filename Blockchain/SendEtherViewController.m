@@ -211,11 +211,11 @@
 
 - (void)reloadAfterMultiAddressResponse
 {
-    if (app.latestResponse.symbol_local) {
-        self.amountInputView.fiatLabel.text = app.latestResponse.symbol_local.code;
+    if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local) {
+        self.amountInputView.fiatLabel.text = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code;
     }
     
-    self.displayingLocalSymbolSend = (app->symbolLocal && app.latestResponse.symbol_local && app.latestResponse.symbol_local.conversion > 0);
+    self.displayingLocalSymbolSend = (app->symbolLocal && WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local && WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.conversion > 0);
 }
 
 - (void)setAddress:(NSString *)address
@@ -345,15 +345,15 @@
     self.toAddress = self.toField.text;
     
     if (self.toAddress == nil || self.toAddress.length == 0) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_YOU_MUST_ENTER_DESTINATION_ADDRESS title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_YOU_MUST_ENTER_DESTINATION_ADDRESS title:BC_STRING_ERROR handler: nil];
         return;
     } else if (![self isEtherAddress:self.toAddress]) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, self.toAddress] title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, self.toAddress] title:BC_STRING_ERROR handler: nil];
         return;
     }
     
     if ([self.ethAmount isEqualToNumber:@0]) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_INVALID_SEND_VALUE title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_INVALID_SEND_VALUE title:BC_STRING_ERROR handler: nil];
         return;
     }
     
@@ -482,7 +482,7 @@
 - (void)selectToAddress:(NSString *)address
 {
     if (address == nil || ![self isEtherAddress:address]) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, address] title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, address] title:BC_STRING_ERROR handler: nil];
         return;
     }
     

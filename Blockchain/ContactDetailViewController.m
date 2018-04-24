@@ -309,7 +309,7 @@ const int maxFindAttempts = 2;
 
 - (Transaction *)getTransactionDetails:(ContactTransaction *)contactTransaction
 {
-    for (Transaction *transaction in app.latestResponse.transactions) {
+    for (Transaction *transaction in WalletManager.sharedInstance.latestMultiAddressResponse.transactions) {
         if ([transaction.myHash isEqualToString:contactTransaction.myHash]) {
             return transaction;
         }

@@ -63,13 +63,13 @@
     NSString *label = [self.labelTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     if (label.length == 0) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_YOU_MUST_ENTER_A_LABEL title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_YOU_MUST_ENTER_A_LABEL title:BC_STRING_ERROR handler: nil];
         return;
     }
     
     if (label.length > 17) {
         // TODO i18n
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_LABEL_MUST_HAVE_LESS_THAN_18_CHAR title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_LABEL_MUST_HAVE_LESS_THAN_18_CHAR title:BC_STRING_ERROR handler: nil];
         return;
     }
     

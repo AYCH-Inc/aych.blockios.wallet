@@ -97,7 +97,7 @@
     NSString *password = passwordTextField.text;
     
     if ([guid length] != 36) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_ENTER_YOUR_CHARACTER_WALLET_IDENTIFIER title:BC_STRING_INVALID_IDENTIFIER];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_ENTER_YOUR_CHARACTER_WALLET_IDENTIFIER title:BC_STRING_INVALID_IDENTIFIER handler: nil];
         
         [walletIdentifierTextField becomeFirstResponder];
         
@@ -105,14 +105,15 @@
     }
     
     if (password.length == 0) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_NO_PASSWORD_ENTERED title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_NO_PASSWORD_ENTERED title:BC_STRING_ERROR handler: nil];
         
         [passwordTextField becomeFirstResponder];
         
         return;
     }
     
-    if (![app checkInternetConnection]) {
+    if (!Reachability.hasInternetConnection) {
+        [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
         return;
     }
     

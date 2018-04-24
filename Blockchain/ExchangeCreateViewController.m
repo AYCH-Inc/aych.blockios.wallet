@@ -202,7 +202,7 @@
     fiatLabel.center = CGPointMake(fiatLabel.center.x, bottomLeftField.center.y);
     fiatLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL];
     fiatLabel.textColor = COLOR_TEXT_DARK_GRAY;
-    fiatLabel.text = app.latestResponse.symbol_local.code;
+    fiatLabel.text = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code;
     fiatLabel.center = CGPointMake(fiatLabel.center.x, ROW_HEIGHT_FROM_TO_VIEW*1.5);
     [amountView addSubview:fiatLabel];
     
@@ -520,7 +520,7 @@
     // When entering amount in BTC, max 8 decimal places
     else if (textField == self.btcField || textField == self.bchField) {
         // Max number of decimal places depends on bitcoin unit
-        NSUInteger maxlength = [@(SATOSHI) stringValue].length - [@(SATOSHI / app.latestResponse.symbol_btc.conversion) stringValue].length;
+        NSUInteger maxlength = [@(SATOSHI) stringValue].length - [@(SATOSHI / WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc.conversion) stringValue].length;
         
         if (points.count == 2) {
             NSString *decimalString = points[1];
@@ -599,7 +599,7 @@
 
 - (void)convertFiatStringToBtc:(NSString *)amountString
 {
-    self.amount = [NSNumber numberWithLongLong:app.latestResponse.symbol_local.conversion * [amountString doubleValue]];
+    self.amount = [NSNumber numberWithLongLong:WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.conversion * [amountString doubleValue]];
 }
 
 - (void)convertFiatStringToBch:(NSString *)amountString

@@ -34,7 +34,7 @@
 
 @class TransactionsBitcoinViewController, BCFadeView, ReceiveCoinsViewController, SendBitcoinViewController, BCCreateWalletView, BCManualPairView, MultiAddressResponse, PairingCodeParser, BCWebViewController, BackupNavigationViewController, ContactsViewController, ContactTransaction, BuyBitcoinViewController;
 
-@interface RootService : NSObject <UIApplicationDelegate, WalletDelegate, PEPinEntryControllerDelegate, MFMailComposeViewControllerDelegate, ReminderModalDelegate, SetupDelegate, TabControllerDelegate> {
+@interface RootService : NSObject <UIApplicationDelegate, WalletDelegate, PEPinEntryControllerDelegate, MFMailComposeViewControllerDelegate, ReminderModalDelegate, SetupDelegate> {
 
     Wallet *wallet;
     
@@ -78,7 +78,7 @@
 
 //@property (strong, nonatomic) IBOutlet ECSlidingViewController *slidingViewController;
 //@property (nonatomic) TabControllerManager *tabControllerManager;
-@property (strong, nonatomic) IBOutlet BCWebViewController *bcWebViewController;
+//@property (strong, nonatomic) IBOutlet BCWebViewController *bcWebViewController;
 @property (strong, nonatomic) IBOutlet BackupNavigationViewController *backupNavigationViewController;
 @property (strong, nonatomic) SettingsNavigationController *settingsNavigationController;
 @property (strong, nonatomic) AccountsAndAddressesNavigationController *accountsAndAddressesNavigationController;
@@ -90,7 +90,7 @@
 
 @property (strong, nonatomic) IBOutlet UIWindow *window;
 @property (strong, nonatomic) Wallet *wallet;
-@property (strong, nonatomic) MultiAddressResponse *latestResponse;
+//@property (strong, nonatomic) MultiAddressResponse *latestResponse;
 
 //@property (strong, nonatomic) IBOutlet BCModalView *modalView;
 //@property (strong, nonatomic) NSMutableArray *modalChain;
@@ -110,8 +110,8 @@
 @property(nonatomic, strong) NSNumberFormatter *ethFormatter;
 @property(nonatomic, strong) NSNumberFormatter *localCurrencyFormatter;
 
-@property (nonatomic) BOOL changedPassword;
-@property (nonatomic) BOOL isVerifyingMobileNumber;
+//@property (nonatomic) BOOL changedPassword;
+@property (nonatomic) BOOL isVerifyingMobileNumber; // TODO: Move this inside SettingsTableViewController
 
 @property (nonatomic) ContactTransaction *pendingPaymentRequestTransaction;
 
@@ -122,7 +122,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application;
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options;
 
-- (void)setAccountData:(NSString*)guid sharedKey:(NSString*)sharedKey;
+//- (void)setAccountData:(NSString*)guid sharedKey:(NSString*)sharedKey;
 
 - (void)playBeepSound;
 - (void)playAlertSound;
@@ -130,7 +130,7 @@
 
 //- (void)showWelcome;
 - (void)logout;
-- (void)forgetWallet;
+//- (void)forgetWallet;
 - (void)showPasswordModal;
 
 //- (void)toggleSideMenu;
@@ -167,7 +167,7 @@
 - (void)getSecondPassword:(void (^)(NSString *))success error:(void (^)(NSString *))error helperText:(NSString *)helperText;
 - (void)getPrivateKeyPassword:(void (^)(NSString *))success error:(void (^)(NSString *))error;
 
-- (void)reload;
+//- (void)reload;
 - (void)reloadAfterMultiAddressResponse;
 - (void)toggleSymbol;
 
@@ -180,11 +180,11 @@
 
 - (void)initializeWebview;
 
-- (void)pushWebViewController:(NSString*)url title:(NSString *)title;
+//- (void)pushWebViewController:(NSString*)url title:(NSString *)title;
 
 - (void)showSendCoins;
 - (void)showAccountsAndAddresses;
-- (void)showHdUpgrade;
+//- (void)showHdUpgrade;
 //- (void)showDebugMenu:(int)presenter;
 - (void)showBackupReminder:(BOOL)firstReceive;
 
@@ -216,7 +216,7 @@
 - (void)validatePINOptionally;
 - (void)changePIN;
 
-- (BOOL)checkInternetConnection;
+//- (BOOL)checkInternetConnection;
 
 - (NSString *)checkForTouchIDAvailablility;
 - (void)disabledTouchID;

@@ -66,6 +66,23 @@ import Foundation
         }
     }
 
+    /// Shows an upgrade to HD wallet prompt if the user has a legacy wallet
+    @objc func showHdUpgradeViewIfNeeded() {
+        guard !WalletManager.shared.wallet.didUpgradeToHd() else { return }
+        showHdUpgradeView()
+    }
+
+    /// Shows the HD wallet upgrade view
+    @objc func showHdUpgradeView() {
+        let storyboard = UIStoryboard(name: "Upgrade", bundle: nil)
+        let upgradeViewController = storyboard.instantiateViewController(withIdentifier: "UpgradeViewController")
+        upgradeViewController.modalTransitionStyle = .coverVertical
+        UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
+            upgradeViewController,
+            animated: true
+        )
+    }
+
     @objc func showDebugView(presenter: Int32) {
         let debugViewController = DebugTableViewController()
         debugViewController.presenter = presenter
@@ -78,6 +95,24 @@ import Foundation
             return
         }
         slidingViewController.resetTopView(animated: true)
+    }
+
+    /// Reloads contained view controllers
+    @objc func reload() {
+        tabControllerManager.reload()
+
+        // TODO: reload these view controllers as well
+//        [_settingsNavigationController reload];
+//        [_accountsAndAddressesNavigationController reload];
+
+        if let sideMenuViewController = slidingViewController.underLeftViewController as? SideMenuViewController {
+            sideMenuViewController.reload()
+        }
+
+        NotificationCenter.default.post(name: Constants.NotificationKeys.reloadToDismissViews, object: nil)
+
+        // Legacy code for generating new addresses
+        NotificationCenter.default.post(name: Constants.NotificationKeys.newAddress, object: nil)
     }
 }
 

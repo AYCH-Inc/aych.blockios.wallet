@@ -190,7 +190,7 @@
 
 - (IBAction)termsOfServiceClicked:(id)sender
 {
-    [app pushWebViewController:[[NSBundle walletUrl] stringByAppendingString:URL_SUFFIX_TERMS_OF_SERVICE] title:BC_STRING_TERMS_OF_SERVICE];
+    [app pushWebViewController:[[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingString:URL_SUFFIX_TERMS_OF_SERVICE] title:BC_STRING_TERMS_OF_SERVICE];
     [emailTextField becomeFirstResponder];
 }
 

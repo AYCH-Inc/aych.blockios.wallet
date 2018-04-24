@@ -16,6 +16,7 @@
 #import "RootService.h"
 #import "SideMenuViewController.h"
 #import "TransferAllFundsViewController.h"
+#import "BCNavigationController.h"
 #import "UIDevice+Hardware.h"
 #import "UIViewController+AutoDismiss.h"
 #import "Wallet.h"

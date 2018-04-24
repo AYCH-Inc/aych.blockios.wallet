@@ -12,8 +12,6 @@
 
 #import "ExchangeOverviewViewController.h"
 #import "BuyBitcoinViewController.h"
-#import "SessionManager.h"
-#import "SharedSessionDelegate.h"
 #import "MultiAddressResponse.h"
 #import "Wallet.h"
 #import "BCFadeView.h"
@@ -185,7 +183,7 @@ void (^secondPasswordSuccess)(NSString *);
 //
 //    [self.certificatePinner pinCertificate];
 
-    [self checkForNewInstall];
+//    [self checkForNewInstall];
 
     [self persistServerSessionIDForNewUIWebViews];
 
@@ -405,7 +403,7 @@ void (^secondPasswordSuccess)(NSString *);
     [self.wallet.bchSocket closeWithCode:WEBSOCKET_CODE_BACKGROUNDED_APP reason:WEBSOCKET_CLOSE_REASON_USER_BACKGROUNDED];
 
     if (hasGuidAndSharedKey) {
-        [SessionManager resetSessionWithCompletionHandler:^{
+        [[[NetworkManager sharedInstance] session] resetWithCompletionHandler:^{
             // completion handler must be non-null
         }];
     }
@@ -415,7 +413,7 @@ void (^secondPasswordSuccess)(NSString *);
 {
     // Cannot be refactored any further until more code is migrated to RootServiceSwift
     if ([BlockchainSettings sharedAppInstance].isPinSet) {
-//        [rootService authenticateWithBiometrics];
+        // [rootService authenticateWithBiometrics];
         return;
     }
 
@@ -569,10 +567,10 @@ void (^secondPasswordSuccess)(NSString *);
     NSString *preferredLanguage = [[NSLocale preferredLanguages] firstObject];
     const char *languageString = [preferredLanguage UTF8String];
 
-    NSMutableURLRequest *notificationsRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:URL_PUSH_NOTIFICATIONS_SERVER_ARGUMENT_GUID_ARGUMENT_SHAREDKEY_ARGUMENT_TOKEN_ARGUMENT_LENGTH_ARGUMENT_LANGUAGE_ARGUMENT, [NSBundle walletUrl], [self.wallet guid], [self.wallet sharedKey], self.deviceToken, (unsigned long)[self.deviceToken length], languageString]]];
+    NSMutableURLRequest *notificationsRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:URL_PUSH_NOTIFICATIONS_SERVER_ARGUMENT_GUID_ARGUMENT_SHAREDKEY_ARGUMENT_TOKEN_ARGUMENT_LENGTH_ARGUMENT_LANGUAGE_ARGUMENT, [[BlockchainAPI sharedInstance] walletUrl], [self.wallet guid], [self.wallet sharedKey], self.deviceToken, (unsigned long)[self.deviceToken length], languageString]]];
     [notificationsRequest setHTTPMethod:@"POST"];
 
-    NSURLSessionDataTask *dataTask = [[SessionManager sharedSession] dataTaskWithRequest:notificationsRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSessionDataTask *dataTask = [[[NetworkManager sharedInstance] session] dataTaskWithRequest:notificationsRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
             DLog(@"Error registering device with backend: %@", [error localizedDescription]);
         }
@@ -2360,13 +2358,11 @@ void (^secondPasswordSuccess)(NSString *);
         return;
     }
 
-    NSURLSession *session = [SessionManager sharedSession];
-    NSURL *URL = [NSURL URLWithString:[[NSBundle walletUrl] stringByAppendingFormat:URL_SUFFIX_EVENT_NAME_ARGUMENT, eventName]];
-
+    NSURL *URL = [NSURL URLWithString:[[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingFormat:URL_SUFFIX_EVENT_NAME_ARGUMENT, eventName]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL];
     request.HTTPMethod = @"POST";
 
-    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSURLSessionDataTask *dataTask = [[[NetworkManager sharedInstance] session] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             DLog(@"Error saving address input: %@", [error localizedDescription]);
         }
@@ -2573,11 +2569,10 @@ void (^secondPasswordSuccess)(NSString *);
 
 - (void)checkForMaintenanceWithPinKey:(NSString *)pinKey pin:(NSString *)pin
 {
-    NSURLSession *session = [SessionManager sharedSession];
-    NSURL *url = [NSURL URLWithString:[[NSBundle walletUrl] stringByAppendingString:URL_SUFFIX_WALLET_OPTIONS]];
-    session.sessionDescription = url.host;
+    NSURL *url = [NSURL URLWithString:[[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingString:URL_SUFFIX_WALLET_OPTIONS]];
+    // session.sessionDescription = url.host;
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSURLSessionDataTask *task = [[[NetworkManager sharedInstance] session] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 DLog(@"Error checking for maintenance in wallet options: %@", [error localizedDescription]);
@@ -3272,23 +3267,19 @@ void (^secondPasswordSuccess)(NSString *);
     NSString *URLString;
 
     if (assetType == AssetTypeBitcoin) {
-        URLString = [[NSBundle walletUrl] stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT, address]];
+        URLString = [[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT, address]];
     } else if (assetType == AssetTypeBitcoinCash) {
         NSString *addressToCheck = [app.wallet fromBitcoinCash:address];
-        URLString = [[NSBundle apiUrl] stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_BCH_ADDRESS_ARGUMENT, addressToCheck]];
+        URLString = [[[BlockchainAPI sharedInstance] apiUrl] stringByAppendingString:[NSString stringWithFormat:ADDRESS_URL_SUFFIX_BCH_ADDRESS_ARGUMENT, addressToCheck]];
     } else {
         DLog(@"checking for unused address: unsupported asset type!");
     }
 
     NSURL *URL = [NSURL URLWithString:URLString];
-
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-
-    NSURLSession *session = [SessionManager sharedSession];
-    NSURL *url = [NSURL URLWithString:[NSBundle walletUrl]];
-    session.sessionDescription = url.host;
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-
+    NSURL *url = [NSURL URLWithString:[[BlockchainAPI sharedInstance] walletUrl]];
+    // session.sessionDescription = url.host;
+    NSURLSessionDataTask *task = [[[NetworkManager sharedInstance] session] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 DLog(@"Error checking for receive address %@: %@", address, error);
@@ -3807,22 +3798,22 @@ void (^secondPasswordSuccess)(NSString *);
 
 #pragma mark - State Checks
 
-- (void)checkForNewInstall
-{
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_FIRST_RUN]) {
-
-        if ([KeychainItemWrapper guid] && [KeychainItemWrapper sharedKey] && ![BlockchainSettings sharedAppInstance].isPinSet) {
-            [self alertUserAskingToUseOldKeychain];
-        }
-
-        [[NSUserDefaults standardUserDefaults] setBool:true forKey:USER_DEFAULTS_KEY_FIRST_RUN];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_HAS_SEEN_UPGRADE_TO_HD_SCREEN]) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_DEFAULTS_KEY_HAS_SEEN_UPGRADE_TO_HD_SCREEN];
-    }
-}
+//- (void)checkForNewInstall
+//{
+//    if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_FIRST_RUN]) {
+//
+//        if ([KeychainItemWrapper guid] && [KeychainItemWrapper sharedKey] && ![BlockchainSettings sharedAppInstance].isPinSet) {
+//            [self alertUserAskingToUseOldKeychain];
+//        }
+//
+//        [[NSUserDefaults standardUserDefaults] setBool:true forKey:USER_DEFAULTS_KEY_FIRST_RUN];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//    }
+//
+//    if ([[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_HAS_SEEN_UPGRADE_TO_HD_SCREEN]) {
+//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_DEFAULTS_KEY_HAS_SEEN_UPGRADE_TO_HD_SCREEN];
+//    }
+//}
 
 - (void)alertUserAskingToUseOldKeychain
 {
@@ -3930,30 +3921,30 @@ void (^secondPasswordSuccess)(NSString *);
     return input;
 }
 
-#pragma mark - Certificate Pinner Delegate
-
-- (void)failedToValidateCertificate:(NSString *)hostName
-{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_FAILED_VALIDATION_CERTIFICATE_TITLE message:[NSString stringWithFormat:@"%@\n\n%@\n\n%@", hostName, BC_STRING_FAILED_VALIDATION_CERTIFICATE_MESSAGE, [NSString stringWithFormat:BC_STRING_FAILED_VALIDATION_CERTIFICATE_MESSAGE_CONTACT_SUPPORT_ARGUMENT, URL_SUPPORT]] preferredStyle:UIAlertControllerStyleAlert];
-    alert.view.tag = TAG_CERTIFICATE_VALIDATION_FAILURE_ALERT;
-    [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        // Close App
-        UIApplication *app = [UIApplication sharedApplication];
-        [app performSelector:@selector(suspend)];
-    }]];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.window.rootViewController.presentedViewController) {
-            if (self.window.rootViewController.presentedViewController.view.tag != TAG_CERTIFICATE_VALIDATION_FAILURE_ALERT) {
-                [self.window.rootViewController dismissViewControllerAnimated:NO completion:^{
-                    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
-                }];
-            }
-        } else {
-            [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
-        }
-    });
-
-}
+//#pragma mark - Certificate Pinner Delegate
+//
+//- (void)failedToValidateCertificate:(NSString *)hostName
+//{
+//    UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_FAILED_VALIDATION_CERTIFICATE_TITLE message:[NSString stringWithFormat:@"%@\n\n%@\n\n%@", hostName, BC_STRING_FAILED_VALIDATION_CERTIFICATE_MESSAGE, [NSString stringWithFormat:BC_STRING_FAILED_VALIDATION_CERTIFICATE_MESSAGE_CONTACT_SUPPORT_ARGUMENT, URL_SUPPORT]] preferredStyle:UIAlertControllerStyleAlert];
+//    alert.view.tag = TAG_CERTIFICATE_VALIDATION_FAILURE_ALERT;
+//    [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//        // Close App
+//        UIApplication *app = [UIApplication sharedApplication];
+//        [app performSelector:@selector(suspend)];
+//    }]];
+//
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        if (self.window.rootViewController.presentedViewController) {
+//            if (self.window.rootViewController.presentedViewController.view.tag != TAG_CERTIFICATE_VALIDATION_FAILURE_ALERT) {
+//                [self.window.rootViewController dismissViewControllerAnimated:NO completion:^{
+//                    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+//                }];
+//            }
+//        } else {
+//            [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+//        }
+//    });
+//
+//}
 
 @end

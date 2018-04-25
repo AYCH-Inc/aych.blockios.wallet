@@ -9,6 +9,7 @@
 #import "RootService.h"
 #import "WebLoginViewController.h"
 #import "QRCodeGenerator.h"
+#import "Blockchain-Swift.h"
 
 @interface WebLoginViewController ()
 @property (nonatomic) QRCodeGenerator *qrCodeGenerator;
@@ -50,8 +51,8 @@ const float qrSize = 230;
 
     [self setupQRCodeViews];
 
-    app.wallet.delegate = self;
-    [app.wallet makePairingCode];
+    WalletManager.sharedInstance.wallet.delegate = self;
+    [WalletManager.sharedInstance.wallet makePairingCode];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -235,7 +236,7 @@ const float qrSize = 230;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    app.wallet.delegate = app;
+    WalletManager.sharedInstance.wallet.delegate = app;
     [super viewWillDisappear:animated];
 }
 

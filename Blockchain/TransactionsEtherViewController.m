@@ -71,7 +71,7 @@
 
 - (void)updateBalance
 {
-    NSString *balance = [app.wallet getEthBalanceTruncated];
+    NSString *balance = [WalletManager.sharedInstance.wallet getEthBalanceTruncated];
 
     TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
     self.balance = app->symbolLocal ? [NSNumberFormatter formatEthToFiatWithSymbol:balance exchangeRate:tabControllerManager.latestEthExchangeRate] : [NSNumberFormatter formatEth:balance];
@@ -102,12 +102,12 @@
 {
     [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
     
-    [app.wallet performSelector:@selector(getEthHistory) withObject:nil afterDelay:0.1f];
+    [WalletManager.sharedInstance.wallet performSelector:@selector(getEthHistory) withObject:nil afterDelay:0.1f];
 }
 
 - (void)loadTransactions
 {
-    self.transactions = [app.wallet getEthTransactions];
+    self.transactions = [WalletManager.sharedInstance.wallet getEthTransactions];
     
     self.noTransactionsView.hidden = self.transactions.count > 0;
     

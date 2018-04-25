@@ -77,13 +77,13 @@
         return;
     }
 
-    if (![app.wallet isAccountNameValid:label]) {
+    if (![WalletManager.sharedInstance.wallet isAccountNameValid:label]) {
         return;
     }
 
     [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
 
-    [app.wallet createAccountWithLabel:label];
+    [WalletManager.sharedInstance.wallet createAccountWithLabel:label];
 }
 
 #pragma mark - Textfield Delegates

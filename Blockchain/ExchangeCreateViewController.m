@@ -86,7 +86,7 @@
     
     [self setupViews];
     
-    self.btcAccount = [app.wallet getDefaultAccountIndexForAssetType:AssetTypeBitcoin];
+    self.btcAccount = [WalletManager.sharedInstance.wallet getDefaultAccountIndexForAssetType:AssetTypeBitcoin];
     
     [self selectFromBitcoin];
     [self selectToEther];
@@ -96,9 +96,9 @@
     
     [self disablePaymentButtons];
     
-    if ([app.wallet getTotalActiveBalance] > 0 ||
-        [[NSDecimalNumber decimalNumberWithString:[app.wallet getEthBalance]] compare:@0] == NSOrderedDescending ||
-        [app.wallet getBchBalance] > 0) {
+    if ([WalletManager.sharedInstance.wallet getTotalActiveBalance] > 0 ||
+        [[NSDecimalNumber decimalNumberWithString:[WalletManager.sharedInstance.wallet getEthBalance]] compare:@0] == NSOrderedDescending ||
+        [WalletManager.sharedInstance.wallet getBchBalance] > 0) {
         [self getRate];
     } else {
         [app showGetAssetsAlert];
@@ -275,17 +275,17 @@
         NSString *hardLimitString = [result objectForKey:DICTIONARY_KEY_BTC_HARD_LIMIT];
         self.maximumHardLimit = [NSNumber numberWithLongLong:[NSNumberFormatter parseBtcValueFromString:hardLimitString]];
         if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
-            [app.wallet getAvailableBtcBalanceForAccount:self.btcAccount];
+            [WalletManager.sharedInstance.wallet getAvailableBtcBalanceForAccount:self.btcAccount];
             self.availableBalanceFromSymbol = self.fromSymbol;
         } else {
-            [app.wallet getAvailableBchBalanceForAccount:self.bchAccount];
+            [WalletManager.sharedInstance.wallet getAvailableBchBalanceForAccount:self.bchAccount];
             self.availableBalanceFromSymbol = self.fromSymbol;
         }
     } else if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
         self.minimum = [NSDecimalNumber decimalNumberWithString:[result objectForKey:DICTIONARY_KEY_TRADE_MINIMUM]];
         self.maximum = [NSDecimalNumber decimalNumberWithString:[result objectForKey:DICTIONARY_KEY_TRADE_MAX_LIMIT]];
         self.maximumHardLimit = [NSDecimalNumber decimalNumberWithString:[result objectForKey:DICTIONARY_KEY_ETH_HARD_LIMIT]];
-        [app.wallet getAvailableEthBalance];
+        [WalletManager.sharedInstance.wallet getAvailableEthBalance];
     }
 }
 
@@ -362,7 +362,7 @@
         DLog(@"available: %@", [self.availableBalance stringValue]);
         DLog(@"max: %@", [self.maximum stringValue])
         
-        if ([app.wallet isWaitingOnEtherTransaction]) {
+        if ([WalletManager.sharedInstance.wallet isWaitingOnEtherTransaction]) {
             DLog(@"waiting on eth transaction");
             isWaitingOnTransaction = YES;
             errorText = BC_STRING_WAITING_FOR_ETHER_PAYMENT_TO_FINISH_MESSAGE;
@@ -594,7 +594,7 @@
 - (void)convertFiatStringToEth:(NSString *)amountString
 {
     NSDecimalNumber *amountStringDecimalNumber = amountString && [amountString doubleValue] > 0 ? [NSDecimalNumber decimalNumberWithString:amountString] : 0;
-    self.amount = [NSNumberFormatter convertFiatToEth:amountStringDecimalNumber exchangeRate:app.wallet.latestEthExchangeRate];
+    self.amount = [NSNumberFormatter convertFiatToEth:amountStringDecimalNumber exchangeRate:WalletManager.sharedInstance.wallet.latestEthExchangeRate];
 }
 
 - (void)convertFiatStringToBtc:(NSString *)amountString
@@ -604,7 +604,7 @@
 
 - (void)convertFiatStringToBch:(NSString *)amountString
 {
-    self.amount = [NSNumber numberWithLongLong:[app.wallet getBitcoinCashConversion] * [amountString doubleValue]];
+    self.amount = [NSNumber numberWithLongLong:[WalletManager.sharedInstance.wallet getBitcoinCashConversion] * [amountString doubleValue]];
 }
 
 - (NSString *)convertBtcAmountToFiat
@@ -662,7 +662,7 @@
     }
     
     app.localCurrencyFormatter.usesGroupingSeparator = NO;
-    NSString *result = [NSNumberFormatter formatEthToFiat:amountArg exchangeRate:app.wallet.latestEthExchangeRate];
+    NSString *result = [NSNumberFormatter formatEthToFiat:amountArg exchangeRate:WalletManager.sharedInstance.wallet.latestEthExchangeRate];
     app.localCurrencyFormatter.usesGroupingSeparator = YES;
     return result;
 }
@@ -766,7 +766,7 @@
 
 - (void)selectAccountClicked:(SelectMode)selectMode
 {
-    BCAddressSelectionView *selectorView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:selectMode delegate:self];
+    BCAddressSelectionView *selectorView = [[BCAddressSelectionView alloc] initWithWallet:WalletManager.sharedInstance.wallet selectMode:selectMode delegate:self];
     selectorView.frame = CGRectMake(0, DEFAULT_HEADER_HEIGHT, self.view.frame.size.width, self.view.frame.size.height);
     
     UIViewController *viewController = [UIViewController new];
@@ -860,7 +860,7 @@
     self.ethField = self.topLeftField;
     self.fromToView.fromLabel.text = [self etherLabelText];
     self.leftLabel.text = CURRENCY_SYMBOL_ETH;
-    self.fromAddress = [app.wallet getEtherAddress];
+    self.fromAddress = [WalletManager.sharedInstance.wallet getEtherAddress];
     
     [self clearAvailableBalance];
 
@@ -875,7 +875,7 @@
     self.btcField = self.topLeftField;
     self.fromToView.fromLabel.text = [self bitcoinLabelText];
     self.leftLabel.text = CURRENCY_SYMBOL_BTC;
-    self.fromAddress = [app.wallet getReceiveAddressForAccount:self.btcAccount assetType:AssetTypeBitcoin];
+    self.fromAddress = [WalletManager.sharedInstance.wallet getReceiveAddressForAccount:self.btcAccount assetType:AssetTypeBitcoin];
     
     [self clearAvailableBalance];
 
@@ -890,7 +890,7 @@
     self.bchField = self.topLeftField;
     self.fromToView.fromLabel.text = [self bitcoinCashLabelText];
     self.leftLabel.text = CURRENCY_SYMBOL_BCH;
-    self.fromAddress = [app.wallet getReceiveAddressForAccount:self.bchAccount assetType:AssetTypeBitcoin];
+    self.fromAddress = [WalletManager.sharedInstance.wallet getReceiveAddressForAccount:self.bchAccount assetType:AssetTypeBitcoin];
     
     [self clearAvailableBalance];
     
@@ -905,7 +905,7 @@
     self.bchField = self.topRightField;
     self.fromToView.toLabel.text = [self bitcoinCashLabelText];
     self.rightLabel.text = CURRENCY_SYMBOL_BCH;
-    self.toAddress = [app.wallet getReceiveAddressForAccount:self.bchAccount assetType:AssetTypeBitcoinCash];
+    self.toAddress = [WalletManager.sharedInstance.wallet getReceiveAddressForAccount:self.bchAccount assetType:AssetTypeBitcoinCash];
     
     [self didChangeTo];
 }
@@ -918,7 +918,7 @@
     self.ethField = self.topRightField;
     self.fromToView.toLabel.text = [self etherLabelText];
     self.rightLabel.text = CURRENCY_SYMBOL_ETH;
-    self.toAddress = [app.wallet getEtherAddress];
+    self.toAddress = [WalletManager.sharedInstance.wallet getEtherAddress];
     
     [self didChangeTo];
 }
@@ -931,7 +931,7 @@
     self.btcField = self.topRightField;
     self.fromToView.toLabel.text = [self bitcoinLabelText];
     self.rightLabel.text = CURRENCY_SYMBOL_BTC;
-    self.toAddress = [app.wallet getReceiveAddressForAccount:self.btcAccount assetType:AssetTypeBitcoin];
+    self.toAddress = [WalletManager.sharedInstance.wallet getReceiveAddressForAccount:self.btcAccount assetType:AssetTypeBitcoin];
     
     [self didChangeTo];
 }
@@ -1002,12 +1002,12 @@
     [self disableAssetToggleButton];
     [self.spinner startAnimating];
     
-    [app.wallet getRate:[self coinPair]];
+    [WalletManager.sharedInstance.wallet getRate:[self coinPair]];
 }
 
 - (void)getApproximateQuote
 {
-    if (![self hasEnoughFunds:self.fromSymbol] || ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH] && [app.wallet isWaitingOnEtherTransaction])) {
+    if (![self hasEnoughFunds:self.fromSymbol] || ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH] && [WalletManager.sharedInstance.wallet isWaitingOnEtherTransaction])) {
         DLog(@"Not enough funds or waiting on ether transaction - will not get approximate quote");
         return;
     }
@@ -1028,7 +1028,7 @@
         
         amount = [self amountString:self.amount];
         
-        self.currentDataTask = [app.wallet getApproximateQuote:[self coinPair] usingFromField:usingFromField amount:amount completion:^(NSDictionary *result, NSURLResponse *response, NSError *error) {
+        self.currentDataTask = [WalletManager.sharedInstance.wallet getApproximateQuote:[self coinPair] usingFromField:usingFromField amount:amount completion:^(NSDictionary *result, NSURLResponse *response, NSError *error) {
             DLog(@"approximate quote result: %@", result);
             
             [self enableAssetToggleButton];
@@ -1077,7 +1077,7 @@
         return;
     }
     
-    [app.wallet buildExchangeTradeFromAccount:fromAccount toAccount:toAccount coinPair:[self coinPair] amount:[self amountString:self.amount] fee:[self feeString:self.fee]];
+    [WalletManager.sharedInstance.wallet buildExchangeTradeFromAccount:fromAccount toAccount:toAccount coinPair:[self coinPair] amount:[self amountString:self.amount] fee:[self feeString:self.fee]];
 }
 
 #pragma mark - Helpers
@@ -1191,17 +1191,17 @@
 
 - (NSString *)bitcoinLabelText
 {
-    return [app.wallet getActiveAccountsCount:AssetTypeBitcoin] > 1 ? [app.wallet getLabelForAccount:self.btcAccount assetType:AssetTypeBitcoin] : BC_STRING_BITCOIN;
+    return [WalletManager.sharedInstance.wallet getActiveAccountsCount:AssetTypeBitcoin] > 1 ? [WalletManager.sharedInstance.wallet getLabelForAccount:self.btcAccount assetType:AssetTypeBitcoin] : BC_STRING_BITCOIN;
 }
 
 - (NSString *)bitcoinCashLabelText
 {
-    return [app.wallet getActiveAccountsCount:AssetTypeBitcoinCash] > 1 ? [app.wallet getLabelForAccount:self.bchAccount assetType:AssetTypeBitcoinCash] : BC_STRING_BITCOIN_CASH;
+    return [WalletManager.sharedInstance.wallet getActiveAccountsCount:AssetTypeBitcoinCash] > 1 ? [WalletManager.sharedInstance.wallet getLabelForAccount:self.bchAccount assetType:AssetTypeBitcoinCash] : BC_STRING_BITCOIN_CASH;
 }
 
 - (NSString *)etherLabelText
 {
-    return [app.wallet getActiveAccountsCount:AssetTypeBitcoin] > 1 ? [app.wallet getLabelForAccount:0 assetType:AssetTypeEther] : BC_STRING_ETHER;
+    return [WalletManager.sharedInstance.wallet getActiveAccountsCount:AssetTypeBitcoin] > 1 ? [WalletManager.sharedInstance.wallet getLabelForAccount:0 assetType:AssetTypeEther] : BC_STRING_ETHER;
 }
 
 - (void)didChangeFrom

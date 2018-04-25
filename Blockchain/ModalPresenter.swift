@@ -40,8 +40,7 @@ typealias OnModalResumed = (() -> Void)
 //        secondPasswordSuccess = nil;
 //        secondPasswordTextField.text = nil;
 
-        // TODO: use wallet singleton
-        app.wallet.isSyncing = false
+        WalletManager.shared.wallet.isSyncing = false
 
         guard let modalView = modalView else { return }
 

@@ -125,7 +125,7 @@ extension AppCoordinator: TabControllerDelegate {
             slidingViewController.resetTopView(animated: true)
         }
 
-        // TODO remove app reference and use wallet singleton
-        app.wallet.isFetchingTransactions = false
+        // TODO remove app reference and use wallet singleton.isFe
+        WalletManager.shared.wallet.isFetchingTransactions = false
     }
 }

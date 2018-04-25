@@ -106,7 +106,11 @@ final class BlockchainSettings: NSObject {
                 return KeychainItemWrapper.guid()
             }
             set {
-                KeychainItemWrapper.setGuidInKeychain(newValue)
+                guard let guid = newValue else {
+                    KeychainItemWrapper.removeGuidFromKeychain()
+                    return
+                }
+                KeychainItemWrapper.setGuidInKeychain(guid)
             }
         }
 
@@ -115,7 +119,11 @@ final class BlockchainSettings: NSObject {
                 return KeychainItemWrapper.sharedKey()
             }
             set {
-                KeychainItemWrapper.setSharedKeyInKeychain(newValue)
+                guard let sharedKey = newValue else {
+                    KeychainItemWrapper.removeSharedKeyFromKeychain()
+                    return
+                }
+                KeychainItemWrapper.setSharedKeyInKeychain(sharedKey)
             }
         }
 

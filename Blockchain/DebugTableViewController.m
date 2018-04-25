@@ -75,7 +75,7 @@ typedef enum {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.filteredWalletJSON = [app.wallet filteredWalletJSON];
+    self.filteredWalletJSON = [WalletManager.sharedInstance.wallet filteredWalletJSON];
 }
 
 - (void)dismiss

@@ -317,10 +317,10 @@
 
 - (void)selectDefaultDestination
 {
-    if ([app.wallet didUpgradeToHd]) {
-        [self didSelectToAccount:[app.wallet getDefaultAccountIndexForAssetType:self.assetType]];
+    if ([WalletManager.sharedInstance.wallet didUpgradeToHd]) {
+        [self didSelectToAccount:[WalletManager.sharedInstance.wallet getDefaultAccountIndexForAssetType:self.assetType]];
     } else {
-        [self didSelectToAddress:[[app.wallet allLegacyAddresses:self.assetType] firstObject]];
+        [self didSelectToAddress:[[WalletManager.sharedInstance.wallet allLegacyAddresses:self.assetType] firstObject]];
     }
 }
 
@@ -357,7 +357,7 @@
 
 - (void)reloadAddresses
 {
-    self.activeKeys = [app.wallet activeLegacyAddresses:self.assetType];
+    self.activeKeys = [WalletManager.sharedInstance.wallet activeLegacyAddresses:self.assetType];
 }
 
 - (void)resetContactInfo
@@ -380,12 +380,12 @@
 {
     // Get an address: the first empty receive address for the default HD account
     // Or the first active legacy address if there are no HD accounts
-    if ([app.wallet getActiveAccountsCount:self.assetType] > 0) {
-        [self didSelectFromAccount:[app.wallet getDefaultAccountIndexForAssetType:self.assetType]];
+    if ([WalletManager.sharedInstance.wallet getActiveAccountsCount:self.assetType] > 0) {
+        [self didSelectFromAccount:[WalletManager.sharedInstance.wallet getDefaultAccountIndexForAssetType:self.assetType]];
     }
     else if (activeKeys.count > 0) {
         for (NSString *address in activeKeys) {
-            if (![app.wallet isWatchOnlyLegacyAddress:address]) {
+            if (![WalletManager.sharedInstance.wallet isWatchOnlyLegacyAddress:address]) {
                 [self didSelectFromAddress:address];
                 break;
             }
@@ -414,7 +414,7 @@
     
     [self.view addSubview:self.headerView];
     
-    if ([app.wallet getActiveAccountsCount:self.assetType] > 0 || activeKeys.count > 0) {
+    if ([WalletManager.sharedInstance.wallet getActiveAccountsCount:self.assetType] > 0 || activeKeys.count > 0) {
         
         BOOL isUsing4SScreenSize = IS_USING_SCREEN_SIZE_4S;
         BOOL isUsing5SScreenSize = IS_USING_SCREEN_SIZE_5S;
@@ -481,7 +481,7 @@
 - (uint64_t)getInputAmountInSatoshi
 {
     if ([self shouldUseBtcField]) {
-        return [app.wallet parseBitcoinValueFromTextField:self.amountInputView.btcField];
+        return [WalletManager.sharedInstance.wallet parseBitcoinValueFromTextField:self.amountInputView.btcField];
     } else {
         NSString *language = self.amountInputView.fiatField.textInputMode.primaryLanguage;
         NSLocale *locale = [language isEqualToString:LOCALE_IDENTIFIER_AR] ? [NSLocale localeWithLocaleIdentifier:language] : [NSLocale currentLocale];
@@ -616,7 +616,7 @@
 {
     NSString *label = [labelTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    if (![app.wallet didUpgradeToHd]) {
+    if (![WalletManager.sharedInstance.wallet didUpgradeToHd]) {
         NSMutableCharacterSet *allowedCharSet = [[NSCharacterSet alphanumericCharacterSet] mutableCopy];
         [allowedCharSet formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
         
@@ -628,13 +628,13 @@
 
     NSString *addr = self.clickedAddress;
     
-    [app.wallet setLabel:label forLegacyAddress:addr];
+    [WalletManager.sharedInstance.wallet setLabel:label forLegacyAddress:addr];
     
     [self reload];
     
     [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
     
-    if (app.wallet.isSyncing) {
+    if (WalletManager.sharedInstance.wallet.isSyncing) {
         [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_SYNCING_WALLET];
     }
 }
@@ -665,14 +665,14 @@
 - (IBAction)archiveAddressClicked:(id)sender
 {
     NSString *addr = self.clickedAddress;
-    Boolean isArchived = [app.wallet isAddressArchived:addr];
+    Boolean isArchived = [WalletManager.sharedInstance.wallet isAddressArchived:addr];
     
     if (isArchived) {
-        [app.wallet toggleArchiveLegacyAddress:addr];
+        [WalletManager.sharedInstance.wallet toggleArchiveLegacyAddress:addr];
     }
     else {
         // Need at least one active address
-        if (activeKeys.count == 1 && ![app.wallet hasAccount]) {
+        if (activeKeys.count == 1 && ![WalletManager.sharedInstance.wallet hasAccount]) {
             [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
 
             [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_AT_LEAST_ONE_ACTIVE_ADDRESS title:BC_STRING_ERROR handler: nil];
@@ -680,7 +680,7 @@
             return;
         }
         
-        [app.wallet toggleArchiveLegacyAddress:addr];
+        [WalletManager.sharedInstance.wallet toggleArchiveLegacyAddress:addr];
     }
     
     [self reload];
@@ -744,7 +744,7 @@
 
 - (void)storeRequestedAmount
 {
-    self.lastRequestedAmount = [app.wallet parseBitcoinValueFromTextField:self.amountInputView.btcField];
+    self.lastRequestedAmount = [WalletManager.sharedInstance.wallet parseBitcoinValueFromTextField:self.amountInputView.btcField];
 }
 
 - (void)updateUI
@@ -755,7 +755,7 @@
         [self.bottomContainerView changeYPosition:self.view.frame.size.height - BOTTOM_CONTAINER_HEIGHT_PLUS_BUTTON_SPACE_4S];
     }
     
-    if (app.wallet.contacts.count > 0) {
+    if (WalletManager.sharedInstance.wallet.contacts.count > 0) {
         self.selectFromButton.hidden = NO;
         self.whatsThisButton.hidden = YES;
     } else {
@@ -778,7 +778,7 @@
 
 - (void)selectDestination
 {
-    if (![app.wallet isInitialized]) {
+    if (![WalletManager.sharedInstance.wallet isInitialized]) {
         DLog(@"Tried to access select to screen when not initialized!");
         return;
     }
@@ -787,7 +787,7 @@
     
     SelectMode selectMode = self.fromContact ? SelectModeReceiveFromContact : SelectModeReceiveTo;
     
-    BCAddressSelectionView *addressSelectionView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:selectMode delegate:self];
+    BCAddressSelectionView *addressSelectionView = [[BCAddressSelectionView alloc] initWithWallet:WalletManager.sharedInstance.wallet selectMode:selectMode delegate:self];
 
     [[ModalPresenter sharedInstance] showModalWithContent:addressSelectionView closeType:ModalCloseTypeBack showHeader:true headerText:BC_STRING_RECEIVE_TO onDismiss:nil onResume:nil];
 }
@@ -861,12 +861,12 @@
 
 - (void)selectFromClicked
 {
-    if (![app.wallet isInitialized]) {
+    if (![WalletManager.sharedInstance.wallet isInitialized]) {
         DLog(@"Tried to access request button when not initialized!");
         return;
     }
     
-    BCAddressSelectionView *addressSelectionView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:SelectModeContact delegate:self];
+    BCAddressSelectionView *addressSelectionView = [[BCAddressSelectionView alloc] initWithWallet:WalletManager.sharedInstance.wallet selectMode:SelectModeContact delegate:self];
     addressSelectionView.previouslySelectedContact = self.fromContact;
     [addressSelectionView reloadTableView];
 
@@ -893,7 +893,7 @@
         }
 
         [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_CREATING_REQUEST];
-        [app.wallet sendPaymentRequest:self.fromContact.identifier amount:amount requestId:nil note:self.view.note initiatorSource:accountOrAddress];
+        [WalletManager.sharedInstance.wallet sendPaymentRequest:self.fromContact.identifier amount:amount requestId:nil note:self.view.note initiatorSource:accountOrAddress];
     } else {
         [self share];
     }
@@ -901,7 +901,7 @@
 
 - (void)share
 {
-    if (![app.wallet isInitialized]) {
+    if (![WalletManager.sharedInstance.wallet isInitialized]) {
         DLog(@"Tried to access share button when not initialized!");
         return;
     }
@@ -972,7 +972,7 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    if (![app.wallet isInitialized]) {
+    if (![WalletManager.sharedInstance.wallet isInitialized]) {
         DLog(@"Tried to access Receive textField when not initialized!");
         return NO;
     }
@@ -1083,7 +1083,7 @@
             amountInSatoshi = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.conversion * [amountString doubleValue];
         }
         else {
-            amountInSatoshi = [app.wallet parseBitcoinValueFromString:newString];
+            amountInSatoshi = [WalletManager.sharedInstance.wallet parseBitcoinValueFromString:newString];
         }
         
         if (amountInSatoshi > BTC_LIMIT_IN_SATOSHI) {
@@ -1124,7 +1124,7 @@
 {
     self.mainAddress = address;
     NSString *addr = self.mainAddress;
-    NSString *label = [app.wallet labelForLegacyAddress:addr assetType:self.assetType];
+    NSString *label = [WalletManager.sharedInstance.wallet labelForLegacyAddress:addr assetType:self.assetType];
     
     self.clickedAddress = addr;
     self.didClickAccount = NO;
@@ -1150,12 +1150,12 @@
 
 - (void)didSelectFromAccount:(int)account
 {
-    self.mainAddress = [app.wallet getReceiveAddressForAccount:account assetType:self.assetType];
+    self.mainAddress = [WalletManager.sharedInstance.wallet getReceiveAddressForAccount:account assetType:self.assetType];
     self.clickedAddress = self.mainAddress;
     self.clickedAccount = account;
     self.didClickAccount = YES;
     
-    self.mainLabel = [app.wallet getLabelForAccount:account assetType:self.assetType];
+    self.mainLabel = [WalletManager.sharedInstance.wallet getLabelForAccount:account assetType:self.assetType];
     
     [self updateUI];
 }

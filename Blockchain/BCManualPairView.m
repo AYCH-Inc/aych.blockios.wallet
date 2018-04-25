@@ -44,7 +44,7 @@
     });
     
     // Get the session id SID from the server
-    [app.wallet loadWalletLogin];
+    [WalletManager.sharedInstance.wallet loadWalletLogin];
 }
 
 - (void)prepareForModalDismissal
@@ -82,7 +82,7 @@
     }
     else if (textField == verifyTwoFactorTextField) {
         [[UIApplication sharedApplication].keyWindow.rootViewController dismissViewControllerAnimated:YES completion:nil];
-        app.wallet.twoFactorInput = [textField.text uppercaseString];
+        WalletManager.sharedInstance.wallet.twoFactorInput = [textField.text uppercaseString];
         [self continueClicked:textField];
     } else {
         [self continueClicked:textField];
@@ -123,19 +123,19 @@
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_HAS_SEEN_ALL_CARDS];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_SHOULD_HIDE_ALL_CARDS];
     
-    [app.wallet loadWalletWithGuid:guid sharedKey:nil password:password];
+    [WalletManager.sharedInstance.wallet loadWalletWithGuid:guid sharedKey:nil password:password];
     
-    app.wallet.delegate = app;
+    WalletManager.sharedInstance.wallet.delegate = app;
 }
 
 - (void)verifyTwoFactorSMS
 {
     UIAlertController *alertForVerifyingMobileNumber = [UIAlertController alertControllerWithTitle:BC_STRING_SETTINGS_VERIFY_ENTER_CODE message:[NSString stringWithFormat:BC_STRING_ENTER_ARGUMENT_TWO_FACTOR_CODE, BC_STRING_SETTINGS_SECURITY_TWO_STEP_VERIFICATION_SMS] preferredStyle:UIAlertControllerStyleAlert];
     [alertForVerifyingMobileNumber addAction:[UIAlertAction actionWithTitle:BC_STRING_SETTINGS_VERIFY_MOBILE_RESEND style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [app.wallet resendTwoFactorSMS];
+        [WalletManager.sharedInstance.wallet resendTwoFactorSMS];
     }]];
     [alertForVerifyingMobileNumber addAction:[UIAlertAction actionWithTitle:BC_STRING_SETTINGS_VERIFY style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        app.wallet.twoFactorInput = [[[[alertForVerifyingMobileNumber textFields] firstObject].text uppercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""];
+        WalletManager.sharedInstance.wallet.twoFactorInput = [[[[alertForVerifyingMobileNumber textFields] firstObject].text uppercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""];
         [self continueClicked:nil];
     }]];
     [alertForVerifyingMobileNumber addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:nil]];
@@ -165,7 +165,7 @@
 {
     UIAlertController *alertForVerifying = [UIAlertController alertControllerWithTitle:BC_STRING_SETTINGS_VERIFY_ENTER_CODE message:[NSString stringWithFormat:BC_STRING_ENTER_ARGUMENT_TWO_FACTOR_CODE, type] preferredStyle:UIAlertControllerStyleAlert];
     [alertForVerifying addAction:[UIAlertAction actionWithTitle:BC_STRING_SETTINGS_VERIFY style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        app.wallet.twoFactorInput = [[[alertForVerifying textFields] firstObject].text stringByReplacingOccurrencesOfString:@" " withString:@""];
+        WalletManager.sharedInstance.wallet.twoFactorInput = [[[alertForVerifying textFields] firstObject].text stringByReplacingOccurrencesOfString:@" " withString:@""];
         [self continueClicked:nil];
     }]];
     [alertForVerifying addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:nil]];

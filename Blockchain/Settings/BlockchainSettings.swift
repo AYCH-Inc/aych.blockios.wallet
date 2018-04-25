@@ -101,6 +101,24 @@ final class BlockchainSettings: NSObject {
             }
         }
 
+        @objc var guid: String? {
+            get {
+                return KeychainItemWrapper.guid()
+            }
+            set {
+                KeychainItemWrapper.setGuidInKeychain(newValue)
+            }
+        }
+
+        @objc var sharedKey: String? {
+            get {
+                return KeychainItemWrapper.sharedKey()
+            }
+            set {
+                KeychainItemWrapper.setSharedKeyInKeychain(newValue)
+            }
+        }
+
         private override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
             // access an instance of this class.

@@ -33,6 +33,8 @@
 
 @property (nonatomic) UIButton *assetToggleButton;
 
+@property (nonatomic) NSTimer *quoteTimer;
+
 // Digital asset input
 @property (nonatomic) BCSecureTextField *topLeftField;
 @property (nonatomic) BCSecureTextField *topRightField;
@@ -111,6 +113,14 @@
     
     BCNavigationController *navigationController = (BCNavigationController *)self.navigationController;
     navigationController.headerTitle = BC_STRING_EXCHANGE;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [self.quoteTimer invalidate];
+    self.quoteTimer = nil;
 }
 
 - (void)setupViews
@@ -448,6 +458,8 @@
             self.amount = [NSNumber numberWithLongLong:[NSNumberFormatter parseBtcValueFromString:depositAmountString]];
         }
         
+        self.lastChangedField = self.bottomLeftField;
+        
         NSString *toSymbol = self.toSymbol;
         if ([toSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
             self.bottomRightField.text = ethResult;
@@ -677,7 +689,14 @@
     
     [self disablePaymentButtons];
     
-    [self performSelector:@selector(getApproximateQuote) withObject:nil afterDelay:0.5];
+    [self.quoteTimer invalidate];
+    
+    __weak ExchangeCreateViewController *weakSelf = self;
+    self.quoteTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        [weakSelf disablePaymentButtons];
+        [weakSelf getApproximateQuote];
+        weakSelf.quoteTimer = nil;
+    }];
 }
 
 - (void)doCurrencyConversion

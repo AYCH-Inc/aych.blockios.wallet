@@ -93,9 +93,8 @@ extension WalletManager: WalletDelegate {
             return
         }
 
-        // TODO put this in BlockchainSettings
-        KeychainItemWrapper.setGuidInKeychain(guid)
-        KeychainItemWrapper.setSharedKeyInKeychain(sharedKey)
+        BlockchainSettings.App.shared.guid = guid
+        BlockchainSettings.App.shared.sharedKey = sharedKey
 
         //Becuase we are not storing the password on the device. We record the first few letters of the hashed password.
         //With the hash prefix we can then figure out if the password changed

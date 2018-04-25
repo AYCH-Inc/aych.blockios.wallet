@@ -216,7 +216,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // TODO: move to BlockchainSettings
     func checkForNewInstall() {
         if !BlockchainSettings.App.shared.firstRun {
-            if KeychainItemWrapper.guid() != nil && KeychainItemWrapper.sharedKey() != nil && !BlockchainSettings.sharedAppInstance().isPinSet {
+            if BlockchainSettings.App.shared.guid != nil &&
+                BlockchainSettings.App.shared.sharedKey != nil &&
+                !BlockchainSettings.sharedAppInstance().isPinSet {
                 alertUserAskingToUseOldKeychain()
             }
             BlockchainSettings.App.shared.firstRun = true

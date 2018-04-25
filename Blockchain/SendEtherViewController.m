@@ -178,7 +178,7 @@
 {
     if (self.shouldKeepCurrentPayment) {
         self.shouldKeepCurrentPayment = NO;
-        [app.wallet getEthExchangeRate];
+        [WalletManager.sharedInstance.wallet getEthExchangeRate];
         return;
     }
     
@@ -186,7 +186,7 @@
     self.ethFee = 0;
     self.ethAvailable = 0;
     
-    if (![app.wallet hasEthAccount]) {
+    if (![WalletManager.sharedInstance.wallet hasEthAccount]) {
         [self disablePaymentButtons];
         self.amountInputView.userInteractionEnabled = NO;
     } else {
@@ -194,7 +194,7 @@
         self.amountInputView.userInteractionEnabled = YES;
     }
 
-    [app.wallet createNewPayment:AssetTypeEther];
+    [WalletManager.sharedInstance.wallet createNewPayment:AssetTypeEther];
 
     if (self.addressToSet) {
         [self selectToAddress:self.addressToSet];
@@ -206,7 +206,7 @@
     
     [self.amountInputView clearFields];
     
-    [app.wallet getEthExchangeRate];
+    [WalletManager.sharedInstance.wallet getEthExchangeRate];
 }
 
 - (void)reloadAfterMultiAddressResponse
@@ -225,7 +225,7 @@
 
 - (void)getHistory
 {
-    [app.wallet getEthHistory];
+    [WalletManager.sharedInstance.wallet getEthHistory];
 }
 
 - (void)updateExchangeRate:(NSDecimalNumber *)rate
@@ -246,7 +246,7 @@
 {
     [super doCurrencyConversion];
     
-    [app.wallet changePaymentAmount:self.ethAmount assetType:AssetTypeEther];
+    [WalletManager.sharedInstance.wallet changePaymentAmount:self.ethAmount assetType:AssetTypeEther];
 }
 
 - (void)didUpdatePayment:(NSDictionary *)payment;
@@ -273,7 +273,7 @@
     self.ethFee = fee;
     [self updateFeeLabel];
 
-    if ([app.wallet isWaitingOnEtherTransaction]) {
+    if ([WalletManager.sharedInstance.wallet isWaitingOnEtherTransaction]) {
         [self.fundsAvailableButton setTitle:BC_STRING_WAITING_FOR_ETHER_PAYMENT_TO_FINISH_MESSAGE forState:UIControlStateNormal];
         [self.fundsAvailableButton setTitleColor:COLOR_WARNING_RED forState:UIControlStateNormal];
         self.toField.userInteractionEnabled = NO;
@@ -320,7 +320,7 @@
 
 - (void)useAllClicked
 {
-    [app.wallet sweepEtherPayment];
+    [WalletManager.sharedInstance.wallet sweepEtherPayment];
 }
 
 - (void)clearFundsAvailable
@@ -359,7 +359,7 @@
     
     [self checkIfEtherContractAddress:self.toAddress successHandler:^(NSString *nonContractAddress) {
         
-        [app.wallet changePaymentToAddress:nonContractAddress assetType:AssetTypeEther];
+        [WalletManager.sharedInstance.wallet changePaymentToAddress:nonContractAddress assetType:AssetTypeEther];
 
         NSDecimalNumber *totalDecimalNumber = [self.ethAmount decimalNumberByAdding:self.ethFee];
         
@@ -424,7 +424,7 @@
     
     [[ModalPresenter sharedInstance] showModalWithContent:sendView closeType:ModalCloseTypeNone showHeader:true headerText:BC_STRING_SENDING_TRANSACTION onDismiss:nil onResume:nil];
 
-    [app.wallet sendEtherPaymentWithNote:self.noteToSet];
+    [WalletManager.sharedInstance.wallet sendEtherPaymentWithNote:self.noteToSet];
 }
 
 #pragma mark - Text Field Delegate
@@ -476,7 +476,7 @@
 
 - (BOOL)isEtherAddress:(NSString *)address
 {
-    return [app.wallet isValidAddress:address assetType:AssetTypeEther];
+    return [WalletManager.sharedInstance.wallet isValidAddress:address assetType:AssetTypeEther];
 }
 
 - (void)selectToAddress:(NSString *)address
@@ -494,7 +494,7 @@
 
 - (void)checkIfEtherContractAddress:(NSString *)address successHandler:(void (^ _Nullable)(NSString *))success
 {
-    [app.wallet isEtherContractAddress:address completion:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [WalletManager.sharedInstance.wallet isEtherContractAddress:address completion:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSError *jsonError;
         NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
         BOOL isContract = [[[jsonResponse allValues] firstObject] boolValue];

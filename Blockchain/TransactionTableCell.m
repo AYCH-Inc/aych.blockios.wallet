@@ -66,10 +66,10 @@
     if ((([transaction.txType isEqualToString:TX_TYPE_RECEIVED] || [transaction.txType isEqualToString:TX_TYPE_TRANSFER]) && transaction.toWatchOnly) || ([transaction.txType isEqualToString:TX_TYPE_SENT] && transaction.fromWatchOnly)) {
         infoLabel.text = BC_STRING_WATCH_ONLY;
         infoLabel.backgroundColor = COLOR_DARK_GRAY;
-    } else if ([app.wallet isDepositTransaction:transaction.myHash]) {
+    } else if ([WalletManager.sharedInstance.wallet isDepositTransaction:transaction.myHash]) {
         infoLabel.text = BC_STRING_DEPOSITED_TO_SHAPESHIFT;
         infoLabel.backgroundColor = COLOR_BLOCKCHAIN_BLUE;
-    } else if ([app.wallet isWithdrawalTransaction:transaction.myHash]) {
+    } else if ([WalletManager.sharedInstance.wallet isWithdrawalTransaction:transaction.myHash]) {
         infoLabel.text = BC_STRING_RECEIVED_FROM_SHAPESHIFT;
         infoLabel.backgroundColor = COLOR_BLOCKCHAIN_BLUE;
     } else {

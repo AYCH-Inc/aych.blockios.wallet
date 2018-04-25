@@ -142,7 +142,7 @@
 
 - (void)transactionClicked:(UIButton *)button
 {
-    Contact *contact = [app.wallet.contacts objectForKey:self.transaction.contactIdentifier];
+    Contact *contact = [WalletManager.sharedInstance.wallet.contacts objectForKey:self.transaction.contactIdentifier];
     
     if (self.transaction.transactionState == ContactTransactionStateReceiveAcceptOrDeclinePayment) {
         [self.delegate acceptOrDeclinePayment:self.transaction forContact:contact];

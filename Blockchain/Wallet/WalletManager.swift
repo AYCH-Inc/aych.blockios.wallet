@@ -42,8 +42,8 @@ class WalletManager: NSObject {
         wallet.sessionToken = nil
 
         KeychainItemWrapper.removeAllSwipeAddresses()
-        KeychainItemWrapper.removeGuidFromKeychain()
-        KeychainItemWrapper.removeSharedKeyFromKeychain()
+        BlockchainSettings.WalletInfo.shared.guid = nil
+        BlockchainSettings.WalletInfo.shared.sharedKey = nil
 
         wallet.loadBlankWallet()
 

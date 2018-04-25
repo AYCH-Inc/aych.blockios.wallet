@@ -143,9 +143,9 @@
                     scannedString = [scannedString substringFromIndex:[PREFIX_BITCOIN_URI length]];
                 }
                  
-                NSString *format = [app.wallet detectPrivateKeyFormat:scannedString];
+                NSString *format = [WalletManager.sharedInstance.wallet detectPrivateKeyFormat:scannedString];
                 
-                if (!app.wallet || [format length] > 0) {
+                if (!WalletManager.sharedInstance.wallet || [format length] > 0) {
                     if (self.success) {
                         self.success(scannedString);
                     }
@@ -153,7 +153,7 @@
                     [[LoadingViewPresenter sharedInstance] hideBusyView];
                     
                     if (self.acceptsPublicKeys) {
-                        if ([app.wallet isValidAddress:scannedString assetType:self.assetType]) {
+                        if ([WalletManager.sharedInstance.wallet isValidAddress:scannedString assetType:self.assetType]) {
                             [app askUserToAddWatchOnlyAddress:scannedString success:self.success];
                         } else {
                             self.onClose = ^(){

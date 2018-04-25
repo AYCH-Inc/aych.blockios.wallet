@@ -254,7 +254,7 @@
         if (_transactionsBitcoinCashViewController) {
             [_transactionsBitcoinCashViewController didReceiveTransactionMessage];
         } else {
-            Transaction *transaction = [[app.wallet getBitcoinCashTransactions:FILTER_INDEX_ALL] firstObject];
+            Transaction *transaction = [[WalletManager.sharedInstance.wallet getBitcoinCashTransactions:FILTER_INDEX_ALL] firstObject];
             [_receiveBitcoinCashViewController paymentReceived:ABS(transaction.amount) showBackupReminder:NO];
         }
     }
@@ -682,17 +682,17 @@
 
 - (void)exchangeClicked
 {
-    if ([app.wallet hasEthAccount]) {
+    if ([WalletManager.sharedInstance.wallet hasEthAccount]) {
         self.exchangeOverviewViewController = [ExchangeOverviewViewController new];
         BCNavigationController *navigationController = [[BCNavigationController alloc] initWithRootViewController:self.exchangeOverviewViewController title:BC_STRING_EXCHANGE];
         [self.tabViewController presentViewController:navigationController animated:YES completion:nil];
     } else {
-        if ([app.wallet needsSecondPassword]) {
+        if ([WalletManager.sharedInstance.wallet needsSecondPassword]) {
             [app getSecondPassword:^(NSString *secondPassword) {
-                [app.wallet createEthAccountForExchange:secondPassword];
+                [WalletManager.sharedInstance.wallet createEthAccountForExchange:secondPassword];
             } error:nil helperText:BC_STRING_ETHER_ACCOUNT_SECOND_PASSWORD_PROMPT];
         } else {
-            [app.wallet createEthAccountForExchange:nil];
+            [WalletManager.sharedInstance.wallet createEthAccountForExchange:nil];
         }
     }
 }
@@ -738,7 +738,7 @@
     
     [showGetAssetsAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_GET_BITCOIN style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self.tabViewController dismissViewControllerAnimated:YES completion:^{
-            if ([app.wallet isBuyEnabled]) {
+            if ([WalletManager.sharedInstance.wallet isBuyEnabled]) {
                 [app buyBitcoinClicked:nil];
             } else {
                 [[AppCoordinator sharedInstance] closeSideMenu];

@@ -282,7 +282,7 @@
     // Always use BTC conversion rate
     uint64_t currentConversion = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc.conversion;
     WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc.conversion = SATOSHI;
-    uint64_t result = [app.wallet parseBitcoinValueFromString:inputString];
+    uint64_t result = [WalletManager.sharedInstance.wallet parseBitcoinValueFromString:inputString];
     WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc.conversion = currentConversion;
     return result;
 }
@@ -308,10 +308,10 @@
 // Format amount in satoshi as NSString (with symbol)
 + (NSString*)formatBchWithSymbol:(uint64_t)value localCurrency:(BOOL)fsymbolLocal
 {
-    if (fsymbolLocal && [app.wallet bitcoinCashExchangeRate]) {
+    if (fsymbolLocal && [WalletManager.sharedInstance.wallet bitcoinCashExchangeRate]) {
         @try {
             
-            NSString *lastRate = [app.wallet bitcoinCashExchangeRate];
+            NSString *lastRate = [WalletManager.sharedInstance.wallet bitcoinCashExchangeRate];
             
             NSDecimalNumber *conversion = [[NSDecimalNumber decimalNumberWithDecimal:[[NSNumber numberWithDouble:SATOSHI] decimalValue]] decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:lastRate]];
             
@@ -346,10 +346,10 @@
     
     NSString *returnValue;
     
-    if (localCurrency && [app.wallet bitcoinCashExchangeRate]) {
+    if (localCurrency && [WalletManager.sharedInstance.wallet bitcoinCashExchangeRate]) {
         @try {
             
-            NSString *lastRate = [app.wallet bitcoinCashExchangeRate];
+            NSString *lastRate = [WalletManager.sharedInstance.wallet bitcoinCashExchangeRate];
             
             NSDecimalNumber *conversion = [[NSDecimalNumber decimalNumberWithDecimal:[[NSNumber numberWithDouble:SATOSHI] decimalValue]] decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:lastRate]];
             

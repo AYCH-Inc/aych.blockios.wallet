@@ -45,7 +45,7 @@
 
 - (void)changeCurrencySymbol:(NSString *)code
 {
-    [app.wallet changeLocalCurrency:code];
+    [WalletManager.sharedInstance.wallet changeLocalCurrency:code];
 }
 
 - (void)setItemsDictionary:(NSDictionary *)itemsDictionary

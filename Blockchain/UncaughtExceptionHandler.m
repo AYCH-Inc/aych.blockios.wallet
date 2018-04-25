@@ -124,7 +124,7 @@ const NSInteger UncaughtExceptionHandlerReportAddressCount = 5;
 - (void)handleException:(NSException *)exception
 {
     BOOL walletIsLoaded = NO;
-    BOOL walletIsInitialized = [app.wallet isInitialized];
+    BOOL walletIsInitialized = [WalletManager.sharedInstance.wallet isInitialized];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
         [UncaughtExceptionHandler logException:exception walletIsLoaded:walletIsLoaded walletIsInitialized:walletIsInitialized];

@@ -127,7 +127,7 @@ NSMutableArray *visitedPages;
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     if ([error code] != NSURLErrorCancelled) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[error localizedDescription] title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[error localizedDescription] title:BC_STRING_ERROR handler: nil];
     }
     
     [activityIndicatorView stopAnimating];

@@ -161,7 +161,7 @@
         [self presentViewController:alertController animated:YES completion:^{
             [[NSNotificationCenter defaultCenter] addObserver:alertController
                                                      selector:@selector(autoDismiss)
-                                                         name:NOTIFICATION_KEY_RELOAD_TO_DISMISS_VIEWS
+                                                         name:ConstantsObjcBridge.notificationKeyReloadToDismissViews
                                                        object:nil];
         }];
     }
@@ -169,7 +169,8 @@
 
 - (void)generateNewAddress
 {
-    if (![app checkInternetConnection]) {
+    if (!Reachability.hasInternetConnection) {
+        [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
         return;
     }
     
@@ -180,7 +181,7 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(promptForLabelAfterGenerate)
-                                                 name:NOTIFICATION_KEY_NEW_ADDRESS object:nil];
+                                                 name:ConstantsObjcBridge.notificationKeyNewAddress object:nil];
 }
 
 - (void)promptForLabelAfterGenerate
@@ -189,13 +190,14 @@
     self.clickedAddress = [allKeys lastObject];
     [self didSelectAddress:self.clickedAddress];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_KEY_NEW_ADDRESS
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:ConstantsObjcBridge.notificationKeyNewAddress
                                                   object:nil];
 }
 
 - (void)importAddress
 {
-    if (![app checkInternetConnection]) {
+    if (!Reachability.hasInternetConnection) {
+        [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
         return;
     }
     
@@ -210,7 +212,7 @@
         [app.wallet addKey:keyString];
     } error:nil acceptPublicKeys:YES busyViewText:BC_STRING_LOADING_IMPORT_KEY];
     
-    [[NSNotificationCenter defaultCenter] addObserver:reader selector:@selector(autoDismiss) name:NOTIFICATION_KEY_RELOAD_TO_DISMISS_VIEWS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:reader selector:@selector(autoDismiss) name:ConstantsObjcBridge.notificationKeyReloadToDismissViews object:nil];
     
     [self presentViewController:reader animated:YES completion:nil];
 }

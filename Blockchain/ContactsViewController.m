@@ -456,9 +456,11 @@ const int sectionContacts = 0;
     UIAlertController *userNameAlert = [self alertControllerForPromptingNameWithContactName:contactName];
     UIAlertAction *submitAction = [UIAlertAction actionWithTitle:BC_STRING_CONFIRM style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSString *senderName = [[userNameAlert textFields] firstObject].text;
-        if ([app checkInternetConnection]) {
+        if (Reachability.hasInternetConnection) {
             [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_CREATING_INVITATION];
             [app.wallet createContactWithName:senderName ID:contactName];
+        } else {
+            [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
         }
     }];
     submitAction.enabled = NO;
@@ -662,7 +664,7 @@ const int sectionContacts = 0;
 {
     DLog(@"Accept relation failure");
 
-    [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_ACCEPT_RELATION_ERROR_ALERT_MESSAGE_NAME_ARGUMENT, name] title:BC_STRING_ERROR];
+    [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_ACCEPT_RELATION_ERROR_ALERT_MESSAGE_NAME_ARGUMENT, name] title:BC_STRING_ERROR handler: nil];
 }
 
 - (void)didCreateInvitation:(NSDictionary *)invitationDict

@@ -211,7 +211,7 @@
     
     if (self.assetType == AssetTypeBitcoin) {
         BCAmountInputView *amountView = [[BCAmountInputView alloc] init];
-        amountView.btcLabel.text = app.latestResponse.symbol_btc.symbol;
+        amountView.btcLabel.text = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc.symbol;
         amountView.btcField.inputAccessoryView = amountKeyboardAccessoryView;
         amountView.btcField.delegate = self;
         amountView.fiatField.inputAccessoryView = amountKeyboardAccessoryView;
@@ -370,9 +370,9 @@
 
 - (void)reloadLocalAndBtcSymbolsFromLatestResponse
 {
-    if (app.latestResponse.symbol_local && app.latestResponse.symbol_btc) {
-        self.amountInputView.fiatLabel.text = app.latestResponse.symbol_local.code;
-        self.amountInputView.btcLabel.text = app.latestResponse.symbol_btc.symbol;
+    if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local && WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc) {
+        self.amountInputView.fiatLabel.text = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code;
+        self.amountInputView.btcLabel.text = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc.symbol;
     }
 }
 
@@ -492,7 +492,7 @@
         if (![requestedAmountString containsString:@"."]) {
             requestedAmountString = [requestedAmountString stringByReplacingOccurrencesOfString:@"٫" withString:@"."];
         }
-        return app.latestResponse.symbol_local.conversion * [requestedAmountString doubleValue];
+        return WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.conversion * [requestedAmountString doubleValue];
     }
     
     return 0;
@@ -621,7 +621,7 @@
         [allowedCharSet formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
         
         if ([label rangeOfCharacterFromSet:[allowedCharSet invertedSet]].location != NSNotFound) {
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_LABEL_MUST_BE_ALPHANUMERIC title:BC_STRING_ERROR];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_LABEL_MUST_BE_ALPHANUMERIC title:BC_STRING_ERROR handler: nil];
             return;
         }
     }
@@ -645,7 +645,7 @@
         [UIPasteboard generalPasteboard].string = self.mainAddressLabel.text;
         [self.mainAddressLabel animateFromText:[[self.mainAddress componentsSeparatedByString:@":"] lastObject] toIntermediateText:BC_STRING_COPIED_TO_CLIPBOARD speed:1 gestureReceiver:qrCodeMainImageView];
     } else {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_ERROR_COPYING_TO_CLIPBOARD title:BC_STRING_ERROR];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_ERROR_COPYING_TO_CLIPBOARD title:BC_STRING_ERROR handler: nil];
     }
 }
 
@@ -675,7 +675,7 @@
         if (activeKeys.count == 1 && ![app.wallet hasAccount]) {
             [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
 
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_AT_LEAST_ONE_ACTIVE_ADDRESS title:BC_STRING_ERROR];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_AT_LEAST_ONE_ACTIVE_ADDRESS title:BC_STRING_ERROR handler: nil];
             
             return;
         }
@@ -736,7 +736,7 @@
     }]];
     [alertForWatchOnly addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:nil]];
     
-    [[NSNotificationCenter defaultCenter] addObserver:alertForWatchOnly selector:@selector(autoDismiss) name:NOTIFICATION_KEY_RELOAD_TO_DISMISS_VIEWS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:alertForWatchOnly selector:@selector(autoDismiss) name:ConstantsObjcBridge.notificationKeyReloadToDismissViews object:nil];
 
     TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
     [tabControllerManager.tabViewController presentViewController:alertForWatchOnly animated:YES completion:nil];
@@ -880,7 +880,7 @@
         uint64_t amount = [self getInputAmountInSatoshi];
         
         if (amount == 0) {
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_INVALID_SEND_VALUE title:BC_STRING_ERROR];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_INVALID_SEND_VALUE title:BC_STRING_ERROR handler: nil];
             return;
         }
         
@@ -1040,7 +1040,7 @@
         // When entering amount in BTC, max 8 decimal places
         if ([self.amountInputView.btcField isFirstResponder]) {
             // Max number of decimal places depends on bitcoin unit
-            NSUInteger maxlength = [@(SATOSHI) stringValue].length - [@(SATOSHI / app.latestResponse.symbol_btc.conversion) stringValue].length;
+            NSUInteger maxlength = [@(SATOSHI) stringValue].length - [@(SATOSHI / WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc.conversion) stringValue].length;
             
             if (points.count == 2) {
                 NSString *decimalString = points[1];
@@ -1080,7 +1080,7 @@
             if (![amountString containsString:@"."]) {
                 amountString = [newString stringByReplacingOccurrencesOfString:@"٫" withString:@"."];
             }
-            amountInSatoshi = app.latestResponse.symbol_local.conversion * [amountString doubleValue];
+            amountInSatoshi = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.conversion * [amountString doubleValue];
         }
         else {
             amountInSatoshi = [app.wallet parseBitcoinValueFromString:newString];

@@ -157,12 +157,12 @@
                             [app askUserToAddWatchOnlyAddress:scannedString success:self.success];
                         } else {
                             self.onClose = ^(){
-                                [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_UNKNOWN_KEY_FORMAT title:BC_STRING_ERROR];
+                                [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_UNKNOWN_KEY_FORMAT title:BC_STRING_ERROR handler: nil];
                             };
                         }
                     } else {
                         self.onClose = ^(){
-                            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_UNSUPPORTED_PRIVATE_KEY_FORMAT title:BC_STRING_ERROR];
+                            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_UNSUPPORTED_PRIVATE_KEY_FORMAT title:BC_STRING_ERROR handler: nil];
                         };
                     }
                 }

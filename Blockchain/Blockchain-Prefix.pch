@@ -284,9 +284,7 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define ERROR_INVALID_PAIRING_VERSION_CODE @"Invalid Pairing Version Code"
 
 // TODO: Move these in Constants.NotificationKeys
-#define NOTIFICATION_KEY_RELOAD_TO_DISMISS_VIEWS @"reloadToDismissViews"
 #define NOTIFICATION_KEY_LOADING_TEXT @"SetLoadingText"
-#define NOTIFICATION_KEY_NEW_ADDRESS @"newAddress"
 #define NOTIFICATION_KEY_BACKUP_SUCCESS @"backupSuccess"
 #define NOTIFICATION_KEY_RELOAD_ACCOUNTS_AND_ADDRESSES @"reloadAccountsAndAddresses"
 #define NOTIFICATION_KEY_MULTIADDRESS_RESPONSE_RELOAD @"multiaddressResponseReload"
@@ -552,8 +550,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 
 #define USER_DEFAULTS_KEY_ASSET_TYPE @"assetType"
 
-#define USER_DEFAULTS_KEY_CONTACTS_LAST_NAME_USED @"lastNameUsed"
-
 #define USER_DEFAULTS_KEY_DEFAULT_ACCOUNT_LABELLED_ADDRESSES_COUNT @"defaultAccountLabelledAddressesCount"
 #define USER_DEFAULTS_KEY_NEXT_ADDRESS @"nextReceivingAddress"
 #define USER_DEFAULTS_KEY_NEXT_ADDRESS_USED @"nextReceivingAddressUsed"
@@ -564,8 +560,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define USER_DEFAULTS_KEY_GUID @"guid"
 #define USER_DEFAULTS_KEY_PASSWORD @"password"
 #define USER_DEFAULTS_KEY_PIN @"pin"
-#define USER_DEFAULTS_KEY_PASSWORD_PART_HASH @"passwordPartHash"
-#define USER_DEFAULTS_KEY_TOUCH_ID_ENABLED @"touchIDEnabled"
 #define USER_DEFAULTS_KEY_SWIPE_TO_RECEIVE_ENABLED @"swipeToReceive"
 #define USER_DEFAULTS_KEY_HIDE_WATCH_ONLY_RECEIVE_WARNING @"hideWatchOnlyReceiveWarning"
 #define USER_DEFAULTS_KEY_HIDE_TRANSFER_ALL_FUNDS_ALERT @"hideTransferAllFundsAlert"
@@ -604,7 +598,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define STORYBOARD_NAME_ACCOUNTS_AND_ADDRESSES @"AccountsAndAddresses"
 #define STORYBOARD_NAME_SETTINGS @"Settings"
 #define STORYBOARD_NAME_BACKUP @"Backup"
-#define STORYBOARD_NAME_UPGRADE @"Upgrade"
 
 #define TRANSACTION_STATE_WAITING_PAYMENT @"waiting_payment"
 #define TRANSACTION_STATE_WAITING_ADDRESS @"waiting_address"
@@ -620,8 +613,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define NAVIGATION_CONTROLLER_NAME_ACCOUNTS_AND_ADDRESSES @"AccountsAndAddressesNavigationController"
 #define NAVIGATION_CONTROLLER_NAME_SETTINGS @"SettingsNavigationController"
 #define NAVIGATION_CONTROLLER_NAME_BACKUP @"BackupNavigation"
-
-#define VIEW_CONTROLLER_NAME_UPGRADE @"UpgradeViewController"
 
 #define NIB_NAME_TAB_CONTROLLER @"TabController"
 #define NIB_NAME_TRANSACTIONS @"Transactions"

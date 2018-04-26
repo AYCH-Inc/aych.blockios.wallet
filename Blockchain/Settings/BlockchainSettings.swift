@@ -83,10 +83,34 @@ final class BlockchainSettings: NSObject {
             }
         }
 
+        @objc var passwordPartHash: String? {
+            get {
+                return defaults.string(forKey: UserDefaults.Keys.passwordPartHash.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.passwordPartHash.rawValue)
+            }
+        }
+
+        @objc var touchIDEnabled: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.touchIDEnabled.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.touchIDEnabled.rawValue)
+            }
+        }
+
         private override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
             // access an instance of this class.
             super.init()
+        }
+
+        func clearPin() {
+            encryptedPinPassword = nil
+            pinKey = nil
+            passwordPartHash = nil
         }
     }
 

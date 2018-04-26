@@ -59,7 +59,7 @@ import Foundation
         LoadingViewPresenter.shared.initialize()
 
         // Display welcome screen if no wallet is authenticated
-        if KeychainItemWrapper.guid() == nil || KeychainItemWrapper.sharedKey() == nil {
+        if BlockchainSettings.App.shared.guid == nil || BlockchainSettings.App.shared.sharedKey == nil {
             OnboardingCoordinator.shared.start()
         } else {
             // TODO otherwise, show pin screen

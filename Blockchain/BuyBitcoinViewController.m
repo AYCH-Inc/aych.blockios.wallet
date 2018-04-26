@@ -50,7 +50,7 @@ NSString* loginWithJsonScript(NSString*, NSString*, NSString*, NSString*, BOOL);
         self.webView.scrollView.scrollEnabled = YES;
         self.automaticallyAdjustsScrollViewInsets = NO;
         
-        NSString *walletOptionsRootURL = [app.wallet buySellWebviewRootURLString];
+        NSString *walletOptionsRootURL = [WalletManager.sharedInstance.wallet buySellWebviewRootURLString];
         NSString *urlString = walletOptionsRootURL ? [walletOptionsRootURL stringByAppendingString:URL_BUY_WEBVIEW_SUFFIX] : [[BlockchainAPI sharedInstance] buyWebViewUrl];
         NSURL *login = [NSURL URLWithString:urlString];
         NSURLRequest *request = [NSURLRequest requestWithURL:login cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval: 10.0];

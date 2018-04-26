@@ -146,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let pin = KeychainItemWrapper.pinFromKeychain() else {
                         self.failedToObtainValuesFromKeychain(); return
                 }
-                app.wallet.apiGetPINValue(pinKey, pin: pin)
+                WalletManager.shared.wallet.apiGetPINValue(pinKey, pin: pin)
             }
         }
     }

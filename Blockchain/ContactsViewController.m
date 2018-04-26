@@ -70,10 +70,10 @@ const int sectionContacts = 0;
 
 - (void)showAcceptedInvitation:(NSString *)invitationSent
 {
-    NSArray *allContacts = [app.wallet.contacts allValues];
+    NSArray *allContacts = [WalletManager.sharedInstance.wallet.contacts allValues];
     for (Contact *contact in allContacts) {
         if ([contact.invitationSent isEqualToString:invitationSent]) {
-            [app.wallet completeRelation:contact.identifier];
+            [WalletManager.sharedInstance.wallet completeRelation:contact.identifier];
             break;
         }
     }
@@ -108,7 +108,7 @@ const int sectionContacts = 0;
     [super viewDidAppear:animated];
     
     if (self.invitationFromURL && self.nameFromURL) {
-        [app.wallet readInvitation:[self JSDictionaryForInvitation:self.invitationFromURL name:self.nameFromURL]];
+        [WalletManager.sharedInstance.wallet readInvitation:[self JSDictionaryForInvitation:self.invitationFromURL name:self.nameFromURL]];
     } else if (self.invitationSentIdentifier) {
         [self showAcceptedInvitation:self.invitationSentIdentifier];
     }
@@ -221,7 +221,7 @@ const int sectionContacts = 0;
 - (void)refreshControlActivated
 {
     [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
-    [app.wallet performSelector:@selector(getHistory) withObject:nil afterDelay:0.1f];
+    [WalletManager.sharedInstance.wallet performSelector:@selector(getHistory) withObject:nil afterDelay:0.1f];
 }
 
 - (void)setupPullToRefresh
@@ -239,7 +239,7 @@ const int sectionContacts = 0;
 
 - (void)reload
 {
-    [app.wallet getMessages];
+    [WalletManager.sharedInstance.wallet getMessages];
 }
 
 - (void)updateContactDetail
@@ -248,7 +248,7 @@ const int sectionContacts = 0;
     
     NSString *contactIdentifier = self.detailViewController.contact.identifier;
     
-    Contact *reloadedContact = [app.wallet.contacts objectForKey:contactIdentifier];
+    Contact *reloadedContact = [WalletManager.sharedInstance.wallet.contacts objectForKey:contactIdentifier];
     
     self.detailViewController.contact = reloadedContact;
 }
@@ -263,9 +263,9 @@ const int sectionContacts = 0;
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if (searchText && searchText.length > 0) {
-        self.contactsToDisplay = [[app.wallet.contacts allValues] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name beginswith[c] %@", searchText]];
+        self.contactsToDisplay = [[WalletManager.sharedInstance.wallet.contacts allValues] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name beginswith[c] %@", searchText]];
     } else {
-        self.contactsToDisplay = [app.wallet.contacts allValues];
+        self.contactsToDisplay = [WalletManager.sharedInstance.wallet.contacts allValues];
     }
     
     [self.tableView reloadData];
@@ -313,7 +313,7 @@ const int sectionContacts = 0;
     
     Contact *contact = contacts[indexPath.row];
     
-    BOOL actionRequired = [app.wallet actionRequiredForContact:contact];
+    BOOL actionRequired = [WalletManager.sharedInstance.wallet actionRequiredForContact:contact];
     
     [cell configureWithContact:contact actionRequired:actionRequired];
     
@@ -428,7 +428,7 @@ const int sectionContacts = 0;
         self.onFailCompleteRelation = ^() {
             [weakSelf promptToResendInvitationToContact:contact];
         };
-        [app.wallet completeRelation:contact.identifier];
+        [WalletManager.sharedInstance.wallet completeRelation:contact.identifier];
     }
 }
 
@@ -458,7 +458,7 @@ const int sectionContacts = 0;
         NSString *senderName = [[userNameAlert textFields] firstObject].text;
         if (Reachability.hasInternetConnection) {
             [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_CREATING_INVITATION];
-            [app.wallet createContactWithName:senderName ID:contactName];
+            [WalletManager.sharedInstance.wallet createContactWithName:senderName ID:contactName];
         } else {
             [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
         }
@@ -510,7 +510,7 @@ const int sectionContacts = 0;
 {
     UIAlertController *alertForDeletingContact = [UIAlertController alertControllerWithTitle:BC_STRING_DELETE_CONTACT_ALERT_TITLE message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alertForDeletingContact addAction:[UIAlertAction actionWithTitle:BC_STRING_CONTINUE style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [app.wallet deleteContact:contact.identifier];
+        [WalletManager.sharedInstance.wallet deleteContact:contact.identifier];
     }]];
     [alertForDeletingContact addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alertForDeletingContact animated:YES completion:nil];
@@ -562,7 +562,7 @@ const int sectionContacts = 0;
 
 - (BOOL)nameAlreadyExists:(NSString *)name
 {
-    NSArray *allContacts = [app.wallet.contacts allValues];
+    NSArray *allContacts = [WalletManager.sharedInstance.wallet.contacts allValues];
     for (Contact *contact in allContacts) {
         if ([contact.name isEqualToString:name]) {
             return YES;
@@ -581,7 +581,7 @@ const int sectionContacts = 0;
     void (^checkAndDeleteContactInfo)() = ^() {
         if (weakSelf.lastCreatedInvitation) {
             NSString *contactId = [weakSelf.lastCreatedInvitation objectForKey:DICTIONARY_KEY_INVITATION_RECEIVED];
-            [app.wallet deleteContactAfterStoringInfo:contactId];
+            [WalletManager.sharedInstance.wallet deleteContactAfterStoringInfo:contactId];
             weakSelf.lastCreatedInvitation = nil;
         }
     };
@@ -623,7 +623,7 @@ const int sectionContacts = 0;
     NSString *invitationID = [invitation objectForKey:DICTIONARY_KEY_INVITATION_RECEIVED];
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ANIMATION_DURATION * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [app.wallet acceptRelation:identifier name:name identifier:invitationID];
+        [WalletManager.sharedInstance.wallet acceptRelation:identifier name:name identifier:invitationID];
     });
 }
 
@@ -680,7 +680,7 @@ const int sectionContacts = 0;
 
 - (void)didGetMessages
 {
-    self.contactsToDisplay = [app.wallet.contacts allValues];
+    self.contactsToDisplay = [WalletManager.sharedInstance.wallet.contacts allValues];
     
     if (self.contactsToDisplay.count > 0) {
         [self.noContactsView removeFromSuperview];
@@ -704,7 +704,7 @@ const int sectionContacts = 0;
     [self.tableView reloadData];
     
     if (self.detailViewController.contact.identifier) {
-        Contact *updatedContact = [app.wallet.contacts objectForKey:self.detailViewController.contact.identifier];
+        Contact *updatedContact = [WalletManager.sharedInstance.wallet.contacts objectForKey:self.detailViewController.contact.identifier];
         
         [self.detailViewController didGetMessages:updatedContact];
     }

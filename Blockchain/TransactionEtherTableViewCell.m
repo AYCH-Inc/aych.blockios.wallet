@@ -66,10 +66,10 @@
     self.actionLabel.frame = CGRectMake(self.actionLabel.frame.origin.x, 20, self.actionLabel.frame.size.width, self.actionLabel.frame.size.height);
     self.dateLabel.frame = CGRectMake(self.dateLabel.frame.origin.x, 3, self.dateLabel.frame.size.width, self.dateLabel.frame.size.height);
     
-    if ([app.wallet isDepositTransaction:self.transaction.myHash]) {
+    if ([WalletManager.sharedInstance.wallet isDepositTransaction:self.transaction.myHash]) {
         self.infoLabel.text = BC_STRING_DEPOSITED_TO_SHAPESHIFT;
         self.infoLabel.backgroundColor = COLOR_BLOCKCHAIN_BLUE;
-    } else if ([app.wallet isWithdrawalTransaction:self.transaction.myHash]) {
+    } else if ([WalletManager.sharedInstance.wallet isWithdrawalTransaction:self.transaction.myHash]) {
         self.infoLabel.text = BC_STRING_RECEIVED_FROM_SHAPESHIFT;
         self.infoLabel.backgroundColor = COLOR_BLOCKCHAIN_BLUE;
     } else {
@@ -85,7 +85,7 @@
 {
     TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
     TransactionDetailViewController *detailViewController = [TransactionDetailViewController new];
-    TransactionDetailViewModel *model = [[TransactionDetailViewModel alloc] initWithEtherTransaction:self.transaction exchangeRate:tabControllerManager.latestEthExchangeRate defaultAddress:[app.wallet getEtherAddress]];
+    TransactionDetailViewModel *model = [[TransactionDetailViewModel alloc] initWithEtherTransaction:self.transaction exchangeRate:tabControllerManager.latestEthExchangeRate defaultAddress:[WalletManager.sharedInstance.wallet getEtherAddress]];
     detailViewController.transactionModel = model;
 
     TransactionDetailNavigationController *navigationController = [[TransactionDetailNavigationController alloc] initWithRootViewController:detailViewController];

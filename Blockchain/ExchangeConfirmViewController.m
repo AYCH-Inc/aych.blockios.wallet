@@ -14,6 +14,7 @@
 #import "BCNavigationController.h"
 #import <SafariServices/SafariServices.h>
 #import "NSNumberFormatter+Currencies.h"
+#import "Blockchain-Swift.h"
 
 #define MARGIN_HORIZONTAL 20
 #define SHAPESHIFT_TERMS_AND_CONDITIONS_URL @"https://info.shapeshift.io/sites/default/files/ShapeShift_Terms_Conditions%20v1.1.pdf"
@@ -225,7 +226,7 @@
 
 - (void)shiftPayment
 {
-    [app.wallet shiftPayment];
+    [WalletManager.sharedInstance.wallet shiftPayment];
 }
 
 @end

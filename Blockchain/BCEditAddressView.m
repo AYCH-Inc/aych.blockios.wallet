@@ -58,7 +58,7 @@
 {
     NSString *label = [self.labelTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    if (![app.wallet didUpgradeToHd]) {
+    if (![WalletManager.sharedInstance.wallet didUpgradeToHd]) {
         NSMutableCharacterSet *allowedCharSet = [[NSCharacterSet alphanumericCharacterSet] mutableCopy];
         [allowedCharSet formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
         
@@ -70,13 +70,13 @@
     
     NSString *addr = self.address;
     
-    [app.wallet setLabel:label forLegacyAddress:addr];
+    [WalletManager.sharedInstance.wallet setLabel:label forLegacyAddress:addr];
     
     [self.labelTextField resignFirstResponder];
     
     [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
     
-    if (app.wallet.isSyncing) {
+    if (WalletManager.sharedInstance.wallet.isSyncing) {
         [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_SYNCING_WALLET];
     }
 }

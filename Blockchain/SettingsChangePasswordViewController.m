@@ -117,7 +117,7 @@
         
         SettingsNavigationController *navigationController = (SettingsNavigationController *)self.navigationController;
         [navigationController.busyView fadeIn];
-        [app.wallet changePassword:self.newerPasswordTextField.text];
+        [WalletManager.sharedInstance.wallet changePassword:self.newerPasswordTextField.text];
     }
 }
 
@@ -169,7 +169,7 @@
     UIColor *color;
     NSString *description;
     
-    float passwordStrength = [app.wallet getStrengthForPassword:password];
+    float passwordStrength = [WalletManager.sharedInstance.wallet getStrengthForPassword:password];
 
     if (passwordStrength < 25) {
         color = COLOR_PASSWORD_STRENGTH_WEAK;
@@ -201,7 +201,7 @@
 
 - (BOOL)isReadyToSubmitForm
 {
-    if (![app.wallet isCorrectPassword:self.mainPasswordTextField.text]) {
+    if (![WalletManager.sharedInstance.wallet isCorrectPassword:self.mainPasswordTextField.text]) {
         [self alertUserOfError:BC_STRING_INCORRECT_PASSWORD];
         return NO;
     }
@@ -212,7 +212,7 @@
         return NO;
     }
     
-    NSString *email = [app.wallet getEmail];
+    NSString *email = [WalletManager.sharedInstance.wallet getEmail];
     if (email && [self.newerPasswordTextField.text isEqualToString:email]) {
         [self.newerPasswordTextField becomeFirstResponder];
         [self alertUserOfError:BC_STRING_PASSWORD_MUST_BE_DIFFERENT_FROM_YOUR_EMAIL];
@@ -239,7 +239,7 @@
         return NO;
     }
     
-    if ([app.wallet isCorrectPassword:self.newerPasswordTextField.text]) {
+    if ([WalletManager.sharedInstance.wallet isCorrectPassword:self.newerPasswordTextField.text]) {
         [self alertUserOfError:BC_STRING_NEW_PASSWORD_MUST_BE_DIFFERENT];
         return NO;
     }

@@ -40,13 +40,13 @@
     
     self.view.backgroundColor = COLOR_TABLE_VIEW_BACKGROUND_LIGHT_GRAY;
     
-    NSArray *availableStates = [app.wallet availableUSStates];
+    NSArray *availableStates = [WalletManager.sharedInstance.wallet availableUSStates];
     
     if (availableStates.count > 0) {
         [self showStates:availableStates];
     } else {
         [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_EXCHANGE];
-        [app.wallet performSelector:@selector(getExchangeTrades) withObject:nil afterDelay:ANIMATION_DURATION];
+        [WalletManager.sharedInstance.wallet performSelector:@selector(getExchangeTrades) withObject:nil afterDelay:ANIMATION_DURATION];
     }
 }
 
@@ -65,7 +65,7 @@
     if (self.didFinishShift) {
         BCNavigationController *navigationController = (BCNavigationController *)self.navigationController;
         [navigationController showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
-        [app.wallet performSelector:@selector(getExchangeTrades) withObject:nil afterDelay:ANIMATION_DURATION];
+        [WalletManager.sharedInstance.wallet performSelector:@selector(getExchangeTrades) withObject:nil afterDelay:ANIMATION_DURATION];
     }
 }
 
@@ -155,7 +155,7 @@
 {
     BCNavigationController *navigationController = (BCNavigationController *)self.navigationController;
     [navigationController showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
-    [app.wallet performSelector:@selector(getExchangeTrades) withObject:nil afterDelay:ANIMATION_DURATION];
+    [WalletManager.sharedInstance.wallet performSelector:@selector(getExchangeTrades) withObject:nil afterDelay:ANIMATION_DURATION];
 }
 
 - (void)showStates:(NSArray *)states

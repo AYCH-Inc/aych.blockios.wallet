@@ -28,17 +28,17 @@
 
 - (Wallet *)wallet
 {
-    return app.wallet;
+    return WalletManager.sharedInstance.wallet;
 }
 
 - (void)getTransferAllInfo
 {
-    [app.wallet getInfoForTransferAllFundsToAccount];
+    [WalletManager.sharedInstance.wallet getInfoForTransferAllFundsToAccount];
 }
 
 - (NSString *)getLabelForDestinationAccount
 {
-    return [app.wallet getLabelForAccount:self.destinationAccount assetType:self.assetType];
+    return [WalletManager.sharedInstance.wallet getLabelForAccount:self.destinationAccount assetType:self.assetType];
 }
 
 - (NSString *)formatMoney:(uint64_t)amount localCurrency:(BOOL)useLocalCurrency
@@ -59,13 +59,13 @@
     self.transferAllAddressesUnspendable = 0;
     
     // use default account, but can select new destination account by calling setupTransfersToAccount:
-    [self setupTransfersToAccount:[app.wallet getDefaultAccountIndexForAssetType:self.assetType]];
+    [self setupTransfersToAccount:[WalletManager.sharedInstance.wallet getDefaultAccountIndexForAssetType:self.assetType]];
 }
 
 - (void)setupTransfersToAccount:(int)account
 {
     _destinationAccount = account;
-    [app.wallet setupFirstTransferForAllFundsToAccount:account address:[self.transferAllAddressesToTransfer firstObject] secondPassword:nil useSendPayment:self.usesSendScreen];
+    [WalletManager.sharedInstance.wallet setupFirstTransferForAllFundsToAccount:account address:[self.transferAllAddressesToTransfer firstObject] secondPassword:nil useSendPayment:self.usesSendScreen];
 }
 
 - (void)transferAllFundsToAccountWithSecondPassword:(NSString *)_secondPassword
@@ -91,9 +91,9 @@
         
         self.temporarySecondPassword = secondPassword;
         
-        [app.wallet changeLastUsedReceiveIndexOfDefaultAccount];
+        [WalletManager.sharedInstance.wallet changeLastUsedReceiveIndexOfDefaultAccount];
         // Fields are automatically reset by reload, called by MyWallet.wallet.getHistory() after a utx websocket message is received. However, we cannot rely on the websocket 100% of the time.
-        [app.wallet performSelector:@selector(getHistoryIfNoTransactionMessage) withObject:nil afterDelay:DELAY_GET_HISTORY_BACKUP];
+        [WalletManager.sharedInstance.wallet performSelector:@selector(getHistoryIfNoTransactionMessage) withObject:nil afterDelay:DELAY_GET_HISTORY_BACKUP];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(continueTransferringFunds) name:NOTIFICATION_KEY_MULTIADDRESS_RESPONSE_RELOAD object:nil];
         
@@ -121,17 +121,17 @@
         
         if (self.on_error) self.on_error(error, secondPassword);
         
-        [app.wallet getHistory];
+        [WalletManager.sharedInstance.wallet getHistory];
     };
     
     if (self.on_before_send) self.on_before_send();
     
-    app.wallet.didReceiveMessageForLastTransaction = NO;
+    WalletManager.sharedInstance.wallet.didReceiveMessageForLastTransaction = NO;
     
     if (self.usesSendScreen) {
-        [app.wallet sendPaymentWithListener:listener secondPassword:_secondPassword];
+        [WalletManager.sharedInstance.wallet sendPaymentWithListener:listener secondPassword:_secondPassword];
     } else {
-        [app.wallet transferFundsBackupWithListener:listener secondPassword:_secondPassword];
+        [WalletManager.sharedInstance.wallet transferFundsBackupWithListener:listener secondPassword:_secondPassword];
     }
 }
 
@@ -146,7 +146,7 @@
     if ([self.transferAllAddressesToTransfer count] > 1 && !self.userCancelledNext) {
         [self.transferAllAddressesToTransfer removeObjectAtIndex:0];
         if (self.on_prepare_next_transfer) self.on_prepare_next_transfer(self.transferAllAddressesToTransfer);
-        [app.wallet setupFollowingTransferForAllFundsToAccount:self.destinationAccount address:self.transferAllAddressesToTransfer[0] secondPassword:self.temporarySecondPassword useSendPayment:self.usesSendScreen];
+        [WalletManager.sharedInstance.wallet setupFollowingTransferForAllFundsToAccount:self.destinationAccount address:self.transferAllAddressesToTransfer[0] secondPassword:self.temporarySecondPassword useSendPayment:self.usesSendScreen];
     } else {
         [self.transferAllAddressesToTransfer removeAllObjects];
         [self finishedTransferFunds];
@@ -174,7 +174,7 @@
 
 - (void)archiveTransferredAddresses
 {
-    [app.wallet archiveTransferredAddresses:self.transferAllAddressesTransferred];
+    [WalletManager.sharedInstance.wallet archiveTransferredAddresses:self.transferAllAddressesTransferred];
 }
 
 @end

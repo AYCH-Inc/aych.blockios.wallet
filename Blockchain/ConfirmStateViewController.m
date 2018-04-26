@@ -9,6 +9,7 @@
 #import "ConfirmStateViewController.h"
 #import "StateSelectorViewController.h"
 #import "BCNavigationController.h"
+#import "Blockchain-Swift.h"
 
 @interface ConfirmStateViewController () <UITableViewDelegate, UITableViewDataSource, StateSelectorDelegate>
 @property (nonatomic) NSArray *states;
@@ -60,8 +61,8 @@
 - (void)confirmButtonClicked
 {
     NSString *stateCode = self.selectedState[STATE_KEY_CODE];
-    if ([app.wallet isStateWhitelistedForShapeshift:stateCode]) {
-        [app.wallet selectState:self.selectedState[STATE_KEY_NAME] code:stateCode];
+    if ([WalletManager.sharedInstance.wallet isStateWhitelistedForShapeshift:stateCode]) {
+        [WalletManager.sharedInstance.wallet selectState:self.selectedState[STATE_KEY_NAME] code:stateCode];
         [self.delegate didConfirmState:self.navigationController];
     } else {
         UIAlertController *alertNotAvailable = [UIAlertController alertControllerWithTitle:BC_STRING_EXCHANGE_NOT_AVAILABLE_TITLE message:BC_STRING_EXCHANGE_NOT_AVAILABLE_MESSAGE preferredStyle:UIAlertControllerStyleAlert];

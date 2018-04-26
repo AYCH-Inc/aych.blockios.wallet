@@ -194,7 +194,7 @@ static PEViewController *VerifyController()
         if (nextAddress) {
             
             void (^error)(void) = ^() {
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_NO_INTERNET_CONNECTION message:BC_STRING_SWIPE_TO_RECEIVE_NO_INTERNET_CONNECTION_WARNING preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:LocalizationConstantsObjcBridge.noInternetConnection message:BC_STRING_SWIPE_TO_RECEIVE_NO_INTERNET_CONNECTION_WARNING preferredStyle:UIAlertControllerStyleAlert];
                 [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                     [swipeView updateAddress:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION];
                 }]];

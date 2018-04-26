@@ -194,14 +194,14 @@
             UILabel *btcLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, labelWidth, 21)];
             btcLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL];
             btcLabel.textColor = COLOR_TEXT_DARK_GRAY;
-            btcLabel.text = app.latestResponse.symbol_btc.symbol;
+            btcLabel.text = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc.symbol;
             btcLabel.center = CGPointMake(btcLabel.center.x, cell.contentView.center.y);
             [cell.contentView addSubview:btcLabel];
             
             UILabel *fiatLabel = [[UILabel alloc] initWithFrame:CGRectMake(cell.contentView.frame.size.width/2 + 15, 0, labelWidth, 21)];
             fiatLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL];
             fiatLabel.textColor = COLOR_TEXT_DARK_GRAY;
-            fiatLabel.text = app.latestResponse.symbol_local.code;
+            fiatLabel.text = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code;
             fiatLabel.center = CGPointMake(fiatLabel.center.x, cell.contentView.center.y);
             [cell.contentView addSubview:fiatLabel];
             

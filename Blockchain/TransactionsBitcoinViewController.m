@@ -57,7 +57,7 @@
 {
     [super awakeFromNib];
     
-    [self updateData:app.latestResponse];
+    [self updateData:WalletManager.sharedInstance.latestMultiAddressResponse];
     
     [self reload];
 }
@@ -446,7 +446,7 @@
 - (void)reloadLastNumberOfTransactions
 {
     // If all the data is available, set the lastNumberTransactions - reload gets called once when wallet is loaded and once when latest block is loaded
-    if (app.latestResponse) {
+    if (WalletManager.sharedInstance.latestMultiAddressResponse) {
         self.lastNumberTransactions = data.n_transactions;
     }
 }

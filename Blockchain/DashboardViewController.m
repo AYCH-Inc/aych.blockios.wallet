@@ -143,7 +143,7 @@
     double bchBalance = [self getBchBalance];
     double totalFiatBalance = btcBalance + ethBalance + bchBalance;
     if (app.wallet.isInitialized) {
-        [self.balancesChartView updateFiatSymbol:app.latestResponse.symbol_local.symbol];
+        [self.balancesChartView updateFiatSymbol:WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.symbol];
         // Fiat balances
         [self.balancesChartView updateBitcoinFiatBalance:btcBalance];
         [self.balancesChartView updateEtherFiatBalance:ethBalance];
@@ -310,7 +310,7 @@
 - (NSString *)stringForValue:(double)value axis:(ChartAxisBase *)axis
 {
     if (axis == [self.chartContainerViewController leftAxis]) {
-        return [NSString stringWithFormat:@"%@%.f", app.latestResponse.symbol_local.symbol, value];
+        return [NSString stringWithFormat:@"%@%.f", WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.symbol, value];
     } else if (axis == [self.chartContainerViewController xAxis]) {
         return [self dateStringFromGraphValue:value];
     } else {

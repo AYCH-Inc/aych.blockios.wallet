@@ -261,7 +261,7 @@ int accountEntries = 0;
         if (didUpgradeToHD) {
             [app backupFundsClicked:nil];
         } else {
-            [app showHdUpgrade];
+            [AppCoordinator.sharedInstance showHdUpgradeView];
         }
     } else if (rowKey == entryKeyAccountsAndAddresses) {
         [app accountsAndAddressesClicked:nil];

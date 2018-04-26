@@ -92,7 +92,7 @@
 
 - (void)showEtherAddress
 {
-    NSString *etherAddress = [app.wallet getEtherAddress];
+    NSString *etherAddress = [WalletManager.sharedInstance.wallet getEtherAddress];
     self.instructionsLabel.text = etherAddress == nil ? BC_STRING_RECEIVE_ETHER_REENTER_SECOND_PASSWORD_INSTRUCTIONS : BC_STRING_RECEIVE_SCREEN_INSTRUCTIONS;
     self.address = etherAddress;
     self.addressTextView.text = self.address;
@@ -118,7 +118,7 @@
 
 - (void)requestButtonClicked
 {
-    if (![app.wallet isInitialized]) {
+    if (![WalletManager.sharedInstance.wallet isInitialized]) {
         DLog(@"Tried to access share button when not initialized!");
         return;
     }

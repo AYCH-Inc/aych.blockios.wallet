@@ -142,7 +142,7 @@
     double ethBalance = [self getEthBalance];
     double bchBalance = [self getBchBalance];
     double totalFiatBalance = btcBalance + ethBalance + bchBalance;
-    if (app.wallet.isInitialized) {
+    if (WalletManager.sharedInstance.wallet.isInitialized) {
         [self.balancesChartView updateFiatSymbol:WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.symbol];
         // Fiat balances
         [self.balancesChartView updateBitcoinFiatBalance:btcBalance];
@@ -150,9 +150,9 @@
         [self.balancesChartView updateBitcoinCashFiatBalance:bchBalance];
         [self.balancesChartView updateTotalFiatBalance:[NSNumberFormatter appendStringToFiatSymbol:[NSString stringWithFormat:@"%.2f", totalFiatBalance]]];
         // Balances
-        [self.balancesChartView updateBitcoinBalance:[NSNumberFormatter formatAmount:[app.wallet getTotalActiveBalance] localCurrency:NO]];
-        [self.balancesChartView updateEtherBalance:[app.wallet getEthBalanceTruncated]];
-        [self.balancesChartView updateBitcoinCashBalance:[NSNumberFormatter formatAmount:[app.wallet bitcoinCashTotalBalance] localCurrency:NO]];
+        [self.balancesChartView updateBitcoinBalance:[NSNumberFormatter formatAmount:[WalletManager.sharedInstance.wallet getTotalActiveBalance] localCurrency:NO]];
+        [self.balancesChartView updateEtherBalance:[WalletManager.sharedInstance.wallet getEthBalanceTruncated]];
+        [self.balancesChartView updateBitcoinCashBalance:[NSNumberFormatter formatAmount:[WalletManager.sharedInstance.wallet bitcoinCashTotalBalance] localCurrency:NO]];
     }
 
     [self.balancesChartView updateChart];
@@ -294,7 +294,7 @@
     TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
     if ([BlockchainSettings sharedAppInstance].isPinSet &&
         !app.pinEntryViewController &&
-        [app.wallet isInitialized] &&
+        [WalletManager.sharedInstance.wallet isInitialized] &&
         tabControllerManager.tabViewController.selectedIndex == TAB_DASHBOARD
         && ![ModalPresenter sharedInstance].modalView) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_ERROR message:error preferredStyle:UIAlertControllerStyleAlert];
@@ -335,17 +335,17 @@
 
 - (NSString *)getBtcPrice
 {
-    return app.wallet.isInitialized ? [NSNumberFormatter formatMoney:SATOSHI localCurrency:YES] : nil;
+    return WalletManager.sharedInstance.wallet.isInitialized ? [NSNumberFormatter formatMoney:SATOSHI localCurrency:YES] : nil;
 }
 
 - (NSString *)getBchPrice
 {
-    return app.wallet.isInitialized ? [NSNumberFormatter formatBchWithSymbol:SATOSHI localCurrency:YES] : nil;
+    return WalletManager.sharedInstance.wallet.isInitialized ? [NSNumberFormatter formatBchWithSymbol:SATOSHI localCurrency:YES] : nil;
 }
 
 - (NSString *)getEthPrice
 {
-    if (!app.wallet.isInitialized || !self.lastEthExchangeRate) {
+    if (!WalletManager.sharedInstance.wallet.isInitialized || !self.lastEthExchangeRate) {
         return nil;
     }
     return [NSNumberFormatter formatEthToFiatWithSymbol:@"1" exchangeRate:self.lastEthExchangeRate];
@@ -353,17 +353,17 @@
 
 - (double)getBtcBalance
 {
-    return [self doubleFromString:[NSNumberFormatter formatAmount:[app.wallet getTotalActiveBalance] localCurrency:YES]];
+    return [self doubleFromString:[NSNumberFormatter formatAmount:[WalletManager.sharedInstance.wallet getTotalActiveBalance] localCurrency:YES]];
 }
 
 - (double)getEthBalance
 {
-    return [self doubleFromString:[NSNumberFormatter formatEthToFiat:[app.wallet getEthBalance] exchangeRate:app.wallet.latestEthExchangeRate]];
+    return [self doubleFromString:[NSNumberFormatter formatEthToFiat:[WalletManager.sharedInstance.wallet getEthBalance] exchangeRate:WalletManager.sharedInstance.wallet.latestEthExchangeRate]];
 }
 
 - (double)getBchBalance
 {
-    return [self doubleFromString:[NSNumberFormatter formatBch:[app.wallet bitcoinCashTotalBalance] localCurrency:YES]];
+    return [self doubleFromString:[NSNumberFormatter formatBch:[WalletManager.sharedInstance.wallet bitcoinCashTotalBalance] localCurrency:YES]];
 }
 
 - (double)doubleFromString:(NSString *)string

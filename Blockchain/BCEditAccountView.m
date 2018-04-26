@@ -73,7 +73,7 @@
         return;
     }
     
-    if (![app.wallet isAccountNameValid:label]) {
+    if (![WalletManager.sharedInstance.wallet isAccountNameValid:label]) {
         return;
     }
     
@@ -90,7 +90,7 @@
 
 - (void)changeAccountName:(NSString *)name
 {
-    [app.wallet setLabelForAccount:self.accountIdx label:name assetType:self.assetType];
+    [WalletManager.sharedInstance.wallet setLabelForAccount:self.accountIdx label:name assetType:self.assetType];
 }
 
 #pragma mark - Textfield Delegates

@@ -61,7 +61,7 @@ const int maxFindAttempts = 2;
             contactTransaction.transactionState == ContactTransactionStateCompletedReceive) {
             Transaction *transaction = [self getTransactionDetails:contactTransaction];
             ContactTransaction *newTransaction = [ContactTransaction transactionWithTransaction:contactTransaction existingTransaction:transaction];
-            newTransaction.contactName = [app.wallet.contacts objectForKey:contactTransaction.contactIdentifier].name;
+            newTransaction.contactName = [WalletManager.sharedInstance.wallet.contacts objectForKey:contactTransaction.contactIdentifier].name;
             if (newTransaction) [mutableTransactionList addObject:newTransaction];
         }
     }
@@ -174,7 +174,7 @@ const int maxFindAttempts = 2;
         cell = [[[NSBundle mainBundle] loadNibNamed:@"ContactTransactionTableCell" owner:nil options:nil] objectAtIndex:0];
     }
     
-    NSString *name = [app.wallet.contacts objectForKey:contactTransaction.contactIdentifier].name;
+    NSString *name = [WalletManager.sharedInstance.wallet.contacts objectForKey:contactTransaction.contactIdentifier].name;
     [cell configureWithTransaction:contactTransaction contactName:name];
     
     return cell;
@@ -233,7 +233,7 @@ const int maxFindAttempts = 2;
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if (textField.tag == TAG_TEXTFIELD_CHANGE_CONTACT_NAME) {
-        [app.wallet changeName:textField.text forContact:self.contact.identifier];
+        [WalletManager.sharedInstance.wallet changeName:textField.text forContact:self.contact.identifier];
     }
     
     return YES;
@@ -271,7 +271,7 @@ const int maxFindAttempts = 2;
     }];
     [alertForChangingName addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSString *newName = [[alertForChangingName textFields] firstObject].text;
-        [app.wallet changeName:newName forContact:self.contact.identifier];
+        [WalletManager.sharedInstance.wallet changeName:newName forContact:self.contact.identifier];
     }]];
     [alertForChangingName addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alertForChangingName animated:YES completion:nil];
@@ -301,7 +301,7 @@ const int maxFindAttempts = 2;
 {
     UIAlertController *alertForDeletingContact = [UIAlertController alertControllerWithTitle:BC_STRING_DELETE_CONTACT_ALERT_TITLE message:BC_STRING_DELETE_CONTACT_ALERT_MESSAGE preferredStyle:UIAlertControllerStyleAlert];
     [alertForDeletingContact addAction:[UIAlertAction actionWithTitle:BC_STRING_DELETE style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        [app.wallet deleteContact:self.contact.identifier];
+        [WalletManager.sharedInstance.wallet deleteContact:self.contact.identifier];
     }]];
     [alertForDeletingContact addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alertForDeletingContact animated:YES completion:nil];
@@ -332,7 +332,7 @@ const int maxFindAttempts = 2;
 - (void)refreshControlActivated
 {
     [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
-    [app.wallet performSelector:@selector(getHistory) withObject:nil afterDelay:0.1f];
+    [WalletManager.sharedInstance.wallet performSelector:@selector(getHistory) withObject:nil afterDelay:0.1f];
 }
 
 - (void)setupPullToRefresh

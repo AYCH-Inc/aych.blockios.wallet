@@ -50,7 +50,7 @@
     BCEditAccountView *editAccountView = [[BCEditAccountView alloc] init];
     
     editAccountView.accountIdx = self.accountIdx;
-    editAccountView.labelTextField.text = [app.wallet getLabelForAccount:self.accountIdx assetType:self.assetType];
+    editAccountView.labelTextField.text = [WalletManager.sharedInstance.wallet getLabelForAccount:self.accountIdx assetType:self.assetType];
 
     [[ModalPresenter sharedInstance] showModalWithContent:editAccountView closeType:ModalCloseTypeClose showHeader:true headerText:BC_STRING_EDIT onDismiss:^{
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];

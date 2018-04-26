@@ -101,17 +101,17 @@
 - (uint64_t)getBalance
 {
     if (self.filterIndex == FILTER_INDEX_ALL) {
-        return [app.wallet getBchBalance];
+        return [WalletManager.sharedInstance.wallet getBchBalance];
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
-        return [app.wallet getTotalBalanceForActiveLegacyAddresses:AssetTypeBitcoinCash];
+        return [WalletManager.sharedInstance.wallet getTotalBalanceForActiveLegacyAddresses:AssetTypeBitcoinCash];
     } else {
-        return [[app.wallet getBalanceForAccount:(int)self.filterIndex assetType:AssetTypeBitcoinCash] longLongValue];
+        return [[WalletManager.sharedInstance.wallet getBalanceForAccount:(int)self.filterIndex assetType:AssetTypeBitcoinCash] longLongValue];
     }
 }
 
 - (void)loadTransactions
 {
-    self.transactions = [app.wallet getBitcoinCashTransactions:self.filterIndex];
+    self.transactions = [WalletManager.sharedInstance.wallet getBitcoinCashTransactions:self.filterIndex];
     
     self.noTransactionsView.hidden = self.transactions.count > 0;
     
@@ -130,7 +130,7 @@
 {
     [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
 
-    [app.wallet performSelector:@selector(getBitcoinCashHistoryAndRates) withObject:nil afterDelay:0.1f];
+    [WalletManager.sharedInstance.wallet performSelector:@selector(getBitcoinCashHistoryAndRates) withObject:nil afterDelay:0.1f];
 }
 
 - (void)didReceiveTransactionMessage
@@ -222,7 +222,7 @@
 
 - (void)showFilterMenu
 {
-    BCAddressSelectionView *filterView = [[BCAddressSelectionView alloc] initWithWallet:app.wallet selectMode:SelectModeFilter delegate:self];
+    BCAddressSelectionView *filterView = [[BCAddressSelectionView alloc] initWithWallet:WalletManager.sharedInstance.wallet selectMode:SelectModeFilter delegate:self];
     [[ModalPresenter sharedInstance] showModalWithContent:filterView closeType:ModalCloseTypeBack showHeader:YES headerText:BC_STRING_BALANCES onDismiss:nil onResume:nil];
 }
 
@@ -241,7 +241,7 @@
     } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
         self.filterSelectorLabel.text = BC_STRING_IMPORTED_ADDRESSES;
     } else {
-        self.filterSelectorLabel.text = [app.wallet getLabelForAccount:filter assetType:AssetTypeBitcoinCash];
+        self.filterSelectorLabel.text = [WalletManager.sharedInstance.wallet getLabelForAccount:filter assetType:AssetTypeBitcoinCash];
     }
     [self reload];
 }

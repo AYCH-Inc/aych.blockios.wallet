@@ -199,7 +199,7 @@ static PEViewController *VerifyController()
                     [swipeView updateAddress:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION];
                 }]];
                 [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_CONTINUE style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [app.wallet subscribeToSwipeAddress:nextAddress assetType:assetType];
+                    [WalletManager.sharedInstance.wallet subscribeToSwipeAddress:nextAddress assetType:assetType];
                     [swipeView updateAddress:nextAddress];
                 }]];
                 self.errorAlert = alert;
@@ -208,7 +208,7 @@ static PEViewController *VerifyController()
             void (^success)(NSString *, BOOL) = ^(NSString *address, BOOL isUnused) {
                 
                 if (isUnused) {
-                    [app.wallet subscribeToSwipeAddress:nextAddress assetType:assetType];
+                    [WalletManager.sharedInstance.wallet subscribeToSwipeAddress:nextAddress assetType:assetType];
                     [swipeView updateAddress:address];
                     self.errorAlert = nil;
                 } else {

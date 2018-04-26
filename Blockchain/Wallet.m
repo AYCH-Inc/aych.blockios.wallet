@@ -1187,7 +1187,7 @@
 
 - (NSDecimalNumber *)btcDecimalBalance
 {
-    return [NSNumberFormatter formatSatoshiInLocalCurrency:[app.wallet getTotalActiveBalance]];
+    return [NSNumberFormatter formatSatoshiInLocalCurrency:[WalletManager.sharedInstance.wallet getTotalActiveBalance]];
 }
 
 - (NSDecimalNumber *)ethDecimalBalance
@@ -1196,7 +1196,7 @@
     app.localCurrencyFormatter.locale = [NSLocale localeWithLocaleIdentifier:LOCALE_IDENTIFIER_EN_US];
 
     TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
-    NSString *fiatString = [NSNumberFormatter formatEthToFiat:[app.wallet getEthBalance] exchangeRate:tabControllerManager.latestEthExchangeRate];
+    NSString *fiatString = [NSNumberFormatter formatEthToFiat:[WalletManager.sharedInstance.wallet getEthBalance] exchangeRate:tabControllerManager.latestEthExchangeRate];
     NSString *separator = [app.localCurrencyFormatter.locale objectForKey:NSLocaleGroupingSeparator];
     fiatString = [fiatString stringByReplacingOccurrencesOfString:separator withString:@""];
     NSDecimalNumber *balance = [NSDecimalNumber decimalNumberWithString:fiatString ? : @"0"];
@@ -1486,7 +1486,7 @@
     if (assetType == AssetTypeBitcoin) {
         return WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.conversion;
     } else if (assetType == AssetTypeBitcoinCash) {
-        return [app.wallet getBitcoinCashConversion];
+        return [WalletManager.sharedInstance.wallet getBitcoinCashConversion];
     }
     return 0;
 }
@@ -1820,9 +1820,9 @@
     }
     
     if (assetType == AssetTypeBitcoin) {
-        if ([[app.wallet.addressBook objectForKey:address] length] > 0) {
-            return [app.wallet.addressBook objectForKey:address];
-        } else if ([[app.wallet allLegacyAddresses:assetType] containsObject:address]) {
+        if ([[WalletManager.sharedInstance.wallet.addressBook objectForKey:address] length] > 0) {
+            return [WalletManager.sharedInstance.wallet.addressBook objectForKey:address];
+        } else if ([[WalletManager.sharedInstance.wallet allLegacyAddresses:assetType] containsObject:address]) {
             NSString *label = [self checkIfWalletHasAddress:address] ? [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.labelForLegacyAddress(\"%@\")", [address escapeStringForJS]]] toString] : nil;
             if (label && ![label isEqualToString:@""])
                 return label;
@@ -2988,7 +2988,7 @@
 
 - (NSString *)getEthBalanceTruncated
 {
-    if ([self isInitialized] && [app.wallet hasEthAccount]) {
+    if ([self isInitialized] && [WalletManager.sharedInstance.wallet hasEthAccount]) {
         NSNumber *balanceNumber = [[self.context evaluateScript:@"MyWalletPhone.getEthBalance()"] toNumber];
         return [app.btcFormatter stringFromNumber:balanceNumber];
     } else {
@@ -3182,7 +3182,7 @@
 
 - (uint64_t)getBchBalance
 {
-    if ([self isInitialized] && [app.wallet hasBchAccount]) {
+    if ([self isInitialized] && [WalletManager.sharedInstance.wallet hasBchAccount]) {
         return [[[self.context evaluateScript:@"MyWalletPhone.bch.getBalance()"] toNumber] longLongValue];
     }
     DLog(@"Warning: getting bch balance when not initialized - returning 0");
@@ -3361,7 +3361,7 @@
 - (void)on_fetch_needs_two_factor_code
 {
     DLog(@"on_fetch_needs_two_factor_code");
-    int twoFactorType = [[app.wallet get2FAType] intValue];
+    int twoFactorType = [[WalletManager.sharedInstance.wallet get2FAType] intValue];
     if (twoFactorType == TWO_STEP_AUTH_TYPE_GOOGLE) {
         [app verifyTwoFactorGoogle];
     } else if (twoFactorType == TWO_STEP_AUTH_TYPE_SMS) {
@@ -4439,7 +4439,7 @@
     if ([self.delegate respondsToSelector:@selector(didSendPaymentRequest:amount:name:requestId:)]) {
         [self.delegate didSendPaymentRequest:[info toDictionary]
                                       amount:[[intendedAmount toNumber] longLongValue]
-                                        name:[app.wallet.contacts objectForKey:[userId toString]].name
+                                        name:[WalletManager.sharedInstance.wallet.contacts objectForKey:[userId toString]].name
                                    requestId:[requestId isUndefined] ? nil : [requestId toString]];
     } else {
         DLog(@"Error: delegate of class %@ does not respond to selector didSendPaymentRequest:name:!", [delegate class]);
@@ -4489,7 +4489,7 @@
     [self getMessages];
 
     if ([self.delegate respondsToSelector:@selector(didRequestPaymentRequest:name:)]) {
-        [self.delegate didRequestPaymentRequest:[info toDictionary] name:[app.wallet.contacts objectForKey:[userId toString]].name];
+        [self.delegate didRequestPaymentRequest:[info toDictionary] name:[WalletManager.sharedInstance.wallet.contacts objectForKey:[userId toString]].name];
     } else {
         DLog(@"Error: delegate of class %@ does not respond to selector didRequestPaymentRequest:name!", [delegate class]);
     }
@@ -4740,7 +4740,7 @@
 
 - (void)on_get_exchange_rate_success:(NSDictionary *)result
 {
-    NSNumber *btcRateNumber = [[[self.context evaluateScript:@"MyWalletPhone.currencyCodeForHardLimit()"] toString] isEqualToString:CURRENCY_CODE_USD] ? [[[app.wallet currencySymbols] objectForKey:CURRENCY_CODE_USD] objectForKey:DICTIONARY_KEY_LAST] : [[[app.wallet currencySymbols] objectForKey:CURRENCY_CODE_EUR] objectForKey:DICTIONARY_KEY_LAST];
+    NSNumber *btcRateNumber = [[[self.context evaluateScript:@"MyWalletPhone.currencyCodeForHardLimit()"] toString] isEqualToString:CURRENCY_CODE_USD] ? [[[WalletManager.sharedInstance.wallet currencySymbols] objectForKey:CURRENCY_CODE_USD] objectForKey:DICTIONARY_KEY_LAST] : [[[WalletManager.sharedInstance.wallet currencySymbols] objectForKey:CURRENCY_CODE_EUR] objectForKey:DICTIONARY_KEY_LAST];
     
     NSDecimalNumber *btcRate = [NSDecimalNumber decimalNumberWithDecimal:[btcRateNumber decimalValue]];
     NSDecimalNumber *ethRate = [NSDecimalNumber decimalNumberWithString:[result objectForKey:DICTIONARY_KEY_ETH_HARD_LIMIT_RATE]];
@@ -5014,7 +5014,7 @@
         if (![self isInitialized]) {
             return nil;
         }
-        if ([app.wallet hasEthAccount]) {
+        if ([WalletManager.sharedInstance.wallet hasEthAccount]) {
             return [[self.context evaluateScript:@"MyWalletPhone.getEthBalance()"] toString];
         }
     }

@@ -121,11 +121,11 @@
                 [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_PARSING_PAIRING_CODE];
             });
             
-            [app.wallet loadBlankWallet];
+            [WalletManager.sharedInstance.wallet loadBlankWallet];
             
-            app.wallet.delegate = self;
+            WalletManager.sharedInstance.wallet.delegate = self;
             
-            [app.wallet parsePairingCode:[metadataObj stringValue]];
+            [WalletManager.sharedInstance.wallet parsePairingCode:[metadataObj stringValue]];
         }
     }
 }

@@ -89,7 +89,7 @@
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundUpdateTask;
 
 @property (strong, nonatomic) IBOutlet UIWindow *window;
-@property (strong, nonatomic) Wallet *wallet;
+//@property (strong, nonatomic) Wallet *wallet;
 //@property (strong, nonatomic) MultiAddressResponse *latestResponse;
 
 //@property (strong, nonatomic) IBOutlet BCModalView *modalView;

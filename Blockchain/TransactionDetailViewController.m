@@ -110,7 +110,7 @@ const CGFloat rowHeightValueReceived = 80;
 
 - (void)getFiatAtTime
 {
-    [app.wallet getFiatAtTime:self.transactionModel.time value:self.transactionModel.decimalAmount currencyCode:[WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code lowercaseString] assetType:self.transactionModel.assetType];
+    [WalletManager.sharedInstance.wallet getFiatAtTime:self.transactionModel.time value:self.transactionModel.decimalAmount currencyCode:[WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code lowercaseString] assetType:self.transactionModel.assetType];
     self.isGettingFiatAtTime = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDataAfterGetFiatAtTime) name:NOTIFICATION_KEY_GET_FIAT_AT_TIME object:nil];
 }
@@ -118,7 +118,7 @@ const CGFloat rowHeightValueReceived = 80;
 - (NSString *)getNotePlaceholder
 {
     if (self.transactionModel.assetType == AssetTypeBitcoin) {
-        NSString *label = [app.wallet getNotePlaceholderForTransactionHash:self.transactionModel.myHash];
+        NSString *label = [WalletManager.sharedInstance.wallet getNotePlaceholderForTransactionHash:self.transactionModel.myHash];
         return label.length > 0 ? label : nil;
     } else {
         return nil;
@@ -146,17 +146,17 @@ const CGFloat rowHeightValueReceived = 80;
     
     if (self.transactionModel.assetType == AssetTypeBitcoin) {
         [self.busyViewDelegate showBusyViewWithLoadingText:BC_STRING_LOADING_SYNCING_WALLET];
-        [app.wallet saveNote:self.textView.text forTransaction:self.transactionModel.myHash];
+        [WalletManager.sharedInstance.wallet saveNote:self.textView.text forTransaction:self.transactionModel.myHash];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHistoryAfterSavingNote) name:NOTIFICATION_KEY_BACKUP_SUCCESS object:nil];
     } else if (self.transactionModel.assetType == AssetTypeEther) {
-        [app.wallet saveEtherNote:self.textView.text forTransaction:self.transactionModel.myHash];
+        [WalletManager.sharedInstance.wallet saveEtherNote:self.textView.text forTransaction:self.transactionModel.myHash];
     }
 }
 
 - (void)getHistoryAfterSavingNote
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_KEY_BACKUP_SUCCESS object:nil];
-    [app.wallet getHistory];
+    [WalletManager.sharedInstance.wallet getHistory];
 }
 
 - (void)didGetHistory
@@ -180,9 +180,9 @@ const CGFloat rowHeightValueReceived = 80;
     if (self.transactionModel.assetType == AssetTypeBitcoin) {
         newTransactions = WalletManager.sharedInstance.latestMultiAddressResponse.transactions;
     } else if (self.transactionModel.assetType == AssetTypeEther) {
-        newTransactions = app.wallet.etherTransactions;
+        newTransactions = WalletManager.sharedInstance.wallet.etherTransactions;
     } else if (self.transactionModel.assetType == AssetTypeBitcoinCash) {
-        newTransactions = app.wallet.bitcoinCashTransactions;
+        newTransactions = WalletManager.sharedInstance.wallet.bitcoinCashTransactions;
     }
     
     [self findAndUpdateTransaction:newTransactions];
@@ -375,7 +375,7 @@ const CGFloat rowHeightValueReceived = 80;
 - (void)refreshControlActivated
 {
     [self.busyViewDelegate showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
-    [app.wallet performSelector:@selector(getHistory) withObject:nil afterDelay:0.1f];
+    [WalletManager.sharedInstance.wallet performSelector:@selector(getHistory) withObject:nil afterDelay:0.1f];
 }
 
 - (void)showToAddressOptions
@@ -404,8 +404,8 @@ const CGFloat rowHeightValueReceived = 80;
         labelString = self.transactionModel.toString;
     }
     
-    if (self.transactionModel.assetType == AssetTypeBitcoinCash && [app.wallet isValidAddress:address assetType:AssetTypeBitcoinCash]) {
-        address = [app.wallet toBitcoinCash:address includePrefix:NO];
+    if (self.transactionModel.assetType == AssetTypeBitcoinCash && [WalletManager.sharedInstance.wallet isValidAddress:address assetType:AssetTypeBitcoinCash]) {
+        address = [WalletManager.sharedInstance.wallet toBitcoinCash:address includePrefix:NO];
     }
     
     UIAlertController *copyAddressController = [UIAlertController alertControllerWithTitle:labelString message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -498,7 +498,7 @@ const CGFloat rowHeightValueReceived = 80;
 
 - (BOOL)isWatchOnlyLegacyAddress:(NSString *)addr
 {
-    return [app.wallet isWatchOnlyLegacyAddress:addr];
+    return [WalletManager.sharedInstance.wallet isWatchOnlyLegacyAddress:addr];
 }
 
 @end

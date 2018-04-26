@@ -105,13 +105,13 @@ int accountEntries = 0;
     [super viewWillAppear:animated];
     [self clearMenuEntries];
     
-    if ([app.wallet isBuyEnabled]) {
+    if ([WalletManager.sharedInstance.wallet isBuyEnabled]) {
         [self addMenuEntry:entryKeyBuyBitcoin text:BC_STRING_BUY_AND_SELL_BITCOIN icon:@"buy"];
     }
-    if ([app.wallet isExchangeEnabled]) {
+    if ([WalletManager.sharedInstance.wallet isExchangeEnabled]) {
         [self addMenuEntry:entryKeyExchange text:BC_STRING_EXCHANGE icon:@"exchange_menu"];
     }
-    if (!app.wallet.didUpgradeToHd) {
+    if (!WalletManager.sharedInstance.wallet.didUpgradeToHd) {
         [self addMenuEntry:entryKeyUpgradeBackup text:BC_STRING_UPGRADE icon:@"icon_upgrade"];
     } else {
         [self addMenuEntry:entryKeyUpgradeBackup text:BC_STRING_BACKUP_FUNDS icon:@"lock"];
@@ -257,7 +257,7 @@ int accountEntries = 0;
     NSString *rowKey = [self getMenuEntry:indexPath.row][@"key"];
 
     if (rowKey == entryKeyUpgradeBackup) {
-        BOOL didUpgradeToHD = app.wallet.didUpgradeToHd;
+        BOOL didUpgradeToHD = WalletManager.sharedInstance.wallet.didUpgradeToHd;
         if (didUpgradeToHD) {
             [app backupFundsClicked:nil];
         } else {
@@ -292,7 +292,7 @@ int accountEntries = 0;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Empty table if not logged in:
-    if (!app.wallet.guid) {
+    if (!WalletManager.sharedInstance.wallet.guid) {
         return 0;
     }
     

@@ -34,12 +34,66 @@ final class BlockchainSettings: NSObject {
             return App.shared
         }
 
+        @objc var didFailTouchIDSetup: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didFailTouchIDSetup.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didFailTouchIDSetup.rawValue)
+            }
+        }
+
+        @objc var encryptedPinPassword: String? {
+            get {
+                return defaults.string(forKey: UserDefaults.Keys.encryptedPinPassword.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.encryptedPinPassword.rawValue)
+            }
+        }
+
+        @objc var enableCertificatePinning: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.DebugKeys.enableCertificatePinning.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.DebugKeys.enableCertificatePinning.rawValue)
+            }
+        }
+
         @objc var firstRun: Bool {
             get {
                 return defaults.bool(forKey: UserDefaults.Keys.firstRun.rawValue)
             }
             set {
                 defaults.set(newValue, forKey: UserDefaults.Keys.firstRun.rawValue)
+            }
+        }
+
+        @objc var hasEndedFirstSession: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.hasEndedFirstSession.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.hasEndedFirstSession.rawValue)
+            }
+        }
+
+        @objc var hasSeenAllCards: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.hasSeenAllCards.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenAllCards.rawValue)
+            }
+        }
+
+        @objc var hasSeenEmailReminder: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.hasSeenEmailReminder.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenEmailReminder.rawValue)
             }
         }
 
@@ -62,15 +116,6 @@ final class BlockchainSettings: NSObject {
             }
             set {
                 defaults.set(newValue, forKey: UserDefaults.Keys.pinKey.rawValue)
-            }
-        }
-
-        @objc var encryptedPinPassword: String? {
-            get {
-                return defaults.string(forKey: UserDefaults.Keys.encryptedPinPassword.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.encryptedPinPassword.rawValue)
             }
         }
 
@@ -114,10 +159,25 @@ final class BlockchainSettings: NSObject {
             }
         }
 
+        @objc var reminderModalDate: NSDate? {
+            get {
+                return defaults.object(forKey: UserDefaults.Keys.reminderModalDate.rawValue) as? NSDate
+            }
+            set {
+                guard let date = newValue else {
+                    defaults.removeObject(forKey: UserDefaults.Keys.reminderModalDate.rawValue)
+                    return
+                }
+                defaults.set(date, forKey: UserDefaults.Keys.reminderModalDate.rawValue)
+            }
+        }
+
         @objc var sharedKey: String? {
             get {
                 return KeychainItemWrapper.sharedKey()
             }
+           
+            
             set {
                 guard let sharedKey = newValue else {
                     KeychainItemWrapper.removeSharedKeyFromKeychain()
@@ -126,11 +186,57 @@ final class BlockchainSettings: NSObject {
                 KeychainItemWrapper.setSharedKeyInKeychain(sharedKey)
             }
         }
+        
+        @objc var shouldHideAllCards: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.shouldHideAllCards.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.shouldHideAllCards.rawValue)
+            }
+        }
+        
+        @objc var shouldHideBuySellCard: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.shouldHideBuySellCard.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.shouldHideBuySellCard.rawValue)
+            }
+        }
+
+        @objc var shouldShowTouchIDSetup: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.shouldShowTouchIDSetup.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.shouldShowTouchIDSetup.rawValue)
+            }
+        }
+
+        @objc var swipeToReceiveEnabled: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.swipeToReceiveEnabled.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.swipeToReceiveEnabled.rawValue)
+            }
+        }
 
         private override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
             // access an instance of this class.
             super.init()
+            
+            defaults.register(defaults: [
+                UserDefaults.Keys.swipeToReceiveEnabled.rawValue    : true,
+                
+                //: Was initialized with `NSNumber numberWithInt:AssetTypeBitcoin` before, could cause side unwanted effects...
+                // TODO: test for potential side effects
+                UserDefaults.Keys.assetType.rawValue                : AssetType.bitcoin.rawValue,
+                
+                UserDefaults.DebugKeys.enableCertificatePinning.rawValue    : true
+                ])
         }
 
         func clearPin() {

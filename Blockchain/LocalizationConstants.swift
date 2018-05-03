@@ -47,6 +47,10 @@ struct LocalizationConstants {
         static let unsafeDeviceWarningMessage = NSLocalizedString("Your device appears to be jailbroken. The security of your wallet may be compromised.", comment: "")
         static let noInternetConnection = NSLocalizedString("No internet connection.", comment: "")
         static let warning = NSLocalizedString("Warning", comment: "")
+        static let timedOut = NSLocalizedString("Connection timed out. Please check your internet connection.", comment: "")
+        static let invalidServerResponse = NSLocalizedString("Invalid server response. Please check your internet connection.", comment: "")
+        static let invalidStatusCodeReturned = NSLocalizedString("Invalid Status Code Returned %@", comment: "")
+        static let errorLoadingWalletIdentifierFromKeychain = NSLocalizedString("An error was encountered retrieving your wallet identifier from the keychain. Please close the application and try again.", comment: "")
     }
 
     struct Authentication {
@@ -63,6 +67,25 @@ struct LocalizationConstants {
         static let passwordRequired = NSLocalizedString("Password Required", comment: "")
         static let downloadingWallet = NSLocalizedString("Downloading Wallet", comment: "")
         static let noPasswordEntered = NSLocalizedString("No Password Entered", comment: "")
+        static let failedToLoadWallet = NSLocalizedString("Failed To Load Wallet", comment: "")
+        static let failedToLoadWalletDetail = NSLocalizedString("An error was encountered loading your wallet. You may be offline or Blockchain is experiencing difficulties. Please close the application and try again later or re-pair your device.", comment: "")
+        static let forgetWallet = NSLocalizedString("Forget Wallet", comment: "")
+        static let forgetWalletDetail = NSLocalizedString("This will erase all wallet data on this device. Please confirm you have your wallet information saved elsewhere otherwise any bitcoin in this wallet will be inaccessible!!", comment: "")
+        static let enterPassword = NSLocalizedString("Enter Password", comment: "")
+        static let retryValidation = NSLocalizedString("Retry Validation", comment: "")
+
+        struct Pin {
+            static let incorrect = NSLocalizedString("Incorrect PIN. Please retry.", comment: "")
+            static let cannotSaveInvalidWalletState = NSLocalizedString("Cannot save PIN Code while wallet is not initialized or password is null", comment: "")
+            static let responseKeyOrValueLengthZero = NSLocalizedString("PIN Response Object key or value length 0", comment: "")
+            static let encryptedStringIsNil = NSLocalizedString("PIN Encrypted String is nil", comment: "")
+            static let validationCannotBeCompleted = NSLocalizedString("PIN Validation cannot be completed. Please enter your wallet password manually.", comment: "")
+            static let incorrectUnknownError = NSLocalizedString("PIN Code Incorrect. Unknown Error Message.", comment: "")
+            static let responseSuccessLengthZero = NSLocalizedString("PIN Response Object success length 0", comment: "")
+            static let decryptedPasswordLengthZero = NSLocalizedString("Decrypted PIN Password length 0", comment: "")
+            static let validationError = NSLocalizedString("PIN Validation Error", comment: "")
+            static let validationErrorMessage = NSLocalizedString("An error occurred validating your PIN code with the remote server. You may be offline or Blockchain may be experiencing difficulties. Would you like retry validation or instead enter your password manually?", comment: "")
+        }
     }
 
     struct Onboarding {
@@ -86,4 +109,8 @@ struct LocalizationConstants {
     @objc class func passwordRequired() -> String { return LocalizationConstants.Authentication.passwordRequired }
 
     @objc class func downloadingWallet() -> String { return LocalizationConstants.Authentication.downloadingWallet }
+
+    @objc class func timedOut() -> String { return LocalizationConstants.Errors.timedOut }
+
+    @objc class func incorrectPin() -> String { return LocalizationConstants.Authentication.Pin.incorrect }
 }

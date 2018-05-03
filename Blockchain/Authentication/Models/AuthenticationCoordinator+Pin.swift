@@ -27,9 +27,6 @@ extension AuthenticationCoordinator: PEPinEntryControllerDelegate {
 
         showVerifyingBusyView(withTimeout: 30)
 
-        let pinKey = BlockchainSettings.App.shared.pinKey
-        let pinString = pin.toString
-
         // TODO: Handle touch ID
         //        #ifdef ENABLE_TOUCH_ID
         //        if (self.pinEntryViewController.verifyOptional) {
@@ -37,12 +34,21 @@ extension AuthenticationCoordinator: PEPinEntryControllerDelegate {
         //        }
         //        #endif
 
-        // TODO: migrate check for maintenance
+        guard let pinKey = BlockchainSettings.App.shared.pinKey else {
+            return
+        }
 
-        //        dispatch_async(dispatch_get_main_queue(), ^{
-        //            [self checkForMaintenanceWithPinKey:pinKey pin:pin];
-        //        });
-
+        // Check for maintenance before allowing pin entry
+        NetworkManager.shared.checkForMaintenance(withCompletion: { [unowned self] response in
+            LoadingViewPresenter.shared.hideBusyView()
+            guard response == nil else {
+                print("Error checking for maintenance in wallet options: %@", response!)
+                self.pinEntryViewController?.reset()
+                AlertViewPresenter.shared.standardNotify(message: response!, title: LocalizationConstants.Errors.error, handler: nil)
+                return
+            }
+            self.walletManager.wallet.apiGetPINValue(pinKey, pin: pin.toString)
+        })
         self.pinViewControllerCallback = callback
     }
 
@@ -107,6 +113,27 @@ extension AuthenticationCoordinator: PEPinEntryControllerDelegate {
         closePinEntryView(animated: true)
     }
 
+    // MARK: - Internal
+
+    internal func showVerifyingBusyView(withTimeout seconds: Int) {
+        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.verifying)
+
+        // TODO: this timeout approach should be deprecated in favor of checking actual success/error responses
+        if #available(iOS 10.0, *) {
+            loginTimeout = Timer.scheduledTimer(withTimeInterval: TimeInterval(seconds), repeats: false) { [weak self] _ in
+                self?.showLoginError()
+            }
+        } else {
+            loginTimeout = Timer.scheduledTimer(
+                timeInterval: TimeInterval(seconds),
+                target: self,
+                selector: #selector(showLoginError),
+                userInfo: nil,
+                repeats: false
+            )
+        }
+    }
+
     // MARK: - Private
 
     private func reopenChangePin() {
@@ -126,25 +153,6 @@ extension AuthenticationCoordinator: PEPinEntryControllerDelegate {
         UIApplication.shared.keyWindow?.rootViewController?.view.addSubview(pinViewController.view)
 
         pinEntryViewController = pinViewController
-    }
-
-    private func showVerifyingBusyView(withTimeout seconds: Int) {
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.verifying)
-
-        // TODO: this timeout approach should be deprecated in favor of checking actual success/error responses
-        if #available(iOS 10.0, *) {
-            loginTimeout = Timer.scheduledTimer(withTimeInterval: TimeInterval(seconds), repeats: false) { [weak self] _ in
-                self?.showLoginError()
-            }
-        } else {
-            loginTimeout = Timer.scheduledTimer(
-                timeInterval: TimeInterval(seconds),
-                target: self,
-                selector: #selector(showLoginError),
-                userInfo: nil,
-                repeats: false
-            )
-        }
     }
 }
 

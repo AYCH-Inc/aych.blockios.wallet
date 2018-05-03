@@ -235,8 +235,8 @@ void (^secondPasswordSuccess)(NSString *);
 
 - (void)showWelcomeScreen
 {
-    [self checkForMaintenance];
-
+//    [self checkForMaintenance];
+//
 //    BCWelcomeView *welcomeView = [[BCWelcomeView alloc] init];
 //    [welcomeView.createWalletButton addTarget:self action:@selector(showCreateWallet:) forControlEvents:UIControlEventTouchUpInside];
 //    [welcomeView.existingWalletButton addTarget:self action:@selector(showPairWallet:) forControlEvents:UIControlEventTouchUpInside];
@@ -2013,7 +2013,7 @@ void (^secondPasswordSuccess)(NSString *);
 - (void)didReceivePaymentNotice:(NSString *)notice
 {
     if (self.tabControllerManager.tabViewController.selectedIndex == TAB_SEND && busyView.alpha == 0 && !self.pinEntryViewController && !self.tabControllerManager.tabViewController.presentedViewController) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:notice title:BC_STRING_INFORMATION handler: nil];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:notice title:[LocalizationConstantsObjcBridge information] handler: nil];
     }
 }
 
@@ -2504,63 +2504,63 @@ void (^secondPasswordSuccess)(NSString *);
     [self.tabControllerManager showGetAssetsAlert];
 }
 
-- (void)checkForMaintenance
-{
-    [self checkForMaintenanceWithPinKey:nil pin:nil];
-}
+//- (void)checkForMaintenance
+//{
+//    [self checkForMaintenanceWithPinKey:nil pin:nil];
+//}
 
-- (void)checkForMaintenanceWithPinKey:(NSString *)pinKey pin:(NSString *)pin
-{
-    NSURL *url = [NSURL URLWithString:[[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingString:URL_SUFFIX_WALLET_OPTIONS]];
-    // session.sessionDescription = url.host;
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSURLSessionDataTask *task = [[[NetworkManager sharedInstance] session] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (error) {
-                DLog(@"Error checking for maintenance in wallet options: %@", [error localizedDescription]);
-                [self hideBusyView];
-                [self.pinEntryViewController reset];
-                [self showMaintenanceAlertWithTitle:BC_STRING_ERROR message:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION];
-            }
-            NSError *jsonError;
-            NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-            if (jsonError) {
-                DLog(@"Error parsing response from checking for maintenance in wallet options: %@", [error localizedDescription]);
-                [self hideBusyView];
-                [self.pinEntryViewController reset];
-                [self showMaintenanceAlertWithTitle:BC_STRING_ERROR message:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION];
-            } else {
-                if ([[result objectForKey:DICTIONARY_KEY_MAINTENANCE] boolValue]) {
-                    NSDictionary *mobileInfo = [result objectForKey:DICTIONARY_KEY_MOBILE_INFO];
-                    NSString *message = [mobileInfo objectForKey:[[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode]] ? : [mobileInfo objectForKey:@"en"];
-                    [self hideBusyView];
-                    [self.pinEntryViewController reset];
-                    [self showMaintenanceAlertWithTitle:BC_STRING_INFORMATION message:message];
-                } else {
-                    if (pinKey && pin) {
-                        [WalletManager.sharedInstance.wallet apiGetPINValue:pinKey pin:pin];
-                    }
-                }
-            }
-        });
-    }];
-    [task resume];
-}
+//- (void)checkForMaintenanceWithPinKey:(NSString *)pinKey pin:(NSString *)pin
+//{
+//    NSURL *url = [NSURL URLWithString:[[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingString:URL_SUFFIX_WALLET_OPTIONS]];
+//    // session.sessionDescription = url.host;
+//    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+//    NSURLSessionDataTask *task = [[[NetworkManager sharedInstance] session] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            if (error) {
+//                DLog(@"Error checking for maintenance in wallet options: %@", [error localizedDescription]);
+//                [self hideBusyView];
+//                [self.pinEntryViewController reset];
+//                [self showMaintenanceAlertWithTitle:BC_STRING_ERROR message:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION];
+//            }
+//            NSError *jsonError;
+//            NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+//            if (jsonError) {
+//                DLog(@"Error parsing response from checking for maintenance in wallet options: %@", [error localizedDescription]);
+//                [self hideBusyView];
+//                [self.pinEntryViewController reset];
+//                [self showMaintenanceAlertWithTitle:BC_STRING_ERROR message:BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION];
+//            } else {
+//                if ([[result objectForKey:DICTIONARY_KEY_MAINTENANCE] boolValue]) {
+//                    NSDictionary *mobileInfo = [result objectForKey:DICTIONARY_KEY_MOBILE_INFO];
+//                    NSString *message = [mobileInfo objectForKey:[[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode]] ? : [mobileInfo objectForKey:@"en"];
+//                    [self hideBusyView];
+//                    [self.pinEntryViewController reset];
+//                    [self showMaintenanceAlertWithTitle:BC_STRING_INFORMATION message:message];
+//                } else {
+//                    if (pinKey && pin) {
+//                        [WalletManager.sharedInstance.wallet apiGetPINValue:pinKey pin:pin];
+//                    }
+//                }
+//            }
+//        });
+//    }];
+//    [task resume];
+//}
 
-- (void)showMaintenanceAlertWithTitle:(NSString *)title message:(NSString *)message
-{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        UIApplication *app = [UIApplication sharedApplication];
-        [app performSelector:@selector(suspend)];
-    }]];
-
-    if ([UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController) {
-        [[UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController presentViewController:alert animated:YES completion:nil];
-    } else {
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
-    }
-}
+//- (void)showMaintenanceAlertWithTitle:(NSString *)title message:(NSString *)message
+//{
+//    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+//    [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//        UIApplication *app = [UIApplication sharedApplication];
+//        [app performSelector:@selector(suspend)];
+//    }]];
+//
+//    if ([UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController) {
+//        [[UIApplication sharedApplication].keyWindow.rootViewController.presentedViewController presentViewController:alert animated:YES completion:nil];
+//    } else {
+//        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+//    }
+//}
 
 #pragma mark - Show Screens
 

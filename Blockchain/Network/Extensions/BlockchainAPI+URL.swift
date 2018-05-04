@@ -23,7 +23,7 @@ extension BlockchainAPI {
         return "https://\(host)"
     }
     var walletOptionsUrl: String? {
-        return "https://\(Endpoints.blockchainWallet)/Resources/wallet-options.json"
+        return "https://\(Endpoints.blockchainWallet.rawValue)/Resources/wallet-options.json"
     }
     var buyWebViewUrl: String? {
         guard let hostAndPath = Bundle.main.infoDictionary!["BUY_WEBVIEW_URL"] as? String else {

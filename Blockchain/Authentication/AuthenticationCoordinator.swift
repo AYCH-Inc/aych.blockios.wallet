@@ -169,30 +169,6 @@ import Foundation
         // [self migratePasswordAndPinFromNSUserDefaults];
     }
 
-    /// Unauthenticates the user
-    @objc func logout(showPasswordView: Bool) {
-        loginTimeout?.invalidate()
-
-        BlockchainSettings.App.shared.clearPin()
-
-        walletManager.latestMultiAddressResponse = nil
-        walletManager.closeWebSockets(withCloseCode: .loggedOut)
-
-        let wallet = walletManager.wallet
-        wallet.resetSyncStatus()
-        wallet.loadBlankWallet()
-        wallet.hasLoadedAccountInfo = false
-
-        let appCoordinator = AppCoordinator.shared
-        appCoordinator.tabControllerManager.clearSendToAddressAndAmountFields()
-        appCoordinator.closeSideMenu()
-        appCoordinator.reload()
-
-        if showPasswordView {
-            showPasswordModal()
-        }
-    }
-
     @objc func startNewWalletSetUp() {
         let setUpWalletViewController = WalletSetupViewController(setupDelegate: self)!
         let topMostViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController
@@ -210,6 +186,88 @@ import Foundation
             closeType: ModalCloseTypeBack,
             showHeader: true,
             headerText: LocalizationConstants.Authentication.manualPairing
+        )
+    }
+
+    /// Starts the wallet pairing flow by scanning a QR code
+    func startQRCodePairing() {
+        // Check that we have access to the camera
+        do {
+            _ = try AVCaptureDeviceInput.deviceInputForQRScanner()
+        } catch let error as AVCaptureDeviceError {
+            switch error.type {
+            case .notAuthorized:
+                AlertViewPresenter.shared.showNeedsCameraPermissionAlert()
+            default:
+                AlertViewPresenter.shared.standardNotify(message: error.localizedDescription)
+            }
+            return
+        } catch {
+            AlertViewPresenter.shared.standardNotify(message: error.localizedDescription)
+        }
+
+        let pairingCodeParserViewController = PairingCodeParser(success: { [weak self] response in
+            guard let strongSelf = self else { return }
+            guard let dictResponse = response else { return }
+
+            let payload = PasscodePayload(dictionary: dictResponse)
+            AuthenticationManager.shared.authenticate(using: payload, andReply: strongSelf.authHandler)
+        }, error: { error in
+            guard let errorMessage = error else { return }
+            AlertViewPresenter.shared.standardNotify(message: errorMessage)
+        })!
+        UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
+            pairingCodeParserViewController,
+            animated: true
+        )
+    }
+
+    /// Unauthenticates the user
+    @objc func logout(showPasswordView: Bool) {
+        loginTimeout?.invalidate()
+
+        BlockchainSettings.App.shared.clearPin()
+
+        WalletManager.shared.close()
+
+        let appCoordinator = AppCoordinator.shared
+        appCoordinator.tabControllerManager.clearSendToAddressAndAmountFields()
+        appCoordinator.closeSideMenu()
+        appCoordinator.reload()
+
+        if showPasswordView {
+            showPasswordModal()
+        }
+    }
+
+    /// Method to "cleanup" state when the app is backgrounded.
+    func cleanupOnAppBackgrounded() {
+        guard let pinEntryViewController = pinEntryViewController else { return }
+        if !pinEntryViewController.verifyOnly || !pinEntryViewController.inSettings {
+            closePinEntryView(animated: false)
+        }
+    }
+
+    // MARK: - Forget Wallet Presentation
+
+    @objc func showForgetWalletConfirmAlert() {
+        let alert = UIAlertController(
+            title: LocalizationConstants.Errors.warning,
+            message: LocalizationConstants.Authentication.forgetWalletDetail,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: LocalizationConstants.cancel, style: .cancel))
+        alert.addAction(
+            UIAlertAction(title: LocalizationConstants.Authentication.forgetWallet, style: .default) { [unowned self] _ in
+                print("Forgetting wallet")
+                ModalPresenter.shared.closeModal(withTransition: kCATransitionFade)
+                self.walletManager.forgetWallet()
+                OnboardingCoordinator.shared.start()
+            }
+        )
+        UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
+            alert,
+            animated: true
         )
     }
 
@@ -336,6 +394,7 @@ import Foundation
                 guard let strongSelf = self else { return }
 
                 // Can both of these alerts be moved elsewhere?
+                                                                               
                 if strongSelf.walletManager.wallet.isNew {
                     AlertViewPresenter.shared.standardNotify(
                         message: LocalizationConstants.Authentication.didCreateNewWalletMessage,

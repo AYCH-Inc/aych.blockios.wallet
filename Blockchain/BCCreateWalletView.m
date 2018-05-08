@@ -54,9 +54,6 @@
     
     termsOfServiceLabel.font = [UIFont fontWithName:FONT_GILL_SANS_REGULAR size:FONT_SIZE_EXTRA_EXTRA_SMALL];
     termsOfServiceButton.titleLabel.font = [UIFont fontWithName:FONT_GILL_SANS_REGULAR size:FONT_SIZE_EXTRA_EXTRA_SMALL];
-    
-    // If loadBlankWallet is called without a delay, WalletManager.sharedInstance.wallet will still be nil
-    [self performSelector:@selector(createBlankWallet) withObject:nil afterDelay:0.1f];
 }
 
 - (void)createBlankWallet
@@ -383,7 +380,7 @@
     self.tmpPassword = passwordTextField.text;
     
     if (!self.tmpPassword || [self.tmpPassword length] == 0) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_NO_PASSWORD_ENTERED title:BC_STRING_ERROR handler: nil];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:LocalizationConstantsObjcBridge.noPasswordEntered title:BC_STRING_ERROR handler: nil];
         [passwordTextField becomeFirstResponder];
         return NO;
     }

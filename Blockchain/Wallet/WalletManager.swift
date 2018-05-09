@@ -174,6 +174,14 @@ extension WalletManager: WalletDelegate {
         buySellDelegate?.initializeWebView()
     }
 
+    func didCompleteTrade(_ trade: Trade) {
+        buySellDelegate?.didCompleteTrade(trade: trade)
+    }
+
+    func showCompletedTrade(_ txHash: String) {
+        buySellDelegate?.showCompletedTrade(tradeHash: txHash)
+    }
+
     // MARK: - Pin Entry
 
     func didFailGetPinTimeout() {

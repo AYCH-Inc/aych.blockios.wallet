@@ -347,6 +347,22 @@ extension AppCoordinator: WalletBuySellDelegate {
     func initializeWebView() {
         buyBitcoinViewController = BuyBitcoinViewController()
     }
+
+    func didCompleteTrade(trade: Trade) {
+        let actions = [UIAlertAction(title: LocalizationConstants.okString, style: .cancel, handler: nil),
+                       UIAlertAction(title: LocalizationConstants.BuySell.viewDetails, style: .default, handler: { _ in
+                        AppCoordinator.shared.tabControllerManager.showTransactionDetail(forHash: trade.hash)
+                       })]
+        AlertViewPresenter.shared.standardNotify(message: String(format: LocalizationConstants.BuySell.tradeCompletedDetailArg, trade.date),
+                                          title: LocalizationConstants.BuySell.tradeCompleted,
+                                          actions: actions)
+    }
+
+    func showCompletedTrade(tradeHash: String) {
+        AppCoordinator.shared.closeSideMenu()
+        AppCoordinator.shared.tabControllerManager.showTransactions(animated: true)
+        AppCoordinator.shared.tabControllerManager.showTransactionDetail(forHash: tradeHash)
+    }
 }
 
 extension AppCoordinator: TabControllerDelegate {

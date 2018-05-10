@@ -21,3 +21,18 @@ struct Trade {
     let date: String
     let hash: String
 }
+
+extension Trade {
+    init?(dict: [String: String]) {
+        guard let tradeHash = dict[Trade.Keys.tradeHash] else {
+            print("Trade hash not found")
+            return nil
+        }
+        guard let tradeDate = dict[Trade.Keys.created] else {
+            print("Trade date not found")
+            return nil
+        }
+        hash = tradeHash
+        date = tradeDate
+    }
+}

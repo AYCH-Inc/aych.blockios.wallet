@@ -28,6 +28,7 @@ class WalletManager: NSObject {
 
     @objc var didChangePassword: Bool = false
 
+    @objc weak var settingsDelegate: WalletSettingsDelegate?
     weak var authDelegate: WalletAuthDelegate?
     weak var pinEntryDelegate: WalletPinEntryDelegate?
     weak var buySellDelegate: WalletBuySellDelegate?
@@ -167,7 +168,7 @@ extension WalletManager: WalletDelegate {
     func walletDidResendTwoFactorSMS(_ wallet: Wallet!) {
         authDelegate?.didResendTwoFactorSMSCode()
     }
-
+    
     // MARK: - Buy/Sell
 
     func initializeWebView() {

@@ -11,6 +11,8 @@
 #import "Transaction.h"
 #import "Blockchain-Swift.h"
 
+@interface TabControllerManager () <WalletSettingsDelegate>
+@end
 @implementation TabControllerManager
 
 - (instancetype)init
@@ -22,6 +24,8 @@
         NSInteger assetType = [[[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_ASSET_TYPE] integerValue];
         self.assetType = assetType;
         [self.tabViewController.assetSelectorView setSelectedAsset:assetType];
+        
+        [WalletManager sharedInstance].settingsDelegate = self;
     }
     return self;
 }
@@ -46,6 +50,18 @@
         }
     });
 }
+
+#pragma mark - Wallet Settings Delegate
+
+- (void)didChangeLocalCurrency
+{
+    [self.sendBitcoinViewController reloadFeeAmountLabel];
+    [self.sendEtherViewController keepCurrentPayment];
+    [self.receiveBitcoinViewController doCurrencyConversion];
+    [self.transactionsEtherViewController reload];
+}
+
+#pragma mark - Reloading
 
 - (void)reload
 {
@@ -372,14 +388,6 @@
         
         [_tabViewController setActiveViewController:_transactionsBitcoinCashViewController animated:animated index:TAB_TRANSACTIONS];
     }
-}
-
-- (void)didChangeLocalCurrency
-{
-    [self.sendBitcoinViewController reloadFeeAmountLabel];
-    [self.sendEtherViewController keepCurrentPayment];
-    [self.receiveBitcoinViewController doCurrencyConversion];
-    [self.transactionsEtherViewController reload];
 }
 
 - (void)setupBitcoinPaymentFromURLHandlerWithAmountString:(NSString *)amountString address:(NSString *)address

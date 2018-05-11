@@ -14,37 +14,39 @@ extension AuthenticationCoordinator {
         isPromptingForBiometricAuthentication = true
         AuthenticationManager.shared.authenticateUsingBiometrics { authenticated, _, authenticationError in
             self.isPromptingForBiometricAuthentication = false
+
             if let error = authenticationError {
                 self.handleBiometricAuthenticationError(with: error)
             }
-            DispatchQueue.main.async { [weak self] in
-                self?.pinEntryViewController?.view.isUserInteractionEnabled = true
+
+            self.pinEntryViewController?.view.isUserInteractionEnabled = true
+
+            guard authenticated else { return }
+
+            self.showVerifyingBusyView(withTimeout: 30)
+
+            guard let pinKey = BlockchainSettings.App.shared.pinKey,
+                let pin = KeychainItemWrapper.pinFromKeychain() else {
+                    AlertViewPresenter.shared.showKeychainReadError()
+                    return
             }
-            if authenticated {
-                DispatchQueue.main.async { [weak self] in
-                    self?.showVerifyingBusyView(withTimeout: 30)
-                }
-                guard let pinKey = BlockchainSettings.App.shared.pinKey,
-                    let pin = KeychainItemWrapper.pinFromKeychain() else {
-                        AlertViewPresenter.shared.showKeychainReadError()
-                        return
+
+            // Check for maintenance before allowing authentication.
+            NetworkManager.shared.checkForMaintenance(withCompletion: { response in
+                LoadingViewPresenter.shared.hideBusyView()
+                guard response == nil else {
+                    print("Error checking for maintenance in wallet options: %@", response!)
+                    AlertViewPresenter.shared.standardNotify(message: response!, title: LocalizationConstants.Errors.error, handler: nil)
+                    return
                 }
                 WalletManager.shared.wallet.apiGetPINValue(pinKey, pin: pin)
-            }
+            })
         }
     }
 
-    // TODO: migrate to the responsible controller that prompts for authentication
-    func handleBiometricAuthenticationError(with error: AuthenticationError) {
+    private func handleBiometricAuthenticationError(with error: AuthenticationError) {
         if let description = error.description {
-            DispatchQueue.main.async {
-                AlertViewPresenter.shared.standardNotify(message: description, title: LocalizationConstants.Errors.error, handler: nil)
-            }
+            AlertViewPresenter.shared.standardNotify(message: description, title: LocalizationConstants.Errors.error, handler: nil)
         }
-    }
-
-    // TODO: migrate to the responsible controller that prompts for authentication
-    func handlePasscodeAuthenticationError(with error: AuthenticationError) {
-        // TODO: implement handlePasscodeAuthenticationError
     }
 }

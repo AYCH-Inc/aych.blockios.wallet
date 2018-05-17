@@ -23,7 +23,7 @@ import Foundation
     /// Authentication handler - this should not be a property of AuthenticationCoordinator
     /// but the current way wallet creation is designed, we need to share this handler
     /// with that flow. Eventually, wallet creation should be moved with AuthenticationCoordinator
-    lazy var authHandler: AuthenticationManager.Handler = { [weak self] isAuthenticated, _, error in
+    lazy var authHandler: AuthenticationManager.WalletAuthHandler = { [weak self] isAuthenticated, _, error in
         guard let strongSelf = self else { return }
 
         LoadingViewPresenter.shared.hideBusyView()
@@ -68,12 +68,12 @@ import Foundation
             let timeIntervalBetweenPrompts = Constants.Time.securityReminderModalTimeInterval
 
             if dateOfLastSecurityReminder.timeIntervalSinceNow < -timeIntervalBetweenPrompts {
-                ReminderCoordinator.shared.showSecurityReminder()
+                ReminderPresenter.shared.showSecurityReminder()
             }
         } else if BlockchainSettings.App.shared.hasSeenEmailReminder {
-            ReminderCoordinator.shared.showSecurityReminder()
+            ReminderPresenter.shared.showSecurityReminder()
         } else {
-            ReminderCoordinator.shared.checkIfSettingsLoadedAndShowEmailReminder()
+            ReminderPresenter.shared.checkIfSettingsLoadedAndShowEmailReminder()
         }
 
         let tabControllerManager = AppCoordinator.shared.tabControllerManager
@@ -118,10 +118,12 @@ import Foundation
     private var isPinEntryModalPresented: Bool {
         let rootViewController = UIApplication.shared.keyWindow!.rootViewController!
         let tabControllerManager = AppCoordinator.shared.tabControllerManager
-        return !(pinEntryViewController == nil ||
-            pinEntryViewController!.isBeingDismissed ||
-            !pinEntryViewController!.view.isDescendant(of: rootViewController.view) ||
-            tabControllerManager.tabViewController.presentedViewController != pinEntryViewController)
+        guard let pinEntryViewController = pinEntryViewController else {
+            return false
+        }
+        return (tabControllerManager.tabViewController.presentedViewController == pinEntryViewController &&
+            !pinEntryViewController.isBeingDismissed) ||
+            pinEntryViewController.view.isDescendant(of: rootViewController.view)
     }
 
     /// Flag used to indicate whether the device is prompting for biometric authentication.

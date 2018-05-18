@@ -18,5 +18,4 @@
 @property (nonatomic) NSString *busyViewText;
 
 - (id)initWithAssetType:(LegacyAssetType)assetType success:(void (^)(NSString*))__success error:(void (^)(NSString*))__error acceptPublicKeys:(BOOL)acceptPublicKeys busyViewText:(NSString *)text;
-
 @end

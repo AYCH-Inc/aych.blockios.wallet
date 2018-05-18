@@ -274,7 +274,7 @@ const int aboutPrivacyPolicy = 2;
 
 - (void)alertUserOfSuccess:(NSString *)successMessage
 {
-    UIAlertController *alertForSuccess = [UIAlertController alertControllerWithTitle:BC_STRING_SUCCESS message:successMessage preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertForSuccess = [UIAlertController alertControllerWithTitle:[LocalizationConstantsObjcBridge success] message:successMessage preferredStyle:UIAlertControllerStyleAlert];
     [alertForSuccess addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];
     if (self.alertTargetViewController) {
         [self.alertTargetViewController presentViewController:alertForSuccess animated:YES completion:nil];
@@ -864,12 +864,12 @@ const int aboutPrivacyPolicy = 2;
 
     [WalletManager.sharedInstance.wallet disableEmailNotifications];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeEmailAfterDisablingNotifications) name:NOTIFICATION_KEY_BACKUP_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeEmailAfterDisablingNotifications) name:[ConstantsObjcBridge notificationKeyBackupSuccess] object:nil];
 }
 
 - (void)changeEmailAfterDisablingNotifications
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_KEY_BACKUP_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:[ConstantsObjcBridge notificationKeyBackupSuccess] object:nil];
     [self changeEmail:self.enteredEmailString];
 }
 
@@ -880,7 +880,7 @@ const int aboutPrivacyPolicy = 2;
         [self resendVerificationEmail];
     }]];
     [alertForVerifyingEmail addAction:[UIAlertAction actionWithTitle:BC_STRING_OPEN_MAIL_APP style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSURL *mailURL = [NSURL URLWithString:PREFIX_MAIL_URI];
+        NSURL *mailURL = [NSURL URLWithString:[ConstantsObjcBridge mailUrl]];
         if ([[UIApplication sharedApplication] canOpenURL:mailURL]) {
             [[UIApplication sharedApplication] openURL:mailURL];
         }

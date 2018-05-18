@@ -66,6 +66,7 @@ struct Constants {
         static let reloadToDismissViews = NSNotification.Name("reloadToDismissViews")
         static let newAddress = NSNotification.Name("newAddress")
         static let appEnteredBackground = NSNotification.Name("applicationDidEnterBackground")
+        static let backupSuccess = NSNotification.Name("backupSuccess")
     }
     struct PushNotificationKeys {
         static let userInfoType = "type"
@@ -73,10 +74,12 @@ struct Constants {
         static let typePayment = "payment"
     }
     struct Schemes {
-        static let mail = "message://"
-        static let blockchainWallet = "blockchain-wallet"
-        static let blockchain = "blockchain"
         static let bitcoin = "bitcoin"
+        static let bitcoinCash = "bitcoincash"
+        static let blockchain = "blockchain"
+        static let blockchainWallet = "blockchain-wallet"
+        static let ethereum = "ethereum"
+        static let mail = "message"
     }
     struct Security {
         static let pinPBKDF2Iterations = 1 // This does not need to be large because the key is already 256 bits
@@ -115,6 +118,26 @@ struct Constants {
 
     @objc class func notificationKeyNewAddress() -> String {
         return Constants.NotificationKeys.newAddress.rawValue
+    }
+
+    @objc class func notificationKeyBackupSuccess() -> String {
+        return Constants.NotificationKeys.backupSuccess.rawValue
+    }
+
+    @objc class func bitcoinUriPrefix() -> String {
+        return Constants.Schemes.bitcoin
+    }
+
+    @objc class func bitcoinCashUriPrefix() -> String {
+        return Constants.Schemes.bitcoinCash
+    }
+
+    @objc class func ethereumUriPrefix() -> String {
+        return Constants.Schemes.ethereum
+    }
+
+    @objc class func mailUrl() -> String {
+        return Constants.Schemes.mail
     }
 }
 

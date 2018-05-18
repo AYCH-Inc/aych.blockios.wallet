@@ -525,7 +525,7 @@ BOOL displayingLocalSymbolSend;
              
              DLog(@"SendViewController: on_success");
              
-             UIAlertController *paymentSentAlert = [UIAlertController alertControllerWithTitle:BC_STRING_SUCCESS message:BC_STRING_PAYMENT_SENT preferredStyle:UIAlertControllerStyleAlert];
+             UIAlertController *paymentSentAlert = [UIAlertController alertControllerWithTitle:[LocalizationConstantsObjcBridge success] message:BC_STRING_PAYMENT_SENT preferredStyle:UIAlertControllerStyleAlert];
              [paymentSentAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                  if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_HIDE_APP_REVIEW_PROMPT]) {
                      
@@ -1953,12 +1953,12 @@ BOOL displayingLocalSymbolSend;
                                       
     [WalletManager.sharedInstance.wallet archiveTransferredAddresses:self.transferAllPaymentBuilder.transferAllAddressesTransferred];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishedArchivingTransferredAddresses) name:NOTIFICATION_KEY_BACKUP_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishedArchivingTransferredAddresses) name:[ConstantsObjcBridge notificationKeyBackupSuccess] object:nil];
 }
 
 - (void)finishedArchivingTransferredAddresses
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_KEY_BACKUP_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:[ConstantsObjcBridge notificationKeyBackupSuccess] object:nil];
     [[ModalPresenter sharedInstance] closeAllModals];
 }
 
@@ -1994,7 +1994,7 @@ BOOL displayingLocalSymbolSend;
             
             // do something useful with results
             dispatch_sync(dispatch_get_main_queue(), ^{
-                NSDictionary *dict = [app parseURI:[metadataObj stringValue] prefix:PREFIX_BITCOIN_URI];
+                NSDictionary *dict = [app parseURI:[metadataObj stringValue] prefix:[ConstantsObjcBridge bitcoinUriPrefix]];
                 
                 NSString *address = [dict objectForKey:DICTIONARY_KEY_ADDRESS];
                 
@@ -2003,7 +2003,7 @@ BOOL displayingLocalSymbolSend;
                     return;
                 }
                 
-                if ([address containsString:PREFIX_BITCOIN_CASH]) address = [address substringFromIndex:[PREFIX_BITCOIN_CASH length]];
+                if ([address containsString:[ConstantsObjcBridge bitcoinCashUriPrefix]]) address = [address substringFromIndex:[[ConstantsObjcBridge bitcoinCashUriPrefix] length]];
 
                 toField.text = [WalletManager.sharedInstance.wallet labelForLegacyAddress:address assetType:self.assetType];
                 self.toAddress = address;

@@ -228,11 +228,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 
 #define INFO_PLIST_KEY_CFBUNDLE_SHORT_VERSION_STRING @"CFBundleShortVersionString"
 
-#define PREFIX_BITCOIN_URI @"bitcoin:"
-#define PREFIX_ETHEREUM_URI @"ethereum:"
-#define PREFIX_BITCOIN_CASH @"bitcoincash:"
-#define PREFIX_MAIL_URI @"message://"
-
 #define TX_TYPE_TRANSFER @"transfer"
 #define TX_TYPE_SENT @"sent"
 #define TX_TYPE_RECEIVED @"received"
@@ -261,20 +256,13 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define ERROR_BELOW_DUST_THRESHOLD @"BELOW_DUST_THRESHOLD"
 #define ERROR_NO_UNSPENT_OUTPUTS @"NO_UNSPENT_OUTPUTS"
 #define ERROR_AMOUNTS_ADDRESSES_MUST_EQUAL @"The number of destiny addresses and destiny amounts should be the same."
-#define ERROR_NEEDS_BIP38 @"needsBip38"
-#define ERROR_PRESENT_IN_WALLET @"presentInWallet"
-#define ERROR_NOT_PRESENT_IN_WALLET @"addressNotPresentInWallet"
-#define ERROR_ADDRESS_NOT_WATCH_ONLY @"addressNotWatchOnly"
 #define ERROR_WRONG_PRIVATE_KEY @"wrongPrivateKey"
-#define ERROR_WRONG_BIP_PASSWORD @"wrongBipPass"
-#define ERROR_PRIVATE_KEY_OF_ANOTHER_WATCH_ONLY_ADDRESS @"privateKeyOfAnotherNonWatchOnlyAddress"
 #define ERROR_TYPE_MUST_START_WITH_NUMBER @"TypeError: must start with number"
 #define ERROR_FIRST_ARGUMENT_MUST_BE_STRING @"TypeError: First argument must be a string"
 #define ERROR_INVALID_PAIRING_VERSION_CODE @"Invalid Pairing Version Code"
 
 // TODO: Move these in Constants.NotificationKeys
 #define NOTIFICATION_KEY_LOADING_TEXT @"SetLoadingText"
-#define NOTIFICATION_KEY_BACKUP_SUCCESS @"backupSuccess"
 #define NOTIFICATION_KEY_RELOAD_ACCOUNTS_AND_ADDRESSES @"reloadAccountsAndAddresses"
 #define NOTIFICATION_KEY_MULTIADDRESS_RESPONSE_RELOAD @"multiaddressResponseReload"
 #define NOTIFICATION_KEY_GET_FIAT_AT_TIME @"getFiatAtTime"

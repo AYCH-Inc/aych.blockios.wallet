@@ -285,26 +285,32 @@
 
 #pragma mark - Wallet Send Ether Delegate
 
-- (void)didUpdateEthPaymentWithPayment:(NSDictionary * _Nonnull)payment
-{
-    [_sendEtherViewController didUpdatePayment:payment];
-}
-
 - (void)didSendEther
 {
     [self.sendEtherViewController reload];
-    [self.tabViewController didSendEther];
-    [self showTransactionsAnimated:YES];
-}
+    
+    [[ModalPresenter sharedInstance] closeAllModals];
 
-- (void)didErrorDuringEtherSendWithError:(NSString * _Nonnull)error
-{
-    [self.tabViewController didErrorDuringEtherSend:error];
+    [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_PAYMENT_SENT_ETHER title:[LocalizationConstantsObjcBridge success] handler:nil];
+    
+    [self showTransactionsAnimated:YES];
 }
 
 - (void)didGetEtherAddressWithSecondPassword
 {
     [_receiveEtherViewController showEtherAddress];
+}
+
+- (void)didErrorDuringEtherSendWithError:(NSString * _Nonnull)error
+{
+    [[ModalPresenter sharedInstance] closeAllModals];
+
+    [[AlertViewPresenter sharedInstance] standardErrorWithMessage:error title:nil handler:nil]l
+}
+
+- (void)didUpdateEthPaymentWithPayment:(NSDictionary * _Nonnull)payment
+{
+    [_sendEtherViewController didUpdatePayment:payment];
 }
 
 #pragma mark - Receive

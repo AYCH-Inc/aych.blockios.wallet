@@ -11,7 +11,7 @@
 #import "Transaction.h"
 #import "Blockchain-Swift.h"
 
-@interface TabControllerManager () <WalletSettingsDelegate, WalletSendBitcoinDelegate, WalletSendEtherDelegate, WalletExchangeDelegate, WalletTransactionDelegate>
+@interface TabControllerManager () <WalletSettingsDelegate, WalletSendBitcoinDelegate, WalletSendEtherDelegate, WalletExchangeIntermediateDelegate, WalletTransactionDelegate>
 @end
 @implementation TabControllerManager
 
@@ -29,7 +29,7 @@
         walletManager.settingsDelegate = self;
         walletManager.sendBitcoinDelegate = self;
         walletManager.sendEtherDelegate = self;
-        walletManager.exchangeDelegate = self;
+        walletManager.exchangeIntermediateDelegate = self;
         walletManager.transactionDelegate = self;
     }
     return self;
@@ -736,36 +736,6 @@
     [self exchangeClicked];
 }
 
-- (void)didGetExchangeTrades:(NSArray *)trades
-{
-    [self.exchangeOverviewViewController didGetExchangeTrades:trades];
-}
-
-- (void)didGetExchangeRate:(NSDictionary *)result
-{
-    [self.exchangeOverviewViewController didGetExchangeRate:result];
-}
-
-- (void)didGetAvailableEthBalance:(NSDictionary *)result
-{
-    [self.exchangeOverviewViewController didGetAvailableEthBalance:result];
-}
-
-- (void)didGetAvailableBtcBalance:(NSDictionary *)result
-{
-    [self.exchangeOverviewViewController didGetAvailableBtcBalance:result];
-}
-
-- (void)didBuildExchangeTrade:(NSDictionary *)tradeInfo
-{
-    [self.exchangeOverviewViewController didBuildExchangeTrade:tradeInfo];
-}
-
-- (void)didShiftPayment:(NSDictionary *)info
-{
-    [self.exchangeOverviewViewController didShiftPayment:info];
-}
-
 - (void)showGetAssetsAlert
 {
     UIAlertController *showGetAssetsAlert = [UIAlertController alertControllerWithTitle:BC_STRING_NO_FUNDS_TO_EXCHANGE_TITLE message:BC_STRING_NO_FUNDS_TO_EXCHANGE_MESSAGE preferredStyle:UIAlertControllerStyleAlert];
@@ -802,36 +772,6 @@
     }]];
     
     [self.tabViewController.presentedViewController presentViewController:showGetAssetsAlert animated:YES completion:nil];
-}
-
-- (void)didBuildExchangeTradeWithTradeInfo:(NSDictionary * _Nonnull)tradeInfo
-{
-    [self.exchangeOverviewViewController didBuildExchangeTrade:tradeInfo];
-}
-
-- (void)didGetAvailableBtcBalanceWithResult:(NSDictionary * _Nonnull)result
-{
-    [self.exchangeOverviewViewController didGetAvailableBtcBalance:result];
-}
-
-- (void)didGetAvailableEthBalanceWithResult:(NSDictionary * _Nonnull)result
-{
-    [self.exchangeOverviewViewController didGetAvailableEthBalance:result];
-}
-
-- (void)didGetExchangeRateWithRate:(NSDictionary * _Nonnull)rate
-{
-    [self.exchangeOverviewViewController didGetExchangeRate:rate];
-}
-
-- (void)didGetExchangeTradesWithTrades:(NSArray * _Nonnull)trades
-{
-    [self.exchangeOverviewViewController didGetExchangeTrades:trades];
-}
-
-- (void)didShiftPaymentWithInfo:(NSDictionary * _Nonnull)info
-{
-    [self.exchangeOverviewViewController didShiftPayment:info];
 }
 
 @end

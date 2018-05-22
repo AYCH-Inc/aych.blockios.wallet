@@ -235,6 +235,24 @@ import Foundation
             self.sideMenuViewController.reload()
         }
     }
+
+    func reloadAfterMultiAddressResponse() {
+        if WalletManager.shared.wallet.didReceiveMessageForLastTransaction {
+            WalletManager.shared.wallet.didReceiveMessageForLastTransaction = false
+            if let transaction = WalletManager.shared.latestMultiAddressResponse?.transactions.firstObject as? Transaction {
+                tabControllerManager.receiveBitcoinViewController?.paymentReceived(UInt64(abs(transaction.amount)), showBackupReminder: false)
+            }
+        }
+
+        tabControllerManager.reloadAfterMultiAddressResponse()
+        settingsNavigationController.reloadAfterMultiAddressResponse()
+        accountsAndAddressesNavigationController.reload()
+        sideMenuViewController.reload()
+
+        NotificationCenter.default.post(name: Constants.NotificationKeys.reloadToDismissViews, object: nil)
+        NotificationCenter.default.post(name: Constants.NotificationKeys.newAddress, object: nil)
+        NotificationCenter.default.post(name: Constants.NotificationKeys.multiAddressResponseReload, object: nil)
+    }
 }
 
 extension AppCoordinator: SideMenuViewControllerDelegate {
@@ -397,7 +415,7 @@ extension AppCoordinator: TabControllerDelegate {
 extension AppCoordinator: WalletAccountInfoAndExchangeRatesDelegate {
     func didGetAccountInfoAndExchangeRates() {
         LoadingViewPresenter.shared.hideBusyView()
-        reload()
+        reloadAfterMultiAddressResponse()
     }
 }
 

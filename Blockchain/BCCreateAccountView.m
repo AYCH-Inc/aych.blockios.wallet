@@ -78,6 +78,8 @@
     }
 
     if (![WalletManager.sharedInstance.wallet isAccountNameValid:label]) {
+        [[AlertViewPresenter sharedInstance] standardErrorWithMessage:[LocalizationConstantsObjcBridge nameAlreadyInUse] title:[LocalizationConstantsObjcBridge error] handler:nil];
+        [LoadingViewPresenter.sharedInstance hideBusyView];
         return;
     }
 

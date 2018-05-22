@@ -24,7 +24,7 @@
 
 #define CELL_IDENTIFIER_EXCHANGE_CELL @"exchangeCell"
 
-@interface ExchangeOverviewViewController () <UITableViewDelegate, UITableViewDataSource, CloseButtonDelegate, ConfirmStateDelegate>
+@interface ExchangeOverviewViewController () <UITableViewDelegate, UITableViewDataSource, CloseButtonDelegate, ConfirmStateDelegate, WalletExchangeDelegate>
 @property (nonatomic) UITableView *tableView;
 @property (nonatomic) NSArray *trades;
 @property (nonatomic) ExchangeCreateViewController *createViewController;
@@ -37,6 +37,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [WalletManager sharedInstance].exchangeDelegate = self;
     
     self.view.backgroundColor = COLOR_TABLE_VIEW_BACKGROUND_LIGHT_GRAY;
     
@@ -74,6 +76,11 @@
     [super viewWillDisappear:animated];
     
     self.didFinishShift = NO;
+}
+
+- (void)reloadSymbols
+{
+    [self.tableView reloadData];
 }
 
 - (void)setupSubviewsIfNeeded
@@ -178,7 +185,9 @@
     self.createViewController = createViewController;
 }
 
-- (void)didGetExchangeTrades:(NSArray *)trades
+#pragma mark - Wallet Exchange Delegate
+
+- (void)didGetExchangeTradesWithTrades:(NSArray * _Nonnull)trades
 {
     [[LoadingViewPresenter sharedInstance] hideBusyView];
     
@@ -202,27 +211,27 @@
     }
 }
 
-- (void)didGetExchangeRate:(NSDictionary *)result
+- (void)didGetExchangeRateWithRate:(NSDictionary * _Nonnull)rate
 {
-    [self.createViewController didGetExchangeRate:result];
+    [self.createViewController didGetExchangeRate:rate];
 }
 
-- (void)didGetAvailableEthBalance:(NSDictionary *)result
+- (void)didGetAvailableEthBalanceWithResult:(NSDictionary * _Nonnull)result
 {
     [self.createViewController didGetAvailableEthBalance:result];
 }
 
-- (void)didGetAvailableBtcBalance:(NSDictionary *)result
+- (void)didGetAvailableBtcBalanceWithResult:(NSDictionary * _Nonnull)result
 {
     [self.createViewController didGetAvailableBtcBalance:result];
 }
 
-- (void)didBuildExchangeTrade:(NSDictionary *)tradeInfo
+- (void)didBuildExchangeTradeWithTradeInfo:(NSDictionary * _Nonnull)tradeInfo
 {
     [self.createViewController didBuildExchangeTrade:tradeInfo];
 }
 
-- (void)didShiftPayment:(NSDictionary *)info
+- (void)didShiftPaymentWithInfo:(NSDictionary * _Nonnull)info
 {
     BCNavigationController *navigationController = (BCNavigationController *)self.navigationController;
     [navigationController hideBusyView];
@@ -235,11 +244,6 @@
         self.createViewController.navigationController.viewControllers = @[self, self.createViewController];
     }
     [self.navigationController presentViewController:modalViewController animated:YES completion:nil];
-}
-
-- (void)reloadSymbols
-{
-    [self.tableView reloadData];
 }
 
 #pragma mark - Confirm State delegate

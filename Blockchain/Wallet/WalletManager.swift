@@ -318,6 +318,10 @@ extension WalletManager: WalletDelegate {
         addressesDelegate?.didGenerateNewAddress()
     }
 
+    func didSetDefaultAccount() {
+        addressesDelegate?.didSetDefaultAccount()
+    }
+
     // MARK: - Account Info
 
     func walletDidGetAccountInfo(_ wallet: Wallet!) {

@@ -3949,7 +3949,7 @@
     DLog(@"loaded_all_transactions");
 
     if ([self.delegate respondsToSelector:@selector(updateLoadedAllTransactions:)]) {
-        [self.delegate updateLoadedAllTransactions:loadedAll];
+        [self.delegate updateLoadedAllTransactions:[loadedAll boolValue]];
     }
 }
 

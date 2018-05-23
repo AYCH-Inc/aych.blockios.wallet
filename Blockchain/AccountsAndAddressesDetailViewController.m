@@ -12,7 +12,6 @@
 #import "BCEditAccountView.h"
 #import "BCEditAddressView.h"
 #import "BCQRCodeView.h"
-#import "PrivateKeyReader.h"
 #import "UIViewController+AutoDismiss.h"
 #import "SendBitcoinViewController.h"
 #import "Blockchain-Swift.h"
@@ -468,7 +467,7 @@ typedef enum {
                 case 2: {
                     if (self.address) {
                         if ([WalletManager.sharedInstance.wallet isWatchOnlyLegacyAddress:self.address]) {
-                            [app scanPrivateKeyForWatchOnlyAddress:self.address];
+                            [[WalletManager sharedInstance] scanPrivateKeyForWatchOnlyAddress:self.address];
                         } else {
                             [self toggleArchive];
                         }

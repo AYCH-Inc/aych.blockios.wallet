@@ -200,15 +200,12 @@
         return;
     }
 
-    PrivateKeyReader *privateKeyReader = [[PrivateKeyReader alloc] initWithAssetType:self.assetType acceptPublicKeys:YES];
-    if (privateKeyReader) {
-        privateKeyReader.legacyDelegate = self;
-        [privateKeyReader startReadingQRCode];
-
-        [[NSNotificationCenter defaultCenter] addObserver:privateKeyReader selector:@selector(autoDismiss) name:ConstantsObjcBridge.notificationKeyReloadToDismissViews object:nil];
-
-        [self presentViewController:privateKeyReader animated:YES completion:nil];
-    }
+    [[KeyImportCoordinator sharedInstance] startWith:self
+                                                  in:self
+                                           assetType:self.assetType
+                                    acceptPublicKeys:YES
+                                         loadingText:[LocalizationConstantsObjcBridge loadingImportKey]
+                                           publicKey:nil];
 }
 
 #pragma mark - LegacyPrivateKeyDelegate
@@ -234,12 +231,10 @@
 
 - (void)promptForLabelAfterScan
 {
-    //newest address is the last object in activeKeys
+    // Newest address is the last object in activeKeys
     self.clickedAddress = [allKeys lastObject];
     [self didSelectAddress:self.clickedAddress];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:[ConstantsObjcBridge notificationKeyBackupSuccess]
-                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:[ConstantsObjcBridge notificationKeyBackupSuccess] object:nil];
 }
 
 - (void)displayTransferFundsWarningIfAppropriate

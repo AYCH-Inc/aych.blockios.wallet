@@ -1031,15 +1031,13 @@ BOOL displayingLocalSymbolSend;
 
 - (void)scanPrivateKeyToSendFromWatchOnlyAddress
 {
-    PrivateKeyReader *privateKeyScanner = [[PrivateKeyReader alloc] initWithAssetType:self.assetType acceptPublicKeys:NO];
-    if (privateKeyScanner) {
-        privateKeyScanner.legacyDelegate = self;
-        privateKeyScanner.loadingText = [LocalizationConstantsObjcBridge loadingProcessingKey];
-        [privateKeyScanner startReadingQRCode];
-
-        TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
-        [tabControllerManager.tabViewController presentViewController:privateKeyScanner animated:YES completion:nil];
-    }
+    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+    [[KeyImportCoordinator sharedInstance] startWith:self
+                                                  in:tabControllerManager.tabViewController
+                                           assetType:self.assetType
+                                    acceptPublicKeys:NO
+                                         loadingText:[LocalizationConstantsObjcBridge loadingProcessingKey]
+                                           publicKey:nil];
 }
 
 #pragma mark - LegacyPrivateKeyDelegate

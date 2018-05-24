@@ -13,12 +13,16 @@ import Foundation
 
     static let shared = LoadingViewPresenter()
 
-    @objc private(set) lazy var busyView: BCFadeView = {
+    @objc private lazy var busyView: BCFadeView = {
         let busyView = BCFadeView.instanceFromNib()
         busyView.frame = UIScreen.main.bounds
         busyView.alpha = 0.0
         return busyView
     }()
+
+    @objc var isLoadingShown: Bool {
+        return busyView.superview != nil && busyView.alpha == 1.0
+    }
 
     /// sharedInstance function declared so that the LoadingViewPresenter singleton can be accessed
     /// from Obj-C. Should deprecate this once all Obj-c references have been removed.
@@ -28,75 +32,87 @@ import Foundation
         super.init()
     }
 
-    func initialize() {
-        UIApplication.shared.keyWindow?.rootViewController?.view.addSubview(busyView)
-    }
-
     @objc func hideBusyView() {
-        let topMostViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController
+        DispatchQueue.main.async { [unowned self] in
+            let topMostViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController
 
-        if let topViewController = topMostViewController as? TopViewController {
-            topViewController.hideBusyView?()
-            return
-        }
-
-        if busyView.alpha == 1.0 {
-            busyView.fadeOut()
-        }
-    }
-
-    @objc func showBusyView(withLoadingText text: String) {
-        let topMostViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController
-
-        if let topViewController = topMostViewController as? TopViewController {
-            topViewController.showBusyView?(withLoadingText: text)
-            return
-        }
-
-        // TODO: state check for pinEntryViewController should not be here
-        if let pinEntryViewController = topMostViewController as? PEPinEntryController {
-            if pinEntryViewController.inSettings &&
-                text != LocalizationConstants.syncingWallet &&
-                text != LocalizationConstants.verifying {
-                print("Verify optional PIN view is presented - will not update busy views unless verifying or syncing")
+            if let topViewController = topMostViewController as? TopViewController {
+                topViewController.hideBusyView?()
                 return
             }
+
+            guard self.isLoadingShown else {
+                return
+            }
+
+            // After fading out is completed, it will also be removed from the superview
+            self.busyView.fadeOut()
         }
+    }
 
-        if AppCoordinator.shared.tabControllerManager.isSending() && ModalPresenter.shared.modalView != nil {
-            print("Send progress modal is presented - will not show busy view")
-            return
-        }
+    // TODO: Show/hide/update methods can be called from any thread so we need to make sure to
+    // explicitly dispatch the actions to the main thread. Once the wallet-rearch is completed, the
+    // show/hide/update logic should not be dispatched to the main thread and instead callers should
+    // guarantee to call these methods in the main thread.
+    @objc func showBusyView(withLoadingText text: String) {
+        DispatchQueue.main.async { [unowned self] in
+            let topMostViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController
 
-        busyView.labelBusy.text = text
+            if let topViewController = topMostViewController as? TopViewController {
+                topViewController.showBusyView?(withLoadingText: text)
+                return
+            }
 
-        UIApplication.shared.keyWindow?.rootViewController?.view.bringSubview(toFront: busyView)
+            if AppCoordinator.shared.tabControllerManager.isSending() && ModalPresenter.shared.modalView != nil {
+                print("Send progress modal is presented - will not show busy view")
+                return
+            }
 
-        if busyView.alpha < 1.0 {
-            busyView.fadeIn()
+            guard !self.isLoadingShown else {
+                return
+            }
+
+            self.attachToMainWindow()
+
+            self.busyView.labelBusy.text = text
+            self.busyView.fadeIn()
         }
     }
 
     @objc func updateBusyViewLoadingText(text: String) {
-        let topMostViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController
+        DispatchQueue.main.async { [unowned self] in
+            let topMostViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController
 
-        if let topViewController = topMostViewController as? TopViewController {
-            topViewController.updateBusyViewLoadingText?(text)
+            if let topViewController = topMostViewController as? TopViewController {
+                topViewController.updateBusyViewLoadingText?(text)
+                return
+            }
+
+            guard self.isLoadingShown else {
+                return
+            }
+
+            self.busyView.labelBusy.text = text
+        }
+    }
+
+    private func attachToMainWindow() {
+        guard !isLoadingShown else {
+            print("Loading view already attached.")
             return
         }
 
-        // TODO: state check for pinEntryViewController should not be here
-        if let pinEntryViewController = topMostViewController as? PEPinEntryController {
-            if pinEntryViewController.inSettings &&
-                text != LocalizationConstants.syncingWallet &&
-                text != LocalizationConstants.verifying {
-                print("Verify optional PIN view is presented - will not update busy views unless verifying or syncing")
-                return
-            }
-        }
+        for window in UIApplication.shared.windows.reversed() {
+            let onMainScreen    = window.screen == UIScreen.main
+            let isVisible       = !window.isHidden && window.alpha > 0
+            let levelIsNormal   = window.windowLevel == UIWindowLevelNormal
+            let levelIsStatus   = window.windowLevel == UIWindowLevelStatusBar
 
-        if busyView.alpha == 1.0 {
-            busyView.labelBusy.text = text
+            if onMainScreen && isVisible && (levelIsNormal || levelIsStatus) {
+                window.addSubview(busyView)
+                busyView.frame = window.bounds
+                break
+            }
         }
     }
 }

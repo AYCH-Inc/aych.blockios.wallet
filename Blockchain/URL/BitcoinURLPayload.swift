@@ -9,17 +9,22 @@
 import Foundation
 
 /// Encapsulates the payload of a "bitcoin://" URL payload
-struct BitcoinURLPayload {
+@objc class BitcoinURLPayload: NSObject {
 
     /// The bitcoin address
-    let address: String?
+    @objc let address: String?
 
     /// An optional amount in bitcoin
-    let amount: String?
+    @objc let amount: String?
+
+    @objc init(address: String?, amount: String?) {
+        self.address = address
+        self.amount = amount
+    }
 }
 
 extension BitcoinURLPayload {
-    init?(url: URL) {
+    @objc convenience init?(url: URL) {
         guard let scheme = url.scheme else {
             return nil
         }
@@ -28,9 +33,24 @@ extension BitcoinURLPayload {
             return nil
         }
 
-        let queryArgs = url.queryArgs
+        let address: String?
+        let amount: String?
+        let urlString = url.absoluteString
+        
+        if urlString.contains("//") {
+            let queryArgs = url.queryArgs
 
-        self.address = url.host ?? queryArgs["address"]
-        self.amount = queryArgs["amount"]
+            address = url.host ?? queryArgs["address"]
+            amount = queryArgs["amount"]
+        } else if let commaIndex = urlString.index(of: ":") {
+            // Handle web format (e.g. "bitcoin:1Amu4uPJnYbUXX2HhDFMNq7tSneDwWYDyv")
+            address = String(urlString[urlString.index(after: commaIndex)..<urlString.endIndex])
+            amount = nil
+        } else {
+            address = nil
+            amount = nil
+        }
+
+        self.init(address: address, amount: amount)
     }
 }

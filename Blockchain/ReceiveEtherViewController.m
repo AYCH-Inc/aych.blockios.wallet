@@ -7,10 +7,10 @@
 //
 
 #import "ReceiveEtherViewController.h"
-#import "RootService.h"
 #import "QRCodeGenerator.h"
 #import "UIView+ChangeFrameAttribute.h"
 #import "UITextView+Animations.h"
+#import "Blockchain-Swift.h"
 
 @interface ReceiveEtherViewController ()
 @property (nonatomic) QRCodeGenerator *qrCodeGenerator;
@@ -91,7 +91,7 @@
 
 - (void)showEtherAddress
 {
-    NSString *etherAddress = [app.wallet getEtherAddress];
+    NSString *etherAddress = [WalletManager.sharedInstance.wallet getEtherAddress];
     self.instructionsLabel.text = etherAddress == nil ? BC_STRING_RECEIVE_ETHER_REENTER_SECOND_PASSWORD_INSTRUCTIONS : BC_STRING_RECEIVE_SCREEN_INSTRUCTIONS;
     self.address = etherAddress;
     self.addressTextView.text = self.address;
@@ -117,7 +117,7 @@
 
 - (void)requestButtonClicked
 {
-    if (![app.wallet isInitialized]) {
+    if (![WalletManager.sharedInstance.wallet isInitialized]) {
         DLog(@"Tried to access share button when not initialized!");
         return;
     }
@@ -131,8 +131,9 @@
     activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePostToFacebook];
     
     [activityViewController setValue:BC_STRING_PAYMENT_REQUEST_ETHER_SUBJECT forKey:@"subject"];
-    
-    [app.tabControllerManager.tabViewController presentViewController:activityViewController animated:YES completion:nil];
+
+    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+    [tabControllerManager.tabViewController presentViewController:activityViewController animated:YES completion:nil];
 }
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "QRCodeScannerSendViewController.h"
-#import "RootService.h"
+#import "Blockchain-Swift.h"
 
 @interface QRCodeScannerSendViewController () <AVCaptureMetadataOutputObjectsDelegate>
 @property (nonatomic) AVCaptureSession *captureSession;
@@ -25,9 +25,14 @@
 
 - (BOOL)startReadingQRCode
 {
-    AVCaptureDeviceInput *input = [app getCaptureDeviceInput:nil];
-    
+    NSError *error;
+    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputForQRScannerAndReturnError:&error];
     if (!input) {
+        if ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo] != AVAuthorizationStatusAuthorized) {
+            [AlertViewPresenter.sharedInstance showNeedsCameraPermissionAlert];
+        } else {
+            [AlertViewPresenter.sharedInstance standardNotifyWithMessage:[error localizedDescription] title:LocalizationConstantsObjcBridge.error handler:nil];
+        }
         return NO;
     }
     
@@ -51,8 +56,8 @@
     
     UIView *view = [[UIView alloc] initWithFrame:frame];
     [view.layer addSublayer:_videoPreviewLayer];
-    
-    [app showModalWithContent:view closeType:ModalCloseTypeClose headerText:BC_STRING_SCAN_QR_CODE onDismiss:^{
+
+    [[ModalPresenter sharedInstance] showModalWithContent:view closeType:ModalCloseTypeClose showHeader:YES headerText:[LocalizationConstantsObjcBridge scanQRCode] onDismiss:^{
         [_captureSession stopRunning];
         _captureSession = nil;
         [_videoPreviewLayer removeFromSuperlayer];
@@ -65,10 +70,10 @@
 
 - (void)stopReadingQRCode
 {
-    [app closeModalWithTransition:kCATransitionFade];
+    [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
     
     // Go to the send screen if we are not already on it
-    [app showSendCoins];
+    [AppCoordinator.sharedInstance.tabControllerManager showSendCoinsAnimated:YES];
 }
 
 @end

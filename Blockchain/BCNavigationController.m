@@ -7,6 +7,7 @@
 //
 
 #import "BCNavigationController.h"
+#import "Blockchain-Swift.h"
 
 @interface BCNavigationController ()
 
@@ -28,8 +29,6 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    app.topViewControllerDelegate = self;
     
     self.topBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_HEADER_HEIGHT)];
     self.topBar.backgroundColor = COLOR_BLOCKCHAIN_BLUE;
@@ -79,7 +78,7 @@
     busyLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:BUSY_VIEW_LABEL_FONT_SYSTEM_SIZE];
     busyLabel.alpha = BUSY_VIEW_LABEL_ALPHA;
     busyLabel.textAlignment = NSTextAlignmentCenter;
-    busyLabel.text = BC_STRING_LOADING_SYNCING_WALLET;
+    busyLabel.text = [LocalizationConstantsObjcBridge syncingWallet];
     busyLabel.center = CGPointMake(textWithSpinnerView.bounds.origin.x + textWithSpinnerView.bounds.size.width/2, textWithSpinnerView.bounds.origin.y + textWithSpinnerView.bounds.size.height/2 + 15);
     [textWithSpinnerView addSubview:busyLabel];
     self.busyLabel = busyLabel;
@@ -141,7 +140,6 @@
 - (void)dismiss
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-    app.topViewControllerDelegate = nil;
 }
 
 #pragma mark - Busy View Delegate
@@ -169,17 +167,6 @@
     if (self.busyView.alpha == 1.0 && self.shouldHideBusyView) {
         [self.busyView fadeOut];
     }
-}
-
-- (void)presentAlertController:(UIAlertController *)alertController
-{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ANIMATION_DURATION_LONG * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (self.presentedViewController) {
-            [self.presentedViewController presentViewController:alertController animated:YES completion:nil];
-        } else {
-            [self presentViewController:alertController animated:YES completion:nil];
-        }
-    });
 }
 
 @end

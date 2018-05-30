@@ -11,10 +11,11 @@
 #import "UIView+ChangeFrameAttribute.h"
 #import "Blockchain-Swift.h"
 #import "BCAmountInputView.h"
-#import "RootService.h"
 #import "BCConfirmPaymentView.h"
 #import "BCConfirmPaymentViewModel.h"
 #import "ContinueButtonInputAccessoryView.h"
+#import "Blockchain-Swift.h"
+#import "NSNumberFormatter+Currencies.h"
 
 @interface QRCodeScannerSendViewController ()
 - (void)stopReadingQRCode;
@@ -28,6 +29,7 @@
 @property (nonatomic) NSDecimalNumber *ethAmount;
 @property (nonatomic) NSDecimalNumber *ethAvailable;
 @property (nonatomic) BOOL displayingLocalSymbolSend;
+@property (nonatomic, readwrite) DestinationAddressSource addressSource;
 
 - (void)doCurrencyConversion;
 @end
@@ -177,7 +179,7 @@
 {
     if (self.shouldKeepCurrentPayment) {
         self.shouldKeepCurrentPayment = NO;
-        [app.wallet getEthExchangeRate];
+        [WalletManager.sharedInstance.wallet getEthExchangeRate];
         return;
     }
     
@@ -185,7 +187,7 @@
     self.ethFee = 0;
     self.ethAvailable = 0;
     
-    if (![app.wallet hasEthAccount]) {
+    if (![WalletManager.sharedInstance.wallet hasEthAccount]) {
         [self disablePaymentButtons];
         self.amountInputView.userInteractionEnabled = NO;
     } else {
@@ -193,7 +195,7 @@
         self.amountInputView.userInteractionEnabled = YES;
     }
 
-    [app.wallet createNewPayment:AssetTypeEther];
+    [WalletManager.sharedInstance.wallet createNewPayment:LegacyAssetTypeEther];
 
     if (self.addressToSet) {
         [self selectToAddress:self.addressToSet];
@@ -205,16 +207,16 @@
     
     [self.amountInputView clearFields];
     
-    [app.wallet getEthExchangeRate];
+    [WalletManager.sharedInstance.wallet getEthExchangeRate];
 }
 
 - (void)reloadAfterMultiAddressResponse
 {
-    if (app.latestResponse.symbol_local) {
-        self.amountInputView.fiatLabel.text = app.latestResponse.symbol_local.code;
+    if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local) {
+        self.amountInputView.fiatLabel.text = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code;
     }
     
-    self.displayingLocalSymbolSend = (app->symbolLocal && app.latestResponse.symbol_local && app.latestResponse.symbol_local.conversion > 0);
+    self.displayingLocalSymbolSend = (BlockchainSettings.sharedAppInstance.symbolLocal && WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local && WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.conversion > 0);
 }
 
 - (void)setAddress:(NSString *)address
@@ -224,7 +226,7 @@
 
 - (void)getHistory
 {
-    [app.wallet getEthHistory];
+    [WalletManager.sharedInstance.wallet getEthHistory];
 }
 
 - (void)updateExchangeRate:(NSDecimalNumber *)rate
@@ -245,7 +247,7 @@
 {
     [super doCurrencyConversion];
     
-    [app.wallet changePaymentAmount:self.ethAmount assetType:AssetTypeEther];
+    [WalletManager.sharedInstance.wallet changePaymentAmount:self.ethAmount assetType:LegacyAssetTypeEther];
 }
 
 - (void)didUpdatePayment:(NSDictionary *)payment;
@@ -264,7 +266,7 @@
     
     if (dictSweep) {
         self.amountInputView.btcField.text = [amount compare:@0] == NSOrderedSame ? nil : [amount stringValue];
-        self.amountInputView.fiatField.text = [NSNumberFormatter formatEthToFiat:[amount stringValue] exchangeRate:self.latestExchangeRate];
+        self.amountInputView.fiatField.text = [NSNumberFormatter formatEthToFiat:[amount stringValue] exchangeRate:self.latestExchangeRate localCurrencyFormatter:[NSNumberFormatter localCurrencyFormatterWithGroupingSeparator]];
     }
     
     self.ethAvailable = available;
@@ -272,7 +274,7 @@
     self.ethFee = fee;
     [self updateFeeLabel];
 
-    if ([app.wallet isWaitingOnEtherTransaction]) {
+    if ([WalletManager.sharedInstance.wallet isWaitingOnEtherTransaction]) {
         [self.fundsAvailableButton setTitle:BC_STRING_WAITING_FOR_ETHER_PAYMENT_TO_FINISH_MESSAGE forState:UIControlStateNormal];
         [self.fundsAvailableButton setTitleColor:COLOR_WARNING_RED forState:UIControlStateNormal];
         self.toField.userInteractionEnabled = NO;
@@ -319,7 +321,7 @@
 
 - (void)useAllClicked
 {
-    [app.wallet sweepEtherPayment];
+    [WalletManager.sharedInstance.wallet sweepEtherPayment];
 }
 
 - (void)clearFundsAvailable
@@ -344,21 +346,21 @@
     self.toAddress = self.toField.text;
     
     if (self.toAddress == nil || self.toAddress.length == 0) {
-        [app standardNotify:BC_STRING_YOU_MUST_ENTER_DESTINATION_ADDRESS];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_YOU_MUST_ENTER_DESTINATION_ADDRESS title:BC_STRING_ERROR handler: nil];
         return;
     } else if (![self isEtherAddress:self.toAddress]) {
-        [app standardNotify:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, self.toAddress]];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, self.toAddress] title:BC_STRING_ERROR handler: nil];
         return;
     }
     
     if ([self.ethAmount isEqualToNumber:@0]) {
-        [app standardNotify:BC_STRING_INVALID_SEND_VALUE];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_INVALID_SEND_VALUE title:BC_STRING_ERROR handler: nil];
         return;
     }
     
     [self checkIfEtherContractAddress:self.toAddress successHandler:^(NSString *nonContractAddress) {
         
-        [app.wallet changePaymentToAddress:nonContractAddress assetType:AssetTypeEther];
+        [WalletManager.sharedInstance.wallet changePaymentToAddress:nonContractAddress assetType:LegacyAssetTypeEther];
 
         NSDecimalNumber *totalDecimalNumber = [self.ethAmount decimalNumberByAdding:self.ethFee];
         
@@ -375,8 +377,7 @@
         self.confirmPaymentView.confirmDelegate = self;
         
         [self.confirmPaymentView.reallyDoPaymentButton addTarget:self action:@selector(reallyDoPayment) forControlEvents:UIControlEventTouchUpInside];
-        
-        [app showModalWithContent:self.confirmPaymentView closeType:ModalCloseTypeBack headerText:BC_STRING_CONFIRM_PAYMENT];
+        [[ModalPresenter sharedInstance] showModalWithContent:self.confirmPaymentView closeType:ModalCloseTypeBack showHeader:true headerText:BC_STRING_CONFIRM_PAYMENT onDismiss:nil onResume:nil];
     }];
 }
 
@@ -398,12 +399,16 @@
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_FEE_INFORMATION_TITLE message:BC_STRING_FEE_INFORMATION_MESSAGE_ETHER preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];
-    [app.tabControllerManager.tabViewController presentViewController:alert animated:YES completion:nil];
+    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+    [tabControllerManager.tabViewController presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)reallyDoPayment
 {
-    if ([app checkIfWaitingOnEtherTransaction]) return;
+    if ([[WalletManager sharedInstance].wallet isWaitingOnEtherTransaction]) {
+        [[AlertViewPresenter sharedInstance] showWaitingForEtherPaymentAlert];
+        return;
+    }
     
     UIView *sendView = [[UIView alloc] initWithFrame:self.view.frame];
     
@@ -421,9 +426,9 @@
     sendLabel.text = BC_STRING_SENDING;
     [sendView addSubview:sendLabel];
     
-    [app showModalWithContent:sendView closeType:ModalCloseTypeNone headerText:BC_STRING_SENDING_TRANSACTION];
-    
-    [app.wallet sendEtherPaymentWithNote:self.noteToSet];
+    [[ModalPresenter sharedInstance] showModalWithContent:sendView closeType:ModalCloseTypeNone showHeader:true headerText:BC_STRING_SENDING_TRANSACTION onDismiss:nil onResume:nil];
+
+    [WalletManager.sharedInstance.wallet sendEtherPaymentWithNote:self.noteToSet];
 }
 
 #pragma mark - Text Field Delegate
@@ -461,11 +466,12 @@
 
                 NSString *address = [metadataObj stringValue];
                 
-                if ([address hasPrefix:PREFIX_ETHEREUM_URI]) address = [address stringByReplacingOccurrencesOfString:PREFIX_ETHEREUM_URI withString:@""];
+                if ([address hasPrefix:[ConstantsObjcBridge ethereumUriPrefix]]) address = [address stringByReplacingOccurrencesOfString:[ConstantsObjcBridge ethereumUriPrefix] withString:@""];
                 
                 [self selectToAddress:address];
                 DLog(@"toAddress: %@", address);
                 
+                self.addressSource = DestinationAddressSourceQR;
             });
         }
     }
@@ -475,13 +481,13 @@
 
 - (BOOL)isEtherAddress:(NSString *)address
 {
-    return [app.wallet isValidAddress:address assetType:AssetTypeEther];
+    return [WalletManager.sharedInstance.wallet isValidAddress:address assetType:LegacyAssetTypeEther];
 }
 
 - (void)selectToAddress:(NSString *)address
 {
     if (address == nil || ![self isEtherAddress:address]) {
-        [app standardNotify:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, address]];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, address] title:BC_STRING_ERROR handler: nil];
         return;
     }
     
@@ -493,14 +499,15 @@
 
 - (void)checkIfEtherContractAddress:(NSString *)address successHandler:(void (^ _Nullable)(NSString *))success
 {
-    [app.wallet isEtherContractAddress:address completion:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [WalletManager.sharedInstance.wallet isEtherContractAddress:address completion:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSError *jsonError;
         NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
         BOOL isContract = [[[jsonResponse allValues] firstObject] boolValue];
         if (isContract) {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_CONTRACT_ADDRESSES_NOT_SUPPORTED_TITLE message:BC_STRING_CONTRACT_ADDRESSES_NOT_SUPPORTED_MESSAGE preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction: [UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];
-            [app.tabControllerManager.tabViewController presentViewController:alert animated:YES completion:nil];
+            TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+            [tabControllerManager.tabViewController presentViewController:alert animated:YES completion:nil];
         } else {
             if (success) success(address);
         }

@@ -9,6 +9,15 @@
 import UIKit
 
 struct Constants {
+
+    struct AppStore {
+        static let AppID = "id493253309"
+    }
+
+    struct Animation {
+        static let duration = 0.2
+        static let durationLong = 0.5
+    }
     struct Colors {
         static let TextFieldBorderGray = UIColorFromRGB(0xcdcdcd)
         static let BlockchainBlue = UIColorFromRGB(0x004a7c)
@@ -41,11 +50,124 @@ struct Constants {
         static let ExtraLarge: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 21.0 : 18.0
         static let ExtraExtraLarge: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 23.0 : 20.0
     }
+    struct FontNames {
+        static let montserratRegular = "Montserrat-Regular"
+        static let montserratSemiBold = "Montserrat-SemiBold"
+        static let montserratSemiLight = "Montserrat-Light"
+        static let montserratSemiExtraLight = "Montserrat-ExtraLight"
+        static let gillSans = "GillSans"
+        static let gillSansLight = "GillSans-Light"
+        static let helveticaNueue = "Helvetica Neue"
+        static let helveticaNueueMedium = "HelveticaNeue-Medium"
+    }
     struct Defaults {
         static let NumberOfRecoveryPhraseWords = 12
     }
     struct Booleans {
         static let IsUsingScreenSizeLargerThan5s = UIScreen.main.bounds.size.height > Measurements.ScreenHeightIphone5S
+    }
+    struct NotificationKeys {
+        static let modalViewDismissed = NSNotification.Name("modalViewDismissed")
+        static let reloadToDismissViews = NSNotification.Name("reloadToDismissViews")
+        static let newAddress = NSNotification.Name("newAddress")
+        static let multiAddressResponseReload = NSNotification.Name("multiaddressResponseReload")
+        static let appEnteredBackground = NSNotification.Name("applicationDidEnterBackground")
+        static let backupSuccess = NSNotification.Name("backupSuccess")
+        static let getFiatAtTime = NSNotification.Name("getFiatAtTime")
+    }
+    struct PushNotificationKeys {
+        static let userInfoType = "type"
+        static let userInfoId = "id"
+        static let typePayment = "payment"
+    }
+    struct Schemes {
+        static let bitcoin = "bitcoin"
+        static let bitcoinCash = "bitcoincash"
+        static let blockchain = "blockchain"
+        static let blockchainWallet = "blockchain-wallet"
+        static let ethereum = "ethereum"
+        static let mail = "message"
+    }
+    struct Security {
+        static let pinPBKDF2Iterations = 1 // This does not need to be large because the key is already 256 bits
+    }
+    struct Time {
+        static let securityReminderModalTimeInterval: TimeInterval = 60 * 60 * 24 * 30 // Seconds in thirty days
+    }
+    struct Locales {
+        struct English {
+            static let us = "en_US"
+        }
+    }
+    struct Url {
+        static let appStoreLinkPrefix = "itms-apps://itunes.apple.com/app/"
+        static let blockchainSupport = "https://support.blockchain.com"
+        static let forgotPassword = "https://support.blockchain.com/hc/en-us/articles/211205343-I-forgot-my-password-What-can-you-do-to-help-"
+    }
+    struct Wallet {
+        static let swipeToReceiveAddressCount = 5
+    }
+    struct JSErrors {
+        struct AddressAndKeyImport {
+            static let wrongBipPass = "wrongBipPass"
+            static let wrongPrivateKey = "wrongPrivateKey"
+        }
+    }
+}
+
+/// Constant class wrapper so that Constants can be accessed from Obj-C. Should deprecate this
+/// once Obj-C is no longer using this
+@objc class ConstantsObjcBridge: NSObject {
+    @objc class func animationDuration() -> Double { return Constants.Animation.duration }
+
+    @objc class func animationDurationLong() -> Double { return Constants.Animation.durationLong }
+
+    @objc class func notificationKeyModalViewDismissed() -> String {
+        return Constants.NotificationKeys.modalViewDismissed.rawValue
+    }
+
+    @objc class func notificationKeyReloadToDismissViews() -> String {
+        return Constants.NotificationKeys.reloadToDismissViews.rawValue
+    }
+
+    @objc class func notificationKeyNewAddress() -> String {
+        return Constants.NotificationKeys.newAddress.rawValue
+    }
+
+    @objc class func notificationKeyMultiAddressResponseReload() -> String {
+        return Constants.NotificationKeys.multiAddressResponseReload.rawValue
+    }
+
+    @objc class func notificationKeyBackupSuccess() -> String {
+        return Constants.NotificationKeys.backupSuccess.rawValue
+    }
+
+    @objc class func notificationKeyGetFiatAtTime() -> String {
+        return Constants.NotificationKeys.getFiatAtTime.rawValue
+    }
+
+    @objc class func bitcoinUriPrefix() -> String {
+        return Constants.Schemes.bitcoin
+    }
+
+    @objc class func bitcoinCashUriPrefix() -> String {
+        return Constants.Schemes.bitcoinCash
+    }
+
+    @objc class func ethereumUriPrefix() -> String {
+        return Constants.Schemes.ethereum
+    }
+
+    @objc class func mailUrl() -> String {
+        return Constants.Schemes.mail
+    }
+
+    @objc class func wrongPrivateKey() -> String {
+        return Constants.JSErrors.AddressAndKeyImport.wrongPrivateKey
+    }
+
+    @objc class func wrongBip38Password() -> String {
+        return Constants.JSErrors.AddressAndKeyImport.wrongBipPass
     }
 }
 

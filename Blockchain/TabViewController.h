@@ -9,7 +9,7 @@
 #import "AssetSelectorView.h"
 
 @protocol AssetDelegate
-- (void)didSetAssetType:(AssetType)assetType;
+- (void)didSetAssetType:(LegacyAssetType)assetType;
 - (void)selectorButtonClicked;
 - (void)qrCodeButtonClicked;
 @end
@@ -45,7 +45,7 @@
 
 @property (nonatomic) UIView *bannerSelectorView;
 @property(weak, nonatomic) id <AssetDelegate> assetDelegate;
-- (void)selectAsset:(AssetType)assetType;
+- (void)selectAsset:(LegacyAssetType)assetType;
 - (void)setActiveViewController:(UIViewController *)nviewcontroller animated:(BOOL)animated index:(int)index;
 - (void)addTapGestureRecognizerToTabBar:(UITapGestureRecognizer *)tapGestureRecognizer;
 - (void)removeTapGestureRecognizerFromTabBar:(UITapGestureRecognizer *)tapGestureRecognizer;
@@ -54,7 +54,5 @@
 - (void)setTitleLabelText:(NSString *)text;
 - (void)updateBalanceLabelText:(NSString *)text;
 - (void)didFetchEthExchangeRate;
-- (void)didSendEther;
-- (void)didErrorDuringEtherSend:(NSString *)error;
 - (void)reloadSymbols;
 @end

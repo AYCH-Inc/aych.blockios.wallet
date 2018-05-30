@@ -8,7 +8,7 @@
 
 #import "SettingsNavigationController.h"
 #import "SettingsTableViewController.h"
-#import "RootService.h"
+#import "Blockchain-Swift.h"
 
 @interface SettingsNavigationController ()
 @end
@@ -19,7 +19,7 @@
 {
     [super viewDidLoad];
     
-    self.view.frame = CGRectMake(0, 0, app.window.frame.size.width, app.window.frame.size.height);
+    self.view.frame = CGRectMake(0, 0, [UIApplication sharedApplication].keyWindow.frame.size.width, [UIApplication sharedApplication].keyWindow.frame.size.height);
     
     UIView *topBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_HEADER_HEIGHT)];
     topBar.backgroundColor = COLOR_BLOCKCHAIN_BLUE;
@@ -45,7 +45,7 @@
     [topBar addSubview:backButton];
     self.backButton = backButton;
     
-    BCFadeView *busyView = [[BCFadeView alloc] initWithFrame:app.window.rootViewController.view.frame];
+    BCFadeView *busyView = [[BCFadeView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.rootViewController.view.frame];
     busyView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
     UIView *textWithSpinnerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 250, 110)];
     textWithSpinnerView.backgroundColor = [UIColor whiteColor];
@@ -57,7 +57,7 @@
     busyLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:BUSY_VIEW_LABEL_FONT_SYSTEM_SIZE];
     busyLabel.alpha = BUSY_VIEW_LABEL_ALPHA;
     busyLabel.textAlignment = NSTextAlignmentCenter;
-    busyLabel.text = BC_STRING_LOADING_SYNCING_WALLET;
+    busyLabel.text = [LocalizationConstantsObjcBridge syncingWallet];
     busyLabel.center = CGPointMake(textWithSpinnerView.bounds.origin.x + textWithSpinnerView.bounds.size.width/2, textWithSpinnerView.bounds.origin.y + textWithSpinnerView.bounds.size.height/2 + 15);
     [textWithSpinnerView addSubview:busyLabel];
     
@@ -100,7 +100,6 @@
 {
     if ([self.visibleViewController isMemberOfClass:[SettingsTableViewController class]]) {
         [self dismissViewControllerAnimated:YES completion:nil];
-        app.topViewControllerDelegate = nil;
     } else {
         [self popViewControllerAnimated:YES];
     }
@@ -163,11 +162,6 @@
 {
     //TODO: use this delegate method instead of handling busy views manually from view controllers
     return;
-}
-
-- (void)presentAlertController:(UIAlertController *)alertController
-{
-    [self.visibleViewController presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion

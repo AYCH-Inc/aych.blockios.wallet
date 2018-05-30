@@ -7,8 +7,8 @@
 //
 
 #import "TabViewController.h"
-#import "RootService.h"
 #import "UIView+ChangeFrameAttribute.h"
+#import "Blockchain-Swift.h"
 
 @interface TabViewcontroller () <AssetSelectorViewDelegate>
 @end
@@ -29,7 +29,7 @@
     balanceLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_EXTRA_EXTRA_LARGE];
     balanceLabel.adjustsFontSizeToFitWidth = YES;
     
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:app action:@selector(toggleSymbol)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleSymbol)];
     [balanceLabel addGestureRecognizer:tapGesture];
     
     tabBar.delegate = self;
@@ -46,11 +46,16 @@
     if (!_menuSwipeRecognizerView) {
         _menuSwipeRecognizerView = [[UIView alloc] initWithFrame:CGRectMake(0, DEFAULT_HEADER_HEIGHT, 20, self.view.frame.size.height)];
         
-        ECSlidingViewController *sideMenu = app.slidingViewController;
+        ECSlidingViewController *sideMenu = [AppCoordinator sharedInstance].slidingViewController;
         [_menuSwipeRecognizerView addGestureRecognizer:sideMenu.panGesture];
         
         [self.view addSubview:_menuSwipeRecognizerView];
     }
+}
+
+- (void)toggleSymbol
+{
+    BlockchainSettings.sharedAppInstance.symbolLocal = !BlockchainSettings.sharedAppInstance.symbolLocal;
 }
 
 - (void)setupTabButtons
@@ -91,7 +96,7 @@
         [animation setType:kCATransitionPush];
         [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
         
-        if (newIndex > selectedIndex || (newIndex == selectedIndex && self.assetSelectorView.selectedAsset == AssetTypeEther))
+        if (newIndex > selectedIndex || (newIndex == selectedIndex && self.assetSelectorView.selectedAsset == LegacyAssetTypeEther))
             [animation setSubtype:kCATransitionFromRight];
         else
             [animation setSubtype:kCATransitionFromLeft];
@@ -192,13 +197,13 @@
     [self.assetSelectorView close];
     
     if (item == sendButton) {
-        [app.tabControllerManager sendCoinsClicked:item];
+        [[AppCoordinator sharedInstance].tabControllerManager sendCoinsClicked:item];
     } else if (item == homeButton) {
-        [app.tabControllerManager transactionsClicked:item];
+        [[AppCoordinator sharedInstance].tabControllerManager transactionsClicked:item];
     } else if (item == receiveButton) {
-        [app.tabControllerManager receiveCoinClicked:item];
+        [[AppCoordinator sharedInstance].tabControllerManager receiveCoinClicked:item];
     } else if (item == dashBoardButton) {
-        [app.tabControllerManager dashBoardClicked:item];
+        [[AppCoordinator sharedInstance].tabControllerManager dashBoardClicked:item];
     }
 }
 
@@ -219,7 +224,7 @@
     balanceLabel.text = text;
 }
 
-- (void)selectAsset:(AssetType)assetType
+- (void)selectAsset:(LegacyAssetType)assetType
 {
     self.assetSelectorView.selectedAsset = assetType;
     
@@ -228,7 +233,7 @@
 
 - (void)assetSelectorChanged
 {
-    AssetType asset = self.assetSelectorView.selectedAsset;
+    LegacyAssetType asset = self.assetSelectorView.selectedAsset;
     
     [self.assetDelegate didSetAssetType:asset];
 }
@@ -243,24 +248,6 @@
     [self.assetDelegate selectorButtonClicked];
 }
 
-- (void)didSendEther
-{
-    [app closeAllModals];
-    
-    UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:BC_STRING_SUCCESS message:BC_STRING_PAYMENT_SENT_ETHER preferredStyle:UIAlertControllerStyleAlert];
-    [successAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];
-    [self presentViewController:successAlert animated:YES completion:nil];
-}
-
-- (void)didErrorDuringEtherSend:(NSString *)error
-{
-    [app closeAllModals];
-    
-    UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:BC_STRING_ERROR message:error preferredStyle:UIAlertControllerStyleAlert];
-    [errorAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];
-    [self presentViewController:errorAlert animated:YES completion:nil];
-}
-
 - (IBAction)qrCodeButtonClicked:(UIButton *)sender
 {
     [self.assetDelegate qrCodeButtonClicked];
@@ -273,7 +260,7 @@
 
 # pragma mark - Asset Selector Delegate
 
-- (void)didSelectAsset:(AssetType)assetType
+- (void)didSelectAsset:(LegacyAssetType)assetType
 {
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
         [topBar changeHeight:DEFAULT_HEADER_HEIGHT + DEFAULT_HEADER_HEIGHT_OFFSET];

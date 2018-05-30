@@ -8,18 +8,17 @@
 
 #import "AccountsAndAddressesViewController.h"
 #import "AccountsAndAddressesDetailViewController.h"
-#import "RootService.h"
 #import "ReceiveTableCell.h"
 #import "BCCreateAccountView.h"
 #import "BCModalViewController.h"
-#import "PrivateKeyReader.h"
 #import "UIViewController+AutoDismiss.h"
 #import "Blockchain-Swift.h"
 #import "UIView+ChangeFrameAttribute.h"
+#import "NSNumberFormatter+Currencies.h"
 
 #define CELL_HEIGHT_DEFAULT 44.0f
 
-@interface AccountsAndAddressesViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface AccountsAndAddressesViewController () <UITableViewDelegate, UITableViewDataSource, LegacyPrivateKeyDelegate>
 @property (nonatomic) NSString *clickedAddress;
 @property (nonatomic) int clickedAccount;
 @end
@@ -34,9 +33,9 @@
 {
     [super viewDidLoad];
     
-    self.view.frame = app.window.frame;
+    self.view.frame = [UIApplication sharedApplication].keyWindow.frame;
     
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectOffset(app.window.frame, 0, DEFAULT_HEADER_HEIGHT + ASSET_SELECTOR_ROW_HEIGHT + 8)];
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectOffset([UIApplication sharedApplication].keyWindow.frame, 0, DEFAULT_HEADER_HEIGHT + ASSET_SELECTOR_ROW_HEIGHT + 8)];
     [self.view addSubview:containerView];
     self.containerView = containerView;
     
@@ -77,7 +76,7 @@
 
 - (void)reload
 {
-    allKeys = [app.wallet allLegacyAddresses:self.assetType];
+    allKeys = [WalletManager.sharedInstance.wallet allLegacyAddresses:self.assetType];
     [self.tableView reloadData];
     
     [self displayTransferFundsWarningIfAppropriate];
@@ -102,7 +101,7 @@
 
 #pragma mark - Actions
 
-- (void)setAssetType:(AssetType)assetType
+- (void)setAssetType:(LegacyAssetType)assetType
 {
     _assetType = assetType;
     
@@ -140,7 +139,7 @@
 
 - (void)newAddressClicked:(id)sender
 {
-    if ([app.wallet didUpgradeToHd]) {
+    if ([WalletManager.sharedInstance.wallet didUpgradeToHd]) {
         [self importAddress];
     } else {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:BC_STRING_NEW_ADDRESS message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -161,7 +160,7 @@
         [self presentViewController:alertController animated:YES completion:^{
             [[NSNotificationCenter defaultCenter] addObserver:alertController
                                                      selector:@selector(autoDismiss)
-                                                         name:NOTIFICATION_KEY_RELOAD_TO_DISMISS_VIEWS
+                                                         name:ConstantsObjcBridge.notificationKeyReloadToDismissViews
                                                        object:nil];
         }];
     }
@@ -169,18 +168,19 @@
 
 - (void)generateNewAddress
 {
-    if (![app checkInternetConnection]) {
+    if (!Reachability.hasInternetConnection) {
+        [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
         return;
     }
     
-    [app.wallet generateNewKey];
+    [WalletManager.sharedInstance.wallet generateNewKey];
 }
 
 - (void)didGenerateNewAddress
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(promptForLabelAfterGenerate)
-                                                 name:NOTIFICATION_KEY_NEW_ADDRESS object:nil];
+                                                 name:ConstantsObjcBridge.notificationKeyNewAddress object:nil];
 }
 
 - (void)promptForLabelAfterGenerate
@@ -189,47 +189,59 @@
     self.clickedAddress = [allKeys lastObject];
     [self didSelectAddress:self.clickedAddress];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_KEY_NEW_ADDRESS
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:ConstantsObjcBridge.notificationKeyNewAddress
                                                   object:nil];
 }
 
 - (void)importAddress
 {
-    if (![app checkInternetConnection]) {
+    if (!Reachability.hasInternetConnection) {
+        [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
         return;
     }
-    
-    if (![app getCaptureDeviceInput:nil]) {
-        return;
+
+    [[KeyImportCoordinator sharedInstance] startWith:self
+                                                  in:self
+                                           assetType:self.assetType
+                                    acceptPublicKeys:YES
+                                         loadingText:[LocalizationConstantsObjcBridge loadingImportKey]
+                                           publicKey:nil];
+}
+
+#pragma mark - LegacyPrivateKeyDelegate
+
+- (void)didFinishScanning:(NSString *)privateKey {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(promptForLabelAfterScan) name:[ConstantsObjcBridge notificationKeyBackupSuccess] object:nil];
+    [WalletManager.sharedInstance.wallet addKey:privateKey];
+}
+
+- (void)didFinishScanningWithError:(PrivateKeyReaderError)error {
+    switch (error) {
+        case PrivateKeyReaderErrorBadMetadataObject:
+            [[AlertViewPresenter sharedInstance] standardErrorWithMessage:[LocalizationConstantsObjcBridge error] title:[LocalizationConstantsObjcBridge error] handler:nil];
+            break;
+        case PrivateKeyReaderErrorUnknownKeyFormat:
+            [[AlertViewPresenter sharedInstance] standardErrorWithMessage:[LocalizationConstantsObjcBridge unknownKeyFormat] title:[LocalizationConstantsObjcBridge error] handler:nil];
+            break;
+        case PrivateKeyReaderErrorUnsupportedPrivateKey:
+            [[AlertViewPresenter sharedInstance] standardErrorWithMessage:[LocalizationConstantsObjcBridge unsupportedPrivateKey] title:[LocalizationConstantsObjcBridge error] handler:nil];
+            break;
     }
-    
-    PrivateKeyReader *reader = [[PrivateKeyReader alloc] initWithAssetType:self.assetType success:^(NSString* keyString) {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(promptForLabelAfterScan)
-                                                     name:NOTIFICATION_KEY_BACKUP_SUCCESS object:nil];
-        [app.wallet addKey:keyString];
-    } error:nil acceptPublicKeys:YES busyViewText:BC_STRING_LOADING_IMPORT_KEY];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:reader selector:@selector(autoDismiss) name:NOTIFICATION_KEY_RELOAD_TO_DISMISS_VIEWS object:nil];
-    
-    [self presentViewController:reader animated:YES completion:nil];
 }
 
 - (void)promptForLabelAfterScan
 {
-    //newest address is the last object in activeKeys
+    // Newest address is the last object in activeKeys
     self.clickedAddress = [allKeys lastObject];
     [self didSelectAddress:self.clickedAddress];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_KEY_BACKUP_SUCCESS
-                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:[ConstantsObjcBridge notificationKeyBackupSuccess] object:nil];
 }
 
 - (void)displayTransferFundsWarningIfAppropriate
 {
     AccountsAndAddressesNavigationController *navigationController = (AccountsAndAddressesNavigationController *)self.navigationController;
     
-    if (self.assetType == AssetTypeBitcoin && [app.wallet didUpgradeToHd] && [app.wallet getTotalBalanceForSpendableActiveLegacyAddresses] >= [app.wallet dust] && navigationController.visibleViewController == self) {
+    if (self.assetType == LegacyAssetTypeBitcoin && [WalletManager.sharedInstance.wallet didUpgradeToHd] && [WalletManager.sharedInstance.wallet getTotalBalanceForSpendableActiveLegacyAddresses] >= [WalletManager.sharedInstance.wallet dust] && navigationController.visibleViewController == self) {
         navigationController.warningButton.hidden = NO;
     } else {
         navigationController.warningButton.hidden = YES;
@@ -250,10 +262,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
-        if (![app.wallet isInitialized]) {
+        if (![WalletManager.sharedInstance.wallet isInitialized]) {
             return 45.0f;
         } else {
-            if ([app.wallet didUpgradeToHd]) {
+            if ([WalletManager.sharedInstance.wallet didUpgradeToHd]) {
                 return 45.0f;
             } else {
                 return 0;
@@ -287,7 +299,7 @@
     
     if (section == 0) {
         labelString = BC_STRING_WALLETS;
-        if (self.assetType == AssetTypeBitcoin) {
+        if (self.assetType == LegacyAssetTypeBitcoin) {
             UIButton *addButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 20 - 30, 4, 50, 40)];
             [addButton setImage:[[UIImage imageNamed:@"new"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
             addButton.imageView.tintColor = COLOR_BLOCKCHAIN_BLUE;
@@ -297,7 +309,7 @@
     }
     else if (section == 1) {
         labelString = BC_STRING_IMPORTED_ADDRESSES;
-        if (self.assetType == AssetTypeBitcoin) {
+        if (self.assetType == LegacyAssetTypeBitcoin) {
             UIButton *addButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 20 - 30, 4, 50, 40)];
             [addButton setImage:[[UIImage imageNamed:@"new"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
             addButton.imageView.tintColor = COLOR_BLOCKCHAIN_BLUE;
@@ -315,9 +327,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0)
-        return [app.wallet getAllAccountsCount:self.assetType];
+        return [WalletManager.sharedInstance.wallet getAllAccountsCount:self.assetType];
     else if (section == 1) {
-        if (self.assetType == AssetTypeBitcoin) {
+        if (self.assetType == LegacyAssetTypeBitcoin) {
             return [allKeys count];
         } else {
             return [allKeys count] > 0 ? 1 : 0;
@@ -328,10 +340,10 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.assetType == AssetTypeBitcoin) {
+    if (self.assetType == LegacyAssetTypeBitcoin) {
         return 2;
     } else {
-        return [app.wallet hasLegacyAddresses:self.assetType] ? 2 : 1;
+        return [WalletManager.sharedInstance.wallet hasLegacyAddresses:self.assetType] ? 2 : 1;
     }
 }
 
@@ -341,7 +353,7 @@
     if (indexPath.section == 0) {
         [self didSelectAccount:(int)indexPath.row];
     } else if (indexPath.section == 1) {
-        if (self.assetType == AssetTypeBitcoin) [self didSelectAddress:allKeys[indexPath.row]];
+        if (self.assetType == LegacyAssetTypeBitcoin) [self didSelectAddress:allKeys[indexPath.row]];
     }
 }
 
@@ -349,7 +361,7 @@
 {
     if (indexPath.section == 0) {
         int accountIndex = (int) indexPath.row;
-        NSString *accountLabelString = [app.wallet getLabelForAccount:accountIndex assetType:self.assetType];
+        NSString *accountLabelString = [WalletManager.sharedInstance.wallet getLabelForAccount:accountIndex assetType:self.assetType];
         
         ReceiveTableCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"receiveAccount"];
         
@@ -358,7 +370,7 @@
             cell.backgroundColor = [UIColor whiteColor];
             cell.balanceLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_EXTRA_SMALL];
 
-            if ([app.wallet getDefaultAccountIndexForAssetType:self.assetType] == accountIndex) {
+            if ([WalletManager.sharedInstance.wallet getDefaultAccountIndexForAssetType:self.assetType] == accountIndex) {
                 
                 cell.labelLabel.autoresizingMask = UIViewAutoresizingNone;
                 cell.balanceLabel.autoresizingMask = UIViewAutoresizingNone;
@@ -409,24 +421,24 @@
         cell.labelLabel.text = accountLabelString;
         cell.addressLabel.text = @"";
         
-        uint64_t balance = [[app.wallet getBalanceForAccount:accountIndex assetType:self.assetType] longLongValue];
+        uint64_t balance = [[WalletManager.sharedInstance.wallet getBalanceForAccount:accountIndex assetType:self.assetType] longLongValue];
         
         // Selected cell color
         UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,cell.frame.size.width,cell.frame.size.height)];
         [v setBackgroundColor:COLOR_BLOCKCHAIN_BLUE];
         [cell setSelectedBackgroundView:v];
         
-        if ([app.wallet isAccountArchived:accountIndex assetType:self.assetType]) {
+        if ([WalletManager.sharedInstance.wallet isAccountArchived:accountIndex assetType:self.assetType]) {
             cell.balanceLabel.text = BC_STRING_ARCHIVED;
             cell.balanceLabel.textColor = COLOR_BUTTON_BLUE;
         } else {
-            cell.balanceLabel.text = self.assetType == AssetTypeBitcoin ? [NSNumberFormatter formatMoney:balance] : [NSNumberFormatter formatBchWithSymbol:balance];
+            cell.balanceLabel.text = self.assetType == LegacyAssetTypeBitcoin ? [NSNumberFormatter formatMoney:balance] : [NSNumberFormatter formatBchWithSymbol:balance];
             cell.balanceLabel.textColor = COLOR_BLOCKCHAIN_GREEN;
         }
         cell.balanceLabel.minimumScaleFactor = 0.75f;
         [cell.balanceLabel setAdjustsFontSizeToFitWidth:YES];
         
-        [cell.balanceButton addTarget:app action:@selector(toggleSymbol) forControlEvents:UIControlEventTouchUpInside];
+        [cell.balanceButton addTarget:self action:@selector(toggleSymbol) forControlEvents:UIControlEventTouchUpInside];
         
         return cell;
     }
@@ -435,7 +447,7 @@
     
     NSString *addr = [allKeys objectAtIndex:[indexPath row]];
     
-    Boolean isWatchOnlyLegacyAddress = [app.wallet isWatchOnlyLegacyAddress:addr];
+    Boolean isWatchOnlyLegacyAddress = [WalletManager.sharedInstance.wallet isWatchOnlyLegacyAddress:addr];
     
     ReceiveTableCell *cell;
     if (isWatchOnlyLegacyAddress) {
@@ -471,7 +483,7 @@
             [cell.watchLabel setHidden:TRUE];
 
             // Disable cell highlighting for BCH imported addresses
-            if (self.assetType == AssetTypeBitcoinCash) {
+            if (self.assetType == LegacyAssetTypeBitcoinCash) {
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             } else {
                 cell.selectionStyle = UITableViewCellSelectionStyleDefault;
@@ -479,35 +491,40 @@
         }
     }
     
-    NSString *label = self.assetType == AssetTypeBitcoin ? [app.wallet labelForLegacyAddress:addr assetType:self.assetType] : BC_STRING_IMPORTED_ADDRESSES;
+    NSString *label = self.assetType == LegacyAssetTypeBitcoin ? [WalletManager.sharedInstance.wallet labelForLegacyAddress:addr assetType:self.assetType] : BC_STRING_IMPORTED_ADDRESSES;
     
     if (label)
         cell.labelLabel.text = label;
     else
         cell.labelLabel.text = BC_STRING_NO_LABEL;
     
-    cell.addressLabel.text = self.assetType == AssetTypeBitcoin ? addr : nil;
+    cell.addressLabel.text = self.assetType == LegacyAssetTypeBitcoin ? addr : nil;
     
-    uint64_t balance = self.assetType == AssetTypeBitcoin ? [[app.wallet getLegacyAddressBalance:addr assetType:self.assetType] longLongValue] : [app.wallet getTotalBalanceForActiveLegacyAddresses:self.assetType];
+    uint64_t balance = self.assetType == LegacyAssetTypeBitcoin ? [[WalletManager.sharedInstance.wallet getLegacyAddressBalance:addr assetType:self.assetType] longLongValue] : [WalletManager.sharedInstance.wallet getTotalBalanceForActiveLegacyAddresses:self.assetType];
     
     // Selected cell color
     UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,cell.frame.size.width,cell.frame.size.height)];
     [v setBackgroundColor:COLOR_BLOCKCHAIN_BLUE];
     [cell setSelectedBackgroundView:v];
     
-    if ([app.wallet isAddressArchived:addr]) {
+    if ([WalletManager.sharedInstance.wallet isAddressArchived:addr]) {
         cell.balanceLabel.text = BC_STRING_ARCHIVED;
         cell.balanceLabel.textColor = COLOR_BUTTON_BLUE;
     } else {
-        cell.balanceLabel.text = self.assetType == AssetTypeBitcoin ? [NSNumberFormatter formatMoney:balance] : [NSNumberFormatter formatBchWithSymbol:balance];
+        cell.balanceLabel.text = self.assetType == LegacyAssetTypeBitcoin ? [NSNumberFormatter formatMoney:balance] : [NSNumberFormatter formatBchWithSymbol:balance];
         cell.balanceLabel.textColor = COLOR_LABEL_BALANCE_GREEN;
     }
     cell.balanceLabel.minimumScaleFactor = 0.75f;
     [cell.balanceLabel setAdjustsFontSizeToFitWidth:YES];
     
-    [cell.balanceButton addTarget:app action:@selector(toggleSymbol) forControlEvents:UIControlEventTouchUpInside];
+    [cell.balanceButton addTarget:self action:@selector(toggleSymbol) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
+}
+
+- (void)toggleSymbol
+{
+    BlockchainSettings.sharedAppInstance.symbolLocal = !BlockchainSettings.sharedAppInstance.symbolLocal;
 }
 
 @end

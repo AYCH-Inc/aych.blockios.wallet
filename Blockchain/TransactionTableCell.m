@@ -8,11 +8,12 @@
 
 #import "TransactionTableCell.h"
 #import "Transaction.h"
-#import "RootService.h"
 #import "TransactionsBitcoinViewController.h"
 #import "TransactionDetailViewController.h"
 #import "TransactionDetailNavigationController.h"
 #import "NSDateFormatter+TimeAgoString.h"
+#import "Blockchain-Swift.h"
+#import "NSNumberFormatter+Currencies.h"
 
 @implementation TransactionTableCell
 
@@ -65,10 +66,10 @@
     if ((([transaction.txType isEqualToString:TX_TYPE_RECEIVED] || [transaction.txType isEqualToString:TX_TYPE_TRANSFER]) && transaction.toWatchOnly) || ([transaction.txType isEqualToString:TX_TYPE_SENT] && transaction.fromWatchOnly)) {
         infoLabel.text = BC_STRING_WATCH_ONLY;
         infoLabel.backgroundColor = COLOR_DARK_GRAY;
-    } else if ([app.wallet isDepositTransaction:transaction.myHash]) {
+    } else if ([WalletManager.sharedInstance.wallet isDepositTransaction:transaction.myHash]) {
         infoLabel.text = BC_STRING_DEPOSITED_TO_SHAPESHIFT;
         infoLabel.backgroundColor = COLOR_BLOCKCHAIN_BLUE;
-    } else if ([app.wallet isWithdrawalTransaction:transaction.myHash]) {
+    } else if ([WalletManager.sharedInstance.wallet isWithdrawalTransaction:transaction.myHash]) {
         infoLabel.text = BC_STRING_RECEIVED_FROM_SHAPESHIFT;
         infoLabel.backgroundColor = COLOR_BLOCKCHAIN_BLUE;
     } else {
@@ -123,19 +124,18 @@
     
     TransactionDetailNavigationController *navigationController = [[TransactionDetailNavigationController alloc] initWithRootViewController:detailViewController];
     navigationController.transactionHash = transaction.myHash;
-    
+
+    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+
     detailViewController.busyViewDelegate = navigationController;
     navigationController.onDismiss = ^() {
-        app.tabControllerManager.transactionsBitcoinViewController.detailViewController = nil;
+        tabControllerManager.transactionsBitcoinViewController.detailViewController = nil;
     };
     navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    app.tabControllerManager.transactionsBitcoinViewController.detailViewController = detailViewController;
-    
-    if (app.topViewControllerDelegate) {
-        [app.topViewControllerDelegate presentViewController:navigationController animated:YES completion:nil];
-    } else {
-        [app.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
-    }
+    tabControllerManager.transactionsBitcoinViewController.detailViewController = detailViewController;
+
+    UIViewController *topViewController = UIApplication.sharedApplication.keyWindow.rootViewController.topMostViewController;
+    [topViewController presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)bitcoinCashTransactionClicked
@@ -145,24 +145,23 @@
     
     TransactionDetailNavigationController *navigationController = [[TransactionDetailNavigationController alloc] initWithRootViewController:detailViewController];
     navigationController.transactionHash = transaction.myHash;
-    
+
+    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+
     detailViewController.busyViewDelegate = navigationController;
     navigationController.onDismiss = ^() {
-        app.tabControllerManager.transactionsBitcoinCashViewController.detailViewController = nil;
+        tabControllerManager.transactionsBitcoinCashViewController.detailViewController = nil;
     };
     navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    app.tabControllerManager.transactionsBitcoinCashViewController.detailViewController = detailViewController;
-    
-    if (app.topViewControllerDelegate) {
-        [app.topViewControllerDelegate presentViewController:navigationController animated:YES completion:nil];
-    } else {
-        [app.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
-    }
+    tabControllerManager.transactionsBitcoinCashViewController.detailViewController = detailViewController;
+
+    UIViewController *topViewController = UIApplication.sharedApplication.keyWindow.rootViewController.topMostViewController;
+    [topViewController presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (IBAction)btcbuttonclicked:(id)sender
 {
-    if (self.assetType == AssetTypeBitcoin) {
+    if (self.assetType == LegacyAssetTypeBitcoin) {
         [self transactionClicked:nil];
     } else {
         [self bitcoinCashTransactionClicked];

@@ -9,10 +9,8 @@
 
 
 #import "DashboardViewController.h"
-#import "SessionManager.h"
 #import "UIView+ChangeFrameAttribute.h"
 #import "NSNumberFormatter+Currencies.h"
-#import "RootService.h"
 #import "GraphTimeFrame.h"
 #import "Blockchain-Swift.h"
 #import "BCPriceChartView.h"
@@ -71,7 +69,7 @@
     [self.scrollView setContentOffset:CGPointZero animated:NO];
 }
 
-- (void)setAssetType:(AssetType)assetType
+- (void)setAssetType:(LegacyAssetType)assetType
 {
     _assetType = assetType;
     
@@ -136,17 +134,17 @@
     double ethBalance = [self getEthBalance];
     double bchBalance = [self getBchBalance];
     double totalFiatBalance = btcBalance + ethBalance + bchBalance;
-    if (app.wallet.isInitialized) {
-        [self.balancesChartView updateFiatSymbol:app.latestResponse.symbol_local.symbol];
+    if (WalletManager.sharedInstance.wallet.isInitialized) {
+        [self.balancesChartView updateFiatSymbol:WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.symbol];
         // Fiat balances
         [self.balancesChartView updateBitcoinFiatBalance:btcBalance];
         [self.balancesChartView updateEtherFiatBalance:ethBalance];
         [self.balancesChartView updateBitcoinCashFiatBalance:bchBalance];
         [self.balancesChartView updateTotalFiatBalance:[NSNumberFormatter appendStringToFiatSymbol:[NSNumberFormatter fiatStringFromDouble:totalFiatBalance]]];
         // Balances
-        [self.balancesChartView updateBitcoinBalance:[NSNumberFormatter formatAmount:[app.wallet getTotalActiveBalance] localCurrency:NO]];
-        [self.balancesChartView updateEtherBalance:[app.wallet getEthBalanceTruncated]];
-        [self.balancesChartView updateBitcoinCashBalance:[NSNumberFormatter formatAmount:[app.wallet bitcoinCashTotalBalance] localCurrency:NO]];
+        [self.balancesChartView updateBitcoinBalance:[NSNumberFormatter formatAmount:[WalletManager.sharedInstance.wallet getTotalActiveBalance] localCurrency:NO]];
+        [self.balancesChartView updateEtherBalance:[WalletManager.sharedInstance.wallet getEthBalanceTruncated]];
+        [self.balancesChartView updateBitcoinCashBalance:[NSNumberFormatter formatAmount:[WalletManager.sharedInstance.wallet bitcoinCashTotalBalance] localCurrency:NO]];
     }
 
     [self.balancesChartView updateChart];
@@ -156,7 +154,7 @@
     [self reloadCards];
 }
 
-- (void)fetchChartDataForAsset:(AssetType)assetType
+- (void)fetchChartDataForAsset:(LegacyAssetType)assetType
 {
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_GRAPH_TIME_FRAME];
     GraphTimeFrame *timeFrame = [NSKeyedUnarchiver unarchiveObjectWithData:data] ? : [GraphTimeFrame timeFrameWeek];
@@ -166,13 +164,13 @@
         
     NSString *base;
     
-    if (assetType == AssetTypeBitcoin) {
+    if (assetType == LegacyAssetTypeBitcoin) {
         base = [CURRENCY_SYMBOL_BTC lowercaseString];
         entryDate = [timeFrame startDateBitcoin];
-    } else if (assetType == AssetTypeEther) {
+    } else if (assetType == LegacyAssetTypeEther) {
         base = [CURRENCY_SYMBOL_ETH lowercaseString];
         entryDate = [timeFrame startDateEther];
-    } else if (assetType == AssetTypeBitcoinCash) {
+    } else if (assetType == LegacyAssetTypeBitcoinCash) {
         base = [CURRENCY_SYMBOL_BCH lowercaseString];
         entryDate = [timeFrame startDateBitcoinCash];
     }
@@ -185,11 +183,10 @@
         [self showError:BC_STRING_ERROR_CHARTS];
         return;
     }
-    
-    NSURL *URL = [NSURL URLWithString:[[NSBundle apiUrl] stringByAppendingString:[NSString stringWithFormat:CHARTS_URL_SUFFIX_ARGUMENTS_BASE_QUOTE_START_SCALE, base, quote, [NSString stringWithFormat:@"%lu", startDate], scale]]];
+    NSURL *URL = [NSURL URLWithString:[[[BlockchainAPI sharedInstance] apiUrl] stringByAppendingString:[NSString stringWithFormat:CHARTS_URL_SUFFIX_ARGUMENTS_BASE_QUOTE_START_SCALE, base, quote, [NSString stringWithFormat:@"%lu", startDate], scale]]];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
-    NSURLSessionDataTask *task = [[SessionManager sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSURLSessionDataTask *task = [[[NetworkManager sharedInstance] session] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             DLog(@"Error getting chart data - %@", [error localizedDescription]);
             [self showError:[error localizedDescription]];
@@ -226,7 +223,8 @@
         self.chartContainerViewController = [[BCPriceChartContainerViewController alloc] init];
         self.chartContainerViewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         self.chartContainerViewController.delegate = self;
-        [app.tabControllerManager.tabViewController presentViewController:self.chartContainerViewController animated:YES completion:nil];
+        TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+        [tabControllerManager.tabViewController presentViewController:self.chartContainerViewController animated:YES completion:nil];
     }
 }
 
@@ -235,9 +233,9 @@
     [self showChartContainerViewController];
     
     CGFloat padding = PRICE_CHART_PADDING;
-    BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(padding, padding, self.view.frame.size.width - padding, self.view.frame.size.height*3/4 - padding) assetType:AssetTypeBitcoin dataPoints:nil delegate:self];
+    BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(padding, padding, self.view.frame.size.width - padding, self.view.frame.size.height*3/4 - padding) assetType:LegacyAssetTypeBitcoin dataPoints:nil delegate:self];
     [self.chartContainerViewController addPriceChartView:priceChartView atIndex:0];
-    [self fetchChartDataForAsset:AssetTypeBitcoin];
+    [self fetchChartDataForAsset:LegacyAssetTypeBitcoin];
 }
 
 - (void)etherChartTapped
@@ -245,10 +243,10 @@
     [self showChartContainerViewController];
     
     CGFloat padding = PRICE_CHART_PADDING;
-    BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(padding, padding, self.view.frame.size.width - padding, self.view.frame.size.height*3/4 - padding) assetType:AssetTypeEther dataPoints:nil delegate:self];
+    BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(padding, padding, self.view.frame.size.width - padding, self.view.frame.size.height*3/4 - padding) assetType:LegacyAssetTypeEther dataPoints:nil delegate:self];
     [self.chartContainerViewController addPriceChartView:priceChartView atIndex:1];
     [self.chartContainerViewController updateEthExchangeRate:self.lastEthExchangeRate];
-    [self fetchChartDataForAsset:AssetTypeEther];
+    [self fetchChartDataForAsset:LegacyAssetTypeEther];
 }
 
 - (void)bitcoinCashChartTapped
@@ -256,37 +254,43 @@
     [self showChartContainerViewController];
 
     CGFloat padding = PRICE_CHART_PADDING;
-    BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(padding, padding, self.view.frame.size.width - padding, self.view.frame.size.height*3/4 - padding) assetType:AssetTypeBitcoinCash dataPoints:nil delegate:self];
+    BCPriceChartView *priceChartView = [[BCPriceChartView alloc] initWithFrame:CGRectMake(padding, padding, self.view.frame.size.width - padding, self.view.frame.size.height*3/4 - padding) assetType:LegacyAssetTypeBitcoinCash dataPoints:nil delegate:self];
     [self.chartContainerViewController addPriceChartView:priceChartView atIndex:2];
-    [self fetchChartDataForAsset:AssetTypeBitcoinCash];
+    [self fetchChartDataForAsset:LegacyAssetTypeBitcoinCash];
 }
 
 #pragma mark - Balances Chart Delegate
 
 - (void)bitcoinLegendTapped
 {
-    [app.tabControllerManager showTransactionsBitcoin];
+    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+    [tabControllerManager showTransactionsBitcoin];
 }
 
 - (void)etherLegendTapped
 {
-    [app.tabControllerManager showTransactionsEther];
+    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+    [tabControllerManager showTransactionsEther];
 }
 
 - (void)bitcoinCashLegendTapped
 {
-    [app.tabControllerManager showTransactionsBitcoinCash];
+    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+    [tabControllerManager showTransactionsBitcoinCash];
 }
 
 #pragma mark - View Helpers
 
 - (void)showError:(NSString *)error
 {
-    if ([app isPinSet] &&
-        !app.pinEntryViewController &&
-        [app.wallet isInitialized] &&
-        app.tabControllerManager.tabViewController.selectedIndex == TAB_DASHBOARD
-        && !app.modalView) {
+    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+    PEPinEntryController *pinEntryViewController = AuthenticationCoordinator.sharedInstance.pinEntryViewController;
+
+    if ([BlockchainSettings sharedAppInstance].isPinSet &&
+        !pinEntryViewController &&
+        [WalletManager.sharedInstance.wallet isInitialized] &&
+        tabControllerManager.tabViewController.selectedIndex == TAB_DASHBOARD
+        && ![ModalPresenter sharedInstance].modalView) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_ERROR message:error preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -300,7 +304,7 @@
 - (NSString *)stringForValue:(double)value axis:(ChartAxisBase *)axis
 {
     if (axis == [self.chartContainerViewController leftAxis]) {
-        return [NSString stringWithFormat:@"%@%.f", app.latestResponse.symbol_local.symbol, value];
+        return [NSString stringWithFormat:@"%@%.f", WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.symbol, value];
     } else if (axis == [self.chartContainerViewController xAxis]) {
         return [self dateStringFromGraphValue:value];
     } else {
@@ -325,17 +329,17 @@
 
 - (NSString *)getBtcPrice
 {
-    return app.wallet.isInitialized ? [NSNumberFormatter formatMoney:SATOSHI localCurrency:YES] : nil;
+    return WalletManager.sharedInstance.wallet.isInitialized ? [NSNumberFormatter formatMoney:SATOSHI localCurrency:YES] : nil;
 }
 
 - (NSString *)getBchPrice
 {
-    return app.wallet.isInitialized ? [NSNumberFormatter formatBchWithSymbol:SATOSHI localCurrency:YES] : nil;
+    return WalletManager.sharedInstance.wallet.isInitialized ? [NSNumberFormatter formatBchWithSymbol:SATOSHI localCurrency:YES] : nil;
 }
 
 - (NSString *)getEthPrice
 {
-    if (!app.wallet.isInitialized || !self.lastEthExchangeRate) {
+    if (!WalletManager.sharedInstance.wallet.isInitialized || !self.lastEthExchangeRate) {
         return nil;
     }
     return [NSNumberFormatter formatEthToFiatWithSymbol:@"1" exchangeRate:self.lastEthExchangeRate];
@@ -343,20 +347,17 @@
 
 - (double)getBtcBalance
 {
-    return [self doubleFromString:[NSNumberFormatter formatAmount:[app.wallet getTotalActiveBalance] localCurrency:YES]];
+    return [self doubleFromString:[NSNumberFormatter formatAmount:[WalletManager.sharedInstance.wallet getTotalActiveBalance] localCurrency:YES]];
 }
 
 - (double)getEthBalance
 {
-    app.localCurrencyFormatter.usesGroupingSeparator = NO;
-    double result = [self doubleFromString:[NSNumberFormatter formatEthToFiat:[app.wallet getEthBalance] exchangeRate:app.wallet.latestEthExchangeRate]];
-    app.localCurrencyFormatter.usesGroupingSeparator = YES;
-    return result;
+    return [self doubleFromString:[NSNumberFormatter formatEthToFiat:[WalletManager.sharedInstance.wallet getEthBalance] exchangeRate:WalletManager.sharedInstance.wallet.latestEthExchangeRate localCurrencyFormatter:[NSNumberFormatter localCurrencyFormatter]]];
 }
 
 - (double)getBchBalance
 {
-    return [self doubleFromString:[NSNumberFormatter formatBch:[app.wallet bitcoinCashTotalBalance] localCurrency:YES]];
+    return [self doubleFromString:[NSNumberFormatter formatBch:[WalletManager.sharedInstance.wallet bitcoinCashTotalBalance] localCurrency:YES]];
 }
 
 - (double)doubleFromString:(NSString *)string
@@ -374,16 +375,16 @@
 
 #pragma mark - BCPriceChartView Delegate
 
-- (void)addPriceChartView:(AssetType)assetType
+- (void)addPriceChartView:(LegacyAssetType)assetType
 {
     switch (assetType) {
-        case AssetTypeBitcoin: [self bitcoinChartTapped]; return;
-        case AssetTypeEther: [self etherChartTapped]; return;
-        case AssetTypeBitcoinCash: [self bitcoinCashChartTapped]; return;
+        case LegacyAssetTypeBitcoin: [self bitcoinChartTapped]; return;
+        case LegacyAssetTypeEther: [self etherChartTapped]; return;
+        case LegacyAssetTypeBitcoinCash: [self bitcoinCashChartTapped]; return;
     }
 }
 
-- (void)reloadPriceChartView:(AssetType)assetType
+- (void)reloadPriceChartView:(LegacyAssetType)assetType
 {
     [self fetchChartDataForAsset:assetType];
 }

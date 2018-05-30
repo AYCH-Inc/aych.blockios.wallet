@@ -61,7 +61,7 @@
     busyLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:BUSY_VIEW_LABEL_FONT_SYSTEM_SIZE];
     busyLabel.alpha = BUSY_VIEW_LABEL_ALPHA;
     busyLabel.textAlignment = NSTextAlignmentCenter;
-    busyLabel.text = BC_STRING_LOADING_SYNCING_WALLET;
+    busyLabel.text = [LocalizationConstantsObjcBridge syncingWallet];
     busyLabel.center = CGPointMake(textWithSpinnerView.bounds.origin.x + textWithSpinnerView.bounds.size.width/2, textWithSpinnerView.bounds.origin.y + textWithSpinnerView.bounds.size.height/2 + 15);
     [textWithSpinnerView addSubview:busyLabel];
     self.busyLabel = busyLabel;
@@ -145,8 +145,9 @@
 
 - (void)share
 {
-    NSURL *url = app.tabControllerManager.assetType == AssetTypeBitcoin ? [NSURL URLWithString:[[NSBundle walletUrl] stringByAppendingFormat:@"/tx/%@", self.transactionHash]] : [NSURL URLWithString:[URL_PREFIX_VIEW_TRANSACTION_BITCOIN_CASH stringByAppendingString:self.transactionHash]];
-        
+    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+    NSURL *url = tabControllerManager.assetType == LegacyAssetTypeBitcoin ? [NSURL URLWithString:[[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingFormat:@"/tx/%@", self.transactionHash]] : [NSURL URLWithString:[[[BlockchainAPI sharedInstance] blockchairBchTransactionUrl] stringByAppendingString:self.transactionHash]];
+
     NSArray *activityItems = @[self, url];
     
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];

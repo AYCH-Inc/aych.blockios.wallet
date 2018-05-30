@@ -9,7 +9,6 @@
 #import "BCConfirmPaymentView.h"
 #import "UIView+ChangeFrameAttribute.h"
 #import "Blockchain-Swift.h"
-#import "ContactTransaction.h"
 #import "BCTotalAmountView.h"
 #import "BCConfirmPaymentViewModel.h"
 
@@ -18,7 +17,6 @@
 
 @interface BCConfirmPaymentView () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 @property (nonatomic) BCSecureTextField *descriptionField;
-@property (nonatomic) ContactTransaction *contactTransaction;
 @property (nonatomic) BCTotalAmountView *totalAmountView;
 @property (nonatomic) BCConfirmPaymentViewModel *viewModel;
 @property (nonatomic) NSMutableArray *rows;
@@ -71,13 +69,7 @@
         
         self.tableView = summaryTableView;
         
-        NSString *buttonTitle;
-        
-        if (self.contactTransaction) {
-            buttonTitle = [self.contactTransaction.role isEqualToString:TRANSACTION_ROLE_RPR_INITIATOR] ? BC_STRING_SEND : BC_STRING_PAY;
-        } else {
-            buttonTitle = BC_STRING_SEND;
-        }
+        NSString *buttonTitle = BC_STRING_SEND;
         
         self.reallyDoPaymentButton = [[UIButton alloc] initWithFrame:sendButtonFrame];
         self.reallyDoPaymentButton.layer.cornerRadius = CORNER_RADIUS_BUTTON;
@@ -121,9 +113,7 @@
 
 - (void)reallyDoPaymentButtonClicked
 {
-    if (!self.contactTransaction) {
-        [self.confirmDelegate setupNoteForTransaction:self.note];
-    }
+    [self.confirmDelegate setupNoteForTransaction:self.note];
 }
 
 - (void)feeInformationButtonClicked

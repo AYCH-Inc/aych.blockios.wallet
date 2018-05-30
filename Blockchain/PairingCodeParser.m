@@ -7,7 +7,7 @@
 //
 
 #import "PairingCodeParser.h"
-#import "RootService.h"
+#import "Blockchain-Swift.h"
 
 @implementation PairingCodeParser
 
@@ -29,7 +29,7 @@
 {
     [super viewDidLoad];
     
-    self.view.frame = CGRectMake(0, 0, app.window.frame.size.width, app.window.frame.size.height - DEFAULT_HEADER_HEIGHT);
+    self.view.frame = CGRectMake(0, 0, [UIApplication sharedApplication].keyWindow.frame.size.width, [UIApplication sharedApplication].keyWindow.frame.size.height - DEFAULT_HEADER_HEIGHT);
     
     UIView *topBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_HEADER_HEIGHT)];
     topBarView.backgroundColor = COLOR_BLOCKCHAIN_BLUE;
@@ -89,7 +89,7 @@
     _videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_captureSession];
     [_videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
     
-    CGRect frame = CGRectMake(0, DEFAULT_HEADER_HEIGHT, app.window.frame.size.width, app.window.frame.size.height - DEFAULT_HEADER_HEIGHT);
+    CGRect frame = CGRectMake(0, DEFAULT_HEADER_HEIGHT, [UIApplication sharedApplication].keyWindow.frame.size.width, [UIApplication sharedApplication].keyWindow.frame.size.height - DEFAULT_HEADER_HEIGHT);
     
     [_videoPreviewLayer setFrame:frame];
     
@@ -117,22 +117,21 @@
                 
                 [self dismissViewControllerAnimated:YES completion:nil];
 
-                [app showBusyViewWithLoadingText:BC_STRING_PARSING_PAIRING_CODE];
-                
+                [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_PARSING_PAIRING_CODE];
             });
             
-            [app.wallet loadBlankWallet];
+            [WalletManager.sharedInstance.wallet loadBlankWallet];
             
-            app.wallet.delegate = self;
+            WalletManager.sharedInstance.wallet.delegate = self;
             
-            [app.wallet parsePairingCode:[metadataObj stringValue]];
+            [WalletManager.sharedInstance.wallet parsePairingCode:[metadataObj stringValue]];
         }
     }
 }
 
 - (void)errorParsingPairingCode:(NSString *)message
 {
-    [app hideBusyView];
+    [[LoadingViewPresenter sharedInstance] hideBusyView];
 
     if (self.error) {
         if ([message containsString:ERROR_INVALID_PAIRING_VERSION_CODE]) {
@@ -143,15 +142,21 @@
             self.error(message);
         }
     }
+
+    WalletManager.sharedInstance.wallet.delegate = WalletManager.sharedInstance;
 }
 
 -(void)didParsePairingCode:(NSDictionary *)dict
 {
-    [app hideBusyView];
+    [[LoadingViewPresenter sharedInstance] hideBusyView];
+
+    WalletManager.sharedInstance.wallet.didPairAutomatically = YES;
 
     if (self.success) {
         self.success(dict);
     }
+
+    WalletManager.sharedInstance.wallet.delegate = WalletManager.sharedInstance;
 }
 
 @end

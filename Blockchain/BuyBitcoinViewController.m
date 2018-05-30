@@ -10,7 +10,6 @@
 #import "BuyBitcoinViewController.h"
 #import <WebKit/WebKit.h>
 #import "NSString+NSString_EscapeQuotes.h"
-#import "RootService.h"
 #import <SafariServices/SafariServices.h>
 #import "TransactionDetailNavigationController.h"
 #import "Blockchain-Swift.h"
@@ -50,8 +49,8 @@ NSString* loginWithJsonScript(NSString*, NSString*, NSString*, NSString*, BOOL);
         self.webView.scrollView.scrollEnabled = YES;
         self.automaticallyAdjustsScrollViewInsets = NO;
         
-        NSString *walletOptionsRootURL = [app.wallet buySellWebviewRootURLString];
-        NSString *urlString = walletOptionsRootURL ? [walletOptionsRootURL stringByAppendingString:URL_BUY_WEBVIEW_SUFFIX] : [NSBundle buyWebViewUrl];
+        NSString *walletOptionsRootURL = [WalletManager.sharedInstance.wallet buySellWebviewRootURLString];
+        NSString *urlString = walletOptionsRootURL ? [walletOptionsRootURL stringByAppendingString:URL_BUY_WEBVIEW_SUFFIX] : [[BlockchainAPI sharedInstance] buyWebViewUrl];
         NSURL *login = [NSURL URLWithString:urlString];
         NSURLRequest *request = [NSURLRequest requestWithURL:login cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval: 10.0];
         [self.webView loadRequest:request];
@@ -96,8 +95,8 @@ NSString* loginWithJsonScript(NSString*, NSString*, NSString*, NSString*, BOOL);
 }
 
 - (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
-    if (app.certificatePinner && [challenge.protectionSpace.host hasSuffix:HOST_NAME_WALLET_SERVER]) {
-        [app.certificatePinner didReceiveChallenge:challenge completionHandler:completionHandler];
+    if ([challenge.protectionSpace.host hasSuffix:[[BlockchainAPI sharedInstance] blockchainWallet]]) {
+        [[CertificatePinner sharedInstance] didReceive:challenge completion:completionHandler];
     } else {
         completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
     }
@@ -132,13 +131,7 @@ NSString* loginWithJsonScript(NSString* json, NSString* externalJson, NSString* 
         DLog(@"Ran script with result %@, error %@", result, error);
         if (error != nil) {
             
-            UIViewController *targetController;
-            
-            if (app.topViewControllerDelegate) {
-                targetController = app.topViewControllerDelegate;
-            } else {
-                targetController = app.window.rootViewController;
-            }
+            UIViewController *targetController = UIApplication.sharedApplication.keyWindow.rootViewController.topMostViewController;
             
             UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:BC_STRING_ERROR message:BC_STRING_BUY_WEBVIEW_ERROR_MESSAGE preferredStyle:UIAlertControllerStyleAlert];
             [errorAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];
@@ -181,7 +174,6 @@ NSString* loginWithJsonScript(NSString* json, NSString* externalJson, NSString* 
 
     if ([message.name isEqual:WEBKIT_HANDLER_SHOW_TX]) {
         [self dismissViewControllerAnimated:YES completion:^(){
-            app.topViewControllerDelegate = nil;
             [self.delegate showCompletedTrade:message.body];
         }];
     }

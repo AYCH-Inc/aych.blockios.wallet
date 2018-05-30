@@ -11,7 +11,7 @@
 #import "BCLine.h"
 #import "Transaction.h"
 #import "NSNumberFormatter+Currencies.h"
-#import "RootService.h"
+#import "Blockchain-Swift.h"
 
 @interface TransactionsViewController ()
 @property (nonatomic) UILabel *noTransactionsTitle;
@@ -66,20 +66,20 @@
     [self.view addSubview:self.filterSelectorView];
 }
 
-- (void)setupNoTransactionsViewInView:(UIView *)view assetType:(AssetType)assetType
+- (void)setupNoTransactionsViewInView:(UIView *)view assetType:(LegacyAssetType)assetType
 {
     [self.noTransactionsView removeFromSuperview];
     
     NSString *descriptionText;
     NSString *buttonText;
 
-    if (assetType == AssetTypeBitcoin) {
+    if (assetType == LegacyAssetTypeBitcoin) {
         descriptionText = BC_STRING_NO_TRANSACTIONS_TEXT_BITCOIN;
         buttonText = BC_STRING_GET_BITCOIN;
-    } else if (assetType == AssetTypeEther) {
+    } else if (assetType == LegacyAssetTypeEther) {
         descriptionText = BC_STRING_NO_TRANSACTIONS_TEXT_ETHER;
         buttonText = BC_STRING_REQUEST_ETHER;
-    } else if (assetType == AssetTypeBitcoinCash) {
+    } else if (assetType == LegacyAssetTypeBitcoinCash) {
         descriptionText = BC_STRING_NO_TRANSACTIONS_TEXT_BITCOIN_CASH;
         buttonText = BC_STRING_REQUEST_BITCOIN_CASH;
     }
@@ -171,7 +171,7 @@
 
 - (void)updateBalanceLabel
 {
-    TabViewcontroller *tabViewController = app.tabControllerManager.tabViewController;
+    TabViewcontroller *tabViewController = [AppCoordinator sharedInstance].tabControllerManager.tabViewController;
     if (tabViewController.activeViewController == self) {
         [tabViewController updateBalanceLabelText:self.balance];
     }

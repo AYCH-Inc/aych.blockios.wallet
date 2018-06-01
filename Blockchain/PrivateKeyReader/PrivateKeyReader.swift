@@ -202,11 +202,13 @@ final class PrivateKeyReader: UIViewController & AVCaptureMetadataOutputObjectsD
                 guard let format = WalletManager.shared.wallet.detectPrivateKeyFormat(scannedKey), format.count > 0 else {
                     LoadingViewPresenter.shared.hideBusyView()
                     if self.acceptPublicKeys {
-                        guard let address = BitcoinAddress(string: scannedKey) else {
-                            self.delegate?.didFinishScanningWithError(.unknownKeyFormat)
-                            // TODO: remove once LegacyPrivateKeyDelegate is deprecated
-                            self.legacyDelegate?.didFinishScanningWithError(.unknownKeyFormat)
-                            return
+                        let address = BitcoinAddress(string: scannedKey)
+                        let validator = AddressValidator(context: WalletManager.shared.wallet.context)
+                        guard validator.validate(bitcoinAddress: address) else {
+                                self.delegate?.didFinishScanningWithError(.unknownKeyFormat)
+                                // TODO: remove once LegacyPrivateKeyDelegate is deprecated
+                                self.legacyDelegate?.didFinishScanningWithError(.unknownKeyFormat)
+                                return
                         }
                         WalletManager.shared.askUserToAddWatchOnlyAddress(address) {
                             self.delegate?.didFinishScanning(scannedKey, for: address)

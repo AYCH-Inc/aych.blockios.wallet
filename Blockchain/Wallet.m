@@ -683,10 +683,6 @@
         [weakSelf on_get_pending_trades_error:error];
     };
 
-    self.context[@"objc_initialize_webview"] = ^() {
-        [weakSelf initialize_webview];
-    };
-
 #pragma mark Settings
     
     self.context[@"objc_on_get_account_info_and_exchange_rates"] = ^() {
@@ -2433,17 +2429,6 @@
     return [[self.context evaluateScript:@"MyWalletPhone.canUseSfox()"] toBool];
 }
 
-- (void)setupBuySellWebview
-{
-    [self.context evaluateScript:@"MyWalletPhone.setupBuySellWebview()"];
-}
-
-- (NSString *)buySellWebviewRootURLString
-{
-    JSValue *result = [self.context evaluateScript:@"MyWalletPhone.getBuySellWebviewRootURL()"];
-    return [result isNull] ? nil : [result toString];
-}
-
 - (void)watchPendingTrades:(BOOL)shouldSync
 {
     if (shouldSync) {
@@ -4049,15 +4034,6 @@
 - (void)on_get_pending_trades_error:(JSValue *)error
 {
     [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[error toString] title:BC_STRING_ERROR handler: nil];
-}
-
-- (void)initialize_webview
-{
-    if ([self.delegate respondsToSelector:@selector(initializeWebView)]) {
-        [self.delegate initializeWebView];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector initializeWebView!", [delegate class]);
-    }
 }
 
 - (void)on_fetch_eth_history_success

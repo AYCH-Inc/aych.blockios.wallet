@@ -102,7 +102,7 @@ class WalletManager: NSObject {
 
         AppCoordinator.shared.tabControllerManager.transition(to: 1)
 
-        wallet.setupBuySellWebview()
+        BuySellCoordinator.shared.start()
     }
 
     private var backgroundUpdateTaskIdentifer: UIBackgroundTaskIdentifier?
@@ -235,12 +235,6 @@ extension WalletManager: WalletDelegate {
     }
 
     // MARK: - Buy/Sell
-
-    func initializeWebView() {
-        DispatchQueue.main.async { [unowned self] in
-            self.buySellDelegate?.initializeWebView()
-        }
-    }
 
     func didCompleteTrade(_ tradeDict: [AnyHashable: Any]!) {
         guard let trade = Trade(dict: tradeDict as! [String: String]) else {

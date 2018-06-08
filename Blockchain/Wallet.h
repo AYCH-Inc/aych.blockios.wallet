@@ -137,7 +137,6 @@
 - (void)didShiftPayment;
 - (void)didCreateEthAccountForExchange;
 - (void)didFetchBitcoinCashHistory;
-- (void)initializeWebView;
 - (void)wallet:(Wallet *)wallet didRequireTwoFactorAuthentication:(NSInteger)type;
 - (void)walletDidResendTwoFactorSMS:(Wallet *)wallet;
 - (void)walletDidRequireEmailAuthorization:(Wallet *)wallet;
@@ -343,8 +342,6 @@
 
 - (BOOL)isBuyEnabled;
 - (BOOL)canUseSfox;
-- (void)setupBuySellWebview;
-- (NSString *)buySellWebviewRootURLString;
 
 // Settings
 - (void)getAccountInfo;

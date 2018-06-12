@@ -553,7 +553,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define NAVIGATION_CONTROLLER_NAME_SETTINGS @"SettingsNavigationController"
 #define NAVIGATION_CONTROLLER_NAME_BACKUP @"BackupNavigation"
 
-#define NIB_NAME_TAB_CONTROLLER @"TabController"
 #define NIB_NAME_TRANSACTIONS @"Transactions"
 #define NIB_NAME_SEND_COINS @"SendCoins"
 #define NIB_NAME_RECEIVE_COINS @"ReceiveCoins"
@@ -622,14 +621,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define TAB_DASHBOARD 1
 #define TAB_TRANSACTIONS 2
 #define TAB_RECEIVE 3
-
-// SideMenuViewController
-#define SECTION_HEADER_HEIGHT 44
-
-#define MENU_ENTRY_HEIGHT 54
-#define BALANCE_ENTRY_HEIGHT 58
-
-#define MENU_TOP_BANNER_HEIGHT 65
 
 #define PIN_API_STATUS_CODE_DELETED 1
 #define PIN_API_STATUS_PIN_INCORRECT 2

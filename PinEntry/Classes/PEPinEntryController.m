@@ -193,7 +193,7 @@ static PEViewController *VerifyController()
 
         AssetType type = [self assetTypeFromLegacyAssetType:assetType];
 
-        NSString *nextAddress = [[assetAddressRepository swipeToReceiveAddressesFor:type] firstObject];
+        NSString *nextAddress = [[assetAddressRepository swipeToReceiveAddressesFor:type] firstObject].address;
         
         if (nextAddress) {
             
@@ -220,12 +220,16 @@ static PEViewController *VerifyController()
                     self.errorAlert = nil;
                 }
             };
-            [[AssetAddressRepository sharedInstance] checkForUnusedAddress:nextAddress displayAddress:nextAddress legacyAssetType:assetType successHandler:success errorHandler:error];
+            [[AssetAddressRepository sharedInstance] checkForUnusedAddress:nextAddress
+                                                            displayAddress:nextAddress
+                                                                 assetType:[self assetTypeFromLegacyAssetType:assetType]
+                                                            successHandler:success
+                                                              errorHandler:error];
         } else {
             [swipeView updateAddress:nextAddress];
         }
     } else if (assetType == LegacyAssetTypeEther) {
-        NSString *etherAddress = [[assetAddressRepository swipeToReceiveAddressesFor:AssetTypeEthereum] firstObject];
+        NSString *etherAddress = [[assetAddressRepository swipeToReceiveAddressesFor:AssetTypeEthereum] firstObject].address;
         if (etherAddress) {
             [swipeView updateAddress:etherAddress];
         }

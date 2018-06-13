@@ -318,12 +318,8 @@ extension AuthenticationManager: WalletAuthDelegate {
         authHandler?(false, type, nil)
     }
 
-    func incorrectTwoFactorCode() {
-        // TODO
-    }
-
     func emailAuthorizationRequired() {
-        failAuth(withError: AuthenticationError(
+        authHandler?(false, nil, AuthenticationError(
             code: AuthenticationError.ErrorCode.emailAuthorizationRequired.rawValue
         ))
     }

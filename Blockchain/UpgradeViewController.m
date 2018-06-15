@@ -7,9 +7,9 @@
 //
 
 #import "UpgradeViewController.h"
-#import "RootService.h"
 #import "LocalizationConstants.h"
 #import "UILabel+MultiLineAutoSize.h"
+#import "Blockchain-Swift.h"
 
 @interface UpgradeViewController ()
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
@@ -33,17 +33,16 @@
 
 - (IBAction)upgradeTapped:(UIButton *)sender
 {
-    if (![app checkInternetConnection]) {
+    if (!Reachability.hasInternetConnection) {
+        [AlertViewPresenter.sharedInstance showNoInternetConnectionAlert];
         return;
     }
     
-    app.topViewControllerDelegate = nil;
-    
-    [app.wallet loading_start_upgrade_to_hd];
+    [WalletManager.sharedInstance.wallet loading_start_upgrade_to_hd];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * ANIMATION_DURATION * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [app closeSideMenu];
-        [app.wallet performSelector:@selector(upgradeToV3Wallet) withObject:nil afterDelay:0.1f];
+        [[AppCoordinator sharedInstance] closeSideMenu];
+        [WalletManager.sharedInstance.wallet performSelector:@selector(upgradeToV3Wallet) withObject:nil afterDelay:0.1f];
     });
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -160,7 +159,6 @@
 {
     [super viewWillDisappear:animated];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-    app.topViewControllerDelegate = nil;
 }
 
 - (void)viewDidLayoutSubviews
@@ -219,13 +217,6 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self setTextForCaptionLabel];
-}
-
-#pragma mark Top View Delegate
-
-- (void)presentAlertController:(UIAlertController *)alertController
-{
-    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 @end

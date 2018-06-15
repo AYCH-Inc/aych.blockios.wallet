@@ -10,10 +10,10 @@
 #import "BCLine.h"
 #import "UILabel+CGRectForSubstring.h"
 #import "ExchangeDetailView.h"
-#import "RootService.h"
 #import "BCNavigationController.h"
 #import <SafariServices/SafariServices.h>
 #import "NSNumberFormatter+Currencies.h"
+#import "Blockchain-Swift.h"
 
 #define MARGIN_HORIZONTAL 20
 #define SHAPESHIFT_TERMS_AND_CONDITIONS_URL @"https://info.shapeshift.io/sites/default/files/ShapeShift_Terms_Conditions%20v1.1.pdf"
@@ -160,10 +160,12 @@
 
 - (void)confirmButtonClicked
 {
-    if ([[self.trade.depositCurrency uppercaseString] isEqualToString:CURRENCY_SYMBOL_ETH] && [app checkIfWaitingOnEtherTransaction]) return;
+    if ([[self.trade.depositCurrency uppercaseString] isEqualToString:CURRENCY_SYMBOL_ETH] && [[WalletManager sharedInstance].wallet isWaitingOnEtherTransaction]) {
+        [[AlertViewPresenter sharedInstance] showWaitingForEtherPaymentAlert];
+        return;
+    }
     
-    BCNavigationController *navigationController = (BCNavigationController *)self.navigationController;
-    [navigationController showBusyViewWithLoadingText:BC_STRING_CONFIRMING];
+    [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge confirming]];
     
     [self performSelector:@selector(shiftPayment) withObject:nil afterDelay:ANIMATION_DURATION];
 }
@@ -225,7 +227,7 @@
 
 - (void)shiftPayment
 {
-    [app.wallet shiftPayment];
+    [WalletManager.sharedInstance.wallet shiftPayment];
 }
 
 @end

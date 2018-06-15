@@ -298,7 +298,6 @@ MyWalletPhone.isAccountNameValid = function(name) {
     for (var i = 0; i < accounts.length; i++) {
         var account = accounts[i];
         if (account.label == name) {
-            objc_on_error_account_name_in_use();
             return false;
         }
     }
@@ -1365,14 +1364,12 @@ MyWalletPhone.getRecoveryPhrase = function(secondPassword) {
 // Get passwords
 
 MyWalletPhone.getPrivateKeyPassword = function(callback) {
-    // Due to the way the JSBridge handles calls with success/error callbacks, we need a first argument that can be ignored
     objc_get_private_key_password(function(pw) {
         callback(pw);
     });
 };
 
 MyWalletPhone.getSecondPassword = function(callback, helperText) {
-    // Due to the way the JSBridge handles calls with success/error callbacks, we need a first argument that can be ignored
     objc_get_second_password(function(pw) {
         callback(pw);
     }, helperText);
@@ -1453,13 +1450,29 @@ MyWalletPhone.getAccountInfo = function () {
         console.log('Getting account info');
         var accountInfo = JSON.stringify(data, null, 2);
         objc_on_get_account_info_success(accountInfo);
+        return data;
     }
 
     var error = function (e) {
         console.log('Error getting account info: ' + e);
     };
 
-    MyWallet.wallet.fetchAccountInfo().then(success).catch(error);
+    return MyWallet.wallet.fetchAccountInfo().then(success).catch(error);
+}
+
+MyWalletPhone.getAccountInfoAndExchangeRates = function() {
+    
+    var success = function() {
+        objc_on_get_account_info_and_exchange_rates()
+    };
+    
+    MyWalletPhone.getAccountInfo().then(function(data) {
+        var getBtcExchangeRates = MyWalletPhone.getBtcExchangeRates()
+        var getBchExchangeRates = MyWalletPhone.bch.fetchExchangeRates()
+        var currency =  data.currency
+        var getEthExchangeRate = MyWalletPhone.getEthExchangeRate(currency)
+        Promise.all([getBtcExchangeRates, getBchExchangeRates, getEthExchangeRate]).then(success);
+    });
 }
 
 MyWalletPhone.getEmail = function () {
@@ -1613,12 +1626,13 @@ MyWalletPhone.changeBtcCurrency = function(code) {
     BlockchainSettingsAPI.changeBtcCurrency(code, success, error);
 }
 
-MyWalletPhone.getAllCurrencySymbols = function () {
+MyWalletPhone.getBtcExchangeRates = function () {
 
     var success = function (data) {
-        console.log('Getting all currency symbols');
+        console.log('Getting btc exchange rates');
         var currencySymbolData = JSON.stringify(data, null, 2);
-        objc_on_get_all_currency_symbols_success(currencySymbolData);
+        objc_on_get_btc_exchange_rates_success(currencySymbolData);
+        return data;
     };
 
     var error = function (e) {
@@ -1626,7 +1640,7 @@ MyWalletPhone.getAllCurrencySymbols = function () {
     };
 
     var promise = BlockchainAPI.getTicker();
-    promise.then(success, error);
+    return promise.then(success, error);
 }
 
 MyWalletPhone.getPasswordStrength = function(password) {
@@ -2309,22 +2323,6 @@ MyWalletPhone.isBuyFeatureEnabled = function () {
   return userHasAccess && wallet.external && canBuy(wallet.accountInfo, options)
 }
 
-MyWalletPhone.setupBuySellWebview = function() {
-    walletOptions.fetch().then(function() {
-        objc_initialize_webview();
-    });
-}
-
-MyWalletPhone.getBuySellWebviewRootURL = function() {
-    var options = walletOptions.getValue();
-    var mobile = options.mobile;
-    var rootURL = null;
-    if (mobile) {
-        rootURL = mobile.walletRoot;
-    }
-    return rootURL;
-}
-
 MyWalletPhone.getNetworks = function() {
     return Networks;
 }
@@ -2360,6 +2358,7 @@ MyWalletPhone.getEthExchangeRate = function(currencyCode) {
     var success = function(result) {
         console.log('Success fetching eth exchange rate');
         objc_on_fetch_eth_exchange_rate_success(result, currencyCode);
+        return result;
     };
 
     var error = function(error) {
@@ -2368,7 +2367,7 @@ MyWalletPhone.getEthExchangeRate = function(currencyCode) {
         objc_on_fetch_eth_exchange_rate_error(error);
     };
 
-    BlockchainAPI.getExchangeRate(currencyCode, 'ETH').then(success).catch(error);
+    return BlockchainAPI.getExchangeRate(currencyCode, 'ETH').then(success).catch(error);
 }
 
 MyWalletPhone.getEthBalance = function() {
@@ -2902,14 +2901,14 @@ MyWalletPhone.bch = {
     
     fetchExchangeRates : function() {
         var success = function(result) {
-            objc_did_get_bitcoin_cash_exchange_rates(result, true);
+            objc_did_get_bitcoin_cash_exchange_rates(result);
             return result;
         }
         
         var error = function(e) {
             console.log(e);
         }
-        BlockchainAPI.getExchangeRate('USD', 'BCH').then(success).catch(error);
+        return BlockchainAPI.getExchangeRate('USD', 'BCH').then(success).catch(error);
     },
     
     getAvailableBalanceForAccount : function(accountIndex) {

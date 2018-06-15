@@ -12,6 +12,7 @@
 #import "BCAddressSelectionView.h"
 #import "BCModalViewController.h"
 #import "BCNavigationController.h"
+#import "Blockchain-Swift.h"
 
 @interface TransferAllFundsViewController () <TransferAllFundsDelegate, UITableViewDataSource, UITableViewDelegate, AddressSelectionDelegate>
 @property (nonatomic) uint64_t amount;
@@ -35,7 +36,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupViews];
-    self.transferPaymentBuilder = [[TransferAllFundsBuilder alloc] initWithAssetType:AssetTypeBitcoin usingSendScreen:NO];
+    self.transferPaymentBuilder = [[TransferAllFundsBuilder alloc] initWithAssetType:LegacyAssetTypeBitcoin usingSendScreen:NO];
     
     __weak TransferAllFundsViewController *weakSelf = self;
     
@@ -43,10 +44,11 @@
         BCNavigationController *navigationController = (BCNavigationController *)weakSelf.navigationController;
         navigationController.shouldHideBusyView = NO;
         NSString *text = [NSString stringWithFormat:BC_STRING_TRANSFER_ALL_FROM_ADDRESS_ARGUMENT_ARGUMENT, weakSelf.transferPaymentBuilder.transferAllAddressesInitialCount - [weakSelf.transferPaymentBuilder.transferAllAddressesToTransfer count] + 1, weakSelf.transferPaymentBuilder.transferAllAddressesInitialCount];
-        if (navigationController.busyView.alpha > 0) {
-            [navigationController updateBusyViewLoadingText:text];
+        LoadingViewPresenter *loadingViewPresenter = [LoadingViewPresenter sharedInstance];
+        if ([loadingViewPresenter isLoadingShown]) {
+            [loadingViewPresenter updateBusyViewLoadingTextWithText:text];
         } else {
-            [navigationController showBusyViewWithLoadingText:text];
+            [loadingViewPresenter showBusyViewWithLoadingText:text];
         }
     };
     self.transferPaymentBuilder.delegate = self;
@@ -91,6 +93,8 @@
 
 - (void)send
 {
+    [self dismissViewControllerAnimated:YES completion:nil];
+
     [self.transferPaymentBuilder transferAllFundsToAccountWithSecondPassword:nil];
 }
 
@@ -120,9 +124,7 @@
     
     [self.delegate didTransferAll];
     
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        [self.delegate showAlert:alertForPaymentsSent];
-    }];
+    [self.delegate showAlert:alertForPaymentsSent];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -208,12 +210,12 @@
     [self.transferPaymentBuilder archiveTransferredAddresses];
 }
 
-- (AssetType)getAssetType
+- (LegacyAssetType)getAssetType
 {
-    return AssetTypeBitcoin;
+    return LegacyAssetTypeBitcoin;
 }
 
-- (void)didSelectFromAccount:(int)account assetType:(AssetType)asset
+- (void)didSelectFromAccount:(int)account assetType:(LegacyAssetType)asset
 {
     [self.navigationController popViewControllerAnimated:YES];
     [self.transferPaymentBuilder setupTransfersToAccount:account];
@@ -233,11 +235,6 @@
 - (void)didSelectFromAddress:(NSString *)address
 {
     DLog(@"Error: Selected From Address!");
-}
-
-- (void)didSelectContact:(Contact *)contact
-{
-    DLog(@"Error: Selected Contact!");
 }
 
 @end

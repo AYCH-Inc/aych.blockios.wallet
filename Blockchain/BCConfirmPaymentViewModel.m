@@ -7,9 +7,8 @@
 //
 
 #import "BCConfirmPaymentViewModel.h"
-#import "ContactTransaction.h"
 #import "NSNumberFormatter+Currencies.h"
-#import "RootService.h"
+#import "Blockchain-Swift.h"
 
 @interface BCConfirmPaymentViewModel ()
 @end
@@ -20,7 +19,6 @@
             amount:(uint64_t)amount
                fee:(uint64_t)fee
              total:(uint64_t)total
-contactTransaction:(ContactTransaction *)contactTransaction
              surge:(BOOL)surgePresent
 {
     self = [super init];
@@ -29,14 +27,7 @@ contactTransaction:(ContactTransaction *)contactTransaction
         self.from = from;
         self.to = to;
         self.surgeIsOccurring = surgePresent;
-        
-        if (contactTransaction) {
-            self.buttonTitle = [contactTransaction.role isEqualToString:TRANSACTION_ROLE_RPR_INITIATOR] ? BC_STRING_SEND : BC_STRING_PAY;
-            self.noteText = contactTransaction.reason;
-        } else {
-            self.buttonTitle = BC_STRING_SEND;
-        }
-        
+        self.buttonTitle = BC_STRING_SEND;
         self.fiatTotalAmountText = [NSNumberFormatter formatMoney:total localCurrency:YES];
         self.btcTotalAmountText = [NSNumberFormatter formatBTC:total];
         self.btcWithFiatAmountText = [self formatAmountInBTCAndFiat:amount];
@@ -84,7 +75,7 @@ contactTransaction:(ContactTransaction *)contactTransaction
         self.btcWithFiatFeeText = [self formatAmountInBCHAndFiat:fee];
         self.showDescription = NO;
         
-        if ([app.wallet isValidAddress:self.to assetType:AssetTypeBitcoin]) {
+        if ([WalletManager.sharedInstance.wallet isValidAddress:self.to assetType:LegacyAssetTypeBitcoin]) {
             CGFloat fontSize = FONT_SIZE_EXTRA_SMALL;
             NSMutableAttributedString *warning = [[NSMutableAttributedString alloc] initWithString:BC_STRING_BITCOIN_CASH_WARNING_CONFIRM_VALID_ADDRESS_ONE];
             [warning addAttribute:NSFontAttributeName value:[UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:fontSize] range:NSMakeRange(0, [warning length])];

@@ -10,6 +10,7 @@
 #import "UIView+ChangeFrameAttribute.h"
 #import "BCBalanceChartLegendKeyView.h"
 #import "Blockchain-Swift.h"
+#import "NSNumberFormatter+Currencies.h"
 
 #define CHART_VIEW_BOTTOM_PADDING 16
 
@@ -161,9 +162,10 @@
         dataSet.selectionShift = 5;
         self.chartView.highlightPerTapEnabled = NO;
     } else {
-        NSDictionary *btcChartEntryData = @{@"currency": BC_STRING_BITCOIN, @"symbol": self.fiatSymbol};
-        NSDictionary *ethChartEntryData = @{@"currency": BC_STRING_ETHER, @"symbol": self.fiatSymbol};
-        NSDictionary *bchChartEntryData = @{@"currency": BC_STRING_BITCOIN_CASH, @"symbol": self.fiatSymbol};
+        NSString *fiatSymbol = self.fiatSymbol ? : @"";
+        NSDictionary *btcChartEntryData = @{@"currency": BC_STRING_BITCOIN, @"symbol": fiatSymbol};
+        NSDictionary *ethChartEntryData = @{@"currency": BC_STRING_ETHER, @"symbol": fiatSymbol};
+        NSDictionary *bchChartEntryData = @{@"currency": BC_STRING_BITCOIN_CASH, @"symbol": fiatSymbol};
         ChartDataEntry *bitcoinValue = [[PieChartDataEntry alloc] initWithValue:self.bitcoinFiatBalance data:btcChartEntryData];
         ChartDataEntry *etherValue = [[PieChartDataEntry alloc] initWithValue:self.etherFiatBalance data:ethChartEntryData];
         ChartDataEntry *bitcoinCashValue = [[PieChartDataEntry alloc] initWithValue:self.bitcoinCashFiatBalance data:bchChartEntryData];

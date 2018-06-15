@@ -8,7 +8,6 @@
 
 #import "DebugTableViewController.h"
 #import "Blockchain-Swift.h"
-#import "RootService.h"
 
 #define DICTIONARY_KEY_SERVER @"server"
 #define DICTIONARY_KEY_WEB_SOCKET @"webSocket"
@@ -75,7 +74,7 @@ typedef enum {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.filteredWalletJSON = [app.wallet filteredWalletJSON];
+    self.filteredWalletJSON = [WalletManager.sharedInstance.wallet filteredWalletJSON];
 }
 
 - (void)dismiss
@@ -220,11 +219,11 @@ typedef enum {
         case RowDontShowAgain: {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:DEBUG_STRING_DEBUG message:DEBUG_STRING_RESET_DONT_SHOW_AGAIN_PROMPT_MESSAGE preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:DEBUG_STRING_RESET style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:USER_DEFAULTS_KEY_HIDE_TRANSFER_ALL_FUNDS_ALERT];
+                BlockchainSettings.sharedAppInstance.hideTransferAllFundsAlert = NO;
                 [[NSUserDefaults standardUserDefaults] setBool:NO forKey:USER_DEFAULTS_KEY_HIDE_APP_REVIEW_PROMPT];
                 [[NSUserDefaults standardUserDefaults] setBool:NO forKey:USER_DEFAULTS_KEY_HIDE_WATCH_ONLY_RECEIVE_WARNING];
                 [[NSUserDefaults standardUserDefaults] setBool:NO forKey:USER_DEFAULTS_KEY_HAS_SEEN_SURVEY_PROMPT];
-                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:USER_DEFAUTS_KEY_HAS_ENDED_FIRST_SESSION];
+                BlockchainSettings.sharedAppInstance.hasEndedFirstSession = NO;
             }]];
             [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];

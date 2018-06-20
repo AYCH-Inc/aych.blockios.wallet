@@ -165,8 +165,9 @@ static PEViewController *VerifyController()
         backgroundViewPageControl.hidden = YES;
         self.backgroundViewPageControl = backgroundViewPageControl;
 
-        CGFloat windowWidth = WINDOW_WIDTH;
-        CGFloat windowHeight = WINDOW_HEIGHT;
+        CGRect rootFrame = UIApplication.sharedApplication.keyWindow.rootViewController.view.frame;
+        CGFloat windowWidth = rootFrame.size.width;
+        CGFloat windowHeight = rootFrame.size.height;
 
         [pinController.scrollView setContentSize:CGSizeMake(windowWidth * (assets.count + 1), windowHeight)];
         [pinController.scrollView setPagingEnabled:YES];
@@ -345,7 +346,16 @@ static PEViewController *VerifyController()
     if (self.verifyOnly) {
         self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
         self.longPressGesture.minimumPressDuration = DURATION_LONG_PRESS_GESTURE_DEBUG;
-        self.debugButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 80, 15, 80, 51)];
+
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        CGFloat safeAreaInsetTop;
+        if (@available(iOS 11.0, *)) {
+            safeAreaInsetTop = window.rootViewController.view.safeAreaInsets.top;
+        } else {
+            safeAreaInsetTop = 20;
+        }
+
+        self.debugButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 80, safeAreaInsetTop, 80, 51)];
         self.debugButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         self.debugButton.titleLabel.adjustsFontSizeToFitWidth = YES;
         [self.debugButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
@@ -389,7 +399,7 @@ static PEViewController *VerifyController()
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (!self.scrollViewPageControl) {
-        CGFloat windowWidth = WINDOW_WIDTH;
+        CGFloat windowWidth = self.view.frame.size.width;
         UIPageControl *scrollViewPageControl = [self pageControlWithAssets:[self assets]];
         [scrollViewPageControl changeXPosition:scrollViewPageControl.frame.origin.x + windowWidth];
         [pinController.scrollView addSubview:scrollViewPageControl];

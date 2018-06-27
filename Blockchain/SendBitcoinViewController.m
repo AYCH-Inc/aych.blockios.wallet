@@ -124,10 +124,10 @@ BOOL displayingLocalSymbolSend;
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_KEY_LOADING_TEXT object:nil];
 
-    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
-    if (self.addressSource == DestinationAddressSourceContact && tabControllerManager.tabViewController.selectedIndex != TAB_SEND) [self reload];
+    [self reload];
 }
 
 - (void)viewDidLoad
@@ -325,7 +325,6 @@ BOOL displayingLocalSymbolSend;
     
     [self enableAmountViews];
     [self enableToField];
-    [self hideContactLabel];
     
     self.isSending = NO;
     self.isReloading = NO;
@@ -770,7 +769,7 @@ BOOL displayingLocalSymbolSend;
     // Timeout so the keyboard is fully dismised - otherwise the second password modal keyboard shows the send screen kebyoard accessory
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        if ([self transferAllMode] || self.addressSource == DestinationAddressSourceContact) {
+        if ([self transferAllMode]) {
             [[ModalPresenter sharedInstance].modalView.backButton addTarget:self action:@selector(reload) forControlEvents:UIControlEventTouchUpInside];
         }
         
@@ -1239,11 +1238,6 @@ BOOL displayingLocalSymbolSend;
 - (CGFloat)defaultYPositionForWarningLabel
 {
     return IS_USING_SCREEN_SIZE_4S ? 76 : 112;
-}
-
-- (void)hideContactLabel
-{
-    contactLabel.hidden = YES;
 }
 
 - (void)disableToField

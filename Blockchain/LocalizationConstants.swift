@@ -169,6 +169,13 @@ struct LocalizationConstants {
         static let addWatchOnlyAddressWarningPrompt = NSLocalizedString("These options are recommended for advanced users only. Continue?", comment: "")
     }
 
+    struct SendAsset {
+        static let invalidXAddressY = NSLocalizedString(
+            "Invalid %@ address: %@",
+            comment: "String presented to the user when they try to scan a QR code with an invalid address."
+        )
+    }
+
     struct SendEther {
         static let waitingForPaymentToFinishTitle = NSLocalizedString("Waiting for payment", comment: "")
         static let waitingForPaymentToFinishMessage = NSLocalizedString("Please wait until your last ether transaction confirms.", comment: "")
@@ -251,4 +258,6 @@ struct LocalizationConstants {
     @objc class func loadingTransactions() -> String { return LocalizationConstants.Exchange.loadingTransactions }
 
     @objc class func xPaymentRequest() -> String { return LocalizationConstants.ReceiveAsset.xPaymentRequest }
+
+    @objc class func invalidXAddressY() -> String { return LocalizationConstants.SendAsset.invalidXAddressY }
 }

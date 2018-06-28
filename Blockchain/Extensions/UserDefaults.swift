@@ -21,7 +21,7 @@ extension UserDefaults {
 
     enum Keys: String {
         case assetType = "assetType"
-        case didFailTouchIDSetup = "didFailTouchIDSetup"
+        case didFailBiometrySetup = "didFailBiometrySetup"
         case encryptedPinPassword = "encryptedPINPassword"
         case environment = "environment"
         case firstRun = "firstRun"
@@ -36,11 +36,23 @@ extension UserDefaults {
         case reminderModalDate = "reminderModalDate"
         case shouldHideAllCards = "shouldHideAllCards"
         case shouldHideBuySellCard = "shouldHideBuySellNotificationCard"
-        case shouldShowTouchIDSetup = "shouldShowTouchIDSetup"
+        case shouldShowBiometrySetup = "shouldShowBiometrySetup"
         case swipeToReceiveEnabled = "swipeToReceive"
         case symbolLocal = "symbolLocal"
-        case touchIDEnabled = "touchIDEnabled"
+        case biometryEnabled = "biometryEnabled"
         case hideTransferAllFundsAlert = "hideTransferAllFundsAlert"
         case defaultAccountLabelledAddressesCount = "defaultAccountLabelledAddressesCount"
+    }
+
+    func migrateLegacyKeysIfNeeded() {
+        migrateBool(fromKey: "didFailTouchIDSetup", toKey: Keys.didFailBiometrySetup.rawValue)
+        migrateBool(fromKey: "shouldShowTouchIDSetup", toKey: Keys.shouldShowBiometrySetup.rawValue)
+        migrateBool(fromKey: "touchIDEnabled", toKey: Keys.biometryEnabled.rawValue)
+    }
+
+    private func migrateBool(fromKey: String, toKey: String) {
+        guard let value = self.object(forKey: fromKey) as? Bool else { return }
+        self.set(value, forKey: toKey)
+        self.removeObject(forKey: fromKey)
     }
 }

@@ -1335,17 +1335,6 @@ BOOL displayingLocalSymbolSend;
     }
 }
 
-
-- (uint64_t)dust
-{
-    if (self.assetType == LegacyAssetTypeBitcoin) {
-        return [WalletManager.sharedInstance.wallet dust];
-    } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
-        
-    }
-    return 0;
-}
-
 - (void)checkIfOverspending
 {
     if (self.assetType == LegacyAssetTypeBitcoin) {
@@ -1702,7 +1691,7 @@ BOOL displayingLocalSymbolSend;
     
     CGFloat warningLabelYPosition = [self defaultYPositionForWarningLabel];
     
-    if (availableAmount <= 0 || availableAmount < fee) {
+    if (availableAmount <= 0) {
         [lineBelowFeeField changeYPositionAnimated:warningLabelYPosition + 30 completion:^(BOOL finished) {
             if (self.feeType == FeeTypeCustom) {
                 [self setupFeeWarningLabelFrameSmall];
@@ -2045,7 +2034,6 @@ BOOL displayingLocalSymbolSend;
 
 - (IBAction)sendPaymentClicked:(id)sender
 {
-    // TODO: investigate if dust should be used
     if ([self.toAddress length] == 0) {
         self.toAddress = toField.text;
         DLog(@"toAddress: %@", self.toAddress);

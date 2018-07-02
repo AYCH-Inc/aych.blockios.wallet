@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let securityReminderKey = UserDefaults.DebugKeys.securityReminderTimer.rawValue
         UserDefaults.standard.removeObject(forKey: securityReminderKey)
 
-        let appReviewPromptKey = UserDefaults.DebugKeys.appReviewPromptTimer.rawValue
+        let appReviewPromptKey = UserDefaults.DebugKeys.appReviewPromptCount.rawValue
         UserDefaults.standard.removeObject(forKey: appReviewPromptKey)
 
         let zeroTickerKey = UserDefaults.DebugKeys.simulateZeroTicker.rawValue
@@ -155,6 +155,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         print("applicationWillEnterForeground")
+
+        BlockchainSettings.App.shared.appOpenedCount += 1
 
         BuySellCoordinator.shared.start()
 

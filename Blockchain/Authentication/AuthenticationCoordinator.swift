@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 @objc class AuthenticationCoordinator: NSObject, Coordinator {
 
@@ -111,9 +112,13 @@ import Foundation
 
     internal let walletManager: WalletManager
 
+    private let walletService: WalletService
+
     @objc internal(set) var pinEntryViewController: PEPinEntryController?
 
     private var loginTimeout: Timer?
+
+    private var disposable: Disposable?
 
     private var isPinEntryModalPresented: Bool {
         let rootViewController = UIApplication.shared.keyWindow!.rootViewController!
@@ -131,11 +136,20 @@ import Foundation
 
     // MARK: - Initializer
 
-    init(walletManager: WalletManager = WalletManager.shared) {
+    init(
+        walletManager: WalletManager = WalletManager.shared,
+        walletService: WalletService = WalletService.shared
+    ) {
         self.walletManager = walletManager
+        self.walletService = walletService
         super.init()
         self.walletManager.pinEntryDelegate = self
         self.walletManager.secondPasswordDelegate = self
+    }
+
+    deinit {
+        disposable?.dispose()
+        disposable = nil
     }
 
     // MARK: - Start Flows
@@ -159,11 +173,17 @@ import Foundation
                 authenticateWithBiometrics()
             }
         } else {
-            NetworkManager.shared.checkForMaintenance(withCompletion: { response in
-                guard let message = response else { return }
-                print("Error checking for maintenance in wallet options: %@", message)
-                AlertViewPresenter.shared.standardNotify(message: message, title: LocalizationConstants.Errors.error, handler: nil)
-            })
+            disposable = walletService.walletOptions
+                .subscribeOn(MainScheduler.asyncInstance)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { walletOptions in
+                    guard !walletOptions.downForMaintenance else {
+                        AlertViewPresenter.shared.showMaintenanceError(from: walletOptions)
+                        return
+                    }
+                }, onError: { _ in
+                    AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.requestFailedCheckConnection)
+                })
             showPasswordModal()
             AlertViewPresenter.shared.checkAndWarnOnJailbrokenPhones()
         }

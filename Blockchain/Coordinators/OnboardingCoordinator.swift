@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 /// Coordinator for the onboarding flow.
 class OnboardingCoordinator: Coordinator {
@@ -14,17 +15,31 @@ class OnboardingCoordinator: Coordinator {
 
     private var createWallet: BCCreateWalletView?
 
-    private init() {}
+    private let walletService: WalletService
+
+    private var disposable: Disposable?
+
+    init(walletService: WalletService = WalletService.shared) {
+        self.walletService = walletService
+    }
+
+    deinit {
+        disposable?.dispose()
+        disposable = nil
+    }
 
     // MARK: Public Methods
 
     func start() {
-        NetworkManager.shared.checkForMaintenance(withCompletion: { [unowned self] response in
-            if let message = response {
-                print("Error checking for maintenance in wallet options: %@", message)
-                AlertViewPresenter.shared.standardNotify(message: message, title: LocalizationConstants.Errors.error, handler: nil)
-            }
-        })
+        disposable = walletService.walletOptions
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { walletOptions in
+                guard !walletOptions.downForMaintenance else {
+                    AlertViewPresenter.shared.showMaintenanceError(from: walletOptions)
+                    return
+                }
+            })
         self.showWelcomeScreen()
         AlertViewPresenter.shared.checkAndWarnOnJailbrokenPhones()
     }

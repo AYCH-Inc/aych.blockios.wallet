@@ -8,53 +8,62 @@
 
 import Foundation
 
-struct WalletOptions {
-    private struct Keys {
-        static let mobile = "mobile"
-        static let walletRoot = "walletRoot"
-        static let maintenance = "maintenance"
-        static let mobileInfo = "mobileInfo"
-    }
+private struct Keys {
+    static let mobile = "mobile"
+    static let walletRoot = "walletRoot"
+    static let maintenance = "maintenance"
+    static let mobileInfo = "mobileInfo"
+}
 
-    let downForMaintenance: Bool
+struct WalletOptions {
+
+    // MARK: - Internal Structs
 
     struct Mobile {
         let walletRoot: String?
-
-        init(_ response: [String: Any]) {
-            if let mobile = response[Keys.mobile] as? [String: String] {
-                walletRoot = mobile[Keys.walletRoot]
-            } else {
-                walletRoot = nil
-            }
-        }
     }
-
-    let mobile: Mobile?
 
     struct MobileInfo {
         let message: String?
-
-        init(_ response: [String: Any]) {
-            if let mobileInfo = response[Keys.mobile] as? [String: String] {
-                if let code = Locale.current.languageCode {
-                    message = mobileInfo[code] ?? mobileInfo["en"]
-                } else {
-                    message = mobileInfo["en"]
-                }
-            } else {
-                message = nil
-            }
-        }
     }
 
+    // MARK: - Properties
+
+    let downForMaintenance: Bool
+
     let mobileInfo: MobileInfo?
+
+    let mobile: Mobile?
+}
+
+extension WalletOptions.Mobile {
+    init(json: JSON) {
+        if let mobile = json[Keys.mobile] as? [String: String] {
+            self.walletRoot = mobile[Keys.walletRoot]
+        } else {
+            self.walletRoot = nil
+        }
+    }
+}
+
+extension WalletOptions.MobileInfo {
+    init(json: JSON) {
+        if let mobileInfo = json[Keys.mobileInfo] as? [String: String] {
+            if let code = Locale.current.languageCode {
+                self.message = mobileInfo[code] ?? mobileInfo["en"]
+            } else {
+                self.message = mobileInfo["en"]
+            }
+        } else {
+            self.message = nil
+        }
+    }
 }
 
 extension WalletOptions {
-    init(response: [String: Any]) {
-        downForMaintenance = response[Keys.maintenance] as? Bool ?? false
-        self.mobile = WalletOptions.Mobile(response)
-        self.mobileInfo = WalletOptions.MobileInfo(response)
+    init(json: JSON) {
+        self.downForMaintenance = json[Keys.maintenance] as? Bool ?? false
+        self.mobile = WalletOptions.Mobile(json: json)
+        self.mobileInfo = WalletOptions.MobileInfo(json: json)
     }
 }

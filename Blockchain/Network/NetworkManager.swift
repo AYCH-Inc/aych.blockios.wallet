@@ -11,6 +11,8 @@ import RxSwift
 
 typealias AuthChallengeHandler = (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void
 
+typealias JSON = [String: Any]
+
 typealias URLParameters = [String: Any]
 
 /**
@@ -93,48 +95,6 @@ class NetworkManager: NSObject, URLSessionDelegate {
                     return request.responseStringObservable()
                 }
         }
-    }
-
-    func getWalletOptions(
-        withCompletion success: @escaping (_ response: WalletOptions) -> Void,
-        error: @escaping(_ error: String?
-    ) -> Void) {
-        guard let url = URL(string: BlockchainAPI.shared.walletOptionsUrl) else {
-            fatalError("Failed to get wallet options url from Bundle.")
-        }
-        NetworkManager.shared.session.sessionDescription = url.host
-        let task = NetworkManager.shared.session.dataTask(with: url) { data, _, taskError in
-            DispatchQueue.main.async {
-                guard taskError == nil else {
-                    error(LocalizationConstants.Errors.requestFailedCheckConnection)
-                    return
-                }
-                guard let json = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any] else {
-                    error(LocalizationConstants.Errors.invalidServerResponse)
-                    return
-                }
-                success(WalletOptions(response: json!))
-            }
-        }
-        task.resume()
-    }
-
-    /// Check for maintenance flag in wallet-options.
-    ///
-    /// - Parameter handler: takes an String argument as a response. If the response is non-nil,
-    ///  it is assumed that the user should not proceed due to server maintenance.
-    func checkForMaintenance(withCompletion handler: @escaping (_ response: String?) -> Void) {
-        getWalletOptions(withCompletion: { walletOptions in
-            if walletOptions.downForMaintenance == true {
-                guard let message = walletOptions.mobileInfo?.message else {
-                    handler(LocalizationConstants.Errors.invalidServerResponse)
-                    return
-                }
-                handler(message)
-                return
-            }
-            handler(nil)
-        }, error: handler)
     }
 
     // MARK: - URLSessionDelegate

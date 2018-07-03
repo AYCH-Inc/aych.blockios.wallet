@@ -127,10 +127,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WalletManager.shared.close()
         }
 
-        if appSettings.hasSeenAllCards {
-            appSettings.shouldHideAllCards = true
-        }
-
         if appSettings.didFailBiometrySetup && !appSettings.biometryEnabled {
             appSettings.shouldShowBiometrySetup = true
         }
@@ -173,13 +169,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("applicationDidBecomeActive")
         hidePrivacyScreen()
         UIApplication.shared.applicationIconBadgeNumber = 0
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        let appSettings = BlockchainSettings.App.shared
-        appSettings.shouldHideAllCards = true
-        appSettings.hasSeenAllCards = true
-        appSettings.shouldHideBuySellCard = true
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {

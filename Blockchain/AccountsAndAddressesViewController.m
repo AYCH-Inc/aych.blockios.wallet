@@ -10,7 +10,6 @@
 #import "AccountsAndAddressesDetailViewController.h"
 #import "ReceiveTableCell.h"
 #import "BCCreateAccountView.h"
-#import "BCModalViewController.h"
 #import "UIViewController+AutoDismiss.h"
 #import "Blockchain-Swift.h"
 #import "UIView+ChangeFrameAttribute.h"
@@ -36,7 +35,7 @@
 
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     CGFloat safeAreaInsetTop = 20;
-    CGFloat assetSelectorHeight = 36;
+    CGFloat assetSelectorHeight = [ConstantsObjcBridge assetSelectorHeight];
     if (@available(iOS 11.0, *)) {
         safeAreaInsetTop = window.rootViewController.view.safeAreaInsets.top;
         CGRect frame = [UIApplication sharedApplication].keyWindow.rootViewController.view.safeAreaLayoutGuide.layoutFrame;

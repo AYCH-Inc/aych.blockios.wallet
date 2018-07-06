@@ -67,7 +67,6 @@ struct SavePinError: Error {}
 
         WalletManager.shared.wallet.pinServerPutKey(onPinServerServer: key, value: value, pin: self.toString)
 
-        // Optionally save PIN in keychain if touch ID is enabled
         if let config = AppFeatureConfigurator.shared.configuration(for: .biometry),
             config.isEnabled,
             BlockchainSettings.App.shared.biometryEnabled {

@@ -133,7 +133,7 @@ typedef enum {
             
             if (assetType == LegacyAssetTypeEther || (selectMode == SelectModeExchangeAccountFrom && [WalletManager.sharedInstance.wallet hasEthAccount])) {
                 [ethAccounts addObject:[NSNumber numberWithInt:0]];
-                [ethAccountLabels addObject:BC_STRING_MY_ETHER_WALLET];
+                [ethAccountLabels addObject:[LocalizationConstantsObjcBridge myEtherWallet]];
             }
 
             addressBookSectionNumber = -1;
@@ -180,7 +180,7 @@ typedef enum {
 
             if ([self.delegate getAssetType] == LegacyAssetTypeEther || (selectMode == SelectModeExchangeAccountTo && [WalletManager.sharedInstance.wallet hasEthAccount])) {
                 [ethAccounts addObject:[NSNumber numberWithInt:0]];
-                [ethAccountLabels addObject:BC_STRING_MY_ETHER_WALLET];
+                [ethAccountLabels addObject:[LocalizationConstantsObjcBridge myEtherWallet]];
             }
 
             btcAccountsSectionNumber = btcAccounts.count > 0 ? 0 : -1;
@@ -197,24 +197,10 @@ typedef enum {
         
         [self addSubview:mainView];
         
-        mainView.frame = CGRectMake(0, 0, [UIApplication sharedApplication].keyWindow.frame.size.width, [UIApplication sharedApplication].keyWindow.frame.size.height);
-        
-        [tableView layoutIfNeeded];
-        float tableHeight = [tableView contentSize].height;
-        float tableSpace = mainView.frame.size.height - DEFAULT_HEADER_HEIGHT;
-        
-        CGRect frame = tableView.frame;
-        frame.size.height = tableSpace;
-        tableView.frame = frame;
-        
-        // Disable scrolling if table content fits on screen
-        if (tableHeight < tableSpace) {
-            tableView.scrollEnabled = NO;
-        }
-        else {
-            tableView.scrollEnabled = YES;
-        }
-        
+        mainView.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:NO assetSelector:NO];
+        CGRect tableViewFrame = mainView.frame;
+        tableViewFrame.size.height = mainView.frame.size.height + [UIView rootViewSafeAreaInsets].bottom;
+        tableView.frame = tableViewFrame;
         tableView.backgroundColor = COLOR_TABLE_VIEW_BACKGROUND_LIGHT_GRAY;
     }
     return self;
@@ -480,7 +466,7 @@ typedef enum {
             cell.addressLabel.text = nil;
         }
         else if (section == ethAccountsSectionNumber) {
-            label = BC_STRING_MY_ETHER_WALLET;
+            label = [LocalizationConstantsObjcBridge myEtherWallet];
             cell.addressLabel.text = nil;
         }
         else if (section == bchAccountsSectionNumber) {
@@ -585,7 +571,7 @@ typedef enum {
         
         if (isWatchOnlyLegacyAddress) {
             // Show the watch only tag and resize the label and balance labels so there is enough space
-            cell.labelLabel.frame = CGRectMake(20, 11, 148, 21);
+            cell.labelLabel.frame = CGRectMake(20, 11, 110, 21);
             cell.balanceLabel.frame = CGRectMake(254, 11, 83, 21);
             cell.watchLabel.hidden = NO;
             

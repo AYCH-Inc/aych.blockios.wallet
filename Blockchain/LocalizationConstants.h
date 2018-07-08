@@ -7,9 +7,6 @@
 //
 #import <Foundation/Foundation.h>
 
-#define BC_STRING_BITCOIN NSLocalizedString(@"Bitcoin", nil)
-#define BC_STRING_ETHER NSLocalizedString(@"Ether", nil)
-
 #define BC_STRING_ALL_WALLETS NSLocalizedString(@"All Wallets", nil)
 #define BC_STRING_WALLETS NSLocalizedString(@"Wallets", nil)
 
@@ -134,7 +131,6 @@
 //#define BC_STRING_REQUEST_FAILED_PLEASE_CHECK_INTERNET_CONNECTION NSLocalizedString(@"Request failed. Please check your internet connection.", nil)
 #define BC_STRING_SOMETHING_WENT_WRONG_CHECK_INTERNET_CONNECTION NSLocalizedString(@"An error occurred while updating your spendable balance. Please check your internet connection and try again.", nil)
 #define BC_STRING_EMPTY_RESPONSE NSLocalizedString(@"Empty response from server.", nil)
-#define BC_STRING_MAINTENANCE_MODE NSLocalizedString(@"Blockchain is currently down for maintenance. Please try again later.", nil)
 
 #define BC_STRING_FORGET_WALLET NSLocalizedString(@"Forget Wallet", nil)
 
@@ -171,7 +167,6 @@
 #define BC_STRING_HOW_WOULD_YOU_LIKE_TO_PAIR NSLocalizedString(@"How would you like to pair?", nil)
 #define BC_STRING_MANUALLY NSLocalizedString(@"Manually", nil)
 #define BC_STRING_AUTOMATICALLY NSLocalizedString(@"Automatically", nil)
-#define BC_PIN_NO_MATCH NSLocalizedString(@"PINs do not match", nil)
 #define BC_STRING_ENTER_PIN NSLocalizedString(@"Enter PIN", nil)
 #define BC_STRING_PLEASE_ENTER_PIN NSLocalizedString(@"Please enter your PIN", nil)
 #define BC_STRING_PLEASE_ENTER_NEW_PIN NSLocalizedString(@"Please enter a new PIN", nil)
@@ -183,7 +178,6 @@
 #define BC_STRING_PAYMENT_REQUEST_ETHER_ARGUMENT NSLocalizedString(@"Please send ether to %@.", nil)
 #define BC_STRING_AMOUNT NSLocalizedString(@"Amount", nil)
 #define BC_STRING_PAYMENT_REQUEST_HTML NSLocalizedString(@"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@", nil)
-#define BC_STRING_PAYMENT_REQUEST_BITCOIN_SUBJECT NSLocalizedString(@"Bitcoin payment request", nil)
 #define BC_STRING_PAYMENT_REQUEST_ETHER_SUBJECT NSLocalizedString(@"Ether payment request", nil)
 #define BC_STRING_CLOSE NSLocalizedString(@"Close", nil)
 
@@ -246,25 +240,12 @@
 #define BC_STRING_UNARCHIVE_ADDRESS NSLocalizedString(@"Unarchive Address", nil)
 
 #define BC_STRING_AT_LEAST_ONE_ACTIVE_ADDRESS NSLocalizedString(@"You must leave at least one active address", nil)
-#define BC_STRING_UPGRADE NSLocalizedString(@"Upgrade", nil)
-#define BC_STRING_UPGRADE_SUCCESS_TITLE NSLocalizedString(@"Success!", nil)
-#define BC_STRING_UPGRADE_SUCCESS NSLocalizedString(@"You are now running our most secure Bitcoin wallet", nil)
-#define BC_STRING_UPGRADE_FEATURE_THREE NSLocalizedString(@"Customize the way you organize your bitcoin in your Blockchain Wallet", nil)
-#define BC_STRING_UPGRADE_FEATURE_TWO NSLocalizedString(@"Easy one time wallet backup keeps you in control of your funds", nil)
-#define BC_STRING_UPGRADE_FEATURE_ONE NSLocalizedString(@"Everything you need to store, spend and receive your bitcoin", nil)
-#define BC_STRING_UPGRADE_ALERTVIEW_TITLE NSLocalizedString(@"Upgrade Wallet", nil)
-#define BC_STRING_UPGRADE_ALERTVIEW_CANCEL_TITLE NSLocalizedString(@"Not now", nil)
-#define BC_STRING_UPGRADE_ALERTVIEW_UPDATE_TITLE NSLocalizedString(@"Update", nil)
-#define BC_STRING_DONT_UPGRADE NSLocalizedString(@"or Continue", nil)
-#define BC_STRING_UPGRADE_BUTTON_TITLE NSLocalizedString(@"UPGRADE YOUR WALLET", nil)
-#define BC_STRING_ASK_ME_LATER NSLocalizedString(@"Ask Me Later", nil)
+
 #define BC_STRING_LOGOUT_AND_FORGET_WALLET NSLocalizedString(@"Logout and forget wallet", nil)
 
 #define BC_STRING_SURVEY_ALERT_TITLE NSLocalizedString(@"Would you like to tell us about your experience with Blockchain?", nil)
 #define BC_STRING_SURVEY_ALERT_MESSAGE NSLocalizedString(@"You will be leaving the app.", nil)
 
-#define BC_STRING_INVALID_ADDRESS NSLocalizedString(@"Address is not valid", nil)
-#define BC_STRING_INVALID_ADDRESS_ARGUMENT NSLocalizedString(@"Invalid address: %@", nil)
 #define BC_STRING_INVALID_BITCOIN_ADDRESS_ARGUMENT NSLocalizedString(@"Invalid Bitcoin address: %@", nil)
 #define BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT NSLocalizedString(@"Invalid Ether address: %@", nil)
 
@@ -275,8 +256,6 @@
 #define BC_STRING_REMINDER_CHECK_EMAIL_MESSAGE NSLocalizedString(@"Look for an email from Blockchain and click the verification link to complete your wallet setup.", nil)
 #define BC_STRING_REMINDER_BACKUP_TITLE NSLocalizedString(@"Backup Your Funds", nil)
 #define BC_STRING_REMINDER_BACKUP_NOW NSLocalizedString(@"Backup Now", nil)
-#define BC_STRING_REMINDER_BACKUP_MESSAGE_FIRST_BITCOIN NSLocalizedString(@"Congrats, you have bitcoin! Now let’s backup your wallet to ensure you can access your bitcoins if you forget your password.", nil)
-#define BC_STRING_REMINDER_BACKUP_MESSAGE_HAS_BITCOIN NSLocalizedString(@"For your security, we do not keep any passwords on file. Backup your wallet to ensure your bitcoins are safe in case you lose your password.", nil)
 #define BC_STRING_REMINDER_TWO_FACTOR_TITLE NSLocalizedString(@"2-Step Verification", nil)
 #define BC_STRING_REMINDER_TWO_FACTOR_MESSAGE NSLocalizedString(@"Prevent unauthorized access to your wallet. Enable 2-step verification to increase wallet security.", nil)
 #define BC_STRING_SETTINGS_ACCOUNT_DETAILS NSLocalizedString(@"Account Details", nil)
@@ -299,8 +278,6 @@
 #define BC_STRING_SETTINGS_FEES NSLocalizedString(@"Fees", nil)
 #define BC_STRING_SETTINGS_FEE_PER_KB NSLocalizedString(@"Fee per KB", nil)
 #define BC_STRING_SETTINGS_SECURITY NSLocalizedString(@"Security", nil)
-#define BC_STRING_SETTINGS_PIN_USE_FACE_ID_AS_PIN NSLocalizedString(@"Use Face ID as PIN", nil)
-#define BC_STRING_SETTINGS_PIN_USE_TOUCH_ID_AS_PIN NSLocalizedString(@"Use Touch ID as PIN", nil)
 #define BC_STRING_SETTINGS_PIN_SWIPE_TO_RECEIVE NSLocalizedString(@"Swipe to Receive", nil)
 #define BC_STRING_SWIPE_TO_RECEIVE_NO_INTERNET_CONNECTION_WARNING NSLocalizedString(@"We can't check whether this address has been used. Show anyway?", nil)
 #define BC_STRING_SETTINGS_SECURITY_TWO_STEP_VERIFICATION NSLocalizedString(@"2-step Verification", nil)
@@ -401,27 +378,6 @@
 #define BC_STRING_HIGH_FEE_WARNING_MESSAGE NSLocalizedString(@"This is an oversized bitcoin transaction. Your wallet needs to consolidate many smaller payments you've received in the past. This requires a relatively high fee in order to be confirmed quickly. If it’s fine for the transaction to take longer to confirm, you can reduce the fee manually by tapping \"Customize Fee.\"", nil)
 #define BC_STRING_NO_EMAIL_CONFIGURED NSLocalizedString(@"You do not have an account set up for Mail. Please contact %@", nil)
 
-//: Authentication - Face ID & Touch ID
-
-#define BC_STRING_TOUCH_ID_ERROR_VERIFYING_IDENTITY NSLocalizedString(@"There was a problem verifying your identity.", nil)
-#define BC_STRING_TOUCH_ID_ERROR_WRONG_USER NSLocalizedString(@"Your identity does not match our records.", nil)
-// #define BC_STRING_FACE_ID_AUTHENTICATE NSLocalizedString("@Authenticate with Face ID", nil)
-#define BC_STRING_TOUCH_ID_AUTHENTICATE NSLocalizedString(@"Authenticate with Touch ID", nil)
-
-#define BC_STRING_FACE_ID_ERROR_LOCKED NSLocalizedString(@"Face ID has been locked due to too many failed attempts.", nil)
-// No longer needed
-#define BC_STRING_FACE_ID_ERROR_MUST_ENABLE NSLocalizedString(@"Face ID is not enabled on this device. To enable Face ID, go to Settings -> Face ID & Passcode and add a fingerprint.", nil)
-// No longer needed
-#define BC_STRING_FACE_ID_ERROR_NOT_AVAILABLE NSLocalizedString(@"Face ID is not available on this device.", nil)
-// No longer needed
-#define BC_STRING_FACE_ID_ERROR_UNKNOWN_ARGUMENT NSLocalizedString(@"Unknown Face ID error. Code: %ld", nil)
-// No longer needed
-#define BC_STRING_TOUCH_ID_ERROR_UNKNOWN_ARGUMENT NSLocalizedString(@"Unknown Touch ID error. Code: %ld", nil)
-// No longer needed
-#define BC_STRING_FACE_ID_WARNING NSLocalizedString(@"Enabling this feature will allow all users with a registered Face ID fingerprint on this device to access to your wallet.", nil)
-// No longer needed
-#define BC_STRING_TOUCH_ID_WARNING NSLocalizedString(@"Enabling this feature will allow all users with a registered Touch ID fingerprint on this device to access to your wallet.", nil)
-
 #define BC_STRING_NO_EMAIL_CONFIGURED NSLocalizedString(@"You do not have an account set up for Mail. Please contact %@", nil)
 #define BC_STRING_PIN NSLocalizedString(@"PIN", nil)
 
@@ -447,7 +403,6 @@
 #define BC_STRING_PLEASE_CHECK_AND_CLICK_EMAIL_VERIFICATION_LINK NSLocalizedString(@"Please check your email and click on the verification link.", nil)
 #define BC_STRING_ERROR_PLEASE_REFRESH_PAIRING_CODE NSLocalizedString(@"Please refresh the pairing code and try again.", nil)
 
-#define BC_STRING_DONT_SHOW_AGAIN NSLocalizedString(@"Don't show again", nil)
 #define BC_STRING_NOT_NOW NSLocalizedString(@"Not Now", nil)
 #define BC_STRING_ILL_DO_THIS_LATER NSLocalizedString(@"I'll do this later", nil)
 #define BC_STRING_PRIVATE_KEY_NEEDED_MESSAGE_ARGUMENT NSLocalizedString(@"This action requires the private key for the Bitcoin address %@. Please scan the QR code.", nil)
@@ -478,9 +433,7 @@
 
 #define BC_STRING_BLOCKCHAIN_ALL_RIGHTS_RESERVED NSLocalizedString(@"All rights reserved.", nil)
 
-#define BC_STRING_APP_REVIEW_PROMPT_TITLE NSLocalizedString(@"Rate Blockchain Wallet", nil)
-#define BC_STRING_YES_RATE_BLOCKCHAIN_WALLET NSLocalizedString(@"Yes, rate Blockchain Wallet", nil)
-#define BC_STRING_APP_REVIEW_PROMPT_MESSAGE NSLocalizedString(@"Enjoying the Blockchain Wallet? Please take a moment to leave a review in the App Store and let others know about it.", nil)
+
 
 #define BC_STRING_RATE_US NSLocalizedString(@"Rate us", nil)
 
@@ -562,12 +515,6 @@
 #define BC_STRING_WELCOME_MESSAGE_ONE NSLocalizedString (@"Welcome to Blockchain", nil)
 #define BC_STRING_WELCOME_MESSAGE_TWO NSLocalizedString (@"Securely store bitcoin", nil)
 #define BC_STRING_WELCOME_MESSAGE_THREE NSLocalizedString (@"Seamlessly transact with others around the world", nil)
-#define BC_STRING_WELCOME_FACE_ID_INSTRUCTIONS NSLocalizedString (@"Use Face ID instead of PIN to authenticate Blockchain and access your wallet.", nil)
-#define BC_STRING_WELCOME_TOUCH_ID_INSTRUCTIONS NSLocalizedString (@"Use Touch ID fingerprint instead of PIN to authenticate Blockchain and access your wallet.", nil)
-#define BC_STRING_FACE_ID NSLocalizedString(@"Face ID", nil)
-#define BC_STRING_TOUCH_ID NSLocalizedString(@"Touch ID", nil)
-#define BC_STRING_ENABLE_FACE_ID NSLocalizedString(@"Enable Face ID", nil)
-#define BC_STRING_ENABLE_TOUCH_ID NSLocalizedString(@"Enable Touch ID", nil)
 #define BC_STRING_OVERVIEW_MARKET_PRICE_TITLE NSLocalizedString(@"Current Price", nil)
 #define BC_STRING_OVERVIEW_MARKET_PRICE_DESCRIPTION NSLocalizedString (@"We work with exchange partners all over the world, so you can buy and sell bitcoin directly from your wallet.", nil)
 #define BC_STRING_OVERVIEW_REQUEST_FUNDS_TITLE NSLocalizedString(@"Request Funds", nil)
@@ -634,8 +581,6 @@
 #define BC_STRING_NOW_SUPPORTING_ETHER_DESCRIPTION NSLocalizedString(@"You asked, we listened. We’re excited to announce that your Blockchain wallet will now allow you to seamlessly send and receive ether!", nil)
 #define BC_STRING_GET_STARTED_WITH_ETHER NSLocalizedString(@"Get Started with Ether", nil)
 
-#define BC_STRING_MY_ETHER_WALLET NSLocalizedString(@"My Ether Wallet", nil)
-
 #define BC_STRING_EXCHANGE NSLocalizedString(@"Exchange", nil)
 #define BC_STRING_NEW_EXCHANGE NSLocalizedString(@"New Exchange", nil)
 #define BC_STRING_USE_MINIMUM NSLocalizedString(@"Use minimum", nil)
@@ -698,15 +643,10 @@
 #define BC_STRING_SEE_CHARTS NSLocalizedString(@"See charts", nil)
 #define BC_STRING_PRICE_CHARTS NSLocalizedString(@"Price charts", nil)
 
-#define BC_STRING_BITCOIN_CASH NSLocalizedString(@"Bitcoin Cash", nil)
 #define BC_STRING_BITCOIN_CASH_PRICE NSLocalizedString(@"Bitcoin Cash Price", nil)
 #define BC_STRING_ENTER_BITCOIN_CASH_ADDRESS_OR_SELECT NSLocalizedString(@"Enter Bitcoin Cash address or select", nil)
 #define BC_STRING_BUY_SELL_CARD_DESCRIPTION NSLocalizedString(@"Buy and sell bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab.", nil)
 #define BC_STRING_BUY_SELL_CARD_ACTION_TITLE BC_STRING_GET_STARTED
-
-#define BC_STRING_BITCOIN_CASH_CARD_TITLE BC_STRING_BITCOIN_CASH
-#define BC_STRING_BITCOIN_CASH_CARD_DESCRIPTION NSLocalizedString(@"We are excited to announce that your Blockchain wallet will allow you to seamlessly send, receive, and exchange Bitcoin Cash!", nil)
-#define BC_STRING_BITCOIN_CASH_CARD_ACTION_TITLE BC_STRING_GET_STARTED
 
 #define BC_STRING_BITCOIN_CASH_WARNING_CONFIRM_VALID_ADDRESS_ONE NSLocalizedString(@"Are you sure this is a bitcoin cash address?", nil)
 #define BC_STRING_BITCOIN_CASH_WARNING_CONFIRM_VALID_ADDRESS_TWO NSLocalizedString(@"Sending funds to a bitcoin address by accident will result in loss of funds.", nil)

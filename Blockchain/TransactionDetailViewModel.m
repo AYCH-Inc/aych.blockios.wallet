@@ -82,7 +82,9 @@
         self.time = etherTransaction.time;
         self.dateString = [NSDateFormatter verboseStringFromDate:[NSDate dateWithTimeIntervalSince1970:self.time]];
         self.detailButtonTitle = [[NSString stringWithFormat:@"%@ %@",BC_STRING_VIEW_ON_URL_ARGUMENT, [[BlockchainAPI sharedInstance] etherscan]] uppercaseString];
-        self.detailButtonLink = [[[BlockchainAPI sharedInstance] etherscanUrl] stringByAppendingFormat:@"/tx/%@", self.myHash];
+        self.detailButtonLink =
+        [[[BlockchainAPI sharedInstance] etherscanUrl] stringByAppendingFormat:@"/tx/%@", self.myHash];
+
         self.ethExchangeRate = exchangeRate;
         self.confirmations = [NSString stringWithFormat:@"%lld/%u", etherTransaction.confirmations, kConfirmationEtherThreshold];
         self.confirmed = etherTransaction.confirmations >= kConfirmationEtherThreshold;
@@ -94,15 +96,26 @@
 - (id)initWithBitcoinCashTransaction:(Transaction *)transaction
 {
     TransactionDetailViewModel *model = [self initWithTransaction:transaction];
-    if ([WalletManager.sharedInstance.wallet isValidAddress:model.fromString assetType:LegacyAssetTypeBitcoinCash]) {
-        model.fromString = [WalletManager.sharedInstance.wallet toBitcoinCash:model.fromString includePrefix:NO];
+
+    Wallet *wallet = WalletManager.sharedInstance.wallet;
+    AddressValidator *addressValidator = [[AddressValidator alloc] initWithContext:wallet.context];
+
+    // Populate "from" field
+    BitcoinCashAddress *fromAddress = [[BitcoinCashAddress alloc] initWithString:model.fromAddress];
+    if ([addressValidator validateWithBitcoinCashAddress:fromAddress]) {
+        BitcoinAddress *fromBtcAddress = [[BitcoinAddress alloc] initWithString:model.fromAddress];
+        model.fromString = [fromBtcAddress toBitcoinCashAddressWithWallet:wallet].address;
     }
-    NSString *convertedAddress = [WalletManager.sharedInstance.wallet toBitcoinCash:model.toString includePrefix:NO];
-    model.toString = convertedAddress ? : model.toString;
+
+    // Populate "to" field
+    BitcoinAddress *toBtcAddress = [[BitcoinAddress alloc] initWithString:model.toString];
+    BitcoinCashAddress *toBchAddress = [toBtcAddress toBitcoinCashAddressWithWallet:WalletManager.sharedInstance.wallet];
+    model.toString = toBchAddress.address ?: model.toString;
+
     model.assetType = LegacyAssetTypeBitcoinCash;
     model.hideNote = YES;
     model.detailButtonTitle = [[BC_STRING_VIEW_ON_URL_ARGUMENT stringByAppendingFormat:@" %@", [[BlockchainAPI sharedInstance] blockchair]] uppercaseString];
-    model.detailButtonLink = [[[BlockchainAPI sharedInstance] blockchairBchTransactionUrl] stringByAppendingString:model.myHash];
+    model.detailButtonLink = [BlockchainAPI.sharedInstance transactionDetailURLFor:model.myHash assetType:AssetTypeBitcoinCash];
     return model;
 }
 

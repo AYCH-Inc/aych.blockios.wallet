@@ -10,7 +10,6 @@
 #import "AccountsAndAddressesDetailViewController.h"
 #import "ReceiveTableCell.h"
 #import "BCCreateAccountView.h"
-#import "BCModalViewController.h"
 #import "UIViewController+AutoDismiss.h"
 #import "Blockchain-Swift.h"
 #import "UIView+ChangeFrameAttribute.h"
@@ -36,7 +35,7 @@
 
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     CGFloat safeAreaInsetTop = 20;
-    CGFloat assetSelectorHeight = 36;
+    CGFloat assetSelectorHeight = [ConstantsObjcBridge assetSelectorHeight];
     if (@available(iOS 11.0, *)) {
         safeAreaInsetTop = window.rootViewController.view.safeAreaInsets.top;
         CGRect frame = [UIApplication sharedApplication].keyWindow.rootViewController.view.safeAreaLayoutGuide.layoutFrame;
@@ -57,6 +56,7 @@
                                     initWithImage:[UIImage imageNamed:@"close"]
                                     style:UIBarButtonItemStylePlain
                                     target:self action:@selector(closeButtonClicked:)];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     CGRect frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height - assetSelectorHeight - safeAreaInsetTop);
     self.tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = COLOR_TABLE_VIEW_BACKGROUND_LIGHT_GRAY;
@@ -238,13 +238,13 @@
 - (void)didFinishScanningWithError:(PrivateKeyReaderError)error {
     switch (error) {
         case PrivateKeyReaderErrorBadMetadataObject:
-            [[AlertViewPresenter sharedInstance] standardErrorWithMessage:[LocalizationConstantsObjcBridge error] title:[LocalizationConstantsObjcBridge error] handler:nil];
+            [[AlertViewPresenter sharedInstance] standardErrorWithMessage:[LocalizationConstantsObjcBridge error] title:[LocalizationConstantsObjcBridge error] in:self handler:nil];
             break;
         case PrivateKeyReaderErrorUnknownKeyFormat:
-            [[AlertViewPresenter sharedInstance] standardErrorWithMessage:[LocalizationConstantsObjcBridge unknownKeyFormat] title:[LocalizationConstantsObjcBridge error] handler:nil];
+            [[AlertViewPresenter sharedInstance] standardErrorWithMessage:[LocalizationConstantsObjcBridge unknownKeyFormat] title:[LocalizationConstantsObjcBridge error] in:self handler:nil];
             break;
         case PrivateKeyReaderErrorUnsupportedPrivateKey:
-            [[AlertViewPresenter sharedInstance] standardErrorWithMessage:[LocalizationConstantsObjcBridge unsupportedPrivateKey] title:[LocalizationConstantsObjcBridge error] handler:nil];
+            [[AlertViewPresenter sharedInstance] standardErrorWithMessage:[LocalizationConstantsObjcBridge unsupportedPrivateKey] title:[LocalizationConstantsObjcBridge error] in:self handler:nil];
             break;
     }
 }
@@ -481,7 +481,7 @@
 
         if (isWatchOnlyLegacyAddress) {
             // Show the watch only tag and resize the label and balance labels so there is enough space
-            cell.labelLabel.frame = CGRectMake(20, 11, 148, 21);
+            cell.labelLabel.frame = CGRectMake(20, 11, 110, 21);
             
             cell.balanceLabel.frame = CGRectMake(254, 11, 83, 21);
             UIEdgeInsets contentInsets = UIEdgeInsetsMake(0, 254, cell.frame.size.height-(cell.frame.size.height-cell.balanceLabel.frame.origin.y-cell.balanceLabel.frame.size.height), 0);

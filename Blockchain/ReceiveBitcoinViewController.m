@@ -68,26 +68,10 @@
 {
     [super viewDidLoad];
 
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    CGFloat navBarHeight = [ConstantsObjcBridge defaultNavigationBarHeight];
-    CGFloat assetSelectorHeight = 36;
-    CGFloat tabBarHeight = 49;
-    if (@available(iOS 11.0, *)) {
-        CGRect frame = window.rootViewController.view.safeAreaLayoutGuide.layoutFrame;
-        CGFloat posX = frame.origin.x;
-        CGFloat posY = navBarHeight;
-        CGFloat height = frame.size.height - navBarHeight - assetSelectorHeight - tabBarHeight;
-        CGFloat width = frame.size.width;
-        _safeAreaInsetTop = window.rootViewController.view.safeAreaInsets.top;
-        self.view.frame = CGRectMake(posX, posY, width, height);
-    } else {
-        _safeAreaInsetTop = 20;
-        CGFloat height = window.bounds.size.height - _safeAreaInsetTop - navBarHeight - assetSelectorHeight - tabBarHeight;
-        self.view.frame = CGRectMake(0,
-                                     navBarHeight,
-                                     window.bounds.size.width,
-                                     height);
-    }
+    _safeAreaInsetTop = [UIView rootViewSafeAreaInsets].top;
+    CGRect frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:YES assetSelector:YES];
+    CGFloat offsetY = [ConstantsObjcBridge defaultNavigationBarHeight];
+    self.view.frame = CGRectOffset(frame, 0, offsetY);
     
     self.firstLoading = YES;
 
@@ -113,6 +97,13 @@
     self.firstLoading = NO;
     
     [self updateUI];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+    [self clearAmounts];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -187,24 +178,24 @@
     if (self.assetType == LegacyAssetTypeBitcoin) {
         leftPadding = 15;
         BCLine *lineAboveAmounts = [[BCLine alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-        lineAboveAmounts.backgroundColor = COLOR_LINE_GRAY;
+        lineAboveAmounts.backgroundColor = [ConstantsObjcBridge grayLineColor];
         [self.bottomContainerView addSubview:lineAboveAmounts];
     }
 
     BCLine *lineBelowAmounts = [[BCLine alloc] initWithFrame:CGRectMake(leftPadding, 50, self.view.frame.size.width - leftPadding, 1)];
-    lineBelowAmounts.backgroundColor = COLOR_LINE_GRAY;
+    lineBelowAmounts.backgroundColor = [ConstantsObjcBridge grayLineColor];
     [self.bottomContainerView addSubview:lineBelowAmounts];
     
     BCLine *lineBelowToField = [[BCLine alloc] initWithFrame:CGRectMake(0, lineBelowAmounts.frame.origin.y + 50, self.view.frame.size.width, 1)];
-    lineBelowToField.backgroundColor = COLOR_LINE_GRAY;
+    lineBelowToField.backgroundColor = [ConstantsObjcBridge grayLineColor];
     [self.bottomContainerView addSubview:lineBelowToField];
     
     self.lineBelowFromField = [[BCLine alloc] initWithFrame:CGRectMake(0, lineBelowToField.frame.origin.y + 50, self.view.frame.size.width, 1)];
-    self.lineBelowFromField.backgroundColor = COLOR_LINE_GRAY;
+    self.lineBelowFromField.backgroundColor = [ConstantsObjcBridge grayLineColor];
     [self.bottomContainerView addSubview:self.lineBelowFromField];
     
     BCLine *lineBelowDescripton = [[BCLine alloc] initWithFrame:CGRectMake(0, self.lineBelowFromField.frame.origin.y + 50, self.view.frame.size.width, 1)];
-    lineBelowDescripton.backgroundColor = COLOR_LINE_GRAY;
+    lineBelowDescripton.backgroundColor = [ConstantsObjcBridge grayLineColor];
     [self.bottomContainerView addSubview:lineBelowDescripton];
     
     if (self.assetType == LegacyAssetTypeBitcoin) {
@@ -245,21 +236,6 @@
     fromLabel.text = BC_STRING_FROM;
     fromLabel.adjustsFontSizeToFitWidth = YES;
     [self.bottomContainerView addSubview:fromLabel];
-
-    self.selectFromButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 35,  lineBelowToField.frame.origin.y + 10, 35, 30)];
-    self.selectFromButton.adjustsImageWhenHighlighted = NO;
-    [self.selectFromButton setImage:[UIImage imageNamed:@"disclosure"] forState:UIControlStateNormal];
-    [self.selectFromButton addTarget:self action:@selector(selectFromClicked) forControlEvents:UIControlEventTouchUpInside];
-    self.selectFromButton.hidden = YES;
-    [self.bottomContainerView addSubview:self.selectFromButton];
-    
-    CGFloat whatsThisButtonWidth = IS_USING_SCREEN_SIZE_LARGER_THAN_5S ? 120 : 100;
-    self.whatsThisButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - whatsThisButtonWidth, lineBelowToField.frame.origin.y + 15, whatsThisButtonWidth, 21)];
-    self.whatsThisButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL];
-    [self.whatsThisButton setTitleColor:COLOR_BLOCKCHAIN_LIGHT_BLUE forState:UIControlStateNormal];
-    [self.whatsThisButton setTitle:BC_STRING_WHATS_THIS forState:UIControlStateNormal];
-    [self.whatsThisButton addTarget:self action:@selector(whatsThisButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.bottomContainerView addSubview:self.whatsThisButton];
     
     self.descriptionContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.lineBelowFromField.frame.origin.y + self.lineBelowFromField.frame.size.height, self.view.frame.size.width, 49)];
     self.descriptionContainerView.backgroundColor = [UIColor whiteColor];
@@ -378,7 +354,7 @@
     if (_safeAreaInsetTop == 44) {
         headerTopOffset = 60;
     }
-    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, headerTopOffset, self.view.frame.size.width, self.bottomContainerView.frame.origin.y)];
+    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, headerTopOffset, self.view.frame.size.width, self.bottomContainerView.frame.origin.y - headerTopOffset)];
     UILabel *instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 42)];
     instructionsLabel.textAlignment = NSTextAlignmentCenter;
     instructionsLabel.textColor = COLOR_TEXT_DARK_GRAY;
@@ -594,7 +570,7 @@
         [allowedCharSet formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
         
         if ([label rangeOfCharacterFromSet:[allowedCharSet invertedSet]].location != NSNotFound) {
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_LABEL_MUST_BE_ALPHANUMERIC title:BC_STRING_ERROR handler: nil];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_LABEL_MUST_BE_ALPHANUMERIC title:BC_STRING_ERROR in:self handler: nil];
             return;
         }
     }
@@ -618,7 +594,7 @@
         [UIPasteboard generalPasteboard].string = self.mainAddressLabel.text;
         [self.mainAddressLabel animateFromText:[[self.mainAddress componentsSeparatedByString:@":"] lastObject] toIntermediateText:BC_STRING_COPIED_TO_CLIPBOARD speed:1 gestureReceiver:qrCodeMainImageView];
     } else {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_ERROR_COPYING_TO_CLIPBOARD title:BC_STRING_ERROR handler: nil];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_ERROR_COPYING_TO_CLIPBOARD title:BC_STRING_ERROR in:self handler: nil];
     }
 }
 
@@ -648,7 +624,7 @@
         if (activeKeys.count == 1 && ![WalletManager.sharedInstance.wallet hasAccount]) {
             [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
 
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_AT_LEAST_ONE_ACTIVE_ADDRESS title:BC_STRING_ERROR handler: nil];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_AT_LEAST_ONE_ACTIVE_ADDRESS title:BC_STRING_ERROR in:self handler: nil];
             
             return;
         }
@@ -702,7 +678,7 @@
         [self didSelectFromAddress:address];
         [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFromLeft];
     }]];
-    [alertForWatchOnly addAction:[UIAlertAction actionWithTitle:BC_STRING_DONT_SHOW_AGAIN style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    [alertForWatchOnly addAction:[UIAlertAction actionWithTitle:[LocalizationConstantsObjcBridge dontShowAgain] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_HIDE_WATCH_ONLY_RECEIVE_WARNING];
         [self didSelectFromAddress:address];
         [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFromLeft];
@@ -728,9 +704,6 @@
         [self.bottomContainerView changeYPosition:self.view.frame.size.height - BOTTOM_CONTAINER_HEIGHT_PLUS_BUTTON_SPACE_4S];
     }
 
-    self.selectFromButton.hidden = YES;
-    self.whatsThisButton.hidden = NO;
-
     self.receiveToLabel.text = self.mainLabel;
     self.mainAddressLabel.text = [[self.mainAddress componentsSeparatedByString:@":"] lastObject];
     
@@ -741,7 +714,14 @@
 {
     NSString *btcAmountString = self.assetType == LegacyAssetTypeBitcoin ? [NSNumberFormatter formatMoney:amountReceived localCurrency:NO] : [NSNumberFormatter formatBchWithSymbol:amountReceived localCurrency:NO];
     NSString *localCurrencyAmountString = self.assetType == LegacyAssetTypeBitcoin ? [NSNumberFormatter formatMoney:amountReceived localCurrency:YES] : [NSNumberFormatter formatBchWithSymbol:amountReceived localCurrency:YES];
-    [self alertUserOfPaymentWithMessage:[[NSString alloc] initWithFormat:@"%@\n%@", btcAmountString, localCurrencyAmountString] showBackupReminder:showBackupReminder];
+
+    NSString *paymentMessage;
+    if (![localCurrencyAmountString isEqualToString:btcAmountString]) {
+        paymentMessage = [NSString stringWithFormat:@"%@\n%@", btcAmountString, localCurrencyAmountString];
+    } else {
+        paymentMessage = btcAmountString;
+    }
+    [self alertUserOfPaymentWithMessage:paymentMessage showBackupReminder:showBackupReminder];
 }
 
 - (void)selectDestination
@@ -792,7 +772,9 @@
 
     activityViewController.excludedActivityTypes = @[UIActivityTypeAddToReadingList, UIActivityTypeAssignToContact, UIActivityTypeOpenInIBooks, UIActivityTypePostToFacebook, UIActivityTypePostToFlickr, UIActivityTypePostToVimeo];
 
-    [activityViewController setValue:BC_STRING_PAYMENT_REQUEST_BITCOIN_SUBJECT forKey:@"subject"];
+    NSString *assetTitle = (self.assetType == LegacyAssetTypeBitcoin) ? @"Bitcoin" : @"Bitcoin Cash";
+    NSString *subject = [NSString stringWithFormat:LocalizationConstantsObjcBridge.xPaymentRequest, assetTitle];
+    [activityViewController setValue:subject forKey:@"subject"];
 
     [self.amountInputView.btcField resignFirstResponder];
     [self.amountInputView.fiatField resignFirstResponder];

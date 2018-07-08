@@ -127,8 +127,8 @@
 {
     self.view.backgroundColor = COLOR_EXCHANGE_BACKGROUND_GRAY;
     
-    CGFloat windowWidth = WINDOW_WIDTH;
-    FromToView *fromToView = [[FromToView alloc] initWithFrame:CGRectMake(0, DEFAULT_HEADER_HEIGHT + 16, windowWidth, 96) enableToTextField:NO];
+    CGFloat windowWidth = self.view.frame.size.width;
+    FromToView *fromToView = [[FromToView alloc] initWithFrame:CGRectMake(0, 16, windowWidth, 96) enableToTextField:NO];
     fromToView.delegate = self;
     [self.view addSubview:fromToView];
     self.fromToView = fromToView;
@@ -191,7 +191,7 @@
     self.ethField = self.topRightField;
     
     UIView *dividerLine = [[UIView alloc] initWithFrame:CGRectMake(leftFieldOriginX, ROW_HEIGHT_FROM_TO_VIEW, windowWidth - leftFieldOriginX, 0.5)];
-    dividerLine.backgroundColor = COLOR_LINE_GRAY;
+    dividerLine.backgroundColor = [ConstantsObjcBridge grayLineColor];
     [amountView addSubview:dividerLine];
     
     BCSecureTextField *bottomLeftField = [self inputTextFieldWithFrame:CGRectMake(leftFieldOriginX, dividerLine.frame.origin.y + dividerLine.frame.size.height + 8, leftField.frame.size.width, 30)];
@@ -225,7 +225,7 @@
     BCLine *lineAboveButtonsView = [[BCLine alloc] initWithYPosition:amountView.frame.origin.y + amountView.frame.size.height];
     [self.view addSubview:lineAboveButtonsView];
     UIView *buttonsView = [[UIView alloc] initWithFrame:CGRectMake(0, amountView.frame.origin.y + amountView.frame.size.height + 0.5, windowWidth, buttonHeight)];
-    buttonsView.backgroundColor = COLOR_LINE_GRAY;
+    buttonsView.backgroundColor = [ConstantsObjcBridge grayLineColor];
     [self.view addSubview:buttonsView];
     
     UIFont *buttonFont = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_SMALL];
@@ -780,7 +780,7 @@
 - (void)selectAccountClicked:(SelectMode)selectMode
 {
     BCAddressSelectionView *selectorView = [[BCAddressSelectionView alloc] initWithWallet:WalletManager.sharedInstance.wallet selectMode:selectMode delegate:self];
-    selectorView.frame = CGRectMake(0, DEFAULT_HEADER_HEIGHT, self.view.frame.size.width, self.view.frame.size.height);
+    selectorView.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:NO assetSelector:NO];
     
     UIViewController *viewController = [UIViewController new];
     viewController.automaticallyAdjustsScrollViewInsets = NO;
@@ -1216,17 +1216,17 @@
 
 - (NSString *)bitcoinLabelText
 {
-    return [WalletManager.sharedInstance.wallet getActiveAccountsCount:LegacyAssetTypeBitcoin] > 1 ? [WalletManager.sharedInstance.wallet getLabelForAccount:self.btcAccount assetType:LegacyAssetTypeBitcoin] : BC_STRING_BITCOIN;
+    return [WalletManager.sharedInstance.wallet getActiveAccountsCount:LegacyAssetTypeBitcoin] > 1 ? [WalletManager.sharedInstance.wallet getLabelForAccount:self.btcAccount assetType:[AssetTypeLegacyHelper descriptionFor:AssetTypeBitcoin]] : [AssetTypeLegacyHelper descriptionFor:AssetTypeBitcoin];
 }
 
 - (NSString *)bitcoinCashLabelText
 {
-    return [WalletManager.sharedInstance.wallet getActiveAccountsCount:LegacyAssetTypeBitcoinCash] > 1 ? [WalletManager.sharedInstance.wallet getLabelForAccount:self.bchAccount assetType:LegacyAssetTypeBitcoinCash] : BC_STRING_BITCOIN_CASH;
+    return [WalletManager.sharedInstance.wallet getActiveAccountsCount:LegacyAssetTypeBitcoinCash] > 1 ? [WalletManager.sharedInstance.wallet getLabelForAccount:self.bchAccount assetType:LegacyAssetTypeBitcoinCash] : [AssetTypeLegacyHelper descriptionFor:AssetTypeBitcoinCash];
 }
 
 - (NSString *)etherLabelText
 {
-    return [WalletManager.sharedInstance.wallet getActiveAccountsCount:LegacyAssetTypeBitcoin] > 1 ? [WalletManager.sharedInstance.wallet getLabelForAccount:0 assetType:LegacyAssetTypeEther] : BC_STRING_ETHER;
+    return [WalletManager.sharedInstance.wallet getActiveAccountsCount:LegacyAssetTypeBitcoin] > 1 ? [WalletManager.sharedInstance.wallet getLabelForAccount:0 assetType:LegacyAssetTypeEther] : [AssetTypeLegacyHelper descriptionFor:AssetTypeEthereum];
 }
 
 - (void)didChangeFrom

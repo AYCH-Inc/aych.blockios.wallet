@@ -108,7 +108,7 @@
     NSString *password = passwordTextField.text;
     
     if ([guid length] != 36) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_ENTER_YOUR_CHARACTER_WALLET_IDENTIFIER title:BC_STRING_INVALID_IDENTIFIER handler: nil];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_ENTER_YOUR_CHARACTER_WALLET_IDENTIFIER title:BC_STRING_INVALID_IDENTIFIER in:nil handler:nil];
         
         [walletIdentifierTextField becomeFirstResponder];
         
@@ -116,7 +116,7 @@
     }
     
     if (password.length == 0) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:LocalizationConstantsObjcBridge.noPasswordEntered title:BC_STRING_ERROR handler: nil];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:LocalizationConstantsObjcBridge.noPasswordEntered title:BC_STRING_ERROR in:nil handler:nil];
         
         [passwordTextField becomeFirstResponder];
         
@@ -131,8 +131,7 @@
     [walletIdentifierTextField resignFirstResponder];
     [passwordTextField resignFirstResponder];
     
-    BlockchainSettings.sharedAppInstance.hasSeenAllCards = YES;
-    BlockchainSettings.sharedAppInstance.shouldHideAllCards = YES;
+    BlockchainSettings.sharedOnboardingInstance.hasSeenAllCards = YES;
 
     [self.delegate manualPairView:self didContinueWithGuid:guid andPassword:password];
 }

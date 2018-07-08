@@ -26,19 +26,11 @@
 {
     [super viewDidLoad];
 
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    CGFloat safeAreaInsetTop = 20;
+    CGFloat safeAreaInsetTop = UIView.rootViewSafeAreaInsets.top;
     CGFloat navBarHeight = [ConstantsObjcBridge defaultNavigationBarHeight];
-    CGFloat assetSelectorHeight = 36;
-    if (@available(iOS 11.0, *)) {
-        safeAreaInsetTop = window.rootViewController.view.safeAreaInsets.top;
-        CGRect safeAreaLayoutFrame = window.rootViewController.view.safeAreaLayoutGuide.layoutFrame;
-        CGFloat height = safeAreaLayoutFrame.size.height - navBarHeight - assetSelectorHeight;
-        self.view.frame = CGRectMake(0, 0, safeAreaLayoutFrame.size.width, height);
-    } else {
-        CGFloat height = window.frame.size.height - safeAreaInsetTop - navBarHeight - assetSelectorHeight;
-        self.view.frame = CGRectMake(0, 0, window.frame.size.width, height);
-    }
+    CGFloat assetSelectorHeight = [ConstantsObjcBridge assetSelectorHeight];
+
+    self.view.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:NO assetSelector:YES];
 
     [self.navigationBar setTitleTextAttributes:[UINavigationBar largeTitleTextAttributes]];
     self.warningButton = [[UIBarButtonItem alloc]
@@ -153,7 +145,7 @@
     }]];
     
     if (!userClicked) {
-        [alertToTransfer addAction:[UIAlertAction actionWithTitle:BC_STRING_DONT_SHOW_AGAIN style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alertToTransfer addAction:[UIAlertAction actionWithTitle:[LocalizationConstantsObjcBridge dontShowAgain] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             BlockchainSettings.sharedAppInstance.hideTransferAllFundsAlert = YES;
         }]];
     }

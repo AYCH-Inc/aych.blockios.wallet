@@ -10,19 +10,6 @@
 
 import Foundation
 
-//: Local Authentication - Face ID & Touch ID
-
-let LCStringAuthCancel = NSLocalizedString("Cancel", comment: "")
-let LCStringAuthUsePasscode = NSLocalizedString("Use Passcode", comment: "")
-
-let LCStringFaceIDAuthenticate = NSLocalizedString("Authenticate to unlock your wallet", comment: "")
-let LCStringTouchIDAuthenticate = NSLocalizedString("Authenticate to unlock your wallet", comment: "")
-
-//: Authentication Errors
-let LCStringAuthGenericError = NSLocalizedString("Authentication Failed. Please try again.", comment: "")
-let LCStringAuthAuthenticationFailed = NSLocalizedString("Authentication was not successful because the user failed to provide valid credentials.", comment: "")
-let LCStringAuthPasscodeNotSet = NSLocalizedString("Failed to Authenticate because a passcode has not been set on the device.", comment: "")
-
 //: Onboarding
 struct LocalizationConstants {
     static let information = NSLocalizedString("Information", comment: "")
@@ -38,6 +25,14 @@ struct LocalizationConstants {
     static let openMailApp = NSLocalizedString("Open Mail App", comment: "")
     static let goToSettings = NSLocalizedString("Go to Settings", comment: "")
     static let scanQRCode = NSLocalizedString("Scan QR Code", comment: "")
+    static let dontShowAgain = NSLocalizedString(
+        "Don't show again",
+        comment: "Text displayed to the user when an action has the option to not be asked again."
+    )
+    static let myEtherWallet = NSLocalizedString(
+        "My Ether Wallet",
+        comment: "The default name of the ether wallet."
+    )
 
     struct Errors {
         static let error = NSLocalizedString("Error", comment: "")
@@ -48,6 +43,7 @@ struct LocalizationConstants {
         static let noInternetConnectionPleaseCheckNetwork = NSLocalizedString("No internet connection available. Please check your network settings.", comment: "")
         static let warning = NSLocalizedString("Warning", comment: "")
         static let timedOut = NSLocalizedString("Connection timed out. Please check your internet connection.", comment: "")
+        static let siteMaintenanceError = NSLocalizedString("Blockchain's servers are currently under maintenance. Please try again later", comment: "")
         static let invalidServerResponse = NSLocalizedString("Invalid server response. Please try again later.", comment: "")
         static let invalidStatusCodeReturned = NSLocalizedString("Invalid Status Code Returned %@", comment: "")
         static let requestFailedCheckConnection = NSLocalizedString("Request failed. Please check your internet connection.", comment: "")
@@ -86,35 +82,109 @@ struct LocalizationConstants {
         static let secondPasswordRequired = NSLocalizedString("Second Password Required", comment: "")
         static let secondPasswordIncorrect = NSLocalizedString("Second Password Incorrect", comment: "")
         static let secondPasswordDefaultDescription = NSLocalizedString("This action requires the second password for your wallet. Please enter it below and press continue.", comment: "")
-        static let privateKeyNeeded = NSLocalizedString("Second Password Required", comment: "")
+        static let privateKeyNeeded = NSLocalizedString("Private Key Needed", comment: "")
         static let privateKeyPasswordDefaultDescription = NSLocalizedString("The private key you are attempting to import is encrypted. Please enter the password below.", comment: "")
         static let password = NSLocalizedString("Password", comment: "")
     }
 
     struct Pin {
-        static let incorrect = NSLocalizedString("Incorrect PIN. Please retry.", comment: "")
-        static let cannotSaveInvalidWalletState = NSLocalizedString("Cannot save PIN Code while wallet is not initialized or password is null", comment: "")
-        static let responseKeyOrValueLengthZero = NSLocalizedString("PIN Response Object key or value length 0", comment: "")
-        static let encryptedStringIsNil = NSLocalizedString("PIN Encrypted String is nil", comment: "")
-        static let validationCannotBeCompleted = NSLocalizedString("PIN Validation cannot be completed. Please enter your wallet password manually.", comment: "")
-        static let incorrectUnknownError = NSLocalizedString("PIN Code Incorrect. Unknown Error Message.", comment: "")
-        static let responseSuccessLengthZero = NSLocalizedString("PIN Response Object success length 0", comment: "")
-        static let decryptedPasswordLengthZero = NSLocalizedString("Decrypted PIN Password length 0", comment: "")
-        static let validationError = NSLocalizedString("PIN Validation Error", comment: "")
-        static let validationErrorMessage = NSLocalizedString("An error occurred validating your PIN code with the remote server. You may be offline or Blockchain may be experiencing difficulties. Would you like retry validation or instead enter your password manually?", comment: "")
+        static let incorrect = NSLocalizedString(
+            "Incorrect PIN. Please retry.",
+            comment: "Error message displayed when the entered pin is incorrect and the user should try to enter the pin code again."
+        )
+        static let cannotSaveInvalidWalletState = NSLocalizedString(
+            "Cannot save PIN Code while wallet is not initialized or password is null",
+            comment: "Error message displayed when the wallet is in an invalid state and the user tried to enter a new pin code."
+        )
+        static let responseKeyOrValueLengthZero = NSLocalizedString(
+            "PIN Response Object key or value length 0",
+            comment: "Error message displayed to the user when the pin-store endpoint is returning an invalid response."
+        )
+        static let encryptedStringIsNil = NSLocalizedString(
+            "PIN Encrypted String is nil",
+            comment: "Error message displayed when the encrypted pin is invalid."
+        )
+        static let validationCannotBeCompleted = NSLocalizedString(
+            "PIN Validation cannot be completed. Please enter your wallet password manually.",
+            comment: "Error message displayed when the user's pin cannot be validated and instead they are prompted to enter their password."
+        )
+        static let incorrectUnknownError = NSLocalizedString(
+            "PIN Code Incorrect. Unknown Error Message.",
+            comment: "Error message displayed when the pin cannot be validated and the error is unknown."
+        )
+        static let responseSuccessLengthZero = NSLocalizedString(
+            "PIN Response Object success length 0",
+            comment: "Error message displayed to the user when the pin-store endpoint is returning an invalid response."
+        )
+        static let decryptedPasswordLengthZero = NSLocalizedString(
+            "Decrypted PIN Password length 0",
+            comment: "Error message displayed when the user's decrypted password length is 0."
+        )
+        static let validationError = NSLocalizedString(
+            "PIN Validation Error",
+            comment: "Title of the error message displayed to the user when their PIN cannot be validated if it is correct."
+        )
+        static let validationErrorMessage = NSLocalizedString(
+            "An error occurred validating your PIN code with the remote server. You may be offline or Blockchain may be experiencing difficulties. Would you like retry validation or instead enter your password manually?",
+            comment: "Error message displayed to the user when their PIN cannot be validated if it is correct."
+        )
+        static let pinsDoNotMatch = NSLocalizedString(
+            "PINs do not match",
+            comment: "Message presented to user when they enter an incorrect pin when confirming a pin."
+        )
     }
 
     struct Biometrics {
-        //: Touch ID specific instructions
-        static let touchIDEnableInstructions = NSLocalizedString("Touch ID is not enabled on this device. To enable Touch ID, go to Settings -> Touch ID & Passcode and add a fingerprint.", comment: "")
-
+        static let touchIDEnableInstructions = NSLocalizedString(
+            "Touch ID is not enabled on this device. To enable Touch ID, go to Settings -> Touch ID & Passcode and add a fingerprint.",
+            comment: "The error description for when the user is not enrolled in biometric authentication."
+        )
         //: Biometry Authentication Errors (only available on iOS 11, possibly including newer versions)
-        static let biometricsLockout = NSLocalizedString("Unable to Authenticate due to failing Authentication too many times.", comment: "")
-        static let biometricsNotSupported = NSLocalizedString("Unable to Authenticate because the device does not support biometric Authentication.", comment: "")
-        static let unableToUseBiometrics = NSLocalizedString("Unable to use biometrics.", comment: "")
-
+        static let biometricsLockout = NSLocalizedString(
+            "Unable to authenticate due to failing authentication too many times.",
+            comment: "The error description for when the user has made too many failed authentication attempts using biometrics."
+        )
+        static let biometricsNotSupported = NSLocalizedString(
+            "Unable to authenticate because the device does not support biometric authentication.",
+            comment: "The error description for when the device does not support biometric authentication."
+        )
+        static let unableToUseBiometrics = NSLocalizedString(
+            "Unable to use biometrics.",
+            comment: "The error message displayed to the user upon failure to authenticate using biometrics."
+        )
+        static let biometryWarning = NSLocalizedString(
+            "Enabling this feature will allow all users with a registered %@ fingerprint on this device to access to your wallet.",
+            comment: "The message displayed in the alert view when the biometry switch is toggled in the settings view."
+        )
+        static let enableX = NSLocalizedString(
+            "Enable %@",
+            comment: "The title of the biometric authentication button in the wallet setup view. The value depends on the type of biometry."
+        )
+        static let authenticationReason = NSLocalizedString(
+            "Authenticate to unlock your wallet",
+            comment: "The app-provided reason for requesting authentication, which displays in the authentication dialog presented to the user."
+        )
+        static let genericError = NSLocalizedString(
+            "Authentication Failed. Please try again.",
+            comment: "Fallback error for all other errors that may occur during biometric authentication."
+        )
+        static let usePasscode = NSLocalizedString(
+            "Use Passcode",
+            comment: "Fallback title for when biometric authentication fails."
+        )
+        static let authenticationFailed = NSLocalizedString(
+            "Authentication was not successful because the user failed to provide valid credentials.",
+            comment: "The internal error description if biometric authentication fails because the user failed to provide valid credentials."
+        )
+        static let passcodeNotSet = NSLocalizedString(
+            "Failed to Authenticate because a passcode has not been set on the device.",
+            comment: "The internal error description if biometric authentication fails because no passcode has been set."
+        )
         //: Deprecated Authentication Errors (remove once we stop supporting iOS >= 8.0 and iOS <= 11)
-        static let touchIDLockout = NSLocalizedString("Unable to Authenticate because there were too many failed Touch ID attempts. Passcode is required to unlock Touch ID", comment: "")
+        static let touchIDLockout = NSLocalizedString(
+            "Unable to Authenticate because there were too many failed Touch ID attempts. Passcode is required to unlock Touch ID",
+            comment: "The error description for when the user has made too many failed authentication attempts using Touch ID."
+        )
     }
 
     struct Onboarding {
@@ -125,6 +195,7 @@ struct LocalizationConstants {
         static let askToUserOldWalletTitle = NSLocalizedString("We’ve detected a previous installation of Blockchain Wallet on your phone.", comment: "")
         static let askToUserOldWalletMessage = NSLocalizedString("Please choose from the options below.", comment: "")
         static let loginExistingWallet = NSLocalizedString("Login existing Wallet", comment: "")
+        static let biometricInstructions = NSLocalizedString("Use %@ instead of PIN to authenticate Blockchain and access your wallet.", comment: "")
     }
 
     struct SideMenu {
@@ -148,6 +219,7 @@ struct LocalizationConstants {
     }
 
     struct AddressAndKeyImport {
+        static let nonSpendable = NSLocalizedString("Non-Spendable", comment: "Text displayed to indicate that part of the funds in the user's wallet is not spendable.")
         static let importedWatchOnlyAddressArgument = NSLocalizedString("Imported watch-only address %@", comment: "")
         static let importedPrivateKeyArgument = NSLocalizedString("Imported Private Key %@", comment: "")
         static let loadingImportKey = NSLocalizedString("Importing key", comment: "")
@@ -169,6 +241,13 @@ struct LocalizationConstants {
         static let addWatchOnlyAddressWarningPrompt = NSLocalizedString("These options are recommended for advanced users only. Continue?", comment: "")
     }
 
+    struct SendAsset {
+        static let invalidXAddressY = NSLocalizedString(
+            "Invalid %@ address: %@",
+            comment: "String presented to the user when they try to scan a QR code with an invalid address."
+        )
+    }
+
     struct SendEther {
         static let waitingForPaymentToFinishTitle = NSLocalizedString("Waiting for payment", comment: "")
         static let waitingForPaymentToFinishMessage = NSLocalizedString("Please wait until your last ether transaction confirms.", comment: "")
@@ -176,12 +255,88 @@ struct LocalizationConstants {
 
     struct Settings {
         static let cookiePolicy = NSLocalizedString("Cookie Policy", comment: "")
+        static let allRightsReserved = NSLocalizedString("All rights reserved.", comment: "")
+        static let useBiometricsAsPin = NSLocalizedString("Use %@ as PIN", comment: "")
+    }
+
+    struct SwipeToReceive {
+        static let pleaseLoginToLoadMoreAddresses = NSLocalizedString("Please login to load more addresses.", comment: "")
+    }
+
+    struct ReceiveAsset {
+        static let xPaymentRequest = NSLocalizedString("%@ payment request", comment: "Subject of the email sent when requesting for payment from another user.")
+    }
+
+    struct Backup {
+        static let reminderBackupMessageFirstBitcoin = NSLocalizedString(
+            "Congrats, you have bitcoin! Now let’s backup your wallet to ensure you can access your funds if you forget your password.",
+            comment: "Reminder message for when the user has just received funds prior to having completed the backup phrase."
+        )
+        static let reminderBackupMessageHasFunds = NSLocalizedString(
+            "For your security, we do not keep any passwords on file. Backup your wallet to ensure your funds are safe in case you lose your password.",
+            comment: "Reminder message for when the user already has funds prior to having completed the backup phrase."
+        )
+    }
+
+    struct LegacyUpgrade {
+        static let upgrade = NSLocalizedString(
+            "Upgrade",
+            comment: "The title of the side menu entry item."
+        )
+        static let upgradeFeatureOne = NSLocalizedString(
+            "Always know the market price",
+            comment: "The description in the first view of the legacy wallet upgrade flow."
+        )
+        static let upgradeFeatureTwo = NSLocalizedString(
+            "Easy one time wallet backup keeps you in control of your funds.",
+            comment: "The description in the second view of the legacy wallet upgrade flow."
+        )
+        static let upgradeFeatureThree = NSLocalizedString(
+            "Everything you need to store, spend and receive BTC, ETH and BCH.",
+            comment: "The description in the third view of the legacy wallet upgrade flow."
+        )
+        static let upgradeSuccess = NSLocalizedString(
+            "You are now running our most secure wallet",
+            comment: "The message displayed in the alert view after completing the legacy upgrade flow."
+        )
+        static let upgradeSuccessTitle = NSLocalizedString(
+            "Success!",
+            comment: "The title of the alert view after completing the legacy upgrade flow."
+        )
+    }
+
+    struct AppReviewFallbackPrompt {
+        static let title = NSLocalizedString(
+            "Rate Blockchain Wallet",
+            comment: "The title of the fallback app review prompt."
+        )
+        static let message = NSLocalizedString(
+            "Enjoying the Blockchain Wallet? Please take a moment to leave a review in the App Store and let others know about it.",
+            comment: "The message of the fallback app review prompt."
+        )
+        static let affirmativeActionTitle = NSLocalizedString(
+            "Yes, rate Blockchain Wallet",
+            comment: "The title for the affirmative prompt action."
+        )
+        static let secondaryActionTitle = NSLocalizedString(
+            "Ask Me Later",
+            comment: "The title for the secondary prompt action."
+        )
     }
 }
 
 // TODO: deprecate this once Obj-C is no longer using this
 /// LocalizationConstants class wrapper so that LocalizationConstants can be accessed from Obj-C.
 @objc class LocalizationConstantsObjcBridge: NSObject {
+    @objc class func continueString() -> String { return LocalizationConstants.continueString }
+
+    @objc class func warning() -> String { return LocalizationConstants.Errors.warning }
+
+    @objc class func pinCodeCommonMessage() -> String { return LocalizationConstants.Authentication.pinCodeCommonMessage }
+
+    @objc class func newPinMustBeDifferent() -> String { return LocalizationConstants.Authentication.newPinMustBeDifferent }
+
+    @objc class func chooseAnotherPin() -> String { return LocalizationConstants.Authentication.chooseAnotherPin }
 
     @objc class func requestFailedCheckConnection() -> String { return LocalizationConstants.Errors.requestFailedCheckConnection }
 
@@ -240,4 +395,40 @@ struct LocalizationConstants {
     @objc class func confirming() -> String { return LocalizationConstants.Exchange.confirming }
 
     @objc class func loadingTransactions() -> String { return LocalizationConstants.Exchange.loadingTransactions }
+
+    @objc class func xPaymentRequest() -> String { return LocalizationConstants.ReceiveAsset.xPaymentRequest }
+
+    @objc class func invalidXAddressY() -> String { return LocalizationConstants.SendAsset.invalidXAddressY }
+
+    @objc class func reminderBackupMessageFirstBitcoin() -> String { return LocalizationConstants.Backup.reminderBackupMessageFirstBitcoin }
+
+    @objc class func reminderBackupMessageHasFunds() -> String { return LocalizationConstants.Backup.reminderBackupMessageHasFunds }
+
+    @objc class func upgradeSuccess() -> String { return LocalizationConstants.LegacyUpgrade.upgradeSuccess }
+
+    @objc class func upgradeSuccessTitle() -> String { return LocalizationConstants.LegacyUpgrade.upgradeSuccessTitle }
+
+    @objc class func upgrade() -> String { return LocalizationConstants.LegacyUpgrade.upgrade }
+
+    @objc class func upgradeFeatureOne() -> String { return LocalizationConstants.LegacyUpgrade.upgradeFeatureOne }
+
+    @objc class func upgradeFeatureTwo() -> String { return LocalizationConstants.LegacyUpgrade.upgradeFeatureTwo }
+
+    @objc class func upgradeFeatureThree() -> String { return LocalizationConstants.LegacyUpgrade.upgradeFeatureThree }
+
+    @objc class func useBiometricsAsPin() -> String { return LocalizationConstants.Settings.useBiometricsAsPin }
+
+    @objc class func biometryWarning() -> String { return LocalizationConstants.Biometrics.biometryWarning }
+
+    @objc class func biometricInstructions() -> String { return LocalizationConstants.Onboarding.biometricInstructions }
+
+    @objc class func enableBiometrics() -> String { return LocalizationConstants.Biometrics.enableX }
+
+    @objc class func pinsDoNotMatch() -> String { return LocalizationConstants.Pin.pinsDoNotMatch }
+
+    @objc class func nonSpendable() -> String { return LocalizationConstants.AddressAndKeyImport.nonSpendable }
+
+    @objc class func dontShowAgain() -> String { return LocalizationConstants.dontShowAgain }
+
+    @objc class func myEtherWallet() -> String { return LocalizationConstants.myEtherWallet }
 }

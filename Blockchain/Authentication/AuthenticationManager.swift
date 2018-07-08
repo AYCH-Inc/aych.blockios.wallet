@@ -53,17 +53,12 @@ final class AuthenticationManager: NSObject {
     */
     private let genericAuthenticationError: AuthenticationError = AuthenticationError(
         code: Int.min,
-        description: LCStringAuthGenericError
+        description: LocalizationConstants.Biometrics.genericError
     )
 
     /// The app-provided reason for requesting authentication, which displays in the authentication dialog presented to the user.
     private lazy var authenticationReason: String = {
-        if #available(iOS 11.0, *) {
-            if self.context.biometryType == .faceID {
-                return LCStringFaceIDAuthenticate
-            }
-        }
-        return LCStringTouchIDAuthenticate
+        return LocalizationConstants.Biometrics.authenticationReason
     }()
 
     /// The error object used prior to policy evaluation.
@@ -95,9 +90,9 @@ final class AuthenticationManager: NSObject {
      */
     func authenticateUsingBiometrics(andReply handler: @escaping BiometricsAuthHandler) {
         context = LAContext()
-        context.localizedFallbackTitle = LCStringAuthUsePasscode
+        context.localizedFallbackTitle = LocalizationConstants.Biometrics.usePasscode
         if #available(iOS 10.0, *) {
-            context.localizedCancelTitle = LCStringAuthCancel
+            context.localizedCancelTitle = LocalizationConstants.cancel
         }
         if !canAuthenticateUsingBiometry() {
             handler(false, preFlightError(forError: preflightError!.code)); return
@@ -158,34 +153,6 @@ final class AuthenticationManager: NSObject {
         authHandler = handler
 
         walletManager.wallet.load(withGuid: payload.guid, sharedKey: payload.sharedKey, password: payload.password)
-    }
-
-    // MARK: - Authentication with Pin
-
-    /// The function used to authenticate the user using a pin.
-    ///
-    /// - Parameters:
-    ///   - payload: The pin payload
-    ///   - handler: The completion handler
-    func authenticate(using payload: PinPayload, andReply handler: @escaping WalletAuthHandler) {
-        guard Reachability.hasInternetConnection() else {
-            handler(false, nil, AuthenticationError(code: AuthenticationError.ErrorCode.noInternet.rawValue))
-            return
-        }
-
-        NetworkManager.shared.checkForMaintenance(withCompletion: { [weak self] response in
-            guard let strongSelf = self else { return }
-
-            guard response == nil else {
-                print("Error checking for maintenance in wallet options: %@", response!)
-                handler(false, nil, AuthenticationError(code: AuthenticationError.ErrorCode.walletMaintenance.rawValue, description: response!))
-                return
-            }
-
-            strongSelf.authHandler = handler
-
-            strongSelf.walletManager.wallet.apiGetPINValue(payload.pinKey, pin: payload.pinCode)
-        })
     }
 
     // MARK: - Authentication Errors
@@ -254,11 +221,14 @@ final class AuthenticationManager: NSObject {
     private func authenticationError(forError code: Error) -> AuthenticationError {
         switch code {
         case LAError.authenticationFailed:
-            return AuthenticationError(code: LAError.authenticationFailed.rawValue, description: LCStringAuthAuthenticationFailed)
+            return AuthenticationError(
+                code: LAError.authenticationFailed.rawValue,
+                description: LocalizationConstants.Biometrics.authenticationFailed
+            )
         case LAError.appCancel:
             return AuthenticationError(code: LAError.appCancel.rawValue, description: nil)
         case LAError.passcodeNotSet:
-            return AuthenticationError(code: LAError.passcodeNotSet.rawValue, description: LCStringAuthPasscodeNotSet)
+            return AuthenticationError(code: LAError.passcodeNotSet.rawValue, description: LocalizationConstants.Biometrics.passcodeNotSet)
         case LAError.systemCancel:
             return AuthenticationError(code: LAError.systemCancel.rawValue, description: nil)
         case LAError.userCancel:

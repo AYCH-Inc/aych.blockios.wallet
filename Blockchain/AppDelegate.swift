@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let securityReminderKey = UserDefaults.DebugKeys.securityReminderTimer.rawValue
         UserDefaults.standard.removeObject(forKey: securityReminderKey)
 
-        let appReviewPromptKey = UserDefaults.DebugKeys.appReviewPromptTimer.rawValue
+        let appReviewPromptKey = UserDefaults.DebugKeys.appReviewPromptCount.rawValue
         UserDefaults.standard.removeObject(forKey: appReviewPromptKey)
 
         let zeroTickerKey = UserDefaults.DebugKeys.simulateZeroTicker.rawValue
@@ -127,12 +127,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WalletManager.shared.close()
         }
 
-        if appSettings.hasSeenAllCards {
-            appSettings.shouldHideAllCards = true
-        }
-
-        if appSettings.didFailTouchIDSetup && !appSettings.touchIDEnabled {
-            appSettings.shouldShowTouchIDSetup = true
+        let onboardingSettings = BlockchainSettings.Onboarding.shared
+        if onboardingSettings.didFailBiometrySetup && !appSettings.biometryEnabled {
+            onboardingSettings.shouldShowBiometrySetup = true
         }
 
         // UI-related background actions
@@ -145,7 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Show pin modal before we close the app so the PIN verify modal gets shown in the list of running apps and immediately after we restart
         if appSettings.isPinSet {
-            AuthenticationCoordinator.shared.showPinEntryView(asModal: true)
+            AuthenticationCoordinator.shared.showPinEntryView()
         }
 
         NetworkManager.shared.session.reset {
@@ -155,6 +152,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         print("applicationWillEnterForeground")
+
+        BlockchainSettings.App.shared.appOpenedCount += 1
 
         BuySellCoordinator.shared.start()
 
@@ -171,13 +170,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("applicationDidBecomeActive")
         hidePrivacyScreen()
         UIApplication.shared.applicationIconBadgeNumber = 0
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        let appSettings = BlockchainSettings.App.shared
-        appSettings.shouldHideAllCards = true
-        appSettings.hasSeenAllCards = true
-        appSettings.shouldHideBuySellCard = true
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
@@ -241,21 +233,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func checkForNewInstall() {
 
         let appSettings = BlockchainSettings.App.shared
+        let onboardingSettings = BlockchainSettings.Onboarding.shared
 
-        //        if UserDefaults.standard.object(forKey: upgradeKey) != nil {
-        //            UserDefaults.standard.removeObject(forKey: upgradeKey)
-        //        }
-        // TODO: investigate this further
-        if appSettings.hasSeenUpgradeToHdScreen {
-            appSettings.hasSeenUpgradeToHdScreen = false
+        if onboardingSettings.hasSeenUpgradeToHdScreen {
+            onboardingSettings.hasSeenUpgradeToHdScreen = false
         }
 
-        guard !appSettings.firstRun else {
+        guard !onboardingSettings.firstRun else {
             print("This is not the 1st time the user is running the app.")
             return
         }
 
-        appSettings.firstRun = true
+        onboardingSettings.firstRun = true
 
         if appSettings.guid != nil && appSettings.sharedKey != nil && !appSettings.isPinSet {
             AlertViewPresenter.shared.alertUserAskingToUseOldKeychain { _ in

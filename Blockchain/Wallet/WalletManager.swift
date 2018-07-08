@@ -99,7 +99,7 @@ class WalletManager: NSObject {
 
         AppCoordinator.shared.reload()
 
-        BlockchainSettings.App.shared.touchIDEnabled = false
+        BlockchainSettings.App.shared.biometryEnabled = false
 
         AppCoordinator.shared.tabControllerManager.transition(to: 1)
 
@@ -255,24 +255,6 @@ extension WalletManager: WalletDelegate {
 
     // MARK: - Pin Entry
 
-    func didFailGetPinTimeout() {
-        DispatchQueue.main.async { [unowned self] in
-            self.pinEntryDelegate?.errorGetPinValueTimeout()
-        }
-    }
-
-    func didFailGetPinNoResponse() {
-        DispatchQueue.main.async { [unowned self] in
-            self.pinEntryDelegate?.errorGetPinEmptyResponse()
-        }
-    }
-
-    func didFailGetPinInvalidResponse() {
-        DispatchQueue.main.async { [unowned self] in
-            self.pinEntryDelegate?.errorGetPinInvalidResponse()
-        }
-    }
-
     func didFailPutPin(_ value: String!) {
         DispatchQueue.main.async { [unowned self] in
             self.pinEntryDelegate?.errorDidFailPutPin(errorMessage: value)
@@ -283,13 +265,6 @@ extension WalletManager: WalletDelegate {
         let response = PutPinResponse(response: dictionary)
         DispatchQueue.main.async { [unowned self] in
             self.pinEntryDelegate?.putPinSuccess(response: response)
-        }
-    }
-
-    func didGetPinResponse(_ dictionary: [AnyHashable: Any]!) {
-        let response = GetPinResponse(response: dictionary)
-        DispatchQueue.main.async { [unowned self] in
-            self.pinEntryDelegate?.getPinSuccess(response: response)
         }
     }
 
@@ -475,6 +450,7 @@ extension WalletManager: WalletDelegate {
     }
 
     // MARK: - Exchange
+
     func didGetExchangeTrades(_ trades: [Any]!) {
         DispatchQueue.main.async { [unowned self] in
             self.exchangeDelegate?.didGetExchangeTrades(trades: trades as NSArray)
@@ -487,9 +463,9 @@ extension WalletManager: WalletDelegate {
         }
     }
 
-    func didGetAvailableBtcBalance(_ result: [AnyHashable: Any]!) {
+    func didGetAvailableBtcBalance(_ result: [AnyHashable: Any]?) {
         DispatchQueue.main.async { [unowned self] in
-            self.exchangeDelegate?.didGetAvailableBtcBalance(result: result as NSDictionary)
+            self.exchangeDelegate?.didGetAvailableBtcBalance(result: result as NSDictionary?)
         }
     }
 

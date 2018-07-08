@@ -31,7 +31,7 @@
         if ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo] != AVAuthorizationStatusAuthorized) {
             [AlertViewPresenter.sharedInstance showNeedsCameraPermissionAlert];
         } else {
-            [AlertViewPresenter.sharedInstance standardNotifyWithMessage:[error localizedDescription] title:LocalizationConstantsObjcBridge.error handler:nil];
+            [AlertViewPresenter.sharedInstance standardNotifyWithMessage:[error localizedDescription] title:LocalizationConstantsObjcBridge.error in:self handler:nil];
         }
         return NO;
     }
@@ -49,12 +49,11 @@
     
     _videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_captureSession];
     [_videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+
+    CGRect rootFrame = UIApplication.sharedApplication.keyWindow.rootViewController.view.frame;
+    [_videoPreviewLayer setFrame:rootFrame];
     
-    CGRect frame = CGRectMake(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-    
-    [_videoPreviewLayer setFrame:frame];
-    
-    UIView *view = [[UIView alloc] initWithFrame:frame];
+    UIView *view = [[UIView alloc] initWithFrame:rootFrame];
     [view.layer addSublayer:_videoPreviewLayer];
 
     [[ModalPresenter sharedInstance] showModalWithContent:view closeType:ModalCloseTypeClose showHeader:YES headerText:[LocalizationConstantsObjcBridge scanQRCode] onDismiss:^{

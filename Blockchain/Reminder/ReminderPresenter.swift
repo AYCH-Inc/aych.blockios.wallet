@@ -66,15 +66,16 @@ import Foundation
     /// Displays a reminder to the user that they still need to verify their email
     func showEmailVerificationReminder() {
         let appSettings = BlockchainSettings.App.shared
+        let onboardingSettings = BlockchainSettings.Onboarding.shared
 
         appSettings.hasSeenEmailReminder = true
 
         let setupViewController = WalletSetupViewController(setupDelegate: AuthenticationCoordinator.shared)!
-        setupViewController.emailOnly = !appSettings.shouldShowTouchIDSetup
+        setupViewController.emailOnly = !onboardingSettings.shouldShowBiometrySetup
         setupViewController.modalTransitionStyle = .crossDissolve
 
-        appSettings.shouldShowTouchIDSetup = false
-        appSettings.didFailTouchIDSetup = false
+        onboardingSettings.shouldShowBiometrySetup = false
+        onboardingSettings.didFailBiometrySetup = false
 
         UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(setupViewController, animated: true)
     }

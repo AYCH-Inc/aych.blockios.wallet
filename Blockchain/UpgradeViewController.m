@@ -50,12 +50,12 @@
 
 - (NSArray *)imageNamesArray
 {
-    return @[@"upgrade1", @"upgrade2", @"upgrade3"];
+    return @[@"ImageUpgradeFeature1", @"ImageUpgradeFeature2", @"ImageUpgradeFeature3"];
 }
 
 - (NSArray *)captionLabelStringsArray
 {
-    return @[BC_STRING_UPGRADE_FEATURE_ONE, BC_STRING_UPGRADE_FEATURE_TWO, BC_STRING_UPGRADE_FEATURE_THREE];
+    return @[[LocalizationConstantsObjcBridge upgradeFeatureOne], [LocalizationConstantsObjcBridge upgradeFeatureTwo], [LocalizationConstantsObjcBridge upgradeFeatureThree]];
 }
 
 - (NSAttributedString *)createBlueAttributedStringWithWideLineSpacingFromString:(NSString *)string

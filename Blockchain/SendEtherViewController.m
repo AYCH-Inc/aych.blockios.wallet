@@ -54,25 +54,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    CGFloat safeAreaInsetTop = 20;
-    CGFloat assetSelectorHeight = 36;
-    CGFloat navBarHeight = [ConstantsObjcBridge defaultNavigationBarHeight];
-    CGFloat tabBarHeight = 49;
-    if (@available(iOS 11.0, *)) {
-        safeAreaInsetTop = window.rootViewController.view.safeAreaInsets.top;
-    }
 
-    //: Frame must be calculated manually because there is no associated xib file with this class
-    if (@available(iOS 11.0, *)) {
-        CGRect safeAreaLayoutFrame = window.rootViewController.view.safeAreaLayoutGuide.layoutFrame;
-        CGFloat height = safeAreaLayoutFrame.size.height - navBarHeight - assetSelectorHeight - tabBarHeight;
-        self.view.frame = CGRectMake(0, 0, safeAreaLayoutFrame.size.width, height);
-    } else {
-        CGFloat height = window.frame.size.height - safeAreaInsetTop - navBarHeight - assetSelectorHeight - tabBarHeight;
-        self.view.frame = CGRectMake(0, 0, window.frame.size.width, height);
-    }
+    self.view.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:YES assetSelector:YES];
     
     UILabel *fromLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 12, 40, 21)];
     fromLabel.adjustsFontSizeToFitWidth = YES;
@@ -85,7 +68,7 @@
     UILabel *fromPlaceholderLabel = [[UILabel alloc] initWithFrame:CGRectMake(fromPlaceholderLabelOriginX, 8, self.view.frame.size.width - fromPlaceholderLabelOriginX, 30)];
     fromPlaceholderLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_SMALL];
     fromPlaceholderLabel.textColor = COLOR_TEXT_DARK_GRAY;
-    fromPlaceholderLabel.text = BC_STRING_MY_ETHER_WALLET;
+    fromPlaceholderLabel.text = [LocalizationConstantsObjcBridge myEtherWallet];
     [self.view addSubview:fromPlaceholderLabel];
     
     BCLine *lineAboveToField = [self offsetLineWithYPosition:ROW_HEIGHT_SEND_SMALL];
@@ -172,6 +155,13 @@
     [super viewWillAppear:animated];
     
     [self getHistory];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+    [self reload];
 }
 
 - (void)keepCurrentPayment
@@ -350,15 +340,15 @@
     self.toAddress = self.toField.text;
     
     if (self.toAddress == nil || self.toAddress.length == 0) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_YOU_MUST_ENTER_DESTINATION_ADDRESS title:BC_STRING_ERROR handler: nil];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_YOU_MUST_ENTER_DESTINATION_ADDRESS title:BC_STRING_ERROR in:self handler:nil];
         return;
     } else if (![self isEtherAddress:self.toAddress]) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, self.toAddress] title:BC_STRING_ERROR handler: nil];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, self.toAddress] title:BC_STRING_ERROR in:self handler:nil];
         return;
     }
     
     if ([self.ethAmount isEqualToNumber:@0]) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_INVALID_SEND_VALUE title:BC_STRING_ERROR handler: nil];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_INVALID_SEND_VALUE title:BC_STRING_ERROR in:self handler:nil];
         return;
     }
     
@@ -373,11 +363,11 @@
                                                               ethAmount:[NSNumberFormatter formatEth:self.ethAmount]
                                                               ethFee:[NSNumberFormatter formatEth:self.ethFee]
                                                               ethTotal:[NSNumberFormatter formatEth:[NSNumberFormatter truncatedEthAmount:totalDecimalNumber locale:nil]]
-                                                              fiatAmount:[NSNumberFormatter appendStringToFiatSymbol:self.amountInputView.fiatField.text]
+                                                              fiatAmount:[NSNumberFormatter formatEthToFiatWithSymbol:[self.ethAmount stringValue] exchangeRate:self.latestExchangeRate]
                                                               fiatFee:[NSNumberFormatter formatEthToFiatWithSymbol:[self.ethFee stringValue] exchangeRate:self.latestExchangeRate]
                                                               fiatTotal:[NSNumberFormatter formatEthToFiatWithSymbol:[NSString stringWithFormat:@"%@", totalDecimalNumber] exchangeRate:self.latestExchangeRate]];
         
-        self.confirmPaymentView = [[BCConfirmPaymentView alloc] initWithWindow:self.view.window viewModel:confirmPaymentViewModel sendButtonFrame:self.continuePaymentButton.frame];
+        self.confirmPaymentView = [[BCConfirmPaymentView alloc] initWithFrame:self.view.frame viewModel:confirmPaymentViewModel sendButtonFrame:self.continuePaymentButton.frame];
         self.confirmPaymentView.confirmDelegate = self;
         
         [self.confirmPaymentView.reallyDoPaymentButton addTarget:self action:@selector(reallyDoPayment) forControlEvents:UIControlEventTouchUpInside];
@@ -451,7 +441,7 @@
     if (self.displayingLocalSymbolSend) {
         availableAmount = [NSNumberFormatter formatEthToFiatWithSymbol:[self.ethAvailable stringValue] exchangeRate:self.latestExchangeRate];
     } else {
-        availableAmount = [NSNumberFormatter formatEth:self.ethAvailable];
+        availableAmount = [NSNumberFormatter formatEth:[[NSNumberFormatter assetFormatter] stringFromNumber:self.ethAvailable]];
     }
     
     [self.fundsAvailableButton setTitle:[NSString stringWithFormat:BC_STRING_USE_TOTAL_AVAILABLE_MINUS_FEE_ARGUMENT, availableAmount] forState:UIControlStateNormal];
@@ -491,7 +481,7 @@
 - (void)selectToAddress:(NSString *)address
 {
     if (address == nil || ![self isEtherAddress:address]) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, address] title:BC_STRING_ERROR handler: nil];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, address] title:BC_STRING_ERROR in:self handler:nil];
         return;
     }
     

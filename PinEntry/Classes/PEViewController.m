@@ -80,14 +80,14 @@
             pin3.frame = CGRectOffset(pin3.frame, 0, offsetY);
             promptLabel.frame = CGRectOffset(promptLabel.frame, 0, offsetY);
         }
-        containerViewHeight = [[UIScreen mainScreen] bounds].size.height/HEIGHT_IPHONE_5S * 380;
+        containerViewHeight = UIScreen.mainScreen.bounds.size.width * 1.1875; // PIN entry view must be 19:16 aspect ratio
     }
     
     promptLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_LARGE];
     self.versionLabel.textColor = COLOR_BLOCKCHAIN_BLUE;
     self.versionLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_SMALL];
 
-    containerView.frame = CGRectMake(0, 480 - containerViewHeight - safeAreaInsetBottom, WINDOW_WIDTH, containerViewHeight);
+    containerView.frame = CGRectMake(0, 480 - containerViewHeight - safeAreaInsetBottom, window.rootViewController.view.frame.size.width, containerViewHeight);
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
 
@@ -104,7 +104,7 @@
         } else {
             fillerView.backgroundColor = COLOR_BLOCKCHAIN_BLUE;
         }
-        [self.view addSubview:fillerView];
+        [self.scrollView addSubview:fillerView];
     }
     
     self.swipeLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_SMALL];
@@ -185,7 +185,7 @@
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showSwipeQR)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
     
-    CGFloat windowWidth = WINDOW_WIDTH;
+    CGFloat windowWidth = self.view.frame.size.width;
     CGFloat actionViewOriginX = self.swipeLabelImageView.frame.origin.x - self.swipeLabel.intrinsicContentSize.width - 8;
     UIView *actionView = [[UIView alloc] initWithFrame:CGRectMake(actionViewOriginX, self.swipeLabel.frame.origin.y, windowWidth - actionViewOriginX, self.swipeLabel.frame.size.height)];
     [containerView addSubview:actionView];

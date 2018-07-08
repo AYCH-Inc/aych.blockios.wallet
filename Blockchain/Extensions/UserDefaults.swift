@@ -12,7 +12,7 @@ import Foundation
 @objc
 extension UserDefaults {
     enum DebugKeys: String {
-        case appReviewPromptTimer = "appReviewPromptTimer"
+        case appReviewPromptCount = "appReviewPromptCount"
         case enableCertificatePinning = "certificatePinning"
         case securityReminderTimer = "securiterReminderTimer"
         case simulateSurge = "simulateSurge"
@@ -20,8 +20,9 @@ extension UserDefaults {
     }
 
     enum Keys: String {
+        case appOpenedCount = "appOpenedCount"
         case assetType = "assetType"
-        case didFailTouchIDSetup = "didFailTouchIDSetup"
+        case didFailBiometrySetup = "didFailBiometrySetup"
         case encryptedPinPassword = "encryptedPINPassword"
         case environment = "environment"
         case firstRun = "firstRun"
@@ -34,13 +35,25 @@ extension UserDefaults {
         case pin = "pin"
         case pinKey = "pinKey"
         case reminderModalDate = "reminderModalDate"
-        case shouldHideAllCards = "shouldHideAllCards"
         case shouldHideBuySellCard = "shouldHideBuySellNotificationCard"
-        case shouldShowTouchIDSetup = "shouldShowTouchIDSetup"
+        case shouldShowBiometrySetup = "shouldShowBiometrySetup"
         case swipeToReceiveEnabled = "swipeToReceive"
         case symbolLocal = "symbolLocal"
-        case touchIDEnabled = "touchIDEnabled"
+        case biometryEnabled = "biometryEnabled"
         case hideTransferAllFundsAlert = "hideTransferAllFundsAlert"
         case defaultAccountLabelledAddressesCount = "defaultAccountLabelledAddressesCount"
+        case dontAskUserToShowAppReviewPrompt = "dontAskUserToShowAppReviewPrompt"
+    }
+
+    func migrateLegacyKeysIfNeeded() {
+        migrateBool(fromKey: "didFailTouchIDSetup", toKey: Keys.didFailBiometrySetup.rawValue)
+        migrateBool(fromKey: "shouldShowTouchIDSetup", toKey: Keys.shouldShowBiometrySetup.rawValue)
+        migrateBool(fromKey: "touchIDEnabled", toKey: Keys.biometryEnabled.rawValue)
+    }
+
+    private func migrateBool(fromKey: String, toKey: String) {
+        guard let value = self.object(forKey: fromKey) as? Bool else { return }
+        self.set(value, forKey: toKey)
+        self.removeObject(forKey: fromKey)
     }
 }

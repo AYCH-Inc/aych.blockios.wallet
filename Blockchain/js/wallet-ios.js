@@ -270,6 +270,27 @@ MyWalletPhone.getBalanceForAccount = function(num) {
     return MyWallet.wallet.hdwallet.accounts[num].balance;
 };
 
+MyWalletPhone.totalActiveBalance = function() {
+    if (!MyWallet.wallet.isUpgradedToHD) {
+        console.log('Warning: Getting accounts when wallet has not upgraded!');
+        return MyWallet.wallet.balanceSpendableActiveLegacy;
+    }
+
+    return MyWallet.wallet.hdwallet.balanceActiveAccounts + MyWallet.wallet.balanceSpendableActiveLegacy;
+}
+
+MyWalletPhone.watchOnlyBalance = function() {
+    return MyWallet.wallet.activeKeys
+    .filter(function (k) { return k.isWatchOnly; })
+    .map(function (k) { return k.balance; })
+    .reduce(Helpers.add, 0);
+}
+
+MyWalletPhone.hasWatchOnlyAddresses = function() {
+    return MyWallet.wallet.activeKeys
+    .filter(function (k) { return k.isWatchOnly; }).length > 0;
+}
+
 MyWalletPhone.getLabelForAccount = function(num) {
     if (!MyWallet.wallet.isUpgradedToHD) {
         console.log('Warning: Getting accounts when wallet has not upgraded!');
@@ -1011,47 +1032,6 @@ MyWalletPhone.quickSend = function(id, onSendScreen, secondPassword, assetType) 
     return id;
 };
 
-MyWalletPhone.apiGetPINValue = function(key, pin) {
-    var data = {
-    format: 'json',
-    method: 'get',
-        pin : pin,
-        key : key
-    };
-
-    var success = function (responseObject) {
-        objc_on_pin_code_get_response(responseObject);
-    };
-    var error = function (res) {
-
-        if (res === "Site is in Maintenance mode") {
-            objc_on_error_maintenance_mode();
-        }
-        if (res === "timeout request") {
-            objc_on_error_pin_code_get_timeout();
-        }
-        // Empty server response
-        else if (!Helpers.isNumber(JSON.parse(res).code)) {
-            objc_on_error_pin_code_get_empty_response();
-        } else {
-            try {
-                var parsedRes = JSON.parse(res);
-
-                if (!parsedRes) {
-                    throw 'Response Object nil';
-                }
-
-                objc_on_pin_code_get_response(parsedRes);
-            } catch (error) {
-                // Invalid server response
-                objc_on_error_pin_code_get_invalid_response();
-            }
-        }
-    };
-
-    BlockchainAPI.request("POST", 'pin-store', data, true, false).then(success).catch(error);
-};
-
 MyWalletPhone.pinServerPutKeyOnPinServerServer = function(key, value, pin) {
     var data = {
     format: 'json',
@@ -1097,15 +1077,11 @@ MyWalletPhone.newAccount = function(password, email, firstAccountName) {
 
     var error = function(e) {
         objc_loading_stop();
-        if (e == 'Invalid Email') {
-            objc_on_update_email_error();
-        } else {
-            var message = e;
-            if (e.initial_error) {
-                message = e.initial_error;
-            }
-            objc_on_error_creating_new_account(''+message);
+        var message = e;
+        if (e.initial_error) {
+            message = e.initial_error;
         }
+        objc_on_error_creating_new_account(''+message);
     };
 
     MyWallet.createNewWallet(email, password, firstAccountName, null, null, success, error);
@@ -3139,9 +3115,10 @@ MyWalletPhone.bch = {
 
         var xpub = MyWallet.wallet.bch.defaultAccount.xpub
         var receiveIndex = MyWallet.wallet.bch.getAccountIndexes(xpub).receive;
+        const accountIndex = MyWallet.wallet.bch.defaultAccountIdx;
 
         for (var i = 0; i < numberOfAddresses; i++) {
-            var address = Helpers.toBitcoinCash(Blockchain.MyWallet.wallet.hdwallet.accounts[0].receiveAddressAtIndex(receiveIndex + i));
+            var address = Helpers.toBitcoinCash(Blockchain.MyWallet.wallet.hdwallet.accounts[accountIndex].receiveAddressAtIndex(receiveIndex + i));
             addresses.push(address);
         }
 

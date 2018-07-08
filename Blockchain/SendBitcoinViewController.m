@@ -19,7 +19,6 @@
 #import "TransferAllFundsBuilder.h"
 #import "BCNavigationController.h"
 #import "BCFeeSelectionView.h"
-#import "StoreKit/StoreKit.h"
 #import "BCConfirmPaymentViewModel.h"
 #import "Blockchain-Swift.h"
 #import "NSNumberFormatter+Currencies.h"
@@ -124,22 +123,17 @@ BOOL displayingLocalSymbolSend;
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_KEY_LOADING_TEXT object:nil];
 
-    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
-    if (self.addressSource == DestinationAddressSourceContact && tabControllerManager.tabViewController.selectedIndex != TAB_SEND) [self reload];
+    [self reload];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    if (@available(iOS 11.0, *)) {
-        self.view.frame = window.rootViewController.view.safeAreaLayoutGuide.layoutFrame;
-    } else {
-        self.view.frame = CGRectMake(0, 0, window.frame.size.width, window.frame.size.height);
-    }
+    self.view.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:YES assetSelector:YES];
 
     [containerView changeWidth:self.view.frame.size.width];
 
@@ -325,7 +319,6 @@ BOOL displayingLocalSymbolSend;
     
     [self enableAmountViews];
     [self enableToField];
-    [self hideContactLabel];
     
     self.isSending = NO;
     self.isReloading = NO;
@@ -399,19 +392,6 @@ BOOL displayingLocalSymbolSend;
     }
 }
 
-- (void)showContactLabelWithName:(NSString *)name reason:(NSString *)reason
-{
-    CGFloat originX = toField.frame.origin.x;
-    CGFloat originY = lineBelowFromField.frame.origin.y + 4;
-    contactLabel.frame = CGRectMake(originX, originY, addressBookButton.frame.origin.x - originX, lineBelowToField.frame.origin.y - originY - 4);
-    contactLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_SMALL];
-    contactLabel.textColor = COLOR_TEXT_DARK_GRAY;
-    
-    contactLabel.hidden = NO;
-    contactLabel.text = IS_USING_SCREEN_SIZE_4S ? [NSString stringWithFormat:@"%@ - %@", name, reason] : [NSString stringWithFormat:@"%@\n%@", name, reason];
-    contactLabel.alpha = 0.5;
-}
-
 - (void)reloadFromAndToFields
 {
     [self reloadFromField];
@@ -474,13 +454,10 @@ BOOL displayingLocalSymbolSend;
 - (IBAction)reallyDoPayment:(id)sender
 {
     if (self.sendFromAddress && [WalletManager.sharedInstance.wallet isWatchOnlyLegacyAddress:self.fromAddress]) {
-        
         [self alertUserForSpendingFromWatchOnlyAddress];
-    
         return;
-    } else {
-        [self sendPaymentWithListener];
     }
+    [self sendPaymentWithListener];
 }
 
 - (void)getInfoForTransferAllFundsToDefaultAccount
@@ -535,52 +512,10 @@ BOOL displayingLocalSymbolSend;
          };
          
          listener.on_success = ^(NSString*secondPassword, NSString *transactionHash) {
-             
              DLog(@"SendViewController: on_success");
-             
              UIAlertController *paymentSentAlert = [UIAlertController alertControllerWithTitle:[LocalizationConstantsObjcBridge success] message:BC_STRING_PAYMENT_SENT preferredStyle:UIAlertControllerStyleAlert];
              [paymentSentAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                 if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_HIDE_APP_REVIEW_PROMPT]) {
-                     
-                     if ([WalletManager.sharedInstance.wallet getAllTransactionsCount] < NUMBER_OF_TRANSACTIONS_REQUIRED_FOR_FOR_APP_STORE_REVIEW_PROMPT) {
-                         return;
-                     }
-                     
-                     id promptDate = [[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_APP_REVIEW_PROMPT_DATE];
-                     
-                     if (promptDate) {
-                         NSTimeInterval secondsSincePrompt = [[NSDate date] timeIntervalSinceDate:promptDate];
-                         NSTimeInterval secondsUntilPromptingAgain = TIME_INTERVAL_APP_STORE_REVIEW_PROMPT;
-#ifdef DEBUG
-                         id customTimeValue = [[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_DEBUG_APP_REVIEW_PROMPT_CUSTOM_TIMER];
-                         if (customTimeValue) {
-                             secondsUntilPromptingAgain = [customTimeValue doubleValue];
-                         }
-#endif
-                         if (secondsSincePrompt < secondsUntilPromptingAgain) {
-                             return;
-                         }
-                     }
-                     
-                     if (NSClassFromString(@"SKStoreReviewController") && [SKStoreReviewController respondsToSelector:@selector(requestReview)]) {
-                         [SKStoreReviewController requestReview];
-                         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:USER_DEFAULTS_KEY_APP_REVIEW_PROMPT_DATE];
-                     } else {
-                         UIAlertController *appReviewAlert = [UIAlertController alertControllerWithTitle:BC_STRING_APP_REVIEW_PROMPT_TITLE message:BC_STRING_APP_REVIEW_PROMPT_MESSAGE preferredStyle:UIAlertControllerStyleAlert];
-                         [appReviewAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_YES_RATE_BLOCKCHAIN_WALLET style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_HIDE_APP_REVIEW_PROMPT];
-                             [[UIApplication sharedApplication] rateApp];
-                         }]];
-                         [appReviewAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_ASK_ME_LATER style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                             [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:USER_DEFAULTS_KEY_APP_REVIEW_PROMPT_DATE];
-                         }]];
-                         [appReviewAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_DONT_SHOW_AGAIN style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_HIDE_APP_REVIEW_PROMPT];
-                         }]];
-
-                         [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:appReviewAlert animated:YES completion:nil];
-                     }
-                 }
+                 [[AppReviewPrompt sharedInstance] askToShow];
              }]];
              
              [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:paymentSentAlert animated:YES completion:nil];
@@ -618,13 +553,13 @@ BOOL displayingLocalSymbolSend;
              DLog(@"Send error: %@", error);
                           
              if ([error isEqualToString:ERROR_UNDEFINED]) {
-                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SEND_ERROR_NO_INTERNET_CONNECTION title:BC_STRING_ERROR handler: nil];
+                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SEND_ERROR_NO_INTERNET_CONNECTION title:BC_STRING_ERROR in:self handler: nil];
              } else if ([error isEqualToString:ERROR_FEE_TOO_LOW]) {
-                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SEND_ERROR_FEE_TOO_LOW title:BC_STRING_ERROR handler: nil];
+                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SEND_ERROR_FEE_TOO_LOW title:BC_STRING_ERROR in:self handler: nil];
              } else if ([error isEqualToString:ERROR_FAILED_NETWORK_REQUEST]) {
-                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[LocalizationConstantsObjcBridge requestFailedCheckConnection] title:BC_STRING_ERROR handler: nil];
+                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[LocalizationConstantsObjcBridge requestFailedCheckConnection] title:BC_STRING_ERROR in:self handler: nil];
              } else if (error && error.length != 0)  {
-                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR handler: nil];
+                 [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR in:self handler: nil];
              }
              
              [sendProgressActivityIndicator stopAnimating];
@@ -786,7 +721,7 @@ BOOL displayingLocalSymbolSend;
     // Timeout so the keyboard is fully dismised - otherwise the second password modal keyboard shows the send screen kebyoard accessory
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        if ([self transferAllMode] || self.addressSource == DestinationAddressSourceContact) {
+        if ([self transferAllMode]) {
             [[ModalPresenter sharedInstance].modalView.backButton addTarget:self action:@selector(reload) forControlEvents:UIControlEventTouchUpInside];
         }
         
@@ -844,7 +779,9 @@ BOOL displayingLocalSymbolSend;
                                                                                 surge:surgePresent];
         }
         
-        self.confirmPaymentView = [[BCConfirmPaymentView alloc] initWithWindow:[UIApplication sharedApplication].keyWindow viewModel:confirmPaymentViewModel sendButtonFrame:continuePaymentButton.frame];
+        self.confirmPaymentView = [[BCConfirmPaymentView alloc] initWithFrame:self.view.frame
+                                                                     viewModel:confirmPaymentViewModel
+                                                               sendButtonFrame:continuePaymentButton.frame];
         
         self.confirmPaymentView.confirmDelegate = self;
         
@@ -1025,10 +962,10 @@ BOOL displayingLocalSymbolSend;
     if ([self isKeyboardVisible]) {
         [self hideKeyboard];
         dispatch_after(DELAY_KEYBOARD_DISMISSAL, dispatch_get_main_queue(), ^{
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR handler: nil];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR in:self handler:nil];
         });
     } else {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR handler: nil];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR in:self handler:nil];
     }
 }
 
@@ -1145,7 +1082,7 @@ BOOL displayingLocalSymbolSend;
     
     if ([amount longLongValue] + [fee longLongValue] > [WalletManager.sharedInstance.wallet getTotalBalanceForSpendableActiveLegacyAddresses]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * ANIMATION_DURATION * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SOME_FUNDS_CANNOT_BE_TRANSFERRED_AUTOMATICALLY title:BC_STRING_WARNING_TITLE handler: nil];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SOME_FUNDS_CANNOT_BE_TRANSFERRED_AUTOMATICALLY title:BC_STRING_WARNING_TITLE in:self handler:nil];
             [[LoadingViewPresenter sharedInstance] hideBusyView];
         });
     }
@@ -1253,11 +1190,6 @@ BOOL displayingLocalSymbolSend;
 - (CGFloat)defaultYPositionForWarningLabel
 {
     return IS_USING_SCREEN_SIZE_4S ? 76 : 112;
-}
-
-- (void)hideContactLabel
-{
-    contactLabel.hidden = YES;
 }
 
 - (void)disableToField
@@ -1396,17 +1328,6 @@ BOOL displayingLocalSymbolSend;
     } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
         // No custom fee in bch
     }
-}
-
-
-- (uint64_t)dust
-{
-    if (self.assetType == LegacyAssetTypeBitcoin) {
-        return [WalletManager.sharedInstance.wallet dust];
-    } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
-        
-    }
-    return 0;
 }
 
 - (void)checkIfOverspending
@@ -1765,7 +1686,7 @@ BOOL displayingLocalSymbolSend;
     
     CGFloat warningLabelYPosition = [self defaultYPositionForWarningLabel];
     
-    if (availableAmount <= 0 || availableAmount < fee) {
+    if (availableAmount <= 0) {
         [lineBelowFeeField changeYPositionAnimated:warningLabelYPosition + 30 completion:^(BOOL finished) {
             if (self.feeType == FeeTypeCustom) {
                 [self setupFeeWarningLabelFrameSmall];
@@ -1993,11 +1914,15 @@ BOOL displayingLocalSymbolSend;
             
             // do something useful with results
             dispatch_sync(dispatch_get_main_queue(), ^{
-                id<AssetURLPayload> payload = [AssetURLPayloadFactory createFromString:[metadataObj stringValue] legacyAssetType:self.assetType];
-                NSString *address = payload.address;
+                AssetType type = [AssetTypeLegacyHelper convertFromLegacy:self.assetType];
+                id<AssetURLPayload> payload = [AssetURLPayloadFactory createFromString:[metadataObj stringValue] assetType:type];
 
-                if (address == nil || ![WalletManager.sharedInstance.wallet isValidAddress:address assetType:self.assetType]) {
-                    [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_BITCOIN_ADDRESS_ARGUMENT, address] title:BC_STRING_ERROR handler: nil];
+                NSString *address = payload.address;
+                NSString *scheme = [AssetURLPayloadFactory schemeForAssetType:type];
+                if (address == nil || ![payload.schemeCompat isEqualToString:scheme] || ![WalletManager.sharedInstance.wallet isValidAddress:address assetType:self.assetType]) {
+                    NSString *assetName = (type == AssetTypeBitcoin) ? @"Bitcoin" : @"Bitcoin Cash";
+                    NSString *errorMessage = [NSString stringWithFormat:LocalizationConstantsObjcBridge.invalidXAddressY, assetName, address];
+                    [AlertViewPresenter.sharedInstance standardErrorWithMessage:errorMessage title:LocalizationConstantsObjcBridge.error in:self handler:nil];
                     return;
                 }
 
@@ -2104,7 +2029,6 @@ BOOL displayingLocalSymbolSend;
 
 - (IBAction)sendPaymentClicked:(id)sender
 {
-    // TODO: investigate if dust should be used
     if ([self.toAddress length] == 0) {
         self.toAddress = toField.text;
         DLog(@"toAddress: %@", self.toAddress);

@@ -53,7 +53,6 @@ typedef enum {
     navigationItemTitleLabel.textColor = UIColor.whiteColor;
     navigationItemTitleLabel.text = self.navigationItemTitle;
     self.navigationItem.titleView = navigationItemTitleLabel;
-    [self.navigationItem.backBarButtonItem setTitle:nil];
 
     self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = [UIColor whiteColor];
@@ -189,7 +188,7 @@ typedef enum {
         NSArray *activeLegacyAddresses = [WalletManager.sharedInstance.wallet activeLegacyAddresses:self.assetType];
 
         if (![WalletManager.sharedInstance.wallet didUpgradeToHd] && [activeLegacyAddresses count] == 1 && [[activeLegacyAddresses firstObject] isEqualToString:self.address]) {
-            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_AT_LEAST_ONE_ADDRESS_REQUIRED title:BC_STRING_ERROR handler: nil];
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_AT_LEAST_ONE_ADDRESS_REQUIRED title:BC_STRING_ERROR in:self handler: nil];
         } else {
             [self showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge syncingWallet]];
             [self performSelector:@selector(toggleArchiveLegacyAddress) withObject:nil afterDelay:ANIMATION_DURATION];
@@ -219,53 +218,52 @@ typedef enum {
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:SEGUE_IDENTIFIER_ACCOUNTS_AND_ADDRESSES_DETAIL_EDIT]) {
+    if (![segue.identifier isEqualToString:SEGUE_IDENTIFIER_ACCOUNTS_AND_ADDRESSES_DETAIL_EDIT]) {
+        return;
+    }
 
-        int detailType = [sender intValue];
+    int detailType = [sender intValue];
 
-        if (detailType == DetailTypeEditAddressLabel) {
+    if (detailType == DetailTypeEditAddressLabel) {
 
-            BCEditAddressView *editAddressView = [[BCEditAddressView alloc] initWithAddress:self.address];
-            editAddressView.labelTextField.text = [WalletManager.sharedInstance.wallet labelForLegacyAddress:self.address assetType:self.assetType];
+        BCEditAddressView *editAddressView = [[BCEditAddressView alloc] initWithAddress:self.address];
+        editAddressView.labelTextField.text = [WalletManager.sharedInstance.wallet labelForLegacyAddress:self.address assetType:self.assetType];
 
-            [self setupModalView:editAddressView inViewController:segue.destinationViewController];
+        [self setupModalView:editAddressView inViewController:segue.destinationViewController];
 
-            [editAddressView.labelTextField becomeFirstResponder];
-            // [self updateHeaderText:BC_STRING_LABEL_ADDRESS];
+        [editAddressView.labelTextField becomeFirstResponder];
+        [segue.destinationViewController.navigationItem setTitle:BC_STRING_LABEL_ADDRESS];
+    } else if (detailType == DetailTypeEditAccountLabel) {
 
-        } else if (detailType == DetailTypeEditAccountLabel) {
+        BCEditAccountView *editAccountView = [[BCEditAccountView alloc] initWithAssetType:self.assetType];
+        editAccountView.labelTextField.text = [WalletManager.sharedInstance.wallet getLabelForAccount:self.account assetType:self.assetType];
+        editAccountView.accountIdx = self.account;
 
-            BCEditAccountView *editAccountView = [[BCEditAccountView alloc] initWithAssetType:self.assetType];
-            editAccountView.labelTextField.text = [WalletManager.sharedInstance.wallet getLabelForAccount:self.account assetType:self.assetType];
-            editAccountView.accountIdx = self.account;
+        [self setupModalView:editAccountView inViewController:segue.destinationViewController];
 
-            [self setupModalView:editAccountView inViewController:segue.destinationViewController];
+        [editAccountView.labelTextField becomeFirstResponder];
+        [segue.destinationViewController.navigationItem setTitle:BC_STRING_NAME];
+    } else if (detailType == DetailTypeShowExtendedPublicKey) {
 
-            [editAccountView.labelTextField becomeFirstResponder];
-            // [self updateHeaderText:BC_STRING_NAME];
+        BCQRCodeView *qrCodeView = [[BCQRCodeView alloc] initWithFrame:self.view.frame qrHeaderText:BC_STRING_EXTENDED_PUBLIC_KEY_DETAIL_HEADER_TITLE addAddressPrefix:YES];
+        qrCodeView.address = [WalletManager.sharedInstance.wallet getXpubForAccount:self.account assetType:self.assetType];
+        qrCodeView.doneButton.hidden = YES;
 
-        } else if (detailType == DetailTypeShowExtendedPublicKey) {
+        [self setupModalView:qrCodeView inViewController:segue.destinationViewController];
 
-            BCQRCodeView *qrCodeView = [[BCQRCodeView alloc] initWithFrame:self.view.frame qrHeaderText:BC_STRING_EXTENDED_PUBLIC_KEY_DETAIL_HEADER_TITLE addAddressPrefix:YES];
-            qrCodeView.address = [WalletManager.sharedInstance.wallet getXpubForAccount:self.account assetType:self.assetType];
-            qrCodeView.doneButton.hidden = YES;
+        qrCodeView.qrCodeFooterLabel.text = BC_STRING_COPY_XPUB;
+        [segue.destinationViewController.navigationItem setTitle:BC_STRING_EXTENDED_PUBLIC_KEY];
 
-            [self setupModalView:qrCodeView inViewController:segue.destinationViewController];
+    } else if (detailType == DetailTypeShowAddress) {
 
-            qrCodeView.qrCodeFooterLabel.text = BC_STRING_COPY_XPUB;
-            // [self updateHeaderText:BC_STRING_EXTENDED_PUBLIC_KEY];
+        BCQRCodeView *qrCodeView = [[BCQRCodeView alloc] initWithFrame:self.view.frame];
+        qrCodeView.address = self.address;
+        qrCodeView.doneButton.hidden = YES;
 
-        } else if (detailType == DetailTypeShowAddress) {
+        [self setupModalView:qrCodeView inViewController:segue.destinationViewController];
 
-            BCQRCodeView *qrCodeView = [[BCQRCodeView alloc] initWithFrame:self.view.frame];
-            qrCodeView.address = self.address;
-            qrCodeView.doneButton.hidden = YES;
-
-            [self setupModalView:qrCodeView inViewController:segue.destinationViewController];
-
-            qrCodeView.qrCodeFooterLabel.text = BC_STRING_COPY_ADDRESS;
-            // [self updateHeaderText:BC_STRING_ADDRESS];
-        }
+        qrCodeView.qrCodeFooterLabel.text = BC_STRING_COPY_ADDRESS;
+        [segue.destinationViewController.navigationItem setTitle:BC_STRING_ADDRESS];
     }
 }
 
@@ -274,7 +272,7 @@ typedef enum {
     [viewController.view addSubview:modalView];
 
     CGRect frame = modalView.frame;
-    frame.origin.y = viewController.view.frame.origin.y + DEFAULT_HEADER_HEIGHT;
+    frame.origin.y = viewController.view.frame.origin.y;
     modalView.frame = frame;
 }
 

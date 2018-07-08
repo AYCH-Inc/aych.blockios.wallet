@@ -22,30 +22,43 @@ struct Constants {
     //: Prefix colors with `Color` for easy filtering in asset catalog
     //: Adding new color: create entry in Images.xcassets, then add constant here with same name
     struct Colors {
-        static let ColorBrandPrimary = UIColorFromRGB(0x004A7C)   // previously BlockchainBlue
-        static let ColorBrandSecondary = UIColorFromRGB(0x10ADE4) // previously BlockchainLightBlue
-        static let ColorBrandTertiary = UIColorFromRGB(0xB2D5E5)  // previously BlockchainLightestBlue
-        static let ColorError = UIColorFromRGB(0xCA3A3C)          // previously WarningRed
-        static let ColorGray1 = UIColorFromRGB(0xEAEAEA)          // previously DisabledGray, SecondaryGray
-        static let ColorGray2 = UIColorFromRGB(0xCCCCCC)          // previously TextFieldBorderGray
-        static let ColorGray5 = UIColorFromRGB(0x545456)          // previously DarkGray
-        static let ColorSent = UIColorFromRGB(0xF26C57)           // previously SentRed
-        static let ColorSuccess = UIColorFromRGB(0x00A76F)        // previously SuccessGreen
+        static let ColorBrandPrimary = UIColorFromRGB(0x004A7C)    // previously BlockchainBlue
+        static let ColorBrandSecondary = UIColorFromRGB(0x10ADE4)  // previously BlockchainLightBlue
+        static let ColorBrandTertiary = UIColorFromRGB(0xB2D5E5)   // previously BlockchainLighterBlue
+        static let ColorBrandQuaternary = UIColorFromRGB(0xDAF2FB) // previously BlockchainLightestBlue
+        static let ColorError = UIColorFromRGB(0xCA3A3C)           // previously WarningRed
+        static let ColorGray1 = UIColorFromRGB(0xEAEAEA)           // previously DisabledGray, SecondaryGray
+        static let ColorGray2 = UIColorFromRGB(0xCCCCCC)           // previously TextFieldBorderGray
+        static let ColorGray5 = UIColorFromRGB(0x545456)           // previously DarkGray
+        static let ColorGray6 = UIColorFromRGB(0xEEEEEE)
+        static let ColorGrayLine = UIColorFromRGB(0xcdcdcd)
+        static let ColorSent = UIColorFromRGB(0xF26C57)            // previously SentRed
+        static let ColorSuccess = UIColorFromRGB(0x00A76F)         // previously SuccessGreen
     }
     struct Measurements {
         static let DefaultHeaderHeight: CGFloat = 65
         // TODO: remove this once we use autolayout
-        static let DefaultNavigationBarHeight: CGFloat = 44
-        static let BackupButtonCornerRadius: CGFloat = 4
-        static let BusyViewLabelWidth: CGFloat = 230
-        static let BusyViewLabelHeight: CGFloat = 30
+        static let DefaultStatusBarHeight: CGFloat = 20.0
+        static let DefaultNavigationBarHeight: CGFloat = 44.0
+        static let DefaultTabBarHeight: CGFloat = 49.0
+        static let AssetSelectorHeight: CGFloat = 36.0
+        static let BackupButtonCornerRadius: CGFloat = 4.0
+        static let BusyViewLabelWidth: CGFloat = 230.0
+        static let BusyViewLabelHeight: CGFloat = 30.0
         static let BusyViewLabelAlpha: CGFloat = 0.75
         static let BusyViewLabelFontSystemSize: CGFloat = 14.0
 
-        static let ScreenHeightIphone4S: CGFloat = 480
-        static let ScreenHeightIphone5S: CGFloat = 568
+        static let ScreenHeightIphone4S: CGFloat = 480.0
+        static let ScreenHeightIphone5S: CGFloat = 568.0
+
+        static let MinimumTapTargetSize: CGFloat = 22.0
+
+        static let infoLabelEdgeInsets: UIEdgeInsets = UIEdgeInsets(top: 2, left: 9.5, bottom: 2, right: 9.5)
     }
     struct FontSizes {
+        static let ExtraExtraExtraSmall: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 13.0 : 11.0
+        static let ExtraExtraSmall: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 14.0 : 11.0
+        static let ExtraSmall: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 15.0 : 12.0
         static let Small: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 16.0 : 13.0
         static let SmallMedium: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 17.0 : 14.0
         static let Medium: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 18.0 : 15.0
@@ -57,7 +70,7 @@ struct Constants {
     struct FontNames {
         static let montserratRegular = "Montserrat-Regular"
         static let montserratSemiBold = "Montserrat-SemiBold"
-        static let montserratSemiLight = "Montserrat-Light"
+        static let montserratLight = "Montserrat-Light"
         static let montserratSemiExtraLight = "Montserrat-ExtraLight"
         static let gillSans = "GillSans"
         static let gillSansLight = "GillSans-Light"
@@ -188,6 +201,46 @@ struct Constants {
 
     @objc class func defaultNavigationBarHeight() -> CGFloat {
         return Constants.Measurements.DefaultNavigationBarHeight
+    }
+
+    @objc class func assetSelectorHeight() -> CGFloat {
+        return Constants.Measurements.AssetSelectorHeight
+    }
+
+    @objc class func minimumTapTargetSize() -> CGFloat {
+        return Constants.Measurements.MinimumTapTargetSize
+    }
+
+    @objc class func colorGray2() -> UIColor {
+        return Constants.Colors.ColorGray2
+    }
+
+    @objc class func colorGray5() -> UIColor {
+        return Constants.Colors.ColorGray5
+    }
+
+    @objc class func colorGray6() -> UIColor {
+        return Constants.Colors.ColorGray6
+    }
+
+    @objc class func colorBrandPrimary() -> UIColor {
+        return Constants.Colors.ColorBrandPrimary
+    }
+
+    @objc class func montserratLight() -> String {
+        return Constants.FontNames.montserratLight
+    }
+
+    @objc class func montserratSemiBold() -> String {
+        return Constants.FontNames.montserratSemiBold
+    }
+
+    @objc class func infoLabelEdgeInsets() -> UIEdgeInsets {
+        return Constants.Measurements.infoLabelEdgeInsets
+    }
+
+    @objc class func grayLineColor() -> UIColor {
+        return Constants.Colors.ColorGrayLine
     }
 }
 

@@ -59,15 +59,12 @@
 
 - (void)reloadCards
 {
-    self.showCards = !BlockchainSettings.sharedAppInstance.shouldHideAllCards;
+    self.showCards = !BlockchainSettings.sharedOnboardingInstance.hasSeenAllCards;
     
     self.announcementCards = [NSMutableArray new];
     if (!self.showCards) {
-        if (!BlockchainSettings.sharedAppInstance.shouldHideBuySellCard && [WalletManager.sharedInstance.wallet canUseSfox]) {
+        if (!BlockchainSettings.sharedOnboardingInstance.shouldHideBuySellCard && [WalletManager.sharedInstance.wallet canUseSfox]) {
             [self.announcementCards addObject:[NSNumber numberWithInteger:CardConfigurationBuySell]];
-        }
-        if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_SHOULD_HIDE_BITCOIN_CASH_CARD]) {
-            [self.announcementCards addObject:[NSNumber numberWithInteger:CardConfigurationBitcoinCash]];
         }
     }
     
@@ -125,12 +122,6 @@
             [buySellCard.closeButton addTarget:self action:@selector(closeBuySellCard) forControlEvents:UIControlEventTouchUpInside];
             [buySellCard changeYPosition:ANNOUNCEMENT_CARD_HEIGHT * index + verticalPadding];
             [cardsView addSubview:buySellCard];
-        } else if ([configuration integerValue] == CardConfigurationBitcoinCash) {
-            BCCardView *bitcoinCashCard = [[BCCardView alloc] initWithContainerFrame:cardFrame title:[BC_STRING_BITCOIN_CASH_CARD_TITLE uppercaseString] description:BC_STRING_BITCOIN_CASH_CARD_DESCRIPTION actionType:ActionTypeBitcoinCash imageName:@"bitcoin_cash_partial" reducedHeightForPageIndicator:NO delegate:self];
-            [bitcoinCashCard setupCloseButton];
-            [bitcoinCashCard.closeButton addTarget:self action:@selector(closeBitcoinCashCard) forControlEvents:UIControlEventTouchUpInside];
-            [bitcoinCashCard changeYPosition:ANNOUNCEMENT_CARD_HEIGHT * index + verticalPadding];
-            [cardsView addSubview:bitcoinCashCard];
         }
     }
     
@@ -284,14 +275,8 @@
 
 - (void)closeBuySellCard
 {
-    BlockchainSettings.sharedAppInstance.shouldHideBuySellCard = YES;
+    BlockchainSettings.sharedOnboardingInstance.shouldHideBuySellCard = YES;
     [self closeAnnouncementCard:CardConfigurationBuySell];
-}
-
-- (void)closeBitcoinCashCard
-{
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_SHOULD_HIDE_BITCOIN_CASH_CARD];
-    [self closeAnnouncementCard:CardConfigurationBitcoinCash];
 }
 
 - (void)closeAnnouncementCard:(CardConfiguration)cardConfiguration
@@ -326,8 +311,6 @@
         [tabControllerManager qrCodeButtonClicked];
     } else if (actionType == ActionTypeBuySell) {
         [BuySellCoordinator.sharedInstance showBuyBitcoinView];
-    } else if (actionType == ActionTypeBitcoinCash) {
-        [tabControllerManager showReceiveBitcoinCash];
     }
 }
 
@@ -337,7 +320,7 @@
         
         BOOL didSeeAllCards = scrollView.contentOffset.x > scrollView.contentSize.width - scrollView.frame.size.width * 1.5;
         if (didSeeAllCards) {
-            BlockchainSettings.sharedAppInstance.hasSeenAllCards = YES;
+            BlockchainSettings.sharedOnboardingInstance.hasSeenAllCards = YES;
         }
         
         if (!self.isUsingPageControl) {
@@ -418,8 +401,8 @@
     } completion:^(BOOL finished) {
         [self removeCardsView];
     }];
-    
-    BlockchainSettings.sharedAppInstance.shouldHideAllCards = YES;
+
+    BlockchainSettings.sharedOnboardingInstance.hasSeenAllCards = YES;
 }
 
 - (void)removeCardsView

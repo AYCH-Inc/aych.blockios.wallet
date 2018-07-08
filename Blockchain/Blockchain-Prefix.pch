@@ -72,8 +72,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define COLOR_TAB_BAR_BUTTON_TEXT_GRAY UIColorFromRGB(0xc9c7c8)
 #define COLOR_TAB_BAR_BUTTON_TEXT_BLUE UIColorFromRGB(0x1c8ac7)
 
-#define COLOR_LINE_GRAY UIColorFromRGB(0xcdcdcd)
-
 #define COLOR_LABEL_BALANCE_GREEN COLOR_BLOCKCHAIN_GREEN
 
 #define COLOR_BACKGROUND_GRAY UIColorFromRGB(0xf7f7f7)
@@ -118,9 +116,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define IS_USING_SCREEN_SIZE_LARGER_THAN_5S [[UIScreen mainScreen] bounds].size.height > HEIGHT_IPHONE_5S
 #define IS_USING_SCREEN_SIZE_4S [[UIScreen mainScreen] bounds].size.height <= HEIGHT_IPHONE_4S
 #define IS_USING_SCREEN_SIZE_5S [[UIScreen mainScreen] bounds].size.height == HEIGHT_IPHONE_5S
-
-#define WINDOW_HEIGHT IS_USING_6_OR_7_PLUS_SCREEN_SIZE ? HEIGHT_IPHONE_6_PLUS : (IS_USING_6_OR_7_SCREEN_SIZE ? HEIGHT_IPHONE_6 : IS_USING_SCREEN_SIZE_4S ? HEIGHT_IPHONE_4S : HEIGHT_IPHONE_5S)
-#define WINDOW_WIDTH IS_USING_6_OR_7_PLUS_SCREEN_SIZE ? IPHONE_6_OR_7_PLUS_WIDTH : (IS_USING_6_OR_7_SCREEN_SIZE ? IPHONE_6_OR_7_WIDTH : IS_USING_SCREEN_SIZE_4S ? WIDTH_IPHONE_4S : WIDTH_IPHONE_5S)
 
 #define FONT_SIZE_EXTRA_EXTRA_EXTRA_SMALL IS_USING_SCREEN_SIZE_LARGER_THAN_5S ? 13.0 : 10.0
 #define FONT_SIZE_EXTRA_EXTRA_SMALL IS_USING_SCREEN_SIZE_LARGER_THAN_5S ? 14.0 : 11.0
@@ -497,7 +492,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 
 #define USER_DEFAULTS_KEY_NEXT_ADDRESS @"nextReceivingAddress"
 #define USER_DEFAULTS_KEY_NEXT_ADDRESS_USED @"nextReceivingAddressUsed"
-#define USER_DEFAULTS_KEY_APP_REVIEW_PROMPT_DATE @"appReviewPromptDate"
 #define USER_DEFAULTS_KEY_LOADED_SETTINGS @"loadedSettings"
 #define USER_DEFAULTS_KEY_HIDE_APP_REVIEW_PROMPT @"hideAppReviewPrompt"
 #define USER_DEFAULTS_KEY_SHARED_KEY @"sharedKey"
@@ -511,16 +505,11 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define USER_DEFAULTS_KEY_DEBUG_ENABLE_CERTIFICATE_PINNING @"certificatePinning"
 #define USER_DEFAULTS_KEY_DEBUG_SIMULATE_SURGE @"simulateSurge"
 #define USER_DEFAULTS_KEY_DEBUG_SIMULATE_ZERO_TICKER @"zeroTicker"
-
-#define USER_DEFAULTS_KEY_DEBUG_APP_REVIEW_PROMPT_CUSTOM_TIMER @"appReviewPromptTimer"
 #define USER_DEFAULTS_KEY_HAS_SEEN_SURVEY_PROMPT @"hasSeenSurveyPrompt"
 //#define USER_DEFAULTS_KEY_REMINDER_MODAL_DATE @"reminderModalDate"
 //#define USER_DEFAUTS_KEY_HAS_ENDED_FIRST_SESSION @"hasEndedFirstSession"
-//#define USER_DEFAULTS_KEY_HAS_SEEN_ALL_CARDS @"hasSeenAllCards"
-//#define USER_DEFAULTS_KEY_SHOULD_HIDE_ALL_CARDS @"shouldHideAllCards"
 #define USER_DEFAULTS_KEY_LAST_CARD_OFFSET @"lastCardOffset"
 //#define USER_DEFAULTS_KEY_SHOULD_HIDE_BUY_SELL_CARD @"shouldHideBuySellNotificationCard"
-#define USER_DEFAULTS_KEY_SHOULD_HIDE_BITCOIN_CASH_CARD @"shouldHideBitcoinCashNotificationCard"
 
 #define USER_DEFAULTS_KEY_DEBUG_SECURITY_REMINDER_CUSTOM_TIMER @"securiterReminderTimer"
 //#define USER_DEFAULTS_KEY_HAS_SEEN_EMAIL_REMINDER @"hasSeenEmailReminder"
@@ -627,8 +616,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 
 // Most common pin codes: http://datagenetics.com/blog/september32012/index.html
 
-#define NUMBER_OF_TRANSACTIONS_REQUIRED_FOR_FOR_APP_STORE_REVIEW_PROMPT 3
-
 #define TWO_STEP_AUTH_TYPE_SMS 5
 #define TWO_STEP_AUTH_TYPE_GOOGLE 4
 #define TWO_STEP_AUTH_TYPE_YUBI_KEY 1
@@ -647,7 +634,6 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/
 #define DEBUG_PRESENTER_PIN_VERIFY 1
 #define DEBUG_PRESENTER_SETTINGS_ABOUT 2
 
-#define TIME_INTERVAL_APP_STORE_REVIEW_PROMPT 60*60*24*7 // Seconds in one week
 #define TIME_INTERVAL_SECURITY_REMINDER_PROMPT 60*60*24*30 // Seconds in thirty days
 
 #define MSEC_PER_SEC 1000

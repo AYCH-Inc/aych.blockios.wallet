@@ -20,6 +20,7 @@
 
 #define DASHBOARD_HORIZONTAL_PADDING 15
 #define PRICE_CHART_PADDING 20
+#define PRICE_PREVIEW_SPACING 16
 
 @import Charts;
 
@@ -31,10 +32,12 @@
 @interface DashboardViewController () <IChartAxisValueFormatter, BCPriceChartViewDelegate, BCBalancesChartViewDelegate>
 @property (nonatomic) BCBalancesChartView *balancesChartView;
 @property (nonatomic) BCPriceChartContainerViewController *chartContainerViewController;
+@property (nonatomic) UIView *priceChartContainerView;
 @property (nonatomic) BCPricePreviewView *bitcoinPricePreview;
 @property (nonatomic) BCPricePreviewView *etherPricePreview;
 @property (nonatomic) BCPricePreviewView *bitcoinCashPricePreview;
 @property (nonatomic) NSDecimalNumber *lastEthExchangeRate;
+@property (nonatomic) CGFloat defaultContentHeight;
 @end
 
 @implementation DashboardViewController
@@ -57,10 +60,10 @@
     CGFloat balancesChartHeight = _balancesChartView.frame.size.height;
     CGFloat titleLabelHeight = 2 * (40 + 16);
     CGFloat pricePreviewHeight = 3 * 140;
-    CGFloat privePreviewSpacing = 3 * 16;
+    CGFloat pricePreviewSpacing = 3 * 16;
     CGFloat bottomPadding = 8;
-    CGFloat contentHeight = balancesChartHeight + titleLabelHeight + pricePreviewHeight + privePreviewSpacing + bottomPadding;
-    CGRect contentViewFrame = CGRectMake(0, 0, self.view.frame.size.width, contentHeight);
+    self.defaultContentHeight = balancesChartHeight + titleLabelHeight + pricePreviewHeight + pricePreviewSpacing + bottomPadding;
+    CGRect contentViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.defaultContentHeight);
     self.contentView.frame = contentViewFrame;
 }
 
@@ -99,59 +102,96 @@
 - (void)setupPriceCharts
 {
     CGFloat horizontalPadding = DASHBOARD_HORIZONTAL_PADDING;
+    CGFloat labelHeight = 40;
+    CGFloat previewViewHeight = 140;
+    CGFloat previewViewSpacing = PRICE_PREVIEW_SPACING;
     
-    UILabel *balancesLabel = [[UILabel alloc] initWithFrame:CGRectMake(horizontalPadding, self.balancesChartView.frame.origin.y + self.balancesChartView.frame.size.height + 16, self.view.frame.size.width/2, 40)];
+    UIView *priceChartContainerView = [[UIView alloc] initWithFrame:CGRectMake(horizontalPadding, self.balancesChartView.frame.origin.y + self.balancesChartView.frame.size.height + previewViewSpacing, self.view.frame.size.width - horizontalPadding*2, labelHeight + previewViewHeight*3 + previewViewSpacing*2)];
+    [self.contentView addSubview:priceChartContainerView];
+
+    UILabel *balancesLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/2, labelHeight)];
     balancesLabel.textColor = COLOR_BLOCKCHAIN_BLUE;
     balancesLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_LARGE];
     balancesLabel.text = [BC_STRING_PRICE_CHARTS uppercaseString];
-    [self.contentView addSubview:balancesLabel];
+    [priceChartContainerView addSubview:balancesLabel];
     
-    BCPricePreviewView *bitcoinPreviewView = [[BCPricePreviewView alloc] initWithFrame:CGRectMake(horizontalPadding, balancesLabel.frame.origin.y + balancesLabel.frame.size.height, self.view.frame.size.width - horizontalPadding*2, 140) assetName:BC_STRING_BITCOIN price:[NSNumberFormatter formatMoney:SATOSHI localCurrency:YES] assetImage:@"bitcoin_white"];
-    [self.contentView addSubview:bitcoinPreviewView];
+    BCPricePreviewView *bitcoinPreviewView = [[BCPricePreviewView alloc] initWithFrame:CGRectMake(0, balancesLabel.frame.origin.y + balancesLabel.frame.size.height, self.view.frame.size.width - horizontalPadding*2, previewViewHeight) assetName:[AssetTypeLegacyHelper descriptionFor:AssetTypeBitcoin] price:[NSNumberFormatter formatMoney:SATOSHI localCurrency:YES] assetImage:@"bitcoin_white"];
+    [priceChartContainerView addSubview:bitcoinPreviewView];
     self.bitcoinPricePreview = bitcoinPreviewView;
     
     UITapGestureRecognizer *bitcoinChartTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bitcoinChartTapped)];
     [bitcoinPreviewView addGestureRecognizer:bitcoinChartTapGesture];
     
-    BCPricePreviewView *etherPreviewView = [[BCPricePreviewView alloc] initWithFrame:CGRectMake(horizontalPadding, bitcoinPreviewView.frame.origin.y + bitcoinPreviewView.frame.size.height + 16, self.view.frame.size.width - horizontalPadding*2, 140) assetName:BC_STRING_ETHER price:[self getEthPrice] assetImage:@"ether_white"];
-    [self.contentView addSubview:etherPreviewView];
+    BCPricePreviewView *etherPreviewView = [[BCPricePreviewView alloc] initWithFrame:CGRectMake(0, bitcoinPreviewView.frame.origin.y + bitcoinPreviewView.frame.size.height + previewViewSpacing, self.view.frame.size.width - horizontalPadding*2, previewViewHeight) assetName:[AssetTypeLegacyHelper descriptionFor:AssetTypeEthereum] price:[self getEthPrice] assetImage:@"ether_white"];
+    [priceChartContainerView addSubview:etherPreviewView];
     self.etherPricePreview = etherPreviewView;
     
     UITapGestureRecognizer *etherChartTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(etherChartTapped)];
     [etherPreviewView addGestureRecognizer:etherChartTapGesture];
     
-    BCPricePreviewView *bitcoinCashPreviewView = [[BCPricePreviewView alloc] initWithFrame:CGRectMake(horizontalPadding, etherPreviewView.frame.origin.y + etherPreviewView.frame.size.height + 16, self.view.frame.size.width - horizontalPadding*2, 140) assetName:BC_STRING_BITCOIN_CASH price:[self getBchPrice] assetImage:@"bitcoin_cash_white"];
-    [self.contentView addSubview:bitcoinCashPreviewView];
+    BCPricePreviewView *bitcoinCashPreviewView = [[BCPricePreviewView alloc] initWithFrame:CGRectMake(0, etherPreviewView.frame.origin.y + etherPreviewView.frame.size.height + previewViewSpacing, self.view.frame.size.width - horizontalPadding*2, previewViewHeight) assetName:[AssetTypeLegacyHelper descriptionFor:AssetTypeBitcoinCash] price:[self getBchPrice] assetImage:@"bitcoin_cash_white"];
+    [priceChartContainerView addSubview:bitcoinCashPreviewView];
     self.bitcoinCashPricePreview = bitcoinCashPreviewView;
     
     UITapGestureRecognizer *bitcoinCashChartTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bitcoinCashChartTapped)];
     [bitcoinCashPreviewView addGestureRecognizer:bitcoinCashChartTapGesture];
+
+    self.priceChartContainerView = priceChartContainerView;
 }
 
 - (void)reload
 {
-    double btcBalance = [self getBtcBalance];
-    double ethBalance = [self getEthBalance];
-    double bchBalance = [self getBchBalance];
-    double totalFiatBalance = btcBalance + ethBalance + bchBalance;
-    if (WalletManager.sharedInstance.wallet.isInitialized) {
+    double btcFiatBalance = [self getBtcBalance];
+    double ethFiatBalance = [self getEthBalance];
+    double bchFiatBalance = [self getBchBalance];
+    double totalFiatBalance = btcFiatBalance + ethFiatBalance + bchFiatBalance;
+
+    double watchOnlyFiatBalance = [self getBtcWatchOnlyBalance];
+
+    BOOL walletIsInitialized = WalletManager.sharedInstance.wallet.isInitialized;
+    if (walletIsInitialized) {
         [self.balancesChartView updateFiatSymbol:WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.symbol];
         // Fiat balances
-        [self.balancesChartView updateBitcoinFiatBalance:btcBalance];
-        [self.balancesChartView updateEtherFiatBalance:ethBalance];
-        [self.balancesChartView updateBitcoinCashFiatBalance:bchBalance];
+        [self.balancesChartView updateBitcoinFiatBalance:btcFiatBalance];
+        [self.balancesChartView updateEtherFiatBalance:ethFiatBalance];
+        [self.balancesChartView updateBitcoinCashFiatBalance:bchFiatBalance];
         [self.balancesChartView updateTotalFiatBalance:[NSNumberFormatter appendStringToFiatSymbol:[NSNumberFormatter fiatStringFromDouble:totalFiatBalance]]];
         // Balances
         [self.balancesChartView updateBitcoinBalance:[NSNumberFormatter formatAmount:[WalletManager.sharedInstance.wallet getTotalActiveBalance] localCurrency:NO]];
         [self.balancesChartView updateEtherBalance:[WalletManager.sharedInstance.wallet getEthBalanceTruncated]];
         [self.balancesChartView updateBitcoinCashBalance:[NSNumberFormatter formatAmount:[WalletManager.sharedInstance.wallet bitcoinCashTotalBalance] localCurrency:NO]];
+
+        // Watch only balances
+        CGFloat previewViewSpacing = PRICE_PREVIEW_SPACING;
+        if ([WalletManager.sharedInstance.wallet hasWatchOnlyAddresses]) {
+            // Update model
+            [self.balancesChartView updateBitcoinWatchOnlyFiatBalance:watchOnlyFiatBalance];
+            [self.balancesChartView updateBitcoinWatchOnlyBalance:[NSNumberFormatter formatAmount:[WalletManager.sharedInstance.wallet getWatchOnlyBalance] localCurrency:NO]];
+
+            // Increase height and Y positions to show watch only view
+            [self.balancesChartView showWatchOnlyView];
+            [self.priceChartContainerView changeYPosition:self.balancesChartView.frame.origin.y + self.balancesChartView.frame.size.height + previewViewSpacing];
+            [self.contentView changeHeight:self.defaultContentHeight + [self.balancesChartView watchOnlyViewHeight]];
+        } else {
+            // Show default heights and Y positions
+            [self.balancesChartView hideWatchOnlyView];
+            [self.priceChartContainerView changeYPosition:self.balancesChartView.frame.origin.y + self.balancesChartView.frame.size.height + previewViewSpacing];
+            [self.contentView changeHeight:self.defaultContentHeight];
+        }
     }
 
     [self.balancesChartView updateChart];
     
+    if (!walletIsInitialized) [self.balancesChartView clearLegendKeyBalances];
+
     [self reloadPricePreviews];
 
     [self reloadCards];
+}
+
+- (void)reloadSymbols
+{
+    [self.balancesChartView updateWatchOnlyViewBalance];
 }
 
 - (void)fetchChartDataForAsset:(LegacyAssetType)assetType
@@ -279,6 +319,11 @@
     [tabControllerManager showTransactionsBitcoinCash];
 }
 
+- (void)watchOnlyViewTapped
+{
+    BlockchainSettings.sharedAppInstance.symbolLocal = !BlockchainSettings.sharedAppInstance.symbolLocal;
+}
+
 #pragma mark - View Helpers
 
 - (void)showError:(NSString *)error
@@ -358,6 +403,11 @@
 - (double)getBchBalance
 {
     return [self doubleFromString:[NSNumberFormatter formatBch:[WalletManager.sharedInstance.wallet bitcoinCashTotalBalance] localCurrency:YES]];
+}
+
+- (double)getBtcWatchOnlyBalance
+{
+    return [self doubleFromString:[NSNumberFormatter formatAmount:[WalletManager.sharedInstance.wallet getWatchOnlyBalance] localCurrency:YES]];
 }
 
 - (double)doubleFromString:(NSString *)string

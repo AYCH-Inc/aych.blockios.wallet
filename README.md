@@ -11,6 +11,13 @@ Prepare SocketRocket:
 
 Prepare the MyWallet Javascript:
 
+    # use node v7.9.0 by using a node version manager such as [nvm](https://github.com/creationix/nvm) or [n](https://github.com/tj/n)
+    npm install -g n
+    n v7.9.0
+
+    # use npm 5.6.0
+    npm install -g npm@5.6.0
+
     # install and build js files
     sh scripts/install-js.sh && sh scripts/build-js.sh
 
@@ -22,26 +29,36 @@ Prepare OpenSSL:
     cd ../OpenSSL-for-iPhone
     ./build-libssl.sh
 
-## PSD and Asset Catalog
+Add production Config file
 
-Images.xcassets contains all images the app needs, but they must be generated first from the PSD sources in /Artwork. This requires ImageMagick and Grunt.
+    #create a directory named Config in the root
+    mkdir Config
 
-Install ImageMagic, e.g. with [Homebrew](http://brew.sh):
+    #create the config file
+    vi Production.xcconfig
 
-    brew install imagemagick
+    #write the following in Production.xcconfig
+    APP_NAME = Blockchain
 
-Once:
+    APP_ICON = AppIcon
 
-    npm install -g grunt-cli
-    cd Artwork
-    npm install
-    npm -g install svgexport@0.2.8
+    API_URL = api.blockchain.info
 
-Whenever you change a PSD or SVG file, run:
+    WALLET_SERVER = blockchain.info
 
-    grunt
+    WEBSOCKET_SERVER = ws.blockchain.info/inv
 
-The reason that the PNG files are not in the repository - even though it would make life easier for other developers - is that the resulting PNG files are not deterministic. This causes git to mark all images as changed every time you run Grunt.
+    WEBSOCKET_SERVER_BCH = ws.blockchain.info/bch/inv
+
+    WEBSOCKET_SERVER_ETH = ws.blockchain.info/eth/inv
+
+    BUY_WEBVIEW_URL = blockchain.info/wallet/#/intermediate
+
+    LOCAL_CERTIFICATE_FILE = blockchain
+
+    GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1
+
+    OTHER_SWIFT_FLAGS = -DDEBUG
 
 ## Open the project in Xcode
 

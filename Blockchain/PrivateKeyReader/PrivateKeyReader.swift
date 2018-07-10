@@ -8,15 +8,15 @@
 
 import Foundation
 
-protocol PrivateKeyReaderDelegate: class {
+@objc protocol PrivateKeyReaderDelegate: class {
     func didFinishScanning(_ privateKey: String, for address: AssetAddress?)
-    func didFinishScanningWithError(_ error: PrivateKeyReaderError)
+    @objc optional func didFinishScanningWithError(_ error: PrivateKeyReaderError)
 }
 
 // TODO: remove once AccountsAndAddresses and SendBitcoinViewController are migrated to Swift
 @objc protocol LegacyPrivateKeyDelegate: class {
     func didFinishScanning(_ privateKey: String)
-    func didFinishScanningWithError(_ error: PrivateKeyReaderError)
+    @objc optional func didFinishScanningWithError(_ error: PrivateKeyReaderError)
 }
 
 @objc enum PrivateKeyReaderError: Int {
@@ -181,9 +181,7 @@ final class PrivateKeyReader: UIViewController & AVCaptureMetadataOutputObjectsD
             metadataObject.type == .qr,
             let codeObject = metadataObject as? AVMetadataMachineReadableCodeObject,
             let stringValue = codeObject.stringValue else {
-                delegate?.didFinishScanningWithError(.badMetadataObject)
-                // TODO: remove once LegacyPrivateKeyDelegate is deprecated
-                legacyDelegate?.didFinishScanningWithError(.badMetadataObject)
+                self.didFinishScanningWithError(.badMetadataObject)
                 return
         }
 
@@ -211,28 +209,41 @@ final class PrivateKeyReader: UIViewController & AVCaptureMetadataOutputObjectsD
                         let address = BitcoinAddress(string: scannedKey)
                         let validator = AddressValidator(context: WalletManager.shared.wallet.context)
                         guard validator.validate(bitcoinAddress: address) else {
-                                self.delegate?.didFinishScanningWithError(.unknownKeyFormat)
-                                // TODO: remove once LegacyPrivateKeyDelegate is deprecated
-                                self.legacyDelegate?.didFinishScanningWithError(.unknownKeyFormat)
-                                return
+                            self.didFinishScanningWithError(.unknownKeyFormat)
+                            return
                         }
                         WalletManager.shared.askUserToAddWatchOnlyAddress(address) {
-                            self.delegate?.didFinishScanning(scannedKey, for: address)
-                            // TODO: remove once LegacyPrivateKeyDelegate is deprecated
-                            self.legacyDelegate?.didFinishScanning(scannedKey)
+                            self.didFinishScanning(scannedKey, for: address)
                         }
                     } else {
-                        self.delegate?.didFinishScanningWithError(.unsupportedPrivateKey)
-                        // TODO: remove once LegacyPrivateKeyDelegate is deprecated
-                        self.legacyDelegate?.didFinishScanningWithError(.unsupportedPrivateKey)
+                        self.didFinishScanningWithError(.unsupportedPrivateKey)
                     }
                     return
                 }
                 //: Pass valid private key back via success handler
-                self.delegate?.didFinishScanning(scannedKey, for: self.assetAddress)
-                // TODO: remove once LegacyPrivateKeyDelegate is deprecated
-                self.legacyDelegate?.didFinishScanning(scannedKey)
+                self.didFinishScanning(scannedKey, for: self.assetAddress)
             }
+        }
+    }
+
+    private func didFinishScanning(_ privateKey: String, for address: AssetAddress?) {
+        self.delegate?.didFinishScanning(privateKey, for: address)
+        // TODO: remove once LegacyPrivateKeyDelegate is deprecated
+        self.legacyDelegate?.didFinishScanning(privateKey)
+    }
+
+    private func didFinishScanningWithError(_ error: PrivateKeyReaderError) {
+        self.delegate?.didFinishScanningWithError?(error)
+        // TODO: remove once LegacyPrivateKeyDelegate is deprecated
+        self.legacyDelegate?.didFinishScanningWithError?(error)
+
+        switch error {
+        case .badMetadataObject:
+            AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.error)
+        case .unknownKeyFormat:
+            AlertViewPresenter.shared.standardError(message: LocalizationConstants.AddressAndKeyImport.unknownKeyFormat)
+        case .unsupportedPrivateKey:
+            AlertViewPresenter.shared.standardError(message: LocalizationConstants.AddressAndKeyImport.unsupportedPrivateKey)
         }
     }
 }

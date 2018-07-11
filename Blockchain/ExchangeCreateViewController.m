@@ -264,7 +264,9 @@
     [continueButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     continueButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:17.0];
     [continueButton setTitle:BC_STRING_CONTINUE forState:UIControlStateNormal];
-    continueButton.center = CGPointMake(self.view.center.x, self.view.frame.size.height - 24 - BUTTON_HEIGHT/2);
+    CGFloat safeAreaInsetTop = UIView.rootViewSafeAreaInsets.top;
+    CGFloat continueButtonCenterY = self.view.frame.size.height - 24 - BUTTON_HEIGHT/2 - safeAreaInsetTop - ConstantsObjcBridge.defaultNavigationBarHeight;
+    continueButton.center = CGPointMake(self.view.center.x, continueButtonCenterY);
     [self.view addSubview:continueButton];
     [continueButton addTarget:self action:@selector(continueButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     self.continueButton = continueButton;
@@ -992,7 +994,7 @@
     self.bottomLeftField.text = fiatResult;
     
     [self updateAvailableBalance];
-    
+
     [self hideKeyboard];
     
     [self disablePaymentButtons];

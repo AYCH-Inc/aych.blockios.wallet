@@ -74,8 +74,6 @@ import RxSwift
             return
         }
 
-        AppCoordinator.shared.showHdUpgradeViewIfNeeded()
-
         // Show security reminder modal if needed
         if let dateOfLastSecurityReminder = BlockchainSettings.App.shared.reminderModalDate {
 

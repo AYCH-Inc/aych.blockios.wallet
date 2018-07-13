@@ -113,7 +113,7 @@ import Foundation
         let debugViewController = DebugTableViewController()
         debugViewController.presenter = presenter
         let navigationController = UINavigationController(rootViewController: debugViewController)
-        window.rootViewController?.present(navigationController, animated: true)
+        UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(navigationController, animated: true)
     }
 
     @objc func showBackupView() {

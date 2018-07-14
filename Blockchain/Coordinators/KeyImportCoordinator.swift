@@ -131,7 +131,7 @@ extension KeyImportCoordinator: WalletKeyImportDelegate {
         let importedKeyButForIncorrectAddress = LocalizationConstants.AddressAndKeyImport.importedKeyButForIncorrectAddress
         let importedKeyDoesNotCorrespondToAddress = LocalizationConstants.AddressAndKeyImport.importedKeyDoesNotCorrespondToAddress
         let message = String(format: "%@\n\n%@", importedKeyButForIncorrectAddress, importedKeyDoesNotCorrespondToAddress)
-        AlertViewPresenter.shared.standardNotify(message: message, title: LocalizationConstants.okString, handler: nil)
+        AlertViewPresenter.shared.standardNotify(message: message, title: LocalizationConstants.success, handler: nil)
     }
 
     @objc func alertUserOfImportedKey() {
@@ -264,16 +264,5 @@ extension KeyImportCoordinator: WalletKeyImportDelegate {
 extension KeyImportCoordinator: PrivateKeyReaderDelegate {
     func didFinishScanning(_ privateKey: String, for address: AssetAddress?) {
         walletManager.wallet.addKey(privateKey, toWatchOnlyAddress: address?.address)
-    }
-
-    func didFinishScanningWithError(_ error: PrivateKeyReaderError) {
-        switch error {
-        case .badMetadataObject:
-            AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.error)
-        case .unknownKeyFormat:
-            AlertViewPresenter.shared.standardError(message: LocalizationConstants.AddressAndKeyImport.unknownKeyFormat)
-        case .unsupportedPrivateKey:
-            AlertViewPresenter.shared.standardError(message: LocalizationConstants.AddressAndKeyImport.unsupportedPrivateKey)
-        }
     }
 }

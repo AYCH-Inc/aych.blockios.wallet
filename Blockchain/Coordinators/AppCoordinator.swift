@@ -92,7 +92,8 @@ import Foundation
     }
 
     /// Shows an upgrade to HD wallet prompt if the user has a legacy wallet
-    func showHdUpgradeViewIfNeeded() {
+    @objc func showHdUpgradeViewIfNeeded() {
+        guard walletManager.wallet.isInitialized() else { return }
         guard !walletManager.wallet.didUpgradeToHd() else { return }
         showHdUpgradeView()
     }
@@ -112,7 +113,7 @@ import Foundation
         let debugViewController = DebugTableViewController()
         debugViewController.presenter = presenter
         let navigationController = UINavigationController(rootViewController: debugViewController)
-        window.rootViewController?.present(navigationController, animated: true)
+        UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(navigationController, animated: true)
     }
 
     @objc func showBackupView() {

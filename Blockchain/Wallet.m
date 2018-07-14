@@ -2805,15 +2805,6 @@
     return 0;
 }
 
-- (uint64_t)bitcoinCashTotalBalance
-{
-    if ([self isInitialized]) {
-        return [[[self.context evaluateScript:@"MyWalletPhone.bch.totalBalance()"] toNumber] longLongValue];
-    }
-
-    return 0;
-}
-
 - (BOOL)hasBchAccount
 {
     if ([self isInitialized]) {
@@ -2941,13 +2932,6 @@
     });
 }
 
-- (void)loading_start_upgrade_to_hd
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_CREATING_V3_WALLET];
-    });
-}
-
 - (void)loading_start_create_account
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -3000,10 +2984,9 @@
 
 - (void)upgrade_success
 {
-    [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[LocalizationConstantsObjcBridge upgradeSuccess]
-                                                             title:[LocalizationConstantsObjcBridge upgradeSuccessTitle]
-                                                                in: nil
-                                                           handler: nil];
+    if ([delegate respondsToSelector:@selector(walletUpgraded:)]) {
+        [delegate walletUpgraded:self];
+    }
 }
 
 #pragma mark - Callbacks from JS to Obj-C

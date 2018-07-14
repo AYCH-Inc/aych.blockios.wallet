@@ -57,6 +57,13 @@ import RxSwift
 
         ModalPresenter.shared.closeAllModals()
 
+        let tabControllerManager = AppCoordinator.shared.tabControllerManager
+        tabControllerManager.sendBitcoinViewController?.reload()
+        tabControllerManager.sendBitcoinCashViewController?.reload()
+                
+        /// Prompt the user for push notification permission
+        PushNotificationManager.shared.requestAuthorization()
+
         // Make user set up a pin if none is set. They can also optionally enable touch ID and link their email.
         guard BlockchainSettings.App.shared.isPinSet else {
             if strongSelf.walletManager.wallet.isNew {
@@ -66,8 +73,6 @@ import RxSwift
             }
             return
         }
-
-        AppCoordinator.shared.showHdUpgradeViewIfNeeded()
 
         // Show security reminder modal if needed
         if let dateOfLastSecurityReminder = BlockchainSettings.App.shared.reminderModalDate {
@@ -84,15 +89,8 @@ import RxSwift
             ReminderPresenter.shared.checkIfSettingsLoadedAndShowEmailReminder()
         }
 
-        let tabControllerManager = AppCoordinator.shared.tabControllerManager
-        tabControllerManager.sendBitcoinViewController?.reload()
-        tabControllerManager.sendBitcoinCashViewController?.reload()
-
         // Enabling touch ID and immediately backgrounding the app hides the status bar
         UIApplication.shared.setStatusBarHidden(false, with: .slide)
-
-        /// Prompt the user for push notification permission
-        PushNotificationManager.shared.requestAuthorization()
 
         // Handle post authentication route, if any
         if let route = strongSelf.postAuthenticationRoute {
@@ -212,6 +210,8 @@ import RxSwift
     /// Unauthenticates the user
     @objc func logout(showPasswordView: Bool) {
         invalidateLoginTimeout()
+
+        pinEntryViewController = nil
 
         BlockchainSettings.App.shared.clearPin()
 

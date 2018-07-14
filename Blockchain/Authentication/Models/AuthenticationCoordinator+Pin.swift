@@ -119,9 +119,9 @@ extension AuthenticationCoordinator: WalletPinEntryDelegate {
     func errorDidFailPutPin(errorMessage: String) {
         LoadingViewPresenter.shared.hideBusyView()
 
-        AlertViewPresenter.shared.standardError(message: errorMessage)
-
-        reopenChangePin()
+        AlertViewPresenter.shared.standardError(message: errorMessage) { [unowned self] _ in
+            self.reopenChangePin()
+        }
     }
 
     func putPinSuccess(response: PutPinResponse) {
@@ -175,8 +175,6 @@ extension AuthenticationCoordinator: WalletPinEntryDelegate {
         if walletManager.wallet.isInitialized() && !inSettings {
             AlertViewPresenter.shared.showMobileNoticeIfNeeded()
         }
-
-        AppCoordinator.shared.showHdUpgradeViewIfNeeded()
     }
 
     private func askIfUserWantsToResetPIN() {

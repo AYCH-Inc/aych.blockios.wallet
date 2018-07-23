@@ -2576,10 +2576,15 @@ MyWalletPhone.getExchangeTrades = function() {
 MyWalletPhone.getRate = function(coinPair) {
 
     var success = function(result) {
-        MyWalletPhone.getEthExchangeRateForHardLimit().then(function(hardLimit) {
-             var currencyCode = MyWalletPhone.currencyCodeForHardLimit();
-             objc_on_get_exchange_rate_success(result.limit, result.minimum, result.minerFee, result.maxLimit, result.pair, result.rate, hardLimit[currencyCode].last);
-        });
+        const from = coinPair.split('_')[0];
+
+        const fetchRateSuccess = function(hardLimit) {
+            var currencyCode = MyWalletPhone.currencyCodeForHardLimit();
+            result.hardLimitRate = hardLimit[currencyCode].last;
+            objc_on_get_exchange_rate_success(result);
+        };
+
+        MyWalletPhone.getExchangeRateForHardLimit(from).then(fetchRateSuccess);
     }
 
     var error = function(e) {
@@ -2823,13 +2828,13 @@ MyWalletPhone.isWithdrawalTransaction = function(txHash) {
     return MyWallet.wallet.shapeshift.isWithdrawalTx(txHash);
 }
 
-MyWalletPhone.getEthExchangeRateForHardLimit = function() {
+MyWalletPhone.getExchangeRateForHardLimit = function(assetType) {
     var currencyCode = MyWalletPhone.currencyCodeForHardLimit();
-    return BlockchainAPI.getExchangeRate(currencyCode, 'ETH');
+    return BlockchainAPI.getExchangeRate(currencyCode, assetType);
 }
 
 MyWalletPhone.currencyCodeForHardLimit = function() {
-    return MyWalletPhone.isCountryGuessWhitelistedForShapeshift() == 'US' ? 'USD' : 'EUR';
+    return MyWallet.wallet.accountInfo.countryCodeGuess == 'US' ? 'USD' : 'EUR';
 }
 
 MyWalletPhone.fiatExchangeHardLimit = function() {

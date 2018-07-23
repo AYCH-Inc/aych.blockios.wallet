@@ -147,11 +147,27 @@ class BackupWordsViewController: UIViewController, SecondPasswordDelegate, UIScr
         wordsProgressLabel.text = progressLabelText
         if let count = wordLabels?.count {
             if wordsPageControl.currentPage == count-1 {
+<<<<<<< HEAD:Blockchain/BackupWordsViewController.swift
                 nextWordButton.backgroundColor = .brandPrimary
                 nextWordButton.setTitleColor(UIColor.white, for: UIControlState())
                 nextWordButton.setTitle(NSLocalizedString("Done", comment: ""), for: UIControlState())
             } else if wordsPageControl.currentPage == count-2 {
                 nextWordButton.backgroundColor = .brandSecondary
+=======
+                if #available(iOS 11.0, *) {
+                    nextWordButton.backgroundColor = UIColor(named: "BrandPrimary")
+                } else {
+                    nextWordButton.backgroundColor = Constants.Colors.ColorBrandPrimary
+                }
+                nextWordButton.setTitleColor(UIColor.white, for: UIControlState())
+                nextWordButton.setTitle(NSLocalizedString("Done", comment: ""), for: UIControlState())
+            } else if wordsPageControl.currentPage == count-2 {
+                if #available(iOS 11.0, *) {
+                    nextWordButton.backgroundColor = UIColor(named: "BrandSecondary")
+                } else {
+                    nextWordButton.backgroundColor = Constants.Colors.ColorBrandSecondary
+                }
+>>>>>>> chore(Project): reorganize project source files:Blockchain/View Controllers/BackupWordsViewController.swift
                 nextWordButton.setTitleColor(UIColor.white, for: UIControlState())
                 nextWordButton.setTitle(NSLocalizedString("NEXT", comment: ""), for: UIControlState())
             }

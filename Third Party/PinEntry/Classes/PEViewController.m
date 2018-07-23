@@ -100,7 +100,7 @@
         CGFloat posY = window.frame.size.height - height;
         UIView *fillerView = [[UIView alloc] initWithFrame:CGRectMake(0, posY, width, height)];
         fillerView.userInteractionEnabled = NO;
-        fillerView.backgroundColor = .brandPrimary;
+        fillerView.backgroundColor = UIColor.brandPrimary;
         [self.scrollView addSubview:fillerView];
     }
 

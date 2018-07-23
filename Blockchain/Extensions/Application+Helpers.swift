@@ -31,3 +31,21 @@ extension UIApplication {
         self.openURL(url)
     }
 }
+
+// MARK: - Swifty Storyboards 📜 using Generics ✨🧙‍♂️✨
+
+extension UIStoryboard {
+    static func instantiate<Child: UIViewController, Parent: UIViewController>(
+        child _ : Child.Type,
+        from _ : Parent.Type,
+        in storyboard: UIStoryboard,
+        identifier: String) -> Child {
+        guard
+            let parent = storyboard.instantiateViewController(withIdentifier: identifier) as? Parent,
+            object_setClass(parent, Child.self) != nil,
+            let viewController = parent as? Child else {
+                fatalError("Could not instantiate view controller of type \(Parent.description()) using identifier \(identifier).")
+        }
+        return viewController
+    }
+}

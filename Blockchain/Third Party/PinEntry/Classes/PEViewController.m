@@ -49,15 +49,15 @@
     if (@available(iOS 11.0, *)) {
         safeAreaInsetBottom = window.rootViewController.view.safeAreaInsets.bottom;
     }
-    
+
     pins[0] = pin0;
 	pins[1] = pin1;
 	pins[2] = pin2;
 	pins[3] = pin3;
 	self.pin = @"";
-    
+
     CGFloat containerViewHeight;
-    
+
     if (IS_USING_SCREEN_SIZE_4S) {
         CGFloat offsetY = 60;
         pin0.frame = CGRectOffset(pin0.frame, 0, offsetY);
@@ -83,7 +83,7 @@
         }
         containerViewHeight = UIScreen.mainScreen.bounds.size.width * 1.1875; // PIN entry view must be 19:16 aspect ratio
     }
-    
+
     promptLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_LARGE];
     self.versionLabel.textColor = UIColor.brandPrimary;
     self.versionLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_SMALL];
@@ -100,14 +100,10 @@
         CGFloat posY = window.frame.size.height - height;
         UIView *fillerView = [[UIView alloc] initWithFrame:CGRectMake(0, posY, width, height)];
         fillerView.userInteractionEnabled = NO;
-        if (@available(iOS 11.0, *)) {
-            fillerView.backgroundColor = [UIColor colorNamed:@"ColorBrandPrimary"];
-        } else {
-            fillerView.backgroundColor = UIColor.brandPrimary;
-        }
+        fillerView.backgroundColor = .brandPrimary;
         [self.scrollView addSubview:fillerView];
     }
-    
+
     self.swipeLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_SMALL];
     self.swipeLabel.text = BC_STRING_SETTINGS_PIN_SWIPE_TO_RECEIVE;
     self.swipeLabelImageView.image = [UIImage imageNamed:@"arrow_downward"];
@@ -185,7 +181,7 @@
 {
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showSwipeQR)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
-    
+
     CGFloat windowWidth = self.view.frame.size.width;
     CGFloat actionViewOriginX = self.swipeLabelImageView.frame.origin.x - self.swipeLabel.intrinsicContentSize.width - 8;
     UIView *actionView = [[UIView alloc] initWithFrame:CGRectMake(actionViewOriginX, self.swipeLabel.frame.origin.y, windowWidth - actionViewOriginX, self.swipeLabel.frame.size.height)];

@@ -41,7 +41,7 @@
 @property(nonatomic, assign) int tag;
 @end
 
-@class Wallet, Transaction, JSValue, JSContext;
+@class Wallet, Transaction, JSValue, JSContext, ExchangeRate;
 
 @protocol WalletSuccessCallback;
 
@@ -128,7 +128,7 @@
 - (void)didErrorDuringEtherSend:(NSString *)error;
 - (void)didGetEtherAddressWithSecondPassword;
 - (void)didGetExchangeTrades:(NSArray *)trades;
-- (void)didGetExchangeRate:(NSDictionary *)result;
+- (void)didGetExchangeRate:(ExchangeRate *)result;
 - (void)didGetAvailableEthBalance:(NSDictionary *)result;
 - (void)didGetAvailableBtcBalance:(NSDictionary *)result;
 - (void)didBuildExchangeTrade:(NSDictionary *)tradeInfo;
@@ -310,7 +310,6 @@
 
 - (uint64_t)getTotalActiveBalance;
 - (uint64_t)getWatchOnlyBalance;
-- (BOOL)hasWatchOnlyAddresses;
 - (uint64_t)getTotalBalanceForActiveLegacyAddresses:(LegacyAssetType)assetType;
 - (uint64_t)getTotalBalanceForSpendableActiveLegacyAddresses;
 - (id)getBalanceForAccount:(int)account assetType:(LegacyAssetType)assetType;

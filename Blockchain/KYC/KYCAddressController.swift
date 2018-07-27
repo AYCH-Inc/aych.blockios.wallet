@@ -74,6 +74,14 @@ extension KYCAddressController: LocationSuggestionCoordinatorDelegate {
 
 extension KYCAddressController: UITextFieldDelegate {
 
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let value = textField.text as NSString? {
+            let current = value.replacingCharacters(in: range, with: string)
+            searchDelegate?.onSearchSubmission(current)
+        }
+        return true
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), text.isEmpty == false else {
             return false

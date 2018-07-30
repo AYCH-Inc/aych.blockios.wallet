@@ -10,6 +10,7 @@ import Foundation
 
 protocol LocationSuggestionCoordinatorDelegate: class {
     func coordinator(_ locationCoordinator: LocationSuggestionCoordinator, updated model: LocationSearchResult)
+    func coordinator(_ locationCoordinator: LocationSuggestionCoordinator, generated address: PostalAddress)
 }
 
 class LocationSuggestionCoordinator: NSObject {
@@ -66,6 +67,12 @@ extension LocationSuggestionCoordinator: SearchControllerDelegate {
     func onSelection(_ selection: SearchSelection) {
         if let input = selection as? LocationSuggestion {
             interface?.searchFieldText(input.title + " " + input.subtitle)
+            interface?.suggestionsList(.hidden)
+            interface?.updateActivityIndicator(.visible)
+            service.fetchAddress(from: input) { [weak self] (address) in
+                guard let this = self else { return }
+                this.delegate?.coordinator(this, generated: address)
+            }
         }
     }
 

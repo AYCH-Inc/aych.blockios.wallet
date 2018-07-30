@@ -7,6 +7,7 @@
 //
 
 protocol LocationSuggestionInterface: class {
+    func updateActivityIndicator(_ visibility: Visibility)
     func primaryButton(_ visibility: Visibility)
     func suggestionsList(_ visibility: Visibility)
     func searchFieldActive(_ isFirstResponder: Bool)

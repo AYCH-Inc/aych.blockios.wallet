@@ -14,6 +14,7 @@ class KYCAddressController: UIViewController, KYCOnboardingNavigation {
 
     @IBOutlet fileprivate var addressTextField: UITextField!
     @IBOutlet fileprivate var tableView: UITableView!
+    @IBOutlet fileprivate var activityIndicator: UIActivityIndicatorView!
 
     // MARK: - Public IBOutlets
 
@@ -69,6 +70,10 @@ extension KYCAddressController: UITableViewDelegate {
 }
 
 extension KYCAddressController: LocationSuggestionInterface {
+    func updateActivityIndicator(_ visibility: Visibility) {
+        visibility == .hidden ? activityIndicator.stopAnimating() : activityIndicator.startAnimating()
+    }
+
 
     func primaryButton(_ visibility: Visibility) {
         primaryButton.alpha = visibility.defaultAlpha
@@ -93,6 +98,11 @@ extension KYCAddressController: LocationSuggestionInterface {
 }
 
 extension KYCAddressController: LocationSuggestionCoordinatorDelegate {
+    func coordinator(_ locationCoordinator: LocationSuggestionCoordinator, generated address: PostalAddress) {
+        let detailController = KYCAddressDetailViewController.make(address)
+        navigationController?.pushViewController(detailController, animated: true)
+    }
+
     func coordinator(_ locationCoordinator: LocationSuggestionCoordinator, updated model: LocationSearchResult) {
         dataProvider.locationResult = model
     }

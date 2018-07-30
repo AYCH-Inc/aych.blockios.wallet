@@ -58,7 +58,7 @@
                                     <action selector="primaryButtonTapped:" destination="1m4-Wz-u3W" eventType="touchUpInside" id="jOC-4O-3a6"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="FFX-OX-l36">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="FFX-OX-l36">
                                 <rect key="frame" x="169" y="450" width="37" height="37"/>
                                 <color key="color" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
@@ -88,6 +88,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="FFX-OX-l36" id="1Ty-rM-Wgi"/>
                         <outlet property="addressTextField" destination="KU7-D7-T3Q" id="Kuh-M9-aeq"/>
                         <outlet property="primaryButton" destination="XUW-TX-8oU" id="vk1-n7-T4P"/>
                         <outlet property="tableView" destination="fkm-6J-r0r" id="yzI-gy-vZ7"/>

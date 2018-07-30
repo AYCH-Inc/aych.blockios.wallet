@@ -56,7 +56,8 @@ class LocationSuggestionService: NSObject, LocationSuggestionAPI {
                 country: placemark.country,
                 countryCode: placemark.countryCode,
                 city: placemark.locality,
-                state: placemark.administrativeArea
+                state: placemark.administrativeArea,
+                unit: nil
             )
             block(postalAddress)
         }

@@ -34,10 +34,12 @@ class KYCAddressController: UIViewController, KYCOnboardingNavigation {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        coordinator = LocationSuggestionCoordinator(self)
+        coordinator = LocationSuggestionCoordinator(self, interface: self)
         dataProvider = LocationDataProvider(with: tableView)
         addressTextField.delegate = self
         tableView.delegate = self
+
+        searchDelegate?.onStart()
     }
 
     // MARK: - Actions
@@ -66,6 +68,30 @@ extension KYCAddressController: UITableViewDelegate {
     }
 }
 
+extension KYCAddressController: LocationSuggestionInterface {
+
+    func primaryButton(_ visibility: Visibility) {
+        primaryButton.alpha = visibility.defaultAlpha
+    }
+
+    func suggestionsList(_ visibility: Visibility) {
+        tableView.alpha = visibility.defaultAlpha
+    }
+
+    func searchFieldActive(_ isFirstResponder: Bool) {
+        switch isFirstResponder {
+        case true:
+            addressTextField.becomeFirstResponder()
+        case false:
+            addressTextField.resignFirstResponder()
+        }
+    }
+
+    func searchFieldText(_ value: String?) {
+        addressTextField.text = value
+    }
+}
+
 extension KYCAddressController: LocationSuggestionCoordinatorDelegate {
     func coordinator(_ locationCoordinator: LocationSuggestionCoordinator, updated model: LocationSearchResult) {
         dataProvider.locationResult = model
@@ -77,7 +103,7 @@ extension KYCAddressController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let value = textField.text as NSString? {
             let current = value.replacingCharacters(in: range, with: string)
-            searchDelegate?.onSearchSubmission(current)
+            searchDelegate?.onSearchRequest(current)
         }
         return true
     }
@@ -87,7 +113,7 @@ extension KYCAddressController: UITextFieldDelegate {
             return false
         }
 
-        searchDelegate?.onSearchSubmission(text)
+        searchDelegate?.onSearchRequest(text)
         textField.resignFirstResponder()
         return true
     }

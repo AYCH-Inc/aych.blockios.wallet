@@ -37,7 +37,7 @@ class LocationSuggestionService: NSObject, LocationSuggestionAPI {
         completer.queryFragment = query
     }
 
-    func selected(suggestion: LocationSuggestion) {
+    func fetchAddress(from suggestion: LocationSuggestion, with block: @escaping PostalAddressCompletion) {
         let completion = completer.results.first(where: {$0.title == suggestion.title && $0.subtitle == suggestion.subtitle})
         guard let selection = completion else { return }
 
@@ -46,9 +46,20 @@ class LocationSuggestionService: NSObject, LocationSuggestionAPI {
         search.start { (response, error) in
             guard error == nil else { return }
             guard let result = response else { return }
-            print(result.mapItems)
+            guard let mapItem = result.mapItems.first else { return }
+            let placemark = mapItem.placemark
+
+            let postalAddress = PostalAddress(
+                street: placemark.thoroughfare,
+                streetNumber: placemark.subThoroughfare,
+                postalCode: placemark.postalCode,
+                country: placemark.country,
+                countryCode: placemark.countryCode,
+                city: placemark.locality,
+                state: placemark.administrativeArea
+            )
+            block(postalAddress)
         }
-        // TODO
     }
 
     func cancel() {

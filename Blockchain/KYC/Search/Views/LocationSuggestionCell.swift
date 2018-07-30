@@ -10,18 +10,16 @@ import UIKit
 
 class LocationSuggestionCell: UITableViewCell {
 
-    // TODO: Styling
-
     func configure(with suggestion: LocationSuggestion) {
         
-        let titleAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17),
+        let titleAttributes = [NSAttributedStringKey.font: LocationSuggestionCell.titleFont(),
                                NSAttributedStringKey.foregroundColor: UIColor.black]
-        let titleHighlightedAttributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17),
+        let titleHighlightedAttributes = [NSAttributedStringKey.font: LocationSuggestionCell.titleFont(),
                                           NSAttributedStringKey.foregroundColor: UIColor.black]
 
-        let subtitleAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12),
+        let subtitleAttributes = [NSAttributedStringKey.font: LocationSuggestionCell.subtitleFont(),
                                   NSAttributedStringKey.foregroundColor: UIColor.black]
-        let subtitleHighlightedAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12),
+        let subtitleHighlightedAttributes = [NSAttributedStringKey.font: LocationSuggestionCell.subtitleFont(),
                                              NSAttributedStringKey.foregroundColor: UIColor.black]
 
 
@@ -38,5 +36,13 @@ class LocationSuggestionCell: UITableViewCell {
 
         textLabel?.attributedText = attributedTitle
         detailTextLabel?.attributedText = attributedSubtitle
+    }
+
+    static func titleFont() -> UIFont {
+        return UIFont(name: "Montserrat-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)
+    }
+
+    static func subtitleFont() -> UIFont {
+        return UIFont(name: "Montserrat-Regular", size: 13) ?? UIFont.systemFont(ofSize: 13)
     }
 }

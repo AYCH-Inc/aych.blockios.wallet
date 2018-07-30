@@ -94,6 +94,11 @@
 		3A258C14210A4EAC00C023F5 /* LocationDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A258C13210A4EAC00C023F5 /* LocationDataProvider.swift */; };
 		3A258C15210A4EAC00C023F5 /* LocationDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A258C13210A4EAC00C023F5 /* LocationDataProvider.swift */; };
 		3A3047E4210B664800C09E6D /* LocationSuggestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A3047E3210B664800C09E6D /* LocationSuggestionCell.xib */; };
+		3A3047E6210B8E1300C09E6D /* PostalAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3047E5210B8E1300C09E6D /* PostalAddress.swift */; };
+		3A7F7EE3210F6C77001E20AF /* Visibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7F7EE2210F6C77001E20AF /* Visibility.swift */; };
+		3A7F7EE4210F6C77001E20AF /* Visibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7F7EE2210F6C77001E20AF /* Visibility.swift */; };
+		3A7F7EE6210F95C7001E20AF /* LocationSuggestionInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7F7EE5210F95C7001E20AF /* LocationSuggestionInterface.swift */; };
+		3A7F7EE7210F95C7001E20AF /* LocationSuggestionInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7F7EE5210F95C7001E20AF /* LocationSuggestionInterface.swift */; };
 		3AEF7771210A5BAE00938D42 /* SearchControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF7770210A5BAE00938D42 /* SearchControllerDelegate.swift */; };
 		3AEF7772210A5BAE00938D42 /* SearchControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF7770210A5BAE00938D42 /* SearchControllerDelegate.swift */; };
 		3AEF7774210A5DA400938D42 /* LocationSuggestionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF7773210A5DA400938D42 /* LocationSuggestionCoordinator.swift */; };
@@ -304,7 +309,6 @@
 		9F1831EE151744EB00FB3D52 /* ReceiveTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1831ED151744EB00FB3D52 /* ReceiveTableCell.m */; };
 		9F1831F0151744FC00FB3D52 /* ReceiveCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F1831EF151744FC00FB3D52 /* ReceiveCell.xib */; };
 		9F2780B715343A7D0015F83F /* UncaughtExceptionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F2780B615343A7D0015F83F /* UncaughtExceptionHandler.m */; };
-		9F2D934A14C05DD00053F0FF /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F2D934914C05DD00053F0FF /* Address.m */; };
 		9F2D934E14C0792D0053F0FF /* TransactionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F2D934D14C0792D0053F0FF /* TransactionCell.xib */; };
 		9F45F82C1514E53C00018AED /* UIButtonPressAndHold.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F45F81D1514D81700018AED /* UIButtonPressAndHold.m */; };
 		9F4A5092152F585E00F9ED9D /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A5091152F585E00F9ED9D /* UIDevice+Hardware.m */; };
@@ -1205,6 +1209,9 @@
 		3A258C0F210A495700C023F5 /* LocationSuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSuggestionCell.swift; sourceTree = "<group>"; };
 		3A258C13210A4EAC00C023F5 /* LocationDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDataProvider.swift; sourceTree = "<group>"; };
 		3A3047E3210B664800C09E6D /* LocationSuggestionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocationSuggestionCell.xib; sourceTree = "<group>"; };
+		3A3047E5210B8E1300C09E6D /* PostalAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostalAddress.swift; sourceTree = "<group>"; };
+		3A7F7EE2210F6C77001E20AF /* Visibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visibility.swift; sourceTree = "<group>"; };
+		3A7F7EE5210F95C7001E20AF /* LocationSuggestionInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSuggestionInterface.swift; sourceTree = "<group>"; };
 		3AEF7770210A5BAE00938D42 /* SearchControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchControllerDelegate.swift; sourceTree = "<group>"; };
 		3AEF7773210A5DA400938D42 /* LocationSuggestionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSuggestionCoordinator.swift; sourceTree = "<group>"; };
 		3AEF9E8B21091B71006B1CF9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -1943,8 +1950,6 @@
 		9F1831EF151744FC00FB3D52 /* ReceiveCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReceiveCell.xib; sourceTree = "<group>"; };
 		9F2780B515343A7D0015F83F /* UncaughtExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UncaughtExceptionHandler.h; sourceTree = "<group>"; };
 		9F2780B615343A7D0015F83F /* UncaughtExceptionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UncaughtExceptionHandler.m; sourceTree = "<group>"; };
-		9F2D934814C05DD00053F0FF /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
-		9F2D934914C05DD00053F0FF /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
 		9F2D934D14C0792D0053F0FF /* TransactionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransactionCell.xib; sourceTree = "<group>"; };
 		9F45F81C1514D81700018AED /* UIButtonPressAndHold.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIButtonPressAndHold.h; sourceTree = "<group>"; };
 		9F45F81D1514D81700018AED /* UIButtonPressAndHold.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIButtonPressAndHold.m; sourceTree = "<group>"; };
@@ -2489,6 +2494,14 @@
 			path = DataProvider;
 			sourceTree = "<group>";
 		};
+		3A7F7EC7210F6C20001E20AF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				3A7F7EE2210F6C77001E20AF /* Visibility.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		3AEF9E7021091B50006B1CF9 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -2507,6 +2520,7 @@
 			children = (
 				3AEF9E9021091C37006B1CF9 /* LocationSuggestion.swift */,
 				3AEF9E9321091D1E006B1CF9 /* LocationSuggestionPageModel.swift */,
+				3A3047E5210B8E1300C09E6D /* PostalAddress.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2516,6 +2530,7 @@
 			children = (
 				3AEF9E8D21091BBA006B1CF9 /* LocationSuggestionAPI.swift */,
 				3AEF9E9821091DA5006B1CF9 /* LocationSuggestionService.swift */,
+				3A7F7EE5210F95C7001E20AF /* LocationSuggestionInterface.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -2978,10 +2993,9 @@
 		9F765F3A14BC7C3100048EFB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3A7F7EC7210F6C20001E20AF /* ViewModels */,
 				6780DB961A40BDF40048EED2 /* AccountInOut.h */,
 				6780DB971A40BDF40048EED2 /* AccountInOut.m */,
-				9F2D934814C05DD00053F0FF /* Address.h */,
-				9F2D934914C05DD00053F0FF /* Address.m */,
 				C774A1252102B87300DCCC17 /* ExchangeRate.swift */,
 				6780DB901A40BDA70048EED2 /* AddressInOut.h */,
 				6780DB911A40BDA70048EED2 /* AddressInOut.m */,
@@ -4295,6 +4309,7 @@
 				AACE31DC2092A99B00B7B806 /* UIViewController.swift in Sources */,
 				51A862DF20921FCA00B338E0 /* BlockchainAPI+URLSuffixTests.swift in Sources */,
 				5113570B209CF6D700056D65 /* BackupVerifyViewController.swift in Sources */,
+				3A7F7EE7210F95C7001E20AF /* LocationSuggestionInterface.swift in Sources */,
 				AACE31F22092B1F800B7B806 /* PasswordRequiredView.swift in Sources */,
 				AAC9FCEF20AE456400E28B7A /* WalletTransactionDelegate.swift in Sources */,
 				AA63F84C20A12AE9002B719B /* URLs.swift in Sources */,
@@ -4365,6 +4380,7 @@
 				3AEF7775210A5DA400938D42 /* LocationSuggestionCoordinator.swift in Sources */,
 				AACE31CC2092A99B00B7B806 /* BitcoinAddress.swift in Sources */,
 				C78893DB20A34DF4003C0A8F /* WalletSettingsDelegate.swift in Sources */,
+				3A7F7EE4210F6C77001E20AF /* Visibility.swift in Sources */,
 				C7BD107C209A01690062269E /* NumberFormatter+Assets.swift in Sources */,
 				AACE31D12092A99B00B7B806 /* PasscodePayload.swift in Sources */,
 				AA722C1520B4B9F300262A5F /* WalletSwipeAddressDelegate.swift in Sources */,
@@ -4420,6 +4436,7 @@
 			files = (
 				AACE31582091681100B7B806 /* WalletManager.swift in Sources */,
 				AACE31572091680B00B7B806 /* PushNotificationManager.swift in Sources */,
+				3A3047E6210B8E1300C09E6D /* PostalAddress.swift in Sources */,
 				2343E4031CB434BC008DC7D1 /* NSArray+EncodedJSONString.m in Sources */,
 				511646DF20851BC600C43522 /* Bundle.swift in Sources */,
 				237C9E901C482132000754F7 /* AccountsAndAddressesDetailViewController.m in Sources */,
@@ -4526,7 +4543,6 @@
 				51383559210253A800767B2E /* KYCVerifyAccountController.swift in Sources */,
 				51A862D520921A6E00B338E0 /* BlockchainAPI+URLSuffix.swift in Sources */,
 				2378271A1B7E472D00E9EE03 /* BCSecureTextField.swift in Sources */,
-				9F2D934A14C05DD00053F0FF /* Address.m in Sources */,
 				AAE94F3120C64B49005A3595 /* PinInteractor.swift in Sources */,
 				235BD5661C58216000969B31 /* BCModalViewController.m in Sources */,
 				67FA1A4D1ABA092D000C9196 /* RegExCategories.m in Sources */,
@@ -4648,6 +4664,7 @@
 				C7A0E92E1FA8FFBF004F4267 /* ExchangeConfirmViewController.m in Sources */,
 				C79261B51E8ADF0300C87CED /* BCCardView.m in Sources */,
 				ECD244F719A8B444004B1F40 /* UIImage+Utils.m in Sources */,
+				3A7F7EE6210F95C7001E20AF /* LocationSuggestionInterface.swift in Sources */,
 				511356E3209CAFC600056D65 /* NetworkManager+PushNotifications.swift in Sources */,
 				23444F961DCD21C600573C8C /* BTCKeychain.m in Sources */,
 				2322DCB61D771831000E5AC1 /* SRIOConsumerPool.m in Sources */,
@@ -4727,6 +4744,7 @@
 				23F601A41D09C931009102BF /* Reachability.m in Sources */,
 				510EA1702080F16100A63AB8 /* PasscodePayload.swift in Sources */,
 				AAE9113D20A640A40093A431 /* PinPayload.swift in Sources */,
+				3A7F7EE3210F6C77001E20AF /* Visibility.swift in Sources */,
 				23444F931DCD21B700573C8C /* BTCBase58.m in Sources */,
 				23EA61C51B54258D0032B907 /* SettingsTableViewController.m in Sources */,
 				C793E1FC1F8E7921001F171C /* ExchangeOverviewViewController.m in Sources */,

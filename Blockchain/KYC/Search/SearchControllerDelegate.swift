@@ -9,7 +9,9 @@
 protocol SearchSelection {}
 
 protocol SearchControllerDelegate: class {
+    func onStart()
+    func onSubmission(_ selection: SearchSelection)
     func onSelection(_ selection: SearchSelection)
-    func onSearchSubmission(_ query: String)
+    func onSearchRequest(_ query: String)
     func onSearchViewCancel()
 }

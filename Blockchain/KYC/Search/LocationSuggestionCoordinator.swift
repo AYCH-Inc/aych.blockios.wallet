@@ -21,28 +21,55 @@ class LocationSuggestionCoordinator: NSObject {
         }
     }
     fileprivate weak var delegate: LocationSuggestionCoordinatorDelegate?
+    fileprivate weak var interface: LocationSuggestionInterface?
 
-    init(_ delegate: LocationSuggestionCoordinatorDelegate) {
+    init(_ delegate: LocationSuggestionCoordinatorDelegate, interface: LocationSuggestionInterface) {
         self.service = LocationSuggestionService()
         self.delegate = delegate
+        self.interface = interface
         self.model = .empty
         super.init()
 
         if let controller = delegate as? KYCAddressController {
             controller.searchDelegate = self
         }
+
+        self.interface?.searchFieldActive(true)
+        self.interface?.primaryButton(.hidden)
     }
 }
 
 extension LocationSuggestionCoordinator: SearchControllerDelegate {
 
-    func onSelection(_ selection: SearchSelection) {
-        if let input = selection as? LocationSuggestion {
-            service.selected(suggestion: input)
+    func onStart() {
+        switch model.suggestions.isEmpty {
+        case true:
+            interface?.searchFieldText(nil)
+            interface?.suggestionsList(.hidden)
+        case false:
+            interface?.suggestionsList(.visible)
         }
     }
 
-    func onSearchSubmission(_ query: String) {
+    func onSubmission(_ selection: SearchSelection) {
+        var newModel = model
+        newModel.state = .loading
+        model = newModel
+
+        if let input = selection as? LocationSuggestion {
+            service.fetchAddress(from: input) { (address) in
+                print(address)
+            }
+        }
+    }
+
+    func onSelection(_ selection: SearchSelection) {
+        if let input = selection as? LocationSuggestion {
+            interface?.searchFieldText(input.title + " " + input.subtitle)
+        }
+    }
+
+    func onSearchRequest(_ query: String) {
         var newModel = model
         newModel.state = .loading
         model = newModel
@@ -54,6 +81,9 @@ extension LocationSuggestionCoordinator: SearchControllerDelegate {
                 state: state,
                 suggestions: suggestions ?? []
             )
+
+            let listVisibility: Visibility = suggestions != nil ? .visible: .hidden
+            this.interface?.suggestionsList(listVisibility)
             this.model = result
         }
     }

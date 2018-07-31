@@ -23,14 +23,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xgt-uL-h2x">
-                        <rect key="frame" x="8" y="4" width="363" height="40.5"/>
+                        <rect key="frame" x="16" y="4" width="355" height="40.5"/>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                        <textInputTraits key="textInputTraits"/>
+                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" textContentType="address-line2"/>
                     </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="xgt-uL-h2x" firstAttribute="leading" secondItem="yMN-Is-Lq7" secondAttribute="leading" constant="8" id="5h5-ZT-Ws1"/>
+                    <constraint firstItem="xgt-uL-h2x" firstAttribute="leading" secondItem="yMN-Is-Lq7" secondAttribute="leading" constant="16" id="5h5-ZT-Ws1"/>
                     <constraint firstAttribute="trailing" secondItem="xgt-uL-h2x" secondAttribute="trailing" constant="4" id="RrG-Wg-ghY"/>
                     <constraint firstItem="xgt-uL-h2x" firstAttribute="top" secondItem="yMN-Is-Lq7" secondAttribute="top" constant="4" id="bx1-ok-k0R"/>
                     <constraint firstAttribute="bottom" secondItem="xgt-uL-h2x" secondAttribute="bottom" constant="4" id="gpa-3s-LyL"/>

@@ -118,6 +118,10 @@
 		3AC97551210FAE7F006A9263 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC9754F210FAE7F006A9263 /* BaseTableViewCell.swift */; };
 		3AC9755A210FBD10006A9263 /* NSAttributedString+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC97559210FBD10006A9263 /* NSAttributedString+Conveniences.swift */; };
 		3AC9755B210FBD10006A9263 /* NSAttributedString+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC97559210FBD10006A9263 /* NSAttributedString+Conveniences.swift */; };
+		3AC9755F2110A599006A9263 /* ConfirmationFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC9755E2110A599006A9263 /* ConfirmationFooterView.swift */; };
+		3AC975602110A599006A9263 /* ConfirmationFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC9755E2110A599006A9263 /* ConfirmationFooterView.swift */; };
+		3AC975622110A678006A9263 /* ConfirmationFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AC975612110A678006A9263 /* ConfirmationFooterView.xib */; };
+		3AC975632110A678006A9263 /* ConfirmationFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AC975612110A678006A9263 /* ConfirmationFooterView.xib */; };
 		3AEF7771210A5BAE00938D42 /* SearchControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF7770210A5BAE00938D42 /* SearchControllerDelegate.swift */; };
 		3AEF7772210A5BAE00938D42 /* SearchControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF7770210A5BAE00938D42 /* SearchControllerDelegate.swift */; };
 		3AEF7774210A5DA400938D42 /* LocationSuggestionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF7773210A5DA400938D42 /* LocationSuggestionCoordinator.swift */; };
@@ -1241,6 +1245,8 @@
 		3AC9754C210FAA47006A9263 /* PlainCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlainCell.xib; sourceTree = "<group>"; };
 		3AC9754F210FAE7F006A9263 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		3AC97559210FBD10006A9263 /* NSAttributedString+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Conveniences.swift"; sourceTree = "<group>"; };
+		3AC9755E2110A599006A9263 /* ConfirmationFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationFooterView.swift; sourceTree = "<group>"; };
+		3AC975612110A678006A9263 /* ConfirmationFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmationFooterView.xib; sourceTree = "<group>"; };
 		3AEF7770210A5BAE00938D42 /* SearchControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchControllerDelegate.swift; sourceTree = "<group>"; };
 		3AEF7773210A5DA400938D42 /* LocationSuggestionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSuggestionCoordinator.swift; sourceTree = "<group>"; };
 		3AEF9E8B21091B71006B1CF9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -2501,8 +2507,8 @@
 		3A258BF0210A478B00C023F5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3A258C0F210A495700C023F5 /* LocationSuggestionCell.swift */,
-				3A3047E3210B664800C09E6D /* LocationSuggestionCell.xib */,
+				3AC9755C2110A574006A9263 /* Cells */,
+				3AC9755D2110A581006A9263 /* Footers */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2544,9 +2550,9 @@
 		3AC9751E210FA302006A9263 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				3AC9754F210FAE7F006A9263 /* BaseTableViewCell.swift */,
 				3AC97547210FA93C006A9263 /* Plain */,
 				3AC97546210FA928006A9263 /* TextEntry */,
-				3AC9754F210FAE7F006A9263 /* BaseTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -2576,6 +2582,24 @@
 				3AC97549210FA963006A9263 /* TextEntry.swift */,
 			);
 			path = CellModel;
+			sourceTree = "<group>";
+		};
+		3AC9755C2110A574006A9263 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				3A258C0F210A495700C023F5 /* LocationSuggestionCell.swift */,
+				3A3047E3210B664800C09E6D /* LocationSuggestionCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		3AC9755D2110A581006A9263 /* Footers */ = {
+			isa = PBXGroup;
+			children = (
+				3AC9755E2110A599006A9263 /* ConfirmationFooterView.swift */,
+				3AC975612110A678006A9263 /* ConfirmationFooterView.xib */,
+			);
+			path = Footers;
 			sourceTree = "<group>";
 		};
 		3AEF9E7021091B50006B1CF9 /* Search */ = {
@@ -2740,8 +2764,8 @@
 		5138354A210253A700767B2E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3AC9751E210FA302006A9263 /* Cells */,
 				5138354B210253A700767B2E /* PrimaryButton.swift */,
+				3AC9751E210FA302006A9263 /* Cells */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4178,6 +4202,7 @@
 				AAD27A5420A0DE1200C0EAFC /* PasswordConfirmView.xib in Resources */,
 				3AC9753E210FA362006A9263 /* TextEntryCell.xib in Resources */,
 				51A862E7209268D300B338E0 /* sample-unused-address.json in Resources */,
+				3AC975632110A678006A9263 /* ConfirmationFooterView.xib in Resources */,
 				3A7F7EEE210F9888001E20AF /* KYCAddressDetailViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4268,6 +4293,7 @@
 				5138373A21025AD100767B2E /* beep.wav in Resources */,
 				AA54277C20D88DD900D5FEEE /* SwipeToReceiveAddressView.xib in Resources */,
 				515EFADB210282B4002350B6 /* InfoPlist.strings in Resources */,
+				3AC975622110A678006A9263 /* ConfirmationFooterView.xib in Resources */,
 				9F1831F0151744FC00FB3D52 /* ReceiveCell.xib in Resources */,
 				ECD244EE19A8AC45004B1F40 /* PEKeyboard-3-next.png in Resources */,
 				515EFAE6210282B4002350B6 /* Backup.storyboard in Resources */,
@@ -4459,6 +4485,7 @@
 				C78893E620A36572003C0A8F /* Trade.swift in Sources */,
 				AAC8F35820993BC1004B7D33 /* WebSocketCloseCode.swift in Sources */,
 				51135704209CF5D800056D65 /* PutPinResponse.swift in Sources */,
+				3AC975602110A599006A9263 /* ConfirmationFooterView.swift in Sources */,
 				519435B1208E62F6001EF882 /* BlockchainAPI+URL.swift in Sources */,
 				C74FEA2620979259007CAB5D /* JSContextWithDOMTests.swift in Sources */,
 				AA2D000220D96FA300B7BE0E /* SwipeToReceiveAddressView.swift in Sources */,
@@ -4602,6 +4629,7 @@
 				51A7349320891EB3009727D5 /* NetworkManager.swift in Sources */,
 				C7559CB21F56FE09005B2375 /* TransactionsEtherViewController.m in Sources */,
 				AA1E522B2097CA360099BD10 /* AuthenticationCoordinator.swift in Sources */,
+				3AC9755F2110A599006A9263 /* ConfirmationFooterView.swift in Sources */,
 				23FDEFAC1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m in Sources */,
 				C74E865220B3043E00F7263D /* WalletHistoryDelegate.swift in Sources */,
 				AABDED70208FACB9002D8BAC /* Reachability.swift in Sources */,

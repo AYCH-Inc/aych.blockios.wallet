@@ -13,14 +13,14 @@ class LocationSuggestionCell: UITableViewCell {
     func configure(with suggestion: LocationSuggestion) {
         
         let titleAttributes = [NSAttributedStringKey.font: LocationSuggestionCell.titleFont(),
-                               NSAttributedStringKey.foregroundColor: UIColor.black]
-        let titleHighlightedAttributes = [NSAttributedStringKey.font: LocationSuggestionCell.titleFont(),
-                                          NSAttributedStringKey.foregroundColor: UIColor.black]
+                               NSAttributedStringKey.foregroundColor: UIColor.gray5]
+        let titleHighlightedAttributes = [NSAttributedStringKey.font: LocationSuggestionCell.highlightedTitleFont(),
+                                          NSAttributedStringKey.foregroundColor: UIColor.gray5]
 
         let subtitleAttributes = [NSAttributedStringKey.font: LocationSuggestionCell.subtitleFont(),
-                                  NSAttributedStringKey.foregroundColor: UIColor.black]
-        let subtitleHighlightedAttributes = [NSAttributedStringKey.font: LocationSuggestionCell.subtitleFont(),
-                                             NSAttributedStringKey.foregroundColor: UIColor.black]
+                                  NSAttributedStringKey.foregroundColor: UIColor.gray5]
+        let subtitleHighlightedAttributes = [NSAttributedStringKey.font: LocationSuggestionCell.highlightedSubtitleFont(),
+                                             NSAttributedStringKey.foregroundColor: UIColor.gray5]
 
 
         let attributedTitle = NSMutableAttributedString(string: suggestion.title, attributes: titleAttributes)
@@ -42,7 +42,15 @@ class LocationSuggestionCell: UITableViewCell {
         return UIFont(name: "Montserrat-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)
     }
 
+    static func highlightedTitleFont() -> UIFont {
+        return UIFont(name: "Montserrat-SemiBold", size: 17) ?? UIFont.systemFont(ofSize: 17)
+    }
+
     static func subtitleFont() -> UIFont {
         return UIFont(name: "Montserrat-Regular", size: 13) ?? UIFont.systemFont(ofSize: 13)
+    }
+
+    static func highlightedSubtitleFont() -> UIFont {
+        return UIFont(name: "Montserrat-SemiBold", size: 13) ?? UIFont.systemFont(ofSize: 13)
     }
 }

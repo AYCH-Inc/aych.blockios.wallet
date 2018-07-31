@@ -15,7 +15,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ILt-4G-X3X" customClass="PlainCell" customModule="Blockchain" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="ILt-4G-X3X" customClass="PlainCell" customModule="Blockchain" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ILt-4G-X3X" id="RUQ-y5-JqD">
@@ -23,14 +23,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qFC-7h-DqD">
-                        <rect key="frame" x="8" y="11.5" width="359" height="21"/>
+                        <rect key="frame" x="16" y="11.5" width="351" height="21"/>
                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="qFC-7h-DqD" firstAttribute="leading" secondItem="RUQ-y5-JqD" secondAttribute="leading" constant="8" id="1vh-Kw-g94"/>
+                    <constraint firstItem="qFC-7h-DqD" firstAttribute="leading" secondItem="RUQ-y5-JqD" secondAttribute="leading" constant="16" id="1vh-Kw-g94"/>
                     <constraint firstItem="qFC-7h-DqD" firstAttribute="centerY" secondItem="RUQ-y5-JqD" secondAttribute="centerY" id="T6N-2o-WVG"/>
                     <constraint firstAttribute="trailing" secondItem="qFC-7h-DqD" secondAttribute="trailing" constant="8" id="iS3-Eb-8WK"/>
                 </constraints>

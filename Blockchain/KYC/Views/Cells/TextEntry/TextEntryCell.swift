@@ -29,6 +29,7 @@ class TextEntryCell: BaseTableViewCell {
     override func configure(with model: CellModel) {
         guard case let .textEntry(cellModel) = model else { return }
 
+        textField.delegate = self
         textField.placeholder = cellModel.placeholder
         textField.text = cellModel.submission
 
@@ -58,11 +59,6 @@ extension TextEntryCell: UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        guard let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), text.isEmpty == false else {
-            return false
-        }
-
-        
         textField.resignFirstResponder()
         return true
     }

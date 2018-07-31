@@ -28,9 +28,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="eSM-EM-nyS"/>
                                 </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="go" textContentType="location"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" textContentType="location"/>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PUe-6V-wKN">
                                 <rect key="frame" x="0.0" y="153" width="375" height="1"/>
@@ -92,6 +92,7 @@
                         <outlet property="addressTextField" destination="KU7-D7-T3Q" id="Kuh-M9-aeq"/>
                         <outlet property="primaryButton" destination="XUW-TX-8oU" id="vk1-n7-T4P"/>
                         <outlet property="tableView" destination="fkm-6J-r0r" id="yzI-gy-vZ7"/>
+                        <outlet property="textFieldSeparator" destination="PUe-6V-wKN" id="ggQ-gT-xoS"/>
                         <segue destination="QUH-Ks-fjK" kind="show" identifier="showPersonalDetails" id="Gpq-wr-SYc"/>
                     </connections>
                 </viewController>

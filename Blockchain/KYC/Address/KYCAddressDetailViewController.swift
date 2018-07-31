@@ -45,7 +45,6 @@ class KYCAddressDetailViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.reloadData()
-        tableView.tableFooterView = UIView()
     }
 
     fileprivate func registerAllCellTypes() {
@@ -57,6 +56,9 @@ class KYCAddressDetailViewController: UIViewController {
                 reuseIdentifiers.insert(reuse)
             }
         }
+
+        let footerNib = UINib(nibName: String(describing: ConfirmationFooterView.self), bundle: nil)
+        tableView.register(footerNib, forHeaderFooterViewReuseIdentifier: String(describing: ConfirmationFooterView.self))
     }
 }
 
@@ -79,9 +81,9 @@ extension KYCAddressDetailViewController: UITableViewDataSource {
         }
         cell.separatorInset = UIEdgeInsets(
             top: 0.0,
-            left: 8.0,
+            left: 16.0,
             bottom: 0.0,
-            right: 8.0
+            right: 16.0
         )
         return cell
     }
@@ -92,6 +94,20 @@ extension KYCAddressDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellModel = model.cellModels[indexPath.item]
         return cellModel.heightForProposed(width: tableView.bounds.width)
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: ConfirmationFooterView.self)) as? ConfirmationFooterView else { return nil }
+        footer.actionBlock = { [weak self] in
+            // TODO: pass along updated address
+            self?.performSegue(withIdentifier: "showPersonalDetails", sender: nil)
+        }
+        
+        return footer
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return ConfirmationFooterView.footerHeight()
     }
 }
 

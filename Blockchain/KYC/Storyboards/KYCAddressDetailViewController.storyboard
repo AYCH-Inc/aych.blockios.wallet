@@ -8,11 +8,6 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Montserrat-Regular.ttf">
-            <string>Montserrat-Regular</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Address View Controller-->
         <scene sceneID="r6v-IQ-NOt">
@@ -22,32 +17,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5rf-rx-pfr">
-                                <rect key="frame" x="18" y="64" width="357" height="603"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5rf-rx-pfr">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="scrollIndicatorInsets" minX="18" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qu5-0s-ite" customClass="PrimaryButton" customModule="Blockchain" customModuleProvider="target">
-                                <rect key="frame" x="16" y="607" width="343" height="44"/>
-                                <color key="backgroundColor" red="0.062745098040000002" green="0.67843137249999996" blue="0.89411764709999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="cRm-0t-W3f"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                <state key="normal" title="Continue">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="5rf-rx-pfr" firstAttribute="leading" secondItem="oXb-qT-uJU" secondAttribute="leading" constant="18" id="2yO-Iq-B8Y"/>
-                            <constraint firstItem="oXb-qT-uJU" firstAttribute="trailing" secondItem="qu5-0s-ite" secondAttribute="trailing" constant="16" id="5IP-wh-Rha"/>
-                            <constraint firstItem="oXb-qT-uJU" firstAttribute="bottom" secondItem="qu5-0s-ite" secondAttribute="bottom" constant="16" id="5Mu-n5-tGZ"/>
+                            <constraint firstItem="5rf-rx-pfr" firstAttribute="leading" secondItem="oXb-qT-uJU" secondAttribute="leading" id="2yO-Iq-B8Y"/>
                             <constraint firstItem="oXb-qT-uJU" firstAttribute="trailing" secondItem="5rf-rx-pfr" secondAttribute="trailing" id="6Lf-YZ-TP2"/>
                             <constraint firstItem="oXb-qT-uJU" firstAttribute="bottom" secondItem="5rf-rx-pfr" secondAttribute="bottom" id="HIV-mg-QGF"/>
                             <constraint firstItem="5rf-rx-pfr" firstAttribute="top" secondItem="oXb-qT-uJU" secondAttribute="top" id="b2s-Y1-kHd"/>
-                            <constraint firstItem="qu5-0s-ite" firstAttribute="leading" secondItem="oXb-qT-uJU" secondAttribute="leading" constant="16" id="tym-ao-wky"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="oXb-qT-uJU"/>
                     </view>

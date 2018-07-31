@@ -49,9 +49,7 @@ extension URL {
 
         guard var components: URLComponents = URLComponents(url: mutableBaseURL as URL, resolvingAgainstBaseURL: false) else { return nil }
 
-        if queryItems.count > 0 {
-            components.queryItems = queryItems
-        }
+        components.queryItems = queryItems
 
         return components.url
     }

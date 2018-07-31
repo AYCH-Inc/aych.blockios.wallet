@@ -62,9 +62,6 @@ struct LocalizationConstants {
         static let didCreateNewWalletMessage = NSLocalizedString("Before accessing your wallet, please choose a pin number to use to unlock your wallet. It's important you remember this pin as it cannot be reset or changed without first unlocking the app.", comment: "")
         static let walletPairedSuccessfullyTitle = NSLocalizedString("Wallet Paired Successfully.", comment: "")
         static let walletPairedSuccessfullyMessage = NSLocalizedString("Before accessing your wallet, please choose a pin number to use to unlock your wallet. It's important you remember this pin as it cannot be reset or changed without first unlocking the app.", comment: "")
-        static let newPinMustBeDifferent = NSLocalizedString("New PIN must be different", comment: "")
-        static let chooseAnotherPin = NSLocalizedString("Please choose another PIN", comment: "")
-        static let pinCodeCommonMessage = NSLocalizedString("The PIN you have selected is extremely common and may be easily guessed by someone with access to your phone within 3 tries. Would you like to use this PIN anyway?", comment: "")
         static let forgotPassword = NSLocalizedString("Forgot Password?", comment: "")
         static let passwordRequired = NSLocalizedString("Password Required", comment: "")
         static let downloadingWallet = NSLocalizedString("Downloading Wallet", comment: "")
@@ -89,6 +86,22 @@ struct LocalizationConstants {
     }
 
     struct Pin {
+        static let genericError = NSLocalizedString(
+            "An error occured. Please try again.",
+            comment: "Fallback error for all other errors that may occur during the pin validation/change flow."
+        )
+        static let pinCodeCommonMessage = NSLocalizedString(
+            "The PIN you have selected is extremely common and may be easily guessed by someone with access to your phone within 3 tries. Would you like to use this PIN anyway?",
+            comment: "Error message displayed to the user when they enter a common pin and is asked if they would like to continue using that common pin or try another one."
+        )
+        static let newPinMustBeDifferent = NSLocalizedString(
+            "New PIN must be different",
+            comment: "Error message displayed to the user that they must enter a pin code that is different from their previous pin."
+        )
+        static let chooseAnotherPin = NSLocalizedString(
+            "Please choose another PIN",
+            comment: "Error message displayed to the user when they must enter another pin code."
+        )
         static let incorrect = NSLocalizedString(
             "Incorrect PIN. Please retry.",
             comment: "Error message displayed when the entered pin is incorrect and the user should try to enter the pin code again."
@@ -100,10 +113,6 @@ struct LocalizationConstants {
         static let responseKeyOrValueLengthZero = NSLocalizedString(
             "PIN Response Object key or value length 0",
             comment: "Error message displayed to the user when the pin-store endpoint is returning an invalid response."
-        )
-        static let encryptedStringIsNil = NSLocalizedString(
-            "PIN Encrypted String is nil",
-            comment: "Error message displayed when the encrypted pin is invalid."
         )
         static let validationCannotBeCompleted = NSLocalizedString(
             "PIN Validation cannot be completed. Please enter your wallet password manually.",
@@ -341,12 +350,6 @@ struct LocalizationConstants {
 
     @objc class func warning() -> String { return LocalizationConstants.Errors.warning }
 
-    @objc class func pinCodeCommonMessage() -> String { return LocalizationConstants.Authentication.pinCodeCommonMessage }
-
-    @objc class func newPinMustBeDifferent() -> String { return LocalizationConstants.Authentication.newPinMustBeDifferent }
-
-    @objc class func chooseAnotherPin() -> String { return LocalizationConstants.Authentication.chooseAnotherPin }
-
     @objc class func requestFailedCheckConnection() -> String { return LocalizationConstants.Errors.requestFailedCheckConnection }
 
     @objc class func information() -> String { return LocalizationConstants.information }
@@ -432,8 +435,6 @@ struct LocalizationConstants {
     @objc class func biometricInstructions() -> String { return LocalizationConstants.Onboarding.biometricInstructions }
 
     @objc class func enableBiometrics() -> String { return LocalizationConstants.Biometrics.enableX }
-
-    @objc class func pinsDoNotMatch() -> String { return LocalizationConstants.Pin.pinsDoNotMatch }
 
     @objc class func nonSpendable() -> String { return LocalizationConstants.AddressAndKeyImport.nonSpendable }
 

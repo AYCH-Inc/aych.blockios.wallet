@@ -34,7 +34,7 @@ extension PostalAddress {
 
         let textEntry = TextEntry(
             placeholder: "Address Line 2 (optional)",
-            shouldBecomeFirstResponder: true,
+            shouldBecomeFirstResponder: false,
             submission: nil
         )
         cellModels.append(.textEntry(textEntry))

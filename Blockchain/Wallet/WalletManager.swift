@@ -489,7 +489,7 @@ extension WalletManager: WalletDelegate {
     }
 
     func didCreateEthAccountForExchange() {
-        DispatchQueue.main.async { [unowned self] in
+        DispatchQueue.main.async {
             self.exchangeIntermediateDelegate?.didCreateEthAccountForExchange()
         }
     }

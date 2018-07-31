@@ -23,7 +23,7 @@ class KYCAddressController: UIViewController, KYCOnboardingNavigation {
 
     // MARK: - KYCOnboardingNavigation
 
-    var searchDelegate: SearchControllerDelegate?
+    weak var searchDelegate: SearchControllerDelegate?
     var segueIdentifier: String? = "showPersonalDetails"
 
     // MARK: Private Properties

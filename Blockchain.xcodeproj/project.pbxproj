@@ -122,6 +122,9 @@
 		3AC975602110A599006A9263 /* ConfirmationFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC9755E2110A599006A9263 /* ConfirmationFooterView.swift */; };
 		3AC975622110A678006A9263 /* ConfirmationFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AC975612110A678006A9263 /* ConfirmationFooterView.xib */; };
 		3AC975632110A678006A9263 /* ConfirmationFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AC975612110A678006A9263 /* ConfirmationFooterView.xib */; };
+		3AE92BDB2110DB3C008D7BDC /* KeyboardPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */; };
+		3AE92BDD2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */; };
+		3AE92BDE2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */; };
 		3AEF7771210A5BAE00938D42 /* SearchControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF7770210A5BAE00938D42 /* SearchControllerDelegate.swift */; };
 		3AEF7772210A5BAE00938D42 /* SearchControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF7770210A5BAE00938D42 /* SearchControllerDelegate.swift */; };
 		3AEF7774210A5DA400938D42 /* LocationSuggestionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF7773210A5DA400938D42 /* LocationSuggestionCoordinator.swift */; };
@@ -1247,6 +1250,8 @@
 		3AC97559210FBD10006A9263 /* NSAttributedString+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Conveniences.swift"; sourceTree = "<group>"; };
 		3AC9755E2110A599006A9263 /* ConfirmationFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationFooterView.swift; sourceTree = "<group>"; };
 		3AC975612110A678006A9263 /* ConfirmationFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmationFooterView.xib; sourceTree = "<group>"; };
+		3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPayload.swift; sourceTree = "<group>"; };
+		3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Conveniences.swift"; sourceTree = "<group>"; };
 		3AEF7770210A5BAE00938D42 /* SearchControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchControllerDelegate.swift; sourceTree = "<group>"; };
 		3AEF7773210A5DA400938D42 /* LocationSuggestionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSuggestionCoordinator.swift; sourceTree = "<group>"; };
 		3AEF9E8B21091B71006B1CF9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -2602,6 +2607,14 @@
 			path = Footers;
 			sourceTree = "<group>";
 		};
+		3AE92BBF2110DAF1008D7BDC /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */,
+			);
+			path = Keyboard;
+			sourceTree = "<group>";
+		};
 		3AEF9E7021091B50006B1CF9 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -2689,6 +2702,7 @@
 				AA63F84A20A12AE9002B719B /* URLs.swift */,
 				513913EF2081206C002578FD /* UserDefaults.swift */,
 				3AC97559210FBD10006A9263 /* NSAttributedString+Conveniences.swift */,
+				3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3475,6 +3489,7 @@
 		AABDED66208EB4EA002D8BAC /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
+				3AE92BBF2110DAF1008D7BDC /* Keyboard */,
 				AABDED68208EB4FB002D8BAC /* PushNotificationManager.swift */,
 			);
 			path = Notifications;
@@ -4465,6 +4480,7 @@
 				AA1E523E2097E6AC0099BD10 /* GetPinResponse.swift in Sources */,
 				AACE31C92092A99B00B7B806 /* AlertViewPresenter.swift in Sources */,
 				3AC97551210FAE7F006A9263 /* BaseTableViewCell.swift in Sources */,
+				3AE92BDE2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */,
 				AACE31E02092A99B00B7B806 /* NetworkManager.swift in Sources */,
 				C7BEE13120C720CA0096003B /* BitcoinCashURLPayload.swift in Sources */,
 				51DC2F6120B7312600E03AF2 /* EthereumAddress.swift in Sources */,
@@ -4627,6 +4643,7 @@
 				2322DCB71D771831000E5AC1 /* SRProxyConnect.m in Sources */,
 				C73406221F54791C00143100 /* EtherAmountInputViewController.m in Sources */,
 				51A7349320891EB3009727D5 /* NetworkManager.swift in Sources */,
+				3AE92BDB2110DB3C008D7BDC /* KeyboardPayload.swift in Sources */,
 				C7559CB21F56FE09005B2375 /* TransactionsEtherViewController.m in Sources */,
 				AA1E522B2097CA360099BD10 /* AuthenticationCoordinator.swift in Sources */,
 				3AC9755F2110A599006A9263 /* ConfirmationFooterView.swift in Sources */,
@@ -4882,6 +4899,7 @@
 				C790E1241E5358540063D141 /* BCVerifyMobileNumberViewController.m in Sources */,
 				C7448A962034BF2F0041947E /* AssetSelectionTableViewCell.m in Sources */,
 				AAE94F3C20C70F4B005A3595 /* BIP21URI.swift in Sources */,
+				3AE92BDD2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */,
 				C7B6855B1F17AE2A00A18A5C /* BCEmptyPageView.m in Sources */,
 				AA31A7B42098DA4900FE6268 /* AlertViewPresenter+Wallet.swift in Sources */,
 				AAA3333B2088115C0019AD55 /* Coordinator.swift in Sources */,

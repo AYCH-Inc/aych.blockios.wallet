@@ -12,6 +12,7 @@ class KYCAddressController: UIViewController, KYCOnboardingNavigation {
 
     // MARK: - Private IBOutlets
 
+    @IBOutlet fileprivate var textFieldSeparator: UIView!
     @IBOutlet fileprivate var addressTextField: UITextField!
     @IBOutlet fileprivate var tableView: UITableView!
     @IBOutlet fileprivate var activityIndicator: UIActivityIndicatorView!
@@ -26,8 +27,7 @@ class KYCAddressController: UIViewController, KYCOnboardingNavigation {
     var segueIdentifier: String? = "showPersonalDetails"
 
     // MARK: Private Properties
-
-    fileprivate let pageModel: LocationSuggestionPageModel = .empty
+    
     fileprivate var coordinator: LocationSuggestionCoordinator!
     fileprivate var dataProvider: LocationDataProvider!
 
@@ -35,10 +35,13 @@ class KYCAddressController: UIViewController, KYCOnboardingNavigation {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        textFieldSeparator.backgroundColor = .gray1
         coordinator = LocationSuggestionCoordinator(self, interface: self)
         dataProvider = LocationDataProvider(with: tableView)
         addressTextField.delegate = self
         tableView.delegate = self
+
+        addressTextField.placeholder = "Enter Address"
 
         searchDelegate?.onStart()
     }

@@ -24,26 +24,3 @@ extension LocationSearchResult {
         suggestions: []
     )
 }
-
-struct LocationSuggestionPageModel {
-
-    var searchResult: LocationSearchResult
-    let title: String
-    let placeholder: String
-    let CTATitle: String
-
-    init(title: String, placeholder: String, CTATitle: String, searchResult: LocationSearchResult = .empty) {
-        self.title = title
-        self.placeholder = placeholder
-        self.CTATitle = CTATitle
-        self.searchResult = searchResult
-    }
-}
-
-extension LocationSuggestionPageModel {
-    static let empty = LocationSuggestionPageModel(
-        title: "What's Your Address?",
-        placeholder: "Enter Address",
-        CTATitle: "Search My Address"
-    )
-}

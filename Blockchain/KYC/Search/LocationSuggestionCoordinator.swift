@@ -71,6 +71,7 @@ extension LocationSuggestionCoordinator: SearchControllerDelegate {
             interface?.updateActivityIndicator(.visible)
             service.fetchAddress(from: input) { [weak self] (address) in
                 guard let this = self else { return }
+                this.interface?.updateActivityIndicator(.hidden)
                 this.delegate?.coordinator(this, generated: address)
             }
         }

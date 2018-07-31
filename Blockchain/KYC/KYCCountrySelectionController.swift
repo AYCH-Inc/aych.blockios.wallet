@@ -9,23 +9,23 @@
 import UIKit
 
 /// Country selection screen in KYC flow
-class KYCCountrySelectionController: UIViewController, KYCOnboardingNavigation {
+final class KYCCountrySelectionController: UIViewController, KYCOnboardingNavigation {
 
     // MARK: - Properties
 
-    var segueIdentifier: String? = "promptForContactDetails"
-    var countries: [String]?
+    var segueIdentifier: String? = "promptForPersonalDetails"
 
     // MARK: - IBOutlets
 
-    @IBOutlet var countryPicker: UIPickerView!
+    @IBOutlet fileprivate var countryPicker: UIPickerView!
     @IBOutlet var primaryButton: PrimaryButton!
 
     // MARK: - View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Select Your Country"
+        countryPicker.dataSource = KYCCountrySelectionDataSource.dataSource
+        navigationItem.title = LocalizationConstants.KYC.countrySelectionTitle
     }
 
     // MARK: - Actions
@@ -41,17 +41,6 @@ class KYCCountrySelectionController: UIViewController, KYCOnboardingNavigation {
     }
 }
 
-// MARK: - UIPickerViewDataSource
-extension KYCCountrySelectionController: UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 0
-    }
-}
-
 // MARK: - UIPickerViewDelegate
 extension KYCCountrySelectionController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -59,6 +48,10 @@ extension KYCCountrySelectionController: UIPickerViewDelegate {
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return nil
+        guard let dataSource = countryPicker.dataSource as? KYCCountrySelectionDataSource,
+            let country = dataSource.countries?[row].name else {
+                return nil
+        }
+        return country
     }
 }

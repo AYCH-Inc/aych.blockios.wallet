@@ -81,24 +81,6 @@ import Foundation
         window.makeKeyAndVisible()
         tabControllerManager.dashBoardClicked(nil)
 
-        /* 🚧 KYC Flow - Under Construction 🚧 */
-        // TODO: move this to correct KYC entry point
-        let welcomeViewController = UIStoryboard.instantiate(
-            child: KYCWelcomeController.self,
-            from: KYCOnboardingController.self,
-            in: UIStoryboard(name: "KYCOnboardingScreen", bundle: nil),
-            identifier: "OnboardingScreen"
-        )
-
-        let navigationController = UIStoryboard(name: "KYCOnboardingNavigation", bundle: nil)
-            .instantiateViewController(withIdentifier: "OnboardingNavigation") as! KYCOnboardingNavigationController
-
-        navigationController.pushViewController(welcomeViewController, animated: true)
-        navigationController.modalTransitionStyle = .coverVertical
-
-        UIApplication.shared.keyWindow?.rootViewController?.present(navigationController, animated: true)
-        return
-
         BuySellCoordinator.shared.start()
 
         // Display welcome screen if no wallet is authenticated
@@ -222,7 +204,7 @@ import Foundation
 extension AppCoordinator: SideMenuViewControllerDelegate {
     func onSideMenuItemTapped(_ identifier: String!) {
         guard let sideMenuItem = SideMenuItem(rawValue: identifier) else {
-            print("Unrecognized SideMenuItem with identifier: \(String(describing: identifier))")
+            Logger.shared.warning("Unrecognized SideMenuItem with identifier: \(String(describing: identifier))")
             return
         }
 

@@ -8,17 +8,24 @@
 
 import UIKit
 
-/// Set of requirements that every view controller in the KYC flow must conform to.
+/// IMPORTANT:
+/// - Every view controller in the KYC flow must conform to this protocol.
+/// - segueIdentifier refers to the identifier of the proceeding screen.
 protocol KYCOnboardingNavigation: class {
-    /// Segue identifier of the proceeding screen.
-    var segueIdentifier: String? { get }
-    /// Primary button used to advance the on-boarding flow.
-    var primaryButton: PrimaryButton! { get }
-    /// Action dispatched by the primary button when tapped.
     func primaryButtonTapped(_ sender: Any)
+
+    var primaryButton: PrimaryButton! { get }
+
+    var segueIdentifier: String? { get }
 }
 
-/// Entry point to the KYC flow
+/// NOTE: - This class prefetches some of the data to mitigate loading states in subsequent view controllers
 final class KYCOnboardingNavigationController: UINavigationController {
-    // TODO: implement class body
+
+    // MARK: - Initialization
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        KYCCountrySelectionDataSource.dataSource.fetchListOfCountries()
+    }
 }

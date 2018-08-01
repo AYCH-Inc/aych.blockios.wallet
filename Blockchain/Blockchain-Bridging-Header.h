@@ -43,4 +43,6 @@
 #import "WalletSetupViewController.h"
 #import "WebLoginViewController.h"
 #import "BCInsetLabel.h"
+#import "FromToView.h"
+#import "ContinueButtonInputAccessoryView.h"
 #import "ExchangeOverviewViewController.h"

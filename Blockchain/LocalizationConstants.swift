@@ -234,6 +234,14 @@ struct LocalizationConstants {
         static let loadingTransactions = NSLocalizedString("Loading transactions", comment: "")
         static let gettingQuote = NSLocalizedString("Getting quote", comment: "")
         static let confirming = NSLocalizedString("Confirming", comment: "")
+        static let useMinimum = NSLocalizedString(
+            "Use minimum",
+            comment: "Text displayed on button for user to tap to create a trade with the minimum amount of crypto allowed"
+        )
+        static let useMaximum = NSLocalizedString(
+            "Use maximum",
+            comment: "Text displayed on button for user to tap to create a trade with the maximum amount of crypto allowed"
+        )
     }
 
     struct AddressAndKeyImport {

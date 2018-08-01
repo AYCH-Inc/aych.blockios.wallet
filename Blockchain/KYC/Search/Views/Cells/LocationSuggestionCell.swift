@@ -39,18 +39,18 @@ class LocationSuggestionCell: UITableViewCell {
     }
 
     static func titleFont() -> UIFont {
-        return UIFont(name: Constants.FontNames.montserratRegular, size: 17) ?? UIFont.systemFont(ofSize: 17)
+        return UIFont(name: Constants.FontNames.montserratRegular, size: Constants.FontSizes.SmallMedium) ?? UIFont.systemFont(ofSize: 17)
     }
 
     static func highlightedTitleFont() -> UIFont {
-        return UIFont(name: Constants.FontNames.montserratSemiBold, size: 17) ?? UIFont.systemFont(ofSize: 17)
+        return UIFont(name: Constants.FontNames.montserratSemiBold, size: Constants.FontSizes.SmallMedium) ?? UIFont.systemFont(ofSize: 17)
     }
 
     static func subtitleFont() -> UIFont {
-        return UIFont(name: Constants.FontNames.montserratRegular, size: 13) ?? UIFont.systemFont(ofSize: 13)
+        return UIFont(name: Constants.FontNames.montserratRegular, size: Constants.FontSizes.ExtraExtraExtraSmall) ?? UIFont.systemFont(ofSize: 13)
     }
 
     static func highlightedSubtitleFont() -> UIFont {
-        return UIFont(name: Constants.FontNames.montserratSemiBold, size: 13) ?? UIFont.systemFont(ofSize: 13)
+        return UIFont(name: Constants.FontNames.montserratSemiBold, size: Constants.FontSizes.ExtraExtraExtraSmall) ?? UIFont.systemFont(ofSize: 13)
     }
 }

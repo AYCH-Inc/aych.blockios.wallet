@@ -113,6 +113,6 @@ extension KYCAddressDetailViewController: UITableViewDelegate {
 
 extension KYCAddressDetailViewController: TextEntryCellDelegate {
     func textEntryCell(_ cell: TextEntryCell, enteredValue value: String) {
-        print(value)
+        // TODO:
     }
 }

@@ -17,14 +17,4 @@ extension NotificationCenter {
             using: action
         )
     }
-
-    static func post(_ name: Notification.Name, object: Any? = nil, userInfo: [AnyHashable : Any]? = nil) {
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(
-                name: name,
-                object: object,
-                userInfo: userInfo
-            )
-        }
-    }
 }

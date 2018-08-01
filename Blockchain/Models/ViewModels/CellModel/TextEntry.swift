@@ -12,10 +12,4 @@ struct TextEntry {
     let placeholder: String
     let shouldBecomeFirstResponder: Bool
     var submission: String? = nil
-
-    init(placeholder: String = "", shouldBecomeFirstResponder: Bool = false, submission: String? = nil) {
-        self.placeholder = placeholder
-        self.shouldBecomeFirstResponder = shouldBecomeFirstResponder
-        self.submission = submission
-    }
 }

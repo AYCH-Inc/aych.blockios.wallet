@@ -66,7 +66,7 @@ extension LocationSuggestionCoordinator: SearchControllerDelegate {
 
     func onSelection(_ selection: SearchSelection) {
         if let input = selection as? LocationSuggestion {
-            interface?.searchFieldText(input.title + " " + input.subtitle)
+            interface?.searchFieldText("\(input.title) \(input.subtitle)")
             interface?.suggestionsList(.hidden)
             interface?.updateActivityIndicator(.visible)
             service.fetchAddress(from: input) { [weak self] (address) in
@@ -85,9 +85,11 @@ extension LocationSuggestionCoordinator: SearchControllerDelegate {
         service.search(for: query) { [weak self] (suggestions, error) in
             guard let this = self else { return }
             let state: LocationSearchResult.SearchUIState = error != nil ? .error(error) : .success
+            let empty: [LocationSuggestion] = []
+
             let result = LocationSearchResult(
                 state: state,
-                suggestions: suggestions ?? []
+                suggestions: suggestions ?? empty
             )
 
             let listVisibility: Visibility = suggestions != nil ? .visible: .hidden

@@ -29,9 +29,10 @@ extension PostalAddress {
             return cellModels
         }
 
-        let streetAddress = number + " " + street
+        let streetAddress = "\(number) \(street)"
         cellModels.append(.plain(streetAddress))
 
+        // TODO: Localize
         let textEntry = TextEntry(
             placeholder: "Address Line 2 (optional)",
             shouldBecomeFirstResponder: false,

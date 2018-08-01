@@ -35,6 +35,6 @@ class PlainCell: BaseTableViewCell {
     }
 
     static func titleFont() -> UIFont {
-        return UIFont(name: "Montserrat-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        return UIFont(name: Constants.FontNames.montserratRegular, size: 17) ?? UIFont.systemFont(ofSize: 17)
     }
 }

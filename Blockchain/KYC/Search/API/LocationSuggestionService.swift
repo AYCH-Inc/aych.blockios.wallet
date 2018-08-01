@@ -44,9 +44,9 @@ class LocationSuggestionService: NSObject, LocationSuggestionAPI {
         let request = MKLocalSearchRequest(completion: selection)
         let search = MKLocalSearch(request: request)
         search.start { (response, error) in
-            guard error == nil else { return }
-            guard let result = response else { return }
+            guard error == nil, let result = response else { return }
             guard let mapItem = result.mapItems.first else { return }
+            
             let placemark = mapItem.placemark
 
             let postalAddress = PostalAddress(

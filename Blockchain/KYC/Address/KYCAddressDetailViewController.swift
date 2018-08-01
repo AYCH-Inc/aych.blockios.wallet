@@ -8,7 +8,7 @@
 
 import Foundation
 
-class KYCAddressDetailViewController: UIViewController {
+final class KYCAddressDetailViewController: UIViewController {
 
     struct PageModel {
         let cellModels: [CellModel]

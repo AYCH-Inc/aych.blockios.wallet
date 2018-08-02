@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KYCAddressController: UIViewController, KYCOnboardingNavigation {
+class KYCAddressController: UIViewController {
 
     // MARK: - Private IBOutlets
 
@@ -24,10 +24,9 @@ class KYCAddressController: UIViewController, KYCOnboardingNavigation {
     // MARK: - KYCOnboardingNavigation
 
     weak var searchDelegate: SearchControllerDelegate?
-    var segueIdentifier: String? = "showPersonalDetails"
 
     // MARK: Private Properties
-    
+
     fileprivate var coordinator: LocationSuggestionCoordinator!
     fileprivate var dataProvider: LocationDataProvider!
 
@@ -49,8 +48,7 @@ class KYCAddressController: UIViewController, KYCOnboardingNavigation {
     // MARK: - Actions
 
     @IBAction func primaryButtonTapped(_ sender: Any) {
-        guard let identifier = segueIdentifier else { return }
-        performSegue(withIdentifier: identifier, sender: self)
+        performSegue(withIdentifier: "showPersonalDetails", sender: self)
     }
 
     // MARK: - Navigation

@@ -147,7 +147,7 @@
     self.fee = [result objectForKey:DICTIONARY_KEY_FEE];
     
     self.maximumHardLimit = self.fee ? [NSNumber numberWithLongLong:[self.maximumHardLimit longLongValue] - [self.fee longLongValue]] : [NSNumber numberWithLongLong:[NSNumberFormatter parseBtcValueFromString:self.maximumHardLimit]];
-
+    
     [self updateAvailableBalance];
 }
 
@@ -252,7 +252,7 @@
         NSString *btcResult = [self convertBtcAmountToFiat:self.exchangeView.btcField.text];
         NSString *ethResult = [self convertEthAmountToFiat:self.exchangeView.ethField.text];
         NSString *bchResult = [self convertBchAmountToFiat:self.exchangeView.bchField.text];
-
+        
         NSString *fromSymbol = self.fromSymbol;
         if ([fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
             self.exchangeView.bottomLeftField.text = ethResult;
@@ -389,7 +389,7 @@
 - (void)saveAmount:(NSString *)amountString fromField:(UITextField *)textField
 {
     ExchangeCreateView *exchangeView = self.exchangeView;
-
+    
     if (textField == exchangeView.ethField) {
         self.amount = [NSDecimalNumber decimalNumberWithString:amountString];
     } else if (textField == exchangeView.btcField || textField == exchangeView.bchField) {
@@ -505,7 +505,7 @@
 - (void)doCurrencyConversion
 {
     ExchangeCreateView *exchangeView = self.exchangeView;
-
+    
     if ([exchangeView.btcField isFirstResponder]) {
         
         NSString *result = [self convertBtcAmountToFiat];
@@ -519,7 +519,7 @@
     } else if ([exchangeView.ethField isFirstResponder]) {
         
         NSString *result = [self convertEthAmountToFiat];
-
+        
         if ([self.fromSymbol isEqualToString:CURRENCY_SYMBOL_ETH]) {
             exchangeView.bottomLeftField.text = result;
         } else {
@@ -541,7 +541,7 @@
         NSString *ethString = [self.amount stringValue];
         NSString *btcString = [NSNumberFormatter satoshiToBTC:[self.amount longLongValue]];
         NSString *bchString = [NSNumberFormatter satoshiToBTC:[self.amount longLongValue]];
-
+        
         if ([exchangeView.bottomLeftField isFirstResponder]) {
             if (exchangeView.topLeftField == exchangeView.ethField) {
                 exchangeView.ethField.text = ethString;
@@ -599,14 +599,14 @@
     self.fromAddress = [WalletManager.sharedInstance.wallet getEtherAddress];
     
     [self clearAvailableBalance];
-
+    
     [self didChangeFrom];
 }
 
 - (void)selectFromBitcoin
 {
     self.oldFromSymbol = self.fromSymbol;
-
+    
     self.fromSymbol = CURRENCY_SYMBOL_BTC;
     self.exchangeView.btcField = self.exchangeView.topLeftField;
     self.exchangeView.fromToView.fromLabel.text = [self bitcoinLabelText];
@@ -614,14 +614,14 @@
     self.fromAddress = [WalletManager.sharedInstance.wallet getReceiveAddressForAccount:self.btcAccount assetType:LegacyAssetTypeBitcoin];
     
     [self clearAvailableBalance];
-
+    
     [self didChangeFrom];
 }
 
 - (void)selectFromBitcoinCash
 {
     self.oldFromSymbol = self.fromSymbol;
-
+    
     self.fromSymbol = CURRENCY_SYMBOL_BCH;
     self.exchangeView.bchField = self.exchangeView.topLeftField;
     self.exchangeView.fromToView.fromLabel.text = [self bitcoinCashLabelText];
@@ -636,7 +636,7 @@
 - (void)selectToBitcoinCash
 {
     self.oldToSymbol = self.toSymbol;
-
+    
     self.toSymbol = CURRENCY_SYMBOL_BCH;
     self.exchangeView.bchField = self.exchangeView.topRightField;
     self.exchangeView.fromToView.toLabel.text = [self bitcoinCashLabelText];
@@ -649,7 +649,7 @@
 - (void)selectToEther
 {
     self.oldToSymbol = self.toSymbol;
-
+    
     self.toSymbol = CURRENCY_SYMBOL_ETH;
     self.exchangeView.ethField = self.exchangeView.topRightField;
     self.exchangeView.fromToView.toLabel.text = [self etherLabelText];
@@ -662,7 +662,7 @@
 - (void)selectToBitcoin
 {
     self.oldToSymbol = self.toSymbol;
-
+    
     self.toSymbol = CURRENCY_SYMBOL_BTC;
     self.exchangeView.btcField = self.exchangeView.topRightField;
     self.exchangeView.fromToView.toLabel.text = [self bitcoinLabelText];
@@ -715,7 +715,7 @@
     self.exchangeView.bottomLeftField.text = fiatResult;
     
     [self updateAvailableBalance];
-
+    
     [self.exchangeView hideKeyboard];
     
     [self.exchangeView disablePaymentButtons];
@@ -743,12 +743,12 @@
     [self cancelCurrentDataTask];
     
     ExchangeCreateView *exchangeView = self.exchangeView;
-
+    
     BOOL usingFromField = exchangeView.lastChangedField != exchangeView.topRightField && exchangeView.lastChangedField != exchangeView.bottomRightField;
-
+    
     NSString *amount;
     if ([self hasAmountGreaterThanZero:self.amount]) {
-
+        
         [exchangeView disableAssetToggleButton];
         [exchangeView startSpinner];
         
@@ -758,25 +758,25 @@
                                                                          usingFromField:usingFromField
                                                                                  amount:amount
                                                                              completion:^(NSDictionary *result, NSURLResponse *response, NSError *error) {
-            DLog(@"approximate quote result: %@", result);
-            
-            [exchangeView enableAssetToggleButton];
-            [exchangeView stopSpinner];
-            
-            NSDictionary *resultSuccess = [result objectForKey:DICTIONARY_KEY_SUCCESS];
-            if (resultSuccess) {
-                [self didGetApproximateQuote:resultSuccess];
-            } else {
-                DLog(@"Error getting approximate quote:%@", result);
-                if ([[result objectForKey:DICTIONARY_KEY_ERROR] containsString:ERROR_MAXIMUM]) {
-                    [exchangeView showErrorWithText:BC_STRING_ABOVE_MAXIMUM_LIMIT];
-                } else if ([[result objectForKey:DICTIONARY_KEY_ERROR] containsString:ERROR_MINIMUM]) {
-                    [exchangeView showErrorWithText:BC_STRING_BELOW_MINIMUM_LIMIT];
-                } else {
-                    [exchangeView showErrorWithText:BC_STRING_FAILED_TO_LOAD_EXCHANGE_DATA];
-                }
-            }
-        }];
+                                                                                 DLog(@"approximate quote result: %@", result);
+                                                                                 
+                                                                                 [exchangeView enableAssetToggleButton];
+                                                                                 [exchangeView stopSpinner];
+                                                                                 
+                                                                                 NSDictionary *resultSuccess = [result objectForKey:DICTIONARY_KEY_SUCCESS];
+                                                                                 if (resultSuccess) {
+                                                                                     [self didGetApproximateQuote:resultSuccess];
+                                                                                 } else {
+                                                                                     DLog(@"Error getting approximate quote:%@", result);
+                                                                                     if ([[result objectForKey:DICTIONARY_KEY_ERROR] containsString:ERROR_MAXIMUM]) {
+                                                                                         [exchangeView showErrorWithText:BC_STRING_ABOVE_MAXIMUM_LIMIT];
+                                                                                     } else if ([[result objectForKey:DICTIONARY_KEY_ERROR] containsString:ERROR_MINIMUM]) {
+                                                                                         [exchangeView showErrorWithText:BC_STRING_BELOW_MINIMUM_LIMIT];
+                                                                                     } else {
+                                                                                         [exchangeView showErrorWithText:BC_STRING_FAILED_TO_LOAD_EXCHANGE_DATA];
+                                                                                     }
+                                                                                 }
+                                                                             }];
     }
 }
 
@@ -940,21 +940,21 @@
     
     return NO;
 }
-        
+
 #pragma mark - Address Selection Delegate
 
 - (LegacyAssetType)getAssetType
 {
-    // Exchange controller uses all assets 
+    // Exchange controller uses all assets
     return -1;
 }
 
 - (void)didSelectFromAccount:(int)account assetType:(LegacyAssetType)asset
 {
     [self.navigationController popViewControllerAnimated:YES];
-
+    
     [self clearFieldOfSymbol:self.fromSymbol];
-
+    
     switch (asset) {
         case LegacyAssetTypeBitcoin:
             self.btcAccount = account;
@@ -969,16 +969,16 @@
             [self selectFromEther];
             break;
     }
-
+    
     [self getRate];
 }
 
 - (void)didSelectToAccount:(int)account assetType:(LegacyAssetType)asset
 {
     [self.navigationController popViewControllerAnimated:YES];
-
+    
     [self clearFieldOfSymbol:self.toSymbol];
-
+    
     switch (asset) {
         case LegacyAssetTypeBitcoin:
             self.btcAccount = account;
@@ -993,7 +993,7 @@
             [self selectToEther];
             break;
     }
-
+    
     [self getRate];
 }
 
@@ -1018,7 +1018,7 @@
 - (void)assetToggleButtonClicked
 {
     [self clearFieldOfSymbol:self.fromSymbol];
-
+    
     NSString *toSymbol = self.toSymbol;
     if ([toSymbol isEqualToString:CURRENCY_SYMBOL_BTC]) {
         [self selectFromBitcoin];
@@ -1043,11 +1043,11 @@
 {
     BCAddressSelectionView *selectorView = [[BCAddressSelectionView alloc] initWithWallet:WalletManager.sharedInstance.wallet selectMode:selectMode delegate:self];
     selectorView.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:NO assetSelector:NO];
-
+    
     UIViewController *viewController = [UIViewController new];
     viewController.automaticallyAdjustsScrollViewInsets = NO;
     [viewController.view addSubview:selectorView];
-
+    
     [self.navigationController pushViewController:viewController animated:YES];
     BCNavigationController *navigationController = (BCNavigationController *)self.navigationController;
     navigationController.headerTitle = selectMode == SelectModeExchangeAccountTo ? BC_STRING_TO : BC_STRING_FROM;
@@ -1061,14 +1061,14 @@
 - (void)useMaxButtonClicked
 {
     id maximum = [self.maximum compare:self.maximumHardLimit] == NSOrderedAscending ? self.maximum : self.maximumHardLimit;
-
+    
     id maxAmount;
     if ([self hasEnoughFunds:self.fromSymbol] && [self.availableBalance compare:@0] != NSOrderedSame && [self.availableBalance compare:maximum] == NSOrderedAscending) {
         maxAmount = self.availableBalance;
     } else {
         maxAmount = maximum;
     }
-
+    
     [self autoFillFromAmount:maxAmount];
 }
 

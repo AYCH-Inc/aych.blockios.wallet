@@ -104,6 +104,7 @@ class NetworkManager: NSObject, URLSessionDelegate {
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping AuthChallengeHandler) {
         let host = challenge.protectionSpace.host
         Logger.shared.info("Received challenge from \(host)")
+
         if BlockchainAPI.Hosts.rawValues.contains(host) ||
             BlockchainAPI.PartnerHosts.rawValues.contains(host) {
             completionHandler(.performDefaultHandling, nil)

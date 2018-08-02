@@ -19,7 +19,7 @@
         self.backgroundColor = [UIColor whiteColor];
         
         CGFloat rowHeight = [FromToView rowHeight];
-
+        
         UILabel *fromLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 40, 21)];
         fromLabel.adjustsFontSizeToFitWidth = YES;
         fromLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL];

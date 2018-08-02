@@ -44,10 +44,10 @@ extension AuthenticationCoordinator: PEPinEntryControllerDelegate {
             encryptedPinPassword,
             password: decryptionKey,
             pbkdf2_iterations: Int32(Constants.Security.pinPBKDF2Iterations)
-        ), decryptedPassword.count > 0 else {
-            showPinError(withMessage: LocalizationConstants.Pin.decryptedPasswordLengthZero)
-            askIfUserWantsToResetPIN()
-            return
+            ), decryptedPassword.count > 0 else {
+                showPinError(withMessage: LocalizationConstants.Pin.decryptedPasswordLengthZero)
+                askIfUserWantsToResetPIN()
+                return
         }
 
         let appSettings = BlockchainSettings.App.shared

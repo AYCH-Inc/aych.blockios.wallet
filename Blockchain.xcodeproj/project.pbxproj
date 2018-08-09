@@ -210,6 +210,7 @@
 		51E5C73220741A130000A7FD /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E5C72F20741A130000A7FD /* AuthenticationManager.swift */; };
 		51E5C73320741A130000A7FD /* LocalizationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E5C73020741A130000A7FD /* LocalizationConstants.swift */; };
 		600E18BB2118D46B003C1846 /* KeyboardPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */; };
+		601F5EEB211B32AA002697AB /* OnfidoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601F5EE0211B32AA002697AB /* OnfidoController.swift */; };
 		602B9CD72118E15300BD3D60 /* KYCAccountStatus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 602B9CA82118E15200BD3D60 /* KYCAccountStatus.storyboard */; };
 		602B9CD82118E15300BD3D60 /* KYCOnboardingNavigation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 602B9CA92118E15200BD3D60 /* KYCOnboardingNavigation.storyboard */; };
 		602B9CD92118E15300BD3D60 /* KYCVerifyIdentity.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 602B9CAA2118E15200BD3D60 /* KYCVerifyIdentity.storyboard */; };
@@ -225,7 +226,6 @@
 		602B9CE32118E15300BD3D60 /* KYCVerifyPhoneNumberPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CB52118E15200BD3D60 /* KYCVerifyPhoneNumberPresenter.swift */; };
 		602B9CE42118E15300BD3D60 /* KYCVerifyPhoneNumberInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CB62118E15200BD3D60 /* KYCVerifyPhoneNumberInteractor.swift */; };
 		602B9CE52118E15300BD3D60 /* KYCCountrySelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CB82118E15200BD3D60 /* KYCCountrySelectionController.swift */; };
-		602B9CE62118E15300BD3D60 /* CountryDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CB92118E15200BD3D60 /* CountryDataProvider.swift */; };
 		602B9CE72118E15300BD3D60 /* KYCCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CBB2118E15200BD3D60 /* KYCCountry.swift */; };
 		602B9CE82118E15300BD3D60 /* LocationSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CBE2118E15200BD3D60 /* LocationSuggestion.swift */; };
 		602B9CE92118E15300BD3D60 /* LocationSuggestionPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CBF2118E15200BD3D60 /* LocationSuggestionPageModel.swift */; };
@@ -267,7 +267,6 @@
 		602B9D1C2118E26300BD3D60 /* PostalAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CC02118E15200BD3D60 /* PostalAddress.swift */; };
 		602B9D1D2118E26900BD3D60 /* KYCCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CBB2118E15200BD3D60 /* KYCCountry.swift */; };
 		602B9D1E2118E26C00BD3D60 /* KYCCountrySelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CB82118E15200BD3D60 /* KYCCountrySelectionController.swift */; };
-		602B9D1F2118E26C00BD3D60 /* CountryDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CB92118E15200BD3D60 /* CountryDataProvider.swift */; };
 		602B9D232118E27100BD3D60 /* KYCEnterPhoneNumberController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CB32118E15200BD3D60 /* KYCEnterPhoneNumberController.swift */; };
 		602B9D242118E27100BD3D60 /* KYCConfirmPhoneNumberController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CB42118E15200BD3D60 /* KYCConfirmPhoneNumberController.swift */; };
 		602B9D252118E27100BD3D60 /* KYCVerifyPhoneNumberPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CB52118E15200BD3D60 /* KYCVerifyPhoneNumberPresenter.swift */; };
@@ -305,12 +304,15 @@
 		6090D0982118C745009371CB /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6090D0972118C745009371CB /* RxBlocking.framework */; };
 		6090D09A2118C74B009371CB /* RxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6090D0992118C74B009371CB /* RxTest.framework */; };
 		6090D09C2118C750009371CB /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6090D09B2118C750009371CB /* Charts.framework */; };
+		60A08C632118F733006DB9E8 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60A08C572118F733006DB9E8 /* Settings.storyboard */; };
+		60AAD2D5211B75D7001CFDB4 /* OnfidoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601F5EE0211B32AA002697AB /* OnfidoController.swift */; };
 		60AEA56721125AB00053A753 /* SettingsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FBE085211258F300AD514A /* SettingsProtocols.swift */; };
 		60AEA56821125AB20053A753 /* SettingsTwoStepVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FBE084211258F300AD514A /* SettingsTwoStepVC.swift */; };
 		60AEA56921125AB50053A753 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FBE083211258F300AD514A /* SettingsCell.swift */; };
 		60AEA57621125B210053A753 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FBE086211258F300AD514A /* SettingsViewController.swift */; };
 		60AEA5BF21125DDD0053A753 /* SettingsSelectorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60AEA5BD21125DDD0053A753 /* SettingsSelectorTableViewController.m */; };
-		60FBE0812112572B00AD514A /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60FBE07F2112572B00AD514A /* Settings.storyboard */; };
+		60B10D442118EC85003F945F /* CountryDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B10D432118EC84003F945F /* CountryDataProvider.swift */; };
+		60B10D452118ED26003F945F /* CountryDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B10D432118EC84003F945F /* CountryDataProvider.swift */; };
 		670595A41AB0F59D00D2D6D9 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 670595A31AB0F59D00D2D6D9 /* KeychainItemWrapper.m */; };
 		6710DA0E1A8E82D80089DDED /* BCLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6710DA0D1A8E82D80089DDED /* BCLine.m */; };
 		674709EC19D1D14300757D46 /* BCWelcomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 674709EB19D1D14300757D46 /* BCWelcomeView.m */; };
@@ -720,26 +722,12 @@
 			remoteGlobalIDString = 2D4227621BB4358C000C1A6C;
 			remoteInfo = "SocketRocket-iOS-Dynamic";
 		};
-		6045993A2118BDC000AE08C8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 604599192118BDC000AE08C8 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F668C880153E91210044DBAC;
-			remoteInfo = "SocketRocket-macOS";
-		};
 		6045993C2118BDC000AE08C8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 604599192118BDC000AE08C8 /* SocketRocket.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 3345DC901C52ACD70083CCB8;
 			remoteInfo = "SocketRocket-tvOS";
-		};
-		6045993E2118BDC000AE08C8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 604599192118BDC000AE08C8 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F6BDA802145900D200FE3253;
-			remoteInfo = "SocketRocketTests-iOS";
 		};
 		604599402118BDC000AE08C8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -768,6 +756,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 2A8A9A6F1BFA59F7002944B4;
 			remoteInfo = "OpenSSL-for-tvOS";
+		};
+		60B10D242118EB55003F945F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 604599192118BDC000AE08C8 /* SocketRocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F668C880153E91210044DBAC;
+			remoteInfo = "SocketRocket-macOS";
+		};
+		60B10D262118EB55003F945F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 604599192118BDC000AE08C8 /* SocketRocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F6BDA802145900D200FE3253;
+			remoteInfo = "SocketRocketTests-iOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1692,6 +1694,7 @@
 		51E5C73020741A130000A7FD /* LocalizationConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizationConstants.swift; sourceTree = "<group>"; };
 		51F6A9BB206964D6002968EC /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		57B4ACE5CC925A8170598624 /* Pods-BlockchainTests.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockchainTests.debug production.xcconfig"; path = "Pods/Target Support Files/Pods-BlockchainTests/Pods-BlockchainTests.debug production.xcconfig"; sourceTree = "<group>"; };
+		601F5EE0211B32AA002697AB /* OnfidoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnfidoController.swift; sourceTree = "<group>"; };
 		602B9CA82118E15200BD3D60 /* KYCAccountStatus.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = KYCAccountStatus.storyboard; sourceTree = "<group>"; };
 		602B9CA92118E15200BD3D60 /* KYCOnboardingNavigation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = KYCOnboardingNavigation.storyboard; sourceTree = "<group>"; };
 		602B9CAA2118E15200BD3D60 /* KYCVerifyIdentity.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = KYCVerifyIdentity.storyboard; sourceTree = "<group>"; };
@@ -1707,7 +1710,6 @@
 		602B9CB52118E15200BD3D60 /* KYCVerifyPhoneNumberPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KYCVerifyPhoneNumberPresenter.swift; sourceTree = "<group>"; };
 		602B9CB62118E15200BD3D60 /* KYCVerifyPhoneNumberInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KYCVerifyPhoneNumberInteractor.swift; sourceTree = "<group>"; };
 		602B9CB82118E15200BD3D60 /* KYCCountrySelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KYCCountrySelectionController.swift; sourceTree = "<group>"; };
-		602B9CB92118E15200BD3D60 /* CountryDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryDataProvider.swift; sourceTree = "<group>"; };
 		602B9CBB2118E15200BD3D60 /* KYCCountry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KYCCountry.swift; sourceTree = "<group>"; };
 		602B9CBE2118E15200BD3D60 /* LocationSuggestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSuggestion.swift; sourceTree = "<group>"; };
 		602B9CBF2118E15200BD3D60 /* LocationSuggestionPageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSuggestionPageModel.swift; sourceTree = "<group>"; };
@@ -1825,7 +1827,6 @@
 		604599452118BEAF00AE08C8 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libicucore.tbd; sourceTree = DEVELOPER_DIR; };
 		604599482118BEE500AE08C8 /* OpenSSL-for-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "OpenSSL-for-iOS.xcodeproj"; sourceTree = "<group>"; };
 		6045994C2118BEE500AE08C8 /* FSOpenSSLTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSOpenSSLTests.m; sourceTree = "<group>"; };
-		6045994E2118BEE500AE08C8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6045994F2118BEE500AE08C8 /* OpenSSL-for-iOS_Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenSSL-for-iOS_Tests-Prefix.pch"; sourceTree = "<group>"; };
 		604599502118BEE500AE08C8 /* OpenSSL-for-iOS_Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenSSL-for-iOS_Tests-Info.plist"; sourceTree = "<group>"; };
 		604599512118BEE500AE08C8 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -2577,8 +2578,10 @@
 		6090D0972118C745009371CB /* RxBlocking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxBlocking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6090D0992118C74B009371CB /* RxTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6090D09B2118C750009371CB /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		60A08C582118F733006DB9E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
 		60AEA5BD21125DDD0053A753 /* SettingsSelectorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsSelectorTableViewController.m; sourceTree = "<group>"; };
 		60AEA5BE21125DDD0053A753 /* SettingsSelectorTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsSelectorTableViewController.h; sourceTree = "<group>"; };
+		60B10D432118EC84003F945F /* CountryDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryDataProvider.swift; sourceTree = "<group>"; };
 		60FBE0802112572B00AD514A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
 		60FBE083211258F300AD514A /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		60FBE084211258F300AD514A /* SettingsTwoStepVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTwoStepVC.swift; sourceTree = "<group>"; };
@@ -3284,12 +3287,12 @@
 				515EF921210282B4002350B6 /* Localizable.strings */,
 				515EF925210282B4002350B6 /* MainWindow.strings */,
 				515EF9ED210282B4002350B6 /* MainWindow.xib */,
+				60A08C572118F733006DB9E8 /* Settings.storyboard */,
 				515EF91D210282B4002350B6 /* ReceiveCoins.strings */,
 				515EF9FB210282B4002350B6 /* ReceiveCoins.xib */,
 				515EF92D210282B4002350B6 /* SendCoins.strings */,
 				515EF9F5210282B4002350B6 /* SendCoins.xib */,
 				515EF92B210282B4002350B6 /* Settings.strings */,
-				60FBE07F2112572B00AD514A /* Settings.storyboard */,
 				515EF9EF210282B4002350B6 /* Upgrade.storyboard */,
 				515EF91B210282B4002350B6 /* Upgrade.strings */,
 			);
@@ -3403,6 +3406,7 @@
 				602B9CD32118E15200BD3D60 /* Views */,
 				602B9CD52118E15200BD3D60 /* KYCPersonalDetailsController.swift */,
 				602B9CD62118E15200BD3D60 /* KYCWelcomeController.swift */,
+				601F5EE0211B32AA002697AB /* OnfidoController.swift */,
 			);
 			path = KYC;
 			sourceTree = "<group>";
@@ -3437,8 +3441,8 @@
 		602B9CB72118E15200BD3D60 /* CountrySelector */ = {
 			isa = PBXGroup;
 			children = (
+				60B10D432118EC84003F945F /* CountryDataProvider.swift */,
 				602B9CB82118E15200BD3D60 /* KYCCountrySelectionController.swift */,
-				602B9CB92118E15200BD3D60 /* CountryDataProvider.swift */,
 			);
 			path = CountrySelector;
 			sourceTree = "<group>";
@@ -3781,9 +3785,9 @@
 			children = (
 				604599372118BDC000AE08C8 /* SocketRocket.framework */,
 				604599392118BDC000AE08C8 /* SocketRocket.framework */,
-				6045993B2118BDC000AE08C8 /* SocketRocket.framework */,
+				60B10D252118EB55003F945F /* SocketRocket.framework */,
 				6045993D2118BDC000AE08C8 /* SocketRocket.framework */,
-				6045993F2118BDC000AE08C8 /* SocketRocketTests-iOS.xctest */,
+				60B10D272118EB55003F945F /* SocketRocketTests-iOS.xctest */,
 				604599412118BDC000AE08C8 /* TestChat.app */,
 			);
 			name = Products;
@@ -3854,7 +3858,7 @@
 			isa = PBXGroup;
 			children = (
 				6045994C2118BEE500AE08C8 /* FSOpenSSLTests.m */,
-				6045994D2118BEE500AE08C8 /* InfoPlist.strings */,
+				6045994D2118BEE500AE08C8 /* Settings.storyboard */,
 				6045994F2118BEE500AE08C8 /* OpenSSL-for-iOS_Tests-Prefix.pch */,
 				604599502118BEE500AE08C8 /* OpenSSL-for-iOS_Tests-Info.plist */,
 			);
@@ -6385,25 +6389,11 @@
 			remoteRef = 604599382118BDC000AE08C8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6045993B2118BDC000AE08C8 /* SocketRocket.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SocketRocket.framework;
-			remoteRef = 6045993A2118BDC000AE08C8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6045993D2118BDC000AE08C8 /* SocketRocket.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = SocketRocket.framework;
 			remoteRef = 6045993C2118BDC000AE08C8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6045993F2118BDC000AE08C8 /* SocketRocketTests-iOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SocketRocketTests-iOS.xctest";
-			remoteRef = 6045993E2118BDC000AE08C8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		604599412118BDC000AE08C8 /* TestChat.app */ = {
@@ -6432,6 +6422,20 @@
 			fileType = wrapper.application;
 			path = "OpenSSL-for-tvOS.app";
 			remoteRef = 60459C9A2118BEE600AE08C8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		60B10D252118EB55003F945F /* SocketRocket.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SocketRocket.framework;
+			remoteRef = 60B10D242118EB55003F945F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		60B10D272118EB55003F945F /* SocketRocketTests-iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SocketRocketTests-iOS.xctest";
+			remoteRef = 60B10D262118EB55003F945F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -6491,6 +6495,7 @@
 				3A76F8F72119EDE0002F7946 /* ValidationDateField.xib in Resources */,
 				C9BE91831945D8F600FD516D /* PEKeyboard-1.png in Resources */,
 				515EFAE9210282B4002350B6 /* AccountsAndAddresses.storyboard in Resources */,
+				60A08C632118F733006DB9E8 /* Settings.storyboard in Resources */,
 				C9BE91801945D8F600FD516D /* PEKeyboard-1-dot.png in Resources */,
 				9F2D934E14C0792D0053F0FF /* TransactionCell.xib in Resources */,
 				3AD7EEA021125156006B924F /* ValidationTextField.xib in Resources */,
@@ -6525,7 +6530,6 @@
 				515EFAE2210282B4002350B6 /* MainWindow.xib in Resources */,
 				515EFADF210282B4002350B6 /* Settings.strings in Resources */,
 				ECD244F419A8AC45004B1F40 /* PEKeyboard-4.png in Resources */,
-				60FBE0812112572B00AD514A /* Settings.storyboard in Resources */,
 				AAD27A5320A0DE1200C0EAFC /* PasswordConfirmView.xib in Resources */,
 				C718595B1F4B85E800745A87 /* Transactions.xib in Resources */,
 				ECD244EB19A8AC45004B1F40 /* PEKeyboard-3-done.png in Resources */,
@@ -6786,7 +6790,6 @@
 				5185E11C208E7F7C00A26B64 /* BlockchainSettings.swift in Sources */,
 				3AC9755B210FBD10006A9263 /* NSAttributedString+Conveniences.swift in Sources */,
 				AA63F86820A27AC6002B719B /* PostAuthenticationRoute.swift in Sources */,
-				602B9D1F2118E26C00BD3D60 /* CountryDataProvider.swift in Sources */,
 				AAE9113220A51C900093A431 /* ReminderType.swift in Sources */,
 				AA7E7740210BA48B009DFB4C /* AuthenticationCoordinator+Biometrics.swift in Sources */,
 				AACE31DB2092A99B00B7B806 /* UIDevice.swift in Sources */,
@@ -6847,6 +6850,7 @@
 				519435B1208E62F6001EF882 /* BlockchainAPI+URL.swift in Sources */,
 				602B9D1D2118E26900BD3D60 /* KYCCountry.swift in Sources */,
 				602B9D0A2118E22B00BD3D60 /* KYCNetworkRequest.swift in Sources */,
+				60AAD2D5211B75D7001CFDB4 /* OnfidoController.swift in Sources */,
 				602B9D152118E25400BD3D60 /* LocationSuggestionCell.swift in Sources */,
 				C74FEA2620979259007CAB5D /* JSContextWithDOMTests.swift in Sources */,
 				AA2D000220D96FA300B7BE0E /* SwipeToReceiveAddressView.swift in Sources */,
@@ -6918,6 +6922,7 @@
 				C764372A20ED199500CA7CA4 /* BalanceChartModel.swift in Sources */,
 				AADB023A20C0A871000FFFEC /* HttpMethod.swift in Sources */,
 				519435AC208E6279001EF882 /* CertificatePinnerTests.swift in Sources */,
+				60B10D452118ED26003F945F /* CountryDataProvider.swift in Sources */,
 				AA94966420CB613100A9C2DD /* AssetAddressFactoryTests.swift in Sources */,
 				C76D732D20B2F5CD00040B57 /* WalletFiatAtTimeDelegate.swift in Sources */,
 			);
@@ -7148,6 +7153,7 @@
 				606399F22110FC2D005B6DF5 /* SRLog.m in Sources */,
 				513C828620EBF30C00ECDE52 /* UIDevice+Biometrics.swift in Sources */,
 				67EE1DCC19E3325900DBBFC9 /* ECSlidingInteractiveTransition.m in Sources */,
+				60B10D442118EC85003F945F /* CountryDataProvider.swift in Sources */,
 				6775569919E752A00054699B /* BCWebViewController.m in Sources */,
 				C7442E341FBA1E7800695E4C /* ExchangeTableViewCell.m in Sources */,
 				C7559CBA1F573763005B2375 /* EtherTransaction.m in Sources */,
@@ -7171,6 +7177,7 @@
 				9F91B607151666EC00ACB32D /* BCCreateWalletView.m in Sources */,
 				AAE94F2E20C644DE005A3595 /* PinPresenter.swift in Sources */,
 				23444F9E1DCD221A00573C8C /* BTCErrors.m in Sources */,
+				601F5EEB211B32AA002697AB /* OnfidoController.swift in Sources */,
 				C72D6CC21EC0B7F80000F922 /* FeeTableCell.m in Sources */,
 				AA7E7723210BA487009DFB4C /* Strings.swift in Sources */,
 				238FC4D21DEC79E200591D5F /* TransactionDetailDoubleSpendWarningCell.m in Sources */,
@@ -7253,7 +7260,6 @@
 				C7640FBF2056B70E00D14D51 /* BCSwipeAddressViewModel.m in Sources */,
 				AA63F85020A12DA6002B719B /* BitcoinURLPayload.swift in Sources */,
 				51A862DC20921EBD00B338E0 /* BitcoinCashAddress.swift in Sources */,
-				602B9CE62118E15300BD3D60 /* CountryDataProvider.swift in Sources */,
 				AAC9FCEE20AE456400E28B7A /* WalletTransactionDelegate.swift in Sources */,
 				AACF56C520EAC87A0039978B /* OnboardingSettings.swift in Sources */,
 				AA24D4C720D9D1EC0096DD5D /* AssetTypeLegacyHelper.swift in Sources */,
@@ -8167,18 +8173,18 @@
 			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
 		};
-		6045994D2118BEE500AE08C8 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6045994E2118BEE500AE08C8 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		60FBE07F2112572B00AD514A /* Settings.storyboard */ = {
+		6045994D2118BEE500AE08C8 /* Settings.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				60FBE0802112572B00AD514A /* Base */,
+			);
+			name = Settings.storyboard;
+			sourceTree = "<group>";
+		};
+		60A08C572118F733006DB9E8 /* Settings.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				60A08C582118F733006DB9E8 /* Base */,
 			);
 			name = Settings.storyboard;
 			sourceTree = "<group>";

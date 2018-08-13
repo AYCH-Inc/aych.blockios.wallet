@@ -278,35 +278,22 @@
 		602B9D252118E27100BD3D60 /* KYCVerifyPhoneNumberPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CB52118E15200BD3D60 /* KYCVerifyPhoneNumberPresenter.swift */; };
 		602B9D262118E27100BD3D60 /* KYCVerifyPhoneNumberInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CB62118E15200BD3D60 /* KYCVerifyPhoneNumberInteractor.swift */; };
 		602B9D272118E28E00BD3D60 /* ValidationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7EE7521124F0C006B924F /* ValidationTextField.swift */; };
-		606399E32110FC2D005B6DF5 /* SRSecurityPolicy.m in None */ = {isa = PBXBuildFile; fileRef = 606399AE2110FC2D005B6DF5 /* SRSecurityPolicy.m */; };
 		602B9D282118E2A700BD3D60 /* NibBasedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7EEA121126578006B924F /* NibBasedView.swift */; };
-		606399E52110FC2D005B6DF5 /* SRProxyConnect.m in None */ = {isa = PBXBuildFile; fileRef = 606399B32110FC2D005B6DF5 /* SRProxyConnect.m */; };
 		603582A620EBFB110077AFFB /* ToggleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 603582A520EBFB110077AFFB /* ToggleCell.xib */; };
 		604598AD2118BA9700AE08C8 /* Settings+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFA97B3211511D000D19ED3 /* Settings+Helpers.swift */; };
 		604598AE2118BAD000AE08C8 /* Settings+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFA97B4211511D000D19ED3 /* Settings+Table.swift */; };
-		606399EB2110FC2D005B6DF5 /* SRDelegateController.m in None */ = {isa = PBXBuildFile; fileRef = 606399BD2110FC2D005B6DF5 /* SRDelegateController.m */; };
 		604598B22118BB2A00AE08C8 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055D36F210F689C000B8E95 /* Currency.swift */; };
-		606399ED2110FC2D005B6DF5 /* SRMutex.m in None */ = {isa = PBXBuildFile; fileRef = 606399C32110FC2D005B6DF5 /* SRMutex.m */; };
 		6055D370210F689C000B8E95 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055D36F210F689C000B8E95 /* Currency.swift */; };
-		606399EF2110FC2D005B6DF5 /* SRHTTPConnectMessage.m in None */ = {isa = PBXBuildFile; fileRef = 606399C42110FC2D005B6DF5 /* SRHTTPConnectMessage.m */; };
 		6055D372210F692D000B8E95 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055D371210F692D000B8E95 /* UIView.swift */; };
-		606399F12110FC2D005B6DF5 /* SRURLUtilities.m in None */ = {isa = PBXBuildFile; fileRef = 606399C72110FC2D005B6DF5 /* SRURLUtilities.m */; };
 		606399DC2110FC2D005B6DF5 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 606399AA2110FC2D005B6DF5 /* SRWebSocket.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		606399F32110FC2D005B6DF5 /* SRLog.m in None */ = {isa = PBXBuildFile; fileRef = 606399C92110FC2D005B6DF5 /* SRLog.m */; };
 		606399DE2110FC2D005B6DF5 /* NSRunLoop+SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 606399AB2110FC2D005B6DF5 /* NSRunLoop+SRWebSocket.m */; };
 		606399E22110FC2D005B6DF5 /* SRSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 606399AE2110FC2D005B6DF5 /* SRSecurityPolicy.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		606399E42110FC2D005B6DF5 /* SRProxyConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = 606399B32110FC2D005B6DF5 /* SRProxyConnect.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		606399F92110FC2D005B6DF5 /* SRRandom.m in None */ = {isa = PBXBuildFile; fileRef = 606399CE2110FC2D005B6DF5 /* SRRandom.m */; };
 		606399E62110FC2D005B6DF5 /* SRRunLoopThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 606399B72110FC2D005B6DF5 /* SRRunLoopThread.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		606399FB2110FC2D005B6DF5 /* SRSIMDHelpers.m in None */ = {isa = PBXBuildFile; fileRef = 606399D02110FC2D005B6DF5 /* SRSIMDHelpers.m */; };
 		606399E82110FC2D005B6DF5 /* SRPinningSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 606399BA2110FC2D005B6DF5 /* SRPinningSecurityPolicy.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		606399FD2110FC2D005B6DF5 /* SRIOConsumer.m in None */ = {isa = PBXBuildFile; fileRef = 606399D32110FC2D005B6DF5 /* SRIOConsumer.m */; };
 		606399EA2110FC2D005B6DF5 /* SRDelegateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 606399BD2110FC2D005B6DF5 /* SRDelegateController.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		606399FF2110FC2D005B6DF5 /* SRIOConsumerPool.m in None */ = {isa = PBXBuildFile; fileRef = 606399D52110FC2D005B6DF5 /* SRIOConsumerPool.m */; };
 		606399EC2110FC2D005B6DF5 /* SRMutex.m in Sources */ = {isa = PBXBuildFile; fileRef = 606399C32110FC2D005B6DF5 /* SRMutex.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		60639A012110FC2D005B6DF5 /* SRConstants.m in None */ = {isa = PBXBuildFile; fileRef = 606399D62110FC2D005B6DF5 /* SRConstants.m */; };
 		606399EE2110FC2D005B6DF5 /* SRHTTPConnectMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 606399C42110FC2D005B6DF5 /* SRHTTPConnectMessage.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		60639A032110FC2D005B6DF5 /* NSURLRequest+SRWebSocket.m in None */ = {isa = PBXBuildFile; fileRef = 606399DB2110FC2D005B6DF5 /* NSURLRequest+SRWebSocket.m */; };
 		606399F02110FC2D005B6DF5 /* SRURLUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 606399C72110FC2D005B6DF5 /* SRURLUtilities.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		606399F22110FC2D005B6DF5 /* SRLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 606399C92110FC2D005B6DF5 /* SRLog.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		606399F42110FC2D005B6DF5 /* SRHash.m in Sources */ = {isa = PBXBuildFile; fileRef = 606399CA2110FC2D005B6DF5 /* SRHash.m */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -326,6 +313,8 @@
 		60AEA5BF21125DDD0053A753 /* SettingsSelectorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60AEA5BD21125DDD0053A753 /* SettingsSelectorTableViewController.m */; };
 		60B10D442118EC85003F945F /* CountryDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B10D432118EC84003F945F /* CountryDataProvider.swift */; };
 		60B10D452118ED26003F945F /* CountryDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B10D432118EC84003F945F /* CountryDataProvider.swift */; };
+		60B6A5E12121C10800CEBFA2 /* LocationUpdateAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3D5DB5211B96FA00E6C241 /* LocationUpdateAPI.swift */; };
+		60B6A5EC2121C12400CEBFA2 /* PrimaryButtonContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CD42118E15200BD3D60 /* PrimaryButtonContainer.swift */; };
 		670595A41AB0F59D00D2D6D9 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 670595A31AB0F59D00D2D6D9 /* KeychainItemWrapper.m */; };
 		6710DA0E1A8E82D80089DDED /* BCLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6710DA0D1A8E82D80089DDED /* BCLine.m */; };
 		674709EC19D1D14300757D46 /* BCWelcomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 674709EB19D1D14300757D46 /* BCWelcomeView.m */; };
@@ -3053,12 +3042,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6090D09C2118C750009371CB,
-				6090D09A2118C74B009371CB,
-				6090D0982118C745009371CB,
-				6090D0962118C742009371CB,
-				6090D0942118C73F009371CB,
-				6090D0922118C734009371CB,
 				B1EB0454CD403507A35A5FBC /* Pods_BlockchainTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3079,68 +3062,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		51383536210253A700767B2E /* KYC */ = {
-			isa = PBXGroup;
-			children = (
-				51383548210253A700767B2E,
-				AA7E7750210BC0C0009DFB4C,
-				514B29A0210FFA9600D757B5,
-				51383549210253A700767B2E,
-				51383542210253A700767B2E,
-				51383546210253A700767B2E,
-				3A7F7EEB210F982B001E20AF,
-				5150E54A2113448D000966BE /* CountrySelector */,
-				AAD0D26D211292CE002E63BF,
-				51979122210A25470096E50B /* Models */,
-				3AEF9E7021091B50006B1CF9,
-				51383538210253A700767B2E /* Storyboards */,
-				5138354A210253A700767B2E /* Views */,
-			);
-			path = KYC;
-			sourceTree = "<group>";
-		};
-		51383538210253A700767B2E /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				AA2F96FE2118C04600EE7F21,
-				AA2F96FF2118C04700EE7F21 /* KYCVerifyIdentity.storyboard */,
-				5150E54821134251000966BE,
-				5138353A210253A700767B2E,
-				5138353D210253A700767B2E,
-				51383540210253A700767B2E,
-				5138353F210253A700767B2E,
-				5138353C210253A700767B2E,
-				5150E52A21131C29000966BE,
-				AAD0D2512112908E002E63BF,
-			);
-			path = Storyboards;
-			sourceTree = "<group>";
-		};
-		5138354A210253A700767B2E /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				5138354B210253A700767B2E,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		5150E54A2113448D000966BE /* CountrySelector */ = {
-			isa = PBXGroup;
-			children = (
-				51979149210B8BEB0096E50B,
-				5138354C210253A700767B2E,
-			);
-			path = CountrySelector;
-			sourceTree = "<group>";
-		};
-		51979122210A25470096E50B /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				5197913D210A25960096E50B,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		0A0B7B23D8DF7938F9E9CD06 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -4906,20 +4827,6 @@
 				60459B5B2118BEE500AE08C8 /* c_name */,
 			);
 			path = misc;
-			sourceTree = "<group>";
-		};
-		70E2704BCF29EC51A429FE67 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				C37D276B4C565CFBA09B2EAE,
-				FC2FC1205076F21A19EDE8FC,
-				DAC96BD384C528742EEC4E5D,
-				D1D2BE27E2EEFE7411546AEA,
-				F5F37BF8DBC9B473E218365C,
-				D71317CC5A32294E90362E83,
-				764C0CFB5DA6F3820EB53870,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		60459B5D2118BEE500AE08C8 /* bin */ = {
@@ -6924,6 +6831,7 @@
 				AAFA97AE2115110000D19ED3 /* SettingsCell.swift in Sources */,
 				602B9D182118E25A00BD3D60 /* LocationSuggestionAPI.swift in Sources */,
 				602B9D122118E24800BD3D60 /* KYCAddressController.swift in Sources */,
+				60B6A5E12121C10800CEBFA2 /* LocationUpdateAPI.swift in Sources */,
 				51A862E42092686300B338E0 /* CheckForUnusedAddressTests.swift in Sources */,
 				602B9D242118E27100BD3D60 /* KYCConfirmPhoneNumberController.swift in Sources */,
 				C74E865320B3043E00F7263D /* WalletHistoryDelegate.swift in Sources */,
@@ -6946,6 +6854,7 @@
 				5185E11C208E7F7C00A26B64 /* BlockchainSettings.swift in Sources */,
 				3AC9755B210FBD10006A9263 /* NSAttributedString+Conveniences.swift in Sources */,
 				AA63F86820A27AC6002B719B /* PostAuthenticationRoute.swift in Sources */,
+				60B6A5EC2121C12400CEBFA2 /* PrimaryButtonContainer.swift in Sources */,
 				AAE9113220A51C900093A431 /* ReminderType.swift in Sources */,
 				AA7E7740210BA48B009DFB4C /* AuthenticationCoordinator+Biometrics.swift in Sources */,
 				AACE31DB2092A99B00B7B806 /* UIDevice.swift in Sources */,

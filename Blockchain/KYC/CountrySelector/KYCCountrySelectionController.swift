@@ -6,6 +6,7 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import RxSwift
 import UIKit
 
 typealias Countries = [KYCCountry]
@@ -100,13 +101,22 @@ final class KYCCountrySelectionController: KYCBaseViewController, ProgressableVi
         return KYCCountrySelectionPresenter(view: self)
     }()
 
-    // MARK: Factory
+    private var disposable: Disposable?
+
+    // MARK: - Factory
 
     override class func make(with coordinator: KYCCoordinator) -> KYCCountrySelectionController {
         let controller = makeFromStoryboard()
         controller.coordinator = coordinator
         controller.pageType = .country
         return controller
+    }
+
+    // MARK: - View Controller Lifecycle
+
+    deinit {
+        disposable?.dispose()
+        disposable = nil
     }
 
     override func viewDidLoad() {
@@ -127,17 +137,15 @@ final class KYCCountrySelectionController: KYCBaseViewController, ProgressableVi
     // MARK: - Private Methods
 
     private func fetchListOfCountries() {
-        KYCNetworkRequest(get: .listOfCountries, taskSuccess: { [weak self] responseData in
-            do {
-                let allCountries = try JSONDecoder().decode(Countries.self, from: responseData)
-                self?.countriesMap.setAllCountries(allCountries)
+        disposable = BlockchainDataRepository.shared.countries
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] countries in
+                self?.countriesMap.setAllCountries(countries)
                 self?.tableView.reloadData()
-            } catch {
-                Logger.shared.error("Failed to parse countries list.")
-            }
-        }, taskFailure: { error in
-            Logger.shared.error(error.debugDescription)
-        })
+            }, onError: { error in
+                Logger.shared.error("Failed to fetch countries. Error: \(error.localizedDescription)")
+            })
     }
 }
 
@@ -204,8 +212,7 @@ extension KYCCountrySelectionController: UITableViewDataSource, UITableViewDeleg
 
 extension KYCCountrySelectionController: KYCCountrySelectionView {
     func continueKycFlow(country: KYCCountry) {
-        // TICKET: IOS-1142 - move to coordinator
-        performSegue(withIdentifier: "promptForPersonalDetails", sender: self)
+        coordinator.handle(event: .nextPageFromPageType(pageType))
     }
 
     func startPartnerExchangeFlow(country: KYCCountry) {

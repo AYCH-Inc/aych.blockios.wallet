@@ -8,12 +8,11 @@
 
 import Foundation
 
-// TICKET: 1159 Combine this protocol with other delegates in setup method and rename 'clicked' to 'tapped'
-@objc protocol ExchangeCreateViewDelegate {
-    func assetToggleButtonClicked()
-    func useMinButtonClicked()
-    func useMaxButtonClicked()
-    func continueButtonClicked()
+@objc protocol ExchangeCreateViewDelegate: AddressSelectionDelegate, UITextFieldDelegate, ContinueButtonInputAccessoryViewDelegate {
+    func assetToggleButtonTapped()
+    func useMinButtonTapped()
+    func useMaxButtonTapped()
+    func continueButtonTapped()
 }
 
 /*
@@ -48,25 +47,24 @@ To use it, create an instance using init(frame:), add it as a subview, and call 
 
     @objc var errorTextView: UITextView?
 
-    private weak var createViewDelegate: ExchangeCreateViewDelegate?
-    private weak var fromToButtonDelegate: FromToButtonDelegate?
-    private weak var continueButtonInputAccessoryDelegate: ContinueButtonInputAccessoryViewDelegate?
-    private weak var textFieldDelegate: UITextFieldDelegate?
+    private weak var delegate: ExchangeCreateViewDelegate?
+    private var fromToButtonDelegate: FromToButtonDelegateIntermediate?
 }
 
 // MARK: - Setup
 
 extension ExchangeCreateView {
     @objc func setup(
-        createViewDelegate: ExchangeCreateViewDelegate,
-        fromToButtonDelegate: FromToButtonDelegate,
-        continueButtonInputAccessoryDelegate: ContinueButtonInputAccessoryViewDelegate,
-        textFieldDelegate: UITextFieldDelegate
+        delegate: ExchangeCreateViewDelegate,
+        navigationController: BCNavigationController
     ) {
-        self.createViewDelegate = createViewDelegate
-        self.fromToButtonDelegate = fromToButtonDelegate
-        self.continueButtonInputAccessoryDelegate = continueButtonInputAccessoryDelegate
-        self.textFieldDelegate = textFieldDelegate
+        self.delegate = delegate
+
+        fromToButtonDelegate = FromToButtonDelegateIntermediate(
+            wallet: WalletManager.shared.wallet,
+            navigationController: navigationController,
+            addressSelectionDelegate: self
+        )
 
         backgroundColor = UIColor.lightGray
         setupSubviews()
@@ -128,7 +126,7 @@ private extension ExchangeCreateView {
     func setupToggleButtonWithSpinner(amountView: UIView) {
         let assetToggleButton = UIButton(frame: toggleButtonFrame)
         assetToggleButton.center = CGPoint(x: windowWidth / 2, y: assetToggleButton.center.y)
-        assetToggleButton.addTarget(self, action: #selector(self.assetToggleButtonClicked), for: .touchUpInside)
+        assetToggleButton.addTarget(self, action: #selector(self.assetToggleButtonTapped), for: .touchUpInside)
         assetToggleButton.setImage(#imageLiteral(resourceName: "switch_currencies"), for: .normal)
         assetToggleButton.imageView?.transform = CGAffineTransform(rotationAngle: .pi / 2)
         assetToggleButton.center = CGPoint(x: assetToggleButton.center.x, y: FromToView.self.rowHeight() / 2)
@@ -160,7 +158,7 @@ private extension ExchangeCreateView {
 
     func setupInputAccessoryView() {
         let inputAccessoryView = ContinueButtonInputAccessoryView()
-        inputAccessoryView.delegate = continueButtonInputAccessoryDelegate
+        inputAccessoryView.delegate = self
         continuePaymentAccessoryView = inputAccessoryView
     }
 
@@ -252,7 +250,7 @@ private extension ExchangeCreateView {
         useMinButton.backgroundColor = UIColor.white
         useMinButton.setTitleColor(UIColor.brandSecondary, for: .normal)
         useMinButton.setTitle(LocalizationConstants.Exchange.useMinimum, for: .normal)
-        useMinButton.addTarget(self, action: #selector(self.useMinButtonClicked), for: .touchUpInside)
+        useMinButton.addTarget(self, action: #selector(self.useMinButtonTapped), for: .touchUpInside)
         buttonsView.addSubview(useMinButton)
 
         let useMaxButtonOriginX: CGFloat = buttonsView.frame.size.width / 2 + dividerLineWidth / 2
@@ -266,7 +264,7 @@ private extension ExchangeCreateView {
         useMaxButton.backgroundColor = UIColor.white
         useMaxButton.setTitleColor(UIColor.brandSecondary, for: .normal)
         useMaxButton.setTitle(LocalizationConstants.Exchange.useMaximum, for: .normal)
-        useMaxButton.addTarget(self, action: #selector(self.useMaxButtonClicked), for: .touchUpInside)
+        useMaxButton.addTarget(self, action: #selector(self.useMaxButtonTapped), for: .touchUpInside)
         buttonsView.addSubview(useMaxButton)
     }
 
@@ -299,27 +297,27 @@ private extension ExchangeCreateView {
             - safeAreaInsetTop - ConstantsObjcBridge.defaultNavigationBarHeight()
         continueButton?.center = CGPoint(x: center.x, y: continueButtonCenterY)
         addSubview(continueButton!)
-        continueButton?.addTarget(self, action: #selector(self.continueButtonClicked), for: .touchUpInside)
+        continueButton?.addTarget(self, action: #selector(self.continueButtonTapped), for: .touchUpInside)
     }
 }
 
 // MARK: - Button actions
 
 @objc private extension ExchangeCreateView {
-    func assetToggleButtonClicked() {
-        createViewDelegate?.assetToggleButtonClicked()
+    func assetToggleButtonTapped() {
+        delegate?.assetToggleButtonTapped()
     }
 
-    func useMinButtonClicked() {
-        createViewDelegate?.useMinButtonClicked()
+    func useMinButtonTapped() {
+        delegate?.useMinButtonTapped()
     }
 
-    func useMaxButtonClicked() {
-        createViewDelegate?.useMaxButtonClicked()
+    func useMaxButtonTapped() {
+        delegate?.useMaxButtonTapped()
     }
 
-    func continueButtonClicked() {
-        createViewDelegate?.continueButtonClicked()
+    internal func continueButtonTapped() {
+        delegate?.continueButtonTapped()
     }
 }
 
@@ -348,7 +346,7 @@ private extension ExchangeCreateView {
         textField.keyboardType = .decimalPad
         textField.font = UIFont(name: Constants.FontNames.montserratLight, size: Constants.FontSizes.Small)
         textField.textColor = UIColor.gray5
-        textField.delegate = textFieldDelegate
+        textField.delegate = delegate
         textField.inputAccessoryView = continuePaymentAccessoryView
         return textField
     }
@@ -445,5 +443,39 @@ private extension ExchangeCreateView {
         } else {
             clearRightFields()
         }
+    }
+}
+
+extension ExchangeCreateView: ContinueButtonInputAccessoryViewDelegate {
+    func closeButtonTapped() {
+        delegate?.closeButtonTapped()
+    }
+}
+
+extension ExchangeCreateView: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let delegate = delegate else {
+            Logger.shared.debug("No delegate, do not allow changing of characters")
+            return false
+        }
+        return delegate.textField!(textField, shouldChangeCharactersIn: range, replacementString: string)
+    }
+}
+
+extension ExchangeCreateView: AddressSelectionDelegate {
+    func getAssetType() -> LegacyAssetType {
+        guard let delegate = delegate else {
+            Logger.shared.debug("Delegate is nil - allowing selection of all asset types by default.")
+            return LegacyAssetType(rawValue: -1)!
+        }
+        return delegate.getAssetType!()
+    }
+
+    func didSelect(fromAccount account: Int32, assetType asset: LegacyAssetType) {
+        delegate?.didSelect?(fromAccount: account, assetType: asset)
+    }
+
+    func didSelect(toAccount account: Int32, assetType asset: LegacyAssetType) {
+        delegate?.didSelect?(toAccount: account, assetType: asset)
     }
 }

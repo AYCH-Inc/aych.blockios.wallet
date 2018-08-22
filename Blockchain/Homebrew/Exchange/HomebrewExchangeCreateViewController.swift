@@ -25,10 +25,11 @@ class HomebrewExchangeCreateViewController: UIViewController {
         super.viewDidLoad()
         tradeCoordinator = ExchangeTradeCoordinator(interface: self)
 
-        let exchangeCreateView = ExchangeCreateView(frame: view.bounds)
+        exchangeCreateView = ExchangeCreateView(frame: view.bounds)
         view.addSubview(exchangeCreateView)
 
         exchangeCreateView.setup(
+            withConversionView: true,
             delegate: self,
             navigationController: self.navigationController as! BCNavigationController
         )

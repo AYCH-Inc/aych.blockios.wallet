@@ -207,6 +207,7 @@ extension KYCCountrySelectionController: UITableViewDataSource, UITableViewDeleg
         }
         Logger.shared.info("User selected '\(selectedCountry.name)'")
         presenter.selected(country: selectedCountry)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -216,7 +217,7 @@ extension KYCCountrySelectionController: KYCCountrySelectionView {
     }
 
     func startPartnerExchangeFlow(country: KYCCountry) {
-        ExchangeCoordinator.shared.start()
+        ExchangeCoordinator.shared.start(rootViewController: self)
     }
 
     func showExchangeNotAvailable(country: KYCCountry) {

@@ -90,15 +90,15 @@ final class KYCNetworkRequest {
 
         enum PUT {
             case updateUserDetails
-            case updateMobileNumber(userId: String)
+            case updateMobileNumber
             case updateAddress
 
             var path: String {
                 switch self {
                 case .updateUserDetails:
                     return "/users/current"
-                case .updateMobileNumber(let userId):
-                    return "/users/\(userId)/mobile"
+                case .updateMobileNumber:
+                    return "/users/current/mobile"
                 case .updateAddress:
                     return "/users/current/address"
                 }
@@ -239,6 +239,21 @@ extension KYCNetworkRequest {
     ) -> Completable {
         return Completable.create(subscribe: { observer -> Disposable in
             KYCNetworkRequest(put: url, parameters: parameters, headers: headers, taskSuccess: { _ in
+                observer(.completed)
+            }, taskFailure: {
+                observer(.error($0))
+            })
+            return Disposables.create()
+        })
+    }
+
+    static func request(
+        post url: KYCNetworkRequest.KYCEndpoints.POST,
+        parameters: [String: String],
+        headers: [String: String]? = nil
+    ) -> Completable {
+        return Completable.create(subscribe: { observer -> Disposable in
+            KYCNetworkRequest(post: url, parameters: parameters, headers: headers, taskSuccess: { _ in
                 observer(.completed)
             }, taskFailure: {
                 observer(.error($0))

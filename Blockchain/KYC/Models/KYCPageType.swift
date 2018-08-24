@@ -19,6 +19,7 @@ enum KYCPageType {
     case confirmPhone
     case verifyIdentity
     case accountStatus
+    case applicationComplete
 }
 
 extension KYCPageType {
@@ -39,6 +40,8 @@ extension KYCPageType {
         case .confirmPhone:
             return .verifyIdentity
         case .verifyIdentity:
+            return .applicationComplete
+        case .applicationComplete:
             return .accountStatus
         case .accountStatus:
             return nil

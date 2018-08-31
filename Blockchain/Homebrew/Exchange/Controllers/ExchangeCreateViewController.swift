@@ -1,5 +1,5 @@
 //
-//  HomebrewExchangeCreateViewController.swift
+//  ExchangeCreateViewController.swift
 //  Blockchain
 //
 //  Created by kevinwu on 8/15/18.
@@ -8,7 +8,23 @@
 
 import Foundation
 
-class HomebrewExchangeCreateViewController: UIViewController {
+class ExchangeCreateViewController: UIViewController {
+
+    // MARK: - IBOutlets
+
+    // Label to be updated when amount is being typed in
+    @IBOutlet var primaryAmountLabel: UILabel!
+    // Amount being typed in converted to input crypto or input fiat
+    @IBOutlet var secondaryAmountLabel: UILabel!
+    @IBOutlet var useMinimumButton: UIButton!
+    @IBOutlet var useMaximumButton: UIButton!
+    @IBOutlet var exchangeRateButton: UIButton!
+    @IBOutlet var exchangeButton: UIButton!
+    // MARK: - IBActions
+
+    @IBAction func fiatToggleTapped(_ sender: Any) {
+
+    }
 
     // MARK: Public Properties
 
@@ -21,20 +37,24 @@ class HomebrewExchangeCreateViewController: UIViewController {
     // MARK: Lifecycle
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-
-        exchangeCreateView = ExchangeCreateView(frame: view.bounds)
-        view.addSubview(exchangeCreateView)
-
-        exchangeCreateView.setup(
-            withConversionView: true,
-            delegate: self,
-            navigationController: self.navigationController as! BCNavigationController
-        )
     }
 }
 
-extension HomebrewExchangeCreateViewController: ExchangeCreateInterface {
+extension ExchangeCreateViewController: NumberKeypadViewDelegate {
+    func onDecimalButtonTapped() {
+
+    }
+
+    func onNumberButtonTapped(value: String) {
+
+    }
+
+    func onBackspaceTapped() {
+
+    }
+}
+
+extension ExchangeCreateViewController: ExchangeCreateInterface {
     func continueButtonEnabled(_ enabled: Bool) {
         if enabled {
             exchangeCreateView.enablePaymentButtons()
@@ -48,7 +68,7 @@ extension HomebrewExchangeCreateViewController: ExchangeCreateInterface {
     }
 }
 
-extension HomebrewExchangeCreateViewController: ExchangeCreateViewDelegate {
+extension ExchangeCreateViewController: ExchangeCreateViewDelegate {
     func assetToggleButtonTapped() {
     }
 
@@ -63,14 +83,14 @@ extension HomebrewExchangeCreateViewController: ExchangeCreateViewDelegate {
     }
 }
 
-extension HomebrewExchangeCreateViewController: UITextFieldDelegate {
+extension ExchangeCreateViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         delegate?.onChangeAmountFieldText()
         return true
     }
 }
 
-extension HomebrewExchangeCreateViewController: AddressSelectionDelegate {
+extension ExchangeCreateViewController: AddressSelectionDelegate {
     func getAssetType() -> LegacyAssetType {
         return LegacyAssetType(rawValue: -1)!
     }

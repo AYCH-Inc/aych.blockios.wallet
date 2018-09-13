@@ -54,6 +54,8 @@ struct Constants {
         static let Large: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 20.0 : 17.0
         static let ExtraLarge: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 21.0 : 18.0
         static let ExtraExtraLarge: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 23.0 : 20.0
+        static let Huge: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 25.0 : 22.0
+        static let Gigantic: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 48.0 : 45.0
     }
     struct FontNames {
         static let montserratRegular = "Montserrat-Regular"

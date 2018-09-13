@@ -96,11 +96,10 @@ class ExchangeCreateViewController: UIViewController {
         let interactor = ExchangeCreateInteractor(
             dependencies: dependencies,
             model: MarketsModel(
-                pair: TradingPair(from: .ethereum,to: .bitcoinCash)!,
+                pair: TradingPair(from: .bitcoin, to: .ethereum)!,
                 fiatCurrency: "USD",
                 fix: .base,
-                volume: 0),
-            inputsState: InputsState()
+                volume: "0")
         )
         numberKeypadView.delegate = self
         presenter = ExchangeCreatePresenter(interactor: interactor)
@@ -148,6 +147,14 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
         primaryDecimalLabel.text = primaryDecimal
         decimalLabelSpacingConstraint.constant = primaryDecimal == nil ? 0 : 2
         secondaryAmountLabel.text = secondary
+    }
+
+    func updateTradingPairViewValues(left: String, right: String) {
+        let transitionUpdate = TradingPairView.TradingTransitionUpdate(
+            transitions: [.titles(left: left, right: right)],
+            transition: .none
+        )
+        tradingPairView.apply(transitionUpdate: transitionUpdate)
     }
 
     func updateRateLabels(first: String, second: String, third: String) {

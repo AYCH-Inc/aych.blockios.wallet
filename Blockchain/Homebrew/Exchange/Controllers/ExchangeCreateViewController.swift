@@ -12,6 +12,7 @@ class ExchangeCreateViewController: UIViewController {
 
     // MARK: - IBOutlets
 
+    @IBOutlet private var tradingPairView: TradingPairView!
     @IBOutlet private var numberKeypadView: NumberKeypadView!
 
     // Label to be updated when amount is being typed in
@@ -26,6 +27,7 @@ class ExchangeCreateViewController: UIViewController {
 
     @IBOutlet private var useMinimumButton: UIButton!
     @IBOutlet private var useMaximumButton: UIButton!
+    @IBOutlet private var exchangeRateView: UIView!
     @IBOutlet private var exchangeRateButton: UIButton!
     @IBOutlet private var exchangeButton: UIButton!
     // MARK: - IBActions
@@ -56,6 +58,37 @@ class ExchangeCreateViewController: UIViewController {
     override func viewDidLoad() {
         dependenciesSetup()
         delegate?.onViewLoaded()
+
+        // Debug code - will be removed in later PR
+        let demo = Trade.demo()
+        let model = TradingPairView.confirmationModel(for: demo)
+        tradingPairView.apply(model: model)
+        // End debug code
+
+        [primaryAmountLabel, primaryDecimalLabel, secondaryAmountLabel].forEach {
+            $0?.textColor = UIColor.brandPrimary
+        }
+
+        [useMaximumButton, useMinimumButton, exchangeRateView].forEach {
+            addStyleToView($0)
+        }
+
+        exchangeButton.layer.cornerRadius = 4.0
+
+        setAmountLabelFont(label: primaryAmountLabel, size: Constants.FontSizes.Huge)
+        setAmountLabelFont(label: primaryDecimalLabel, size: Constants.FontSizes.Small)
+        setAmountLabelFont(label: secondaryAmountLabel, size: Constants.FontSizes.MediumLarge)
+
+        if let navController = navigationController as? BCNavigationController {
+            navController.applyLightAppearance()
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if let navController = navigationController as? BCNavigationController {
+            navController.applyDarkAppearance()
+        }
     }
 
     fileprivate func dependenciesSetup() {
@@ -77,6 +110,23 @@ class ExchangeCreateViewController: UIViewController {
     }
 }
 
+// MARK: - Styling
+extension ExchangeCreateViewController {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
+
+    private func addStyleToView(_ viewToEdit: UIView) {
+        viewToEdit.layer.cornerRadius = 4.0
+        viewToEdit.layer.borderWidth = 1.0
+        viewToEdit.layer.borderColor = UIColor.brandPrimary.cgColor
+    }
+
+    private func setAmountLabelFont(label: UILabel, size: CGFloat) {
+        label.font = UIFont(name: Constants.FontNames.montserratRegular, size: size)
+    }
+}
+
 extension ExchangeCreateViewController: NumberKeypadViewDelegate {
     func onAddInputTapped(value: String) {
         delegate?.onAddInputTapped(value: value)
@@ -88,6 +138,7 @@ extension ExchangeCreateViewController: NumberKeypadViewDelegate {
 }
 
 extension ExchangeCreateViewController: ExchangeCreateInterface {
+    
     func ratesViewVisibility(_ visibility: Visibility) {
 
     }

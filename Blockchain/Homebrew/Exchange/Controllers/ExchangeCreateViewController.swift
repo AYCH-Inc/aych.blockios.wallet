@@ -25,10 +25,6 @@ class ExchangeCreateViewController: UIViewController {
     // Label to be updated when amount is being typed in
     @IBOutlet private var primaryAmountLabel: UILabel!
 
-    // Amount being typed for fiat values to the right of the decimal separator
-    @IBOutlet var primaryDecimalLabel: UILabel!
-    @IBOutlet var decimalLabelSpacingConstraint: NSLayoutConstraint!
-
     // Amount being typed in converted to input crypto or input fiat
     @IBOutlet private var secondaryAmountLabel: UILabel!
 
@@ -41,6 +37,15 @@ class ExchangeCreateViewController: UIViewController {
 
     @IBAction private func displayInputTypeTapped(_ sender: Any) {
         delegate?.onDisplayInputTypeTapped()
+    }
+
+    @IBAction private func exchangeButtonTapped(_ sender: Any) {
+        delegate?.onExchangeButtonTapped()
+    }
+
+    // MARK: Action enum
+    enum Action {
+        case createPayment
     }
 
     // MARK: Public Properties
@@ -98,11 +103,10 @@ class ExchangeCreateViewController: UIViewController {
         }
 
         tradingPairView.delegate = self
-        exchangeButton.layer.cornerRadius = 4.0
-        
-        if let navController = navigationController as? BCNavigationController {
-            navController.applyLightAppearance()
-        }
+        exchangeButton.layer.cornerRadius = Constants.Measurements.buttonCornerRadius
+
+        setAmountLabelFont(label: primaryAmountLabel, size: Constants.FontSizes.Huge)
+        setAmountLabelFont(label: secondaryAmountLabel, size: Constants.FontSizes.MediumLarge)
     }
 
     fileprivate func dependenciesSetup() {
@@ -142,6 +146,8 @@ class ExchangeCreateViewController: UIViewController {
             tradingPair.to.symbol
         )
         exchangeButton.setTitle(exchangeButtonTitle, for: .normal)
+
+        delegate?.onTradingPairChanged(tradingPair: tradingPair)
     }
 }
 
@@ -260,6 +266,27 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
 
     func updateRateLabels(first: String, second: String, third: String) {
 
+    }
+
+    func loadingVisibility(_ visibility: Visibility, action: ExchangeCreateViewController.Action) {
+        if visibility == .visible {
+            var loadingText: String?
+            switch action {
+            case .createPayment: loadingText = LocalizationConstants.Exchange.confirming
+            }
+
+            guard let text = loadingText else {
+                Logger.shared.error("unknown ExchangeCreateViewController action")
+                return
+            }
+            LoadingViewPresenter.shared.showBusyView(withLoadingText: text)
+        } else {
+            LoadingViewPresenter.shared.hideBusyView()
+        }
+    }
+
+    func showSummary(orderTransaction: OrderTransaction, conversion: Conversion) {
+        ExchangeCoordinator.shared.handle(event: .confirmExchange(orderTransaction: orderTransaction, conversion: conversion))
     }
 }
 

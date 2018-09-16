@@ -12,24 +12,30 @@ import RxSwift
 protocol ExchangeDependencies {
     var service: ExchangeHistoryAPI { get }
     var markets: ExchangeMarketsAPI { get }
+    var conversions: ExchangeConversionAPI { get }
     var inputs: ExchangeInputsAPI { get }
     var rates: RatesAPI { get }
     var tradeExecution: TradeExecutionAPI { get }
+    var assetAccountRepository: AssetAccountRepository { get }
 }
 
 struct ExchangeServices: ExchangeDependencies {
     let service: ExchangeHistoryAPI
     let markets: ExchangeMarketsAPI
+    var conversions: ExchangeConversionAPI
     let inputs: ExchangeInputsAPI
     let rates: RatesAPI
     let tradeExecution: TradeExecutionAPI
+    let assetAccountRepository: AssetAccountRepository
     
     init() {
         rates = RatesService()
         service = ExchangeService()
         markets = MarketsService()
+        conversions = ExchangeConversionService()
         inputs = ExchangeInputsService()
         tradeExecution = TradeExecutionService()
+        assetAccountRepository = AssetAccountRepository.shared
     }
 }
 
@@ -124,8 +130,14 @@ struct ExchangeServices: ExchangeDependencies {
             return
         }
 
+        #if DEBUG
+        guard !DebugSettings.shared.useHomebrewForExchange else {
+            success(true)
+            return
+        }
+        #endif
+
         // Since individual exchange flows have to fetch their own data on initialization, the caller is left responsible for dismissing the busy view
-        
         disposable = walletService.isCountryInHomebrewRegion(countryCode: countryCode)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
@@ -182,10 +194,22 @@ struct ExchangeServices: ExchangeDependencies {
         }
     }
 
+    private func showConfirmExchange(orderTransaction: OrderTransaction, conversion: Conversion) {
+        guard let navigationController = navigationController else {
+            Logger.shared.error("No navigation controller found")
+            return
+        }
+        let model = ExchangeDetailViewController.PageModel.confirm(orderTransaction, conversion, dependencies.tradeExecution)
+        let confirmController = ExchangeDetailViewController.make(with: model)
+        navigationController.pushViewController(confirmController, animated: true)
+    }
+
     // MARK: - Event handling
     enum ExchangeCoordinatorEvent {
         case createHomebrewExchange(animated: Bool, viewController: UIViewController?)
         case createPartnerExchange(animated: Bool, viewController: UIViewController?)
+        case confirmExchange(orderTransaction: OrderTransaction, conversion: Conversion)
+        case sentTransaction
     }
 
     func handle(event: ExchangeCoordinatorEvent) {
@@ -199,7 +223,11 @@ struct ExchangeServices: ExchangeDependencies {
             if viewController != nil {
                 rootViewController = viewController
             }
-            showCreateExchange(animated: animated, type: .homebrew)
+            showCreateExchange(animated: animated, type: .shapeshift)
+        case .confirmExchange(let orderTransaction, let conversion):
+            showConfirmExchange(orderTransaction: orderTransaction, conversion: conversion)
+        case .sentTransaction:
+            navigationController?.popToRootViewController(animated: true)
         }
     }
 
@@ -216,7 +244,7 @@ struct ExchangeServices: ExchangeDependencies {
     ) {
         self.walletManager = walletManager
         self.walletService = walletService
-        self.marketsService = marketsService
+        self.marketsService = marketsService 
         self.exchangeService = exchangeService
         super.init()
     }

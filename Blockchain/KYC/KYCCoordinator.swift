@@ -57,13 +57,12 @@ protocol KYCCoordinatorDelegate: class {
 
     private let pageFactory = KYCPageViewFactory()
 
-    private var disposable: Disposable?
+    private let disposables = CompositeDisposable()
 
     private override init() { /* Disallow initializing from outside objects */ }
 
     deinit {
-        disposable?.dispose()
-        disposable = nil
+        disposables.dispose()
     }
 
     // MARK: Public
@@ -78,24 +77,30 @@ protocol KYCCoordinatorDelegate: class {
 
     @objc func start(from viewController: UIViewController) {
         LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
-        disposable = BlockchainDataRepository.shared.fetchNabuUser()
+        let disposable = BlockchainDataRepository.shared.fetchNabuUser()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [unowned self] in
                 Logger.shared.debug("Got user with ID: \($0.personalDetails?.identifier ?? "")")
                 LoadingViewPresenter.shared.hideBusyView()
                 self.user = $0
-                self.initializeNavigationStack(viewController)
-                self.restoreToMostRecentPageIfNeeded()
+                if self.pageTypeForUser() == .accountStatus {
+                    self.presentAccountStatusView(for: $0.status, in: viewController)
+                } else {
+                    self.initializeNavigationStack(viewController)
+                    self.restoreToMostRecentPageIfNeeded()
+                }
             }, onError: { error in
                 Logger.shared.error("Failed to get user: \(error.localizedDescription)")
                 LoadingViewPresenter.shared.hideBusyView()
                 AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
             })
+         _ = disposables.insert(disposable)
     }
 
     func finish() {
         // TODO: if applicable, persist state, do housekeeping, etc...
+        if navController == nil { return }
         navController.dismiss(animated: true)
     }
 
@@ -113,6 +118,7 @@ protocol KYCCoordinatorDelegate: class {
                 in: self,
                 payload: payload
             )
+            controller.navigationItem.hidesBackButton = (nextPage == .applicationComplete)
             navController.pushViewController(controller, animated: true)
         }
     }
@@ -188,8 +194,14 @@ protocol KYCCoordinatorDelegate: class {
                 titleColor: UIColor.gray5,
                 isPrimaryButtonEnabled: true
             )
-            informationViewController.primaryButtonAction = { viewController in
+            informationViewController.primaryButtonAction = { [unowned self] viewController in
                 viewController.presentingViewController?.presentingViewController?.dismiss(animated: true)
+                let interactor = KYCCountrySelectionInteractor()
+                let disposables = interactor.selected(
+                    country: country,
+                    shouldBeNotifiedWhenAvailable: true
+                )
+                _ = self.disposables.insert(disposables)
             }
             presentInNavigationController(informationViewController, in: navController)
         }
@@ -241,6 +253,6 @@ protocol KYCCoordinatorDelegate: class {
 
         guard currentUser.status != .none else { return .verifyIdentity }
 
-        return .applicationComplete
+        return .accountStatus
     }
 }

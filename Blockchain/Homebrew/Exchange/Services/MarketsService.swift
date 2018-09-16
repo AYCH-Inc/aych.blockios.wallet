@@ -35,8 +35,8 @@ class MarketsService {
     private let authentication: NabuAuthenticationService
     var hasAuthenticated: Bool = false
 
-    init(service: NabuAuthenticationService = NabuAuthenticationService.shared) {
-        self.authentication = service
+    init(authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared) {
+        self.authentication = authenticationService
     }
 
     deinit {
@@ -94,7 +94,7 @@ extension MarketsService: ExchangeMarketsAPI {
         switch dataSource {
         case .socket:
             let params = ConversionSubscribeParams(
-                type: "pairs",
+                type: "conversionSpecification",
                 pair: model.pair.stringRepresentation,
                 fiatCurrency: model.fiatCurrency,
                 fix: model.fix,

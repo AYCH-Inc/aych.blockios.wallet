@@ -12,11 +12,17 @@ import Foundation
 @objc
 extension UserDefaults {
     enum DebugKeys: String {
-        case appReviewPromptCount = "appReviewPromptCount"
-        case enableCertificatePinning = "certificatePinning"
-        case securityReminderTimer = "securiterReminderTimer"
-        case simulateSurge = "simulateSurge"
-        case simulateZeroTicker = "zeroTicker"
+        case appReviewPromptCount = "debug_appReviewPromptCount"
+        case enableCertificatePinning = "debug_certificatePinning"
+        case securityReminderTimer = "debug_securiterReminderTimer"
+        case simulateSurge = "debug_simulateSurge"
+        case simulateZeroTicker = "debug_zeroTicker"
+        case createWalletPrefill = "debug_createWalletPrefill"
+        case useHomebrewForExchange = "debug_useHomebrewForExchange"
+        case mockExchangeOrderDepositAddress = "debug_mockExchangeOrderDepositAddress"
+        case mockExchangeDeposit = "debug_mockExchangeDeposit"
+        case mockExchangeDepositQuantity = "debug_mockExchangeDepositQuantity"
+        case mockExchangeDepositAssetTypeString = "debug_mockExchangeDepositAssetTypeString"
     }
 
     enum Keys: String {

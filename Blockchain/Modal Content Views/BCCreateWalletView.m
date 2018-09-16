@@ -122,11 +122,14 @@
     
     [self clearSensitiveTextFields];
 
+    // TICKET: IOS-1281 avoid interacting directly with user defaults
 #ifdef DEBUG
-    emailTextField.text = @"test@doesnotexist.com";
-    passwordTextField.text = @"testpassword!";
-    password2TextField.text = @"testpassword!";
-    [self checkPasswordStrength];
+    if (DebugSettings.sharedInstance.createWalletPrefill) {
+        emailTextField.text = @"test@doesnotexist.com";
+        passwordTextField.text = @"testpassword!";
+        password2TextField.text = @"testpassword!";
+        [self checkPasswordStrength];
+    }
 #endif
     
     _recoveryPhraseView.recoveryPassphraseTextField.delegate = self;

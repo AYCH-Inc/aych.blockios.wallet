@@ -349,12 +349,24 @@ struct LocalizationConstants {
             "Complete",
             comment: "Text shown on the exchange list cell indicating the trade status"
         )
+        static let expired = NSLocalizedString(
+            "Expired",
+            comment: "Text shown on the exchange list cell indicating the trade status"
+        )
+        static let failed = NSLocalizedString(
+            "Failed",
+            comment: "Text shown on the exchange list cell indicating the trade status"
+        )
         static let inProgress = NSLocalizedString(
             "In Progress",
             comment: "Text shown on the exchange list cell indicating the trade status"
         )
-        static let tradeRefunded = NSLocalizedString(
-            "Trade Refunded",
+        static let refundInProgress = NSLocalizedString(
+            "Refund in Progress",
+            comment: "Text shown on the exchange list cell indicating the trade status"
+        )
+        static let refunded = NSLocalizedString(
+            "Refunded",
             comment: "Text shown on the exchange list cell indicating the trade status"
         )
         

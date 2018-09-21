@@ -85,7 +85,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         updatedInput()
         
         markets.setup()
-        tradeLimitService.initialize(withFiatCurrency: model.fiatCurrency)
+        tradeLimitService.initialize(withFiatCurrency: model.fiatCurrencyCode)
 
         // Authenticate, then listen for conversions
         markets.authenticate(completion: { [unowned self] in
@@ -151,14 +151,14 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         // Update the inputs in crypto and fiat
         guard let output = output else { return }
         guard let model = model else { return }
-        let symbol = NumberFormatter.localCurrencyFormatter.currencySymbol ?? "$"
+        let symbol = model.fiatCurrencySymbol
         let suffix = model.pair.from.symbol
         
         let secondaryAmount = conversions.output.count == 0 ? "0.00": conversions.output
         let secondaryResult = model.isUsingFiat ? (secondaryAmount + " " + suffix) : (symbol + secondaryAmount)
 
         if model.isUsingFiat {
-            let primary = inputs.primaryFiatAttributedString()
+            let primary = inputs.primaryFiatAttributedString(currencySymbol: symbol)
             output.updatedInput(primary: primary, secondary: conversions.output)
         } else {
             let assetType = model.isUsingBase ? model.pair.from : model.pair.to
@@ -309,10 +309,10 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         output?.updateTradingPair(pair: model.pair, fix: model.fix)
 
         // Compute trading limit and take into account user's balance
-        let tradingLimitsSingle = tradeLimitService.getTradeLimits(withFiatCurrency: model.fiatCurrency)
+        let tradingLimitsSingle = tradeLimitService.getTradeLimits(withFiatCurrency: model.fiatCurrencyCode)
         let balanceFiatValue = markets.fiatBalance(
             forAssetAccount: assetAccount,
-            fiatCurrencySymbol: model.fiatCurrency
+            fiatCurrencyCode: model.fiatCurrencyCode
         )
 
         tradingLimitDisposable = Single.zip(tradingLimitsSingle, balanceFiatValue.take(1).asSingle()) {

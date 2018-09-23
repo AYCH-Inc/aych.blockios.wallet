@@ -9,17 +9,40 @@
 import Foundation
 
 class ExchangeCreatePresenter {
-    fileprivate let interactor: ExchangeCreateInput
+    fileprivate let interactor: ExchangeCreateInteractor
     weak var interface: ExchangeCreateInterface?
 
-    init(interactor: ExchangeCreateInput) {
+    init(interactor: ExchangeCreateInteractor) {
         self.interactor = interactor
     }
 }
 
 extension ExchangeCreatePresenter: ExchangeCreateDelegate {
+    
     func onViewLoaded() {
         interactor.viewLoaded()
+        
+        interface?.conversionViewVisibility(.visible, animated: false)
+        interface?.keypadViewVisibility(.visible, animated: false)
+        interface?.exchangeButtonVisibility(.visible, animated: false)
+        
+        interface?.ratesViewVisibility(.hidden, animated: false)
+        interface?.ratesChevronButtonVisibility(.hidden, animated: false)
+    }
+    
+    func onDisplayRatesTapped() {
+        interface?.conversionViewVisibility(.hidden, animated: true)
+        interface?.keypadViewVisibility(.hidden, animated: true)
+        interface?.exchangeButtonVisibility(.hidden, animated: true)
+    }
+    
+    func onHideRatesTapped() {
+        interface?.conversionViewVisibility(.visible, animated: true)
+        interface?.ratesViewVisibility(.hidden, animated: true)
+        interface?.ratesChevronButtonVisibility(.hidden, animated: true)
+        
+        interface?.keypadViewVisibility(.visible, animated: true)
+        interface?.exchangeButtonVisibility(.visible, animated: true)
     }
     
     func onDelimiterTapped(value: String) {
@@ -34,8 +57,26 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
         interactor.onBackspaceTapped()
     }
     
-    func onContinueButtonTapped() {
-        
+    func onKeypadVisibilityUpdated(_ visibility: Visibility, animated: Bool) {
+        let ratesViewVisibility: Visibility = visibility == .hidden ? .visible : .hidden
+        interface?.ratesViewVisibility(ratesViewVisibility, animated: animated)
+        interface?.ratesChevronButtonVisibility(ratesViewVisibility, animated: animated)
+    }
+
+    func changeTradingPair(tradingPair: TradingPair) {
+        interactor.changeTradingPair(tradingPair: tradingPair)
+    }
+
+    func onToggleFixTapped() {
+        interactor.toggleFix()
+    }
+
+    func onUseMinimumTapped(assetAccount: AssetAccount) {
+        interactor.useMinimumAmount(assetAccount: assetAccount)
+    }
+
+    func onUseMaximumTapped(assetAccount: AssetAccount) {
+        interactor.useMaximumAmount(assetAccount: assetAccount)
     }
 
     func onDisplayInputTypeTapped() {
@@ -44,10 +85,6 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
 
     func onExchangeButtonTapped() {
         interactor.confirmConversion()
-    }
-
-    func onTradingPairChanged(tradingPair: TradingPair) {
-        interactor.changeTradingPair(tradingPair: tradingPair)
     }
 
     func confirmConversion() {
@@ -77,7 +114,7 @@ extension ExchangeCreatePresenter: ExchangeCreateOutput {
     }
     
     func updatedRates(first: String, second: String, third: String) {
-        
+        interface?.updateRateLabels(first: first, second: second, third: third)
     }
     
     func updateTradingPairValues(left: String, right: String) {

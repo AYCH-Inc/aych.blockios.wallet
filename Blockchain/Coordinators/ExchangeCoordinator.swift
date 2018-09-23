@@ -17,6 +17,7 @@ protocol ExchangeDependencies {
     var rates: RatesAPI { get }
     var tradeExecution: TradeExecutionAPI { get }
     var assetAccountRepository: AssetAccountRepository { get }
+    var tradeLimits: TradeLimitsAPI { get }
 }
 
 struct ExchangeServices: ExchangeDependencies {
@@ -27,6 +28,7 @@ struct ExchangeServices: ExchangeDependencies {
     let rates: RatesAPI
     let tradeExecution: TradeExecutionAPI
     let assetAccountRepository: AssetAccountRepository
+    let tradeLimits: TradeLimitsAPI
     
     init() {
         rates = RatesService()
@@ -36,6 +38,7 @@ struct ExchangeServices: ExchangeDependencies {
         inputs = ExchangeInputsService()
         tradeExecution = TradeExecutionService()
         assetAccountRepository = AssetAccountRepository.shared
+        tradeLimits = TradeLimitsService()
     }
 }
 
@@ -157,7 +160,7 @@ struct ExchangeServices: ExchangeDependencies {
                 title: LocalizationConstants.Exchange.navigationTitle
             )
             viewController.present(navigationController!, animated: true)
-        default:
+        case .shapeshift:
             guard let viewController = rootViewController else {
                 Logger.shared.error("View controller to present on is nil")
                 return
@@ -188,9 +191,8 @@ struct ExchangeServices: ExchangeDependencies {
             } else {
                 navigationController?.pushViewController(exchangeCreateViewController, animated: animated)
             }
-        default:
-            // show shapeshift
-            Logger.shared.debug("Not yet implemented")
+        case .shapeshift:
+            showExchange(type: .shapeshift)
         }
     }
 
@@ -200,8 +202,23 @@ struct ExchangeServices: ExchangeDependencies {
             return
         }
         let model = ExchangeDetailViewController.PageModel.confirm(orderTransaction, conversion, dependencies.tradeExecution)
-        let confirmController = ExchangeDetailViewController.make(with: model)
+        let confirmController = ExchangeDetailViewController.make(with: model, dependencies: dependencies)
         navigationController.pushViewController(confirmController, animated: true)
+    }
+    
+    private func showLockedExchange(orderTransaction: OrderTransaction, conversion: Conversion) {
+        guard let navigationController = navigationController else {
+            Logger.shared.error("No navigation controller found")
+            return
+        }
+        let model = ExchangeDetailViewController.PageModel.locked(orderTransaction, conversion)
+        let controller = ExchangeDetailViewController.make(with: model, dependencies: dependencies)
+        navigationController.present(controller, animated: true, completion: nil)
+    }
+
+    private func showTradeDetails(trade: ExchangeTradeModel) {
+        let detailViewController = ExchangeDetailViewController.make(with: .overview(trade), dependencies: dependencies)
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 
     // MARK: - Event handling
@@ -209,7 +226,8 @@ struct ExchangeServices: ExchangeDependencies {
         case createHomebrewExchange(animated: Bool, viewController: UIViewController?)
         case createPartnerExchange(animated: Bool, viewController: UIViewController?)
         case confirmExchange(orderTransaction: OrderTransaction, conversion: Conversion)
-        case sentTransaction
+        case sentTransaction(orderTransaction: OrderTransaction, conversion: Conversion)
+        case showTradeDetails(trade: ExchangeTradeModel)
     }
 
     func handle(event: ExchangeCoordinatorEvent) {
@@ -226,8 +244,10 @@ struct ExchangeServices: ExchangeDependencies {
             showCreateExchange(animated: animated, type: .shapeshift)
         case .confirmExchange(let orderTransaction, let conversion):
             showConfirmExchange(orderTransaction: orderTransaction, conversion: conversion)
-        case .sentTransaction:
-            navigationController?.popToRootViewController(animated: true)
+        case .sentTransaction(orderTransaction: let transaction, conversion: let conversion):
+            showLockedExchange(orderTransaction: transaction, conversion: conversion)
+        case .showTradeDetails(let trade):
+            showTradeDetails(trade: trade)
         }
     }
 

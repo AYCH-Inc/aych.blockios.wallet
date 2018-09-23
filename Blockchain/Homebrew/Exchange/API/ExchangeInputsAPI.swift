@@ -16,7 +16,7 @@ protocol ExchangeInputsAPI: class {
     
     func setup(with template: ExchangeStyleTemplate, usingFiat: Bool)
     
-    func primaryFiatAttributedString() -> NSAttributedString
+    func primaryFiatAttributedString(currencySymbol: String) -> NSAttributedString
     func primaryAssetAttributedString(symbol: String) -> NSAttributedString
     
     func maxFiatFractional() -> Int
@@ -31,7 +31,8 @@ protocol ExchangeInputsAPI: class {
     
     func add(character: String)
     func add(delimiter: String)
-    
+
+    func clear()
     func backspace()
     func toggleInput(withOutput output: String)
 }

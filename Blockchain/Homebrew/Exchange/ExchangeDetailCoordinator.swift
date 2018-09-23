@@ -69,12 +69,10 @@ class ExchangeDetailCoordinator: NSObject {
                 let pair = ExchangeCellModel.TradingPair(
                     model: TradingPairView.confirmationModel(for: conversion)
                 )
-                
-                let symbol = conversion.quote.currencyRatio.counter.fiat.symbol
-                
+
                 let value = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.value,
-                    value: symbol + conversion.quote.currencyRatio.counter.fiat.value
+                    value: valueString(for: conversion.quote.currencyRatio.counter.fiat.value, currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol)
                 )
                 
                 let fees = ExchangeCellModel.Plain(
@@ -88,15 +86,9 @@ class ExchangeDetailCoordinator: NSObject {
                     bold: true
                 )
                 
-                let accounts = accountRepository.allAccounts()
-                
-                // TICKET: IOS-1326 - Destination Name on Exchange Locked Screen Should Match Withdrawal Address
-                let destination = accounts.filter({ return $0.address.address == orderTransaction.to.address }).first
-                let destinationName = destination?.name ?? ""
-                
                 let sendTo = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.sendTo,
-                    value: destinationName
+                    value: accountRepository.nameOfAccountContaining(address: orderTransaction.destination)
                 )
                 
                 let paragraphStyle = NSMutableParagraphStyle()
@@ -138,11 +130,9 @@ class ExchangeDetailCoordinator: NSObject {
                     model: TradingPairView.confirmationModel(for: conversion)
                 )
                 
-                let symbol = conversion.quote.currencyRatio.counter.fiat.symbol
-                
                 let value = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.value,
-                    value: symbol + conversion.quote.currencyRatio.counter.fiat.value
+                    value: valueString(for: conversion.quote.currencyRatio.counter.fiat.value, currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol)
                 )
                 
                 let fees = ExchangeCellModel.Plain(
@@ -156,15 +146,9 @@ class ExchangeDetailCoordinator: NSObject {
                     bold: true
                 )
                 
-                let accounts = accountRepository.allAccounts()
-                
-                // TICKET: IOS-1326 - Destination Name on Exchange Locked Screen Should Match Withdrawal Address
-                let destination = accounts.filter({ return $0.address.address == orderTransaction.to.address }).first
-                let destinationName = destination?.name ?? ""
-                
                 let sendTo = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.sendTo,
-                    value: destinationName
+                    value: accountRepository.nameOfAccountContaining(address: orderTransaction.destination)
                 )
                 
                 let paragraphStyle = NSMutableParagraphStyle()
@@ -196,7 +180,7 @@ class ExchangeDetailCoordinator: NSObject {
                 delegate?.coordinator(self, updated: cellModels)
             case .overview(let trade):
                 interface?.updateBackgroundColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
-                interface?.updateTitle(LocalizationConstants.Exchange.orderID + " " + trade.identifier)
+                interface?.updateTitle(trade.amountReceivedCryptoValue + LocalizationConstants.Exchange.orderID + " " + trade.identifier)
                 interface?.navigationBarVisibility(.visible)
                 
                 let status = ExchangeCellModel.Plain(
@@ -208,34 +192,50 @@ class ExchangeDetailCoordinator: NSObject {
                 
                 let value = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.value,
-                    value: "$1,642.50",
+                    value: valueString(for: trade.amountFiatValue, currencyCode: trade.amountFiatSymbol),
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1)
                 )
                 
                 let exchange = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.exchange,
-                    value: "$0.25 BTC",
+                    value: trade.amountDepositedCryptoValue + " " + trade.amountDepositedCryptoSymbol,
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1)
                 )
                 
                 let receive = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.receive,
-                    value: "5.668586",
+                    value: trade.amountReceivedCryptoValue + " " + trade.amountReceivedCryptoSymbol,
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
                     bold: true
                 )
                 
                 let fees = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.fees,
-                    value: "0.000414 BTC",
+                    value: trade.amountFeeValue + " " + trade.amountFeeSymbol,
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1)
                 )
                 
                 let sendTo = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.sendTo,
-                    value: "My Wallet",
+                    value: accountRepository.nameOfAccountContaining(address: trade.withdrawalAddress),
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1)
                 )
+
+                var orderId = ExchangeCellModel.Plain(
+                    description: LocalizationConstants.Exchange.orderID,
+                    value: trade.identifier,
+                    backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1)
+                )
+                orderId.descriptionActionBlock = {
+                    guard let text = $0.text else { return }
+                    UIPasteboard.general.string = text
+                    $0.animate(
+                        fromText: trade.identifier,
+                        toIntermediateText: LocalizationConstants.copiedToClipboard,
+                        speed: 1,
+                        gestureReceiver: $0
+                    )
+                }
                 
                 cellModels.append(contentsOf: [
                     .plain(status),
@@ -243,7 +243,8 @@ class ExchangeDetailCoordinator: NSObject {
                     .plain(exchange),
                     .plain(receive),
                     .plain(fees),
-                    .plain(sendTo)
+                    .plain(sendTo),
+                    .plain(orderId)
                     ]
                 )
                 
@@ -263,3 +264,16 @@ class ExchangeDetailCoordinator: NSObject {
     }
 }
 // swiftlint:enable function_body_length
+
+extension ExchangeDetailCoordinator {
+    // TICKET: IOS-1328 Find a better place for this
+    func valueString(for amount: String, currencyCode: String) -> String {
+        if let currencySymbol =  BlockchainSettings.sharedAppInstance().fiatSymbolFromCode(currencyCode: currencyCode) {
+            // $2.34
+            return currencySymbol + amount
+        } else {
+            // 2.34 USD
+            return amount + " " + currencyCode
+        }
+    }
+}

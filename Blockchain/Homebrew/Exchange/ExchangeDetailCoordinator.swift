@@ -187,7 +187,8 @@ class ExchangeDetailCoordinator: NSObject {
                     description: LocalizationConstants.Exchange.status,
                     value: trade.status.displayValue,
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
-                    statusVisibility: .visible
+                    statusVisibility: .visible,
+                    statusTintColor: trade.status.tintColor
                 )
                 
                 let value = ExchangeCellModel.Plain(
@@ -257,6 +258,9 @@ class ExchangeDetailCoordinator: NSObject {
             }
             tradeExecution.submitAndSend(with: lastConversion, success: { [weak self] in
                 guard let this = self else { return }
+                NotificationCenter.default.post(
+                    Notification(name: Constants.NotificationKeys.exchangeSubmitted)
+                )
                 ExchangeCoordinator.shared.handle(event: .sentTransaction(orderTransaction: transaction, conversion: lastConversion))
                 this.delegate?.coordinator(this, completedTransaction: transaction)
             }) { AlertViewPresenter.shared.standardError(message: $0) }

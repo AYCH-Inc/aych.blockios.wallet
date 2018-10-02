@@ -83,6 +83,7 @@ class TradeExecutionService: TradeExecutionAPI {
                 assetType: AssetType.from(legacyAssetType: orderTransactionLegacy.legacyAssetType)
             )
             let orderTransaction = OrderTransaction(
+                orderIdentifier: "",
                 destination: to,
                 from: from,
                 to: orderTransactionTo,
@@ -222,6 +223,7 @@ fileprivate extension TradeExecutionService {
                     let assetType = AssetType.from(legacyAssetType: orderTransactionLegacy.legacyAssetType)
                     let to = AssetAddressFactory.create(fromAddressString: orderTransactionLegacy.to, assetType: assetType)
                     let orderTransaction = OrderTransaction(
+                        orderIdentifier: payload.id,
                         destination: toAccount,
                         from: fromAccount,
                         to: to,
@@ -290,16 +292,21 @@ extension TradeExecutionService {
         with conversion: Conversion,
         from: AssetAccount,
         to: AssetAccount,
-        success: @escaping (() -> Void),
+        success: @escaping ((OrderTransaction) -> Void),
         error: @escaping ((String) -> Void)
     ) {
         processAndBuildOrder(
             with: conversion,
             fromAccount: from,
             toAccount: to,
-            success: { [weak self] orderTransaction, conversion in
+            success: { [weak self] orderTransaction, _ in
                 guard let this = self else { return }
-                this.sendTransaction(assetType: orderTransaction.to.assetType, success: success, error: error)
+                this.sendTransaction(
+                    assetType: orderTransaction.to.assetType,
+                    success: {
+                        success(orderTransaction)
+                    },
+                    error: error)
             },
             error: error
         )

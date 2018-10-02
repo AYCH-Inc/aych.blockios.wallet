@@ -150,6 +150,21 @@ class ExchangeDetailCoordinator: NSObject {
                     description: LocalizationConstants.Exchange.sendTo,
                     value: accountRepository.nameOfAccountContaining(address: orderTransaction.destination.address.address)
                 )
+
+                var orderId = ExchangeCellModel.Plain(
+                    description: LocalizationConstants.Exchange.orderID,
+                    value: orderTransaction.orderIdentifier ?? ""
+                )
+                orderId.descriptionActionBlock = {
+                    guard let text = $0.text else { return }
+                    UIPasteboard.general.string = text
+                    $0.animate(
+                        fromText: orderTransaction.orderIdentifier ?? "",
+                        toIntermediateText: LocalizationConstants.copiedToClipboard,
+                        speed: 1,
+                        gestureReceiver: $0
+                    )
+                }
                 
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.alignment = .center
@@ -173,6 +188,7 @@ class ExchangeDetailCoordinator: NSObject {
                     .plain(fees),
                     .plain(receive),
                     .plain(sendTo),
+                    .plain(orderId),
                     .text(text)
                     ]
                 )
@@ -263,17 +279,17 @@ class ExchangeDetailCoordinator: NSObject {
                 with: lastConversion,
                 from: transaction.from,
                 to: transaction.destination,
-                success: { [weak self] in
+                success: { [weak self] orderTransaction in
                     guard let this = self else { return }
-                    
+
                     NotificationCenter.default.post(
                         Notification(name: Constants.NotificationKeys.exchangeSubmitted)
                     )
-                    
+
                     this.interface?.loadingVisibility(.hidden, action: .confirmExchange)
                     ExchangeCoordinator.shared.handle(
                         event: .sentTransaction(
-                            orderTransaction: transaction,
+                            orderTransaction: orderTransaction,
                             conversion: lastConversion
                         )
                     )

@@ -161,6 +161,33 @@ struct Conversion: SocketMessageCodable {
     }
 }
 
+extension Conversion: Equatable {
+    static func == (lhs: Conversion, rhs: Conversion) -> Bool {
+        return lhs.channel == rhs.channel &&
+        lhs.type == rhs.type &&
+        lhs.quote == rhs.quote
+    }
+}
+
+extension Conversion {
+    
+    var baseFiatSymbol: String {
+        return quote.currencyRatio.base.fiat.symbol
+    }
+    
+    var baseFiatValue: String {
+        return quote.currencyRatio.base.fiat.value
+    }
+    
+    var baseCryptoSymbol: String {
+        return quote.currencyRatio.base.crypto.symbol
+    }
+    
+    var baseCryptoValue: String {
+        return quote.currencyRatio.base.crypto.value
+    }
+}
+
 /// `SocketError` is for any type of error that
 /// is returned from the WS endpoint. 
 struct SocketError: SocketMessageCodable, Error {
@@ -264,6 +291,16 @@ struct Quote: Codable {
     let currencyRatio: CurrencyRatio
 }
 
+extension Quote: Equatable {
+    static func == (lhs: Quote, rhs: Quote) -> Bool {
+        return lhs.pair == rhs.pair &&
+        lhs.fiatCurrency == rhs.fiatCurrency &&
+        lhs.fix == rhs.fix &&
+        lhs.volume == rhs.volume &&
+        lhs.currencyRatio == rhs.currencyRatio
+    }
+}
+
 struct CurrencyRatio: Codable {
     let base: FiatCrypto
     let counter: FiatCrypto
@@ -273,9 +310,28 @@ struct CurrencyRatio: Codable {
     let counterToFiatRate: String
 }
 
+extension CurrencyRatio: Equatable {
+    static func == (lhs: CurrencyRatio, rhs: CurrencyRatio) -> Bool {
+        return lhs.base == rhs.base &&
+        lhs.counter == rhs.counter &&
+        lhs.baseToFiatRate == rhs.baseToFiatRate &&
+        lhs.counterToBaseRate == rhs.counterToBaseRate &&
+        lhs.counterToFiatRate == rhs.counterToFiatRate
+    }
+}
+
 struct FiatCrypto: Codable {
     let fiat: SymbolValue
     let crypto: SymbolValue
+}
+
+extension FiatCrypto: Equatable {
+    static func == (lhs: FiatCrypto, rhs: FiatCrypto) -> Bool {
+        return lhs.fiat.symbol == rhs.fiat.symbol &&
+            lhs.fiat.value == rhs.fiat.value &&
+            lhs.crypto.value == rhs.crypto.value &&
+            lhs.crypto.symbol == rhs.crypto.symbol
+    }
 }
 
 struct SymbolValue: Codable {

@@ -236,33 +236,52 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
     }
 
     func confirmConversion() {
-        guard let conversion = self.model?.lastConversion else {
+        guard let model = model else { return }
+        guard let conversion = model.lastConversion else {
             Logger.shared.error("No conversion stored")
             return
         }
-
-        output?.loadingVisibility(.visible, action: ExchangeCreateViewController.Action.createPayment)
-
-        // Submit order to get payment information
-        guard let from = model?.marketPair.fromAccount,
-            let to = model?.marketPair.toAccount else {
-            AlertViewPresenter.shared.standardError(message: "Missing from or to asset account")
-            return
-        }
-        tradeExecution.prebuildOrder(
-            with: conversion,
-            from: from,
-            to: to,
-            success: { [weak self] orderTransaction, conversion in
-                guard let this = self else { return }
-                this.output?.loadingVisibility(.hidden, action: ExchangeCreateViewController.Action.createPayment)
-                this.output?.showSummary(orderTransaction: orderTransaction, conversion: conversion)
-            }, error: { [weak self] errorMessage in
-                guard let this = self else { return }
-                AlertViewPresenter.shared.standardError(message: errorMessage)
-                this.output?.loadingVisibility(.hidden, action: ExchangeCreateViewController.Action.createPayment)
+        guard let output = output else { return }
+        
+        let min = minTradingLimit().asObservable()
+        let max = maxTradingLimit().asObservable()
+        let disposable = Observable.zip(min, max) {
+            return ($0, $1)
+        }.subscribe(onNext: { [weak self] payload in
+            guard let this = self else { return }
+            let minValue = payload.0
+            let maxValue = payload.1
+                
+            guard let candidate = Decimal(string: conversion.baseFiatValue) else { return }
+            switch candidate {
+            case ..<minValue:
+                let value = NumberFormatter.localCurrencyFormatter.string(for: minValue) ?? ""
+                let minimum = model.fiatCurrencySymbol + value
+                    
+                output.entryBelowMinimumValue(minimum: minimum)
+            case maxValue..<Decimal.greatestFiniteMagnitude:
+                guard let value = NumberFormatter.localCurrencyFormatter.string(for: maxValue) else { return }
+                let maximum = model.fiatCurrencySymbol + value
+                    output.entryAboveMaximumValue(maximum: maximum)
+            default:
+                output.loadingVisibility(.visible)
+                this.tradeExecution.prebuildOrder(
+                    with: conversion,
+                    from: model.marketPair.fromAccount,
+                    to: model.marketPair.toAccount,
+                    success: { [weak self] orderTransaction, conversion in
+                        guard let this = self else { return }
+                        this.output?.loadingVisibility(.hidden)
+                        this.output?.showSummary(orderTransaction: orderTransaction, conversion: conversion)
+                    }, error: { [weak self] errorMessage in
+                        guard let this = self else { return }
+                        AlertViewPresenter.shared.standardError(message: errorMessage)
+                        this.output?.loadingVisibility(.hidden)
+                    }
+                )
             }
-        )
+        })
+        disposables.insertWithDiscardableResult(disposable)
     }
 
     // MARK: - Private
@@ -302,6 +321,8 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 )
                 return
             }
+            
+            guard model.lastConversion != conversion else { return }
 
             // Store conversion
             model.lastConversion = conversion
@@ -327,6 +348,40 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         disposables.insertWithDiscardableResult(errorDisposable)
     }
 
+    
+    private func applyValue(stringValue: String) {
+        stringValue.unicodeScalars.forEach { char in
+            let charStringValue = String(char)
+            if CharacterSet.decimalDigits.contains(char) {
+                onAddInputTapped(value: charStringValue)
+            } else if "." == charStringValue {
+                onDelimiterTapped(value: charStringValue)
+            }
+        }
+    }
+    
+    private func minTradingLimit() -> Maybe<Decimal> {
+        guard let model = model else {
+            return Maybe.empty()
+        }
+        
+        return tradeLimitService.getTradeLimits(
+            withFiatCurrency: model.fiatCurrencyCode).map { tradingLimits -> Decimal in
+                return tradingLimits.minOrder
+            }.asMaybe()
+    }
+    
+    private func maxTradingLimit() -> Maybe<Decimal> {
+        guard let model = model else {
+            return Maybe.empty()
+        }
+        
+        return tradeLimitService.getTradeLimits(
+            withFiatCurrency: model.fiatCurrencyCode).map { tradingLimits -> Decimal in
+            return tradingLimits.maxPossibleOrder
+        }.asMaybe()
+    }
+    
     private func applyTradingLimit(limit: TradingLimit, assetAccount: AssetAccount) {
         guard let model = model else { return }
 
@@ -362,15 +417,8 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 limitInDecimal = (accountFiatValue < limits.maxPossibleOrder) ? accountFiatValue : limits.maxPossibleOrder
             }
 
-            let limitString = NumberFormatter.localCurrencyFormatter.string(for: limitInDecimal)
-            limitString?.unicodeScalars.forEach { char in
-                let charStringValue = String(char)
-                if CharacterSet.decimalDigits.contains(char) {
-                    strongSelf.onAddInputTapped(value: charStringValue)
-                } else if "." == charStringValue {
-                    strongSelf.onDelimiterTapped(value: charStringValue)
-                }
-            }
+            guard let limitString = NumberFormatter.localCurrencyFormatter.string(for: limitInDecimal) else { return }
+            strongSelf.applyValue(stringValue: limitString)
         }, onError: { error in
             Logger.shared.error("Failed to compute trading limits: \(error)")
         })

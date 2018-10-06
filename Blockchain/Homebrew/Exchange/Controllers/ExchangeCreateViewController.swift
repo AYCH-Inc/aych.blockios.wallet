@@ -65,6 +65,7 @@ class ExchangeCreateViewController: UIViewController {
     }
     
     enum ViewUpdate: Update {
+        case conversionTitleLabel(Visibility)
         case conversionView(Visibility)
         case exchangeButton(Visibility)
         case ratesChevron(Visibility)
@@ -125,6 +126,8 @@ class ExchangeCreateViewController: UIViewController {
         [primaryAmountLabel, secondaryAmountLabel].forEach {
             $0?.textColor = UIColor.brandPrimary
         }
+        
+        secondaryAmountLabel.font = styleTemplate().secondaryFont
 
         useMinimumButton.setTitle(LocalizationConstants.Exchange.useMin, for: .normal)
         useMaximumButton.setTitle(LocalizationConstants.Exchange.useMax, for: .normal)
@@ -275,6 +278,8 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
     
     func apply(update: ViewUpdate) {
         switch update {
+        case .conversionTitleLabel(let visibility):
+            conversionTitleLabel.alpha = visibility.defaultAlpha
         case .conversionView(let visibility):
             conversionView.alpha = visibility.defaultAlpha
         case .exchangeButton(let visibility):
@@ -390,6 +395,14 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             transition: .none
         )
         tradingPairView.apply(transitionUpdate: transitionUpdate)
+    }
+    
+    func exchangeButtonEnabled(_ enabled: Bool) {
+        exchangeButton.isEnabled = enabled
+    }
+
+    func isShowingConversionRatesView() -> Bool {
+        return conversionRatesView.alpha == 1
     }
     
     func showSummary(orderTransaction: OrderTransaction, conversion: Conversion) {

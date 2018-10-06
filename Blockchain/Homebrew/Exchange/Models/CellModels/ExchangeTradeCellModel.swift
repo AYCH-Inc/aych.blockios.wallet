@@ -73,6 +73,18 @@ enum ExchangeTradeModel {
 }
 
 extension ExchangeTradeModel {
+    var statusDescription: String? {
+        switch self {
+        case .partner:
+            return nil
+        case .homebrew:
+            switch self.status {
+            case .expired: return LocalizationConstants.Exchange.expiredDescription
+            case .failed: return LocalizationConstants.Exchange.failedDescription
+            default: return nil
+            }
+        }
+    }
     var withdrawalAddress: String {
         switch self {
         case .partner(let model):
@@ -281,14 +293,23 @@ struct ExchangeTradeCellModel: Decodable {
         let updated = try values.decode(String.self, forKey: .updatedAt)
         let inserted = try values.decode(String.self, forKey: .createdAt)
         let formatter = DateFormatter.sessionDateFormat
+        let legacyFormatter = DateFormatter.iso8601Format
         
-        guard let transactionResult = formatter.date(from: inserted) else {
+        /// Some trades don't have a consistant date format. Some
+        /// use the same format as what we use for establishing a
+        /// secure session, some use ISO8601.
+        if let transactionResult = formatter.date(from: inserted) {
+            createdAt = transactionResult
+        } else if let transactionResult = legacyFormatter.date(from: inserted) {
+            createdAt = transactionResult
+        } else {
             throw DecodingError.dataCorruptedError(
                 forKey: .createdAt,
                 in: values,
                 debugDescription: "Date string does not match format expected by formatter."
             )
         }
+        
         guard let updatedResult = formatter.date(from: updated) else {
             throw DecodingError.dataCorruptedError(
                 forKey: .updatedAt,
@@ -297,7 +318,6 @@ struct ExchangeTradeCellModel: Decodable {
             )
         }
         
-        createdAt = transactionResult
         updatedAt = updatedResult
         
         identifier = try values.decode(String.self, forKey: .identifier)

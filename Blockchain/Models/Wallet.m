@@ -2660,9 +2660,8 @@
         tradeExecutionType = @"bitcoin";
         formattedAmount = [NSString stringWithFormat:@"%lld", [NSNumberFormatter parseBtcValueFromString:orderTransaction.amount]];
         [self.context invokeOnceWithValueFunctionBlock:^(JSValue *_Nonnull errorValue) {
-            [self showBTCPaymentError:[errorValue toDictionary][DICTIONARY_KEY_ERROR]];
             completion();
-            error([errorValue toString]);
+            error([NSString stringWithFormat:[LocalizationConstantsObjcBridge notEnoughXForFees], [ConstantsObjcBridge btcCode]]);
         } forJsFunctionName:@"objc_on_create_order_payment_error"];
     } else if (orderTransaction.legacyAssetType == LegacyAssetTypeBitcoinCash) {
         tradeExecutionType = @"bitcoinCash";
@@ -4685,7 +4684,7 @@
 
     if ([message isEqualToString:ERROR_NO_UNSPENT_OUTPUTS] || [message isEqualToString:ERROR_AMOUNTS_ADDRESSES_MUST_EQUAL]) {
         if ([self.delegate respondsToSelector:@selector(didErrorWhenBuildingBitcoinPaymentWithError:)]) {
-            [self.delegate didErrorWhenBuildingBitcoinPaymentWithError:[LocalizationConstantsObjcBridge notEnoughFunds]];
+            [self.delegate didErrorWhenBuildingBitcoinPaymentWithError:[NSString stringWithFormat:[LocalizationConstantsObjcBridge notEnoughXForFees], [ConstantsObjcBridge btcCode]]];
         }
     } else if ([message isEqualToString:ERROR_BELOW_DUST_THRESHOLD]) {
         id errorObject = error[DICTIONARY_KEY_MESSAGE][DICTIONARY_KEY_ERROR];

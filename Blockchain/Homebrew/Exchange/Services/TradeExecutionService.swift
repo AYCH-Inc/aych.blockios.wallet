@@ -30,6 +30,14 @@ class TradeExecutionService: TradeExecutionAPI {
     // MARK: TradeExecutionAPI
     
     var isExecuting: Bool = false
+    func canTradeAssetType(_ assetType: AssetType) -> Bool {
+        switch assetType {
+        case .ethereum:
+            return !wallet.isWaitingOnEtherTransaction()
+        default:
+            return true
+        }
+    }
     
     init(service: NabuAuthenticationService = NabuAuthenticationService.shared,
          wallet: Wallet = WalletManager.shared.wallet) {

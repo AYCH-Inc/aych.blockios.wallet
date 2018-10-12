@@ -287,13 +287,26 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         )
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     func validateInput() {
         guard let model = model else { return }
+        guard let output = output else { return }
+
+        guard tradeExecution.canTradeAssetType(model.pair.from) else {
+            if let errorMessage = errorMessage(for: model.pair.from) {
+                output.showError(message: errorMessage)
+            } else {
+                // This shouldn't happen because the only case (eth) should have an error message,
+                // but just in case show an error here
+                output.showError(message: LocalizationConstants.Errors.genericError)
+            }
+            return
+        }
+
         guard let conversion = model.lastConversion else {
             Logger.shared.error("No conversion stored")
             return
         }
-        guard let output = output else { return }
         
         let min = minTradingLimit().asObservable()
         let max = maxTradingLimit().asObservable()
@@ -398,6 +411,18 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             guard let this = self else { return }
             guard let model = this.model else { return }
             guard let output = this.output else { return }
+
+            guard this.tradeExecution.canTradeAssetType(model.pair.from) else {
+                if let errorMessage = this.errorMessage(for: model.pair.from) {
+                    output.showError(message: errorMessage)
+                } else {
+                    // This shouldn't happen because the only case (eth) should have an error message,
+                    // but just in case show an error here
+                    output.showError(message: LocalizationConstants.Errors.genericError)
+                }
+                return
+            }
+
             let symbol = model.fiatCurrencySymbol
             let suffix = model.pair.from.symbol
             
@@ -522,6 +547,14 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             return inputs.canAddFiatCharacter(value)
         case false:
             return inputs.canAddAssetCharacter(value)
+        }
+    }
+
+    // Error message to show if the user is not allowed to trade a certain asset type
+    private func errorMessage(for assetType: AssetType) -> String? {
+        switch assetType {
+        case .ethereum: return LocalizationConstants.SendEther.waitingForPaymentToFinishMessage
+        default: return nil
         }
     }
 }

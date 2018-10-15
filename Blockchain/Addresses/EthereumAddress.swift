@@ -17,7 +17,7 @@ public class EthereumAddress: NSObject & AssetAddress {
 
     public private(set) var address: String
 
-    public var assetType: AssetType
+    public let assetType: AssetType = .ethereum
 
     override public var description: String {
         return address
@@ -27,6 +27,5 @@ public class EthereumAddress: NSObject & AssetAddress {
 
     public required init(string: String) {
         self.address = string
-        self.assetType = .ethereum
     }
 }

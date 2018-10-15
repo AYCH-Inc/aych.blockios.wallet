@@ -73,6 +73,18 @@ enum ExchangeTradeModel {
 }
 
 extension ExchangeTradeModel {
+    var statusDescription: String? {
+        switch self {
+        case .partner:
+            return nil
+        case .homebrew:
+            switch self.status {
+            case .expired: return LocalizationConstants.Exchange.expiredDescription
+            case .failed: return LocalizationConstants.Exchange.failedDescription
+            default: return nil
+            }
+        }
+    }
     var withdrawalAddress: String {
         switch self {
         case .partner(let model):
@@ -114,7 +126,11 @@ extension ExchangeTradeModel {
         case .partner(let model):
             return model.amountDepositedCryptoValue
         case .homebrew(let model):
-            return model.deposit.value + " " + model.deposit.symbol
+            if let value = model.deposit?.value, let symbol = model.deposit?.symbol {
+                return value + " " + symbol
+            } else {
+                return "0" + " " + model.pair.from.symbol
+            }
         }
     }
     
@@ -126,7 +142,7 @@ extension ExchangeTradeModel {
             if let value = model.withdrawal?.value, let symbol = model.withdrawal?.symbol {
                 return value + " " + symbol
             } else {
-                return ""
+                return "0" + " " + model.pair.to.symbol
             }
         }
     }
@@ -248,7 +264,7 @@ struct ExchangeTradeCellModel: Decodable {
     let refundAddress: String
     let rate: String?
     let depositAddress: String
-    let deposit: SymbolValue
+    let deposit: SymbolValue?
     let withdrawalAddress: String
     let withdrawal: SymbolValue?
     let withdrawalFee: SymbolValue
@@ -281,14 +297,23 @@ struct ExchangeTradeCellModel: Decodable {
         let updated = try values.decode(String.self, forKey: .updatedAt)
         let inserted = try values.decode(String.self, forKey: .createdAt)
         let formatter = DateFormatter.sessionDateFormat
+        let legacyFormatter = DateFormatter.iso8601Format
         
-        guard let transactionResult = formatter.date(from: inserted) else {
+        /// Some trades don't have a consistant date format. Some
+        /// use the same format as what we use for establishing a
+        /// secure session, some use ISO8601.
+        if let transactionResult = formatter.date(from: inserted) {
+            createdAt = transactionResult
+        } else if let transactionResult = legacyFormatter.date(from: inserted) {
+            createdAt = transactionResult
+        } else {
             throw DecodingError.dataCorruptedError(
                 forKey: .createdAt,
                 in: values,
                 debugDescription: "Date string does not match format expected by formatter."
             )
         }
+        
         guard let updatedResult = formatter.date(from: updated) else {
             throw DecodingError.dataCorruptedError(
                 forKey: .updatedAt,
@@ -297,7 +322,6 @@ struct ExchangeTradeCellModel: Decodable {
             )
         }
         
-        createdAt = transactionResult
         updatedAt = updatedResult
         
         identifier = try values.decode(String.self, forKey: .identifier)
@@ -314,7 +338,7 @@ struct ExchangeTradeCellModel: Decodable {
         refundAddress = try values.decode(String.self, forKey: .refundAddress)
         rate = try values.decodeIfPresent(String.self, forKey: .rate)
         depositAddress = try values.decode(String.self, forKey: .depositAddress)
-        deposit = try values.decode(SymbolValue.self, forKey: .deposit)
+        deposit = try values.decodeIfPresent(SymbolValue.self, forKey: .deposit)
         withdrawalAddress = try values.decode(String.self, forKey: .withdrawalAddress)
         withdrawal = try values.decodeIfPresent(SymbolValue.self, forKey: .withdrawal)
         withdrawalFee = try values.decode(SymbolValue.self, forKey: .withdrawalFee)
@@ -394,76 +418,30 @@ fileprivate extension ExchangeTrade {
     
     fileprivate func minerFeeCryptoAmount() -> String? {
         guard let assetType = AssetType(stringValue: minerCurrency()) else { return nil }
-        return toCrypto(from: assetType, amount: minerFee)
+        return assetType.toCrypto(amount: minerFee as Decimal)
     }
     
     fileprivate func inboundFiatAmount() -> String? {
         guard let toAsset = pair.components(separatedBy: "_").last else { return nil }
         guard let assetType = AssetType(stringValue: toAsset) else { return nil }
-        return toFiat(from: assetType, amount: withdrawalAmount)
+        return assetType.toFiat(amount: withdrawalAmount as Decimal)
     }
     
     fileprivate func inboundCryptoAmount() -> String? {
         guard let currencySymbol = withdrawalCurrency() else { return nil }
         guard let assetType = AssetType(stringValue: currencySymbol) else { return nil }
-        return toCrypto(from: assetType, amount: withdrawalAmount)
+        return assetType.toCrypto(amount: withdrawalAmount as Decimal)
     }
     
     fileprivate func outboundFiatAmount() -> String? {
         guard let fromAsset = pair.components(separatedBy: "_").first else { return nil }
         guard let assetType = AssetType(stringValue: fromAsset) else { return nil }
-        return toFiat(from: assetType, amount: depositAmount)
+        return assetType.toFiat(amount: depositAmount as Decimal)
     }
     
     fileprivate func outboundCryptoAmount() -> String? {
         guard let currencySymbol = depositCurrency() else { return nil }
         guard let assetType = AssetType(stringValue: currencySymbol) else { return nil }
-        return toCrypto(from: assetType, amount: depositAmount)
-    }
-    
-    fileprivate func toFiat(from assetType: AssetType, amount: NSDecimalNumber) -> String? {
-        switch assetType {
-        case .bitcoin:
-            let value = NumberFormatter.formatMoney(
-                amount.uint64Value,
-                localCurrency: true
-            )
-            return value
-        case .ethereum:
-            let value = NumberFormatter.formatEthToFiat(
-                withSymbol: amount.stringValue,
-                exchangeRate: WalletManager.shared.wallet.latestEthExchangeRate
-            )
-            return value
-        case .bitcoinCash:
-            let value = NumberFormatter.formatBch(
-                withSymbol: amount.uint64Value,
-                localCurrency: true
-            )
-            return value
-        case .stellar:
-            // TODO: add stellar formatting methods
-            return "Stellar in fiat"
-        }
-    }
-    
-    fileprivate func toCrypto(from assetType: AssetType, amount: NSDecimalNumber) -> String? {
-        switch assetType {
-        case .bitcoin:
-            let value = NumberFormatter.parseBtcValue(from: amount.stringValue)
-            return NumberFormatter.formatMoney(value.magnitude)
-        case .ethereum:
-            guard let exchangeRate = WalletManager.shared.wallet.latestEthExchangeRate else { return nil }
-            return NumberFormatter.formatEth(
-                withLocalSymbol: amount.stringValue,
-                exchangeRate: exchangeRate
-            )
-        case .bitcoinCash:
-            let value = NumberFormatter.parseBtcValue(from: amount.stringValue)
-            return NumberFormatter.formatBch(withSymbol: value.magnitude)
-        case .stellar:
-            // TODO: add stellar formatting methods
-            return "Stellar in crypto"
-        }
+        return assetType.toCrypto(amount: depositAmount as Decimal)
     }
 }

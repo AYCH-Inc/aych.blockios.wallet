@@ -76,7 +76,7 @@ class ExchangeDetailCoordinator: NSObject {
                 )
                 
                 let fees = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.estimatedFees,
+                    description: LocalizationConstants.Exchange.fees,
                     value: orderTransaction.fees + " " + orderTransaction.from.address.assetType.symbol
                 )
                 
@@ -88,7 +88,7 @@ class ExchangeDetailCoordinator: NSObject {
                 
                 let sendTo = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.sendTo,
-                    value: accountRepository.nameOfAccountContaining(address: orderTransaction.destination)
+                    value: accountRepository.nameOfAccountContaining(address: orderTransaction.destination.address.address)
                 )
                 
                 let paragraphStyle = NSMutableParagraphStyle()
@@ -148,12 +148,27 @@ class ExchangeDetailCoordinator: NSObject {
                 
                 let sendTo = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.sendTo,
-                    value: accountRepository.nameOfAccountContaining(address: orderTransaction.destination)
+                    value: accountRepository.nameOfAccountContaining(address: orderTransaction.destination.address.address)
                 )
+
+                var orderId = ExchangeCellModel.Plain(
+                    description: LocalizationConstants.Exchange.orderID,
+                    value: orderTransaction.orderIdentifier ?? ""
+                )
+                orderId.descriptionActionBlock = {
+                    guard let text = $0.text else { return }
+                    UIPasteboard.general.string = text
+                    $0.animate(
+                        fromText: orderTransaction.orderIdentifier ?? "",
+                        toIntermediateText: LocalizationConstants.copiedToClipboard,
+                        speed: 1,
+                        gestureReceiver: $0
+                    )
+                }
                 
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.alignment = .center
-                
+
                 let attributedTextFont = UIFont(name: Constants.FontNames.montserratRegular, size: 16.0)
                     ?? UIFont.systemFont(ofSize: 16.0, weight: .regular)
                 let attributedText = NSAttributedString(
@@ -162,21 +177,22 @@ class ExchangeDetailCoordinator: NSObject {
                                  NSAttributedStringKey.font: attributedTextFont,
                                  NSAttributedStringKey.paragraphStyle: paragraphStyle]
                 )
-                
+
                 let text = ExchangeCellModel.Text(
                     attributedString: attributedText
                 )
-                
+
                 cellModels.append(contentsOf: [
                     .tradingPair(pair),
                     .plain(value),
                     .plain(fees),
                     .plain(receive),
                     .plain(sendTo),
+                    .plain(orderId),
                     .text(text)
                     ]
                 )
-                
+
                 delegate?.coordinator(self, updated: cellModels)
             case .overview(let trade):
                 interface?.updateBackgroundColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
@@ -215,12 +231,6 @@ class ExchangeDetailCoordinator: NSObject {
                     value: trade.feeDisplayValue,
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1)
                 )
-                
-                let sendTo = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.sendTo,
-                    value: accountRepository.nameOfAccountContaining(address: trade.withdrawalAddress),
-                    backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1)
-                )
 
                 var orderId = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.orderID,
@@ -244,11 +254,33 @@ class ExchangeDetailCoordinator: NSObject {
                     .plain(exchange),
                     .plain(receive),
                     .plain(fees),
-                    .plain(sendTo),
                     .plain(orderId)
                     ]
                 )
                 
+                if let description = trade.statusDescription {
+
+                    let paragraphStyle = NSMutableParagraphStyle()
+                    paragraphStyle.alignment = .center
+
+                    let attributedTextFont = UIFont(name: Constants.FontNames.montserratRegular, size: 12.0)
+                        ?? UIFont.systemFont(ofSize: 12.0, weight: .regular)
+                    let attributedText = NSAttributedString(
+                        string: description,
+                        attributes: [NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.64, green: 0.64, blue: 0.64, alpha: 1),
+                                     NSAttributedStringKey.font: attributedTextFont,
+                                     NSAttributedStringKey.paragraphStyle: paragraphStyle]
+                    )
+
+                    let text = ExchangeCellModel.Text(
+                        attributedString: attributedText
+                    )
+                    cellModels.append(contentsOf: [
+                            .text(text)
+                        ]
+                    )
+                }
+
                 delegate?.coordinator(self, updated: cellModels)
             }
         case .confirmExchange(let transaction):
@@ -259,19 +291,21 @@ class ExchangeDetailCoordinator: NSObject {
             guard tradeExecution.isExecuting == false else { return }
             interface?.loadingVisibility(.visible, action: .confirmExchange)
             
-            tradeExecution.submitAndSend(
+            tradeExecution.buildAndSend(
                 with: lastConversion,
-                success: { [weak self] in
+                from: transaction.from,
+                to: transaction.destination,
+                success: { [weak self] orderTransaction in
                     guard let this = self else { return }
-                    
+
                     NotificationCenter.default.post(
                         Notification(name: Constants.NotificationKeys.exchangeSubmitted)
                     )
-                    
+
                     this.interface?.loadingVisibility(.hidden, action: .confirmExchange)
                     ExchangeCoordinator.shared.handle(
                         event: .sentTransaction(
-                            orderTransaction: transaction,
+                            orderTransaction: orderTransaction,
                             conversion: lastConversion
                         )
                     )

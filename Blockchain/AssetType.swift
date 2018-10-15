@@ -114,4 +114,59 @@ extension AssetType {
             return UIColor(red: 0.02, green: 0.71, blue: 0.90, alpha: 1)
         }
     }
+    
+    func toFiat(
+        amount: Decimal,
+        from wallet: Wallet = WalletManager.shared.wallet
+        ) -> String? {
+        let input = amount as NSDecimalNumber
+        
+        switch self {
+        case .bitcoin:
+            let value = NumberFormatter.parseBtcValue(from: input.stringValue)
+            return NumberFormatter.formatMoney(
+                value.magnitude,
+                localCurrency: true
+            )
+        case .ethereum:
+            let value = NumberFormatter.formatEthToFiat(
+                withSymbol: input.stringValue,
+                exchangeRate: wallet.latestEthExchangeRate
+            )
+            return value
+        case .bitcoinCash:
+            let value = NumberFormatter.parseBtcValue(from: input.stringValue)
+            return NumberFormatter.formatBch(
+                withSymbol: value.magnitude,
+                localCurrency: true
+            )
+        case .stellar:
+            // TODO: add formatting methods
+            return "stellar in fiat"
+        }
+    }
+    
+    func toCrypto(
+        amount: Decimal,
+        from wallet: Wallet = WalletManager.shared.wallet
+        ) -> String? {
+        let input = amount as NSDecimalNumber
+        switch self {
+        case .bitcoin:
+            let value = NumberFormatter.parseBtcValue(from: input.stringValue)
+            return NumberFormatter.formatMoney(value.magnitude)
+        case .ethereum:
+            guard let exchangeRate = wallet.latestEthExchangeRate else { return nil }
+            return NumberFormatter.formatEth(
+                withLocalSymbol: input.stringValue,
+                exchangeRate: exchangeRate
+            )
+        case .bitcoinCash:
+            let value = NumberFormatter.parseBtcValue(from: input.stringValue)
+            return NumberFormatter.formatBch(withSymbol: value.magnitude)
+        case .stellar:
+            // TODO: add formatting methods
+            return "stellar in crypto"
+        }
+    }
 }

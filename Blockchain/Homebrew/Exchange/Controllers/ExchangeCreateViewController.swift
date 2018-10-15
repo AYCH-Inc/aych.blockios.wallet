@@ -23,10 +23,11 @@ class ExchangeCreateViewController: UIViewController {
     
     // MARK: Private Static Properties
     
+    static let isLargerThan5S: Bool = Constants.Booleans.IsUsingScreenSizeLargerThan5s
     static let primaryFontName: String = Constants.FontNames.montserratMedium
-    static let primaryFontSize: CGFloat = Constants.FontSizes.Huge
-    static let secondaryFontName: String = Constants.FontNames.montserratMedium
-    static let secondaryFontSize: CGFloat = Constants.FontSizes.MediumLarge
+    static let primaryFontSize: CGFloat = isLargerThan5S ? 72.0 : Constants.FontSizes.Gigantic
+    static let secondaryFontName: String = Constants.FontNames.montserratRegular
+    static let secondaryFontSize: CGFloat = Constants.FontSizes.Huge
 
     // MARK: - IBOutlets
 
@@ -38,25 +39,41 @@ class ExchangeCreateViewController: UIViewController {
 
     // Amount being typed in converted to input crypto or input fiat
     @IBOutlet private var secondaryAmountLabel: UILabel!
+    
+    // Label that is hidden unlesss the user attempts to submit
+    // an exchange that is below the minimum value or above the max.
+    @IBOutlet private var errorLabel: UILabel!
 
     @IBOutlet private var hideRatesButton: UIButton!
     @IBOutlet private var conversionRatesView: ConversionRatesView!
-    @IBOutlet private var useMinimumButton: UIButton!
-    @IBOutlet private var useMaximumButton: UIButton!
+    @IBOutlet private var fixToggleButton: UIButton!
     @IBOutlet private var conversionView: UIView!
+    @IBOutlet private var conversionTitleLabel: UILabel!
     @IBOutlet private var exchangeButton: UIButton!
-
-    @IBAction func useMinimumButtonTapped(_ sender: Any) {
-        delegate?.onUseMinimumTapped(assetAccount: fromAccount)
+    @IBOutlet private var primaryLabelCenterXConstraint: NSLayoutConstraint!
+    
+    enum PresentationUpdate {
+        case wiggleInputLabels
+        case wigglePrimaryLabel
+        case updatePrimaryLabel(NSAttributedString?, CGFloat)
+        case updateSecondaryLabel(String?)
+        case updateErrorLabel(String)
+        case updateRateLabels(first: String, second: String, third: String)
+        case keypadVisibility(Visibility, animated: Bool)
+        case conversionRatesView(Visibility, animated: Bool)
+        case loadingIndicator(Visibility)
     }
-
-    @IBAction func useMaximumButtonTapped(_ sender: Any) {
-        delegate?.onUseMaximumTapped(assetAccount: fromAccount)
+    
+    enum ViewUpdate: Update {
+        case conversionTitleLabel(Visibility)
+        case conversionView(Visibility)
+        case exchangeButton(Visibility)
+        case ratesChevron(Visibility)
+        case errorLabel(Visibility)
     }
-
-    // MARK: Action enum
-    enum Action {
-        case createPayment
+    
+    enum TransitionUpdate: Transition {
+        case primaryLabelTextColor(UIColor)
     }
 
     // MARK: Public Properties
@@ -108,10 +125,11 @@ class ExchangeCreateViewController: UIViewController {
         [primaryAmountLabel, secondaryAmountLabel].forEach {
             $0?.textColor = UIColor.brandPrimary
         }
-
-        useMinimumButton.setTitle(LocalizationConstants.Exchange.useMin, for: .normal)
-        useMaximumButton.setTitle(LocalizationConstants.Exchange.useMax, for: .normal)
-        [useMaximumButton, useMinimumButton, conversionView, hideRatesButton].forEach {
+        
+        secondaryAmountLabel.font = styleTemplate().secondaryFont
+        errorLabel.font = UIFont(name: Constants.FontNames.montserratRegular, size: Constants.FontSizes.ExtraExtraSmall)
+        
+        [conversionView, hideRatesButton].forEach {
             addStyleToView($0)
         }
 
@@ -130,7 +148,7 @@ class ExchangeCreateViewController: UIViewController {
                 marketPair: MarketPair(fromAccount: fromAccount, toAccount: toAccount),
                 fiatCurrencyCode: BlockchainSettings.sharedAppInstance().fiatCurrencyCode ?? "USD",
                 fiatCurrencySymbol: BlockchainSettings.sharedAppInstance().fiatCurrencySymbol ?? "$",
-                fix: .base,
+                fix: .baseInFiat,
                 volume: "0"
             )
         )
@@ -143,6 +161,12 @@ class ExchangeCreateViewController: UIViewController {
     }
     
     // MARK: - IBActions
+
+    @IBAction func fixToggleButtonTapped(_ sender: UIButton) {
+        let imageToggle = (fixToggleButton.currentImage == #imageLiteral(resourceName: "icon-toggle-left")) ? #imageLiteral(resourceName: "icon-toggle-right") : #imageLiteral(resourceName: "icon-toggle-left")
+        fixToggleButton.setImage(imageToggle, for: .normal)
+        presenter.onToggleFixTapped()
+    }
 
     @IBAction private func ratesViewTapped(_ sender: UITapGestureRecognizer) {
         delegate?.onDisplayRatesTapped()
@@ -193,9 +217,109 @@ extension ExchangeCreateViewController: NumberKeypadViewDelegate {
 }
 
 extension ExchangeCreateViewController: ExchangeCreateInterface {
+    func apply(transitionPresentation: TransitionPresentationUpdate<ExchangeCreateInterface.TransitionUpdate>) {
+        transitionPresentation.transitionType.perform(with: view, animations: { [weak self] in
+            guard let this = self else { return }
+            transitionPresentation.transitions.forEach({ this.apply(transition: $0) })
+        })
+    }
     
-    func wigglePrimaryLabel() {
-        primaryAmountLabel.wiggle()
+    func apply(transitionUpdateGroup: ExchangeCreateInterface.TransitionUpdateGroup) {
+        let completion: () -> Void = {
+            transitionUpdateGroup.finish()
+        }
+        transitionUpdateGroup.preparations.forEach({ apply(transition: $0) })
+        transitionUpdateGroup.transitionType.perform(with: view, animations: { [weak self] in
+            transitionUpdateGroup.transitions.forEach({ self?.apply(transition: $0) })
+        }, completion: completion)
+    }
+    
+    func apply(presentationUpdateGroup: ExchangeCreateInterface.PresentationUpdateGroup) {
+        let completion: () -> Void = {
+            presentationUpdateGroup.finish()
+        }
+        presentationUpdateGroup.preparations.forEach({ apply(update: $0) })
+        presentationUpdateGroup.animationType.perform(animations: { [weak self] in
+            presentationUpdateGroup.animations.forEach({ self?.apply(update: $0) })
+        }, completion: completion)
+    }
+    
+    func apply(presentationUpdates: [ExchangeCreateInterface.PresentationUpdate]) {
+        presentationUpdates.forEach({ apply(presentationUpdate: $0) })
+    }
+    
+    func apply(animatedUpdate: ExchangeCreateInterface.AnimatedUpdate) {
+        animatedUpdate.animationType.perform(animations: { [weak self] in
+            guard let this = self else { return }
+            animatedUpdate.animations.forEach({ this.apply(update: $0) })
+        })
+    }
+    
+    func apply(viewUpdates: [ExchangeCreateInterface.ViewUpdate]) {
+        viewUpdates.forEach({ apply(update: $0) })
+    }
+    
+    func apply(transition: TransitionUpdate) {
+        switch transition {
+        case .primaryLabelTextColor(let color):
+            primaryAmountLabel.textColor = color
+        }
+    }
+    
+    func apply(update: ViewUpdate) {
+        switch update {
+        case .conversionTitleLabel(let visibility):
+            conversionTitleLabel.alpha = visibility.defaultAlpha
+        case .conversionView(let visibility):
+            conversionView.alpha = visibility.defaultAlpha
+        case .exchangeButton(let visibility):
+            exchangeButton.alpha = visibility.defaultAlpha
+        case .ratesChevron(let visibility):
+            hideRatesButton.alpha = visibility.defaultAlpha
+        case .errorLabel(let visibility):
+            errorLabel.alpha = visibility.defaultAlpha
+        }
+    }
+    
+    func apply(presentationUpdate: PresentationUpdate) {
+        switch presentationUpdate {
+        case .loadingIndicator(let visibility):
+            switch visibility {
+            case .visible:
+                LoadingViewPresenter.shared.showBusyView(
+                    withLoadingText: LocalizationConstants.Exchange.confirming
+                )
+            case .hidden:
+                LoadingViewPresenter.shared.hideBusyView()
+            default:
+                Logger.shared.warning("Visibility not handled")
+            }
+        case .conversionRatesView(let visibility, animated: let animated):
+            conversionRatesView.updateVisibility(visibility, animated: animated)
+        case .keypadVisibility(let visibility, animated: let animated):
+            numberKeypadView.updateKeypadVisibility(visibility, animated: animated) { [weak self] in
+                guard let this = self else { return }
+                this.delegate?.onKeypadVisibilityUpdated(visibility, animated: animated)
+            }
+        case .updatePrimaryLabel(let value, let offset):
+            primaryAmountLabel.attributedText = value
+            guard primaryLabelCenterXConstraint.constant != offset else { return }
+            primaryLabelCenterXConstraint.constant = offset
+            view.setNeedsLayout()
+            view.layoutIfNeeded()
+        case .updateSecondaryLabel(let value):
+            secondaryAmountLabel.text = value
+        case .wiggleInputLabels:
+            primaryAmountLabel.wiggle()
+            secondaryAmountLabel.wiggle()
+        case .wigglePrimaryLabel:
+            primaryAmountLabel.wiggle()
+        case .updateRateLabels(first: let first, second: let second, third: let third):
+            conversionTitleLabel.text = first
+            conversionRatesView.apply(baseToCounter: first, baseToFiat: second, counterToFiat: third)
+        case .updateErrorLabel(let value):
+            errorLabel.text = value
+        }
     }
     
     func styleTemplate() -> ExchangeStyleTemplate {
@@ -216,72 +340,6 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             textColor: .brandPrimary,
             pendingColor: UIColor.brandPrimary.withAlphaComponent(0.5)
         )
-    }
-    
-    func updateAttributedPrimary(_ primary: NSAttributedString?, secondary: String?) {
-        primaryAmountLabel.attributedText = primary
-        secondaryAmountLabel.text = secondary
-    }
-    
-    func ratesViewVisibility(_ visibility: Visibility, animated: Bool) {
-        conversionRatesView.updateVisibility(visibility, animated: animated)
-    }
-    
-    func keypadViewVisibility(_ visibility: Visibility, animated: Bool) {
-        numberKeypadView.updateKeypadVisibility(visibility, animated: animated) { [weak self] in
-            guard let this = self else { return }
-            this.delegate?.onKeypadVisibilityUpdated(visibility, animated: animated)
-        }
-    }
-    
-    func exchangeButtonVisibility(_ visibility: Visibility, animated: Bool) {
-        if animated == false {
-            exchangeButton.alpha = visibility.defaultAlpha
-            return
-        }
-        
-        UIView.animate(
-            withDuration: 0.2,
-            delay: 0.0,
-            options: .curveEaseIn,
-            animations: {
-                self.exchangeButton.alpha = visibility.defaultAlpha
-        }, completion: nil)
-    }
-    
-    func ratesChevronButtonVisibility(_ visibility: Visibility, animated: Bool) {
-        if animated == false {
-            hideRatesButton.alpha = visibility.defaultAlpha
-            return
-        }
-        
-        UIView.animate(
-            withDuration: 0.2,
-            delay: 0.0,
-            options: .curveEaseIn,
-            animations: {
-                self.hideRatesButton.alpha = visibility.defaultAlpha
-        }, completion: nil)
-    }
-    
-    func conversionViewVisibility(_ visibility: Visibility, animated: Bool) {
-        if animated == false {
-            conversionView.alpha = visibility.defaultAlpha
-            return
-        }
-        
-        UIView.animate(
-            withDuration: 0.2,
-            delay: 0.0,
-            options: .curveEaseIn,
-            animations: {
-                self.conversionView.alpha = visibility.defaultAlpha
-        }, completion: nil)
-    }
-
-    func updateInputLabels(primary: String?, primaryDecimal: String?, secondary: String?) {
-        primaryAmountLabel.text = primary
-        secondaryAmountLabel.text = secondary
     }
 
     func updateTradingPairView(pair: TradingPair, fix: Fix) {
@@ -332,32 +390,19 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
         )
         tradingPairView.apply(transitionUpdate: transitionUpdate)
     }
-
-    func updateRateLabels(first: String, second: String, third: String) {
-        conversionRatesView.apply(
-            baseToCounter: first,
-            baseToFiat: second,
-            counterToFiat: third
-        )
+    
+    func exchangeButtonEnabled(_ enabled: Bool) {
+        exchangeButton.isEnabled = enabled
     }
 
-    func loadingVisibility(_ visibility: Visibility, action: ExchangeCreateViewController.Action) {
-        if visibility == .visible {
-            var loadingText: String?
-            switch action {
-            case .createPayment: loadingText = LocalizationConstants.Exchange.confirming
-            }
-
-            guard let text = loadingText else {
-                Logger.shared.error("unknown ExchangeCreateViewController action")
-                return
-            }
-            LoadingViewPresenter.shared.showBusyView(withLoadingText: text)
-        } else {
-            LoadingViewPresenter.shared.hideBusyView()
-        }
+    func isShowingConversionRatesView() -> Bool {
+        return conversionRatesView.alpha == 1
     }
 
+    func isExchangeButtonEnabled() -> Bool {
+        return exchangeButton.isEnabled
+    }
+    
     func showSummary(orderTransaction: OrderTransaction, conversion: Conversion) {
         ExchangeCoordinator.shared.handle(event: .confirmExchange(orderTransaction: orderTransaction, conversion: conversion))
     }
@@ -375,7 +420,7 @@ extension ExchangeCreateViewController: TradingPairViewDelegate {
     }
 
     func onSwapButtonTapped(_ view: TradingPairView) {
-        presenter.onToggleFixTapped()
+        // TICKET: https://blockchain.atlassian.net/browse/IOS-1350
     }
 }
 

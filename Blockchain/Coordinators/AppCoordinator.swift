@@ -222,6 +222,11 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
             handleBuyBitcoin()
         case .exchange:
             handleExchange()
+        case .lockbox:
+            let storyboard = UIStoryboard(name: "LockboxViewController", bundle: nil)
+            let lockboxViewController = storyboard.instantiateViewController(withIdentifier: "LockboxViewController") as! LockboxViewController
+            lockboxViewController.modalTransitionStyle = .coverVertical
+            UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(lockboxViewController, animated: true)
         }
     }
 
@@ -342,11 +347,11 @@ extension AppCoordinator: WalletAccountInfoAndExchangeRatesDelegate {
 
 extension AppCoordinator: WalletBackupDelegate {
     func didBackupWallet() {
-        reload()
+        walletManager.wallet.getHistoryForAllAssets()
     }
 
     func didFailBackupWallet() {
-        walletManager.wallet.getAndHistory()
+        walletManager.wallet.getHistoryForAllAssets()
     }
 }
 

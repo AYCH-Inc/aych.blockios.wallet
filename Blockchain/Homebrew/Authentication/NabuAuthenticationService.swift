@@ -14,7 +14,7 @@ final class NabuAuthenticationService {
 
     static let shared = NabuAuthenticationService()
 
-    private var cachedSessionToken = BehaviorRelay<NabuSessionTokenResponse?>(value: nil)
+    private let cachedSessionToken = BehaviorRelay<NabuSessionTokenResponse?>(value: nil)
     private let wallet: Wallet
 
     // MARK: - Initialization
@@ -37,16 +37,21 @@ final class NabuAuthenticationService {
     ///   (2) using the JWT token, create a Nabu user
     ///   (3) the created Nabu user is then persisted in the wallet metadata
     ///
+    /// - Parameter requestNewToken: if a new token should be requested. Defaults to false so that a
+    ///       session token is only requested if the cached token is expired.
     /// - Returns: a Single returning the sesion token
-    func getSessionToken() -> Single<NabuSessionTokenResponse> {
+    func getSessionToken(requestNewToken: Bool = false) -> Single<NabuSessionTokenResponse> {
         return getOrCreateNabuUserResponse().flatMap {
-            self.getSessionTokenIfNeeded(from: $0)
+            self.getSessionTokenIfNeeded(from: $0, requestNewToken: requestNewToken)
         }
     }
 
     // MARK: - Private Methods
 
-    private func getSessionTokenIfNeeded(from userResponse: NabuCreateUserResponse) -> Single<NabuSessionTokenResponse> {
+    private func getSessionTokenIfNeeded(from userResponse: NabuCreateUserResponse, requestNewToken: Bool) -> Single<NabuSessionTokenResponse> {
+        guard !requestNewToken else {
+            return requestNewSessionToken(from: userResponse)
+        }
 
         guard let sessionToken = cachedSessionToken.value else {
             return requestNewSessionToken(from: userResponse)
@@ -57,8 +62,9 @@ final class NabuAuthenticationService {
             return requestNewSessionToken(from: userResponse)
         }
 
-        // Make sure cached session token is not expired
-        guard let expiresAt = sessionToken.expiresAt, Date() < expiresAt else {
+        // Make sure cached session token is not within 30 seconds of the expiration time.
+        // 30 seconds was added to account for server-phone time differences
+        guard let expiresAt = sessionToken.expiresAt, Date() < expiresAt.addingTimeInterval(-30) else {
             return requestNewSessionToken(from: userResponse)
         }
 

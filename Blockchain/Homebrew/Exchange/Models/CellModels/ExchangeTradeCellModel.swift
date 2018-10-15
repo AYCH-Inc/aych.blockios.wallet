@@ -441,6 +441,9 @@ fileprivate extension ExchangeTrade {
                 localCurrency: true
             )
             return value
+        case .stellar:
+            // TODO: add stellar formatting methods
+            return "Stellar in fiat"
         }
     }
     
@@ -458,6 +461,9 @@ fileprivate extension ExchangeTrade {
         case .bitcoinCash:
             let value = NumberFormatter.parseBtcValue(from: amount.stringValue)
             return NumberFormatter.formatBch(withSymbol: value.magnitude)
+        case .stellar:
+            // TODO: add stellar formatting methods
+            return "Stellar in crypto"
         }
     }
 }

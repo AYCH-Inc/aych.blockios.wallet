@@ -75,6 +75,33 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         case min
         case max
     }
+
+    fileprivate enum ExchangeCreateError {
+        case aboveTradingLimit
+        case belowTradingLimit
+        case unknown
+
+        init(errorCode: NabuNetworkErrorCode) {
+            switch errorCode {
+            case .tooBigVolume:
+                self = .aboveTradingLimit
+            case .tooSmallVolume:
+                self = .belowTradingLimit
+            case .resultCurrencyRatioTooSmall:
+                self = .belowTradingLimit
+            default:
+                self = .unknown
+            }
+        }
+
+        var message: String {
+            switch self {
+            case .aboveTradingLimit: return LocalizationConstants.Exchange.aboveTradingLimit
+            case .belowTradingLimit: return LocalizationConstants.Exchange.belowTradingLimit
+            case .unknown: return LocalizationConstants.Errors.error
+            }
+        }
+    }
     
     func viewLoaded() {
         guard let output = output else { return }
@@ -84,50 +111,14 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         updatedInput()
         
         markets.setup()
-        tradeLimitService.initialize(withFiatCurrency: model.fiatCurrencyCode)
 
         // Authenticate, then listen for conversions
         markets.authenticate(completion: { [unowned self] in
+            self.tradeLimitService.initialize(withFiatCurrency: model.fiatCurrencyCode)
             self.subscribeToConversions()
             self.updateMarketsConversion()
+            self.subscribeToBestRates()
         })
-    }
-
-    func subscribeToConversions() {
-        let conversionsDisposable = markets.conversions.subscribe(onNext: { [weak self] conversion in
-            guard let this = self else { return }
-
-            guard let model = this.model else { return }
-
-            guard model.pair.stringRepresentation == conversion.quote.pair else {
-                Logger.shared.warning(
-                    "Pair '\(conversion.quote.pair)' is different from model pair '\(model.pair.stringRepresentation)'."
-                )
-                return
-            }
-
-            // Store conversion
-            model.lastConversion = conversion
-
-            // Use conversions service to determine new input/output
-            this.conversions.update(with: conversion)
-
-            // Update interface to reflect the values returned from the conversion
-            // Update input labels
-            this.updateOutput()
-
-            // Update trading pair view values
-            this.updateTradingValues(left: this.conversions.baseOutput, right: this.conversions.counterOutput)
-        }, onError: { error in
-            Logger.shared.error("Error subscribing to quote with trading pair")
-        })
-        
-        let errorDisposable = markets.errors.subscribe(onNext: { [weak self] socketError in
-            // TODO: Implement error handling from Socket.
-        })
-        
-        _ = disposables.insert(conversionsDisposable)
-        _ = disposables.insert(errorDisposable)
     }
 
     func updateMarketsConversion() {
@@ -160,26 +151,19 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         let symbol = model.fiatCurrencySymbol
         let suffix = model.pair.from.symbol
         
-        let secondaryAmount = conversions.output.count == 0 ? "0.00": conversions.output
+        let secondaryAmount = conversions.output == "0" ? "0.00": conversions.output
         let secondaryResult = model.isUsingFiat ? (secondaryAmount + " " + suffix) : (symbol + secondaryAmount)
+        let primaryOffset = inputs.estimatedSymbolWidth(currencySymbol: symbol, template: output.styleTemplate())
 
         if model.isUsingFiat {
             let primary = inputs.primaryFiatAttributedString(currencySymbol: symbol)
-            output.updatedInput(primary: primary, secondary: conversions.output)
+            output.updatedInput(primary: primary, secondary: secondaryResult, primaryOffset: -primaryOffset)
         } else {
             let assetType = model.isUsingBase ? model.pair.from : model.pair.to
             let symbol = assetType.symbol
             let primary = inputs.primaryAssetAttributedString(symbol: symbol)
-            output.updatedInput(primary: primary, secondary: secondaryResult)
+            output.updatedInput(primary: primary, secondary: secondaryResult, primaryOffset: -primaryOffset)
         }
-        
-        guard let conversion = model.lastConversion else { return }
-        
-        output.updatedRates(
-            first: conversion.baseToCounterDescription,
-            second: conversion.baseToFiatDescription,
-            third: conversion.counterToFiatDescription
-        )
     }
 
     func updateTradingValues(left: String, right: String) {
@@ -192,10 +176,6 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         inputs.isUsingFiat = model.isUsingFiat
         inputs.toggleInput(withOutput: conversions.output)
         updatedInput()
-    }
-    
-    func ratesViewTapped() {
-        
     }
     
     func useMinimumAmount(assetAccount: AssetAccount) {
@@ -284,27 +264,234 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
     }
 
     func confirmConversion() {
-        guard let conversion = self.model?.lastConversion else {
+        guard let model = model else { return }
+        guard let conversion = model.lastConversion else {
             Logger.shared.error("No conversion stored")
             return
         }
+        guard let output = output else { return }
+        output.loadingVisibility(.visible)
+        self.tradeExecution.prebuildOrder(
+            with: conversion,
+            from: model.marketPair.fromAccount,
+            to: model.marketPair.toAccount,
+            success: { [weak self] orderTransaction, conversion in
+                guard let this = self else { return }
+                this.output?.loadingVisibility(.hidden)
+                this.output?.showSummary(orderTransaction: orderTransaction, conversion: conversion)
+            }, error: { [weak self] errorMessage in
+                guard let this = self else { return }
+                this.output?.showError(message: errorMessage)
+                this.output?.loadingVisibility(.hidden)
+            }
+        )
+    }
 
-        output?.loadingVisibility(.visible, action: ExchangeCreateViewController.Action.createPayment)
+    // swiftlint:disable:next cyclomatic_complexity
+    func validateInput() {
+        guard let model = model else { return }
+        guard let output = output else { return }
 
-        // Submit order to get payment information
-        tradeExecution.submitOrder(with: conversion, success: { [weak self] orderTransaction, conversion in
-            guard let this = self else { return }
-            this.output?.loadingVisibility(.hidden, action: ExchangeCreateViewController.Action.createPayment)
-            this.output?.showSummary(orderTransaction: orderTransaction, conversion: conversion)
-        }, error: { [weak self] errorMessage in
-            guard let this = self else { return }
-            AlertViewPresenter.shared.standardError(message: errorMessage)
-            this.output?.loadingVisibility(.hidden, action: ExchangeCreateViewController.Action.createPayment)
+        guard tradeExecution.canTradeAssetType(model.pair.from) else {
+            if let errorMessage = errorMessage(for: model.pair.from) {
+                output.showError(message: errorMessage)
+            } else {
+                // This shouldn't happen because the only case (eth) should have an error message,
+                // but just in case show an error here
+                output.showError(message: LocalizationConstants.Errors.genericError)
+            }
+            return
+        }
+
+        guard let conversion = model.lastConversion else {
+            Logger.shared.error("No conversion stored")
+            return
+        }
+        
+        let min = minTradingLimit().asObservable()
+        let max = maxTradingLimit().asObservable()
+        let account = model.marketPair.fromAccount
+        
+        let disposable = Observable.zip(min, max) {
+            return ($0, $1)
+        }.subscribe(onNext: { payload in
+            let minValue = payload.0
+            let maxValue = payload.1
+            
+            guard let volume = Decimal(string: conversion.quote.currencyRatio.base.crypto.value) else { return }
+            guard let candidate = Decimal(string: conversion.baseFiatValue) else { return }
+            
+            if account.balance < volume {
+                let symbol = conversion.baseCryptoSymbol
+                let notEnough = LocalizationConstants.Exchange.notEnough + " " + symbol + "."
+                let yourBalance = LocalizationConstants.Exchange.yourBalance + " " + "\(account.balance)" + " " + symbol
+                let value = notEnough + " " + yourBalance + "."
+                output.insufficientFunds(balance: value)
+                return
+            }
+            
+            switch candidate {
+            case ..<minValue:
+                let value = NumberFormatter.localCurrencyFormatter.string(for: minValue) ?? ""
+                let minimum = model.fiatCurrencySymbol + value
+                
+                output.entryBelowMinimumValue(minimum: minimum)
+            case maxValue..<Decimal.greatestFiniteMagnitude:
+                guard let value = NumberFormatter.localCurrencyFormatter.string(for: maxValue) else { return }
+                let maximum = model.fiatCurrencySymbol + value
+                    output.entryAboveMaximumValue(maximum: maximum)
+            default:
+                output.hideError()
+                output.exchangeButtonVisibility(.visible)
+                output.exchangeButtonEnabled(true)
+            }
         })
+        disposables.insertWithDiscardableResult(disposable)
     }
 
     // MARK: - Private
 
+    private func subscribeToBestRates() {
+        guard let model = model else { return }
+
+        let bestRatesDisposable = markets.bestExchangeRates(
+            fiatCurrencyCode: model.fiatCurrencyCode
+        ).subscribe(onNext: { [weak self] rates in
+            guard let strongSelf = self else { return }
+
+            guard let marketsModel = strongSelf.model else { return }
+
+            let fiatCode = marketsModel.fiatCurrencyCode
+            let baseCode = marketsModel.pair.from.symbol
+            let counterCode = marketsModel.pair.to.symbol
+
+            strongSelf.output?.updatedRates(
+                first: rates.exchangeRateDescription(fromCurrency: baseCode, toCurrency: counterCode),
+                second: rates.exchangeRateDescription(fromCurrency: baseCode, toCurrency: fiatCode),
+                third: rates.exchangeRateDescription(fromCurrency: counterCode, toCurrency: fiatCode)
+            )
+        })
+        disposables.insertWithDiscardableResult(bestRatesDisposable)
+    }
+
+    private func subscribeToConversions() {
+        let conversionsDisposable = markets.conversions.subscribe(onNext: { [weak self] conversion in
+            guard let this = self else { return }
+
+            guard let model = this.model else { return }
+
+            guard model.pair.stringRepresentation == conversion.quote.pair else {
+                Logger.shared.warning(
+                    "Pair '\(conversion.quote.pair)' is different from model pair '\(model.pair.stringRepresentation)'."
+                )
+                return
+            }
+            
+            guard model.lastConversion != conversion else { return }
+
+            // Store conversion
+            model.lastConversion = conversion
+
+            // Use conversions service to determine new input/output
+            this.conversions.update(with: conversion)
+
+            // Update interface to reflect the values returned from the conversion
+            // Update input labels
+            this.updateOutput()
+
+            // Update trading pair view values
+            this.updateTradingValues(left: this.conversions.baseOutput, right: this.conversions.counterOutput)
+
+            this.validateInput()
+        }, onError: { error in
+            Logger.shared.error("Error subscribing to quote with trading pair")
+        })
+
+        let errorDisposable = markets.errors.subscribe(onNext: { [weak self] socketError in
+            guard let this = self else { return }
+            guard let model = this.model else { return }
+            guard let output = this.output else { return }
+
+            guard this.tradeExecution.canTradeAssetType(model.pair.from) else {
+                if let errorMessage = this.errorMessage(for: model.pair.from) {
+                    output.showError(message: errorMessage)
+                } else {
+                    // This shouldn't happen because the only case (eth) should have an error message,
+                    // but just in case show an error here
+                    output.showError(message: LocalizationConstants.Errors.genericError)
+                }
+                return
+            }
+
+            let symbol = model.fiatCurrencySymbol
+            let suffix = model.pair.from.symbol
+            
+            let secondaryAmount = "0.00"
+            let secondaryResult = model.isUsingFiat ? (secondaryAmount + " " + suffix) : (symbol + secondaryAmount)
+            let primaryOffset = this.inputs.estimatedSymbolWidth(currencySymbol: symbol, template: output.styleTemplate())
+            
+            /// When users are above or below the trading limit, `conversion.output` will not be updated
+            /// with the correct conversion value. This is because the volume entered is either too little
+            /// or too large. In this case we want the `secondaryAmountLabel` to read as `0.00`. We don't
+            /// want to update `conversion.output` manually though as that'd be a side-effect. 
+            if model.isUsingFiat {
+                let primary = this.inputs.primaryFiatAttributedString(currencySymbol: symbol)
+                output.updatedInput(primary: primary, secondary: secondaryResult, primaryOffset: -primaryOffset)
+            } else {
+                let assetType = model.isUsingBase ? model.pair.from : model.pair.to
+                let symbol = assetType.symbol
+                let primary = this.inputs.primaryAssetAttributedString(symbol: symbol)
+                output.updatedInput(primary: primary, secondary: secondaryResult, primaryOffset: -primaryOffset)
+            }
+            
+            Logger.shared.error(socketError.description)
+
+            switch socketError.errorType {
+            case .currencyRatioError:
+                let exchangeError = ExchangeCreateError(errorCode: socketError.code)
+                this.output?.showError(message: exchangeError.message)
+            case .default:
+                this.output?.showError(message: LocalizationConstants.Errors.error)
+            }
+        })
+
+        disposables.insertWithDiscardableResult(conversionsDisposable)
+        disposables.insertWithDiscardableResult(errorDisposable)
+    }
+
+    private func applyValue(stringValue: String) {
+        stringValue.unicodeScalars.forEach { char in
+            let charStringValue = String(char)
+            if CharacterSet.decimalDigits.contains(char) {
+                onAddInputTapped(value: charStringValue)
+            } else if "." == charStringValue {
+                onDelimiterTapped(value: charStringValue)
+            }
+        }
+    }
+    
+    private func minTradingLimit() -> Maybe<Decimal> {
+        guard let model = model else {
+            return Maybe.empty()
+        }
+        
+        return tradeLimitService.getTradeLimits(
+            withFiatCurrency: model.fiatCurrencyCode).map { tradingLimits -> Decimal in
+                return tradingLimits.minOrder
+            }.asMaybe()
+    }
+    
+    private func maxTradingLimit() -> Maybe<Decimal> {
+        guard let model = model else {
+            return Maybe.empty()
+        }
+        
+        return tradeLimitService.getTradeLimits(
+            withFiatCurrency: model.fiatCurrencyCode).map { tradingLimits -> Decimal in
+            return tradingLimits.maxPossibleOrder
+        }.asMaybe()
+    }
+    
     private func applyTradingLimit(limit: TradingLimit, assetAccount: AssetAccount) {
         guard let model = model else { return }
 
@@ -340,15 +527,8 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 limitInDecimal = (accountFiatValue < limits.maxPossibleOrder) ? accountFiatValue : limits.maxPossibleOrder
             }
 
-            let limitString = NumberFormatter.localCurrencyFormatter.string(for: limitInDecimal)
-            limitString?.unicodeScalars.forEach { char in
-                let charStringValue = String(char)
-                if CharacterSet.decimalDigits.contains(char) {
-                    strongSelf.onAddInputTapped(value: charStringValue)
-                } else if "." == charStringValue {
-                    strongSelf.onDelimiterTapped(value: charStringValue)
-                }
-            }
+            guard let limitString = NumberFormatter.localCurrencyFormatter.string(for: limitInDecimal) else { return }
+            strongSelf.applyValue(stringValue: limitString)
         }, onError: { error in
             Logger.shared.error("Failed to compute trading limits: \(error)")
         })
@@ -368,5 +548,22 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         case false:
             return inputs.canAddAssetCharacter(value)
         }
+    }
+
+    // Error message to show if the user is not allowed to trade a certain asset type
+    private func errorMessage(for assetType: AssetType) -> String? {
+        switch assetType {
+        case .ethereum: return LocalizationConstants.SendEther.waitingForPaymentToFinishMessage
+        default: return nil
+        }
+    }
+}
+
+extension ExchangeRates {
+    func exchangeRateDescription(fromCurrency: String, toCurrency: String) -> String {
+        guard let rate = pairRate(fromCurrency: fromCurrency, toCurrency: toCurrency) else {
+            return ""
+        }
+        return "1 \(fromCurrency) = \(rate.price) \(toCurrency)"
     }
 }

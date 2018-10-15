@@ -17,6 +17,14 @@ enum SocketType: String {
     case bitcoin
     case ether
     case bitcoinCash
+
+    static let all: [SocketType] = [
+        .unassigned,
+        .exchange,
+        .bitcoin,
+        .ether,
+        .bitcoinCash
+    ]
 }
 
 struct SocketMessage {
@@ -60,12 +68,12 @@ struct Subscription<SubscribeParams: Codable>: SocketMessageCodable {
     typealias JSONType = Subscription
     
     let channel: String
-    let operation = "subscribe"
+    let action = "subscribe"
     let params: SubscribeParams
 
     private enum CodingKeys: CodingKey {
         case channel
-        case operation
+        case action
         case params
     }
 }
@@ -98,7 +106,7 @@ struct Unsubscription<UnsubscribeParams: Codable>: SocketMessageCodable {
     typealias JSONType = Unsubscription
 
     let channel: String
-    let operation = "unsubscribe"
+    let action = "unsubscribe"
     let params: UnsubscribeParams
 }
 
@@ -112,72 +120,79 @@ struct ConversionPairUnsubscribeParams: Codable {
 struct ExchangeRates: SocketMessageCodable {
     typealias JSONType = ExchangeRates
 
-    let sequenceNumber: Int
+    let seqnum: Int
     let channel: String
-    let type: String
+    let event: String
     let rates: [CurrencyPairRate]
 }
 
 extension ExchangeRates {
     func convert(balance: Decimal, fromCurrency: String, toCurrency: String) -> Decimal {
-        if let matchingPair = rates.first(where: { $0.pair == "\(fromCurrency)-\(toCurrency)" }) {
+        if let matchingPair = pairRate(fromCurrency: fromCurrency, toCurrency: toCurrency) {
             return matchingPair.price * balance
         }
         return balance
+    }
+
+    func pairRate(fromCurrency: String, toCurrency: String) -> CurrencyPairRate? {
+        return rates.first(where: { $0.pair == "\(fromCurrency)-\(toCurrency)" })
     }
 }
 
 struct HeartBeat: SocketMessageCodable {
     typealias JSONType = HeartBeat
     
-    let sequenceNumber: Int
+    let seqnum: Int
     let channel: String
-    let type: String
+    let event: String
     
     private enum CodingKeys: String, CodingKey {
-        case sequenceNumber
+        case seqnum
         case channel
-        case type
+        case event
     }
 }
 
 struct Conversion: SocketMessageCodable {
     typealias JSONType = Conversion
 
-    let sequenceNumber: Int
+    let seqnum: Int
     let channel: String
-    let type: String
+    let event: String
     let quote: Quote
 
     private enum CodingKeys: CodingKey {
-        case sequenceNumber
+        case seqnum
         case channel
-        case type
+        case event
         case quote
     }
 }
 
+extension Conversion: Equatable {
+    static func == (lhs: Conversion, rhs: Conversion) -> Bool {
+        return lhs.channel == rhs.channel &&
+        lhs.event == rhs.event &&
+        lhs.quote == rhs.quote
+    }
+}
+
 extension Conversion {
-    var baseToFiatDescription: String {
-        let fiatSymbol = quote.currencyRatio.base.fiat.symbol
-        let base = "1" + " " + quote.currencyRatio.base.crypto.symbol
-        let fiat = fiatSymbol + quote.currencyRatio.baseToFiatRate
-        return base + " = " + fiat
+    
+    var baseFiatSymbol: String {
+        return quote.currencyRatio.base.fiat.symbol
     }
     
-    var baseToCounterDescription: String {
-        let base = "1" + " " + quote.currencyRatio.base.crypto.symbol
-        let counterSymbol = quote.currencyRatio.counter.crypto.symbol
-        let counter = quote.currencyRatio.baseToCounterRate + " " + counterSymbol
-        return base + " = " + counter
+    var baseFiatValue: String {
+        return quote.currencyRatio.base.fiat.value
     }
     
-    var counterToFiatDescription: String {
-        let counterSymbol = quote.currencyRatio.counter.crypto.symbol
-        let fiatSymbol = quote.currencyRatio.counter.fiat.symbol
-        let counter = "1" + " " + counterSymbol
-        let fiat = fiatSymbol + quote.currencyRatio.counterToFiatRate
-        return counter + " = " + fiat
+    var baseCryptoSymbol: String {
+        return quote.currencyRatio.base.crypto.symbol
+    }
+    
+    var baseCryptoValue: String {
+        return quote.currencyRatio.base.crypto.value
     }
 }
 
@@ -200,43 +215,49 @@ struct SocketError: SocketMessageCodable, Error {
             }
         }
     }
-    
-    
+
     let errorType: SocketErrorType
     let channel: String
     let description: String
+    let code: NabuNetworkErrorCode
     
     private enum CodingKeys: CodingKey {
+        case event
         case type
         case channel
         case error
+        case code
     }
     
     private enum ErrorKeys: CodingKey {
         case description
+        case code
     }
     
     init(channel: String, description: String) {
         self.errorType = .default
         self.channel = channel
         self.description = description
+        self.code = .notFound
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let typeValue = try container.decode(String.self, forKey: .type)
-        errorType = SocketErrorType(rawValue: typeValue)
+        let type = try container.decode(String.self, forKey: .type)
+        errorType = SocketErrorType(rawValue: type)
         channel = try container.decode(String.self, forKey: .channel)
         let errorContainer = try container.nestedContainer(keyedBy: ErrorKeys.self, forKey: .error)
         description = try errorContainer.decode(String.self, forKey: .description)
+        code = try errorContainer.decode(NabuNetworkErrorCode.self, forKey: .code)
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(errorType.rawValue, forKey: .type)
+        try container.encode(errorType.rawValue, forKey: .event)
         try container.encode(channel, forKey: .channel)
         var errorContainer = container.nestedContainer(keyedBy: ErrorKeys.self, forKey: .error)
         try errorContainer.encode(description, forKey: .description)
+        try errorContainer.encode(code, forKey: .code)
     }
 }
 
@@ -284,6 +305,16 @@ struct Quote: Codable {
     let currencyRatio: CurrencyRatio
 }
 
+extension Quote: Equatable {
+    static func == (lhs: Quote, rhs: Quote) -> Bool {
+        return lhs.pair == rhs.pair &&
+        lhs.fiatCurrency == rhs.fiatCurrency &&
+        lhs.fix == rhs.fix &&
+        lhs.volume == rhs.volume &&
+        lhs.currencyRatio == rhs.currencyRatio
+    }
+}
+
 struct CurrencyRatio: Codable {
     let base: FiatCrypto
     let counter: FiatCrypto
@@ -293,9 +324,28 @@ struct CurrencyRatio: Codable {
     let counterToFiatRate: String
 }
 
+extension CurrencyRatio: Equatable {
+    static func == (lhs: CurrencyRatio, rhs: CurrencyRatio) -> Bool {
+        return lhs.base == rhs.base &&
+        lhs.counter == rhs.counter &&
+        lhs.baseToFiatRate == rhs.baseToFiatRate &&
+        lhs.counterToBaseRate == rhs.counterToBaseRate &&
+        lhs.counterToFiatRate == rhs.counterToFiatRate
+    }
+}
+
 struct FiatCrypto: Codable {
     let fiat: SymbolValue
     let crypto: SymbolValue
+}
+
+extension FiatCrypto: Equatable {
+    static func == (lhs: FiatCrypto, rhs: FiatCrypto) -> Bool {
+        return lhs.fiat.symbol == rhs.fiat.symbol &&
+            lhs.fiat.value == rhs.fiat.value &&
+            lhs.crypto.value == rhs.crypto.value &&
+            lhs.crypto.symbol == rhs.crypto.symbol
+    }
 }
 
 struct SymbolValue: Codable {

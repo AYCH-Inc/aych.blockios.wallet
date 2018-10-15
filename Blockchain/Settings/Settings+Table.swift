@@ -124,30 +124,37 @@ extension SettingsTableViewController {
         cell.accessoryView = switchForEmailNotifications
     }
 
-    func getUserVerificationStatus(handler: @escaping (NabuUser?, Bool) -> Void) {
-        disposable = BlockchainDataRepository.shared.fetchNabuUser()
+    func getUserVerificationStatus(handler: @escaping (NabuUser?) -> Void) {
+        disposable = BlockchainDataRepository.shared.nabuUser
             .subscribeOn(MainScheduler.asyncInstance) // network call will be performed off the main thread
             .observeOn(MainScheduler.instance) // closures passed in subscribe will be on the main thread
-            .subscribe(onSuccess: { user in
-                handler(user, true)
-            }, onError: {  error in
-                handler(nil, false)
+            .subscribe(onNext: { user in
+                handler(user)
+            }, onError: { error in
+                Logger.shared.error("Failed to get nabu user: \(error.localizedDescription)")
+                handler(nil)
             })
     }
 
     func prepareIdentityCell(_ cell: UITableViewCell) {
-        self.createBadge(cell)
-        self.getUserVerificationStatus { user, success in
-            if success {
-                if let theUser = user {
-                    let userModel = KYCInformationViewModel.create(for: theUser.status)
-                    self.createBadge(cell, theUser)
-                    cell.detailTextLabel?.text = userModel.badge
-                }
-            } else {
-                self.createBadge(cell, color: .unverified)
-                cell.detailTextLabel?.text = LocalizationConstants.KYC.accountUnverifiedBadge
+        guard didFetchNabuUser else {
+            cell.detailTextLabel?.isHidden = true
+            getUserVerificationStatus { [weak self] user in
+                guard let strongSelf = self else { return }
+                strongSelf.didFetchNabuUser = true
+                strongSelf.nabuUser = user
+                strongSelf.prepareIdentityCell(cell)
             }
+            return
+        }
+
+        if let nabuUser = nabuUser {
+            let userModel = KYCInformationViewModel.create(for: nabuUser.status)
+            cell.detailTextLabel?.text = userModel.badge
+            createBadge(cell, nabuUser)
+        } else {
+            cell.detailTextLabel?.text = LocalizationConstants.KYC.accountUnverifiedBadge
+            createBadge(cell, color: .unverified)
         }
     }
 
@@ -253,17 +260,6 @@ extension SettingsTableViewController {
 }
 
 class EdgeInsetBadge: EdgeInsetLabel {
-
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        self.layer.cornerRadius = 4
-//        self.layer.masksToBounds = true
-//        self.backgroundColor = .white
-//        self.textColor = .white
-//        self.font = UIFont(name: Constants.FontNames.montserratSemiBold, size: Constants.FontSizes.Tiny)
-//        sizeToFit()
-//        layoutIfNeeded()
-//    }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

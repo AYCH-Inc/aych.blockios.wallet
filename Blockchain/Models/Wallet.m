@@ -2628,6 +2628,15 @@ NSString * const kLockboxInvitation = @"lockbox";
     return [devicesJsValue toArray];
 }
 
+- (NSArray *_Nullable)getXlmAccounts
+{
+    if (!self.isInitialized) {
+        return [[NSArray alloc] init];
+    }
+    JSValue *xlmAccountsValue = [self.context evaluateScript:@"MyWalletPhone.xlm.accounts()"];
+    return [xlmAccountsValue toArray];
+}
+
 # pragma mark - Retail Core
 
 - (void)updateKYCUserCredentialsWithUserId:(NSString *)userId lifetimeToken:(NSString *)lifetimeToken success:(void (^)(NSString *))success error: (void (^)(NSString *))error

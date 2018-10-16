@@ -98,7 +98,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AssetTypeCell *assetTypeCell = (AssetTypeCell *)cell;
-    Direction direction = self.isOpen ? DirectionDown : DirectionUp;
+    Direction direction = self.isOpen ? DirectionUp : DirectionDown;
     [assetTypeCell pointChevronButton:direction];
 }
 

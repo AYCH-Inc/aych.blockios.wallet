@@ -12,8 +12,10 @@ import Foundation
     func didTapChevronButton()
 }
 
+// Cell shown for selecting an asset type from the drop-down
+// menu (AssetSelectorView).
 @objc class AssetTypeCell: UITableViewCell {
-    
+
     @objc var legacyAssetType: LegacyAssetType {
         guard let asset = assetType else {
             Logger.shared.error("Unknown asset type!")
@@ -28,7 +30,7 @@ import Foundation
     @IBOutlet var assetImageView: UIImageView!
     @IBOutlet var label: UILabel!
 
-    // Used to open and close the Asset Selector View.
+    // Used to open and close the AssetSelectorView.
     @IBOutlet var chevronButton: UIButton!
 
     @objc func configure(with assetType: AssetType, showChevronButton: Bool) {
@@ -57,11 +59,11 @@ import Foundation
     func pointChevronButton(_ direction: Direction) {
         switch direction {
         case .up:
-            UIView.animate(withDuration: 0.2) {
+            UIView.animate(withDuration: Constants.Animation.duration) {
                 self.chevronButton.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
             }
         case .down:
-            UIView.animate(withDuration: 0.2) {
+            UIView.animate(withDuration: Constants.Animation.duration) {
                 self.chevronButton.transform = CGAffineTransform(rotationAngle: 0)
             }
         }

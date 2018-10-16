@@ -25,6 +25,11 @@
 - (id)initWithFrame:(CGRect)frame delegate:(id<AssetSelectorViewDelegate>)delegate
 {
     if (self == [super initWithFrame:frame]) {
+
+        self.assets = @[[NSNumber numberWithInteger:LegacyAssetTypeBitcoin],
+                        [NSNumber numberWithInteger:LegacyAssetTypeEther],
+                        [NSNumber numberWithInteger:LegacyAssetTypeBitcoinCash],
+                        [NSNumber numberWithInteger:LegacyAssetTypeStellar]];
         
         self.clipsToBounds = YES;
         
@@ -34,15 +39,11 @@
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         [self addSubview:self.tableView];
-        
-        [self.tableView changeHeight:ASSET_SELECTOR_ROW_HEIGHT * 3];
-        
+
         self.tableView.backgroundColor = UIColor.brandPrimary;
         self.backgroundColor = [UIColor clearColor];
-        
-        self.assets = @[[NSNumber numberWithInteger:LegacyAssetTypeBitcoin],
-                        [NSNumber numberWithInteger:LegacyAssetTypeEther],
-                        [NSNumber numberWithInteger:LegacyAssetTypeBitcoinCash]];
+
+        [self.tableView changeHeight:ASSET_SELECTOR_ROW_HEIGHT * self.assets.count];
     }
     
     return self;

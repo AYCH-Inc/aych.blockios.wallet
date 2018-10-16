@@ -22,6 +22,12 @@ struct Constants {
         static let duration = 0.2
         static let durationLong = 0.5
     }
+    struct Navigation {
+        static let tabSend = 0
+        static let tabDashboard = 1
+        static let tabTransactions = 2
+        static let tabReceive = 3
+    }
     struct Measurements {
         static let DefaultHeaderHeight: CGFloat = 65
         // TODO: remove this once we use autolayout
@@ -164,6 +170,22 @@ struct Constants {
 
     @objc class func notificationKeyGetFiatAtTime() -> String {
         return Constants.NotificationKeys.getFiatAtTime.rawValue
+    }
+
+    @objc class func tabSend() -> Int {
+        return Constants.Navigation.tabSend
+    }
+
+    @objc class func tabDashboard() -> Int {
+        return Constants.Navigation.tabDashboard
+    }
+
+    @objc class func tabReceive() -> Int {
+        return Constants.Navigation.tabReceive
+    }
+
+    @objc class func tabTransactions() -> Int {
+        return Constants.Navigation.tabTransactions
     }
 
     @objc class func bitcoinUriPrefix() -> String {

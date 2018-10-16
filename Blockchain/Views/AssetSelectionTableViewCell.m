@@ -41,6 +41,9 @@
         } else if (assetType == LegacyAssetTypeBitcoinCash) {
             text = [AssetTypeLegacyHelper descriptionFor:AssetTypeBitcoinCash];
             assetImage = @"bitcoin_cash_white";
+        } else if (assetType == LegacyAssetTypeStellar) {
+            text = [AssetTypeLegacyHelper descriptionFor:AssetTypeStellar];
+            assetImage = @"bitcoin_cash_white";
         }
         
         self.label = [[UILabel alloc] initWithFrame:CGRectZero];

@@ -40,7 +40,7 @@
         [self.tableView registerNib:[UINib nibWithNibName:@"AssetTypeCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:[AssetTypeCell identifier]];
         [self addSubview:self.tableView];
 
-        self.tableView.backgroundColor = UIColor.brandPrimary;
+        self.tableView.backgroundColor = UIColor.darkBlue;
         self.backgroundColor = [UIColor clearColor];
 
         [self.tableView changeHeight:[ConstantsObjcBridge assetTypeCellHeight] * self.assets.count];
@@ -66,7 +66,7 @@
     if (!cell) {
         cell = [AssetTypeCell instanceFromNib];
     }
-    cell.backgroundColor = [UIColor brandPrimary];
+    cell.backgroundColor = UIColor.darkBlue;
     [cell configureWith:asset showChevronButton:showChevron];
     cell.delegate = self;
     return cell;

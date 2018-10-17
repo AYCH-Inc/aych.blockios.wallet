@@ -571,10 +571,12 @@ extension DashboardController: IAxisValueFormatter {
     }
 }
 
+// TICKET: IOS-1249 - Refactor CardsViewController
+
 // MARK: - AnnouncementCard Delegate
 
-extension DashboardController: AnnouncementCardDelegate {
-    func makeAnnouncement(📢 card: AnnouncementCard) {
-
-    }
-}
+//extension DashboardController: AnnouncementCardDelegate {
+//    func makeAnnouncement(📢 card: AnnouncementCard) {
+//
+//    }
+//}

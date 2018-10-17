@@ -12,6 +12,9 @@
 #import "Blockchain-Swift.h"
 
 @interface TabControllerManager () <WalletSettingsDelegate, WalletSendBitcoinDelegate, WalletSendEtherDelegate, WalletExchangeIntermediateDelegate, WalletTransactionDelegate, WalletWatchOnlyDelegate, WalletFiatAtTimeDelegate>
+
+@property (strong, nonatomic) SendLumensViewController *sendLumensViewController;
+
 @end
 @implementation TabControllerManager
 
@@ -213,6 +216,12 @@
         }
         
         [_tabViewController setActiveViewController:_sendBitcoinCashViewController animated:animated index:TAB_SEND];
+    } else if (self.assetType == LegacyAssetTypeStellar) {
+        if (!_sendLumensViewController) {
+            _sendLumensViewController = [SendLumensViewController make];
+        }
+        
+        [_tabViewController setActiveViewController:_sendLumensViewController animated:animated index:TAB_SEND];
     }
 }
 

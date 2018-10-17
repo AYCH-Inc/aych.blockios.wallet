@@ -317,7 +317,7 @@ final class DashboardController: UIViewController {
         let etherPreviewViewFrame = CGRect(
             x: 0,
             y: bitcoinPreviewView.frame.origin.y + bitcoinPreviewView.frame.size.height + previewViewSpacing,
-            width: (view.frame.size.width - (horizontalPadding * 2)),
+            width: (view.frame.size.width - (DashboardController.horizontalPadding * 2)),
             height: previewViewHeight
         )
         let etherPreviewView = BCPricePreviewView(
@@ -335,7 +335,7 @@ final class DashboardController: UIViewController {
         let bitcoinCashPreviewViewFrame = CGRect(
             x: 0,
             y: etherPreviewView.frame.origin.y + etherPreviewView.frame.size.height + previewViewSpacing,
-            width: (view.frame.size.width - (horizontalPadding * 2)),
+            width: (view.frame.size.width - (DashboardController.horizontalPadding * 2)),
             height: previewViewHeight
         )
         let bitcoinCashPreviewView = BCPricePreviewView(

@@ -538,6 +538,9 @@ extension DashboardController: BCPriceChartViewDelegate {
             etherChartTapped()
         case .bitcoinCash:
             bitcoinCashChartTapped()
+        case .stellar:
+            // TODO: implement stellarChartTapped()
+            return
         }
     }
 

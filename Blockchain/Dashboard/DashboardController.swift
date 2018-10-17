@@ -301,12 +301,13 @@ final class DashboardController: UIViewController {
             width: (view.frame.size.width - (DashboardController.horizontalPadding * 2)),
             height: previewViewHeight
         )
+        // TODO: investigate why BCPricePreviewView returns as an optional
         let bitcoinPreviewView = BCPricePreviewView(
             frame: bitcoinPreviewViewFrame,
             assetName: AssetType.bitcoin.description,
             price: getBtcPrice() ?? "0",
             assetImage: "bitcoin_white"
-        )
+        )!
         priceChartContainerView.addSubview(bitcoinPreviewView)
         bitcoinPricePreview = bitcoinPreviewView
 
@@ -324,7 +325,7 @@ final class DashboardController: UIViewController {
             assetName: AssetType.ethereum.description,
             price: getEthPrice() ?? "0",
             assetImage: "ether_white"
-        )
+        )!
         priceChartContainerView.addSubview(etherPreviewView)
         etherPricePreview = etherPreviewView
 
@@ -342,7 +343,7 @@ final class DashboardController: UIViewController {
             assetName: AssetType.bitcoinCash.description,
             price: getBchPrice() ?? "0",
             assetImage: "bitcoin_cash_white"
-        )
+        )!
         priceChartContainerView.addSubview(bitcoinCashPreviewView)
         bitcoinCashPricePreview = bitcoinCashPreviewView
 

@@ -299,6 +299,9 @@
 		5171E39020F4F98000E8913E /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5171E38F20F4F98000E8913E /* Colors.swift */; };
 		5176A45C2147F6600006769F /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5176A45B2147F6600006769F /* CardsView.swift */; };
 		5176A45D2147F6600006769F /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5176A45B2147F6600006769F /* CardsView.swift */; };
+		5176A4C7214AA5B80006769F /* DashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5176A4C5214AA5B80006769F /* DashboardController.swift */; };
+		5176A4C8214AA5B80006769F /* DashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5176A4C5214AA5B80006769F /* DashboardController.swift */; };
+		5176A4CC214AA5D70006769F /* Dashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5176A4CB214AA5D70006769F /* Dashboard.storyboard */; };
 		5177E7E2212B07A9008E13AB /* Pods-Blockchain.debug staging.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5177E7D8212B07A9008E13AB /* Pods-Blockchain.debug staging.xcconfig */; };
 		5177E832212B34A9008E13AB /* Pods-Blockchain.debug dev.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5177E828212B34A9008E13AB /* Pods-Blockchain.debug dev.xcconfig */; };
 		5185E11C208E7F7C00A26B64 /* BlockchainSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA69F65E2086A7500054EFCE /* BlockchainSettings.swift */; };
@@ -1513,6 +1516,8 @@
 		516594A9204F1E1000C50E78 /* Testnet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Testnet.xcconfig; sourceTree = "<group>"; };
 		5171E38F20F4F98000E8913E /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		5176A45B2147F6600006769F /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
+		5176A4C5214AA5B80006769F /* DashboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardController.swift; sourceTree = "<group>"; };
+		5176A4CB214AA5D70006769F /* Dashboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Dashboard.storyboard; sourceTree = "<group>"; };
 		5177E7D8212B07A9008E13AB /* Pods-Blockchain.debug staging.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-Blockchain.debug staging.xcconfig"; path = "Pods/Target Support Files/Pods-Blockchain/Pods-Blockchain.debug staging.xcconfig"; sourceTree = "<group>"; };
 		5177E828212B34A9008E13AB /* Pods-Blockchain.debug dev.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-Blockchain.debug dev.xcconfig"; path = "Pods/Target Support Files/Pods-Blockchain/Pods-Blockchain.debug dev.xcconfig"; sourceTree = "<group>"; };
 		5185E123208F6E5E00A26B64 /* Enum+RawValued.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+RawValued.swift"; sourceTree = "<group>"; };
@@ -4030,6 +4035,15 @@
 			path = Config;
 			sourceTree = "<group>";
 		};
+		5176A4C4214AA5900006769F /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				5176A4CB214AA5D70006769F /* Dashboard.storyboard */,
+				5176A4C5214AA5B80006769F /* DashboardController.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
 		5194359F208E61F3001EF882 /* BlockchainTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -6324,6 +6338,7 @@
 				AAD279DE209A99CA00C0EAFC /* AV */,
 				9F1831F315176F2200FB3D52 /* Categories */,
 				AAA33338208811460019AD55 /* Coordinators */,
+				5176A4C4214AA5900006769F /* Dashboard */,
 				AAF2AF0B2124946F00687E30 /* Data */,
 				AA0A4121214AD71100807163 /* Debug */,
 				510EA19620811FF100A63AB8 /* Extensions */,
@@ -7497,6 +7512,7 @@
 				51B767B32106369A003CCD46 /* Montserrat-LightItalic.ttf in Resources */,
 				51B767B42106369A003CCD46 /* Montserrat-Medium.ttf in Resources */,
 				51B767B52106369A003CCD46 /* Montserrat-MediumItalic.ttf in Resources */,
+				5176A4CC214AA5D70006769F /* Dashboard.storyboard in Resources */,
 				51B767B62106369A003CCD46 /* Montserrat-Regular.ttf in Resources */,
 				51B767B72106369A003CCD46 /* Montserrat-SemiBold.ttf in Resources */,
 				5177E7E2212B07A9008E13AB /* Pods-Blockchain.debug staging.xcconfig in Resources */,
@@ -7752,6 +7768,7 @@
 				3A1552F12136FFE200683CEB /* TradeExecutionAPI.swift in Sources */,
 				3A019124212DF24700AED2BF /* ExchangeCreateView.swift in Sources */,
 				51135709209CF6C000056D65 /* SecondPasswordViewController.swift in Sources */,
+				5176A4C8214AA5B80006769F /* DashboardController.swift in Sources */,
 				C7BEE14B20C9775B0096003B /* WalletOptions.swift in Sources */,
 				AACE32012093FA1A00B7B806 /* ReminderPresenter.swift in Sources */,
 				3A26D51A2140405400D79BDD /* ExchangeCellModel.swift in Sources */,
@@ -7917,6 +7934,7 @@
 				C7C0DC23212F677C000EFE71 /* MarketsService.swift in Sources */,
 				AACE31D72092A99B00B7B806 /* Enum+Enumeratable.swift in Sources */,
 				3A1552EB2136EA8D00683CEB /* TradeExecutionService.swift in Sources */,
+				5152AC362143107E00E769CE /* AnnouncementCard.swift in Sources */,
 				AACE31D82092A99B00B7B806 /* Enum+RawValued.swift in Sources */,
 				3A01914A212E17E500AED2BF /* ExchangeCreateViewController.swift in Sources */,
 				AA54E496216D2A4E005061F9 /* SearchableMap.swift in Sources */,
@@ -7991,6 +8009,7 @@
 				3A26D4F12140224A00D79BDD /* ExchangeDetailViewController.swift in Sources */,
 				3AAEF94B214083ED005852D1 /* LayoutAttributes.swift in Sources */,
 				AAFA97B02115110000D19ED3 /* SettingsProtocols.swift in Sources */,
+				5176A4BA214AA41B0006769F /* AnnouncementCardsController.swift in Sources */,
 				C78893DB20A34DF4003C0A8F /* WalletSettingsDelegate.swift in Sources */,
 				602B9D132118E24C00BD3D60 /* SearchControllerDelegate.swift in Sources */,
 				3ADFE6EE214862E000E7E2D5 /* ExchangeInputComponent.swift in Sources */,
@@ -8120,6 +8139,7 @@
 				C7FF110F2141E24000CBA3CB /* InputsState.swift in Sources */,
 				3A3D5DB6211B96FA00E6C241 /* LocationUpdateAPI.swift in Sources */,
 				23444F8D1DCD219E00573C8C /* BTCData.m in Sources */,
+				5152AC352143107E00E769CE /* AnnouncementCard.swift in Sources */,
 				60AEA56921125AB50053A753 /* SettingsCell.swift in Sources */,
 				C7442E371FBA448200695E4C /* ExchangeTrade.m in Sources */,
 				AAE9113120A51C900093A431 /* ReminderType.swift in Sources */,
@@ -8325,6 +8345,7 @@
 				AA126CFD212CE40E005886A3 /* KYCUpdatePersonalDetailsRequest.swift in Sources */,
 				AA0A4147214B0B2100807163 /* ExchangeAssetAccountListPresenter.swift in Sources */,
 				C75EE7D8201BBA820067BA16 /* UITextView+Animations.m in Sources */,
+				5152AC2C2142DD1100E769CE /* LegacyAnnouncementCard.swift in Sources */,
 				23C95EA61C0779C600E4692A /* SettingsChangePasswordViewController.m in Sources */,
 				AA08439F215C47290007BFD1 /* NabuNetworkError.swift in Sources */,
 				51578AEA20B448BF00B0080A /* WalletKeyImportDelegate.swift in Sources */,
@@ -8334,6 +8355,7 @@
 				3ADFE6F9214AE0E300E7E2D5 /* InputComponent.swift in Sources */,
 				5138375A210264F000767B2E /* BCPriceMarker.swift in Sources */,
 				2326C6C21BBD7A8100AB7C4D /* UIViewController+AutoDismiss.m in Sources */,
+				5176A4C7214AA5B80006769F /* DashboardController.swift in Sources */,
 				3AAEF94A214083ED005852D1 /* LayoutAttributes.swift in Sources */,
 				AA08440C215EEDF90007BFD1 /* Lockbox.swift in Sources */,
 				23EA61C81B54282D0032B907 /* SettingsNavigationController.m in Sources */,

@@ -47,7 +47,7 @@
         safeAreaInsetTop = window.rootViewController.view.safeAreaInsets.top;
         safeAreaInsetBottom = window.rootViewController.view.safeAreaInsets.bottom;
     }
-    
+
     self.automaticallyAdjustsScrollViewInsets = NO;
     // TODO: store tab bar and navigation bar height as constants
     self.view.frame = CGRectMake(0,
@@ -137,11 +137,11 @@
 - (void)setupWelcomeCardsView
 {
     CardsView *cardsView = [self prepareCardsView];
-    
+
     self.cardsView = [self configureCardsViewWelcome:cardsView];
-    
+
     [self.scrollView addSubview:self.cardsView];
-    
+
     [self.contentView changeYPosition:self.cardsViewHeight];
 }
 
@@ -179,11 +179,11 @@
         [card changeYPosition:ANNOUNCEMENT_CARD_HEIGHT * index + verticalPadding];
         [cardsView addSubview:card];
     }
-    
+
     self.cardsView = cardsView;
-    
+
     [self.scrollView addSubview:self.cardsView];
-    
+
     [self.contentView changeYPosition:ANNOUNCEMENT_CARD_HEIGHT * configurations.count];
 }
 
@@ -196,42 +196,42 @@
     scrollView.pagingEnabled = YES;
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.scrollEnabled = YES;
-    
+
     NSInteger numberOfPages = 1;
     NSInteger numberOfCards = 0;
-    
+
     // Cards setup
     if ([WalletManager.sharedInstance.wallet isBuyEnabled]) {
-        
+
         NSString *tickerText = [NSString stringWithFormat:@"%@ = %@", [NSNumberFormatter formatBTC:[CURRENCY_CONVERSION_BTC longLongValue]], [NSNumberFormatter formatMoney:SATOSHI localCurrency:YES]];
-        
+
         BCCardView *priceCard = [[BCCardView alloc] initWithContainerFrame:cardsView.bounds title:[NSString stringWithFormat:@"%@\n%@", BC_STRING_OVERVIEW_MARKET_PRICE_TITLE, tickerText] description:BC_STRING_OVERVIEW_MARKET_PRICE_DESCRIPTION actionType:ActionTypeBuyBitcoin imageName:@"btc_partial" reducedHeightForPageIndicator:YES delegate:self];
         [scrollView addSubview:priceCard];
         numberOfCards++;
         numberOfPages++;
     }
-    
+
     BCCardView *receiveCard = [[BCCardView alloc] initWithContainerFrame:cardsView.bounds title:BC_STRING_OVERVIEW_REQUEST_FUNDS_TITLE description:BC_STRING_OVERVIEW_REQUEST_FUNDS_DESCRIPTION actionType:ActionTypeShowReceive imageName:@"receive_partial" reducedHeightForPageIndicator:YES delegate:self];
     receiveCard.frame = CGRectOffset(receiveCard.frame, [self getPageXPosition:cardsView.frame.size.width page:numberOfCards], 0);
     [scrollView addSubview:receiveCard];
     numberOfCards++;
     numberOfPages++;
-    
+
     BCCardView *QRCard = [[BCCardView alloc] initWithContainerFrame:cardsView.bounds title:BC_STRING_OVERVIEW_QR_CODES_TITLE description:BC_STRING_OVERVIEW_QR_CODES_DESCRIPTION actionType:ActionTypeScanQR imageName:@"qr_partial" reducedHeightForPageIndicator:YES delegate:self];
     QRCard.frame = CGRectOffset(QRCard.frame, [self getPageXPosition:cardsView.frame.size.width page:numberOfCards], 0);
     [scrollView addSubview:QRCard];
     numberOfCards++;
     numberOfPages++;
-    
+
     // Overview complete/last page setup
     CGFloat overviewCompleteCenterX = cardsView.frame.size.width/2 + [self getPageXPosition:cardsView.frame.size.width page:numberOfCards];
-    
+
     UIImageView *checkImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 40, 40)];
     checkImageView.image = [[UIImage imageNamed:@"success"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     checkImageView.tintColor = UIColor.brandSecondary;
     checkImageView.center = CGPointMake(overviewCompleteCenterX, checkImageView.center.y);
     [scrollView addSubview:checkImageView];
-    
+
     UILabel *doneTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, checkImageView.frame.origin.y + checkImageView.frame.size.height + 14, 150, 30)];
     doneTitleLabel.textAlignment = NSTextAlignmentCenter;
     doneTitleLabel.textColor = UIColor.brandPrimary;
@@ -240,7 +240,7 @@
     doneTitleLabel.text = BC_STRING_OVERVIEW_COMPLETE_TITLE;
     doneTitleLabel.center = CGPointMake(overviewCompleteCenterX, doneTitleLabel.center.y);
     [scrollView addSubview:doneTitleLabel];
-    
+
     UILabel *doneDescriptionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     doneDescriptionLabel.textAlignment = NSTextAlignmentCenter;
     doneDescriptionLabel.numberOfLines = 0;
@@ -258,14 +258,14 @@
     doneDescriptionLabel.frame = CGRectMake(0, doneTitleLabel.frame.origin.y + doneTitleLabel.frame.size.height, doneDescriptionLabel.frame.size.width, doneDescriptionLabel.frame.size.height);
     doneDescriptionLabel.center = CGPointMake(overviewCompleteCenterX, doneDescriptionLabel.center.y);
     [scrollView addSubview:doneDescriptionLabel];
-    
+
     scrollView.contentSize = CGSizeMake(cardsView.frame.size.width * (numberOfPages), cardsView.frame.size.height);
     [cardsView addSubview:scrollView];
     self.cardsScrollView = scrollView;
-    
+
     // Subviews that disappear/reappear setup
     CGRect cardRect = [receiveCard frameFromContainer:cardsView.bounds];
-    
+
     self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, cardRect.origin.y + cardRect.size.height + 8, 100, 30)];
     self.pageControl.center = CGPointMake(cardsView.center.x, self.pageControl.center.y);
     self.pageControl.numberOfPages = numberOfCards;
@@ -273,7 +273,7 @@
     self.pageControl.pageIndicatorTintColor = UIColor.brandTertiary;
     [self.pageControl addTarget:self action:@selector(pageControlChanged:) forControlEvents:UIControlEventValueChanged];
     [cardsView addSubview:self.pageControl];
-    
+
     self.startOverButton = [[UIButton alloc] initWithFrame:CGRectInset(self.pageControl.frame, -40, -10)];
     [cardsView addSubview:self.startOverButton];
     [self.startOverButton setTitle:BC_STRING_START_OVER forState:UIControlStateNormal];
@@ -281,7 +281,7 @@
     self.startOverButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_SMALL];
     self.startOverButton.hidden = YES;
     [self.startOverButton addTarget:self action:@selector(showFirstCard) forControlEvents:UIControlEventTouchUpInside];
-    
+
     CGFloat closeButtonHeight = 46;
     self.closeCardsViewButton = [[UIButton alloc] initWithFrame:CGRectMake(cardsView.frame.size.width - closeButtonHeight, 0, closeButtonHeight, closeButtonHeight)];
     self.closeCardsViewButton.imageEdgeInsets = UIEdgeInsetsMake(16, 20, 16, 12);
@@ -290,7 +290,7 @@
     [self.closeCardsViewButton addTarget:self action:@selector(closeCardsView) forControlEvents:UIControlEventTouchUpInside];
     [cardsView addSubview:self.closeCardsViewButton];
     self.closeCardsViewButton.hidden = YES;
-    
+
     CGFloat skipAllButtonWidth = 80;
     CGFloat skipAllButtonHeight = 30;
     self.skipAllButton = [[UIButton alloc] initWithFrame:CGRectMake(cardsView.frame.size.width - skipAllButtonWidth, self.pageControl.frame.origin.y, skipAllButtonWidth, skipAllButtonHeight)];
@@ -300,8 +300,8 @@
     [self.skipAllButton setTitle:BC_STRING_SKIP_ALL forState:UIControlStateNormal];
     [self.skipAllButton addTarget:self action:@selector(closeCardsView) forControlEvents:UIControlEventTouchUpInside];
     [cardsView addSubview:self.skipAllButton];
-    
-    
+
+
     // Maintain last viewed page when a refresh is triggered
     CGFloat oldContentOffsetX = [[[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_LAST_CARD_OFFSET] floatValue];
     if (oldContentOffsetX > scrollView.contentSize.width - scrollView.frame.size.width * 1.5) {
@@ -311,7 +311,7 @@
         self.skipAllButton.hidden = YES;
     }
     self.cardsScrollView.contentOffset = CGPointMake(oldContentOffsetX > self.cardsScrollView.contentSize.width ? self.cardsScrollView.contentSize.width - self.cardsScrollView.frame.size.width : oldContentOffsetX, self.cardsScrollView.contentOffset.y);
-    
+
     return cardsView;
 }
 
@@ -319,7 +319,7 @@
 {
     self.cardsScrollView.scrollEnabled = YES;
     [self.cardsScrollView setContentOffset:CGPointZero animated:YES];
-    
+
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:0] forKey:USER_DEFAULTS_KEY_LAST_CARD_OFFSET];
 }
 
@@ -332,6 +332,11 @@
 {
     BlockchainSettings.sharedOnboardingInstance.shouldHideBuySellCard = YES;
     [self closeAnnouncementCard:CardConfigurationBuySell];
+}
+
+- (void)closeContinueKYCCard
+{
+    [self closeAnnouncementCard:CardConfigurationContinueKYC];
 }
 
 - (void)closeAnnouncementCard:(CardConfiguration)cardConfiguration
@@ -377,16 +382,16 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView == self.cardsScrollView) {
-        
+
         BOOL didSeeAllCards = scrollView.contentOffset.x > scrollView.contentSize.width - scrollView.frame.size.width * 1.5;
         if (didSeeAllCards) {
             BlockchainSettings.sharedOnboardingInstance.hasSeenAllCards = YES;
         }
-        
+
         if (!self.isUsingPageControl) {
             CGFloat pageWidth = scrollView.frame.size.width;
             float fractionalPage = scrollView.contentOffset.x / pageWidth;
-            
+
             if (!didSeeAllCards) {
                 if (self.skipAllButton.hidden && self.pageControl.hidden) {
                     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
@@ -416,7 +421,7 @@
                     }];
                 }
             }
-            
+
             NSInteger page = lround(fractionalPage);
             self.pageControl.currentPage = page;
         }
@@ -429,7 +434,7 @@
         if (scrollView.contentSize.width - scrollView.frame.size.width <= scrollView.contentOffset.x) {
             scrollView.scrollEnabled = NO;
         }
-        
+
         // Save last viewed page since cards view can be reinstantiated when app is still open
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:scrollView.contentOffset.x] forKey:USER_DEFAULTS_KEY_LAST_CARD_OFFSET];
     }
@@ -445,7 +450,7 @@
 - (void)pageControlChanged:(UIPageControl *)pageControl
 {
     self.isUsingPageControl = YES;
-    
+
     NSInteger page = pageControl.currentPage;
     CGRect frame = self.cardsScrollView.frame;
     frame.origin.x = self.cardsScrollView.frame.size.width * page;

@@ -66,7 +66,6 @@
     if (!cell) {
         cell = [AssetTypeCell instanceFromNib];
     }
-    cell.backgroundColor = UIColor.darkBlue;
     [cell configureWith:asset showChevronButton:showChevron];
     cell.delegate = self;
     return cell;

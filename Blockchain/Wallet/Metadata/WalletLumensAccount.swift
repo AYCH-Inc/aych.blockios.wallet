@@ -13,4 +13,10 @@ struct WalletLumensAccount: Codable {
     let publicKey: String
     let label: String?
     let archived: Bool
+
+    init(publicKey: String, label: String?, archived: Bool = false) {
+        self.publicKey = publicKey
+        self.label = label
+        self.archived = archived
+    }
 }

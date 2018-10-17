@@ -2395,8 +2395,13 @@ MyWalletPhone.lockbox = {
 }
 
 MyWalletPhone.xlm = {
-    createAccount: function(publicKey, label) {
-        MyWallet.wallet.xlm.createAccount(publicKey, label);
+    saveAccount: function(publicKey, label) {
+        MyWallet.wallet.xlm.saveAccount(
+          publicKey,
+          label,
+          objc_xlmSaveAccount_success,
+          objc_xlmSaveAccount_error
+        );
     },
 
     accounts: function() {

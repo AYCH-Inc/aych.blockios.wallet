@@ -400,7 +400,7 @@ final class DashboardController: UIViewController {
             Logger.shared.error("Returning nil because wallet was not initialized!")
             return nil
         }
-        guard let stringValue = NumberFormatter.formatMoney(Constants.satoshi, localCurrency: true) else {
+        guard let stringValue = NumberFormatter.formatMoney(Constants.Conversions.satoshi, localCurrency: true) else {
             Logger.shared.error("Failed to format BTC price as string!")
             return nil
         }
@@ -412,7 +412,7 @@ final class DashboardController: UIViewController {
             Logger.shared.error("Returning nil because wallet was not initialized!")
             return nil
         }
-        guard let stringValue = NumberFormatter.formatBch(withSymbol: Constants.satoshi, localCurrency: true) else {
+        guard let stringValue = NumberFormatter.formatBch(withSymbol: Constants.Conversions.satoshi, localCurrency: true) else {
             Logger.shared.error("Failed to format BCH price as string!")
             return nil
         }

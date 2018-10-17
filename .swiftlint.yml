@@ -1,6 +1,7 @@
 disabled_rules:
   - force_cast
   - identifier_name
+  - leading_whitespace
   - todo
   - void_return
 excluded:

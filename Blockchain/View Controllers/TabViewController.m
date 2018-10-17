@@ -37,7 +37,7 @@ UILabel *titleLabel;
 
     tabBar.delegate = self;
 
-    selectedIndex = TAB_DASHBOARD;
+    selectedIndex = TabBarTabDashboard;
   
     [self setupTabButtons];
 }
@@ -145,7 +145,7 @@ UILabel *titleLabel;
         [[contentView.subviews firstObject] removeFromSuperview];
     }
 
-    CGFloat offsetForAssetSelector = (self.selectedIndex == TAB_DASHBOARD) ? 0 : ASSET_SELECTOR_ROW_HEIGHT;
+    CGFloat offsetForAssetSelector = (self.selectedIndex == TabBarTabDashboard) ? 0 : ASSET_SELECTOR_ROW_HEIGHT;
     activeViewController.view.frame = CGRectMake(0,
                                                  offsetForAssetSelector,
                                                  contentView.frame.size.width,
@@ -181,14 +181,14 @@ UILabel *titleLabel;
 
 - (void)updateTopBarForIndex:(int)newIndex
 {
-    if (newIndex == TAB_DASHBOARD) {
+    if (newIndex == TabBarTabDashboard) {
         [bannerView changeHeight:0];
         [self.assetSelectorView hide];
     } else {
         [bannerView changeHeight:ASSET_SELECTOR_ROW_HEIGHT];
         [self.assetSelectorView show];
     }
-    self.navigationItem.titleView.userInteractionEnabled = (newIndex == TAB_TRANSACTIONS);
+    self.navigationItem.titleView.userInteractionEnabled = (newIndex == TabBarTabTransactions);
 }
 
 - (void)addTapGestureRecognizerToTabBar:(UITapGestureRecognizer *)tapGestureRecognizer
@@ -284,7 +284,7 @@ UILabel *titleLabel;
 - (void)didSelectAsset:(LegacyAssetType)assetType
 {
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        CGFloat offsetForAssetSelector = (self.selectedIndex == TAB_DASHBOARD) ? 0 : ASSET_SELECTOR_ROW_HEIGHT;
+        CGFloat offsetForAssetSelector = (self.selectedIndex == TabBarTabDashboard) ? 0 : ASSET_SELECTOR_ROW_HEIGHT;
         self.activeViewController.view.frame = CGRectMake(0,
                                                           offsetForAssetSelector,
                                                           self->contentView.frame.size.width,

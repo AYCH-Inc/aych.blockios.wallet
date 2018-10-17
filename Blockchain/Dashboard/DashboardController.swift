@@ -14,7 +14,7 @@ final class DashboardController: UIViewController {
     // MARK: - Properties
 
     // TICKET: IOS-???? - Refactor TabViewController to avoid Int32 conversion
-    public enum DashboardTab: Int {
+    @objc enum TabBarTab: Int {
         case send, dashboard, transactions, receive
     }
 
@@ -363,7 +363,7 @@ final class DashboardController: UIViewController {
         guard BlockchainSettings.App.shared.isPinSet,
             AuthenticationCoordinator.shared.pinEntryViewController == nil,
             wallet.isInitialized(),
-            tabControllerManager.tabViewController.selectedIndex() == Int32(DashboardTab.dashboard.rawValue),
+            tabControllerManager.tabViewController.selectedIndex() == Int32(TabBarTab.dashboard.rawValue),
             ModalPresenter.shared.modalView == nil else {
                 return
         }

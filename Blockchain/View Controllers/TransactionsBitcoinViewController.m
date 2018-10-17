@@ -453,7 +453,7 @@
                                          ![WalletManager.sharedInstance.wallet isRecoveryPhraseVerified]);
 
         TabControllerManager *tabControllerManager = AppCoordinator.sharedInstance.tabControllerManager;
-        if (tabControllerManager.tabViewController.selectedIndex == TAB_RECEIVE && ![tabControllerManager isSending]) {
+        if (tabControllerManager.tabViewController.selectedIndex == TabBarTabReceive && ![tabControllerManager isSending]) {
             uint64_t amount = [self getAmountForReceivedTransaction:transaction];
             [tabControllerManager paymentReceived:amount showBackupReminder:shouldShowBackupReminder];
         } else if (shouldShowBackupReminder) {

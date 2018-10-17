@@ -3,6 +3,7 @@ disabled_rules:
   - identifier_name
   - leading_whitespace
   - todo
+  - trailing_whitespace
   - void_return
 excluded:
   - Submodules/

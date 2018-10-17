@@ -12,6 +12,9 @@
 #import "Blockchain-Swift.h"
 
 @interface TabControllerManager () <WalletSettingsDelegate, WalletSendBitcoinDelegate, WalletSendEtherDelegate, WalletExchangeIntermediateDelegate, WalletTransactionDelegate, WalletWatchOnlyDelegate, WalletFiatAtTimeDelegate>
+
+@property (strong, nonatomic) SendLumensViewController *sendLumensViewController;
+
 @end
 @implementation TabControllerManager
 
@@ -47,11 +50,11 @@
 - (void)didSetAssetType:(LegacyAssetType)assetType
 {
     self.assetType = assetType;
-    
+
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.assetType] forKey:USER_DEFAULTS_KEY_ASSET_TYPE];
-    
+
     BOOL animated = NO;
-    
+
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ANIMATION_DURATION * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (self.tabViewController.selectedIndex == TabBarTabSend) {
             [self showSendCoinsAnimated:animated];
@@ -83,7 +86,7 @@
     [AlertViewPresenter.sharedInstance standardNotifyWithMessage:amount title:BC_STRING_PAYMENT_RECEIVED in:nil handler:nil];
 
     LegacyAssetType legacyType = [AssetTypeLegacyHelper convertToLegacy: assetType];
-    
+
     [AuthenticationCoordinator.sharedInstance.pinEntryViewController paymentReceived:legacyType];
 }
 
@@ -97,7 +100,7 @@
 {
     DestinationAddressSource source = [self getSendAddressSource];
     NSString *eventName;
-    
+
     if (source == DestinationAddressSourceQR) {
         eventName = WALLET_EVENT_TX_FROM_QR;
     } else if (source == DestinationAddressSourcePaste) {
@@ -113,17 +116,17 @@
         DLog(@"Unknown destination address source %d", source);
         return;
     }
-    
+
     NSURL *URL = [NSURL URLWithString:[[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingFormat:URL_SUFFIX_EVENT_NAME_ARGUMENT, eventName]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL];
     request.HTTPMethod = @"POST";
-    
+
     NSURLSessionDataTask *dataTask = [[[NetworkManager sharedInstance] session] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             DLog(@"Error saving address input: %@", [error localizedDescription]);
         }
     }];
-    
+
     [dataTask resume];
 }
 
@@ -150,7 +153,7 @@
 }
 
 - (void)reloadAfterMultiAddressResponse
-{    
+{
     [_dashboardViewController reload];
     [_sendBitcoinViewController reloadAfterMultiAddressResponse];
     [_sendEtherViewController reloadAfterMultiAddressResponse];
@@ -164,7 +167,7 @@
 - (void)reloadMessageViews
 {
     [self.sendBitcoinViewController hideSelectFromAndToButtonsIfAppropriate];
-    
+
     [_transactionsBitcoinViewController didGetMessages];
 }
 
@@ -173,7 +176,7 @@
     [self updateTransactionsViewControllerData:nil];
     [self.sendEtherViewController clearFundsAvailable];
     [_receiveBitcoinViewController clearAmounts];
-    
+
     [self dashBoardClicked:nil];
 }
 
@@ -198,21 +201,27 @@
         if (!_sendBitcoinViewController) {
             _sendBitcoinViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
         }
-        
+
         [_tabViewController setActiveViewController:_sendBitcoinViewController animated:animated index:TabBarTabSend];
     } else if (self.assetType == LegacyAssetTypeEther) {
         if (!_sendEtherViewController) {
             _sendEtherViewController = [[SendEtherViewController alloc] init];
         }
-        
+
         [_tabViewController setActiveViewController:_sendEtherViewController animated:animated index:TabBarTabSend];
     } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
         if (!_sendBitcoinCashViewController) {
             _sendBitcoinCashViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
             _sendBitcoinCashViewController.assetType = LegacyAssetTypeBitcoinCash;
         }
-        
+
         [_tabViewController setActiveViewController:_sendBitcoinCashViewController animated:animated index:TabBarTabSend];
+    } else if (self.assetType == LegacyAssetTypeStellar) {
+        if (!_sendLumensViewController) {
+            _sendLumensViewController = [SendLumensViewController make];
+        }
+
+        [_tabViewController setActiveViewController:_sendLumensViewController animated:animated index:TabBarTabSend];
     }
 }
 
@@ -221,9 +230,9 @@
     if (!_sendBitcoinViewController) {
        _sendBitcoinViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
     }
-    
+
     [self showSendCoinsAnimated:YES];
-    
+
     [_sendBitcoinViewController setupTransferAll];
 }
 
@@ -243,7 +252,7 @@
 - (void)setupSendToAddress:(NSString *)address
 {
     [self showSendCoinsAnimated:YES];
-    
+
     if (self.assetType == LegacyAssetTypeBitcoin) {
         self.sendBitcoinViewController.addressFromURLHandler = address;
         [self.sendBitcoinViewController reload];
@@ -369,13 +378,13 @@
 - (void)didSendEther
 {
     [self.sendEtherViewController reload];
-    
+
     [[ModalPresenter sharedInstance] closeAllModals];
 
     [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_PAYMENT_SENT_ETHER title:[LocalizationConstantsObjcBridge success] in:self handler:nil];
-    
+
     [self showTransactionsAnimated:YES];
-    
+
     [self didPushTransaction];
 }
 
@@ -401,10 +410,10 @@
 - (void)didGetFiatAtTimeWithFiatAmount:(NSNumber * _Nonnull)fiatAmount currencyCode:(NSString * _Nonnull)currencyCode assetType:(AssetType)assetType
 {
     BOOL didFindTransaction = NO;
-    
+
     NSArray *transactions;
     NSString *targetHash;
-    
+
     if (assetType == AssetTypeBitcoin) {
         transactions = WalletManager.sharedInstance.latestMultiAddressResponse.transactions;
         targetHash = self.transactionsBitcoinViewController.detailViewController.transactionModel.myHash;
@@ -415,7 +424,7 @@
         transactions = WalletManager.sharedInstance.wallet.bitcoinCashTransactions;
         targetHash = self.transactionsBitcoinCashViewController.detailViewController.transactionModel.myHash;
     }
-    
+
     for (Transaction *transaction in transactions) {
         if ([transaction.myHash isEqualToString:targetHash]) {
             [transaction.fiatAmountsAtTime setObject:[[NSNumberFormatter localCurrencyFormatterWithGroupingSeparator] stringFromNumber:fiatAmount] forKey:currencyCode];
@@ -423,11 +432,11 @@
             break;
         }
     }
-    
+
     if (!didFindTransaction) {
         DLog(@"didGetFiatAtTime: will not set fiat amount because the detail controller's transaction hash cannot be found.");
     }
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:[ConstantsObjcBridge notificationKeyGetFiatAtTime] object:nil];
 }
 
@@ -444,13 +453,13 @@
         if (!_receiveBitcoinViewController) {
             _receiveBitcoinViewController = [[ReceiveBitcoinViewController alloc] initWithNibName:NIB_NAME_RECEIVE_COINS bundle:[NSBundle mainBundle]];
         }
-        
+
         [_tabViewController setActiveViewController:_receiveBitcoinViewController animated:animated index:TabBarTabReceive];
     } else if (self.assetType == LegacyAssetTypeEther) {
         if (!_receiveEtherViewController) {
             _receiveEtherViewController = [[ReceiveEtherViewController alloc] init];
         }
-        
+
         [_tabViewController setActiveViewController:_receiveEtherViewController animated:animated index:TabBarTabReceive];
         [_receiveEtherViewController showEtherAddress];
     } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
@@ -458,7 +467,7 @@
             _receiveBitcoinCashViewController = [[ReceiveBitcoinViewController alloc] initWithNibName:NIB_NAME_RECEIVE_COINS bundle:[NSBundle mainBundle]];
             _receiveBitcoinCashViewController.assetType = LegacyAssetTypeBitcoinCash;
         }
-        
+
         [_tabViewController setActiveViewController:_receiveBitcoinCashViewController animated:animated index:TabBarTabReceive];
     }
 }
@@ -496,9 +505,9 @@
         DashboardViewController *dashboardViewController = [DashboardViewController new];
         self.dashboardViewController = dashboardViewController;
     }
-    
+
     [_tabViewController setActiveViewController:self.dashboardViewController animated:animated index:TabBarTabDashboard];
-    
+
     self.dashboardViewController.assetType = self.assetType;
 }
 
@@ -510,19 +519,19 @@
         if (!_transactionsBitcoinViewController) {
             _transactionsBitcoinViewController = [[[NSBundle mainBundle] loadNibNamed:NIB_NAME_TRANSACTIONS owner:self options:nil] firstObject];
         }
-        
+
         [_tabViewController setActiveViewController:_transactionsBitcoinViewController animated:animated index:TabBarTabTransactions];
     } else if (self.assetType == LegacyAssetTypeEther) {
         if (!_transactionsEtherViewController) {
             _transactionsEtherViewController = [[TransactionsEtherViewController alloc] init];
         }
-        
+
         [_tabViewController setActiveViewController:_transactionsEtherViewController animated:animated index:TabBarTabTransactions];
     } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
         if (!_transactionsBitcoinCashViewController) {
             _transactionsBitcoinCashViewController = [[TransactionsBitcoinCashViewController alloc] init];
         }
-        
+
         [_tabViewController setActiveViewController:_transactionsBitcoinCashViewController animated:animated index:TabBarTabTransactions];
     }
 }
@@ -533,7 +542,7 @@
         // really no reason to lazyload anymore...
         _sendBitcoinViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
     }
-    
+
     [_sendBitcoinViewController setAmountStringFromUrlHandler:amountString withToAddress:address];
     [_sendBitcoinViewController reload];
 }
@@ -624,7 +633,7 @@
     if (!_sendBitcoinViewController) {
         _sendBitcoinViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
     }
-    
+
     [_sendBitcoinViewController transferFundsToDefaultAccountFromAddress:address];
 }
 
@@ -633,11 +642,11 @@
     // Dismiss sendviewController keyboard
     if (_sendBitcoinViewController) {
         [_sendBitcoinViewController hideKeyboardForced];
-        
+
         // Make sure the the send payment button on send screen is enabled (bug when second password requested and app is backgrounded)
         [_sendBitcoinViewController enablePaymentButtons];
     }
-    
+
     // Dismiss receiveCoinsViewController keyboard
     if (_receiveBitcoinViewController) {
         [_receiveBitcoinViewController hideKeyboardForced];
@@ -687,7 +696,7 @@
     if (self.sendBitcoinViewController) {
         [self hideSendKeyboard];
     }
-    
+
     [self.delegate toggleSideMenu];
 }
 
@@ -732,9 +741,9 @@
 - (void)changeAssetSelectorAsset:(LegacyAssetType)assetType
 {
     self.assetType = assetType;
-    
+
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.assetType] forKey:USER_DEFAULTS_KEY_ASSET_TYPE];
-    
+
     self.tabViewController.assetSelectorView.selectedAsset = self.assetType;
     [self.tabViewController.assetSelectorView reload];
 }
@@ -742,15 +751,15 @@
 - (void)transactionsClicked:(UITabBarItem *)sender
 {
     [self showTransactionsAnimated:YES];
-    
+
     if (sender &&
         BlockchainSettings.sharedAppInstance.hasEndedFirstSession &&
         ![[NSUserDefaults standardUserDefaults] boolForKey:USER_DEFAULTS_KEY_HAS_SEEN_SURVEY_PROMPT]) {
-        
+
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"MM dd, yyyy"];
         NSDate *endSurveyDate = [dateFormat dateFromString:DATE_SURVEY_END];
-        
+
         if ([endSurveyDate timeIntervalSinceNow] > 0.0) {
             [self performSelector:@selector(showSurveyAlert) withObject:nil afterDelay:ANIMATION_DURATION];
         }
@@ -762,15 +771,15 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_SURVEY_ALERT_TITLE message:BC_STRING_SURVEY_ALERT_MESSAGE preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_YES style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSURL *settingsURL = [NSURL URLWithString:URL_SURVEY];
-        
+
         UIApplication *application = [UIApplication sharedApplication];
         [application openURL:settingsURL options:@{} completionHandler:nil];
-        
+
     }]];
     [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_NOT_NOW style:UIAlertActionStyleCancel handler:nil]];
-    
+
     [self.tabViewController presentViewController:alert animated:YES completion:nil];
-    
+
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_DEFAULTS_KEY_HAS_SEEN_SURVEY_PROMPT];
 }
 
@@ -817,7 +826,7 @@
 - (void)showGetAssetsAlert
 {
     UIAlertController *showGetAssetsAlert = [UIAlertController alertControllerWithTitle:BC_STRING_NO_FUNDS_TO_EXCHANGE_TITLE message:BC_STRING_NO_FUNDS_TO_EXCHANGE_MESSAGE preferredStyle:UIAlertControllerStyleAlert];
-    
+
     [showGetAssetsAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_GET_BITCOIN style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self.tabViewController dismissViewControllerAnimated:YES completion:^{
             if ([WalletManager.sharedInstance.wallet isBuyEnabled]) {
@@ -848,7 +857,7 @@
         [self.tabViewController dismissViewControllerAnimated:YES completion:nil];
         [self showDashboardAnimated:YES];
     }]];
-    
+
     [self.tabViewController.presentedViewController presentViewController:showGetAssetsAlert animated:YES completion:nil];
 }
 

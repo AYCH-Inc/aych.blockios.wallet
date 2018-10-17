@@ -148,7 +148,6 @@
 		3A56AEAF2176620400044302 /* StellarTransactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEAE2176620400044302 /* StellarTransactionService.swift */; };
 		3A56AEB02176620400044302 /* StellarTransactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEAE2176620400044302 /* StellarTransactionService.swift */; };
 		3A56AEB22176637D00044302 /* StellarAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB12176637D00044302 /* StellarAccountService.swift */; };
-		3A56AEB32176637D00044302 /* StellarAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB12176637D00044302 /* StellarAccountService.swift */; };
 		3A56AEB621766A0000044302 /* StellarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB521766A0000044302 /* StellarConfiguration.swift */; };
 		3A56AEB721766A0000044302 /* StellarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB521766A0000044302 /* StellarConfiguration.swift */; };
 		3A56AEB921766D4800044302 /* StellarAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB821766D4800044302 /* StellarAccount.swift */; };
@@ -7900,7 +7899,6 @@
 				AACE31CD2092A99B00B7B806 /* BitcoinCashAddress.swift in Sources */,
 				AA126D92212E17A3005886A3 /* OnfidoService.swift in Sources */,
 				3AC4F97921234930003AA207 /* Storyboardable.swift in Sources */,
-				3A56AEB32176637D00044302 /* StellarAccountService.swift in Sources */,
 				602B9D0B2118E23200BD3D60 /* KYCInformationController.swift in Sources */,
 				AACE320B20978EB100B7B806 /* MockWallet.swift in Sources */,
 				3A3D5D8F211B455D00E6C241 /* DateFormatter+Conveniences.swift in Sources */,

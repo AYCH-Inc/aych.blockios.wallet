@@ -4293,13 +4293,22 @@ NSString * const kLockboxInvitation = @"lockbox";
     return [[self.context evaluateScript:@"MyWallet.wallet.isUpgradedToHD"] toBool];
 }
 
-- (void)getRecoveryPhrase:(NSString *)secondPassword;
+- (void)getRecoveryPhrase:(NSString *)secondPassword
 {
     if (![self isInitialized]) {
         return;
     }
 
     [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getRecoveryPhrase(\"%@\")", [secondPassword escapedForJS]]];
+}
+
+- (NSString *_Nullable)getMnemonic:(NSString *_Nullable)secondPassword
+{
+    if (!self.isInitialized) {
+        return nil;
+    }
+    JSValue *mnemonicValue = [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getMnemonicPhrase(\"%@\")", [secondPassword escapedForJS]]];
+    return [mnemonicValue toString];
 }
 
 - (BOOL)isRecoveryPhraseVerified {

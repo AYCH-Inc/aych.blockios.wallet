@@ -1295,6 +1295,9 @@ MyWalletPhone.getRecoveryPhrase = function(secondPassword) {
     objc_on_success_get_recovery_phrase(recoveryPhrase);
 };
 
+MyWalletPhone.getMnemonicPhrase = function(secondPassword) {
+    return MyWallet.wallet.getMnemonic(secondPassword);
+};
 
 // Get passwords
 

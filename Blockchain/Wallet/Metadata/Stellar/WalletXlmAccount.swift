@@ -1,5 +1,5 @@
 //
-//  WalletLumensAccount.swift
+//  WalletXlmAccount.swift
 //  Blockchain
 //
 //  Created by Chris Arriola on 10/16/18.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-// Model for a Lumens account stored in `WalletLumensMetadata`
-struct WalletLumensAccount: Codable {
+// Model for a XLM account stored in `WalletXlmMetadata`
+struct WalletXlmAccount: Codable {
     let publicKey: String
     let label: String?
     let archived: Bool

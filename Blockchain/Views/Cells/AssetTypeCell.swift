@@ -45,7 +45,7 @@ import Foundation
         backgroundColor = UIColor.darkBlue
     }
 
-    @IBAction func chevronButtonTapped(_ sender: UIButton) {
+    @IBAction private func chevronButtonTapped(_ sender: UIButton) {
         delegate?.didTapChevronButton()
     }
 }

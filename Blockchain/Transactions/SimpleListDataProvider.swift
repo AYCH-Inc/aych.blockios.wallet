@@ -1,5 +1,5 @@
 //
-//  RefreshableListDataProvider.swift
+//  SimpleListDataProvider.swift
 //  Blockchain
 //
 //  Created by kevinwu on 10/17/18.
@@ -8,23 +8,22 @@
 
 import UIKit
 
-protocol RefreshableListDataProviderDelegate: class {
-    func dataProvider(_ dataProvider: RefreshableListDataProvider, nextPageBefore item: AnyObject)
-    func dataProvider(_ dataProvider: RefreshableListDataProvider, didSelect item: AnyObject)
-    func refreshControlTriggered(_ dataProvider: RefreshableListDataProvider)
+protocol SimpleListDataProviderDelegate: class {
+    func dataProvider(_ dataProvider: SimpleListDataProvider, nextPageBefore item: AnyObject)
+    func dataProvider(_ dataProvider: SimpleListDataProvider, didSelect item: AnyObject)
+    func refreshControlTriggered(_ dataProvider: SimpleListDataProvider)
+
+    var estimatedCellHeight: CGFloat { get }
 }
 
 // A data provider for a simple table view that is
 // - refreshable by pulling down
 // - able to trigger the next page by scrolling to the bottom
-class RefreshableListDataProvider: NSObject {
-    // MARK: Private Static Properties
-
-    fileprivate static let estimatedCellHeight: CGFloat = 75.0
+class SimpleListDataProvider: NSObject {
 
     // MARK: Public
 
-    weak var delegate: RefreshableListDataProviderDelegate?
+    weak var delegate: SimpleListDataProviderDelegate?
 
     // If this is `true` we should show the cell with
     // a loading indicator at the bottom of the `tableView`
@@ -62,11 +61,14 @@ class RefreshableListDataProvider: NSObject {
     fileprivate weak var tableView: UITableView?
     fileprivate var refreshControl: UIRefreshControl!
     fileprivate var models: [AnyObject]?
+    fileprivate var estimatedCellHeight: CGFloat {
+        return delegate?.estimatedCellHeight ?? 44.0
+    }
 
     init(table: UITableView) {
         tableView = table
         super.init()
-        tableView?.estimatedRowHeight = RefreshableListDataProvider.estimatedCellHeight
+        tableView?.estimatedRowHeight = estimatedCellHeight
         tableView?.delegate = self
         tableView?.dataSource = self
         tableView?.tableFooterView = UIView()
@@ -105,7 +107,7 @@ class RefreshableListDataProvider: NSObject {
     }
 }
 
-extension RefreshableListDataProvider: UITableViewDataSource {
+extension SimpleListDataProvider: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         guard let items = models else { return 1 }
@@ -157,15 +159,15 @@ extension RefreshableListDataProvider: UITableViewDataSource {
     }
 }
 
-extension RefreshableListDataProvider: UITableViewDelegate {
+extension SimpleListDataProvider: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // Keeping this code commented to because it deals with paging
         // return isPaging ? LoadingTableViewCell.height() : 0.0
-        return RefreshableListDataProvider.estimatedCellHeight
+        return estimatedCellHeight
     }
 }
 
-extension RefreshableListDataProvider: UIScrollViewDelegate {
+extension SimpleListDataProvider: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.bounds.height {
             guard let item = models?.last else { return }

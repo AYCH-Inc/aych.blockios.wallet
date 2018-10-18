@@ -298,6 +298,15 @@
 - (Boolean)hasAccount;
 - (Boolean)didUpgradeToHd;
 - (void)getRecoveryPhrase:(NSString *)secondPassword;
+
+/**
+ Returns the mnemonic used to generate the HD wallet. Similar to `getRecoveryPhrase`.
+
+ @param secondPassword the optional second password if set
+ @return the mnemonic, or nil if the wallet is not yet initialized
+ */
+- (NSString *_Nullable)getMnemonic:(NSString *_Nullable)secondPassword;
+
 - (BOOL)isRecoveryPhraseVerified;
 - (void)markRecoveryPhraseVerified;
 - (int)getDefaultAccountIndexForAssetType:(LegacyAssetType)assetType;

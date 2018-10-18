@@ -136,6 +136,7 @@
 		3A4EAB98214080D700081531 /* TextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A4EAB96214080D700081531 /* TextCell.xib */; };
 		3A4EABA42140826800081531 /* PlainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4EABA32140826800081531 /* PlainCell.swift */; };
 		3A4EABA52140826800081531 /* PlainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4EABA32140826800081531 /* PlainCell.swift */; };
+		3A52C1282176946F00C03103 /* SendLumensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A52C1272176946F00C03103 /* SendLumensViewController.swift */; };
 		3A53B94F213466580020ECAD /* ExchangeListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A53B94E213466580020ECAD /* ExchangeListHeaderView.swift */; };
 		3A53B950213466580020ECAD /* ExchangeListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A53B94E213466580020ECAD /* ExchangeListHeaderView.swift */; };
 		3A53B95B213466670020ECAD /* ExchangeListHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A53B95A213466670020ECAD /* ExchangeListHeaderView.xib */; };
@@ -147,7 +148,6 @@
 		3A56AEAF2176620400044302 /* StellarTransactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEAE2176620400044302 /* StellarTransactionService.swift */; };
 		3A56AEB02176620400044302 /* StellarTransactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEAE2176620400044302 /* StellarTransactionService.swift */; };
 		3A56AEB22176637D00044302 /* StellarAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB12176637D00044302 /* StellarAccountService.swift */; };
-		3A56AEB32176637D00044302 /* StellarAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB12176637D00044302 /* StellarAccountService.swift */; };
 		3A56AEB621766A0000044302 /* StellarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB521766A0000044302 /* StellarConfiguration.swift */; };
 		3A56AEB721766A0000044302 /* StellarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB521766A0000044302 /* StellarConfiguration.swift */; };
 		3A56AEB921766D4800044302 /* StellarAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB821766D4800044302 /* StellarAccount.swift */; };
@@ -174,6 +174,8 @@
 		3A91F7CE2138460900CDC3FD /* TradingPairView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A91F7CC2138460900CDC3FD /* TradingPairView.xib */; };
 		3A91F7E121387A5300CDC3FD /* AnimatablePresentationUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A91F7E021387A5300CDC3FD /* AnimatablePresentationUpdate.swift */; };
 		3A91F7E221387A5300CDC3FD /* AnimatablePresentationUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A91F7E021387A5300CDC3FD /* AnimatablePresentationUpdate.swift */; };
+		3A9511CF21769DA600F26631 /* SendLumensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A52C1272176946F00C03103 /* SendLumensViewController.swift */; };
+		3A9511DA21769DB500F26631 /* SendLumensViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A9511D921769DB500F26631 /* SendLumensViewController.storyboard */; };
 		3A9B7F012135B68100754FD6 /* RatesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B7F002135B68100754FD6 /* RatesService.swift */; };
 		3A9B7F022135B68100754FD6 /* RatesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B7F002135B68100754FD6 /* RatesService.swift */; };
 		3A9B7F112135CF9800754FD6 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B7F102135CF9800754FD6 /* NetworkRequest.swift */; };
@@ -1263,6 +1265,7 @@
 		3A4EAB95214080D700081531 /* TextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		3A4EAB96214080D700081531 /* TextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextCell.xib; sourceTree = "<group>"; };
 		3A4EABA32140826800081531 /* PlainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainCell.swift; sourceTree = "<group>"; };
+		3A52C1272176946F00C03103 /* SendLumensViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendLumensViewController.swift; sourceTree = "<group>"; };
 		3A53B94E213466580020ECAD /* ExchangeListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListHeaderView.swift; sourceTree = "<group>"; };
 		3A53B95A213466670020ECAD /* ExchangeListHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeListHeaderView.xib; sourceTree = "<group>"; };
 		3A56AEA621764D3A00044302 /* StellarTransactionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTransactionAPI.swift; sourceTree = "<group>"; };
@@ -1287,6 +1290,7 @@
 		3A91F7C0213845F700CDC3FD /* TradingPairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradingPairView.swift; sourceTree = "<group>"; };
 		3A91F7CC2138460900CDC3FD /* TradingPairView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TradingPairView.xib; sourceTree = "<group>"; };
 		3A91F7E021387A5300CDC3FD /* AnimatablePresentationUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatablePresentationUpdate.swift; sourceTree = "<group>"; };
+		3A9511D921769DB500F26631 /* SendLumensViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SendLumensViewController.storyboard; sourceTree = "<group>"; };
 		3A9B7F002135B68100754FD6 /* RatesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesService.swift; sourceTree = "<group>"; };
 		3A9B7F102135CF9800754FD6 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		3AAEF93D2140829D005852D1 /* PlainCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlainCell.xib; sourceTree = "<group>"; };
@@ -3781,9 +3785,19 @@
 			path = Plain;
 			sourceTree = "<group>";
 		};
+		3A52C11D217692B900C03103 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3A52C1272176946F00C03103 /* SendLumensViewController.swift */,
+				3A9511D921769DB500F26631 /* SendLumensViewController.storyboard */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		3A56AE9C21764CDA00044302 /* Send */ = {
 			isa = PBXGroup;
 			children = (
+				3A52C11D217692B900C03103 /* Controllers */,
 			);
 			path = Send;
 			sourceTree = "<group>";
@@ -6412,8 +6426,10 @@
 				51042C8820B1FDA600B022DE /* PrivateKeyReader */,
 				AACE31FA2093F9F200B7B806 /* Reminder */,
 				C9D4B2AF193E023C00EDA9EA /* Resources */,
+				3A56AE9C21764CDA00044302 /* Send */,
 				AA69F65C2086A7330054EFCE /* Settings */,
 				AA31A7B82098DFB900FE6268 /* Side Menu */,
+				3A56AEAC217661D700044302 /* Stellar */,
 				AA54277820D88D1D00D5FEEE /* Swipe to Receive */,
 				AA63F84E20A12D88002B719B /* URL */,
 				9FCA4D18151494A300ECDFBE /* View Controllers */,
@@ -7634,6 +7650,7 @@
 				67EEE7731A8E547900288753 /* PEPin-on@3x.png in Resources */,
 				C9BE91821945D8F600FD516D /* PEKeyboard-1-next.png in Resources */,
 				ECD244ED19A8AC45004B1F40 /* PEKeyboard-3-edit.png in Resources */,
+				3A9511DA21769DB500F26631 /* SendLumensViewController.storyboard in Resources */,
 				C71859591F4B791600745A87 /* TabController.xib in Resources */,
 				519791A4210F6C530096E50B /* countries.json in Resources */,
 				C9BE917F1945D8F600FD516D /* PEKeyboard-1-done.png in Resources */,
@@ -7735,7 +7752,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if which ${PODS_ROOT}/SwiftLint/swiftlint >/dev/null; then\n    ${PODS_ROOT}/SwiftLint/swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		C718594D1F460C4A00745A87 /* Run Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -7906,7 +7923,6 @@
 				AACE31CD2092A99B00B7B806 /* BitcoinCashAddress.swift in Sources */,
 				AA126D92212E17A3005886A3 /* OnfidoService.swift in Sources */,
 				3AC4F97921234930003AA207 /* Storyboardable.swift in Sources */,
-				3A56AEB32176637D00044302 /* StellarAccountService.swift in Sources */,
 				602B9D0B2118E23200BD3D60 /* KYCInformationController.swift in Sources */,
 				AACE320B20978EB100B7B806 /* MockWallet.swift in Sources */,
 				3A3D5D8F211B455D00E6C241 /* DateFormatter+Conveniences.swift in Sources */,
@@ -8107,6 +8123,7 @@
 				AAE94F3220C64B49005A3595 /* PinInteractor.swift in Sources */,
 				511356E1209CA4BA00056D65 /* BlockchainAPI+PayloadTests.swift in Sources */,
 				602B9D192118E25F00BD3D60 /* LocationDataProvider.swift in Sources */,
+				3A9511CF21769DA600F26631 /* SendLumensViewController.swift in Sources */,
 				3AB4D8EE212F2017004F0160 /* DateFormatterTests.swift in Sources */,
 				AABB74C920D44B0600C0F7C5 /* AboutUsViewController.swift in Sources */,
 				AA08439A215C0E210007BFD1 /* SocketMessageTests.swift in Sources */,
@@ -8291,6 +8308,7 @@
 				AACE314C209152D800B7B806 /* Application+Helpers.swift in Sources */,
 				AA63F86720A27AC6002B719B /* PostAuthenticationRoute.swift in Sources */,
 				AA2D000120D96FA300B7BE0E /* SwipeToReceiveAddressView.swift in Sources */,
+				3A52C1282176946F00C03103 /* SendLumensViewController.swift in Sources */,
 				3A49B2B92130B5610068F443 /* NewOrderTableViewCell.swift in Sources */,
 				C7CE25AA2135E3B500DCC43B /* ExchangeCreateContracts.swift in Sources */,
 				AA0A4157214B3A3700807163 /* AssetAccountRepository.swift in Sources */,

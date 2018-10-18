@@ -63,9 +63,6 @@
     AssetType asset = [AssetTypeLegacyHelper convertFromLegacy:legacyAsset];
 
     AssetTypeCell *cell = [tableView dequeueReusableCellWithIdentifier:[AssetTypeCell identifier]];
-    if (!cell) {
-        cell = [AssetTypeCell instanceFromNib];
-    }
     [cell configureWith:asset showChevronButton:showChevron];
     cell.delegate = self;
     return cell;

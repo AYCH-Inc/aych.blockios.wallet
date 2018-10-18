@@ -27,8 +27,8 @@ import Foundation
     
     @objc weak var delegate: AssetTypeCellDelegate?
     
-    @IBOutlet var assetImageView: UIImageView!
-    @IBOutlet var label: UILabel!
+    @IBOutlet private var assetImageView: UIImageView!
+    @IBOutlet private var label: UILabel!
 
     // Used to open and close the AssetSelectorView.
     @IBOutlet var chevronButton: UIButton!
@@ -38,14 +38,9 @@ import Foundation
         assetImageView.image = assetType.brandImage
         label.text = assetType.description
         chevronButton.isHidden = !showChevronButton
-
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor.darkBlueHighlight
-        selectedBackgroundView = backgroundView
-        backgroundColor = UIColor.darkBlue
     }
 
-    @IBAction func chevronButtonTapped(_ sender: UIButton) {
+    @IBAction private func chevronButtonTapped(_ sender: UIButton) {
         delegate?.didTapChevronButton()
     }
 }
@@ -56,7 +51,7 @@ import Foundation
         let contents = nib.instantiate(withOwner: nil, options: nil)
         return contents.first { item -> Bool in
             item is AssetTypeCell
-            } as! AssetTypeCell
+        } as! AssetTypeCell
     }
 }
 

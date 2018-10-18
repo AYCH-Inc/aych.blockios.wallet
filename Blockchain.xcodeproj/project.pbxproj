@@ -917,8 +917,8 @@
 		C78893E620A36572003C0A8F /* Trade.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78893E420A36572003C0A8F /* Trade.swift */; };
 		C78893EE20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78893ED20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift */; };
 		C78893EF20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78893ED20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift */; };
-		C7900C832177CEEB00F57A9F /* RefreshableListDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7900C822177CEEB00F57A9F /* RefreshableListDataProvider.swift */; };
-		C7900C842177CEEB00F57A9F /* RefreshableListDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7900C822177CEEB00F57A9F /* RefreshableListDataProvider.swift */; };
+		C7900C832177CEEB00F57A9F /* SimpleListDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7900C822177CEEB00F57A9F /* SimpleListDataProvider.swift */; };
+		C7900C842177CEEB00F57A9F /* SimpleListDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7900C822177CEEB00F57A9F /* SimpleListDataProvider.swift */; };
 		C790E0F81E4E60AE0063D141 /* NSDateFormatter+TimeAgoString.m in Sources */ = {isa = PBXBuildFile; fileRef = C790E0F71E4E60AE0063D141 /* NSDateFormatter+TimeAgoString.m */; };
 		C790E1211E5345160063D141 /* BCVerifyEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C790E1201E5345160063D141 /* BCVerifyEmailViewController.m */; };
 		C790E1241E5358540063D141 /* BCVerifyMobileNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C790E1231E5358540063D141 /* BCVerifyMobileNumberViewController.m */; };
@@ -3364,7 +3364,7 @@
 		C78893D920A34DF4003C0A8F /* WalletSettingsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSettingsDelegate.swift; sourceTree = "<group>"; };
 		C78893E420A36572003C0A8F /* Trade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trade.swift; sourceTree = "<group>"; };
 		C78893ED20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSendBitcoinDelegate.swift; sourceTree = "<group>"; };
-		C7900C822177CEEB00F57A9F /* RefreshableListDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshableListDataProvider.swift; sourceTree = "<group>"; };
+		C7900C822177CEEB00F57A9F /* SimpleListDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleListDataProvider.swift; sourceTree = "<group>"; };
 		C790E0F21E4913F00063D141 /* Blockchain.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Blockchain.entitlements; sourceTree = "<group>"; };
 		C790E0F61E4E60AE0063D141 /* NSDateFormatter+TimeAgoString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+TimeAgoString.h"; sourceTree = "<group>"; };
 		C790E0F71E4E60AE0063D141 /* NSDateFormatter+TimeAgoString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+TimeAgoString.m"; sourceTree = "<group>"; };
@@ -6378,8 +6378,6 @@
 			isa = PBXGroup;
 			children = (
 				C7900C812177CEEB00F57A9F /* Transactions */,
-				3A56AEAC217661D700044302 /* Stellar */,
-				3A56AE9C21764CDA00044302 /* Send */,
 				C790E0F21E4913F00063D141 /* Blockchain.entitlements */,
 				A2599B9D1B0B5FC700C2EA81 /* Blockchain-Bridging-Header.h */,
 				67470A0519D438E000757D46 /* LocalizationConstants.h */,
@@ -7068,7 +7066,7 @@
 		C7900C812177CEEB00F57A9F /* Transactions */ = {
 			isa = PBXGroup;
 			children = (
-				C7900C822177CEEB00F57A9F /* RefreshableListDataProvider.swift */,
+				C7900C822177CEEB00F57A9F /* SimpleListDataProvider.swift */,
 			);
 			path = Transactions;
 			sourceTree = "<group>";
@@ -7963,7 +7961,7 @@
 				3AC9755B210FBD10006A9263 /* NSAttributedString+Conveniences.swift in Sources */,
 				AA63F86820A27AC6002B719B /* PostAuthenticationRoute.swift in Sources */,
 				51058EFF212F327E00AD8719 /* KYCApplicationCompleteController.swift in Sources */,
-				C7900C842177CEEB00F57A9F /* RefreshableListDataProvider.swift in Sources */,
+				C7900C842177CEEB00F57A9F /* SimpleListDataProvider.swift in Sources */,
 				AA7133C021222A7300CB2AA9 /* KYCCountrySelectionPresenterTests.swift in Sources */,
 				C7C0DC28212F67E1000EFE71 /* PartnerExchangeService.swift in Sources */,
 				3AB4D8EA212F1F62004F0160 /* NSDateFormatter+TimeAgoString.m in Sources */,
@@ -8619,7 +8617,7 @@
 				A2599B9F1B0B5FC800C2EA81 /* BackupViewController.swift in Sources */,
 				AAD279B0209A5E7C00C0EAFC /* AuthenticationTwoFactorType.swift in Sources */,
 				C9BE917C1945D8F600FD516D /* PEPinEntryController.m in Sources */,
-				C7900C832177CEEB00F57A9F /* RefreshableListDataProvider.swift in Sources */,
+				C7900C832177CEEB00F57A9F /* SimpleListDataProvider.swift in Sources */,
 				239539831B486C7100989667 /* UILabel+MultiLineAutoSize.m in Sources */,
 				C7343BCF214FF93A001B1EC9 /* ExchangeDetailInteractor.swift in Sources */,
 				C7414E531FD72574001A89FA /* StateSelectorViewController.m in Sources */,

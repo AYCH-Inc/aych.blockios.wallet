@@ -975,6 +975,8 @@
 		C7EA091F21766F640050FE81 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EA091D21766F640050FE81 /* Direction.swift */; };
 		C7EEB8451EA95505002F28B9 /* UIView+ChangeFrameAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EEB8441EA95505002F28B9 /* UIView+ChangeFrameAttribute.m */; };
 		C7F041961E3BD4A6004E8B4A /* BuyBitcoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F041951E3BD4A6004E8B4A /* BuyBitcoinViewController.m */; };
+		C7F1577B217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1577A217914B600A56376 /* SimpleTransactionsViewController.swift */; };
+		C7F1577C217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1577A217914B600A56376 /* SimpleTransactionsViewController.swift */; };
 		C7FA9B59212F499D00B98EBF /* MarketsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FA9B58212F499D00B98EBF /* MarketsService.swift */; };
 		C7FF10DF2141A89500CBA3CB /* Fix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF10DE2141A89500CBA3CB /* Fix.swift */; };
 		C7FF10EA2141AAB300CBA3CB /* MarketsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF10E92141AAB300CBA3CB /* MarketsModel.swift */; };
@@ -3441,6 +3443,7 @@
 		C7EEB8441EA95505002F28B9 /* UIView+ChangeFrameAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ChangeFrameAttribute.m"; sourceTree = "<group>"; };
 		C7F041941E3BD4A6004E8B4A /* BuyBitcoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyBitcoinViewController.h; sourceTree = "<group>"; };
 		C7F041951E3BD4A6004E8B4A /* BuyBitcoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyBitcoinViewController.m; sourceTree = "<group>"; };
+		C7F1577A217914B600A56376 /* SimpleTransactionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTransactionsViewController.swift; sourceTree = "<group>"; };
 		C7FA9B58212F499D00B98EBF /* MarketsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsService.swift; sourceTree = "<group>"; };
 		C7FF10DE2141A89500CBA3CB /* Fix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fix.swift; sourceTree = "<group>"; };
 		C7FF10E92141AAB300CBA3CB /* MarketsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsModel.swift; sourceTree = "<group>"; };
@@ -7066,6 +7069,7 @@
 		C7900C812177CEEB00F57A9F /* Transactions */ = {
 			isa = PBXGroup;
 			children = (
+				C7F1577A217914B600A56376 /* SimpleTransactionsViewController.swift */,
 				C7900C822177CEEB00F57A9F /* SimpleListDataProvider.swift */,
 			);
 			path = Transactions;
@@ -7987,6 +7991,7 @@
 				3A1552E52136000F00683CEB /* RatesAPI.swift in Sources */,
 				AA1E52332097CC260099BD10 /* WalletAuthDelegate.swift in Sources */,
 				AAE94DCF20C25F37005A3595 /* MockNetworkManager.swift in Sources */,
+				C7F1577C217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */,
 				AA126CDD212C94CB005886A3 /* NabuSessionTokenResponse.swift in Sources */,
 				AACE31CF2092A99B00B7B806 /* AuthenticationManager.swift in Sources */,
 				AA126DA0212E189C005886A3 /* OnfidoUser.swift in Sources */,
@@ -8642,6 +8647,7 @@
 				602B9CF72118E15300BD3D60 /* KYCVerifyIdentityController.swift in Sources */,
 				513913F02081206C002578FD /* UserDefaults.swift in Sources */,
 				C7559CB71F570602005B2375 /* TransactionEtherTableViewCell.m in Sources */,
+				C7F1577B217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */,
 				3A56AEAF2176620400044302 /* StellarTransactionService.swift in Sources */,
 				232E17F91C29F0EF0044942E /* UINavigationController+PopToRootWithCompletion.swift in Sources */,
 				23BD046A1D7761C000DB69E6 /* UITextView+AssertionFailureFix.m in Sources */,

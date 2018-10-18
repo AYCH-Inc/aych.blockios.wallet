@@ -140,6 +140,9 @@ struct Constants {
         static let ethereum = "ETH"
         static let bitcoinCash = "BCH"
     }
+    struct FilterIndexes {
+        static let all = -1
+    }
 }
 
 /// Constant class wrapper so that Constants can be accessed from Obj-C. Should deprecate this

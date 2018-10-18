@@ -20,6 +20,18 @@
             <rect key="frame" x="0.0" y="0.0" width="415" height="44"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="quT-Wc-Abn">
+                    <rect key="frame" x="0.0" y="0.0" width="415" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.19215686274509802" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <viewLayoutGuide key="safeArea" id="xQI-DB-DT3"/>
+                </view>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6FV-bE-lb6">
+                    <rect key="frame" x="0.0" y="0.0" width="415" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.25882352941176467" blue="0.43529411764705883" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <viewLayoutGuide key="safeArea" id="jfF-XY-3Dn"/>
+                </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Fl-kg-VGQ">
                     <rect key="frame" x="50" y="8" width="301" height="28"/>
                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
@@ -46,7 +58,7 @@
                     </constraints>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" red="0.023529411760000001" green="0.21960784310000001" blue="0.41176470590000003" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.0" green="0.25882352941176467" blue="0.43529411764705883" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="0Fl-kg-VGQ" firstAttribute="leading" secondItem="4nA-rw-wQW" secondAttribute="trailing" constant="12" id="B3E-kD-Kzk"/>
                 <constraint firstItem="iCG-sr-J43" firstAttribute="leading" secondItem="0Fl-kg-VGQ" secondAttribute="trailing" constant="8" id="CtD-aZ-nTj"/>
@@ -65,8 +77,9 @@
                 <outlet property="assetImageView" destination="4nA-rw-wQW" id="NfK-07-AXe"/>
                 <outlet property="chevronButton" destination="iCG-sr-J43" id="xmT-s0-jXt"/>
                 <outlet property="label" destination="0Fl-kg-VGQ" id="sGX-Di-y8i"/>
+                <outlet property="selectedBackgroundView" destination="quT-Wc-Abn" id="kch-WF-Bfd"/>
             </connections>
-            <point key="canvasLocation" x="325.60000000000002" y="154.72263868065968"/>
+            <point key="canvasLocation" x="279" y="156"/>
         </view>
     </objects>
     <resources>

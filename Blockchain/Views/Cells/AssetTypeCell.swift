@@ -38,11 +38,6 @@ import Foundation
         assetImageView.image = assetType.brandImage
         label.text = assetType.description
         chevronButton.isHidden = !showChevronButton
-
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor.darkBlueHighlight
-        selectedBackgroundView = backgroundView
-        backgroundColor = UIColor.darkBlue
     }
 
     @IBAction private func chevronButtonTapped(_ sender: UIButton) {

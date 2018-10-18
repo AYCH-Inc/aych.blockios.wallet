@@ -56,7 +56,7 @@ import Foundation
         let contents = nib.instantiate(withOwner: nil, options: nil)
         return contents.first { item -> Bool in
             item is AssetTypeCell
-            } as! AssetTypeCell
+        } as! AssetTypeCell
     }
 }
 

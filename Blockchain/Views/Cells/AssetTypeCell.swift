@@ -27,8 +27,8 @@ import Foundation
     
     @objc weak var delegate: AssetTypeCellDelegate?
     
-    @IBOutlet var assetImageView: UIImageView!
-    @IBOutlet var label: UILabel!
+    @IBOutlet private var assetImageView: UIImageView!
+    @IBOutlet private var label: UILabel!
 
     // Used to open and close the AssetSelectorView.
     @IBOutlet var chevronButton: UIButton!

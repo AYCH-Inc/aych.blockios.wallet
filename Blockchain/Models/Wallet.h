@@ -469,6 +469,9 @@
 // Lockbox
 - (NSArray *_Nonnull)getLockboxDevices;
 
+// XLM
+- (NSArray *_Nullable)getXlmAccounts;
+
 /// Call this method to build an Exchange order.
 /// It constructs and stores a payment object with a given AssetType, to, from, and amount (properties of OrderTransactionLegacy).
 /// To send the order, call sendOrderTransaction:completion:success:error:cancel.

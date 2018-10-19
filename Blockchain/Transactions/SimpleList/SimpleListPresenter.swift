@@ -34,7 +34,7 @@ extension SimpleListPresenter: SimpleListDelegate {
         interactor.nextPageBefore(identifier: identifier)
     }
 
-    func onItemCellTapped(_ item: AnyObject) {
+    func onItemCellTapped(_ item: Identifiable) {
         interface?.showItemDetails(item: item)
     }
 
@@ -53,22 +53,22 @@ extension SimpleListPresenter: SimpleListOutput {
         // TODO:
     }
 
-    func loadedItems(_ items: [AnyObject]) {
+    func loadedItems(_ items: [Identifiable]) {
         interface?.refreshControlVisibility(.hidden)
         interface?.display(results: items)
     }
 
-    func appendItems(_ items: [AnyObject]) {
+    func appendItems(_ items: [Identifiable]) {
         interface?.paginationActivityIndicatorVisibility(.hidden)
         interface?.append(results: items)
     }
 
-    func refreshedItems(_ items: [AnyObject]) {
+    func refreshedItems(_ items: [Identifiable]) {
         interface?.refreshControlVisibility(.hidden)
         interface?.display(results: items)
     }
 
-    func itemWithIdentifier(_ identifier: String) -> AnyObject? {
+    func itemWithIdentifier(_ identifier: String) -> Identifiable? {
         return interactor.itemSelectedWith(identifier: identifier)
     }
 

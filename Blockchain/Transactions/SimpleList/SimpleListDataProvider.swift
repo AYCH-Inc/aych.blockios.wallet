@@ -10,7 +10,7 @@ import UIKit
 
 protocol SimpleListDataProviderDelegate: class {
     func dataProvider(_ dataProvider: SimpleListDataProvider, nextPageBefore identifier: String)
-    func dataProvider(_ dataProvider: SimpleListDataProvider, didSelect item: AnyObject)
+    func dataProvider(_ dataProvider: SimpleListDataProvider, didSelect item: Identifiable)
     func refreshControlTriggered(_ dataProvider: SimpleListDataProvider)
 
     var estimatedCellHeight: CGFloat { get }
@@ -58,7 +58,7 @@ class SimpleListDataProvider: NSObject {
 
     fileprivate weak var tableView: UITableView?
     fileprivate var refreshControl: UIRefreshControl!
-    fileprivate var models: [AnyObject]?
+    fileprivate var models: [Identifiable]?
     fileprivate var estimatedCellHeight: CGFloat {
         return delegate?.estimatedCellHeight ?? 44.0
     }
@@ -85,12 +85,12 @@ class SimpleListDataProvider: NSObject {
         tableView?.refreshControl = refreshControl
     }
 
-    func set(listModels: [AnyObject]) {
+    func set(listModels: [Identifiable]) {
         models = listModels
         tableView?.reloadData()
     }
 
-    func append(listModels: [AnyObject]) {
+    func append(listModels: [Identifiable]) {
         if var current = models {
             current.append(contentsOf: listModels)
             models = current
@@ -169,7 +169,7 @@ extension SimpleListDataProvider: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.bounds.height {
             guard let item = models?.last else { return }
-            delegate?.dataProvider(self, nextPageBefore: "item")
+            delegate?.dataProvider(self, nextPageBefore: item.identifier)
         }
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SimpleTransactionsViewController: UIViewController {
+class SimpleTransactionsViewController: SimpleListViewController {
     var filterIndex: NSInteger = 0
 
     private var noTransactionsTitle: UILabel?

@@ -984,6 +984,14 @@
 		C7F041961E3BD4A6004E8B4A /* BuyBitcoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F041951E3BD4A6004E8B4A /* BuyBitcoinViewController.m */; };
 		C7F1577B217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1577A217914B600A56376 /* SimpleTransactionsViewController.swift */; };
 		C7F1577C217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1577A217914B600A56376 /* SimpleTransactionsViewController.swift */; };
+		C7F157A82179214400A56376 /* SimpleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F157A72179214400A56376 /* SimpleListViewController.swift */; };
+		C7F157A92179214400A56376 /* SimpleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F157A72179214400A56376 /* SimpleListViewController.swift */; };
+		C7F157BD21795E8D00A56376 /* SimpleListContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F157BC21795E8D00A56376 /* SimpleListContracts.swift */; };
+		C7F157BE21795E8D00A56376 /* SimpleListContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F157BC21795E8D00A56376 /* SimpleListContracts.swift */; };
+		C7F157C921795F6800A56376 /* SimpleListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F157C821795F6800A56376 /* SimpleListPresenter.swift */; };
+		C7F157CA21795F6800A56376 /* SimpleListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F157C821795F6800A56376 /* SimpleListPresenter.swift */; };
+		C7F157CC21796A7200A56376 /* SimpleListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F157CB21796A7200A56376 /* SimpleListInteractor.swift */; };
+		C7F157CD21796A7200A56376 /* SimpleListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F157CB21796A7200A56376 /* SimpleListInteractor.swift */; };
 		C7FA9B59212F499D00B98EBF /* MarketsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FA9B58212F499D00B98EBF /* MarketsService.swift */; };
 		C7FF10DF2141A89500CBA3CB /* Fix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF10DE2141A89500CBA3CB /* Fix.swift */; };
 		C7FF10EA2141AAB300CBA3CB /* MarketsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF10E92141AAB300CBA3CB /* MarketsModel.swift */; };
@@ -3455,6 +3463,10 @@
 		C7F041941E3BD4A6004E8B4A /* BuyBitcoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyBitcoinViewController.h; sourceTree = "<group>"; };
 		C7F041951E3BD4A6004E8B4A /* BuyBitcoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyBitcoinViewController.m; sourceTree = "<group>"; };
 		C7F1577A217914B600A56376 /* SimpleTransactionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTransactionsViewController.swift; sourceTree = "<group>"; };
+		C7F157A72179214400A56376 /* SimpleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleListViewController.swift; sourceTree = "<group>"; };
+		C7F157BC21795E8D00A56376 /* SimpleListContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleListContracts.swift; sourceTree = "<group>"; };
+		C7F157C821795F6800A56376 /* SimpleListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleListPresenter.swift; sourceTree = "<group>"; };
+		C7F157CB21796A7200A56376 /* SimpleListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleListInteractor.swift; sourceTree = "<group>"; };
 		C7FA9B58212F499D00B98EBF /* MarketsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsService.swift; sourceTree = "<group>"; };
 		C7FF10DE2141A89500CBA3CB /* Fix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fix.swift; sourceTree = "<group>"; };
 		C7FF10E92141AAB300CBA3CB /* MarketsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsModel.swift; sourceTree = "<group>"; };
@@ -6393,7 +6405,6 @@
 		9FB3637B14B60128004BEA02 /* Blockchain */ = {
 			isa = PBXGroup;
 			children = (
-				C7900C812177CEEB00F57A9F /* Transactions */,
 				C790E0F21E4913F00063D141 /* Blockchain.entitlements */,
 				A2599B9D1B0B5FC700C2EA81 /* Blockchain-Bridging-Header.h */,
 				67470A0519D438E000757D46 /* LocalizationConstants.h */,
@@ -6441,6 +6452,7 @@
 				AACE31FA2093F9F200B7B806 /* Reminder */,
 				C9D4B2AF193E023C00EDA9EA /* Resources */,
 				3A56AE9C21764CDA00044302 /* Send */,
+				C7900C812177CEEB00F57A9F /* Transactions */,
 				AA69F65C2086A7330054EFCE /* Settings */,
 				AA31A7B82098DFB900FE6268 /* Side Menu */,
 				3A56AEAC217661D700044302 /* Stellar */,
@@ -7100,7 +7112,11 @@
 		C7900C812177CEEB00F57A9F /* Transactions */ = {
 			isa = PBXGroup;
 			children = (
+				C7F157CB21796A7200A56376 /* SimpleListInteractor.swift */,
+				C7F157C821795F6800A56376 /* SimpleListPresenter.swift */,
+				C7F157BC21795E8D00A56376 /* SimpleListContracts.swift */,
 				C7F1577A217914B600A56376 /* SimpleTransactionsViewController.swift */,
+				C7F157A72179214400A56376 /* SimpleListViewController.swift */,
 				C7900C822177CEEB00F57A9F /* SimpleListDataProvider.swift */,
 			);
 			path = Transactions;
@@ -7908,6 +7924,7 @@
 				51578AEB20B448BF00B0080A /* WalletKeyImportDelegate.swift in Sources */,
 				AA54E4FA216D5C99005061F9 /* KYCStateSelectionPresenterTests.swift in Sources */,
 				3A26D53521406C0200D79BDD /* ExchangeDetailCoordinator.swift in Sources */,
+				C7F157CA21795F6800A56376 /* SimpleListPresenter.swift in Sources */,
 				AACE31D02092A99B00B7B806 /* AuthenticationError.swift in Sources */,
 				3AC4F97D21234966003AA207 /* KYCPageModel.swift in Sources */,
 				AA2BA64420DC754600F01954 /* BitcoinAddressTests.swift in Sources */,
@@ -7927,6 +7944,7 @@
 				C79B27B220A6215B0061D0F2 /* WalletSendEtherDelegate.swift in Sources */,
 				3A26D51321403E1200D79BDD /* ExchangeDetailCell.swift in Sources */,
 				AAF2AEC4212379D800687E30 /* PersonalDetailsDelegate.swift in Sources */,
+				C7F157CD21796A7200A56376 /* SimpleListInteractor.swift in Sources */,
 				516546F6208FCF710019EE63 /* NetworkManager+UserAgent.swift in Sources */,
 				3AB4D91E21309BEE004F0160 /* LoadingTableViewCell.swift in Sources */,
 				3AB4D92321309C5B004F0160 /* Result.swift in Sources */,
@@ -8180,6 +8198,7 @@
 				AA74835B21112A18008F2768 /* MockKYCVerifyPhoneNumberInteractor.swift in Sources */,
 				3A56AEAB21765C2100044302 /* StellarAccountAPI.swift in Sources */,
 				3A56AEBA21766D4800044302 /* StellarAccount.swift in Sources */,
+				C7F157BE21795E8D00A56376 /* SimpleListContracts.swift in Sources */,
 				5176A45D2147F6600006769F /* CardsView.swift in Sources */,
 				602B9D1A2118E26300BD3D60 /* LocationSuggestion.swift in Sources */,
 				3A56AEB721766A0000044302 /* StellarConfiguration.swift in Sources */,
@@ -8202,6 +8221,7 @@
 				602B9D102118E23F00BD3D60 /* KYCWelcomeController.swift in Sources */,
 				C78893EF20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift in Sources */,
 				AACE31C62092A99B00B7B806 /* LoadingViewPresenter.swift in Sources */,
+				C7F157A92179214400A56376 /* SimpleListViewController.swift in Sources */,
 				AAE9113620A520D40093A431 /* WalletAccountInfoDelegate.swift in Sources */,
 				3A019122212DF0EB00AED2BF /* AsyncBlockOperationTests.swift in Sources */,
 				C7D5115C21237DE000359651 /* HttpHeader.swift in Sources */,
@@ -8524,9 +8544,11 @@
 				3A9B7F112135CF9800754FD6 /* NetworkRequest.swift in Sources */,
 				A2599BA51B0B725400C2EA81 /* BackupWordsViewController.swift in Sources */,
 				5185E12A208F7ACA00A26B64 /* BlockchainAPI+URI.swift in Sources */,
+				C7F157CC21796A7200A56376 /* SimpleListInteractor.swift in Sources */,
 				23444F7E1DCD213D00573C8C /* BTCKey.m in Sources */,
 				C7A923ED1F8531FD003D9DAF /* GraphTimeFrame.m in Sources */,
 				5152AC2E2142E4B700E769CE /* AnnouncementCardView.swift in Sources */,
+				C7F157BD21795E8D00A56376 /* SimpleListContracts.swift in Sources */,
 				C77217CF20AE44B20087836A /* WalletAccountInfoAndExchangeRatesDelegate.swift in Sources */,
 				AA08440F215EEF320007BFD1 /* LockboxDeviceType.swift in Sources */,
 				C7E4E41820EE98590061059E /* WatchOnlyBalanceView.swift in Sources */,
@@ -8555,6 +8577,7 @@
 				C75CBD041F1FB12F00CACE0D /* BCTotalAmountView.m in Sources */,
 				606399F22110FC2D005B6DF5 /* SRLog.m in Sources */,
 				513C828620EBF30C00ECDE52 /* UIDevice+Biometrics.swift in Sources */,
+				C7F157C921795F6800A56376 /* SimpleListPresenter.swift in Sources */,
 				67EE1DCC19E3325900DBBFC9 /* ECSlidingInteractiveTransition.m in Sources */,
 				6775569919E752A00054699B /* BCWebViewController.m in Sources */,
 				C7442E341FBA1E7800695E4C /* ExchangeTableViewCell.m in Sources */,
@@ -8626,6 +8649,7 @@
 				6780DB981A40BDF40048EED2 /* AccountInOut.m in Sources */,
 				51943596208E3005001EF882 /* BlockchainAPI+URL.swift in Sources */,
 				23BF733C1C455DDB00204503 /* AccountsAndAddressesViewController.m in Sources */,
+				C7F157A82179214400A56376 /* SimpleListViewController.swift in Sources */,
 				AA94965E20CB5FA600A9C2DD /* AssetAddressFactory.swift in Sources */,
 				AA4770B7211BA984006356B1 /* KYCAccountStatus.swift in Sources */,
 				AACE31222091004A00B7B806 /* UIApplication+Suspend.m in Sources */,

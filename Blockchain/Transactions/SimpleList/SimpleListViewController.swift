@@ -12,7 +12,7 @@ protocol SimpleListDelegate: class {
     func onLoaded()
     func onDisappear()
     func onNextPageRequest(_ identifier: String)
-    func onItemCellTapped(_ item: AnyObject)
+    func onItemCellTapped(_ item: Identifiable)
     func onPullToRefresh()
 }
 
@@ -64,11 +64,11 @@ extension SimpleListViewController: SimpleListInterface {
         dataProvider?.isRefreshing = visibility.isHidden == false
     }
 
-    func display(results: [AnyObject]) {
+    func display(results: [Identifiable]) {
         dataProvider?.set(listModels: results)
     }
 
-    func append(results: [AnyObject]) {
+    func append(results: [Identifiable]) {
         dataProvider?.append(listModels: results)
     }
 
@@ -76,7 +76,7 @@ extension SimpleListViewController: SimpleListInterface {
         dataProvider?.setupPullToRefresh()
     }
 
-    func showItemDetails(item: AnyObject) {
+    func showItemDetails(item: Identifiable) {
         // in ExchangeList example, message is sent to coordinator
     }
 
@@ -90,7 +90,7 @@ extension SimpleListViewController: SimpleListDataProviderDelegate {
         delegate?.onNextPageRequest(identifier)
     }
 
-    func dataProvider(_ dataProvider: SimpleListDataProvider, didSelect item: AnyObject) {
+    func dataProvider(_ dataProvider: SimpleListDataProvider, didSelect item: Identifiable) {
         delegate?.onItemCellTapped(item)
     }
 

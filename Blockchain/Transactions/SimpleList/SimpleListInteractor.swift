@@ -9,13 +9,14 @@
 import Foundation
 
 class SimpleListInteractor: SimpleListInput {
-    fileprivate let service: SimpleHistoryAPI
-
-    weak var output: SimpleListOutput?
-
-    init(dependencies: SimpleDependencies) {
-        self.service = dependencies.service
-    }
+// Commented out to allow compiling
+//    fileprivate let service: SimpleHistoryAPI
+//
+//    weak var output: SimpleListOutput?
+//
+//    init(dependencies: SimpleDependencies) {
+//        self.service = dependencies.service
+//    }
 
     func fetchAllItems() {
 
@@ -29,8 +30,8 @@ class SimpleListInteractor: SimpleListInput {
         return false
     }
 
-    func itemSelectedWith(identifier: String) -> AnyObject? {
-
+    func itemSelectedWith(identifier: String) -> Identifiable? {
+        return nil
     }
 
     func nextPageBefore(identifier: String) {

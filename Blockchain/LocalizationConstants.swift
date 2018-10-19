@@ -60,14 +60,6 @@ struct LocalizationConstants {
         "My Ether Wallet",
         comment: "The default name of the ether wallet."
     )
-    static let myStellarWallet = NSLocalizedString(
-        "My Stellar Wallet",
-        comment: "The default name of the stellar wallet."
-    )
-    static let enterStellarAddress = NSLocalizedString(
-        "Enter Stellar address or select",
-        comment: "Placeholder text for the Lumens send screen."
-    )
     static let loading = NSLocalizedString(
         "Loading",
         comment: "Text displayed when there is an asynchronous action that needs to complete before the user can take further action."
@@ -807,6 +799,17 @@ struct LocalizationConstants {
         static let wantToLearnMoreX = NSLocalizedString(
             "Want to learn more? Tap here to visit %@",
             comment: "Footer text in the lockbox view."
+        )
+    }
+
+    struct Stellar {
+        static let defaultLabelName = NSLocalizedString(
+            "My Stellar Wallet",
+            comment: "The default label of the XLM wallet."
+        )
+        static let enterStellarAddress = NSLocalizedString(
+            "Enter Stellar address or select",
+            comment: "Placeholder text for the Lumens send screen."
         )
     }
 }

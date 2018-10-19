@@ -1,5 +1,5 @@
 //
-//  WalletLumensMetadata.swift
+//  WalletXlmMetadata.swift
 //  Blockchain
 //
 //  Created by Chris Arriola on 10/16/18.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-/// Model for the Lumens metadata that is stored in the wallet metadata
-struct WalletLumensMetadata: Codable {
+/// Model for the XLM metadata that is stored in the wallet metadata
+struct WalletXlmMetadata: Codable {
 
     enum CodingKeys: String, CodingKey {
         case defaultAccountIndex = "default_account_idx"
@@ -17,5 +17,5 @@ struct WalletLumensMetadata: Codable {
     }
 
     let defaultAccountIndex: Int
-    let accounts: [WalletLumensAccount]
+    let accounts: [WalletXlmAccount]
 }

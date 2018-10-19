@@ -16,6 +16,7 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
         service.operations(from: "accountID", token: "token") { result in
             switch result {
             case .success(let items):
+                // TODO: avoid force unwrap if possible
                 output?.loadedItems(items as! [Identifiable])
             case .error(let error):
                 output?.itemFetchFailed(error: error)
@@ -28,6 +29,7 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
         service.operations(from: "accountID", token: "token") { (result) in
             switch result {
             case .success(let items):
+                // TODO: avoid force unwrap if possible
                 output?.refreshedItems(items as! [Identifiable])
             case .error(let error):
                 output?.itemFetchFailed(error: error)
@@ -36,6 +38,7 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
     }
 
     func nextPageBefore(identifier: String) {
+        // TODO:
     }
 
     func cancel() {

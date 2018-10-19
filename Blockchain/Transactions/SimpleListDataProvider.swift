@@ -9,16 +9,14 @@
 import UIKit
 
 protocol SimpleListDataProviderDelegate: class {
-    func dataProvider(_ dataProvider: SimpleListDataProvider, nextPageBefore item: AnyObject)
+    func dataProvider(_ dataProvider: SimpleListDataProvider, nextPageBefore identifier: String)
     func dataProvider(_ dataProvider: SimpleListDataProvider, didSelect item: AnyObject)
     func refreshControlTriggered(_ dataProvider: SimpleListDataProvider)
 
     var estimatedCellHeight: CGFloat { get }
 }
 
-// A data provider for a simple table view that is
-// - refreshable by pulling down
-// - able to trigger the next page by scrolling to the bottom
+// Data provider for a SimpleListViewController
 class SimpleListDataProvider: NSObject {
 
     // MARK: Public
@@ -171,7 +169,7 @@ extension SimpleListDataProvider: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.bounds.height {
             guard let item = models?.last else { return }
-            delegate?.dataProvider(self, nextPageBefore: item)
+            delegate?.dataProvider(self, nextPageBefore: "item")
         }
     }
 }

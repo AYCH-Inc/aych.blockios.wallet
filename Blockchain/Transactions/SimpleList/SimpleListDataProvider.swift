@@ -151,9 +151,7 @@ extension SimpleListDataProvider: UITableViewDataSource {
 
 extension SimpleListDataProvider: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        // Keeping this code commented to because it deals with paging
-        // return isPaging ? LoadingTableViewCell.height() : 0.0
-        return estimatedCellHeight
+        return isPaging ? LoadingTableViewCell.height() : estimatedCellHeight
     }
 }
 

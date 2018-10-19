@@ -14,7 +14,7 @@ class StellarAccountService: StellarAccountAPI {
     fileprivate let configuration: StellarConfiguration
     fileprivate let wallet: Blockchain.Wallet
     fileprivate lazy var service: stellarsdk.AccountService = {
-       return configuration.sdk.accounts
+       configuration.sdk.accounts
     }()
 
     init(
@@ -34,20 +34,18 @@ class StellarAccountService: StellarAccountAPI {
                 var account = StellarAccount(identifier: details.accountId)
                 
                 details.balances.forEach({ balance in
-                    if let issuer = balance.assetIssuer {
-                        let assetAddress = AssetAddressFactory.create(
-                            fromAddressString: issuer,
-                            assetType: .stellar
-                        )
-                        let value = Decimal(string: balance.balance) ?? 0.0
-                        let assetAccount = AssetAccount(
-                            index: 0,
-                            address: assetAddress,
-                            balance: value,
-                            name: ""
-                        )
-                        account.assetAccounts.append(assetAccount)
-                    }
+                    let assetAddress = AssetAddressFactory.create(
+                        fromAddressString: balance.assetIssuer ?? details.accountId,
+                        assetType: .stellar
+                    )
+                    let value = Decimal(string: balance.balance) ?? 0.0
+                    let assetAccount = AssetAccount(
+                        index: 0,
+                        address: assetAddress,
+                        balance: value,
+                        name: LocalizationConstants.myStellarWallet
+                    )
+                    account.assetAccounts.append(assetAccount)
                 })
                 
                 completion(.success(account))

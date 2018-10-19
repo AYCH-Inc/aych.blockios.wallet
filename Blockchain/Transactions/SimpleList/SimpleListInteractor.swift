@@ -9,21 +9,20 @@
 import Foundation
 
 class SimpleListInteractor: SimpleListInput {
-// Commented out to allow compiling
-//    fileprivate let service: SimpleHistoryAPI
-//
-//    weak var output: SimpleListOutput?
-//
-//    init(dependencies: SimpleDependencies) {
-//        self.service = dependencies.service
-//    }
+    fileprivate var service: SimpleListServiceAPI?
+
+    weak var output: SimpleListOutput?
+
+    init(listService: SimpleListServiceAPI) {
+        self.service = listService
+    }
 
     func fetchAllItems() {
-
+        service?.fetchAllItems(output: output)
     }
 
     func refresh() {
-
+        service?.refresh(output: output)
     }
 
     func canPage() -> Bool {
@@ -35,10 +34,10 @@ class SimpleListInteractor: SimpleListInput {
     }
 
     func nextPageBefore(identifier: String) {
-
+        service?.nextPageBefore(identifier: identifier)
     }
 
     func cancel() {
-
+        service?.cancel()
     }
 }

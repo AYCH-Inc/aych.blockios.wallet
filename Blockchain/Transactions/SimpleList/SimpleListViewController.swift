@@ -33,8 +33,14 @@ class SimpleListViewController: UIViewController {
 
     fileprivate var dataProvider: SimpleListDataProvider?
     fileprivate var presenter: SimpleListPresenter!
-    // Unsure of how to genericize this
-    // fileprivate var dependencies: ExchangeDependencies!
+    fileprivate var service: SimpleListServiceAPI!
+
+    // MARK: Factory
+    class func make<T: SimpleListViewController>(with service: SimpleListServiceAPI, type: T.Type) -> T {
+        let controller = T.makeFromStoryboard()
+        controller.service = service
+        return controller
+    }
 
     // MARK: Lifecycle
 
@@ -47,11 +53,11 @@ class SimpleListViewController: UIViewController {
     }
 
     fileprivate func dependenciesSetup() {
-//        let interactor = SimpleListInteractor(dependencies: dependencies)
-//        presenter = SimpleListPresenter(interactor: interactor)
-//        presenter.interface = self
-//        interactor.output = presenter
-//        delegate = presenter
+        let interactor = SimpleListInteractor(listService: service)
+        presenter = SimpleListPresenter(interactor: interactor)
+        presenter.interface = self
+        interactor.output = presenter
+        delegate = presenter
     }
 }
 

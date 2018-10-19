@@ -13,7 +13,7 @@ enum StellarOperation {
     case payment(Payment)
     case unknown
     
-    struct AccountCreated {
+    struct AccountCreated: Identifiable {
         let identifier: String
         let funder: String
         let account: String
@@ -24,7 +24,7 @@ enum StellarOperation {
         let createdAt: Date
     }
     
-    struct Payment {
+    struct Payment: Identifiable {
         
         enum Direction {
             case credit

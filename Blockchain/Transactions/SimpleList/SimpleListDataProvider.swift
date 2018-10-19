@@ -108,12 +108,15 @@ class SimpleListDataProvider: NSObject {
 extension SimpleListDataProvider: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        guard let items = models else { return 1 }
+        return items.count > 0 ? 2 : 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
+            return 1
+        case 1:
             guard let current = models else { return 0 }
             return isPaging ? current.count + 1 : current.count
         default:
@@ -121,25 +124,28 @@ extension SimpleListDataProvider: UITableViewDataSource {
         }
     }
 
-    // This method should be overridden by the SimpleListDataProvider subclass.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Inside the SimpleListDataProvider subclass,
-        // call the superclass method under the following condition:
-        // if indexPath.row == items.count && isPaging
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: LoadingTableViewCell.identifier,
-            for: indexPath
-            ) as? LoadingTableViewCell else { return UITableViewCell() }
+        // Logger.shared.error("Not overridden by superclass!")
 
-        /// This particular cell shouldn't have a separator.
-        /// This is how we hide it.
-        cell.separatorInset = UIEdgeInsets(
-            top: 0.0,
-            left: 0.0,
-            bottom: 0.0,
-            right: .greatestFiniteMagnitude
-        )
-        return cell
+        // Keeping this code commented to because it deals with paging
+        //
+        //        if indexPath.row == items.count && isPaging {
+        //            guard let cell = tableView.dequeueReusableCell(
+        //                withIdentifier: loadingIdentifier,
+        //                for: indexPath
+        //                ) as? LoadingTableViewCell else { return UITableViewCell() }
+        //
+        //            /// This particular cell shouldn't have a separator.
+        //            /// This is how we hide it.
+        //            cell.separatorInset = UIEdgeInsets(
+        //                top: 0.0,
+        //                left: 0.0,
+        //                bottom: 0.0,
+        //                right: .greatestFiniteMagnitude
+        //            )
+        //            return cell
+        //        }
+        return UITableViewCell()
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

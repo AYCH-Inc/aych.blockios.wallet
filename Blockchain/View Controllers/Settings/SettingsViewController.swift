@@ -606,8 +606,8 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
                 return 56
             }
         case (sectionSecurity, pinSwipeToReceive):
-            let swipeToReceiveCall: AppFeatureConfiguration? = AppFeatureConfigurator.sharedInstance().configuration(for: .swipeToReceive)
-            if swipeToReceiveCall?.isEnabled == nil {
+            let swipeToReceiveCall = AppFeatureConfigurator.sharedInstance().configuration(for: .swipeToReceive)
+            if swipeToReceiveCall.isEnabled == nil {
                 swipeToReceive?.isHidden = true
                 return 0
             } else {

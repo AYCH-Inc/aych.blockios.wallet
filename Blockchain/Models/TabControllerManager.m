@@ -542,7 +542,8 @@
         
         [_tabViewController setActiveViewController:_transactionsBitcoinCashViewController animated:animated index:tabIndex];
     } else if (self.assetType == LegacyAssetTypeStellar) {
-        [_tabViewController setActiveViewController:[UIViewController new] animated:animated index:tabIndex];
+        TransactionsLumensViewController *viewController = [TransactionsLumensViewController make];
+        [_tabViewController setActiveViewController:viewController animated:animated index:tabIndex];
     }
 }
 

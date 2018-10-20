@@ -12,6 +12,7 @@ protocol SimpleListDataProviderDelegate: class {
     func dataProvider(_ dataProvider: SimpleListDataProvider, nextPageBefore identifier: String)
     func dataProvider(_ dataProvider: SimpleListDataProvider, didSelect item: Identifiable)
     func refreshControlTriggered(_ dataProvider: SimpleListDataProvider)
+    func cellForRowAt<T: UITableViewCell>(_ indexPath: IndexPath, _ model: Identifiable) -> T
 
     var estimatedCellHeight: CGFloat { get }
 }
@@ -122,13 +123,19 @@ extension SimpleListDataProvider: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Inside the SimpleListDataProvider subclass,
-        // call the superclass method under the following condition:
-        // if indexPath.row == items.count && isPaging
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: LoadingTableViewCell.identifier,
-            for: indexPath
-        ) as? LoadingTableViewCell else { return UITableViewCell() }
+
+        guard let items = models else { return UITableViewCell() }
+
+        if items.count > indexPath.row {
+            let model = items[indexPath.row]
+            return delegate?.cellForRowAt(indexPath, model) ?? UITableViewCell()
+        }
+
+        if indexPath.row == items.count && isPaging {
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: LoadingTableViewCell.identifier,
+                for: indexPath
+                ) as? LoadingTableViewCell else { return UITableViewCell() }
             /// This particular cell shouldn't have a separator.
             /// This is how we hide it.
             cell.separatorInset = UIEdgeInsets(
@@ -137,7 +144,10 @@ extension SimpleListDataProvider: UITableViewDataSource {
                 bottom: 0.0,
                 right: .greatestFiniteMagnitude
             )
-        return cell
+            return cell
+        }
+
+        return UITableViewCell()
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

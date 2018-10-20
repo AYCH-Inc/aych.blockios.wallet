@@ -104,6 +104,10 @@ extension SimpleListViewController: SimpleListDataProviderDelegate {
         delegate?.onPullToRefresh()
     }
 
+    func cellForRowAt<T>(_ indexPath: IndexPath, _ model: Identifiable) -> T where T : UITableViewCell {
+        return UITableViewCell() as! T
+    }
+
     var estimatedCellHeight: CGFloat {
         return 44.0
     }

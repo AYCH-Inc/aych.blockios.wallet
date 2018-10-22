@@ -916,14 +916,14 @@
 		C774A1272102B87300DCCC17 /* ExchangeRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C774A1252102B87300DCCC17 /* ExchangeRate.swift */; };
 		C777330F217A65F400899930 /* SimpleListViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7773305217A65EE00899930 /* SimpleListViewController.storyboard */; };
 		C7773310217A65F400899930 /* SimpleListViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7773305217A65EE00899930 /* SimpleListViewController.storyboard */; };
-		C7773312217A764D00899930 /* TransactionsLumensViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7773311217A764D00899930 /* TransactionsLumensViewController.storyboard */; };
-		C7773313217A764D00899930 /* TransactionsLumensViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7773311217A764D00899930 /* TransactionsLumensViewController.storyboard */; };
-		C7773330217E21F200899930 /* TransactionsLumensPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777332F217E21F200899930 /* TransactionsLumensPresenter.swift */; };
-		C7773331217E21F200899930 /* TransactionsLumensPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777332F217E21F200899930 /* TransactionsLumensPresenter.swift */; };
-		C777333C217E224500899930 /* TransactionsLumensInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777333B217E224500899930 /* TransactionsLumensInteractor.swift */; };
-		C777333D217E224500899930 /* TransactionsLumensInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777333B217E224500899930 /* TransactionsLumensInteractor.swift */; };
-		C777333F217E233C00899930 /* TransactionsLumensDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777333E217E233C00899930 /* TransactionsLumensDataProvider.swift */; };
-		C7773340217E233C00899930 /* TransactionsLumensDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777333E217E233C00899930 /* TransactionsLumensDataProvider.swift */; };
+		C7773312217A764D00899930 /* TransactionsXLMViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7773311217A764D00899930 /* TransactionsXLMViewController.storyboard */; };
+		C7773313217A764D00899930 /* TransactionsXLMViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7773311217A764D00899930 /* TransactionsXLMViewController.storyboard */; };
+		C7773330217E21F200899930 /* TransactionsXLMPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777332F217E21F200899930 /* TransactionsXLMPresenter.swift */; };
+		C7773331217E21F200899930 /* TransactionsXLMPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777332F217E21F200899930 /* TransactionsXLMPresenter.swift */; };
+		C777333C217E224500899930 /* TransactionsXLMInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777333B217E224500899930 /* TransactionsXLMInteractor.swift */; };
+		C777333D217E224500899930 /* TransactionsXLMInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777333B217E224500899930 /* TransactionsXLMInteractor.swift */; };
+		C777333F217E233C00899930 /* TransactionsXLMDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777333E217E233C00899930 /* TransactionsXLMDataProvider.swift */; };
+		C7773340217E233C00899930 /* TransactionsXLMDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777333E217E233C00899930 /* TransactionsXLMDataProvider.swift */; };
 		C77C19B820C580E5005CB600 /* WalletSecondPasswordDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77C19B720C580E5005CB600 /* WalletSecondPasswordDelegate.swift */; };
 		C77C19B920C580E5005CB600 /* WalletSecondPasswordDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77C19B720C580E5005CB600 /* WalletSecondPasswordDelegate.swift */; };
 		C780A446202228A400E49274 /* BCPriceChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = C780A445202228A400E49274 /* BCPriceChartView.m */; };
@@ -960,8 +960,8 @@
 		C7A0E92E1FA8FFBF004F4267 /* PartnerExchangeConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A0E92D1FA8FFBF004F4267 /* PartnerExchangeConfirmViewController.m */; };
 		C7A85927217A294000502935 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A85926217A294000502935 /* Identifiable.swift */; };
 		C7A85928217A294000502935 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A85926217A294000502935 /* Identifiable.swift */; };
-		C7A85970217A56D300502935 /* TransactionsLumensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A8596F217A56D300502935 /* TransactionsLumensViewController.swift */; };
-		C7A85971217A56D300502935 /* TransactionsLumensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A8596F217A56D300502935 /* TransactionsLumensViewController.swift */; };
+		C7A85970217A56D300502935 /* TransactionsXLMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A8596F217A56D300502935 /* TransactionsXLMViewController.swift */; };
+		C7A85971217A56D300502935 /* TransactionsXLMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A8596F217A56D300502935 /* TransactionsXLMViewController.swift */; };
 		C7A8597C217A586900502935 /* SimpleListServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A8597B217A586900502935 /* SimpleListServiceAPI.swift */; };
 		C7A8597D217A586900502935 /* SimpleListServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A8597B217A586900502935 /* SimpleListServiceAPI.swift */; };
 		C7A85980217A5BAE00502935 /* StellarTransactionServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A8597F217A5BAE00502935 /* StellarTransactionServiceAPI.swift */; };
@@ -3404,10 +3404,10 @@
 		C77217EC20AFCF940087836A /* WalletRecoveryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletRecoveryDelegate.swift; sourceTree = "<group>"; };
 		C774A1252102B87300DCCC17 /* ExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRate.swift; sourceTree = "<group>"; };
 		C7773305217A65EE00899930 /* SimpleListViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SimpleListViewController.storyboard; sourceTree = "<group>"; };
-		C7773311217A764D00899930 /* TransactionsLumensViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TransactionsLumensViewController.storyboard; sourceTree = "<group>"; };
-		C777332F217E21F200899930 /* TransactionsLumensPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsLumensPresenter.swift; sourceTree = "<group>"; };
-		C777333B217E224500899930 /* TransactionsLumensInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsLumensInteractor.swift; sourceTree = "<group>"; };
-		C777333E217E233C00899930 /* TransactionsLumensDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsLumensDataProvider.swift; sourceTree = "<group>"; };
+		C7773311217A764D00899930 /* TransactionsXLMViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TransactionsXLMViewController.storyboard; sourceTree = "<group>"; };
+		C777332F217E21F200899930 /* TransactionsXLMPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsXLMPresenter.swift; sourceTree = "<group>"; };
+		C777333B217E224500899930 /* TransactionsXLMInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsXLMInteractor.swift; sourceTree = "<group>"; };
+		C777333E217E233C00899930 /* TransactionsXLMDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsXLMDataProvider.swift; sourceTree = "<group>"; };
 		C77C19B720C580E5005CB600 /* WalletSecondPasswordDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSecondPasswordDelegate.swift; sourceTree = "<group>"; };
 		C780A444202228A400E49274 /* BCPriceChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BCPriceChartView.h; sourceTree = "<group>"; };
 		C780A445202228A400E49274 /* BCPriceChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BCPriceChartView.m; sourceTree = "<group>"; };
@@ -3463,7 +3463,7 @@
 		C7A0E92C1FA8FFBF004F4267 /* PartnerExchangeConfirmViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartnerExchangeConfirmViewController.h; sourceTree = "<group>"; };
 		C7A0E92D1FA8FFBF004F4267 /* PartnerExchangeConfirmViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PartnerExchangeConfirmViewController.m; sourceTree = "<group>"; };
 		C7A85926217A294000502935 /* Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
-		C7A8596F217A56D300502935 /* TransactionsLumensViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsLumensViewController.swift; sourceTree = "<group>"; };
+		C7A8596F217A56D300502935 /* TransactionsXLMViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsXLMViewController.swift; sourceTree = "<group>"; };
 		C7A8597B217A586900502935 /* SimpleListServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleListServiceAPI.swift; sourceTree = "<group>"; };
 		C7A8597F217A5BAE00502935 /* StellarTransactionServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StellarTransactionServiceAPI.swift; path = Blockchain/Stellar/API/StellarTransactionServiceAPI.swift; sourceTree = SOURCE_ROOT; };
 		C7A923EB1F8531FD003D9DAF /* GraphTimeFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GraphTimeFrame.h; sourceTree = "<group>"; };
@@ -7148,12 +7148,12 @@
 		C7900C812177CEEB00F57A9F /* Transactions */ = {
 			isa = PBXGroup;
 			children = (
-				C777332F217E21F200899930 /* TransactionsLumensPresenter.swift */,
-				C777333E217E233C00899930 /* TransactionsLumensDataProvider.swift */,
-				C777333B217E224500899930 /* TransactionsLumensInteractor.swift */,
+				C777332F217E21F200899930 /* TransactionsXLMPresenter.swift */,
+				C777333E217E233C00899930 /* TransactionsXLMDataProvider.swift */,
+				C777333B217E224500899930 /* TransactionsXLMInteractor.swift */,
 				C7A85932217A33A100502935 /* SimpleList */,
-				C7A8596F217A56D300502935 /* TransactionsLumensViewController.swift */,
-				C7773311217A764D00899930 /* TransactionsLumensViewController.storyboard */,
+				C7A8596F217A56D300502935 /* TransactionsXLMViewController.swift */,
+				C7773311217A764D00899930 /* TransactionsXLMViewController.storyboard */,
 			);
 			path = Transactions;
 			sourceTree = "<group>";
@@ -7644,7 +7644,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7773313217A764D00899930 /* TransactionsLumensViewController.storyboard in Resources */,
+				C7773313217A764D00899930 /* TransactionsXLMViewController.storyboard in Resources */,
 				3A26D4FD2140227100D79BDD /* ExchangeDetailViewController.storyboard in Resources */,
 				C78238B02131F0CD008FCCAD /* ExchangeCreateViewController.storyboard in Resources */,
 				C75757522176504100CE7814 /* AssetTypeCell.xib in Resources */,
@@ -7723,7 +7723,7 @@
 				C9BE91831945D8F600FD516D /* PEKeyboard-1.png in Resources */,
 				3A80B7C4216E820700679927 /* SideMenuCell.xib in Resources */,
 				515EFAE9210282B4002350B6 /* AccountsAndAddresses.storyboard in Resources */,
-				C7773312217A764D00899930 /* TransactionsLumensViewController.storyboard in Resources */,
+				C7773312217A764D00899930 /* TransactionsXLMViewController.storyboard in Resources */,
 				60A08C632118F733006DB9E8 /* Settings.storyboard in Resources */,
 				3A49A8EF2151802000760B8C /* ConversionRatesView.xib in Resources */,
 				C9BE91801945D8F600FD516D /* PEKeyboard-1-dot.png in Resources */,
@@ -8163,7 +8163,7 @@
 				AA24D4C820D9D1EC0096DD5D /* AssetTypeLegacyHelper.swift in Sources */,
 				AACE31DD2092A99B00B7B806 /* UserDefaults.swift in Sources */,
 				AACE31DF2092A99B00B7B806 /* CertificatePinner.swift in Sources */,
-				C7773340217E233C00899930 /* TransactionsLumensDataProvider.swift in Sources */,
+				C7773340217E233C00899930 /* TransactionsXLMDataProvider.swift in Sources */,
 				AACB48BB214784D6008FCCD0 /* Collection+HelpersTests.swift in Sources */,
 				AAE94F3620C70B97005A3595 /* AssetURLPayload.swift in Sources */,
 				AAFE9E9321016132002E4E1E /* PinError.swift in Sources */,
@@ -8186,7 +8186,7 @@
 				C78893E620A36572003C0A8F /* Trade.swift in Sources */,
 				AA15E00221765C9F006F30D9 /* WalletLumensAccount.swift in Sources */,
 				AAC8F35820993BC1004B7D33 /* WebSocketCloseCode.swift in Sources */,
-				C7A85971217A56D300502935 /* TransactionsLumensViewController.swift in Sources */,
+				C7A85971217A56D300502935 /* TransactionsXLMViewController.swift in Sources */,
 				3AB4D91D21309BE7004F0160 /* ExchangeListViewCell.swift in Sources */,
 				AA084410215EEF320007BFD1 /* LockboxDeviceType.swift in Sources */,
 				519435B1208E62F6001EF882 /* BlockchainAPI+URL.swift in Sources */,
@@ -8308,7 +8308,7 @@
 				AA0A4158214B3A3700807163 /* AssetAccountRepository.swift in Sources */,
 				3A53B950213466580020ECAD /* ExchangeListHeaderView.swift in Sources */,
 				C7343C1821516A64001B1EC9 /* ExchangeDetailPresenter.swift in Sources */,
-				C7773331217E21F200899930 /* TransactionsLumensPresenter.swift in Sources */,
+				C7773331217E21F200899930 /* TransactionsXLMPresenter.swift in Sources */,
 				5114EA2420CD8B900098E26E /* UINavigationBar+TitleAttributes.swift in Sources */,
 				AA3CA9B02107F18D00C2AD46 /* Logger.swift in Sources */,
 				3AFB65EF215585DF00EBFF30 /* BounceButton.swift in Sources */,
@@ -8324,7 +8324,7 @@
 				3A49B2BA2130B5610068F443 /* NewOrderTableViewCell.swift in Sources */,
 				3AC4F97A2123493A003AA207 /* NabuUser.swift in Sources */,
 				AAF2AEC02123797300687E30 /* PersonalDetails.swift in Sources */,
-				C777333D217E224500899930 /* TransactionsLumensInteractor.swift in Sources */,
+				C777333D217E224500899930 /* TransactionsXLMInteractor.swift in Sources */,
 				AA447BDA2127BC1100EC0FA0 /* SideMenuCell.swift in Sources */,
 				C70576B3212CFFFC0027C6AA /* Nibable.swift in Sources */,
 				AA126CE3212C9753005886A3 /* KYCPagePayload.swift in Sources */,
@@ -8369,7 +8369,7 @@
 				9F45F82C1514E53C00018AED /* UIButtonPressAndHold.m in Sources */,
 				9F7480E315140EF200BC4292 /* TabViewController.m in Sources */,
 				3A8B229F2122117A0091E706 /* KYCBaseViewController.swift in Sources */,
-				C7A85970217A56D300502935 /* TransactionsLumensViewController.swift in Sources */,
+				C7A85970217A56D300502935 /* TransactionsXLMViewController.swift in Sources */,
 				AAA3314E20893CE100BBD292 /* PairingInstructionsView.swift in Sources */,
 				AAA3316B2089650B00BBD292 /* AlertViewPresenter.swift in Sources */,
 				51E5C73320741A130000A7FD /* LocalizationConstants.swift in Sources */,
@@ -8450,7 +8450,7 @@
 				606399EE2110FC2D005B6DF5 /* SRHTTPConnectMessage.m in Sources */,
 				C74E21C12024BA1C00A9FBB1 /* BCBalanceChartLegendKeyView.m in Sources */,
 				516546F5208FCF710019EE63 /* NetworkManager+UserAgent.swift in Sources */,
-				C777333F217E233C00899930 /* TransactionsLumensDataProvider.swift in Sources */,
+				C777333F217E233C00899930 /* TransactionsXLMDataProvider.swift in Sources */,
 				84FC02FD19815F1B00B97D5B /* crypto_scrypt-nosse.c in Sources */,
 				602B9CE82118E15300BD3D60 /* LocationSuggestion.swift in Sources */,
 				AA447BC82127679A00EC0FA0 /* SideMenuViewController.swift in Sources */,
@@ -8535,7 +8535,7 @@
 				606399F02110FC2D005B6DF5 /* SRURLUtilities.m in Sources */,
 				23DF4EFC1DBA586C0059CF92 /* KeychainItemWrapper+SwipeAddresses.m in Sources */,
 				C780A44C20235E9500E49274 /* BCBalancesChartView.m in Sources */,
-				C777333C217E224500899930 /* TransactionsLumensInteractor.swift in Sources */,
+				C777333C217E224500899930 /* TransactionsXLMInteractor.swift in Sources */,
 				5146E29D21518826009B62D7 /* AnnouncementCardViewModel.swift in Sources */,
 				3A26D4F02140224A00D79BDD /* ExchangeDetailViewController.swift in Sources */,
 				C71859541F4B647100745A87 /* SendEtherViewController.m in Sources */,
@@ -8830,7 +8830,7 @@
 				C790E1241E5358540063D141 /* BCVerifyMobileNumberViewController.m in Sources */,
 				AAE94F3C20C70F4B005A3595 /* BIP21URI.swift in Sources */,
 				3AE92BDD2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */,
-				C7773330217E21F200899930 /* TransactionsLumensPresenter.swift in Sources */,
+				C7773330217E21F200899930 /* TransactionsXLMPresenter.swift in Sources */,
 				C7B6855B1F17AE2A00A18A5C /* BCEmptyPageView.m in Sources */,
 				3A8B228A211E0B380091E706 /* KYCPersonalDetailsController.swift in Sources */,
 				AA7133D921223AE000CB2AA9 /* Arrays.swift in Sources */,

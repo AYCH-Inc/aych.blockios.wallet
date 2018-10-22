@@ -1,5 +1,5 @@
 //
-//  TransactionsLumensPresenter.swift
+//  TransactionsXLMPresenter.swift
 //  Blockchain
 //
 //  Created by kevinwu on 10/22/18.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-class TransactionsLumensPresenter: SimpleListPresenter {
+class TransactionsXLMPresenter: SimpleListPresenter {
 
 }

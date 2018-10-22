@@ -1,5 +1,5 @@
 //
-//  TransactionsLumensDataProvider.swift
+//  TransactionsXLMDataProvider.swift
 //  Blockchain
 //
 //  Created by kevinwu on 10/22/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TransactionsLumensDataProvider: SimpleListDataProvider {
+class TransactionsXLMDataProvider: SimpleListDataProvider {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let items = models else { return UITableViewCell() }
 

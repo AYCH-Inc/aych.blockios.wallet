@@ -10,6 +10,7 @@ import Foundation
 
 // TICKET: IOS-1380 - Refactor and use autolayout
 class SimpleTransactionsViewController: SimpleListViewController {
+    // Used to filter by specific HD accounts or imported addresses.
     var filterIndex: Int32 = 0
 
     private var noTransactionsTitle: UILabel?

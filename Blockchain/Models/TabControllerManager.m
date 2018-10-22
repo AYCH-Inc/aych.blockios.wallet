@@ -13,6 +13,7 @@
 
 @interface TabControllerManager () <WalletSettingsDelegate, WalletSendBitcoinDelegate, WalletSendEtherDelegate, WalletExchangeIntermediateDelegate, WalletTransactionDelegate, WalletWatchOnlyDelegate, WalletFiatAtTimeDelegate>
 
+@property (strong, nonatomic) DashboardController *dashboardViewController;
 @property (strong, nonatomic) SendLumensViewController *sendLumensViewController;
 
 @end
@@ -502,13 +503,14 @@
 - (void)showDashboardAnimated:(BOOL)animated
 {
     if (!_dashboardViewController) {
-        DashboardViewController *dashboardViewController = [DashboardViewController new];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Dashboard" bundle:nil];
+        DashboardController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardController"];
         self.dashboardViewController = dashboardViewController;
     }
 
     [_tabViewController setActiveViewController:self.dashboardViewController animated:animated index:TabBarTabDashboard];
 
-    self.dashboardViewController.assetType = self.assetType;
+    [self.dashboardViewController setAssetType:self.assetType];
 }
 
 #pragma mark - Transactions

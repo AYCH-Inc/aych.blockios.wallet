@@ -545,7 +545,7 @@
         
         [_tabViewController setActiveViewController:_transactionsBitcoinCashViewController animated:animated index:tabIndex];
     } else if (self.assetType == LegacyAssetTypeStellar) {
-        TransactionsXLMViewController *viewController = [TransactionsXLMViewController make];
+        TransactionsXlmViewController *viewController = [TransactionsXlmViewController make];
         [_tabViewController setActiveViewController:viewController animated:animated index:tabIndex];
     }
 }

@@ -14,11 +14,6 @@ final class DashboardController: UIViewController {
 
     // MARK: - Properties
 
-    // TICKET: IOS-1505 - Refactor TabViewController to avoid Int32 conversion
-    @objc enum TabBarTab: Int {
-        case send, dashboard, transactions, receive
-    }
-
     // TICKET: IOS-1511 - Do not store assetType in DashboardController
     var assetType: LegacyAssetType? {
         didSet {
@@ -442,7 +437,7 @@ final class DashboardController: UIViewController {
         guard BlockchainSettings.App.shared.isPinSet,
             AuthenticationCoordinator.shared.pinEntryViewController == nil,
             wallet.isInitialized(),
-            tabControllerManager.tabViewController.selectedIndex() == Int32(TabBarTab.dashboard.rawValue),
+            tabControllerManager.tabViewController.selectedIndex() == Int32(Constants.Navigation.tabDashboard),
             ModalPresenter.shared.modalView == nil else {
                 return
         }

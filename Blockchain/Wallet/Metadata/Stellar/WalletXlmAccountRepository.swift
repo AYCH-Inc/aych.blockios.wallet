@@ -43,7 +43,7 @@ class WalletXlmAccountRepository {
         }
 
         // Derive and save XLM account
-        guard let mnemonic = wallet.getMnemonic(nil) else {
+        guard let mnemonic = wallet.getMnemonic(secondPassword) else {
             Logger.shared.warning("Mnemonic is nil.")
             return
         }

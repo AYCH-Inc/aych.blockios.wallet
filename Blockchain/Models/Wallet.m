@@ -2628,6 +2628,8 @@ NSString * const kLockboxInvitation = @"lockbox";
     return [devicesJsValue toArray];
 }
 
+#pragma mark - XLM
+
 - (NSArray *_Nullable)getXlmAccounts
 {
     if (!self.isInitialized) {
@@ -2635,6 +2637,18 @@ NSString * const kLockboxInvitation = @"lockbox";
     }
     JSValue *xlmAccountsValue = [self.context evaluateScript:@"MyWalletPhone.xlm.accounts()"];
     return [xlmAccountsValue toArray];
+}
+
+- (void)saveXlmAccount:(NSString *_Nonnull)publicKey label:(NSString *_Nullable)label sucess:(void (^ _Nonnull)(void))success error:(void (^)(NSString *_Nonnull))error
+{
+    if (!self.isInitialized) {
+        DLog(@"Cannot save XLM account. Wallet is not yet initialized.");
+        return;
+
+    }
+    [self.context invokeOnceWithFunctionBlock:success forJsFunctionName:@"objc_xlmSaveAccount_success"];
+    [self.context invokeOnceWithStringFunctionBlock:error forJsFunctionName:@"objc_xlmSaveAccount_error"];
+    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.xlm.saveAccount(\"%@\", \"%@\")", [publicKey escapedForJS], [label escapedForJS]]];
 }
 
 # pragma mark - Retail Core
@@ -4279,13 +4293,22 @@ NSString * const kLockboxInvitation = @"lockbox";
     return [[self.context evaluateScript:@"MyWallet.wallet.isUpgradedToHD"] toBool];
 }
 
-- (void)getRecoveryPhrase:(NSString *)secondPassword;
+- (void)getRecoveryPhrase:(NSString *)secondPassword
 {
     if (![self isInitialized]) {
         return;
     }
 
     [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getRecoveryPhrase(\"%@\")", [secondPassword escapedForJS]]];
+}
+
+- (NSString *_Nullable)getMnemonic:(NSString *_Nullable)secondPassword
+{
+    if (!self.isInitialized) {
+        return nil;
+    }
+    JSValue *mnemonicValue = [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getMnemonicPhrase(\"%@\")", [secondPassword escapedForJS]]];
+    return [mnemonicValue toString];
 }
 
 - (BOOL)isRecoveryPhraseVerified {

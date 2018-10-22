@@ -60,14 +60,6 @@ struct LocalizationConstants {
         "My Ether Wallet",
         comment: "The default name of the ether wallet."
     )
-    static let myStellarWallet = NSLocalizedString(
-        "My Stellar Wallet",
-        comment: "The default name of the stellar wallet."
-    )
-    static let enterStellarAddress = NSLocalizedString(
-        "Enter Stellar address or select",
-        comment: "Placeholder text for the Lumens send screen."
-    )
     static let loading = NSLocalizedString(
         "Loading",
         comment: "Text displayed when there is an asynchronous action that needs to complete before the user can take further action."
@@ -580,6 +572,21 @@ struct LocalizationConstants {
         static let pleaseLoginToLoadMoreAddresses = NSLocalizedString("Please login to load more addresses.", comment: "")
     }
 
+    struct Receive {
+        static let tapToCopyThisAddress = NSLocalizedString(
+            "Tap to copy this address. Share it with the sender via email or text.",
+            comment: "Text displayed on the receive screen instructing the user to copy their crypto address."
+        )
+        static let requestPayment = NSLocalizedString(
+            "Request Payment",
+            comment: "Text displayed on the button when requesting for payment to a crypto address."
+        )
+        static let copiedToClipboard = NSLocalizedString(
+            "Copied to clipboard",
+            comment: "Text displayed when a crypto address has been copied to the users clipboard."
+        )
+    }
+
     struct ReceiveAsset {
         static let xPaymentRequest = NSLocalizedString("%@ payment request", comment: "Subject of the email sent when requesting for payment from another user.")
     }
@@ -817,11 +824,40 @@ struct LocalizationConstants {
             comment: "Footer text in the lockbox view."
         )
     }
+
+    struct Stellar {
+        static let defaultLabelName = NSLocalizedString(
+            "My Stellar Wallet",
+            comment: "The default label of the XLM wallet."
+        )
+        static let enterStellarAddress = NSLocalizedString(
+            "Enter Stellar address or select",
+            comment: "Placeholder text for the Lumens send screen."
+        )
+        static let secondPasswordPrompt = NSLocalizedString(
+            "Your second password is required in order to create an XLM account.",
+            comment: "Text shown when the second password is required to create an XLM account."
+        )
+        static let pleaseSendXlmToX = NSLocalizedString(
+            "Please send XLM to %@",
+            comment: "Message when requesting XLM."
+        )
+        static let xlmPaymentRequest = NSLocalizedString(
+            "XLM payment request.",
+            comment: "Subject when requesting for XLM."
+        )
+        static let enterYourSecondPassword = NSLocalizedString(
+            "Enter Your Second Password",
+            comment: "Text on the button prompting the user to enter their second password to proceed with creating an XLM account."
+        )
+    }
 }
 
 // TODO: deprecate this once Obj-C is no longer using this
 /// LocalizationConstants class wrapper so that LocalizationConstants can be accessed from Obj-C.
 @objc class LocalizationConstantsObjcBridge: NSObject {
+    @objc class func copiedToClipboard() -> String { return LocalizationConstants.Receive.copiedToClipboard }
+
     @objc class func createWalletLegalAgreementPrefix() -> String {
         return LocalizationConstants.Onboarding.termsOfServiceAndPrivacyPolicyNoticePrefix
     }
@@ -833,6 +869,10 @@ struct LocalizationConstants {
     @objc class func privacyPolicy() -> String {
         return LocalizationConstants.privacyPolicy
     }
+
+    @objc class func tapToCopyThisAddress() -> String { return LocalizationConstants.Receive.tapToCopyThisAddress }
+
+    @objc class func requestPayment() -> String { return LocalizationConstants.Receive.requestPayment }
 
     @objc class func continueString() -> String { return LocalizationConstants.continueString }
 

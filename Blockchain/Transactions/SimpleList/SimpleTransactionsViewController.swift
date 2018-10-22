@@ -8,6 +8,7 @@
 
 import Foundation
 
+// TICKET: IOS-1380 - Refactor and use autolayout
 class SimpleTransactionsViewController: SimpleListViewController {
     var filterIndex: Int32 = 0
 

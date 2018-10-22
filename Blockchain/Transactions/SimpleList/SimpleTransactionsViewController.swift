@@ -84,10 +84,17 @@ class SimpleTransactionsViewController: SimpleListViewController {
         var buttonText: String
 
         switch convertedAssetType {
-        case .bitcoin: buttonText = String(format: LocalizationConstants.Transactions.getArgument, convertedAssetType.description.lowercased())
-        case .ethereum: buttonText = String(format: LocalizationConstants.Transactions.requestArgument, convertedAssetType.description.lowercased())
-        case .bitcoinCash: buttonText = String(format: LocalizationConstants.Transactions.getArgument, convertedAssetType.description.lowercased())
-        default: return
+        case .bitcoin:
+            buttonText = String(format: LocalizationConstants.Transactions.getArgument, convertedAssetType.description.lowercased())
+        case .ethereum:
+            buttonText = String(format: LocalizationConstants.Transactions.requestArgument, convertedAssetType.description.lowercased())
+        case .bitcoinCash:
+            buttonText = String(format: LocalizationConstants.Transactions.getArgument, convertedAssetType.description.lowercased())
+        case .stellar:
+            buttonText = String(format: LocalizationConstants.Transactions.requestArgument, convertedAssetType.description.lowercased())
+        default:
+            Logger.shared.error("Unsupported asset type")
+            return
         }
 
         let noTransactionsViewVar = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))

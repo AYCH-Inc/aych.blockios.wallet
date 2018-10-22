@@ -1,5 +1,5 @@
 //
-//  TransactionsXLMInteractor.swift
+//  TransactionsXlmInteractor.swift
 //  Blockchain
 //
 //  Created by kevinwu on 10/22/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TransactionsXLMInteractor: SimpleListInteractor {
+class TransactionsXlmInteractor: SimpleListInteractor {
 
     required init() {
         super.init()

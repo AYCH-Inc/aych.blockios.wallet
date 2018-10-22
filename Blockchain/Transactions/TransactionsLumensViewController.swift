@@ -10,8 +10,12 @@ import Foundation
 
 class TransactionsLumensViewController: SimpleTransactionsViewController {
     @objc class func make() -> TransactionsLumensViewController {
-        let service = StellarTransactionServiceAPI()
-        let controller = SimpleListViewController.make(with: service, type: TransactionsLumensViewController.self)
+        let controller = SimpleListViewController.make(
+            with: TransactionsLumensViewController.self,
+            dataProvider: TransactionsLumensDataProvider.self,
+            presenter: TransactionsLumensPresenter.self,
+            interactor: TransactionsLumensInteractor.self
+        )
         return controller
     }
 }

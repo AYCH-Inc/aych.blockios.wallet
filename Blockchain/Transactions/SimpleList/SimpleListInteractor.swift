@@ -8,10 +8,16 @@
 
 import Foundation
 
-class SimpleListInteractor: SimpleListInput {
-    fileprivate var service: SimpleListServiceAPI?
+class SimpleListInteractor: NSObject, SimpleListInput {
+    // Cannot be fileprivate because it must be accessible by subclass
+    var service: SimpleListServiceAPI?
 
     weak var output: SimpleListOutput?
+
+    // Called by SimpleListViewController factory method
+    required override init() {
+        super.init()
+    }
 
     init(listService: SimpleListServiceAPI) {
         self.service = listService

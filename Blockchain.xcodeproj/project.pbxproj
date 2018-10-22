@@ -957,7 +957,6 @@
 		C7CE25B92135E41900DCC43B /* ExchangeCreateInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CE25B82135E41900DCC43B /* ExchangeCreateInteractor.swift */; };
 		C7CE25BA2135E41900DCC43B /* ExchangeCreateInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CE25B82135E41900DCC43B /* ExchangeCreateInteractor.swift */; };
 		C7CE34B81F4DCB7E00032806 /* CardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7CE34B71F4DCB7E00032806 /* CardsViewController.m */; };
-		C7CE34BB1F4DE14500032806 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7CE34BA1F4DE14500032806 /* DashboardViewController.m */; };
 		C7CE34BE1F4E128900032806 /* BCAmountInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7CE34BD1F4E128900032806 /* BCAmountInputView.m */; };
 		C7D5115C21237DE000359651 /* HttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C733A89221236F02007DADE0 /* HttpHeader.swift */; };
 		C7D5116621237DFA00359651 /* NabuAuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E0FCCD211E12AE00B85D37 /* NabuAuthenticationService.swift */; };
@@ -3420,8 +3419,6 @@
 		C7CE34B51F4DB8C100032806 /* Assets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Assets.h; sourceTree = "<group>"; };
 		C7CE34B61F4DCB7E00032806 /* CardsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardsViewController.h; sourceTree = "<group>"; };
 		C7CE34B71F4DCB7E00032806 /* CardsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardsViewController.m; sourceTree = "<group>"; };
-		C7CE34B91F4DE14500032806 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
-		C7CE34BA1F4DE14500032806 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
 		C7CE34BC1F4E128900032806 /* BCAmountInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCAmountInputView.h; sourceTree = "<group>"; };
 		C7CE34BD1F4E128900032806 /* BCAmountInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCAmountInputView.m; sourceTree = "<group>"; };
 		C7E0FCCD211E12AE00B85D37 /* NabuAuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NabuAuthenticationService.swift; sourceTree = "<group>"; };
@@ -6476,8 +6473,6 @@
 				C7CE34B71F4DCB7E00032806 /* CardsViewController.m */,
 				C7414E431FD7131C001A89FA /* ConfirmStateViewController.h */,
 				C7414E441FD7131C001A89FA /* ConfirmStateViewController.m */,
-				C7CE34B91F4DE14500032806 /* DashboardViewController.h */,
-				C7CE34BA1F4DE14500032806 /* DashboardViewController.m */,
 				C73406201F54791C00143100 /* EtherAmountInputViewController.h */,
 				C73406211F54791C00143100 /* EtherAmountInputViewController.m */,
 				C7A0E92C1FA8FFBF004F4267 /* PartnerExchangeConfirmViewController.h */,
@@ -8006,7 +8001,6 @@
 				C7C0DC23212F677C000EFE71 /* MarketsService.swift in Sources */,
 				AACE31D72092A99B00B7B806 /* Enum+Enumeratable.swift in Sources */,
 				3A1552EB2136EA8D00683CEB /* TradeExecutionService.swift in Sources */,
-				5152AC362143107E00E769CE /* AnnouncementCard.swift in Sources */,
 				AACE31D82092A99B00B7B806 /* Enum+RawValued.swift in Sources */,
 				3A01914A212E17E500AED2BF /* ExchangeCreateViewController.swift in Sources */,
 				AA54E496216D2A4E005061F9 /* SearchableMap.swift in Sources */,
@@ -8082,7 +8076,6 @@
 				3A26D4F12140224A00D79BDD /* ExchangeDetailViewController.swift in Sources */,
 				3AAEF94B214083ED005852D1 /* LayoutAttributes.swift in Sources */,
 				AAFA97B02115110000D19ED3 /* SettingsProtocols.swift in Sources */,
-				5176A4BA214AA41B0006769F /* AnnouncementCardsController.swift in Sources */,
 				C78893DB20A34DF4003C0A8F /* WalletSettingsDelegate.swift in Sources */,
 				602B9D132118E24C00BD3D60 /* SearchControllerDelegate.swift in Sources */,
 				3ADFE6EE214862E000E7E2D5 /* ExchangeInputComponent.swift in Sources */,
@@ -8216,7 +8209,6 @@
 				C7FF110F2141E24000CBA3CB /* InputsState.swift in Sources */,
 				3A3D5DB6211B96FA00E6C241 /* LocationUpdateAPI.swift in Sources */,
 				23444F8D1DCD219E00573C8C /* BTCData.m in Sources */,
-				5152AC352143107E00E769CE /* AnnouncementCard.swift in Sources */,
 				60AEA56921125AB50053A753 /* SettingsCell.swift in Sources */,
 				C7442E371FBA448200695E4C /* ExchangeTrade.m in Sources */,
 				AAE9113120A51C900093A431 /* ReminderType.swift in Sources */,
@@ -8417,7 +8409,6 @@
 				602B9CF62118E15300BD3D60 /* KYCOnboardingNavigationController.swift in Sources */,
 				602B9CE12118E15300BD3D60 /* KYCEnterPhoneNumberController.swift in Sources */,
 				511646C5208124E200C43522 /* AssetType.swift in Sources */,
-				C7CE34BB1F4DE14500032806 /* DashboardViewController.m in Sources */,
 				606399FC2110FC2D005B6DF5 /* SRIOConsumer.m in Sources */,
 				9FCA4D161514949500ECDFBE /* ReceiveBitcoinViewController.m in Sources */,
 				C7343BC4214FF8B1001B1EC9 /* ExchangeDetailPresenter.swift in Sources */,
@@ -8428,7 +8419,6 @@
 				AA126CFD212CE40E005886A3 /* KYCUpdatePersonalDetailsRequest.swift in Sources */,
 				AA0A4147214B0B2100807163 /* ExchangeAssetAccountListPresenter.swift in Sources */,
 				C75EE7D8201BBA820067BA16 /* UITextView+Animations.m in Sources */,
-				5152AC2C2142DD1100E769CE /* LegacyAnnouncementCard.swift in Sources */,
 				23C95EA61C0779C600E4692A /* SettingsChangePasswordViewController.m in Sources */,
 				AA08439F215C47290007BFD1 /* NabuNetworkError.swift in Sources */,
 				51578AEA20B448BF00B0080A /* WalletKeyImportDelegate.swift in Sources */,

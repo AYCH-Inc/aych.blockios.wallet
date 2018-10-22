@@ -18,9 +18,6 @@
 
 @interface CardsViewController () <CardViewDelegate, UIScrollViewDelegate>
 
-@property (nonatomic) UIScrollView *scrollView;
-@property (nonatomic) UIView *contentView;
-
 // Onboarding cards
 @property (nonatomic) BOOL showWelcomeCards;
 @property (nonatomic) NSMutableArray *announcementCards;
@@ -36,36 +33,13 @@
 
 @implementation CardsViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    CGFloat safeAreaInsetTop = 20;
-    CGFloat safeAreaInsetBottom = 0;
-    if (@available(iOS 11.0, *)) {
-        safeAreaInsetTop = window.rootViewController.view.safeAreaInsets.top;
-        safeAreaInsetBottom = window.rootViewController.view.safeAreaInsets.bottom;
-    }
-
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    // TODO: store tab bar and navigation bar height as constants
-    self.view.frame = CGRectMake(0,
-                                 0,
-                                 window.bounds.size.width,
-                                 window.bounds.size.height - safeAreaInsetTop - safeAreaInsetBottom - 49 - 44);
-    self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    [self.view addSubview:self.scrollView];
-}
+/**
+ Temporary code to show KYC announcement card
+ - SeeAlso: IOS-1249 - Refactor CardsViewController
+ */
 
 - (void)reloadCards
 {
-    /**
-      Temporary code to show KYC announcement card
-      - SeeAlso: IOS-1249 - Refactor CardsViewController
-     */
-
     BOOL shouldShowKYCAnnouncementCard = BlockchainSettings.sharedAppInstance.shouldShowKYCAnnouncementCard;
     self.cardsViewHeight = 0;
 
@@ -83,8 +57,8 @@
                                                 BlockchainSettings.sharedAppInstance.shouldShowKYCAnnouncementCard = NO;
                                                 [UIView animateWithDuration:.4f animations:^{
                                                     [self.cardsView changeYPosition:-self.cardsView.frame.size.height];
-                                                    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.contentView.frame.size.height);
-                                                    [self.contentView changeYPosition:0];
+                                                    self.dashboardScrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.dashboardContentView.frame.size.height);
+                                                    [self.dashboardContentView changeYPosition:0];
                                                 } completion:^(BOOL finished) {
                                                     [self removeCardsView];
                                                 }];
@@ -93,8 +67,8 @@
         self.cardsViewHeight = card.frame.size.height;
         self.cardsView = [self prepareCardsView];
         [self.cardsView addSubview:card];
-        [self.scrollView addSubview:self.cardsView];
-        [self.contentView changeYPosition:self.cardsViewHeight];
+        [self.dashboardScrollView addSubview:self.cardsView];
+        [self.dashboardContentView changeYPosition:self.cardsViewHeight];
     } else {
         self.announcementCards = [NSMutableArray new];
         self.showWelcomeCards = !BlockchainSettings.sharedOnboardingInstance.hasSeenAllCards;
@@ -123,14 +97,14 @@
     }
 
     CGFloat width = self.view.frame.size.width;
-    CGFloat height = self.contentView.frame.size.height + self.cardsViewHeight;
-    self.scrollView.contentSize = CGSizeMake(width, height);
+    CGFloat height = self.dashboardContentView.frame.size.height + self.cardsViewHeight;
+    self.dashboardScrollView.contentSize = CGSizeMake(width, height);
 }
 
 - (CardsView *)prepareCardsView
 {
     [self.cardsView removeFromSuperview];
-    CardsView *view = [[CardsView alloc] initWithFrame:CGRectMake(0, 0, self.scrollView.frame.size.width, self.cardsViewHeight)];
+    CardsView *view = [[CardsView alloc] initWithFrame:CGRectMake(0, 0, self.dashboardScrollView.frame.size.width, self.cardsViewHeight)];
     return view;
 }
 
@@ -140,9 +114,9 @@
 
     self.cardsView = [self configureCardsViewWelcome:cardsView];
 
-    [self.scrollView addSubview:self.cardsView];
+    [self.dashboardScrollView addSubview:self.cardsView];
 
-    [self.contentView changeYPosition:self.cardsViewHeight];
+    [self.dashboardContentView changeYPosition:self.cardsViewHeight];
 }
 
 - (void)setupCardsViewWithConfigurations:(NSArray *)configurations
@@ -150,7 +124,7 @@
     CardsView *cardsView = [self prepareCardsView];
 
     for (int index = 0; index < configurations.count; index++) {
-        CGRect cardFrame = CGRectMake(0, 0, self.scrollView.frame.size.width, ANNOUNCEMENT_CARD_HEIGHT);
+        CGRect cardFrame = CGRectMake(0, 0, self.dashboardScrollView.frame.size.width, ANNOUNCEMENT_CARD_HEIGHT);
         NSInteger configuration = [configurations[index] integerValue];
         NSString *title, *description, *imageName;
         ActionType actionType;
@@ -182,9 +156,9 @@
 
     self.cardsView = cardsView;
 
-    [self.scrollView addSubview:self.cardsView];
+    [self.dashboardScrollView addSubview:self.cardsView];
 
-    [self.contentView changeYPosition:ANNOUNCEMENT_CARD_HEIGHT * configurations.count];
+    [self.dashboardContentView changeYPosition:ANNOUNCEMENT_CARD_HEIGHT * configurations.count];
 }
 
 #pragma mark - New Wallet Cards
@@ -352,8 +326,8 @@
             }
         }
         [self.cardsView changeHeight:newY];
-        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.contentView ? self.contentView.frame.size.height : 0);
-        [self.contentView changeYPosition:newY];
+        self.dashboardScrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.dashboardContentView ? self.dashboardContentView.frame.size.height : 0);
+        [self.dashboardContentView changeYPosition:newY];
     } completion:^(BOOL finished) {
         [self reloadCards];
     }];
@@ -461,8 +435,8 @@
 {
     [UIView animateWithDuration:ANIMATION_DURATION_LONG animations:^{
         [self.cardsView changeHeight:0];
-        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.contentView ? self.contentView.frame.size.height : 0);
-        [self.contentView changeYPosition:0];
+        self.dashboardScrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.dashboardContentView ? self.dashboardContentView.frame.size.height : 0);
+        [self.dashboardContentView changeYPosition:0];
     } completion:^(BOOL finished) {
         [self removeCardsView];
     }];
@@ -474,8 +448,8 @@
 {
     [self.cardsView removeFromSuperview];
     self.cardsView = nil;
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.contentView ? self.contentView.frame.size.height : 0);
-    [self.contentView changeYPosition:0];
+    self.dashboardScrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.dashboardContentView ? self.dashboardContentView.frame.size.height : 0);
+    [self.dashboardContentView changeYPosition:0];
 }
 
 @end

@@ -297,6 +297,10 @@ struct LocalizationConstants {
             "Price charts",
             comment: "The title of the balances label in the price chart view."
         )
+        static let chartsError = NSLocalizedString(
+            "An error occurred while retrieving the latest chart data. Please try again later.",
+            comment: "The error message for when the method fetchChartDataForAsset fails."
+        )
     }
 
     struct AnnouncementCards {

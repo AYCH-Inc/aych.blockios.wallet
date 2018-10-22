@@ -475,7 +475,10 @@
 
         [_tabViewController setActiveViewController:_receiveBitcoinCashViewController animated:animated index:tabIndex];
     } else if (self.assetType == LegacyAssetTypeStellar) {
-        [_tabViewController setActiveViewController:[UIViewController new] animated:animated index:tabIndex];
+        if (![_tabViewController.activeViewController isKindOfClass:[ReceiveXlmViewController class]]) {
+            ReceiveXlmViewController *receiveXlmViewController = [ReceiveXlmViewController newInstance];
+            [_tabViewController setActiveViewController:receiveXlmViewController animated:animated index:tabIndex];
+        }
     }
 }
 

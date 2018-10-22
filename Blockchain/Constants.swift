@@ -141,8 +141,8 @@ struct Constants {
         static let bitcoinCash = "BCH"
     }
     struct FilterIndexes {
-        static let all: NSInteger = -1
-        static let importedAddresses: NSInteger = -2
+        static let all: Int32 = -1
+        static let importedAddresses: Int32 = -2
     }
 }
 
@@ -193,11 +193,11 @@ struct Constants {
         return Constants.Navigation.tabTransactions
     }
 
-    @objc class func filterIndexAll() -> NSInteger {
+    @objc class func filterIndexAll() -> Int32 {
         return Constants.FilterIndexes.all
     }
 
-    @objc class func filterIndexImportedAddresses() -> NSInteger {
+    @objc class func filterIndexImportedAddresses() -> Int32 {
         return Constants.FilterIndexes.importedAddresses
     }
 

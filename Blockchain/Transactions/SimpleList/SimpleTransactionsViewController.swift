@@ -9,7 +9,7 @@
 import Foundation
 
 class SimpleTransactionsViewController: SimpleListViewController {
-    var filterIndex: NSInteger = 0
+    var filterIndex: Int32 = 0
 
     private var noTransactionsTitle: UILabel?
     private var noTransactionsDescription: UILabel?

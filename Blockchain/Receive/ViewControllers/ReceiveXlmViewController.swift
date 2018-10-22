@@ -103,6 +103,9 @@ import UIKit
     private func initViews() {
         buttonRequestPayment.layer.cornerRadius = Constants.Measurements.buttonCornerRadius
         buttonRequestPayment.setTitle(LocalizationConstants.Receive.requestPayment, for: .normal)
+
+        buttonEnterPassword.layer.cornerRadius = Constants.Measurements.buttonCornerRadius
+        buttonEnterPassword.setTitle(LocalizationConstants.Stellar.enterYourSecondPassword, for: .normal)
     }
 }
 

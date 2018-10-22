@@ -838,6 +838,10 @@ struct LocalizationConstants {
             "XLM payment request.",
             comment: "Subject when requesting for XLM."
         )
+        static let enterYourSecondPassword = NSLocalizedString(
+            "Enter Your Second Password",
+            comment: "Text on the button prompting the user to enter their second password to proceed with creating an XLM account."
+        )
     }
 }
 

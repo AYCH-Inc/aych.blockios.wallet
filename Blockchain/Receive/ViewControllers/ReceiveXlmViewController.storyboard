@@ -46,7 +46,7 @@
                                     <constraint firstAttribute="height" constant="40" id="v1y-I4-oIR"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                <state key="normal" title="Enter Your Password">
+                                <state key="normal" title="Enter Your Second Password">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>

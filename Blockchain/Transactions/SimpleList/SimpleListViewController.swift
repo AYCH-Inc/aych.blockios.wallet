@@ -104,7 +104,8 @@ extension SimpleListViewController: SimpleListDataProviderDelegate {
         delegate?.onPullToRefresh()
     }
 
-    func cellForRowAt<T>(_ indexPath: IndexPath, _ model: Identifiable) -> T where T : UITableViewCell {
+    // TODO: This needs to be moved somewhere else
+    func cellForRowAt<T>(_ indexPath: IndexPath, _ model: Identifiable) -> T where T: UITableViewCell {
         return UITableViewCell() as! T
     }
 

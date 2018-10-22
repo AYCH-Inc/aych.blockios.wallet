@@ -88,7 +88,7 @@ import UIKit
             AuthenticationCoordinator.shared.showPasswordConfirm(
                 withDisplayText: LocalizationConstants.Stellar.secondPasswordPrompt,
                 headerText: LocalizationConstants.Authentication.secondPasswordRequired,
-                validateSecondPassword: false, confirmHandler: { [weak self] password in
+                validateSecondPassword: true, confirmHandler: { [weak self] password in
                     self?.xlmAccountRepository.initializeMetadata(secondPassword: password)
                     self?.xlmAccount = self?.xlmAccountRepository.defaultAccount
                 }

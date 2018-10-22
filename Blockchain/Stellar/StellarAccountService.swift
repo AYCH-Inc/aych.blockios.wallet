@@ -31,25 +31,19 @@ class StellarAccountService: StellarAccountAPI {
         service.getAccountDetails(accountId: accountID) { response -> Void in
             switch response {
             case .success(details: let details):
-                var account = StellarAccount(identifier: details.accountId)
-                
-                details.balances.forEach({ balance in
-                    let assetAddress = AssetAddressFactory.create(
-                        fromAddressString: balance.assetIssuer ?? details.accountId,
-                        assetType: .stellar
-                    )
-                    let value = Decimal(string: balance.balance) ?? 0.0
-                    let assetAccount = AssetAccount(
-                        index: 0,
-                        address: assetAddress,
-                        balance: value,
-                        name: LocalizationConstants.myStellarWallet
-                    )
-                    account.assetAccounts.append(assetAccount)
-                })
-                
+                let totalBalance = details.balances.reduce(Decimal(0)) { $0 + (Decimal(string: $1.balance) ?? 0) }
+                let assetAddress = AssetAddressFactory.create(
+                    fromAddressString: accountID,
+                    assetType: .stellar
+                )
+                let assetAccount = AssetAccount(
+                    index: 0,
+                    address: assetAddress,
+                    balance: totalBalance,
+                    name: LocalizationConstants.Stellar.defaultLabelName
+                )
+                let account = StellarAccount(identifier: accountID, assetAccount: assetAccount)
                 completion(.success(account))
-                
             case .failure(error: let error):
                 completion(.error(error))
             }

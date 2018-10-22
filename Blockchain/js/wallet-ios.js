@@ -1295,6 +1295,9 @@ MyWalletPhone.getRecoveryPhrase = function(secondPassword) {
     objc_on_success_get_recovery_phrase(recoveryPhrase);
 };
 
+MyWalletPhone.getMnemonicPhrase = function(secondPassword) {
+    return MyWallet.wallet.getMnemonic(secondPassword);
+};
 
 // Get passwords
 
@@ -2395,8 +2398,13 @@ MyWalletPhone.lockbox = {
 }
 
 MyWalletPhone.xlm = {
-    createAccount: function(publicKey, label) {
-        MyWallet.wallet.xlm.createAccount(publicKey, label);
+    saveAccount: function(publicKey, label) {
+        MyWallet.wallet.xlm.saveAccount(
+          publicKey,
+          label,
+          objc_xlmSaveAccount_success,
+          objc_xlmSaveAccount_error
+        );
     },
 
     accounts: function() {

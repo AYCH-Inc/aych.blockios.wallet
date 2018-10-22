@@ -19,6 +19,7 @@ protocol SimpleListDelegate: class {
 // A view controller for a simple table view that is
 // - refreshable by pulling down
 // - able to trigger the next page by scrolling to the bottom
+
 class SimpleListViewController: UIViewController {
 
     // MARK: Public Properties
@@ -27,18 +28,37 @@ class SimpleListViewController: UIViewController {
 
     // MARK: Private IBOutlets
 
-    @IBOutlet fileprivate var tableView: UITableView!
+    // Cannot be fileprivate because it must be accessible by subclass
+    @IBOutlet var tableView: UITableView!
 
     // MARK: Private Properties
 
     fileprivate var dataProvider: SimpleListDataProvider?
-    fileprivate var presenter: SimpleListPresenter!
-    fileprivate var service: SimpleListServiceAPI!
+    fileprivate var presenter: SimpleListPresenter?
 
     // MARK: Factory
-    class func make<T: SimpleListViewController>(with service: SimpleListServiceAPI, type: T.Type) -> T {
+
+    class func make<
+        T: SimpleListViewController,
+        U: SimpleListDataProvider,
+        V: SimpleListPresenter,
+        W: SimpleListInteractor
+    > (
+        with type: T.Type,
+        dataProvider: U.Type,
+        presenter: V.Type,
+        interactor: W.Type
+    ) -> T {
         let controller = T.makeFromStoryboard()
-        controller.service = service
+
+        let interactor = W.init()
+        let presenter = V.init(interactor: interactor)
+        interactor.output = presenter
+        controller.presenter = presenter
+
+        let dataProvider = U.init()
+        controller.dataProvider = dataProvider
+
         return controller
     }
 
@@ -46,16 +66,21 @@ class SimpleListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataProvider = SimpleListDataProvider(table: tableView)
+        dataProvider?.setupWithTable(table: tableView)
         dependenciesSetup()
         dataProvider?.delegate = self
         delegate?.onLoaded()
     }
 
     fileprivate func dependenciesSetup() {
-        let interactor = SimpleListInteractor(listService: service)
+        guard presenter == nil else {
+            presenter?.interface = self
+            delegate = presenter
+            return
+        }
+        let interactor = SimpleListInteractor()
         presenter = SimpleListPresenter(interactor: interactor)
-        presenter.interface = self
+        presenter?.interface = self
         interactor.output = presenter
         delegate = presenter
     }
@@ -102,11 +127,6 @@ extension SimpleListViewController: SimpleListDataProviderDelegate {
 
     func refreshControlTriggered(_ dataProvider: SimpleListDataProvider) {
         delegate?.onPullToRefresh()
-    }
-
-    // TODO: This needs to be moved somewhere else
-    func cellForRowAt<T>(_ indexPath: IndexPath, _ model: Identifiable) -> T where T: UITableViewCell {
-        return UITableViewCell() as! T
     }
 
     var estimatedCellHeight: CGFloat {

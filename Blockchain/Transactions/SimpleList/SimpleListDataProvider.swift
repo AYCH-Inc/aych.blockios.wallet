@@ -12,13 +12,12 @@ protocol SimpleListDataProviderDelegate: class {
     func dataProvider(_ dataProvider: SimpleListDataProvider, nextPageBefore identifier: String)
     func dataProvider(_ dataProvider: SimpleListDataProvider, didSelect item: Identifiable)
     func refreshControlTriggered(_ dataProvider: SimpleListDataProvider)
-    func cellForRowAt<T: UITableViewCell>(_ indexPath: IndexPath, _ model: Identifiable) -> T
 
     var estimatedCellHeight: CGFloat { get }
 }
 
 // Data provider for a SimpleListViewController
-class SimpleListDataProvider: NSObject {
+class SimpleListDataProvider: NSObject, UITableViewDataSource {
 
     // MARK: Public
 
@@ -55,18 +54,34 @@ class SimpleListDataProvider: NSObject {
         }
     }
 
+    // Cannot be fileprivate because it must be accessible by subclass
+    weak var tableView: UITableView?
+
     // MARK: Private Properties
 
-    fileprivate weak var tableView: UITableView?
     fileprivate var refreshControl: UIRefreshControl!
-    fileprivate var models: [Identifiable]?
+    var models: [Identifiable]?
     fileprivate var estimatedCellHeight: CGFloat {
         return delegate?.estimatedCellHeight ?? 44.0
+    }
+
+    // Called by SimpleListViewController factory method
+    required override init() {
+        super.init()
     }
 
     init(table: UITableView) {
         tableView = table
         super.init()
+        setupTableView()
+    }
+
+    func setupWithTable(table: UITableView) {
+        tableView = table
+        setupTableView()
+    }
+
+    fileprivate func setupTableView() {
         tableView?.estimatedRowHeight = estimatedCellHeight
         tableView?.delegate = self
         tableView?.dataSource = self
@@ -104,9 +119,8 @@ class SimpleListDataProvider: NSObject {
     @objc fileprivate func refresh() {
         delegate?.refreshControlTriggered(self)
     }
-}
 
-extension SimpleListDataProvider: UITableViewDataSource {
+    // MARK: - UITableViewDataSource
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -123,31 +137,19 @@ extension SimpleListDataProvider: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        guard let items = models else { return UITableViewCell() }
-
-        if items.count > indexPath.row {
-            let model = items[indexPath.row]
-            return delegate?.cellForRowAt(indexPath, model) ?? UITableViewCell()
-        }
-
-        if indexPath.row == items.count && isPaging {
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: LoadingTableViewCell.identifier,
-                for: indexPath
-                ) as? LoadingTableViewCell else { return UITableViewCell() }
-            /// This particular cell shouldn't have a separator.
-            /// This is how we hide it.
-            cell.separatorInset = UIEdgeInsets(
-                top: 0.0,
-                left: 0.0,
-                bottom: 0.0,
-                right: .greatestFiniteMagnitude
-            )
-            return cell
-        }
-
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: LoadingTableViewCell.identifier,
+            for: indexPath
+            ) as? LoadingTableViewCell else { return UITableViewCell() }
+        /// This particular cell shouldn't have a separator.
+        /// This is how we hide it.
+        cell.separatorInset = UIEdgeInsets(
+            top: 0.0,
+            left: 0.0,
+            bottom: 0.0,
+            right: .greatestFiniteMagnitude
+        )
+        return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

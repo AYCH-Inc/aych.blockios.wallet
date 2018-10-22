@@ -12,7 +12,7 @@ class SimpleListPresenter {
     fileprivate let interactor: SimpleListInput
     weak var interface: SimpleListInterface?
 
-    init(interactor: SimpleListInput) {
+    required init(interactor: SimpleListInput) {
         self.interactor = interactor
     }
 }

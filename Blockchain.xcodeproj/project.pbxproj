@@ -637,6 +637,8 @@
 		AA3CA9B62107F36800C2AD46 /* LogLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CA9B42107F36700C2AD46 /* LogLevel.swift */; };
 		AA3CA9B82107F66E00C2AD46 /* ConsoleLogDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CA9B72107F66E00C2AD46 /* ConsoleLogDestination.swift */; };
 		AA3CA9B92107F66E00C2AD46 /* ConsoleLogDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CA9B72107F66E00C2AD46 /* ConsoleLogDestination.swift */; };
+		AA3E589C217A7E7F00EFF992 /* ReceiveXlmViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA3E589B217A7E7F00EFF992 /* ReceiveXlmViewController.storyboard */; };
+		AA3E589E217A7E8F00EFF992 /* ReceiveXlmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E589D217A7E8F00EFF992 /* ReceiveXlmViewController.swift */; };
 		AA447BC62127677300EC0FA0 /* SideMenuViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA447BC52127677300EC0FA0 /* SideMenuViewController.storyboard */; };
 		AA447BC82127679A00EC0FA0 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA447BC72127679A00EC0FA0 /* SideMenuViewController.swift */; };
 		AA447BCA21276DA900EC0FA0 /* SideMenuPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA447BC921276DA900EC0FA0 /* SideMenuPresenter.swift */; };
@@ -3153,6 +3155,8 @@
 		AA3CA9B12107F2B700C2AD46 /* LogDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDestination.swift; sourceTree = "<group>"; };
 		AA3CA9B42107F36700C2AD46 /* LogLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogLevel.swift; sourceTree = "<group>"; };
 		AA3CA9B72107F66E00C2AD46 /* ConsoleLogDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLogDestination.swift; sourceTree = "<group>"; };
+		AA3E589B217A7E7F00EFF992 /* ReceiveXlmViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReceiveXlmViewController.storyboard; sourceTree = "<group>"; };
+		AA3E589D217A7E8F00EFF992 /* ReceiveXlmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveXlmViewController.swift; sourceTree = "<group>"; };
 		AA447BC52127677300EC0FA0 /* SideMenuViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SideMenuViewController.storyboard; sourceTree = "<group>"; };
 		AA447BC72127679A00EC0FA0 /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		AA447BC921276DA900EC0FA0 /* SideMenuPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuPresenter.swift; sourceTree = "<group>"; };
@@ -6461,6 +6465,7 @@
 				3A019119212DE54C00AED2BF /* Operations */,
 				AACE317E2092793300B7B806 /* Pin */,
 				51042C8820B1FDA600B022DE /* PrivateKeyReader */,
+				AA3E5890217A7E4D00EFF992 /* Receive */,
 				AACE31FA2093F9F200B7B806 /* Reminder */,
 				C9D4B2AF193E023C00EDA9EA /* Resources */,
 				3A56AE9C21764CDA00044302 /* Send */,
@@ -6787,6 +6792,23 @@
 				AA3CA9B42107F36700C2AD46 /* LogLevel.swift */,
 			);
 			path = Logging;
+			sourceTree = "<group>";
+		};
+		AA3E5890217A7E4D00EFF992 /* Receive */ = {
+			isa = PBXGroup;
+			children = (
+				AA3E589A217A7E6500EFF992 /* ViewControllers */,
+			);
+			path = Receive;
+			sourceTree = "<group>";
+		};
+		AA3E589A217A7E6500EFF992 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				AA3E589B217A7E7F00EFF992 /* ReceiveXlmViewController.storyboard */,
+				AA3E589D217A7E8F00EFF992 /* ReceiveXlmViewController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		AA54277820D88D1D00D5FEEE /* Swipe to Receive */ = {
@@ -7740,6 +7762,7 @@
 				5138373B21025AD100767B2E /* alert-received.wav in Resources */,
 				ECD244F019A8AC45004B1F40 /* PEKeyboard-4-done.png in Resources */,
 				3A26AF5521272026003A8A08 /* ExchangeListViewController.storyboard in Resources */,
+				AA3E589C217A7E7F00EFF992 /* ReceiveXlmViewController.storyboard in Resources */,
 				C75757512176504100CE7814 /* AssetTypeCell.xib in Resources */,
 				C9BE91841945D8F600FD516D /* PEKeyboard-2-done.png in Resources */,
 				5138373A21025AD100767B2E /* beep.wav in Resources */,
@@ -8305,6 +8328,7 @@
 				C7CE25B62135E3D300DCC43B /* ExchangeCreatePresenter.swift in Sources */,
 				C7FF110F2141E24000CBA3CB /* InputsState.swift in Sources */,
 				3A3D5DB6211B96FA00E6C241 /* LocationUpdateAPI.swift in Sources */,
+				AA3E589E217A7E8F00EFF992 /* ReceiveXlmViewController.swift in Sources */,
 				23444F8D1DCD219E00573C8C /* BTCData.m in Sources */,
 				60AEA56921125AB50053A753 /* SettingsCell.swift in Sources */,
 				C7442E371FBA448200695E4C /* ExchangeTrade.m in Sources */,

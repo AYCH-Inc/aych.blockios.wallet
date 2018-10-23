@@ -819,6 +819,7 @@
 		AAE94F6820C75B8D005A3595 /* PinPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE94F6720C75B8D005A3595 /* PinPresenterTests.swift */; };
 		AAE94F6A20C75C4E005A3595 /* MockPinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE94F6920C75C4E005A3595 /* MockPinView.swift */; };
 		AAE94F6C20C75C67005A3595 /* MockPinInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE94F6B20C75C67005A3595 /* MockPinInteractor.swift */; };
+		AAECF736217E6B54008B8832 /* SwipeToReceive.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAECF735217E6B54008B8832 /* SwipeToReceive.xcassets */; };
 		AAF2AEC02123797300687E30 /* PersonalDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3D5DC9211C9A8300E6C241 /* PersonalDetails.swift */; };
 		AAF2AEC12123798C00687E30 /* PersonalDetailsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3D5DC5211C992B00E6C241 /* PersonalDetailsAPI.swift */; };
 		AAF2AEC22123799800687E30 /* KYCPersonalDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B2289211E0B380091E706 /* KYCPersonalDetailsController.swift */; };
@@ -3294,6 +3295,7 @@
 		AAE94F6720C75B8D005A3595 /* PinPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinPresenterTests.swift; sourceTree = "<group>"; };
 		AAE94F6920C75C4E005A3595 /* MockPinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPinView.swift; sourceTree = "<group>"; };
 		AAE94F6B20C75C67005A3595 /* MockPinInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPinInteractor.swift; sourceTree = "<group>"; };
+		AAECF735217E6B54008B8832 /* SwipeToReceive.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SwipeToReceive.xcassets; sourceTree = "<group>"; };
 		AAF2AF052123952500687E30 /* KYCInformationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCInformationViewModel.swift; sourceTree = "<group>"; };
 		AAFA97B3211511D000D19ED3 /* Settings+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Settings+Helpers.swift"; sourceTree = "<group>"; };
 		AAFA97B4211511D000D19ED3 /* Settings+Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Settings+Table.swift"; sourceTree = "<group>"; };
@@ -6822,6 +6824,7 @@
 			isa = PBXGroup;
 			children = (
 				AA54277A20D88D6600D5FEEE /* Views */,
+				AAECF735217E6B54008B8832 /* SwipeToReceive.xcassets */,
 			);
 			path = "Swipe to Receive";
 			sourceTree = "<group>";
@@ -7770,6 +7773,7 @@
 				3A26AF5521272026003A8A08 /* ExchangeListViewController.storyboard in Resources */,
 				AA3E589C217A7E7F00EFF992 /* ReceiveXlmViewController.storyboard in Resources */,
 				C75757512176504100CE7814 /* AssetTypeCell.xib in Resources */,
+				AAECF736217E6B54008B8832 /* SwipeToReceive.xcassets in Resources */,
 				C9BE91841945D8F600FD516D /* PEKeyboard-2-done.png in Resources */,
 				5138373A21025AD100767B2E /* beep.wav in Resources */,
 				AA54277C20D88DD900D5FEEE /* SwipeToReceiveAddressView.xib in Resources */,

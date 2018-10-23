@@ -846,6 +846,9 @@ struct LocalizationConstants {
             "Please send XLM to %@",
             comment: "Message when requesting XLM."
         )
+        static let viewOnArgument = NSLocalizedString(
+            "View on %@",
+            comment: "Button title for viewing a transaction on the explorer")
         static let xlmPaymentRequest = NSLocalizedString(
             "XLM payment request.",
             comment: "Subject when requesting for XLM."

@@ -23,4 +23,18 @@ class TransactionsXlmDataProvider: SimpleListDataProvider {
 
         return UITableViewCell()
     }
+
+    func cell() {
+        let payment = StellarOperation.Payment(
+            identifier: "op.id",
+            fromAccount: "op.from",
+            toAccount: "op.to",
+            direction: .credit,
+            amount: "op.amount",
+            transactionHash: "op.transactionHash",
+            createdAt: Date()
+        )
+
+        let tx = Transaction()
+    }
 }

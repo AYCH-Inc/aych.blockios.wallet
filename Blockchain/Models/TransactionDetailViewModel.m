@@ -13,6 +13,10 @@
 #import "NSDateFormatter+VerboseString.h"
 #import "Blockchain-Swift.h"
 
+@interface TransactionDetailViewModel ()
+@property (nonatomic) uint64_t feeInSatoshi;
+@end
+
 @implementation TransactionDetailViewModel
 
 - (id)initWithTransaction:(Transaction *)transaction

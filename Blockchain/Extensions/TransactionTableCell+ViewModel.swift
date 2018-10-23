@@ -8,6 +8,9 @@
 
 import Foundation
 
+// If TransactionTableCell is converted to Swift, it should implement
+// these methods to allow configuration with a TransactionDetailViewModel
+// instead of with a specific Transaction object.
 extension TransactionTableCell {
 
     func configure(with viewModel: TransactionDetailViewModel) {

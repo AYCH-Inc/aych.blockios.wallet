@@ -36,7 +36,6 @@
 @property (nonatomic) NSDecimalNumber *ethExchangeRate;
 @property (nonatomic) NSDecimalNumber *decimalAmount;
 @property (nonatomic) NSString *amountString;
-@property (nonatomic) uint64_t feeInSatoshi;
 @property (nonatomic) NSString *feeString;
 @property (nonatomic) NSDecimalNumber *exchangeRate;
 

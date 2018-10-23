@@ -17,7 +17,15 @@ extension TransactionTableCell {
         setInfoType(TransactionInfoTypeDefault)
     }
 
-    func showViewModelDetail() {
-        
+    func showViewModelDetail(viewModel: TransactionDetailViewModel, viewController: UIViewController) {
+        let detailViewController = TransactionDetailViewController()
+        detailViewController.transactionModel = viewModel
+
+        let navigationController = TransactionDetailNavigationController(rootViewController: detailViewController)
+        navigationController.transactionHash = viewModel.myHash
+
+        navigationController.modalTransitionStyle = .coverVertical
+
+        viewController.present(navigationController, animated: true)
     }
 }

@@ -221,7 +221,6 @@
 
 #define URL_MERCHANT PRODUCTION_MERCHANT_URL
 
-#define CHARTS_URL_SUFFIX_ARGUMENTS_BASE_QUOTE_START_SCALE @"/price/index-series?base=%@&quote=%@&start=%@&scale=%@&omitnull=true"
 #define TRANSACTION_RESULT_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT @"/q/txresult/%@/%@"
 
 #define URL_SURVEY @"https://blockchain.co1.qualtrics.com/SE/?SID=SV_8c6uSMW5eBV9nal"

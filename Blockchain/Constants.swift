@@ -140,6 +140,10 @@ struct Constants {
         static let ethereum = "ETH"
         static let bitcoinCash = "BCH"
     }
+    struct FilterIndexes {
+        static let all: Int32 = -1
+        static let importedAddresses: Int32 = -2
+    }
 }
 
 /// Constant class wrapper so that Constants can be accessed from Obj-C. Should deprecate this
@@ -187,6 +191,14 @@ struct Constants {
 
     @objc class func tabTransactions() -> Int {
         return Constants.Navigation.tabTransactions
+    }
+
+    @objc class func filterIndexAll() -> Int32 {
+        return Constants.FilterIndexes.all
+    }
+
+    @objc class func filterIndexImportedAddresses() -> Int32 {
+        return Constants.FilterIndexes.importedAddresses
     }
 
     @objc class func assetTypeCellHeight() -> CGFloat {

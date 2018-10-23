@@ -28,7 +28,7 @@ import Foundation
     /// Returns the URL for retrieving chart related information.
     ///
     /// - Parameters:
-    ///   - base: base currenty (btc, eth, bch, xlm)
+    ///   - base: base currency (btc, eth, bch, xlm)
     ///   - quote: the fiat currency symbol
     ///   - startDate: unix timestamp of the starting date
     ///   - scale: the scale in seconds

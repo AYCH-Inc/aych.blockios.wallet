@@ -41,19 +41,7 @@
     
     [btcButton setTitle:[NSNumberFormatter formatMoney:ABS(transaction.amount)] forState:UIControlStateNormal];
     
-    if([transaction.txType isEqualToString:TX_TYPE_TRANSFER]) {
-        [btcButton setBackgroundColor:UIColor.grayBlue];
-        actionLabel.text = [BC_STRING_TRANSFERRED uppercaseString];
-        actionLabel.textColor = UIColor.grayBlue;
-    } else if ([transaction.txType isEqualToString:TX_TYPE_RECEIVED]) {
-        [btcButton setBackgroundColor:UIColor.aqua];
-        actionLabel.text = [BC_STRING_RECEIVED uppercaseString];
-        actionLabel.textColor = UIColor.aqua;
-    } else {
-        [btcButton setBackgroundColor:UIColor.red];
-        actionLabel.text = [BC_STRING_SENT uppercaseString];
-        actionLabel.textColor = UIColor.red;
-    }
+    [self setTxType:transaction.txType];
     
     infoLabel.adjustsFontSizeToFitWidth = YES;
     infoLabel.layer.cornerRadius = 5;
@@ -167,11 +155,6 @@
 
 #pragma mark - Helpers
 
-- (void)setActionLabelText:(NSString *)text
-{
-    actionLabel.text = text;
-}
-
 - (void)setDateLabelText:(NSString *)text
 {
     dateLabel.text = text;
@@ -187,10 +170,21 @@
     infoLabel.text = text;
 }
 
-- (void)setColor:(UIColor *)color
+- (void)setTxType:(NSString *)txType
 {
-    actionLabel.textColor = color;
-    [btcButton setBackgroundColor:color];
+    if([txType isEqualToString:TX_TYPE_TRANSFER]) {
+        [btcButton setBackgroundColor:UIColor.grayBlue];
+        actionLabel.text = [BC_STRING_TRANSFERRED uppercaseString];
+        actionLabel.textColor = UIColor.grayBlue;
+    } else if ([txType isEqualToString:TX_TYPE_RECEIVED]) {
+        [btcButton setBackgroundColor:UIColor.aqua];
+        actionLabel.text = [BC_STRING_RECEIVED uppercaseString];
+        actionLabel.textColor = UIColor.aqua;
+    } else {
+        [btcButton setBackgroundColor:UIColor.red];
+        actionLabel.text = [BC_STRING_SENT uppercaseString];
+        actionLabel.textColor = UIColor.red;
+    }
 }
 
 - (void)setInfoType:(TransactionInfoType)type

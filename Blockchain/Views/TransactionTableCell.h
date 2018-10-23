@@ -51,10 +51,9 @@ typedef enum {
 - (void)reload;
 - (void)changeBtcButtonTitleText:(NSString *)text;
 
-- (void)setActionLabelText:(NSString *)text;
+- (void)setTxType:(NSString *)txType;
 - (void)setDateLabelText:(NSString *)text;
 - (void)setButtonText:(NSString *)text;
 - (void)setInfoType:(TransactionInfoType)type;
-- (void)setColor:(UIColor *)color;
 
 @end

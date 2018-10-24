@@ -14,12 +14,17 @@ class StellarTransactionService: StellarTransactionAPI {
     typealias TransactionResult = StellarTransactionResponse.Result
     
     fileprivate let configuration: StellarConfiguration
+    fileprivate let repository: WalletXlmAccountRepository
     fileprivate lazy var service: stellarsdk.TransactionsService = {
         configuration.sdk.transactions
     }()
     
-    init(configuration: StellarConfiguration = .production) {
+    init(
+        configuration: StellarConfiguration = .production,
+        repository: WalletXlmAccountRepository
+        ) {
         self.configuration = configuration
+        self.repository = repository
     }
     
     func send(

@@ -37,7 +37,6 @@
 @property (nonatomic) UIButton *monthButton;
 @property (nonatomic) UIButton *weekButton;
 @property (nonatomic) UIButton *dayButton;
-@property (nonatomic) NSDecimalNumber *lastEthExchangeRate;
 
 @property (nonatomic) NSArray *lastUpdatedValues;
 
@@ -236,11 +235,6 @@
     [self.chartView clear];
 }
 
-- (void)updateEthExchangeRate:(NSDecimalNumber *)rate
-{
-    self.lastEthExchangeRate = rate;
-}
-
 - (void)updateWithValues:(NSArray *)values
 {
     [self updateTitleContainer:values];
@@ -413,30 +407,32 @@
 
 - (NSString *)getChartTitleText
 {
-    LegacyAssetType assetType = self.assetType;
-    if (assetType == LegacyAssetTypeBitcoin) {
-        return [BC_STRING_BITCOIN_PRICE uppercaseString];
-    } else if (assetType == LegacyAssetTypeEther) {
-        return [BC_STRING_ETHER_PRICE uppercaseString];
-    } else if (assetType == LegacyAssetTypeBitcoinCash) {
-        return [BC_STRING_BITCOIN_CASH_PRICE uppercaseString];
+    switch (self.assetType) {
+        case LegacyAssetTypeBitcoin:
+            return [[LocalizationConstantsObjcBridge dashboardBitcoinPrice] uppercaseString];
+        case LegacyAssetTypeEther:
+            return [[LocalizationConstantsObjcBridge dashboardEtherPrice] uppercaseString];
+        case LegacyAssetTypeBitcoinCash:
+            return [[LocalizationConstantsObjcBridge dashboardBitcoinCashPrice] uppercaseString];
+        case LegacyAssetTypeStellar:
+            return [[LocalizationConstantsObjcBridge dashboardStellarPrice] uppercaseString];
     }
-    DLog(@"Error: unknown asset type!");
-    return nil;
 }
 
 - (NSString *)getPriceLabelText
 {
-    LegacyAssetType assetType = self.assetType;
-    if (assetType == LegacyAssetTypeBitcoin) {
-        return [NSNumberFormatter formatMoney:SATOSHI localCurrency:YES];
-    } else if (assetType == LegacyAssetTypeEther) {
-        return [NSNumberFormatter formatEthToFiatWithSymbol:@"1" exchangeRate:self.lastEthExchangeRate];
-    } else if (assetType == LegacyAssetTypeBitcoinCash) {
-        return [NSNumberFormatter formatBchWithSymbol:SATOSHI localCurrency:YES];
+    NSDecimalNumber *ethExchangeRate = [AppCoordinator sharedInstance].tabControllerManager.latestEthExchangeRate;
+    switch (self.assetType) {
+        case LegacyAssetTypeBitcoin:
+            return [NSNumberFormatter formatMoney:SATOSHI localCurrency:YES];
+        case LegacyAssetTypeEther:
+            return [NSNumberFormatter formatEthToFiatWithSymbol:@"1" exchangeRate:ethExchangeRate];
+        case LegacyAssetTypeBitcoinCash:
+            return [NSNumberFormatter formatBchWithSymbol:SATOSHI localCurrency:YES];
+        case LegacyAssetTypeStellar:
+            // TODO: get formatted price
+            return @"$0";
     }
-    DLog(@"Error: unknown asset type!");
-    return nil;
 }
 
 #pragma mark - Chart View Delegate

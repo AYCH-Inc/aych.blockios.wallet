@@ -845,6 +845,8 @@
 		AAFE9E9221016132002E4E1E /* PinError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFE9E9121016132002E4E1E /* PinError.swift */; };
 		AAFE9E9321016132002E4E1E /* PinError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFE9E9121016132002E4E1E /* PinError.swift */; };
 		C6FFCE3372082DAB9DA7021E /* Pods_BlockchainTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5185A3368C92DCF1134710A /* Pods_BlockchainTests.framework */; };
+		C702A86C21800D0900A8DED1 /* URIScheme+Params.swift in Sources */ = {isa = PBXBuildFile; fileRef = C702A86B21800D0900A8DED1 /* URIScheme+Params.swift */; };
+		C702A86D21800D0900A8DED1 /* URIScheme+Params.swift in Sources */ = {isa = PBXBuildFile; fileRef = C702A86B21800D0900A8DED1 /* URIScheme+Params.swift */; };
 		C70576B2212CFFFC0027C6AA /* Nibable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70576B1212CFFFC0027C6AA /* Nibable.swift */; };
 		C70576B3212CFFFC0027C6AA /* Nibable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70576B1212CFFFC0027C6AA /* Nibable.swift */; };
 		C70FF55E1E76D5C600AC7F8B /* BuyBitcoinNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C70FF55D1E76D5C600AC7F8B /* BuyBitcoinNavigationController.m */; };
@@ -3337,6 +3339,7 @@
 		AAFA97B4211511D000D19ED3 /* Settings+Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Settings+Table.swift"; sourceTree = "<group>"; };
 		AAFE9E742100D169002E4E1E /* PinStoreKeyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinStoreKeyPair.swift; sourceTree = "<group>"; };
 		AAFE9E9121016132002E4E1E /* PinError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinError.swift; sourceTree = "<group>"; };
+		C702A86B21800D0900A8DED1 /* URIScheme+Params.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "URIScheme+Params.swift"; path = "Extensions/URIScheme+Params.swift"; sourceTree = "<group>"; };
 		C70576B1212CFFFC0027C6AA /* Nibable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nibable.swift; sourceTree = "<group>"; };
 		C70FF55C1E76D5C600AC7F8B /* BuyBitcoinNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyBitcoinNavigationController.h; sourceTree = "<group>"; };
 		C70FF55D1E76D5C600AC7F8B /* BuyBitcoinNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyBitcoinNavigationController.m; sourceTree = "<group>"; };
@@ -3892,6 +3895,7 @@
 		3A56AEAC217661D700044302 /* Stellar */ = {
 			isa = PBXGroup;
 			children = (
+				C702A86B21800D0900A8DED1 /* URIScheme+Params.swift */,
 				3A56AEB12176637D00044302 /* StellarAccountService.swift */,
 				3A1C7F9D2178FA7A001AC6D3 /* StellarHistoryService.swift */,
 				AA16D0E2217927890042AF7E /* StellarKeyPairDeriver.swift */,
@@ -8412,6 +8416,7 @@
 				AACE31D32092A99B00B7B806 /* OnboardingCoordinator.swift in Sources */,
 				C7E4E41920EE98590061059E /* WatchOnlyBalanceView.swift in Sources */,
 				AACE3132209121B300B7B806 /* PushNotificationManager.swift in Sources */,
+				C702A86D21800D0900A8DED1 /* URIScheme+Params.swift in Sources */,
 				C7E1A2902108FDFC0072DDA0 /* Colors.swift in Sources */,
 				602B9D0D2118E23800BD3D60 /* KYCOnboardingNavigationController.swift in Sources */,
 				AA0A4158214B3A3700807163 /* AssetAccountRepository.swift in Sources */,
@@ -8913,6 +8918,7 @@
 				602B9CEC2118E15300BD3D60 /* SearchControllerDelegate.swift in Sources */,
 				602B9CEE2118E15300BD3D60 /* LocationSuggestionInterface.swift in Sources */,
 				AA54E4F3216D3B30005061F9 /* KYCStateSelectionPresenter.swift in Sources */,
+				C702A86C21800D0900A8DED1 /* URIScheme+Params.swift in Sources */,
 				60AEA57621125B210053A753 /* SettingsViewController.swift in Sources */,
 				AAA3333320880A2C0019AD55 /* AppDelegate.swift in Sources */,
 				C7640FBF2056B70E00D14D51 /* BCSwipeAddressViewModel.m in Sources */,

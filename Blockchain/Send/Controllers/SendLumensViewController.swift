@@ -43,6 +43,15 @@ import Foundation
         let controller = SendLumensViewController.makeFromStoryboard()
         return controller
     }
+
+    // MARK: Public Methods
+
+    @objc func scanQrCodeForDestinationAddress() {
+        let qrCodeScanner = QRCodeScannerSendViewController()
+        qrCodeScanner.qrCodebuttonClicked(nil)
+        qrCodeScanner.delegate = self
+        present(qrCodeScanner, animated: false)
+    }
     
     // MARK: Lifecycle
     
@@ -53,8 +62,17 @@ import Foundation
             tabBar: true,
             assetSelector: true
         )
-        
         originalBottomButtonConstraint = layoutConstraintBottomButton.constant
         setUpBottomButtonContainerView()
+    }
+}
+
+extension SendLumensViewController: QRCodeScannerViewControllerDelegate {
+    func qrCodeScannerViewController(_ qrCodeScannerViewController: QRCodeScannerSendViewController, didScanString scannedString: String?) {
+        qrCodeScannerViewController.dismiss(animated: false)
+        // TODO: Set the text field directly for now. However, this string should be parsed according to
+        // the URI scheme defined in SEP-0007
+        // TICKET: IOS-1518
+        stellarAddressField.text = scannedString
     }
 }

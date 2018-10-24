@@ -25,9 +25,9 @@ extension TransactionDetailViewModel {
         decimalAmount = 0
         feeString = "feeString"
 
-        txType = xlmTransaction.direction == .credit ? "received" : "sent"
-        hasFromLabel = txType == "sent"
-        hasToLabel = txType == "received"
+        txType = xlmTransaction.direction == .credit ? Constants.TransactionTypes.receive : Constants.TransactionTypes.sent
+        hasFromLabel = txType == Constants.TransactionTypes.sent
+        hasToLabel = txType == Constants.TransactionTypes.receive
         myHash = xlmTransaction.transactionHash
         confirmed = true
         dateString = DateFormatter.verboseString(from: xlmTransaction.createdAt)

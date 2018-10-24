@@ -42,11 +42,12 @@ protocol SendXLMViewControllerDelegate: class {
     
     // MARK: Private IBOutlets (Other)
     
-    @IBOutlet fileprivate var useMaxButton: UIButton!
+    @IBOutlet fileprivate var useMaxLabel: ActionableLabel!
     @IBOutlet fileprivate var primaryButtonContainer: PrimaryButtonContainer!
     
     weak var delegate: SendXLMViewControllerDelegate?
     fileprivate var coordinator: SendXLMCoordinator!
+    fileprivate var trigger: ActionableTrigger?
     
     // MARK: Factory
     
@@ -78,11 +79,41 @@ protocol SendXLMViewControllerDelegate: class {
         )
         originalBottomButtonConstraint = layoutConstraintBottomButton.constant
         setUpBottomButtonContainerView()
+        useMaxLabel.delegate = self
         delegate?.onLoad()
+    }
+    
+    fileprivate func useMaxAttributes() -> [NSAttributedStringKey: Any] {
+        let fontName = Constants.FontNames.montserratRegular
+        let font = UIFont(name: fontName, size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
+        return [.font: font,
+                .foregroundColor: UIColor.darkGray]
+    }
+    
+    fileprivate func useMaxActionAttributes() -> [NSAttributedStringKey: Any] {
+        let fontName = Constants.FontNames.montserratRegular
+        let font = UIFont(name: fontName, size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
+        return [.font: font,
+                .foregroundColor: UIColor.brandSecondary]
     }
 }
 
 extension SendLumensViewController: SendXLMInterface {
+    func updateActionableLabel(trigger: ActionableTrigger) {
+        self.trigger = trigger
+        let primary = NSMutableAttributedString(
+            string: trigger.primaryString,
+            attributes: useMaxAttributes()
+        )
+        
+        let secondary = NSAttributedString(
+            string: trigger.callToAction,
+            attributes: useMaxActionAttributes()
+        )
+        primary.append(secondary)
+        useMaxLabel.attributedText = primary
+    }
+    
     func updateActivityIndicator(_ visibility: Visibility) {
         
     }
@@ -114,8 +145,17 @@ extension SendLumensViewController: SendXLMInterface {
     func stellarAddressText(_ value: String) {
         
     }
+}
+
+extension SendLumensViewController: ActionableLabelDelegate {
+    func targetRange(_ label: ActionableLabel) -> NSRange? {
+        return trigger?.actionRange()
+    }
     
-    
+    func actionRequestingExecution(label: ActionableLabel) {
+        guard let trigger = trigger else { return }
+        trigger.execute()
+    }
 }
 
 extension SendLumensViewController: QRCodeScannerViewControllerDelegate {

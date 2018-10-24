@@ -8,6 +8,14 @@
 
 import Foundation
 
+protocol SendXLMViewControllerDelegate: class {
+    func onLoad()
+    func onXLMEntry(_ value: String)
+    func onFiatEntry(_ value: String)
+    func onPrimaryTapped()
+    func onUseMaxTapped()
+}
+
 @objc class SendLumensViewController: UIViewController, BottomButtonContainerView {
     
     // MARK: BottomButtonContainerView
@@ -37,6 +45,9 @@ import Foundation
     @IBOutlet fileprivate var useMaxButton: UIButton!
     @IBOutlet fileprivate var primaryButtonContainer: PrimaryButtonContainer!
     
+    weak var delegate: SendXLMViewControllerDelegate?
+    fileprivate var coordinator: SendXLMCoordinator!
+    
     // MARK: Factory
     
     @objc class func make() -> SendLumensViewController {
@@ -57,6 +68,9 @@ import Foundation
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let services = XLMServices(configuration: .test)
+        let provider = XLMServiceProvider(services: services)
+        coordinator = SendXLMCoordinator(serviceProvider: provider, interface: self)
         view.frame = UIView.rootViewSafeAreaFrame(
             navigationBar: true,
             tabBar: true,
@@ -64,7 +78,44 @@ import Foundation
         )
         originalBottomButtonConstraint = layoutConstraintBottomButton.constant
         setUpBottomButtonContainerView()
+        delegate?.onLoad()
     }
+}
+
+extension SendLumensViewController: SendXLMInterface {
+    func updateActivityIndicator(_ visibility: Visibility) {
+        
+    }
+    
+    func errorIndicator(_ visibility: Visibility) {
+        
+    }
+    
+    func errorLabelText(_ value: String) {
+        
+    }
+    
+    func continueButtonEnabled(_ value: Bool) {
+        
+    }
+    
+    func useMaxButtonEnabled(_ value: Bool) {
+        
+    }
+    
+    func useTotalPromptText(_ value: String) {
+        
+    }
+    
+    func feeLabelText(_ value: String) {
+        
+    }
+    
+    func stellarAddressText(_ value: String) {
+        
+    }
+    
+    
 }
 
 extension SendLumensViewController: QRCodeScannerViewControllerDelegate {

@@ -611,6 +611,14 @@ struct LocalizationConstants {
         static let xPaymentRequest = NSLocalizedString("%@ payment request", comment: "Subject of the email sent when requesting for payment from another user.")
     }
 
+    struct Transactions {
+        static let allWallets = NSLocalizedString("All Wallets", comment: "Label of selectable item that allows user to show all transactions of a certain asset")
+        static let noTransactions = NSLocalizedString("No Transactions", comment: "Text displayed when no recent transactions are being shown")
+        static let noTransactionsAssetArgument = NSLocalizedString("Transactions occur when you send and receive %@.", comment: "Helper text displayed when no recent transactions are being shown")
+        static let requestArgument = NSLocalizedString("Request %@", comment: "Text shown when a user can request a certain asset")
+        static let getArgument = NSLocalizedString("Get %@", comment: "Text shown when a user can purchase a certain asset")
+    }
+
     struct Backup {
         static let reminderBackupMessageFirstBitcoin = NSLocalizedString(
             "Congrats, you have bitcoin! Now let’s backup your wallet to ensure you can access your funds if you forget your password.",

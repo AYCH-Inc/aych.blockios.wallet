@@ -347,7 +347,7 @@
         if (_transactionsBitcoinCashViewController) {
             [_transactionsBitcoinCashViewController didReceiveTransactionMessage];
         } else {
-            Transaction *transaction = [[WalletManager.sharedInstance.wallet getBitcoinCashTransactions:FILTER_INDEX_ALL] firstObject];
+            Transaction *transaction = [[WalletManager.sharedInstance.wallet getBitcoinCashTransactions:[ConstantsObjcBridge filterIndexAll]] firstObject];
             [_receiveBitcoinCashViewController paymentReceived:ABS(transaction.amount) showBackupReminder:NO];
         }
     }
@@ -547,7 +547,8 @@
 
         [_tabViewController setActiveViewController:_transactionsBitcoinCashViewController animated:animated index:tabIndex];
     } else if (self.assetType == LegacyAssetTypeStellar) {
-        [_tabViewController setActiveViewController:[UIViewController new] animated:animated index:tabIndex];
+        TransactionsXlmViewController *viewController = [TransactionsXlmViewController make];
+        [_tabViewController setActiveViewController:viewController animated:animated index:tabIndex];
     }
 }
 
@@ -579,14 +580,14 @@
 - (void)filterTransactionsByImportedAddresses
 {
     _transactionsBitcoinViewController.clickedFetchMore = NO;
-    _transactionsBitcoinViewController.filterIndex = FILTER_INDEX_IMPORTED_ADDRESSES;
+    _transactionsBitcoinViewController.filterIndex = [ConstantsObjcBridge filterIndexImportedAddresses];
     [_transactionsBitcoinViewController changeFilterLabel:BC_STRING_IMPORTED_ADDRESSES];
 }
 
 - (void)removeTransactionsFilter
 {
     _transactionsBitcoinViewController.clickedFetchMore = NO;
-    _transactionsBitcoinViewController.filterIndex = FILTER_INDEX_ALL;
+    _transactionsBitcoinViewController.filterIndex = [ConstantsObjcBridge filterIndexAll];
 }
 
 - (void)selectPayment:(NSString *)payment

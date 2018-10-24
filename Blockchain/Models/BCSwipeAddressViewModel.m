@@ -17,15 +17,27 @@
         self.assetType = assetType;
         NSString *suffix;
         NSString *assetImageViewName;
-        if (assetType == LegacyAssetTypeBitcoin) {
-            suffix = [AssetTypeLegacyHelper descriptionFor:AssetTypeBitcoin];
-            assetImageViewName = @"bitcoin_large";
-        } else if (assetType == LegacyAssetTypeEther) {
-            suffix = [AssetTypeLegacyHelper descriptionFor:AssetTypeEthereum];
-            assetImageViewName = @"ether_large";
-        } else if (assetType == LegacyAssetTypeBitcoinCash) {
-            suffix = [AssetTypeLegacyHelper descriptionFor:AssetTypeBitcoinCash];
-            assetImageViewName = @"bitcoin_cash_large";
+        switch (assetType) {
+            case LegacyAssetTypeBitcoin: {
+                suffix = [AssetTypeLegacyHelper descriptionFor:AssetTypeBitcoin];
+                assetImageViewName = @"swipe_to_receive_BTC";
+                break;
+            }
+            case LegacyAssetTypeEther: {
+                suffix = [AssetTypeLegacyHelper descriptionFor:AssetTypeEthereum];
+                assetImageViewName = @"swipe_to_receive_ETH";
+                break;
+            }
+            case LegacyAssetTypeBitcoinCash: {
+                suffix = [AssetTypeLegacyHelper descriptionFor:AssetTypeBitcoinCash];
+                assetImageViewName = @"swipe_to_receive_BCH";
+                break;
+            }
+            case LegacyAssetTypeStellar: {
+                suffix = [AssetTypeLegacyHelper descriptionFor:AssetTypeStellar];
+                assetImageViewName = @"swipe_to_receive_XLM";
+                break;
+            }
         }
         self.assetImageViewName = assetImageViewName;
         self.action = [[[BC_STRING_REQUEST stringByAppendingString:@" "] stringByAppendingString:suffix] uppercaseString];

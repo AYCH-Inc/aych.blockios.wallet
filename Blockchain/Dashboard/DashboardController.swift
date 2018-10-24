@@ -563,7 +563,7 @@ extension DashboardController: IAxisValueFormatter {
                     Logger.shared.warning("Failed to get symbol from latestMultiAddressResponse!")
                     return String()
             }
-            return String(format: "%@%.f", symbol)
+            return String(format: "%@%.f", symbol, value)
         case chartContainerViewController.xAxis():
             return dateStringFromGraphValue(value: value) ?? String()
         default:

@@ -101,6 +101,7 @@ struct Constants {
     struct Schemes {
         static let bitcoin = "bitcoin"
         static let bitcoinCash = "bitcoincash"
+        static let stellar = "web+stellar"
         static let blockchain = "blockchain"
         static let blockchainWallet = "blockchain-wallet"
         static let ethereum = "ethereum"

@@ -45,8 +45,8 @@
 {
     if (!self.scrollView) {
         self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-        self.scrollView.center = CGPointMake(self.scrollView.center.x, self.view.frame.size.height/2);
-        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width*3, priceChartView.frame.size.height);
+        self.scrollView.center = CGPointMake(self.scrollView.center.x, self.view.frame.size.height / 2);
+        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width * 4, priceChartView.frame.size.height);
         self.scrollView.pagingEnabled = YES;
         self.scrollView.scrollEnabled = YES;
         self.scrollView.delegate = self;
@@ -56,7 +56,7 @@
         priceChartView.center = CGPointMake(pageIndex * self.scrollView.frame.size.width + self.scrollView.frame.size.width/2, self.scrollView.frame.size.height/2);
         
         self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, priceChartView.frame.origin.y + priceChartView.frame.size.height + 16, 100, 30)];
-        self.pageControl.numberOfPages = 3;
+        self.pageControl.numberOfPages = 4;
         [self.pageControl addTarget:self action:@selector(pageControlChanged:) forControlEvents:UIControlEventValueChanged];
         self.pageControl.center = CGPointMake(self.view.frame.size.width/2, self.pageControl.center.y);
         [self.view addSubview:self.pageControl];
@@ -70,9 +70,8 @@
         [self.scrollView addSubview:closeButton];
     }
 
-    self.isUsingPageControl = YES;
-    [self.scrollView setContentOffset:CGPointMake(pageIndex * self.scrollView.frame.size.width, 0) animated:NO];
     self.isUsingPageControl = NO;
+    [self.scrollView setContentOffset:CGPointMake(pageIndex * self.scrollView.frame.size.width, 0) animated:NO];
 
     [self.pageControl setCurrentPage:pageIndex];
 

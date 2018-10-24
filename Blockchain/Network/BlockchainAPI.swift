@@ -47,7 +47,6 @@ final class BlockchainAPI: NSObject {
         case blockchair = "blockchair.com"
         case coinify = "app-api.coinify.com"
         case etherscan = "etherscan.io"
-        // TODO: determine correct stellar explorer URL
         case stellarchain = "stellarchain.io"
         case googleAnalytics = "www.google-analytics.com"
         case iSignThis = "verify.isignthis.com"

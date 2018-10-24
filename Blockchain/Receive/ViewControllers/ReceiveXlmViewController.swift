@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import stellarsdk
 
 @objc class ReceiveXlmViewController: UIViewController {
 
@@ -25,9 +24,8 @@ import stellarsdk
             if let xlmAccount = xlmAccount {
                 labelInstructions.text = LocalizationConstants.Receive.tapToCopyThisAddress
                 imageQrCode.isHidden = false
-                let scheme = URIScheme()
-                let qrString = scheme.getPayOperationURI(accountID: xlmAccount.publicKey)
-                imageQrCode.image = QRCodeGenerator().createQRImage(from: qrString)
+                let payload = StellarURLPayload.init(address: xlmAccount.publicKey)
+                imageQrCode.image = QRCodeGenerator().createQRImage(from: payload.payOperationURI)
                 labelPublicKey.text = xlmAccount.publicKey
                 buttonEnterPassword.isHidden = true
                 buttonRequestPayment.isHidden = false

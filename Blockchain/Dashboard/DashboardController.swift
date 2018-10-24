@@ -376,7 +376,6 @@ final class DashboardController: UIViewController {
         case .stellar:
             base = AssetType.stellar.symbol.lowercased()
             entryDate = timeFrame.startDateStellar()
-            return
         }
 
         startDate = timeFrame.timeFrame == TimeFrameAll || timeFrame.startDate < entryDate ? entryDate : timeFrame.startDate

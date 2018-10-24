@@ -55,6 +55,10 @@ extension BlockchainAPI {
         return "\(walletUrl)/wallet?method=update-ios"
     }
 
+    var servicePriceUrl: String {
+        return "\(apiUrl)/price"
+    }
+
     // MARK: - API Endpoints
 
     var signedRetailTokenUrl: String {

@@ -8,6 +8,7 @@
 
 import UIKit
 import Charts
+import RxSwift
 
 @objc
 final class DashboardController: UIViewController {
@@ -30,6 +31,7 @@ final class DashboardController: UIViewController {
     private let tabControllerManager: TabControllerManager
     private var lastEthExchangeRate: NSDecimalNumber = 0
     private var defaultContentHeight: CGFloat = 0
+    private var disposable: Disposable?
     private var priceChartContainerView: UIView?
     private var bitcoinPricePreviewView,
                 etherPricePreviewView,
@@ -44,6 +46,17 @@ final class DashboardController: UIViewController {
 
     private lazy var dateFormatter: DateFormatter = {
         DateFormatter()
+    }()
+
+    private lazy var currencyFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.maximumFractionDigits = 2
+        if let latestMultiAddressResponse = WalletManager.shared.latestMultiAddressResponse,
+            let symbol = latestMultiAddressResponse.symbol_local.symbol {
+                formatter.currencySymbol = symbol
+        }
+        return formatter
     }()
 
     private lazy var chartContainerViewController: BCPriceChartContainerViewController = {
@@ -97,6 +110,10 @@ final class DashboardController: UIViewController {
         tabControllerManager = AppCoordinator.shared.tabControllerManager
         lastEthExchangeRate = NSDecimalNumber(value: 0)
         super.init(coder: aDecoder)
+    }
+
+    deinit {
+        disposable?.dispose()
     }
 
     // MARK: - View Lifecycle
@@ -178,7 +195,7 @@ final class DashboardController: UIViewController {
         priceChartsLabel.font = UIFont(name: Constants.FontNames.montserratLight, size: Constants.FontSizes.Large)
         priceChartsLabel.text = LocalizationConstants.Dashboard.priceCharts.uppercased()
 
-        bitcoinPricePreviewView = PricePreviewViewFactory.create(for: .bitcoin, buttonTapped: {
+        bitcoinPricePreviewView = PricePreviewViewFactory.create(for: .bitcoin, buttonTapped: { [unowned self] in
             self.showChartContainerViewController(for: .bitcoin)
         })
 
@@ -442,41 +459,6 @@ final class DashboardController: UIViewController {
         return dateFormat
     }
 
-    // TICKET: IOS-1508 - Encapsulate methods to get prices into separate component & decouple from DashboardController
-    // TICKET: IOS-1509 - Refactor NSNumberFormatter+Currencies to avoid returning nil on empty balances
-    private func getBtcPrice() -> String? {
-        guard wallet.isInitialized() else {
-            Logger.shared.warning("Returning nil because wallet was not initialized!")
-            return nil
-        }
-        return NumberFormatter.formatMoney(Constants.Conversions.satoshi, localCurrency: true)
-    }
-
-    private func getEthPrice() -> String? {
-        guard wallet.isInitialized() else {
-            Logger.shared.warning("Returning nil because wallet was not initialized!")
-            return nil
-        }
-        guard lastEthExchangeRate != 0 else {
-            Logger.shared.error("Returning nil because lastEthExchangeRate was not set!")
-            return nil
-        }
-        return NumberFormatter.formatEthToFiat(withSymbol: "1", exchangeRate: lastEthExchangeRate)
-    }
-
-    private func getBchPrice() -> String? {
-        guard wallet.isInitialized() else {
-            Logger.shared.warning("Returning nil because wallet was not initialized!")
-            return nil
-        }
-        return NumberFormatter.formatBch(withSymbol: Constants.Conversions.satoshi, localCurrency: true)
-    }
-
-    // Temporary Code
-    private func getXmlPrice() -> String? {
-        return nil
-    }
-
     private func getBtcBalance() -> Double {
         let balance = wallet.getTotalActiveBalance()
         let amount = NumberFormatter.formatAmount(balance, localCurrency: true) ?? "0"
@@ -508,13 +490,31 @@ final class DashboardController: UIViewController {
         return numberFormatter.number(from: amount)?.doubleValue ?? 0
     }
 
-    // TICKET: IOS-1508 - Encapsulate getBtcPrice, getEthPrice and getBchPrice into separate component & decouple from DashboardController
-
     private func reloadPricePreviews() {
-        bitcoinPricePreviewView?.price = getBtcPrice() ?? "0"
-        etherPricePreviewView?.price = getEthPrice() ?? "0"
-        bitcoinCashPricePreviewView?.price = getBchPrice() ?? "0"
-        stellarPricePreviewView?.price = getXmlPrice() ?? "0"
+        bitcoinPricePreviewView?.price = "0"
+        etherPricePreviewView?.price = "0"
+        bitcoinCashPricePreviewView?.price = "0"
+        stellarPricePreviewView?.price = "0"
+        disposable = PriceServiceClient().allPrices(fiatSymbol: "USD")
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { priceMap in
+                if let btcPrice = priceMap[AssetType.bitcoin]?.price,
+                    let ethPrice = priceMap[AssetType.ethereum]?.price,
+                    let bchPrice = priceMap[AssetType.bitcoinCash]?.price,
+                    let xlmPrice = priceMap[AssetType.stellar]?.price,
+                    let formattedBtcPrice = self.currencyFormatter.string(from: NSDecimalNumber(decimal: btcPrice)),
+                    let formattedEthPrice = self.currencyFormatter.string(from: NSDecimalNumber(decimal: ethPrice)),
+                    let formattedBchPrice = self.currencyFormatter.string(from: NSDecimalNumber(decimal: bchPrice)),
+                    let formattedXlmPrice = self.currencyFormatter.string(from: NSDecimalNumber(decimal: xlmPrice)) {
+                        self.bitcoinPricePreviewView?.price = formattedBtcPrice
+                        self.etherPricePreviewView?.price = formattedEthPrice
+                        self.bitcoinCashPricePreviewView?.price = formattedBchPrice
+                        self.stellarPricePreviewView?.price = formattedXlmPrice
+                }
+            }, onError: { error in
+                Logger.shared.error(error.localizedDescription)
+            })
     }
 }
 

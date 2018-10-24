@@ -26,6 +26,7 @@ class TransactionsXlmDataProvider: SimpleListDataProvider {
 
     func cell() {
         let payment = StellarOperation.Payment(
+            token: "op.token",
             identifier: "op.id",
             fromAccount: "op.from",
             toAccount: "op.to",

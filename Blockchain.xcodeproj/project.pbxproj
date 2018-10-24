@@ -131,6 +131,10 @@
 		3A3C7D542180E5D50067F442 /* SendXLMCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3C7D522180E5D50067F442 /* SendXLMCoordinator.swift */; };
 		3A3C7D622180F6920067F442 /* StellarAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB12176637D00044302 /* StellarAccountService.swift */; };
 		3A3C7D632180F6980067F442 /* XLMServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A39074F217E7D5A00D2DA01 /* XLMServiceProvider.swift */; };
+		3A3C7D75218126F40067F442 /* ActionableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3C7D74218126F40067F442 /* ActionableLabel.swift */; };
+		3A3C7D76218126F40067F442 /* ActionableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3C7D74218126F40067F442 /* ActionableLabel.swift */; };
+		3A3C7D7821812A6B0067F442 /* ActionableTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3C7D7721812A6B0067F442 /* ActionableTrigger.swift */; };
+		3A3C7D7921812A6B0067F442 /* ActionableTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3C7D7721812A6B0067F442 /* ActionableTrigger.swift */; };
 		3A3D5D8B211B44BD00E6C241 /* ProgressableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3D5D8A211B44BD00E6C241 /* ProgressableView.swift */; };
 		3A3D5D8C211B453400E6C241 /* ValidationFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76F8FD211A067A002F7946 /* ValidationFormView.swift */; };
 		3A3D5D8D211B453800E6C241 /* ProgressableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3D5D8A211B44BD00E6C241 /* ProgressableView.swift */; };
@@ -1334,6 +1338,8 @@
 		3A3C7D3A217F9ED50067F442 /* StellarLedger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarLedger.swift; sourceTree = "<group>"; };
 		3A3C7D4F2180D31D0067F442 /* StellarServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarServiceError.swift; sourceTree = "<group>"; };
 		3A3C7D522180E5D50067F442 /* SendXLMCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendXLMCoordinator.swift; sourceTree = "<group>"; };
+		3A3C7D74218126F40067F442 /* ActionableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionableLabel.swift; sourceTree = "<group>"; };
+		3A3C7D7721812A6B0067F442 /* ActionableTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionableTrigger.swift; sourceTree = "<group>"; };
 		3A3D5D8A211B44BD00E6C241 /* ProgressableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressableView.swift; sourceTree = "<group>"; };
 		3A3D5DB5211B96FA00E6C241 /* LocationUpdateAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUpdateAPI.swift; sourceTree = "<group>"; };
 		3A3D5DC5211C992B00E6C241 /* PersonalDetailsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDetailsAPI.swift; sourceTree = "<group>"; };
@@ -3867,6 +3873,15 @@
 				3A390753217E7F6E00D2DA01 /* SendXLMInterface.swift */,
 			);
 			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		3A3C7D73218126E00067F442 /* ActionableLabel */ = {
+			isa = PBXGroup;
+			children = (
+				3A3C7D74218126F40067F442 /* ActionableLabel.swift */,
+				3A3C7D7721812A6B0067F442 /* ActionableTrigger.swift */,
+			);
+			path = ActionableLabel;
 			sourceTree = "<group>";
 		};
 		3A3D5DAB211B964F00E6C241 /* API */ = {
@@ -6590,7 +6605,6 @@
 				AACE317E2092793300B7B806 /* Pin */,
 				AAECF75B217E86FE008B8832 /* Price */,
 				51042C8820B1FDA600B022DE /* PrivateKeyReader */,
-				AAA34186217FD6F300E09561 /* QRCode */,
 				AA3E5890217A7E4D00EFF992 /* Receive */,
 				AACE31FA2093F9F200B7B806 /* Reminder */,
 				C9D4B2AF193E023C00EDA9EA /* Resources */,
@@ -7091,13 +7105,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		AAA34186217FD6F300E09561 /* QRCode */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = QRCode;
-			sourceTree = "<group>";
-		};
 		AABB74C420D44ACA00C0F7C5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -7485,6 +7492,7 @@
 		C9D4B2B2193E032200EDA9EA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3A3C7D73218126E00067F442 /* ActionableLabel */,
 				3AFB65E3215585B500EBFF30 /* Buttons */,
 				C70576B1212CFFFC0027C6AA /* Nibable.swift */,
 				C78238CF2131FA34008FCCAD /* Keypad */,
@@ -8218,6 +8226,7 @@
 				602B9D122118E24800BD3D60 /* KYCAddressController.swift in Sources */,
 				3AE5418A21798C4A001DDE02 /* StellarOperationsStreamAPI.swift in Sources */,
 				51A862E42092686300B338E0 /* CheckForUnusedAddressTests.swift in Sources */,
+				3A3C7D76218126F40067F442 /* ActionableLabel.swift in Sources */,
 				602B9D242118E27100BD3D60 /* KYCConfirmPhoneNumberController.swift in Sources */,
 				C74E865320B3043E00F7263D /* WalletHistoryDelegate.swift in Sources */,
 				AACE31D62092A99B00B7B806 /* Bundle.swift in Sources */,
@@ -8458,6 +8467,7 @@
 				51A862D620921A6E00B338E0 /* BlockchainAPI+URLSuffix.swift in Sources */,
 				5185E12B208F7ACA00A26B64 /* BlockchainAPI+URI.swift in Sources */,
 				AACE31CB2092A99B00B7B806 /* AssetType.swift in Sources */,
+				3A3C7D7921812A6B0067F442 /* ActionableTrigger.swift in Sources */,
 				51C2ADD720BDECE700D66108 /* String+EscapeJS.swift in Sources */,
 				AA7133CB21222AFC00CB2AA9 /* MockKYCCountrySelectionView.swift in Sources */,
 				AAF2AEC621237A1F00687E30 /* PersonalDetailsService.swift in Sources */,
@@ -8767,6 +8777,7 @@
 				23C95EA61C0779C600E4692A /* SettingsChangePasswordViewController.m in Sources */,
 				AA08439F215C47290007BFD1 /* NabuNetworkError.swift in Sources */,
 				51578AEA20B448BF00B0080A /* WalletKeyImportDelegate.swift in Sources */,
+				3A3C7D7821812A6B0067F442 /* ActionableTrigger.swift in Sources */,
 				23FDEFA91D6E43DE00FC80D6 /* TransactionDetailTableCell.m in Sources */,
 				3AC4F97821234040003AA207 /* Storyboardable.swift in Sources */,
 				51FC1B0921270DBC007BEB18 /* SettingsTableSectionHeader.swift in Sources */,
@@ -8984,6 +8995,7 @@
 				3A26AF99212B36F2003A8A08 /* ExchangeCreateViewController.swift in Sources */,
 				AA126DA5212E2C3B005886A3 /* OnfidoCredentials.swift in Sources */,
 				84FC02FE19815F1B00B97D5B /* sha256.c in Sources */,
+				3A3C7D75218126F40067F442 /* ActionableLabel.swift in Sources */,
 				602B9CF72118E15300BD3D60 /* KYCVerifyIdentityController.swift in Sources */,
 				513913F02081206C002578FD /* UserDefaults.swift in Sources */,
 				C7559CB71F570602005B2375 /* TransactionEtherTableViewCell.m in Sources */,

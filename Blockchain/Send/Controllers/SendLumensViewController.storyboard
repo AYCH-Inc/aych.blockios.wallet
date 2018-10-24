@@ -109,17 +109,16 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="n1a-Tz-btJ">
-                                <rect key="frame" x="16" y="142" width="359" height="29"/>
+                                <rect key="frame" x="16" y="142" width="359" height="17"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IFg-HF-Ber">
-                                        <rect key="frame" x="0.0" y="0.0" width="220" height="28"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use total available minus fee: $1.23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yjn-At-qaA" customClass="ActionableLabel" customModule="Blockchain" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="219.5" height="16"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
-                                        <state key="normal" title="Use total available minus fee: $1.23">
-                                            <color key="titleColor" red="0.106" green="0.54117647058823526" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                    </button>
+                                        <color key="textColor" red="0.106" green="0.54117647059999996" blue="0.78039215689999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G9k-42-cK5">
-                                        <rect key="frame" x="0.0" y="28" width="359" height="1"/>
+                                        <rect key="frame" x="0.0" y="16" width="359" height="1"/>
                                         <color key="backgroundColor" red="0.80400000000000005" green="0.80400000000000005" blue="0.80400000000000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="yZ5-aZ-5xN"/>
@@ -128,7 +127,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Sgf-Us-8Ec">
-                                <rect key="frame" x="16" y="183" width="359" height="55.5"/>
+                                <rect key="frame" x="16" y="171" width="359" height="55.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="FO3-aJ-Oqz">
                                         <rect key="frame" x="0.0" y="0.0" width="266" height="42.5"/>
@@ -236,7 +235,7 @@
                         <outlet property="stellarAmountField" destination="3Gh-Nc-nUi" id="6so-Jk-61b"/>
                         <outlet property="stellarSymbolLabel" destination="6bS-AC-sbB" id="GAW-eL-hZI"/>
                         <outlet property="toLabel" destination="GtF-xh-Upa" id="InN-yz-WvK"/>
-                        <outlet property="useMaxButton" destination="IFg-HF-Ber" id="nya-MV-OOI"/>
+                        <outlet property="useMaxLabel" destination="yjn-At-qaA" id="f9W-0k-9X5"/>
                         <outlet property="walletNameLabel" destination="zuZ-H8-xwn" id="sc5-B1-Iwt"/>
                     </connections>
                 </viewController>

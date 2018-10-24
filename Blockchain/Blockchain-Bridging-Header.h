@@ -49,6 +49,10 @@
 #import "WalletSetupViewController.h"
 #import "WebLoginViewController.h"
 #import "BCInsetLabel.h"
+#import "TransactionTableCell.h"
+#import "TransactionDetailViewModel.h"
+#import "TransactionDetailNavigationController.h"
+#import "NSDateFormatter+VerboseString.h"
 // Settings
 #import "SettingsWebViewController.h"
 #import "KeychainItemWrapper+SwipeAddresses.h"

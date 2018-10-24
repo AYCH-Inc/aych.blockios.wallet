@@ -6536,6 +6536,7 @@
 				AACE317E2092793300B7B806 /* Pin */,
 				AAECF75B217E86FE008B8832 /* Price */,
 				51042C8820B1FDA600B022DE /* PrivateKeyReader */,
+				AAA34186217FD6F300E09561 /* QRCode */,
 				AA3E5890217A7E4D00EFF992 /* Receive */,
 				AACE31FA2093F9F200B7B806 /* Reminder */,
 				C9D4B2AF193E023C00EDA9EA /* Resources */,
@@ -7034,6 +7035,13 @@
 				AAA3314D20893CE100BBD292 /* PairingInstructionsView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		AAA34186217FD6F300E09561 /* QRCode */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = QRCode;
 			sourceTree = "<group>";
 		};
 		AABB74C420D44ACA00C0F7C5 /* Views */ = {

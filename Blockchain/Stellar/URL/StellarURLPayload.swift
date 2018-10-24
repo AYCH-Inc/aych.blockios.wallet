@@ -28,7 +28,12 @@ class StellarURLPayload: SEP7URI {
 
     var amount: String?
 
-    required init(address: String, amount: String?) {
+    var payOperationURI: String {
+        let scheme = URIScheme()
+        return scheme.getPayOperationURI(accountID: address)
+    }
+
+    required init(address: String, amount: String? = nil) {
         self.address = address
         self.amount = amount
     }

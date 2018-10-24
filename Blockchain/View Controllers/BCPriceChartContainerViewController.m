@@ -12,6 +12,7 @@
 #define DICTIONARY_KEY_BITCOIN @"bitcoin"
 #define DICTIONARY_KEY_ETHER @"ether"
 #define DICTIONARY_KEY_BITCOIN_CASH @"bitcoinCash"
+#define DICTIONARY_KEY_STELLAR @"stellar"
 
 @class ChartAxisBase;
 @interface BCPriceChartContainerViewController () <UIScrollViewDelegate>
@@ -146,18 +147,19 @@
     [self.priceChartView updateTitleContainerWithChartDataEntry:entry];
 }
 
-- (void)updateEthExchangeRate:(NSDecimalNumber *)rate
-{
-    [self.priceChartView updateEthExchangeRate:rate];
-}
-
 - (NSString *)dictionaryKeyForPage:(NSInteger)pageIndex
 {
     switch (pageIndex) {
-        case LegacyAssetTypeBitcoin: return DICTIONARY_KEY_BITCOIN;
-        case LegacyAssetTypeEther: return DICTIONARY_KEY_ETHER;
-        case LegacyAssetTypeBitcoinCash: return DICTIONARY_KEY_BITCOIN_CASH;
-        default: return nil;
+        case LegacyAssetTypeBitcoin:
+            return DICTIONARY_KEY_BITCOIN;
+        case LegacyAssetTypeEther:
+            return DICTIONARY_KEY_ETHER;
+        case LegacyAssetTypeBitcoinCash:
+            return DICTIONARY_KEY_BITCOIN_CASH;
+        case LegacyAssetTypeStellar:
+            return DICTIONARY_KEY_STELLAR;
+        default:
+            return nil;
     }
 }
 

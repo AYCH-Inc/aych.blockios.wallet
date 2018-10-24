@@ -16,6 +16,8 @@
 #define ENTRY_TIME_BTC 1282089600
 #define ENTRY_TIME_ETH 1438992000
 #define ENTRY_TIME_BCH 1500854400
+// TODO: get starting date timestamp
+#define ENTRY_TIME_XML 0
 
 #define GRAPH_TIME_FRAME_DAY @"1day"
 #define GRAPH_TIME_FRAME_WEEK @"1weeks"
@@ -128,6 +130,11 @@
 - (NSInteger)startDateBitcoinCash
 {
     return ENTRY_TIME_BCH;
+}
+
+- (NSInteger)startDateStellar
+{
+    return ENTRY_TIME_XML;
 }
 
 @end

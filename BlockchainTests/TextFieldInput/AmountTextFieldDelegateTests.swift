@@ -1,5 +1,5 @@
 //
-//  TextFieldInputTests.swift
+//  AmountTextFieldDelegateTests.swift
 //  Blockchain
 //
 //  Created by kevinwu on 10/24/18.
@@ -11,7 +11,7 @@ import Foundation
 import XCTest
 @testable import Blockchain
 
-class TextFieldInputTests: XCTestCase {
+class AmountTextFieldDelegateTests: XCTestCase {
 
     // MARK: - Helpers
     // swiftlint:disable line_length
@@ -28,7 +28,7 @@ class TextFieldInputTests: XCTestCase {
 
     func inputTextWithFiatTextFieldDelegate(text: String) -> String? {
         let textField = UITextField()
-        let delegate = FiatTextFieldDelegate()
+        let delegate = AmountTextFieldDelegate(maxDecimalPlaces: 2)
         textField.delegate = delegate
         return simulateTyping(string: text, textField: textField)
     }

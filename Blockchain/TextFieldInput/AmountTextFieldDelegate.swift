@@ -1,5 +1,5 @@
 //
-//  FiatTextFieldDelegate.swift
+//  AmountTextFieldDelegate.swift
 //  Blockchain
 //
 //  Created by kevinwu on 10/24/18.
@@ -8,7 +8,15 @@
 
 import Foundation
 
-class FiatTextFieldDelegate: NSObject, UITextFieldDelegate {
+class AmountTextFieldDelegate: NSObject, UITextFieldDelegate {
+
+    private let maxDecimalPlaces: Int
+
+    init(maxDecimalPlaces: Int) {
+        self.maxDecimalPlaces = maxDecimalPlaces
+        super.init()
+    }
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let text = textField.text,
             let textRange = Range(range, in: text) {
@@ -38,12 +46,12 @@ class FiatTextFieldDelegate: NSObject, UITextFieldDelegate {
                 return false
             }
 
-            // Max of 2 decimal places
+            // Enforce maximum decimal places
             if components.count == 2 {
                 guard let decimal = components.last else {
                     return true
                 }
-                return decimal.count <= 2
+                return decimal.count <= maxDecimalPlaces
             }
         }
 

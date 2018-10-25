@@ -900,6 +900,10 @@
 		C7442E371FBA448200695E4C /* ExchangeTrade.m in Sources */ = {isa = PBXBuildFile; fileRef = C7442E361FBA448200695E4C /* ExchangeTrade.m */; };
 		C7442E3A1FBB636300695E4C /* FromToView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7442E391FBB636300695E4C /* FromToView.m */; };
 		C7448A9C2034DDF80041947E /* AssetSelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7448A9B2034DDF80041947E /* AssetSelectorView.m */; };
+		C746905F2180ACCD001A7C52 /* SEP7URI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C746905E2180ACCD001A7C52 /* SEP7URI.swift */; };
+		C74690602180ACCD001A7C52 /* SEP7URI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C746905E2180ACCD001A7C52 /* SEP7URI.swift */; };
+		C74690622180B246001A7C52 /* StellarURLPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74690612180B246001A7C52 /* StellarURLPayload.swift */; };
+		C74690632180C07D001A7C52 /* StellarURLPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74690612180B246001A7C52 /* StellarURLPayload.swift */; };
 		C74A0DE52174DFA000402A2F /* StellarAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74A0DE42174DFA000402A2F /* StellarAddress.swift */; };
 		C74A0DE62174DFA000402A2F /* StellarAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74A0DE42174DFA000402A2F /* StellarAddress.swift */; };
 		C74E21C12024BA1C00A9FBB1 /* BCBalanceChartLegendKeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = C74E21C02024BA1C00A9FBB1 /* BCBalanceChartLegendKeyView.m */; };
@@ -3414,6 +3418,8 @@
 		C7442E391FBB636300695E4C /* FromToView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FromToView.m; sourceTree = "<group>"; };
 		C7448A9A2034DDF80041947E /* AssetSelectorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssetSelectorView.h; sourceTree = "<group>"; };
 		C7448A9B2034DDF80041947E /* AssetSelectorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AssetSelectorView.m; sourceTree = "<group>"; };
+		C746905E2180ACCD001A7C52 /* SEP7URI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEP7URI.swift; sourceTree = "<group>"; };
+		C74690612180B246001A7C52 /* StellarURLPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarURLPayload.swift; sourceTree = "<group>"; };
 		C74A0DE42174DFA000402A2F /* StellarAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAddress.swift; sourceTree = "<group>"; };
 		C74E21BF2024BA1C00A9FBB1 /* BCBalanceChartLegendKeyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BCBalanceChartLegendKeyView.h; sourceTree = "<group>"; };
 		C74E21C02024BA1C00A9FBB1 /* BCBalanceChartLegendKeyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BCBalanceChartLegendKeyView.m; sourceTree = "<group>"; };
@@ -3968,6 +3974,7 @@
 				AA16D0E2217927890042AF7E /* StellarKeyPairDeriver.swift */,
 				3A390747217E52AB00D2DA01 /* StellarLedgerService.swift */,
 				3A56AEAE2176620400044302 /* StellarTransactionService.swift */,
+				C746905D2180ACCD001A7C52 /* URL */,
 				3A56AEAD217661ED00044302 /* API */,
 				3A56AEB42176695700044302 /* Models */,
 			);
@@ -7278,6 +7285,15 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		C746905D2180ACCD001A7C52 /* URL */ = {
+			isa = PBXGroup;
+			children = (
+				C74690612180B246001A7C52 /* StellarURLPayload.swift */,
+				C746905E2180ACCD001A7C52 /* SEP7URI.swift */,
+			);
+			path = URL;
+			sourceTree = "<group>";
+		};
 		C75684C6212F04F600B5059C /* Homebrew */ = {
 			isa = PBXGroup;
 			children = (
@@ -8474,6 +8490,7 @@
 				C702A7DB217E9BD200A8DED1 /* TransactionTableCell+ViewModel.swift in Sources */,
 				5114EA2020CB2BA90098E26E /* TabControllerManager+Nib.swift in Sources */,
 				AAD27A31209D22FD00C0EAFC /* AVCaptureDeviceInput.swift in Sources */,
+				C74690632180C07D001A7C52 /* StellarURLPayload.swift in Sources */,
 				AA56423C20DDBDBB0092A022 /* NumberFormatter+AssetsTests.swift in Sources */,
 				51135706209CF64900056D65 /* BackupNavigationViewController.swift in Sources */,
 				C75684CA212F053200B5059C /* TradingPairTests.swift in Sources */,
@@ -8529,6 +8546,7 @@
 				AA126CE3212C9753005886A3 /* KYCPagePayload.swift in Sources */,
 				AA94966420CB613100A9C2DD /* AssetAddressFactoryTests.swift in Sources */,
 				C76D732D20B2F5CD00040B57 /* WalletFiatAtTimeDelegate.swift in Sources */,
+				C74690602180ACCD001A7C52 /* SEP7URI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8572,6 +8590,7 @@
 				3A8B229F2122117A0091E706 /* KYCBaseViewController.swift in Sources */,
 				C7A85970217A56D300502935 /* TransactionsXlmViewController.swift in Sources */,
 				AAA3314E20893CE100BBD292 /* PairingInstructionsView.swift in Sources */,
+				C74690622180B246001A7C52 /* StellarURLPayload.swift in Sources */,
 				AAA3316B2089650B00BBD292 /* AlertViewPresenter.swift in Sources */,
 				51E5C73320741A130000A7FD /* LocalizationConstants.swift in Sources */,
 				AA084418215EF4EC0007BFD1 /* LockboxRepository.swift in Sources */,
@@ -8898,6 +8917,7 @@
 				23444F9E1DCD221A00573C8C /* BTCErrors.m in Sources */,
 				601F5EEB211B32AA002697AB /* OnfidoController.swift in Sources */,
 				C72D6CC21EC0B7F80000F922 /* FeeTableCell.m in Sources */,
+				C746905F2180ACCD001A7C52 /* SEP7URI.swift in Sources */,
 				AA7E7723210BA487009DFB4C /* Strings.swift in Sources */,
 				238FC4D21DEC79E200591D5F /* TransactionDetailDoubleSpendWarningCell.m in Sources */,
 				23FDEF9A1D6CBC7000FC80D6 /* TransactionDetailViewController.m in Sources */,

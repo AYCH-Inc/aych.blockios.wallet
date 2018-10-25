@@ -80,15 +80,15 @@ final class DashboardController: UIViewController {
             x: horizontalPadding,
             y: 16,
             width: view.frame.size.width - (horizontalPadding * 2),
-            height: 320
+            height: 425
         )
         let balancesChartView = BCBalancesChartView(frame: balancesChartViewFrame)
         balancesChartView.delegate = self
         balancesChartView.layer.masksToBounds = false
-        balancesChartView.layer.cornerRadius = 2
+        balancesChartView.layer.cornerRadius = 4
         balancesChartView.layer.shadowOffset = CGSize(width: 0, height: 2)
-        balancesChartView.layer.shadowRadius = 3
-        balancesChartView.layer.shadowOpacity = 0.25
+        balancesChartView.layer.shadowRadius = 4
+        balancesChartView.layer.shadowOpacity = 0.1
         return balancesChartView
     }()
 

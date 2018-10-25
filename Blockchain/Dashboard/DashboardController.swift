@@ -533,6 +533,10 @@ extension DashboardController: BCBalancesChartViewDelegate {
         tabControllerManager.showTransactionsBitcoinCash()
     }
 
+    func stellarLegendTapped() {
+        // tabControllerManager.showTransactionsStellar()
+    }
+
     func watchOnlyViewTapped() {
         BlockchainSettings.sharedAppInstance().symbolLocal = !BlockchainSettings.sharedAppInstance().symbolLocal
     }

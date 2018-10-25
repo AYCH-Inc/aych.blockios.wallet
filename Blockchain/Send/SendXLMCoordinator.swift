@@ -28,6 +28,14 @@ class SendXLMCoordinator {
     deinit {
         disposables.dispose()
     }
+    
+    enum InternalEvent {
+        case insufficientFunds
+        case noStellarAccount
+        case noXLMAccount
+    }
+    
+    // MARK: Private Functions
 
     fileprivate func accountDetailsTrigger() -> Observable<StellarAccount> {
         return services.operation.operations.concatMap { _ -> Observable<StellarAccount> in
@@ -44,11 +52,30 @@ class SendXLMCoordinator {
                 // may have changed due to an operation.
             }, onError: { error in
                 guard let serviceError = error as? StellarServiceError else { return }
-                // TODO:
                 Logger.shared.error(error.localizedDescription)
             })
         services.operation.start()
         disposables.insertWithDiscardableResult(disposable)
+    }
+    
+    fileprivate func handle(internalEvent: InternalEvent) {
+        switch internalEvent {
+        case .insufficientFunds:
+            // TODO
+            break
+        case .noStellarAccount,
+             .noXLMAccount:
+            let trigger = ActionableTrigger(text: "Minimum of", CTA: "1 XLM", secondary: "needed for new accounts.") {
+                // TODO: On `1 XLM` selection, show the minimum balance screen.
+            }
+            let ledger = services.ledger.current
+            interface.apply(updates: [.actionableLabelTrigger(trigger),
+                                      .fiatFieldTextColor(.error),
+                                      .xlmFieldTextColor(.error),
+                                      .errorLabelVisibility(.hidden),
+                                      .feeAmountLabelText("0.00 XLM")])
+            break
+        }
     }
     
 }
@@ -57,16 +84,25 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     func onLoad() {
         // TODO: Users may have a `defaultAccount` but that doesn't mean
         // that they have an `StellarAccount` as it must be funded.
-        let disposable = services.accounts.currentStellarAccount(fromCache: false).asObservable()
+        let disposable = services.accounts.currentStellarAccount(fromCache: true).asObservable()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { account in
                 /// The user has a StellarAccount, we should enable the input fields.
                 /// Begin observing operations and updating the user account.
                 self.observeOperations()
-            }, onError: { error in
+            }, onError: { [weak self] error in
+                guard let this = self else { return }
                 guard let serviceError = error as? StellarServiceError else { return }
-                // TODO:
+                switch serviceError {
+                case .noXLMAccount:
+                    this.handle(internalEvent: .noXLMAccount)
+                case .noDefaultAccount:
+                    this.handle(internalEvent: .noStellarAccount)
+                default:
+                    break
+                }
+                this.handle(internalEvent: .insufficientFunds)
                 Logger.shared.error(error.localizedDescription)
             })
         disposables.insertWithDiscardableResult(disposable)

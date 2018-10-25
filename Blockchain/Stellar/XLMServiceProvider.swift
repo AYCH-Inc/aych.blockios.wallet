@@ -40,8 +40,25 @@ class XLMServiceProvider: NSObject {
     
     let services: XLMServices
     
+    fileprivate let disposables = CompositeDisposable()
+    fileprivate var ledger: StellarLedgerService {
+        return services.ledger
+    }
+    fileprivate var accounts: StellarAccountAPI {
+        return services.accounts
+    }
+    
     init(services: XLMServices) {
         self.services = services
         super.init()
+        setup()
+    }
+
+    deinit {
+        disposables.dispose()
+    }
+    fileprivate func setup() {
+        let combine = Observable.combineLatest(ledger.current, accounts.currentStellarAccount(fromCache: false).asObservable()).subscribe()
+        disposables.insertWithDiscardableResult(combine)
     }
 }

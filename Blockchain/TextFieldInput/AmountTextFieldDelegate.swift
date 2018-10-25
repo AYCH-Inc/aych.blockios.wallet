@@ -11,6 +11,7 @@ import Foundation
 class AmountTextFieldDelegate: NSObject, UITextFieldDelegate {
 
     private let maxDecimalPlaces: Int
+    private let decimalSeparators = [".", ",", "٫"]
 
     init(maxDecimalPlaces: Int) {
         self.maxDecimalPlaces = maxDecimalPlaces
@@ -23,7 +24,7 @@ class AmountTextFieldDelegate: NSObject, UITextFieldDelegate {
             let newString = text.replacingCharacters(in: textRange, with: string)
 
             var decimalSeparator: String?
-            for separator in [".", ",", "٫"] {
+            for separator in decimalSeparators {
                 if newString.contains(separator) {
                     decimalSeparator = separator
                     break

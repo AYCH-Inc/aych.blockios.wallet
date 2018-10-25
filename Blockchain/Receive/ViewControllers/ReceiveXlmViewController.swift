@@ -24,7 +24,8 @@ import UIKit
             if let xlmAccount = xlmAccount {
                 labelInstructions.text = LocalizationConstants.Receive.tapToCopyThisAddress
                 imageQrCode.isHidden = false
-                imageQrCode.image = QRCodeGenerator().createQRImage(from: xlmAccount.publicKey)
+                let payload = StellarURLPayload.init(address: xlmAccount.publicKey)
+                imageQrCode.image = QRCodeGenerator().createQRImage(from: payload.payOperationURI)
                 labelPublicKey.text = xlmAccount.publicKey
                 buttonEnterPassword.isHidden = true
                 buttonRequestPayment.isHidden = false

@@ -161,9 +161,12 @@ extension SendLumensViewController: ActionableLabelDelegate {
 extension SendLumensViewController: QRCodeScannerViewControllerDelegate {
     func qrCodeScannerViewController(_ qrCodeScannerViewController: QRCodeScannerSendViewController, didScanString scannedString: String?) {
         qrCodeScannerViewController.dismiss(animated: false)
-        // TODO: Set the text field directly for now. However, this string should be parsed according to
-        // the URI scheme defined in SEP-0007
-        // TICKET: IOS-1518
-        stellarAddressField.text = scannedString
+        guard let scanned = scannedString else { return }
+        guard let payload = AssetURLPayloadFactory.create(fromString: scanned, assetType: .stellar) else {
+            Logger.shared.error("Could not create payload from scanned string: \(scanned)")
+            return
+        }
+        stellarAddressField.text = payload.address
+        stellarAmountField.text = payload.amount
     }
 }

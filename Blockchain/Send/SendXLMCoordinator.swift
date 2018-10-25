@@ -12,14 +12,20 @@ import RxSwift
 class SendXLMCoordinator {
     fileprivate let serviceProvider: XLMServiceProvider
     fileprivate let interface: SendXLMInterface
+    fileprivate let modelInterface: SendXLMModelInterface
     fileprivate let disposables = CompositeDisposable()
     fileprivate var services: XLMServices {
         return serviceProvider.services
     }
     
-    init(serviceProvider: XLMServiceProvider, interface: SendXLMInterface) {
+    init(
+        serviceProvider: XLMServiceProvider,
+        interface: SendXLMInterface,
+        modelInterface: SendXLMModelInterface
+    ) {
         self.serviceProvider = serviceProvider
         self.interface = interface
+        self.modelInterface = modelInterface
         if let controller = interface as? SendLumensViewController {
             controller.delegate = self
         }
@@ -110,14 +116,18 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     
     func onXLMEntry(_ value: String, latestPrice: Decimal) {
         // TODO: move to a service?
+        modelInterface.updateXLMAmount(NSDecimalNumber(string: value).decimalValue)
         let fiat = NSDecimalNumber(decimal: latestPrice).multiplying(by: NSDecimalNumber(string: value))
         let fiatText = NumberFormatter.localCurrencyFormatter.string(from: fiat)
+        // update fiat field
     }
     
     func onFiatEntry(_ value: String, latestPrice: Decimal) {
         // TODO: move to a service?
         let crypto = NSDecimalNumber(decimal: latestPrice).dividing(by: NSDecimalNumber(string: value))
+        modelInterface.updateXLMAmount(crypto.decimalValue)
         let cryptoText = NumberFormatter.assetFormatter.string(from: crypto)
+        // update crypto field
     }
     
     func onSecondaryPasswordValidated() {

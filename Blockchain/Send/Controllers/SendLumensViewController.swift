@@ -92,7 +92,7 @@ protocol SendXLMViewControllerDelegate: class {
         super.viewDidLoad()
         let services = XLMServices(configuration: .test)
         let provider = XLMServiceProvider(services: services)
-        coordinator = SendXLMCoordinator(serviceProvider: provider, interface: self)
+        coordinator = SendXLMCoordinator(serviceProvider: provider, interface: self, modelInterface: self)
         view.frame = UIView.rootViewSafeAreaFrame(
             navigationBar: true,
             tabBar: true,

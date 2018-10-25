@@ -7306,6 +7306,8 @@
 				C7387ED421814D6D005D35DA /* AmountTextFieldDelegateTests.swift */,
 			);
 			path = TextFieldInput;
+			sourceTree = "<group>";
+                };
 		C746905D2180ACCD001A7C52 /* URL */ = {
 			isa = PBXGroup;
 			children = (

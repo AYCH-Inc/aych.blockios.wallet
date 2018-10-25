@@ -20,22 +20,22 @@
         switch (assetType) {
             case LegacyAssetTypeBitcoin: {
                 suffix = [AssetTypeLegacyHelper descriptionFor:AssetTypeBitcoin];
-                assetImageViewName = @"swipe_to_receive_BTC";
+                assetImageViewName = @"symbol-btc";
                 break;
             }
             case LegacyAssetTypeEther: {
                 suffix = [AssetTypeLegacyHelper descriptionFor:AssetTypeEthereum];
-                assetImageViewName = @"swipe_to_receive_ETH";
+                assetImageViewName = @"symbol-eth";
                 break;
             }
             case LegacyAssetTypeBitcoinCash: {
                 suffix = [AssetTypeLegacyHelper descriptionFor:AssetTypeBitcoinCash];
-                assetImageViewName = @"swipe_to_receive_BCH";
+                assetImageViewName = @"symbol-bch";
                 break;
             }
             case LegacyAssetTypeStellar: {
                 suffix = [AssetTypeLegacyHelper descriptionFor:AssetTypeStellar];
-                assetImageViewName = @"swipe_to_receive_XLM";
+                assetImageViewName = @"symbol-xlm";
                 break;
             }
         }

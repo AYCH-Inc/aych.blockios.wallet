@@ -309,6 +309,10 @@ struct LocalizationConstants {
             "Stellar Price",
             comment: "The title of the Stellar price chart on the dashboard."
         )
+        static let seeCharts = NSLocalizedString(
+            "See Charts",
+            comment: "The title of the action button in the price preview views."
+        )
     }
 
     struct AnnouncementCards {

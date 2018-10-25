@@ -10,8 +10,8 @@ import Foundation
 
 protocol SendXLMViewControllerDelegate: class {
     func onLoad()
-    func onXLMEntry(_ value: String)
-    func onFiatEntry(_ value: String)
+    func onXLMEntry(_ value: String, latestPrice: Decimal)
+    func onFiatEntry(_ value: String, latestPrice: Decimal)
     func onPrimaryTapped()
     func onUseMaxTapped()
 }
@@ -49,7 +49,11 @@ protocol SendXLMViewControllerDelegate: class {
     weak var delegate: SendXLMViewControllerDelegate?
     fileprivate var coordinator: SendXLMCoordinator!
     fileprivate var trigger: ActionableTrigger?
-    
+
+    // MARK: - Models
+    var latestPrice: Decimal? // fiat per whole unit
+    var xlmAmount: Decimal?
+
     // MARK: Factory
     
     @objc class func make() -> SendLumensViewController {
@@ -191,5 +195,54 @@ extension SendLumensViewController: QRCodeScannerViewControllerDelegate {
         }
         stellarAddressField.text = payload.address
         stellarAmountField.text = payload.amount
+    }
+}
+
+extension SendLumensViewController: SendXLMModelInterface {
+    func updatePrice(_ value: Decimal) {
+        latestPrice = value
+    }
+
+    func updateXLMAmount(_ value: Decimal) {
+        xlmAmount = value
+    }
+}
+
+extension SendLumensViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+        // TODO: set textField delegate
+
+        if let text = textField.text,
+            let textRange = Range(range, in: text) {
+            let newString = text.replacingCharacters(in: textRange, with: string)
+
+            // Code related to amount input validation
+//            let maxDecimalPlaces: Int?
+//            if textField == stellarAmountField {
+//                maxDecimalPlaces = 6
+//            } else if textField == fiatAmountField {
+//                maxDecimalPlaces = 2
+//            }
+//
+//            guard let decimalPlaces = maxDecimalPlaces else {
+//                // TODO: Handle to address field here
+//                return true
+//            }
+//
+//            let amountDelegate = AmountTextFieldDelegate(maxDecimalPlaces: maxDecimalPlaces)
+//            let isInputValid = amountDelegate.textField(textField, shouldChangeCharactersIn: range, replacementString: string)
+//            if !isInputValid {
+//                return false
+//            }
+
+            guard let price = latestPrice else { return true }
+            if textField == stellarAmountField {
+                delegate?.onXLMEntry(newString, latestPrice: price)
+            } else if textField == fiatAmountField {
+                delegate?.onFiatEntry(newString, latestPrice: price)
+            }
+        }
+        return true
     }
 }

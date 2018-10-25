@@ -18,6 +18,8 @@ class AmountTextFieldDelegate: NSObject, UITextFieldDelegate {
         super.init()
     }
 
+    // TODO: IOS-1521 only allow numbers and decimal separators,
+    // but ensure international support (Eastern Arabic, Hindi decimal digit character sets, etc)
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let text = textField.text,
             let textRange = Range(range, in: text) {

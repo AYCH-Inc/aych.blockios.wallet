@@ -32,25 +32,23 @@ class PricePreviewView: UIView {
         }
     }
 
+    var buttonConfig: (color: UIColor, image: UIImage)? {
+        willSet(config) {
+            actionButton.setImage(config?.image, for: .normal)
+            actionButton.imageView?.tintColor = config?.color
+        }
+    }
+
     // MARK: - IBOutlets
 
     @IBOutlet private var currencyTitleLabel: UILabel!
     @IBOutlet private var priceLabel: UILabel!
+    @IBOutlet private var actionButton: UIButton!
 
     // MARK: - IBActions
 
     @IBAction private func seeCharts(_ sender: UIButton) {
         seeChartsButtonHandler?()
-    }
-
-    // MARK: - Initialization
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
     }
 
     override func awakeFromNib() {
@@ -60,5 +58,9 @@ class PricePreviewView: UIView {
         self.layer.shadowOffset = CGSize(width: 0, height: 2)
         self.layer.shadowOpacity = 0.1
         self.layer.shadowRadius = 4
+        actionButton.imageView?.contentMode = .scaleAspectFit
+        actionButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 0)
+        actionButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 0)
+        actionButton.setTitle(LocalizationConstants.Dashboard.seeCharts, for: .normal)
     }
 }

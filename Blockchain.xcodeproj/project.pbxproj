@@ -742,6 +742,7 @@
 		AAA341B32180E61300E09561 /* MnemonicAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA341B22180E61300E09561 /* MnemonicAccess.swift */; };
 		AAA341B52181157E00E09561 /* StellarKeyPairDeriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16D0E2217927890042AF7E /* StellarKeyPairDeriver.swift */; };
 		AAA341B62181160800E09561 /* MnemonicAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA341B22180E61300E09561 /* MnemonicAccess.swift */; };
+		AAA341D82182448800E09561 /* StellarPaymentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA341D72182448800E09561 /* StellarPaymentOperation.swift */; };
 		AAA6648A21234250009C1C64 /* LocationUpdateAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3D5DB5211B96FA00E6C241 /* LocationUpdateAPI.swift */; };
 		AAA6648B2123426A009C1C64 /* PrimaryButtonContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CD42118E15200BD3D60 /* PrimaryButtonContainer.swift */; };
 		AAB43A892162C19C0015C863 /* Rx+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB43A882162C19C0015C863 /* Rx+Helpers.swift */; };
@@ -3325,6 +3326,7 @@
 		AAA3333C208813040019AD55 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		AAA3333E2088131D0019AD55 /* ModalPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalPresenter.swift; sourceTree = "<group>"; };
 		AAA341B22180E61300E09561 /* MnemonicAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicAccess.swift; sourceTree = "<group>"; };
+		AAA341D72182448800E09561 /* StellarPaymentOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarPaymentOperation.swift; sourceTree = "<group>"; };
 		AAB43A882162C19C0015C863 /* Rx+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+Helpers.swift"; sourceTree = "<group>"; };
 		AABB74C520D44AE300C0F7C5 /* AboutUsView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AboutUsView.storyboard; sourceTree = "<group>"; };
 		AABB74C720D44B0600C0F7C5 /* AboutUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
@@ -3971,13 +3973,13 @@
 		3A56AEAC217661D700044302 /* Stellar */ = {
 			isa = PBXGroup;
 			children = (
-				3A39074F217E7D5A00D2DA01 /* XLMServiceProvider.swift */,
 				3A56AEB12176637D00044302 /* StellarAccountService.swift */,
-				3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */,
 				AA16D0E2217927890042AF7E /* StellarKeyPairDeriver.swift */,
 				3A390747217E52AB00D2DA01 /* StellarLedgerService.swift */,
+				3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */,
 				3A56AEAE2176620400044302 /* StellarTransactionService.swift */,
 				C746905D2180ACCD001A7C52 /* URL */,
+				3A39074F217E7D5A00D2DA01 /* XLMServiceProvider.swift */,
 				3A56AEAD217661ED00044302 /* API */,
 				3A56AEB42176695700044302 /* Models */,
 			);
@@ -3999,13 +4001,14 @@
 		3A56AEB42176695700044302 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3A56AEB521766A0000044302 /* StellarConfiguration.swift */,
 				3A56AEB821766D4800044302 /* StellarAccount.swift */,
-				3A9A026E2178E19400E2848E /* StellarOperation.swift */,
-				3AE5419A217A677A001DDE02 /* StellarTransaction.swift */,
+				3A56AEB521766A0000044302 /* StellarConfiguration.swift */,
 				AA16D0EE217935550042AF7E /* StellarKeyPair.swift */,
 				3A3C7D3A217F9ED50067F442 /* StellarLedger.swift */,
+				3A9A026E2178E19400E2848E /* StellarOperation.swift */,
+				AAA341D72182448800E09561 /* StellarPaymentOperation.swift */,
 				3A3C7D4F2180D31D0067F442 /* StellarServiceError.swift */,
+				3AE5419A217A677A001DDE02 /* StellarTransaction.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -9089,6 +9092,7 @@
 				AA126D9F212E189C005886A3 /* OnfidoUser.swift in Sources */,
 				AAA3333B2088115C0019AD55 /* Coordinator.swift in Sources */,
 				AACE31F12092B1F800B7B806 /* PasswordRequiredView.swift in Sources */,
+				AAA341D82182448800E09561 /* StellarPaymentOperation.swift in Sources */,
 				3A26AF5821273BC9003A8A08 /* ExchangeListViewCell.swift in Sources */,
 				AADB027E20C0BACA000FFFEC /* WalletCryptoService.swift in Sources */,
 				2390C10B1D87376E00342C38 /* TransactionRecipientsViewController.m in Sources */,

@@ -27,11 +27,11 @@ struct XLMServices: XLMDependencies {
     init(
         configuration: StellarConfiguration,
         wallet: Wallet = WalletManager.shared.wallet
-        ) {
+    ) {
         repository = WalletXlmAccountRepository(wallet: wallet)
         accounts = StellarAccountService(configuration: configuration, repository: repository)
         ledger = StellarLedgerService(configuration: configuration)
-        transaction = StellarTransactionService(configuration: configuration, repository: repository)
+        transaction = StellarTransactionService(configuration: configuration, accounts: accounts, repository: repository)
         operation = StellarOperationService(configuration: configuration, repository: repository)
     }
 }

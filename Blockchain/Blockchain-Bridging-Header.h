@@ -7,6 +7,7 @@
 #import "Assets.h"
 #import "BCBalancesChartView.h"
 #import "BCCreateWalletView.h"
+#import "BCConfirmPaymentViewModel.h"
 #import "BCFadeView.h"
 #import "BCManualPairView.h"
 #import "BCModalView.h"

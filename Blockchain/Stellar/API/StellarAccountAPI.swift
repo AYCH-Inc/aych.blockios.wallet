@@ -19,7 +19,7 @@ protocol StellarAccountAPI {
     var currentAccount: StellarAccount? { get }
     
     func currentStellarAccount(fromCache: Bool) -> Maybe<StellarAccount>
+    func accountResponse(for accountID: AccountID) -> Single<AccountResponse>
     func accountDetails(for accountID: AccountID) -> Maybe<StellarAccount>
-    func accountDetails(for accountID: AccountID, completion: @escaping AccountDetailsCompletion)
     func fundAccount(with accountID: AccountID, amount: Decimal, completion: @escaping CompletionHandler)
 }

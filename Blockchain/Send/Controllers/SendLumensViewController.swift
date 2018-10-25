@@ -44,6 +44,7 @@ protocol SendXLMViewControllerDelegate: class {
     
     @IBOutlet fileprivate var useMaxLabel: ActionableLabel!
     @IBOutlet fileprivate var primaryButtonContainer: PrimaryButtonContainer!
+    @IBOutlet fileprivate var learnAbountStellarButton: UIButton!
     
     weak var delegate: SendXLMViewControllerDelegate?
     fileprivate var coordinator: SendXLMCoordinator!
@@ -54,6 +55,22 @@ protocol SendXLMViewControllerDelegate: class {
     @objc class func make() -> SendLumensViewController {
         let controller = SendLumensViewController.makeFromStoryboard()
         return controller
+    }
+    
+    // MARK: ViewUpdate
+    
+    enum PresentationUpdate {
+        case activityIndicatorVisibility(Visibility)
+        case errorLabelVisibility(Visibility)
+        case learnAboutStellarButtonVisibility(Visibility)
+        case actionableLabelVisibility(Visibility)
+        case errorLabelText(String)
+        case feeAmountLabelText(String)
+        case stellarAddressText(String)
+        case xlmFieldTextColor(UIColor)
+        case fiatFieldTextColor(UIColor)
+        case actionableLabelTrigger(ActionableTrigger)
+        case primaryButtonEnabled(Bool)
     }
 
     // MARK: Public Methods
@@ -96,54 +113,60 @@ protocol SendXLMViewControllerDelegate: class {
         return [.font: font,
                 .foregroundColor: UIColor.brandSecondary]
     }
+    
+    fileprivate func apply(_ update: PresentationUpdate) {
+        switch update {
+        case .activityIndicatorVisibility(let visibility):
+            // TODO
+            break
+        case .errorLabelVisibility(let visibility):
+            errorLabel.isHidden = visibility.isHidden
+        case .learnAboutStellarButtonVisibility(let visibility):
+            learnAbountStellarButton.isHidden = visibility.isHidden
+        case .actionableLabelVisibility(let visibility):
+            useMaxLabel.isHidden = visibility.isHidden
+        case .errorLabelText(let value):
+            errorLabel.text = value
+        case .feeAmountLabelText(let value):
+            feeAmountLabel.text = value
+        case .stellarAddressText(let value):
+            stellarAddressField.text = value
+        case .xlmFieldTextColor(let color):
+            stellarAmountField.textColor = color
+        case .fiatFieldTextColor(let color):
+            fiatAmountField.textColor = color
+        case .actionableLabelTrigger(let trigger):
+            self.trigger = trigger
+            let primary = NSMutableAttributedString(
+                string: trigger.primaryString,
+                attributes: useMaxAttributes()
+            )
+            
+            let CTA = NSAttributedString(
+                string: " " + trigger.callToAction,
+                attributes: useMaxActionAttributes()
+            )
+            
+            primary.append(CTA)
+            
+            if let secondary = trigger.secondaryString {
+                let trailing = NSMutableAttributedString(
+                    string: " " + secondary,
+                    attributes: useMaxAttributes()
+                )
+                primary.append(trailing)
+            }
+            
+            useMaxLabel.attributedText = primary
+        case .primaryButtonEnabled(let enabled):
+            primaryButtonContainer.isEnabled = enabled
+        }
+    }
 }
 
 extension SendLumensViewController: SendXLMInterface {
-    func updateActionableLabel(trigger: ActionableTrigger) {
-        self.trigger = trigger
-        let primary = NSMutableAttributedString(
-            string: trigger.primaryString,
-            attributes: useMaxAttributes()
-        )
-        
-        let secondary = NSAttributedString(
-            string: trigger.callToAction,
-            attributes: useMaxActionAttributes()
-        )
-        primary.append(secondary)
-        useMaxLabel.attributedText = primary
-    }
-    
-    func updateActivityIndicator(_ visibility: Visibility) {
-        
-    }
-    
-    func errorIndicator(_ visibility: Visibility) {
-        
-    }
-    
-    func errorLabelText(_ value: String) {
-        
-    }
-    
-    func continueButtonEnabled(_ value: Bool) {
-        
-    }
-    
-    func useMaxButtonEnabled(_ value: Bool) {
-        
-    }
-    
-    func useTotalPromptText(_ value: String) {
-        
-    }
-    
-    func feeLabelText(_ value: String) {
-        
-    }
-    
-    func stellarAddressText(_ value: String) {
-        
+    func apply(updates: [PresentationUpdate]) {
+        updates.forEach({ apply($0) })
     }
 }
 

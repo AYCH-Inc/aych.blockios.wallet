@@ -108,12 +108,16 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         disposables.insertWithDiscardableResult(disposable)
     }
     
-    func onXLMEntry(_ value: String) {
-        
+    func onXLMEntry(_ value: String, latestPrice: Decimal) {
+        // TODO: move to a service?
+        let fiat = NSDecimalNumber(decimal: latestPrice).multiplying(by: NSDecimalNumber(string: value))
+        let fiatText = NumberFormatter.localCurrencyFormatter.string(from: fiat)
     }
     
-    func onFiatEntry(_ value: String) {
-        
+    func onFiatEntry(_ value: String, latestPrice: Decimal) {
+        // TODO: move to a service?
+        let crypto = NSDecimalNumber(decimal: latestPrice).dividing(by: NSDecimalNumber(string: value))
+        let cryptoText = NumberFormatter.assetFormatter.string(from: crypto)
     }
     
     func onSecondaryPasswordValidated() {

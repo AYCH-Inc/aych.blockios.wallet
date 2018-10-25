@@ -51,8 +51,8 @@ protocol SendXLMViewControllerDelegate: class {
     fileprivate var trigger: ActionableTrigger?
 
     // MARK: - Models
-    var latestPrice: Decimal? // fiat per whole unit
-    var xlmAmount: Decimal?
+    private var latestPrice: Decimal? // fiat per whole unit
+    private var xlmAmount: Decimal?
 
     // MARK: Factory
     

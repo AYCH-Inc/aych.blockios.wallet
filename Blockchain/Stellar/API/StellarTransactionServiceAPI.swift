@@ -9,7 +9,7 @@
 import Foundation
 
 class StellarTransactionServiceAPI: SimpleListServiceAPI {
-    private let service = StellarOperationService()
+    private let service = StellarOperationService(repository: WalletXlmAccountRepository(wallet: WalletManager.shared.wallet))
 
     func fetchAllItems(output: SimpleListOutput?) {
         guard service.isExecuting() == false else { return }

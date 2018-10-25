@@ -47,8 +47,8 @@ extension BlockchainAPI {
         return "https://\(PartnerHosts.etherscan.rawValue)"
     }
 
-    var stellarExplorerUrl: String {
-        return "https://\(PartnerHosts.stellarExplorer.rawValue)"
+    var stellarchainUrl: String {
+        return "https://\(PartnerHosts.stellarchain.rawValue)"
     }
 
     var pushNotificationsUrl: String {

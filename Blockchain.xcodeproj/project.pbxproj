@@ -621,7 +621,6 @@
 		AA15E00121765C9F006F30D9 /* WalletXlmAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15E00021765C9F006F30D9 /* WalletXlmAccount.swift */; };
 		AA15E00221765C9F006F30D9 /* WalletXlmAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15E00021765C9F006F30D9 /* WalletXlmAccount.swift */; };
 		AA16D0E3217927890042AF7E /* StellarKeyPairDeriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16D0E2217927890042AF7E /* StellarKeyPairDeriver.swift */; };
-		AA16D0E4217927890042AF7E /* StellarKeyPairDeriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16D0E2217927890042AF7E /* StellarKeyPairDeriver.swift */; };
 		AA16D0EF217935550042AF7E /* StellarKeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16D0EE217935550042AF7E /* StellarKeyPair.swift */; };
 		AA16D0F0217935550042AF7E /* StellarKeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16D0EE217935550042AF7E /* StellarKeyPair.swift */; };
 		AA16D0F621794FB10042AF7E /* WalletXlmAccountRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16D0F521794FB10042AF7E /* WalletXlmAccountRepositoryTests.swift */; };
@@ -740,6 +739,9 @@
 		AAA3333B2088115C0019AD55 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA3333A2088115C0019AD55 /* Coordinator.swift */; };
 		AAA3333D208813040019AD55 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA3333C208813040019AD55 /* OnboardingCoordinator.swift */; };
 		AAA3333F2088131D0019AD55 /* ModalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA3333E2088131D0019AD55 /* ModalPresenter.swift */; };
+		AAA341B32180E61300E09561 /* MnemonicAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA341B22180E61300E09561 /* MnemonicAccess.swift */; };
+		AAA341B52181157E00E09561 /* StellarKeyPairDeriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16D0E2217927890042AF7E /* StellarKeyPairDeriver.swift */; };
+		AAA341B62181160800E09561 /* MnemonicAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA341B22180E61300E09561 /* MnemonicAccess.swift */; };
 		AAA6648A21234250009C1C64 /* LocationUpdateAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3D5DB5211B96FA00E6C241 /* LocationUpdateAPI.swift */; };
 		AAA6648B2123426A009C1C64 /* PrimaryButtonContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CD42118E15200BD3D60 /* PrimaryButtonContainer.swift */; };
 		AAB43A892162C19C0015C863 /* Rx+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB43A882162C19C0015C863 /* Rx+Helpers.swift */; };
@@ -3322,6 +3324,7 @@
 		AAA3333A2088115C0019AD55 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		AAA3333C208813040019AD55 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		AAA3333E2088131D0019AD55 /* ModalPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalPresenter.swift; sourceTree = "<group>"; };
+		AAA341B22180E61300E09561 /* MnemonicAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicAccess.swift; sourceTree = "<group>"; };
 		AAB43A882162C19C0015C863 /* Rx+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+Helpers.swift"; sourceTree = "<group>"; };
 		AABB74C520D44AE300C0F7C5 /* AboutUsView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AboutUsView.storyboard; sourceTree = "<group>"; };
 		AABB74C720D44B0600C0F7C5 /* AboutUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
@@ -7112,6 +7115,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		AAA341B12180E5E400E09561 /* Mnemonic */ = {
+			isa = PBXGroup;
+			children = (
+				AAA341B22180E61300E09561 /* MnemonicAccess.swift */,
+			);
+			path = Mnemonic;
+			sourceTree = "<group>";
+		};
 		AABB74C420D44ACA00C0F7C5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -7161,6 +7172,7 @@
 				AA9B30D020F6D85000A7F809 /* WalletUpgradeDelegate.swift */,
 				C79DD06D20B3B74A00DF3684 /* WalletWatchOnlyDelegate.swift */,
 				AA035C872176A38D00731CD5 /* Metadata */,
+				AAA341B12180E5E400E09561 /* Mnemonic */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -8380,11 +8392,13 @@
 				51FC1B112127473D007BEB18 /* UIView.swift in Sources */,
 				3AB4D91A21309BC8004F0160 /* ExchangeListViewController.swift in Sources */,
 				51C9EBB720DBE4A700AB521D /* UIView+SafeAreaFrame.swift in Sources */,
+				AAA341B52181157E00E09561 /* StellarKeyPairDeriver.swift in Sources */,
 				AA126D2B212D23FE005886A3 /* KYCUpdateMobileRequest.swift in Sources */,
 				C7A85981217A5BAE00502935 /* StellarTransactionServiceAPI.swift in Sources */,
 				AA0A41AC214C83A800807163 /* KYCCountrySelectionInteractor.swift in Sources */,
 				AAE94F6A20C75C4E005A3595 /* MockPinView.swift in Sources */,
 				AA54E4F7216D3B3F005061F9 /* KYCStateSelectionInteractor.swift in Sources */,
+				AAA341B62181160800E09561 /* MnemonicAccess.swift in Sources */,
 				AAE94F6820C75B8D005A3595 /* PinPresenterTests.swift in Sources */,
 				51578AEF20B44AD400B0080A /* KeyImportCoordinator.swift in Sources */,
 				604598B22118BB2A00AE08C8 /* Currency.swift in Sources */,
@@ -8393,7 +8407,6 @@
 				AA15E00221765C9F006F30D9 /* WalletXlmAccount.swift in Sources */,
 				AAC8F35820993BC1004B7D33 /* WebSocketCloseCode.swift in Sources */,
 				C7A85971217A56D300502935 /* TransactionsXlmViewController.swift in Sources */,
-				AA16D0E4217927890042AF7E /* StellarKeyPairDeriver.swift in Sources */,
 				3AB4D91D21309BE7004F0160 /* ExchangeListViewCell.swift in Sources */,
 				AA084410215EEF320007BFD1 /* LockboxDeviceType.swift in Sources */,
 				519435B1208E62F6001EF882 /* BlockchainAPI+URL.swift in Sources */,
@@ -8692,6 +8705,7 @@
 				AABDED70208FACB9002D8BAC /* Reachability.swift in Sources */,
 				3A9A026F2178E19400E2848E /* StellarOperation.swift in Sources */,
 				602B9CF22118E15300BD3D60 /* LocationSuggestionCell.swift in Sources */,
+				AAA341B32180E61300E09561 /* MnemonicAccess.swift in Sources */,
 				C74FEA232093B38A007CAB5D /* JSContextWithDOM.swift in Sources */,
 				C7CE25B92135E41900DCC43B /* ExchangeCreateInteractor.swift in Sources */,
 				C702A7DA217E9BD200A8DED1 /* TransactionTableCell+ViewModel.swift in Sources */,

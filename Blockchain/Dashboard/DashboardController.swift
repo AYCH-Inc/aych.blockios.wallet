@@ -164,7 +164,7 @@ final class DashboardController: UIViewController {
             height: priceChartsLabelHeight + (pricePreviewViewHeight * 4) + (pricePreviewViewSpacing * 3)
         )
 
-        let priceChartsLabelFrame = CGRect(x: 0, y: 0, width: (view.frame.size.width / 2), height: priceChartsLabelHeight)
+        let priceChartsLabelFrame = CGRect(x: 8, y: 0, width: (view.frame.size.width / 2), height: priceChartsLabelHeight)
 
         let bitcoinPricePreviewViewFrame = CGRect(
             x: 0,
@@ -192,8 +192,8 @@ final class DashboardController: UIViewController {
 
         let priceChartsLabel = UILabel(frame: priceChartsLabelFrame)
         priceChartsLabel.textColor = .brandPrimary
-        priceChartsLabel.font = UIFont(name: Constants.FontNames.montserratLight, size: Constants.FontSizes.Large)
-        priceChartsLabel.text = LocalizationConstants.Dashboard.priceCharts.uppercased()
+        priceChartsLabel.font = UIFont(name: Constants.FontNames.montserratRegular, size: Constants.FontSizes.Large)
+        priceChartsLabel.text = LocalizationConstants.Dashboard.priceCharts
 
         bitcoinPricePreviewView = PricePreviewViewFactory.create(for: .bitcoin, buttonTapped: { [unowned self] in
             self.showChartContainerViewController(for: .bitcoin)

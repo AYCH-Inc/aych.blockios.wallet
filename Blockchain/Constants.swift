@@ -28,6 +28,13 @@ struct Constants {
         static let tabTransactions = 2
         static let tabReceive = 3
     }
+    struct TransactionTypes {
+        // TODO: change to enum, move to its own file,
+        // and deprecate TX_TYPE_* in Blockchain-Prefix
+        static let sent = "sent"
+        static let receive = "received"
+        static let transfer = "transfer"
+    }
     struct Measurements {
         static let DefaultHeaderHeight: CGFloat = 65
         // TODO: remove this once we use autolayout

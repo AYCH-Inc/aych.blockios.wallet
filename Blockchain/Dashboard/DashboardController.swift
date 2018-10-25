@@ -195,7 +195,7 @@ final class DashboardController: UIViewController {
         priceChartsLabel.font = UIFont(name: Constants.FontNames.montserratRegular, size: Constants.FontSizes.Large)
         priceChartsLabel.text = LocalizationConstants.Dashboard.priceCharts
 
-        bitcoinPricePreviewView = PricePreviewViewFactory.create(for: .bitcoin, buttonTapped: { [unowned self] in
+        bitcoinPricePreviewView = PricePreviewViewFactory.create(for: .bitcoin, buttonTapped: {
             self.showChartContainerViewController(for: .bitcoin)
         })
 

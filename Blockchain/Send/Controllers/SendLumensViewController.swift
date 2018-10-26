@@ -223,31 +223,27 @@ extension SendLumensViewController: SendXLMModelInterface {
 
 extension SendLumensViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-
-        // TODO: set textField delegate
-
         if let text = textField.text,
             let textRange = Range(range, in: text) {
             let newString = text.replacingCharacters(in: textRange, with: string)
 
-            // Code related to amount input validation
-//            let maxDecimalPlaces: Int?
-//            if textField == stellarAmountField {
-//                maxDecimalPlaces = 6
-//            } else if textField == fiatAmountField {
-//                maxDecimalPlaces = 2
-//            }
-//
-//            guard let decimalPlaces = maxDecimalPlaces else {
-//                // TODO: Handle to address field here
-//                return true
-//            }
-//
-//            let amountDelegate = AmountTextFieldDelegate(maxDecimalPlaces: maxDecimalPlaces)
-//            let isInputValid = amountDelegate.textField(textField, shouldChangeCharactersIn: range, replacementString: string)
-//            if !isInputValid {
-//                return false
-//            }
+            var maxDecimalPlaces: Int?
+            if textField == stellarAmountField {
+                maxDecimalPlaces = 6
+            } else if textField == fiatAmountField {
+                maxDecimalPlaces = 2
+            }
+
+            guard let decimalPlaces = maxDecimalPlaces else {
+                // TODO: Handle to address field here
+                return true
+            }
+
+            let amountDelegate = AmountTextFieldDelegate(maxDecimalPlaces: decimalPlaces)
+            let isInputValid = amountDelegate.textField(textField, shouldChangeCharactersIn: range, replacementString: string)
+            if !isInputValid {
+                return false
+            }
 
             guard let price = latestPrice else { return true }
             if textField == stellarAmountField {

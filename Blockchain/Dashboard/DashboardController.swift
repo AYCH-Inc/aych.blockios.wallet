@@ -494,10 +494,6 @@ final class DashboardController: UIViewController {
     }
 
     private func reloadPricePreviews() {
-        bitcoinPricePreviewView?.price = "0"
-        etherPricePreviewView?.price = "0"
-        bitcoinCashPricePreviewView?.price = "0"
-        stellarPricePreviewView?.price = "0"
         disposable = PriceServiceClient().allPrices(fiatSymbol: "USD")
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)

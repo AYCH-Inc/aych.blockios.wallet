@@ -331,9 +331,9 @@ extension SendLumensViewController: UITextFieldDelegate {
 
             var maxDecimalPlaces: Int?
             if textField == stellarAmountField {
-                maxDecimalPlaces = 6
+                maxDecimalPlaces = NumberFormatter.stellarFractionDigits
             } else if textField == fiatAmountField {
-                maxDecimalPlaces = 2
+                maxDecimalPlaces = NumberFormatter.localCurrencyFractionDigits
             }
 
             guard let decimalPlaces = maxDecimalPlaces else {

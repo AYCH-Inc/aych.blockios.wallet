@@ -18,6 +18,9 @@ class StellarLedgerService: StellarLedgerAPI {
             networkValue: fetchLedger()
         )
     }
+    var currentLedger: StellarLedger? {
+        return privateLedger.value
+    }
     fileprivate var privateLedger = BehaviorRelay<StellarLedger?>(value: nil)
     
     lazy var service: LedgersService = {

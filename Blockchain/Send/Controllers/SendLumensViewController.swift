@@ -13,7 +13,7 @@ protocol SendXLMViewControllerDelegate: class {
     func onAppear()
     func onXLMEntry(_ value: String, latestPrice: Decimal)
     func onFiatEntry(_ value: String, latestPrice: Decimal)
-    func onPrimaryTapped(toAddress: String, amount: Decimal)
+    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal)
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation)
     func onUseMaxTapped()
 }
@@ -56,6 +56,7 @@ protocol SendXLMViewControllerDelegate: class {
     private var pendingPaymentOperation: StellarPaymentOperation?
     private var latestPrice: Decimal? // fiat per whole unit
     private var xlmAmount: Decimal?
+    private var xlmFee: Decimal?
 
     // MARK: Factory
     
@@ -72,7 +73,7 @@ protocol SendXLMViewControllerDelegate: class {
         case learnAboutStellarButtonVisibility(Visibility)
         case actionableLabelVisibility(Visibility)
         case errorLabelText(String)
-        case feeAmountLabelText(String)
+        case feeAmountLabelText()
         case stellarAddressText(String)
         case xlmFieldTextColor(UIColor)
         case fiatFieldTextColor(UIColor)
@@ -113,7 +114,8 @@ protocol SendXLMViewControllerDelegate: class {
         primaryButtonContainer.actionBlock = { [unowned self] in
             guard let toAddress = self.stellarAddressField.text else { return }
             guard let amount = self.xlmAmount else { return }
-            self.delegate?.onPrimaryTapped(toAddress: toAddress, amount: amount)
+            guard let fee = self.xlmFee else { return }
+            self.delegate?.onPrimaryTapped(toAddress: toAddress, amount: amount, feeInXlm: fee)
         }
         delegate?.onLoad()
     }
@@ -136,7 +138,8 @@ protocol SendXLMViewControllerDelegate: class {
         return [.font: font,
                 .foregroundColor: UIColor.brandSecondary]
     }
-    
+
+    // swiftlint:disable function_body_length
     fileprivate func apply(_ update: PresentationUpdate) {
         switch update {
         case .activityIndicatorVisibility(let visibility):
@@ -149,8 +152,20 @@ protocol SendXLMViewControllerDelegate: class {
             useMaxLabel.isHidden = visibility.isHidden
         case .errorLabelText(let value):
             errorLabel.text = value
-        case .feeAmountLabelText(let value):
-            feeAmountLabel.text = value
+        case .feeAmountLabelText:
+            // TODO: move formatting outside of this file
+            guard let price = latestPrice, let fee = xlmFee else { return }
+            let assetType: AssetType = .stellar
+            let xlmSymbol = assetType.symbol
+            let feeFormatted = NumberFormatter.stellarFormatter.string(from: NSDecimalNumber(decimal: fee)) ?? "\(fee)"
+            guard let fiatCurrencySymbol = BlockchainSettings.sharedAppInstance().fiatCurrencySymbol else {
+                feeAmountLabel.text = feeFormatted + " " + xlmSymbol
+                return
+            }
+            let fiatAmount = price * fee
+            let fiatFormatted = NumberFormatter.localCurrencyFormatter.string(from: NSDecimalNumber(decimal: fiatAmount)) ?? "\(fiatAmount)"
+            let fiatText = fiatCurrencySymbol + fiatFormatted
+            feeAmountLabel.text = feeFormatted + " " + "(\(fiatText))"
         case .stellarAddressText(let value):
             stellarAddressField.text = value
         case .xlmFieldTextColor(let color):
@@ -323,6 +338,10 @@ extension BCConfirmPaymentViewModel {
 }
 
 extension SendLumensViewController: SendXLMModelInterface {
+    func updateFee(_ value: Decimal) {
+        xlmFee = value
+    }
+
     func updatePrice(_ value: Decimal) {
         latestPrice = value
     }

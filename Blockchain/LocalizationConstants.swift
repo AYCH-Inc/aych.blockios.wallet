@@ -293,6 +293,26 @@ struct LocalizationConstants {
             "An error occurred while retrieving the latest chart data. Please try again later.",
             comment: "The error message for when the method fetchChartDataForAsset fails."
         )
+        static let bitcoinPrice = NSLocalizedString(
+            "Bitcoin Price",
+            comment: "The title of the Bitcoin price chart on the dashboard."
+        )
+        static let etherPrice = NSLocalizedString(
+            "Ether Price",
+            comment: "The title of the Ethereum price chart on the dashboard."
+        )
+        static let bitcoinCashPrice = NSLocalizedString(
+            "Bitcoin Cash Price",
+            comment: "The title of the Bitcoin Cash price chart on the dashboard."
+        )
+        static let stellarPrice = NSLocalizedString(
+            "Stellar Price",
+            comment: "The title of the Stellar price chart on the dashboard."
+        )
+        static let seeCharts = NSLocalizedString(
+            "See Charts",
+            comment: "The title of the action button in the price preview views."
+        )
     }
 
     struct AnnouncementCards {
@@ -1014,4 +1034,12 @@ struct LocalizationConstants {
     @objc class func balances() -> String { return LocalizationConstants.balances }
 
     @objc class func dashboardPriceCharts() -> String { return LocalizationConstants.Dashboard.priceCharts }
+
+    @objc class func dashboardBitcoinPrice() -> String { return LocalizationConstants.Dashboard.bitcoinPrice }
+
+    @objc class func dashboardEtherPrice() -> String { return LocalizationConstants.Dashboard.etherPrice }
+
+    @objc class func dashboardBitcoinCashPrice() -> String { return LocalizationConstants.Dashboard.bitcoinCashPrice }
+
+    @objc class func dashboardStellarPrice() -> String { return LocalizationConstants.Dashboard.stellarPrice }
 }

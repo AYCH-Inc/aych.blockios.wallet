@@ -270,8 +270,10 @@ extension BCConfirmPaymentViewModel {
         with paymentOperation: StellarPaymentOperation,
         price: Decimal?
     ) -> BCConfirmPaymentViewModel {
+        // TODO: Refactor, move formatting out
         let assetType: AssetType = .stellar
         let xlmSymbol = assetType.symbol
+        let fiatCurrencySymbol = BlockchainSettings.sharedAppInstance().fiatCurrencySymbol ?? ""
 
         let amountXlmDecimalNumber = NSDecimalNumber(decimal: paymentOperation.amountInXlm)
         let amountXlmString = NumberFormatter.stellarFormatter.string(from: amountXlmDecimalNumber) ?? "\(paymentOperation.amountInXlm)"
@@ -287,7 +289,8 @@ extension BCConfirmPaymentViewModel {
 
         if let decimalPrice = price {
             let fiatAmount = NSDecimalNumber(decimal: decimalPrice).multiplying(by: NSDecimalNumber(decimal: paymentOperation.amountInXlm))
-            fiatTotalAmountText = NumberFormatter.localCurrencyFormatter.string(from: fiatAmount) ?? ""
+            let fiatAmountFormatted = NumberFormatter.localCurrencyFormatter.string(from: fiatAmount)
+            fiatTotalAmountText = fiatAmountFormatted == nil ? "" : (fiatCurrencySymbol + fiatAmountFormatted!)
             cryptoWithFiatAmountText = fiatTotalAmountText.isEmpty ?
                 amountXlmStringWithSymbol :
                 "\(amountXlmStringWithSymbol) (\(fiatTotalAmountText))"
@@ -296,9 +299,9 @@ extension BCConfirmPaymentViewModel {
             let fiatFeeText = NumberFormatter.localCurrencyFormatter.string(from: fiatFee) ?? ""
             amountWithFiatFeeText = fiatFeeText.isEmpty ?
                 feeXlmStringWithSymbol :
-                "\(feeXlmStringWithSymbol) (\(fiatFeeText))"
+                "\(feeXlmStringWithSymbol) (\(fiatCurrencySymbol)\(fiatFeeText))"
         } else {
-            fiatTotalAmountText = amountXlmStringWithSymbol
+            fiatTotalAmountText = ""
             cryptoWithFiatAmountText = amountXlmStringWithSymbol
             amountWithFiatFeeText = feeXlmStringWithSymbol
         }

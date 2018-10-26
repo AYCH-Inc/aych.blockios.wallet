@@ -262,7 +262,7 @@
     double difference = lastPrice - firstPrice;
     double percentChange = (difference / firstPrice) * 100;
 
-    // TODO: remove temporary code
+    // TICKET: IOS-1525 - remove temporary code
     if (self.assetType == LegacyAssetTypeStellar) {
         self.lastXlmPrice = lastPrice;
     }

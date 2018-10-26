@@ -121,9 +121,11 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [unowned self] price in
                 self.modelInterface.updatePrice(price.price)
-            }, onError: { error in
-                Logger.shared.error("Failed to get XLM price: \(error.localizedDescription)")
-                AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
+            }, onError: { [unowned self] error in
+                Logger.shared.error(error.localizedDescription)
+                self.interface.apply(updates: [
+                    .errorLabelText(LocalizationConstants.Errors.genericError)
+                ])
             })
         disposables.insertWithDiscardableResult(disposable)
     }

@@ -52,10 +52,7 @@ final class DashboardController: UIViewController {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.maximumFractionDigits = 2
-        if let latestMultiAddressResponse = WalletManager.shared.latestMultiAddressResponse,
-            let symbol = latestMultiAddressResponse.symbol_local.symbol {
-                formatter.currencySymbol = symbol
-        }
+        formatter.currencySymbol = BlockchainSettings.App.shared.fiatCurrencySymbol
         return formatter
     }()
 
@@ -298,12 +295,6 @@ final class DashboardController: UIViewController {
             })
 
         let watchOnlyFiatBalance = getBtcWatchOnlyBalance()
-        guard let latestMultiAddressResponse = WalletManager.shared.latestMultiAddressResponse,
-            let symbolLocal = latestMultiAddressResponse.symbol_local,
-            let symbol = symbolLocal.symbol else {
-                Logger.shared.warning("Failed to get symbol from latestMultiAddressResponse!")
-                return
-        }
 
         let truncatedEthBalance = wallet.getEthBalanceTruncated()
 
@@ -316,7 +307,7 @@ final class DashboardController: UIViewController {
         let walletIsInitialized = wallet.isInitialized()
 
         if walletIsInitialized {
-            balancesChartView.updateFiatSymbol(symbol)
+            balancesChartView.updateFiatSymbol(BlockchainSettings.App.shared.fiatCurrencySymbol)
             // Fiat balances
             balancesChartView.updateBitcoinFiatBalance(btcFiatBalance)
             balancesChartView.updateEtherFiatBalance(ethFiatBalance)
@@ -559,15 +550,9 @@ extension DashboardController: IAxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         switch axis {
         case chartContainerViewController.leftAxis():
-            guard let latestMultiAddressResponse = WalletManager.shared.latestMultiAddressResponse,
-                let symbolLocal = latestMultiAddressResponse.symbol_local,
-                let symbol = symbolLocal.symbol else {
-                    Logger.shared.warning("Failed to get symbol from latestMultiAddressResponse!")
-                    return String()
-            }
-            return String(format: "%@%.f", symbol, value)
+            return String(format: "%@%.f", BlockchainSettings.App.shared.fiatCurrencySymbol, value)
         case chartContainerViewController.xAxis():
-            return dateStringFromGraphValue(value: value) ?? String()
+            return dateStringFromGraphValue(value: value)
         default:
             Logger.shared.warning("Warning: no axis found!")
             return String()

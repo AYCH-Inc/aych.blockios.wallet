@@ -130,8 +130,8 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                 }
                 let feeInXlm = Decimal(feeInStroops) / Decimal(Constants.Conversions.stroopsInXlm)
                 self.modelInterface.updateFee(feeInXlm)
-                self.interface.apply(updates: [.feeAmountLabelText()])
                 self.modelInterface.updatePrice(price.price)
+                self.interface.apply(updates: [.feeAmountLabelText()])
             }, onError: { [unowned self] error in
                 Logger.shared.error(error.localizedDescription)
                 self.interface.apply(updates: [

@@ -13,7 +13,7 @@ protocol SendXLMViewControllerDelegate: class {
     func onAppear()
     func onXLMEntry(_ value: String, latestPrice: Decimal)
     func onFiatEntry(_ value: String, latestPrice: Decimal)
-    func onPrimaryTapped(toAddress: String, amount: Decimal)
+    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal)
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation)
     func onUseMaxTapped()
 }
@@ -56,6 +56,7 @@ protocol SendXLMViewControllerDelegate: class {
     private var pendingPaymentOperation: StellarPaymentOperation?
     private var latestPrice: Decimal? // fiat per whole unit
     private var xlmAmount: Decimal?
+    private var xlmFee: Decimal?
 
     // MARK: Factory
     
@@ -72,7 +73,7 @@ protocol SendXLMViewControllerDelegate: class {
         case learnAboutStellarButtonVisibility(Visibility)
         case actionableLabelVisibility(Visibility)
         case errorLabelText(String)
-        case feeAmountLabelText(String)
+        case feeAmountLabelText()
         case stellarAddressText(String)
         case xlmFieldTextColor(UIColor)
         case fiatFieldTextColor(UIColor)
@@ -113,7 +114,8 @@ protocol SendXLMViewControllerDelegate: class {
         primaryButtonContainer.actionBlock = { [unowned self] in
             guard let toAddress = self.stellarAddressField.text else { return }
             guard let amount = self.xlmAmount else { return }
-            self.delegate?.onPrimaryTapped(toAddress: toAddress, amount: amount)
+            guard let fee = self.xlmFee else { return }
+            self.delegate?.onPrimaryTapped(toAddress: toAddress, amount: amount, feeInXlm: fee)
         }
         delegate?.onLoad()
     }
@@ -136,7 +138,8 @@ protocol SendXLMViewControllerDelegate: class {
         return [.font: font,
                 .foregroundColor: UIColor.brandSecondary]
     }
-    
+
+    // swiftlint:disable function_body_length
     fileprivate func apply(_ update: PresentationUpdate) {
         switch update {
         case .activityIndicatorVisibility(let visibility):
@@ -149,8 +152,20 @@ protocol SendXLMViewControllerDelegate: class {
             useMaxLabel.isHidden = visibility.isHidden
         case .errorLabelText(let value):
             errorLabel.text = value
-        case .feeAmountLabelText(let value):
-            feeAmountLabel.text = value
+        case .feeAmountLabelText:
+            // TODO: move formatting outside of this file
+            guard let price = latestPrice, let fee = xlmFee else { return }
+            let assetType: AssetType = .stellar
+            let xlmSymbol = assetType.symbol
+            let feeFormatted = NumberFormatter.stellarFormatter.string(from: NSDecimalNumber(decimal: fee)) ?? "\(fee)"
+            guard let fiatCurrencySymbol = BlockchainSettings.sharedAppInstance().fiatCurrencySymbol else {
+                feeAmountLabel.text = feeFormatted + " " + xlmSymbol
+                return
+            }
+            let fiatAmount = price * fee
+            let fiatFormatted = NumberFormatter.localCurrencyFormatter.string(from: NSDecimalNumber(decimal: fiatAmount)) ?? "\(fiatAmount)"
+            let fiatText = fiatCurrencySymbol + fiatFormatted
+            feeAmountLabel.text = feeFormatted + " " + "(\(fiatText))"
         case .stellarAddressText(let value):
             stellarAddressField.text = value
         case .xlmFieldTextColor(let color):
@@ -205,7 +220,7 @@ protocol SendXLMViewControllerDelegate: class {
 
     private func showPaymentConfirmation(paymentOperation: StellarPaymentOperation) {
         self.pendingPaymentOperation = paymentOperation
-        let viewModel = BCConfirmPaymentViewModel.initialize(with: paymentOperation)
+        let viewModel = BCConfirmPaymentViewModel.initialize(with: paymentOperation, price: latestPrice)
         let confirmView = BCConfirmPaymentView(
             frame: view.frame,
             viewModel: viewModel,
@@ -266,16 +281,53 @@ extension SendLumensViewController: QRCodeScannerViewControllerDelegate {
 }
 
 extension BCConfirmPaymentViewModel {
-    static func initialize(with paymentOperation: StellarPaymentOperation) -> BCConfirmPaymentViewModel {
-        // TODO set actual values
-        // TICKET: IOS-1523
+    static func initialize(
+        with paymentOperation: StellarPaymentOperation,
+        price: Decimal?
+    ) -> BCConfirmPaymentViewModel {
+        // TODO: Refactor, move formatting out
+        let assetType: AssetType = .stellar
+        let xlmSymbol = assetType.symbol
+        let fiatCurrencySymbol = BlockchainSettings.sharedAppInstance().fiatCurrencySymbol ?? ""
+
+        let amountXlmDecimalNumber = NSDecimalNumber(decimal: paymentOperation.amountInXlm)
+        let amountXlmString = NumberFormatter.stellarFormatter.string(from: amountXlmDecimalNumber) ?? "\(paymentOperation.amountInXlm)"
+        let amountXlmStringWithSymbol = amountXlmString + " " + xlmSymbol
+
+        let feeXlmDecimalNumber = NSDecimalNumber(decimal: paymentOperation.feeInXlm)
+        let feeXlmString = NumberFormatter.stellarFormatter.string(from: feeXlmDecimalNumber) ?? "\(paymentOperation.feeInXlm)"
+        let feeXlmStringWithSymbol = feeXlmString + " " + xlmSymbol
+
+        let fiatTotalAmountText: String
+        let cryptoWithFiatAmountText: String
+        let amountWithFiatFeeText: String
+
+        if let decimalPrice = price {
+            let fiatAmount = NSDecimalNumber(decimal: decimalPrice).multiplying(by: NSDecimalNumber(decimal: paymentOperation.amountInXlm))
+            let fiatAmountFormatted = NumberFormatter.localCurrencyFormatter.string(from: fiatAmount)
+            fiatTotalAmountText = fiatAmountFormatted == nil ? "" : (fiatCurrencySymbol + fiatAmountFormatted!)
+            cryptoWithFiatAmountText = fiatTotalAmountText.isEmpty ?
+                amountXlmStringWithSymbol :
+                "\(amountXlmStringWithSymbol) (\(fiatTotalAmountText))"
+
+            let fiatFee = NSDecimalNumber(decimal: decimalPrice).multiplying(by: NSDecimalNumber(decimal: paymentOperation.feeInXlm))
+            let fiatFeeText = NumberFormatter.localCurrencyFormatter.string(from: fiatFee) ?? ""
+            amountWithFiatFeeText = fiatFeeText.isEmpty ?
+                feeXlmStringWithSymbol :
+                "\(feeXlmStringWithSymbol) (\(fiatCurrencySymbol)\(fiatFeeText))"
+        } else {
+            fiatTotalAmountText = ""
+            cryptoWithFiatAmountText = amountXlmStringWithSymbol
+            amountWithFiatFeeText = feeXlmStringWithSymbol
+        }
+
         return BCConfirmPaymentViewModel(
             from: paymentOperation.sourceAccount.label ?? "",
             to: paymentOperation.destinationAccountId,
-            totalAmountText: "\(paymentOperation.amountInXlm)",
-            fiatTotalAMountText: "\(paymentOperation.amountInXlm)",
-            cryptoWithFiatAmountText: "\(paymentOperation.amountInXlm)",
-            amountWithFiatFeeText: "\(paymentOperation.amountInXlm + paymentOperation.feeInXlm)",
+            totalAmountText: amountXlmStringWithSymbol,
+            fiatTotalAmountText: fiatTotalAmountText,
+            cryptoWithFiatAmountText: cryptoWithFiatAmountText,
+            amountWithFiatFeeText: amountWithFiatFeeText,
             buttonTitle: LocalizationConstants.SendAsset.send,
             showDescription: true,
             surgeIsOccurring: false,
@@ -286,6 +338,10 @@ extension BCConfirmPaymentViewModel {
 }
 
 extension SendLumensViewController: SendXLMModelInterface {
+    func updateFee(_ value: Decimal) {
+        xlmFee = value
+    }
+
     func updatePrice(_ value: Decimal) {
         latestPrice = value
     }
@@ -303,9 +359,9 @@ extension SendLumensViewController: UITextFieldDelegate {
 
             var maxDecimalPlaces: Int?
             if textField == stellarAmountField {
-                maxDecimalPlaces = 6
+                maxDecimalPlaces = NumberFormatter.stellarFractionDigits
             } else if textField == fiatAmountField {
-                maxDecimalPlaces = 2
+                maxDecimalPlaces = NumberFormatter.localCurrencyFractionDigits
             }
 
             guard let decimalPlaces = maxDecimalPlaces else {

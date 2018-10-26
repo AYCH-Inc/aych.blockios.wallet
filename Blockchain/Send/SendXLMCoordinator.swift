@@ -17,7 +17,7 @@ class SendXLMCoordinator {
     fileprivate var services: XLMServices {
         return serviceProvider.services
     }
-    
+
     init(
         serviceProvider: XLMServiceProvider,
         interface: SendXLMInterface,
@@ -79,7 +79,7 @@ class SendXLMCoordinator {
                                       .fiatFieldTextColor(.error),
                                       .xlmFieldTextColor(.error),
                                       .errorLabelVisibility(.hidden),
-                                      .feeAmountLabelText("0.00 XLM")])
+                                      .feeAmountLabelText()])
             break
         }
     }
@@ -116,11 +116,22 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
 
     func onAppear() {
         let fiatSymbol = BlockchainSettings.sharedAppInstance().fiatCurrencyCode ?? "USD"
-        let disposable = services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: fiatSymbol)
-            .subscribeOn(MainScheduler.asyncInstance)
+        let disposable = Single.zip(services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: fiatSymbol), services.ledger.current.take(1).asSingle()) {
+                return ($0, $1)
+            }.subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [unowned self] price in
+            .subscribe(onSuccess: { [unowned self] price, ledger in
+                guard let feeInStroops = ledger.baseFeeInStroops else {
+                    Logger.shared.error("Fee is nil.")
+                    self.interface.apply(updates: [
+                        .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
+                    ])
+                    return
+                }
+                let feeInXlm = Decimal(feeInStroops) / Decimal(Constants.Conversions.stroopsInXlm)
+                self.modelInterface.updateFee(feeInXlm)
                 self.modelInterface.updatePrice(price.price)
+                self.interface.apply(updates: [.feeAmountLabelText()])
             }, onError: { [unowned self] error in
                 Logger.shared.error(error.localizedDescription)
                 self.interface.apply(updates: [
@@ -184,7 +195,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         disposables.insertWithDiscardableResult(disposable)
     }
     
-    func onPrimaryTapped(toAddress: String, amount: Decimal) {
+    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal) {
         let disposable = services.ledger.current
             .take(1)
             .subscribeOn(MainScheduler.asyncInstance)
@@ -194,15 +205,6 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
 
                 guard let sourceAccount = strongSelf.services.repository.defaultAccount else { return }
 
-                guard let feeInStroops = ledger.baseFeeInStroops else {
-                    Logger.shared.error("Fee is nil.")
-                    strongSelf.interface.apply(updates: [
-                        .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
-                    ])
-                    return
-                }
-
-                let feeInXlm = Decimal(feeInStroops / Constants.Conversions.stroopsInXlm)
                 let operation = StellarPaymentOperation(
                     destinationAccountId: toAddress,
                     amountInXlm: amount,

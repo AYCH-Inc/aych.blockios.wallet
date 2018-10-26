@@ -13,7 +13,8 @@ protocol SendXLMViewControllerDelegate: class {
     func onAppear()
     func onXLMEntry(_ value: String, latestPrice: Decimal)
     func onFiatEntry(_ value: String, latestPrice: Decimal)
-    func onPrimaryTapped()
+    func onPrimaryTapped(toAddress: String, amount: Decimal)
+    func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation)
     func onUseMaxTapped()
 }
 
@@ -52,6 +53,7 @@ protocol SendXLMViewControllerDelegate: class {
     fileprivate var trigger: ActionableTrigger?
 
     // MARK: - Models
+    private var pendingPaymentOperation: StellarPaymentOperation?
     private var latestPrice: Decimal? // fiat per whole unit
     private var xlmAmount: Decimal?
 
@@ -76,6 +78,9 @@ protocol SendXLMViewControllerDelegate: class {
         case fiatFieldTextColor(UIColor)
         case actionableLabelTrigger(ActionableTrigger)
         case primaryButtonEnabled(Bool)
+        case showPaymentConfirmation(StellarPaymentOperation)
+        case hidePaymentConfirmation
+        case paymentSuccess
         case stellarAmountText(String)
         case fiatAmountText(String)
     }
@@ -104,6 +109,12 @@ protocol SendXLMViewControllerDelegate: class {
         originalBottomButtonConstraint = layoutConstraintBottomButton.constant
         setUpBottomButtonContainerView()
         useMaxLabel.delegate = self
+        primaryButtonContainer.isEnabled = true
+        primaryButtonContainer.actionBlock = { [unowned self] in
+            guard let toAddress = self.stellarAddressField.text else { return }
+            guard let amount = self.xlmAmount else { return }
+            self.delegate?.onPrimaryTapped(toAddress: toAddress, amount: amount)
+        }
         delegate?.onLoad()
     }
 
@@ -129,8 +140,7 @@ protocol SendXLMViewControllerDelegate: class {
     fileprivate func apply(_ update: PresentationUpdate) {
         switch update {
         case .activityIndicatorVisibility(let visibility):
-            // TODO
-            break
+            primaryButtonContainer.isLoading = (visibility == .visible)
         case .errorLabelVisibility(let visibility):
             errorLabel.isHidden = visibility.isHidden
         case .learnAboutStellarButtonVisibility(let visibility):
@@ -172,6 +182,12 @@ protocol SendXLMViewControllerDelegate: class {
             useMaxLabel.attributedText = primary
         case .primaryButtonEnabled(let enabled):
             primaryButtonContainer.isEnabled = enabled
+        case .paymentSuccess:
+            showPaymentSuccess()
+        case .showPaymentConfirmation(let paymentOperation):
+            showPaymentConfirmation(paymentOperation: paymentOperation)
+        case .hidePaymentConfirmation:
+            ModalPresenter.shared.closeAllModals()
         case .stellarAmountText(let text):
             stellarAmountField.text = text
         case .fiatAmountText(let text):
@@ -179,11 +195,49 @@ protocol SendXLMViewControllerDelegate: class {
         }
 
     }
+
+    private func showPaymentSuccess() {
+        AlertViewPresenter.shared.standardNotify(
+            message: LocalizationConstants.SendAsset.paymentSent,
+            title: LocalizationConstants.success
+        )
+    }
+
+    private func showPaymentConfirmation(paymentOperation: StellarPaymentOperation) {
+        self.pendingPaymentOperation = paymentOperation
+        let viewModel = BCConfirmPaymentViewModel.initialize(with: paymentOperation)
+        let confirmView = BCConfirmPaymentView(
+            frame: view.frame,
+            viewModel: viewModel,
+            sendButtonFrame: primaryButtonContainer.frame
+        )!
+        confirmView.confirmDelegate = self
+        ModalPresenter.shared.showModal(
+            withContent: confirmView,
+            closeType: ModalCloseTypeBack,
+            showHeader: true,
+            headerText: LocalizationConstants.SendAsset.confirmPayment
+        )
+    }
 }
 
 extension SendLumensViewController: SendXLMInterface {
     func apply(updates: [PresentationUpdate]) {
         updates.forEach({ apply($0) })
+    }
+}
+
+extension SendLumensViewController: ConfirmPaymentViewDelegate {
+    func confirmButtonDidTap(_ note: String?) {
+        guard let paymentOperation = pendingPaymentOperation else {
+            Logger.shared.warning("No pending payment operation")
+            return
+        }
+        delegate?.onConfirmPayTapped(paymentOperation)
+    }
+
+    func feeInformationButtonClicked() {
+        // TODO
     }
 }
 
@@ -208,6 +262,26 @@ extension SendLumensViewController: QRCodeScannerViewControllerDelegate {
         }
         stellarAddressField.text = payload.address
         stellarAmountField.text = payload.amount
+    }
+}
+
+extension BCConfirmPaymentViewModel {
+    static func initialize(with paymentOperation: StellarPaymentOperation) -> BCConfirmPaymentViewModel {
+        // TODO set actual values
+        // TICKET: IOS-1523
+        return BCConfirmPaymentViewModel(
+            from: paymentOperation.sourceAccount.label ?? "",
+            to: paymentOperation.destinationAccountId,
+            totalAmountText: "\(paymentOperation.amountInXlm)",
+            fiatTotalAMountText: "\(paymentOperation.amountInXlm)",
+            cryptoWithFiatAmountText: "\(paymentOperation.amountInXlm)",
+            amountWithFiatFeeText: "\(paymentOperation.amountInXlm + paymentOperation.feeInXlm)",
+            buttonTitle: LocalizationConstants.SendAsset.send,
+            showDescription: true,
+            surgeIsOccurring: false,
+            noteText: nil,
+            warningText: nil
+        )
     }
 }
 

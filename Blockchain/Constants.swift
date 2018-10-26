@@ -13,6 +13,9 @@ struct Constants {
     struct Conversions {
         // SATOSHI = 1e8 (100,000,000)
         static let satoshi = UInt64(1e8)
+
+        /// Stroop is a measurement of 1/10,000,000th of an XLM
+        static let stroopsInXlm = Int(1e7)
     }
 
     struct AppStore {

@@ -555,6 +555,18 @@ struct LocalizationConstants {
             "Invalid %@ address: %@",
             comment: "String presented to the user when they try to scan a QR code with an invalid address."
         )
+        static let send = NSLocalizedString(
+            "Send",
+            comment: "Text displayed on the button for when a user wishes to send crypto."
+        )
+        static let confirmPayment = NSLocalizedString(
+            "Confirm Payment",
+            comment: "Header displayed asking the user to confirm their payment."
+        )
+        static let paymentSent = NSLocalizedString(
+            "Payment sent",
+            comment: "Alert message shown when crypto is successfully sent to a recipient."
+        )
     }
 
     struct SendEther {
@@ -856,6 +868,10 @@ struct LocalizationConstants {
         static let enterYourSecondPassword = NSLocalizedString(
             "Enter Your Second Password",
             comment: "Text on the button prompting the user to enter their second password to proceed with creating an XLM account."
+        )
+        static let cannotSendXLMAtThisTime = NSLocalizedString(
+            "Cannot send XLM at this time. Please try again.",
+            comment: "Error displayed when XLM cannot be sent due to an error."
         )
     }
 }

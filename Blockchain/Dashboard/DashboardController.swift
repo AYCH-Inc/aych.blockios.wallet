@@ -285,17 +285,8 @@ final class DashboardController: UIViewController {
         let ethFiatBalance = getEthBalance()
         let bchFiatBalance = getBchBalance()
 
-        let stellarAccount = StellarAccountService(repository: WalletXlmAccountRepository())
-        let account = stellarAccount.currentStellarAccount(fromCache: true)
-        _ = account
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { account in
-                print(account.assetAccount.balance)
-            }, onError: { error in
-                print(error)
-                self.balancesChartView.updateStellarBalance("0")
-            })
+        // TODO: display XLM balance...
+        self.balancesChartView.updateStellarBalance("0")
 
         let watchOnlyFiatBalance = getBtcWatchOnlyBalance()
         guard let latestMultiAddressResponse = WalletManager.shared.latestMultiAddressResponse,

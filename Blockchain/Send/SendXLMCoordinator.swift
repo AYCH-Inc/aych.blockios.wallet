@@ -115,7 +115,8 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     }
 
     func onAppear() {
-        let disposable = services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: "USD")
+        let fiatSymbol = BlockchainSettings.sharedAppInstance().fiatCurrencyCode ?? "USD"
+        let disposable = services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: fiatSymbol)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [unowned self] price in

@@ -86,6 +86,9 @@
                                                 <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Vh5-KK-icm" id="qOI-vy-g9v"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -103,22 +106,28 @@
                                                 <color key="textColor" red="0.23100000000000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Vh5-KK-icm" id="It2-WE-9Al"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="n1a-Tz-btJ">
-                                <rect key="frame" x="16" y="142" width="359" height="17"/>
+                                <rect key="frame" x="16" y="142" width="359" height="49"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use total available minus fee: $1.23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yjn-At-qaA" customClass="ActionableLabel" customModule="Blockchain" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="219.5" height="16"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="219.5" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="WNc-th-ZxI"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
                                         <color key="textColor" red="0.106" green="0.54117647059999996" blue="0.78039215689999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G9k-42-cK5">
-                                        <rect key="frame" x="0.0" y="16" width="359" height="1"/>
+                                        <rect key="frame" x="0.0" y="48" width="359" height="1"/>
                                         <color key="backgroundColor" red="0.80400000000000005" green="0.80400000000000005" blue="0.80400000000000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="yZ5-aZ-5xN"/>
@@ -127,7 +136,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Sgf-Us-8Ec">
-                                <rect key="frame" x="16" y="171" width="359" height="55.5"/>
+                                <rect key="frame" x="16" y="203" width="359" height="94.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="FO3-aJ-Oqz">
                                         <rect key="frame" x="0.0" y="0.0" width="266" height="42.5"/>
@@ -164,6 +173,13 @@
                                             <constraint firstAttribute="height" constant="1" id="A6Y-6K-jyG"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e7p-NS-YlT">
+                                        <rect key="frame" x="0.0" y="67.5" width="343" height="27"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                        <state key="normal" title="Learn about Stellar's minimum balance">
+                                            <color key="titleColor" red="0.059999999999999998" green="0.68000000000000005" blue="0.89000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="5cB-ww-aRK" firstAttribute="width" secondItem="Sgf-Us-8Ec" secondAttribute="width" id="W6O-C5-vWl"/>
@@ -193,6 +209,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="FPN-1W-rC1" firstAttribute="leading" secondItem="GtF-xh-Upa" secondAttribute="leading" id="1Ld-Gs-fNX"/>
+                            <constraint firstItem="e7p-NS-YlT" firstAttribute="trailing" secondItem="QyP-0z-OPb" secondAttribute="trailing" id="1Ul-kl-tSL"/>
                             <constraint firstAttribute="trailing" secondItem="FPN-1W-rC1" secondAttribute="trailing" id="7n6-vG-DAU"/>
                             <constraint firstAttribute="trailing" secondItem="Egb-08-LKE" secondAttribute="trailing" id="BLf-Dq-Qry"/>
                             <constraint firstItem="GtF-xh-Upa" firstAttribute="leading" secondItem="0NP-Xq-DCS" secondAttribute="leading" id="CAG-u4-dXh"/>
@@ -209,6 +226,7 @@
                             <constraint firstItem="T6x-qT-fE8" firstAttribute="top" secondItem="pUz-IB-qem" secondAttribute="bottom" constant="12" id="hbS-wB-OqR"/>
                             <constraint firstItem="a4K-NR-VXn" firstAttribute="trailing" secondItem="4ye-dY-fMv" secondAttribute="trailing" constant="20" id="hj4-L7-XJF"/>
                             <constraint firstItem="Sgf-Us-8Ec" firstAttribute="top" secondItem="n1a-Tz-btJ" secondAttribute="bottom" constant="12" id="iRA-OX-Ynh"/>
+                            <constraint firstItem="e7p-NS-YlT" firstAttribute="leading" secondItem="0NP-Xq-DCS" secondAttribute="leading" id="ie4-xj-F4D"/>
                             <constraint firstItem="Egb-08-LKE" firstAttribute="width" secondItem="T6x-qT-fE8" secondAttribute="width" id="mrD-K8-Vhw"/>
                             <constraint firstItem="Sgf-Us-8Ec" firstAttribute="trailing" secondItem="a4K-NR-VXn" secondAttribute="trailing" id="nMO-Tw-Rfu"/>
                             <constraint firstItem="pUz-IB-qem" firstAttribute="top" secondItem="a4K-NR-VXn" secondAttribute="top" constant="12" id="oa4-1c-81Y"/>
@@ -230,6 +248,7 @@
                         <outlet property="fiatSymbolLabel" destination="SL1-yW-mTl" id="5gD-ap-BHG"/>
                         <outlet property="fromLabel" destination="0NP-Xq-DCS" id="txE-W3-k1K"/>
                         <outlet property="layoutConstraintBottomButton" destination="f3m-df-lCb" id="zI0-1j-vhb"/>
+                        <outlet property="learnAbountStellarButton" destination="e7p-NS-YlT" id="fgM-Cd-AHg"/>
                         <outlet property="primaryButtonContainer" destination="4ye-dY-fMv" id="RB1-sC-pFn"/>
                         <outlet property="stellarAddressField" destination="QyP-0z-OPb" id="Okb-c2-kK5"/>
                         <outlet property="stellarAmountField" destination="3Gh-Nc-nUi" id="6so-Jk-61b"/>

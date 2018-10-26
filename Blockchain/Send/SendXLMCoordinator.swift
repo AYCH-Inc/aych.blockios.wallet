@@ -113,21 +113,40 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             })
         disposables.insertWithDiscardableResult(disposable)
     }
+
+    func onAppear() {
+        let disposable = services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: "USD")
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [unowned self] price in
+                self.modelInterface.updatePrice(price.price)
+            }, onError: { error in
+                Logger.shared.error("Failed to get XLM price: \(error.localizedDescription)")
+                AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
+            })
+        disposables.insertWithDiscardableResult(disposable)
+    }
     
     func onXLMEntry(_ value: String, latestPrice: Decimal) {
         // TODO: move to a service?
         modelInterface.updateXLMAmount(NSDecimalNumber(string: value).decimalValue)
         let fiat = NSDecimalNumber(decimal: latestPrice).multiplying(by: NSDecimalNumber(string: value))
-        let fiatText = NumberFormatter.localCurrencyFormatter.string(from: fiat)
-        // update fiat field
+        guard let fiatText = NumberFormatter.localCurrencyFormatter.string(from: fiat) else {
+            Logger.shared.error("Could not format fiat text")
+            return
+        }
+        interface.apply(updates: [.fiatAmountText(fiatText)])
     }
     
     func onFiatEntry(_ value: String, latestPrice: Decimal) {
         // TODO: move to a service?
         let crypto = NSDecimalNumber(decimal: latestPrice).dividing(by: NSDecimalNumber(string: value))
         modelInterface.updateXLMAmount(crypto.decimalValue)
-        let cryptoText = NumberFormatter.assetFormatter.string(from: crypto)
-        // update crypto field
+        guard let cryptoText = NumberFormatter.assetFormatter.string(from: crypto) else {
+            Logger.shared.error("Could not format crypto text")
+            return
+        }
+        interface.apply(updates: [.stellarAmountText(cryptoText)])
     }
     
     func onSecondaryPasswordValidated() {

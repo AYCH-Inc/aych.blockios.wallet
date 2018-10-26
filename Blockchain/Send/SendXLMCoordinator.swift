@@ -12,14 +12,20 @@ import RxSwift
 class SendXLMCoordinator {
     fileprivate let serviceProvider: XLMServiceProvider
     fileprivate let interface: SendXLMInterface
+    fileprivate let modelInterface: SendXLMModelInterface
     fileprivate let disposables = CompositeDisposable()
     fileprivate var services: XLMServices {
         return serviceProvider.services
     }
     
-    init(serviceProvider: XLMServiceProvider, interface: SendXLMInterface) {
+    init(
+        serviceProvider: XLMServiceProvider,
+        interface: SendXLMInterface,
+        modelInterface: SendXLMModelInterface
+    ) {
         self.serviceProvider = serviceProvider
         self.interface = interface
+        self.modelInterface = modelInterface
         if let controller = interface as? SendLumensViewController {
             controller.delegate = self
         }
@@ -107,13 +113,43 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             })
         disposables.insertWithDiscardableResult(disposable)
     }
-    
-    func onXLMEntry(_ value: String) {
-        
+
+    func onAppear() {
+        let fiatSymbol = BlockchainSettings.sharedAppInstance().fiatCurrencyCode ?? "USD"
+        let disposable = services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: fiatSymbol)
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [unowned self] price in
+                self.modelInterface.updatePrice(price.price)
+            }, onError: { [unowned self] error in
+                Logger.shared.error(error.localizedDescription)
+                self.interface.apply(updates: [
+                    .errorLabelText(LocalizationConstants.Errors.genericError)
+                ])
+            })
+        disposables.insertWithDiscardableResult(disposable)
     }
     
-    func onFiatEntry(_ value: String) {
-        
+    func onXLMEntry(_ value: String, latestPrice: Decimal) {
+        guard let decimal = Decimal(string: value) else { return }
+        modelInterface.updateXLMAmount(NSDecimalNumber(string: value).decimalValue)
+        let fiat = NSDecimalNumber(decimal: latestPrice).multiplying(by: NSDecimalNumber(decimal: decimal))
+        guard let fiatText = NumberFormatter.localCurrencyFormatter.string(from: fiat) else {
+            Logger.shared.error("Could not format fiat text")
+            return
+        }
+        interface.apply(updates: [.fiatAmountText(fiatText)])
+    }
+    
+    func onFiatEntry(_ value: String, latestPrice: Decimal) {
+        guard let decimal = Decimal(string: value) else { return }
+        let crypto = NSDecimalNumber(decimal: decimal).dividing(by: NSDecimalNumber(decimal: latestPrice))
+        modelInterface.updateXLMAmount(crypto.decimalValue)
+        guard let cryptoText = NumberFormatter.stellarFormatter.string(from: crypto) else {
+            Logger.shared.error("Could not format crypto text")
+            return
+        }
+        interface.apply(updates: [.stellarAmountText(cryptoText)])
     }
     
     func onSecondaryPasswordValidated() {

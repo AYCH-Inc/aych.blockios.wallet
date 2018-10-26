@@ -502,18 +502,19 @@ final class DashboardController: UIViewController {
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { priceMap in
-                if let btcPrice = priceMap[AssetType.bitcoin]?.price,
-                    let ethPrice = priceMap[AssetType.ethereum]?.price,
-                    let bchPrice = priceMap[AssetType.bitcoinCash]?.price,
-                    let xlmPrice = priceMap[AssetType.stellar]?.price,
-                    let formattedBtcPrice = self.currencyFormatter.string(from: NSDecimalNumber(decimal: btcPrice)),
-                    let formattedEthPrice = self.currencyFormatter.string(from: NSDecimalNumber(decimal: ethPrice)),
-                    let formattedBchPrice = self.currencyFormatter.string(from: NSDecimalNumber(decimal: bchPrice)),
-                    let formattedXlmPrice = self.currencyFormatter.string(from: NSDecimalNumber(decimal: xlmPrice)) {
-                        self.bitcoinPricePreviewView?.price = formattedBtcPrice
-                        self.etherPricePreviewView?.price = formattedEthPrice
-                        self.bitcoinCashPricePreviewView?.price = formattedBchPrice
-                        self.stellarPricePreviewView?.price = formattedXlmPrice
+                AssetType.all.forEach { type in
+                    let price = priceMap[type]?.price ?? 0
+                    let formattedPrice = self.currencyFormatter.string(for: NSDecimalNumber(decimal: price))!
+                    switch type {
+                    case .bitcoin:
+                        self.bitcoinPricePreviewView?.price = formattedPrice
+                    case .ethereum:
+                        self.etherPricePreviewView?.price = formattedPrice
+                    case .bitcoinCash:
+                        self.bitcoinCashPricePreviewView?.price = formattedPrice
+                    case .stellar:
+                        self.stellarPricePreviewView?.price = formattedPrice
+                    }
                 }
             }, onError: { error in
                 Logger.shared.error(error.localizedDescription)

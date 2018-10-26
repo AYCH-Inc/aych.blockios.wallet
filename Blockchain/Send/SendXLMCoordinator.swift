@@ -131,7 +131,6 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     }
     
     func onXLMEntry(_ value: String, latestPrice: Decimal) {
-        // TODO: move to a service?
         guard let decimal = Decimal(string: value) else { return }
         modelInterface.updateXLMAmount(NSDecimalNumber(string: value).decimalValue)
         let fiat = NSDecimalNumber(decimal: latestPrice).multiplying(by: NSDecimalNumber(decimal: decimal))
@@ -143,7 +142,6 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     }
     
     func onFiatEntry(_ value: String, latestPrice: Decimal) {
-        // TODO: move to a service?
         guard let decimal = Decimal(string: value) else { return }
         let crypto = NSDecimalNumber(decimal: decimal).dividing(by: NSDecimalNumber(decimal: latestPrice))
         modelInterface.updateXLMAmount(crypto.decimalValue)

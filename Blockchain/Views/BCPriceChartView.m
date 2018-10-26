@@ -40,6 +40,9 @@
 
 @property (nonatomic) NSArray *lastUpdatedValues;
 
+// TICKET: IOS-1525 - rewrite BCPriceChartView in Swift, remove property and get price from PriceServiceClient
+@property (nonatomic) double lastXlmPrice;
+
 @property (nonatomic) UIActivityIndicatorView *spinner;
 @end
 
@@ -254,13 +257,18 @@
     [self.titleLabel sizeToFit];
     self.titleLabel.center = CGPointMake([self.titleLabel superview].bounds.size.width/2, self.titleLabel.center.y);
     
-    self.priceLabel.text = [self getPriceLabelText];
-    [self.priceLabel sizeToFit];
-    
     double firstPrice = [[[values firstObject] objectForKey:DICTIONARY_KEY_PRICE] doubleValue];
     double lastPrice = [[[values lastObject] objectForKey:DICTIONARY_KEY_PRICE] doubleValue];
     double difference = lastPrice - firstPrice;
     double percentChange = (difference / firstPrice) * 100;
+
+    // TODO: remove temporary code
+    if (self.assetType == LegacyAssetTypeStellar) {
+        self.lastXlmPrice = lastPrice;
+    }
+
+    self.priceLabel.text = [self getPriceLabelText];
+    [self.priceLabel sizeToFit];
     
     self.arrowImageView.hidden = NO;
     self.arrowImageView.tintColor = UIColor.green;
@@ -422,6 +430,7 @@
 - (NSString *)getPriceLabelText
 {
     NSDecimalNumber *ethExchangeRate = [AppCoordinator sharedInstance].tabControllerManager.latestEthExchangeRate;
+    NSNumberFormatter *currencyFormatter = [[NSNumberFormatter alloc] init];
     switch (self.assetType) {
         case LegacyAssetTypeBitcoin:
             return [NSNumberFormatter formatMoney:SATOSHI localCurrency:YES];
@@ -430,8 +439,11 @@
         case LegacyAssetTypeBitcoinCash:
             return [NSNumberFormatter formatBchWithSymbol:SATOSHI localCurrency:YES];
         case LegacyAssetTypeStellar:
-            // TODO: get formatted price
-            return @"$0";
+            // TODO: use formatter pool to source currencyFormatter
+            currencyFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
+            currencyFormatter.maximumFractionDigits = 2;
+            currencyFormatter.currencySymbol = [[WalletManager sharedInstance] latestMultiAddressResponse].symbol_local.symbol;
+            return [currencyFormatter stringFromNumber:[[NSNumber alloc] initWithDouble:self.lastXlmPrice]];
     }
 }
 

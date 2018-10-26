@@ -201,9 +201,9 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                     ])
                     return
                 }
-                let stroopsInXlmDecimal = Decimal(integerLiteral: Constants.Conversions.stroopsInXlm)
+                let stroopsInXlmDecimal = Decimal(Constants.Conversions.stroopsInXlm)
                 let stroopsInXlmDecimalNumber = NSDecimalNumber(decimal: stroopsInXlmDecimal)
-                let feeInXlmDecimal = Decimal(integerLiteral: feeInStroops)
+                let feeInXlmDecimal = Decimal(feeInStroops)
                 let feeInXlm = NSDecimalNumber(decimal: feeInXlmDecimal).dividing(by: stroopsInXlmDecimalNumber)
                 let operation = StellarPaymentOperation(
                     destinationAccountId: toAddress,

@@ -61,7 +61,7 @@
         titleContainerView.backgroundColor = [UIColor clearColor];
         titleContainerView.center = CGPointMake(self.bounds.size.width/2, titleContainerView.center.y);
         
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         titleLabel.textColor = UIColor.brandPrimary;
         titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_EXTRALIGHT size:FONT_SIZE_EXTRA_SMALL];
         [titleContainerView addSubview:titleLabel];

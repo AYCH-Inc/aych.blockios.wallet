@@ -270,10 +270,16 @@ extension BCConfirmPaymentViewModel {
         with paymentOperation: StellarPaymentOperation,
         price: Decimal?
     ) -> BCConfirmPaymentViewModel {
+        let assetType: AssetType = .stellar
+        let xlmSymbol = assetType.symbol
+
         let amountXlmDecimalNumber = NSDecimalNumber(decimal: paymentOperation.amountInXlm)
         let amountXlmString = NumberFormatter.stellarFormatter.string(from: amountXlmDecimalNumber) ?? "\(paymentOperation.amountInXlm)"
+        let amountXlmStringWithSymbol = amountXlmString + " " + xlmSymbol
+
         let feeXlmDecimalNumber = NSDecimalNumber(decimal: paymentOperation.feeInXlm)
         let feeXlmString = NumberFormatter.stellarFormatter.string(from: feeXlmDecimalNumber) ?? "\(paymentOperation.feeInXlm)"
+        let feeXlmStringWithSymbol = feeXlmString + " " + xlmSymbol
 
         let fiatTotalAmountText: String
         let cryptoWithFiatAmountText: String
@@ -283,24 +289,24 @@ extension BCConfirmPaymentViewModel {
             let fiatAmount = NSDecimalNumber(decimal: decimalPrice).multiplying(by: NSDecimalNumber(decimal: paymentOperation.amountInXlm))
             fiatTotalAmountText = NumberFormatter.localCurrencyFormatter.string(from: fiatAmount) ?? ""
             cryptoWithFiatAmountText = fiatTotalAmountText.isEmpty ?
-                amountXlmString :
-                "\(amountXlmString) (\(fiatTotalAmountText))"
+                amountXlmStringWithSymbol :
+                "\(amountXlmStringWithSymbol) (\(fiatTotalAmountText))"
 
             let fiatFee = NSDecimalNumber(decimal: decimalPrice).multiplying(by: NSDecimalNumber(decimal: paymentOperation.feeInXlm))
             let fiatFeeText = NumberFormatter.localCurrencyFormatter.string(from: fiatFee) ?? ""
             amountWithFiatFeeText = fiatFeeText.isEmpty ?
-                feeXlmString :
-                "\(feeXlmString) (\(fiatFeeText))"
+                feeXlmStringWithSymbol :
+                "\(feeXlmStringWithSymbol) (\(fiatFeeText))"
         } else {
-            fiatTotalAmountText = amountXlmString
-            cryptoWithFiatAmountText = amountXlmString
-            amountWithFiatFeeText = feeXlmString
+            fiatTotalAmountText = amountXlmStringWithSymbol
+            cryptoWithFiatAmountText = amountXlmStringWithSymbol
+            amountWithFiatFeeText = feeXlmStringWithSymbol
         }
 
         return BCConfirmPaymentViewModel(
             from: paymentOperation.sourceAccount.label ?? "",
             to: paymentOperation.destinationAccountId,
-            totalAmountText: amountXlmString,
+            totalAmountText: amountXlmStringWithSymbol,
             fiatTotalAmountText: fiatTotalAmountText,
             cryptoWithFiatAmountText: cryptoWithFiatAmountText,
             amountWithFiatFeeText: amountWithFiatFeeText,

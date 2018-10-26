@@ -10,6 +10,7 @@ import Foundation
 
 protocol SendXLMViewControllerDelegate: class {
     func onLoad()
+    func onAppear()
     func onXLMEntry(_ value: String, latestPrice: Decimal)
     func onFiatEntry(_ value: String, latestPrice: Decimal)
     func onPrimaryTapped()
@@ -75,6 +76,8 @@ protocol SendXLMViewControllerDelegate: class {
         case fiatFieldTextColor(UIColor)
         case actionableLabelTrigger(ActionableTrigger)
         case primaryButtonEnabled(Bool)
+        case stellarAmountText(String)
+        case fiatAmountText(String)
     }
 
     // MARK: Public Methods
@@ -102,6 +105,11 @@ protocol SendXLMViewControllerDelegate: class {
         setUpBottomButtonContainerView()
         useMaxLabel.delegate = self
         delegate?.onLoad()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        delegate?.onAppear()
     }
     
     fileprivate func useMaxAttributes() -> [NSAttributedStringKey: Any] {
@@ -164,7 +172,12 @@ protocol SendXLMViewControllerDelegate: class {
             useMaxLabel.attributedText = primary
         case .primaryButtonEnabled(let enabled):
             primaryButtonContainer.isEnabled = enabled
+        case .stellarAmountText(let text):
+            stellarAmountField.text = text
+        case .fiatAmountText(let text):
+            fiatAmountField.text = text
         }
+
     }
 }
 

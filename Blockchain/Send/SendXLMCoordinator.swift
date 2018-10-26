@@ -129,8 +129,9 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     
     func onXLMEntry(_ value: String, latestPrice: Decimal) {
         // TODO: move to a service?
+        guard let decimal = Decimal(string: value) else { return }
         modelInterface.updateXLMAmount(NSDecimalNumber(string: value).decimalValue)
-        let fiat = NSDecimalNumber(decimal: latestPrice).multiplying(by: NSDecimalNumber(string: value))
+        let fiat = NSDecimalNumber(decimal: latestPrice).multiplying(by: NSDecimalNumber(decimal: decimal))
         guard let fiatText = NumberFormatter.localCurrencyFormatter.string(from: fiat) else {
             Logger.shared.error("Could not format fiat text")
             return
@@ -140,7 +141,8 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     
     func onFiatEntry(_ value: String, latestPrice: Decimal) {
         // TODO: move to a service?
-        let crypto = NSDecimalNumber(decimal: latestPrice).dividing(by: NSDecimalNumber(string: value))
+        guard let decimal = Decimal(string: value) else { return }
+        let crypto = NSDecimalNumber(decimal: decimal).dividing(by: NSDecimalNumber(decimal: latestPrice))
         modelInterface.updateXLMAmount(crypto.decimalValue)
         guard let cryptoText = NumberFormatter.assetFormatter.string(from: crypto) else {
             Logger.shared.error("Could not format crypto text")

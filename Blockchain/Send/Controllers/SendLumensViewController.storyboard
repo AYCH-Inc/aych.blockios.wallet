@@ -86,6 +86,9 @@
                                                 <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Vh5-KK-icm" id="qOI-vy-g9v"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -103,6 +106,9 @@
                                                 <color key="textColor" red="0.23100000000000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Vh5-KK-icm" id="It2-WE-9Al"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>

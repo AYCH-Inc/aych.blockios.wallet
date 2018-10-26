@@ -155,11 +155,72 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     func onSecondaryPasswordValidated() {
         
     }
-    
-    func onPrimaryTapped() {
-        
+
+    func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation) {
+        let transaction = services.transaction
+        let disposable = services.repository.loadStellarKeyPair()
+            .asObservable()
+            .do(onNext: { [weak self] _ in
+                self?.interface.apply(updates: [
+                    .hidePaymentConfirmation,
+                    .activityIndicatorVisibility(.visible)
+                ])
+            }).flatMap { keyPair -> Completable in
+                return transaction.send(paymentOperation, sourceKeyPair: keyPair)
+            }.subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onError: { [weak self] error in
+                Logger.shared.error("Failed to send XLM. Error: \(error)")
+                self?.interface.apply(updates: [
+                    .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
+                    .activityIndicatorVisibility(.hidden)
+                ])
+            }, onCompleted: { [weak self] in
+                self?.interface.apply(updates: [
+                    .paymentSuccess,
+                    .activityIndicatorVisibility(.hidden)
+                ])
+            })
+        disposables.insertWithDiscardableResult(disposable)
     }
     
+    func onPrimaryTapped(toAddress: String, amount: Decimal) {
+        let disposable = services.ledger.current
+            .take(1)
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] ledger in
+                guard let strongSelf = self else { return }
+
+                guard let sourceAccount = strongSelf.services.repository.defaultAccount else { return }
+
+                guard let feeInStroops = ledger.baseFeeInStroops else {
+                    Logger.shared.error("Fee is nil.")
+                    strongSelf.interface.apply(updates: [
+                        .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
+                    ])
+                    return
+                }
+
+                let feeInXlm = Decimal(feeInStroops / Constants.Conversions.stroopsInXlm)
+                let operation = StellarPaymentOperation(
+                    destinationAccountId: toAddress,
+                    amountInXlm: amount,
+                    sourceAccount: sourceAccount,
+                    feeInXlm: feeInXlm
+                )
+                strongSelf.interface.apply(updates: [
+                    .showPaymentConfirmation(operation)
+                ])
+        }, onError: { [weak self] error in
+            Logger.shared.error("Could not fetch ledger")
+            self?.interface.apply(updates: [
+                .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
+            ])
+        })
+        disposables.insertWithDiscardableResult(disposable)
+    }
+
     func onUseMaxTapped() {
         
     }

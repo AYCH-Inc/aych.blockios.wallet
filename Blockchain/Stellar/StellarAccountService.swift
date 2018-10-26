@@ -51,81 +51,25 @@ class StellarAccountService: StellarAccountAPI {
             self?.privateAccount.accept(account)
         })
     }
-    
-    func accountDetails(for accountID: AccountID) -> Maybe<StellarAccount> {
-        return Maybe<StellarAccount>.create { [weak self] event -> Disposable in
+
+    func accountResponse(for accountID: AccountID) -> Single<AccountResponse> {
+        return Single<AccountResponse>.create { [weak self] event -> Disposable in
             self?.service.getAccountDetails(accountId: accountID, response: { response -> (Void) in
                 switch response {
                 case .success(details: let details):
-                    let totalBalance = details.balances.reduce(Decimal(0)) { $0 + (Decimal(string: $1.balance) ?? 0) }
-                    let assetAddress = AssetAddressFactory.create(
-                        fromAddressString: accountID,
-                        assetType: .stellar
-                    )
-                    let assetAccount = AssetAccount(
-                        index: 0,
-                        address: assetAddress,
-                        balance: totalBalance,
-                        name: LocalizationConstants.Stellar.defaultLabelName
-                    )
-                    let account = StellarAccount(
-                        identifier: accountID,
-                        assetAccount: assetAccount,
-                        sequence: Int(details.sequenceNumber),
-                        subentryCount: Int(details.subentryCount)
-                    )
-                    
-                    event(.success(account))
-                    
+                    event(.success(details))
                 case .failure(error: let error):
-                    switch error {
-                    case .notFound:
-                        event(.error(StellarServiceError.noDefaultAccount))
-                    case .rateLimitExceeded:
-                        event(.error(StellarServiceError.rateLimitExceeded))
-                    case .internalServerError:
-                        event(.error(StellarServiceError.internalError))
-                    case .parsingResponseFailed:
-                        event(.error(StellarServiceError.parsingError))
-                    case .forbidden:
-                        event(.error(StellarServiceError.forbidden))
-                    default:
-                        event(.error(StellarServiceError.unknown))
-                    }
+                    event(.error(error.toStellarServiceError()))
                 }
             })
             return Disposables.create()
         }
     }
     
-    func accountDetails(
-        for accountID: StellarAccountAPI.AccountID,
-        completion: @escaping AccountDetailsCompletion) {
-        service.getAccountDetails(accountId: accountID) { response -> Void in
-            switch response {
-            case .success(details: let details):
-                let totalBalance = details.balances.reduce(Decimal(0)) { $0 + (Decimal(string: $1.balance) ?? 0) }
-                let assetAddress = AssetAddressFactory.create(
-                    fromAddressString: accountID,
-                    assetType: .stellar
-                )
-                let assetAccount = AssetAccount(
-                    index: 0,
-                    address: assetAddress,
-                    balance: totalBalance,
-                    name: LocalizationConstants.Stellar.defaultLabelName
-                )
-                let account = StellarAccount(
-                    identifier: accountID,
-                    assetAccount: assetAccount,
-                    sequence: Int(details.sequenceNumber),
-                    subentryCount: Int(details.subentryCount)
-                )
-                completion(.success(account))
-            case .failure(error: let error):
-                completion(.error(error))
-            }
-        }
+    func accountDetails(for accountID: AccountID) -> Maybe<StellarAccount> {
+        return accountResponse(for: accountID).map { details -> StellarAccount in
+            return details.toStellarAccount()
+        }.asMaybe()
     }
     
     func fundAccount(
@@ -133,5 +77,48 @@ class StellarAccountService: StellarAccountAPI {
         amount: Decimal,
         completion: @escaping StellarAccountAPI.CompletionHandler) {
         // TODO: Create and fund account
+    }
+}
+
+// MARK: - Extension
+
+extension AccountResponse {
+    func toStellarAccount() -> StellarAccount {
+        let totalBalance = balances.reduce(Decimal(0)) { $0 + (Decimal(string: $1.balance) ?? 0) }
+        let assetAddress = AssetAddressFactory.create(
+            fromAddressString: accountId,
+            assetType: .stellar
+        )
+        let assetAccount = AssetAccount(
+            index: 0,
+            address: assetAddress,
+            balance: totalBalance,
+            name: LocalizationConstants.Stellar.defaultLabelName
+        )
+        return StellarAccount(
+            identifier: accountId,
+            assetAccount: assetAccount,
+            sequence: Int(sequenceNumber),
+            subentryCount: Int(subentryCount)
+        )
+    }
+}
+
+extension HorizonRequestError {
+    func toStellarServiceError() -> StellarServiceError {
+        switch self {
+        case .notFound:
+            return .noDefaultAccount
+        case .rateLimitExceeded:
+            return .rateLimitExceeded
+        case .internalServerError:
+            return .internalError
+        case .parsingResponseFailed:
+            return .parsingError
+        case .forbidden:
+            return .forbidden
+        default:
+            return .unknown
+        }
     }
 }

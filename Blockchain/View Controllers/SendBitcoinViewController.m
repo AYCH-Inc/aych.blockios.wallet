@@ -1625,7 +1625,7 @@ BOOL displayingLocalSymbolSend;
 
 #pragma mark - Transaction Description Delegate
 
-- (void)setupNoteForTransaction:(NSString *)note
+- (void)confirmButtonDidTap:(NSString *_Nullable)note
 {
     self.noteToSet = note;
 }

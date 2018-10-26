@@ -439,27 +439,16 @@ final class DashboardController: UIViewController {
 
     // MARK: - Text Helpers
 
-    private func dateStringFromGraphValue(value: Double) -> String? {
-        guard let dateFormat = getDateFormat() else {
-            Logger.shared.warning("Failed to get date format!")
-            return nil
-        }
-        dateFormatter.dateFormat = dateFormat
-        return dateFormatter.string(from: Date(timeIntervalSince1970: value))
-    }
-
-    private func getDateFormat() -> String? {
+    private func dateStringFromGraphValue(value: Double) -> String {
         let key = UserDefaults.Keys.graphTimeFrameKey.rawValue
-        guard let data = UserDefaults.standard.object(forKey: key) as? Data,
-            let timeFrame = NSKeyedUnarchiver.unarchiveObject(with: data) as? GraphTimeFrame else {
-                Logger.shared.warning("Failed to unarchive the data object with key \(key)")
-                return nil
+        if let data = UserDefaults.standard.object(forKey: key) as? Data,
+            let timeFrame = NSKeyedUnarchiver.unarchiveObject(with: data) as? GraphTimeFrame,
+            let dateFormat = timeFrame.dateFormat {
+            dateFormatter.dateFormat = dateFormat
+        } else {
+            dateFormatter.dateFormat = GraphTimeFrame.timeFrameDay().dateFormat
         }
-        guard let dateFormat = timeFrame.dateFormat else {
-            Logger.shared.warning("Failed to get date format from GraphTimeFrame!")
-            return nil
-        }
-        return dateFormat
+        return dateFormatter.string(from: Date(timeIntervalSince1970: value))
     }
 
     private func getBtcBalance() -> Double {

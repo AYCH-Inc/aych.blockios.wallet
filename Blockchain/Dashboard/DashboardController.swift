@@ -282,8 +282,8 @@ final class DashboardController: UIViewController {
         let ethFiatBalance = getEthBalance()
         let bchFiatBalance = getBchBalance()
 
-        let stellarAccount = StellarAccountService(repository: WalletXlmAccountRepository())
-        let account = stellarAccount.currentStellarAccount(fromCache: true)
+        let service = StellarAccountService(configuration: .test, repository: WalletXlmAccountRepository())
+        let account = service.currentStellarAccount(fromCache: true)
         _ = account
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)

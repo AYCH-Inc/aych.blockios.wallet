@@ -205,7 +205,7 @@ protocol SendXLMViewControllerDelegate: class {
 
     private func showPaymentConfirmation(paymentOperation: StellarPaymentOperation) {
         self.pendingPaymentOperation = paymentOperation
-        let viewModel = BCConfirmPaymentViewModel.initialize(with: paymentOperation)
+        let viewModel = BCConfirmPaymentViewModel.initialize(with: paymentOperation, price: latestPrice)
         let confirmView = BCConfirmPaymentView(
             frame: view.frame,
             viewModel: viewModel,
@@ -266,16 +266,44 @@ extension SendLumensViewController: QRCodeScannerViewControllerDelegate {
 }
 
 extension BCConfirmPaymentViewModel {
-    static func initialize(with paymentOperation: StellarPaymentOperation) -> BCConfirmPaymentViewModel {
-        // TODO set actual values
-        // TICKET: IOS-1523
+    static func initialize(
+        with paymentOperation: StellarPaymentOperation,
+        price: Decimal?
+    ) -> BCConfirmPaymentViewModel {
+        let amountXlmDecimalNumber = NSDecimalNumber(decimal: paymentOperation.amountInXlm)
+        let amountXlmString = NumberFormatter.stellarFormatter.string(from: amountXlmDecimalNumber) ?? "\(paymentOperation.amountInXlm)"
+        let feeXlmDecimalNumber = NSDecimalNumber(decimal: paymentOperation.feeInXlm)
+        let feeXlmString = NumberFormatter.stellarFormatter.string(from: feeXlmDecimalNumber) ?? "\(paymentOperation.feeInXlm)"
+
+        let fiatTotalAmountText: String
+        let cryptoWithFiatAmountText: String
+        let amountWithFiatFeeText: String
+
+        if let decimalPrice = price {
+            let fiatAmount = NSDecimalNumber(decimal: decimalPrice).multiplying(by: NSDecimalNumber(decimal: paymentOperation.amountInXlm))
+            fiatTotalAmountText = NumberFormatter.localCurrencyFormatter.string(from: fiatAmount) ?? ""
+            cryptoWithFiatAmountText = fiatTotalAmountText.isEmpty ?
+                amountXlmString :
+                "\(amountXlmString) (\(fiatTotalAmountText))"
+
+            let fiatFee = NSDecimalNumber(decimal: decimalPrice).multiplying(by: NSDecimalNumber(decimal: paymentOperation.feeInXlm))
+            let fiatFeeText = NumberFormatter.localCurrencyFormatter.string(from: fiatFee) ?? ""
+            amountWithFiatFeeText = fiatFeeText.isEmpty ?
+                feeXlmString :
+                "\(feeXlmString) (\(fiatFeeText))"
+        } else {
+            fiatTotalAmountText = amountXlmString
+            cryptoWithFiatAmountText = amountXlmString
+            amountWithFiatFeeText = feeXlmString
+        }
+
         return BCConfirmPaymentViewModel(
             from: paymentOperation.sourceAccount.label ?? "",
             to: paymentOperation.destinationAccountId,
-            totalAmountText: "\(paymentOperation.amountInXlm)",
-            fiatTotalAMountText: "\(paymentOperation.amountInXlm)",
-            cryptoWithFiatAmountText: "\(paymentOperation.amountInXlm)",
-            amountWithFiatFeeText: "\(paymentOperation.amountInXlm + paymentOperation.feeInXlm)",
+            totalAmountText: amountXlmString,
+            fiatTotalAmountText: fiatTotalAmountText,
+            cryptoWithFiatAmountText: cryptoWithFiatAmountText,
+            amountWithFiatFeeText: amountWithFiatFeeText,
             buttonTitle: LocalizationConstants.SendAsset.send,
             showDescription: true,
             surgeIsOccurring: false,

@@ -35,7 +35,7 @@
 - (instancetype)initWithFrom:(NSString *_Nonnull)from
                           to:(NSString *_Nonnull)to
              totalAmountText:(NSString *_Nonnull)totalAmountText
-         fiatTotalAMountText:(NSString *_Nonnull)fiatTotalAmountText
+         fiatTotalAmountText:(NSString *_Nonnull)fiatTotalAmountText
     cryptoWithFiatAmountText:(NSString *_Nonnull)cryptoWithFiatAmountText
        amountWithFiatFeeText:(NSString *_Nonnull)amountWithFiatFeeText
                  buttonTitle:(NSString *_Nonnull)buttonTitle

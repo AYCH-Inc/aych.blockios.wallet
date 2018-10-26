@@ -144,7 +144,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         guard let decimal = Decimal(string: value) else { return }
         let crypto = NSDecimalNumber(decimal: decimal).dividing(by: NSDecimalNumber(decimal: latestPrice))
         modelInterface.updateXLMAmount(crypto.decimalValue)
-        guard let cryptoText = NumberFormatter.assetFormatter.string(from: crypto) else {
+        guard let cryptoText = NumberFormatter.stellarFormatter.string(from: crypto) else {
             Logger.shared.error("Could not format crypto text")
             return
         }

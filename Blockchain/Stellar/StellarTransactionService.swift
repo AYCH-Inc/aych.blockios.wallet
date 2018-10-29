@@ -32,18 +32,6 @@ class StellarTransactionService: StellarTransactionAPI {
         self.accounts = accounts
         self.repository = repository
     }
-
-    func send(_ paymentOperation: StellarPaymentOperation, sourceKeyPair: StellarKeyPair) -> Completable {
-        // TODO: handle case when sending to an unfunded address
-        // TICKET: IOS-1524
-        return accounts.accountResponse(for: sourceKeyPair.accountId)
-            .flatMapCompletable { [weak self] accountResponse -> Completable in
-                guard let strongSelf = self else {
-                    return Completable.empty()
-                }
-                return strongSelf.send(paymentOperation, accountResponse: accountResponse, sourceKeyPair: sourceKeyPair)
-            }
-    }
     
     func get(transaction transactionHash: String, completion: @escaping ((Result<StellarTransactionResponse>) -> Void)) {
         service.getTransactionDetails(transactionHash: transactionHash) { response -> Void in
@@ -75,6 +63,46 @@ class StellarTransactionService: StellarTransactionAPI {
                     completion(.error(error))
                 }
             }
+        }
+    }
+
+    func send(_ paymentOperation: StellarPaymentOperation, sourceKeyPair: StellarKeyPair) -> Completable {
+        let sourceAccount = accounts.accountResponse(for: sourceKeyPair.accountId)
+        return fundAccountIfEmpty(
+            paymentOperation,
+            sourceKeyPair: sourceKeyPair
+        ).flatMapCompletable { [weak self] didFundAccount in
+            guard !didFundAccount else {
+                return Completable.empty()
+            }
+            return sourceAccount.flatMapCompletable { accountResponse -> Completable in
+                guard let strongSelf = self else {
+                    return Completable.never()
+                }
+                return strongSelf.send(paymentOperation, accountResponse: accountResponse, sourceKeyPair: sourceKeyPair)
+            }
+        }
+    }
+
+    // MARK: - Private
+
+    private func fundAccountIfEmpty(_ paymentOperation: StellarPaymentOperation, sourceKeyPair: StellarKeyPair) -> Single<Bool> {
+        return accounts.accountResponse(for: paymentOperation.destinationAccountId)
+            .map { _ in return false }
+            .catchError { [weak self] error -> Single<Bool> in
+                guard let strongSelf = self else {
+                    throw error
+                }
+                if let stellarError = error as? StellarServiceError, stellarError == .noDefaultAccount {
+                    return strongSelf.accounts.fundAccount(
+                        paymentOperation.destinationAccountId,
+                        amount: paymentOperation.amountInXlm,
+                        sourceKeyPair: sourceKeyPair
+                    ).andThen(
+                        Single.just(true)
+                    )
+                }
+                throw error
         }
     }
 

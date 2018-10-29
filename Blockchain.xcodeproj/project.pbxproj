@@ -730,6 +730,7 @@
 		AA722C1A20B4BBA900262A5F /* AssetAddressRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA722C1820B4BBA900262A5F /* AssetAddressRepository.swift */; };
 		AA748359211129DF008F2768 /* MockKYCEnterPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA748358211129DF008F2768 /* MockKYCEnterPhoneNumberView.swift */; };
 		AA74835B21112A18008F2768 /* MockKYCVerifyPhoneNumberInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74835A21112A18008F2768 /* MockKYCVerifyPhoneNumberInteractor.swift */; };
+		AA7879DD2183C34000E2D4CF /* StellarAccountServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7879DC2183C34000E2D4CF /* StellarAccountServiceTests.swift */; };
 		AA7E7723210BA487009DFB4C /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CA96721079B7500C2AD46 /* Strings.swift */; };
 		AA7E773E210BA487009DFB4C /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CA96721079B7500C2AD46 /* Strings.swift */; };
 		AA7E773F210BA48B009DFB4C /* AuthenticationCoordinator+Biometrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CA98321079B8500C2AD46 /* AuthenticationCoordinator+Biometrics.swift */; };
@@ -3332,6 +3333,7 @@
 		AA722C1820B4BBA900262A5F /* AssetAddressRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetAddressRepository.swift; sourceTree = "<group>"; };
 		AA748358211129DF008F2768 /* MockKYCEnterPhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockKYCEnterPhoneNumberView.swift; sourceTree = "<group>"; };
 		AA74835A21112A18008F2768 /* MockKYCVerifyPhoneNumberInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockKYCVerifyPhoneNumberInteractor.swift; sourceTree = "<group>"; };
+		AA7879DC2183C34000E2D4CF /* StellarAccountServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAccountServiceTests.swift; sourceTree = "<group>"; };
 		AA94965D20CB5FA600A9C2DD /* AssetAddressFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetAddressFactory.swift; sourceTree = "<group>"; };
 		AA94966220CB613100A9C2DD /* AssetAddressFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetAddressFactoryTests.swift; sourceTree = "<group>"; };
 		AA9B30D020F6D85000A7F809 /* WalletUpgradeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletUpgradeDelegate.swift; sourceTree = "<group>"; };
@@ -4365,8 +4367,9 @@
 				511356DF209CA48F00056D65 /* Network */,
 				3A019120212DF0C800AED2BF /* Operations */,
 				AAE94F4C20C75B72005A3595 /* Pin */,
-				AA63F85220A12F4C002B719B /* URL */,
+				AA7879D22183C32900E2D4CF /* Stellar */,
 				C7387ED321814D53005D35DA /* TextFieldInput */,
+				AA63F85220A12F4C002B719B /* URL */,
 				AA16D0F221794F8B0042AF7E /* Wallet */,
 			);
 			path = BlockchainTests;
@@ -7112,6 +7115,14 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
+		AA7879D22183C32900E2D4CF /* Stellar */ = {
+			isa = PBXGroup;
+			children = (
+				AA7879DC2183C34000E2D4CF /* StellarAccountServiceTests.swift */,
+			);
+			path = Stellar;
+			sourceTree = "<group>";
+		};
 		AA94966120CB611F00A9C2DD /* Addresses */ = {
 			isa = PBXGroup;
 			children = (
@@ -8572,6 +8583,7 @@
 				602B9D282118E2A700BD3D60 /* NibBasedView.swift in Sources */,
 				3A3D5D8C211B453400E6C241 /* ValidationFormView.swift in Sources */,
 				C77217E920AFCC3C0087836A /* WalletBackupDelegate.swift in Sources */,
+				AA7879DD2183C34000E2D4CF /* StellarAccountServiceTests.swift in Sources */,
 				3A01914E212E180500AED2BF /* FromToButtonDelegateIntermediate.swift in Sources */,
 				AAE94F4020C71379005A3595 /* AssetURLPayloadFactory.swift in Sources */,
 				AAE9113E20A640A40093A431 /* PinPayload.swift in Sources */,

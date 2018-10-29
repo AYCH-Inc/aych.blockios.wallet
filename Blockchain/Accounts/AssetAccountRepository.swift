@@ -14,9 +14,12 @@ class AssetAccountRepository {
     static let shared = AssetAccountRepository()
 
     private let wallet: Wallet
+    private let stellarAccounts: StellarAccountAPI
 
     init(wallet: Wallet = WalletManager.shared.wallet) {
         self.wallet = wallet
+        let repository = WalletXlmAccountRepository(wallet: wallet)
+        stellarAccounts = StellarAccountService(configuration: .production, repository: repository)
     }
 
     // MARK: Public Methods
@@ -33,6 +36,13 @@ class AssetAccountRepository {
         if assetType == .ethereum {
             if let ethereumAccount = defaultEthereumAccount() {
                 return [ethereumAccount]
+            }
+            return []
+        }
+
+        if assetType == .stellar {
+            if let stellarAccount = stellarAccounts.currentAccount {
+                return [stellarAccount.assetAccount]
             }
             return []
         }
@@ -61,6 +71,8 @@ class AssetAccountRepository {
     func defaultAccount(for assetType: AssetType) -> AssetAccount? {
         if assetType == .ethereum {
             return defaultEthereumAccount()
+        } else if assetType == .stellar {
+            return defaultStellarAccount()
         }
         let index = wallet.getDefaultAccountIndex(for: assetType.legacy)
         return AssetAccount.create(assetType: assetType, index: index, wallet: wallet)
@@ -85,6 +97,13 @@ class AssetAccountRepository {
             balance: ethBalance,
             name: LocalizationConstants.myEtherWallet
         )
+    }
+
+    func defaultStellarAccount() -> AssetAccount? {
+        guard let stellarAccount = stellarAccounts.currentAccount else {
+            return nil
+        }
+        return stellarAccount.assetAccount
     }
 }
 

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 /// A repository for `AssetAccount` objects
 class AssetAccountRepository {
@@ -15,11 +16,17 @@ class AssetAccountRepository {
 
     private let wallet: Wallet
     private let stellarAccounts: StellarAccountAPI
+    private var disposable: Disposable?
 
     init(wallet: Wallet = WalletManager.shared.wallet) {
         self.wallet = wallet
         let repository = WalletXlmAccountRepository(wallet: wallet)
-        stellarAccounts = StellarAccountService(configuration: .production, repository: repository)
+        stellarAccounts = StellarAccountService(configuration: .test, repository: repository)
+        getStellarAccount()
+    }
+
+    deinit {
+        disposable?.dispose()
     }
 
     // MARK: Public Methods
@@ -104,6 +111,27 @@ class AssetAccountRepository {
             return nil
         }
         return stellarAccount.assetAccount
+    }
+
+    // MARK: - Private methods
+    func getStellarAccount() {
+        disposable = stellarAccounts.currentStellarAccount(fromCache: true).asObservable()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { _ in
+                Logger.shared.debug("Got stellar account")
+            }, onError: { [weak self] error in
+                guard let serviceError = error as? StellarServiceError else { return }
+                switch serviceError {
+                case .noXLMAccount:
+                    Logger.shared.error("No XLM account")
+                case .noDefaultAccount:
+                    Logger.shared.error("No default account")
+                default:
+                    break
+                }
+                Logger.shared.error(error.localizedDescription)
+            })
     }
 }
 

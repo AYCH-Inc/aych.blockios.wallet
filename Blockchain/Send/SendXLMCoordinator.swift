@@ -121,14 +121,13 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             }.subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [unowned self] price, ledger in
-                guard let feeInStroops = ledger.baseFeeInStroops else {
+                guard let feeInXlm = ledger.baseFeeInXlm else {
                     Logger.shared.error("Fee is nil.")
                     self.interface.apply(updates: [
                         .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
                     ])
                     return
                 }
-                let feeInXlm = Decimal(feeInStroops) / Decimal(Constants.Conversions.stroopsInXlm)
                 self.modelInterface.updateFee(feeInXlm)
                 self.modelInterface.updatePrice(price.price)
                 self.interface.apply(updates: [.feeAmountLabelText()])

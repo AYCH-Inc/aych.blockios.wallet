@@ -31,8 +31,12 @@ struct XLMServices: XLMDependencies {
         wallet: Wallet = WalletManager.shared.wallet
     ) {
         repository = WalletXlmAccountRepository(wallet: wallet)
-        accounts = StellarAccountService(configuration: configuration, repository: repository)
         ledger = StellarLedgerService(configuration: configuration)
+        accounts = StellarAccountService(
+            configuration: configuration,
+            ledgerService: ledger,
+            repository: repository
+        )
         transaction = StellarTransactionService(configuration: configuration, accounts: accounts, repository: repository)
         operation = StellarOperationService(configuration: configuration, repository: repository)
         prices = PriceServiceClient()

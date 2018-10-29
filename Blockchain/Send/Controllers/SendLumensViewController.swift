@@ -158,10 +158,7 @@ protocol SendXLMViewControllerDelegate: class {
             let assetType: AssetType = .stellar
             let xlmSymbol = assetType.symbol
             let feeFormatted = NumberFormatter.stellarFormatter.string(from: NSDecimalNumber(decimal: fee)) ?? "\(fee)"
-            guard let fiatCurrencySymbol = BlockchainSettings.sharedAppInstance().fiatCurrencySymbol else {
-                feeAmountLabel.text = feeFormatted + " " + xlmSymbol
-                return
-            }
+            let fiatCurrencySymbol = BlockchainSettings.sharedAppInstance().fiatCurrencySymbol
             let fiatAmount = price * fee
             let fiatFormatted = NumberFormatter.localCurrencyFormatter.string(from: NSDecimalNumber(decimal: fiatAmount)) ?? "\(fiatAmount)"
             let fiatText = fiatCurrencySymbol + fiatFormatted

@@ -878,9 +878,9 @@
 		C702A7E7217E9D0400A8DED1 /* TransactionDetailViewModel+XLM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C702A7E5217E9D0400A8DED1 /* TransactionDetailViewModel+XLM.swift */; };
 		C70576B2212CFFFC0027C6AA /* Nibable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70576B1212CFFFC0027C6AA /* Nibable.swift */; };
 		C70576B3212CFFFC0027C6AA /* Nibable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70576B1212CFFFC0027C6AA /* Nibable.swift */; };
-		C70B58562182A2360059D6FF /* StellarPaymentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA341D72182448800E09561 /* StellarPaymentOperation.swift */; };
 		C70B582D2182626B0059D6FF /* SendXLMModelInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70B582C2182626B0059D6FF /* SendXLMModelInterface.swift */; };
 		C70B582E2182626B0059D6FF /* SendXLMModelInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70B582C2182626B0059D6FF /* SendXLMModelInterface.swift */; };
+		C70B58562182A2360059D6FF /* StellarPaymentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA341D72182448800E09561 /* StellarPaymentOperation.swift */; };
 		C70FF55E1E76D5C600AC7F8B /* BuyBitcoinNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C70FF55D1E76D5C600AC7F8B /* BuyBitcoinNavigationController.m */; };
 		C70FF5661E7B051C00AC7F8B /* ContactTransactionTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C70FF5651E7B051C00AC7F8B /* ContactTransactionTableCell.xib */; };
 		C71859471F3E227D00745A87 /* BCDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C71859461F3E227C00745A87 /* BCDescriptionView.m */; };
@@ -890,6 +890,7 @@
 		C718595B1F4B85E800745A87 /* Transactions.xib in Resources */ = {isa = PBXBuildFile; fileRef = C718595A1F4B85E800745A87 /* Transactions.xib */; };
 		C723F3461F61D35300A858A9 /* TransactionDetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C723F3451F61D35300A858A9 /* TransactionDetailViewModel.m */; };
 		C723F3491F64413400A858A9 /* TransactionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C723F3481F64413400A858A9 /* TransactionsViewController.m */; };
+		C729D64421874C8B0084D497 /* NumberFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C729D64321874C8B0084D497 /* NumberFormatterTests.swift */; };
 		C72AC7022134A90B001DA48B /* ExchangeInputsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72AC7012134A90B001DA48B /* ExchangeInputsAPI.swift */; };
 		C72AC7032134A90B001DA48B /* ExchangeInputsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72AC7012134A90B001DA48B /* ExchangeInputsAPI.swift */; };
 		C72D6CBF1EC0B4AB0000F922 /* BCFeeSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C72D6CBE1EC0B4AB0000F922 /* BCFeeSelectionView.m */; };
@@ -3411,6 +3412,7 @@
 		C723F3451F61D35300A858A9 /* TransactionDetailViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransactionDetailViewModel.m; sourceTree = "<group>"; };
 		C723F3471F64413400A858A9 /* TransactionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransactionsViewController.h; sourceTree = "<group>"; };
 		C723F3481F64413400A858A9 /* TransactionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransactionsViewController.m; sourceTree = "<group>"; };
+		C729D64321874C8B0084D497 /* NumberFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterTests.swift; sourceTree = "<group>"; };
 		C72AC7012134A90B001DA48B /* ExchangeInputsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeInputsAPI.swift; sourceTree = "<group>"; };
 		C72D6CBD1EC0B4AB0000F922 /* BCFeeSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCFeeSelectionView.h; sourceTree = "<group>"; };
 		C72D6CBE1EC0B4AB0000F922 /* BCFeeSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCFeeSelectionView.m; sourceTree = "<group>"; };
@@ -4360,6 +4362,7 @@
 				AACE320920978E9900B7B806 /* Mock */,
 				51A862E52092689500B338E0 /* Mock Data */,
 				511356DF209CA48F00056D65 /* Network */,
+				C729D64E21874CA60084D497 /* NumberFormatter */,
 				3A019120212DF0C800AED2BF /* Operations */,
 				AAE94F4C20C75B72005A3595 /* Pin */,
 				AA63F85220A12F4C002B719B /* URL */,
@@ -7338,6 +7341,14 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		C729D64E21874CA60084D497 /* NumberFormatter */ = {
+			isa = PBXGroup;
+			children = (
+				C729D64321874C8B0084D497 /* NumberFormatterTests.swift */,
+			);
+			path = NumberFormatter;
+			sourceTree = "<group>";
+		};
 		C7387ED221814CE2005D35DA /* TextFieldInput */ = {
 			isa = PBXGroup;
 			children = (
@@ -7353,7 +7364,7 @@
 			);
 			path = TextFieldInput;
 			sourceTree = "<group>";
-                };
+		};
 		C746905D2180ACCD001A7C52 /* URL */ = {
 			isa = PBXGroup;
 			children = (
@@ -8399,6 +8410,7 @@
 				3A91F7C2213845F700CDC3FD /* TradingPairView.swift in Sources */,
 				AACE31822092858600B7B806 /* Pin.swift in Sources */,
 				C7C0DC23212F677C000EFE71 /* MarketsService.swift in Sources */,
+				C729D64421874C8B0084D497 /* NumberFormatterTests.swift in Sources */,
 				AACE31D72092A99B00B7B806 /* Enum+Enumeratable.swift in Sources */,
 				3A1552EB2136EA8D00683CEB /* TradeExecutionService.swift in Sources */,
 				AACE31D82092A99B00B7B806 /* Enum+RawValued.swift in Sources */,

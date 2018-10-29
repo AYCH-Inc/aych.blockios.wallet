@@ -169,6 +169,7 @@ import Foundation
         tabControllerManager.hideSendAndReceiveKeyboards()
         tabControllerManager.transactionsBitcoinViewController?.loadedAllTransactions = false
         tabControllerManager.transactionsBitcoinViewController?.messageIdentifier = nil
+        tabControllerManager.dashBoardClicked(nil)
 
         closeSideMenu()
     }

@@ -40,7 +40,7 @@
 
 - (void)reloadCards
 {
-    BOOL shouldShowKYCAnnouncementCard = BlockchainSettings.sharedAppInstance.shouldShowKYCAnnouncementCard;
+    BOOL shouldShowKYCAnnouncementCard = BlockchainSettings.sharedAppInstance.isCompletingKyc;
     self.cardsViewHeight = 0;
 
     if (shouldShowKYCAnnouncementCard) {
@@ -54,7 +54,7 @@
                                                 [[KYCCoordinator sharedInstance] startFrom:tabControllerManager];
                                             }
                                             onClose:^{
-                                                BlockchainSettings.sharedAppInstance.shouldShowKYCAnnouncementCard = NO;
+                                                BlockchainSettings.sharedAppInstance.isCompletingKyc = NO;
                                                 [UIView animateWithDuration:.4f animations:^{
                                                     [self.cardsView changeYPosition:-self.cardsView.frame.size.height];
                                                     self.dashboardScrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.dashboardContentView.frame.size.height);

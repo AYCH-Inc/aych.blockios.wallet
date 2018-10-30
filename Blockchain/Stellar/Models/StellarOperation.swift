@@ -8,15 +8,30 @@
 
 import Foundation
 
-enum StellarOperation {
+enum StellarOperation: Identifiable {
+    
+    var identifier: String {
+        return token
+    }
+    
+    func cellType() -> TransactionTableCell.Type {
+        return TransactionTableCell.self
+    }
+    
+    enum Direction {
+        case credit
+        case debit
+    }
+    
     case accountCreated(AccountCreated)
     case payment(Payment)
     case unknown
     
-    struct AccountCreated: Identifiable {
+    struct AccountCreated {
         let identifier: String
         let funder: String
         let account: String
+        let direction: Direction
         let balance: Decimal
         let token: String
         let sourceAccountID: String
@@ -24,13 +39,7 @@ enum StellarOperation {
         let createdAt: Date
     }
     
-    struct Payment: Identifiable {
-        
-        enum Direction {
-            case credit
-            case debit
-        }
-        
+    struct Payment {
         let token: String
         let identifier: String
         let fromAccount: String

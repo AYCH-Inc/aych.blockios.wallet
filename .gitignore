@@ -20,8 +20,8 @@ xcuserdata/
 profile
 *.moved-aside
 .idea/
-
 Pods/
 Podfile.lock
 Blockchain/APIDefines.h
 External/*
+GoogleService-Info.plist

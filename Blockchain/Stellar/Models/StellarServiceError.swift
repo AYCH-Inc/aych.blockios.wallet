@@ -16,5 +16,6 @@ enum StellarServiceError: Error {
     case parsingError
     case unauthorized
     case forbidden
+    case amountTooLow
     case unknown
 }

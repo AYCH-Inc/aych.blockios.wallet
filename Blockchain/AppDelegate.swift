@@ -9,6 +9,7 @@
 import UIKit
 import Fabric
 import Crashlytics
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -50,9 +51,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return nil
     }()
-    
+
+    private lazy var deepLinkHandler: DeepLinkHandler = {
+        return DeepLinkHandler()
+    }()
+
+    // MARK: - Lifecycle Methods
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Fabric.with([Crashlytics.self])
+        FirebaseApp.configure()
 
         BlockchainSettings.App.shared.appBecameActiveCount += 1
         // MARK: - Global Appearance
@@ -254,6 +262,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         // TICKET: IOS-1329 - Implement didFailToRegisterForRemoteNotificationsWithError
+    }
+
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        guard let webpageUrl = userActivity.webpageURL else { return false }
+
+        let handled = DynamicLinks.dynamicLinks().handleUniversalLink(webpageUrl) { [weak self] dynamicLink, error in
+            guard error == nil else {
+                Logger.shared.error("Got error handling universal link: \(error!.localizedDescription)")
+                return
+            }
+
+            guard let deepLinkUrl = dynamicLink?.url else {
+                return
+            }
+
+            self?.deepLinkHandler.handle(deepLink: deepLinkUrl)
+        }
+        return handled
     }
 
     // MARK: - State Checks

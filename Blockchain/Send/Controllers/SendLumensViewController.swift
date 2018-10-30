@@ -60,8 +60,13 @@ protocol SendXLMViewControllerDelegate: class {
 
     // MARK: Factory
     
-    @objc class func make() -> SendLumensViewController {
+    @objc class func make(with provider: XLMServiceProvider) -> SendLumensViewController {
         let controller = SendLumensViewController.makeFromStoryboard()
+        controller.coordinator = SendXLMCoordinator(
+            serviceProvider: provider,
+            interface: controller,
+            modelInterface: controller
+        )
         return controller
     }
     
@@ -99,9 +104,6 @@ protocol SendXLMViewControllerDelegate: class {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let services = XLMServices(configuration: .test)
-        let provider = XLMServiceProvider(services: services)
-        coordinator = SendXLMCoordinator(serviceProvider: provider, interface: self, modelInterface: self)
         view.frame = UIView.rootViewSafeAreaFrame(
             navigationBar: true,
             tabBar: true,
@@ -158,10 +160,7 @@ protocol SendXLMViewControllerDelegate: class {
             let assetType: AssetType = .stellar
             let xlmSymbol = assetType.symbol
             let feeFormatted = NumberFormatter.stellarFormatter.string(from: NSDecimalNumber(decimal: fee)) ?? "\(fee)"
-            guard let fiatCurrencySymbol = BlockchainSettings.sharedAppInstance().fiatCurrencySymbol else {
-                feeAmountLabel.text = feeFormatted + " " + xlmSymbol
-                return
-            }
+            let fiatCurrencySymbol = BlockchainSettings.sharedAppInstance().fiatCurrencySymbol
             let fiatAmount = price * fee
             let fiatFormatted = NumberFormatter.localCurrencyFormatter.string(from: NSDecimalNumber(decimal: fiatAmount)) ?? "\(fiatAmount)"
             let fiatText = fiatCurrencySymbol + fiatFormatted

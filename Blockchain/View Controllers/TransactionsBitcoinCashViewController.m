@@ -177,7 +177,7 @@
 
     [cell reload];
 
-    [cell changeBtcButtonTitleText:[NSNumberFormatter formatBchWithSymbol:ABS(transaction.amount)]];
+    [cell setButtonText:[NSNumberFormatter formatBchWithSymbol:ABS(transaction.amount)]];
 
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
 

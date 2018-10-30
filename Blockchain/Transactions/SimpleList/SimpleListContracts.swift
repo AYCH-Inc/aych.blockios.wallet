@@ -9,6 +9,7 @@
 import Foundation
 
 protocol SimpleListInterface: class {
+    func loadingIndicatorVisibility(_ visibility: Visibility)
     func paginationActivityIndicatorVisibility(_ visibility: Visibility)
     func refreshControlVisibility(_ visibility: Visibility)
     func display(results: [Identifiable])
@@ -23,7 +24,7 @@ protocol SimpleListInput: class {
     func fetchAllItems()
     func refresh()
     func cancel()
-    func itemSelectedWith(identifier: String) -> Identifiable?
+    func selected(_ item: Identifiable)
     func nextPageBefore(identifier: String)
 }
 
@@ -33,6 +34,6 @@ protocol SimpleListOutput: class {
     func loadedItems(_ items: [Identifiable])
     func appendItems(_ items: [Identifiable])
     func refreshedItems(_ items: [Identifiable])
-    func itemWithIdentifier(_ identifier: String) -> Identifiable?
     func itemFetchFailed(error: Error?)
+    func showItemDetails(_ item: Identifiable)
 }

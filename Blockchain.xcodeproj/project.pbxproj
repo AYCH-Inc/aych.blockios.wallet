@@ -116,6 +116,8 @@
 		3A26D52A214055FE00D79BDD /* TradingPairCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A26D528214055FE00D79BDD /* TradingPairCell.xib */; };
 		3A26D53421406C0200D79BDD /* ExchangeDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26D53321406C0200D79BDD /* ExchangeDetailCoordinator.swift */; };
 		3A26D53521406C0200D79BDD /* ExchangeDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26D53321406C0200D79BDD /* ExchangeDetailCoordinator.swift */; };
+		3A373C452188CBCE00DDFAFD /* StellarTransactionCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A373C442188CBCE00DDFAFD /* StellarTransactionCaching.swift */; };
+		3A373C462188CBCE00DDFAFD /* StellarTransactionCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A373C442188CBCE00DDFAFD /* StellarTransactionCaching.swift */; };
 		3A390748217E52AB00D2DA01 /* StellarLedgerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A390747217E52AB00D2DA01 /* StellarLedgerService.swift */; };
 		3A390749217E52AB00D2DA01 /* StellarLedgerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A390747217E52AB00D2DA01 /* StellarLedgerService.swift */; };
 		3A390750217E7D5A00D2DA01 /* XLMServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A39074F217E7D5A00D2DA01 /* XLMServiceProvider.swift */; };
@@ -1362,6 +1364,7 @@
 		3A26D525214055E600D79BDD /* TradingPairCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradingPairCell.swift; sourceTree = "<group>"; };
 		3A26D528214055FE00D79BDD /* TradingPairCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TradingPairCell.xib; sourceTree = "<group>"; };
 		3A26D53321406C0200D79BDD /* ExchangeDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailCoordinator.swift; sourceTree = "<group>"; };
+		3A373C442188CBCE00DDFAFD /* StellarTransactionCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTransactionCaching.swift; sourceTree = "<group>"; };
 		3A390747217E52AB00D2DA01 /* StellarLedgerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarLedgerService.swift; sourceTree = "<group>"; };
 		3A39074F217E7D5A00D2DA01 /* XLMServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLMServiceProvider.swift; sourceTree = "<group>"; };
 		3A390753217E7F6E00D2DA01 /* SendXLMInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendXLMInterface.swift; sourceTree = "<group>"; };
@@ -4030,6 +4033,7 @@
 			isa = PBXGroup;
 			children = (
 				3A56AEA921765C2100044302 /* StellarAccountAPI.swift */,
+				3A373C442188CBCE00DDFAFD /* StellarTransactionCaching.swift */,
 				AA755EEC2188ED6800FC4894 /* StellarTradeLimitsAPI.swift */,
 				3A56AEA621764D3A00044302 /* StellarTransactionAPI.swift */,
 				C7A8597F217A5BAE00502935 /* StellarTransactionServiceAPI.swift */,
@@ -8721,6 +8725,7 @@
 				AA126CE3212C9753005886A3 /* KYCPagePayload.swift in Sources */,
 				AA94966420CB613100A9C2DD /* AssetAddressFactoryTests.swift in Sources */,
 				C7387ED621814D6D005D35DA /* AmountTextFieldDelegateTests.swift in Sources */,
+				3A373C462188CBCE00DDFAFD /* StellarTransactionCaching.swift in Sources */,
 				C76D732D20B2F5CD00040B57 /* WalletFiatAtTimeDelegate.swift in Sources */,
 				C74690602180ACCD001A7C52 /* SEP7URI.swift in Sources */,
 			);
@@ -9194,6 +9199,7 @@
 				C7559CAF1F55E874005B2375 /* BCConfirmPaymentViewModel.m in Sources */,
 				AA126CE5212C99FF005886A3 /* KYCPageViewFactory.swift in Sources */,
 				C733A89321236F02007DADE0 /* HttpHeader.swift in Sources */,
+				3A373C452188CBCE00DDFAFD /* StellarTransactionCaching.swift in Sources */,
 				AA31A7D12099310B00FE6268 /* WalletBuySellDelegate.swift in Sources */,
 				3A26AF99212B36F2003A8A08 /* ExchangeCreateViewController.swift in Sources */,
 				AA126DA5212E2C3B005886A3 /* OnfidoCredentials.swift in Sources */,

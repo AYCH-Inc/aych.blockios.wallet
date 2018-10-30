@@ -81,7 +81,24 @@ class SendXLMCoordinator {
             break
         }
     }
-    
+
+    fileprivate func updateFiatEntryInterface(text: String?) {
+        interface.apply(updates: [
+            .fiatAmountText(text),
+            .errorLabelVisibility(.hidden),
+            .fiatFieldTextColor(.gray6),
+            .xlmFieldTextColor(.gray6)
+        ])
+    }
+
+    fileprivate func updateXlmEntryInterface(text: String?) {
+        interface.apply(updates: [
+            .stellarAmountText(text),
+            .errorLabelVisibility(.hidden),
+            .fiatFieldTextColor(.gray6),
+            .xlmFieldTextColor(.gray6)
+        ])
+    }
 }
 
 extension SendXLMCoordinator: SendXLMViewControllerDelegate {
@@ -139,36 +156,36 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     }
     
     func onXLMEntry(_ value: String, latestPrice: Decimal) {
-        guard let decimal = Decimal(string: value) else { return }
+        guard let decimal = Decimal(string: value) else {
+            modelInterface.updateXLMAmount(nil)
+            updateFiatEntryInterface(text: nil)
+            return
+        }
         modelInterface.updateXLMAmount(NSDecimalNumber(string: value).decimalValue)
         let fiat = NSDecimalNumber(decimal: latestPrice).multiplying(by: NSDecimalNumber(decimal: decimal))
         guard let fiatText = NumberFormatter.localCurrencyFormatter.string(from: fiat) else {
             Logger.shared.error("Could not format fiat text")
+            updateFiatEntryInterface(text: "\(fiat)")
             return
         }
 
-        interface.apply(updates: [
-            .fiatAmountText(fiatText),
-            .errorLabelVisibility(.hidden),
-            .fiatFieldTextColor(.gray6),
-            .xlmFieldTextColor(.gray6)
-        ])
+        updateFiatEntryInterface(text: fiatText)
     }
     
     func onFiatEntry(_ value: String, latestPrice: Decimal) {
-        guard let decimal = Decimal(string: value) else { return }
+        guard let decimal = Decimal(string: value) else {
+            modelInterface.updateXLMAmount(nil)
+            updateXlmEntryInterface(text: nil)
+            return
+        }
         let crypto = NSDecimalNumber(decimal: decimal).dividing(by: NSDecimalNumber(decimal: latestPrice))
         modelInterface.updateXLMAmount(crypto.decimalValue)
         guard let cryptoText = NumberFormatter.stellarFormatter.string(from: crypto) else {
             Logger.shared.error("Could not format crypto text")
+            updateXlmEntryInterface(text: "\(crypto)")
             return
         }
-        interface.apply(updates: [
-            .stellarAmountText(cryptoText),
-            .errorLabelVisibility(.hidden),
-            .fiatFieldTextColor(.gray6),
-            .xlmFieldTextColor(.gray6)
-        ])
+        updateXlmEntryInterface(text: cryptoText)
     }
     
     func onSecondaryPasswordValidated() {

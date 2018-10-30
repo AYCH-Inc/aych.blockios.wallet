@@ -51,7 +51,8 @@ extension UserDefaults {
         case reminderModalDate
         case shouldHideBuySellCard = "shouldHideBuySellNotificationCard"
         case shouldShowBiometrySetup
-        case shouldShowKYCAnnouncementCard
+        case isCompletingKyc = "shouldShowKYCAnnouncementCard"
+        case didTapOnAirdropDeepLink
         case swipeToReceiveEnabled = "swipeToReceive"
         case symbolLocal
     }

@@ -34,4 +34,28 @@ extension TransactionDetailViewModel {
         detailButtonTitle = String(format: LocalizationConstants.Stellar.viewOnArgument, BlockchainAPI.PartnerHosts.stellarchain.rawValue)
         detailButtonLink = BlockchainAPI.shared.stellarchainUrl
     }
+    
+    convenience init(xlmTransaction: StellarOperation.AccountCreated) {
+        self.init()
+        
+        assetType = .stellar
+        
+        fromString = xlmTransaction.account
+        fromAddress = xlmTransaction.account
+        to = [xlmTransaction.funder]
+        toString = xlmTransaction.funder
+        
+        amountString = String(describing: xlmTransaction.balance)
+        decimalAmount = 0
+        feeString = "feeString"
+        
+        txType = xlmTransaction.direction == .credit ? Constants.TransactionTypes.receive : Constants.TransactionTypes.sent
+        hasFromLabel = txType == Constants.TransactionTypes.sent
+        hasToLabel = txType == Constants.TransactionTypes.receive
+        myHash = xlmTransaction.transactionHash
+        confirmed = true
+        dateString = DateFormatter.verboseString(from: xlmTransaction.createdAt)
+        detailButtonTitle = String(format: LocalizationConstants.Stellar.viewOnArgument, BlockchainAPI.PartnerHosts.stellarchain.rawValue)
+        detailButtonLink = BlockchainAPI.shared.stellarchainUrl
+    }
 }

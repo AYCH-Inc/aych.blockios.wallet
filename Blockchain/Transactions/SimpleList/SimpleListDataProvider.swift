@@ -89,8 +89,8 @@ class SimpleListDataProvider: NSObject, UITableViewDataSource {
         registerAllCellTypes()
     }
 
-    fileprivate func registerAllCellTypes() {
-        // Logger.shared.error("Not overridden by superclass!")
+    func registerAllCellTypes() {
+         Logger.shared.error("Not overridden by superclass!")
     }
 
     func setupPullToRefresh() {

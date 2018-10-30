@@ -7,46 +7,56 @@
 //
 
 import Foundation
+import RxSwift
 
 class StellarTransactionServiceAPI: SimpleListServiceAPI {
-    private let service = StellarOperationService(repository: WalletXlmAccountRepository(wallet: WalletManager.shared.wallet))
+    
+    fileprivate let provider: XLMServiceProvider
+    fileprivate let service: StellarOperationService
+    fileprivate let disposables = CompositeDisposable()
+    
+    init(provider: XLMServiceProvider = XLMServiceProvider.shared) {
+        self.provider = provider
+        self.service = provider.services.operation
+    }
 
     func fetchAllItems(output: SimpleListOutput?) {
-        guard service.isExecuting() == false else { return }
-        service.operations(from: "accountID", token: "token") { result in
-            switch result {
-            case .success(let items):
-                // TODO: avoid force unwrap if possible
-                output?.loadedItems(items as! [Identifiable])
-            case .error(let error):
+        
+        let disposable = service.operations
+            .map { $0 }
+            .scan([], accumulator: {
+                return $0 + $1
+            })
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { result in
+                output?.loadedItems(result)
+            }, onError: { error in
                 output?.itemFetchFailed(error: error)
-            }
-        }
+            })
+        disposables.insertWithDiscardableResult(disposable)
     }
 
     func refresh(output: SimpleListOutput?) {
-        guard service.isExecuting() == false else { return }
-        service.operations(from: "accountID", token: "token") { (result) in
-            switch result {
-            case .success(let items):
-                // TODO: avoid force unwrap if possible
-                output?.refreshedItems(items as! [Identifiable])
-            case .error(let error):
-                output?.itemFetchFailed(error: error)
-            }
-        }
+        fetchAllItems(output: output)
     }
-
+    
     func nextPageBefore(identifier: String) {
-        // TODO:
+        // TODO: Not necessary given that we aren't paginating
     }
 
     func cancel() {
-        guard service.isExecuting() else { return }
-        service.cancel()
+        // TODO: May not be necessary
     }
 
     func canPage() -> Bool {
-        return service.canPage
+        // You should never be able to page when looking at
+        // XLM transactions given that we are polling the endpoint
+        // and not using traditional pagination. 
+        return false
+    }
+
+    deinit {
+        disposables.dispose()
     }
 }

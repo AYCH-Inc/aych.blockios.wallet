@@ -60,8 +60,13 @@ protocol SendXLMViewControllerDelegate: class {
 
     // MARK: Factory
     
-    @objc class func make() -> SendLumensViewController {
+    @objc class func make(with provider: XLMServiceProvider) -> SendLumensViewController {
         let controller = SendLumensViewController.makeFromStoryboard()
+        controller.coordinator = SendXLMCoordinator(
+            serviceProvider: provider,
+            interface: controller,
+            modelInterface: controller
+        )
         return controller
     }
     
@@ -99,9 +104,6 @@ protocol SendXLMViewControllerDelegate: class {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let services = XLMServices(configuration: .test)
-        let provider = XLMServiceProvider(services: services)
-        coordinator = SendXLMCoordinator(serviceProvider: provider, interface: self, modelInterface: self)
         view.frame = UIView.rootViewSafeAreaFrame(
             navigationBar: true,
             tabBar: true,

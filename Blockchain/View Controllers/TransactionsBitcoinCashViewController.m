@@ -164,12 +164,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TransactionTableCell * cell = (TransactionTableCell*)[tableView dequeueReusableCellWithIdentifier:@"transaction"];
+    TransactionTableCell * cell = (TransactionTableCell*)[tableView dequeueReusableCellWithIdentifier:@"TransactionTableCell"];
 
     Transaction * transaction = [self.transactions objectAtIndex:[indexPath row]];
 
     if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"TransactionCell" owner:nil options:nil] objectAtIndex:0];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"TransactionTableCell" owner:nil options:nil] objectAtIndex:0];
         cell.assetType = LegacyAssetTypeBitcoinCash;
     }
 

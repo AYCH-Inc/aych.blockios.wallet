@@ -221,7 +221,7 @@
         [_tabViewController setActiveViewController:_sendBitcoinCashViewController animated:animated index:tabIndex];
     } else if (self.assetType == LegacyAssetTypeStellar) {
         if (!_sendLumensViewController) {
-            _sendLumensViewController = [SendLumensViewController make];
+            _sendLumensViewController = [SendLumensViewController makeWith:XLMServiceProvider.sharedInstance];
         }
 
         [_tabViewController setActiveViewController:_sendLumensViewController animated:animated index:tabIndex];
@@ -547,7 +547,7 @@
 
         [_tabViewController setActiveViewController:_transactionsBitcoinCashViewController animated:animated index:tabIndex];
     } else if (self.assetType == LegacyAssetTypeStellar) {
-        TransactionsXlmViewController *viewController = [TransactionsXlmViewController make];
+        TransactionsXlmViewController *viewController = [TransactionsXlmViewController makeWith:XLMServiceProvider.sharedInstance];
         [_tabViewController setActiveViewController:viewController animated:animated index:tabIndex];
     }
 }
@@ -841,7 +841,7 @@
             // Always creating a new SendLumensViewController for stellar. This is because there is a layout issue
             // when reusing an existing SendLumensViewController wherein after you scan the QR code, the view occupies
             // the full frame, and not the adjusted frame.
-            _sendLumensViewController = [SendLumensViewController make];
+            _sendLumensViewController = [SendLumensViewController makeWith:XLMServiceProvider.sharedInstance];
             [_sendLumensViewController scanQrCodeForDestinationAddress];
             viewControllerToPresent = _sendLumensViewController;
             break;

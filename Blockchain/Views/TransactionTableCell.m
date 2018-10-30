@@ -102,7 +102,7 @@
 
 #pragma mark button interactions
 
-- (IBAction)transactionClicked:(UIButton *)button
+- (IBAction)transactionClicked:(UIButton * _Nullable)button
 {
     TransactionDetailViewController *detailViewController = [TransactionDetailViewController new];
     detailViewController.transactionModel = [[TransactionDetailViewModel alloc] initWithTransaction:transaction];

@@ -41,6 +41,9 @@ struct XLMServices: XLMDependencies {
         operation = StellarOperationService(configuration: configuration, repository: repository)
         prices = PriceServiceClient()
     }
+    
+    static let test: XLMServices = XLMServices(configuration: .test)
+    static let production: XLMServices = XLMServices(configuration: .production)
 }
 
 class XLMServiceProvider: NSObject {
@@ -55,6 +58,16 @@ class XLMServiceProvider: NSObject {
         return services.accounts
     }
     
+    static let shared = XLMServiceProvider.make()
+    
+    @objc static func sharedInstance() -> XLMServiceProvider {
+        return shared
+    }
+    
+    @objc class func make() -> XLMServiceProvider {
+        return XLMServiceProvider(services: .test)
+    }
+    
     init(services: XLMServices) {
         self.services = services
         super.init()
@@ -67,5 +80,9 @@ class XLMServiceProvider: NSObject {
     fileprivate func setup() {
         let combine = Observable.combineLatest(ledger.current, accounts.currentStellarAccount(fromCache: false).asObservable()).subscribe()
         disposables.insertWithDiscardableResult(combine)
+    }
+    
+    @objc func tearDown() {
+        services.operation.end()
     }
 }

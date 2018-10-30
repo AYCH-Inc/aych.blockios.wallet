@@ -47,11 +47,10 @@ class SimpleListViewController: UIViewController {
         with type: T.Type,
         dataProvider: U.Type,
         presenter: V.Type,
-        interactor: W.Type
+        interactor: W
     ) -> T {
         let controller = T.makeFromStoryboard()
-
-        let interactor = W.init()
+        
         let presenter = V.init(interactor: interactor)
         interactor.output = presenter
         controller.presenter = presenter

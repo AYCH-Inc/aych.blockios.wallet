@@ -43,18 +43,16 @@ final class BlockchainAPI: NSObject {
     }
 
     /// Public hosts used for partner API calls.
-    enum PartnerHosts: String, CaseIterable {
-        case blockchair = "blockhair.com",
-        coinify = "app-api.coinify.com",
-        etherscan = "etherscan.io",
-        // TODO: determine correct stellar explorer URL
-        stellarExplorer = "stellar-explorer-placeholder",
-        googleAnalytics = "www.google-analytics.com",
-        iSignThis = "verify.isignthis.com",
-        sfox = "api.sfox.com",
-        sfoxKYC = "sfox-kyc.s3.amazonaws.com",
-        sfoxQuotes = "quotes.sfox.com",
-        shapeshift = "shapeshift.io"
+    enum PartnerHosts: String, RawValued {
+        case blockchair = "blockchair.com"
+        case coinify = "app-api.coinify.com"
+        case etherscan = "etherscan.io"
+        case googleAnalytics = "www.google-analytics.com"
+        case iSignThis = "verify.isignthis.com"
+        case sfox = "api.sfox.com"
+        case sfoxKYC = "sfox-kyc.s3.amazonaws.com"
+        case sfoxQuotes = "quotes.sfox.com"
+        case shapeshift = "shapeshift.io"
     }
 
     struct Parameters {

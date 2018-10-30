@@ -44,7 +44,7 @@ class SendXLMCoordinator {
     // MARK: Private Functions
 
     fileprivate func accountDetailsTrigger() -> Observable<StellarAccount> {
-        return services.operation.operations.concatMap { _ -> Observable<StellarAccount> in
+        return services.operation.operations.concatMap { result -> Observable<StellarAccount> in
             return self.services.accounts.currentStellarAccount(fromCache: false).asObservable()
         }
     }
@@ -54,13 +54,11 @@ class SendXLMCoordinator {
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (account, ledger) in
-                // The users account (and thus balance)
-                // may have changed due to an operation.
+                // TODO:
             }, onError: { error in
                 guard let serviceError = error as? StellarServiceError else { return }
                 Logger.shared.error(error.localizedDescription)
             })
-        services.operation.start()
         disposables.insertWithDiscardableResult(disposable)
     }
     
@@ -121,14 +119,13 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             }.subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [unowned self] price, ledger in
-                guard let feeInStroops = ledger.baseFeeInStroops else {
+                guard let feeInXlm = ledger.baseFeeInXlm else {
                     Logger.shared.error("Fee is nil.")
                     self.interface.apply(updates: [
                         .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
                     ])
                     return
                 }
-                let feeInXlm = Decimal(feeInStroops) / Decimal(Constants.Conversions.stroopsInXlm)
                 self.modelInterface.updateFee(feeInXlm)
                 self.modelInterface.updatePrice(price.price)
                 self.interface.apply(updates: [.feeAmountLabelText()])

@@ -94,14 +94,8 @@ import RxSwift
         // Enabling touch ID and immediately backgrounding the app hides the status bar
         UIApplication.shared.setStatusBarHidden(false, with: .slide)
 
-        // Handle post authentication route, if any
-        if let route = strongSelf.postAuthenticationRoute {
-            switch route {
-            case .sendCoins:
-                tabControllerManager.showSendCoins(animated: true)
-            }
-            strongSelf.postAuthenticationRoute = nil
-        }
+        // Handle post authentication routing
+        strongSelf.handlePostAuthenticationRouting()
 
         if let topViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController,
             BlockchainSettings.App.shared.isPinSet,
@@ -110,11 +104,26 @@ import RxSwift
         }
     }
 
+    private func handlePostAuthenticationRouting() {
+        if let route = postAuthenticationRoute {
+            switch route {
+            case .sendCoins:
+                AppCoordinator.shared.tabControllerManager.showSendCoins(animated: true)
+            }
+            postAuthenticationRoute = nil
+        }
+
+        // Handle airdrop routing
+        airDropRouter.routeIfNeeded()
+    }
+
     internal let dataRepository: BlockchainDataRepository
 
     internal let walletManager: WalletManager
 
     private let walletService: WalletService
+
+    private let airDropRouter: StellarAirdropRouter
 
     @objc internal(set) var pinEntryViewController: PEPinEntryController?
 
@@ -141,11 +150,13 @@ import RxSwift
     init(
         walletManager: WalletManager = WalletManager.shared,
         walletService: WalletService = WalletService.shared,
-        dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared
+        dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
+        airDropRouter: StellarAirdropRouter = StellarAirdropRouter()
     ) {
         self.walletManager = walletManager
         self.walletService = walletService
         self.dataRepository = dataRepository
+        self.airDropRouter = airDropRouter
         super.init()
         self.walletManager.secondPasswordDelegate = self
     }

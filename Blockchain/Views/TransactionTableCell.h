@@ -41,7 +41,7 @@ typedef enum {
     IBOutlet UIImageView *warningImageView;
 }
 
--(IBAction)transactionClicked:(UIButton *)button;
+-(IBAction)transactionClicked:(UIButton * _Nullable)button;
 - (void)bitcoinCashTransactionClicked;
 -(IBAction)btcbuttonclicked:(id)sender;
 

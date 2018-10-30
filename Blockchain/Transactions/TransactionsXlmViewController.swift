@@ -9,12 +9,12 @@
 import Foundation
 
 class TransactionsXlmViewController: SimpleTransactionsViewController {
-    @objc class func make() -> TransactionsXlmViewController {
+    @objc class func make(with provider: XLMServiceProvider) -> TransactionsXlmViewController {
         let controller = SimpleListViewController.make(
             with: TransactionsXlmViewController.self,
             dataProvider: TransactionsXlmDataProvider.self,
             presenter: TransactionsXlmPresenter.self,
-            interactor: TransactionsXlmInteractor.self
+            interactor: TransactionsXlmInteractor(with: provider)
         )
         return controller
     }

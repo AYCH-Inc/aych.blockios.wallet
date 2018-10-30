@@ -14,7 +14,7 @@ import Foundation
 extension TransactionTableCell {
 
     func configure(with viewModel: TransactionDetailViewModel) {
-        setTxType("sent")
+        setTxType(viewModel.txType)
         setDateLabelText(viewModel.dateString)
         setButtonText(viewModel.amountString)
         setInfoType(TransactionInfoTypeDefault)

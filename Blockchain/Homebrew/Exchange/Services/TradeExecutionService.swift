@@ -9,8 +9,19 @@
 import Foundation
 import RxSwift
 
+protocol TradeExecutionDependencies {
+    var xlmServiceProvider: XLMServiceProvider { get }
+}
+
+struct TradeExecutionServiceDependencies: TradeExecutionDependencies {
+    let xlmServiceProvider: XLMServiceProvider
+    init() {
+        xlmServiceProvider = XLMServiceProvider.shared
+    }
+}
+
 class TradeExecutionService: TradeExecutionAPI {
-    
+
     enum TradeExecutionAPIError: Error {
         case generic
     }
@@ -25,7 +36,10 @@ class TradeExecutionService: TradeExecutionAPI {
     
     private let authentication: NabuAuthenticationService
     private let wallet: Wallet
+    private let xlmServiceProvider: XLMServiceProvider
     private var disposable: Disposable?
+
+    private var pendingXlmPaymentOperation: StellarPaymentOperation?
     
     // MARK: TradeExecutionAPI
     
@@ -40,9 +54,11 @@ class TradeExecutionService: TradeExecutionAPI {
     }
     
     init(service: NabuAuthenticationService = NabuAuthenticationService.shared,
-         wallet: Wallet = WalletManager.shared.wallet) {
+         wallet: Wallet = WalletManager.shared.wallet,
+         dependencies: TradeExecutionDependencies) {
         self.authentication = service
         self.wallet = wallet
+        self.xlmServiceProvider = dependencies.xlmServiceProvider
     }
     
     deinit {
@@ -123,15 +139,29 @@ class TradeExecutionService: TradeExecutionAPI {
             }
             success(orderTransactionLegacy)
         }
-        wallet.createOrderPayment(
-            withOrderTransaction: orderTransactionLegacy,
-            completion: { [weak self] in
-                guard let this = self else { return }
-                this.isExecuting = false
-            },
-            success: createOrderPaymentSuccess,
-            error: error
-        )
+        if assetType == .stellar {
+            guard let sourceAccount = xlmServiceProvider.services.repository.defaultAccount,
+            let ledger = xlmServiceProvider.services.ledger.currentLedger,
+            let fee = ledger.baseFeeInXlm,
+            let amount = Decimal(string: orderTransactionLegacy.amount) else { return }
+
+            pendingXlmPaymentOperation = StellarPaymentOperation(
+                destinationAccountId: orderTransactionLegacy.to,
+                amountInXlm: amount,
+                sourceAccount: sourceAccount,
+                feeInXlm: fee
+            )
+        } else {
+            wallet.createOrderPayment(
+                withOrderTransaction: orderTransactionLegacy,
+                completion: { [weak self] in
+                    guard let this = self else { return }
+                    this.isExecuting = false
+                },
+                success: createOrderPaymentSuccess,
+                error: error
+            )
+        }
     }
 
     // Post a trade to the server. This will create a trade object that will
@@ -170,6 +200,23 @@ class TradeExecutionService: TradeExecutionAPI {
         let executionDone = { [weak self] in
             guard let this = self else { return }
             this.isExecuting = false
+        }
+        if assetType == .stellar {
+            guard let paymentOperation = pendingXlmPaymentOperation else {
+                Logger.shared.error("No pending payment operation found")
+                return
+            }
+            let services = xlmServiceProvider.services
+            let transaction = services.transaction
+            disposable = services.repository.loadStellarKeyPair()
+                .asObservable().flatMap { keyPair -> Completable in
+                    return transaction.send(paymentOperation, sourceKeyPair: keyPair)
+                }.subscribeOn(MainScheduler.asyncInstance)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onError: { errorMessage in
+                    Logger.shared.error("Failed to send XLM. Error: \(errorMessage)")
+                    error(errorMessage.localizedDescription)
+                }, onCompleted: success)
         }
         wallet.sendOrderTransaction(
             assetType.legacy,

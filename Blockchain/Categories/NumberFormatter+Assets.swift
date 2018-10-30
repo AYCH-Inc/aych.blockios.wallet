@@ -85,21 +85,6 @@ extension NumberFormatter {
     }()
 }
 
-// MARK: - Symbol formatting
-extension NumberFormatter {
-    static func appendAssetSymbolTo(amount: String, assetType: AssetType) -> String {
-        return amount + " " + assetType.symbol
-    }
-
-    static func appendCurrencySymbolTo(amount: String) -> String {
-        guard let fiatCurrencySymbol = BlockchainSettings.sharedAppInstance().fiatCurrencySymbol else {
-            Logger.shared.error("No currency symbol found")
-            return amount
-        }
-        return fiatCurrencySymbol + amount
-    }
-}
-
 // MARK: - Conversions
 extension NumberFormatter {
     // Returns local currency amount with two decimal places (assuming stringFromNumber returns a string)

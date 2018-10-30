@@ -7,7 +7,6 @@ excluded:
   - Submodules/
   - RxAlamofire/
   - Pods/
-  - vendor/bundle
 attributes: true
 closure_end_indentation: true
 closure_spacing: true

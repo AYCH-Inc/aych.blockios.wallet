@@ -13,6 +13,8 @@ final class KYCWelcomeController: KYCBaseViewController {
     
     // MARK: - IBOutlets
 
+    @IBOutlet private var imageViewMain: UIImageView!
+    @IBOutlet private var labelMain: UILabel!
     @IBOutlet private var labelTermsOfService: UILabel!
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -32,25 +34,8 @@ final class KYCWelcomeController: KYCBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let font = UIFont(
-            name: Constants.FontNames.montserratRegular,
-            size: Constants.FontSizes.ExtraExtraExtraSmall
-        ) ?? UIFont.systemFont(ofSize: Constants.FontSizes.ExtraExtraExtraSmall)
-        let labelAttributes = [
-            NSAttributedStringKey.font: font,
-            NSAttributedStringKey.foregroundColor: UIColor.gray5
-        ]
-        let labelText = NSMutableAttributedString(
-            string: String(
-                format: LocalizationConstants.KYC.termsOfServiceAndPrivacyPolicyNotice,
-                LocalizationConstants.tos,
-                LocalizationConstants.privacyPolicy
-            ),
-            attributes: labelAttributes
-        )
-        labelText.addForegroundColor(UIColor.brandSecondary, to: LocalizationConstants.tos)
-        labelText.addForegroundColor(UIColor.brandSecondary, to: LocalizationConstants.privacyPolicy)
-        labelTermsOfService.attributedText = labelText
+        initMainView()
+        initFooter()
     }
 
     // MARK: - Actions
@@ -74,10 +59,43 @@ final class KYCWelcomeController: KYCBaseViewController {
 
     @IBAction private func primaryButtonTapped(_ sender: Any) {
         coordinator.handle(event: .nextPageFromPageType(pageType, nil))
-        BlockchainSettings.App.shared.shouldShowKYCAnnouncementCard = true
+        BlockchainSettings.App.shared.isCompletingKyc = true
     }
 
     // MARK: - Private Methods
+
+    private func initMainView() {
+        if BlockchainSettings.App.shared.didTapOnAirdropDeepLink {
+            labelMain.text = LocalizationConstants.KYC.welcomeMainTextSunRiverCampaign
+            imageViewMain.image = #imageLiteral(resourceName: "symbol-xlm-large")
+            imageViewMain.tintColor = #colorLiteral(red: 0.06274509804, green: 0.6784313725, blue: 0.8941176471, alpha: 1)
+        } else {
+            labelMain.text = LocalizationConstants.KYC.welcomeMainText
+            imageViewMain.image = #imageLiteral(resourceName: "Welcome")
+        }
+    }
+
+    private func initFooter() {
+        let font = UIFont(
+            name: Constants.FontNames.montserratRegular,
+            size: Constants.FontSizes.ExtraExtraExtraSmall
+            ) ?? UIFont.systemFont(ofSize: Constants.FontSizes.ExtraExtraExtraSmall)
+        let labelAttributes = [
+            NSAttributedStringKey.font: font,
+            NSAttributedStringKey.foregroundColor: UIColor.gray5
+        ]
+        let labelText = NSMutableAttributedString(
+            string: String(
+                format: LocalizationConstants.KYC.termsOfServiceAndPrivacyPolicyNotice,
+                LocalizationConstants.tos,
+                LocalizationConstants.privacyPolicy
+            ),
+            attributes: labelAttributes
+        )
+        labelText.addForegroundColor(UIColor.brandSecondary, to: LocalizationConstants.tos)
+        labelText.addForegroundColor(UIColor.brandSecondary, to: LocalizationConstants.privacyPolicy)
+        labelTermsOfService.attributedText = labelText
+    }
 
     private func launchWebViewController(url: String, title: String) {
         let viewController = SettingsWebViewController()

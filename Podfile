@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
- platform :ios, '10.0'
+ platform :ios, '9.0'
 
 target 'Blockchain' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -7,13 +7,13 @@ target 'Blockchain' do
   inhibit_all_warnings!
   # Pods for Blockchain
     pod 'SwiftLint'
-    pod 'Onfido', '~> 10.0.0'
+    pod 'Onfido', '8.0.0'
     pod 'Alamofire', '~> 4.7'
-    pod 'Charts'
+    pod 'Charts', '3.1.0'
     pod 'RxSwift', '~> 4.0'
     pod 'RxCocoa', '~> 4.0'
     pod 'PhoneNumberKit', '~> 2.1'
-    pod 'Starscream', '~> 3.0.2'
+    pod 'Starscream', '3.0.5'
 
   target 'BlockchainTests' do
     inherit! :search_paths

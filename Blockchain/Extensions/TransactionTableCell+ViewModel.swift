@@ -18,6 +18,7 @@ extension TransactionTableCell {
         setDateLabelText(viewModel.dateString)
         setButtonText(viewModel.amountString)
         setInfoType(TransactionInfoTypeDefault)
+        assetType = viewModel.assetType
     }
 
     func showViewModelDetail(viewModel: TransactionDetailViewModel, viewController: UIViewController) {

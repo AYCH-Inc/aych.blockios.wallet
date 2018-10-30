@@ -20,7 +20,7 @@ protocol SimpleListDelegate: class {
 // - refreshable by pulling down
 // - able to trigger the next page by scrolling to the bottom
 
-class SimpleListViewController: UIViewController {
+class SimpleListViewController: UIViewController, SimpleListInterface {
 
     // MARK: Public Properties
 
@@ -83,33 +83,40 @@ class SimpleListViewController: UIViewController {
         interactor.output = presenter
         delegate = presenter
     }
-}
-
-extension SimpleListViewController: SimpleListInterface {
+    
+    func loadingIndicatorVisibility(_ visibility: Visibility) {
+        switch visibility {
+        case .visible:
+            LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
+        case .hidden, .translucent:
+            LoadingViewPresenter.shared.hideBusyView()
+        }
+    }
+    
     func paginationActivityIndicatorVisibility(_ visibility: Visibility) {
         dataProvider?.isPaging = visibility == .visible
     }
-
+    
     func refreshControlVisibility(_ visibility: Visibility) {
         dataProvider?.isRefreshing = visibility.isHidden == false
     }
-
+    
     func display(results: [Identifiable]) {
         dataProvider?.set(listModels: results)
     }
-
+    
     func append(results: [Identifiable]) {
         dataProvider?.append(listModels: results)
     }
-
+    
     func enablePullToRefresh() {
         dataProvider?.setupPullToRefresh()
     }
-
+    
     func showItemDetails(item: Identifiable) {
         // in ExchangeList example, message is sent to coordinator
     }
-
+    
     func showError(message: String) {
         AlertViewPresenter.shared.standardError(message: message)
     }

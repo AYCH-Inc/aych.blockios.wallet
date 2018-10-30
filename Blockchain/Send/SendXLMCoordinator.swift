@@ -146,7 +146,13 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             Logger.shared.error("Could not format fiat text")
             return
         }
-        interface.apply(updates: [.fiatAmountText(fiatText)])
+
+        interface.apply(updates: [
+            .fiatAmountText(fiatText),
+            .errorLabelVisibility(.hidden),
+            .fiatFieldTextColor(.gray6),
+            .xlmFieldTextColor(.gray6)
+        ])
     }
     
     func onFiatEntry(_ value: String, latestPrice: Decimal) {
@@ -157,7 +163,12 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             Logger.shared.error("Could not format crypto text")
             return
         }
-        interface.apply(updates: [.stellarAmountText(cryptoText)])
+        interface.apply(updates: [
+            .stellarAmountText(cryptoText),
+            .errorLabelVisibility(.hidden),
+            .fiatFieldTextColor(.gray6),
+            .xlmFieldTextColor(.gray6)
+        ])
     }
     
     func onSecondaryPasswordValidated() {
@@ -173,9 +184,11 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                     .hidePaymentConfirmation,
                     .activityIndicatorVisibility(.visible)
                 ])
-            }).flatMap { keyPair -> Completable in
+            })
+            .flatMap { keyPair -> Completable in
                 return transaction.send(paymentOperation, sourceKeyPair: keyPair)
-            }.subscribeOn(MainScheduler.asyncInstance)
+            }
+            .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onError: { [weak self] error in
                 Logger.shared.error("Failed to send XLM. Error: \(error)")
@@ -193,30 +206,41 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     }
     
     func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal) {
-        let disposable = services.ledger.current
-            .take(1)
+        guard let sourceAccount = services.repository.defaultAccount else {
+            interface.apply(updates: [
+                .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
+            ])
+            return
+        }
+
+        let disposable = services.limits.isSpendable(amount: amount, for: sourceAccount.publicKey)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] ledger in
-                guard let strongSelf = self else { return }
-
-                guard let sourceAccount = strongSelf.services.repository.defaultAccount else { return }
-
+            .subscribe(onSuccess: { [weak self] isSpendable in
+                guard isSpendable else {
+                    self?.interface.apply(updates: [
+                        .errorLabelText(LocalizationConstants.Stellar.notEnoughXLM),
+                        .errorLabelVisibility(.visible),
+                        .fiatFieldTextColor(.error),
+                        .xlmFieldTextColor(.error)
+                    ])
+                    return
+                }
                 let operation = StellarPaymentOperation(
                     destinationAccountId: toAddress,
                     amountInXlm: amount,
                     sourceAccount: sourceAccount,
                     feeInXlm: feeInXlm
                 )
-                strongSelf.interface.apply(updates: [
+                self?.interface.apply(updates: [
                     .showPaymentConfirmation(operation)
                 ])
-        }, onError: { [weak self] error in
-            Logger.shared.error("Could not fetch ledger")
-            self?.interface.apply(updates: [
-                .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
-            ])
-        })
+            }, onError: { [weak self] error in
+                Logger.shared.error("Could not fetch ledger or account details")
+                self?.interface.apply(updates: [
+                    .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
+                ])
+            })
         disposables.insertWithDiscardableResult(disposable)
     }
 

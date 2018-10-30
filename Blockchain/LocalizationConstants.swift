@@ -901,6 +901,10 @@ struct LocalizationConstants {
             "Cannot send XLM at this time. Please try again.",
             comment: "Error displayed when XLM cannot be sent due to an error."
         )
+        static let notEnoughXLM = NSLocalizedString(
+            "Not enough XLM.",
+            comment: "Error message displayed if the user tries to send XLM but does not have enough of it."
+        )
     }
 }
 

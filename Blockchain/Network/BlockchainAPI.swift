@@ -44,7 +44,7 @@ final class BlockchainAPI: NSObject {
 
     /// Public hosts used for partner API calls.
     enum PartnerHosts: String, CaseIterable {
-        case blockchair = "blockchair.com",
+        case blockchair = "blockhair.com",
         coinify = "app-api.coinify.com",
         etherscan = "etherscan.io",
         // TODO: determine correct stellar explorer URL

@@ -15,13 +15,12 @@ class AssetAccountRepository {
     static let shared = AssetAccountRepository()
 
     private let wallet: Wallet
-    private let stellarAccounts: StellarAccountAPI
+    private let xlmServiceProvider: XLMServiceProvider
     private var disposable: Disposable?
 
     init(wallet: Wallet = WalletManager.shared.wallet) {
         self.wallet = wallet
-        let repository = WalletXlmAccountRepository(wallet: wallet)
-        stellarAccounts = StellarAccountService(configuration: .test, repository: repository)
+        xlmServiceProvider = XLMServiceProvider.shared
         getStellarAccount()
     }
 
@@ -48,6 +47,7 @@ class AssetAccountRepository {
         }
 
         if assetType == .stellar {
+            let stellarAccounts = xlmServiceProvider.services.accounts
             if let stellarAccount = stellarAccounts.currentAccount {
                 return [stellarAccount.assetAccount]
             }
@@ -107,6 +107,7 @@ class AssetAccountRepository {
     }
 
     func defaultStellarAccount() -> AssetAccount? {
+        let stellarAccounts = xlmServiceProvider.services.accounts
         guard let stellarAccount = stellarAccounts.currentAccount else {
             return nil
         }
@@ -115,12 +116,13 @@ class AssetAccountRepository {
 
     // MARK: - Private methods
     func getStellarAccount() {
+        let stellarAccounts = xlmServiceProvider.services.accounts
         disposable = stellarAccounts.currentStellarAccount(fromCache: true).asObservable()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { _ in
                 Logger.shared.debug("Got stellar account")
-            }, onError: { [weak self] error in
+            }, onError: { error in
                 guard let serviceError = error as? StellarServiceError else { return }
                 switch serviceError {
                 case .noXLMAccount:

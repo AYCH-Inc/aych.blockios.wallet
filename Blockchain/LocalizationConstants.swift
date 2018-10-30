@@ -720,6 +720,10 @@ struct LocalizationConstants {
             "Your information is being reviewed. When all looks good, you’re clear to exchange. You should receive a notification within 5 minutes.",
             comment: "Description for when KYC verification is in progress."
         )
+        static let verificationInProgressDescriptionAirdrop = NSLocalizedString(
+            "Your information is being reviewed. The review should complete in 5 minutes. Once you're successfully verified, we'll send your XLM within one week.",
+            comment: "Description for when KYC verification is in progress and the user is waiting for a Stellar airdrop."
+        )
         static let accountApproved = NSLocalizedString(
             "Account Approved",
             comment: "Text displayed when KYC verification is approved."
@@ -731,10 +735,6 @@ struct LocalizationConstants {
         static let accountApprovedBadge = NSLocalizedString(
             "Approved",
             comment: "KYC verification is approved."
-        )
-        static let accountPendingBadge = NSLocalizedString(
-            "Pending",
-            comment: "KYC verification is Pending."
         )
         static let accountUnderReviewBadge = NSLocalizedString(
             "Under Review",

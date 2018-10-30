@@ -8,6 +8,8 @@
 
 import RxSwift
 
+typealias HTTPHeaders = [String: String]
+
 /// TICKET: IOS-1242 - Condense HttpHeaderField
 /// and HttpHeaderValue into enums and inject in a token
 struct NetworkRequest {
@@ -25,19 +27,25 @@ struct NetworkRequest {
     
     let method: NetworkMethod
     let endpoint: URL
-    let token: String?
     let body: Data?
+    let headers: HTTPHeaders?
+
+    // Deprecate this field in favor of headers (i.e. the token should be passed in as an
+    // element in `headers`
+    let token: String?
+
     private let session: URLSession? = {
         guard let session = NetworkManager.shared.session else { return nil }
         return session
     }()
     private var task: URLSessionDataTask?
     
-    init(endpoint: URL, method: NetworkMethod, body: Data?, authToken: String? = nil) {
+    init(endpoint: URL, method: NetworkMethod, body: Data?, authToken: String? = nil, headers: HTTPHeaders? = nil) {
         self.endpoint = endpoint
         self.token = authToken
         self.method = method
         self.body = body
+        self.headers = headers
     }
     
     func URLRequest() -> URLRequest? {
@@ -55,6 +63,12 @@ struct NetworkRequest {
                 auth,
                 forHTTPHeaderField: HttpHeaderField.authorization
             )
+        }
+
+        if let headers = headers {
+            headers.forEach {
+                request.addValue($1, forHTTPHeaderField: $0)
+            }
         }
         
         if let data = body {
@@ -152,9 +166,10 @@ extension NetworkRequest {
         url: URL,
         body: Data?,
         token: String?,
-        type: ResponseType.Type
+        type: ResponseType.Type,
+        headers: HTTPHeaders? = nil
     ) -> Single<ResponseType> {
-        var request = self.init(endpoint: url, method: .post, body: body, authToken: token)
+        var request = self.init(endpoint: url, method: .post, body: body, authToken: token, headers: headers)
         return Single.create(subscribe: { (observer) -> Disposable in
             request.execute(expecting: ResponseType.self, withCompletion: { (result, _) in
                 switch result {

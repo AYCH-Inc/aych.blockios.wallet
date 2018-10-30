@@ -78,9 +78,9 @@ Install a node version manager such as [nvm](https://github.com/creationix/nvm) 
 Create the following directories:
 
 ```
-./Firebase/Dev
-./Firebase/Staging
-./Firebase/Prod
+./Blockchain/Firebase/Dev
+./Blockchain/Firebase/Staging
+./Blockchain/Firebase/Prod
 ```
     
     In each directory, you'll need to copy/paste the environment-specific GoogleService-Info.plist files that are in credentials repository.

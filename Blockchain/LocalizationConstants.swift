@@ -693,6 +693,14 @@ struct LocalizationConstants {
     }
 
     struct KYC {
+        static let welcomeMainText = NSLocalizedString(
+            "Introducing Blockchain’s new and improved crypto exchange function. To use this updated feature, please verify your identity. It only takes a couple of minutes.",
+            comment: "Text displayed when user is starting KYC"
+        )
+        static let welcomeMainTextSunRiverCampaign = NSLocalizedString(
+            "Verify your identity to claim your Stellar. It only takes a few minutes. This will also allow you to use our new and improved crypto exchange feature.",
+            comment: "Text displayed when user is starting KYC coming from the airdrop link"
+        )
         static let invalidPhoneNumber = NSLocalizedString(
             "The mobile number you entered is invalid.",
             comment: "Error message displayed to the user when the phone number they entered during KYC is invalid.")

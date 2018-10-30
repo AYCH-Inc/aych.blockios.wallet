@@ -49,7 +49,6 @@ typedef enum {
 @property(nonatomic)  LegacyAssetType assetType;
 
 - (void)reload;
-- (void)changeBtcButtonTitleText:(NSString *)text;
 
 - (void)setTxType:(NSString *)txType;
 - (void)setDateLabelText:(NSString *)text;

@@ -15,19 +15,17 @@ class AssetAccountRepository {
     static let shared = AssetAccountRepository()
 
     private let wallet: Wallet
+    private let xlmServiceProvider: XLMServiceProvider
     private let stellarAccountService: StellarAccountAPI
     private var disposable: Disposable?
 
     init(
         wallet: Wallet = WalletManager.shared.wallet,
-        stellarAccountService: StellarAccountAPI = StellarAccountService(
-            configuration: .test,
-            ledgerService: StellarLedgerService(configuration: .test),
-            repository: WalletXlmAccountRepository()
-        )
+        xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared
     ) {
         self.wallet = wallet
-        self.stellarAccountService = stellarAccountService
+        self.xlmServiceProvider = xlmServiceProvider
+        self.stellarAccountService = xlmServiceProvider.services.accounts
     }
 
     deinit {

@@ -36,8 +36,8 @@ struct ExchangeServices: ExchangeDependencies {
         markets = MarketsService()
         conversions = ExchangeConversionService()
         inputs = ExchangeInputsService()
-        tradeExecution = TradeExecutionService(dependencies: TradeExecutionServiceDependencies())
         assetAccountRepository = AssetAccountRepository.shared
+        tradeExecution = TradeExecutionService(dependencies: TradeExecutionServiceDependencies())
         tradeLimits = TradeLimitsService()
     }
 }
@@ -114,21 +114,47 @@ struct ExchangeServices: ExchangeDependencies {
     }
 
     private func showAppropriateExchange() {
-        if walletManager.wallet.hasEthAccount() {
-            showExchange(type: .homebrew)
-        } else {
-            if walletManager.wallet.needsSecondPassword() {
-                AuthenticationCoordinator.shared.showPasswordConfirm(
-                    withDisplayText: LocalizationConstants.Authentication.etherSecondPasswordPrompt,
-                    headerText: LocalizationConstants.Authentication.secondPasswordRequired,
-                    validateSecondPassword: true,
-                    confirmHandler: { (secondPassword) in
-                        self.walletManager.wallet.createEthAccount(forExchange: secondPassword)
-                    }
-                )
-            } else {
-                walletManager.wallet.createEthAccount(forExchange: nil)
+        let hasEthAccount = walletManager.wallet.hasEthAccount()
+        let hasXlmAccount = AssetAccountRepository.shared.defaultStellarAccount() != nil
+
+        if !hasEthAccount && !hasXlmAccount {
+            createXlmAccount { [unowned self] in
+                self.createEthAccountForExchange()
             }
+        } else if !hasEthAccount {
+            createEthAccountForExchange()
+        } else if !hasXlmAccount {
+            createXlmAccount { [unowned self] in
+                self.start()
+            }
+        } else {
+            showExchange(type: .homebrew)
+        }
+    }
+
+    private func createXlmAccount(completion: @escaping (() -> ())) {
+        disposable = XLMServiceProvider.shared.services.repository.initializeMetadataMaybe()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { _ in
+                completion()
+            }, onError: { error in
+                Logger.shared.error("Failed to fetch XLM account.")
+            })
+    }
+
+    private func createEthAccountForExchange() {
+        if walletManager.wallet.needsSecondPassword() {
+            AuthenticationCoordinator.shared.showPasswordConfirm(
+                withDisplayText: LocalizationConstants.Authentication.etherSecondPasswordPrompt,
+                headerText: LocalizationConstants.Authentication.secondPasswordRequired,
+                validateSecondPassword: true,
+                confirmHandler: { (secondPassword) in
+                    self.walletManager.wallet.createEthAccount(forExchange: secondPassword)
+            }
+            )
+        } else {
+            walletManager.wallet.createEthAccount(forExchange: nil)
         }
     }
 

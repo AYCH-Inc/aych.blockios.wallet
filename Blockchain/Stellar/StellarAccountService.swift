@@ -22,6 +22,8 @@ class StellarAccountService: StellarAccountAPI {
        configuration.sdk.accounts
     }()
 
+    private var disposable: Disposable?
+
     init(
         configuration: StellarConfiguration = .production,
         ledgerService: StellarLedgerAPI,
@@ -30,6 +32,11 @@ class StellarAccountService: StellarAccountAPI {
         self.configuration = configuration
         self.ledgerService = ledgerService
         self.repository = repository
+    }
+
+    deinit {
+        disposable?.dispose()
+        disposable = nil
     }
     
     var currentAccount: StellarAccount? {
@@ -44,6 +51,9 @@ class StellarAccountService: StellarAccountAPI {
     }
     
     // MARK: Public Functions
+    func prefetch() {
+        disposable = currentStellarAccount(fromCache: true).subscribe()
+    }
     
     func currentStellarAccount(fromCache: Bool) -> Maybe<StellarAccount> {
         if let cached = privateAccount.value, fromCache == true {

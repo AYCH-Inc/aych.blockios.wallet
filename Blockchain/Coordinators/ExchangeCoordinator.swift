@@ -118,14 +118,16 @@ struct ExchangeServices: ExchangeDependencies {
             if !self.walletManager.wallet.hasEthAccount() {
                 self.createEthAccountForExchange()
             } else {
-                AssetAccountRepository.shared.getStellarAccount()
                 self.showExchange(type: .homebrew)
             }
         }
     }
 
     private func initXlmAccountIfNeeded(completion: @escaping (() -> ())) {
-        disposable = XLMServiceProvider.shared.services.repository.initializeMetadataMaybe()
+        disposable = xlmAccountRepository.initializeMetadataMaybe()
+            .flatMap({ [unowned self] _ in
+                return self.stellarAccountService.currentStellarAccount(fromCache: true)
+            })
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { _ in
@@ -254,18 +256,28 @@ struct ExchangeServices: ExchangeDependencies {
     // MARK: - Services
     private let marketsService: MarketsService
     private let exchangeService: ExchangeService
+    private let stellarAccountService: StellarAccountAPI
+    private let xlmAccountRepository: WalletXlmAccountRepository
 
     // MARK: - Lifecycle
     private init(
         walletManager: WalletManager = WalletManager.shared,
         walletService: WalletService = WalletService.shared,
         marketsService: MarketsService = MarketsService(),
-        exchangeService: ExchangeService = ExchangeService()
+        exchangeService: ExchangeService = ExchangeService(),
+        xlmAccountRepository: WalletXlmAccountRepository = WalletXlmAccountRepository(),
+        stellarAccountService: StellarAccountAPI = StellarAccountService(
+            configuration: .test,
+            ledgerService: StellarLedgerService(configuration: .test),
+            repository: WalletXlmAccountRepository()
+        )
     ) {
         self.walletManager = walletManager
         self.walletService = walletService
         self.marketsService = marketsService 
         self.exchangeService = exchangeService
+        self.xlmAccountRepository = xlmAccountRepository
+        self.stellarAccountService = stellarAccountService
         super.init()
     }
 

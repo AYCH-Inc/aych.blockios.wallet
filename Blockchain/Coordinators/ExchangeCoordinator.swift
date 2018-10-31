@@ -114,25 +114,19 @@ struct ExchangeServices: ExchangeDependencies {
     }
 
     private func showAppropriateExchange() {
-        let hasEthAccount = walletManager.wallet.hasEthAccount()
-        let hasXlmAccount = AssetAccountRepository.shared.defaultStellarAccount() != nil
-
-        if !hasEthAccount && !hasXlmAccount {
-            createXlmAccount { [unowned self] in
+        if !walletManager.wallet.hasEthAccount() {
+            initXlmAccountIfNeeded { [unowned self] in
                 self.createEthAccountForExchange()
             }
-        } else if !hasEthAccount {
-            createEthAccountForExchange()
-        } else if !hasXlmAccount {
-            createXlmAccount { [unowned self] in
-                self.start()
-            }
         } else {
-            showExchange(type: .homebrew)
+            initXlmAccountIfNeeded { [unowned self] in
+                AssetAccountRepository.shared.getStellarAccount()
+                self.showExchange(type: .homebrew)
+            }
         }
     }
 
-    private func createXlmAccount(completion: @escaping (() -> ())) {
+    private func initXlmAccountIfNeeded(completion: @escaping (() -> ())) {
         disposable = XLMServiceProvider.shared.services.repository.initializeMetadataMaybe()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)

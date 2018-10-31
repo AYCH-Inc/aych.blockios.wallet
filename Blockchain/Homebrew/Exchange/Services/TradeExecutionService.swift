@@ -202,7 +202,6 @@ class TradeExecutionService: TradeExecutionAPI {
         success: @escaping (() -> Void),
         error: @escaping ((String) -> Void)
     ) {
-        isExecuting = true
         let executionDone = { [weak self] in
             guard let this = self else { return }
             this.isExecuting = false
@@ -220,18 +219,21 @@ class TradeExecutionService: TradeExecutionAPI {
                 }.subscribeOn(MainScheduler.asyncInstance)
                 .observeOn(MainScheduler.instance)
                 .subscribe(onError: { errorMessage in
+                    executionDone()
                     Logger.shared.error("Failed to send XLM. Error: \(errorMessage)")
                     error(errorMessage.localizedDescription)
                 }, onCompleted: success)
+        } else {
+            isExecuting = true
+            wallet.sendOrderTransaction(
+                assetType.legacy,
+                secondPassword: secondPassword,
+                completion: executionDone,
+                success: success,
+                error: error,
+                cancel: executionDone
+            )
         }
-        wallet.sendOrderTransaction(
-            assetType.legacy,
-            secondPassword: secondPassword,
-            completion: executionDone,
-            success: success,
-            error: error,
-            cancel: executionDone
-        )
     }
 }
 
@@ -386,7 +388,7 @@ extension TradeExecutionService {
         // Second password must be prompted before an order is processed since it is
         // a cancellable action - otherwise an order will be created even if cancelling
         // second password
-        if wallet.needsSecondPassword() {
+        if wallet.needsSecondPassword() && from.address.assetType != .stellar {
             AuthenticationCoordinator.shared.showPasswordConfirm(
                 withDisplayText: LocalizationConstants.Authentication.secondPasswordDefaultDescription,
                 headerText: LocalizationConstants.Authentication.secondPasswordRequired,

@@ -47,9 +47,8 @@ class AssetAccountRepository {
         }
 
         if assetType == .stellar {
-            let stellarAccounts = xlmServiceProvider.services.accounts
-            if let stellarAccount = stellarAccounts.currentAccount {
-                return [stellarAccount.assetAccount]
+            if let stellarAccount = defaultStellarAccount() {
+                return [stellarAccount]
             }
             return []
         }

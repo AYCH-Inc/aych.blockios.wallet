@@ -114,12 +114,10 @@ struct ExchangeServices: ExchangeDependencies {
     }
 
     private func showAppropriateExchange() {
-        if !walletManager.wallet.hasEthAccount() {
-            initXlmAccountIfNeeded { [unowned self] in
+        initXlmAccountIfNeeded { [unowned self] in
+            if !self.walletManager.wallet.hasEthAccount() {
                 self.createEthAccountForExchange()
-            }
-        } else {
-            initXlmAccountIfNeeded { [unowned self] in
+            } else {
                 AssetAccountRepository.shared.getStellarAccount()
                 self.showExchange(type: .homebrew)
             }

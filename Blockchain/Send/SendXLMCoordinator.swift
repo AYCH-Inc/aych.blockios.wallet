@@ -36,6 +36,7 @@ class SendXLMCoordinator {
     }
     
     enum InternalEvent {
+        case insufficientFundsForNewAccount
         case insufficientFunds
         case noStellarAccount
         case noXLMAccount
@@ -77,6 +78,9 @@ class SendXLMCoordinator {
                                       .xlmFieldTextColor(.error),
                                       .errorLabelVisibility(.hidden),
                                       .feeAmountLabelText()])
+        case .insufficientFundsForNewAccount:
+            interface.apply(updates: [.errorLabelVisibility(.visible),
+                                      .errorLabelText(LocalizationConstants.Stellar.minimumForNewAccountsError)])
         }
     }
 
@@ -219,9 +223,12 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                 let errorMessage: String
                 if let stellarError = error as? StellarServiceError, stellarError == .amountTooLow {
                     errorMessage = LocalizationConstants.Stellar.notEnoughXLM
+                } else if let stellarError = error as? StellarServiceError, stellarError == .insufficientFundsForNewAccount {
+                    errorMessage = LocalizationConstants.Stellar.minimumForNewAccountsError
                 } else {
                     errorMessage = LocalizationConstants.Stellar.cannotSendXLMAtThisTime
                 }
+                
                 self?.interface.apply(updates: [
                     .errorLabelText(errorMessage),
                     .errorLabelVisibility(.visible),

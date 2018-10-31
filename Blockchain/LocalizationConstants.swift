@@ -909,6 +909,10 @@ struct LocalizationConstants {
             "Use total spendable balance: ",
             comment: "Tappable text displayed in the send XLM screen for when the user wishes to send their full spendable balance."
         )
+        static let minimumForNewAccountsError = NSLocalizedString(
+            "Minimum of 1.0 XLM needed for new accounts",
+            comment: "This is the error shown when too little XLM is sent to a primary key that does not yet have an XLM account"
+        )
     }
 }
 

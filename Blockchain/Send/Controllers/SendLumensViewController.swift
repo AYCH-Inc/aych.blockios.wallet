@@ -86,8 +86,8 @@ protocol SendXLMViewControllerDelegate: class {
         case showPaymentConfirmation(StellarPaymentOperation)
         case hidePaymentConfirmation
         case paymentSuccess
-        case stellarAmountText(String)
-        case fiatAmountText(String)
+        case stellarAmountText(String?)
+        case fiatAmountText(String?)
     }
 
     // MARK: Public Methods
@@ -344,7 +344,7 @@ extension SendLumensViewController: SendXLMModelInterface {
         latestPrice = value
     }
 
-    func updateXLMAmount(_ value: Decimal) {
+    func updateXLMAmount(_ value: Decimal?) {
         xlmAmount = value
     }
 }

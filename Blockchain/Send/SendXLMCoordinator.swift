@@ -72,13 +72,11 @@ class SendXLMCoordinator {
             let trigger = ActionableTrigger(text: "Minimum of", CTA: "1 XLM", secondary: "needed for new accounts.") {
                 // TODO: On `1 XLM` selection, show the minimum balance screen.
             }
-            let ledger = services.ledger.current
             interface.apply(updates: [.actionableLabelTrigger(trigger),
                                       .fiatFieldTextColor(.error),
                                       .xlmFieldTextColor(.error),
                                       .errorLabelVisibility(.hidden),
                                       .feeAmountLabelText()])
-            break
         }
     }
     
@@ -86,15 +84,16 @@ class SendXLMCoordinator {
 
 extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     func onLoad() {
+        initializeActionableLabel()
         // TODO: Users may have a `defaultAccount` but that doesn't mean
         // that they have an `StellarAccount` as it must be funded.
         let disposable = services.accounts.currentStellarAccount(fromCache: true).asObservable()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { account in
+            .subscribe(onNext: { [weak self] _ in
                 /// The user has a StellarAccount, we should enable the input fields.
                 /// Begin observing operations and updating the user account.
-                self.observeOperations()
+                self?.observeOperations()
             }, onError: { [weak self] error in
                 guard let this = self else { return }
                 guard let serviceError = error as? StellarServiceError else { return }
@@ -113,16 +112,22 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     }
 
     func onAppear() {
-        let fiatSymbol = BlockchainSettings.sharedAppInstance().fiatCurrencyCode ?? "USD"
-        let disposable = Single.zip(services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: fiatSymbol), services.ledger.current.take(1).asSingle()) {
-                return ($0, $1)
-            }.subscribeOn(MainScheduler.asyncInstance)
+        if let xlmAccount = services.repository.defaultAccount {
+            computeMaxSpendableAmount(for: xlmAccount.publicKey)
+        }
+
+        let fiatSymbol = BlockchainSettings.App.shared.fiatCurrencyCode ?? "USD"
+        let disposable = Single.zip(
+            services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: fiatSymbol),
+            services.ledger.current.take(1).asSingle()
+        ).subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [unowned self] price, ledger in
                 guard let feeInXlm = ledger.baseFeeInXlm else {
                     Logger.shared.error("Fee is nil.")
                     self.interface.apply(updates: [
-                        .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
+                        .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
+                        .errorLabelVisibility(.visible)
                     ])
                     return
                 }
@@ -132,7 +137,8 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             }, onError: { [unowned self] error in
                 Logger.shared.error(error.localizedDescription)
                 self.interface.apply(updates: [
-                    .errorLabelText(LocalizationConstants.Errors.genericError)
+                    .errorLabelText(LocalizationConstants.Errors.genericError),
+                    .errorLabelVisibility(.visible)
                 ])
             })
         disposables.insertWithDiscardableResult(disposable)
@@ -182,7 +188,8 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             .do(onNext: { [weak self] _ in
                 self?.interface.apply(updates: [
                     .hidePaymentConfirmation,
-                    .activityIndicatorVisibility(.visible)
+                    .activityIndicatorVisibility(.visible),
+                    .primaryButtonEnabled(false)
                 ])
             })
             .flatMap { keyPair -> Completable in
@@ -192,14 +199,26 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             .observeOn(MainScheduler.instance)
             .subscribe(onError: { [weak self] error in
                 Logger.shared.error("Failed to send XLM. Error: \(error)")
+                let errorMessage: String
+                if let stellarError = error as? StellarServiceError, stellarError == .amountTooLow {
+                    errorMessage = LocalizationConstants.Stellar.notEnoughXLM
+                } else {
+                    errorMessage = LocalizationConstants.Stellar.cannotSendXLMAtThisTime
+                }
                 self?.interface.apply(updates: [
-                    .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
-                    .activityIndicatorVisibility(.hidden)
+                    .errorLabelText(errorMessage),
+                    .errorLabelVisibility(.visible),
+                    .activityIndicatorVisibility(.hidden),
+                    .primaryButtonEnabled(true)
                 ])
             }, onCompleted: { [weak self] in
+                self?.computeMaxSpendableAmount(for: paymentOperation.sourceAccount.publicKey)
                 self?.interface.apply(updates: [
+                    .fiatAmountText(""),
+                    .stellarAmountText(""),
                     .paymentSuccess,
-                    .activityIndicatorVisibility(.hidden)
+                    .activityIndicatorVisibility(.hidden),
+                    .primaryButtonEnabled(true)
                 ])
             })
         disposables.insertWithDiscardableResult(disposable)
@@ -208,7 +227,8 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal) {
         guard let sourceAccount = services.repository.defaultAccount else {
             interface.apply(updates: [
-                .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
+                .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
+                .errorLabelVisibility(.visible)
             ])
             return
         }
@@ -238,13 +258,51 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             }, onError: { [weak self] error in
                 Logger.shared.error("Could not fetch ledger or account details")
                 self?.interface.apply(updates: [
-                    .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
+                    .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
+                    .errorLabelVisibility(.visible)
                 ])
             })
         disposables.insertWithDiscardableResult(disposable)
     }
 
-    func onUseMaxTapped() {
-        
+    // MARK: - Private
+
+    private func initializeActionableLabel() {
+        // Initialize with 0
+        interface.apply(updates: [
+            .actionableLabelTrigger(ActionableTrigger(
+                text: LocalizationConstants.Stellar.useSpendableBalanceX,
+                CTA: "0 \(AssetType.stellar.symbol)",
+                executionBlock: {}
+            ))
+        ])
+    }
+
+    private func computeMaxSpendableAmount(for accountId: String) {
+        let fiatSymbol = BlockchainSettings.App.shared.fiatCurrencyCode ?? "USD"
+        let disposable = Single.zip(
+            services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: fiatSymbol),
+            services.limits.maxSpendableAmount(for: accountId)
+        ).subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] price, maxSpendableAmount in
+                let maxString = NumberFormatter.stellarFormatter.string(for: maxSpendableAmount) ?? "0"
+                let trigger = ActionableTrigger(
+                    text: LocalizationConstants.Stellar.useSpendableBalanceX,
+                    CTA: "\(maxString) \(AssetType.stellar.symbol)",
+                    executionBlock: {
+                        self?.interface.apply(updates: [
+                            .stellarAmountText(maxString)
+                        ])
+                        self?.onXLMEntry("\(maxSpendableAmount)", latestPrice: price.price)
+                    }
+                )
+                self?.interface.apply(updates: [
+                    .actionableLabelTrigger(trigger)
+                ])
+            }, onError: { error in
+                Logger.shared.error("Could not compute max spendable amount.")
+            })
+        disposables.insertWithDiscardableResult(disposable)
     }
 }

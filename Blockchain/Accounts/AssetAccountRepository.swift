@@ -15,13 +15,20 @@ class AssetAccountRepository {
     static let shared = AssetAccountRepository()
 
     private let wallet: Wallet
-    private let xlmServiceProvider: XLMServiceProvider
+    private let stellarAccountService: StellarAccountAPI
     private var disposable: Disposable?
 
-    init(wallet: Wallet = WalletManager.shared.wallet) {
+    init(
+        wallet: Wallet = WalletManager.shared.wallet,
+        stellarAccountService: StellarAccountAPI = StellarAccountService(
+            configuration: .test,
+            ledgerService: StellarLedgerService(configuration: .test),
+            repository: WalletXlmAccountRepository()
+        )
+    ) {
         self.wallet = wallet
-        xlmServiceProvider = XLMServiceProvider.shared
-        getStellarAccount()
+        self.stellarAccountService = stellarAccountService
+        self.getStellarAccount()
     }
 
     deinit {
@@ -106,16 +113,14 @@ class AssetAccountRepository {
     }
 
     func defaultStellarAccount() -> AssetAccount? {
-        let stellarAccounts = xlmServiceProvider.services.accounts
-        guard let stellarAccount = stellarAccounts.currentAccount else {
+        guard let stellarAccount = stellarAccountService.currentAccount else {
             return nil
         }
         return stellarAccount.assetAccount
     }
 
     func getStellarAccount() {
-        let stellarAccounts = xlmServiceProvider.services.accounts
-        disposable = stellarAccounts.currentStellarAccount(fromCache: true).asObservable()
+        disposable = stellarAccountService.currentStellarAccount(fromCache: true).asObservable()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { _ in

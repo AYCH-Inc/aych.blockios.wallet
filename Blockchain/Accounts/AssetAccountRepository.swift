@@ -114,7 +114,6 @@ class AssetAccountRepository {
         return stellarAccount.assetAccount
     }
 
-    // MARK: - Private methods
     func getStellarAccount() {
         let stellarAccounts = xlmServiceProvider.services.accounts
         disposable = stellarAccounts.currentStellarAccount(fromCache: true).asObservable()

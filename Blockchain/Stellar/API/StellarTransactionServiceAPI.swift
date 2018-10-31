@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import stellarsdk
 
 class StellarTransactionServiceAPI: SimpleListServiceAPI {
     
@@ -26,8 +27,8 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
         self.transactionService = provider.services.transaction
         self.cache = StellarTransactionCache()
     }
-
-    func fetchAllItems(output: SimpleListOutput?) {
+    
+    fileprivate func fetch(with output: SimpleListOutput?) {
         let disposable = operationService.operations
             .map { $0 }
             .scan([], accumulator: {
@@ -38,7 +39,28 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
             .subscribe(onNext: { [weak self] result in
                 self?.operations = result
                 output?.loadedItems(result)
+                }, onError: { error in
+                    output?.itemFetchFailed(error: error)
+            })
+        disposables.insertWithDiscardableResult(disposable)
+    }
+
+    func fetchAllItems(output: SimpleListOutput?) {
+        /// We have to confirm that the user has a `StellarAccount`. If they don't
+        /// the actual fetch for the account's operations will fail. In the event of
+        /// it failing we will no longer be subscribed to those incoming operations.
+        /// Rather than managing state and checking for error types (the error if
+        /// an account doesn't exist is `notFound`). It made more sense to do this.
+        let disposable = provider.services.accounts.currentStellarAccount(fromCache: false)
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { account in
+                self.fetch(with: output)
             }, onError: { error in
+                // TODO: If there are no transactions, users may want to request XLM
+                // like they can on the other screens.
+                // Users will never have zero transactions if they have an account as
+                // the initial funding of the account counts as a transaction. 
                 output?.itemFetchFailed(error: error)
             })
         disposables.insertWithDiscardableResult(disposable)

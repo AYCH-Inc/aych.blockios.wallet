@@ -62,6 +62,7 @@ import RxSwift
         tabControllerManager.sendBitcoinCashViewController?.reload()
 
         strongSelf.dataRepository.prefetchData()
+        strongSelf.stellarAccountService.prefetch()
 
         /// Prompt the user for push notification permission
         PushNotificationManager.shared.requestAuthorization()
@@ -118,6 +119,7 @@ import RxSwift
     }
 
     internal let dataRepository: BlockchainDataRepository
+    internal let stellarAccountService: StellarAccountAPI
 
     internal let walletManager: WalletManager
 
@@ -151,11 +153,17 @@ import RxSwift
         walletManager: WalletManager = WalletManager.shared,
         walletService: WalletService = WalletService.shared,
         dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
+        stellarAccountService: StellarAccountAPI = StellarAccountService(
+            configuration: .test,
+            ledgerService: StellarLedgerService(configuration: .test),
+            repository: WalletXlmAccountRepository()
+        ),
         airDropRouter: StellarAirdropRouter = StellarAirdropRouter()
     ) {
         self.walletManager = walletManager
         self.walletService = walletService
         self.dataRepository = dataRepository
+        self.stellarAccountService = stellarAccountService
         self.airDropRouter = airDropRouter
         super.init()
         self.walletManager.secondPasswordDelegate = self

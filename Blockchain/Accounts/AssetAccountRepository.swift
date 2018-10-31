@@ -28,7 +28,6 @@ class AssetAccountRepository {
     ) {
         self.wallet = wallet
         self.stellarAccountService = stellarAccountService
-        self.getStellarAccount()
     }
 
     deinit {
@@ -117,26 +116,6 @@ class AssetAccountRepository {
             return nil
         }
         return stellarAccount.assetAccount
-    }
-
-    func getStellarAccount() {
-        disposable = stellarAccountService.currentStellarAccount(fromCache: true).asObservable()
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { _ in
-                Logger.shared.debug("Got stellar account")
-            }, onError: { error in
-                guard let serviceError = error as? StellarServiceError else { return }
-                switch serviceError {
-                case .noXLMAccount:
-                    Logger.shared.error("No XLM account")
-                case .noDefaultAccount:
-                    Logger.shared.error("No default account")
-                default:
-                    break
-                }
-                Logger.shared.error(error.localizedDescription)
-            })
     }
 }
 

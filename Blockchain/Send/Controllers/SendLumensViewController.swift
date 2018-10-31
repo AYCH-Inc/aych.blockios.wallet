@@ -337,11 +337,11 @@ extension BCConfirmPaymentViewModel {
 }
 
 extension SendLumensViewController: SendXLMModelInterface {
-    func updateFee(_ value: Decimal?) {
+    func updateFee(_ value: Decimal) {
         xlmFee = value
     }
 
-    func updatePrice(_ value: Decimal?) {
+    func updatePrice(_ value: Decimal) {
         latestPrice = value
     }
 

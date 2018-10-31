@@ -144,6 +144,8 @@ class TradeExecutionService: TradeExecutionAPI {
             }
             success(orderTransactionLegacy)
         }
+
+        // TICKET: IOS-1550 Move this to a different service
         if assetType == .stellar {
             guard let sourceAccount = xlmServiceProvider.services.repository.defaultAccount,
             let ledger = xlmServiceProvider.services.ledger.currentLedger,

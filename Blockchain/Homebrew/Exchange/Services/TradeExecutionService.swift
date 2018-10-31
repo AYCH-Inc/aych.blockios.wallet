@@ -11,12 +11,15 @@ import RxSwift
 
 protocol TradeExecutionDependencies {
     var xlmServiceProvider: XLMServiceProvider { get }
+    var assetAccountRepository: AssetAccountRepository { get }
 }
 
 struct TradeExecutionServiceDependencies: TradeExecutionDependencies {
     let xlmServiceProvider: XLMServiceProvider
+    let assetAccountRepository: AssetAccountRepository
     init() {
         xlmServiceProvider = XLMServiceProvider.shared
+        assetAccountRepository = AssetAccountRepository.shared
     }
 }
 
@@ -36,6 +39,7 @@ class TradeExecutionService: TradeExecutionAPI {
     
     private let authentication: NabuAuthenticationService
     private let wallet: Wallet
+    private let assetAccountRepository: AssetAccountRepository
     private let xlmServiceProvider: XLMServiceProvider
     private var disposable: Disposable?
 
@@ -59,6 +63,7 @@ class TradeExecutionService: TradeExecutionAPI {
         self.authentication = service
         self.wallet = wallet
         self.xlmServiceProvider = dependencies.xlmServiceProvider
+        self.assetAccountRepository = dependencies.assetAccountRepository
     }
     
     deinit {
@@ -151,6 +156,7 @@ class TradeExecutionService: TradeExecutionAPI {
                 sourceAccount: sourceAccount,
                 feeInXlm: fee
             )
+            createOrderPaymentSuccess("\(fee)")
         } else {
             wallet.createOrderPayment(
                 withOrderTransaction: orderTransactionLegacy,
@@ -266,8 +272,8 @@ fileprivate extension TradeExecutionService {
             volume: conversionQuote.volume,
             currencyRatio: conversionQuote.currencyRatio
         )
-        let refundAddress = wallet.getReceiveAddress(forAccount: fromAccount.index, assetType: fromAccount.address.assetType.legacy)
-        let destinationAddress = wallet.getReceiveAddress(forAccount: toAccount.index, assetType: toAccount.address.assetType.legacy)
+        let refundAddress = getReceiveAddress(for: fromAccount.index, assetType: fromAccount.address.assetType)
+        let destinationAddress = getReceiveAddress(for: toAccount.index, assetType: toAccount.address.assetType)
         let order = Order(
             destinationAddress: destinationAddress!,
             refundAddress: refundAddress!,
@@ -393,5 +399,14 @@ extension TradeExecutionService {
             processAndBuild(nil)
         }
 
+    }
+}
+
+private extension TradeExecutionService {
+    func getReceiveAddress(for account: Int32, assetType: AssetType) -> String? {
+        if assetType == .stellar {
+            return assetAccountRepository.defaultStellarAccount()?.address.address
+        }
+        return wallet.getReceiveAddress(forAccount: account, assetType: assetType.legacy)
     }
 }

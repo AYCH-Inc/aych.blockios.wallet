@@ -28,7 +28,7 @@ final class BlockchainSettings: NSObject {
     // MARK: - App
 
     @objc
-    final class App: NSObject {
+    class App: NSObject {
         static let shared = App()
 
         private lazy var defaults: UserDefaults = {
@@ -372,7 +372,7 @@ final class BlockchainSettings: NSObject {
             }
         }
 
-        private override init() {
+         override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
             // access an instance of this class.
             super.init()
@@ -524,11 +524,6 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenAllCards.rawValue)
             }
         }
-
-        private override init() {
-            super.init()
-        }
-
     }
 
     private override init() {

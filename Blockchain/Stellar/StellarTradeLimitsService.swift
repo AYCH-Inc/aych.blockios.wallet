@@ -49,7 +49,7 @@ class StellarTradeLimitsService: StellarTradeLimitsAPI {
 
     func isSpendable(amount: Decimal, for accountId: AccountID) -> Single<Bool> {
         return maxSpendableAmount(for: accountId).map { maxSpendableAmount -> Bool in
-            return amount <= maxSpendableAmount
+            return amount <= maxSpendableAmount && amount > 0
         }
     }
 }

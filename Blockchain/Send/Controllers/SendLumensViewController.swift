@@ -15,7 +15,6 @@ protocol SendXLMViewControllerDelegate: class {
     func onFiatEntry(_ value: String, latestPrice: Decimal)
     func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal)
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation)
-    func onUseMaxTapped()
 }
 
 @objc class SendLumensViewController: UIViewController, BottomButtonContainerView {

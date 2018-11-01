@@ -236,7 +236,7 @@ protocol SendXLMViewControllerDelegate: class {
     @IBAction private func learnAboutStellarButtonTapped(_ sender: Any) {
         let informationController = InformationViewController.make(
             with: StellarInformationService.formattedMinimumRequirementInformationText(
-                baseReserve: baseReserve ?? Decimal(string: "1")!,
+                baseReserve: baseReserve ?? Decimal(string: "0.5")!,
                 latestPrice: latestPrice ?? Decimal(string: "0.24")!
             ),
             buttonTitle: LocalizationConstants.Stellar.readMore,

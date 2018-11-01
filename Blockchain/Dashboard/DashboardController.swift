@@ -372,7 +372,7 @@ final class DashboardController: UIViewController {
         if !wallet.isInitialized() {
             reload(balances: nil)
         }
-        disposable = PriceServiceClient().allPrices(fiatSymbol: "USD")
+        disposable = PriceServiceClient().allPrices(fiatSymbol: BlockchainSettings.App.shared.fiatCurrencyCode)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { priceMap in

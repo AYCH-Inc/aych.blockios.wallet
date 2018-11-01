@@ -233,6 +233,7 @@ import RxSwift
         dataRepository.clearCache()
 
         BlockchainSettings.App.shared.reset()
+        BlockchainSettings.Onboarding.shared.reset()
 
         let appCoordinator = AppCoordinator.shared
         appCoordinator.tabControllerManager.clearSendToAddressAndAmountFields()

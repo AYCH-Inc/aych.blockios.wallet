@@ -117,6 +117,8 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="imageViewMain" destination="sgf-OY-RMl" id="rur-2E-OGb"/>
+                        <outlet property="labelMain" destination="dC5-hc-bdm" id="072-ZU-bWL"/>
                         <outlet property="labelTermsOfService" destination="JCK-ZN-BpY" id="kvi-Na-ELd"/>
                     </connections>
                 </viewController>

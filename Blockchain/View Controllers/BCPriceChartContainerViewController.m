@@ -12,6 +12,7 @@
 #define DICTIONARY_KEY_BITCOIN @"bitcoin"
 #define DICTIONARY_KEY_ETHER @"ether"
 #define DICTIONARY_KEY_BITCOIN_CASH @"bitcoinCash"
+#define DICTIONARY_KEY_STELLAR @"stellar"
 
 @class ChartAxisBase;
 @interface BCPriceChartContainerViewController () <UIScrollViewDelegate>
@@ -44,26 +45,21 @@
 {
     if (!self.scrollView) {
         self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-        self.scrollView.center = CGPointMake(self.scrollView.center.x, self.view.frame.size.height/2);
-        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width*3, priceChartView.frame.size.height);
+        self.scrollView.center = CGPointMake(self.scrollView.center.x, self.view.frame.size.height / 2);
+        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width * 4, priceChartView.frame.size.height);
         self.scrollView.pagingEnabled = YES;
         self.scrollView.scrollEnabled = YES;
         self.scrollView.delegate = self;
         self.scrollView.showsHorizontalScrollIndicator = NO;
-        self.isUsingPageControl = YES;
-        [self.scrollView setContentOffset:CGPointMake(pageIndex * self.scrollView.frame.size.width, 0) animated:NO];
-        self.isUsingPageControl = NO;
         [self.view addSubview:self.scrollView];
         
         priceChartView.center = CGPointMake(pageIndex * self.scrollView.frame.size.width + self.scrollView.frame.size.width/2, self.scrollView.frame.size.height/2);
         
-        UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, priceChartView.frame.origin.y + priceChartView.frame.size.height + 16, 100, 30)];
-        pageControl.numberOfPages = 3;
-        [pageControl setCurrentPage:pageIndex];
-        [pageControl addTarget:self action:@selector(pageControlChanged:) forControlEvents:UIControlEventValueChanged];
-        pageControl.center = CGPointMake(self.view.frame.size.width/2, pageControl.center.y);
-        self.pageControl = pageControl;
-        [self.view addSubview:pageControl];
+        self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, priceChartView.frame.origin.y + priceChartView.frame.size.height + 16, 100, 30)];
+        self.pageControl.numberOfPages = 4;
+        [self.pageControl addTarget:self action:@selector(pageControlChanged:) forControlEvents:UIControlEventValueChanged];
+        self.pageControl.center = CGPointMake(self.view.frame.size.width/2, self.pageControl.center.y);
+        [self.view addSubview:self.pageControl];
         
         CGFloat buttonWidth = 50;
         UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(pageIndex*self.view.frame.size.width + self.view.frame.size.width - 8 - buttonWidth, 30, buttonWidth, buttonWidth)];
@@ -73,6 +69,11 @@
         self.scrollViewCloseButton = closeButton;
         [self.scrollView addSubview:closeButton];
     }
+
+    self.isUsingPageControl = NO;
+    [self.scrollView setContentOffset:CGPointMake(pageIndex * self.scrollView.frame.size.width, 0) animated:NO];
+
+    [self.pageControl setCurrentPage:pageIndex];
 
     priceChartView.center = CGPointMake(pageIndex * self.scrollView.frame.size.width + self.scrollView.frame.size.width/2, self.scrollView.frame.size.height/2);
     self.priceChartView = priceChartView;
@@ -145,18 +146,19 @@
     [self.priceChartView updateTitleContainerWithChartDataEntry:entry];
 }
 
-- (void)updateEthExchangeRate:(NSDecimalNumber *)rate
-{
-    [self.priceChartView updateEthExchangeRate:rate];
-}
-
 - (NSString *)dictionaryKeyForPage:(NSInteger)pageIndex
 {
     switch (pageIndex) {
-        case LegacyAssetTypeBitcoin: return DICTIONARY_KEY_BITCOIN;
-        case LegacyAssetTypeEther: return DICTIONARY_KEY_ETHER;
-        case LegacyAssetTypeBitcoinCash: return DICTIONARY_KEY_BITCOIN_CASH;
-        default: return nil;
+        case LegacyAssetTypeBitcoin:
+            return DICTIONARY_KEY_BITCOIN;
+        case LegacyAssetTypeEther:
+            return DICTIONARY_KEY_ETHER;
+        case LegacyAssetTypeBitcoinCash:
+            return DICTIONARY_KEY_BITCOIN_CASH;
+        case LegacyAssetTypeStellar:
+            return DICTIONARY_KEY_STELLAR;
+        default:
+            return nil;
     }
 }
 

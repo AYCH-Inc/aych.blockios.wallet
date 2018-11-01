@@ -24,6 +24,13 @@
 
 @class LatestBlock, Transaction;
 
+typedef enum {
+    TransactionInfoTypeDefault,
+    TransactionInfoTypeNonSpendable,
+    TransactionInfoTypeShapeshiftSend,
+    TransactionInfoTypeShapeshiftReceive,
+} TransactionInfoType;
+
 @interface TransactionTableCell : UITableViewCell {
     Transaction * transaction;
     IBOutlet UILabel * dateLabel;
@@ -34,13 +41,19 @@
     IBOutlet UIImageView *warningImageView;
 }
 
--(IBAction)transactionClicked:(UIButton *)button;
+-(IBAction)transactionClicked:(UIButton * _Nullable)button;
 - (void)bitcoinCashTransactionClicked;
 -(IBAction)btcbuttonclicked:(id)sender;
 
 @property(nonatomic, strong)  Transaction * transaction;
+@property (nonatomic, copy) void (^amountButtonSelected)(void);
 @property(nonatomic)  LegacyAssetType assetType;
 
 - (void)reload;
-- (void)changeBtcButtonTitleText:(NSString *)text;
+
+- (void)setTxType:(NSString *)txType;
+- (void)setDateLabelText:(NSString *)text;
+- (void)setButtonText:(NSString *)text;
+- (void)setInfoType:(TransactionInfoType)type;
+
 @end

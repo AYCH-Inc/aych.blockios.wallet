@@ -13,6 +13,9 @@ struct Constants {
     struct Conversions {
         // SATOSHI = 1e8 (100,000,000)
         static let satoshi = UInt64(1e8)
+
+        /// Stroop is a measurement of 1/10,000,000th of an XLM
+        static let stroopsInXlm = Int(1e7)
     }
 
     struct AppStore {
@@ -21,6 +24,19 @@ struct Constants {
     struct Animation {
         static let duration = 0.2
         static let durationLong = 0.5
+    }
+    struct Navigation {
+        static let tabSend = 0
+        static let tabDashboard = 1
+        static let tabTransactions = 2
+        static let tabReceive = 3
+    }
+    struct TransactionTypes {
+        // TODO: change to enum, move to its own file,
+        // and deprecate TX_TYPE_* in Blockchain-Prefix
+        static let sent = "sent"
+        static let receive = "received"
+        static let transfer = "transfer"
     }
     struct Measurements {
         static let DefaultHeaderHeight: CGFloat = 65
@@ -43,6 +59,7 @@ struct Constants {
         static let infoLabelEdgeInsets: UIEdgeInsets = UIEdgeInsets(top: 2, left: 9.5, bottom: 2, right: 9.5)
         static let buttonHeight: CGFloat = 40.0
         static let buttonCornerRadius: CGFloat = 4.0
+        static let assetTypeCellHeight: CGFloat = 44.0
     }
     struct FontSizes {
         static let Tiny: CGFloat = Booleans.IsUsingScreenSizeLargerThan5s ? 11.0 : 10.0
@@ -94,6 +111,7 @@ struct Constants {
     struct Schemes {
         static let bitcoin = "bitcoin"
         static let bitcoinCash = "bitcoincash"
+        static let stellar = "web+stellar"
         static let blockchain = "blockchain"
         static let blockchainWallet = "blockchain-wallet"
         static let ethereum = "ethereum"
@@ -120,6 +138,7 @@ struct Constants {
         static let forgotPassword = "https://support.blockchain.com/hc/en-us/articles/211205343-I-forgot-my-password-What-can-you-do-to-help-"
         static let blockchainWalletLogin = "https://login.blockchain.com"
         static let lockbox = "https://blockchain.com/lockbox"
+        static let airdropWaitlist = blockchainHome + "/waitlist"
     }
     struct Wallet {
         static let swipeToReceiveAddressCount = 5
@@ -133,11 +152,17 @@ struct Constants {
         static let ethereum = "ETH"
         static let bitcoinCash = "BCH"
     }
+    struct FilterIndexes {
+        static let all: Int32 = -1
+        static let importedAddresses: Int32 = -2
+    }
 }
 
 /// Constant class wrapper so that Constants can be accessed from Obj-C. Should deprecate this
 /// once Obj-C is no longer using this
 @objc class ConstantsObjcBridge: NSObject {
+    @objc class func airdropWaitlistUrl() -> String { return Constants.Url.airdropWaitlist }
+
     @objc class func animationDuration() -> Double { return Constants.Animation.duration }
 
     @objc class func animationDurationLong() -> Double { return Constants.Animation.durationLong }
@@ -164,6 +189,34 @@ struct Constants {
 
     @objc class func notificationKeyGetFiatAtTime() -> String {
         return Constants.NotificationKeys.getFiatAtTime.rawValue
+    }
+
+    @objc class func tabSend() -> Int {
+        return Constants.Navigation.tabSend
+    }
+
+    @objc class func tabDashboard() -> Int {
+        return Constants.Navigation.tabDashboard
+    }
+
+    @objc class func tabReceive() -> Int {
+        return Constants.Navigation.tabReceive
+    }
+
+    @objc class func tabTransactions() -> Int {
+        return Constants.Navigation.tabTransactions
+    }
+
+    @objc class func filterIndexAll() -> Int32 {
+        return Constants.FilterIndexes.all
+    }
+
+    @objc class func filterIndexImportedAddresses() -> Int32 {
+        return Constants.FilterIndexes.importedAddresses
+    }
+
+    @objc class func assetTypeCellHeight() -> CGFloat {
+        return Constants.Measurements.assetTypeCellHeight
     }
 
     @objc class func bitcoinUriPrefix() -> String {

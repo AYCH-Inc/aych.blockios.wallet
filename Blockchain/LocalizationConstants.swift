@@ -289,6 +289,30 @@ struct LocalizationConstants {
             "Price charts",
             comment: "The title of the balances label in the price chart view."
         )
+        static let chartsError = NSLocalizedString(
+            "An error occurred while retrieving the latest chart data. Please try again later.",
+            comment: "The error message for when the method fetchChartDataForAsset fails."
+        )
+        static let bitcoinPrice = NSLocalizedString(
+            "Bitcoin Price",
+            comment: "The title of the Bitcoin price chart on the dashboard."
+        )
+        static let etherPrice = NSLocalizedString(
+            "Ether Price",
+            comment: "The title of the Ethereum price chart on the dashboard."
+        )
+        static let bitcoinCashPrice = NSLocalizedString(
+            "Bitcoin Cash Price",
+            comment: "The title of the Bitcoin Cash price chart on the dashboard."
+        )
+        static let stellarPrice = NSLocalizedString(
+            "Stellar Price",
+            comment: "The title of the Stellar price chart on the dashboard."
+        )
+        static let seeCharts = NSLocalizedString(
+            "See Charts",
+            comment: "The title of the action button in the price preview views."
+        )
     }
 
     struct AnnouncementCards {
@@ -383,12 +407,12 @@ struct LocalizationConstants {
             "Refunded",
             comment: "Text shown on the exchange list cell indicating the trade status"
         )
-        
+
         static let orderHistory = NSLocalizedString(
             "Order History",
             comment: "Header for the exchange list"
         )
-        
+
         static let loading = NSLocalizedString(
             "Loading Exchange",
             comment: "Text presented when the wallet is loading the exchange"
@@ -452,7 +476,7 @@ struct LocalizationConstants {
             "What do you want to receive?",
             comment: "Text displayed on the action sheet that is presented when the user is selecting an account to exchange into."
         )
-        
+
         static let fees = NSLocalizedString("Fees", comment: "Fees")
         static let confirmExchange = NSLocalizedString(
             "Confirm Exchange",
@@ -486,7 +510,7 @@ struct LocalizationConstants {
             "Insufficient funds",
             comment: "Error message shown when a user is attempting to exchange an amount greater than their balance"
         )
-        
+
         static let yourMin = NSLocalizedString(
             "Your Min is",
             comment: "Error that displays what the minimum amount of fiat is required for a trade"
@@ -551,6 +575,18 @@ struct LocalizationConstants {
             "Invalid %@ address: %@",
             comment: "String presented to the user when they try to scan a QR code with an invalid address."
         )
+        static let send = NSLocalizedString(
+            "Send",
+            comment: "Text displayed on the button for when a user wishes to send crypto."
+        )
+        static let confirmPayment = NSLocalizedString(
+            "Confirm Payment",
+            comment: "Header displayed asking the user to confirm their payment."
+        )
+        static let paymentSent = NSLocalizedString(
+            "Payment sent",
+            comment: "Alert message shown when crypto is successfully sent to a recipient."
+        )
     }
 
     struct SendEther {
@@ -572,8 +608,31 @@ struct LocalizationConstants {
         static let pleaseLoginToLoadMoreAddresses = NSLocalizedString("Please login to load more addresses.", comment: "")
     }
 
+    struct Receive {
+        static let tapToCopyThisAddress = NSLocalizedString(
+            "Tap to copy this address. Share it with the sender via email or text.",
+            comment: "Text displayed on the receive screen instructing the user to copy their crypto address."
+        )
+        static let requestPayment = NSLocalizedString(
+            "Request Payment",
+            comment: "Text displayed on the button when requesting for payment to a crypto address."
+        )
+        static let copiedToClipboard = NSLocalizedString(
+            "Copied to clipboard",
+            comment: "Text displayed when a crypto address has been copied to the users clipboard."
+        )
+    }
+
     struct ReceiveAsset {
         static let xPaymentRequest = NSLocalizedString("%@ payment request", comment: "Subject of the email sent when requesting for payment from another user.")
+    }
+
+    struct Transactions {
+        static let allWallets = NSLocalizedString("All Wallets", comment: "Label of selectable item that allows user to show all transactions of a certain asset")
+        static let noTransactions = NSLocalizedString("No Transactions", comment: "Text displayed when no recent transactions are being shown")
+        static let noTransactionsAssetArgument = NSLocalizedString("Transactions occur when you send and receive %@.", comment: "Helper text displayed when no recent transactions are being shown")
+        static let requestArgument = NSLocalizedString("Request %@", comment: "Text shown when a user can request a certain asset")
+        static let getArgument = NSLocalizedString("Get %@", comment: "Text shown when a user can purchase a certain asset")
     }
 
     struct Backup {
@@ -634,6 +693,14 @@ struct LocalizationConstants {
     }
 
     struct KYC {
+        static let welcomeMainText = NSLocalizedString(
+            "Introducing Blockchain’s new and improved crypto exchange function. To use this updated feature, please verify your identity. It only takes a couple of minutes.",
+            comment: "Text displayed when user is starting KYC"
+        )
+        static let welcomeMainTextSunRiverCampaign = NSLocalizedString(
+            "Verify your identity to claim your Stellar. It only takes a few minutes. This will also allow you to use our new and improved crypto exchange feature.",
+            comment: "Text displayed when user is starting KYC coming from the airdrop link"
+        )
         static let invalidPhoneNumber = NSLocalizedString(
             "The mobile number you entered is invalid.",
             comment: "Error message displayed to the user when the phone number they entered during KYC is invalid.")
@@ -653,6 +720,10 @@ struct LocalizationConstants {
             "Your information is being reviewed. When all looks good, you’re clear to exchange. You should receive a notification within 5 minutes.",
             comment: "Description for when KYC verification is in progress."
         )
+        static let verificationInProgressDescriptionAirdrop = NSLocalizedString(
+            "Your information is being reviewed. The review should complete in 5 minutes. Once you're successfully verified, we'll send your XLM within one week.",
+            comment: "Description for when KYC verification is in progress and the user is waiting for a Stellar airdrop."
+        )
         static let accountApproved = NSLocalizedString(
             "Account Approved",
             comment: "Text displayed when KYC verification is approved."
@@ -664,10 +735,6 @@ struct LocalizationConstants {
         static let accountApprovedBadge = NSLocalizedString(
             "Approved",
             comment: "KYC verification is approved."
-        )
-        static let accountPendingBadge = NSLocalizedString(
-            "Pending",
-            comment: "KYC verification is Pending."
         )
         static let accountUnderReviewBadge = NSLocalizedString(
             "Under Review",
@@ -801,11 +868,77 @@ struct LocalizationConstants {
             comment: "Footer text in the lockbox view."
         )
     }
+
+    struct Stellar {
+        static let defaultLabelName = NSLocalizedString(
+            "My Stellar Wallet",
+            comment: "The default label of the XLM wallet."
+        )
+        static let enterStellarAddress = NSLocalizedString(
+            "Enter Stellar address or select",
+            comment: "Placeholder text for the Lumens send screen."
+        )
+        static let secondPasswordPrompt = NSLocalizedString(
+            "Your second password is required in order to create an XLM account.",
+            comment: "Text shown when the second password is required to create an XLM account."
+        )
+        static let pleaseSendXlmToX = NSLocalizedString(
+            "Please send XLM to %@",
+            comment: "Message when requesting XLM."
+        )
+        static let viewOnArgument = NSLocalizedString(
+            "View on %@",
+            comment: "Button title for viewing a transaction on the explorer")
+        static let xlmPaymentRequest = NSLocalizedString(
+            "XLM payment request.",
+            comment: "Subject when requesting for XLM."
+        )
+        static let enterYourSecondPassword = NSLocalizedString(
+            "Enter Your Second Password",
+            comment: "Text on the button prompting the user to enter their second password to proceed with creating an XLM account."
+        )
+        static let cannotSendXLMAtThisTime = NSLocalizedString(
+            "Cannot send XLM at this time. Please try again.",
+            comment: "Error displayed when XLM cannot be sent due to an error."
+        )
+        static let notEnoughXLM = NSLocalizedString(
+            "Not enough XLM.",
+            comment: "Error message displayed if the user tries to send XLM but does not have enough of it."
+        )
+        static let useSpendableBalanceX = NSLocalizedString(
+            "Use total spendable balance: ",
+            comment: "Tappable text displayed in the send XLM screen for when the user wishes to send their full spendable balance."
+        )
+        static let minimumForNewAccountsError = NSLocalizedString(
+            "Minimum of 1.0 XLM needed for new accounts",
+            comment: "This is the error shown when too little XLM is sent to a primary key that does not yet have an XLM account"
+        )
+        static let claimYourStellarXLM = NSLocalizedString(
+            "Claim Your Stellar (XLM)",
+            comment: "Title displayed in the onboarding card prompting the user to join the waitlist to receive Stellar."
+        )
+        static let weNowSupportStellar = NSLocalizedString(
+            "We Now Support Stellar",
+            comment: "Title displayed in the onboarding card showing that we support Stellar."
+        )
+        static let weNowSupportStellarDescription = NSLocalizedString(
+            "You can now send, request and exchange Stellar (XLM) directly from your Blockchain Wallet. For the chance to get free XLM",
+            comment: "Title displayed in the onboarding card showing that we support Stellar."
+        )
+        static let joinTheWaitlist = NSLocalizedString(
+            "Join the waitlist",
+            comment: "CTA prompting the user to join the XLM waitlist."
+        )
+    }
 }
 
 // TODO: deprecate this once Obj-C is no longer using this
 /// LocalizationConstants class wrapper so that LocalizationConstants can be accessed from Obj-C.
 @objc class LocalizationConstantsObjcBridge: NSObject {
+    @objc class func joinTheWaitlist() -> String { return LocalizationConstants.Stellar.joinTheWaitlist }
+    
+    @objc class func copiedToClipboard() -> String { return LocalizationConstants.Receive.copiedToClipboard }
+
     @objc class func createWalletLegalAgreementPrefix() -> String {
         return LocalizationConstants.Onboarding.termsOfServiceAndPrivacyPolicyNoticePrefix
     }
@@ -817,6 +950,10 @@ struct LocalizationConstants {
     @objc class func privacyPolicy() -> String {
         return LocalizationConstants.privacyPolicy
     }
+
+    @objc class func tapToCopyThisAddress() -> String { return LocalizationConstants.Receive.tapToCopyThisAddress }
+
+    @objc class func requestPayment() -> String { return LocalizationConstants.Receive.requestPayment }
 
     @objc class func continueString() -> String { return LocalizationConstants.continueString }
 
@@ -929,10 +1066,18 @@ struct LocalizationConstants {
     @objc class func continueKYCCardDescription() -> String { return LocalizationConstants.AnnouncementCards.continueKYCCardDescription }
 
     @objc class func continueKYCActionButtonTitle() -> String { return LocalizationConstants.AnnouncementCards.continueKYCActionButtonTitle }
-    
+
     @objc class func notEnoughXForFees() -> String { return LocalizationConstants.Errors.notEnoughXForFees }
 
     @objc class func balances() -> String { return LocalizationConstants.balances }
 
     @objc class func dashboardPriceCharts() -> String { return LocalizationConstants.Dashboard.priceCharts }
+
+    @objc class func dashboardBitcoinPrice() -> String { return LocalizationConstants.Dashboard.bitcoinPrice }
+
+    @objc class func dashboardEtherPrice() -> String { return LocalizationConstants.Dashboard.etherPrice }
+
+    @objc class func dashboardBitcoinCashPrice() -> String { return LocalizationConstants.Dashboard.bitcoinCashPrice }
+
+    @objc class func dashboardStellarPrice() -> String { return LocalizationConstants.Dashboard.stellarPrice }
 }

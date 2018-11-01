@@ -18,11 +18,11 @@ class AnnouncementCardView: UIView {
 
     // MARK: - IBOutlets
 
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var bodyLabel: UILabel!
-    @IBOutlet var imageView: UIImageView!
-    @IBOutlet var actionButton: UIButton!
-    @IBOutlet var closeButton: UIButton!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var bodyLabel: UILabel!
+    @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private var actionButton: UIButton!
+    @IBOutlet private var closeButton: UIButton!
 
     // MARK: - Initialization
 
@@ -31,6 +31,9 @@ class AnnouncementCardView: UIView {
         cardView.titleLabel.text = model.title
         cardView.bodyLabel.text = model.message
         cardView.imageView.image = model.image
+        if let tint = model.imageTint {
+            cardView.imageView.tintColor = tint
+        }
         cardView.actionButton.setTitle(model.actionButtonTitle, for: .normal)
         cardView.actionButtonPressed = model.action
         cardView.closeButtonPressed = model.onClose
@@ -62,9 +65,9 @@ class AnnouncementCardView: UIView {
     }
 
     @IBAction private func closeButtonPressed(_ sender: Any) {
-        guard let action = closeButtonPressed else {
+        guard let close = closeButtonPressed else {
             Logger.shared.error("No action assigned to the close button!"); return
         }
-        action()
+        close()
     }
 }

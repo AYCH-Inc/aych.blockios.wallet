@@ -10,7 +10,7 @@ import Foundation
 
 /// The asset type is used to distinguish between different types of digital assets.
 @objc public enum AssetType: Int {
-    case bitcoin, bitcoinCash, ethereum
+    case bitcoin, bitcoinCash, ethereum, stellar
 }
 
 extension AssetType {
@@ -18,10 +18,17 @@ extension AssetType {
     private static let assetTypeToSymbolMap: [String: AssetType] = [
         "btc": .bitcoin,
         "eth": .ethereum,
-        "bch": .bitcoinCash
+        "bch": .bitcoinCash,
+        "xlm": .stellar
     ]
 
-    static let all: [AssetType] = [.bitcoin, .ethereum, .bitcoinCash]
+    static let all: [AssetType] = {
+        var allAssets: [AssetType] = [.bitcoin, .ethereum, .bitcoinCash]
+        if AppFeatureConfigurator.shared.configuration(for: .stellar).isEnabled {
+            allAssets.append(.stellar)
+        }
+        return allAssets
+    }()
     
     static func from(legacyAssetType: LegacyAssetType) -> AssetType {
         switch legacyAssetType {
@@ -31,6 +38,8 @@ extension AssetType {
             return AssetType.bitcoinCash
         case .ether:
             return AssetType.ethereum
+        case .stellar:
+            return AssetType.stellar
         }
     }
 
@@ -52,6 +61,8 @@ extension AssetType {
             return LegacyAssetType.bitcoinCash
         case .ethereum:
             return LegacyAssetType.ether
+        case .stellar:
+            return LegacyAssetType.stellar
         }
     }
 }
@@ -65,6 +76,8 @@ extension AssetType {
             return "Bitcoin Cash"
         case .ethereum:
             return "Ether"
+        case .stellar:
+            return "Stellar"
         }
     }
 
@@ -76,6 +89,8 @@ extension AssetType {
             return "BCH"
         case .ethereum:
             return "ETH"
+        case .stellar:
+            return "XLM"
         }
     }
     
@@ -87,6 +102,21 @@ extension AssetType {
             return #imageLiteral(resourceName: "Icon-BCH")
         case .ethereum:
             return #imageLiteral(resourceName: "Icon-ETH")
+        case .stellar:
+            return #imageLiteral(resourceName: "symbol-xlm")
+        }
+    }
+
+    var symbolImageTemplate: UIImage {
+        switch self {
+        case .bitcoin:
+            return UIImage(named: "symbol-btc")!
+        case .bitcoinCash:
+            return UIImage(named: "symbol-bch")!
+        case .ethereum:
+            return UIImage(named: "symbol-eth")!
+        case .stellar:
+            return UIImage(named: "symbol-xlm")!
         }
     }
     
@@ -98,13 +128,15 @@ extension AssetType {
             return UIColor(red: 0.28, green: 0.23, blue: 0.8, alpha: 1)
         case .bitcoinCash:
             return UIColor(red: 0.24, green: 0.86, blue: 0.54, alpha: 1)
+        case .stellar:
+            return UIColor(red: 0.02, green: 0.71, blue: 0.90, alpha: 1)
         }
     }
     
     func toFiat(
         amount: Decimal,
         from wallet: Wallet = WalletManager.shared.wallet
-        ) -> String? {
+    ) -> String? {
         let input = amount as NSDecimalNumber
         
         switch self {
@@ -126,13 +158,16 @@ extension AssetType {
                 withSymbol: value.magnitude,
                 localCurrency: true
             )
+        case .stellar:
+            // TODO: add formatting methods
+            return "stellar in fiat"
         }
     }
     
     func toCrypto(
         amount: Decimal,
         from wallet: Wallet = WalletManager.shared.wallet
-        ) -> String? {
+    ) -> String? {
         let input = amount as NSDecimalNumber
         switch self {
         case .bitcoin:
@@ -147,6 +182,9 @@ extension AssetType {
         case .bitcoinCash:
             let value = NumberFormatter.parseBtcValue(from: input.stringValue)
             return NumberFormatter.formatBch(withSymbol: value.magnitude)
+        case .stellar:
+            // TODO: add formatting methods
+            return "stellar in crypto"
         }
     }
 }

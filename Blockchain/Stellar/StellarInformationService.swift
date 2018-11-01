@@ -16,33 +16,38 @@ class StellarInformationService {
         let assetType: AssetType = .stellar
         let explanation = LocalizationConstants.Stellar.minimumBalanceInfoExplanation
 
-        let current = String(format: LocalizationConstants.Stellar.minimumBalanceInfoCurrentArgument, "\(baseReserve)".appendAssetSymbol(for: assetType))
+        let minimum = baseReserve * 2
 
-        let total = LocalizationConstants.Stellar.totalFundsLabel
+        let current = String(format: LocalizationConstants.Stellar.minimumBalanceInfoCurrentArgument, "\(minimum)".appendAssetSymbol(for: assetType))
+
+        let total = Decimal(string: "827.6802382")!
+        let totalText = LocalizationConstants.Stellar.totalFundsLabel
         let totalAmount = NumberFormatter.formattedAssetAndFiatAmountWithSymbols(
-            fromAmount: Decimal(string: "827.6802382")!,
+            fromAmount: total,
             fiatPerAmount: latestPrice,
             assetType: assetType
         )
-        let requirement = LocalizationConstants.Stellar.xlmReserveRequirement
+        let requirementText = LocalizationConstants.Stellar.xlmReserveRequirement
         let requirementAmount = NumberFormatter.formattedAssetAndFiatAmountWithSymbols(
-            fromAmount: Decimal(string: "2")!,
+            fromAmount: minimum,
             fiatPerAmount: latestPrice,
             assetType: assetType
         )
-        let fee = LocalizationConstants.Stellar.transactionFee
+        let fee = Decimal(string: "0.001")!
+        let feeText = LocalizationConstants.Stellar.transactionFee
         let feeAmount = NumberFormatter.formattedAssetAndFiatAmountWithSymbols(
-            fromAmount: Decimal(string: "0.001")!,
+            fromAmount: fee,
             fiatPerAmount: latestPrice,
             assetType: assetType
         )
-        let availableToSend = LocalizationConstants.Stellar.availableToSend
+        let availableToSend = total - minimum - fee
+        let availableToSendText = LocalizationConstants.Stellar.availableToSend
         let availableToSendAmount = NumberFormatter.formattedAssetAndFiatAmountWithSymbols(
-            fromAmount: Decimal(string: "825.6792382")!,
+            fromAmount: availableToSend,
             fiatPerAmount: latestPrice,
             assetType: assetType
         )
-        let moreInformation = LocalizationConstants.Stellar.minimumBalanceMoreInformation
+        let moreInformationText = LocalizationConstants.Stellar.minimumBalanceMoreInformation
 
         let defaultFont = UIFont(name: Constants.FontNames.montserratRegular, size: Constants.FontSizes.Small)!
         let defaultAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.gray5,
@@ -53,20 +58,20 @@ class StellarInformationService {
             attributes: defaultAttributes
         )
         let exampleOne = NSAttributedString(
-            string: "\(total)\n\(totalAmount)\n\n\(requirement)\n\(requirementAmount)\n\n",
+            string: "\(totalText)\n\(totalAmount)\n\n\(requirementText)\n\(requirementAmount)\n\n",
             attributes: defaultAttributes
         )
         let exampleTwo = NSAttributedString(
-            string: "\(fee)\n\(feeAmount)\n\n",
+            string: "\(feeText)\n\(feeAmount)\n\n",
             attributes: defaultAttributes
         )
         let available = NSAttributedString(
-            string: "\(availableToSend)\n\(availableToSendAmount)\n\n",
+            string: "\(availableToSendText)\n\(availableToSendAmount)\n\n",
             attributes: [NSAttributedStringKey.foregroundColor: UIColor.black,
                          NSAttributedStringKey.font: UIFont(name: Constants.FontNames.montserratSemiBold, size: Constants.FontSizes.Small)!]
         )
         let footer = NSAttributedString(
-            string: "\(moreInformation)",
+            string: "\(moreInformationText)",
             attributes: defaultAttributes
         )
 

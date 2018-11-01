@@ -368,6 +368,7 @@ final class DashboardController: UIViewController {
     }
 
     // TICKET: IOS-1506 - Encapsulate methods to get balances into separate component & decouple from DashboardController
+    // swiftlint:disable:next function_body_length
     @objc func reload() {
         if !wallet.isInitialized() {
             reload(balances: nil)

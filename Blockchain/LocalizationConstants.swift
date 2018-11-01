@@ -913,12 +913,30 @@ struct LocalizationConstants {
             "Minimum of 1.0 XLM needed for new accounts",
             comment: "This is the error shown when too little XLM is sent to a primary key that does not yet have an XLM account"
         )
+        static let claimYourStellarXLM = NSLocalizedString(
+            "Claim Your Stellar (XLM)",
+            comment: "Title displayed in the onboarding card prompting the user to join the waitlist to receive Stellar."
+        )
+        static let weNowSupportStellar = NSLocalizedString(
+            "We Now Support Stellar",
+            comment: "Title displayed in the onboarding card showing that we support Stellar."
+        )
+        static let weNowSupportStellarDescription = NSLocalizedString(
+            "You can now send, request and exchange Stellar (XLM) directly from your Blockchain Wallet. For the chance to get free XLM",
+            comment: "Title displayed in the onboarding card showing that we support Stellar."
+        )
+        static let joinTheWaitlist = NSLocalizedString(
+            "Join the waitlist",
+            comment: "CTA prompting the user to join the XLM waitlist."
+        )
     }
 }
 
 // TODO: deprecate this once Obj-C is no longer using this
 /// LocalizationConstants class wrapper so that LocalizationConstants can be accessed from Obj-C.
 @objc class LocalizationConstantsObjcBridge: NSObject {
+    @objc class func joinTheWaitlist() -> String { return LocalizationConstants.Stellar.joinTheWaitlist }
+    
     @objc class func copiedToClipboard() -> String { return LocalizationConstants.Receive.copiedToClipboard }
 
     @objc class func createWalletLegalAgreementPrefix() -> String {

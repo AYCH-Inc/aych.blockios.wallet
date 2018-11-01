@@ -40,35 +40,17 @@
 
 - (void)reloadCards
 {
-    BOOL shouldShowKYCAnnouncementCard = BlockchainSettings.sharedAppInstance.isCompletingKyc;
     self.cardsViewHeight = 0;
 
-    if (shouldShowKYCAnnouncementCard) {
-        TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
-        AnnouncementCardViewModel *model = [[AnnouncementCardViewModel alloc]
-                                            initWithTitle:[[LocalizationConstantsObjcBridge continueKYCCardTitle] uppercaseString]
-                                            message:[LocalizationConstantsObjcBridge continueKYCCardDescription]
-                                            actionButtonTitle:[LocalizationConstantsObjcBridge continueKYCActionButtonTitle]
-                                            image:[UIImage imageNamed:@"identity_verification_card"]
-                                            action:^{
-                                                [[KYCCoordinator sharedInstance] startFrom:tabControllerManager];
-                                            }
-                                            onClose:^{
-                                                BlockchainSettings.sharedAppInstance.isCompletingKyc = NO;
-                                                [UIView animateWithDuration:.4f animations:^{
-                                                    [self.cardsView changeYPosition:-self.cardsView.frame.size.height];
-                                                    self.dashboardScrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.dashboardContentView.frame.size.height);
-                                                    [self.dashboardContentView changeYPosition:0];
-                                                } completion:^(BOOL finished) {
-                                                    [self removeCardsView];
-                                                }];
-                                            }];
-        AnnouncementCardView *card = [AnnouncementCardView createWithModel:model];
-        self.cardsViewHeight = card.frame.size.height;
-        self.cardsView = [self prepareCardsView];
-        [self.cardsView addSubview:card];
-        [self.dashboardScrollView addSubview:self.cardsView];
-        [self.dashboardContentView changeYPosition:self.cardsViewHeight];
+    AppFeatureConfiguration *airdropConfig = [AppFeatureConfigurator.sharedInstance configurationFor:AppFeatureStellarAirdrop];
+    BOOL shouldShowStellarAirdropCard = airdropConfig.isEnabled && !BlockchainSettings.sharedOnboardingInstance.hasSeenAirdropJoinWaitlistCard;
+
+    BOOL shouldShowKYCAnnouncementCard = BlockchainSettings.sharedAppInstance.isCompletingKyc;
+
+    if (shouldShowStellarAirdropCard) {
+        [self showStellarAirdropCard];
+    } else if (shouldShowKYCAnnouncementCard) {
+        [self showContinueKYCCard];
     } else {
         self.announcementCards = [NSMutableArray new];
         self.showWelcomeCards = !BlockchainSettings.sharedOnboardingInstance.hasSeenAllCards;
@@ -99,6 +81,60 @@
     CGFloat width = self.view.frame.size.width;
     CGFloat height = self.dashboardContentView.frame.size.height + self.cardsViewHeight;
     self.dashboardScrollView.contentSize = CGSizeMake(width, height);
+}
+
+- (void)showStellarAirdropCard
+{
+    AnnouncementCardViewModel *model = [AnnouncementCardViewModel joinAirdropWaitlistWithAction:^{
+        [UIApplication.sharedApplication openWebViewWithUrl:ConstantsObjcBridge.airdropWaitlistUrl
+                                                      title:LocalizationConstantsObjcBridge.joinTheWaitlist
+                                   presentingViewController:AppCoordinator.sharedInstance.tabControllerManager];
+    } onClose:^{
+        BlockchainSettings.sharedOnboardingInstance.hasSeenAirdropJoinWaitlistCard = YES;
+        [self animateHideCards];
+    }];
+    [self showSingleCardWithViewModel:model];
+}
+
+- (void)showContinueKYCCard
+{
+    // TODO: Show SR specific card
+    AnnouncementCardViewModel *model = [[AnnouncementCardViewModel alloc]
+                                        initWithTitle:[[LocalizationConstantsObjcBridge continueKYCCardTitle] uppercaseString]
+                                        message:[LocalizationConstantsObjcBridge continueKYCCardDescription]
+                                        actionButtonTitle:[LocalizationConstantsObjcBridge continueKYCActionButtonTitle]
+                                        image:[UIImage imageNamed:@"identity_verification_card"]
+                                        imageTint:nil
+                                        action:^{
+                                            TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+                                            [[KYCCoordinator sharedInstance] startFrom:tabControllerManager];
+                                        }
+                                        onClose:^{
+                                            BlockchainSettings.sharedAppInstance.isCompletingKyc = NO;
+                                            [self animateHideCards];
+                                        }];
+    [self showSingleCardWithViewModel:model];
+}
+
+- (void)animateHideCards
+{
+    [UIView animateWithDuration:.4f animations:^{
+        [self.cardsView changeYPosition:-self.cardsView.frame.size.height];
+        self.dashboardScrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.dashboardContentView.frame.size.height);
+        [self.dashboardContentView changeYPosition:0];
+    } completion:^(BOOL finished) {
+        [self removeCardsView];
+    }];
+}
+
+- (void)showSingleCardWithViewModel:(AnnouncementCardViewModel *)viewModel
+{
+    AnnouncementCardView *card = [AnnouncementCardView createWithModel:viewModel];
+    self.cardsViewHeight = card.frame.size.height;
+    self.cardsView = [self prepareCardsView];
+    [self.cardsView addSubview:card];
+    [self.dashboardScrollView addSubview:self.cardsView];
+    [self.dashboardContentView changeYPosition:self.cardsViewHeight];
 }
 
 - (CardsView *)prepareCardsView

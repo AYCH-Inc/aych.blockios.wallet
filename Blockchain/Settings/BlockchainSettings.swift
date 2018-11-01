@@ -524,6 +524,25 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenAllCards.rawValue)
             }
         }
+
+        /// Property indicating whether or not the user has already seen, and clicked, on the
+        /// Stellar "join the waitlist" onboarding card for receiving an XLM airdrop
+        @objc var hasSeenAirdropJoinWaitlistCard: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.hasSeenAirdropJoinWaitlistCard.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenAirdropJoinWaitlistCard.rawValue)
+            }
+        }
+
+        private override init() {
+            super.init()
+        }
+
+        func reset() {
+            hasSeenAirdropJoinWaitlistCard = false
+        }
     }
 
     private override init() {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum StellarPaymentOperationError: Int, Error  {
+enum StellarPaymentOperationError: Int, Error {
     case keyMisMatch
     case cancelled
 }

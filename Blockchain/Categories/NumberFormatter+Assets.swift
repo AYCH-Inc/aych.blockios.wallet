@@ -85,3 +85,24 @@ extension NumberFormatter {
         return formatter
     }()
 }
+
+// MARK: - Conversions
+extension NumberFormatter {
+    // Returns local currency amount with two decimal places (assuming stringFromNumber returns a string)
+    static func localCurrencyAmount(fromAmount: Decimal, fiatPerAmount: Decimal) -> String {
+        let conversionResult = fromAmount * fiatPerAmount
+        let formatter = NumberFormatter.localCurrencyFormatter
+        return formatter.string(from: NSDecimalNumber(decimal: conversionResult)) ?? "\(conversionResult)"
+    }
+
+    // Returns asset type amount with correct number of decimal places (currently 7 or 8 depending on asset type) (assuming stringFromNumber returns a string)
+    @objc static func assetTypeAmount(
+        fromAmount: Decimal,
+        fiatPerAmount: Decimal,
+        assetType: AssetType
+    ) -> String {
+        let conversionResult = fromAmount / fiatPerAmount
+        let formatter = assetType == .stellar ? NumberFormatter.stellarFormatter : NumberFormatter.assetFormatter
+        return formatter.string(from: NSDecimalNumber(decimal: conversionResult)) ?? "\(conversionResult)"
+    }
+}

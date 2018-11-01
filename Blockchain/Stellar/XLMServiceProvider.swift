@@ -14,6 +14,7 @@ protocol XLMDependencies {
     var ledger: StellarLedgerService { get }
     var operation: StellarOperationService { get }
     var transaction: StellarTransactionAPI { get }
+    var limits: StellarTradeLimitsAPI { get }
     var repository: WalletXlmAccountRepository { get }
     var prices: PriceServiceAPI { get }
 }
@@ -25,6 +26,7 @@ struct XLMServices: XLMDependencies {
     var operation: StellarOperationService
     var transaction: StellarTransactionAPI
     var prices: PriceServiceAPI
+    var limits: StellarTradeLimitsAPI
     
     init(
         configuration: StellarConfiguration,
@@ -37,9 +39,14 @@ struct XLMServices: XLMDependencies {
             ledgerService: ledger,
             repository: repository
         )
-        transaction = StellarTransactionService(configuration: configuration, accounts: accounts, repository: repository)
+        transaction = StellarTransactionService(
+            configuration: configuration,
+            accounts: accounts,
+            repository: repository
+        )
         operation = StellarOperationService(configuration: configuration, repository: repository)
         prices = PriceServiceClient()
+        limits = StellarTradeLimitsService(ledgerService: ledger, accountsService: accounts)
     }
     
     static let test: XLMServices = XLMServices(configuration: .test)

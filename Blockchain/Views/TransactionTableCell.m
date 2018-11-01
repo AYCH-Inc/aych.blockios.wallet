@@ -146,6 +146,12 @@
 
 - (IBAction)btcbuttonclicked:(id)sender
 {
+    if (self.assetType == LegacyAssetTypeStellar) {
+        if (self.amountButtonSelected != nil) {
+            self.amountButtonSelected();
+        }
+        return;
+    }
     if (self.assetType == LegacyAssetTypeBitcoin) {
         [self transactionClicked:nil];
     } else {

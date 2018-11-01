@@ -138,6 +138,7 @@ struct Constants {
         static let forgotPassword = "https://support.blockchain.com/hc/en-us/articles/211205343-I-forgot-my-password-What-can-you-do-to-help-"
         static let blockchainWalletLogin = "https://login.blockchain.com"
         static let lockbox = "https://blockchain.com/lockbox"
+        static let stellarMinimumBalanceInfo = "https://www.stellar.org/developers/guides/concepts/fees.html#minimum-account-balance"
     }
     struct Wallet {
         static let swipeToReceiveAddressCount = 5

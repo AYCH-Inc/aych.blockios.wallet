@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SafariServices
 
 protocol SendXLMViewControllerDelegate: class {
     func onLoad()
@@ -234,6 +235,7 @@ protocol SendXLMViewControllerDelegate: class {
         )
     }
     @IBAction private func learnAboutStellarButtonTapped(_ sender: Any) {
+        let presentingViewController = AppCoordinator.shared.tabControllerManager.tabViewController
         let informationController = InformationViewController.make(
             with: StellarInformationService.formattedMinimumRequirementInformationText(
                 baseReserve: baseReserve ?? Decimal(string: "0.5")!,
@@ -241,11 +243,16 @@ protocol SendXLMViewControllerDelegate: class {
             ),
             buttonTitle: LocalizationConstants.Stellar.readMore,
             buttonAction: { _ in
-                Logger.shared.debug("information controller button tapped")
+                guard let url = URL(string: Constants.Url.stellarMinimumBalanceInfo) else {
+                    return
+                }
+                let viewController = SFSafariViewController(url: url)
+                viewController.modalPresentationStyle = .overFullScreen
+                presentingViewController?.topMostViewController?.present(viewController, animated: true, completion: nil)
             }
         )
         let navigationController = BCNavigationController(rootViewController: informationController, title: LocalizationConstants.Stellar.minimumBalance)
-        AppCoordinator.shared.tabControllerManager.tabViewController.present(navigationController, animated: true)
+        presentingViewController?.present(navigationController, animated: true)
     }
 }
 

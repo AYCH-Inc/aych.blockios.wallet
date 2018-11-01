@@ -542,7 +542,7 @@ extension DashboardController: BCBalancesChartViewDelegate {
     }
 
     func stellarLegendTapped() {
-        // tabControllerManager.showTransactionsStellar()
+        tabControllerManager.showTransactionsStellar()
     }
 
     func watchOnlyViewTapped() {

@@ -160,8 +160,14 @@ final class BlockchainSettings: NSObject {
             return theSymbol
         }
 
-        @objc var fiatCurrencyCode: String? {
-            return WalletManager.shared.latestMultiAddressResponse?.symbol_local.code
+        @objc var fiatCurrencyCode: String {
+            guard let latestMultiAddressResponse = WalletManager.shared.latestMultiAddressResponse,
+                let symbolLocal = latestMultiAddressResponse.symbol_local,
+                let theCode = symbolLocal.code else {
+                    Logger.shared.warning("Failed to get the fiat currency code from latestMultiAddressResponse!")
+                    return Locale.current.currencyCode!
+            }
+            return theCode
         }
 
         @objc func fiatSymbolFromCode(currencyCode: String) -> String? {

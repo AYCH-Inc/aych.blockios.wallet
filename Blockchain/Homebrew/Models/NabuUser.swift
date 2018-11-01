@@ -37,6 +37,20 @@ struct NabuUser: Decodable {
         case state = "state"
     }
 
+    init(
+        personalDetails: PersonalDetails?,
+        address: UserAddress?,
+        mobile: Mobile?,
+        status: KYCAccountStatus,
+        state: UserState
+    ) {
+        self.personalDetails = personalDetails
+        self.address = address
+        self.mobile = mobile
+        self.status = status
+        self.state = state
+    }
+
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let userID = try values.decodeIfPresent(String.self, forKey: .identifier)

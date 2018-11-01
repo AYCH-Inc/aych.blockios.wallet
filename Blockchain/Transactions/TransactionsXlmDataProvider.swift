@@ -56,6 +56,11 @@ class TransactionsXlmDataProvider: SimpleListDataProvider {
                 
                 cell.selectionStyle = .none
                 
+                cell.amountButtonSelected = { [weak self] in
+                    guard let this = self else { return }
+                    this.delegate?.dataProvider(this, didSelect: model)
+                }
+                
                 return cell
             }
             
@@ -81,10 +86,5 @@ class TransactionsXlmDataProvider: SimpleListDataProvider {
         }
         
         return UITableViewCell()
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? TransactionTableCell else { return }
-        cell.transactionClicked(nil)
     }
 }

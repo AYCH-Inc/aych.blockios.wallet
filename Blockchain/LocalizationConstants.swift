@@ -720,6 +720,10 @@ struct LocalizationConstants {
             "Your information is being reviewed. When all looks good, you’re clear to exchange. You should receive a notification within 5 minutes.",
             comment: "Description for when KYC verification is in progress."
         )
+        static let verificationInProgressDescriptionAirdrop = NSLocalizedString(
+            "Your information is being reviewed. The review should complete in 5 minutes. Once you're successfully verified, we'll send your XLM within one week.",
+            comment: "Description for when KYC verification is in progress and the user is waiting for a Stellar airdrop."
+        )
         static let accountApproved = NSLocalizedString(
             "Account Approved",
             comment: "Text displayed when KYC verification is approved."
@@ -731,10 +735,6 @@ struct LocalizationConstants {
         static let accountApprovedBadge = NSLocalizedString(
             "Approved",
             comment: "KYC verification is approved."
-        )
-        static let accountPendingBadge = NSLocalizedString(
-            "Pending",
-            comment: "KYC verification is Pending."
         )
         static let accountUnderReviewBadge = NSLocalizedString(
             "Under Review",
@@ -900,6 +900,18 @@ struct LocalizationConstants {
         static let cannotSendXLMAtThisTime = NSLocalizedString(
             "Cannot send XLM at this time. Please try again.",
             comment: "Error displayed when XLM cannot be sent due to an error."
+        )
+        static let notEnoughXLM = NSLocalizedString(
+            "Not enough XLM.",
+            comment: "Error message displayed if the user tries to send XLM but does not have enough of it."
+        )
+        static let useSpendableBalanceX = NSLocalizedString(
+            "Use total spendable balance: ",
+            comment: "Tappable text displayed in the send XLM screen for when the user wishes to send their full spendable balance."
+        )
+        static let minimumForNewAccountsError = NSLocalizedString(
+            "Minimum of 1.0 XLM needed for new accounts",
+            comment: "This is the error shown when too little XLM is sent to a primary key that does not yet have an XLM account"
         )
     }
 }

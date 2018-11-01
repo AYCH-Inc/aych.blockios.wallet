@@ -103,7 +103,7 @@ class StellarTransactionService: StellarTransactionAPI {
                     )
                 }
                 throw error
-        }
+            }
     }
 
     private func send(

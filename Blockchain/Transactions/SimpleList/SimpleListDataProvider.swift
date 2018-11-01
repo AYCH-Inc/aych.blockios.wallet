@@ -154,7 +154,6 @@ class SimpleListDataProvider: NSObject, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let items = models else { return }
-        guard indexPath.section == 1 else { return }
         guard items.count > indexPath.row else { return }
         let model = items[indexPath.row]
         delegate?.dataProvider(self, didSelect: model)

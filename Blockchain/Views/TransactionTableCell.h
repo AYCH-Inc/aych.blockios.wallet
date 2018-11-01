@@ -46,6 +46,7 @@ typedef enum {
 -(IBAction)btcbuttonclicked:(id)sender;
 
 @property(nonatomic, strong)  Transaction * transaction;
+@property (nonatomic, copy) void (^amountButtonSelected)(void);
 @property(nonatomic)  LegacyAssetType assetType;
 
 - (void)reload;

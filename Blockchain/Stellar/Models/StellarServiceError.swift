@@ -9,6 +9,7 @@
 import Foundation
 
 enum StellarServiceError: Error {
+    case insufficientFundsForNewAccount
     case noDefaultAccount
     case noXLMAccount
     case rateLimitExceeded

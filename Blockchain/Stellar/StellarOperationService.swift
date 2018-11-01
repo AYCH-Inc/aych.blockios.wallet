@@ -68,11 +68,6 @@ class StellarOperationService {
         self.repository = repository
     }
     
-    func start() -> Observable<[StellarOperation]> {
-        guard privateReplayedOperations.hasObservers == false else { return privateReplayedOperations.asObservable() }
-        return fetchOperationsStartingFromCache()
-    }
-    
     fileprivate func filter(operations: [OperationResponse]) -> [OperationResponse] {
         return operations.filter { $0.operationType == .payment || $0.operationType == .accountCreated }
     }
@@ -90,7 +85,9 @@ class StellarOperationService {
                 token: op.pagingToken,
                 sourceAccountID: op.sourceAccount,
                 transactionHash: op.transactionHash,
-                createdAt: op.createdAt
+                createdAt: op.createdAt,
+                fee: nil,
+                memo: nil
             )
             return .accountCreated(created)
         case .payment:
@@ -103,7 +100,9 @@ class StellarOperationService {
                 direction: op.from == accountID ? .debit : .credit,
                 amount: op.amount,
                 transactionHash: op.transactionHash,
-                createdAt: op.createdAt
+                createdAt: op.createdAt,
+                fee: nil,
+                memo: nil
             )
             return .payment(payment)
         default:

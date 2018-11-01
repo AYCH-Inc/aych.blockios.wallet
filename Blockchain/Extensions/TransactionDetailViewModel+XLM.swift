@@ -14,16 +14,24 @@ extension TransactionDetailViewModel {
     convenience init(xlmTransaction: StellarOperation.Payment) {
         self.init()
 
+        
         assetType = .stellar
 
         fromString = xlmTransaction.fromAccount
         fromAddress = xlmTransaction.fromAccount
         to = [xlmTransaction.toAccount]
         toString = xlmTransaction.toAccount
+        
+        hideNote = xlmTransaction.memo == nil
+        note = xlmTransaction.memo
+        txDescription = xlmTransaction.memo
+        
+        time = UInt64(xlmTransaction.createdAt.timeIntervalSince1970)
 
         amountString = xlmTransaction.amount
-        decimalAmount = 0
-        feeString = "feeString"
+        
+        decimalAmount = NSDecimalNumber(string: xlmTransaction.amount)
+        feeString = String(describing: xlmTransaction.fee)
 
         txType = xlmTransaction.direction == .credit ? Constants.TransactionTypes.receive : Constants.TransactionTypes.sent
         hasFromLabel = txType == Constants.TransactionTypes.sent
@@ -31,8 +39,8 @@ extension TransactionDetailViewModel {
         myHash = xlmTransaction.transactionHash
         confirmed = true
         dateString = DateFormatter.verboseString(from: xlmTransaction.createdAt)
-        detailButtonTitle = String(format: LocalizationConstants.Stellar.viewOnArgument, BlockchainAPI.PartnerHosts.stellarchain.rawValue)
-        detailButtonLink = BlockchainAPI.shared.stellarchainUrl
+        detailButtonTitle = String(format: LocalizationConstants.Stellar.viewOnArgument, BlockchainAPI.PartnerHosts.stellarchain.rawValue).uppercased()
+        detailButtonLink = BlockchainAPI.shared.stellarchainUrl.uppercased()
     }
     
     convenience init(xlmTransaction: StellarOperation.AccountCreated) {
@@ -45,9 +53,13 @@ extension TransactionDetailViewModel {
         to = [xlmTransaction.funder]
         toString = xlmTransaction.funder
         
+        txDescription = xlmTransaction.memo
+        
+        time = UInt64(xlmTransaction.createdAt.timeIntervalSince1970)
+        
         amountString = String(describing: xlmTransaction.balance)
-        decimalAmount = 0
-        feeString = "feeString"
+        decimalAmount = xlmTransaction.balance as NSDecimalNumber
+        feeString = String(describing: xlmTransaction.fee)
         
         txType = xlmTransaction.direction == .credit ? Constants.TransactionTypes.receive : Constants.TransactionTypes.sent
         hasFromLabel = txType == Constants.TransactionTypes.sent
@@ -55,7 +67,7 @@ extension TransactionDetailViewModel {
         myHash = xlmTransaction.transactionHash
         confirmed = true
         dateString = DateFormatter.verboseString(from: xlmTransaction.createdAt)
-        detailButtonTitle = String(format: LocalizationConstants.Stellar.viewOnArgument, BlockchainAPI.PartnerHosts.stellarchain.rawValue)
-        detailButtonLink = BlockchainAPI.shared.stellarchainUrl
+        detailButtonTitle = String(format: LocalizationConstants.Stellar.viewOnArgument, BlockchainAPI.PartnerHosts.stellarchain.rawValue).uppercased()
+        detailButtonLink = BlockchainAPI.shared.stellarchainUrl.uppercased()
     }
 }

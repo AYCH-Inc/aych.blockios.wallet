@@ -720,6 +720,10 @@ struct LocalizationConstants {
             "Your information is being reviewed. When all looks good, you’re clear to exchange. You should receive a notification within 5 minutes.",
             comment: "Description for when KYC verification is in progress."
         )
+        static let verificationInProgressDescriptionAirdrop = NSLocalizedString(
+            "Your information is being reviewed. The review should complete in 5 minutes. Once you're successfully verified, we'll send your XLM within one week.",
+            comment: "Description for when KYC verification is in progress and the user is waiting for a Stellar airdrop."
+        )
         static let accountApproved = NSLocalizedString(
             "Account Approved",
             comment: "Text displayed when KYC verification is approved."
@@ -731,10 +735,6 @@ struct LocalizationConstants {
         static let accountApprovedBadge = NSLocalizedString(
             "Approved",
             comment: "KYC verification is approved."
-        )
-        static let accountPendingBadge = NSLocalizedString(
-            "Pending",
-            comment: "KYC verification is Pending."
         )
         static let accountUnderReviewBadge = NSLocalizedString(
             "Under Review",
@@ -901,12 +901,42 @@ struct LocalizationConstants {
             "Cannot send XLM at this time. Please try again.",
             comment: "Error displayed when XLM cannot be sent due to an error."
         )
+        static let notEnoughXLM = NSLocalizedString(
+            "Not enough XLM.",
+            comment: "Error message displayed if the user tries to send XLM but does not have enough of it."
+        )
+        static let useSpendableBalanceX = NSLocalizedString(
+            "Use total spendable balance: ",
+            comment: "Tappable text displayed in the send XLM screen for when the user wishes to send their full spendable balance."
+        )
+        static let minimumForNewAccountsError = NSLocalizedString(
+            "Minimum of 1.0 XLM needed for new accounts",
+            comment: "This is the error shown when too little XLM is sent to a primary key that does not yet have an XLM account"
+        )
+        static let claimYourStellarXLM = NSLocalizedString(
+            "Claim Your Stellar (XLM)",
+            comment: "Title displayed in the onboarding card prompting the user to join the waitlist to receive Stellar."
+        )
+        static let weNowSupportStellar = NSLocalizedString(
+            "We Now Support Stellar",
+            comment: "Title displayed in the onboarding card showing that we support Stellar."
+        )
+        static let weNowSupportStellarDescription = NSLocalizedString(
+            "You can now send, request and exchange Stellar (XLM) directly from your Blockchain Wallet. For the chance to get free XLM",
+            comment: "Title displayed in the onboarding card showing that we support Stellar."
+        )
+        static let joinTheWaitlist = NSLocalizedString(
+            "Join the waitlist",
+            comment: "CTA prompting the user to join the XLM waitlist."
+        )
     }
 }
 
 // TODO: deprecate this once Obj-C is no longer using this
 /// LocalizationConstants class wrapper so that LocalizationConstants can be accessed from Obj-C.
 @objc class LocalizationConstantsObjcBridge: NSObject {
+    @objc class func joinTheWaitlist() -> String { return LocalizationConstants.Stellar.joinTheWaitlist }
+    
     @objc class func copiedToClipboard() -> String { return LocalizationConstants.Receive.copiedToClipboard }
 
     @objc class func createWalletLegalAgreementPrefix() -> String {

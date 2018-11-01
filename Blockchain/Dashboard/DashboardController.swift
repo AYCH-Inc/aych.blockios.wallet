@@ -312,7 +312,7 @@ final class DashboardController: UIViewController {
         return watchOnlyBalance.doubleValue
     }
 
-    private func reload(balances: [AssetType: Double]?) {
+    private func reloadBalances(_ balances: [AssetType: Double]? = nil) {
         let btcBalance = NSNumber(value: balances?[.bitcoin] ?? 0)
         let btcFiatBalance = btcBalance.doubleValue * lastBtcExchangeRate.doubleValue
 
@@ -371,7 +371,7 @@ final class DashboardController: UIViewController {
     // swiftlint:disable:next function_body_length
     @objc func reload() {
         if !wallet.isInitialized() {
-            reload(balances: nil)
+            reloadBalances()
         }
         disposable = PriceServiceClient().allPrices(fiatSymbol: BlockchainSettings.App.shared.fiatCurrencyCode)
             .subscribeOn(MainScheduler.asyncInstance)
@@ -401,14 +401,14 @@ final class DashboardController: UIViewController {
                     .observeOn(MainScheduler.instance)
                     .subscribe(onSuccess: { account in
                         let xlmBalance = NSDecimalNumber(decimal: account.assetAccount.balance).doubleValue
-                        self.reload(balances: [
+                        self.reloadBalances([
                             AssetType.bitcoin: self.getBtcBalance(),
                             AssetType.ethereum: self.getEthBalance(),
                             AssetType.bitcoinCash: self.getBchBalance(),
                             AssetType.stellar: xlmBalance
                         ])
                     }, onError: { _ in
-                        self.reload(balances: [
+                        self.reloadBalances([
                             AssetType.bitcoin: self.getBtcBalance(),
                             AssetType.ethereum: self.getEthBalance(),
                             AssetType.bitcoinCash: self.getBchBalance(),

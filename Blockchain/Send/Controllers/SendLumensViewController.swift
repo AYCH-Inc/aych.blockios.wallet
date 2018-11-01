@@ -232,6 +232,17 @@ protocol SendXLMViewControllerDelegate: class {
             headerText: LocalizationConstants.SendAsset.confirmPayment
         )
     }
+    @IBAction private func learnAboutStellarButtonTapped(_ sender: Any) {
+        let informationController = InformationViewController.make(
+            with: "BodyText",
+            buttonTitle: "ButtonTitle",
+            buttonAction: { _ in
+                Logger.shared.debug("information controller button tapped")
+            }
+        )
+        let navigationController = BCNavigationController(rootViewController: informationController, title: "Stellar's minimum balance")
+        AppCoordinator.shared.tabControllerManager.tabViewController.present(navigationController, animated: true)
+    }
 }
 
 extension SendLumensViewController: SendXLMInterface {

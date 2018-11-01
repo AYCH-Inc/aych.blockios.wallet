@@ -163,7 +163,7 @@ protocol SendXLMViewControllerDelegate: class {
             let fiatAmount = price * fee
             let fiatFormatted = NumberFormatter.localCurrencyFormatter.string(from: NSDecimalNumber(decimal: fiatAmount)) ?? "\(fiatAmount)"
             let fiatText = fiatCurrencySymbol + fiatFormatted
-            feeAmountLabel.text = feeFormatted + " " + "(\(fiatText))"
+            feeAmountLabel.text = "\(feeFormatted) \(xlmSymbol) (\(fiatText))"
         case .stellarAddressText(let value):
             stellarAddressField.text = value
         case .xlmFieldTextColor(let color):

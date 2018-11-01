@@ -694,11 +694,11 @@ struct LocalizationConstants {
 
     struct KYC {
         static let welcomeMainText = NSLocalizedString(
-            "Introducing Blockchain’s new and improved crypto exchange function. To use this updated feature, please verify your identity. It only takes a couple of minutes.",
+            "Introducing Blockchain's faster, smarter way to trade your crypto. Upgrade now to enjoy benefits such as better prices, higher trade limits and live rates.",
             comment: "Text displayed when user is starting KYC"
         )
         static let welcomeMainTextSunRiverCampaign = NSLocalizedString(
-            "Verify your identity to claim your Stellar. It only takes a few minutes. This will also allow you to use our new and improved crypto exchange feature.",
+            "Verify your identity to claim your XLM. It only takes a few minutes. Once verified, you'll be able to use our next generation trading product.",
             comment: "Text displayed when user is starting KYC coming from the airdrop link"
         )
         static let invalidPhoneNumber = NSLocalizedString(
@@ -875,7 +875,7 @@ struct LocalizationConstants {
             comment: "The default label of the XLM wallet."
         )
         static let enterStellarAddress = NSLocalizedString(
-            "Enter Stellar address or select",
+            "Enter a Stellar address or select",
             comment: "Placeholder text for the Lumens send screen."
         )
         static let secondPasswordPrompt = NSLocalizedString(

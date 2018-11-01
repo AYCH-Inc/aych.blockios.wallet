@@ -20,6 +20,7 @@ extension NumberFormatter {
         formatter.usesGroupingSeparator = usesGroupingSeparator
         formatter.minimumFractionDigits = minfractionDigits
         formatter.maximumFractionDigits = maxfractionDigits
+        formatter.roundingMode = .down
         return formatter
     }
 

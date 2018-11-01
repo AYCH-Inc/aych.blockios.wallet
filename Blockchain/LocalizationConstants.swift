@@ -923,11 +923,27 @@ struct LocalizationConstants {
         )
         static let weNowSupportStellarDescription = NSLocalizedString(
             "You can now send, request and exchange Stellar (XLM) directly from your Blockchain Wallet. For the chance to get free XLM",
-            comment: "Title displayed in the onboarding card showing that we support Stellar."
+            comment: "Description displayed in the onboarding card showing that we support Stellar."
         )
         static let joinTheWaitlist = NSLocalizedString(
             "Join the waitlist",
             comment: "CTA prompting the user to join the XLM waitlist."
+        )
+        static let claimYourStellar = NSLocalizedString(
+            "Claim Your Stellar (XLM)",
+            comment: "Title displayed on the onboarding card prompting the user to complete KYC to receive their airdrop."
+        )
+        static let claimYourStellarDescription = NSLocalizedString(
+            "Looks like you've started verifying your identity but didn't finish. Pick up where you left off.",
+            comment: "Description displayed on the onboarding card prompting the user to complete KYC to receive their airdrop."
+        )
+        static let yourXLMIsOnItsWay = NSLocalizedString(
+            "Your XLM is on its way",
+            comment: "Title displayed on the onboarding card notifying them that their airdrop is on its way."
+        )
+        static let yourXLMIsOnItsWayDescription = NSLocalizedString(
+            "We have successfully verified your identity. We'll send your Stellar (XLM) within the next week.",
+            comment: "Description displayed on the onboarding card notifying them that their airdrop is on its way."
         )
     }
 }
@@ -1059,13 +1075,7 @@ struct LocalizationConstants {
 
     @objc class func buySellCardTitle() -> String { return LocalizationConstants.AnnouncementCards.buySellCardTitle }
 
-    @objc class func continueKYCCardTitle() -> String { return LocalizationConstants.AnnouncementCards.continueKYCCardTitle }
-
     @objc class func buySellCardDescription() -> String { return LocalizationConstants.AnnouncementCards.buySellCardDescription }
-
-    @objc class func continueKYCCardDescription() -> String { return LocalizationConstants.AnnouncementCards.continueKYCCardDescription }
-
-    @objc class func continueKYCActionButtonTitle() -> String { return LocalizationConstants.AnnouncementCards.continueKYCActionButtonTitle }
 
     @objc class func notEnoughXForFees() -> String { return LocalizationConstants.Errors.notEnoughXForFees }
 

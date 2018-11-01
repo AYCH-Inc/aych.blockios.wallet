@@ -110,7 +110,7 @@ class StellarAccountService: StellarAccountAPI {
                     return Completable.empty()
                 }
                 guard amount >= baseReserveInXlm * 2 else {
-                    return Completable.error(StellarServiceError.amountTooLow)
+                    return Completable.error(StellarServiceError.insufficientFundsForNewAccount)
                 }
                 return strongSelf.accountResponse(for: sourceKeyPair.accountId)
                     .flatMapCompletable { [weak self] sourceAccountResponse -> Completable in

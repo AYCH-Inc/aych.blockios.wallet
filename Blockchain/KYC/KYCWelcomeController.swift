@@ -49,11 +49,19 @@ final class KYCWelcomeController: KYCBaseViewController {
         }
         if let tosRange = text.range(of: LocalizationConstants.tos),
             sender.didTapAttributedText(in: labelTermsOfService, range: NSRange(tosRange, in: text)) {
-            launchWebViewController(url: Constants.Url.termsOfService, title: LocalizationConstants.tos)
+            UIApplication.shared.openWebView(
+                url: Constants.Url.termsOfService,
+                title: LocalizationConstants.tos,
+                presentingViewController: self
+            )
         }
         if let privacyPolicyRange = text.range(of: LocalizationConstants.privacyPolicy),
             sender.didTapAttributedText(in: labelTermsOfService, range: NSRange(privacyPolicyRange, in: text)) {
-            launchWebViewController(url: Constants.Url.privacyPolicy, title: LocalizationConstants.privacyPolicy)
+            UIApplication.shared.openWebView(
+                url: Constants.Url.privacyPolicy,
+                title: LocalizationConstants.privacyPolicy,
+                presentingViewController: self
+            )
         }
     }
 
@@ -95,13 +103,6 @@ final class KYCWelcomeController: KYCBaseViewController {
         labelText.addForegroundColor(UIColor.brandSecondary, to: LocalizationConstants.tos)
         labelText.addForegroundColor(UIColor.brandSecondary, to: LocalizationConstants.privacyPolicy)
         labelTermsOfService.attributedText = labelText
-    }
-
-    private func launchWebViewController(url: String, title: String) {
-        let viewController = SettingsWebViewController()
-        viewController.urlTargetString = url
-        let navigationController = BCNavigationController(rootViewController: viewController, title: title)
-        present(navigationController, animated: true)
     }
 }
 

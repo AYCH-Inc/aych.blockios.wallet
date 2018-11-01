@@ -412,8 +412,6 @@
 
 - (void)didGetFiatAtTimeWithFiatAmount:(NSNumber * _Nonnull)fiatAmount currencyCode:(NSString * _Nonnull)currencyCode assetType:(AssetType)assetType
 {
-    BOOL didFindTransaction = NO;
-
     NSArray *transactions;
     NSString *targetHash;
 
@@ -428,19 +426,17 @@
         targetHash = self.transactionsBitcoinCashViewController.detailViewController.transactionModel.myHash;
     }
 
+    NSString *amount = [[NSNumberFormatter localCurrencyFormatterWithGroupingSeparator] stringFromNumber:fiatAmount];
+    NSDictionary *result = @{currencyCode : amount};
+    
     for (Transaction *transaction in transactions) {
         if ([transaction.myHash isEqualToString:targetHash]) {
-            [transaction.fiatAmountsAtTime setObject:[[NSNumberFormatter localCurrencyFormatterWithGroupingSeparator] stringFromNumber:fiatAmount] forKey:currencyCode];
-            didFindTransaction = YES;
+            [transaction.fiatAmountsAtTime setObject:amount forKey:currencyCode];
             break;
         }
     }
-
-    if (!didFindTransaction) {
-        DLog(@"didGetFiatAtTime: will not set fiat amount because the detail controller's transaction hash cannot be found.");
-    }
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:[ConstantsObjcBridge notificationKeyGetFiatAtTime] object:nil];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:[ConstantsObjcBridge notificationKeyGetFiatAtTime] object:result];
 }
 
 - (void)didErrorWhenGettingFiatAtTimeWithError:(NSString * _Nullable)error

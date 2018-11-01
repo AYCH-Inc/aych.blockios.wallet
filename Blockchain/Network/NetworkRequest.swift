@@ -27,8 +27,11 @@ struct NetworkRequest {
     
     let method: NetworkMethod
     let endpoint: URL
-    let body: Data?
     let headers: HTTPHeaders?
+
+    // TODO: modify this to be an Encodable type so that JSON serialization is done in this class
+    // vs. having to serialize outside of this class
+    let body: Data?
 
     // Deprecate this field in favor of headers (i.e. the token should be passed in as an
     // element in `headers`
@@ -89,8 +92,15 @@ struct NetworkRequest {
             withCompletion(.error(nil), responseCode)
             return
         }
-        
-        task = session.dataTask(with: urlRequest) { (payload, response, error) in
+
+        // Debugging
+        Logger.shared.debug("Sending \(urlRequest.httpMethod ?? "") request to '\(urlRequest.url?.absoluteString ?? "")'")
+        if let body = urlRequest.httpBody,
+            let bodyString = String(data: body, encoding: .utf8) {
+            Logger.shared.debug("Body: \(bodyString)")
+        }
+
+        task = session.dataTask(with: urlRequest) { payload, response, error in
 
             if let error = error {
                 withCompletion(.error(HTTPRequestClientError.failedRequest(description: error.localizedDescription)), responseCode)
@@ -102,8 +112,19 @@ struct NetworkRequest {
                 return
             }
 
+            guard let responseData = payload else {
+                withCompletion(.error(HTTPRequestPayloadError.emptyData), responseCode)
+                return
+            }
+
+            // Debugging
+            if let responseString = String(data: responseData, encoding: .utf8) {
+                Logger.shared.debug("Response received: \(responseString)")
+            }
+
             guard (200...299).contains(httpResponse.statusCode) else {
-                let errorStatusCode = HTTPRequestServerError.badStatusCode(code: httpResponse.statusCode, error: nil)
+                let errorPayload = try? JSONDecoder().decode(NabuNetworkError.self, from: responseData)
+                let errorStatusCode = HTTPRequestServerError.badStatusCode(code: httpResponse.statusCode, error: errorPayload)
                 withCompletion(.error(errorStatusCode), httpResponse.statusCode)
                 return
             }
@@ -149,8 +170,8 @@ extension NetworkRequest {
         type: ResponseType.Type
     ) -> Single<ResponseType> {
         var request = self.init(endpoint: url, method: .get, body: body, authToken: token)
-        return Single.create(subscribe: { (observer) -> Disposable in
-            request.execute(expecting: ResponseType.self, withCompletion: { (result, _) in
+        return Single.create(subscribe: { observer -> Disposable in
+            request.execute(expecting: ResponseType.self, withCompletion: { result, _ in
                 switch result {
                 case .success(let value):
                     observer(.success(value))
@@ -170,8 +191,29 @@ extension NetworkRequest {
         headers: HTTPHeaders? = nil
     ) -> Single<ResponseType> {
         var request = self.init(endpoint: url, method: .post, body: body, authToken: token, headers: headers)
-        return Single.create(subscribe: { (observer) -> Disposable in
-            request.execute(expecting: ResponseType.self, withCompletion: { (result, _) in
+        return Single.create(subscribe: { observer -> Disposable in
+            request.execute(expecting: ResponseType.self, withCompletion: { result, _ in
+                switch result {
+                case .success(let value):
+                    observer(.success(value))
+                case .error(let error):
+                    observer(.error(error ?? NetworkError.generic))
+                }
+            })
+            return Disposables.create()
+        })
+    }
+
+    static func PUT<ResponseType: Decodable>(
+        url: URL,
+        body: Data?,
+        token: String?,
+        type: ResponseType.Type,
+        headers: HTTPHeaders? = nil
+    ) -> Single<ResponseType> {
+        var request = self.init(endpoint: url, method: .put, body: body, authToken: token, headers: headers)
+        return Single.create(subscribe: { observer -> Disposable in
+            request.execute(expecting: ResponseType.self, withCompletion: { result, _ in
                 switch result {
                 case .success(let value):
                     observer(.success(value))

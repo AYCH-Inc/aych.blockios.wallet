@@ -138,6 +138,7 @@ struct Constants {
         static let forgotPassword = "https://support.blockchain.com/hc/en-us/articles/211205343-I-forgot-my-password-What-can-you-do-to-help-"
         static let blockchainWalletLogin = "https://login.blockchain.com"
         static let lockbox = "https://blockchain.com/lockbox"
+        static let airdropWaitlist = blockchainHome + "/waitlist"
     }
     struct Wallet {
         static let swipeToReceiveAddressCount = 5
@@ -160,6 +161,8 @@ struct Constants {
 /// Constant class wrapper so that Constants can be accessed from Obj-C. Should deprecate this
 /// once Obj-C is no longer using this
 @objc class ConstantsObjcBridge: NSObject {
+    @objc class func airdropWaitlistUrl() -> String { return Constants.Url.airdropWaitlist }
+
     @objc class func animationDuration() -> Double { return Constants.Animation.duration }
 
     @objc class func animationDurationLong() -> Double { return Constants.Animation.durationLong }

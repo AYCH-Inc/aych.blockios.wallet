@@ -8,13 +8,6 @@
 
 import RxSwift
 
-struct EmptyNetworkResponse: Codable {
-}
-
-struct StellarRegisterCampaignPayload: Codable {
-    let data: [String: String]
-}
-
 /// Router for handling the XLM airdrop flow
 class StellarAirdropRouter {
 
@@ -22,7 +15,7 @@ class StellarAirdropRouter {
     private let kycCoordinator: KYCCoordinator
     private let repository: BlockchainDataRepository
     private let walletXlmAccountRepo: WalletXlmAccountRepository
-    private let nabuAuthenticationService: NabuAuthenticationService
+    private let registrationService: StellarAirdropRegistrationAPI
 
     private let disposables = CompositeDisposable()
 
@@ -31,13 +24,13 @@ class StellarAirdropRouter {
         kycCoordinator: KYCCoordinator = KYCCoordinator.shared,
         repository: BlockchainDataRepository = BlockchainDataRepository.shared,
         walletXlmAccountRepo: WalletXlmAccountRepository = WalletXlmAccountRepository(),
-        nabuAuthenticationService: NabuAuthenticationService = NabuAuthenticationService.shared
+        registrationService: StellarAirdropRegistrationAPI = StellarAirdropRegistrationService()
     ) {
         self.appSettings = appSettings
         self.kycCoordinator = kycCoordinator
         self.repository = repository
         self.walletXlmAccountRepo = walletXlmAccountRepo
-        self.nabuAuthenticationService = nabuAuthenticationService
+        self.registrationService = registrationService
     }
 
     deinit {
@@ -55,23 +48,27 @@ class StellarAirdropRouter {
             return
         }
 
-        // Only route if the user has not yet started KYC
-        guard !appSettings.isCompletingKyc else {
-            return
-        }
-
         let nabuUser = repository.nabuUser.take(1)
         let xlmAccount = walletXlmAccountRepo.initializeMetadataMaybe().asObservable()
         let disposable = Observable.combineLatest(nabuUser, xlmAccount)
             .subscribeOn(MainScheduler.asyncInstance)
-            .do(onNext: { [weak self] _, xlmAccount in
-                self?.registerForCampaign(xlmAccount: xlmAccount)
+            .do(onNext: { [weak self] nabuUser, xlmAccount in
+                self?.registerForCampaign(xlmAccount: xlmAccount, nabuUser: nabuUser)
             })
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] user, _ in
                 guard let strongSelf = self else {
                     return
                 }
+
+                // Only route if the user has not yet started KYC.
+                // Note that storing a flag locally is the only way we can tell
+                // atm if they have or have not started KYC'ing. There might be a back-end endpoint
+                // for this soon so that this can be remembered across platforms/installs.
+                guard !strongSelf.appSettings.isCompletingKyc else {
+                    return
+                }
+
                 guard user.status == .none else {
                     return
                 }
@@ -82,30 +79,10 @@ class StellarAirdropRouter {
         disposables.insertWithDiscardableResult(disposable)
     }
 
-    private func registerForCampaign(xlmAccount: WalletXlmAccount) {
-        // TODO: this endpoint is not yet deployed (should be deployed 10/30)
-        let disposable = nabuAuthenticationService.getSessionToken()
-            .flatMap { authToken -> Single<EmptyNetworkResponse> in
-                guard let base = URL(string: BlockchainAPI.shared.retailCoreUrl) else {
-                    return Single.never()
-                }
-                guard let endpoint = URL.endpoint(base, pathComponents: ["register-campaign"], queryParameters: nil) else {
-                    return Single.never()
-                }
-                let data = ["x-campaign-address": xlmAccount.publicKey]
-                let payload = StellarRegisterCampaignPayload(data: data)
-                guard let postPayload = try? JSONEncoder().encode(payload) else {
-                    return Single.never()
-                }
-                return NetworkRequest.POST(
-                    url: endpoint,
-                    body: postPayload,
-                    token: authToken.token,
-                    type: EmptyNetworkResponse.self,
-                    headers: ["X-CAMPAIGN": "sunriver"]
-                )
-            }.subscribe(onSuccess: { _ in
-                Logger.shared.info("Successfully registered for sunriver campaign!")
+    private func registerForCampaign(xlmAccount: WalletXlmAccount, nabuUser: NabuUser) {
+        let disposable = registrationService.registerForCampaign(xlmAccount: xlmAccount, nabuUser: nabuUser)
+            .subscribe(onSuccess: { response in
+                Logger.shared.info("Successfully registered for sunriver campaign. Message: '\(response.message)'")
             }, onError: { error in
                 Logger.shared.error("Failed to register for campaign: \(error.localizedDescription)")
             })

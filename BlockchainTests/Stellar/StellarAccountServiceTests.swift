@@ -49,6 +49,9 @@ class StellarAccountServiceTests: XCTestCase {
             if let stellarError = error as? StellarServiceError, stellarError == StellarServiceError.amountTooLow {
                 exp.fulfill()
             }
+            if let stellarError = error as? StellarServiceError, stellarError == StellarServiceError.insufficientFundsForNewAccount {
+                exp.fulfill()
+            }
         })
         wait(for: [exp], timeout: 0.1)
     }

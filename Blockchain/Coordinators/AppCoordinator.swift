@@ -81,6 +81,7 @@ import Foundation
         window.makeKeyAndVisible()
         tabControllerManager.dashBoardClicked(nil)
 
+        AppFeatureConfigurator.shared.initialize()
         BuySellCoordinator.shared.start()
 
         // Display welcome screen if no wallet is authenticated

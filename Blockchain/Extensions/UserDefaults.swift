@@ -55,6 +55,7 @@ extension UserDefaults {
         case didTapOnAirdropDeepLink
         case swipeToReceiveEnabled = "swipeToReceive"
         case symbolLocal
+        case hasSeenAirdropJoinWaitlistCard
     }
 
     func migrateLegacyKeysIfNeeded() {

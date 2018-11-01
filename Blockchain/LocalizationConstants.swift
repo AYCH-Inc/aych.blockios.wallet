@@ -870,6 +870,38 @@ struct LocalizationConstants {
     }
 
     struct Stellar {
+        static let minimumBalanceInfoExplanation = NSLocalizedString(
+            "Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.",
+            comment: "General explanation for minimum balance for XLM."
+        )
+        static let minimumBalanceInfoCurrentArgument = NSLocalizedString(
+            "The current minimum balance requirement is %@.",
+            comment: "Explanation for the current minimum balance for XLM."
+        )
+        static let totalFundsLabel = NSLocalizedString(
+            "Total Funds",
+            comment: "Example used to explain the minimum balance requirement for XLM."
+        )
+        static let xlmReserveRequirement = NSLocalizedString(
+            "XLM Reserve Requirement",
+            comment: "Example used to explain the minimum balance requirement for XLM."
+        )
+        static let transactionFee = NSLocalizedString(
+            "Transaction Fee",
+            comment: "Example used to explain the minimum balance requirement for XLM."
+        )
+        static let availableToSend = NSLocalizedString(
+            "Available to Send",
+            comment: "Example used to explain the minimum balance requirement for XLM."
+        )
+        static let minimumBalanceMoreInformation = NSLocalizedString(
+            "You can read more information about Stellar's minimum balance requirement at Stellar.org ",
+            comment: "Helper text for user to learn more about the minimum balance requirement for XLM."
+        )
+        static let readMore = NSLocalizedString(
+            "Read More",
+            comment: "Button title for user to learn more about the minimum balance requirement for XLM."
+        )
         static let defaultLabelName = NSLocalizedString(
             "My Stellar Wallet",
             comment: "The default label of the XLM wallet."

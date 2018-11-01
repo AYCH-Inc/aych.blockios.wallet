@@ -152,6 +152,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                     ])
                     return
                 }
+                self.modelInterface.updateBaseReserve(ledger.baseReserveInXlm)
                 self.modelInterface.updateFee(feeInXlm)
                 self.modelInterface.updatePrice(price.price)
                 self.interface.apply(updates: [.feeAmountLabelText()])

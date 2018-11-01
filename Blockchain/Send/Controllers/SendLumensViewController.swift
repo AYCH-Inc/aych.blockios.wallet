@@ -56,6 +56,7 @@ protocol SendXLMViewControllerDelegate: class {
     private var latestPrice: Decimal? // fiat per whole unit
     private var xlmAmount: Decimal?
     private var xlmFee: Decimal?
+    private var baseReserve: Decimal?
 
     // MARK: Factory
     
@@ -234,8 +235,11 @@ protocol SendXLMViewControllerDelegate: class {
     }
     @IBAction private func learnAboutStellarButtonTapped(_ sender: Any) {
         let informationController = InformationViewController.make(
-            with: "BodyText",
-            buttonTitle: "ButtonTitle",
+            with: StellarInformationService.formattedMinimumRequirementInformationText(
+                baseReserve: baseReserve ?? Decimal(string: "1")!,
+                latestPrice: latestPrice ?? Decimal(string: "0.24")!
+            ),
+            buttonTitle: LocalizationConstants.Stellar.readMore,
             buttonAction: { _ in
                 Logger.shared.debug("information controller button tapped")
             }
@@ -357,6 +361,10 @@ extension SendLumensViewController: SendXLMModelInterface {
 
     func updateXLMAmount(_ value: Decimal?) {
         xlmAmount = value
+    }
+
+    func updateBaseReserve(_ value: Decimal?) {
+        baseReserve = value
     }
 }
 

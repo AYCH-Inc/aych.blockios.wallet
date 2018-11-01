@@ -27,6 +27,7 @@ struct XLMServices: XLMDependencies {
     var transaction: StellarTransactionAPI
     var prices: PriceServiceAPI
     var limits: StellarTradeLimitsAPI
+    let information: StellarInformationService
     
     init(
         configuration: StellarConfiguration,
@@ -47,6 +48,7 @@ struct XLMServices: XLMDependencies {
         operation = StellarOperationService(configuration: configuration, repository: repository)
         prices = PriceServiceClient()
         limits = StellarTradeLimitsService(ledgerService: ledger, accountsService: accounts)
+        information = StellarInformationService()
     }
     
     static let test: XLMServices = XLMServices(configuration: .test)

@@ -44,13 +44,15 @@ struct NabuUser: Decodable {
         address: UserAddress?,
         mobile: Mobile?,
         status: KYCAccountStatus,
-        state: UserState
+        state: UserState,
+        tags: Tags?
     ) {
         self.personalDetails = personalDetails
         self.address = address
         self.mobile = mobile
         self.status = status
         self.state = state
+        self.tags = tags
     }
 
     init(from decoder: Decoder) throws {

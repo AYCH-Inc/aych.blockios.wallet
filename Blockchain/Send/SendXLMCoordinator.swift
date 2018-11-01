@@ -221,7 +221,10 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             .subscribe(onError: { [weak self] error in
                 Logger.shared.error("Failed to send XLM. Error: \(error)")
                 let errorMessage: String
-                if let stellarError = error as? StellarServiceError, stellarError == .amountTooLow {
+                if let stellarError = error as? StellarPaymentOperationError, stellarError == .cancelled {
+                    // User cancelled transaction when shown second password - do not show an error.
+                    return
+                } else if let stellarError = error as? StellarServiceError, stellarError == .amountTooLow {
                     errorMessage = LocalizationConstants.Stellar.notEnoughXLM
                 } else if let stellarError = error as? StellarServiceError, stellarError == .insufficientFundsForNewAccount {
                     errorMessage = LocalizationConstants.Stellar.minimumForNewAccountsError

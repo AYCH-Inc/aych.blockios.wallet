@@ -220,10 +220,15 @@ class TradeExecutionService: TradeExecutionAPI {
                     return transaction.send(paymentOperation, sourceKeyPair: keyPair)
                 }.subscribeOn(MainScheduler.asyncInstance)
                 .observeOn(MainScheduler.instance)
-                .subscribe(onError: { errorMessage in
+                .subscribe(onError: { paymentError in
                     executionDone()
-                    Logger.shared.error("Failed to send XLM. Error: \(errorMessage)")
-                    error(errorMessage.localizedDescription)
+                    Logger.shared.error("Failed to send XLM. Error: \(paymentError)")
+                    if let operationError = paymentError as? StellarPaymentOperationError,
+                        operationError == .cancelled {
+                        // User cancelled transaction when shown second password - do not show an error.
+                        return
+                    }
+                    error(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
                 }, onCompleted: success)
         } else {
             isExecuting = true

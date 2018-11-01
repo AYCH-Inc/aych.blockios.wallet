@@ -395,7 +395,7 @@ final class DashboardController: UIViewController {
                         self.stellarPricePreviewView?.price = formattedPrice
                     }
                 }
-                let account = self.stellarAccountService.currentStellarAccount(fromCache: true)
+                let account = self.stellarAccountService.currentStellarAccount(fromCache: false)
                 _ = account
                     .subscribeOn(MainScheduler.asyncInstance)
                     .observeOn(MainScheduler.instance)

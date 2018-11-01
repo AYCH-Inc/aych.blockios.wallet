@@ -12,7 +12,7 @@ class StellarInformationService {
     static func formattedMinimumRequirementInformationText(
         baseReserve: Decimal,
         latestPrice: Decimal
-    ) -> String {
+    ) -> NSAttributedString {
         let assetType: AssetType = .stellar
         let explanation = LocalizationConstants.Stellar.minimumBalanceInfoExplanation
 
@@ -43,11 +43,36 @@ class StellarInformationService {
             assetType: assetType
         )
         let moreInformation = LocalizationConstants.Stellar.minimumBalanceMoreInformation
-        let explanationPlusCurrent = "\(explanation)\n\n\(current)\n\n"
-        let exampleOne = "\(total)\n\(totalAmount)\n\n\(requirement)\n\(requirementAmount)"
-        let exampleTwo = "\n\n\(fee)\n\(feeAmount)\n\n\(availableToSend)\n\(availableToSendAmount)\n\n"
-        let footer = "\(moreInformation)"
 
-        return explanationPlusCurrent + exampleOne + exampleTwo + footer
+        let defaultFont = UIFont(name: Constants.FontNames.montserratRegular, size: Constants.FontSizes.Small)!
+        let defaultAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.gray5,
+                                 NSAttributedStringKey.font: defaultFont]
+
+        let explanationPlusCurrent = NSAttributedString(
+            string: "\(explanation)\n\n\(current)\n\n",
+            attributes: defaultAttributes
+        )
+        let exampleOne = NSAttributedString(
+            string: "\(total)\n\(totalAmount)\n\n\(requirement)\n\(requirementAmount)\n\n",
+            attributes: defaultAttributes
+        )
+        let exampleTwo = NSAttributedString(
+            string: "\(fee)\n\(feeAmount)\n\n",
+            attributes: defaultAttributes
+        )
+        let available = NSAttributedString(
+            string: "\(availableToSend)\n\(availableToSendAmount)\n\n",
+            attributes: [NSAttributedStringKey.foregroundColor: UIColor.black,
+                         NSAttributedStringKey.font: UIFont(name: Constants.FontNames.montserratSemiBold, size: Constants.FontSizes.Small)!]
+        )
+        let footer = NSAttributedString(
+            string: "\(moreInformation)",
+            attributes: defaultAttributes
+        )
+
+        let body = NSMutableAttributedString()
+        [explanationPlusCurrent, exampleOne, exampleTwo, available, footer].forEach { body.append($0)
+        }
+        return body.copy() as! NSAttributedString
     }
 }

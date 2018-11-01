@@ -244,7 +244,7 @@ protocol SendXLMViewControllerDelegate: class {
                 Logger.shared.debug("information controller button tapped")
             }
         )
-        let navigationController = BCNavigationController(rootViewController: informationController, title: "Stellar's minimum balance")
+        let navigationController = BCNavigationController(rootViewController: informationController, title: LocalizationConstants.Stellar.minimumBalance)
         AppCoordinator.shared.tabControllerManager.tabViewController.present(navigationController, animated: true)
     }
 }

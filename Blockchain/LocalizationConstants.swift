@@ -870,6 +870,10 @@ struct LocalizationConstants {
     }
 
     struct Stellar {
+        static let minimumBalance = NSLocalizedString(
+            "Minimum Balance",
+            comment: "Title of page explaining XLM's minimum balance"
+        )
         static let minimumBalanceInfoExplanation = NSLocalizedString(
             "Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.",
             comment: "General explanation for minimum balance for XLM."
@@ -895,7 +899,7 @@ struct LocalizationConstants {
             comment: "Example used to explain the minimum balance requirement for XLM."
         )
         static let minimumBalanceMoreInformation = NSLocalizedString(
-            "You can read more information about Stellar's minimum balance requirement at Stellar.org ",
+            "You can read more information about Stellar's minimum balance requirement at Stellar.org",
             comment: "Helper text for user to learn more about the minimum balance requirement for XLM."
         )
         static let readMore = NSLocalizedString(

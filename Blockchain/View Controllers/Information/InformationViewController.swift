@@ -12,19 +12,19 @@ class InformationViewController: UIViewController {
     @IBOutlet private var textView: UITextView!
     @IBOutlet private var button: UIButton!
 
-    private var bodyText: String?
+    private var bodyAttributedText: NSAttributedString?
     private var buttonTitle: String?
     private var buttonAction: ((Any) -> ())?
 
     // MARK: Factory
 
     @objc class func make(
-        with bodyText: String,
+        with bodyAttributedText: NSAttributedString,
         buttonTitle: String,
         buttonAction: ((Any) -> ())?
     ) -> InformationViewController {
         let controller = InformationViewController.makeFromStoryboard()
-        controller.bodyText = bodyText
+        controller.bodyAttributedText = bodyAttributedText
         controller.buttonTitle = buttonTitle
         controller.buttonAction = buttonAction
         return controller
@@ -32,7 +32,7 @@ class InformationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.text = bodyText
+        textView.attributedText = bodyAttributedText
         button.setTitle(buttonTitle, for: .normal)
         button.layer.cornerRadius = Constants.Measurements.buttonCornerRadius
     }

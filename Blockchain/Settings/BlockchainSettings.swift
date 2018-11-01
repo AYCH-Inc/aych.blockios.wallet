@@ -28,7 +28,7 @@ final class BlockchainSettings: NSObject {
     // MARK: - App
 
     @objc
-    final class App: NSObject {
+    class App: NSObject {
         static let shared = App()
 
         private lazy var defaults: UserDefaults = {
@@ -150,8 +150,12 @@ final class BlockchainSettings: NSObject {
             }
         }
 
-        @objc var fiatCurrencySymbol: String? {
-            return WalletManager.shared.latestMultiAddressResponse?.symbol_local.symbol
+        @objc var fiatCurrencySymbol: String {
+            guard let theSymbol = WalletManager.shared.latestMultiAddressResponse?.symbol_local.symbol else {
+                Logger.shared.warning("Failed to get the fiat currency symbol from latestMultiAddressResponse!")
+                return Locale.current.currencySymbol!
+            }
+            return theSymbol
         }
 
         @objc var fiatCurrencyCode: String? {
@@ -273,14 +277,28 @@ final class BlockchainSettings: NSObject {
         /// Ether address to be used for swipe to receive
         @objc var swipeAddressForEther: String? {
             get {
-                return KeychainItemWrapper.getSwipeEtherAddress()
+                return KeychainItemWrapper.getSingleSwipeAddress(for: .ether)
             }
             set {
                 guard let etherAddress = newValue else {
-                    KeychainItemWrapper.removeSwipeEtherAddress()
+                    KeychainItemWrapper.removeAllSwipeAddresses(for: .ether)
                     return
                 }
-                KeychainItemWrapper.setSwipeEtherAddress(etherAddress)
+                KeychainItemWrapper.setSingleSwipeAddress(etherAddress, for: .ether)
+            }
+        }
+
+        /// XLM address to be used for swipe to receive
+        @objc var swipeAddressForStellar: String? {
+            get {
+                return KeychainItemWrapper.getSingleSwipeAddress(for: .stellar)
+            }
+            set {
+                guard let xlmAddress = newValue else {
+                    KeychainItemWrapper.removeAllSwipeAddresses(for: .stellar)
+                    return
+                }
+                KeychainItemWrapper.setSingleSwipeAddress(xlmAddress, for: .stellar)
             }
         }
 
@@ -317,7 +335,8 @@ final class BlockchainSettings: NSObject {
         }
 
         /**
-         Determines if the application should show the *Continue verification* announcement card on the dashboard.
+         Determines if the user is currently completing the KYC process. This allow the application to determine
+         if it should show the *Continue verification* announcement card on the dashboard.
 
          - Note:
          This value is set to `true` whenever the user taps on the primary button on the KYC welcome screen.
@@ -327,16 +346,33 @@ final class BlockchainSettings: NSObject {
          - Important:
          This setting **MUST** be set to `false` upon logging the user out of the application.
          */
-        @objc var shouldShowKYCAnnouncementCard: Bool {
+        @objc var isCompletingKyc: Bool {
             get {
-                return defaults.bool(forKey: UserDefaults.Keys.shouldShowKYCAnnouncementCard.rawValue)
+                return defaults.bool(forKey: UserDefaults.Keys.isCompletingKyc.rawValue)
             }
             set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.shouldShowKYCAnnouncementCard.rawValue)
+                defaults.set(newValue, forKey: UserDefaults.Keys.isCompletingKyc.rawValue)
             }
         }
 
-        private override init() {
+        /**
+         Determines if the user deep linked into the app using the airdrop dynamic link. This value is used in various
+         places to handle the airdrop flow (e.g. prompt the user to KYC to finish the airdrop, to continue KYC'ing if
+         they have already gone through the KYC flow, etc.)
+
+         - Important:
+         This setting **MUST** be set to `false` upon logging the user out of the application.
+         */
+        @objc var didTapOnAirdropDeepLink: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didTapOnAirdropDeepLink.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didTapOnAirdropDeepLink.rawValue)
+            }
+        }
+
+         override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
             // access an instance of this class.
             super.init()
@@ -362,7 +398,8 @@ final class BlockchainSettings: NSObject {
             // TODO: - reset all appropriate settings upon logging out
             clearPin()
             App.shared.appBecameActiveCount = 0
-            App.shared.shouldShowKYCAnnouncementCard = false
+            App.shared.isCompletingKyc = false
+            App.shared.didTapOnAirdropDeepLink = false
             Logger.shared.info("Application settings have been reset.")
         }
 
@@ -488,10 +525,24 @@ final class BlockchainSettings: NSObject {
             }
         }
 
+        /// Property indicating whether or not the user has already seen, and clicked, on the
+        /// Stellar "join the waitlist" onboarding card for receiving an XLM airdrop
+        @objc var hasSeenAirdropJoinWaitlistCard: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.hasSeenAirdropJoinWaitlistCard.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenAirdropJoinWaitlistCard.rawValue)
+            }
+        }
+
         private override init() {
             super.init()
         }
 
+        func reset() {
+            hasSeenAirdropJoinWaitlistCard = false
+        }
     }
 
     private override init() {

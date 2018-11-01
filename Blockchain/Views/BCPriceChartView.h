@@ -9,9 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "Assets.h"
 
-// TICKET: IOS-1297 - Complete Dashboard Swift Refactor
-#define USER_DEFAULTS_KEY_GRAPH_TIME_FRAME @"timeFrame"
-
 @class ChartAxisBase, ChartDataEntry;
 @protocol IChartAxisValueFormatter;
 @protocol BCPriceChartViewDelegate
@@ -27,7 +24,6 @@
 - (void)clear;
 - (void)updateTitleContainer;
 - (void)updateTitleContainerWithChartDataEntry:(ChartDataEntry *)dataEntry;
-- (void)updateEthExchangeRate:(NSDecimalNumber *)rate;
 - (ChartAxisBase *)leftAxis;
 - (ChartAxisBase *)xAxis;
 @end

@@ -14,11 +14,9 @@
 #import "Blockchain-Swift.h"
 
 @interface TransactionDetailViewModel ()
-@property (nonatomic) NSString *amountString;
 @property (nonatomic) uint64_t feeInSatoshi;
-@property (nonatomic) NSString *feeString;
-@property (nonatomic) NSDecimalNumber *exchangeRate;
 @end
+
 @implementation TransactionDetailViewModel
 
 - (id)initWithTransaction:(Transaction *)transaction
@@ -127,6 +125,8 @@
         return [NSNumberFormatter formatEthWithLocalSymbol:self.amountString exchangeRate:self.ethExchangeRate];
     } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
         return [NSNumberFormatter formatBchWithSymbol:ABS(self.amountInSatoshi)];
+    } else if (self.assetType == LegacyAssetTypeStellar) {
+        return [NSString stringWithFormat:@"%@ %@", self.amountString, CURRENCY_SYMBOL_XLM];
     }
     
     return nil;
@@ -140,6 +140,8 @@
         return [self getEthFeeString];
     } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
         return [self getBchFeeString];
+    } else if (self.assetType == LegacyAssetTypeStellar) {
+        return [NSString stringWithFormat:@"%@ %@", self.feeString, CURRENCY_SYMBOL_XLM]; 
     }
     return nil;
 }

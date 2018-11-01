@@ -19,6 +19,8 @@ import Foundation
             return .ethereum
         case .bitcoinCash:
             return .bitcoinCash
+        case .stellar:
+            return .stellar
         }
     }
 
@@ -30,10 +32,20 @@ import Foundation
             return .ether
         case .bitcoinCash:
             return .bitcoinCash
+        case .stellar:
+            return .stellar
         }
     }
 
     @objc static func description(for type: AssetType) -> String {
         return type.description
+    }
+
+    @objc static func color(for type: LegacyAssetType) -> UIColor {
+        return convert(fromLegacy: type).brandColor
+    }
+
+    @objc static func symbol(for type: LegacyAssetType) -> String {
+        return convert(fromLegacy: type).symbol
     }
 }

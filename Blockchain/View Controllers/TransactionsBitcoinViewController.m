@@ -52,9 +52,9 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    
+
     [self updateData:WalletManager.sharedInstance.latestMultiAddressResponse];
-    
+
     [self reload];
 }
 
@@ -171,13 +171,13 @@
 - (UITableViewCell *)tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == self.sectionMain) {
-        
+
         Transaction * transaction = [self.transactions objectAtIndex:[indexPath row]];
 
-        TransactionTableCell * cell = (TransactionTableCell*)[tableView dequeueReusableCellWithIdentifier:@"transaction"];
+        TransactionTableCell * cell = (TransactionTableCell*)[tableView dequeueReusableCellWithIdentifier:@"TransactionTableCell"];
 
         if (cell == nil) {
-            cell = [[[NSBundle mainBundle] loadNibNamed:@"TransactionCell" owner:nil options:nil] objectAtIndex:0];
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"TransactionTableCell" owner:nil options:nil] objectAtIndex:0];
         }
 
         cell.transaction = transaction;
@@ -238,26 +238,26 @@
 - (void)setText
 {
     [self setupNoTransactionsViewInView:tableView assetType:self.assetType];
-    
+
     UIColor *bounceViewBackgroundColor = [UIColor whiteColor];
     UIColor *refreshControlTintColor = [UIColor lightGrayColor];
-    
+
     self.bounceView.backgroundColor = bounceViewBackgroundColor;
     self.refreshControl.tintColor = refreshControlTintColor;
-    
+
     // Data not loaded yet
     if (!self.data) {
         self.noTransactionsView.hidden = YES;
         
-        self.filterIndex = FILTER_INDEX_ALL;
-        
+        self.filterIndex = [ConstantsObjcBridge filterIndexAll];
+
         self.balance = @"";
         [self changeFilterLabel:@""];
     }
     // Data loaded, but no transactions yet
     else if (self.data.transactions.count == 0) {
         self.noTransactionsView.hidden = NO;
-        
+
 #ifdef ENABLE_TRANSACTION_FETCHING
         if (!self.loadedAllTransactions) {
             [self showMoreButton];
@@ -273,7 +273,7 @@
     // Data loaded and we have a balance - display the balance and transactions
     else {
         self.noTransactionsView.hidden = YES;
-        
+
         // Balance
         self.balance = [NSNumberFormatter formatMoney:[self getBalance] localCurrency: BlockchainSettings.sharedAppInstance.symbolLocal
 ];
@@ -302,7 +302,7 @@
 - (void)setLatestBlock:(LatestBlock *)_latestBlock
 {
     latestBlock = _latestBlock;
-    
+
     if (latestBlock) {
         // TODO This only works if the unconfirmed transaction is included in the latest block, otherwise we would have to fetch history again to get the actual value
         // Update block index for new transactions
@@ -330,26 +330,26 @@
 - (void)reload
 {
     [self reloadData];
-    
+
     [self.detailViewController didGetHistory];
 }
 
 - (void)reloadData
 {
     self.sectionMain = 0;
-    
+
     self.transactions = data.transactions;
-    
+
     [self setText];
-    
+
     [tableView reloadData];
-    
+
     [self reloadNewTransactions];
 
     self.hasZeroTotalBalance = [WalletManager.sharedInstance.wallet getTotalActiveBalance] == 0;
-    
+
     [self reloadLastNumberOfTransactions];
-    
+
     // This should be done when request has finished but there is no callback
     if (self.refreshControl && self.refreshControl.isRefreshing) {
         [self.refreshControl endRefreshing];
@@ -368,7 +368,7 @@
     [self setText];
 
     [self reloadData];
-    
+
     [self.detailViewController reloadSymbols];
 }
 
@@ -384,12 +384,12 @@
         if (numNewTransactions > 5) {
             numNewTransactions = 5;
         }
-        
+
         NSMutableArray *rows = [[NSMutableArray alloc] initWithCapacity:numNewTransactions];
         for (int i = 0; i < numNewTransactions; i++) {
             [rows addObject:[NSIndexPath indexPathForRow:i inSection:self.sectionMain]];
         }
-        
+
         [tableView reloadRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationFade];
     }
 }
@@ -422,7 +422,7 @@
     } else {
         BOOL tableViewIsEmpty = [self.tableView numberOfRowsInSection:self.sectionMain] == 0;
         BOOL tableViewIsFilled = ![[self.tableView indexPathsForVisibleRows] containsObject:[NSIndexPath indexPathForRow:[data.transactions count] - 1 inSection:0]];
-        
+
         if (tableViewIsEmpty) {
             [self fetchMoreClicked];
         } else if (tableViewIsFilled) {
@@ -442,18 +442,18 @@
 - (void)didGetNewTransaction
 {
     Transaction *transaction = [data.transactions firstObject];
-    
+
     if ([transaction.txType isEqualToString:TX_TYPE_SENT]) {
         [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:self.sectionMain]] withRowAnimation:UITableViewRowAnimationFade];
     } else if ([transaction.txType isEqualToString:TX_TYPE_RECEIVED]) {
-        
+
         [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:self.sectionMain]] withRowAnimation:UITableViewRowAnimationFade];
-        
+
         BOOL shouldShowBackupReminder = (self.hasZeroTotalBalance && [WalletManager.sharedInstance.wallet getTotalActiveBalance] > 0 &&
                                          ![WalletManager.sharedInstance.wallet isRecoveryPhraseVerified]);
 
         TabControllerManager *tabControllerManager = AppCoordinator.sharedInstance.tabControllerManager;
-        if (tabControllerManager.tabViewController.selectedIndex == TAB_RECEIVE && ![tabControllerManager isSending]) {
+        if (tabControllerManager.tabViewController.selectedIndex == [ConstantsObjcBridge tabReceive] && ![tabControllerManager isSending]) {
             uint64_t amount = [self getAmountForReceivedTransaction:transaction];
             [tabControllerManager paymentReceived:amount showBackupReminder:shouldShowBackupReminder];
         } else if (shouldShowBackupReminder) {
@@ -478,7 +478,7 @@
 {
     TransactionDetailViewController *detailViewController = [TransactionDetailViewController new];
     detailViewController.transactionModel = [[TransactionDetailViewModel alloc] initWithTransaction:transaction];
-    
+
     TransactionDetailNavigationController *navigationController = [[TransactionDetailNavigationController alloc] initWithRootViewController:detailViewController];
     navigationController.transactionHash = transaction.myHash;
 
@@ -497,9 +497,9 @@
 
 - (uint64_t)getBalance
 {
-    if (self.filterIndex == FILTER_INDEX_ALL) {
+    if (self.filterIndex == [ConstantsObjcBridge filterIndexAll]) {
         return [WalletManager.sharedInstance.wallet getTotalActiveBalance];
-    } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
+    } else if (self.filterIndex == [ConstantsObjcBridge filterIndexImportedAddresses]) {
         return [WalletManager.sharedInstance.wallet getTotalBalanceForActiveLegacyAddresses:LegacyAssetTypeBitcoin];
     } else {
         return [[WalletManager.sharedInstance.wallet getBalanceForAccount:(int)self.filterIndex assetType:self.assetType] longLongValue];
@@ -508,9 +508,9 @@
 
 - (NSString *)getFilterLabel
 {
-    if (self.filterIndex == FILTER_INDEX_ALL) {
+    if (self.filterIndex == [ConstantsObjcBridge filterIndexAll]) {
         return BC_STRING_ALL_WALLETS;
-    } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
+    } else if (self.filterIndex == [ConstantsObjcBridge filterIndexImportedAddresses]) {
         return BC_STRING_IMPORTED_ADDRESSES;
     } else {
         return [WalletManager.sharedInstance.wallet getLabelForAccount:(int)self.filterIndex assetType:self.assetType];
@@ -566,7 +566,7 @@
 {
     TabControllerManager *tabControllerManager = AppCoordinator.sharedInstance.tabControllerManager;
 
-    if (filter == FILTER_INDEX_IMPORTED_ADDRESSES) {
+    if (filter == [ConstantsObjcBridge filterIndexImportedAddresses]) {
         [tabControllerManager filterTransactionsByImportedAddresses];
     } else {
         NSString *filterLabel = [WalletManager.sharedInstance.wallet getLabelForAccount:filter assetType:self.assetType];

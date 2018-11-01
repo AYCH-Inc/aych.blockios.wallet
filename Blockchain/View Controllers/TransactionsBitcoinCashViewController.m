@@ -37,9 +37,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     self.view.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:YES assetSelector:YES];
-    
+
     [self setupFilter];
 
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
@@ -50,8 +50,8 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc] init];
     [self.view addSubview:self.tableView];
-    
-    
+
+
     [self setupPullToRefresh];
 
     [self setupNoTransactionsViewInView:self.tableView assetType:LegacyAssetTypeBitcoinCash];
@@ -74,18 +74,18 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     self.balance = @"";
-    
+
     [self reload];
 }
 
 - (void)reload
 {
     [self loadTransactions];
-    
+
     [self updateBalance];
-    
+
     [self.detailViewController didGetHistory];
 }
 
@@ -96,9 +96,9 @@
 
 - (uint64_t)getBalance
 {
-    if (self.filterIndex == FILTER_INDEX_ALL) {
+    if (self.filterIndex == [ConstantsObjcBridge filterIndexAll]) {
         return [WalletManager.sharedInstance.wallet getBchBalance];
-    } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
+    } else if (self.filterIndex == [ConstantsObjcBridge filterIndexImportedAddresses]) {
         return [WalletManager.sharedInstance.wallet getTotalBalanceForActiveLegacyAddresses:LegacyAssetTypeBitcoinCash];
     } else {
         return [[WalletManager.sharedInstance.wallet getBalanceForAccount:(int)self.filterIndex assetType:LegacyAssetTypeBitcoinCash] longLongValue];
@@ -108,9 +108,9 @@
 - (void)loadTransactions
 {
     self.transactions = [WalletManager.sharedInstance.wallet getBitcoinCashTransactions:self.filterIndex];
-    
+
     self.noTransactionsView.hidden = self.transactions.count > 0;
-    
+
     [self.tableView reloadData];
     [self.refreshControl endRefreshing];
 }
@@ -118,7 +118,7 @@
 - (void)reloadSymbols
 {
     [self reload];
-    
+
     [self.detailViewController reloadSymbols];
 }
 
@@ -137,15 +137,15 @@
 - (void)didGetNewTransaction
 {
     Transaction *transaction = [self.transactions firstObject];
-    
+
     if ([transaction.txType isEqualToString:TX_TYPE_SENT]) {
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     } else if ([transaction.txType isEqualToString:TX_TYPE_RECEIVED]) {
-        
+
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
 
         TabControllerManager *tabControllerManager = AppCoordinator.sharedInstance.tabControllerManager;
-        if (tabControllerManager.tabViewController.selectedIndex == TAB_RECEIVE && ![tabControllerManager isSending]) {
+        if (tabControllerManager.tabViewController.selectedIndex == [ConstantsObjcBridge tabReceive] && ![tabControllerManager isSending]) {
             uint64_t amount = [self getAmountForReceivedTransaction:transaction];
             [tabControllerManager paymentReceived:amount showBackupReminder:NO];
         }
@@ -164,25 +164,25 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TransactionTableCell * cell = (TransactionTableCell*)[tableView dequeueReusableCellWithIdentifier:@"transaction"];
-    
+    TransactionTableCell * cell = (TransactionTableCell*)[tableView dequeueReusableCellWithIdentifier:@"TransactionTableCell"];
+
     Transaction * transaction = [self.transactions objectAtIndex:[indexPath row]];
 
     if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"TransactionCell" owner:nil options:nil] objectAtIndex:0];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"TransactionTableCell" owner:nil options:nil] objectAtIndex:0];
         cell.assetType = LegacyAssetTypeBitcoinCash;
     }
-    
+
     cell.transaction = transaction;
-    
+
     [cell reload];
-    
-    [cell changeBtcButtonTitleText:[NSNumberFormatter formatBchWithSymbol:ABS(transaction.amount)]];
-    
+
+    [cell setButtonText:[NSNumberFormatter formatBchWithSymbol:ABS(transaction.amount)]];
+
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-    
+
     cell.selectedBackgroundView = [self selectedBackgroundViewForCell:cell];
-    
+
     return cell;
 }
 
@@ -207,9 +207,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+
     TransactionTableCell *cell = (TransactionTableCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    
+
     [cell bitcoinCashTransactionClicked];
 }
 
@@ -236,9 +236,9 @@
 - (void)didSelectFilter:(int)filter
 {
     self.filterIndex = filter;
-    if (filter == FILTER_INDEX_ALL) {
+    if (filter == [ConstantsObjcBridge filterIndexAll]) {
         self.filterSelectorLabel.text = BC_STRING_ALL_WALLETS;
-    } else if (self.filterIndex == FILTER_INDEX_IMPORTED_ADDRESSES) {
+    } else if (self.filterIndex == [ConstantsObjcBridge filterIndexImportedAddresses]) {
         self.filterSelectorLabel.text = BC_STRING_IMPORTED_ADDRESSES;
     } else {
         self.filterSelectorLabel.text = [WalletManager.sharedInstance.wallet getLabelForAccount:filter assetType:LegacyAssetTypeBitcoinCash];

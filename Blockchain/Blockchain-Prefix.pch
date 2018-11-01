@@ -221,7 +221,6 @@
 
 #define URL_MERCHANT PRODUCTION_MERCHANT_URL
 
-#define CHARTS_URL_SUFFIX_ARGUMENTS_BASE_QUOTE_START_SCALE @"/price/index-series?base=%@&quote=%@&start=%@&scale=%@&omitnull=true"
 #define TRANSACTION_RESULT_URL_SUFFIX_HASH_ARGUMENT_ADDRESS_ARGUMENT @"/q/txresult/%@/%@"
 
 #define URL_SURVEY @"https://blockchain.co1.qualtrics.com/SE/?SID=SV_8c6uSMW5eBV9nal"
@@ -250,6 +249,8 @@
 #define CURRENCY_SYMBOL_ETH @"ETH"
 
 #define CURRENCY_SYMBOL_BCH @"BCH"
+
+#define CURRENCY_SYMBOL_XLM @"XLM"
 
 #define CURRENCY_SYMBOL_BTC @"BTC"
 
@@ -503,16 +504,8 @@
 
 #define TOTAL_AMOUNT_VIEW_HEIGHT IS_USING_SCREEN_SIZE_LARGER_THAN_5S ? 120 : 100
 
-// TransactionsViewController
-#define FILTER_INDEX_ALL -1
-#define FILTER_INDEX_IMPORTED_ADDRESSES -2
-
 // TabViewController
 // TICKET: IOS-1297 - Complete Dashboard Swift Refactor
-#define TAB_SEND 0
-#define TAB_DASHBOARD 1
-#define TAB_TRANSACTIONS 2
-#define TAB_RECEIVE 3
 
 #define PIN_API_STATUS_CODE_DELETED 1
 #define PIN_API_STATUS_PIN_INCORRECT 2

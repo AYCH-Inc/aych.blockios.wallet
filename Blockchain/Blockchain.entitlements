@@ -6,9 +6,9 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:blockchainapps.page.link</string>
-		<string>applinks:blockchainappsstaging.page.link</string>
-		<string>applinks:blockchainappsdev.page.link</string>
+		<string>applinks:blockchainwallet.page.link</string>
+		<string>applinks:blockchainwalletstaging.page.link</string>
+		<string>applinks.blockchainwalletdev.page.link</string>
 	</array>
 </dict>
 </plist>

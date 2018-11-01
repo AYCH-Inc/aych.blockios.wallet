@@ -85,7 +85,7 @@ struct Mobile: Decodable {
 }
 
 struct Tags: Decodable {
-    let sunriver: Sunriver
+    let sunriver: Sunriver?
 
     enum CodingKeys: String, CodingKey {
         case sunriver = "SUNRIVER"

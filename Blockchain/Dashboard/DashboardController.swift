@@ -277,9 +277,9 @@ final class DashboardController: UIViewController {
     }
 
     // Objc backward compatible method to set asset ethereum exchange rate
+    // TODO: deprecate since we are getting the price from PriceServiceClient
     @objc func updateEthExchangeRate(_ rate: NSDecimalNumber) {
         self.lastEthExchangeRate = rate
-        reloadPricePreviews()
     }
 
     /**
@@ -323,7 +323,7 @@ final class DashboardController: UIViewController {
         let bchFiatBalance = bchBalance.doubleValue * lastBchExchangeRate.doubleValue
 
         let xlmBalance = NSNumber(value: balances?[.stellar] ?? 0)
-        let xlmFiatBalance = xlmBalance.doubleValue * 0.23 // get rate
+        let xlmFiatBalance = xlmBalance.doubleValue * lastXlmExchangeRate.doubleValue
 
         let totalBalance = NSNumber(value: btcFiatBalance + ethFiatBalance + bchFiatBalance + xlmFiatBalance)
 
@@ -369,36 +369,54 @@ final class DashboardController: UIViewController {
 
     // TICKET: IOS-1506 - Encapsulate methods to get balances into separate component & decouple from DashboardController
     @objc func reload() {
-        if wallet.isInitialized() {
-            if let conversion = WalletManager.shared.latestMultiAddressResponse?.symbol_local.conversion {
-                lastBtcExchangeRate = NSDecimalNumber(value: (1 / (Double(conversion) / Constants.Conversions.satoshi)))
-            }
-            lastBchExchangeRate = NSDecimalNumber(string: wallet.bitcoinCashExchangeRate())
-            let account = stellarAccountService.currentStellarAccount(fromCache: true)
-            _ = account
-                .subscribeOn(MainScheduler.asyncInstance)
-                .observeOn(MainScheduler.instance)
-                .subscribe(onSuccess: { account in
-                    let xlmBalance = NSDecimalNumber(decimal: account.assetAccount.balance).doubleValue
-                    self.reload(balances: [
-                        AssetType.bitcoin: self.getBtcBalance(),
-                        AssetType.ethereum: self.getEthBalance(),
-                        AssetType.bitcoinCash: self.getBchBalance(),
-                        AssetType.stellar: xlmBalance
-                    ])
-                }, onError: { _ in
-                    self.reload(balances: [
-                        AssetType.bitcoin: self.getBtcBalance(),
-                        AssetType.ethereum: self.getEthBalance(),
-                        AssetType.bitcoinCash: self.getBchBalance(),
-                        AssetType.stellar: 0
-                    ])
-                })
-        } else {
+        if !wallet.isInitialized() {
             reload(balances: nil)
         }
-
-        reloadPricePreviews()
+        disposable = PriceServiceClient().allPrices(fiatSymbol: "USD")
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { priceMap in
+                AssetType.all.forEach { type in
+                    let price = priceMap[type]?.price ?? 0
+                    let formattedPrice = self.currencyFormatter.string(for: NSDecimalNumber(decimal: price))!
+                    switch type {
+                    case .bitcoin:
+                        self.lastBtcExchangeRate = NSDecimalNumber(decimal: price)
+                        self.bitcoinPricePreviewView?.price = formattedPrice
+                    case .ethereum:
+                        self.lastEthExchangeRate = NSDecimalNumber(decimal: price)
+                        self.etherPricePreviewView?.price = formattedPrice
+                    case .bitcoinCash:
+                        self.lastBchExchangeRate = NSDecimalNumber(decimal: price)
+                        self.bitcoinCashPricePreviewView?.price = formattedPrice
+                    case .stellar:
+                        self.lastXlmExchangeRate = NSDecimalNumber(decimal: price)
+                        self.stellarPricePreviewView?.price = formattedPrice
+                    }
+                }
+                let account = self.stellarAccountService.currentStellarAccount(fromCache: true)
+                _ = account
+                    .subscribeOn(MainScheduler.asyncInstance)
+                    .observeOn(MainScheduler.instance)
+                    .subscribe(onSuccess: { account in
+                        let xlmBalance = NSDecimalNumber(decimal: account.assetAccount.balance).doubleValue
+                        self.reload(balances: [
+                            AssetType.bitcoin: self.getBtcBalance(),
+                            AssetType.ethereum: self.getEthBalance(),
+                            AssetType.bitcoinCash: self.getBchBalance(),
+                            AssetType.stellar: xlmBalance
+                        ])
+                    }, onError: { _ in
+                        self.reload(balances: [
+                            AssetType.bitcoin: self.getBtcBalance(),
+                            AssetType.ethereum: self.getEthBalance(),
+                            AssetType.bitcoinCash: self.getBchBalance(),
+                            AssetType.stellar: 0
+                        ])
+                    })
+            }, onError: { error in
+                Logger.shared.error(error.localizedDescription)
+            })
 
         cardsViewController.reloadCards()
     }
@@ -503,30 +521,6 @@ final class DashboardController: UIViewController {
             dateFormatter.dateFormat = GraphTimeFrame.timeFrameDay().dateFormat
         }
         return dateFormatter.string(from: Date(timeIntervalSince1970: value))
-    }
-
-    private func reloadPricePreviews() {
-        disposable = PriceServiceClient().allPrices(fiatSymbol: "USD")
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { priceMap in
-                AssetType.all.forEach { type in
-                    let price = priceMap[type]?.price ?? 0
-                    let formattedPrice = self.currencyFormatter.string(for: NSDecimalNumber(decimal: price))!
-                    switch type {
-                    case .bitcoin:
-                        self.bitcoinPricePreviewView?.price = formattedPrice
-                    case .ethereum:
-                        self.etherPricePreviewView?.price = formattedPrice
-                    case .bitcoinCash:
-                        self.bitcoinCashPricePreviewView?.price = formattedPrice
-                    case .stellar:
-                        self.stellarPricePreviewView?.price = formattedPrice
-                    }
-                }
-            }, onError: { error in
-                Logger.shared.error(error.localizedDescription)
-            })
     }
 }
 

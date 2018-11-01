@@ -85,6 +85,13 @@ class StellarAccountService: StellarAccountAPI {
     func accountDetails(for accountID: AccountID) -> Maybe<StellarAccount> {
         return accountResponse(for: accountID).map { details -> StellarAccount in
             return details.toStellarAccount()
+        }.catchError { error in
+            // If the network call to Horizon fails due to there not being a default account (i.e. account is not yet
+            // funded), catch that error and return a StellarAccount with 0 balance
+            if let stellarError = error as? StellarServiceError, stellarError == .noDefaultAccount {
+                return Single.just(StellarAccount.unfundedAccount(accountId: accountID))
+            }
+            throw error
         }.asMaybe()
     }
     

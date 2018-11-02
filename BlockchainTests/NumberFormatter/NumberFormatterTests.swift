@@ -10,6 +10,8 @@ import XCTest
 @testable import Blockchain
 
 class NumberFormatterTests: XCTestCase {
+
+    // TODO: IOS-1556 Add support for different locales.
     func testLocalCurrencyConversion() {
         // 2.532 ETH
         guard let amount = Decimal(string: "2.532"),

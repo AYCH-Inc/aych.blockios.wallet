@@ -694,11 +694,11 @@ struct LocalizationConstants {
 
     struct KYC {
         static let welcomeMainText = NSLocalizedString(
-            "Introducing Blockchain’s new and improved crypto exchange function. To use this updated feature, please verify your identity. It only takes a couple of minutes.",
+            "Introducing Blockchain's faster, smarter way to trade your crypto. Upgrade now to enjoy benefits such as better prices, higher trade limits and live rates.",
             comment: "Text displayed when user is starting KYC"
         )
         static let welcomeMainTextSunRiverCampaign = NSLocalizedString(
-            "Verify your identity to claim your Stellar. It only takes a few minutes. This will also allow you to use our new and improved crypto exchange feature.",
+            "Verify your identity to claim your XLM. It only takes a few minutes. Once verified, you'll be able to use our next generation trading product.",
             comment: "Text displayed when user is starting KYC coming from the airdrop link"
         )
         static let invalidPhoneNumber = NSLocalizedString(
@@ -870,12 +870,48 @@ struct LocalizationConstants {
     }
 
     struct Stellar {
+        static let minimumBalance = NSLocalizedString(
+            "Minimum Balance",
+            comment: "Title of page explaining XLM's minimum balance"
+        )
+        static let minimumBalanceInfoExplanation = NSLocalizedString(
+            "Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.",
+            comment: "General explanation for minimum balance for XLM."
+        )
+        static let minimumBalanceInfoCurrentArgument = NSLocalizedString(
+            "The current minimum balance requirement is %@.",
+            comment: "Explanation for the current minimum balance for XLM."
+        )
+        static let totalFundsLabel = NSLocalizedString(
+            "Total Funds",
+            comment: "Example used to explain the minimum balance requirement for XLM."
+        )
+        static let xlmReserveRequirement = NSLocalizedString(
+            "XLM Reserve Requirement",
+            comment: "Example used to explain the minimum balance requirement for XLM."
+        )
+        static let transactionFee = NSLocalizedString(
+            "Transaction Fee",
+            comment: "Example used to explain the minimum balance requirement for XLM."
+        )
+        static let availableToSend = NSLocalizedString(
+            "Available to Send",
+            comment: "Example used to explain the minimum balance requirement for XLM."
+        )
+        static let minimumBalanceMoreInformation = NSLocalizedString(
+            "You can read more information about Stellar's minimum balance requirement at Stellar.org",
+            comment: "Helper text for user to learn more about the minimum balance requirement for XLM."
+        )
+        static let readMore = NSLocalizedString(
+            "Read More",
+            comment: "Button title for user to learn more about the minimum balance requirement for XLM."
+        )
         static let defaultLabelName = NSLocalizedString(
             "My Stellar Wallet",
             comment: "The default label of the XLM wallet."
         )
         static let enterStellarAddress = NSLocalizedString(
-            "Enter Stellar address or select",
+            "Enter a Stellar address or select",
             comment: "Placeholder text for the Lumens send screen."
         )
         static let secondPasswordPrompt = NSLocalizedString(
@@ -923,11 +959,27 @@ struct LocalizationConstants {
         )
         static let weNowSupportStellarDescription = NSLocalizedString(
             "You can now send, request and exchange Stellar (XLM) directly from your Blockchain Wallet. For the chance to get free XLM",
-            comment: "Title displayed in the onboarding card showing that we support Stellar."
+            comment: "Description displayed in the onboarding card showing that we support Stellar."
         )
         static let joinTheWaitlist = NSLocalizedString(
             "Join the waitlist",
             comment: "CTA prompting the user to join the XLM waitlist."
+        )
+        static let claimYourStellar = NSLocalizedString(
+            "Claim Your Stellar (XLM)",
+            comment: "Title displayed on the onboarding card prompting the user to complete KYC to receive their airdrop."
+        )
+        static let claimYourStellarDescription = NSLocalizedString(
+            "Looks like you've started verifying your identity but didn't finish. Pick up where you left off.",
+            comment: "Description displayed on the onboarding card prompting the user to complete KYC to receive their airdrop."
+        )
+        static let yourXLMIsOnItsWay = NSLocalizedString(
+            "Your XLM is on its way",
+            comment: "Title displayed on the onboarding card notifying them that their airdrop is on its way."
+        )
+        static let yourXLMIsOnItsWayDescription = NSLocalizedString(
+            "We have successfully verified your identity. We'll send your Stellar (XLM) within the next week.",
+            comment: "Description displayed on the onboarding card notifying them that their airdrop is on its way."
         )
     }
 }
@@ -1059,13 +1111,7 @@ struct LocalizationConstants {
 
     @objc class func buySellCardTitle() -> String { return LocalizationConstants.AnnouncementCards.buySellCardTitle }
 
-    @objc class func continueKYCCardTitle() -> String { return LocalizationConstants.AnnouncementCards.continueKYCCardTitle }
-
     @objc class func buySellCardDescription() -> String { return LocalizationConstants.AnnouncementCards.buySellCardDescription }
-
-    @objc class func continueKYCCardDescription() -> String { return LocalizationConstants.AnnouncementCards.continueKYCCardDescription }
-
-    @objc class func continueKYCActionButtonTitle() -> String { return LocalizationConstants.AnnouncementCards.continueKYCActionButtonTitle }
 
     @objc class func notEnoughXForFees() -> String { return LocalizationConstants.Errors.notEnoughXForFees }
 

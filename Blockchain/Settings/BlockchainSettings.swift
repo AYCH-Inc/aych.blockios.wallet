@@ -151,15 +151,23 @@ final class BlockchainSettings: NSObject {
         }
 
         @objc var fiatCurrencySymbol: String {
-            guard let theSymbol = WalletManager.shared.latestMultiAddressResponse?.symbol_local.symbol else {
+            guard let latestMultiAddressResponse = WalletManager.shared.latestMultiAddressResponse,
+            let symbolLocal = latestMultiAddressResponse.symbol_local,
+            let theSymbol = symbolLocal.symbol else {
                 Logger.shared.warning("Failed to get the fiat currency symbol from latestMultiAddressResponse!")
                 return Locale.current.currencySymbol!
             }
             return theSymbol
         }
 
-        @objc var fiatCurrencyCode: String? {
-            return WalletManager.shared.latestMultiAddressResponse?.symbol_local.code
+        @objc var fiatCurrencyCode: String {
+            guard let latestMultiAddressResponse = WalletManager.shared.latestMultiAddressResponse,
+                let symbolLocal = latestMultiAddressResponse.symbol_local,
+                let theCode = symbolLocal.code else {
+                    Logger.shared.warning("Failed to get the fiat currency code from latestMultiAddressResponse!")
+                    return Locale.current.currencyCode!
+            }
+            return theCode
         }
 
         @objc func fiatSymbolFromCode(currencyCode: String) -> String? {
@@ -397,9 +405,9 @@ final class BlockchainSettings: NSObject {
             // TICKET: IOS-1365 - Finish UserDefaults refactor (tickets, documentation, linter issues)
             // TODO: - reset all appropriate settings upon logging out
             clearPin()
-            App.shared.appBecameActiveCount = 0
-            App.shared.isCompletingKyc = false
-            App.shared.didTapOnAirdropDeepLink = false
+            appBecameActiveCount = 0
+            isCompletingKyc = false
+            didTapOnAirdropDeepLink = false
             Logger.shared.info("Application settings have been reset.")
         }
 

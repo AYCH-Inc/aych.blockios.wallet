@@ -78,13 +78,13 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JCK-ZN-BpY" userLabel="Terms of Service Label">
-                                <rect key="frame" x="24" y="632.66666666666663" width="327" height="33.333333333333371"/>
+                                <rect key="frame" x="24" y="633.33333333333337" width="327" height="32.666666666666629"/>
                                 <gestureRecognizers/>
                                 <attributedString key="attributedText">
                                     <fragment content="By hitting &quot;Begin Now&quot;, you agree to Blockchain's Terms of Service &amp; Privacy Policy">
                                         <attributes>
                                             <color key="NSColor" red="0.30588235294117649" green="0.30588235294117649" blue="0.30588235294117649" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="12" name="Montserrat-Regular"/>
+                                            <font key="NSFont" metaFont="cellTitle"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="4" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>

@@ -15,6 +15,7 @@
 
 @property (strong, nonatomic) DashboardController *dashboardViewController;
 @property (strong, nonatomic) SendLumensViewController *sendLumensViewController;
+@property (strong, nonatomic) TransactionsXlmViewController *transactionsStellarViewController;
 
 @end
 @implementation TabControllerManager
@@ -543,8 +544,10 @@
 
         [_tabViewController setActiveViewController:_transactionsBitcoinCashViewController animated:animated index:tabIndex];
     } else if (self.assetType == LegacyAssetTypeStellar) {
-        TransactionsXlmViewController *viewController = [TransactionsXlmViewController makeWith:XLMServiceProvider.sharedInstance];
-        [_tabViewController setActiveViewController:viewController animated:animated index:tabIndex];
+        if (_transactionsStellarViewController) {
+            _transactionsStellarViewController = [TransactionsXlmViewController makeWith:XLMServiceProvider.sharedInstance];
+        }
+        [_tabViewController setActiveViewController:_transactionsStellarViewController animated:animated index:tabIndex];
     }
 }
 
@@ -748,6 +751,14 @@
     [self changeAssetSelectorAsset:LegacyAssetTypeBitcoinCash];
     [self showTransactionsAnimated:YES];
     [_transactionsBitcoinCashViewController reload];
+}
+
+-(void)showTransactionsStellar
+{
+    [self changeAssetSelectorAsset:LegacyAssetTypeStellar];
+    [self showTransactionsAnimated:YES];
+    // TODO: reload transactions
+    // [_transactionsStellarViewController reload];
 }
 
 - (void)changeAssetSelectorAsset:(LegacyAssetType)assetType

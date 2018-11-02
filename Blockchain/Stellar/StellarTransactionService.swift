@@ -125,10 +125,16 @@ class StellarTransactionService: StellarTransactionAPI {
                     asset: Asset(type: StellarAssetType.ASSET_TYPE_NATIVE)!,
                     amount: paymentOperation.amountInXlm
                 )
+                
+                var memo: Memo = .none
+                if let value = paymentOperation.memo {
+                    memo = .text(value)
+                }
+                
                 let transaction = try StellarTransaction(
                     sourceAccount: accountResponse,
                     operations: [payment],
-                    memo: Memo.none,
+                    memo: memo,
                     timeBounds: nil
                 )
 

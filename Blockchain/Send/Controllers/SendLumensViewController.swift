@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SafariServices
 
 protocol SendXLMViewControllerDelegate: class {
     func onLoad()
@@ -243,12 +242,11 @@ protocol SendXLMViewControllerDelegate: class {
             ),
             buttonTitle: LocalizationConstants.Stellar.readMore,
             buttonAction: { _ in
-                guard let url = URL(string: Constants.Url.stellarMinimumBalanceInfo) else {
-                    return
-                }
-                let viewController = SFSafariViewController(url: url)
-                viewController.modalPresentationStyle = .overFullScreen
-                presentingViewController?.topMostViewController?.present(viewController, animated: true, completion: nil)
+                guard let viewController = presentingViewController else { return }
+                UIApplication.shared.openSafariViewController(
+                    url: Constants.Url.stellarMinimumBalanceInfo,
+                    presentingViewController: viewController.topMostViewController ?? viewController
+                )
             }
         )
         let navigationController = BCNavigationController(rootViewController: informationController, title: LocalizationConstants.Stellar.minimumBalance)

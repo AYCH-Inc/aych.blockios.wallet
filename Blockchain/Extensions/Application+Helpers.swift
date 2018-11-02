@@ -7,8 +7,18 @@
 //
 
 import Foundation
+import SafariServices
 
 extension UIApplication {
+
+    func openSafariViewController(url: String, presentingViewController: UIViewController) {
+        guard let urlTarget = URL(string: url) else {
+            return
+        }
+        let viewController = SFSafariViewController(url: urlTarget)
+        viewController.modalPresentationStyle = .overFullScreen
+        presentingViewController.present(viewController, animated: true, completion: nil)
+    }
 
     @objc func openWebView(url: String, title: String, presentingViewController: UIViewController) {
         let webViewController = SettingsWebViewController()

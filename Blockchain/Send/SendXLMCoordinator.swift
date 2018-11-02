@@ -137,7 +137,9 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             computeMaxSpendableAmount(for: xlmAccount.publicKey)
         }
 
-        let fiatSymbol = BlockchainSettings.App.shared.fiatCurrencyCode ?? "USD"
+        let fiatSymbol = BlockchainSettings.App.shared.fiatCurrencyCode
+        interface.apply(updates: [.fiatSymbolLabel(fiatSymbol)])
+
         let disposable = Single.zip(
             services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: fiatSymbol),
             services.ledger.current.take(1).asSingle()

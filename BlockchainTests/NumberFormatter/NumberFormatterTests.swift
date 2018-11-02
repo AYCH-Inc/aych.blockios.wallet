@@ -10,6 +10,8 @@ import XCTest
 @testable import Blockchain
 
 class NumberFormatterTests: XCTestCase {
+
+    // TODO: IOS-1556 Add support for different locales.
     func testLocalCurrencyConversion() {
         // 2.532 ETH
         guard let amount = Decimal(string: "2.532"),
@@ -18,7 +20,7 @@ class NumberFormatterTests: XCTestCase {
             return
         }
         let localCurrencyAmount = NumberFormatter.localCurrencyAmount(fromAmount: amount, fiatPerAmount: rate)
-        XCTAssert(localCurrencyAmount == "537.37")
+        XCTAssert(localCurrencyAmount == "537.36", "Formatted string should have two decimal places and round down when truncating")
     }
 
     func testAssetConversion() {
@@ -34,6 +36,6 @@ class NumberFormatterTests: XCTestCase {
         // "Ambiguous use of 'assetTypeAmount(fromAmount:fiatPerAmount:assetType:)'"
         let assetType: AssetType = .ethereum
         let assetTypeAmount = NumberFormatter.assetTypeAmount(fromAmount: amount, fiatPerAmount: rate, assetType: assetType)
-        XCTAssert(assetTypeAmount == "1.88634971")
+        XCTAssert(assetTypeAmount == "1.88634971", "Formatted string should have eight decimal places and round down when truncating")
     }
 }

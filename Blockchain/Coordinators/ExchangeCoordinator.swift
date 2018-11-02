@@ -256,7 +256,6 @@ struct ExchangeServices: ExchangeDependencies {
     // MARK: - Services
     private let marketsService: MarketsService
     private let exchangeService: ExchangeService
-    private let xlmServiceProvider: XLMServiceProvider
     private let stellarAccountService: StellarAccountAPI
     private let xlmAccountRepository: WalletXlmAccountRepository
 
@@ -266,15 +265,15 @@ struct ExchangeServices: ExchangeDependencies {
         walletService: WalletService = WalletService.shared,
         marketsService: MarketsService = MarketsService(),
         exchangeService: ExchangeService = ExchangeService(),
-        xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared
+        stellarAccountService: StellarAccountAPI = XLMServiceProvider.shared.services.accounts,
+        xlmAccountRepository: WalletXlmAccountRepository = XLMServiceProvider.shared.services.repository
     ) {
         self.walletManager = walletManager
         self.walletService = walletService
         self.marketsService = marketsService 
         self.exchangeService = exchangeService
-        self.xlmServiceProvider = xlmServiceProvider
-        self.xlmAccountRepository = xlmServiceProvider.services.repository
-        self.stellarAccountService = xlmServiceProvider.services.accounts
+        self.stellarAccountService = stellarAccountService
+        self.xlmAccountRepository = xlmAccountRepository
         super.init()
     }
 

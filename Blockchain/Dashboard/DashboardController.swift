@@ -29,7 +29,7 @@ final class DashboardController: UIViewController {
     private let pricePreviewViewSpacing: CGFloat = 16
     private let wallet: Wallet
     private let tabControllerManager: TabControllerManager
-    private let stellarAccountService: StellarAccountService
+    private let stellarAccountService: StellarAccountAPI
     private var lastBtcExchangeRate,
                 lastBchExchangeRate,
                 lastEthExchangeRate,
@@ -113,11 +113,7 @@ final class DashboardController: UIViewController {
         lastBchExchangeRate = NSDecimalNumber(value: 0)
         lastEthExchangeRate = NSDecimalNumber(value: 0)
         lastXlmExchangeRate = NSDecimalNumber(value: 0)
-        stellarAccountService = StellarAccountService(
-            configuration: .test,
-            ledgerService: StellarLedgerService(configuration: .test),
-            repository: WalletXlmAccountRepository()
-        )
+        stellarAccountService = XLMServiceProvider.shared.services.accounts
         super.init(coder: aDecoder)
     }
 

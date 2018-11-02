@@ -941,6 +941,10 @@ struct LocalizationConstants {
             "Not enough XLM.",
             comment: "Error message displayed if the user tries to send XLM but does not have enough of it."
         )
+        static let invalidDestinationAddress = NSLocalizedString(
+            "Invalid destination address",
+            comment: "Error message displayed if the user tries to send XLM to an invalid address"
+        )
         static let useSpendableBalanceX = NSLocalizedString(
             "Use total spendable balance: ",
             comment: "Tappable text displayed in the send XLM screen for when the user wishes to send their full spendable balance."

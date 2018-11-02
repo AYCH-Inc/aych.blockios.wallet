@@ -8,25 +8,23 @@
 
 import Foundation
 
+typealias InformationViewButtonAction = (UIViewController) -> Void
+
 class InformationViewController: UIViewController {
     @IBOutlet private var textView: UITextView!
     @IBOutlet private var button: UIButton!
 
     private var bodyAttributedText: NSAttributedString?
     private var buttonTitle: String?
-    private var buttonAction: ((Any) -> ())?
+    private var buttonAction: InformationViewButtonAction?
 
     // MARK: Factory
 
-    @objc class func make(
-        with bodyAttributedText: NSAttributedString,
-        buttonTitle: String,
-        buttonAction: ((Any) -> ())?
-    ) -> InformationViewController {
+    static func make(viewModel: InformationViewModel) -> InformationViewController {
         let controller = InformationViewController.makeFromStoryboard()
-        controller.bodyAttributedText = bodyAttributedText
-        controller.buttonTitle = buttonTitle
-        controller.buttonAction = buttonAction
+        controller.bodyAttributedText = viewModel.informationText
+        controller.buttonTitle = viewModel.buttonTitle
+        controller.buttonAction = viewModel.buttonAction
         return controller
     }
 
@@ -39,6 +37,12 @@ class InformationViewController: UIViewController {
 
     @IBAction private func buttonTapped(_ sender: Any) {
         guard let action = buttonAction else { return }
-        action(sender)
+        action(self)
     }
+}
+
+struct InformationViewModel {
+    let informationText: NSAttributedString?
+    let buttonTitle: String
+    let buttonAction: InformationViewButtonAction?
 }

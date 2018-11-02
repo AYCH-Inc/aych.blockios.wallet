@@ -949,8 +949,6 @@
 		C74690632180C07D001A7C52 /* StellarURLPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74690612180B246001A7C52 /* StellarURLPayload.swift */; };
 		C74A0DE52174DFA000402A2F /* StellarAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74A0DE42174DFA000402A2F /* StellarAddress.swift */; };
 		C74A0DE62174DFA000402A2F /* StellarAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74A0DE42174DFA000402A2F /* StellarAddress.swift */; };
-		C74A8178218B97EE00CC520A /* StellarInformationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74A8177218B97EE00CC520A /* StellarInformationService.swift */; };
-		C74A8179218B97EE00CC520A /* StellarInformationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74A8177218B97EE00CC520A /* StellarInformationService.swift */; };
 		C74E21C12024BA1C00A9FBB1 /* BCBalanceChartLegendKeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = C74E21C02024BA1C00A9FBB1 /* BCBalanceChartLegendKeyView.m */; };
 		C74E21C72024E6D700A9FBB1 /* BCPricePreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = C74E21C62024E6D700A9FBB1 /* BCPricePreviewView.m */; };
 		C74E21CD2028A61F00A9FBB1 /* BCPriceChartContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74E21CC2028A61F00A9FBB1 /* BCPriceChartContainerViewController.m */; };
@@ -3492,7 +3490,6 @@
 		C746905E2180ACCD001A7C52 /* SEP7URI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEP7URI.swift; sourceTree = "<group>"; };
 		C74690612180B246001A7C52 /* StellarURLPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarURLPayload.swift; sourceTree = "<group>"; };
 		C74A0DE42174DFA000402A2F /* StellarAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAddress.swift; sourceTree = "<group>"; };
-		C74A8177218B97EE00CC520A /* StellarInformationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarInformationService.swift; sourceTree = "<group>"; };
 		C74E21BF2024BA1C00A9FBB1 /* BCBalanceChartLegendKeyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BCBalanceChartLegendKeyView.h; sourceTree = "<group>"; };
 		C74E21C02024BA1C00A9FBB1 /* BCBalanceChartLegendKeyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BCBalanceChartLegendKeyView.m; sourceTree = "<group>"; };
 		C74E21C52024E6D700A9FBB1 /* BCPricePreviewView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BCPricePreviewView.h; sourceTree = "<group>"; };
@@ -4040,7 +4037,6 @@
 		3A56AEAC217661D700044302 /* Stellar */ = {
 			isa = PBXGroup;
 			children = (
-				C74A8177218B97EE00CC520A /* StellarInformationService.swift */,
 				3A56AEB12176637D00044302 /* StellarAccountService.swift */,
 				AA16D0E2217927890042AF7E /* StellarKeyPairDeriver.swift */,
 				3A390747217E52AB00D2DA01 /* StellarLedgerService.swift */,
@@ -8607,7 +8603,6 @@
 				51135705209CF5E200056D65 /* WalletBuySellDelegate.swift in Sources */,
 				C7C0DC26212F67AD000EFE71 /* PartnerExchangeAPI.swift in Sources */,
 				AA31A7B52098DA5200FE6268 /* AlertViewPresenter+Wallet.swift in Sources */,
-				C74A8179218B97EE00CC520A /* StellarInformationService.swift in Sources */,
 				51FC1B112127473D007BEB18 /* UIView.swift in Sources */,
 				3AB4D91A21309BC8004F0160 /* ExchangeListViewController.swift in Sources */,
 				51C9EBB720DBE4A700AB521D /* UIView+SafeAreaFrame.swift in Sources */,
@@ -9144,7 +9139,6 @@
 				606399E42110FC2D005B6DF5 /* SRProxyConnect.m in Sources */,
 				67EE1DCD19E3325900DBBFC9 /* ECSlidingSegue.m in Sources */,
 				AAA3316120895A9C00BBD292 /* LoadingViewPresenter.swift in Sources */,
-				C74A8178218B97EE00CC520A /* StellarInformationService.swift in Sources */,
 				606399DE2110FC2D005B6DF5 /* NSRunLoop+SRWebSocket.m in Sources */,
 				AA54E4F6216D3B3F005061F9 /* KYCStateSelectionInteractor.swift in Sources */,
 				AA755EED2188ED6800FC4894 /* StellarTradeLimitsAPI.swift in Sources */,

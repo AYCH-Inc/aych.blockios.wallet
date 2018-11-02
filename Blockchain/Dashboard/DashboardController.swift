@@ -565,7 +565,10 @@ extension DashboardController: IAxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         switch axis {
         case chartContainerViewController.leftAxis():
-            return String(format: "%@%.f", BlockchainSettings.App.shared.fiatCurrencySymbol, value)
+            guard let formatted = NumberFormatter.localCurrencyFormatter.string(from: NSNumber(value: value)) else {
+                return String(format: "%.2f").appendCurrencySymbol()
+            }
+            return formatted.appendCurrencySymbol()
         case chartContainerViewController.xAxis():
             return dateStringFromGraphValue(value: value)
         default:

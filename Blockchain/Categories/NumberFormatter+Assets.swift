@@ -105,4 +105,17 @@ extension NumberFormatter {
         let formatter = assetType == .stellar ? NumberFormatter.stellarFormatter : NumberFormatter.assetFormatter
         return formatter.string(from: NSDecimalNumber(decimal: conversionResult)) ?? "\(conversionResult)"
     }
+
+    // Returns crypto with fiat amount in the format of
+    // crypto (fiat)
+    static func formattedAssetAndFiatAmountWithSymbols(
+        fromAmount: Decimal,
+        fiatPerAmount: Decimal,
+        assetType: AssetType
+    ) -> String {
+        let formatter = assetType == .stellar ? NumberFormatter.stellarFormatter : NumberFormatter.assetFormatter
+        let crypto = (formatter.string(from: NSDecimalNumber(decimal: fromAmount)) ?? "\(fromAmount)").appendAssetSymbol(for: assetType)
+        let fiat = NumberFormatter.localCurrencyAmount(fromAmount: fromAmount, fiatPerAmount: fiatPerAmount).appendCurrencySymbol()
+        return "\(crypto) (\(fiat))"
+    }
 }

@@ -80,6 +80,7 @@ protocol SendXLMViewControllerDelegate: class {
     private var latestPrice: Decimal? // fiat per whole unit
     private var xlmAmount: Decimal?
     private var xlmFee: Decimal?
+    private var baseReserve: Decimal?
 
     // MARK: Factory
     
@@ -260,6 +261,25 @@ protocol SendXLMViewControllerDelegate: class {
             headerText: LocalizationConstants.SendAsset.confirmPayment
         )
     }
+    @IBAction private func learnAboutStellarButtonTapped(_ sender: Any) {
+        let presentingViewController = AppCoordinator.shared.tabControllerManager.tabViewController
+        let informationController = InformationViewController.make(
+            with: StellarInformationService.formattedMinimumRequirementInformationText(
+                baseReserve: baseReserve ?? Decimal(string: "0.5")!,
+                latestPrice: latestPrice ?? Decimal(string: "0.24")!
+            ),
+            buttonTitle: LocalizationConstants.Stellar.readMore,
+            buttonAction: { _ in
+                guard let viewController = presentingViewController else { return }
+                UIApplication.shared.openSafariViewController(
+                    url: Constants.Url.stellarMinimumBalanceInfo,
+                    presentingViewController: viewController.topMostViewController ?? viewController
+                )
+            }
+        )
+        let navigationController = BCNavigationController(rootViewController: informationController, title: LocalizationConstants.Stellar.minimumBalance)
+        presentingViewController?.present(navigationController, animated: true)
+    }
 }
 
 extension SendLumensViewController: SendXLMInterface {
@@ -374,6 +394,10 @@ extension SendLumensViewController: SendXLMModelInterface {
 
     func updateXLMAmount(_ value: Decimal?) {
         xlmAmount = value
+    }
+
+    func updateBaseReserve(_ value: Decimal?) {
+        baseReserve = value
     }
 }
 

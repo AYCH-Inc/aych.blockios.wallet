@@ -116,6 +116,7 @@ protocol SendXLMViewControllerDelegate: class {
         case paymentSuccess
         case stellarAmountText(String?)
         case fiatAmountText(String?)
+        case fiatSymbolLabel(String?)
     }
 
     // MARK: Public Methods
@@ -239,6 +240,8 @@ protocol SendXLMViewControllerDelegate: class {
             stellarAmountField.text = text
         case .fiatAmountText(let text):
             fiatAmountField.text = text
+        case .fiatSymbolLabel(let text):
+            fiatSymbolLabel.text = text
         }
 
     }
@@ -266,6 +269,7 @@ protocol SendXLMViewControllerDelegate: class {
             headerText: LocalizationConstants.SendAsset.confirmPayment
         )
     }
+
     @IBAction private func learnAboutStellarButtonTapped(_ sender: Any) {
         delegate?.onMinimumBalanceInfoTapped()
     }

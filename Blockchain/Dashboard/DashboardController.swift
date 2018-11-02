@@ -52,14 +52,6 @@ final class DashboardController: UIViewController {
         DateFormatter()
     }()
 
-    private lazy var currencyFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.maximumFractionDigits = 2
-        formatter.currencySymbol = BlockchainSettings.App.shared.fiatCurrencySymbol
-        return formatter
-    }()
-
     private lazy var chartContainerViewController: BCPriceChartContainerViewController = {
         let theViewController = BCPriceChartContainerViewController()
         theViewController.modalPresentationStyle = .overCurrentContext
@@ -338,7 +330,7 @@ final class DashboardController: UIViewController {
         balancesChartView.updateStellarBalance(xlmBalance.stringValue)
         balancesChartView.updateStellarFiatBalance(xlmFiatBalance)
 
-        balancesChartView.updateTotalFiatBalance(currencyFormatter.string(from: totalBalance))
+        balancesChartView.updateTotalFiatBalance(NumberFormatter.localCurrencyFormatterWithGroupingSeparator.string(from: totalBalance)?.appendCurrencySymbol())
 
         if wallet.isInitialized() {
             let watchOnlyBalance = wallet.getWatchOnlyBalance()
@@ -376,7 +368,11 @@ final class DashboardController: UIViewController {
             .subscribe(onSuccess: { priceMap in
                 AssetType.all.forEach { type in
                     let price = priceMap[type]?.price ?? 0
-                    let formattedPrice = self.currencyFormatter.string(for: NSDecimalNumber(decimal: price))!
+                    let priceDecimal = NSDecimalNumber(decimal: price)
+                    guard let formatted = NumberFormatter.localCurrencyFormatterWithGroupingSeparator.string(from: priceDecimal) else {
+                        return
+                    }
+                    let formattedPrice = formatted.appendCurrencySymbol()
                     switch type {
                     case .bitcoin:
                         self.lastBtcExchangeRate = NSDecimalNumber(decimal: price)

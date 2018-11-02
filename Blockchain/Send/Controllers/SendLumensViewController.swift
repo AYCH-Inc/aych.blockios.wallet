@@ -13,6 +13,7 @@ protocol SendXLMViewControllerDelegate: class {
     func onAppear()
     func onXLMEntry(_ value: String, latestPrice: Decimal)
     func onFiatEntry(_ value: String, latestPrice: Decimal)
+    func onStellarAddressEntry()
     func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: String?)
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation)
     func onMinimumBalanceInfoTapped()
@@ -105,6 +106,7 @@ protocol SendXLMViewControllerDelegate: class {
         case errorLabelText(String)
         case feeAmountLabelText()
         case stellarAddressText(String)
+        case stellarAddressTextColor(UIColor)
         case xlmFieldTextColor(UIColor)
         case fiatFieldTextColor(UIColor)
         case actionableLabelTrigger(ActionableTrigger)
@@ -196,6 +198,8 @@ protocol SendXLMViewControllerDelegate: class {
             feeAmountLabel.text = "\(feeFormatted) \(xlmSymbol) (\(fiatText))"
         case .stellarAddressText(let value):
             stellarAddressField.text = value
+        case .stellarAddressTextColor(let color):
+            stellarAddressField.textColor = color
         case .xlmFieldTextColor(let color):
             stellarAmountField.textColor = color
         case .fiatFieldTextColor(let color):
@@ -427,35 +431,54 @@ extension SendLumensViewController: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard [fiatAmountField, stellarAmountField].contains(textField) else { return true }
-        if let text = textField.text,
+        if textField == stellarAddressField {
+            return addressField(textField, shouldChangeCharactersIn: range, replacementString: string)
+        } else {
+            return amountField(textField, shouldChangeCharactersIn: range, replacementString: string)
+        }
+    }
+}
+
+// MARK: - Text Field handling
+extension SendLumensViewController {
+
+    func amountField(_ amountField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard [fiatAmountField, stellarAmountField].contains(amountField) else { return true }
+        if let text = amountField.text,
             let textRange = Range(range, in: text) {
             let newString = text.replacingCharacters(in: textRange, with: string)
 
             var maxDecimalPlaces: Int?
-            if textField == stellarAmountField {
+            if amountField == stellarAmountField {
                 maxDecimalPlaces = NumberFormatter.stellarFractionDigits
-            } else if textField == fiatAmountField {
+            } else if amountField == fiatAmountField {
                 maxDecimalPlaces = NumberFormatter.localCurrencyFractionDigits
             }
 
             guard let decimalPlaces = maxDecimalPlaces else {
-                // TODO: Handle to address field here
+                Logger.shared.error("Unhandled textfield")
                 return true
             }
 
             let amountDelegate = AmountTextFieldDelegate(maxDecimalPlaces: decimalPlaces)
-            let isInputValid = amountDelegate.textField(textField, shouldChangeCharactersIn: range, replacementString: string)
+            let isInputValid = amountDelegate.textField(amountField, shouldChangeCharactersIn: range, replacementString: string)
             if !isInputValid {
                 return false
             }
 
             guard let price = latestPrice else { return true }
-            if textField == stellarAmountField {
+            if amountField == stellarAmountField {
                 delegate?.onXLMEntry(newString, latestPrice: price)
-            } else if textField == fiatAmountField {
+            } else if amountField == fiatAmountField {
                 delegate?.onFiatEntry(newString, latestPrice: price)
             }
+        }
+        return true
+    }
+
+    func addressField(_ addressField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if addressField == stellarAddressField {
+            delegate?.onStellarAddressEntry()
         }
         return true
     }

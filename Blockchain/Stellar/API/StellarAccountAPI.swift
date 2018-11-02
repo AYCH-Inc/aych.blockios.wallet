@@ -38,4 +38,7 @@ protocol StellarAccountAPI {
 
     // Gets the currentStellarAccount if available.
     func prefetch()
+
+    // Checks if address is valid
+    func validate(accountID: AccountID) -> Single<Bool>
 }

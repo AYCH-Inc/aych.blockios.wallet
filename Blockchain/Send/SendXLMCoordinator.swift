@@ -199,6 +199,13 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         updateXlmEntryInterface(text: cryptoText)
     }
 
+    func onStellarAddressEntry() {
+        interface.apply(updates: [
+            .stellarAddressTextColor(.gray6),
+            .errorLabelVisibility(.hidden)
+        ])
+    }
+
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation) {
         let transaction = services.transaction
         let disposable = services.repository.loadStellarKeyPair()
@@ -257,36 +264,48 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             return
         }
 
-        let disposable = services.limits.isSpendable(amount: amount, for: sourceAccount.publicKey)
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] isSpendable in
-                guard isSpendable else {
-                    self?.interface.apply(updates: [
-                        .errorLabelText(LocalizationConstants.Stellar.notEnoughXLM),
-                        .errorLabelVisibility(.visible),
-                        .fiatFieldTextColor(.error),
-                        .xlmFieldTextColor(.error)
-                    ])
-                    return
-                }
-                let operation = StellarPaymentOperation(
-                    destinationAccountId: toAddress,
-                    amountInXlm: amount,
-                    sourceAccount: sourceAccount,
-                    feeInXlm: feeInXlm,
-                    memo: memo
-                )
+        let disposable = Single.zip(
+            services.limits.isSpendable(amount: amount, for: sourceAccount.publicKey),
+            services.accounts.validate(accountID: toAddress)
+        ).subscribeOn(MainScheduler.asyncInstance)
+        .observeOn(MainScheduler.instance)
+        .subscribe(onSuccess: { [weak self] isSpendable, isValidDestination in
+            guard isSpendable else {
                 self?.interface.apply(updates: [
-                    .showPaymentConfirmation(operation)
+                    .errorLabelText(LocalizationConstants.Stellar.notEnoughXLM),
+                    .errorLabelVisibility(.visible),
+                    .fiatFieldTextColor(.error),
+                    .xlmFieldTextColor(.error)
                 ])
-            }, onError: { [weak self] error in
-                Logger.shared.error("Could not fetch ledger or account details")
+                return
+            }
+            guard isValidDestination else {
                 self?.interface.apply(updates: [
-                    .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
-                    .errorLabelVisibility(.visible)
+                    .errorLabelText(LocalizationConstants.Stellar.invalidDestinationAddress),
+                    .errorLabelVisibility(.visible),
+                    .stellarAddressTextColor(.error)
                 ])
-            })
+                return
+            }
+            let operation = StellarPaymentOperation(
+                destinationAccountId: toAddress,
+                amountInXlm: amount,
+                sourceAccount: sourceAccount,
+                feeInXlm: feeInXlm,
+                memo: memo
+            )
+            self?.interface.apply(updates: [
+                .showPaymentConfirmation(operation),
+                .errorLabelVisibility(.hidden),
+                .stellarAddressTextColor(.gray6)
+            ])
+        }, onError: { [weak self] error in
+            Logger.shared.error("Could not fetch ledger or account details")
+            self?.interface.apply(updates: [
+                .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
+                .errorLabelVisibility(.visible)
+            ])
+        })
         disposables.insertWithDiscardableResult(disposable)
     }
 

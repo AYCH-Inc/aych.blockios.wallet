@@ -72,7 +72,7 @@ class XLMServiceProvider: NSObject {
     }
     
     @objc class func make() -> XLMServiceProvider {
-        return XLMServiceProvider(services: .test)
+        return XLMServiceProvider(services: .production)
     }
     
     init(services: XLMServices) {

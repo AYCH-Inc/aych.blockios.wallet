@@ -11,6 +11,8 @@ import SafariServices
 
 extension UIApplication {
 
+    // Prefer using SFSafariViewController over UIWebview due to privacy and security improvements.
+    // https://medium.com/ios-os-x-development/security-flaw-with-uiwebview-95bbd8508e3c
     func openSafariViewController(url: String, presentingViewController: UIViewController) {
         guard let urlTarget = URL(string: url) else {
             return

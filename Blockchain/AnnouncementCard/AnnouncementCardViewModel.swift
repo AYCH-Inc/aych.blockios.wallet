@@ -11,7 +11,9 @@ import Foundation
 @objc class AnnouncementCardViewModel: NSObject {
     typealias Action = () -> Void
 
-    let title, message, actionButtonTitle: String
+    let title: String
+    let message: String
+    let actionButtonTitle: String?
     let imageTint: UIColor?
     let image: UIImage
     let action, onClose: Action
@@ -19,7 +21,7 @@ import Foundation
     @objc init(
         title: String,
         message: String,
-        actionButtonTitle: String,
+        actionButtonTitle: String?,
         image: UIImage,
         imageTint: UIColor?,
         action: @escaping Action,
@@ -46,5 +48,45 @@ extension AnnouncementCardViewModel {
             action: action,
             onClose: onClose
         )
+    }
+
+    @objc class func airdropOnItsWay(action: @escaping Action, onClose: @escaping Action) -> AnnouncementCardViewModel {
+        return AnnouncementCardViewModel(
+            title: LocalizationConstants.Stellar.yourXLMIsOnItsWay,
+            message: LocalizationConstants.Stellar.yourXLMIsOnItsWayDescription,
+            actionButtonTitle: nil,
+            image: #imageLiteral(resourceName: "symbol-xlm"),
+            imageTint: #colorLiteral(red: 0.06274509804, green: 0.6784313725, blue: 0.8941176471, alpha: 1),
+            action: action,
+            onClose: onClose
+        )
+    }
+
+    @objc class func continueWithKYC(
+        isAirdropUser: Bool,
+        action: @escaping Action,
+        onClose: @escaping Action
+    ) -> AnnouncementCardViewModel {
+        if isAirdropUser {
+            return AnnouncementCardViewModel(
+                title: LocalizationConstants.Stellar.claimYourStellar,
+                message: LocalizationConstants.Stellar.claimYourStellarDescription,
+                actionButtonTitle: LocalizationConstants.AnnouncementCards.continueKYCActionButtonTitle,
+                image: #imageLiteral(resourceName: "symbol-xlm"),
+                imageTint: #colorLiteral(red: 0.06274509804, green: 0.6784313725, blue: 0.8941176471, alpha: 1),
+                action: action,
+                onClose: onClose
+            )
+        } else {
+            return AnnouncementCardViewModel(
+                title: LocalizationConstants.AnnouncementCards.continueKYCCardTitle,
+                message: LocalizationConstants.AnnouncementCards.continueKYCCardDescription,
+                actionButtonTitle: LocalizationConstants.AnnouncementCards.continueKYCActionButtonTitle,
+                image: #imageLiteral(resourceName: "identity_verification_card"),
+                imageTint: nil,
+                action: action,
+                onClose: onClose
+            )
+        }
     }
 }

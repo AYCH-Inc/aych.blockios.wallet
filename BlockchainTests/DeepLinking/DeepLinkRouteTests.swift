@@ -13,14 +13,14 @@ import XCTest
 class DeepLinkRouteTests: XCTestCase {
 
     func testAirdropUrl() {
-        let url = URL(string: "https://login.blockchain.com/#/open/airdrop")!
+        let url = URL(string: "https://login.blockchain.com/#/open/referral?campaign=sunriver")!
         let route = DeepLinkRoute.route(from: url)
         XCTAssertNotNil(route)
         XCTAssertEqual(DeepLinkRoute.xlmAirdop, route)
     }
 
-    func testAirdropUrlWithParams() {
-        let url = URL(string: "https://login.blockchain.com/#/open/airdrop?prop1=thing")!
+    func testAirdropUrlWithExtraParams() {
+        let url = URL(string: "https://login.blockchain.com/#/open/referral?campaign=sunriver&something=else")!
         let route = DeepLinkRoute.route(from: url)
         XCTAssertNotNil(route)
         XCTAssertEqual(DeepLinkRoute.xlmAirdop, route)

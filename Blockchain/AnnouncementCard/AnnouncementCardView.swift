@@ -35,6 +35,7 @@ class AnnouncementCardView: UIView {
             cardView.imageView.tintColor = tint
         }
         cardView.actionButton.setTitle(model.actionButtonTitle, for: .normal)
+        cardView.actionButton.isHidden = (model.actionButtonTitle == nil)
         cardView.actionButtonPressed = model.action
         cardView.closeButtonPressed = model.onClose
         return cardView

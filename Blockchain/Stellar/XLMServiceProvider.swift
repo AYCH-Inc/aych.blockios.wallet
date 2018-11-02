@@ -27,7 +27,7 @@ struct XLMServices: XLMDependencies {
     var transaction: StellarTransactionAPI
     var prices: PriceServiceAPI
     var limits: StellarTradeLimitsAPI
-    
+
     init(
         configuration: StellarConfiguration,
         wallet: Wallet = WalletManager.shared.wallet
@@ -72,7 +72,7 @@ class XLMServiceProvider: NSObject {
     }
     
     @objc class func make() -> XLMServiceProvider {
-        return XLMServiceProvider(services: .test)
+        return XLMServiceProvider(services: .production)
     }
     
     init(services: XLMServices) {

@@ -152,6 +152,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                     ])
                     return
                 }
+                self.modelInterface.updateBaseReserve(ledger.baseReserveInXlm)
                 self.modelInterface.updateFee(feeInXlm)
                 self.modelInterface.updatePrice(price.price)
                 self.interface.apply(updates: [.feeAmountLabelText()])
@@ -221,7 +222,10 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             .subscribe(onError: { [weak self] error in
                 Logger.shared.error("Failed to send XLM. Error: \(error)")
                 let errorMessage: String
-                if let stellarError = error as? StellarServiceError, stellarError == .amountTooLow {
+                if let stellarError = error as? StellarPaymentOperationError, stellarError == .cancelled {
+                    // User cancelled transaction when shown second password - do not show an error.
+                    return
+                } else if let stellarError = error as? StellarServiceError, stellarError == .amountTooLow {
                     errorMessage = LocalizationConstants.Stellar.notEnoughXLM
                 } else if let stellarError = error as? StellarServiceError, stellarError == .insufficientFundsForNewAccount {
                     errorMessage = LocalizationConstants.Stellar.minimumForNewAccountsError
@@ -248,7 +252,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         disposables.insertWithDiscardableResult(disposable)
     }
     
-    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal) {
+    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: String?) {
         guard let sourceAccount = services.repository.defaultAccount else {
             interface.apply(updates: [
                 .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
@@ -274,7 +278,8 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                     destinationAccountId: toAddress,
                     amountInXlm: amount,
                     sourceAccount: sourceAccount,
-                    feeInXlm: feeInXlm
+                    feeInXlm: feeInXlm,
+                    memo: memo
                 )
                 self?.interface.apply(updates: [
                     .showPaymentConfirmation(operation)
@@ -296,7 +301,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         interface.apply(updates: [
             .actionableLabelTrigger(ActionableTrigger(
                 text: LocalizationConstants.Stellar.useSpendableBalanceX,
-                CTA: "0 \(AssetType.stellar.symbol)",
+                CTA: "... \(AssetType.stellar.symbol)",
                 executionBlock: {}
             ))
         ])

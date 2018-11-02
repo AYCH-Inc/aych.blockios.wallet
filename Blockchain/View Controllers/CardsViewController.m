@@ -21,7 +21,6 @@
 // Onboarding cards
 @property (nonatomic) BOOL showWelcomeCards;
 @property (nonatomic) NSMutableArray *announcementCards;
-@property (nonatomic) CGFloat cardsViewHeight;
 @property (nonatomic) UIScrollView *cardsScrollView;
 @property (nonatomic) CardsView *cardsView;
 @property (nonatomic) BOOL isUsingPageControl;
@@ -38,82 +37,34 @@
  - SeeAlso: IOS-1249 - Refactor CardsViewController
  */
 
-- (void)reloadCards
+- (void)reloadWelcomeCards
 {
     self.cardsViewHeight = 0;
 
-    AppFeatureConfiguration *airdropConfig = [AppFeatureConfigurator.sharedInstance configurationFor:AppFeatureStellarAirdrop];
-    BOOL shouldShowStellarAirdropCard = airdropConfig.isEnabled && !BlockchainSettings.sharedOnboardingInstance.hasSeenAirdropJoinWaitlistCard;
+    self.announcementCards = [NSMutableArray new];
+    self.showWelcomeCards = !BlockchainSettings.sharedOnboardingInstance.hasSeenAllCards;
 
-    BOOL shouldShowKYCAnnouncementCard = BlockchainSettings.sharedAppInstance.isCompletingKyc;
-
-    if (shouldShowStellarAirdropCard) {
-        [self showStellarAirdropCard];
-    } else if (shouldShowKYCAnnouncementCard) {
-        [self showContinueKYCCard];
-    } else {
-        self.announcementCards = [NSMutableArray new];
-        self.showWelcomeCards = !BlockchainSettings.sharedOnboardingInstance.hasSeenAllCards;
-
-        if (!self.showWelcomeCards) {
-            if (!BlockchainSettings.sharedOnboardingInstance.shouldHideBuySellCard && [WalletManager.sharedInstance.wallet canUseSfox]) {
-                [self.announcementCards addObject:[NSNumber numberWithInteger:CardConfigurationBuySell]];
-            }
-        }
-
-        if (!self.showWelcomeCards && self.announcementCards.count == 0) {
-            self.cardsViewHeight = 0;
-        } else if (self.announcementCards.count > 0) {
-            self.cardsViewHeight = ANNOUNCEMENT_CARD_HEIGHT * self.announcementCards.count;
-        } else {
-            self.cardsViewHeight = 240;
-        }
-
-        if (self.showWelcomeCards && WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local) {
-            [self setupWelcomeCardsView];
-        } else if (self.announcementCards.count > 0) {
-            [self setupCardsViewWithConfigurations:self.announcementCards];
-        } else if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local) {
-            [self removeCardsView];
+    if (!self.showWelcomeCards) {
+        if (!BlockchainSettings.sharedOnboardingInstance.shouldHideBuySellCard && [WalletManager.sharedInstance.wallet canUseSfox]) {
+            [self.announcementCards addObject:[NSNumber numberWithInteger:CardConfigurationBuySell]];
         }
     }
 
-    CGFloat width = self.view.frame.size.width;
-    CGFloat height = self.dashboardContentView.frame.size.height + self.cardsViewHeight;
-    self.dashboardScrollView.contentSize = CGSizeMake(width, height);
-}
+    if (!self.showWelcomeCards && self.announcementCards.count == 0) {
+        self.cardsViewHeight = 0;
+    } else if (self.announcementCards.count > 0) {
+        self.cardsViewHeight = ANNOUNCEMENT_CARD_HEIGHT * self.announcementCards.count;
+    } else {
+        self.cardsViewHeight = 240;
+    }
 
-- (void)showStellarAirdropCard
-{
-    AnnouncementCardViewModel *model = [AnnouncementCardViewModel joinAirdropWaitlistWithAction:^{
-        [UIApplication.sharedApplication openWebViewWithUrl:ConstantsObjcBridge.airdropWaitlistUrl
-                                                      title:LocalizationConstantsObjcBridge.joinTheWaitlist
-                                   presentingViewController:AppCoordinator.sharedInstance.tabControllerManager];
-    } onClose:^{
-        BlockchainSettings.sharedOnboardingInstance.hasSeenAirdropJoinWaitlistCard = YES;
-        [self animateHideCards];
-    }];
-    [self showSingleCardWithViewModel:model];
-}
-
-- (void)showContinueKYCCard
-{
-    // TODO: Show SR specific card
-    AnnouncementCardViewModel *model = [[AnnouncementCardViewModel alloc]
-                                        initWithTitle:[[LocalizationConstantsObjcBridge continueKYCCardTitle] uppercaseString]
-                                        message:[LocalizationConstantsObjcBridge continueKYCCardDescription]
-                                        actionButtonTitle:[LocalizationConstantsObjcBridge continueKYCActionButtonTitle]
-                                        image:[UIImage imageNamed:@"identity_verification_card"]
-                                        imageTint:nil
-                                        action:^{
-                                            TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
-                                            [[KYCCoordinator sharedInstance] startFrom:tabControllerManager];
-                                        }
-                                        onClose:^{
-                                            BlockchainSettings.sharedAppInstance.isCompletingKyc = NO;
-                                            [self animateHideCards];
-                                        }];
-    [self showSingleCardWithViewModel:model];
+    if (self.showWelcomeCards && WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local) {
+        [self setupWelcomeCardsView];
+    } else if (self.announcementCards.count > 0) {
+        [self setupCardsViewWithConfigurations:self.announcementCards];
+    } else if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local) {
+        [self removeCardsView];
+    }
 }
 
 - (void)animateHideCards
@@ -365,7 +316,7 @@
         self.dashboardScrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.dashboardContentView ? self.dashboardContentView.frame.size.height : 0);
         [self.dashboardContentView changeYPosition:newY];
     } completion:^(BOOL finished) {
-        [self reloadCards];
+        [self reloadWelcomeCards];
     }];
 }
 

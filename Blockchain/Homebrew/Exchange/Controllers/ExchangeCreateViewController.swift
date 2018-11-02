@@ -93,6 +93,7 @@ class ExchangeCreateViewController: UIViewController {
     class func make(with dependencies: ExchangeDependencies) -> ExchangeCreateViewController {
         let controller = ExchangeCreateViewController.makeFromStoryboard()
         controller.dependencies = dependencies
+        AnalyticsService.shared.trackEvent(title: "exchange_create")
         return controller
     }
 

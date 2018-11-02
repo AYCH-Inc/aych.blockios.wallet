@@ -535,6 +535,7 @@
 		67FA1A4D1ABA092D000C9196 /* RegExCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FA1A4C1ABA092D000C9196 /* RegExCategories.m */; };
 		680CC422908E206C1581D626 /* Pods_Blockchain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08968EB2BC575FB3EBD71B28 /* Pods_Blockchain.framework */; };
 		6E2D90A21BBEC34800B719EC /* BCRecoveryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2D90A11BBEC34800B719EC /* BCRecoveryView.m */; };
+		7A4E882E218B595C00CB798C /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4E882D218B595C00CB798C /* AnalyticsService.swift */; };
 		7ADD19D721874C220013A525 /* Firebase in Resources */ = {isa = PBXBuildFile; fileRef = 7ADD19D621874C220013A525 /* Firebase */; };
 		7ADD19D821874C220013A525 /* Firebase in Resources */ = {isa = PBXBuildFile; fileRef = 7ADD19D621874C220013A525 /* Firebase */; };
 		84B601C7197ACD6300DA1829 /* UITextField+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B601C6197ACD6300DA1829 /* UITextField+Blocks.m */; };
@@ -3155,6 +3156,7 @@
 		6E2D90A01BBEC34800B719EC /* BCRecoveryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCRecoveryView.h; sourceTree = "<group>"; };
 		6E2D90A11BBEC34800B719EC /* BCRecoveryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCRecoveryView.m; sourceTree = "<group>"; };
 		730695CB650E8C203CE31D50 /* Pods-BlockchainTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockchainTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BlockchainTests/Pods-BlockchainTests.release.xcconfig"; sourceTree = "<group>"; };
+		7A4E882D218B595C00CB798C /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		7ADD19D621874C220013A525 /* Firebase */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Firebase; sourceTree = "<group>"; };
 		84B601C5197ACD6300DA1829 /* UITextField+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Blocks.h"; sourceTree = "<group>"; };
 		84B601C6197ACD6300DA1829 /* UITextField+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Blocks.m"; sourceTree = "<group>"; };
@@ -6480,6 +6482,14 @@
 			path = RegEx;
 			sourceTree = "<group>";
 		};
+		7A4E8823218B593700CB798C /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				7A4E882D218B595C00CB798C /* AnalyticsService.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
 		84C25678198109AF00F901D1 /* Keys */ = {
 			isa = PBXGroup;
 			children = (
@@ -6664,6 +6674,7 @@
 		9FB3637B14B60128004BEA02 /* Blockchain */ = {
 			isa = PBXGroup;
 			children = (
+				7A4E8823218B593700CB798C /* Analytics */,
 				7ADD19D621874C220013A525 /* Firebase */,
 				C790E0F21E4913F00063D141 /* Blockchain.entitlements */,
 				A2599B9D1B0B5FC700C2EA81 /* Blockchain-Bridging-Header.h */,
@@ -9149,6 +9160,7 @@
 				23FB5C0A1D9ABB590008C6AB /* TransactionDetailToCell.m in Sources */,
 				AACE32002093FA1A00B7B806 /* ReminderPresenter.swift in Sources */,
 				3A8B2292211E228C0091E706 /* KYCPageType.swift in Sources */,
+				7A4E882E218B595C00CB798C /* AnalyticsService.swift in Sources */,
 				C76D730420B2052000040B57 /* WalletPartnerExchangeDelegate.swift in Sources */,
 				AA084415215EF04A0007BFD1 /* LockboxAsset.swift in Sources */,
 				602B9CE02118E15300BD3D60 /* KYCNetworkRequest.swift in Sources */,

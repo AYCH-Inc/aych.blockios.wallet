@@ -205,6 +205,7 @@ import Foundation
 
 extension AppCoordinator: SideMenuViewControllerDelegate {
     func sideMenuViewController(_ viewController: SideMenuViewController, didTapOn item: SideMenuItem) {
+        AnalyticsService.shared.trackEvent(title: item.rawValue)
         switch item {
         case .upgrade:
             handleUpgrade()

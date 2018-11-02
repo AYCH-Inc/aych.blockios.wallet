@@ -156,7 +156,7 @@ final class DashboardController: UIViewController {
         scrollView.addSubview(contentView)
         scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: contentViewFrame.size.height)
 
-        cardsViewController.reloadCards()
+        cardsViewController.reloadAllCards()
     }
 
     // TICKET: IOS-1507 - Refactor to use autolayout
@@ -419,7 +419,7 @@ final class DashboardController: UIViewController {
                 Logger.shared.error(error.localizedDescription)
             })
 
-        cardsViewController.reloadCards()
+        cardsViewController.reloadAllCards()
     }
 
     @objc func reloadSymbols() {

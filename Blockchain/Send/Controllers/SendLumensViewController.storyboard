@@ -199,6 +199,9 @@
                                         <state key="normal" title="Learn about Stellar's minimum balance requirement">
                                             <color key="titleColor" red="0.059999999999999998" green="0.68000000000000005" blue="0.89000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="learnAboutStellarButtonTapped:" destination="Vh5-KK-icm" eventType="touchUpInside" id="NkP-qk-cSq"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>

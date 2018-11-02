@@ -27,7 +27,7 @@ struct XLMServices: XLMDependencies {
     var transaction: StellarTransactionAPI
     var prices: PriceServiceAPI
     var limits: StellarTradeLimitsAPI
-    
+
     init(
         configuration: StellarConfiguration,
         wallet: Wallet = WalletManager.shared.wallet

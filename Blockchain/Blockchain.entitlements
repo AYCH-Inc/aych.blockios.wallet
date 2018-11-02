@@ -8,7 +8,6 @@
 	<array>
 		<string>applinks:blockchainwallet.page.link</string>
 		<string>applinks:blockchainwalletstaging.page.link</string>
-		<string>applinks.blockchainwalletdev.page.link</string>
 	</array>
 </dict>
 </plist>

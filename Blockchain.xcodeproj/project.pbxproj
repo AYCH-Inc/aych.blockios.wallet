@@ -914,6 +914,7 @@
 		C723F3461F61D35300A858A9 /* TransactionDetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C723F3451F61D35300A858A9 /* TransactionDetailViewModel.m */; };
 		C723F3491F64413400A858A9 /* TransactionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C723F3481F64413400A858A9 /* TransactionsViewController.m */; };
 		C729D64421874C8B0084D497 /* NumberFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C729D64321874C8B0084D497 /* NumberFormatterTests.swift */; };
+		C729E991218C9E85000FEA8A /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4E882D218B595C00CB798C /* AnalyticsService.swift */; };
 		C72AC7022134A90B001DA48B /* ExchangeInputsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72AC7012134A90B001DA48B /* ExchangeInputsAPI.swift */; };
 		C72AC7032134A90B001DA48B /* ExchangeInputsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72AC7012134A90B001DA48B /* ExchangeInputsAPI.swift */; };
 		C72D6CBF1EC0B4AB0000F922 /* BCFeeSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C72D6CBE1EC0B4AB0000F922 /* BCFeeSelectionView.m */; };
@@ -8418,6 +8419,7 @@
 				3AE5419C217A677A001DDE02 /* StellarTransaction.swift in Sources */,
 				AACE31D92092A99B00B7B806 /* Reachability.swift in Sources */,
 				AACE31DE2092A99B00B7B806 /* BlockchainAPI.swift in Sources */,
+				C729E991218C9E85000FEA8A /* AnalyticsService.swift in Sources */,
 				C79B27B220A6215B0061D0F2 /* WalletSendEtherDelegate.swift in Sources */,
 				3A26D51321403E1200D79BDD /* ExchangeDetailCell.swift in Sources */,
 				AAF2AEC4212379D800687E30 /* PersonalDetailsDelegate.swift in Sources */,

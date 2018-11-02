@@ -35,4 +35,7 @@ protocol StellarAccountAPI {
         amount: Decimal,
         sourceKeyPair: StellarKeyPair
     ) -> Completable
+
+    // Gets the currentStellarAccount if available.
+    func prefetch()
 }

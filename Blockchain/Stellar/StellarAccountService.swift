@@ -22,6 +22,8 @@ class StellarAccountService: StellarAccountAPI {
        configuration.sdk.accounts
     }()
 
+    private var disposable: Disposable?
+
     init(
         configuration: StellarConfiguration = .production,
         ledgerService: StellarLedgerAPI,
@@ -30,6 +32,11 @@ class StellarAccountService: StellarAccountAPI {
         self.configuration = configuration
         self.ledgerService = ledgerService
         self.repository = repository
+    }
+
+    deinit {
+        disposable?.dispose()
+        disposable = nil
     }
     
     var currentAccount: StellarAccount? {
@@ -44,6 +51,9 @@ class StellarAccountService: StellarAccountAPI {
     }
     
     // MARK: Public Functions
+    func prefetch() {
+        disposable = currentStellarAccount(fromCache: true).subscribe()
+    }
     
     func currentStellarAccount(fromCache: Bool) -> Maybe<StellarAccount> {
         if let cached = privateAccount.value, fromCache == true {
@@ -75,6 +85,13 @@ class StellarAccountService: StellarAccountAPI {
     func accountDetails(for accountID: AccountID) -> Maybe<StellarAccount> {
         return accountResponse(for: accountID).map { details -> StellarAccount in
             return details.toStellarAccount()
+        }.catchError { error in
+            // If the network call to Horizon fails due to there not being a default account (i.e. account is not yet
+            // funded), catch that error and return a StellarAccount with 0 balance
+            if let stellarError = error as? StellarServiceError, stellarError == .noDefaultAccount {
+                return Single.just(StellarAccount.unfundedAccount(accountId: accountID))
+            }
+            throw error
         }.asMaybe()
     }
     

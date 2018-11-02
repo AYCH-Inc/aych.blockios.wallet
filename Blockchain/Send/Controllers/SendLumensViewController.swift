@@ -13,15 +13,26 @@ protocol SendXLMViewControllerDelegate: class {
     func onAppear()
     func onXLMEntry(_ value: String, latestPrice: Decimal)
     func onFiatEntry(_ value: String, latestPrice: Decimal)
-    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal)
+    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: String?)
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation)
 }
 
 @objc class SendLumensViewController: UIViewController, BottomButtonContainerView {
     
+    fileprivate static let topToStackView: CGFloat = 12.0
+    fileprivate var keyboardHeight: CGFloat {
+        let type = UIDevice.current.type
+        if type.isBelow(.iPhone8Plus) {
+            return 216
+        } else {
+            return 226
+        }
+    }
+    
     // MARK: BottomButtonContainerView
     
     var originalBottomButtonConstraint: CGFloat!
+    var optionalOffset: CGFloat = -50
     @IBOutlet var layoutConstraintBottomButton: NSLayoutConstraint!
     
     // MARK: Private IBOutlets (UILabel)
@@ -34,18 +45,31 @@ protocol SendXLMViewControllerDelegate: class {
     @IBOutlet fileprivate var errorLabel: UILabel!
     @IBOutlet fileprivate var stellarSymbolLabel: UILabel!
     @IBOutlet fileprivate var fiatSymbolLabel: UILabel!
+    @IBOutlet fileprivate var memoLabel: UILabel!
     
     // MARK: Private IBOutlets (UITextField)
     
     @IBOutlet fileprivate var stellarAddressField: UITextField!
     @IBOutlet fileprivate var stellarAmountField: UITextField!
     @IBOutlet fileprivate var fiatAmountField: UITextField!
+    @IBOutlet fileprivate var memoTextField: UITextField!
+    
+    fileprivate var inputFiels: [UITextField] {
+        return [
+            stellarAddressField,
+            stellarAmountField,
+            fiatAmountField,
+            memoTextField
+        ]
+    }
     
     // MARK: Private IBOutlets (Other)
     
+    @IBOutlet fileprivate var topToStackViewConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate var useMaxLabel: ActionableLabel!
     @IBOutlet fileprivate var primaryButtonContainer: PrimaryButtonContainer!
     @IBOutlet fileprivate var learnAbountStellarButton: UIButton!
+    @IBOutlet fileprivate var bottomStackView: UIStackView!
     
     weak var delegate: SendXLMViewControllerDelegate?
     fileprivate var coordinator: SendXLMCoordinator!
@@ -111,12 +135,16 @@ protocol SendXLMViewControllerDelegate: class {
         originalBottomButtonConstraint = layoutConstraintBottomButton.constant
         setUpBottomButtonContainerView()
         useMaxLabel.delegate = self
+        memoTextField.delegate = self
+        stellarAddressField.delegate = self
         primaryButtonContainer.isEnabled = true
+        learnAbountStellarButton.titleLabel?.textAlignment = .center
         primaryButtonContainer.actionBlock = { [unowned self] in
             guard let toAddress = self.stellarAddressField.text else { return }
             guard let amount = self.xlmAmount else { return }
             guard let fee = self.xlmFee else { return }
-            self.delegate?.onPrimaryTapped(toAddress: toAddress, amount: amount, feeInXlm: fee)
+            self.inputFiels.forEach({ $0.resignFirstResponder() })
+            self.delegate?.onPrimaryTapped(toAddress: toAddress, amount: amount, feeInXlm: fee, memo: self.memoTextField.text)
         }
         delegate?.onLoad()
     }
@@ -327,9 +355,9 @@ extension BCConfirmPaymentViewModel {
             cryptoWithFiatAmountText: cryptoWithFiatAmountText,
             amountWithFiatFeeText: amountWithFiatFeeText,
             buttonTitle: LocalizationConstants.SendAsset.send,
-            showDescription: true,
+            showDescription: paymentOperation.memo != nil,
             surgeIsOccurring: false,
-            noteText: nil,
+            noteText: paymentOperation.memo,
             warningText: nil
         )
     }
@@ -350,7 +378,43 @@ extension SendLumensViewController: SendXLMModelInterface {
 }
 
 extension SendLumensViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard UIDevice.current.type == .iPhoneSE else { return }
+        guard [memoTextField].contains(textField) else { return }
+        let primaryButtonOffset = originalBottomButtonConstraint +
+            optionalOffset +
+            keyboardHeight +
+            primaryButtonContainer.frame.size.height
+        
+        let height = view.bounds.height
+        let bottomStackViewMaxY = bottomStackView.frame.maxY
+        let offset = (height - bottomStackViewMaxY) - primaryButtonOffset
+        
+        guard topToStackViewConstraint.constant != offset else { return }
+        topToStackViewConstraint.constant = offset
+        view.setNeedsLayout()
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard topToStackViewConstraint.constant != SendLumensViewController.topToStackView else { return }
+        topToStackViewConstraint.constant = SendLumensViewController.topToStackView
+        view.setNeedsLayout()
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard [fiatAmountField, stellarAmountField].contains(textField) else { return true }
         if let text = textField.text,
             let textRange = Range(range, in: text) {
             let newString = text.replacingCharacters(in: textRange, with: string)

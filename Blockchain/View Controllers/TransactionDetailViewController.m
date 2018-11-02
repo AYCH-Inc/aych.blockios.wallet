@@ -261,7 +261,7 @@ const CGFloat rowHeightValueReceived = 80;
         [cell configureWithTransactionModel:self.transactionModel];
         return cell;
     } else if ([rowType isEqualToString:CELL_IDENTIFIER_TRANSACTION_DETAIL_DESCRIPTION]) {
-        if (self.transactionModel.assetType == LegacyAssetTypeStellar && self.transactionModel.note == nil) {
+        if (self.transactionModel.hideNote) {
             return nil;
         }
         TransactionDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER_TRANSACTION_DETAIL_DESCRIPTION forIndexPath:indexPath];

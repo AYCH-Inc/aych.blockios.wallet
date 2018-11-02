@@ -248,7 +248,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         disposables.insertWithDiscardableResult(disposable)
     }
     
-    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal) {
+    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: String?) {
         guard let sourceAccount = services.repository.defaultAccount else {
             interface.apply(updates: [
                 .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
@@ -274,7 +274,8 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                     destinationAccountId: toAddress,
                     amountInXlm: amount,
                     sourceAccount: sourceAccount,
-                    feeInXlm: feeInXlm
+                    feeInXlm: feeInXlm,
+                    memo: memo
                 )
                 self?.interface.apply(updates: [
                     .showPaymentConfirmation(operation)
@@ -296,7 +297,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         interface.apply(updates: [
             .actionableLabelTrigger(ActionableTrigger(
                 text: LocalizationConstants.Stellar.useSpendableBalanceX,
-                CTA: "0 \(AssetType.stellar.symbol)",
+                CTA: "... \(AssetType.stellar.symbol)",
                 executionBlock: {}
             ))
         ])

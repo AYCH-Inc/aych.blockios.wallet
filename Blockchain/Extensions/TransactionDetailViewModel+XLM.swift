@@ -31,7 +31,10 @@ extension TransactionDetailViewModel {
         amountString = xlmTransaction.amount
         
         decimalAmount = NSDecimalNumber(string: xlmTransaction.amount)
-        feeString = String(describing: xlmTransaction.fee)
+        
+        if let fee = xlmTransaction.fee {
+            feeString = String(describing: fee)
+        }
 
         txType = xlmTransaction.direction == .credit ? Constants.TransactionTypes.receive : Constants.TransactionTypes.sent
         hasFromLabel = txType == Constants.TransactionTypes.sent
@@ -48,6 +51,10 @@ extension TransactionDetailViewModel {
         
         assetType = .stellar
         
+        hideNote = xlmTransaction.memo == nil
+        note = xlmTransaction.memo
+        txDescription = xlmTransaction.memo
+        
         fromString = xlmTransaction.account
         fromAddress = xlmTransaction.account
         to = [xlmTransaction.funder]
@@ -59,7 +66,10 @@ extension TransactionDetailViewModel {
         
         amountString = String(describing: xlmTransaction.balance)
         decimalAmount = xlmTransaction.balance as NSDecimalNumber
-        feeString = String(describing: xlmTransaction.fee)
+        
+        if let fee = xlmTransaction.fee {
+            feeString = String(describing: fee)
+        }
         
         txType = xlmTransaction.direction == .credit ? Constants.TransactionTypes.receive : Constants.TransactionTypes.sent
         hasFromLabel = txType == Constants.TransactionTypes.sent

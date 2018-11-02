@@ -17,4 +17,19 @@ struct StellarPaymentOperation {
     let amountInXlm: Decimal
     let sourceAccount: WalletXlmAccount
     let feeInXlm: Decimal
+    let memo: String?
+    
+    init(
+        destinationAccountId: String,
+        amountInXlm: Decimal,
+        sourceAccount: WalletXlmAccount,
+        feeInXlm: Decimal,
+        memo: String? = nil
+        ) {
+        self.destinationAccountId = destinationAccountId
+        self.amountInXlm = amountInXlm
+        self.sourceAccount = sourceAccount
+        self.feeInXlm = feeInXlm
+        self.memo = memo
+    }
 }

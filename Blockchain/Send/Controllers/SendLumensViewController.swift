@@ -15,6 +15,7 @@ protocol SendXLMViewControllerDelegate: class {
     func onFiatEntry(_ value: String, latestPrice: Decimal)
     func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: String?)
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation)
+    func onMinimumBalanceInfoTapped()
 }
 
 @objc class SendLumensViewController: UIViewController, BottomButtonContainerView {
@@ -262,29 +263,17 @@ protocol SendXLMViewControllerDelegate: class {
         )
     }
     @IBAction private func learnAboutStellarButtonTapped(_ sender: Any) {
-        let presentingViewController = AppCoordinator.shared.tabControllerManager.tabViewController
-        let informationController = InformationViewController.make(
-            with: StellarInformationService.formattedMinimumRequirementInformationText(
-                baseReserve: baseReserve ?? Decimal(string: "0.5")!,
-                latestPrice: latestPrice ?? Decimal(string: "0.24")!
-            ),
-            buttonTitle: LocalizationConstants.Stellar.readMore,
-            buttonAction: { _ in
-                guard let viewController = presentingViewController else { return }
-                UIApplication.shared.openSafariViewController(
-                    url: Constants.Url.stellarMinimumBalanceInfo,
-                    presentingViewController: viewController.topMostViewController ?? viewController
-                )
-            }
-        )
-        let navigationController = BCNavigationController(rootViewController: informationController, title: LocalizationConstants.Stellar.minimumBalance)
-        presentingViewController?.present(navigationController, animated: true)
+        delegate?.onMinimumBalanceInfoTapped()
     }
 }
 
 extension SendLumensViewController: SendXLMInterface {
     func apply(updates: [PresentationUpdate]) {
         updates.forEach({ apply($0) })
+    }
+
+    func present(viewController: UIViewController) {
+        AppCoordinator.shared.tabControllerManager.tabViewController.present(viewController, animated: true)
     }
 }
 

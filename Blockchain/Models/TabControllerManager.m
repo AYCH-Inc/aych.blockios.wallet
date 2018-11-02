@@ -544,7 +544,7 @@
 
         [_tabViewController setActiveViewController:_transactionsBitcoinCashViewController animated:animated index:tabIndex];
     } else if (self.assetType == LegacyAssetTypeStellar) {
-        if (_transactionsStellarViewController) {
+        if (!_transactionsStellarViewController) {
             _transactionsStellarViewController = [TransactionsXlmViewController makeWith:XLMServiceProvider.sharedInstance];
         }
         [_tabViewController setActiveViewController:_transactionsStellarViewController animated:animated index:tabIndex];

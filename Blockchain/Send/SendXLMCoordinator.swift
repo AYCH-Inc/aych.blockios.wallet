@@ -168,6 +168,20 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         disposables.insertWithDiscardableResult(disposable)
     }
     
+    func onMemoTextSelection() {
+        interface.apply(updates: [.memoTextFieldVisibility(.visible),
+                                  .memoIDTextFieldVisibility(.hidden),
+                                  .memoTextFieldShouldBeginEditing,
+                                  .memoSelectionButtonVisibility(.hidden)])
+    }
+    
+    func onMemoIDSelection() {
+        interface.apply(updates: [.memoIDTextFieldVisibility(.visible),
+                                  .memoTextFieldVisibility(.hidden),
+                                  .memoIDFieldShouldBeginEditing,
+                                  .memoSelectionButtonVisibility(.hidden)])
+    }
+    
     func onXLMEntry(_ value: String, latestPrice: Decimal) {
         guard let decimal = Decimal(string: value) else {
             modelInterface.updateXLMAmount(nil)
@@ -251,13 +265,16 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                     .stellarAmountText(""),
                     .paymentSuccess,
                     .activityIndicatorVisibility(.hidden),
-                    .primaryButtonEnabled(true)
+                    .primaryButtonEnabled(true),
+                    .memoSelectionButtonVisibility(.visible),
+                    .memoTextFieldVisibility(.visible),
+                    .memoIDTextFieldVisibility(.hidden)
                 ])
             })
         disposables.insertWithDiscardableResult(disposable)
     }
     
-    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: String?) {
+    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: StellarMemoType?) {
         guard let sourceAccount = services.repository.defaultAccount else {
             interface.apply(updates: [
                 .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),

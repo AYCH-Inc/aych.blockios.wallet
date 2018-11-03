@@ -11,10 +11,12 @@ import Foundation
 protocol SendXLMViewControllerDelegate: class {
     func onLoad()
     func onAppear()
+    func onMemoTextSelection()
+    func onMemoIDSelection()
     func onXLMEntry(_ value: String, latestPrice: Decimal)
     func onFiatEntry(_ value: String, latestPrice: Decimal)
     func onStellarAddressEntry()
-    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: String?)
+    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: StellarMemoType?)
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation)
     func onMinimumBalanceInfoTapped()
 }
@@ -22,6 +24,8 @@ protocol SendXLMViewControllerDelegate: class {
 @objc class SendLumensViewController: UIViewController, BottomButtonContainerView {
     
     fileprivate static let topToStackView: CGFloat = 12.0
+    fileprivate static let maximumMemoTextLength: Int = 28
+    
     fileprivate var keyboardHeight: CGFloat {
         let type = UIDevice.current.type
         if type.isBelow(.iPhone8Plus) {
@@ -55,13 +59,15 @@ protocol SendXLMViewControllerDelegate: class {
     @IBOutlet fileprivate var stellarAmountField: UITextField!
     @IBOutlet fileprivate var fiatAmountField: UITextField!
     @IBOutlet fileprivate var memoTextField: UITextField!
+    @IBOutlet fileprivate var memoIDTextField: UITextField!
     
-    fileprivate var inputFiels: [UITextField] {
+    fileprivate var inputFields: [UITextField] {
         return [
             stellarAddressField,
             stellarAmountField,
             fiatAmountField,
-            memoTextField
+            memoTextField,
+            memoIDTextField
         ]
     }
     
@@ -72,10 +78,13 @@ protocol SendXLMViewControllerDelegate: class {
     @IBOutlet fileprivate var primaryButtonContainer: PrimaryButtonContainer!
     @IBOutlet fileprivate var learnAbountStellarButton: UIButton!
     @IBOutlet fileprivate var bottomStackView: UIStackView!
+    @IBOutlet fileprivate var memoSelectionTypeButton: UIButton!
     
     weak var delegate: SendXLMViewControllerDelegate?
     fileprivate var coordinator: SendXLMCoordinator!
     fileprivate var trigger: ActionableTrigger?
+    fileprivate var memo: StellarMemoType?
+    fileprivate var toolbar: UIToolbar?
 
     // MARK: - Models
     private var pendingPaymentOperation: StellarPaymentOperation?
@@ -103,6 +112,11 @@ protocol SendXLMViewControllerDelegate: class {
         case errorLabelVisibility(Visibility)
         case learnAboutStellarButtonVisibility(Visibility)
         case actionableLabelVisibility(Visibility)
+        case memoTextFieldVisibility(Visibility)
+        case memoIDTextFieldVisibility(Visibility)
+        case memoSelectionButtonVisibility(Visibility)
+        case memoTextFieldShouldBeginEditing
+        case memoIDFieldShouldBeginEditing
         case errorLabelText(String)
         case feeAmountLabelText()
         case stellarAddressText(String)
@@ -139,6 +153,7 @@ protocol SendXLMViewControllerDelegate: class {
         )
         originalBottomButtonConstraint = layoutConstraintBottomButton.constant
         setUpBottomButtonContainerView()
+        setupMemoIDField()
         useMaxLabel.delegate = self
         memoTextField.delegate = self
         stellarAddressField.delegate = self
@@ -148,8 +163,8 @@ protocol SendXLMViewControllerDelegate: class {
             guard let toAddress = self.stellarAddressField.text else { return }
             guard let amount = self.xlmAmount else { return }
             guard let fee = self.xlmFee else { return }
-            self.inputFiels.forEach({ $0.resignFirstResponder() })
-            self.delegate?.onPrimaryTapped(toAddress: toAddress, amount: amount, feeInXlm: fee, memo: self.memoTextField.text)
+            self.inputFields.forEach({ $0.resignFirstResponder() })
+            self.delegate?.onPrimaryTapped(toAddress: toAddress, amount: amount, feeInXlm: fee, memo: self.memo)
         }
         delegate?.onLoad()
     }
@@ -157,6 +172,30 @@ protocol SendXLMViewControllerDelegate: class {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         delegate?.onAppear()
+    }
+    
+    fileprivate func clearMemoField() {
+        /// Users may change their mind and want to enter in a
+        /// `Int` as their memo as opposed to a string value.
+        /// So we do this when they have deleted everything in
+        /// the memo field.
+        [memoTextField, memoIDTextField].forEach({ $0?.resignFirstResponder() })
+        memo = nil
+        apply(updates: [.memoTextFieldVisibility(.visible),
+                        .memoIDTextFieldVisibility(.hidden),
+                        .memoSelectionButtonVisibility(.visible)])
+    }
+    
+    fileprivate func setupMemoIDField() {
+        toolbar = UIToolbar()
+        toolbar?.sizeToFit()
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(resignMemoIDField))
+        toolbar?.items = [doneButton]
+        memoIDTextField.inputAccessoryView = toolbar
+    }
+    
+    @objc func resignMemoIDField() {
+        memoIDTextField.resignFirstResponder()
     }
     
     fileprivate func useMaxAttributes() -> [NSAttributedStringKey: Any] {
@@ -174,8 +213,19 @@ protocol SendXLMViewControllerDelegate: class {
     }
 
     // swiftlint:disable function_body_length
+    // swiftlint:disable:next cyclomatic_complexity
     fileprivate func apply(_ update: PresentationUpdate) {
         switch update {
+        case .memoTextFieldVisibility(let visibility):
+            memoTextField.alpha = visibility.defaultAlpha
+        case .memoIDTextFieldVisibility(let visibility):
+            memoIDTextField.alpha = visibility.defaultAlpha
+        case .memoSelectionButtonVisibility(let visibility):
+            memoSelectionTypeButton.alpha = visibility.defaultAlpha
+            guard visibility == .visible else { return }
+            memoIDTextField.text = nil
+            memoTextField.text = nil
+            
         case .activityIndicatorVisibility(let visibility):
             primaryButtonContainer.isLoading = (visibility == .visible)
         case .errorLabelVisibility(let visibility):
@@ -184,6 +234,10 @@ protocol SendXLMViewControllerDelegate: class {
             learnAbountStellarButton.isHidden = visibility.isHidden
         case .actionableLabelVisibility(let visibility):
             useMaxLabel.isHidden = visibility.isHidden
+        case .memoTextFieldShouldBeginEditing:
+            memoTextField.becomeFirstResponder()
+        case .memoIDFieldShouldBeginEditing:
+            memoIDTextField.becomeFirstResponder()
         case .errorLabelText(let value):
             errorLabel.text = value
         case .feeAmountLabelText:
@@ -243,7 +297,6 @@ protocol SendXLMViewControllerDelegate: class {
         case .fiatSymbolLabel(let text):
             fiatSymbolLabel.text = text
         }
-
     }
 
     private func showPaymentSuccess() {
@@ -269,9 +322,32 @@ protocol SendXLMViewControllerDelegate: class {
             headerText: LocalizationConstants.SendAsset.confirmPayment
         )
     }
-
+    
     @IBAction private func learnAboutStellarButtonTapped(_ sender: Any) {
         delegate?.onMinimumBalanceInfoTapped()
+    }
+    
+    @IBAction private func memoSelectionTypeTapped(_ sender: UIButton) {
+        let title = LocalizationConstants.Stellar.memoDescription
+        let memoTextOption = LocalizationConstants.Stellar.memoText
+        let memoTextID = LocalizationConstants.Stellar.memoID
+        let controller = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
+        
+        [memoTextOption, memoTextID].forEach { option in
+            let action = UIAlertAction(title: option, style: .default, handler: { [unowned self] _ in
+                switch option {
+                case memoTextOption:
+                    self.delegate?.onMemoTextSelection()
+                    
+                case memoTextID:
+                    self.delegate?.onMemoIDSelection()
+                default:
+                    break
+                }
+            })
+            controller.addAction(action)
+        }
+        present(controller, animated: true, completion: nil)
     }
 }
 
@@ -374,7 +450,7 @@ extension BCConfirmPaymentViewModel {
             buttonTitle: LocalizationConstants.SendAsset.send,
             showDescription: paymentOperation.memo != nil,
             surgeIsOccurring: false,
-            noteText: paymentOperation.memo,
+            noteText: paymentOperation.memo?.displayValue,
             warningText: nil
         )
     }
@@ -406,12 +482,14 @@ extension SendLumensViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        guard UIDevice.current.type == .iPhoneSE else { return }
-        guard [memoTextField].contains(textField) else { return }
+        guard UIDevice.current.type.isBelow(.iPhone8Plus) else { return }
+        guard [memoTextField, memoIDTextField].contains(textField) else { return }
+        let toolbarHeight = toolbar?.frame.height ?? 0.0
         let primaryButtonOffset = originalBottomButtonConstraint +
             optionalOffset +
             keyboardHeight +
-            primaryButtonContainer.frame.size.height
+            primaryButtonContainer.frame.size.height +
+            toolbarHeight
         
         let height = view.bounds.height
         let bottomStackViewMaxY = bottomStackView.frame.maxY
@@ -434,12 +512,49 @@ extension SendLumensViewController: UITextFieldDelegate {
         }
     }
     
+    // swiftlint:disable:next cyclomatic_complexity
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == stellarAddressField {
-            return addressField(textField, shouldChangeCharactersIn: range, replacementString: string)
-        } else {
-            return amountField(textField, shouldChangeCharactersIn: range, replacementString: string)
+        if inputFields.contains(textField) {
+            switch textField {
+            case memoTextField:
+                guard let text = textField.text else { return true }
+                guard let current = Range(range, in: text) else { return true }
+                let value = text.replacingCharacters(in: current, with: string)
+                if value.count == 0 {
+                    clearMemoField()
+                    return true
+                }
+                let count = text.utf8.count + string.utf8.count - range.length
+                guard count <= SendLumensViewController.maximumMemoTextLength else { return false }
+                memo = .text(value)
+                
+            case memoIDTextField:
+                guard let text = textField.text else { return true }
+                guard let range = Range(range, in: text) else { return true }
+                let value = text.replacingCharacters(in: range, with: string)
+                if value.count == 0 {
+                    clearMemoField()
+                    return true
+                }
+                guard let identifier = Int(value) else { return true }
+                memo = .identifier(identifier)
+            case stellarAddressField:
+                return addressField(
+                    textField,
+                    shouldChangeCharactersIn: range,
+                    replacementString: string
+                )
+            case fiatAmountField, stellarAmountField:
+                return amountField(
+                    textField,
+                    shouldChangeCharactersIn: range,
+                    replacementString: string
+                )
+            default:
+                return true
+            }
         }
+        return true
     }
 }
 
@@ -447,7 +562,6 @@ extension SendLumensViewController: UITextFieldDelegate {
 extension SendLumensViewController {
 
     func amountField(_ amountField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard [fiatAmountField, stellarAmountField].contains(amountField) else { return true }
         if let text = amountField.text,
             let textRange = Range(range, in: text) {
             let newString = text.replacingCharacters(in: textRange, with: string)

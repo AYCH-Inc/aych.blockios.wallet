@@ -152,13 +152,18 @@ class TradeExecutionService: TradeExecutionAPI {
             let ledger = xlmServiceProvider.services.ledger.currentLedger,
             let fee = ledger.baseFeeInXlm,
             let amount = Decimal(string: orderTransactionLegacy.amount) else { return }
+            
+            var paymentMemo: StellarMemoType?
+            if let value = memo {
+                paymentMemo = .text(value)
+            }
 
             pendingXlmPaymentOperation = StellarPaymentOperation(
                 destinationAccountId: orderTransactionLegacy.to,
                 amountInXlm: amount,
                 sourceAccount: sourceAccount,
                 feeInXlm: fee,
-                memo: memo
+                memo: paymentMemo
             )
             createOrderPaymentSuccess("\(fee)")
         } else {

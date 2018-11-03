@@ -61,6 +61,9 @@
                                 <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Vh5-KK-icm" id="EKJ-Gf-tAU"/>
+                                </connections>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FPN-1W-rC1">
                                 <rect key="frame" x="16" y="109" width="304" height="1"/>
@@ -85,7 +88,7 @@
                                                 <rect key="frame" x="54" y="0.0" width="98" height="20"/>
                                                 <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="Vh5-KK-icm" id="qOI-vy-g9v"/>
                                                 </connections>
@@ -105,7 +108,7 @@
                                                 <rect key="frame" x="43" y="0.0" width="109" height="20"/>
                                                 <color key="textColor" red="0.23100000000000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="Vh5-KK-icm" id="It2-WE-9Al"/>
                                                 </connections>
@@ -182,15 +185,48 @@
                                                 <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter text or ID for recipient (optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v8k-n0-YlF">
-                                                <rect key="frame" x="63.5" y="0.0" width="240.5" height="16"/>
-                                                <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
-                                                <connections>
-                                                    <outlet property="delegate" destination="Vh5-KK-icm" id="FoZ-tf-bJL"/>
-                                                </connections>
-                                            </textField>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cc1-oP-13H">
+                                                <rect key="frame" x="63.5" y="0.0" width="240.5" height="20"/>
+                                                <subviews>
+                                                    <textField opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter text or ID for recipient (optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v8k-n0-YlF">
+                                                        <rect key="frame" x="0.0" y="0.0" width="240.5" height="20"/>
+                                                        <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="Vh5-KK-icm" id="FoZ-tf-bJL"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter text or ID for recipient (optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Y7m-1c-SzC">
+                                                        <rect key="frame" x="-0.5" y="0.0" width="240.5" height="20"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad" returnKeyType="done"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="Vh5-KK-icm" id="Wfg-Fy-kVN"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A7b-gl-0ig">
+                                                        <rect key="frame" x="0.0" y="0.0" width="240.5" height="20"/>
+                                                        <connections>
+                                                            <action selector="memoSelectionTypeTapped:" destination="Vh5-KK-icm" eventType="touchUpInside" id="VXA-bG-4r0"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="A7b-gl-0ig" firstAttribute="top" secondItem="Cc1-oP-13H" secondAttribute="top" id="HrA-gm-rnA"/>
+                                                    <constraint firstItem="v8k-n0-YlF" firstAttribute="leading" secondItem="Cc1-oP-13H" secondAttribute="leading" id="JZU-fg-THE"/>
+                                                    <constraint firstItem="A7b-gl-0ig" firstAttribute="leading" secondItem="Cc1-oP-13H" secondAttribute="leading" id="MUg-om-KmA"/>
+                                                    <constraint firstAttribute="bottom" secondItem="v8k-n0-YlF" secondAttribute="bottom" id="Q2P-fw-UrN"/>
+                                                    <constraint firstAttribute="trailing" secondItem="v8k-n0-YlF" secondAttribute="trailing" id="VU5-QZ-3J9"/>
+                                                    <constraint firstAttribute="trailing" secondItem="A7b-gl-0ig" secondAttribute="trailing" id="aL8-vD-6Lt"/>
+                                                    <constraint firstAttribute="bottom" secondItem="A7b-gl-0ig" secondAttribute="bottom" id="c6j-lv-93h"/>
+                                                    <constraint firstAttribute="height" constant="20" id="dyo-df-j5e"/>
+                                                    <constraint firstItem="v8k-n0-YlF" firstAttribute="top" secondItem="Cc1-oP-13H" secondAttribute="top" id="wgv-Bh-mMM"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="e7p-NS-YlT">
@@ -205,6 +241,7 @@
                                     </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="3H6-MF-uus" firstAttribute="width" secondItem="5cB-ww-aRK" secondAttribute="width" id="MEa-7j-WO2"/>
                                     <constraint firstItem="5cB-ww-aRK" firstAttribute="width" secondItem="Sgf-Us-8Ec" secondAttribute="width" id="W6O-C5-vWl"/>
                                 </constraints>
                             </stackView>
@@ -273,7 +310,9 @@
                         <outlet property="fromLabel" destination="0NP-Xq-DCS" id="txE-W3-k1K"/>
                         <outlet property="layoutConstraintBottomButton" destination="f3m-df-lCb" id="zI0-1j-vhb"/>
                         <outlet property="learnAbountStellarButton" destination="e7p-NS-YlT" id="fgM-Cd-AHg"/>
+                        <outlet property="memoIDTextField" destination="Y7m-1c-SzC" id="Bpg-j0-c6z"/>
                         <outlet property="memoLabel" destination="knE-dP-0Qh" id="D8J-3G-Tr2"/>
+                        <outlet property="memoSelectionTypeButton" destination="A7b-gl-0ig" id="5J8-Rm-j07"/>
                         <outlet property="memoTextField" destination="v8k-n0-YlF" id="Axy-ld-p4c"/>
                         <outlet property="primaryButtonContainer" destination="4ye-dY-fMv" id="RB1-sC-pFn"/>
                         <outlet property="stellarAddressField" destination="QyP-0z-OPb" id="Okb-c2-kK5"/>

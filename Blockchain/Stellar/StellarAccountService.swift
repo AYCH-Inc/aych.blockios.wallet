@@ -175,6 +175,14 @@ class StellarAccountService: StellarAccountAPI {
             return Disposables.create()
         })
     }
+
+    func validate(accountID: AccountID) -> Single<Bool> {
+        guard accountID.count > 0,
+            let _ = try? KeyPair(accountId: accountID) else {
+            return Single.just(false)
+        }
+        return Single.just(true)
+    }
 }
 
 // MARK: - Extension

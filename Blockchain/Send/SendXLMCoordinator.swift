@@ -137,7 +137,9 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             computeMaxSpendableAmount(for: xlmAccount.publicKey)
         }
 
-        let fiatSymbol = BlockchainSettings.App.shared.fiatCurrencyCode ?? "USD"
+        let fiatSymbol = BlockchainSettings.App.shared.fiatCurrencyCode
+        interface.apply(updates: [.fiatSymbolLabel(fiatSymbol)])
+
         let disposable = Single.zip(
             services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: fiatSymbol),
             services.ledger.current.take(1).asSingle()
@@ -164,6 +166,20 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                 ])
             })
         disposables.insertWithDiscardableResult(disposable)
+    }
+    
+    func onMemoTextSelection() {
+        interface.apply(updates: [.memoTextFieldVisibility(.visible),
+                                  .memoIDTextFieldVisibility(.hidden),
+                                  .memoTextFieldShouldBeginEditing,
+                                  .memoSelectionButtonVisibility(.hidden)])
+    }
+    
+    func onMemoIDSelection() {
+        interface.apply(updates: [.memoIDTextFieldVisibility(.visible),
+                                  .memoTextFieldVisibility(.hidden),
+                                  .memoIDFieldShouldBeginEditing,
+                                  .memoSelectionButtonVisibility(.hidden)])
     }
     
     func onXLMEntry(_ value: String, latestPrice: Decimal) {
@@ -198,9 +214,12 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         }
         updateXlmEntryInterface(text: cryptoText)
     }
-    
-    func onSecondaryPasswordValidated() {
-        
+
+    func onStellarAddressEntry() {
+        interface.apply(updates: [
+            .stellarAddressTextColor(.gray6),
+            .errorLabelVisibility(.hidden)
+        ])
     }
 
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation) {
@@ -246,13 +265,16 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                     .stellarAmountText(""),
                     .paymentSuccess,
                     .activityIndicatorVisibility(.hidden),
-                    .primaryButtonEnabled(true)
+                    .primaryButtonEnabled(true),
+                    .memoSelectionButtonVisibility(.visible),
+                    .memoTextFieldVisibility(.visible),
+                    .memoIDTextFieldVisibility(.hidden)
                 ])
             })
         disposables.insertWithDiscardableResult(disposable)
     }
     
-    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: String?) {
+    func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: StellarMemoType?) {
         guard let sourceAccount = services.repository.defaultAccount else {
             interface.apply(updates: [
                 .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
@@ -261,40 +283,101 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             return
         }
 
-        let disposable = services.limits.isSpendable(amount: amount, for: sourceAccount.publicKey)
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] isSpendable in
-                guard isSpendable else {
-                    self?.interface.apply(updates: [
-                        .errorLabelText(LocalizationConstants.Stellar.notEnoughXLM),
-                        .errorLabelVisibility(.visible),
-                        .fiatFieldTextColor(.error),
-                        .xlmFieldTextColor(.error)
-                    ])
-                    return
-                }
-                let operation = StellarPaymentOperation(
-                    destinationAccountId: toAddress,
-                    amountInXlm: amount,
-                    sourceAccount: sourceAccount,
-                    feeInXlm: feeInXlm,
-                    memo: memo
-                )
+        let disposable = Single.zip(
+            services.limits.isSpendable(amount: amount, for: sourceAccount.publicKey),
+            services.accounts.validate(accountID: toAddress)
+        ).subscribeOn(MainScheduler.asyncInstance)
+        .observeOn(MainScheduler.instance)
+        .subscribe(onSuccess: { [weak self] isSpendable, isValidDestination in
+            guard isSpendable else {
                 self?.interface.apply(updates: [
-                    .showPaymentConfirmation(operation)
+                    .errorLabelText(LocalizationConstants.Stellar.notEnoughXLM),
+                    .errorLabelVisibility(.visible),
+                    .fiatFieldTextColor(.error),
+                    .xlmFieldTextColor(.error)
                 ])
-            }, onError: { [weak self] error in
-                Logger.shared.error("Could not fetch ledger or account details")
+                return
+            }
+            guard isValidDestination else {
                 self?.interface.apply(updates: [
-                    .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
-                    .errorLabelVisibility(.visible)
+                    .errorLabelText(LocalizationConstants.Stellar.invalidDestinationAddress),
+                    .errorLabelVisibility(.visible),
+                    .stellarAddressTextColor(.error)
                 ])
-            })
+                return
+            }
+            let operation = StellarPaymentOperation(
+                destinationAccountId: toAddress,
+                amountInXlm: amount,
+                sourceAccount: sourceAccount,
+                feeInXlm: feeInXlm,
+                memo: memo
+            )
+            self?.interface.apply(updates: [
+                .showPaymentConfirmation(operation),
+                .errorLabelVisibility(.hidden),
+                .stellarAddressTextColor(.gray6)
+            ])
+        }, onError: { [weak self] error in
+            Logger.shared.error("Could not fetch ledger or account details")
+            self?.interface.apply(updates: [
+                .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
+                .errorLabelVisibility(.visible)
+            ])
+        })
+        disposables.insertWithDiscardableResult(disposable)
+    }
+
+    func onMinimumBalanceInfoTapped() {
+        let fiatSymbol = BlockchainSettings.App.shared.fiatCurrencyCode
+        let disposable = Single.zip(
+            services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: fiatSymbol),
+            services.ledger.current.take(1).asSingle(),
+            services.accounts.currentStellarAccount(fromCache: true)
+                .ifEmpty(default: StellarAccount.empty())
+        ).subscribeOn(MainScheduler.asyncInstance)
+        .observeOn(MainScheduler.instance)
+        .subscribe(onSuccess: { [weak self] price, ledger, account in
+            self?.showMinimumBalanceView(
+                latestPrice: price.price,
+                fee: ledger.baseFeeInXlm ?? 0,
+                balance: account.assetAccount.balance,
+                baseReserve: ledger.baseReserveInXlm ?? 0
+            )
+        }, onError: { [weak self] error in
+            self?.showMinimumBalanceView(
+                latestPrice: 0,
+                fee: 0,
+                balance: 0,
+                baseReserve: 1
+            )
+        })
         disposables.insertWithDiscardableResult(disposable)
     }
 
     // MARK: - Private
+
+    private func showMinimumBalanceView(
+        latestPrice: Decimal,
+        fee: Decimal,
+        balance: Decimal,
+        baseReserve: Decimal
+    ) {
+        let viewModel = InformationViewModel.createForStellarMinimum(
+            latestPrice: latestPrice,
+            fee: fee,
+            balance: balance,
+            baseReserve: baseReserve
+        ) { viewController in
+            UIApplication.shared.openSafariViewController(
+                url: Constants.Url.stellarMinimumBalanceInfo,
+                presentingViewController: viewController
+            )
+        }
+        let viewController = InformationViewController.make(viewModel: viewModel)
+        let navigationController = BCNavigationController(rootViewController: viewController, title: LocalizationConstants.Stellar.minimumBalance)
+        interface.present(viewController: navigationController)
+    }
 
     private func initializeActionableLabel() {
         // Initialize with 0
@@ -333,5 +416,112 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                 Logger.shared.error("Could not compute max spendable amount.")
             })
         disposables.insertWithDiscardableResult(disposable)
+    }
+}
+
+// MARK: Extensions
+
+extension StellarAccount {
+    static func empty() -> StellarAccount {
+        let assetAccount = AssetAccount(
+            index: 0,
+            address: StellarAddress(string: ""),
+            balance: 0,
+            name: ""
+        )
+        return StellarAccount(
+            identifier: "",
+            assetAccount: assetAccount,
+            sequence: 0,
+            subentryCount: 0
+        )
+    }
+}
+
+extension InformationViewModel {
+    static func createForStellarMinimum(
+        latestPrice: Decimal,
+        fee: Decimal,
+        balance: Decimal,
+        baseReserve: Decimal,
+        buttonAction: @escaping InformationViewButtonAction
+    ) -> InformationViewModel {
+        let bodyText = bodyTextForStellarMinimum(latestPrice: latestPrice, fee: fee, balance: balance, baseReserve: baseReserve)
+        return InformationViewModel(
+            informationText: bodyText,
+            buttonTitle: LocalizationConstants.Stellar.readMore,
+            buttonAction: buttonAction
+        )
+    }
+
+    private static func bodyTextForStellarMinimum(
+        latestPrice: Decimal,
+        fee: Decimal,
+        balance: Decimal,
+        baseReserve: Decimal
+    ) -> NSAttributedString? {
+        let assetType: AssetType = .stellar
+        let explanation = LocalizationConstants.Stellar.minimumBalanceInfoExplanation
+
+        let minimum = baseReserve * 2
+        let current = String(format: LocalizationConstants.Stellar.minimumBalanceInfoCurrentArgument, "\(minimum)".appendAssetSymbol(for: assetType))
+
+        let totalText = LocalizationConstants.Stellar.totalFundsLabel
+        let totalAmount = NumberFormatter.formattedAssetAndFiatAmountWithSymbols(
+            fromAmount: balance,
+            fiatPerAmount: latestPrice,
+            assetType: assetType
+        )
+        let requirementText = LocalizationConstants.Stellar.xlmReserveRequirement
+        let requirementAmount = NumberFormatter.formattedAssetAndFiatAmountWithSymbols(
+            fromAmount: minimum,
+            fiatPerAmount: latestPrice,
+            assetType: assetType
+        )
+        let feeText = LocalizationConstants.Stellar.transactionFee
+        let feeAmount = NumberFormatter.formattedAssetAndFiatAmountWithSymbols(
+            fromAmount: fee,
+            fiatPerAmount: latestPrice,
+            assetType: assetType
+        )
+        let availableToSendMaybe = balance - minimum - fee
+        let availableToSend = (availableToSendMaybe > 0) ? availableToSendMaybe : 0
+        let availableToSendText = LocalizationConstants.Stellar.availableToSend
+        let availableToSendAmount = NumberFormatter.formattedAssetAndFiatAmountWithSymbols(
+            fromAmount: availableToSend,
+            fiatPerAmount: latestPrice,
+            assetType: assetType
+        )
+        let moreInformationText = LocalizationConstants.Stellar.minimumBalanceMoreInformation
+
+        let defaultFont = UIFont(name: Constants.FontNames.montserratRegular, size: Constants.FontSizes.Small)!
+        let defaultAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.gray5,
+                                                               NSAttributedStringKey.font: defaultFont]
+
+        let explanationPlusCurrent = NSAttributedString(
+            string: "\(explanation)\n\n\(current)\n\n",
+            attributes: defaultAttributes
+        )
+        let exampleOne = NSAttributedString(
+            string: "\(totalText)\n\(totalAmount)\n\n\(requirementText)\n\(requirementAmount)\n\n",
+            attributes: defaultAttributes
+        )
+        let exampleTwo = NSAttributedString(
+            string: "\(feeText)\n\(feeAmount)\n\n",
+            attributes: defaultAttributes
+        )
+        let available = NSAttributedString(
+            string: "\(availableToSendText)\n\(availableToSendAmount)\n\n",
+            attributes: [NSAttributedStringKey.foregroundColor: UIColor.black,
+                         NSAttributedStringKey.font: UIFont(name: Constants.FontNames.montserratSemiBold, size: Constants.FontSizes.Small)!]
+        )
+        let footer = NSAttributedString(
+            string: "\(moreInformationText)",
+            attributes: defaultAttributes
+        )
+
+        let body = NSMutableAttributedString()
+        [explanationPlusCurrent, exampleOne, exampleTwo, available, footer].forEach { body.append($0) }
+        return body.copy() as! NSAttributedString
     }
 }

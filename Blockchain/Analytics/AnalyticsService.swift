@@ -22,10 +22,10 @@ class AnalyticsService {
     
     // MARK: Public Methods
     
+    // Simple custom event with no parameters
     func trackEvent(title: String) {
-        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-            AnalyticsParameterItemID: "id-\(title)",
-            AnalyticsParameterItemName: title,
-            ])
+        if !title.isEmpty {
+           Analytics.logEvent(title, parameters: [:])
+        }
     }
 }

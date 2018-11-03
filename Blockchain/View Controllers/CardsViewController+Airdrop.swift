@@ -77,6 +77,7 @@ extension CardsViewController {
                 presentingViewController: AppCoordinator.shared.tabControllerManager
             )
         }, onClose: { [weak self] in
+            BlockchainSettings.Onboarding.shared.hasSeenAirdropJoinWaitlistCard = true
             self?.animateHideCards()
         })
         showSingleCard(with: model)

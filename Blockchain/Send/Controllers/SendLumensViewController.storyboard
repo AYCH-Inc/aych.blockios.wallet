@@ -88,7 +88,7 @@
                                                 <rect key="frame" x="54" y="0.0" width="98" height="20"/>
                                                 <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="Vh5-KK-icm" id="qOI-vy-g9v"/>
                                                 </connections>
@@ -108,7 +108,7 @@
                                                 <rect key="frame" x="43" y="0.0" width="109" height="20"/>
                                                 <color key="textColor" red="0.23100000000000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="Vh5-KK-icm" id="It2-WE-9Al"/>
                                                 </connections>

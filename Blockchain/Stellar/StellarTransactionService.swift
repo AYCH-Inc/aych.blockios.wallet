@@ -41,8 +41,13 @@ class StellarTransactionService: StellarTransactionAPI {
                 let result: TransactionResult = code == 0 ? .success : .error(StellarTransactionError(rawValue: Int(code)) ?? .internalError)
                 var memo: String?
                 if let detailsMemo = details.memo {
-                    if case let .text(value) = detailsMemo {
+                    switch detailsMemo {
+                    case .text(let value):
                         memo = value
+                    case .id(let value):
+                        memo = String(describing: value)
+                    default:
+                        break
                     }
                 }
                 
@@ -128,7 +133,12 @@ class StellarTransactionService: StellarTransactionAPI {
                 
                 var memo: Memo = .none
                 if let value = paymentOperation.memo {
-                    memo = .text(value)
+                    switch value {
+                    case .text(let input):
+                        memo = .text(input)
+                    case .identifier(let input):
+                        memo = .id(UInt64(input))
+                    }
                 }
                 
                 let transaction = try StellarTransaction(

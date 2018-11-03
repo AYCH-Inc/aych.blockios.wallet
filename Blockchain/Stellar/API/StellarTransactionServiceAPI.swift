@@ -82,7 +82,7 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
             this.transactionService.get(transaction: model.transactionHash) { result in
                 switch result {
                 case .success(let payload):
-                    var updated: StellarOperation? = nil
+                    var updated: StellarOperation?
                     if case var .accountCreated(created) = model {
                         created.fee = payload.feePaid
                         created.memo = payload.memo

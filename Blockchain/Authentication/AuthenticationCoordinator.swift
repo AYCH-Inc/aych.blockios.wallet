@@ -649,6 +649,10 @@ extension AuthenticationCoordinator: SetupDelegate {
             completion(true)
         }
     }
+
+    func onWalletSetupViewControllerCompleted() {
+        handlePostAuthenticationRouting()
+    }
 }
 
 extension AuthenticationCoordinator: WalletSecondPasswordDelegate {

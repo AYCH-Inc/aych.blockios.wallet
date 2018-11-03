@@ -131,7 +131,8 @@ class TradeExecutionService: TradeExecutionAPI {
     fileprivate func buildOrder(
         from orderTransactionLegacy: OrderTransactionLegacy,
         success: @escaping ((OrderTransactionLegacy) -> Void),
-        error: @escaping ((String) -> Void)
+        error: @escaping ((String) -> Void),
+        memo: String? = nil // TODO: IOS-1291 Remove and separate
     ) {
         let assetType = AssetType.from(legacyAssetType: orderTransactionLegacy.legacyAssetType)
         let createOrderPaymentSuccess: ((String) -> Void) = { fees in
@@ -151,12 +152,18 @@ class TradeExecutionService: TradeExecutionAPI {
             let ledger = xlmServiceProvider.services.ledger.currentLedger,
             let fee = ledger.baseFeeInXlm,
             let amount = Decimal(string: orderTransactionLegacy.amount) else { return }
+            
+            var paymentMemo: StellarMemoType?
+            if let value = memo {
+                paymentMemo = .text(value)
+            }
 
             pendingXlmPaymentOperation = StellarPaymentOperation(
                 destinationAccountId: orderTransactionLegacy.to,
                 amountInXlm: amount,
                 sourceAccount: sourceAccount,
-                feeInXlm: fee
+                feeInXlm: fee,
+                memo: paymentMemo
             )
             createOrderPaymentSuccess("\(fee)")
         } else {
@@ -355,7 +362,7 @@ fileprivate extension TradeExecutionService {
             amount: depositQuantity,
             fees: nil
         )
-        buildOrder(from: orderTransactionLegacy, success: success, error: error)
+        buildOrder(from: orderTransactionLegacy, success: success, error: error, memo: orderResult.depositMemo)
     }
 }
 

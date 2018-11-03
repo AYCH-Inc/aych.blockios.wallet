@@ -26,8 +26,13 @@ extension CardsViewController {
                     height: strongSelf.dashboardContentView.frame.size.height + strongSelf.cardsViewHeight
                 )
             }, onError: { [weak self] error in
+                guard let strongSelf = self else { return }
                 Logger.shared.error("Failed to get nabu user")
-                self?.reloadWelcomeCards()
+                strongSelf.reloadWelcomeCards()
+                strongSelf.dashboardScrollView.contentSize = CGSize(
+                    width: strongSelf.view.frame.size.width,
+                    height: strongSelf.dashboardContentView.frame.size.height + strongSelf.cardsViewHeight
+                )
             })
     }
 
@@ -72,6 +77,7 @@ extension CardsViewController {
                 presentingViewController: AppCoordinator.shared.tabControllerManager
             )
         }, onClose: { [weak self] in
+            BlockchainSettings.Onboarding.shared.hasSeenAirdropJoinWaitlistCard = true
             self?.animateHideCards()
         })
         showSingleCard(with: model)

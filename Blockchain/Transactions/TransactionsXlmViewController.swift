@@ -16,6 +16,9 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
             presenter: TransactionsXlmPresenter.self,
             interactor: TransactionsXlmInteractor(with: provider)
         )
+        
+        // TODO add xlm balance here
+        AppCoordinator.shared.tabControllerManager.tabViewController.updateBalanceLabelText("")
         return controller
     }
     
@@ -40,5 +43,10 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
         
         guard let top = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController else { return }
         top.present(navigation, animated: true, completion: nil)
+    }
+    
+    @objc func reload() {
+        // TODO add xlm balance here
+        AppCoordinator.shared.tabControllerManager.tabViewController.updateBalanceLabelText("")
     }
 }

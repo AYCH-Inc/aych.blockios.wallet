@@ -86,7 +86,7 @@ class StellarOperationService {
                 sourceAccountID: op.sourceAccount,
                 transactionHash: op.transactionHash,
                 createdAt: op.createdAt,
-                fee: 100,
+                fee: op.funder == accountID ? 100 : nil,
                 memo: nil
             )
             return .accountCreated(created)
@@ -101,7 +101,7 @@ class StellarOperationService {
                 amount: op.amount,
                 transactionHash: op.transactionHash,
                 createdAt: op.createdAt,
-                fee: 100,
+                fee: op.from == accountID ? 100 : nil,
                 memo: nil
             )
             return .payment(payment)

@@ -69,6 +69,7 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
     }
     
     @objc func reload() {
+        AppCoordinator.shared.tabControllerManager.tabViewController.updateBalanceLabelText("")
         getBalance()
     }
 

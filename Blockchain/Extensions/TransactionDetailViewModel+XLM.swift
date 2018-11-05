@@ -31,8 +31,11 @@ extension TransactionDetailViewModel {
             let amount = Decimal(string: xlmTransaction.amount),
             let feeInWholeUnit = NumberFormatter.integerToWholeUnit(amount: fee, assetType: AssetType.from(legacyAssetType: assetType)) {
             feeString = String(describing: feeInWholeUnit)
-            let amountWithFee = amount + feeInWholeUnit
-            amountString = "\(amountWithFee)"
+
+            // Fee is not fetched until tapping on a transaction cell because the SDK only provides a method
+            // for fetching the fee for a single transaction. In the meantime we are hardcoding it for outgoing transactions.
+            let displayAmount = xlmTransaction.direction == .credit ? amount : amount + feeInWholeUnit
+            amountString = "\(displayAmount)"
         } else {
             amountString = xlmTransaction.amount
         }
@@ -79,8 +82,11 @@ extension TransactionDetailViewModel {
         if let fee = xlmTransaction.fee,
             let feeInWholeUnit = NumberFormatter.integerToWholeUnit(amount: fee, assetType: AssetType.from(legacyAssetType: assetType)) {
             feeString = String(describing: feeInWholeUnit)
-            let amountWithFee = xlmTransaction.balance + feeInWholeUnit
-            amountString = "\(amountWithFee)"
+
+            // Fee is not fetched until tapping on a transaction cell because the SDK only provides a method
+            // for fetching the fee for a single transaction. In the meantime we are hardcoding it for outgoing transactions.
+            let displayAmount = xlmTransaction.direction == .credit ? xlmTransaction.balance : xlmTransaction.balance + feeInWholeUnit
+            amountString = "\(displayAmount)"
         } else {
             amountString = "\(xlmTransaction.balance)"
         }

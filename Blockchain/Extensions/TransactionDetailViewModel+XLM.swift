@@ -14,7 +14,6 @@ extension TransactionDetailViewModel {
     convenience init(xlmTransaction: StellarOperation.Payment) {
         self.init()
 
-        
         assetType = .stellar
 
         fromString = xlmTransaction.fromAccount
@@ -28,13 +27,17 @@ extension TransactionDetailViewModel {
         
         time = UInt64(xlmTransaction.createdAt.timeIntervalSince1970)
 
-        amountString = xlmTransaction.amount
-        
-        decimalAmount = NSDecimalNumber(string: xlmTransaction.amount)
-        
-        if let fee = xlmTransaction.fee {
-            feeString = String(describing: fee)
+        if let fee = xlmTransaction.fee,
+            let amount = Decimal(string: xlmTransaction.amount),
+            let feeInWholeUnit = NumberFormatter.integerToWholeUnit(amount: fee, assetType: AssetType.from(legacyAssetType: assetType)) {
+            feeString = String(describing: feeInWholeUnit)
+            let amountWithFee = amount + feeInWholeUnit
+            amountString = "\(amountWithFee)"
+        } else {
+            amountString = xlmTransaction.amount
         }
+
+        decimalAmount = NSDecimalNumber(string: amountString)
 
         txType = xlmTransaction.direction == .credit ? Constants.TransactionTypes.receive : Constants.TransactionTypes.sent
         hasFromLabel = txType == Constants.TransactionTypes.sent
@@ -67,9 +70,16 @@ extension TransactionDetailViewModel {
         amountString = String(describing: xlmTransaction.balance)
         decimalAmount = xlmTransaction.balance as NSDecimalNumber
         
-        if let fee = xlmTransaction.fee {
-            feeString = String(describing: fee)
+        if let fee = xlmTransaction.fee,
+            let feeInWholeUnit = NumberFormatter.integerToWholeUnit(amount: fee, assetType: AssetType.from(legacyAssetType: assetType)) {
+            feeString = String(describing: feeInWholeUnit)
+            let amountWithFee = xlmTransaction.balance + feeInWholeUnit
+            amountString = "\(amountWithFee)"
+        } else {
+            amountString = "\(xlmTransaction.balance)"
         }
+
+        decimalAmount = NSDecimalNumber(string: amountString)
         
         txType = xlmTransaction.direction == .credit ? Constants.TransactionTypes.receive : Constants.TransactionTypes.sent
         hasFromLabel = txType == Constants.TransactionTypes.sent

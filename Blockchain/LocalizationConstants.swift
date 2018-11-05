@@ -984,7 +984,7 @@ struct LocalizationConstants {
             comment: "Title displayed on the onboarding card notifying them that their airdrop is on its way."
         )
         static let yourXLMIsOnItsWayDescription = NSLocalizedString(
-            "We have successfully verified your identity. We'll send your Stellar (XLM) within the next week.",
+            "We have successfully verified your identity.",
             comment: "Description displayed on the onboarding card notifying them that their airdrop is on its way."
         )
     }

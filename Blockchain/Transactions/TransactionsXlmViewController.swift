@@ -19,6 +19,21 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
         disposable = nil
     }
 
+    @IBOutlet fileprivate var noTransactionsLabel: UILabel!
+    @IBOutlet fileprivate var noTransactionsDescriptionLabel: UILabel!
+    @IBOutlet fileprivate var CTAButton: UIButton!
+    
+    fileprivate var emptyStateSubviews: [UIView] {
+        return [noTransactionsLabel,
+                noTransactionsDescriptionLabel,
+                CTAButton]
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        CTAButton.layer.cornerRadius = 4.0
+    }
+
     @objc class func make(with provider: XLMServiceProvider) -> TransactionsXlmViewController {
         let controller = SimpleListViewController.make(
             with: TransactionsXlmViewController.self,
@@ -73,6 +88,12 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
             })
     }
 
+    // MARK: Overrides
+    
+    override func emptyStateVisibility(_ visibility: Visibility) {
+        emptyStateSubviews.forEach({ $0.alpha = visibility.defaultAlpha })
+    }
+
     override func append(results: [Identifiable]) {
         super.append(results: results)
         getBalance()
@@ -87,5 +108,12 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
         // Error from failed fetch should already be displaying.
         // do not show another error if the balance fetch fails.
         getBalance(displayError: false)
+    }
+    
+    // MARK: Actions
+    
+    @IBAction fileprivate func CTATapped(_ sender: UIButton) {
+        let controller = AppCoordinator.shared.tabControllerManager
+        controller.receiveCoinClicked(nil)
     }
 }

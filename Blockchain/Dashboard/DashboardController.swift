@@ -298,7 +298,7 @@ final class DashboardController: UIViewController {
 
     private func getBtcWatchOnlyBalance() -> Double {
         let watchOnlyBalance = NSNumber(value: wallet.getWatchOnlyBalance())
-        return watchOnlyBalance.doubleValue
+        return watchOnlyBalance.doubleValue / Constants.Conversions.satoshi
     }
 
     private func reloadBalances(_ balances: [AssetType: Double]? = nil) {
@@ -334,7 +334,7 @@ final class DashboardController: UIViewController {
 
         if wallet.isInitialized() {
             let watchOnlyBalance = wallet.getWatchOnlyBalance()
-            let watchOnlyFiatBalance = getBtcWatchOnlyBalance()
+            let watchOnlyFiatBalance = getBtcWatchOnlyBalance() * lastBtcExchangeRate.doubleValue
 
             if watchOnlyBalance > 0 {
                 balancesChartView.updateBitcoinWatchOnlyFiatBalance(watchOnlyFiatBalance)

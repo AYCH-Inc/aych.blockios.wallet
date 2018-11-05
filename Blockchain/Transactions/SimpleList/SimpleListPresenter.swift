@@ -77,5 +77,6 @@ extension SimpleListPresenter: SimpleListOutput {
         Logger.shared.error(error?.localizedDescription ?? "Unknown error")
         interface?.refreshControlVisibility(.hidden)
         interface?.showError(message: LocalizationConstants.Errors.genericError)
+        interface?.refreshAfterFailedFetch()
     }
 }

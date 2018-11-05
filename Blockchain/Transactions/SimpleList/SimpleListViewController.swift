@@ -120,6 +120,9 @@ class SimpleListViewController: UIViewController, SimpleListInterface {
     func showError(message: String) {
         AlertViewPresenter.shared.standardError(message: message)
     }
+
+    func refreshAfterFailedFetch() {
+    }
 }
 
 extension SimpleListViewController: SimpleListDataProviderDelegate {

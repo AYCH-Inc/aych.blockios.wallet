@@ -117,6 +117,10 @@ class SimpleListViewController: UIViewController, SimpleListInterface {
         // in ExchangeList example, message is sent to coordinator
     }
     
+    func emptyStateVisibility(_ visibility: Visibility) {
+        
+    }
+    
     func showError(message: String) {
         AlertViewPresenter.shared.standardError(message: message)
     }

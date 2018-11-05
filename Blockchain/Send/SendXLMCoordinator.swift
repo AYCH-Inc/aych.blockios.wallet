@@ -338,18 +338,20 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         ).subscribeOn(MainScheduler.asyncInstance)
         .observeOn(MainScheduler.instance)
         .subscribe(onSuccess: { [weak self] price, ledger, account in
-            self?.showMinimumBalanceView(
+            guard let this = self else { return }
+            this.showMinimumBalanceView(
                 latestPrice: price.price,
-                fee: ledger.baseFeeInXlm ?? 0,
+                fee: ledger.baseFeeInXlm ?? this.services.ledger.fallbackBaseFee,
                 balance: account.assetAccount.balance,
-                baseReserve: ledger.baseReserveInXlm ?? 0
+                baseReserve: ledger.baseReserveInXlm ?? this.services.ledger.fallbackBaseReserve
             )
-        }, onError: { [weak self] error in
-            self?.showMinimumBalanceView(
+        }, onError: { [weak self] _ in
+            guard let this = self else { return }
+            this.showMinimumBalanceView(
                 latestPrice: 0,
-                fee: 0,
+                fee: this.services.ledger.fallbackBaseFee,
                 balance: 0,
-                baseReserve: 1
+                baseReserve: this.services.ledger.fallbackBaseReserve
             )
         })
         disposables.insertWithDiscardableResult(disposable)

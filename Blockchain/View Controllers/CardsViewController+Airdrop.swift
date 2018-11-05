@@ -73,7 +73,7 @@ extension CardsViewController {
         let model = AnnouncementCardViewModel.joinAirdropWaitlist(action: {
             UIApplication.shared.openWebView(
                 url: Constants.Url.airdropWaitlist,
-                title: LocalizationConstants.Stellar.joinTheWaitlist,
+                title: LocalizationConstants.Stellar.claimYourFreeXLMNow,
                 presentingViewController: AppCoordinator.shared.tabControllerManager
             )
         }, onClose: { [weak self] in

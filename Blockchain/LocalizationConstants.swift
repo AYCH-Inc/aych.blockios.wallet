@@ -870,6 +870,7 @@ struct LocalizationConstants {
     }
 
     struct Stellar {
+        static let memoTitle = NSLocalizedString("Memo", comment: "Memo title")
         static let memoDescription = NSLocalizedString(
             "Memos are used to communicate optional information to the recipient.",
             comment: "Description of what a memo is and the two types of memos you can send."

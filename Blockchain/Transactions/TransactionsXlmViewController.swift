@@ -7,8 +7,18 @@
 //
 
 import Foundation
+import RxSwift
 
 class TransactionsXlmViewController: SimpleTransactionsViewController {
+
+    var disposable: Disposable?
+    var accountService: StellarAccountAPI = XLMServiceProvider.shared.services.accounts
+
+    deinit {
+        disposable?.dispose()
+        disposable = nil
+    }
+
     @objc class func make(with provider: XLMServiceProvider) -> TransactionsXlmViewController {
         let controller = SimpleListViewController.make(
             with: TransactionsXlmViewController.self,
@@ -17,8 +27,6 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
             interactor: TransactionsXlmInteractor(with: provider)
         )
         
-        // TODO add xlm balance here
-        AppCoordinator.shared.tabControllerManager.tabViewController.updateBalanceLabelText("")
         return controller
     }
     
@@ -46,7 +54,38 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
     }
     
     @objc func reload() {
-        // TODO add xlm balance here
-        AppCoordinator.shared.tabControllerManager.tabViewController.updateBalanceLabelText("")
+        getBalance()
+    }
+
+    func getBalance(displayError: Bool? = false) {
+        disposable = accountService.currentStellarAccount(fromCache: false)
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { account in
+                let decimalNumber = NSDecimalNumber(decimal: account.assetAccount.balance)
+                let truncatedBalance = NumberFormatter.stellarFormatter.string(from: decimalNumber) ?? ""
+                let formattedBalance = truncatedBalance.appendAssetSymbol(for: .stellar)
+                AppCoordinator.shared.tabControllerManager.tabViewController.updateBalanceLabelText(formattedBalance)
+            }, onError: { error in
+                if let shouldShowError = displayError, shouldShowError == true {
+                    AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
+                }
+            })
+    }
+
+    override func append(results: [Identifiable]) {
+        super.append(results: results)
+        getBalance()
+    }
+
+    override func display(results: [Identifiable]) {
+        super.display(results: results)
+        getBalance()
+    }
+
+    override func refreshAfterFailedFetch() {
+        // Error from failed fetch should already be displaying.
+        // do not show another error if the balance fetch fails.
+        getBalance(displayError: false)
     }
 }

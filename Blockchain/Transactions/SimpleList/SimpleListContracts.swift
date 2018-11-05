@@ -17,6 +17,9 @@ protocol SimpleListInterface: class {
     func enablePullToRefresh()
     func showItemDetails(item: Identifiable)
     func showError(message: String)
+
+    // TODO: move to interactor
+    func refreshAfterFailedFetch()
 }
 
 protocol SimpleListInput: class {

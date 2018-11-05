@@ -406,34 +406,40 @@ extension BCConfirmPaymentViewModel {
     ) -> BCConfirmPaymentViewModel {
         // TODO: Refactor, move formatting out
         let assetType: AssetType = .stellar
-        let xlmSymbol = assetType.symbol
-        let fiatCurrencySymbol = BlockchainSettings.sharedAppInstance().fiatCurrencySymbol ?? ""
+        let amountXlm = paymentOperation.amountInXlm
+        let feeXlm = paymentOperation.feeInXlm
 
-        let amountXlmDecimalNumber = NSDecimalNumber(decimal: paymentOperation.amountInXlm)
-        let amountXlmString = NumberFormatter.stellarFormatter.string(from: amountXlmDecimalNumber) ?? "\(paymentOperation.amountInXlm)"
-        let amountXlmStringWithSymbol = amountXlmString + " " + xlmSymbol
+        let amountXlmDecimalNumber = NSDecimalNumber(decimal: amountXlm)
+        let amountXlmString = NumberFormatter.stellarFormatter.string(from: amountXlmDecimalNumber) ?? "\(amountXlm)"
+        let amountXlmStringWithSymbol = amountXlmString.appendAssetSymbol(for: assetType)
 
         let feeXlmDecimalNumber = NSDecimalNumber(decimal: paymentOperation.feeInXlm)
-        let feeXlmString = NumberFormatter.stellarFormatter.string(from: feeXlmDecimalNumber) ?? "\(paymentOperation.feeInXlm)"
-        let feeXlmStringWithSymbol = feeXlmString + " " + xlmSymbol
+        let feeXlmString = NumberFormatter.stellarFormatter.string(from: feeXlmDecimalNumber) ?? "\(feeXlm)"
+        let feeXlmStringWithSymbol = feeXlmString.appendAssetSymbol(for: assetType)
+
+        let totalXlmDecimalNumber = NSDecimalNumber(decimal: amountXlm + feeXlm)
+        let totalXlmString = NumberFormatter.stellarFormatter.string(from: totalXlmDecimalNumber) ?? "\(amountXlm)"
+        let totalXlmStringWithSymbol = totalXlmString.appendAssetSymbol(for: assetType)
 
         let fiatTotalAmountText: String
         let cryptoWithFiatAmountText: String
         let amountWithFiatFeeText: String
 
         if let decimalPrice = price {
-            let fiatAmount = NSDecimalNumber(decimal: decimalPrice).multiplying(by: NSDecimalNumber(decimal: paymentOperation.amountInXlm))
-            let fiatAmountFormatted = NumberFormatter.localCurrencyFormatter.string(from: fiatAmount)
-            fiatTotalAmountText = fiatAmountFormatted == nil ? "" : (fiatCurrencySymbol + fiatAmountFormatted!)
-            cryptoWithFiatAmountText = fiatTotalAmountText.isEmpty ?
-                amountXlmStringWithSymbol :
-                "\(amountXlmStringWithSymbol) (\(fiatTotalAmountText))"
-
-            let fiatFee = NSDecimalNumber(decimal: decimalPrice).multiplying(by: NSDecimalNumber(decimal: paymentOperation.feeInXlm))
-            let fiatFeeText = NumberFormatter.localCurrencyFormatter.string(from: fiatFee) ?? ""
-            amountWithFiatFeeText = fiatFeeText.isEmpty ?
-                feeXlmStringWithSymbol :
-                "\(feeXlmStringWithSymbol) (\(fiatCurrencySymbol)\(fiatFeeText))"
+            fiatTotalAmountText = NumberFormatter.localCurrencyAmount(
+                fromAmount: amountXlm + feeXlm,
+                fiatPerAmount: decimalPrice
+            ).appendCurrencySymbol()
+            cryptoWithFiatAmountText = NumberFormatter.formattedAssetAndFiatAmountWithSymbols(
+                fromAmount: amountXlm,
+                fiatPerAmount: decimalPrice,
+                assetType: .stellar
+            )
+            amountWithFiatFeeText = NumberFormatter.formattedAssetAndFiatAmountWithSymbols(
+                fromAmount: feeXlm,
+                fiatPerAmount: decimalPrice,
+                assetType: .stellar
+            )
         } else {
             fiatTotalAmountText = ""
             cryptoWithFiatAmountText = amountXlmStringWithSymbol
@@ -443,7 +449,7 @@ extension BCConfirmPaymentViewModel {
         return BCConfirmPaymentViewModel(
             from: paymentOperation.sourceAccount.label ?? "",
             to: paymentOperation.destinationAccountId,
-            totalAmountText: amountXlmStringWithSymbol,
+            totalAmountText: totalXlmStringWithSymbol,
             fiatTotalAmountText: fiatTotalAmountText,
             cryptoWithFiatAmountText: cryptoWithFiatAmountText,
             amountWithFiatFeeText: amountWithFiatFeeText,
@@ -451,7 +457,8 @@ extension BCConfirmPaymentViewModel {
             showDescription: paymentOperation.memo != nil,
             surgeIsOccurring: false,
             noteText: paymentOperation.memo?.displayValue,
-            warningText: nil
+            warningText: nil,
+            descriptionTitle: LocalizationConstants.Stellar.memoTitle
         )
     }
 }
@@ -536,8 +543,13 @@ extension SendLumensViewController: UITextFieldDelegate {
                     clearMemoField()
                     return true
                 }
-                guard let identifier = Int(value) else { return true }
-                memo = .identifier(identifier)
+                guard let identifier = Int(value) else { return false }
+                if identifier <= Int64.max {
+                    memo = .identifier(identifier)
+                    return true
+                } else {
+                    return false
+                }
             case stellarAddressField:
                 return addressField(
                     textField,

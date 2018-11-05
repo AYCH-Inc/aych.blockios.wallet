@@ -547,6 +547,7 @@
         if (!_transactionsStellarViewController) {
             _transactionsStellarViewController = [TransactionsXlmViewController makeWith:XLMServiceProvider.sharedInstance];
         }
+        [_transactionsStellarViewController reload];
         [_tabViewController setActiveViewController:_transactionsStellarViewController animated:animated index:tabIndex];
     }
 }
@@ -758,7 +759,7 @@
     [self changeAssetSelectorAsset:LegacyAssetTypeStellar];
     [self showTransactionsAnimated:YES];
     // TODO: reload transactions
-    // [_transactionsStellarViewController reload];
+    [_transactionsStellarViewController reload];
 }
 
 - (void)changeAssetSelectorAsset:(LegacyAssetType)assetType

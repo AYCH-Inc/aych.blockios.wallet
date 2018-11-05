@@ -118,4 +118,31 @@ extension NumberFormatter {
         let fiat = NumberFormatter.localCurrencyAmount(fromAmount: fromAmount, fiatPerAmount: fiatPerAmount).appendCurrencySymbol()
         return "\(crypto) (\(fiat))"
     }
+
+    /// Returns an amount of a whole crypto unit (e.g. BTC) from the smallest
+    /// integer value (e.g. satoshis)
+    ///
+    /// - Parameters:
+    ///   - amount: the integer value (e.g. satoshi)
+    ///   - assetType: the asset type
+    /// - Returns: the concrete AssetAddress
+    static func integerToWholeUnit(
+        amount: Int,
+        assetType: AssetType
+    ) -> Decimal? {
+        let decimalAmount = Decimal(amount)
+        let integerPerUnit: Int
+        switch assetType {
+        case .bitcoin:
+            integerPerUnit = Int(Constants.Conversions.satoshi)
+        case .stellar:
+            integerPerUnit = Constants.Conversions.stroopsInXlm
+        default:
+            Logger.shared.error("Asset type conversion not yet supported by this method")
+            return nil
+        }
+        let decimalConversion = Decimal(integerPerUnit)
+        let wholeUnit = decimalAmount / decimalConversion
+        return wholeUnit
+    }
 }

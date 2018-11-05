@@ -14,7 +14,6 @@ extension TransactionDetailViewModel {
     convenience init(xlmTransaction: StellarOperation.Payment) {
         self.init()
 
-        
         assetType = .stellar
 
         fromString = xlmTransaction.fromAccount
@@ -28,13 +27,20 @@ extension TransactionDetailViewModel {
         
         time = UInt64(xlmTransaction.createdAt.timeIntervalSince1970)
 
-        amountString = xlmTransaction.amount
-        
-        decimalAmount = NSDecimalNumber(string: xlmTransaction.amount)
-        
-        if let fee = xlmTransaction.fee {
-            feeString = String(describing: fee)
+        if let fee = xlmTransaction.fee,
+            let amount = Decimal(string: xlmTransaction.amount),
+            let feeInWholeUnit = NumberFormatter.integerToWholeUnit(amount: fee, assetType: AssetType.from(legacyAssetType: assetType)) {
+            feeString = String(describing: feeInWholeUnit)
+
+            // Fee is not fetched until tapping on a transaction cell because the SDK only provides a method
+            // for fetching the fee for a single transaction. In the meantime we are hardcoding it for outgoing transactions.
+            let displayAmount = xlmTransaction.direction == .credit ? amount : amount + feeInWholeUnit
+            amountString = "\(displayAmount)"
+        } else {
+            amountString = xlmTransaction.amount
         }
+
+        decimalAmount = NSDecimalNumber(string: amountString)
 
         txType = xlmTransaction.direction == .credit ? Constants.TransactionTypes.receive : Constants.TransactionTypes.sent
         hasFromLabel = txType == Constants.TransactionTypes.sent
@@ -43,7 +49,13 @@ extension TransactionDetailViewModel {
         confirmed = true
         dateString = DateFormatter.verboseString(from: xlmTransaction.createdAt)
         detailButtonTitle = String(format: LocalizationConstants.Stellar.viewOnArgument, BlockchainAPI.PartnerHosts.stellarchain.rawValue).uppercased()
-        detailButtonLink = BlockchainAPI.shared.stellarchainUrl.uppercased()
+        guard let base = URL(string: BlockchainAPI.shared.stellarchainUrl) else { return }
+        let stellarURL = URL.endpoint(
+            base,
+            pathComponents: ["tx", xlmTransaction.transactionHash],
+            queryParameters: nil
+        )
+        detailButtonLink = stellarURL?.absoluteString
     }
     
     convenience init(xlmTransaction: StellarOperation.AccountCreated) {
@@ -67,9 +79,19 @@ extension TransactionDetailViewModel {
         amountString = String(describing: xlmTransaction.balance)
         decimalAmount = xlmTransaction.balance as NSDecimalNumber
         
-        if let fee = xlmTransaction.fee {
-            feeString = String(describing: fee)
+        if let fee = xlmTransaction.fee,
+            let feeInWholeUnit = NumberFormatter.integerToWholeUnit(amount: fee, assetType: AssetType.from(legacyAssetType: assetType)) {
+            feeString = String(describing: feeInWholeUnit)
+
+            // Fee is not fetched until tapping on a transaction cell because the SDK only provides a method
+            // for fetching the fee for a single transaction. In the meantime we are hardcoding it for outgoing transactions.
+            let displayAmount = xlmTransaction.direction == .credit ? xlmTransaction.balance : xlmTransaction.balance + feeInWholeUnit
+            amountString = "\(displayAmount)"
+        } else {
+            amountString = "\(xlmTransaction.balance)"
         }
+
+        decimalAmount = NSDecimalNumber(string: amountString)
         
         txType = xlmTransaction.direction == .credit ? Constants.TransactionTypes.receive : Constants.TransactionTypes.sent
         hasFromLabel = txType == Constants.TransactionTypes.sent

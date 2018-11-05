@@ -42,7 +42,7 @@ extension AnnouncementCardViewModel {
         return AnnouncementCardViewModel(
             title: LocalizationConstants.Stellar.weNowSupportStellar,
             message: LocalizationConstants.Stellar.weNowSupportStellarDescription,
-            actionButtonTitle: LocalizationConstants.Stellar.joinTheWaitlist,
+            actionButtonTitle: LocalizationConstants.Stellar.claimYourFreeXLMNow,
             image: #imageLiteral(resourceName: "symbol-xlm"),
             imageTint: #colorLiteral(red: 0.06274509804, green: 0.6784313725, blue: 0.8941176471, alpha: 1),
             action: action,
@@ -69,7 +69,7 @@ extension AnnouncementCardViewModel {
     ) -> AnnouncementCardViewModel {
         if isAirdropUser {
             return AnnouncementCardViewModel(
-                title: LocalizationConstants.Stellar.claimYourStellar,
+                title: LocalizationConstants.Stellar.claimYourStellarXLM,
                 message: LocalizationConstants.Stellar.claimYourStellarDescription,
                 actionButtonTitle: LocalizationConstants.AnnouncementCards.continueKYCActionButtonTitle,
                 image: #imageLiteral(resourceName: "symbol-xlm"),

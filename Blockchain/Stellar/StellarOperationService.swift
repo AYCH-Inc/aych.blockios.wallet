@@ -130,7 +130,7 @@ class StellarOperationService {
                     observer.onNext(response)
                     observer.onCompleted()
                 case .failure(error: let horizonError):
-                    observer.onError(horizonError)
+                    observer.onError(horizonError.toStellarServiceError())
                 }
             })
             return Disposables.create()

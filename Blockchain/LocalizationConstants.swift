@@ -968,16 +968,12 @@ struct LocalizationConstants {
             comment: "Title displayed in the onboarding card showing that we support Stellar."
         )
         static let weNowSupportStellarDescription = NSLocalizedString(
-            "You can now send, request and exchange Stellar (XLM) directly from your Blockchain Wallet. For the chance to get free XLM",
+            "XLM is a token that enables quick, low cost global transactions. Send, receive, and trade XLM in the wallet today. Join the waitlist to",
             comment: "Description displayed in the onboarding card showing that we support Stellar."
         )
-        static let joinTheWaitlist = NSLocalizedString(
-            "Join the waitlist",
+        static let claimYourFreeXLMNow = NSLocalizedString(
+            "Claim Your Free XLM Now",
             comment: "CTA prompting the user to join the XLM waitlist."
-        )
-        static let claimYourStellar = NSLocalizedString(
-            "Claim Your Stellar (XLM)",
-            comment: "Title displayed on the onboarding card prompting the user to complete KYC to receive their airdrop."
         )
         static let claimYourStellarDescription = NSLocalizedString(
             "Looks like you've started verifying your identity but didn't finish. Pick up where you left off.",
@@ -997,7 +993,6 @@ struct LocalizationConstants {
 // TODO: deprecate this once Obj-C is no longer using this
 /// LocalizationConstants class wrapper so that LocalizationConstants can be accessed from Obj-C.
 @objc class LocalizationConstantsObjcBridge: NSObject {
-    @objc class func joinTheWaitlist() -> String { return LocalizationConstants.Stellar.joinTheWaitlist }
     
     @objc class func copiedToClipboard() -> String { return LocalizationConstants.Receive.copiedToClipboard }
 

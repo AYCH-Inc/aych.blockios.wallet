@@ -46,7 +46,13 @@ extension TransactionDetailViewModel {
         confirmed = true
         dateString = DateFormatter.verboseString(from: xlmTransaction.createdAt)
         detailButtonTitle = String(format: LocalizationConstants.Stellar.viewOnArgument, BlockchainAPI.PartnerHosts.stellarchain.rawValue).uppercased()
-        detailButtonLink = BlockchainAPI.shared.stellarchainUrl.uppercased()
+        guard let base = URL(string: BlockchainAPI.shared.stellarchainUrl) else { return }
+        let stellarURL = URL.endpoint(
+            base,
+            pathComponents: ["tx", xlmTransaction.transactionHash],
+            queryParameters: nil
+        )
+        detailButtonLink = stellarURL?.absoluteString
     }
     
     convenience init(xlmTransaction: StellarOperation.AccountCreated) {

@@ -457,7 +457,8 @@ extension BCConfirmPaymentViewModel {
             showDescription: paymentOperation.memo != nil,
             surgeIsOccurring: false,
             noteText: paymentOperation.memo?.displayValue,
-            warningText: nil
+            warningText: nil,
+            descriptionTitle: LocalizationConstants.Stellar.memoTitle
         )
     }
 }
@@ -542,8 +543,13 @@ extension SendLumensViewController: UITextFieldDelegate {
                     clearMemoField()
                     return true
                 }
-                guard let identifier = Int(value) else { return true }
-                memo = .identifier(identifier)
+                guard let identifier = Int(value) else { return false }
+                if identifier <= Int64.max {
+                    memo = .identifier(identifier)
+                    return true
+                } else {
+                    return false
+                }
             case stellarAddressField:
                 return addressField(
                     textField,

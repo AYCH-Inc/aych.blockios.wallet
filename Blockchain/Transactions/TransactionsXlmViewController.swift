@@ -7,9 +7,18 @@
 //
 
 import Foundation
+import RxSwift
 
 class TransactionsXlmViewController: SimpleTransactionsViewController {
-    
+
+    var disposable: Disposable?
+    var accountService: StellarAccountAPI = XLMServiceProvider.shared.services.accounts
+
+    deinit {
+        disposable?.dispose()
+        disposable = nil
+    }
+
     @IBOutlet fileprivate var noTransactionsLabel: UILabel!
     @IBOutlet fileprivate var noTransactionsDescriptionLabel: UILabel!
     @IBOutlet fileprivate var CTAButton: UIButton!
@@ -22,10 +31,9 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         CTAButton.layer.cornerRadius = 4.0
     }
-    
+
     @objc class func make(with provider: XLMServiceProvider) -> TransactionsXlmViewController {
         let controller = SimpleListViewController.make(
             with: TransactionsXlmViewController.self,
@@ -33,6 +41,7 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
             presenter: TransactionsXlmPresenter.self,
             interactor: TransactionsXlmInteractor(with: provider)
         )
+        
         return controller
     }
     
@@ -59,10 +68,46 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
         top.present(navigation, animated: true, completion: nil)
     }
     
+    @objc func reload() {
+        getBalance()
+    }
+
+    func getBalance(displayError: Bool? = false) {
+        disposable = accountService.currentStellarAccount(fromCache: false)
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { account in
+                let decimalNumber = NSDecimalNumber(decimal: account.assetAccount.balance)
+                let truncatedBalance = NumberFormatter.stellarFormatter.string(from: decimalNumber) ?? ""
+                let formattedBalance = truncatedBalance.appendAssetSymbol(for: .stellar)
+                AppCoordinator.shared.tabControllerManager.tabViewController.updateBalanceLabelText(formattedBalance)
+            }, onError: { error in
+                if let shouldShowError = displayError, shouldShowError == true {
+                    AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
+                }
+            })
+    }
+
     // MARK: Overrides
     
     override func emptyStateVisibility(_ visibility: Visibility) {
         emptyStateSubviews.forEach({ $0.alpha = visibility.defaultAlpha })
+    }
+
+    override func append(results: [Identifiable]) {
+        super.append(results: results)
+        getBalance()
+    }
+
+    override func display(results: [Identifiable]) {
+        super.display(results: results)
+        getBalance()
+    }
+
+    override func refreshAfterFailedFetch() {
+        // Error from failed fetch should already be displaying.
+        // do not show another error if the balance fetch fails.
+        getBalance(displayError: false)
     }
     
     // MARK: Actions
@@ -71,5 +116,4 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
         let controller = AppCoordinator.shared.tabControllerManager
         controller.receiveCoinClicked(nil)
     }
-    
 }

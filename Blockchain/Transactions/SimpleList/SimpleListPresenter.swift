@@ -80,7 +80,7 @@ extension SimpleListPresenter: SimpleListOutput {
     func itemFetchFailed(error: Error?) {
         Logger.shared.error(error?.localizedDescription ?? "Unknown error")
         interface?.refreshControlVisibility(.hidden)
-        
+
         if let serviceError = error as? StellarServiceError {
             switch serviceError {
             case .noDefaultAccount,
@@ -92,5 +92,7 @@ extension SimpleListPresenter: SimpleListOutput {
         } else {
             interface?.showError(message: LocalizationConstants.Errors.genericError)
         }
+
+        interface?.refreshAfterFailedFetch()
     }
 }

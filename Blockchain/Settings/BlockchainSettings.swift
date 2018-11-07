@@ -71,7 +71,9 @@ final class BlockchainSettings: NSObject {
         */
         var encryptedPinPassword: String? {
             get {
-                return defaults.string(forKey: UserDefaults.Keys.encryptedPinPassword.rawValue)
+                // "encryptedPINPassword" is required for wallets that created a PIN prior to Homebrew release - see IOS-1537
+                return defaults.string(forKey: UserDefaults.Keys.encryptedPinPassword.rawValue) ??
+                    defaults.string(forKey: "encryptedPINPassword")
             }
             set {
                 defaults.set(newValue, forKey: UserDefaults.Keys.encryptedPinPassword.rawValue)

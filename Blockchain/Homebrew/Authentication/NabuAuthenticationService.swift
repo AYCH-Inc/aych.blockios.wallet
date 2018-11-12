@@ -81,13 +81,23 @@ final class NabuAuthenticationService {
 
     /// Requests a new session token from Nabu followed by caching the response if successful
     private func requestNewSessionToken(from userResponse: NabuCreateUserResponse) -> Single<NabuSessionTokenResponse> {
+        guard let guid = self.wallet.guid else {
+            Logger.shared.warning("Cannot get Nabu authentication token, guid is nil.")
+            return Single.error(WalletError.notInitialized)
+        }
+
+        guard let email = self.wallet.getEmail() else {
+            Logger.shared.warning("Cannot get Nabu authentication token, email is nil.")
+            return Single.error(WalletError.notInitialized)
+        }
+
         let headers: [String: String] = [
             HttpHeaderField.authorization: userResponse.token,
             HttpHeaderField.appVersion: Bundle.applicationVersion ?? "",
             HttpHeaderField.clientType: HttpHeaderValue.clientTypeApp,
             HttpHeaderField.deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "",
-            HttpHeaderField.walletGuid: self.wallet.guid,
-            HttpHeaderField.walletEmail: self.wallet.getEmail()
+            HttpHeaderField.walletGuid: guid,
+            HttpHeaderField.walletEmail: email
         ]
         return KYCNetworkRequest.request(
             post: .sessionToken(userId: userResponse.userId),

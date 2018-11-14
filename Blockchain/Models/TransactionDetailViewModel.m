@@ -56,7 +56,7 @@
         self.decimalAmount = [NSDecimalNumber decimalNumberWithString:decimalString];
         WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc = currentSymbol;
         
-        self.detailButtonTitle = [[NSString stringWithFormat:@"%@ %@",BC_STRING_VIEW_ON_URL_ARGUMENT, [[BlockchainAPI sharedInstance] blockchainDotInfo]] uppercaseString];
+        self.detailButtonTitle = [[NSString stringWithFormat:@"%@ %@",BC_STRING_VIEW_ON_URL_ARGUMENT, [[BlockchainAPI sharedInstance] blockchainDotCom]] uppercaseString];
         self.detailButtonLink = [[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingFormat:@"/tx/%@", self.myHash];
     }
     return self;
@@ -79,9 +79,9 @@
         self.note = etherTransaction.note;
         self.time = etherTransaction.time;
         self.dateString = [NSDateFormatter verboseStringFromDate:[NSDate dateWithTimeIntervalSince1970:self.time]];
-        self.detailButtonTitle = [[NSString stringWithFormat:@"%@ %@",BC_STRING_VIEW_ON_URL_ARGUMENT, [[BlockchainAPI sharedInstance] etherscan]] uppercaseString];
+        self.detailButtonTitle = [[NSString stringWithFormat:@"%@ %@",BC_STRING_VIEW_ON_URL_ARGUMENT, [[BlockchainAPI sharedInstance] blockchainDotCom]] uppercaseString];
         self.detailButtonLink =
-        [[[BlockchainAPI sharedInstance] etherscanUrl] stringByAppendingFormat:@"/tx/%@", self.myHash];
+        [[[BlockchainAPI sharedInstance] etherExplorer] stringByAppendingFormat:@"/tx/%@", self.myHash];
 
         self.ethExchangeRate = exchangeRate;
         self.confirmations = [NSString stringWithFormat:@"%lld/%u", etherTransaction.confirmations, kConfirmationEtherThreshold];

@@ -55,6 +55,7 @@ extension UserDefaults {
         case shouldShowBiometrySetup
         case isCompletingKyc = "shouldShowKYCAnnouncementCard"
         case didTapOnAirdropDeepLink
+        case didSeeAirdropPending
         case swipeToReceiveEnabled = "swipeToReceive"
         case symbolLocal
         case hasSeenAirdropJoinWaitlistCard

@@ -379,6 +379,21 @@ final class BlockchainSettings: NSObject {
             }
         }
 
+        /**
+         Determines if the user saw the XLM airdrop pending onboarding card.
+
+         - Important:
+         This setting **MUST** be set to `false` upon logging the user out of the application.
+         */
+        var didSeeAirdropPending: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didSeeAirdropPending.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didSeeAirdropPending.rawValue)
+            }
+        }
+
          override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
             // access an instance of this class.
@@ -407,6 +422,7 @@ final class BlockchainSettings: NSObject {
             appBecameActiveCount = 0
             isCompletingKyc = false
             didTapOnAirdropDeepLink = false
+            didSeeAirdropPending = false
             Logger.shared.info("Application settings have been reset.")
         }
 

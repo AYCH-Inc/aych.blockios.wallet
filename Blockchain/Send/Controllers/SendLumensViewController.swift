@@ -196,7 +196,12 @@ protocol SendXLMViewControllerDelegate: class {
     
     @objc func resignMemoIDField() {
         memoIDTextField.resignFirstResponder()
-        guard memoIDTextField.text != nil else { return }
+        
+        /// If the user hasn't entered a value in the `memoIDTextField`
+        /// we call `clearMemoField()` to reset the memo state. This allows
+        /// users to see the action sheet again to select either `memoID` or
+        /// `memoText`
+        guard memoIDTextField.text == nil else { return }
         clearMemoField()
     }
     

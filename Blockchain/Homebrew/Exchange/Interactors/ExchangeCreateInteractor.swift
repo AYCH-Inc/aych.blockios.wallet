@@ -291,7 +291,17 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
     func validateInput() {
         guard let model = model else { return }
         guard let output = output else { return }
+        
+        let account = model.marketPair.fromAccount
 
+        guard let conversion = model.lastConversion else {
+            Logger.shared.error("No conversion stored")
+            return
+        }
+        
+        guard let volume = Decimal(string: conversion.quote.currencyRatio.base.crypto.value) else { return }
+        guard let candidate = Decimal(string: conversion.baseFiatValue) else { return }
+        
         guard tradeExecution.canTradeAssetType(model.pair.from) else {
             if let errorMessage = errorMessage(for: model.pair.from) {
                 output.showError(message: errorMessage)
@@ -302,24 +312,29 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             }
             return
         }
-
-        guard let conversion = model.lastConversion else {
-            Logger.shared.error("No conversion stored")
+        
+        /// Volume is used for XLM in this case. `tradeExecution` has
+        /// references to XLM specific services so it can validate
+        /// that the volume valid by using the ledger.
+        /// This will return `true` for all other asset types other than `.stellar`
+        if let error = tradeExecution.validateVolume(volume, for: model.pair.from) {
+            switch error {
+            case .generic:
+                output.showError(message: LocalizationConstants.Errors.genericError)
+            case .exceededMaxVolume(let value):
+                output.showError(message: value)
+            }
             return
         }
         
         let min = minTradingLimit().asObservable()
         let max = maxTradingLimit().asObservable()
-        let account = model.marketPair.fromAccount
         
         let disposable = Observable.zip(min, max) {
             return ($0, $1)
         }.subscribe(onNext: { payload in
             let minValue = payload.0
             let maxValue = payload.1
-            
-            guard let volume = Decimal(string: conversion.quote.currencyRatio.base.crypto.value) else { return }
-            guard let candidate = Decimal(string: conversion.baseFiatValue) else { return }
             
             if account.balance < volume {
                 let symbol = conversion.baseCryptoSymbol
@@ -339,7 +354,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             case maxValue..<Decimal.greatestFiniteMagnitude:
                 guard let value = NumberFormatter.localCurrencyFormatter.string(for: maxValue) else { return }
                 let maximum = model.fiatCurrencySymbol + value
-                    output.entryAboveMaximumValue(maximum: maximum)
+                output.entryAboveMaximumValue(maximum: maximum)
             default:
                 output.hideError()
                 output.exchangeButtonVisibility(.visible)

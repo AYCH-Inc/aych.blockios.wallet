@@ -255,16 +255,9 @@ jobs:
 # +-----------+
 workflows:
   version: 2
-  # Run tests
-  # - Only triggered on the dev branch.
   run-tests-only:
     jobs:
-      - setup_repo:
-          filters:
-            branches:
-              only:
-                - ci
-                - dev
+      - setup_repo
       - install_deps:
           requires:
             - setup_repo

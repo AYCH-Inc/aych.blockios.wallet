@@ -37,7 +37,7 @@ struct ExchangeServices: ExchangeDependencies {
         conversions = ExchangeConversionService()
         inputs = ExchangeInputsService()
         assetAccountRepository = AssetAccountRepository.shared
-        tradeExecution = TradeExecutionService(dependencies: TradeExecutionServiceDependencies())
+        tradeExecution = TradeExecutionService(dependencies: TradeExecutionService.Dependencies())
         tradeLimits = TradeLimitsService()
     }
 }

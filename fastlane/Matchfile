@@ -1,0 +1,13 @@
+#
+#  Matchfile
+#
+#  For more information about the Matchfile, see:
+#  https://docs.fastlane.tools/actions/match
+#
+#  match => alias for sync_code_signing
+#
+
+app_identifier("com.rainydayapps.Blockchain")
+git_url(ENV["CREDENTIALS_REPO"])
+type("appstore")
+username(ENV["FASTLANE_USER"]) # Your Apple Developer Portal username

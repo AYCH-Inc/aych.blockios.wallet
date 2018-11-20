@@ -57,7 +57,7 @@ class SendXLMCoordinator {
             .subscribe(onNext: { (account, ledger) in
                 // TODO:
             }, onError: { error in
-                guard let serviceError = error as? StellarServiceError else { return }
+                guard error is StellarServiceError else { return }
                 Logger.shared.error(error.localizedDescription)
             })
         disposables.insertWithDiscardableResult(disposable)
@@ -508,8 +508,8 @@ extension InformationViewModel {
         let moreInformationText = LocalizationConstants.Stellar.minimumBalanceMoreInformation
 
         let defaultFont = UIFont(name: Constants.FontNames.montserratRegular, size: Constants.FontSizes.Small)!
-        let defaultAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.gray5,
-                                                               NSAttributedStringKey.font: defaultFont]
+        let defaultAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor.gray5,
+                                                                NSAttributedString.Key.font: defaultFont]
 
         let explanationPlusCurrent = NSAttributedString(
             string: "\(explanation)\n\n\(current)\n\n",
@@ -525,8 +525,8 @@ extension InformationViewModel {
         )
         let available = NSAttributedString(
             string: "\(availableToSendText)\n\(availableToSendAmount)\n\n",
-            attributes: [NSAttributedStringKey.foregroundColor: UIColor.black,
-                         NSAttributedStringKey.font: UIFont(name: Constants.FontNames.montserratSemiBold, size: Constants.FontSizes.Small)!]
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.black,
+                         NSAttributedString.Key.font: UIFont(name: Constants.FontNames.montserratSemiBold, size: Constants.FontSizes.Small)!]
         )
         let footer = NSAttributedString(
             string: "\(moreInformationText)",
@@ -535,6 +535,6 @@ extension InformationViewModel {
 
         let body = NSMutableAttributedString()
         [explanationPlusCurrent, exampleOne, exampleTwo, available, footer].forEach { body.append($0) }
-        return body.copy() as! NSAttributedString
+        return body.copy() as? NSAttributedString
     }
 }

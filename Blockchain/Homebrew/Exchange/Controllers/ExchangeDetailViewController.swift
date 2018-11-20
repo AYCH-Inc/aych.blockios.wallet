@@ -113,7 +113,7 @@ class ExchangeDetailViewController: UIViewController {
             let footerNib = UINib(nibName: ActionableFooterView.identifier, bundle: nil)
             collectionView.register(
                 footerNib,
-                forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                 withReuseIdentifier: ActionableFooterView.identifier
             )
             AnalyticsService.shared.trackEvent(title: "exchange_detail_confirm")
@@ -121,14 +121,14 @@ class ExchangeDetailViewController: UIViewController {
             let headerNib = UINib(nibName: ExchangeLockedHeaderView.identifier, bundle: nil)
             collectionView.register(
                 headerNib,
-                forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: ExchangeLockedHeaderView.identifier
             )
             
             let footerNib = UINib(nibName: ActionableFooterView.identifier, bundle: nil)
             collectionView.register(
                 footerNib,
-                forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                 withReuseIdentifier: ActionableFooterView.identifier
             )
             AnalyticsService.shared.trackEvent(title: "exchange_detail_locked")
@@ -136,14 +136,14 @@ class ExchangeDetailViewController: UIViewController {
             let headerNib = UINib(nibName: ExchangeDetailHeaderView.identifier, bundle: nil)
             collectionView.register(
                 headerNib,
-                forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: ExchangeDetailHeaderView.identifier
             )
 
             let footerNib = UINib(nibName: ActionableFooterView.identifier, bundle: nil)
             collectionView.register(
                 footerNib,
-                forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                 withReuseIdentifier: ActionableFooterView.identifier
             )
             AnalyticsService.shared.trackEvent(title: "exchange_detail_overview")
@@ -193,10 +193,10 @@ extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
         guard let page = model else { return UICollectionReusableView() }
         switch page {
         case .confirm:
-            guard kind == UICollectionElementKindSectionFooter else { return UICollectionReusableView() }
+            guard kind == UICollectionView.elementKindSectionFooter else { return UICollectionReusableView() }
             
             guard let footer = collectionView.dequeueReusableSupplementaryView(
-                ofKind: UICollectionElementKindSectionFooter,
+                ofKind: UICollectionView.elementKindSectionFooter,
                 withReuseIdentifier: ActionableFooterView.identifier,
                 for: indexPath
                 ) as? ActionableFooterView else { return UICollectionReusableView() }
@@ -210,9 +210,9 @@ extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
             
         case .locked:
             switch kind {
-            case UICollectionElementKindSectionHeader:
+            case UICollectionView.elementKindSectionHeader:
                 guard let header = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionElementKindSectionHeader,
+                    ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: ExchangeLockedHeaderView.identifier,
                     for: indexPath
                     ) as? ExchangeLockedHeaderView else { return UICollectionReusableView() }
@@ -222,9 +222,9 @@ extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
                 }
                 
                 return header
-            case UICollectionElementKindSectionFooter:
+            case UICollectionView.elementKindSectionFooter:
                 guard let footer = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionElementKindSectionFooter,
+                    ofKind: UICollectionView.elementKindSectionFooter,
                     withReuseIdentifier: ActionableFooterView.identifier,
                     for: indexPath
                     ) as? ActionableFooterView else { return UICollectionReusableView() }
@@ -240,17 +240,17 @@ extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
             }
         case .overview(let trade):
             switch kind {
-            case UICollectionElementKindSectionHeader:
+            case UICollectionView.elementKindSectionHeader:
                 guard let header = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionElementKindSectionHeader,
+                    ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: ExchangeDetailHeaderView.identifier,
                     for: indexPath
                 ) as? ExchangeDetailHeaderView else { return UICollectionReusableView() }
                 header.title = trade.amountReceivedCrypto
                 return header
-            case UICollectionElementKindSectionFooter:
+            case UICollectionView.elementKindSectionFooter:
                 guard let footer = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionElementKindSectionFooter,
+                    ofKind: UICollectionView.elementKindSectionFooter,
                     withReuseIdentifier: ActionableFooterView.identifier,
                     for: indexPath
                 ) as? ActionableFooterView else { return UICollectionReusableView() }

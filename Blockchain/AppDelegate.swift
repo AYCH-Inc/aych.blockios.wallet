@@ -13,7 +13,7 @@ import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+
     // The view used as an intermediary privacy screen when the application state changes to inactive
     fileprivate lazy var visualEffectView: UIVisualEffectView = self.lazyVisualEffectView()
 
@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         view.alpha = 0
         return view
     }
-    
+
     // MARK: - Properties
     // NOTE: Xcode automatically creates the file name for each launch image
     /// The overlay shown when the application resigns active state.
@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Lifecycle Methods
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Fabric.with([Crashlytics.self])
         FirebaseApp.configure()
 
@@ -115,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.showBlurCurtain()
             }
         }
-     
+
         if let pinEntryViewController = AuthenticationCoordinator.shared.pinEntryViewController, pinEntryViewController.verifyOnly {
             pinEntryViewController.reset()
         }
@@ -199,7 +199,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
 
         let urlString = url.absoluteString
 
@@ -221,14 +221,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         if urlScheme == Constants.Schemes.blockchain {
-            ModalPresenter.shared.closeModal(withTransition: kCATransitionFade)
+            ModalPresenter.shared.closeModal(withTransition: convertFromCATransitionType(CATransitionType.fade))
             return true
         }
 
         // Handle "bitcoin://" scheme
         if let bitcoinUrlPayload = BitcoinURLPayload(url: url) {
 
-            ModalPresenter.shared.closeModal(withTransition: kCATransitionFade)
+            ModalPresenter.shared.closeModal(withTransition: convertFromCATransitionType(CATransitionType.fade))
 
             AuthenticationCoordinator.shared.postAuthenticationRoute = .sendCoins
 
@@ -325,7 +325,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.visualEffectView.removeFromSuperview()
         })
     }
-    
+
     func showBlurCurtain() {
         UIApplication.shared.keyWindow?.addSubview(visualEffectView)
         UIView.animate(withDuration: 0.64) {
@@ -337,4 +337,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         privacyScreen?.alpha = 1
         UIApplication.shared.keyWindow?.addSubview(privacyScreen!)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromCATransitionType(_ input: CATransitionType) -> String {
+	return input.rawValue
 }

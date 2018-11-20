@@ -1,0 +1,73 @@
+#
+#  Fastfile
+#
+#  For more information about the Fastfile, see:
+#  You can find the documentation at https://docs.fastlane.tools
+#
+#  For a list of all available actions, check out
+#  https://docs.fastlane.tools/actions
+#
+
+opt_out_usage
+
+default_platform(:ios)
+platform :ios do
+  before_all do
+    # This is required to setup the temporary keychain
+    setup_circle_ci
+  end
+  desc "Builds using the dev environment"
+  lane :dev do
+    sync_code_signing(type: "appstore", readonly: true)
+    build_app(
+      clean: true,
+      export_method: "app-store",
+      include_bitcode: false,
+      include_symbols: true,
+      scheme: "Blockchain (Dev)",
+      workspace: "Blockchain.xcworkspace"
+    )
+    if is_ci?
+      # Send Slack notification to #ios-ci channel
+      # slack(message: "App successfully build!")
+    end
+  end
+  desc "Deploys staging environment build to TestFlight"
+  lane :staging do
+    increment_build_number(
+      build_number: app_store_build_number + 1,
+      xcodeproj: "Blockchain.xcodeproj"
+    )
+    build_app(
+      clean: true,
+      include_bitcode: false,
+      include_symbols: true,
+      scheme: "Blockchain (Staging)",
+      workspace: "Blockchain.xcworkspace"
+    )
+    # upload_to_testflight
+  end
+  desc "Runs all unit tests"
+  lane :execute_tests do
+    scan(
+      workspace: "Blockchain.xcworkspace",
+      scheme: "Blockchain (Staging)",
+      devices: ["iPhone X"],
+      clean: true
+    )
+  end
+  desc "Builds using the production environment"
+  lane :code_signing do
+    # Global parameters are loaded from the Matchfile
+    match(type: "appstore", readonly: true)
+  end
+  desc "Upload to TestFlight"
+  lane :upload do
+    match(type: "appstore", readonly: true)
+    upload_to_testflight(
+      ipa: "output/Blockchain.ipa",
+      skip_submission: true,
+      skip_waiting_for_build_processing: true
+    )
+  end
+end

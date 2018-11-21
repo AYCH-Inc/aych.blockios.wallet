@@ -18,12 +18,14 @@ class TradeExecutionService: TradeExecutionAPI {
         let transactionAPI: StellarTransactionAPI
         let ledgerAPI: StellarLedgerAPI
         let repository: WalletXlmAccountRepository
+        let limits: StellarTradeLimitsAPI
         
         init(xlm: XLMServiceProvider = XLMServiceProvider.shared) {
             transactionAPI = xlm.services.transaction
             ledgerAPI = xlm.services.ledger
             repository = xlm.services.repository
             accounts = xlm.services.accounts
+            limits = xlm.services.limits
         }
     }
     
@@ -34,7 +36,7 @@ class TradeExecutionService: TradeExecutionAPI {
         init(
             repository: AssetAccountRepository = AssetAccountRepository.shared,
             xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared
-            ) {
+        ) {
             assetAccountRepository = repository
             xlm = XLMDependencies(xlm: xlmServiceProvider)
         }
@@ -70,28 +72,34 @@ class TradeExecutionService: TradeExecutionAPI {
         }
     }
     
-    func validateVolume(_ volume: Decimal, for assetType: AssetType) -> TradeExecutionAPIError? {
+    func validateVolume(_ volume: Decimal, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
         /// The only supported asset type for this function is `.stellar`
         /// This is because stellar has minimum account balance requirements.
-        guard assetType == .stellar else { return nil }
-        guard let ledger = dependencies.xlm.ledgerAPI.currentLedger else { return .generic }
-        guard let stellarAccount = dependencies.xlm.accounts.currentAccount else { return .generic }
-        guard let baseReserveInXLM = ledger.baseReserveInXlm else { return .generic }
-        
-        let minimumBalance = (2.0 + Decimal(stellarAccount.subentryCount)) * baseReserveInXLM
-        
-        guard let fee = ledger.baseFeeInXlm else { return .generic }
-        guard let assetAccount = dependencies.assetAccountRepository.defaultStellarAccount() else { return .generic }
-        let delta = assetAccount.balance - (volume + fee)
-        if delta < minimumBalance {
-            let maxSpendable = assetAccount.balance - fee - minimumBalance
-            let value = "\(maxSpendable) " + assetType.symbol
-            let description = LocalizationConstants.Stellar.notEnoughXLM + " " + LocalizationConstants.Exchange.yourSpendableBalance
-            let result = description + " " + value
-            return .exceededMaxVolume(result)
+        let assetType = assetAccount.address.assetType
+        guard assetType == .stellar else {
+            return Single.just(nil)
         }
-        
-        return nil
+
+        let accountId = assetAccount.address.address
+        let isSpendable = dependencies.xlm.limits.isSpendable(amount: volume, for: accountId)
+        let max = dependencies.xlm.limits.maxSpendableAmount(for: accountId)
+        return Single.zip(isSpendable, max)
+            .catchError { error -> Single<(Bool, Decimal)> in
+                if let stellarError = error as? StellarServiceError, stellarError == StellarServiceError.noDefaultAccount {
+                    return Single.just((false, 0))
+                }
+                throw error
+            }
+            .flatMap { isSpendable, maxSpendable -> Single<TradeExecutionAPIError?> in
+                guard !isSpendable else {
+                    return Single.just(nil)
+                }
+
+                let value = "\(maxSpendable)".appendAssetSymbol(for: assetType)
+                let description = LocalizationConstants.Stellar.notEnoughXLM + " " + LocalizationConstants.Exchange.yourSpendableBalance
+                let result = description + " " + value
+                return Single.error(TradeExecutionAPIError.exceededMaxVolume(result))
+            }
     }
     
     // MARK: Init

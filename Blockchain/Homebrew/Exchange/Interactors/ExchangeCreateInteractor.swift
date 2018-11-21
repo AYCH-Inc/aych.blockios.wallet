@@ -316,51 +316,59 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         /// Volume is used for XLM in this case. `tradeExecution` has
         /// references to XLM specific services so it can validate
         /// that the volume valid by using the ledger.
-        /// This will return `true` for all other asset types other than `.stellar`
-        if let error = tradeExecution.validateVolume(volume, for: model.pair.from) {
-            switch error {
-            case .generic:
-                output.showError(message: LocalizationConstants.Errors.genericError)
-            case .exceededMaxVolume(let value):
-                output.showError(message: value)
+        /// This will return `true` for all other asset types other than `.stellar` O
+        let disposable = tradeExecution.validateVolume(volume, for: model.marketPair.fromAccount)
+            .asObservable()
+            .flatMap { [weak self] error -> Observable<(Decimal, Decimal)> in
+                guard let strongSelf = self else {
+                    return Observable.empty()
+                }
+                if let error = error {
+                    return Observable.error(error)
+                }
+                let min = strongSelf.minTradingLimit().asObservable()
+                let max = strongSelf.maxTradingLimit().asObservable()
+                return Observable.zip(min, max)
             }
-            return
-        }
-        
-        let min = minTradingLimit().asObservable()
-        let max = maxTradingLimit().asObservable()
-        
-        let disposable = Observable.zip(min, max) {
-            return ($0, $1)
-        }.subscribe(onNext: { payload in
-            let minValue = payload.0
-            let maxValue = payload.1
-            
-            if account.balance < volume {
-                let symbol = conversion.baseCryptoSymbol
-                let notEnough = LocalizationConstants.Exchange.notEnough + " " + symbol + "."
-                let yourBalance = LocalizationConstants.Exchange.yourBalance + " " + "\(account.balance)" + " " + symbol
-                let value = notEnough + " " + yourBalance + "."
-                output.insufficientFunds(balance: value)
-                return
-            }
-            
-            switch candidate {
-            case ..<minValue:
-                let value = NumberFormatter.localCurrencyFormatter.string(for: minValue) ?? ""
-                let minimum = model.fiatCurrencySymbol + value
-                
-                output.entryBelowMinimumValue(minimum: minimum)
-            case maxValue..<Decimal.greatestFiniteMagnitude:
-                guard let value = NumberFormatter.localCurrencyFormatter.string(for: maxValue) else { return }
-                let maximum = model.fiatCurrencySymbol + value
-                output.entryAboveMaximumValue(maximum: maximum)
-            default:
-                output.hideError()
-                output.exchangeButtonVisibility(.visible)
-                output.exchangeButtonEnabled(true)
-            }
-        })
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { payload in
+                let minValue = payload.0
+                let maxValue = payload.1
+
+                if account.balance < volume {
+                    let symbol = conversion.baseCryptoSymbol
+                    let notEnough = LocalizationConstants.Exchange.notEnough + " " + symbol + "."
+                    let yourBalance = LocalizationConstants.Exchange.yourBalance + " " + "\(account.balance)" + " " + symbol
+                    let value = notEnough + " " + yourBalance + "."
+                    output.insufficientFunds(balance: value)
+                    return
+                }
+
+                switch candidate {
+                case ..<minValue:
+                    let value = NumberFormatter.localCurrencyFormatter.string(for: minValue) ?? ""
+                    let minimum = model.fiatCurrencySymbol + value
+
+                    output.entryBelowMinimumValue(minimum: minimum)
+                case maxValue..<Decimal.greatestFiniteMagnitude:
+                    guard let value = NumberFormatter.localCurrencyFormatter.string(for: maxValue) else { return }
+                    let maximum = model.fiatCurrencySymbol + value
+                    output.entryAboveMaximumValue(maximum: maximum)
+                default:
+                    output.hideError()
+                    output.exchangeButtonVisibility(.visible)
+                    output.exchangeButtonEnabled(true)
+                }
+            }, onError: { [weak self] error in
+                if let tradingError = error as? TradeExecutionAPIError {
+                    switch tradingError {
+                    case .generic:
+                        self?.output?.showError(message: LocalizationConstants.Errors.genericError)
+                    case .exceededMaxVolume(let value):
+                        self?.output?.showError(message: value)
+                    }
+                }
+            })
         disposables.insertWithDiscardableResult(disposable)
     }
 

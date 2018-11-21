@@ -511,6 +511,8 @@ BOOL displayingLocalSymbolSend;
          
          listener.on_success = ^(NSString*secondPassword, NSString *transactionHash) {
              DLog(@"SendViewController: on_success");
+             [WalletActionEventBus.sharedInstance publishObjWithAction:WalletActionSendCrypto extras:nil];
+
              UIAlertController *paymentSentAlert = [UIAlertController alertControllerWithTitle:[LocalizationConstantsObjcBridge success] message:BC_STRING_PAYMENT_SENT preferredStyle:UIAlertControllerStyleAlert];
              [paymentSentAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                  [[AppReviewPrompt sharedInstance] showIfNeeded];

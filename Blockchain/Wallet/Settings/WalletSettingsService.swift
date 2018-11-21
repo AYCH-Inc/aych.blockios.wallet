@@ -9,6 +9,7 @@
 import PlatformKit
 import RxSwift
 
+/// Concrete implementation of WalletSettingsAPI
 class WalletSettingsService: WalletSettingsAPI {
 
     private let apiCode: String
@@ -28,7 +29,7 @@ class WalletSettingsService: WalletSettingsAPI {
             apiCode: apiCode
         )
         let data = try? JSONEncoder().encode(request)
-        return NetworkRequest.POST(url: url, body: data, token: nil, type: WalletSettings.self)
+        return NetworkRequest.POST(url: url, body: data, token: nil, type: WalletSettings.self, contentType: .formUrlEncoded)
     }
 
     func updateSettings(method: WalletSettingsApiMethod, guid: String, sharedKey: String, payload: String) -> Completable {
@@ -42,10 +43,15 @@ class WalletSettingsService: WalletSettingsAPI {
             sharedKey: sharedKey,
             apiCode: apiCode,
             payload: payload,
-            length: payload.count,
+            length: "\(payload.count)",
             format: WalletSettingsRequest.Formats.plain
         )
         let data = try? JSONEncoder().encode(request)
-        return NetworkRequest.POST(url: url, body: data)
+        return NetworkRequest.POST(url: url, body: data, contentType: .formUrlEncoded)
+    }
+
+    func updateLastTxTimeToCurrentTime(guid: String, sharedKey: String) -> Completable {
+        let currentTime = "\(Int(Date().timeIntervalSince1970))"
+        return updateSettings(method: .updateLastTxTime, guid: guid, sharedKey: sharedKey, payload: currentTime)
     }
 }

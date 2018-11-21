@@ -10,9 +10,29 @@ import Foundation
 
 class MockBlockchainSettingsApp: BlockchainSettings.App {
     var mockDidTapOnAirdropDeepLink: Bool = false
+    var mockGuid: String?
+    var mockSharedKey: String?
 
     override init() {
         super.init()
+    }
+
+    override var guid: String? {
+        get {
+            return mockGuid
+        }
+        set {
+            mockGuid = newValue
+        }
+    }
+
+    override var sharedKey: String? {
+        get {
+            return mockSharedKey
+        }
+        set {
+            mockSharedKey = newValue
+        }
     }
 
     override var didTapOnAirdropDeepLink: Bool {

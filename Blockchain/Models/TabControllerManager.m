@@ -383,6 +383,7 @@
 
 - (void)didSendEther
 {
+    [WalletActionEventBus.sharedInstance publishObjWithAction:WalletActionSendCrypto extras:nil];
     [self.sendEtherViewController reload];
 
     [[ModalPresenter sharedInstance] closeAllModals];

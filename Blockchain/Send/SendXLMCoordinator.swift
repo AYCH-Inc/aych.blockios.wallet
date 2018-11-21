@@ -270,6 +270,10 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                     .primaryButtonEnabled(true)
                 ])
             }, onCompleted: { [weak self] in
+                self?.services.walletActionEventBus.publish(
+                    action: .sendCrypto,
+                    extras: [WalletAction.ExtraKeys.assetType: AssetType.stellar]
+                )
                 self?.computeMaxSpendableAmount(for: paymentOperation.sourceAccount.publicKey)
                 self?.interface.apply(updates: [
                     .fiatAmountText(""),

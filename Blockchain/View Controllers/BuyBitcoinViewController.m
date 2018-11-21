@@ -173,6 +173,7 @@ NSString* loginWithJsonScript(NSString* json, NSString* externalJson, NSString* 
 
     if ([message.name isEqual:WEBKIT_HANDLER_BUY_COMPLETED]) {
         self.didInitiateTrade = YES;
+        // Is this when a successful buy has occured?
     }
 
     if ([message.name isEqual:WEBKIT_HANDLER_SHOW_TX]) {

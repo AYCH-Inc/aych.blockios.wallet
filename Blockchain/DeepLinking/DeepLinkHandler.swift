@@ -18,18 +18,21 @@ class DeepLinkHandler {
 
     func handle(deepLink: URL) {
         Logger.shared.debug("Attempting to handle deep link \(deepLink.absoluteString)")
-        guard let route = DeepLinkRoute.route(from: deepLink) else {
+        guard let route = DeepLinkRoute.route(from: deepLink),
+            let payload = DeepLinkPayload.create(from: deepLink) else {
             return
         }
 
         switch route {
         case .xlmAirdop:
-            handleXlmAirdrop()
+            handleXlmAirdrop(payload.params)
         }
     }
 
-    private func handleXlmAirdrop() {
+    private func handleXlmAirdrop(_ params: [String: String]) {
         appSettings.didTapOnAirdropDeepLink = true
+        appSettings.airdropCampaignCode = params["campaign_code"]
+        appSettings.airdropCampaignEmail = params["campaign_email"]
         Analytics.setUserProperty(AnalyticsService.Campaigns.sunriver.rawValue, forName: "campaign")
     }
 }

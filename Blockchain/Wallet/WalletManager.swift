@@ -8,6 +8,7 @@
 
 import Foundation
 import JavaScriptCore
+import PlatformKit
 
 /**
  Manager object for operations to the Blockchain Wallet.

@@ -9,24 +9,37 @@
 import Foundation
 import RxSwift
 
-protocol TradeExecutionDependencies {
-    var xlmServiceProvider: XLMServiceProvider { get }
-    var assetAccountRepository: AssetAccountRepository { get }
-}
-
-struct TradeExecutionServiceDependencies: TradeExecutionDependencies {
-    let xlmServiceProvider: XLMServiceProvider
-    let assetAccountRepository: AssetAccountRepository
-    init() {
-        xlmServiceProvider = XLMServiceProvider.shared
-        assetAccountRepository = AssetAccountRepository.shared
-    }
-}
-
 class TradeExecutionService: TradeExecutionAPI {
-
-    enum TradeExecutionAPIError: Error {
-        case generic
+    
+    // MARK: Models
+    
+    struct XLMDependencies {
+        let accounts: StellarAccountAPI
+        let transactionAPI: StellarTransactionAPI
+        let ledgerAPI: StellarLedgerAPI
+        let repository: WalletXlmAccountRepository
+        let limits: StellarTradeLimitsAPI
+        
+        init(xlm: XLMServiceProvider = XLMServiceProvider.shared) {
+            transactionAPI = xlm.services.transaction
+            ledgerAPI = xlm.services.ledger
+            repository = xlm.services.repository
+            accounts = xlm.services.accounts
+            limits = xlm.services.limits
+        }
+    }
+    
+    struct Dependencies {
+        let assetAccountRepository: AssetAccountRepository
+        let xlm: XLMDependencies
+        
+        init(
+            repository: AssetAccountRepository = AssetAccountRepository.shared,
+            xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared
+        ) {
+            assetAccountRepository = repository
+            xlm = XLMDependencies(xlm: xlmServiceProvider)
+        }
     }
     
     private struct PathComponents {
@@ -37,17 +50,19 @@ class TradeExecutionService: TradeExecutionAPI {
         )
     }
     
+    // MARK: Private Properties
+    
     private let authentication: NabuAuthenticationService
     private let wallet: Wallet
     private let assetAccountRepository: AssetAccountRepository
-    private let xlmServiceProvider: XLMServiceProvider
+    private let dependencies: Dependencies
     private var disposable: Disposable?
-
     private var pendingXlmPaymentOperation: StellarPaymentOperation?
     
     // MARK: TradeExecutionAPI
     
     var isExecuting: Bool = false
+    
     func canTradeAssetType(_ assetType: AssetType) -> Bool {
         switch assetType {
         case .ethereum:
@@ -57,12 +72,46 @@ class TradeExecutionService: TradeExecutionAPI {
         }
     }
     
-    init(service: NabuAuthenticationService = NabuAuthenticationService.shared,
-         wallet: Wallet = WalletManager.shared.wallet,
-         dependencies: TradeExecutionDependencies) {
+    func validateVolume(_ volume: Decimal, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
+        /// The only supported asset type for this function is `.stellar`
+        /// This is because stellar has minimum account balance requirements.
+        let assetType = assetAccount.address.assetType
+        guard assetType == .stellar else {
+            return Single.just(nil)
+        }
+
+        let accountId = assetAccount.address.address
+        let isSpendable = dependencies.xlm.limits.isSpendable(amount: volume, for: accountId)
+        let max = dependencies.xlm.limits.maxSpendableAmount(for: accountId)
+        return Single.zip(isSpendable, max)
+            .catchError { error -> Single<(Bool, Decimal)> in
+                if let stellarError = error as? StellarServiceError, stellarError == StellarServiceError.noDefaultAccount {
+                    return Single.just((false, 0))
+                }
+                throw error
+            }
+            .flatMap { isSpendable, maxSpendable -> Single<TradeExecutionAPIError?> in
+                guard !isSpendable else {
+                    return Single.just(nil)
+                }
+
+                let value = "\(maxSpendable)".appendAssetSymbol(for: assetType)
+                let description = LocalizationConstants.Stellar.notEnoughXLM + " " + LocalizationConstants.Exchange.yourSpendableBalance
+                let result = description + " " + value
+                return Single.error(TradeExecutionAPIError.exceededMaxVolume(result))
+            }
+    }
+    
+    // MARK: Init
+    
+    init(
+        service: NabuAuthenticationService = NabuAuthenticationService.shared,
+        wallet: Wallet = WalletManager.shared.wallet,
+        dependencies: Dependencies
+        ) {
         self.authentication = service
         self.wallet = wallet
-        self.xlmServiceProvider = dependencies.xlmServiceProvider
+        self.dependencies = dependencies
         self.assetAccountRepository = dependencies.assetAccountRepository
     }
     
@@ -148,8 +197,8 @@ class TradeExecutionService: TradeExecutionAPI {
 
         // TICKET: IOS-1550 Move this to a different service
         if assetType == .stellar {
-            guard let sourceAccount = xlmServiceProvider.services.repository.defaultAccount,
-            let ledger = xlmServiceProvider.services.ledger.currentLedger,
+            guard let sourceAccount = dependencies.xlm.repository.defaultAccount,
+            let ledger = dependencies.xlm.ledgerAPI.currentLedger,
             let fee = ledger.baseFeeInXlm,
             let amount = Decimal(string: orderTransactionLegacy.amount) else { return }
             
@@ -220,9 +269,9 @@ class TradeExecutionService: TradeExecutionAPI {
                 Logger.shared.error("No pending payment operation found")
                 return
             }
-            let services = xlmServiceProvider.services
-            let transaction = services.transaction
-            disposable = services.repository.loadStellarKeyPair()
+            
+            let transaction = dependencies.xlm.transactionAPI
+            disposable = dependencies.xlm.repository.loadStellarKeyPair()
                 .asObservable().flatMap { keyPair -> Completable in
                     return transaction.send(paymentOperation, sourceKeyPair: keyPair)
                 }.subscribeOn(MainScheduler.asyncInstance)

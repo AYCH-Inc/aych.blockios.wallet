@@ -535,6 +535,10 @@ struct LocalizationConstants {
             "Sorry, your orders cannot be fetched at this time.",
             comment: "Error message shown to a user if something went wrong while fetching the user's exchange orders"
         )
+        static let yourSpendableBalance = NSLocalizedString(
+            "Your spendable balance is",
+            comment: "Error message shown to a user if they try to exchange more than what is permitted."
+        )
     }
 
     struct AddressAndKeyImport {

@@ -10,7 +10,7 @@ import UIKit
 
 /// Welcome screen in KYC flow
 final class KYCWelcomeController: KYCBaseViewController {
-    
+
     // MARK: - IBOutlets
 
     @IBOutlet private var imageViewMain: UIImageView!
@@ -89,8 +89,8 @@ final class KYCWelcomeController: KYCBaseViewController {
             size: Constants.FontSizes.ExtraExtraExtraSmall
             ) ?? UIFont.systemFont(ofSize: Constants.FontSizes.ExtraExtraExtraSmall)
         let labelAttributes = [
-            NSAttributedStringKey.font: font,
-            NSAttributedStringKey.foregroundColor: UIColor.gray5
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: UIColor.gray5
         ]
         let labelText = NSMutableAttributedString(
             string: String(

@@ -11,5 +11,6 @@ import RxSwift
 
 protocol StellarLedgerAPI {
     var current: Observable<StellarLedger> { get }
+    var currentLedger: StellarLedger? { get }
 }
 

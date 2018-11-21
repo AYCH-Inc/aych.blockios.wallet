@@ -11,7 +11,6 @@ class ExchangeListViewCell: UITableViewCell {
     fileprivate static let separatorHeight: CGFloat = 1.0
     fileprivate static let totalVerticalPadding: CGFloat = 44.0
 
-
     // MARK: Private IBOutlets
 
     @IBOutlet fileprivate var depositAmount: UILabel!
@@ -39,8 +38,8 @@ class ExchangeListViewCell: UITableViewCell {
         guard let receivedFont = UIFont(name: Constants.FontNames.montserratRegular, size: 16) else { return 0.0 }
         guard let statusFont = UIFont(name: Constants.FontNames.montserratRegular, size: 12) else { return 0.0 }
         
-        let timestampHeight = NSAttributedString(string: received, attributes: [NSAttributedStringKey.font: receivedFont]).height
-        let receivedHeight = NSAttributedString(string: status, attributes: [NSAttributedStringKey.font: statusFont]).height
+        let timestampHeight = NSAttributedString(string: received, attributes: [NSAttributedString.Key.font: receivedFont]).height
+        let receivedHeight = NSAttributedString(string: status, attributes: [NSAttributedString.Key.font: statusFont]).height
         
         let labelHeights = timestampHeight + receivedHeight
         

@@ -8,6 +8,7 @@
 
 import Foundation
 import LocalAuthentication
+import PlatformKit
 
 /**
  Handles biometric and passcode authentication.

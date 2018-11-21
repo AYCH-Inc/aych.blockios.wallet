@@ -59,7 +59,12 @@ class StellarAirdropRegistrationService: StellarAirdropRegistrationAPI {
         ) else {
             return Single.never()
         }
-        let data = ["x-campaign-address": xlmAccount.publicKey]
+        var data = [DataParams.address: xlmAccount.publicKey]
+        if let code = appSettings.airdropCampaignCode,
+            let email = appSettings.airdropCampaignEmail {
+            data[DataParams.code] = code
+            data[DataParams.email] = email
+        }
         let isNewUser = (nabuUser.status == .none) && !appSettings.isCompletingKyc
         let payload = StellarRegisterCampaignPayload(
             data: data,
@@ -75,5 +80,11 @@ class StellarAirdropRegistrationService: StellarAirdropRegistrationAPI {
             type: StellarRegisterCampaignResponse.self,
             headers: ["X-CAMPAIGN": "sunriver"]
         )
+    }
+
+    struct DataParams {
+        static let address = "x-campaign-address"
+        static let code = "x-campaign-code"
+        static let email = "x-campaign-email"
     }
 }

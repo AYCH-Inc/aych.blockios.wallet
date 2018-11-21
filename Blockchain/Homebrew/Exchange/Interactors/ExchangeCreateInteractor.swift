@@ -367,11 +367,8 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
     // MARK: - Private
 
     private func subscribeToBestRates() {
-        guard let model = model else { return }
-
-        let bestRatesDisposable = markets.bestExchangeRates(
-            fiatCurrencyCode: model.fiatCurrencyCode
-        ).subscribe(onNext: { [weak self] rates in
+        let bestRatesDisposable = markets.bestExchangeRates()
+        .subscribe(onNext: { [weak self] rates in
             guard let strongSelf = self else { return }
 
             guard let marketsModel = strongSelf.model else { return }

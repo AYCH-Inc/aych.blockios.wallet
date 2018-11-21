@@ -357,7 +357,6 @@
 - (NSString *)getSMSNumber;
 - (BOOL)getSMSVerifiedStatus;
 - (NSDictionary *)getFiatCurrencies;
-- (NSDictionary *)getBtcCurrencies;
 - (int)getTwoStepType;
 - (BOOL)getEmailVerifiedStatus;
 

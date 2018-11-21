@@ -291,7 +291,17 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
     func validateInput() {
         guard let model = model else { return }
         guard let output = output else { return }
+        
+        let account = model.marketPair.fromAccount
 
+        guard let conversion = model.lastConversion else {
+            Logger.shared.error("No conversion stored")
+            return
+        }
+        
+        guard let volume = Decimal(string: conversion.quote.currencyRatio.base.crypto.value) else { return }
+        guard let candidate = Decimal(string: conversion.baseFiatValue) else { return }
+        
         guard tradeExecution.canTradeAssetType(model.pair.from) else {
             if let errorMessage = errorMessage(for: model.pair.from) {
                 output.showError(message: errorMessage)
@@ -302,61 +312,71 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             }
             return
         }
+        
+        /// Volume is used for XLM in this case. `tradeExecution` has
+        /// references to XLM specific services so it can validate
+        /// that the volume valid by using the ledger.
+        /// This will return `true` for all other asset types other than `.stellar` O
+        let disposable = tradeExecution.validateVolume(volume, for: model.marketPair.fromAccount)
+            .asObservable()
+            .flatMap { [weak self] error -> Observable<(Decimal, Decimal)> in
+                guard let strongSelf = self else {
+                    return Observable.empty()
+                }
+                if let error = error {
+                    return Observable.error(error)
+                }
+                let min = strongSelf.minTradingLimit().asObservable()
+                let max = strongSelf.maxTradingLimit().asObservable()
+                return Observable.zip(min, max)
+            }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { payload in
+                let minValue = payload.0
+                let maxValue = payload.1
 
-        guard let conversion = model.lastConversion else {
-            Logger.shared.error("No conversion stored")
-            return
-        }
-        
-        let min = minTradingLimit().asObservable()
-        let max = maxTradingLimit().asObservable()
-        let account = model.marketPair.fromAccount
-        
-        let disposable = Observable.zip(min, max) {
-            return ($0, $1)
-        }.subscribe(onNext: { payload in
-            let minValue = payload.0
-            let maxValue = payload.1
-            
-            guard let volume = Decimal(string: conversion.quote.currencyRatio.base.crypto.value) else { return }
-            guard let candidate = Decimal(string: conversion.baseFiatValue) else { return }
-            
-            if account.balance < volume {
-                let symbol = conversion.baseCryptoSymbol
-                let notEnough = LocalizationConstants.Exchange.notEnough + " " + symbol + "."
-                let yourBalance = LocalizationConstants.Exchange.yourBalance + " " + "\(account.balance)" + " " + symbol
-                let value = notEnough + " " + yourBalance + "."
-                output.insufficientFunds(balance: value)
-                return
-            }
-            
-            switch candidate {
-            case ..<minValue:
-                let value = NumberFormatter.localCurrencyFormatter.string(for: minValue) ?? ""
-                let minimum = model.fiatCurrencySymbol + value
-                
-                output.entryBelowMinimumValue(minimum: minimum)
-            case maxValue..<Decimal.greatestFiniteMagnitude:
-                guard let value = NumberFormatter.localCurrencyFormatter.string(for: maxValue) else { return }
-                let maximum = model.fiatCurrencySymbol + value
+                if account.balance < volume {
+                    let symbol = conversion.baseCryptoSymbol
+                    let notEnough = LocalizationConstants.Exchange.notEnough + " " + symbol + "."
+                    let yourBalance = LocalizationConstants.Exchange.yourBalance + " " + "\(account.balance)" + " " + symbol
+                    let value = notEnough + " " + yourBalance + "."
+                    output.insufficientFunds(balance: value)
+                    return
+                }
+
+                switch candidate {
+                case ..<minValue:
+                    let value = NumberFormatter.localCurrencyFormatter.string(for: minValue) ?? ""
+                    let minimum = model.fiatCurrencySymbol + value
+
+                    output.entryBelowMinimumValue(minimum: minimum)
+                case maxValue..<Decimal.greatestFiniteMagnitude:
+                    guard let value = NumberFormatter.localCurrencyFormatter.string(for: maxValue) else { return }
+                    let maximum = model.fiatCurrencySymbol + value
                     output.entryAboveMaximumValue(maximum: maximum)
-            default:
-                output.hideError()
-                output.exchangeButtonVisibility(.visible)
-                output.exchangeButtonEnabled(true)
-            }
-        })
+                default:
+                    output.hideError()
+                    output.exchangeButtonVisibility(.visible)
+                    output.exchangeButtonEnabled(true)
+                }
+            }, onError: { [weak self] error in
+                if let tradingError = error as? TradeExecutionAPIError {
+                    switch tradingError {
+                    case .generic:
+                        self?.output?.showError(message: LocalizationConstants.Errors.genericError)
+                    case .exceededMaxVolume(let value):
+                        self?.output?.showError(message: value)
+                    }
+                }
+            })
         disposables.insertWithDiscardableResult(disposable)
     }
 
     // MARK: - Private
 
     private func subscribeToBestRates() {
-        guard let model = model else { return }
-
-        let bestRatesDisposable = markets.bestExchangeRates(
-            fiatCurrencyCode: model.fiatCurrencyCode
-        ).subscribe(onNext: { [weak self] rates in
+        let bestRatesDisposable = markets.bestExchangeRates()
+        .subscribe(onNext: { [weak self] rates in
             guard let strongSelf = self else { return }
 
             guard let marketsModel = strongSelf.model else { return }

@@ -9,7 +9,7 @@
 import Foundation
 
 /// Enumeration for different two-factor authentication types.
-@objc enum AuthenticationTwoFactorType: Int, RawValued {
+@objc public enum AuthenticationTwoFactorType: Int, CaseIterable, Codable {
     case none = 0
     case yubiKey = 1
     case google = 4

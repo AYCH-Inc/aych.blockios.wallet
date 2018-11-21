@@ -12,10 +12,10 @@ import XCTest
 @testable import Blockchain
 
 fileprivate class MockLedgerService: StellarLedgerAPI {
-    var ledger: StellarLedger?
+    var currentLedger: StellarLedger?
 
     var current: Observable<StellarLedger> {
-        guard let ledger = ledger else {
+        guard let ledger = currentLedger else {
             return Observable.just(StellarLedger.create())
         }
         return Observable.just(ledger)
@@ -39,7 +39,7 @@ class StellarAccountServiceTests: XCTestCase {
 
     /// Funding account should fail if amount < 2 * baseReserve
     func testFundAccountFailsForSmallAmount() {
-        ledgerService.ledger = StellarLedger.create(baseReserveInStroops: 10000000)
+        ledgerService.currentLedger = StellarLedger.create(baseReserveInStroops: 10000000)
         let exp = expectation(description: "amountTooLow error should be thrown.")
         _ = accountService.fundAccount(
             "account ID",

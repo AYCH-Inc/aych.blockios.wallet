@@ -1414,15 +1414,6 @@ NSString * const kLockboxInvitation = @"lockbox";
     return [CurrencySymbol currencyNames];
 }
 
-- (NSDictionary *)getBtcCurrencies
-{
-    if (![self isInitialized]) {
-        return nil;
-    }
-
-    return self.accountInfo[DICTIONARY_KEY_ACCOUNT_SETTINGS_BTC_CURRENCIES];
-}
-
 - (int)getTwoStepType
 {
     if (![self isInitialized]) {
@@ -1439,15 +1430,6 @@ NSString * const kLockboxInvitation = @"lockbox";
     }
 
     return [[self.context evaluateScript:@"MyWalletPhone.getEmailVerifiedStatus()"] toBool];
-}
-
-- (BOOL)getTorBlockingStatus
-{
-    if (![self isInitialized]) {
-        return NO;
-    }
-
-    return [self.accountInfo[DICTIONARY_KEY_ACCOUNT_SETTINGS_TOR_BLOCKING] boolValue];
 }
 
 - (void)changeEmail:(NSString *)newEmail

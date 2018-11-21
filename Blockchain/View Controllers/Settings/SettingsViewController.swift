@@ -10,6 +10,7 @@ import UIKit
 import LocalAuthentication
 import CoreFoundation
 import RxSwift
+import PlatformKit
 
 @IBDesignable @objc class SettingsTableViewController: UITableViewController,
 AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDelegate {

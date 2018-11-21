@@ -72,10 +72,8 @@
 		3A019124212DF24700AED2BF /* ExchangeCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF9A212B3742003A8A08 /* ExchangeCreateView.swift */; };
 		3A01914A212E17E500AED2BF /* ExchangeCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF98212B36F1003A8A08 /* ExchangeCreateViewController.swift */; };
 		3A01914E212E180500AED2BF /* FromToButtonDelegateIntermediate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF92212B36B2003A8A08 /* FromToButtonDelegateIntermediate.swift */; };
-		3A1552D82135FFDB00683CEB /* Rates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552D72135FFDB00683CEB /* Rates.swift */; };
-		3A1552D92135FFDB00683CEB /* Rates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552D72135FFDB00683CEB /* Rates.swift */; };
-		3A1552E42136000F00683CEB /* RatesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552E32136000F00683CEB /* RatesAPI.swift */; };
-		3A1552E52136000F00683CEB /* RatesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552E32136000F00683CEB /* RatesAPI.swift */; };
+		3A1552D82135FFDB00683CEB /* ExchangeTradingPairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552D72135FFDB00683CEB /* ExchangeTradingPairs.swift */; };
+		3A1552D92135FFDB00683CEB /* ExchangeTradingPairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552D72135FFDB00683CEB /* ExchangeTradingPairs.swift */; };
 		3A1552E7213600B400683CEB /* TradingPairConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552E6213600B400683CEB /* TradingPairConfiguration.swift */; };
 		3A1552E8213600B400683CEB /* TradingPairConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552E6213600B400683CEB /* TradingPairConfiguration.swift */; };
 		3A1552EA2136EA8D00683CEB /* TradeExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552E92136EA8D00683CEB /* TradeExecutionService.swift */; };
@@ -254,8 +252,6 @@
 		3A9A02612177F10200E2848E /* StellarOperationsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A02602177F10200E2848E /* StellarOperationsAPI.swift */; };
 		3A9A026F2178E19400E2848E /* StellarOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A026E2178E19400E2848E /* StellarOperation.swift */; };
 		3A9A02702178E19400E2848E /* StellarOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A026E2178E19400E2848E /* StellarOperation.swift */; };
-		3A9B7F012135B68100754FD6 /* RatesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B7F002135B68100754FD6 /* RatesService.swift */; };
-		3A9B7F022135B68100754FD6 /* RatesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B7F002135B68100754FD6 /* RatesService.swift */; };
 		3A9B7F112135CF9800754FD6 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B7F102135CF9800754FD6 /* NetworkRequest.swift */; };
 		3A9B7F122135CF9800754FD6 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B7F102135CF9800754FD6 /* NetworkRequest.swift */; };
 		3AAEF93E2140829D005852D1 /* PlainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AAEF93D2140829D005852D1 /* PlainCell.xib */; };
@@ -337,7 +333,6 @@
 		511356E4209CAFC600056D65 /* NetworkManager+PushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511356E2209CAFC600056D65 /* NetworkManager+PushNotifications.swift */; };
 		51135701209CEEB900056D65 /* PushNotificationAuthPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51135700209CEEB900056D65 /* PushNotificationAuthPayload.swift */; };
 		51135702209CEEB900056D65 /* PushNotificationAuthPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51135700209CEEB900056D65 /* PushNotificationAuthPayload.swift */; };
-		51135703209CF5D000056D65 /* AuthenticationTwoFactorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD279AF209A5E7C00C0EAFC /* AuthenticationTwoFactorType.swift */; };
 		51135705209CF5E200056D65 /* WalletBuySellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31A7D02099310B00FE6268 /* WalletBuySellDelegate.swift */; };
 		51135706209CF64900056D65 /* BackupNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2913FA11B31830000DC6C15 /* BackupNavigationViewController.swift */; };
 		51135707209CF68500056D65 /* BackupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2599B9E1B0B5FC800C2EA81 /* BackupViewController.swift */; };
@@ -674,6 +669,7 @@
 		AA126DBD212F4DA5005886A3 /* SignedRetailTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA126DBB212F4DA5005886A3 /* SignedRetailTokenResponse.swift */; };
 		AA126DBF212F4E2D005886A3 /* SignedRetailTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA126DBE212F4E2D005886A3 /* SignedRetailTokenRequest.swift */; };
 		AA126DC0212F4E2D005886A3 /* SignedRetailTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA126DBE212F4E2D005886A3 /* SignedRetailTokenRequest.swift */; };
+		AA15345E21A45FBF0099BA9D /* WalletSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABF9000219E35DB004E8C12 /* WalletSettingsService.swift */; };
 		AA15DFE621765551006F30D9 /* WalletXlmAccountRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15DFE521765551006F30D9 /* WalletXlmAccountRepository.swift */; };
 		AA15DFE721765551006F30D9 /* WalletXlmAccountRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15DFE521765551006F30D9 /* WalletXlmAccountRepository.swift */; };
 		AA15DFF521765BC8006F30D9 /* WalletXlmMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15DFF421765BC8006F30D9 /* WalletXlmMetadata.swift */; };
@@ -702,6 +698,7 @@
 		AA2F121E21405BE6006B1FC1 /* JSContext+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2F121D21405BE6006B1FC1 /* JSContext+Helpers.swift */; };
 		AA2F121F21405BE6006B1FC1 /* JSContext+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2F121D21405BE6006B1FC1 /* JSContext+Helpers.swift */; };
 		AA2F122C2140A92E006B1FC1 /* JSContext+HelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2F122A2140A92E006B1FC1 /* JSContext+HelpersTests.swift */; };
+		AA30893621A5F6FA002F9B37 /* DeepLinkPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B8C83721A5E607005CAA0D /* DeepLinkPayload.swift */; };
 		AA31A7B42098DA4900FE6268 /* AlertViewPresenter+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31A7B32098DA4800FE6268 /* AlertViewPresenter+Wallet.swift */; };
 		AA31A7B52098DA5200FE6268 /* AlertViewPresenter+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31A7B32098DA4800FE6268 /* AlertViewPresenter+Wallet.swift */; };
 		AA31A7BB2098DFCF00FE6268 /* SideMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31A7BA2098DFCF00FE6268 /* SideMenuItem.swift */; };
@@ -750,6 +747,9 @@
 		AA54E4F7216D3B3F005061F9 /* KYCStateSelectionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA54E4F5216D3B3F005061F9 /* KYCStateSelectionInteractor.swift */; };
 		AA54E4FA216D5C99005061F9 /* KYCStateSelectionPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA54E4F9216D5C99005061F9 /* KYCStateSelectionPresenterTests.swift */; };
 		AA54E4FC216D5CC4005061F9 /* MockKYCStateSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA54E4FB216D5CC4005061F9 /* MockKYCStateSelectionView.swift */; };
+		AA55B34A219DF84500533533 /* WalletSettingsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA55B349219DF84500533533 /* WalletSettingsAPI.swift */; };
+		AA55B359219DFAF800533533 /* WalletSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA55B358219DFAF800533533 /* WalletSettings.swift */; };
+		AA55B35B219DFD1100533533 /* WalletSettingsApiMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA55B35A219DFD1100533533 /* WalletSettingsApiMethod.swift */; };
 		AA56423820DDBDAA0092A022 /* PinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56421D20DDBDA90092A022 /* PinTests.swift */; };
 		AA56423B20DDBDBB0092A022 /* String+EscapeJSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56423920DDBDBB0092A022 /* String+EscapeJSTests.swift */; };
 		AA56423C20DDBDBB0092A022 /* NumberFormatter+AssetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56423A20DDBDBB0092A022 /* NumberFormatter+AssetsTests.swift */; };
@@ -807,6 +807,11 @@
 		AA7E773E210BA487009DFB4C /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CA96721079B7500C2AD46 /* Strings.swift */; };
 		AA7E773F210BA48B009DFB4C /* AuthenticationCoordinator+Biometrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CA98321079B8500C2AD46 /* AuthenticationCoordinator+Biometrics.swift */; };
 		AA7E7740210BA48B009DFB4C /* AuthenticationCoordinator+Biometrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CA98321079B8500C2AD46 /* AuthenticationCoordinator+Biometrics.swift */; };
+		AA8A3741219E2F0C007AF5E1 /* AuthenticationTwoFactorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD279AF209A5E7C00C0EAFC /* AuthenticationTwoFactorType.swift */; };
+		AA93414921A327FA00248E75 /* WalletAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93414821A327FA00248E75 /* WalletAction.swift */; };
+		AA93414A21A327FA00248E75 /* WalletAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93414821A327FA00248E75 /* WalletAction.swift */; };
+		AA93414F21A32D7800248E75 /* WalletActionSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93414E21A32D7800248E75 /* WalletActionSubscriber.swift */; };
+		AA93415021A32D7800248E75 /* WalletActionSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93414E21A32D7800248E75 /* WalletActionSubscriber.swift */; };
 		AA94965E20CB5FA600A9C2DD /* AssetAddressFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA94965D20CB5FA600A9C2DD /* AssetAddressFactory.swift */; };
 		AA94965F20CB5FA600A9C2DD /* AssetAddressFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA94965D20CB5FA600A9C2DD /* AssetAddressFactory.swift */; };
 		AA94966420CB613100A9C2DD /* AssetAddressFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA94966220CB613100A9C2DD /* AssetAddressFactoryTests.swift */; };
@@ -844,6 +849,8 @@
 		AABE35EB21939AC00001AE4A /* WalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE35EA21939AC00001AE4A /* WalletError.swift */; };
 		AABE35EC21939AC00001AE4A /* WalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE35EA21939AC00001AE4A /* WalletError.swift */; };
 		AABE35EF21939C620001AE4A /* NabuAuthenticationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE35EE21939C620001AE4A /* NabuAuthenticationServiceTests.swift */; };
+		AABF9001219E35DB004E8C12 /* WalletSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABF9000219E35DB004E8C12 /* WalletSettingsService.swift */; };
+		AABF9012219E3E99004E8C12 /* WalletSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABF9011219E3E99004E8C12 /* WalletSettingsTests.swift */; };
 		AAC8F35620993BB8004B7D33 /* WebSocketCloseCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC8F35520993BB8004B7D33 /* WebSocketCloseCode.swift */; };
 		AAC8F35820993BC1004B7D33 /* WebSocketCloseCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC8F35520993BB8004B7D33 /* WebSocketCloseCode.swift */; };
 		AAC9FCE520ADF17100E28B7A /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC9FCE420ADF17100E28B7A /* SoundManager.swift */; };
@@ -896,7 +903,10 @@
 		AACE32082097835F00B7B806 /* AuthenticationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACE32072097835F00B7B806 /* AuthenticationManagerTests.swift */; };
 		AACE320B20978EB100B7B806 /* MockWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACE320A20978EB100B7B806 /* MockWallet.swift */; };
 		AAD158DE2123740C0058B3C8 /* BlockchainDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD158DD2123740C0058B3C8 /* BlockchainDataRepository.swift */; };
-		AAD279B0209A5E7C00C0EAFC /* AuthenticationTwoFactorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD279AF209A5E7C00C0EAFC /* AuthenticationTwoFactorType.swift */; };
+		AAD25826219E481A00D9CEA1 /* EmptyNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD25825219E481A00D9CEA1 /* EmptyNetworkResponse.swift */; };
+		AAD25827219E481A00D9CEA1 /* EmptyNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD25825219E481A00D9CEA1 /* EmptyNetworkResponse.swift */; };
+		AAD25829219E4E3E00D9CEA1 /* WalletSettingsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD25828219E4E3E00D9CEA1 /* WalletSettingsRequest.swift */; };
+		AAD2582A219E4E3E00D9CEA1 /* WalletSettingsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD25828219E4E3E00D9CEA1 /* WalletSettingsRequest.swift */; };
 		AAD279E0209A99DA00C0EAFC /* AVCaptureDeviceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD279DF209A99D900C0EAFC /* AVCaptureDeviceInput.swift */; };
 		AAD27A28209CFE2100C0EAFC /* PasswordConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD27A27209CFE2100C0EAFC /* PasswordConfirmView.swift */; };
 		AAD27A29209CFE2100C0EAFC /* PasswordConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD27A27209CFE2100C0EAFC /* PasswordConfirmView.swift */; };
@@ -909,6 +919,11 @@
 		AADB023A20C0A871000FFFEC /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADB023820C0A871000FFFEC /* HttpMethod.swift */; };
 		AADB027E20C0BACA000FFFEC /* WalletCryptoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADB027D20C0BACA000FFFEC /* WalletCryptoService.swift */; };
 		AADB027F20C0BACA000FFFEC /* WalletCryptoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADB027D20C0BACA000FFFEC /* WalletCryptoService.swift */; };
+		AAE5D19721A3C18200D4A77A /* WalletActionEventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE5D19621A3C18200D4A77A /* WalletActionEventBus.swift */; };
+		AAE5D19821A3C18200D4A77A /* WalletActionEventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE5D19621A3C18200D4A77A /* WalletActionEventBus.swift */; };
+		AAE5D1A421A3C4FE00D4A77A /* WalletActionEventBusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE5D1A321A3C4FE00D4A77A /* WalletActionEventBusTests.swift */; };
+		AAE5D1A621A3C52300D4A77A /* WalletActionSubscriberTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE5D1A521A3C52300D4A77A /* WalletActionSubscriberTests.swift */; };
+		AAE5D1A821A3C7F500D4A77A /* MockWalletSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE5D1A721A3C7F500D4A77A /* MockWalletSettingsService.swift */; };
 		AAE9113120A51C900093A431 /* ReminderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9113020A51C900093A431 /* ReminderType.swift */; };
 		AAE9113220A51C900093A431 /* ReminderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9113020A51C900093A431 /* ReminderType.swift */; };
 		AAE9113520A520D40093A431 /* WalletAccountInfoDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9113420A520D40093A431 /* WalletAccountInfoDelegate.swift */; };
@@ -1201,6 +1216,8 @@
 		ECD244F319A8AC45004B1F40 /* PEKeyboard-4-next.png in Resources */ = {isa = PBXBuildFile; fileRef = ECD244E919A8AC45004B1F40 /* PEKeyboard-4-next.png */; };
 		ECD244F419A8AC45004B1F40 /* PEKeyboard-4.png in Resources */ = {isa = PBXBuildFile; fileRef = ECD244EA19A8AC45004B1F40 /* PEKeyboard-4.png */; };
 		ECD244F719A8B444004B1F40 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD244F619A8B444004B1F40 /* UIImage+Utils.m */; };
+		F7B8C83821A5E607005CAA0D /* DeepLinkPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B8C83721A5E607005CAA0D /* DeepLinkPayload.swift */; };
+		F7B8C84321A5EB81005CAA0D /* DeepLinkPayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B8C84221A5EB81005CAA0D /* DeepLinkPayloadTests.swift */; };
 		FA6323391A433B1C00EB3974 /* Foundation-Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6323381A433B1C00EB3974 /* Foundation-Utility.m */; };
 		FCB33B6F1FC369D700317E6B /* ExchangeDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB33B6E1FC369D700317E6B /* ExchangeDetailView.m */; };
 		FCB33B721FC36EA200317E6B /* ExchangeProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB33B711FC36EA200317E6B /* ExchangeProgressViewController.m */; };
@@ -1325,6 +1342,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = F6BDA802145900D200FE3253;
 			remoteInfo = "SocketRocketTests-iOS";
+		};
+		AAE5D1A921A3C85300D4A77A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A68655C219A0BBA0009FF29;
+			remoteInfo = PlatformKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1466,8 +1490,7 @@
 		3A01911A212DE57A00AED2BF /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		3A01911C212DEF8000AED2BF /* AsyncBlockOperaiton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncBlockOperaiton.swift; sourceTree = "<group>"; };
 		3A019121212DF0EB00AED2BF /* AsyncBlockOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncBlockOperationTests.swift; sourceTree = "<group>"; };
-		3A1552D72135FFDB00683CEB /* Rates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rates.swift; sourceTree = "<group>"; };
-		3A1552E32136000F00683CEB /* RatesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesAPI.swift; sourceTree = "<group>"; };
+		3A1552D72135FFDB00683CEB /* ExchangeTradingPairs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeTradingPairs.swift; sourceTree = "<group>"; };
 		3A1552E6213600B400683CEB /* TradingPairConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradingPairConfiguration.swift; sourceTree = "<group>"; };
 		3A1552E92136EA8D00683CEB /* TradeExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeExecutionService.swift; sourceTree = "<group>"; };
 		3A1552EC2136EAF000683CEB /* TradeLimits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeLimits.swift; sourceTree = "<group>"; };
@@ -1596,7 +1619,6 @@
 		3A9511D921769DB500F26631 /* SendLumensViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SendLumensViewController.storyboard; sourceTree = "<group>"; };
 		3A9A02602177F10200E2848E /* StellarOperationsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarOperationsAPI.swift; sourceTree = "<group>"; };
 		3A9A026E2178E19400E2848E /* StellarOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarOperation.swift; sourceTree = "<group>"; };
-		3A9B7F002135B68100754FD6 /* RatesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesService.swift; sourceTree = "<group>"; };
 		3A9B7F102135CF9800754FD6 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		3AAEF93D2140829D005852D1 /* PlainCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlainCell.xib; sourceTree = "<group>"; };
 		3AAEF949214083ED005852D1 /* LayoutAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutAttributes.swift; sourceTree = "<group>"; };
@@ -3510,6 +3532,9 @@
 		AA54E4F5216D3B3F005061F9 /* KYCStateSelectionInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCStateSelectionInteractor.swift; sourceTree = "<group>"; };
 		AA54E4F9216D5C99005061F9 /* KYCStateSelectionPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCStateSelectionPresenterTests.swift; sourceTree = "<group>"; };
 		AA54E4FB216D5CC4005061F9 /* MockKYCStateSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockKYCStateSelectionView.swift; sourceTree = "<group>"; };
+		AA55B349219DF84500533533 /* WalletSettingsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSettingsAPI.swift; sourceTree = "<group>"; };
+		AA55B358219DFAF800533533 /* WalletSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSettings.swift; sourceTree = "<group>"; };
+		AA55B35A219DFD1100533533 /* WalletSettingsApiMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSettingsApiMethod.swift; sourceTree = "<group>"; };
 		AA56421D20DDBDA90092A022 /* PinTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinTests.swift; sourceTree = "<group>"; };
 		AA56423920DDBDBB0092A022 /* String+EscapeJSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+EscapeJSTests.swift"; sourceTree = "<group>"; };
 		AA56423A20DDBDBB0092A022 /* NumberFormatter+AssetsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+AssetsTests.swift"; sourceTree = "<group>"; };
@@ -3543,6 +3568,8 @@
 		AA787A032187A63000E2D4CF /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
 		AA787A062187A86100E2D4CF /* DeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRoute.swift; sourceTree = "<group>"; };
 		AA787A0A2187AC0500E2D4CF /* DeepLinkRouteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouteTests.swift; sourceTree = "<group>"; };
+		AA93414821A327FA00248E75 /* WalletAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAction.swift; sourceTree = "<group>"; };
+		AA93414E21A32D7800248E75 /* WalletActionSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionSubscriber.swift; sourceTree = "<group>"; };
 		AA94965D20CB5FA600A9C2DD /* AssetAddressFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetAddressFactory.swift; sourceTree = "<group>"; };
 		AA94966220CB613100A9C2DD /* AssetAddressFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetAddressFactoryTests.swift; sourceTree = "<group>"; };
 		AA9B30D020F6D85000A7F809 /* WalletUpgradeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletUpgradeDelegate.swift; sourceTree = "<group>"; };
@@ -3571,6 +3598,8 @@
 		AABDED91208FDFE3002D8BAC /* HTTPCookieStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPCookieStorage.swift; sourceTree = "<group>"; };
 		AABE35EA21939AC00001AE4A /* WalletError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletError.swift; sourceTree = "<group>"; };
 		AABE35EE21939C620001AE4A /* NabuAuthenticationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NabuAuthenticationServiceTests.swift; sourceTree = "<group>"; };
+		AABF9000219E35DB004E8C12 /* WalletSettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSettingsService.swift; sourceTree = "<group>"; };
+		AABF9011219E3E99004E8C12 /* WalletSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSettingsTests.swift; sourceTree = "<group>"; };
 		AAC8F35520993BB8004B7D33 /* WebSocketCloseCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketCloseCode.swift; sourceTree = "<group>"; };
 		AAC9FCE420ADF17100E28B7A /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		AAC9FCED20AE456400E28B7A /* WalletTransactionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletTransactionDelegate.swift; sourceTree = "<group>"; };
@@ -3585,6 +3614,8 @@
 		AACE32072097835F00B7B806 /* AuthenticationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManagerTests.swift; sourceTree = "<group>"; };
 		AACE320A20978EB100B7B806 /* MockWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWallet.swift; sourceTree = "<group>"; };
 		AAD158DD2123740C0058B3C8 /* BlockchainDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockchainDataRepository.swift; sourceTree = "<group>"; };
+		AAD25825219E481A00D9CEA1 /* EmptyNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyNetworkResponse.swift; sourceTree = "<group>"; };
+		AAD25828219E4E3E00D9CEA1 /* WalletSettingsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSettingsRequest.swift; sourceTree = "<group>"; };
 		AAD279AF209A5E7C00C0EAFC /* AuthenticationTwoFactorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationTwoFactorType.swift; sourceTree = "<group>"; };
 		AAD279DF209A99D900C0EAFC /* AVCaptureDeviceInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVCaptureDeviceInput.swift; sourceTree = "<group>"; };
 		AAD27A27209CFE2100C0EAFC /* PasswordConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordConfirmView.swift; sourceTree = "<group>"; };
@@ -3592,6 +3623,10 @@
 		AADB01E820C09FA7000FFFEC /* WalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletService.swift; sourceTree = "<group>"; };
 		AADB023820C0A871000FFFEC /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		AADB027D20C0BACA000FFFEC /* WalletCryptoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCryptoService.swift; sourceTree = "<group>"; };
+		AAE5D19621A3C18200D4A77A /* WalletActionEventBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionEventBus.swift; sourceTree = "<group>"; };
+		AAE5D1A321A3C4FE00D4A77A /* WalletActionEventBusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionEventBusTests.swift; sourceTree = "<group>"; };
+		AAE5D1A521A3C52300D4A77A /* WalletActionSubscriberTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionSubscriberTests.swift; sourceTree = "<group>"; };
+		AAE5D1A721A3C7F500D4A77A /* MockWalletSettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWalletSettingsService.swift; sourceTree = "<group>"; };
 		AAE9113020A51C900093A431 /* ReminderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderType.swift; sourceTree = "<group>"; };
 		AAE9113420A520D40093A431 /* WalletAccountInfoDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAccountInfoDelegate.swift; sourceTree = "<group>"; };
 		AAE9113C20A640A40093A431 /* PinPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinPayload.swift; sourceTree = "<group>"; };
@@ -3822,7 +3857,6 @@
 		C7FF10DE2141A89500CBA3CB /* Fix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fix.swift; sourceTree = "<group>"; };
 		C7FF10E92141AAB300CBA3CB /* MarketsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsModel.swift; sourceTree = "<group>"; };
 		C7FF110E2141E24000CBA3CB /* InputsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputsState.swift; sourceTree = "<group>"; };
-		C90A0884126BB17EBBDCFD8A /* Pods-BlockchainTests.debug testnet.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockchainTests.debug testnet.xcconfig"; path = "Pods/Target Support Files/Pods-BlockchainTests/Pods-BlockchainTests.debug testnet.xcconfig"; sourceTree = "<group>"; };
 		C9BE91671945D8F600FD516D /* PENumpadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PENumpadView.h; sourceTree = "<group>"; };
 		C9BE91681945D8F600FD516D /* PENumpadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PENumpadView.m; sourceTree = "<group>"; };
 		C9BE91691945D8F600FD516D /* PEPinEntryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEPinEntryController.h; sourceTree = "<group>"; };
@@ -3846,7 +3880,6 @@
 		CFA0671E1E65D426008456C1 /* WebLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebLoginViewController.m; sourceTree = "<group>"; };
 		CFA067201E65D49C008456C1 /* WebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebLoginViewController.h; sourceTree = "<group>"; };
 		CFD602B01E64AC2D006F6208 /* wallet-ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "wallet-ios.js"; sourceTree = "<group>"; };
-		DEEFE947AD4F35A82B5D29CB /* Pods-Blockchain.debug testnet.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blockchain.debug testnet.xcconfig"; path = "Pods/Target Support Files/Pods-Blockchain/Pods-Blockchain.debug testnet.xcconfig"; sourceTree = "<group>"; };
 		ECD244E119A8AC45004B1F40 /* PEKeyboard-3-done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PEKeyboard-3-done.png"; sourceTree = "<group>"; };
 		ECD244E219A8AC45004B1F40 /* PEKeyboard-3-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PEKeyboard-3-dot.png"; sourceTree = "<group>"; };
 		ECD244E319A8AC45004B1F40 /* PEKeyboard-3-edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PEKeyboard-3-edit.png"; sourceTree = "<group>"; };
@@ -3862,6 +3895,8 @@
 		F0C7614B42E9F9CE6B371C8E /* Pods-BlockchainTests.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockchainTests.debug staging.xcconfig"; path = "Pods/Target Support Files/Pods-BlockchainTests/Pods-BlockchainTests.debug staging.xcconfig"; sourceTree = "<group>"; };
 		F42A8F3827ECF2B3E0F43D8F /* Pods_StellarKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StellarKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F505311BDC14FAB82874AA21 /* Pods-StellarKit.debug testnet.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StellarKit.debug testnet.xcconfig"; path = "Pods/Target Support Files/Pods-StellarKit/Pods-StellarKit.debug testnet.xcconfig"; sourceTree = "<group>"; };
+		F7B8C83721A5E607005CAA0D /* DeepLinkPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkPayload.swift; sourceTree = "<group>"; };
+		F7B8C84221A5EB81005CAA0D /* DeepLinkPayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkPayloadTests.swift; sourceTree = "<group>"; };
 		FA6323371A433B1C00EB3974 /* Foundation-Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Foundation-Utility.h"; sourceTree = "<group>"; };
 		FA6323381A433B1C00EB3974 /* Foundation-Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation-Utility.m"; sourceTree = "<group>"; };
 		FCB33B6D1FC369D700317E6B /* ExchangeDetailView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExchangeDetailView.h; sourceTree = "<group>"; };
@@ -4023,7 +4058,7 @@
 				3ABB80BA213F0CD300AD57BE /* Limit.swift */,
 				C7FF10E92141AAB300CBA3CB /* MarketsModel.swift */,
 				3A91F7952137067400CDC3FD /* Order.swift */,
-				3A1552D72135FFDB00683CEB /* Rates.swift */,
+				3A1552D72135FFDB00683CEB /* ExchangeTradingPairs.swift */,
 				3A1552EC2136EAF000683CEB /* TradeLimits.swift */,
 				C7C0DC05212F6594000EFE71 /* TradingPair.swift */,
 				3A1552E6213600B400683CEB /* TradingPairConfiguration.swift */,
@@ -4053,7 +4088,6 @@
 				C72AC7012134A90B001DA48B /* ExchangeInputsAPI.swift */,
 				3AB4D901212F4A0E004F0160 /* ExchangeListContracts.swift */,
 				3A26AF79212B0CCB003A8A08 /* PartnerExchangeAPI.swift */,
-				3A1552E32136000F00683CEB /* RatesAPI.swift */,
 				3A1552EF2136FFE200683CEB /* TradeExecutionAPI.swift */,
 				AA68F42E2151A9CD0099BB83 /* TradeLimitsAPI.swift */,
 			);
@@ -4069,7 +4103,6 @@
 				3A26AF9E212B51C0003A8A08 /* HomebrewExchangeService.swift */,
 				C7FA9B58212F499D00B98EBF /* MarketsService.swift */,
 				3A26AF7C212B13FA003A8A08 /* PartnerExchangeService.swift */,
-				3A9B7F002135B68100754FD6 /* RatesService.swift */,
 				3A1552E92136EA8D00683CEB /* TradeExecutionService.swift */,
 				AA68F43A2151AA1F0099BB83 /* TradeLimitsService.swift */,
 			);
@@ -4322,8 +4355,9 @@
 		3A68656B219A0BBB0009FF29 /* PlatformKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				3A68656C219A0BBB0009FF29 /* PlatformKitTests.swift */,
 				3A68656E219A0BBB0009FF29 /* Info.plist */,
+				3A68656C219A0BBB0009FF29 /* PlatformKitTests.swift */,
+				AABF9005219E3E7B004E8C12 /* Blockchain */,
 			);
 			path = PlatformKitTests;
 			sourceTree = "<group>";
@@ -4332,8 +4366,9 @@
 			isa = PBXGroup;
 			children = (
 				3A8473A7219A471900F22FA6 /* Accounts */,
-				3A68659D219A0D470009FF29 /* Transactions */,
+				AA55B355219DF97700533533 /* Blockchain */,
 				3A686596219A0CEE0009FF29 /* General */,
+				3A68659D219A0D470009FF29 /* Transactions */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4360,6 +4395,7 @@
 			isa = PBXGroup;
 			children = (
 				3A8473A4219A434F00F22FA6 /* Accounts */,
+				AA55B354219DF96400533533 /* Blockchain */,
 				3A6865A2219A0DAD0009FF29 /* Transactions */,
 			);
 			path = APIs;
@@ -4738,7 +4774,6 @@
 			isa = PBXGroup;
 			children = (
 				51A665C62080EBD80040EE7C /* AuthenticationError.swift */,
-				AAD279AF209A5E7C00C0EAFC /* AuthenticationTwoFactorType.swift */,
 				510EA16F2080F16100A63AB8 /* PasscodePayload.swift */,
 				AAE9113C20A640A40093A431 /* PinPayload.swift */,
 				AA63F86620A27AC6002B719B /* PostAuthenticationRoute.swift */,
@@ -4794,6 +4829,7 @@
 		511356FF209CEE9900056D65 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AAD25825219E481A00D9CEA1 /* EmptyNetworkResponse.swift */,
 				AA69118320D0967300DDB541 /* NetworkError.swift */,
 				AA1E523C2097E6AC0099BD10 /* PinStoreResponse.swift */,
 				51135700209CEEB900056D65 /* PushNotificationAuthPayload.swift */,
@@ -7512,6 +7548,7 @@
 		AA16D0F221794F8B0042AF7E /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
+				AAE5D1A221A3C4DC00D4A77A /* Analytics */,
 				AA16D0F321794F960042AF7E /* Metadata */,
 			);
 			path = Wallet;
@@ -7626,6 +7663,40 @@
 			path = StateSelection;
 			sourceTree = "<group>";
 		};
+		AA55B354219DF96400533533 /* Blockchain */ = {
+			isa = PBXGroup;
+			children = (
+				AABF8FF4219E359F004E8C12 /* Wallet */,
+			);
+			path = Blockchain;
+			sourceTree = "<group>";
+		};
+		AA55B355219DF97700533533 /* Blockchain */ = {
+			isa = PBXGroup;
+			children = (
+				AABF8FFE219E35A6004E8C12 /* Wallet */,
+			);
+			path = Blockchain;
+			sourceTree = "<group>";
+		};
+		AA55B356219DFADF00533533 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				AA55B349219DF84500533533 /* WalletSettingsAPI.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		AA55B357219DFAEA00533533 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				AAD279AF209A5E7C00C0EAFC /* AuthenticationTwoFactorType.swift */,
+				AA55B358219DFAF800533533 /* WalletSettings.swift */,
+				AA55B35A219DFD1100533533 /* WalletSettingsApiMethod.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		AA63F84E20A12D88002B719B /* URL */ = {
 			isa = PBXGroup;
 			children = (
@@ -7720,6 +7791,7 @@
 			children = (
 				AA787A032187A63000E2D4CF /* DeepLinkHandler.swift */,
 				AA787A062187A86100E2D4CF /* DeepLinkRoute.swift */,
+				F7B8C83721A5E607005CAA0D /* DeepLinkPayload.swift */,
 			);
 			path = DeepLinking;
 			sourceTree = "<group>";
@@ -7728,8 +7800,19 @@
 			isa = PBXGroup;
 			children = (
 				AA787A0A2187AC0500E2D4CF /* DeepLinkRouteTests.swift */,
+				F7B8C84221A5EB81005CAA0D /* DeepLinkPayloadTests.swift */,
 			);
 			path = DeepLinking;
+			sourceTree = "<group>";
+		};
+		AA93413E21A327E300248E75 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				AA93414821A327FA00248E75 /* WalletAction.swift */,
+				AA93414E21A32D7800248E75 /* WalletActionSubscriber.swift */,
+				AAE5D19621A3C18200D4A77A /* WalletActionEventBus.swift */,
+			);
+			path = Analytics;
 			sourceTree = "<group>";
 		};
 		AA94966120CB611F00A9C2DD /* Addresses */ = {
@@ -7844,9 +7927,11 @@
 				C76D731620B24B5300040B57 /* WalletTransferAllDelegate.swift */,
 				AA9B30D020F6D85000A7F809 /* WalletUpgradeDelegate.swift */,
 				C79DD06D20B3B74A00DF3684 /* WalletWatchOnlyDelegate.swift */,
+				AA93413E21A327E300248E75 /* Analytics */,
 				AA035C872176A38D00731CD5 /* Metadata */,
 				AAA341B12180E5E400E09561 /* Mnemonic */,
 				AABE35E021939AA00001AE4A /* Models */,
+				AABF8FFF219E35CA004E8C12 /* Settings */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -7865,6 +7950,55 @@
 				AABE35EE21939C620001AE4A /* NabuAuthenticationServiceTests.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		AABF8FF4219E359F004E8C12 /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				AA55B356219DFADF00533533 /* Settings */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
+		AABF8FFE219E35A6004E8C12 /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				AA55B357219DFAEA00533533 /* Settings */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
+		AABF8FFF219E35CA004E8C12 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				AABF9000219E35DB004E8C12 /* WalletSettingsService.swift */,
+				AAD25828219E4E3E00D9CEA1 /* WalletSettingsRequest.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		AABF9005219E3E7B004E8C12 /* Blockchain */ = {
+			isa = PBXGroup;
+			children = (
+				AABF900F219E3E86004E8C12 /* Wallet */,
+			);
+			path = Blockchain;
+			sourceTree = "<group>";
+		};
+		AABF900F219E3E86004E8C12 /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				AABF9010219E3E89004E8C12 /* Settings */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
+		AABF9010219E3E89004E8C12 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				AABF9011219E3E99004E8C12 /* WalletSettingsTests.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		AACE317E2092793300B7B806 /* Pin */ = {
@@ -7918,6 +8052,7 @@
 				AACE320A20978EB100B7B806 /* MockWallet.swift */,
 				AA6911A020D18B6E00DDB541 /* MockWalletService.swift */,
 				AAB75A012189641900A0AD11 /* MockXlmWallet.swift */,
+				AAE5D1A721A3C7F500D4A77A /* MockWalletSettingsService.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -7937,6 +8072,15 @@
 				AADB01E820C09FA7000FFFEC /* WalletService.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		AAE5D1A221A3C4DC00D4A77A /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				AAE5D1A321A3C4FE00D4A77A /* WalletActionEventBusTests.swift */,
+				AAE5D1A521A3C52300D4A77A /* WalletActionSubscriberTests.swift */,
+			);
+			path = Analytics;
 			sourceTree = "<group>";
 		};
 		AAE94DC820C25111005A3595 /* API */ = {
@@ -8345,12 +8489,10 @@
 				5177E828212B34A9008E13AB /* Pods-Blockchain.debug dev.xcconfig */,
 				404A01EFD6ABF02E4F6F337A /* Pods-Blockchain.debug production.xcconfig */,
 				5177E7D8212B07A9008E13AB /* Pods-Blockchain.debug staging.xcconfig */,
-				DEEFE947AD4F35A82B5D29CB /* Pods-Blockchain.debug testnet.xcconfig */,
 				8D45B1ADEBD6D8FC96A37724 /* Pods-Blockchain.release.xcconfig */,
 				0F382300C1E5E6192A207AA9 /* Pods-BlockchainTests.debug dev.xcconfig */,
 				12597546BEA6220AA11F7A62 /* Pods-BlockchainTests.debug production.xcconfig */,
 				F0C7614B42E9F9CE6B371C8E /* Pods-BlockchainTests.debug staging.xcconfig */,
-				C90A0884126BB17EBBDCFD8A /* Pods-BlockchainTests.debug testnet.xcconfig */,
 				730695CB650E8C203CE31D50 /* Pods-BlockchainTests.release.xcconfig */,
 				03D1DE1A459639C19D76CCB0 /* Pods-PlatformKit.debug production.xcconfig */,
 				4E5B361CD96E5B2D693F6E0A /* Pods-PlatformKit.debug staging.xcconfig */,
@@ -8503,6 +8645,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AAE5D1AA21A3C85300D4A77A /* PBXTargetDependency */,
 				519435A4208E61F3001EF882 /* PBXTargetDependency */,
 			);
 			name = BlockchainTests;
@@ -8518,10 +8661,10 @@
 				9FB3636D14B60128004BEA02 /* Sources */,
 				9FB3636E14B60128004BEA02 /* Frameworks */,
 				7ADD19D5218743A70013A525 /* Setup Firebase Environment */,
-				23FDEFA31D6E22C900FC80D6 /* Get SSL Certificate */,
+				23FDEFA31D6E22C900FC80D6 /* Run SwiftLint */,
+				51E355EB2192063400753FEB /* Get SSL Certificate */,
 				9FB3636F14B60128004BEA02 /* Resources */,
 				5149BD072057192900DC88A0 /* Embed Frameworks */,
-				51B9D9272063EA1D007DED65 /* Run SwiftLint */,
 				C718594D1F460C4A00745A87 /* Run Fabric */,
 				D069129EFBA0297B3CA548DB /* [CP] Embed Pods Frameworks */,
 			);
@@ -8550,9 +8693,8 @@
 				TargetAttributes = {
 					3A68655C219A0BBA0009FF29 = {
 						CreatedOnToolsVersion = 10.0;
-						DevelopmentTeam = NZ6PH75U7K;
 						LastSwiftMigration = 1000;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					3A686564219A0BBB0009FF29 = {
 						CreatedOnToolsVersion = 10.0;
@@ -8562,15 +8704,13 @@
 					};
 					3A6865AA219A11650009FF29 = {
 						CreatedOnToolsVersion = 10.0;
-						DevelopmentTeam = NZ6PH75U7K;
 						LastSwiftMigration = 1000;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					3A6865DC219A26A30009FF29 = {
 						CreatedOnToolsVersion = 10.0;
-						DevelopmentTeam = NZ6PH75U7K;
 						LastSwiftMigration = 1000;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					3A6865E4219A26A30009FF29 = {
 						CreatedOnToolsVersion = 10.0;
@@ -8581,13 +8721,14 @@
 					5194359D208E61F3001EF882 = {
 						CreatedOnToolsVersion = 9.3;
 						DevelopmentTeam = NZ6PH75U7K;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 						TestTargetID = 9FB3637014B60128004BEA02;
 					};
 					9FB3637014B60128004BEA02 = {
 						DevelopmentTeam = NZ6PH75U7K;
-						LastSwiftMigration = 0800;
-						ProvisioningStyle = Automatic;
+						LastSwiftMigration = 1000;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -8952,12 +9093,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BlockchainTests/Pods-BlockchainTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
 				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
@@ -8967,21 +9110,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BlockchainTests/Pods-BlockchainTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		23FDEFA31D6E22C900FC80D6 /* Get SSL Certificate */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Get SSL Certificate";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -ue\nif [ ! -d ${SRCROOT}/Cert ]; then\n    mkdir ${SRCROOT}/Cert\nfi\ncd ${SRCROOT}/Cert\nopenssl s_client -connect ${WALLET_SERVER}:443 -showcerts < /dev/null | openssl x509 -outform DER > ${LOCAL_CERTIFICATE_FILE}.der\n";
-		};
-		51B9D9272063EA1D007DED65 /* Run SwiftLint */ = {
+		23FDEFA31D6E22C900FC80D6 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -8995,7 +9124,7 @@
 			shellPath = /bin/sh;
 			shellScript = "if which ${PODS_ROOT}/SwiftLint/swiftlint >/dev/null; then\n    ${PODS_ROOT}/SwiftLint/swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		66956D9760DC197EA905E781 /* [CP] Check Pods Manifest.lock */ = {
+		51E355EB2192063400753FEB /* Get SSL Certificate */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -9003,12 +9132,26 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+			);
+			name = "Get SSL Certificate";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -ue\nif [ ! -d ${SRCROOT}/Cert ]; then\n    mkdir ${SRCROOT}/Cert\nfi\ncd ${SRCROOT}/Cert\nopenssl s_client -connect blockchain.com:443 -showcerts < /dev/null | openssl x509 -outform DER > blockchain.der\n";
+		};
+		66956D9760DC197EA905E781 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-PlatformKit-checkManifestLockResult.txt",
 			);
@@ -9022,13 +9165,9 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 			);
 			name = "Setup Firebase Environment";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -9040,15 +9179,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-StellarKit-checkManifestLockResult.txt",
 			);
@@ -9120,6 +9255,7 @@
 				"${PODS_ROOT}/Onfido/Onfido.framework",
 				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
@@ -9134,6 +9270,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Onfido.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
@@ -9153,12 +9290,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A84739A219A3E6100F22FA6 /* HistoricalTransactionStreamingAPI.swift in Sources */,
+				AA55B35B219DFD1100533533 /* WalletSettingsApiMethod.swift in Sources */,
 				3A686598219A0CFC0009FF29 /* Result.swift in Sources */,
 				3A8473A6219A436100F22FA6 /* WalletAccountRepositoryAPI.swift in Sources */,
 				3A8473C8219B5F1C00F22FA6 /* MnemonicAccessAPI.swift in Sources */,
 				3A6865A4219A0DBA0009FF29 /* HistoricalTransactionAPI.swift in Sources */,
 				3A8473C6219B5D2D00F22FA6 /* KeyPairDeriver.swift in Sources */,
+				AA55B34A219DF84500533533 /* WalletSettingsAPI.swift in Sources */,
 				3A847401219CAF2B00F22FA6 /* AccountValidationAPI.swift in Sources */,
+				AA55B359219DFAF800533533 /* WalletSettings.swift in Sources */,
 				3A8473FD219CA2D300F22FA6 /* MultiAccountAssetAPI.swift in Sources */,
 				3A68659A219A0D170009FF29 /* PageResult.swift in Sources */,
 				3A8473AB219A473A00F22FA6 /* AssetAccount.swift in Sources */,
@@ -9166,6 +9306,7 @@
 				3A68659F219A0D540009FF29 /* HistoricalTransaction.swift in Sources */,
 				3A68659C219A0D2E0009FF29 /* Tokenized.swift in Sources */,
 				3A8473FF219CA2DF00F22FA6 /* SingleAccountAssetAPI.swift in Sources */,
+				AA8A3741219E2F0C007AF5E1 /* AuthenticationTwoFactorType.swift in Sources */,
 				3A8473CA219B60FB00F22FA6 /* WalletAccount.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -9175,6 +9316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A68656D219A0BBB0009FF29 /* PlatformKitTests.swift in Sources */,
+				AABF9012219E3E99004E8C12 /* WalletSettingsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9228,6 +9370,7 @@
 				51135709209CF6C000056D65 /* SecondPasswordViewController.swift in Sources */,
 				5176A4C8214AA5B80006769F /* DashboardController.swift in Sources */,
 				C7BEE14B20C9775B0096003B /* WalletOptions.swift in Sources */,
+				AAE5D19821A3C18200D4A77A /* WalletActionEventBus.swift in Sources */,
 				AACE32012093FA1A00B7B806 /* ReminderPresenter.swift in Sources */,
 				3A26D51A2140405400D79BDD /* ExchangeCellModel.swift in Sources */,
 				3AFD18AD21221D40007145EA /* KYCBaseViewController.swift in Sources */,
@@ -9245,7 +9388,7 @@
 				AA3CA9B92107F66E00C2AD46 /* ConsoleLogDestination.swift in Sources */,
 				3ABB80BC213F0CD300AD57BE /* Limit.swift in Sources */,
 				AA0A414C214B152100807163 /* AssetAccount.swift in Sources */,
-				3A1552D92135FFDB00683CEB /* Rates.swift in Sources */,
+				3A1552D92135FFDB00683CEB /* ExchangeTradingPairs.swift in Sources */,
 				AA46ECC1219A2ED50077B351 /* KYCVerifyIdentityPresenter.swift in Sources */,
 				602B9D0E2118E23A00BD3D60 /* KYCVerifyIdentityController.swift in Sources */,
 				604598AE2118BAD000AE08C8 /* Settings+Table.swift in Sources */,
@@ -9263,6 +9406,7 @@
 				AACE31D02092A99B00B7B806 /* AuthenticationError.swift in Sources */,
 				3AC4F97D21234966003AA207 /* KYCPageModel.swift in Sources */,
 				AA2BA64420DC754600F01954 /* BitcoinAddressTests.swift in Sources */,
+				AAD2582A219E4E3E00D9CEA1 /* WalletSettingsRequest.swift in Sources */,
 				51C2ADD420BDD3EA00D66108 /* AddressValidatorTests.swift in Sources */,
 				AA63F87520A39D8D002B719B /* AppFeatureConfiguration.swift in Sources */,
 				602B9D142118E24F00BD3D60 /* LocationSuggestionCoordinator.swift in Sources */,
@@ -9306,6 +9450,7 @@
 				511356E4209CAFC600056D65 /* NetworkManager+PushNotifications.swift in Sources */,
 				AA787A0B2187AC0500E2D4CF /* DeepLinkRouteTests.swift in Sources */,
 				3A3C7D622180F6920067F442 /* StellarAccountService.swift in Sources */,
+				AAE5D1A621A3C52300D4A77A /* WalletActionSubscriberTests.swift in Sources */,
 				AAD27A29209CFE2100C0EAFC /* PasswordConfirmView.swift in Sources */,
 				C740FA8A210BAF740060292F /* WalletExchangeIntermediateDelegate.swift in Sources */,
 				3AAEF94E21417547005852D1 /* ExchangeLockedHeaderView.swift in Sources */,
@@ -9358,6 +9503,7 @@
 				5185E11C208E7F7C00A26B64 /* BlockchainSettings.swift in Sources */,
 				3AC9755B210FBD10006A9263 /* NSAttributedString+Conveniences.swift in Sources */,
 				AA63F86820A27AC6002B719B /* PostAuthenticationRoute.swift in Sources */,
+				AAE5D1A421A3C4FE00D4A77A /* WalletActionEventBusTests.swift in Sources */,
 				51058EFF212F327E00AD8719 /* KYCApplicationCompleteController.swift in Sources */,
 				C7900C842177CEEB00F57A9F /* SimpleListDataProvider.swift in Sources */,
 				AA7133C021222A7300CB2AA9 /* KYCCountrySelectionPresenterTests.swift in Sources */,
@@ -9377,17 +9523,16 @@
 				C7343C2221516A6F001B1EC9 /* ExchangeDetailInteractor.swift in Sources */,
 				3A4EABA52140826800081531 /* PlainCell.swift in Sources */,
 				AAA6648B2123426A009C1C64 /* PrimaryButtonContainer.swift in Sources */,
-				51135703209CF5D000056D65 /* AuthenticationTwoFactorType.swift in Sources */,
 				51DC2F5D20B72F4900E03AF2 /* AddressValidator.swift in Sources */,
 				AA56423B20DDBDBB0092A022 /* String+EscapeJSTests.swift in Sources */,
 				3A49A8E42151801300760B8C /* ConversionRatesView.swift in Sources */,
 				AAFA97B12115110000D19ED3 /* SettingsViewController.swift in Sources */,
 				602B9D162118E25A00BD3D60 /* LocationSuggestionService.swift in Sources */,
-				3A1552E52136000F00683CEB /* RatesAPI.swift in Sources */,
 				AA1E52332097CC260099BD10 /* WalletAuthDelegate.swift in Sources */,
 				AAE94DCF20C25F37005A3595 /* MockNetworkManager.swift in Sources */,
 				C7F1577C217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */,
 				AA126CDD212C94CB005886A3 /* NabuSessionTokenResponse.swift in Sources */,
+				AAE5D1A821A3C7F500D4A77A /* MockWalletSettingsService.swift in Sources */,
 				AACE31CF2092A99B00B7B806 /* AuthenticationManager.swift in Sources */,
 				AA787A052187A63000E2D4CF /* DeepLinkHandler.swift in Sources */,
 				AA126DA0212E189C005886A3 /* OnfidoUser.swift in Sources */,
@@ -9476,9 +9621,11 @@
 				C7A85981217A5BAE00502935 /* StellarTransactionServiceAPI.swift in Sources */,
 				AA0A41AC214C83A800807163 /* KYCCountrySelectionInteractor.swift in Sources */,
 				AAE94F6A20C75C4E005A3595 /* MockPinView.swift in Sources */,
+				AAD25827219E481A00D9CEA1 /* EmptyNetworkResponse.swift in Sources */,
 				AA54E4F7216D3B3F005061F9 /* KYCStateSelectionInteractor.swift in Sources */,
 				AAA341B62181160800E09561 /* MnemonicAccess.swift in Sources */,
 				AAE94F6820C75B8D005A3595 /* PinPresenterTests.swift in Sources */,
+				AA93414A21A327FA00248E75 /* WalletAction.swift in Sources */,
 				51578AEF20B44AD400B0080A /* KeyImportCoordinator.swift in Sources */,
 				604598B22118BB2A00AE08C8 /* Currency.swift in Sources */,
 				3A3C7D3C217F9ED50067F442 /* StellarLedger.swift in Sources */,
@@ -9496,6 +9643,7 @@
 				60AAD2D5211B75D7001CFDB4 /* OnfidoController.swift in Sources */,
 				602B9D152118E25400BD3D60 /* LocationSuggestionCell.swift in Sources */,
 				5146E29E21518826009B62D7 /* AnnouncementCardViewModel.swift in Sources */,
+				F7B8C84321A5EB81005CAA0D /* DeepLinkPayloadTests.swift in Sources */,
 				C7A85928217A294000502935 /* Identifiable.swift in Sources */,
 				C74FEA2620979259007CAB5D /* JSContextWithDOMTests.swift in Sources */,
 				AA2F122C2140A92E006B1FC1 /* JSContext+HelpersTests.swift in Sources */,
@@ -9505,6 +9653,7 @@
 				AADB01EA20C09FA7000FFFEC /* WalletService.swift in Sources */,
 				3A3C7D542180E5D50067F442 /* SendXLMCoordinator.swift in Sources */,
 				AACE31C72092A99B00B7B806 /* LocalizationConstants.swift in Sources */,
+				AA15345E21A45FBF0099BA9D /* WalletSettingsService.swift in Sources */,
 				AA7E773E210BA487009DFB4C /* Strings.swift in Sources */,
 				AACE31CC2092A99B00B7B806 /* BitcoinAddress.swift in Sources */,
 				C702A7E7217E9D0400A8DED1 /* TransactionDetailViewModel+XLM.swift in Sources */,
@@ -9520,7 +9669,6 @@
 				3ADFE6EE214862E000E7E2D5 /* ExchangeInputComponent.swift in Sources */,
 				3AB4D92521309C76004F0160 /* HomebrewExchangeService.swift in Sources */,
 				3A7F7EE4210F6C77001E20AF /* Visibility.swift in Sources */,
-				3A9B7F022135B68100754FD6 /* RatesService.swift in Sources */,
 				C7BD107C209A01690062269E /* NumberFormatter+Assets.swift in Sources */,
 				51E52D20217F724B00066F8D /* PricePreviewViewFactory.swift in Sources */,
 				3A3D5D8D211B453800E6C241 /* ProgressableView.swift in Sources */,
@@ -9574,6 +9722,7 @@
 				C7F157BE21795E8D00A56376 /* SimpleListContracts.swift in Sources */,
 				5176A45D2147F6600006769F /* CardsView.swift in Sources */,
 				602B9D1A2118E26300BD3D60 /* LocationSuggestion.swift in Sources */,
+				AA93415021A32D7800248E75 /* WalletActionSubscriber.swift in Sources */,
 				3A56AEB721766A0000044302 /* StellarConfiguration.swift in Sources */,
 				3A01911F212DF0B700AED2BF /* AsyncOperation.swift in Sources */,
 				AAB75A042189650D00A0AD11 /* MockBlockchainDataRepository.swift in Sources */,
@@ -9592,6 +9741,7 @@
 				AA56423C20DDBDBB0092A022 /* NumberFormatter+AssetsTests.swift in Sources */,
 				51135706209CF64900056D65 /* BackupNavigationViewController.swift in Sources */,
 				C75684CA212F053200B5059C /* TradingPairTests.swift in Sources */,
+				AA30893621A5F6FA002F9B37 /* DeepLinkPayload.swift in Sources */,
 				AA1E52342097CC2C0099BD10 /* AuthenticationCoordinator.swift in Sources */,
 				3A258C0E210A486F00C023F5 /* ReusableView.swift in Sources */,
 				AA08440D215EEDF90007BFD1 /* Lockbox.swift in Sources */,
@@ -9777,6 +9927,7 @@
 				51F504C5216E71C400E1FE0C /* LockboxViewController.swift in Sources */,
 				5114EA2320CD8B900098E26E /* UINavigationBar+TitleAttributes.swift in Sources */,
 				606399FA2110FC2D005B6DF5 /* SRSIMDHelpers.m in Sources */,
+				AA93414921A327FA00248E75 /* WalletAction.swift in Sources */,
 				606399EE2110FC2D005B6DF5 /* SRHTTPConnectMessage.m in Sources */,
 				C74E21C12024BA1C00A9FBB1 /* BCBalanceChartLegendKeyView.m in Sources */,
 				516546F5208FCF710019EE63 /* NetworkManager+UserAgent.swift in Sources */,
@@ -9861,6 +10012,7 @@
 				2378271A1B7E472D00E9EE03 /* BCSecureTextField.swift in Sources */,
 				602B9CF02118E15300BD3D60 /* LocationSuggestionCoordinator.swift in Sources */,
 				606399FE2110FC2D005B6DF5 /* SRIOConsumerPool.m in Sources */,
+				AAE5D19721A3C18200D4A77A /* WalletActionEventBus.swift in Sources */,
 				606399E82110FC2D005B6DF5 /* SRPinningSecurityPolicy.m in Sources */,
 				AAE94F3120C64B49005A3595 /* PinInteractor.swift in Sources */,
 				235BD5661C58216000969B31 /* BCModalViewController.m in Sources */,
@@ -10034,6 +10186,7 @@
 				601F5EEB211B32AA002697AB /* OnfidoController.swift in Sources */,
 				C72D6CC21EC0B7F80000F922 /* FeeTableCell.m in Sources */,
 				C746905F2180ACCD001A7C52 /* SEP7URI.swift in Sources */,
+				AAD25829219E4E3E00D9CEA1 /* WalletSettingsRequest.swift in Sources */,
 				AA7E7723210BA487009DFB4C /* Strings.swift in Sources */,
 				238FC4D21DEC79E200591D5F /* TransactionDetailDoubleSpendWarningCell.m in Sources */,
 				23FDEF9A1D6CBC7000FC80D6 /* TransactionDetailViewController.m in Sources */,
@@ -10042,6 +10195,7 @@
 				3AB4D9122130693F004F0160 /* Result.swift in Sources */,
 				C74E21CD2028A61F00A9FBB1 /* BCPriceChartContainerViewController.m in Sources */,
 				602B9CE52118E15300BD3D60 /* KYCCountrySelectionController.swift in Sources */,
+				AABF9001219E35DB004E8C12 /* WalletSettingsService.swift in Sources */,
 				5114EA1F20CB2BA90098E26E /* TabControllerManager+Nib.swift in Sources */,
 				C71859471F3E227D00745A87 /* BCDescriptionView.m in Sources */,
 				678CD7481A2777E600748AA5 /* BCCreateAccountView.m in Sources */,
@@ -10065,7 +10219,6 @@
 				67EE1DCE19E3325900DBBFC9 /* ECSlidingViewController.m in Sources */,
 				51578AEE20B44AD400B0080A /* KeyImportCoordinator.swift in Sources */,
 				FCB33B721FC36EA200317E6B /* ExchangeProgressViewController.m in Sources */,
-				3A1552E42136000F00683CEB /* RatesAPI.swift in Sources */,
 				C75757452176501400CE7814 /* AssetTypeCell.swift in Sources */,
 				6780DB981A40BDF40048EED2 /* AccountInOut.m in Sources */,
 				51943596208E3005001EF882 /* BlockchainAPI+URL.swift in Sources */,
@@ -10085,14 +10238,15 @@
 				C7414E451FD7131C001A89FA /* ConfirmStateViewController.m in Sources */,
 				23E579541DB45F3A00220542 /* TransferAmountTableCell.m in Sources */,
 				51E5C73220741A130000A7FD /* AuthenticationManager.swift in Sources */,
-				3A1552D82135FFDB00683CEB /* Rates.swift in Sources */,
+				3A1552D82135FFDB00683CEB /* ExchangeTradingPairs.swift in Sources */,
 				230FD2D91C5BF1A700336683 /* BCQRCodeView.m in Sources */,
+				F7B8C83821A5E607005CAA0D /* DeepLinkPayload.swift in Sources */,
 				AA46ECC0219A2ED50077B351 /* KYCVerifyIdentityPresenter.swift in Sources */,
 				2322321A1B44D4CB00E5DF26 /* UpgradeViewController.m in Sources */,
 				AA0A41AB214C83A800807163 /* KYCCountrySelectionInteractor.swift in Sources */,
-				3A9B7F012135B68100754FD6 /* RatesService.swift in Sources */,
 				9F1831EE151744EB00FB3D52 /* ReceiveTableCell.m in Sources */,
 				C72D6CBF1EC0B4AB0000F922 /* BCFeeSelectionView.m in Sources */,
+				AAD25826219E481A00D9CEA1 /* EmptyNetworkResponse.swift in Sources */,
 				AA126CD8212C94CB005886A3 /* NabuCreateUserResponse.swift in Sources */,
 				C7BEE13B20C828B20096003B /* BuySellCoordinator.swift in Sources */,
 				67EE1DCB19E3325900DBBFC9 /* ECSlidingAnimationController.m in Sources */,
@@ -10109,7 +10263,6 @@
 				6E2D90A21BBEC34800B719EC /* BCRecoveryView.m in Sources */,
 				602B9CE22118E15300BD3D60 /* KYCConfirmPhoneNumberController.swift in Sources */,
 				A2599B9F1B0B5FC800C2EA81 /* BackupViewController.swift in Sources */,
-				AAD279B0209A5E7C00C0EAFC /* AuthenticationTwoFactorType.swift in Sources */,
 				C9BE917C1945D8F600FD516D /* PEPinEntryController.m in Sources */,
 				C7900C832177CEEB00F57A9F /* SimpleListDataProvider.swift in Sources */,
 				239539831B486C7100989667 /* UILabel+MultiLineAutoSize.m in Sources */,
@@ -10147,6 +10300,7 @@
 				23BD046A1D7761C000DB69E6 /* UITextView+AssertionFailureFix.m in Sources */,
 				23D423991D0878BE000054AA /* ModuleXMLHttpRequest.m in Sources */,
 				3ABB80BB213F0CD300AD57BE /* Limit.swift in Sources */,
+				AA93414F21A32D7800248E75 /* WalletActionSubscriber.swift in Sources */,
 				C70FF55E1E76D5C600AC7F8B /* BuyBitcoinNavigationController.m in Sources */,
 				6055D372210F692D000B8E95 /* UIView.swift in Sources */,
 				3A26AF9B212B3743003A8A08 /* ExchangeCreateView.swift in Sources */,
@@ -10269,6 +10423,11 @@
 			isa = PBXTargetDependency;
 			target = 9FB3637014B60128004BEA02 /* Blockchain */;
 			targetProxy = 519435A3208E61F3001EF882 /* PBXContainerItemProxy */;
+		};
+		AAE5D1AA21A3C85300D4A77A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3A68655C219A0BBA0009FF29 /* PlatformKit */;
+			targetProxy = AAE5D1A921A3C85300D4A77A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -11197,12 +11356,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -11231,10 +11390,12 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.PlatformKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -11277,12 +11438,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -11311,10 +11472,12 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.PlatformKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -11357,12 +11520,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -11391,10 +11554,12 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.PlatformKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -11437,12 +11602,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -11471,10 +11636,12 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.PlatformKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -11500,11 +11667,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -11520,7 +11687,9 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.PlatformKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -11591,6 +11760,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
 			};
@@ -11660,6 +11830,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
 			};
@@ -11729,6 +11900,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
 			};
@@ -11798,6 +11970,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
 			};
@@ -11832,6 +12005,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.PlatformKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
 			};
@@ -11872,12 +12046,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -11906,6 +12080,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.PlatformUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -11951,12 +12126,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -11985,6 +12160,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.PlatformUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -12030,12 +12206,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -12064,6 +12240,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.PlatformUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -12109,12 +12286,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -12143,10 +12320,12 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.PlatformUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -12171,11 +12350,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -12191,6 +12370,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.PlatformUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -12234,12 +12414,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -12268,10 +12448,12 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.StellarKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -12314,12 +12496,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -12348,10 +12530,12 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.StellarKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -12394,12 +12578,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -12428,10 +12612,12 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.StellarKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -12474,12 +12660,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -12508,10 +12694,12 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.StellarKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -12537,11 +12725,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -12557,7 +12745,9 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.StellarKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -12628,6 +12818,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
 			};
@@ -12697,6 +12888,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
 			};
@@ -12766,6 +12958,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
 			};
@@ -12835,6 +13028,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
 			};
@@ -12869,6 +13063,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.StellarKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
 			};
@@ -12922,7 +13117,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -12937,8 +13131,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5177E7D8212B07A9008E13AB /* Pods-Blockchain.debug staging.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.debug;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -12946,9 +13140,10 @@
 				CODE_SIGN_ENTITLEMENTS = Blockchain/Blockchain.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2.7.1;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -12975,16 +13170,17 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rainydayapps.Blockchain$(BUNDLE_ID_SUFFIX)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rainydayapps.Blockchain;
 				PRODUCT_NAME = Blockchain;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.rainydayapps.Blockchain";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DISABLE_CERT_PINNING;
 				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
+				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Debug Staging";
@@ -13037,7 +13233,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -13052,18 +13247,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5177E828212B34A9008E13AB /* Pods-Blockchain.debug dev.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.debug;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = Blockchain/Blockchain.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2.7.1;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -13090,133 +13286,20 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rainydayapps.Blockchain$(BUNDLE_ID_SUFFIX)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rainydayapps.Blockchain;
 				PRODUCT_NAME = Blockchain;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.rainydayapps.Blockchain";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DISABLE_CERT_PINNING;
 				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
+				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Debug Dev";
-		};
-		517F5A40205811B9004826CA /* Debug Testnet */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = "";
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_THUMB_SUPPORT = NO;
-				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
-				GCC_VERSION = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos;
-				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				"WARNING_CFLAGS[arch=*]" = "-Wno-nullability-completeness";
-			};
-			name = "Debug Testnet";
-		};
-		517F5A41205811B9004826CA /* Debug Testnet */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = DEEFE947AD4F35A82B5D29CB /* Pods-Blockchain.debug testnet.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CODE_SIGN_ENTITLEMENTS = Blockchain/Blockchain.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
-				ENABLE_BITCODE = NO;
-				ENABLE_NS_ASSERTIONS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SYMROOT)/Release$(EFFECTIVE_PLATFORM_NAME)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Blockchain/Blockchain-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				GCC_THUMB_SUPPORT = NO;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/Submodules/OpenSSL-for-iPhone/include",
-					"$(SRCROOT)/Submodules/SocketRocket",
-					"$(SRCROOT)/Submodules/Charts",
-				);
-				INFOPLIST_FILE = "Blockchain/Blockchain-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/Submodules/OpenSSL-for-iPhone/lib",
-					"$(inherited)",
-				);
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rainydayapps.Blockchain$(BUNDLE_ID_SUFFIX)";
-				PRODUCT_NAME = Blockchain;
-				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "$(ARCHS_STANDARD)";
-				WRAPPER_EXTENSION = app;
-			};
-			name = "Debug Testnet";
 		};
 		517F5A43205811DF004826CA /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -13266,7 +13349,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -13281,18 +13363,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8D45B1ADEBD6D8FC96A37724 /* Pods-Blockchain.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = Blockchain/Blockchain.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2.7.1;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -13319,15 +13402,16 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rainydayapps.Blockchain$(BUNDLE_ID_SUFFIX)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rainydayapps.Blockchain;
 				PRODUCT_NAME = Blockchain;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.rainydayapps.Blockchain";
 				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
+				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -13400,9 +13484,13 @@
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/RxSwift $(SRCROOT)/Alamofire $(SRCROOT)/Charts";
 				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+				"WARNING_CFLAGS[arch=*]" = (
+					"-fdiagnostics-show-option",
+					"-Wno-nullability-completeness",
+				);
 			};
 			name = "Debug Production";
 		};
@@ -13474,9 +13562,13 @@
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/RxSwift $(SRCROOT)/Alamofire $(SRCROOT)/Charts";
 				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+				"WARNING_CFLAGS[arch=*]" = (
+					"-fdiagnostics-show-option",
+					"-Wno-nullability-completeness",
+				);
 			};
 			name = "Debug Staging";
 		};
@@ -13548,85 +13640,17 @@
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/RxSwift $(SRCROOT)/Alamofire $(SRCROOT)/Charts";
 				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+				"WARNING_CFLAGS[arch=*]" = (
+					"-fdiagnostics-show-option",
+					"-Wno-nullability-completeness",
+					"-Wno-incompatible-property-type",
+					"-Wno-objc-property-synthesis",
+				);
 			};
 			name = "Debug Dev";
-		};
-		519435A9208E61F3001EF882 /* Debug Testnet */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C90A0884126BB17EBBDCFD8A /* Pods-BlockchainTests.debug testnet.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = BlockchainTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.blockchain.BlockchainTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/RxSwift $(SRCROOT)/Alamofire $(SRCROOT)/Charts";
-				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
-			};
-			name = "Debug Testnet";
 		};
 		519435AA208E61F3001EF882 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -13659,9 +13683,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/RxSwift $(SRCROOT)/Alamofire $(SRCROOT)/Charts";
 				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+				WARNING_CFLAGS = "-fdiagnostics-show-option";
 			};
 			name = Release;
 		};
@@ -13713,7 +13738,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -13728,8 +13752,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 404A01EFD6ABF02E4F6F337A /* Pods-Blockchain.debug production.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -13737,9 +13761,10 @@
 				CODE_SIGN_ENTITLEMENTS = Blockchain/Blockchain.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2.7.1;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -13766,14 +13791,15 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rainydayapps.Blockchain$(BUNDLE_ID_SUFFIX)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rainydayapps.Blockchain;
 				PRODUCT_NAME = Blockchain;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.rainydayapps.Blockchain";
 				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
+				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Debug Production";
@@ -13847,11 +13873,10 @@
 				519435A6208E61F3001EF882 /* Debug Production */,
 				519435A7208E61F3001EF882 /* Debug Staging */,
 				519435A8208E61F3001EF882 /* Debug Dev */,
-				519435A9208E61F3001EF882 /* Debug Testnet */,
 				519435AA208E61F3001EF882 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Debug Production";
+			defaultConfigurationName = Release;
 		};
 		9FB3636B14B60128004BEA02 /* Build configuration list for PBXProject "Blockchain" */ = {
 			isa = XCConfigurationList;
@@ -13859,11 +13884,10 @@
 				9FB3638714B60128004BEA02 /* Debug Production */,
 				51659492204EFD1000C50E78 /* Debug Staging */,
 				517F5A3D205811AA004826CA /* Debug Dev */,
-				517F5A40205811B9004826CA /* Debug Testnet */,
 				517F5A43205811DF004826CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Debug Production";
+			defaultConfigurationName = Release;
 		};
 		9FB3638914B60128004BEA02 /* Build configuration list for PBXNativeTarget "Blockchain" */ = {
 			isa = XCConfigurationList;
@@ -13871,11 +13895,10 @@
 				9FB3638A14B60128004BEA02 /* Debug Production */,
 				51659493204EFD1000C50E78 /* Debug Staging */,
 				517F5A3E205811AA004826CA /* Debug Dev */,
-				517F5A41205811B9004826CA /* Debug Testnet */,
 				517F5A44205811DF004826CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Debug Production";
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

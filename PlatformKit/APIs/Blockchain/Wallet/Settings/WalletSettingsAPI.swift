@@ -1,0 +1,27 @@
+//
+//  WalletSettingsAPI.swift
+//  PlatformKit
+//
+//  Created by Chris Arriola on 11/15/18.
+//  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
+//
+
+import RxSwift
+
+/// Protocol definition for interacting with the `WalletSettings` object.
+public protocol WalletSettingsAPI {
+
+    func fetchSettings(guid: String, sharedKey: String) -> Single<WalletSettings>
+
+    func updateSettings(
+        method: WalletSettingsApiMethod,
+        guid: String,
+        sharedKey: String,
+        payload: String
+    ) -> Completable
+
+    /// Updates the last transaction time performed by this wallet. This method should be invoked when:
+    ///   - the user buys crypto using fiat
+    ///   - the user sends crypto
+    func updateLastTxTimeToCurrentTime(guid: String, sharedKey: String) -> Completable
+}

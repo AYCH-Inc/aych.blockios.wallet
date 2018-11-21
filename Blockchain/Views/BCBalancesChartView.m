@@ -362,7 +362,9 @@
     [self.bitcoinCashLegendKey changeBalance:[self.bitcoinCash.balance stringByAppendingFormat:@" %@", [AssetTypeLegacyHelper symbolFor:LegacyAssetTypeBitcoinCash]]];
     [self.bitcoinCashLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSNumberFormatter fiatStringFromDouble:self.bitcoinCash.fiatBalance]]];
 
-    [self.stellarLegendKey changeBalance:[self.stellar.balance stringByAppendingFormat:@" %@", [AssetTypeLegacyHelper symbolFor:LegacyAssetTypeStellar]]];
+    NSString *stellarBalance = [[NSNumberFormatter stellarFormatter] stringFromNumber:[NSDecimalNumber decimalNumberWithString:self.stellar.balance]];
+    NSString *stellarBalanceFormatted = [stellarBalance stringByAppendingFormat:@" %@", [AssetTypeLegacyHelper symbolFor:LegacyAssetTypeStellar]];
+    [self.stellarLegendKey changeBalance:stellarBalanceFormatted];
     [self.stellarLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSNumberFormatter fiatStringFromDouble:self.stellar.fiatBalance]]];
 }
 

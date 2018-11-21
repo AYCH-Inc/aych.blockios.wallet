@@ -17,6 +17,7 @@ protocol XLMDependencies {
     var limits: StellarTradeLimitsAPI { get }
     var repository: WalletXlmAccountRepository { get }
     var prices: PriceServiceAPI { get }
+    var walletActionEventBus: WalletActionEventBus { get }
 }
 
 struct XLMServices: XLMDependencies {
@@ -27,11 +28,14 @@ struct XLMServices: XLMDependencies {
     var transaction: StellarTransactionAPI
     var prices: PriceServiceAPI
     var limits: StellarTradeLimitsAPI
+    var walletActionEventBus: WalletActionEventBus
 
     init(
         configuration: StellarConfiguration,
-        wallet: Wallet = WalletManager.shared.wallet
+        wallet: Wallet = WalletManager.shared.wallet,
+        eventBus: WalletActionEventBus = WalletActionEventBus.shared
     ) {
+        walletActionEventBus = eventBus
         repository = WalletXlmAccountRepository(wallet: wallet)
         ledger = StellarLedgerService(configuration: configuration)
         accounts = StellarAccountService(

@@ -28,11 +28,12 @@ protocol ExchangeMarketsAPI {
     /// - Returns: an Observable returning the fiat balance
     func fiatBalance(forAssetAccount assetAccount: AssetAccount, fiatCurrencyCode: String) -> Observable<Decimal>
 
-    /// Returns the best exchange rates for all crypto-to-crypto and crypto-to-fiat pairs.
+    // TICKET: IOS-1663 - return exchange rates for pairs that are both servier and app
+    // supported
+    /// Returns the best exchange rates for all pairs currently supported by the server
     ///
-    /// - Parameter fiatCurrencyCode: the currency code for retrieving crypto-to-fiat rates
     /// - Returns: an Observable emitting the best exchanges rates as they reported through the websocket
-    func bestExchangeRates(fiatCurrencyCode: String) -> Observable<ExchangeRates>
+    func bestExchangeRates() -> Observable<ExchangeRates>
 
     var hasAuthenticated: Bool { get }
     var conversions: Observable<Conversion> { get }
@@ -52,6 +53,7 @@ class MarketsService {
     private let authentication: NabuAuthenticationService
     private let socketManager: SocketManager
     private let cachedExchangeRates = BehaviorRelay<ExchangeRates?>(value: nil)
+    private let cachedTradingPairs = BehaviorRelay<ExchangeTradingPairs?>(value: nil)
     private let disposables = CompositeDisposable()
 
     private var socketMessageObservable: Observable<SocketMessage> {
@@ -94,6 +96,7 @@ private extension MarketsService {
 
 // MARK: - Public API
 extension MarketsService: ExchangeMarketsAPI {
+    
     // MARK: - Authentication
     func authenticate(completion: @escaping () -> Void) {
         switch dataSource {
@@ -147,10 +150,33 @@ extension MarketsService: ExchangeMarketsAPI {
         })
     }
 
-    func bestExchangeRates(fiatCurrencyCode: String) -> Observable<ExchangeRates> {
+    func exchangeRateAvailablePairs() -> Single<ExchangeTradingPairs> {
+        return authentication.getSessionToken().flatMap { token in
+            guard let baseURL = URL(
+                string: BlockchainAPI.shared.retailCoreUrl) else {
+                    return Single.error(NetworkError.generic(message: "Could not form retail core url"))
+            }
+
+            guard let endpoint = URL.endpoint(
+                baseURL,
+                pathComponents: ["markets", "bestrates", "pairs"],
+                queryParameters: nil) else {
+                    return Single.error(NetworkError.generic(message: "Could not get endpoint"))
+            }
+
+            return NetworkRequest.GET(
+                url: endpoint,
+                body: nil,
+                token: token.token,
+                type: ExchangeTradingPairs.self
+            )
+        }
+    }
+
+    func bestExchangeRates() -> Observable<ExchangeRates> {
 
         // Send exchange_rates socket message - get exchange rates for all possible pairs
-        sendBestExchangeRatesSocketMessage(fiatCurrencyCode: fiatCurrencyCode)
+        sendBestExchangeRatesSocketMessage()
 
         // Return exchange rates observable and start with cached rates if available
         var exchangeRates = exchangeRatesObservable
@@ -160,25 +186,26 @@ extension MarketsService: ExchangeMarketsAPI {
         return exchangeRates
     }
 
-    private func sendBestExchangeRatesSocketMessage(fiatCurrencyCode: String) {
-        let allAssetTypes = AssetType.all
-        var allPairs: [String] = []
-
-        // Crypto-to-fiat pairs
-        let fiatPairs = allAssetTypes.map {
-            return "\($0.symbol)-\(fiatCurrencyCode)"
+    private func sendBestExchangeRatesSocketMessage() {
+        if let cachedTradingPairs = cachedTradingPairs.value {
+            subscribeTo(pairs: cachedTradingPairs)
+        } else {
+            let availablePairsDisposable = exchangeRateAvailablePairs()
+                .subscribeOn(MainScheduler.asyncInstance)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { [weak self] in
+                    guard let this = self else { return }
+                    this.cachedTradingPairs.accept($0)
+                    this.subscribeTo(pairs: $0)
+                }, onError: { error in
+                    Logger.shared.error("Could not get trading pairs: \(error)")
+                })
+            _ = disposables.insert(availablePairsDisposable)
         }
-        allPairs.append(contentsOf: fiatPairs)
+    }
 
-        // Crypto-to-crypto pairs
-        allAssetTypes.forEach { baseType in
-            let otherTypes = AssetType.all.filter { $0 != baseType }
-            otherTypes.forEach { counterType in
-                allPairs.append("\(baseType.symbol)-\(counterType.symbol)")
-            }
-        }
-
-        let params = CurrencyPairsSubscribeParams(pairs: allPairs)
+    private func subscribeTo(pairs: ExchangeTradingPairs) {
+        let params = CurrencyPairsSubscribeParams(pairs: pairs.pairs)
         let subscribe = Subscription(channel: "exchange_rate", params: params)
         let message = SocketMessage(type: .exchange, JSONMessage: subscribe)
         SocketManager.shared.send(message: message)
@@ -191,7 +218,7 @@ extension MarketsService: ExchangeMarketsAPI {
             return Observable.just(0)
         }
 
-        return bestExchangeRates(fiatCurrencyCode: fiatCurrencyCode).map { rates in
+        return bestExchangeRates().map { rates in
             return rates.convert(
                 balance: assetAccount.balance,
                 fromCurrency: assetAccount.address.assetType.symbol,

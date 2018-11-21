@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import PlatformKit
 
 @objc class AuthenticationCoordinator: NSObject, Coordinator {
 

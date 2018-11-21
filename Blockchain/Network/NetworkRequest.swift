@@ -80,7 +80,8 @@ struct NetworkRequest {
         
         return request.copy() as? URLRequest
     }
-    
+
+    // swiftlint:disable:next function_body_length
     fileprivate mutating func execute<T: Decodable>(expecting: T.Type, withCompletion: @escaping ((Result<T>, _ responseCode: Int) -> Void)) {
         let responseCode: Int = 0
         
@@ -126,6 +127,13 @@ struct NetworkRequest {
                 let errorPayload = try? JSONDecoder().decode(NabuNetworkError.self, from: responseData)
                 let errorStatusCode = HTTPRequestServerError.badStatusCode(code: httpResponse.statusCode, error: errorPayload)
                 withCompletion(.error(errorStatusCode), httpResponse.statusCode)
+                return
+            }
+
+            // No need to decode if desired type is Void
+            guard T.self != EmptyNetworkResponse.self else {
+                let emptyResponse: T = EmptyNetworkResponse() as! T
+                withCompletion(.success(emptyResponse), httpResponse.statusCode)
                 return
             }
 
@@ -175,6 +183,25 @@ extension NetworkRequest {
                 switch result {
                 case .success(let value):
                     observer(.success(value))
+                case .error(let error):
+                    observer(.error(error ?? NetworkError.generic))
+                }
+            })
+            return Disposables.create()
+        })
+    }
+
+    static func POST(
+        url: URL,
+        body: Data?,
+        headers: HTTPHeaders? = nil
+    ) -> Completable {
+        var request = self.init(endpoint: url, method: .post, body: body, headers: headers)
+        return Completable.create(subscribe: { observer -> Disposable in
+            request.execute(expecting: EmptyNetworkResponse.self, withCompletion: { result, _ in
+                switch result {
+                case .success(_):
+                    observer(.completed)
                 case .error(let error):
                     observer(.error(error ?? NetworkError.generic))
                 }

@@ -19,4 +19,9 @@ public protocol WalletSettingsAPI {
         sharedKey: String,
         payload: String
     ) -> Completable
+
+    /// Updates the last transaction time performed by this wallet. This method should be invoked when:
+    ///   - the user buys crypto using fiat
+    ///   - the user sends crypto
+    func updateLastTxTimeToCurrentTime(guid: String, sharedKey: String) -> Completable
 }

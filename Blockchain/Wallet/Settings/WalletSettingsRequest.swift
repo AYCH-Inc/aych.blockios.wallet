@@ -19,7 +19,7 @@ struct WalletSettingsRequest: Codable {
     let sharedKey: String
     let apiCode: String
     let payload: String?
-    let length: Int?
+    let length: String?
     let format: String?
 
     init(
@@ -28,7 +28,7 @@ struct WalletSettingsRequest: Codable {
         sharedKey: String,
         apiCode: String,
         payload: String? = nil,
-        length: Int? = nil,
+        length: String? = nil,
         format: String? = nil
     ) {
         self.method = method

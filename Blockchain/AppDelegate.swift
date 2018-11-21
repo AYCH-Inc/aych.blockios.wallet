@@ -104,6 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         checkForNewInstall()
 
         AppCoordinator.shared.start()
+        WalletActionSubscriber.shared.subscribe()
 
         return true
     }

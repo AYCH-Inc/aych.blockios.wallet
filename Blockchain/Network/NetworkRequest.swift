@@ -24,10 +24,16 @@ struct NetworkRequest {
         case put = "PUT"
         case delete = "DELETE"
     }
+
+    enum ContentType: String {
+        case json = "application/json"
+        case formUrlEncoded = "application/x-www-form-urlencoded"
+    }
     
     let method: NetworkMethod
     let endpoint: URL
     let headers: HTTPHeaders?
+    let contentType: ContentType
 
     // TODO: modify this to be an Encodable type so that JSON serialization is done in this class
     // vs. having to serialize outside of this class
@@ -43,42 +49,20 @@ struct NetworkRequest {
     }()
     private var task: URLSessionDataTask?
     
-    init(endpoint: URL, method: NetworkMethod, body: Data?, authToken: String? = nil, headers: HTTPHeaders? = nil) {
+    init(
+        endpoint: URL,
+        method: NetworkMethod,
+        body: Data?,
+        authToken: String? = nil,
+        headers: HTTPHeaders? = nil,
+        contentType: ContentType = .json
+    ) {
         self.endpoint = endpoint
         self.token = authToken
         self.method = method
         self.body = body
         self.headers = headers
-    }
-    
-    func URLRequest() -> URLRequest? {
-        let request: NSMutableURLRequest = NSMutableURLRequest(
-            url: endpoint,
-            cachePolicy: .reloadIgnoringLocalCacheData,
-            timeoutInterval: 30.0
-        )
-        
-        request.httpMethod = method.rawValue
-        request.allHTTPHeaderFields = [HttpHeaderField.contentType: HttpHeaderValue.json,
-                                       HttpHeaderField.accept: HttpHeaderValue.json]
-        if let auth = token {
-            request.addValue(
-                auth,
-                forHTTPHeaderField: HttpHeaderField.authorization
-            )
-        }
-
-        if let headers = headers {
-            headers.forEach {
-                request.addValue($1, forHTTPHeaderField: $0)
-            }
-        }
-        
-        if let data = body {
-            request.httpBody = data
-        }
-        
-        return request.copy() as? URLRequest
+        self.contentType = contentType
     }
 
     // swiftlint:disable:next function_body_length
@@ -153,6 +137,52 @@ struct NetworkRequest {
         
         task?.resume()
     }
+
+    private func URLRequest() -> URLRequest? {
+        let request: NSMutableURLRequest = NSMutableURLRequest(
+            url: endpoint,
+            cachePolicy: .reloadIgnoringLocalCacheData,
+            timeoutInterval: 30.0
+        )
+
+        request.httpMethod = method.rawValue
+        request.addValue(HttpHeaderValue.json, forHTTPHeaderField: HttpHeaderField.accept)
+        request.addValue(contentType.rawValue, forHTTPHeaderField: HttpHeaderField.contentType)
+
+        if let auth = token {
+            request.addValue(
+                auth,
+                forHTTPHeaderField: HttpHeaderField.authorization
+            )
+        }
+
+        if let headers = headers {
+            headers.forEach {
+                request.addValue($1, forHTTPHeaderField: $0)
+            }
+        }
+
+        addHttpBody(to: request)
+
+        return request.copy() as? URLRequest
+    }
+
+    private func addHttpBody(to request: NSMutableURLRequest) {
+        guard let data = body else {
+            return
+        }
+
+        switch contentType {
+        case .json:
+            request.httpBody = data
+        case .formUrlEncoded:
+            if let params = try? JSONDecoder().decode([String: String].self, from: data) {
+                request.encode(params: params)
+            } else {
+                request.httpBody = data
+            }
+        }
+    }
     
     static func POST(url: URL, body: Data?) -> NetworkRequest {
         return self.init(endpoint: url, method: .post, body: body)
@@ -194,9 +224,10 @@ extension NetworkRequest {
     static func POST(
         url: URL,
         body: Data?,
-        headers: HTTPHeaders? = nil
+        headers: HTTPHeaders? = nil,
+        contentType: ContentType = .json
     ) -> Completable {
-        var request = self.init(endpoint: url, method: .post, body: body, headers: headers)
+        var request = self.init(endpoint: url, method: .post, body: body, headers: headers, contentType: contentType)
         return Completable.create(subscribe: { observer -> Disposable in
             request.execute(expecting: EmptyNetworkResponse.self, withCompletion: { result, _ in
                 switch result {
@@ -215,9 +246,10 @@ extension NetworkRequest {
         body: Data?,
         token: String?,
         type: ResponseType.Type,
-        headers: HTTPHeaders? = nil
+        headers: HTTPHeaders? = nil,
+        contentType: ContentType = .json
     ) -> Single<ResponseType> {
-        var request = self.init(endpoint: url, method: .post, body: body, authToken: token, headers: headers)
+        var request = self.init(endpoint: url, method: .post, body: body, authToken: token, headers: headers, contentType: contentType)
         return Single.create(subscribe: { observer -> Disposable in
             request.execute(expecting: ResponseType.self, withCompletion: { result, _ in
                 switch result {
@@ -250,5 +282,24 @@ extension NetworkRequest {
             })
             return Disposables.create()
         })
+    }
+}
+
+extension NSMutableURLRequest {
+
+    func encode(params: [String : String]) {
+        let encodedParamsArray = params.map { keyPair -> String in
+            let (key, value) = keyPair
+            return "\(key)=\(self.percentEscapeString(value))"
+        }
+        self.httpBody = encodedParamsArray.joined(separator: "&").data(using: .utf8)
+    }
+
+    private func percentEscapeString(_ stringToEscape: String) -> String {
+        let characterSet = NSMutableCharacterSet.alphanumeric()
+        characterSet.addCharacters(in: "-._* ")
+        return stringToEscape
+            .addingPercentEncoding(withAllowedCharacters: characterSet as CharacterSet)?
+            .replacingOccurrences(of: " ", with: "+", options: [], range: nil) ?? stringToEscape
     }
 }

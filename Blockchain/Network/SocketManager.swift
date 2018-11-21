@@ -153,8 +153,11 @@ extension SocketManager: WebSocketAdvancedDelegate {
         case "auth":
             onAcknowledge("Successfully subscribed. Websocket: \(socket), Payload: \(text)")
         case "exchange_rate":
-            Logger.shared.debug("Attempting to decode: \(text)")
-            ExchangeRates.tryToDecode(socketType: socketType, data: data, onSuccess: onSuccess, onError: onError)
+            Logger.shared.debug("Received exchange_rate socket message: \(text)")
+            if let event = json["event"] as? String, event == "updated" {
+                Logger.shared.debug("Attempting to decode event of type '\(event)'")
+                ExchangeRates.tryToDecode(socketType: socketType, data: data, onSuccess: onSuccess, onError: onError)
+            }
         case "conversion":
             if let event = json["event"] as? String, event == "updated" {
                 guard let type = json["type"] as? String else {

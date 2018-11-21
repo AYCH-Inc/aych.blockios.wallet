@@ -264,7 +264,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // TICKET: IOS-1329 - Implement didFailToRegisterForRemoteNotificationsWithError
     }
 
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    func application(
+        _ application: UIApplication,
+        continue userActivity: NSUserActivity,
+        restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
+    ) -> Bool {
         guard let webpageUrl = userActivity.webpageURL else { return false }
 
         let handled = DynamicLinks.dynamicLinks().handleUniversalLink(webpageUrl) { [weak self] dynamicLink, error in

@@ -394,6 +394,28 @@ final class BlockchainSettings: NSObject {
             }
         }
 
+        /// Property saved from parsing 'campaign_code' query param from airdrop email.
+        /// Used to pass to Stellar airdrop registration backend api
+        var airdropCampaignCode: String? {
+            get {
+                return defaults.string(forKey: UserDefaults.Keys.airdropCampaignCode.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.airdropCampaignCode.rawValue)
+            }
+        }
+
+        /// Property saved from parsing 'campaign_email' query param from airdrop email.
+        /// Used to pass to Stellar airdrop registration backend api
+        var airdropCampaignEmail: String? {
+            get {
+                return defaults.string(forKey: UserDefaults.Keys.airdropCampaignEmail.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.airdropCampaignEmail.rawValue)
+            }
+        }
+
          override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
             // access an instance of this class.
@@ -423,6 +445,8 @@ final class BlockchainSettings: NSObject {
             isCompletingKyc = false
             didTapOnAirdropDeepLink = false
             didSeeAirdropPending = false
+            airdropCampaignCode = nil
+            airdropCampaignEmail = nil
             Logger.shared.info("Application settings have been reset.")
         }
 

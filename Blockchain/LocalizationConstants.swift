@@ -997,11 +997,11 @@ struct LocalizationConstants {
             comment: "Description displayed on the onboarding card notifying them that their airdrop is on its way."
         )
         static let XLMHasBeenClaimed = NSLocalizedString(
-            "XLM has already been claimed using this link.",
+            "Link is invalid or XLM has already been claimed using this link",
             comment: "Error shown when deep linking from a claim your XLM link."
         )
         static let linkAlreadyUsed = NSLocalizedString(
-            "Link Already Used",
+            "Link Error",
             comment: "Error title shown when deep linking from a claim your XLM link."
         )
     }

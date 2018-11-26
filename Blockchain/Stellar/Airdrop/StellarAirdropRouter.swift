@@ -85,6 +85,21 @@ class StellarAirdropRouter {
                 Logger.shared.info("Successfully registered for sunriver campaign. Message: '\(response.message)'")
             }, onError: { error in
                 Logger.shared.error("Failed to register for campaign: \(error.localizedDescription)")
+                guard let value = error as? NabuNetworkError else { return }
+                switch value.code {
+                case .campaignUserAlreadyRegistered,
+                     .invalidCampaign,
+                     .invalidCampaignUser:
+                    AlertViewPresenter.shared.standardNotify(
+                        message: LocalizationConstants.Stellar.XLMHasBeenClaimed,
+                        title: LocalizationConstants.Stellar.linkAlreadyUsed
+                    )
+                default:
+                    AlertViewPresenter.shared.standardNotify(
+                        message: value.description,
+                        title: LocalizationConstants.Errors.error
+                    )
+                }
             })
         disposables.insertWithDiscardableResult(disposable)
     }

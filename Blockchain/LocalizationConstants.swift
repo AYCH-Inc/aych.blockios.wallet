@@ -284,6 +284,21 @@ struct LocalizationConstants {
         static let biometricInstructions = NSLocalizedString("Use %@ instead of PIN to authenticate Blockchain and access your wallet.", comment: "")
     }
 
+    struct DeepLink {
+        static let deepLinkUpdateTitle = NSLocalizedString(
+            "Link requires app update",
+            comment: "Title of alert shown if the deep link requires a newer version of the app."
+        )
+        static let deepLinkUpdateMessage = NSLocalizedString(
+            "The link you have used is not supported on this version of the app. Please update the app to access this link.",
+            comment: "Message of alert shown if the deep link requires a newer version of the app."
+        )
+        static let updateNow = NSLocalizedString(
+            "Update Now",
+            comment: "Action of alert shown if the deep link requires a newer version of the app."
+        )
+    }
+
     struct Dashboard {
         static let priceCharts = NSLocalizedString(
             "Price charts",

@@ -45,7 +45,7 @@ extension UIApplication {
 
     // MARK: - Rate Application
 
-    @objc func rateApp() {
+    @objc func openAppStore() {
         let url = URL(string: "\(Constants.Url.appStoreLinkPrefix)\(Constants.AppStore.AppID)")!
         self.open(url)
     }

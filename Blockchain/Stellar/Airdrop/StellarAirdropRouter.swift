@@ -52,14 +52,17 @@ class StellarAirdropRouter {
         let xlmAccount = walletXlmAccountRepo.initializeMetadataMaybe().asObservable()
         let disposable = Observable.combineLatest(nabuUser, xlmAccount)
             .subscribeOn(MainScheduler.asyncInstance)
-            .do(onNext: { [weak self] nabuUser, xlmAccount in
-                self?.registerForCampaign(xlmAccount: xlmAccount, nabuUser: nabuUser)
-            })
+            .flatMap { [weak self] nabuUser, xlmAccount -> Observable<NabuUser> in
+                guard let strongSelf = self else { return Observable.empty() }
+                return strongSelf.registerForCampaign(xlmAccount: xlmAccount, nabuUser: nabuUser)
+            }
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] user, _ in
+            .subscribe(onNext: { [weak self] user in
                 guard let strongSelf = self else {
                     return
                 }
+
+                strongSelf.appSettings.didTapOnAirdropDeepLink = false
 
                 // Only route if the user has not yet started KYC.
                 // Note that storing a flag locally is the only way we can tell
@@ -73,34 +76,41 @@ class StellarAirdropRouter {
                     return
                 }
                 strongSelf.kycCoordinator.start()
-            }, onError: { error in
-                Logger.shared.error("Cannot complete stellar airdrop: \(error.localizedDescription)")
-            })
-        disposables.insertWithDiscardableResult(disposable)
-    }
+            }, onError: { [weak self] error in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.appSettings.didTapOnAirdropDeepLink = false
 
-    private func registerForCampaign(xlmAccount: WalletXlmAccount, nabuUser: NabuUser) {
-        let disposable = registrationService.registerForCampaign(xlmAccount: xlmAccount, nabuUser: nabuUser)
-            .subscribe(onSuccess: { response in
-                Logger.shared.info("Successfully registered for sunriver campaign. Message: '\(response.message)'")
-            }, onError: { error in
                 Logger.shared.error("Failed to register for campaign: \(error.localizedDescription)")
-                guard let value = error as? NabuNetworkError else { return }
-                switch value.code {
-                case .campaignUserAlreadyRegistered,
-                     .invalidCampaign,
-                     .invalidCampaignUser:
+                guard let httpError = error as? HTTPRequestServerError else { return }
+                guard case let .badStatusCode(_, payload) = httpError else { return }
+                guard let value = payload as? NabuNetworkError else { return }
+                if value.code.isCampaignError {
                     AlertViewPresenter.shared.standardNotify(
                         message: LocalizationConstants.Stellar.XLMHasBeenClaimed,
                         title: LocalizationConstants.Stellar.ohNo
                     )
-                default:
-                    AlertViewPresenter.shared.standardNotify(
-                        message: value.description,
-                        title: LocalizationConstants.Errors.error
-                    )
+                    return
                 }
+
+                AlertViewPresenter.shared.standardNotify(
+                    message: value.description,
+                    title: LocalizationConstants.Errors.error
+                )
             })
         disposables.insertWithDiscardableResult(disposable)
+    }
+
+    private func registerForCampaign(xlmAccount: WalletXlmAccount, nabuUser: NabuUser) -> Observable<NabuUser> {
+        return registrationService.registerForCampaign(xlmAccount: xlmAccount, nabuUser: nabuUser)
+            .do(onSuccess: { response in
+                Logger.shared.info("Successfully registered for sunriver campaign. Message: '\(response.message)'")
+            })
+            .asObservable()
+            .map { _ -> NabuUser in
+                return nabuUser
+            }
     }
 }

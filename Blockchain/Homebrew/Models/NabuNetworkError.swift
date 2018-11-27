@@ -89,6 +89,26 @@ enum NabuNetworkErrorCode: Int, Codable {
     case invalidCampaignUser = 55
     case campaignUserAlreadyRegistered = 56
     case campaignExpired = 57
+    case invalidCampaignInfo = 58
+    case campaignWithdrawalFailed = 59
+    case tradeForceExecuteError = 60
+}
+
+extension NabuNetworkErrorCode {
+    var isCampaignError: Bool {
+        switch self {
+            case .invalidCampaign,
+                 .invalidCampaignUser,
+                 .campaignUserAlreadyRegistered,
+                 .campaignExpired,
+                 .invalidCampaignInfo,
+                 .campaignWithdrawalFailed,
+                 .tradeForceExecuteError:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 enum NabuNetworkErrorType: String, Codable {

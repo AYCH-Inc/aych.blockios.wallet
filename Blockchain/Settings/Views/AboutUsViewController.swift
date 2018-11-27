@@ -49,7 +49,7 @@ import Foundation
     }
 
     @IBAction func onRateUsTapped(_ sender: Any) {
-        UIApplication.shared.rateApp()
+        UIApplication.shared.openAppStore()
     }
 }
 

@@ -282,6 +282,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
             }
 
+            // Check that the version of the link (if provided) is supported, if not, prompt the user to upgrade
+            if let minimumAppVersionStr = dynamicLink?.minimumAppVersion,
+                let minimumAppVersion = AppVersion(string: minimumAppVersionStr),
+                let appVersionStr = Bundle.applicationVersion,
+                let appVersion = AppVersion(string: appVersionStr),
+                appVersion < minimumAppVersion {
+                self?.showUpdateAppAlert()
+                return
+            }
+
             self?.deepLinkHandler.handle(deepLink: deepLinkUrl)
         }
         return handled
@@ -341,6 +351,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func showPrivacyScreen() {
         privacyScreen?.alpha = 1
         UIApplication.shared.keyWindow?.addSubview(privacyScreen!)
+    }
+
+    // MARK: - Private
+
+    private func showUpdateAppAlert() {
+        let actions = [
+            UIAlertAction(title: LocalizationConstants.DeepLink.updateNow, style: .default, handler: { _ in
+                UIApplication.shared.openAppStore()
+            }),
+            UIAlertAction(title: LocalizationConstants.cancel, style: .cancel)
+        ]
+        AlertViewPresenter.shared.standardNotify(
+            message: LocalizationConstants.DeepLink.deepLinkUpdateMessage,
+            title: LocalizationConstants.DeepLink.deepLinkUpdateTitle,
+            actions: actions
+        )
     }
 }
 

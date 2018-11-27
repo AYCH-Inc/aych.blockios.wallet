@@ -80,6 +80,15 @@ enum NabuNetworkErrorCode: Int, Codable {
     case weeklyLimitExceeded = 46
     case annualLimitExceeded = 47
     case notCryptoToCryptoCurrencyPair = 48
+    
+    /// Campaign Related Errors - These errors are specific
+    /// to users opting into an air drop campaign. Currently they're
+    /// used when a user deep links into the application from a campaign
+    /// related link. 
+    case invalidCampaign = 54
+    case invalidCampaignUser = 55
+    case campaignUserAlreadyRegistered = 56
+    case campaignExpired = 57
 }
 
 enum NabuNetworkErrorType: String, Codable {

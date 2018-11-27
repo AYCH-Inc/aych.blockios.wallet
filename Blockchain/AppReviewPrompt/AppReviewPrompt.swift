@@ -64,7 +64,7 @@ final class AppReviewPrompt: NSObject {
             style: .default,
             handler: { _ in
                 settings.dontAskUserToShowAppReviewPrompt = true
-                UIApplication.shared.rateApp()
+                UIApplication.shared.openAppStore()
         })
         let secondaryAction = UIAlertAction(
             title: LocalizationConstants.AppReviewFallbackPrompt.secondaryActionTitle,

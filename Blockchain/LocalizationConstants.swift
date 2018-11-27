@@ -1015,8 +1015,8 @@ struct LocalizationConstants {
             "Link is invalid or XLM has already been claimed using this link",
             comment: "Error shown when deep linking from a claim your XLM link."
         )
-        static let linkAlreadyUsed = NSLocalizedString(
-            "Link Error",
+        static let ohNo = NSLocalizedString(
+            "Oh no!",
             comment: "Error title shown when deep linking from a claim your XLM link."
         )
     }

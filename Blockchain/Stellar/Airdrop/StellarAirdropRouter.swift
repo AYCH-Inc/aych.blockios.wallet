@@ -92,7 +92,7 @@ class StellarAirdropRouter {
                      .invalidCampaignUser:
                     AlertViewPresenter.shared.standardNotify(
                         message: LocalizationConstants.Stellar.XLMHasBeenClaimed,
-                        title: LocalizationConstants.Stellar.linkAlreadyUsed
+                        title: LocalizationConstants.Stellar.ohNo
                     )
                 default:
                     AlertViewPresenter.shared.standardNotify(

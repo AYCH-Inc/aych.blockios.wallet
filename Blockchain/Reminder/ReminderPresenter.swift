@@ -20,6 +20,12 @@ import Foundation
     var reminderTypeToShow: ReminderType?
 
     private let walletManager: WalletManager
+    
+    /// This `completionHandler` is called when any of the modals
+    /// are dismissed. Upon dismissal we need to potentially route the
+    /// user through the KYC flow if they arrived to the app via a deep link.
+    /// It's preferable to use a closure given that this is a singleton. 
+    private var completionHandler: (() -> Void)?
 
     // MARK: - Initializers
 
@@ -31,7 +37,8 @@ import Foundation
 
     // MARK: - Public Methods
 
-    func showSecurityReminder() {
+    func showSecurityReminder(onCompletion: @escaping (() -> Void)) {
+        completionHandler = onCompletion
         BlockchainSettings.App.shared.dateOfLastSecurityReminder = NSDate()
 
         let wallet = walletManager.wallet
@@ -80,7 +87,8 @@ import Foundation
         UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(setupViewController, animated: true)
     }
 
-    func checkIfSettingsLoadedAndShowEmailReminder() {
+    func checkIfSettingsLoadedAndShowEmailReminder(onCompletion: @escaping (() -> Void)) {
+        completionHandler = onCompletion
         guard walletManager.wallet.hasLoadedAccountInfo else {
             reminderTypeToShow = .email
             return
@@ -89,7 +97,7 @@ import Foundation
         if !walletManager.wallet.hasVerifiedEmail() {
             showEmailVerificationReminder()
         } else {
-            showSecurityReminder()
+            showSecurityReminder(onCompletion: onCompletion)
         }
     }
 
@@ -136,6 +144,14 @@ extension ReminderPresenter: WalletAccountInfoDelegate {
 }
 
 extension ReminderPresenter: ReminderModalDelegate {
+    func dismissTapped(_ reminderViewController: ReminderModalViewController!) {
+        reminderViewController.dismiss(animated: true) { [weak self] in
+            guard let this = self else { return }
+            this.completionHandler?()
+            this.completionHandler = nil
+        }
+    }
+    
     func showBackup() {
         AppCoordinator.shared.showBackupView()
     }

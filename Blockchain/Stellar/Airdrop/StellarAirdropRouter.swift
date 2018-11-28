@@ -54,7 +54,19 @@ class StellarAirdropRouter {
             .subscribeOn(MainScheduler.asyncInstance)
             .flatMap { [weak self] nabuUser, xlmAccount -> Observable<NabuUser> in
                 guard let strongSelf = self else { return Observable.empty() }
-                return strongSelf.registerForCampaign(xlmAccount: xlmAccount, nabuUser: nabuUser)
+                return strongSelf.registerForCampaign(
+                    xlmAccount: xlmAccount,
+                    nabuUser: nabuUser
+                ).catchError { error -> Observable<NabuUser> in
+                    guard let httpError = error as? HTTPRequestServerError else { throw error }
+                    guard case let .badStatusCode(_, payload) = httpError else { throw error }
+                    guard let value = payload as? NabuNetworkError else { throw error }
+                    if value.code == .campaignUserAlreadyRegistered {
+                        return Observable.just(nabuUser)
+                    } else {
+                        throw error
+                    }
+                }
             }
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] user in

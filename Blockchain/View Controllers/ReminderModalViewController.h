@@ -17,9 +17,12 @@ enum {
 
 typedef NSInteger ReminderType;
 
+@class ReminderModalViewController;
+
 @protocol ReminderModalDelegate
 - (void)showBackup;
 - (void)showTwoStep;
+- (void)dismissTapped:(ReminderModalViewController *)reminderViewController;
 @end
 
 @interface ReminderModalViewController : UIViewController

@@ -3216,10 +3216,9 @@ MyWalletPhone.tradeExecution = {
             let options = walletOptions.getValue()
             bchAccount.getAvailableBalance(options.bcash.feePerByte).then(function(balance) {
                 var fee = balance.sweepFee;
-                var maxAvailable = balance.amount;
                 currentBitcoinCashPayment.feePerByte(options.bcash.feePerByte);
                 currentBitcoinCashPayment.build();
-                objc_on_create_order_payment_success(maxAvailable, fee);
+                objc_on_create_order_payment_success(fee);
             }).catch(objc_on_create_order_payment_error);
         },
         send: function(secondPassword) {

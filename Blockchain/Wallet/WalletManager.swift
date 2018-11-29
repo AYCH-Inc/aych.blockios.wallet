@@ -151,11 +151,12 @@ class WalletManager: NSObject {
     }
 
     private func updateBtcSymbols() {
-        guard let code = self.wallet.accountInfo["btc_currency"] as? String else {
+        guard wallet.hasLoadedAccountInfo == true else { return }
+        guard let code = wallet.accountInfo["btc_currency"] as? String else {
             Logger.shared.warning("Could not get btc code")
             return
         }
-        self.latestMultiAddressResponse?.symbol_btc = CurrencySymbol.btcSymbol(fromCode: code)
+        latestMultiAddressResponse?.symbol_btc = CurrencySymbol.btcSymbol(fromCode: code)
     }
 
     private func reloadAfterMultiaddressResponse() {

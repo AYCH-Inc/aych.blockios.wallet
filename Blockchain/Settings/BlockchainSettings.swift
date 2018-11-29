@@ -416,6 +416,17 @@ final class BlockchainSettings: NSObject {
             }
         }
 
+        /// Determines if the app already tried to route the user for the airdrop flow as a result
+        /// of tapping on a deep link
+        var didAttemptToRouteForAirdrop: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didAttemptToRouteForAirdrop.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didAttemptToRouteForAirdrop.rawValue)
+            }
+        }
+
          override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
             // access an instance of this class.
@@ -447,6 +458,7 @@ final class BlockchainSettings: NSObject {
             didSeeAirdropPending = false
             airdropCampaignCode = nil
             airdropCampaignEmail = nil
+            didAttemptToRouteForAirdrop = false
             Logger.shared.info("Application settings have been reset.")
         }
 

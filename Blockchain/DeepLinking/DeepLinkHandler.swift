@@ -31,6 +31,7 @@ class DeepLinkHandler {
 
     private func handleXlmAirdrop(_ params: [String: String]) {
         appSettings.didTapOnAirdropDeepLink = true
+        appSettings.didAttemptToRouteForAirdrop = false
         appSettings.airdropCampaignCode = params["campaign_code"]
         appSettings.airdropCampaignEmail = params["campaign_email"]
         Analytics.setUserProperty(AnalyticsService.Campaigns.sunriver.rawValue, forName: "campaign")

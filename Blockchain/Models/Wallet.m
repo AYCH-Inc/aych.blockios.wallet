@@ -38,7 +38,6 @@
 
 NSString * const kAccountInvitations = @"invited";
 NSString * const kLockboxInvitation = @"lockbox";
-NSInteger const kBCHDustAmount = 546;
 
 @interface Wallet ()
 @property (nonatomic) JSContext *context;
@@ -2880,20 +2879,6 @@ NSInteger const kBCHDustAmount = 546;
         NSMutableArray *transactions = [NSMutableArray new];
         for (NSDictionary *data in fetchedTransactions) {
             Transaction *transaction = [Transaction fromJSONDict:data];
-            
-            /// Due to the BCH fork we need to filter out
-            /// the dust service recipient.
-            if (transaction.to.count > 1) {
-                NSMutableArray *recipients = [transaction.to mutableCopy];
-                for (NSInteger index = 0; index < recipients.count; index++) {
-                    NSDictionary *payload = recipients[index];
-                    NSNumber *value = payload[DICTIONARY_KEY_TRANSACTION_AMOUNT];
-                    if (value.integerValue == kBCHDustAmount) {
-                        [recipients removeObjectAtIndex:index];
-                    }
-                }
-                transaction.to = [NSArray arrayWithArray:recipients];
-            }
             [transactions addObject:transaction];
         }
         self.bitcoinCashTransactions = transactions;

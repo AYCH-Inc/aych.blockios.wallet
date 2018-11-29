@@ -154,7 +154,7 @@
 
 - (void)close
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.delegate dismissTapped:self];
 }
 
 @end

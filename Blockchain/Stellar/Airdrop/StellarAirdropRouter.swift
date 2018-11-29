@@ -48,13 +48,30 @@ class StellarAirdropRouter {
             return
         }
 
+        // Only route if we did try to route already
+        guard !appSettings.didAttemptToRouteForAirdrop else {
+            return
+        }
+
         let nabuUser = repository.nabuUser.take(1)
         let xlmAccount = walletXlmAccountRepo.initializeMetadataMaybe().asObservable()
         let disposable = Observable.combineLatest(nabuUser, xlmAccount)
             .subscribeOn(MainScheduler.asyncInstance)
             .flatMap { [weak self] nabuUser, xlmAccount -> Observable<NabuUser> in
                 guard let strongSelf = self else { return Observable.empty() }
-                return strongSelf.registerForCampaign(xlmAccount: xlmAccount, nabuUser: nabuUser)
+                return strongSelf.registerForCampaign(
+                    xlmAccount: xlmAccount,
+                    nabuUser: nabuUser
+                ).catchError { error -> Observable<NabuUser> in
+                    guard let httpError = error as? HTTPRequestServerError else { throw error }
+                    guard case let .badStatusCode(_, payload) = httpError else { throw error }
+                    guard let value = payload as? NabuNetworkError else { throw error }
+                    if value.code == .campaignUserAlreadyRegistered {
+                        return Observable.just(nabuUser)
+                    } else {
+                        throw error
+                    }
+                }
             }
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] user in
@@ -62,7 +79,7 @@ class StellarAirdropRouter {
                     return
                 }
 
-                strongSelf.appSettings.didTapOnAirdropDeepLink = false
+                strongSelf.appSettings.didAttemptToRouteForAirdrop = true
 
                 // Only route if the user has not yet started KYC.
                 // Note that storing a flag locally is the only way we can tell
@@ -80,10 +97,10 @@ class StellarAirdropRouter {
                 guard let strongSelf = self else {
                     return
                 }
-                
-                strongSelf.appSettings.didTapOnAirdropDeepLink = false
+                strongSelf.appSettings.didAttemptToRouteForAirdrop = true
 
                 Logger.shared.error("Failed to register for campaign: \(error.localizedDescription)")
+
                 guard let httpError = error as? HTTPRequestServerError else { return }
                 guard case let .badStatusCode(_, payload) = httpError else { return }
                 guard let value = payload as? NabuNetworkError else { return }

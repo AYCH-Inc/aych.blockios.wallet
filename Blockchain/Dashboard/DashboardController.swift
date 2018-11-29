@@ -111,6 +111,7 @@ final class DashboardController: UIViewController {
 
     deinit {
         disposable?.dispose()
+        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: - View Lifecycle

@@ -77,6 +77,11 @@ import PlatformKit
             }
             return
         }
+        
+        let reminderCompletion = { [weak self] in
+            guard let this = self else { return }
+            this.handlePostAuthenticationRouting()
+        }
 
         // Show security reminder modal if needed
         if let dateOfLastSecurityReminder = BlockchainSettings.App.shared.dateOfLastSecurityReminder {
@@ -85,25 +90,27 @@ import PlatformKit
             let timeIntervalBetweenPrompts = Constants.Time.securityReminderModalTimeInterval
 
             if dateOfLastSecurityReminder.timeIntervalSinceNow < -timeIntervalBetweenPrompts {
-                ReminderPresenter.shared.showSecurityReminder()
+                ReminderPresenter.shared.showSecurityReminder(onCompletion: reminderCompletion)
+            } else {
+                /// We want to handle routing immediately in this case
+                reminderCompletion()
             }
         } else if BlockchainSettings.App.shared.hasSeenEmailReminder {
-            ReminderPresenter.shared.showSecurityReminder()
+            ReminderPresenter.shared.showSecurityReminder(onCompletion: reminderCompletion)
         } else {
-            ReminderPresenter.shared.checkIfSettingsLoadedAndShowEmailReminder()
+            ReminderPresenter.shared.checkIfSettingsLoadedAndShowEmailReminder(
+                onCompletion: reminderCompletion
+            )
         }
-
-        // Enabling touch ID and immediately backgrounding the app hides the status bar
-        UIApplication.shared.setStatusBarHidden(false, with: .slide)
-
-        // Handle post authentication routing
-        strongSelf.handlePostAuthenticationRouting()
-
+        
         if let topViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController,
             BlockchainSettings.App.shared.isPinSet,
             !(topViewController is SettingsNavigationController) {
             AlertViewPresenter.shared.showMobileNoticeIfNeeded()
         }
+
+        // Enabling touch ID and immediately backgrounding the app hides the status bar
+        UIApplication.shared.setStatusBarHidden(false, with: .slide)
     }
 
     private func handlePostAuthenticationRouting() {

@@ -67,10 +67,10 @@ extension TransactionDetailViewModel {
         note = xlmTransaction.memo
         txDescription = xlmTransaction.memo
         
-        fromString = xlmTransaction.account
-        fromAddress = xlmTransaction.account
-        to = [xlmTransaction.funder]
-        toString = xlmTransaction.funder
+        fromString = xlmTransaction.funder
+        fromAddress = xlmTransaction.funder
+        to = [xlmTransaction.account]
+        toString = xlmTransaction.account
         
         txDescription = xlmTransaction.memo
         

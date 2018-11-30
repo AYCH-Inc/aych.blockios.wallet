@@ -36,9 +36,7 @@ class SecondPasswordViewController: UIViewController, UITextFieldDelegate {
         )
 
         descriptionLabel.font = UIFont(name: "GillSans", size: Constants.FontSizes.SmallMedium)
-        descriptionLabel.text = NSLocalizedString(
-            "This action requires the second password for your wallet. Please enter it below and press continue.",
-            comment: "")
+        descriptionLabel.text = LocalizationConstants.Authentication.secondPasswordDefaultDescription
 
         password.font = UIFont(name: "Montserrat-Regular", size: Constants.FontSizes.Small)
         password.returnKeyType = .done
@@ -70,7 +68,7 @@ class SecondPasswordViewController: UIViewController, UITextFieldDelegate {
     func checkSecondPassword() {
         let secondPassword = password.text
         if secondPassword!.isEmpty {
-            alertUserWithErrorMessage((NSLocalizedString("No Password Entered", comment: "")))
+            alertUserWithErrorMessage(LocalizationConstants.Authentication.noPasswordEntered)
         } else if wallet!.validateSecondPassword(secondPassword) {
             password?.resignFirstResponder()
             delegate?.didGetSecondPassword(secondPassword!)
@@ -80,16 +78,16 @@ class SecondPasswordViewController: UIViewController, UITextFieldDelegate {
             }
 			self.dismiss(animated: true, completion: nil)
         } else {
-            alertUserWithErrorMessage((NSLocalizedString("Second Password Incorrect", comment: "")))
+            alertUserWithErrorMessage(LocalizationConstants.Authentication.secondPasswordIncorrect)
         }
     }
 
     func alertUserWithErrorMessage(_ message: String) {
         let alert = UIAlertController(
-            title: NSLocalizedString("Error", comment: ""),
+            title: LocalizationConstants.Errors.error,
             message: message,
             preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .cancel, handler: { _ in
+        alert.addAction(UIAlertAction(title: LocalizationConstants.okString, style: .cancel, handler: { _ in
              self.password?.text = ""
         }))
         NotificationCenter.default.addObserver(

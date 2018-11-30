@@ -28,8 +28,7 @@ import Foundation
         transferAllController = TransferAllFundsViewController()
         let navigationController = BCNavigationController(
             rootViewController: transferAllController,
-            title: NSLocalizedString("Transfer All Funds",
-                                     comment: "")
+            title: LocalizationConstants.SendAsset.transferAllFunds
         )
         let tabViewController = AppCoordinator.shared.tabControllerManager.tabViewController
         tabViewController?.topMostViewController!.present(navigationController, animated: true, completion: nil)

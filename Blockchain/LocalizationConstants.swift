@@ -436,7 +436,6 @@ struct LocalizationConstants {
         static let  BC_STRING_BACKUP_NEXT = NSLocalizedString("NEXT", comment: "")
         static let  BC_STRING_BACKUP_AGAIN = NSLocalizedString("BACKUP AGAIN", comment: "")
         static let  BC_STRING_TRANSFER_ALL = NSLocalizedString("Transfer all", comment: "")
-        static let  BC_STRING_TRANSFER_ALL_FUNDS = NSLocalizedString("Transfer All Funds", comment: "")
         static let  BC_STRING_TRANSFER_IMPORTED_ADDRESSES = NSLocalizedString("Transfer imported addresses?", comment: "")
         static let  BC_STRING_TRANSFER_ALL_BACKUP = NSLocalizedString("Imported addresses are not backed up by your Recovery Phrase. To secure these funds, we recommend transferring these balances to include in your backup.", comment: "")
         static let  BC_STRING_BE_YOUR_OWN_BANK = NSLocalizedString("Be your own bank", comment: "")
@@ -620,6 +619,7 @@ struct LocalizationConstants {
             comment: "Generic error message displayed when an error occurs."
         )
         static let error = NSLocalizedString("Error", comment: "")
+        static let pleaseTryAgain = NSLocalizedString("Please try again", comment: "message shown when an error occurs and the user should attempt the last action again")
         static let loadingSettings = NSLocalizedString("loading Settings", comment: "")
         static let errorLoadingWallet = NSLocalizedString("Unable to load wallet due to no server response. You may be offline or Blockchain is experiencing difficulties. Please try again later.", comment: "")
         static let cannotOpenURLArg = NSLocalizedString("Cannot open URL %@", comment: "")
@@ -1151,6 +1151,10 @@ struct LocalizationConstants {
             "Payment sent",
             comment: "Alert message shown when crypto is successfully sent to a recipient."
         )
+        static let transferAllFunds = NSLocalizedString(
+            "Transfer All Funds",
+            comment: "Title shown to use when transferring funds from legacy addresses to their new wallet"
+        )
     }
 
     struct SendEther {
@@ -1197,9 +1201,76 @@ struct LocalizationConstants {
         static let noTransactionsAssetArgument = NSLocalizedString("Transactions occur when you send and receive %@.", comment: "Helper text displayed when no recent transactions are being shown")
         static let requestArgument = NSLocalizedString("Request %@", comment: "Text shown when a user can request a certain asset")
         static let getArgument = NSLocalizedString("Get %@", comment: "Text shown when a user can purchase a certain asset")
+        static let justNow = NSLocalizedString("Just now", comment: "text shown when a transaction has just completed")
+        static let secondsAgo = NSLocalizedString("%lld seconds ago", comment: "text shown when a transaction has completed seconds ago")
+        static let oneMinuteAgo = NSLocalizedString("1 minute ago", comment: "text shown when a transaction has completed one minute ago")
+        static let minutesAgo = NSLocalizedString("%lld minutes ago", comment: "text shown when a transaction has completed minutes ago")
+        static let oneHourAgo = NSLocalizedString("1 hour ago", comment: "text shown when a transaction has completed one hour ago")
+        static let hoursAgo = NSLocalizedString("%lld hours ago", comment: "text shown when a transaction has completed hours ago")
+        static let yesterday = NSLocalizedString("Yesterday", comment: "text shown when a transaction has completed yesterday")
     }
 
     struct Backup {
+        static let wordNumberOfNumber = NSLocalizedString(
+            "Word %@ of %@",
+            comment: "text displayed when showing individual words of their recovery phrase"
+        )
+        static let firstWord = NSLocalizedString(
+            "first word",
+            comment: "text displayed when prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let secondWord = NSLocalizedString(
+            "second word",
+            comment: "text displayed when prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let thirdWord = NSLocalizedString(
+            "third word",
+            comment: "text displayed when prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let fourthWord = NSLocalizedString(
+            "fourth word",
+            comment: "text displayed when prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let fifthWord = NSLocalizedString(
+            "fifth word",
+            comment: "text displayed when prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let sixthWord = NSLocalizedString(
+            "sixth word",
+            comment: "text displayed when prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let seventhWord = NSLocalizedString(
+            "seventh word",
+            comment: "text displayed when prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let eighthWord = NSLocalizedString(
+            "eighth word",
+            comment: "text displayed when prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let ninthWord = NSLocalizedString(
+            "ninth word",
+            comment: "text displayed when prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let tenthWord = NSLocalizedString(
+            "tenth word",
+            comment: "text displayed when prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let eleventhWord = NSLocalizedString(
+            "eleventh word",
+            comment: "text displayed when prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let twelfthWord = NSLocalizedString(
+            "twelfth word",
+            comment: "text displayed when prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let verifyBackup = NSLocalizedString(
+            "Verify Backup",
+            comment: "Title displayed in the app for prompting the user to verify that they have written down all words of their recovery phrase"
+        )
+        static let backupFunds = NSLocalizedString(
+            "Backup Funds",
+            comment: "Title displayed in the app for when the user wants to back up their funds by saving their 12 word mneumonic phrase."
+        )
         static let reminderBackupMessageFirstBitcoin = NSLocalizedString(
             "Congrats, you have bitcoin! Now let’s backup your wallet to ensure you can access your funds if you forget your password.",
             comment: "Reminder message for when the user has just received funds prior to having completed the backup phrase."
@@ -1708,4 +1779,20 @@ struct LocalizationConstants {
     @objc class func dashboardBitcoinCashPrice() -> String { return LocalizationConstants.Dashboard.bitcoinCashPrice }
 
     @objc class func dashboardStellarPrice() -> String { return LocalizationConstants.Dashboard.stellarPrice }
+
+    @objc class func justNow() -> String { return LocalizationConstants.Transactions.justNow }
+
+    @objc class func secondsAgo() -> String { return LocalizationConstants.Transactions.secondsAgo }
+
+    @objc class func oneMinuteAgo() -> String { return LocalizationConstants.Transactions.oneMinuteAgo }
+
+    @objc class func minutesAgo() -> String { return LocalizationConstants.Transactions.minutesAgo }
+
+    @objc class func oneHourAgo() -> String { return LocalizationConstants.Transactions.oneHourAgo }
+
+    @objc class func hoursAgo() -> String { return LocalizationConstants.Transactions.hoursAgo }
+
+    @objc class func yesterday() -> String { return LocalizationConstants.Transactions.yesterday }
+
+    @objc class func myBitcoinWallet() -> String { return LocalizationConstants.ObjCStrings.BC_STRING_MY_BITCOIN_WALLET }
 }

@@ -15,18 +15,18 @@ class BackupVerifyViewController: UIViewController, UITextFieldDelegate, SecondP
     var verifyButton: UIButton?
     var randomizedIndexes: [Int] = []
     var indexDictionary = [
-		0: NSLocalizedString("first word", comment: ""),
-        1: NSLocalizedString("second word", comment: ""),
-        2: NSLocalizedString("third word", comment: ""),
-        3: NSLocalizedString("fourth word", comment: ""),
-        4: NSLocalizedString("fifth word", comment: ""),
-        5: NSLocalizedString("sixth word", comment: ""),
-        6: NSLocalizedString("seventh word", comment: ""),
-        7: NSLocalizedString("eighth word", comment: ""),
-        8: NSLocalizedString("ninth word", comment: ""),
-        9: NSLocalizedString("tenth word", comment: ""),
-        10: NSLocalizedString("eleventh word", comment: ""),
-        11: NSLocalizedString("twelfth word", comment: "")
+		0: LocalizationConstants.Backup.firstWord,
+        1: LocalizationConstants.Backup.secondWord,
+        2: LocalizationConstants.Backup.thirdWord,
+        3: LocalizationConstants.Backup.fourthWord,
+        4: LocalizationConstants.Backup.fifthWord,
+        5: LocalizationConstants.Backup.sixthWord,
+        6: LocalizationConstants.Backup.seventhWord,
+        7: LocalizationConstants.Backup.eighthWord,
+        8: LocalizationConstants.Backup.ninthWord,
+        9: LocalizationConstants.Backup.tenthWord,
+        10: LocalizationConstants.Backup.eleventhWord,
+        11: LocalizationConstants.Backup.twelfthWord
 	]
 
     @IBOutlet weak var instructions: UILabel!
@@ -70,8 +70,8 @@ class BackupVerifyViewController: UIViewController, UITextFieldDelegate, SecondP
 
     override func viewDidAppear(_ animated: Bool) {
         verifyButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 46))
-        verifyButton?.setTitle(NSLocalizedString("Verify", comment: ""), for: UIControl.State())
-        verifyButton?.setTitle(NSLocalizedString("Verify", comment: ""), for: .disabled)
+        verifyButton?.setTitle(LocalizationConstants.verify, for: UIControl.State())
+        verifyButton?.setTitle(LocalizationConstants.verify, for: .disabled)
         verifyButton?.backgroundColor = .gray1
         verifyButton?.setTitleColor(UIColor.lightGray, for: .disabled)
         verifyButton?.titleLabel!.font = UIFont(name: "Montserrat-Regular", size: Constants.FontSizes.Medium)
@@ -156,10 +156,10 @@ class BackupVerifyViewController: UIViewController, UITextFieldDelegate, SecondP
 
     func pleaseTryAgain() {
         let alert = UIAlertController(
-            title: NSLocalizedString("Error", comment: ""),
-            message: NSLocalizedString("Please try again", comment: ""),
+            title: LocalizationConstants.Errors.error,
+            message: LocalizationConstants.Errors.pleaseTryAgain,
             preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: LocalizationConstants.okString, style: .default, handler: nil))
         NotificationCenter.default.addObserver(
             alert,
             selector: #selector(UIViewController.autoDismiss),

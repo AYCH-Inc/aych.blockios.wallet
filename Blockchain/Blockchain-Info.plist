@@ -55,8 +55,6 @@
 			</dict>
 		</array>
 	</dict>
-	<key>LOCAL_CERTIFICATE_FILE</key>
-	<string>$(LOCAL_CERTIFICATE_FILE)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>

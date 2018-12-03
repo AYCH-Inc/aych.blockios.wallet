@@ -208,12 +208,41 @@ jobs:
           path: output
       - store_test_results:
           path: output/scan
-  # Archive and export application:
+  # Archive and export application (staging):
   # - Update code signing.
   # - Get export options plist file from private repo.
   # - Archive the application.
   # - Export the .ipa file.
-  archive_and_export:
+  archive_and_export_staging:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /Users/distiller/project
+      - run:
+          name: Archive & Export Application
+          command: |
+            export LANG=en_US.UTF-8
+            export LC_ALL=en_US.UTF-8
+            export CREDENTIALS_REPO=$CREDENTIALS_REPO
+            export FASTLANE_USER=$FASTLANE_USER
+            bundle exec fastlane code_signing
+            security find-identity -v -p codesigning
+            git clone -b xcodebuild $CREDENTIALS_REPO /tmp/xcodebuild
+            xcodebuild -workspace Blockchain.xcworkspace -scheme Blockchain\ \(Staging\) -sdk iphoneos -configuration Debug\ Staging archive -archivePath ./output/Blockchain.xcarchive | xcpretty
+            xcodebuild -exportArchive -archivePath output/Blockchain.xcarchive -exportOptionsPlist /tmp/xcodebuild/exportOptions.plist -exportPath ./output | xcpretty
+            rm -rf output/Blockchain.xcarchive
+      - persist_to_workspace:
+          root: /Users/distiller/project
+          paths:
+            - output
+      - store_artifacts:
+          path: output
+  # Archive and export application (production):
+  # - Update code signing.
+  # - Get export options plist file from private repo.
+  # - Archive the application.
+  # - Export the .ipa file.
+  archive_and_export_production:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -272,9 +301,9 @@ workflows:
             - install_deps
             - build_openssl
             - install_pods
-  # Create build and upload to App Store Connect
-  # - Only triggered on the release branch.
-  build-and-upload:
+  # Create build and upload a production to App Store Connect
+  # - Only triggered on a new tag on the release branch
+  build-and-upload-production:
     jobs:
       - setup_repo:
           filters:
@@ -295,7 +324,7 @@ workflows:
             - install_deps
             - build_openssl
             - install_pods
-      - archive_and_export:
+      - archive_and_export_production:
           filters:
             tags:
               only: /v\d+\.\d+\.\d+\(\d+\)/
@@ -306,4 +335,40 @@ workflows:
       - upload:
           requires:
             - run_tests
-            - archive_and_export
+            - archive_and_export_production
+
+  # Create build and upload a staging to App Store Connect
+  # - Only triggered on a new tag on the staging branch
+  build-and-upload-staging:
+    jobs:
+      - setup_repo:
+          filters:
+            branches:
+              only:
+                - staging
+      - install_deps:
+          requires:
+            - setup_repo
+      - build_openssl:
+          requires:
+            - install_deps
+      - install_pods:
+          requires:
+            - setup_repo
+      - run_tests:
+          requires:
+            - install_deps
+            - build_openssl
+            - install_pods
+      - archive_and_export_staging:
+          filters:
+            tags:
+              only: /v\d+\.\d+\.\d+\(\d+\)/
+          requires:
+            - install_deps
+            - build_openssl
+            - install_pods
+      - upload:
+          requires:
+            - run_tests
+            - archive_and_export_staging

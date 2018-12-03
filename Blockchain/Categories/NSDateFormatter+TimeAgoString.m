@@ -7,6 +7,7 @@
 //
 
 #import "NSDateFormatter+TimeAgoString.h"
+#import "Blockchain-Swift.h"
 
 @implementation NSDateFormatter (TimeAgoString)
 
@@ -25,21 +26,20 @@
     long long secondsAgo  = -round([date timeIntervalSinceNow]);
     
     if (secondsAgo <= 1) { // Just now
-        return NSLocalizedString(@"Just now", nil);
+        return [LocalizationConstantsObjcBridge justNow];
     } else if (secondsAgo < 60) { // 0 - 59 seconds
-        return [NSString stringWithFormat:NSLocalizedString(@"%lld seconds ago", nil), secondsAgo];
+        return [NSString stringWithFormat:[LocalizationConstantsObjcBridge secondsAgo], secondsAgo];
     } else if (secondsAgo / 60 == 1) { // 1 minute
-        return NSLocalizedString(@"1 minute ago", nil);
+        return [LocalizationConstantsObjcBridge oneMinuteAgo];
     } else if (secondsAgo < 60 * 60) {  // 1 to 59 minutes
-        return [NSString stringWithFormat:NSLocalizedString(@"%lld minutes ago", nil), secondsAgo / 60];
+        return [NSString stringWithFormat:[LocalizationConstantsObjcBridge minutesAgo], secondsAgo / 60];
     } else if (secondsAgo / 60 / 60 == 1) { // 1 hour ago
-        return NSLocalizedString(@"1 hour ago", nil);
+        return [LocalizationConstantsObjcBridge oneHourAgo];
     } else if ([[NSCalendar currentCalendar] respondsToSelector:@selector(isDateInToday:)] && secondsAgo < 60 * 60 * 24 && [[NSCalendar currentCalendar] isDateInToday:date]) { // 1 to 23 hours ago, but only if today
-        return [NSString stringWithFormat:NSLocalizedString(@"%lld hours ago", nil), secondsAgo / 60 / 60];
+        return [NSString stringWithFormat:[LocalizationConstantsObjcBridge hoursAgo], secondsAgo / 60 / 60];
     } else if([[NSCalendar currentCalendar] respondsToSelector:@selector(isDateInYesterday:)] && [[NSCalendar currentCalendar] isDateInYesterday:date]) { // yesterday
-        return NSLocalizedString(@"Yesterday", nil);
+        return [LocalizationConstantsObjcBridge yesterday];
     } else {
-        
         return [[NSDateFormatter longFormatter] stringFromDate:date];
     }
 }

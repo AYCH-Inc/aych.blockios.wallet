@@ -4256,7 +4256,7 @@ NSString * const kLockboxInvitation = @"lockbox";
     }
 
     DLog(@"Creating HD Wallet");
-    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.upgradeToV3(\"%@\");", NSLocalizedString(@"My Bitcoin Wallet", nil)]];
+    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.upgradeToV3(\"%@\");", [LocalizationConstantsObjcBridge myBitcoinWallet], nil]];
 }
 
 - (Boolean)hasAccount

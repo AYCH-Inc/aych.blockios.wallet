@@ -13,4 +13,10 @@ clean(true)
 include_bitcode(false)
 include_symbols(true)
 skip_profile_detection(true)
+export_options(
+  method: "app-store",
+  provisioningProfiles: { 
+    "com.rainydayapps.Blockchain" => "match AppStore com.rainydayapps.Blockchain",
+  }
+)
 workspace("Blockchain.xcworkspace")

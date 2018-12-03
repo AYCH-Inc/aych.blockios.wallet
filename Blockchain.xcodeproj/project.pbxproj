@@ -359,7 +359,6 @@
 		5138375A210264F000767B2E /* BCPriceMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51383759210264F000767B2E /* BCPriceMarker.swift */; };
 		5138375C21026BC900767B2E /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5138375B21026BC800767B2E /* Environment.swift */; };
 		513913F02081206C002578FD /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513913EF2081206C002578FD /* UserDefaults.swift */; };
-		51392046205C60520025EE33 /* Cert in Resources */ = {isa = PBXBuildFile; fileRef = 51392045205C60520025EE33 /* Cert */; };
 		513C828620EBF30C00ECDE52 /* UIDevice+Biometrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513C826B20EBF30C00ECDE52 /* UIDevice+Biometrics.swift */; };
 		513C828720EBF30C00ECDE52 /* UIDevice+Biometrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513C826B20EBF30C00ECDE52 /* UIDevice+Biometrics.swift */; };
 		5146E29D21518826009B62D7 /* AnnouncementCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5146E29C21518826009B62D7 /* AnnouncementCardViewModel.swift */; };
@@ -990,6 +989,7 @@
 		C71859571F4B695700745A87 /* TabControllerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C71859561F4B695700745A87 /* TabControllerManager.m */; };
 		C71859591F4B791600745A87 /* TabController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71859581F4B791600745A87 /* TabController.xib */; };
 		C718595B1F4B85E800745A87 /* Transactions.xib in Resources */ = {isa = PBXBuildFile; fileRef = C718595A1F4B85E800745A87 /* Transactions.xib */; };
+		C71B62D921B079A400FC2839 /* Cert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 51392045205C60520025EE33 /* Cert */; };
 		C723F3461F61D35300A858A9 /* TransactionDetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C723F3451F61D35300A858A9 /* TransactionDetailViewModel.m */; };
 		C723F3491F64413400A858A9 /* TransactionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C723F3481F64413400A858A9 /* TransactionsViewController.m */; };
 		C729D64421874C8B0084D497 /* NumberFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C729D64321874C8B0084D497 /* NumberFormatterTests.swift */; };
@@ -1366,6 +1366,16 @@
 				3A686573219A0BBB0009FF29 /* PlatformKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C71B62D821B0794D00FC2839 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				C71B62D921B079A400FC2839 /* Cert in CopyFiles */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -8684,8 +8694,9 @@
 				9FB3636E14B60128004BEA02 /* Frameworks */,
 				7ADD19D5218743A70013A525 /* Setup Firebase Environment */,
 				23FDEFA31D6E22C900FC80D6 /* Run SwiftLint */,
-				51E355EB2192063400753FEB /* Get SSL Certificate */,
 				9FB3636F14B60128004BEA02 /* Resources */,
+				51E355EB2192063400753FEB /* Get SSL Certificate */,
+				C71B62D821B0794D00FC2839 /* CopyFiles */,
 				5149BD072057192900DC88A0 /* Embed Frameworks */,
 				C718594D1F460C4A00745A87 /* Run Fabric */,
 				D069129EFBA0297B3CA548DB /* [CP] Embed Pods Frameworks */,
@@ -9009,7 +9020,6 @@
 				51B767B82106369A003CCD46 /* Montserrat-SemiBoldItalic.ttf in Resources */,
 				51B767B92106369A003CCD46 /* Montserrat-Thin.ttf in Resources */,
 				51B767BA2106369A003CCD46 /* Montserrat-ThinItalic.ttf in Resources */,
-				51392046205C60520025EE33 /* Cert in Resources */,
 				C7442E311FBA1E5700695E4C /* ExchangeTableViewCell.xib in Resources */,
 				23321D7A1BB0730C0005624F /* my-wallet.js in Resources */,
 				C777330F217A65F400899930 /* SimpleListViewController.storyboard in Resources */,
@@ -9162,7 +9172,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -ue\nif [ ! -d ${SRCROOT}/Cert ]; then\n    mkdir ${SRCROOT}/Cert\nfi\ncd ${SRCROOT}/Cert\nopenssl s_client -connect blockchain.info:443 -showcerts -CApath etc/ssl/certs/ | openssl x509 -outform DER > blockchain.der\n";
+			shellScript = "set -ue\nINFO_PLIST=\"$BUILT_PRODUCTS_DIR/$INFOPLIST_PATH\"\nif [ -f \"$BUILT_PRODUCTS_DIR/$INFOPLIST_PATH\" ] ; then\nopensslURL=`/usr/libexec/PlistBuddy -c \"Print :WALLET_SERVER\" \"$INFO_PLIST\"`\nif [ ! -d ${SRCROOT}/Cert ]; then\nmkdir ${SRCROOT}/Cert\nfi\ncd ${SRCROOT}/Cert\nopenssl s_client -connect $opensslURL:443 -showcerts -CApath etc/ssl/certs/ | openssl x509 -outform DER > blockchain.der\nelse\necho \"Error: Could not find info.plist. Exiting\"\nexit 1\nfi\n";
 		};
 		66956D9760DC197EA905E781 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -13163,7 +13173,7 @@
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = Blockchain/Blockchain.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Blockchain-UK Limited (NZ6PH75U7K)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2.7.1;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
@@ -13196,7 +13206,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rainydayapps.Blockchain;
 				PRODUCT_NAME = Blockchain;
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.rainydayapps.Blockchain";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.rainydayapps.Blockchain";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DISABLE_CERT_PINNING;
 				SWIFT_OBJC_BRIDGING_HEADER = "Blockchain/Blockchain-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -13279,7 +13289,7 @@
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = Blockchain/Blockchain.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Blockchain-UK Limited (NZ6PH75U7K)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2.7.1;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;

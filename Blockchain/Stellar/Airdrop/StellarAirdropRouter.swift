@@ -82,14 +82,6 @@ class StellarAirdropRouter {
                 strongSelf.appSettings.didAttemptToRouteForAirdrop = true
                 strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = true
 
-                // Only route if the user has not yet started KYC.
-                // Note that storing a flag locally is the only way we can tell
-                // atm if they have or have not started KYC'ing. There might be a back-end endpoint
-                // for this soon so that this can be remembered across platforms/installs.
-                guard !strongSelf.appSettings.isCompletingKyc else {
-                    return
-                }
-
                 guard user.status == .none else {
                     return
                 }

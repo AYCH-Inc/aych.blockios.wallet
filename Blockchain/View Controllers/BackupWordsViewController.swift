@@ -23,8 +23,8 @@ class BackupWordsViewController: UIViewController, SecondPasswordDelegate, UIScr
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        previousWordButton.setTitle(NSLocalizedString("PREVIOUS", comment: ""), for: .normal)
-        nextWordButton.setTitle(NSLocalizedString("NEXT", comment: ""), for: .normal)
+        previousWordButton.setTitle(LocalizationConstants.ObjCStrings.BC_STRING_BACKUP_PREVIOUS, for: .normal)
+        nextWordButton.setTitle(LocalizationConstants.ObjCStrings.BC_STRING_BACKUP_NEXT, for: .normal)
 
         updatePreviousWordButton()
 
@@ -96,9 +96,7 @@ class BackupWordsViewController: UIViewController, SecondPasswordDelegate, UIScr
 
     func setupInstructionLabel() {
         summaryLabel.font = UIFont(name: "GillSans", size: Constants.FontSizes.MediumLarge)
-        summaryLabel.text = NSLocalizedString(
-            "Write down the following 12 word Recovery Phrase exactly as they appear and in this order:",
-            comment: "")
+        summaryLabel.text = LocalizationConstants.ObjCStrings.BC_STRING_BACKUP_WORDS_INSTRUCTIONS
         summaryLabel.center = CGPoint(x: view.center.x, y: summaryLabel.center.y)
     }
 
@@ -142,18 +140,18 @@ class BackupWordsViewController: UIViewController, SecondPasswordDelegate, UIScr
     }
 
     func updateCurrentPageLabel(_ page: Int) {
-        let format = NSLocalizedString("Word %@ of %@", comment: "")
+        let format = LocalizationConstants.Backup.wordNumberOfNumber
         let progressLabelText = String.localizedStringWithFormat(format, String(page + 1), String(Constants.Defaults.NumberOfRecoveryPhraseWords))
         wordsProgressLabel.text = progressLabelText
         if let count = wordLabels?.count {
             if wordsPageControl.currentPage == count-1 {
                 nextWordButton.backgroundColor = .brandPrimary
                 nextWordButton.setTitleColor(UIColor.white, for: UIControl.State())
-                nextWordButton.setTitle(NSLocalizedString("Done", comment: ""), for: UIControl.State())
+                nextWordButton.setTitle(LocalizationConstants.ObjCStrings.BC_STRING_DONE, for: UIControl.State())
             } else if wordsPageControl.currentPage == count-2 {
                 nextWordButton.backgroundColor = .brandSecondary
                 nextWordButton.setTitleColor(UIColor.white, for: UIControl.State())
-                nextWordButton.setTitle(NSLocalizedString("NEXT", comment: ""), for: UIControl.State())
+                nextWordButton.setTitle(LocalizationConstants.ObjCStrings.BC_STRING_BACKUP_NEXT, for: UIControl.State())
             }
             updatePreviousWordButton()
         }

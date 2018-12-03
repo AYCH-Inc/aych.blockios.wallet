@@ -26,7 +26,7 @@ import UIKit
     }
 
     func setUpBackupWalletButton() {
-        backupWalletButton.setTitle(NSLocalizedString("BACKUP FUNDS", comment: ""), for: UIControl.State())
+        backupWalletButton.setTitle(LocalizationConstants.Backup.backupFunds.uppercased(), for: UIControl.State())
         backupWalletButton.titleLabel?.adjustsFontSizeToFitWidth = true
         backupWalletButton.contentHorizontalAlignment = .center
         backupWalletButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -45,27 +45,26 @@ import UIKit
             backupIconImageView.tintColor = .error
         }
 
-        summaryLabel.text = NSLocalizedString("Backup Needed", comment: "")
+        summaryLabel.text = LocalizationConstants.ObjCStrings.BC_STRING_BACKUP_NEEDED
         summaryLabel.center = CGPoint(x: view.center.x, y: summaryLabel.center.y)
-        let recoveryPhraseText = NSLocalizedString("The following 12 word Recovery Phrase will give you access to your funds in case you lose your password.", comment: "")
+        let recoveryPhraseText = LocalizationConstants.ObjCStrings.BC_STRING_BACKUP_NEEDED_BODY_TEXT_ONE
         explanation.text = String(
-            format: "%@\n\n%@", recoveryPhraseText,
-            NSLocalizedString("Be sure to write down your phrase on a piece of paper and keep it somewhere safe and secure.", comment: ""))
-        backupWalletButton.setTitle(NSLocalizedString("START BACKUP", comment: ""), for: UIControl.State())
+            format: "%@\n\n%@", recoveryPhraseText, LocalizationConstants.ObjCStrings.BC_STRING_BACKUP_NEEDED_BODY_TEXT_TWO)
+        backupWalletButton.setTitle(LocalizationConstants.ObjCStrings.BC_STRING_START_BACKUP, for: UIControl.State())
 
         if wallet!.isRecoveryPhraseVerified() {
-            summaryLabel.text = NSLocalizedString("Backup Complete", comment: "")
-            explanation.text = NSLocalizedString("Use your Recovery Phrase to restore your funds in case of a lost password.  Anyone with access to your Recovery Phrase can access your funds, so keep it offline somewhere safe and secure.", comment: "")
+            summaryLabel.text = LocalizationConstants.ObjCStrings.BC_STRING_BACKUP_COMPLETE
+            explanation.text = LocalizationConstants.ObjCStrings.BC_STRING_BACKUP_COMPLETED_EXPLANATION
             backupIconImageView.image = UIImage(named: "success")?.withRenderingMode(.alwaysTemplate)
             backupIconImageView.tintColor = .green
-            backupWalletButton.setTitle(NSLocalizedString("BACKUP AGAIN", comment: ""), for: UIControl.State())
+            backupWalletButton.setTitle(LocalizationConstants.Backup.verifyBackup.uppercased(), for: UIControl.State())
 
             if wallet!.didUpgradeToHd() &&
                 wallet!.getTotalBalanceForSpendableActiveLegacyAddresses() >= wallet!.dust() &&
                 navigationController!.visibleViewController == self && !transferredAll {
-                let alertToTransferAll = UIAlertController(title: NSLocalizedString("Transfer imported addresses?", comment: ""), message: NSLocalizedString("Imported addresses are not backed up by your Recovery Phrase. To secure these funds, we recommend transferring these balances to include in your backup.", comment: ""), preferredStyle: .alert)
-                alertToTransferAll.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
-                alertToTransferAll.addAction(UIAlertAction(title: NSLocalizedString("Transfer all", comment: ""), style: .default, handler: { _ in
+                let alertToTransferAll = UIAlertController(title: LocalizationConstants.ObjCStrings.BC_STRING_TRANSFER_IMPORTED_ADDRESSES, message: LocalizationConstants.ObjCStrings.BC_STRING_TRANSFER_ALL_BACKUP, preferredStyle: .alert)
+                alertToTransferAll.addAction(UIAlertAction(title: LocalizationConstants.cancel, style: .cancel, handler: nil))
+                alertToTransferAll.addAction(UIAlertAction(title: LocalizationConstants.ObjCStrings.BC_STRING_TRANSFER_ALL, style: .default, handler: { _ in
                     TransferAllCoordinator.shared.start(withDelegate: self)
                 }))
                 present(alertToTransferAll, animated: true, completion: nil)
@@ -87,9 +86,9 @@ import UIKit
         super.viewDidLayoutSubviews()
         finalHeight = view.frame.size.height
         if wallet!.isRecoveryPhraseVerified() {
-            backupWalletButton.setTitle(NSLocalizedString("BACKUP AGAIN", comment: ""), for: UIControl.State())
+            backupWalletButton.setTitle(LocalizationConstants.Backup.verifyBackup.uppercased(), for: UIControl.State())
         } else {
-            backupWalletButton.setTitle(NSLocalizedString("START BACKUP", comment: ""), for: UIControl.State())
+            backupWalletButton.setTitle(LocalizationConstants.ObjCStrings.BC_STRING_START_BACKUP, for: UIControl.State())
         }
     }
 
@@ -101,7 +100,7 @@ import UIKit
     }
 
     @IBAction func backupWalletButtonTapped(_ sender: UIButton) {
-        if backupWalletButton.titleLabel!.text == NSLocalizedString("VERIFY BACKUP", comment: "") {
+        if backupWalletButton.titleLabel!.text == LocalizationConstants.Backup.verifyBackup.uppercased() {
             performSegue(withIdentifier: "verifyBackup", sender: nil)
         } else {
             performSegue(withIdentifier: "backupWords", sender: nil)

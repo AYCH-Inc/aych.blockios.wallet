@@ -80,14 +80,7 @@ class StellarAirdropRouter {
                 }
 
                 strongSelf.appSettings.didAttemptToRouteForAirdrop = true
-
-                // Only route if the user has not yet started KYC.
-                // Note that storing a flag locally is the only way we can tell
-                // atm if they have or have not started KYC'ing. There might be a back-end endpoint
-                // for this soon so that this can be remembered across platforms/installs.
-                guard !strongSelf.appSettings.isCompletingKyc else {
-                    return
-                }
+                strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = true
 
                 guard user.status == .none else {
                     return
@@ -98,12 +91,19 @@ class StellarAirdropRouter {
                     return
                 }
                 strongSelf.appSettings.didAttemptToRouteForAirdrop = true
+                strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = false
 
                 Logger.shared.error("Failed to register for campaign: \(error.localizedDescription)")
 
                 guard let httpError = error as? HTTPRequestServerError else { return }
                 guard case let .badStatusCode(_, payload) = httpError else { return }
-                guard let value = payload as? NabuNetworkError else { return }
+                guard let value = payload as? NabuNetworkError else {
+                    AlertViewPresenter.shared.standardNotify(
+                        message: LocalizationConstants.Errors.genericError,
+                        title: LocalizationConstants.Errors.error
+                    )
+                    return
+                }
                 if value.code.isCampaignError {
                     AlertViewPresenter.shared.standardNotify(
                         message: LocalizationConstants.Stellar.XLMHasBeenClaimed,

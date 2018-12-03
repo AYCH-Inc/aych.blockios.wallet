@@ -73,7 +73,7 @@ final class KYCWelcomeController: KYCBaseViewController {
     // MARK: - Private Methods
 
     private func initMainView() {
-        if BlockchainSettings.App.shared.didTapOnAirdropDeepLink {
+        if BlockchainSettings.App.shared.didRegisterForAirdropCampaignSucceed {
             labelMain.text = LocalizationConstants.KYC.welcomeMainTextSunRiverCampaign
             imageViewMain.image = #imageLiteral(resourceName: "symbol-xlm-large")
             imageViewMain.tintColor = #colorLiteral(red: 0.06274509804, green: 0.6784313725, blue: 0.8941176471, alpha: 1)

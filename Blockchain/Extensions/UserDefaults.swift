@@ -62,6 +62,7 @@ extension UserDefaults {
         case airdropCampaignCode
         case airdropCampaignEmail
         case didAttemptToRouteForAirdrop
+        case didRegisterForAirdropCampaignSucceed
     }
 
     func migrateLegacyKeysIfNeeded() {

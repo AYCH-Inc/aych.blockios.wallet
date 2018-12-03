@@ -32,9 +32,7 @@ final class CertificatePinner: NSObject {
     /// Path to the local certificate file
     @objc var localCertificatePath: String? {
         guard
-            let infoDictionary = Bundle.main.infoDictionary,
-            let certificateFile = infoDictionary["LOCAL_CERTIFICATE_FILE"] as? String,
-            let path = Bundle.main.path(forResource: certificateFile, ofType: "der", inDirectory: "Cert") else {
+            let path = Bundle.main.path(forResource: "blockchain", ofType: "der", inDirectory: "Cert") else {
                 return nil
         }
         return path

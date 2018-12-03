@@ -92,6 +92,7 @@ enum NabuNetworkErrorCode: Int, Codable {
     case invalidCampaignInfo = 58
     case campaignWithdrawalFailed = 59
     case tradeForceExecuteError = 60
+    case campaignInfoAlreadyUsed = 61
 }
 
 extension NabuNetworkErrorCode {
@@ -103,7 +104,8 @@ extension NabuNetworkErrorCode {
                  .campaignExpired,
                  .invalidCampaignInfo,
                  .campaignWithdrawalFailed,
-                 .tradeForceExecuteError:
+                 .tradeForceExecuteError,
+                 .campaignInfoAlreadyUsed:
             return true
         default:
             return false

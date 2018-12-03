@@ -123,7 +123,7 @@ import UIKit
         headerLabel.textColor = .white
         headerLabel.textAlignment = .center
         headerLabel.adjustsFontSizeToFitWidth = true
-        headerLabel.text = NSLocalizedString("Backup Funds", comment: "")
+        headerLabel.text = LocalizationConstants.Backup.backupFunds
         headerLabel.center = CGPoint(x: topBar.frame.size.width/2, y: useSafeAreas ? topBar.frame.size.height/2 : headerLabel.center.y)
         topBar.addSubview(headerLabel!)
     }
@@ -146,7 +146,7 @@ import UIKit
         busyLabel.alpha = Constants.Measurements.BusyViewLabelAlpha
         busyLabel.adjustsFontSizeToFitWidth = true
         busyLabel.textAlignment = .center
-        busyLabel.text = NSLocalizedString("Syncing Wallet", comment: "")
+        busyLabel.text = LocalizationConstants.syncingWallet
         let originX = bounds.origin.x + bounds.size.width / 2
         let originY = bounds.origin.y + bounds.size.height / 2 + 15
         busyLabel.center = CGPoint(x: originX, y: originY)

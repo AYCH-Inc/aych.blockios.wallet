@@ -14,7 +14,7 @@ for_lane :dev do
 end
 
 for_lane :staging do
-  app_identifier "com.rainydayapps.Blockchain.staging"
+  app_identifier "com.rainydayapps.Blockchain"
 end
 
 for_lane :production do

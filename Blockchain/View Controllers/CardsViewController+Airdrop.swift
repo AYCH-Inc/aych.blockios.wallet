@@ -46,7 +46,7 @@ extension CardsViewController {
             !appSettings.didTapOnAirdropDeepLink
         let shouldShowContinutKYCAnnouncementCard = appSettings.isCompletingKyc
         let shouldShowAirdropPending = airdropConfig.isEnabled &&
-            appSettings.didTapOnAirdropDeepLink &&
+            appSettings.didRegisterForAirdropCampaignSucceed &&
             nabuUser.status == .approved &&
             !appSettings.didSeeAirdropPending
 
@@ -87,8 +87,8 @@ extension CardsViewController {
 
     private func showContinueKycCard() {
         let appSettings = BlockchainSettings.App.shared
-        let didTapAirdrop = appSettings.didTapOnAirdropDeepLink
-        let model = AnnouncementCardViewModel.continueWithKYC(isAirdropUser: didTapAirdrop, action: {
+        let isAirdropUser = appSettings.didRegisterForAirdropCampaignSucceed
+        let model = AnnouncementCardViewModel.continueWithKYC(isAirdropUser: isAirdropUser, action: {
             KYCCoordinator.shared.start(from: AppCoordinator.shared.tabControllerManager)
         }, onClose: { [weak self] in
             appSettings.isCompletingKyc = false

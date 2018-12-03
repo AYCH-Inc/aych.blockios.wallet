@@ -427,6 +427,16 @@ final class BlockchainSettings: NSObject {
             }
         }
 
+        /// Determines if the network call to /register-campaign for the Stellar airdop succeeded or not
+        var didRegisterForAirdropCampaignSucceed: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didRegisterForAirdropCampaignSucceed.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didRegisterForAirdropCampaignSucceed.rawValue)
+            }
+        }
+
          override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
             // access an instance of this class.
@@ -459,6 +469,7 @@ final class BlockchainSettings: NSObject {
             airdropCampaignCode = nil
             airdropCampaignEmail = nil
             didAttemptToRouteForAirdrop = false
+            didRegisterForAirdropCampaignSucceed = false
             Logger.shared.info("Application settings have been reset.")
         }
 

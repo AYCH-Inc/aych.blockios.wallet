@@ -9,18 +9,19 @@ target 'Blockchain' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   inhibit_all_warnings!
   # Pods for Blockchain
-  pod 'SwiftLint'
-  pod 'Onfido', '~> 10.0.0'
   pod 'Alamofire', '~> 4.7'
+  pod 'BigInt', '~> 3.1'
   pod 'Charts', '~> 3.2.1'
-  pod 'RxSwift', '~> 4.0'
-  pod 'RxCocoa', '~> 4.0'
-  pod 'PhoneNumberKit', '~> 2.1'
-  pod 'Starscream', '~> 3.0.2'
-  pod 'stellar-ios-mac-sdk', '~> 1.4.7'
   pod 'Firebase/Core'
   pod 'Firebase/DynamicLinks'
   pod 'Firebase/RemoteConfig'
+  pod 'Onfido', '~> 10.0.0'
+  pod 'PhoneNumberKit', '~> 2.1'
+  pod 'RxCocoa', '~> 4.0'
+  pod 'RxSwift', '~> 4.0'
+  pod 'Starscream', '~> 3.0.2'
+  pod 'SwiftLint'
+  pod 'stellar-ios-mac-sdk', '~> 1.4.7'
 
   target 'BlockchainTests' do
     inherit! :search_paths

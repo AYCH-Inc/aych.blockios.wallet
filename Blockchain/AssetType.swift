@@ -93,6 +93,32 @@ extension AssetType {
             return "XLM"
         }
     }
+
+    var maxDecimalPlaces: Int {
+        switch self {
+        case .bitcoin:
+            return 8
+        case .ethereum:
+            return 18
+        case .bitcoinCash:
+            return 8
+        case .stellar:
+            return 7
+        }
+    }
+
+    var maxDisplayableDecimalPlaces: Int {
+        switch self {
+        case .bitcoin:
+            return 8
+        case .ethereum:
+            return 8
+        case .bitcoinCash:
+            return 8
+        case .stellar:
+            return 7
+        }
+    }
     
     var brandImage: UIImage {
         switch self {

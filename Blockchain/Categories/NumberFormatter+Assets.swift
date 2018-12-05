@@ -12,9 +12,11 @@ import Foundation
 extension NumberFormatter {
 
     // MARK: Helper functions
-    private static func decimalStyleFormatter(withMinfractionDigits minfractionDigits: Int,
-                                              maxfractionDigits: Int,
-                                              usesGroupingSeparator: Bool) -> NumberFormatter {
+    static func decimalStyleFormatter(
+        withMinfractionDigits minfractionDigits: Int,
+        maxfractionDigits: Int,
+        usesGroupingSeparator: Bool
+    ) -> NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.usesGroupingSeparator = usesGroupingSeparator

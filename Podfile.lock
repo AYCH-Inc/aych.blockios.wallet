@@ -1,5 +1,7 @@
 PODS:
   - Alamofire (4.7.3)
+  - BigInt (3.1.0):
+    - SipHash (~> 1.2)
   - Charts (3.2.1):
     - Charts/Core (= 3.2.1)
   - Charts/Core (3.2.1)
@@ -93,12 +95,14 @@ PODS:
   - RxTest (4.4.0):
     - RxAtomic (~> 4.4)
     - RxSwift (~> 4.0)
+  - SipHash (1.2.2)
   - Starscream (3.0.6)
   - stellar-ios-mac-sdk (1.4.10)
   - SwiftLint (0.27.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
+  - BigInt (~> 3.1)
   - Charts (~> 3.2.1)
   - Firebase/Core
   - Firebase/DynamicLinks
@@ -116,6 +120,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - BigInt
     - Charts
     - Firebase
     - FirebaseABTesting
@@ -136,12 +141,14 @@ SPEC REPOS:
     - RxCocoa
     - RxSwift
     - RxTest
+    - SipHash
     - Starscream
     - stellar-ios-mac-sdk
     - SwiftLint
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   Charts: f122fb70b19847fa5817d018b77d6c5a2296ab25
   Firebase: b48f9e653da971ecce5b8c749684bc8bb2d26bd3
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
@@ -162,10 +169,11 @@ SPEC CHECKSUMS:
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   RxTest: 19d03286bdc0a3aaea5d61d4cde31fdf4bb8a5ba
+  SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   stellar-ios-mac-sdk: 0f5d9b19aedf241cdb55be48b3ede477b57ed70f
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
 
-PODFILE CHECKSUM: c26a81920e3d38afb155f3237ef8610a26f589ff
+PODFILE CHECKSUM: 3676ccb874d56c39fe1a4172451bdd6815f471d5
 
 COCOAPODS: 1.5.3

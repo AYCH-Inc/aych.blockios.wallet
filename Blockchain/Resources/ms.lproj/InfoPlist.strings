@@ -1,14 +1,5 @@
-/* Specifies the reason for your app to access the device’s camera. */
-"NSCameraUsageDescription" = "Inilah yang diperlukan untuk aplikasi untuk mengimbas kod QR.";
-
-/* Specifies the reason for your app to access any of the device’s microphones. */
-"NSMicrophoneUsageDescription" = "Required for video capture.";
-
-/* Specifies the reason for your app to use Face ID. */
-"NSFaceIDUsageDescription" = "Enabling Face ID allows you to securely access your wallet.";
-
-/* Specifies the reason for your app to access the user’s location information while your app is in use. */
-"NSLocationWhenInUseUsageDescription" = "Blockchain needs access to your location to show you nearby businesses that accept Bitcoin.";
-
-/* Specifies the reason for your app to access the user’s photo library.  */
-"NSPhotoLibraryUsageDescription" = "Your permission is needed in order to upload documents from your photo library.";
+"NSCameraUsageDescription" = "Ini diperlukan untuk aplikasi mengimbas kod QR.";
+"NSMicrophoneUsageDescription" = "Diperlukan untuk menangkap video.";
+"NSFaceIDUsageDescription" = "Mengaktifkan ID Wajah membolehkan anda mengakses dompet anda dengan selamat.";
+"NSLocationWhenInUseUsageDescription" = "Blockchain memerlukan akses ke lokasi anda untuk menunjukkan kepada anda perniagaan berdekatan yang menerima Bitcoin.";
+"NSPhotoLibraryUsageDescription" = "Kebenaran anda diperlukan untuk memuat naik dokumen dari pustaka foto anda.";

@@ -91,7 +91,7 @@ class TradeLimitsService: TradeLimitsAPI {
             return NetworkRequest.GET(
                 url: endpoint,
                 body: nil,
-                token: token.token,
+                headers: [HttpHeaderField.authorization: token.token],
                 type: TradeLimits.self
             )
         }

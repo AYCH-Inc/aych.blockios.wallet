@@ -247,8 +247,8 @@ class TradeExecutionService: TradeExecutionAPI {
             return NetworkRequest.POST(
                 url: endpoint,
                 body: try? JSONEncoder().encode(order),
-                token: token.token,
-                type: OrderResult.self
+                type: OrderResult.self,
+                headers: [HttpHeaderField.authorization: token.token]
             )
         }
     }

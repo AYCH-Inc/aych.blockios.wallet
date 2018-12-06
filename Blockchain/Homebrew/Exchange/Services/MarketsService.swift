@@ -167,7 +167,7 @@ extension MarketsService: ExchangeMarketsAPI {
             return NetworkRequest.GET(
                 url: endpoint,
                 body: nil,
-                token: token.token,
+                headers: [HttpHeaderField.authorization: token.token],
                 type: ExchangeTradingPairs.self
             )
         }

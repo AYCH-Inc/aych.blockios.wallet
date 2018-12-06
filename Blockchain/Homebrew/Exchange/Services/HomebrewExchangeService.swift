@@ -58,7 +58,12 @@ class HomebrewExchangeService: HomebrewExchangeAPI {
         }
         
         return authentication.getSessionToken().flatMap { token in
-            return NetworkRequest.GET(url: endpoint, body: nil, token: token.token, type: [ExchangeTradeCellModel].self)
+            return NetworkRequest.GET(
+                url: endpoint,
+                body: nil,
+                headers: [HttpHeaderField.authorization: token.token],
+                type: [ExchangeTradeCellModel].self
+            )
         }
     }
 }

@@ -1,14 +1,5 @@
-/* Specifies the reason for your app to access the device’s camera. */
-"NSCameraUsageDescription" = "This is required for the app to scan QR codes.";
-
-/* Specifies the reason for your app to access any of the device’s microphones. */
-"NSMicrophoneUsageDescription" = "Required for video capture.";
-
-/* Specifies the reason for your app to use Face ID. */
-"NSFaceIDUsageDescription" = "Enabling Face ID allows you to securely access your wallet.";
-
-/* Specifies the reason for your app to access the user’s location information while your app is in use. */
-"NSLocationWhenInUseUsageDescription" = "Blockchain needs access to your location to show you nearby businesses that accept Bitcoin.";
-
-/* Specifies the reason for your app to access the user’s photo library.  */
-"NSPhotoLibraryUsageDescription" = "Your permission is needed in order to upload documents from your photo library.";
+"NSCameraUsageDescription" = "需要应用扫描二维码。";
+"NSMicrophoneUsageDescription" = "视频捕获所必需的。";
+"NSFaceIDUsageDescription" = "启用面部识别功能可让您安全地访问您的钱包。";
+"NSLocationWhenInUseUsageDescription" = "区块链需要访问您的位置，以向您显示接受比特币的附近企业。";
+"NSPhotoLibraryUsageDescription" = "您需要获得许可才能从照片库上传文档。";

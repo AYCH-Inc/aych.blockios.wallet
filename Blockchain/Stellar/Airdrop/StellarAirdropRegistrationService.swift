@@ -76,9 +76,11 @@ class StellarAirdropRegistrationService: StellarAirdropRegistrationAPI {
         return NetworkRequest.PUT(
             url: endpoint,
             body: postPayload,
-            token: authToken.token,
             type: StellarRegisterCampaignResponse.self,
-            headers: ["X-CAMPAIGN": "sunriver"]
+            headers: [
+                "X-CAMPAIGN": "sunriver",
+                HttpHeaderField.authorization: authToken.token
+            ]
         )
     }
 

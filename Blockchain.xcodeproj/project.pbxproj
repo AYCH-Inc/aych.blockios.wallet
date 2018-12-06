@@ -4785,8 +4785,8 @@
 		510EA1732080F58700A63AB8 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				AA3CA98321079B8500C2AD46 /* AuthenticationCoordinator+Biometrics.swift */,
 				AA1E522A2097CA360099BD10 /* AuthenticationCoordinator.swift */,
+				AA3CA98321079B8500C2AD46 /* AuthenticationCoordinator+Biometrics.swift */,
 				AA1E522C2097CA480099BD10 /* AuthenticationCoordinator+Pin.swift */,
 				51E5C72F20741A130000A7FD /* AuthenticationManager.swift */,
 				510EA1742080F59C00A63AB8 /* Models */,

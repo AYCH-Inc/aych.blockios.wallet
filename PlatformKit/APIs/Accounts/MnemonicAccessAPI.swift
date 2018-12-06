@@ -9,12 +9,12 @@
 import Foundation
 import RxSwift
 
-typealias Mnemonic = String
+public typealias Mnemonic = String
 
 /// Users can double encrypt their wallet. If this is the case, sometimes users will
 /// need to enter in their secondary password before performing certain actions. This is
 /// **not** currency or asset specific
-protocol MnemonicAccess {
+public protocol MnemonicAccessAPI {
     
     /// Returns a Maybe emmitting a Mnemonic if and only if the mnemonic is not double encrypted
     var mnemonic: Maybe<Mnemonic> { get }

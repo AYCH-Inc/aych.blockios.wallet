@@ -8,6 +8,7 @@
 
 import RxBlocking
 import RxSwift
+import StellarKit
 import XCTest
 @testable import Blockchain
 
@@ -33,7 +34,7 @@ class StellarAccountServiceTests: XCTestCase {
         accountService = StellarAccountService(
             configuration: .test,
             ledgerService: ledgerService,
-            repository: WalletXlmAccountRepository()
+            repository: StellarWalletAccountRepository(with: MockStellarBridge())
         )
     }
 
@@ -44,7 +45,7 @@ class StellarAccountServiceTests: XCTestCase {
         _ = accountService.fundAccount(
             "account ID",
             amount: 0.01,
-            sourceKeyPair: StellarKeyPair(accountId: "account", secret: "secret")
+            sourceKeyPair: StellarKeyPair(accountID: "account", secret: "secret")
         ).subscribe(onError: { error in
             if let stellarError = error as? StellarServiceError, stellarError == StellarServiceError.amountTooLow {
                 exp.fulfill()

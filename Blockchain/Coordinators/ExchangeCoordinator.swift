@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import StellarKit
 
 protocol ExchangeDependencies {
     var service: ExchangeHistoryAPI { get }
@@ -254,7 +255,7 @@ struct ExchangeServices: ExchangeDependencies {
     private let marketsService: MarketsService
     private let exchangeService: ExchangeService
     private let stellarAccountService: StellarAccountAPI
-    private let xlmAccountRepository: WalletXlmAccountRepository
+    private let xlmAccountRepository: StellarWalletAccountRepository
 
     // MARK: - Lifecycle
     private init(
@@ -263,7 +264,7 @@ struct ExchangeServices: ExchangeDependencies {
         marketsService: MarketsService = MarketsService(),
         exchangeService: ExchangeService = ExchangeService(),
         stellarAccountService: StellarAccountAPI = XLMServiceProvider.shared.services.accounts,
-        xlmAccountRepository: WalletXlmAccountRepository = XLMServiceProvider.shared.services.repository
+        xlmAccountRepository: StellarWalletAccountRepository = XLMServiceProvider.shared.services.repository
     ) {
         self.walletManager = walletManager
         self.walletService = walletService

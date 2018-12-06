@@ -8,11 +8,14 @@
 
 import Foundation
 
+/// Accessory for accounts in wallet metadata.
 /// Each currency has a `WalletAccountRepositoryAPI`. According to
 /// the metadata endpoint, there's a `default_account_idx`. This is
 /// the purpose behind `defaultAccount`. Each currency has an array of
 /// `WalletAccounts`.
 public protocol WalletAccountRepositoryAPI {
-    func accounts() -> [WalletAccount]
-    var defaultAccount: WalletAccount? { get }
+    associatedtype Account: WalletAccount
+    
+    func accounts() -> [Account]
+    var defaultAccount: Account? { get }
 }

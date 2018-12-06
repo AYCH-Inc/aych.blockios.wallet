@@ -2,20 +2,20 @@
 //  CryptoValue.swift
 //  Blockchain
 //
-//  Created by Chris Arriola on 11/30/18.
+//  Created by Chris Arriola on 12/5/18.
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
 import BigInt
 
 public struct ComparisonError: Error {
-    let assetType1: AssetType
-    let assetType2: AssetType
+    let currencyType1: CryptoCurrency
+    let currencyType2: CryptoCurrency
 }
 
 public struct CryptoValue {
-    public let assetType: AssetType
-
+    public let currencyType: CryptoCurrency
+    
     /// The amount is the smallest unit of the currency (i.e. satoshi for BTC, wei for ETH, etc.)
     /// a.k.a. the minor value of the currency
     public let amount: BigInt
@@ -24,34 +24,34 @@ public struct CryptoValue {
 // MARK: - Money
 
 extension CryptoValue: Money {
-
+    
     public var currencyCode: String {
-        return self.assetType.symbol
+        return self.currencyType.symbol
     }
-
+    
     public var isZero: Bool {
         return amount.isZero
     }
-
+    
     public var isPositive: Bool {
         return amount.sign == .plus
     }
-
+    
     /// The symbol for the money (e.g. "BTC", "ETH", etc.)
     public var symbol: String {
-        return self.assetType.symbol
+        return self.currencyType.symbol
     }
-
+    
     /// The maximum number of decimal places supported by the money
     public var maxDecimalPlaces: Int {
-        return self.assetType.maxDecimalPlaces
+        return self.currencyType.maxDecimalPlaces
     }
-
+    
     /// The maximum number of displayable decimal places.
     public var maxDisplayableDecimalPlaces: Int {
-        return self.assetType.maxDisplayableDecimalPlaces
+        return self.currencyType.maxDisplayableDecimalPlaces
     }
-
+    
     /// Converts this money to a displayable String in its major format
     ///
     /// - Parameter includeSymbol: whether or not the symbol should be included in the string
@@ -61,12 +61,12 @@ extension CryptoValue: Money {
         // TICKET: IOS-1721
         let formatter = NumberFormatter.decimalStyleFormatter(
             withMinfractionDigits: 0,
-            maxfractionDigits: assetType.maxDisplayableDecimalPlaces,
+            maxfractionDigits: currencyType.maxDisplayableDecimalPlaces,
             usesGroupingSeparator: false
         )
         var formattedString = formatter.string(from: NSDecimalNumber(decimal: majorValue)) ?? "\(majorValue)"
         if includeSymbol {
-            formattedString += " " + assetType.symbol
+            formattedString += " " + currencyType.symbol
         }
         return formattedString
     }
@@ -76,34 +76,34 @@ extension CryptoValue: Money {
 
 extension CryptoValue: Hashable, Equatable {
     private static func ensureComparable(value: CryptoValue, other: CryptoValue) throws {
-        if value.assetType != other.assetType {
-            throw ComparisonError(assetType1: value.assetType, assetType2: other.assetType)
+        if value.currencyType != other.currencyType {
+            throw ComparisonError(currencyType1: value.currencyType, currencyType2: other.currencyType)
         }
     }
-
+    
     public static func +(lhs: CryptoValue, rhs: CryptoValue) throws -> CryptoValue {
         try ensureComparable(value: lhs, other: rhs)
-        return CryptoValue(assetType: lhs.assetType, amount: lhs.amount + rhs.amount)
+        return CryptoValue(currencyType: lhs.currencyType, amount: lhs.amount + rhs.amount)
     }
-
+    
     public static func -(lhs: CryptoValue, rhs: CryptoValue) throws -> CryptoValue {
         try ensureComparable(value: lhs, other: rhs)
-        return CryptoValue(assetType: lhs.assetType, amount: lhs.amount - rhs.amount)
+        return CryptoValue(currencyType: lhs.currencyType, amount: lhs.amount - rhs.amount)
     }
-
+    
     public static func *(lhs: CryptoValue, rhs: CryptoValue) throws -> CryptoValue {
         try ensureComparable(value: lhs, other: rhs)
-        return CryptoValue(assetType: lhs.assetType, amount: lhs.amount * rhs.amount)
+        return CryptoValue(currencyType: lhs.currencyType, amount: lhs.amount * rhs.amount)
     }
-
+    
     public static func +=(lhs: inout CryptoValue, rhs: CryptoValue) throws {
         lhs = try lhs + rhs
     }
-
+    
     public static func -=(lhs: inout CryptoValue, rhs: CryptoValue) throws {
         lhs = try lhs - rhs
     }
-
+    
     public static func *= (lhs: inout CryptoValue, rhs: CryptoValue) throws {
         lhs = try lhs * rhs
     }
@@ -114,17 +114,17 @@ extension CryptoValue: Hashable, Equatable {
 public extension CryptoValue {
     /// The major value of the crypto (e.g. BTC, ETH, etc.)
     public var majorValue: Decimal {
-        let divisor = BigInt(10).power(assetType.maxDecimalPlaces)
+        let divisor = BigInt(10).power(currencyType.maxDecimalPlaces)
         let majorValue = amount.decimalDivision(divisor: divisor)
-        return majorValue.roundTo(places: assetType.maxDecimalPlaces)
+        return majorValue.roundTo(places: currencyType.maxDecimalPlaces)
     }
-
-    public static func createFromMajorValue(_ value: Decimal, assetType: AssetType) -> CryptoValue {
+    
+    public static func createFromMajorValue(_ value: Decimal, assetType: CryptoCurrency) -> CryptoValue {
         let doubleValue = Double(truncating: NSDecimalNumber(decimal: value))
         let decimalValue = doubleValue.truncatingRemainder(dividingBy: 1) * pow(10.0, Double(assetType.maxDecimalPlaces))
         let mantissaValue = BigInt(Int(truncating: NSDecimalNumber(decimal: value))) * BigInt(10).power(assetType.maxDecimalPlaces)
         let amount = mantissaValue + BigInt(decimalValue)
-        return CryptoValue(assetType: assetType, amount: amount)
+        return CryptoValue(currencyType: assetType, amount: amount)
     }
 }
 
@@ -132,17 +132,17 @@ public extension CryptoValue {
 
 public extension CryptoValue {
     public static func bitcoinFromSatoshis(int satoshis: Int) -> CryptoValue {
-        return CryptoValue(assetType: .bitcoin, amount: BigInt(satoshis))
+        return CryptoValue(currencyType: .bitcoin, amount: BigInt(satoshis))
     }
-
+    
     public static func bitcoinFromSatoshis(long satoshis: CLong) -> CryptoValue {
-        return CryptoValue(assetType: .bitcoin, amount: BigInt(satoshis))
+        return CryptoValue(currencyType: .bitcoin, amount: BigInt(satoshis))
     }
-
+    
     public static func bitcoinFromMajor(int bitcoin: Int) -> CryptoValue {
         return createFromMajorValue(Decimal(bitcoin), assetType: .bitcoin)
     }
-
+    
     public static func bitcoinFromMajor(decimal bitcoin: Decimal) -> CryptoValue {
         return createFromMajorValue(bitcoin, assetType: .bitcoin)
     }
@@ -152,17 +152,17 @@ public extension CryptoValue {
 
 public extension CryptoValue {
     public static func etherFromWei(long wei: CLong) -> CryptoValue {
-        return CryptoValue(assetType: .ethereum, amount: BigInt(wei))
+        return CryptoValue(currencyType: .ethereum, amount: BigInt(wei))
     }
-
+    
     public static func etherFromWei(int wei: Int) -> CryptoValue {
-        return CryptoValue(assetType: .ethereum, amount: BigInt(wei))
+        return CryptoValue(currencyType: .ethereum, amount: BigInt(wei))
     }
-
+    
     public static func etherFromMajor(long ether: CLong) -> CryptoValue {
         return createFromMajorValue(Decimal(ether), assetType: .ethereum)
     }
-
+    
     public static func etherFromMajor(decimal ether: Decimal) -> CryptoValue {
         return createFromMajorValue(ether, assetType: .ethereum)
     }
@@ -172,17 +172,17 @@ public extension CryptoValue {
 
 public extension CryptoValue {
     public static func bitcoinCashFromSatoshis(int satoshis: Int) -> CryptoValue {
-        return CryptoValue(assetType: .bitcoinCash, amount: BigInt(satoshis))
+        return CryptoValue(currencyType: .bitcoinCash, amount: BigInt(satoshis))
     }
-
+    
     public static func bitcoinCashFromSatoshis(long satoshis: CLong) -> CryptoValue {
-        return CryptoValue(assetType: .bitcoinCash, amount: BigInt(satoshis))
+        return CryptoValue(currencyType: .bitcoinCash, amount: BigInt(satoshis))
     }
-
+    
     public static func bitcoinCashFromMajor(int bitcoinCash: Int) -> CryptoValue {
         return createFromMajorValue(Decimal(bitcoinCash), assetType: .bitcoinCash)
     }
-
+    
     public static func bitcoinCashFromMajor(decimal bitcoinCash: Decimal) -> CryptoValue {
         return createFromMajorValue(bitcoinCash, assetType: .bitcoinCash)
     }
@@ -194,13 +194,13 @@ public extension CryptoValue {
     public static func lumensFromMajor(int lumens: Int) -> CryptoValue {
         return createFromMajorValue(Decimal(lumens), assetType: .stellar)
     }
-
+    
     public static func lumensFromMajor(decimal lumens: Decimal) -> CryptoValue {
         return createFromMajorValue(lumens, assetType: .stellar)
     }
-
+    
     public static func lumensFromStroops(int stroops: Int) -> CryptoValue {
-        return CryptoValue(assetType: .stellar, amount: BigInt(stroops))
+        return CryptoValue(currencyType: .stellar, amount: BigInt(stroops))
     }
 }
 
@@ -217,5 +217,23 @@ extension Decimal {
     func roundTo(places: Int) -> Decimal {
         let divisor = Double(truncating: pow(10.0, places) as NSNumber)
         return Decimal(round(Double(truncating: self as NSNumber) * divisor) / divisor)
+    }
+}
+
+// MARK: NumberFormatter Extension
+
+extension NumberFormatter {
+    fileprivate static func decimalStyleFormatter(
+        withMinfractionDigits minfractionDigits: Int,
+        maxfractionDigits: Int,
+        usesGroupingSeparator: Bool
+        ) -> NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.usesGroupingSeparator = usesGroupingSeparator
+        formatter.minimumFractionDigits = minfractionDigits
+        formatter.maximumFractionDigits = maxfractionDigits
+        formatter.roundingMode = .down
+        return formatter
     }
 }

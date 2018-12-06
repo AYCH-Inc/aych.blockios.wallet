@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import StellarKit
 
 enum StellarPaymentOperationError: Int, Error {
     case keyMisMatch
@@ -32,14 +33,14 @@ extension StellarMemoType {
 struct StellarPaymentOperation {
     let destinationAccountId: String
     let amountInXlm: Decimal
-    let sourceAccount: WalletXlmAccount
+    let sourceAccount: StellarWalletAccount
     let feeInXlm: Decimal
     let memo: StellarMemoType?
     
     init(
         destinationAccountId: String,
         amountInXlm: Decimal,
-        sourceAccount: WalletXlmAccount,
+        sourceAccount: StellarWalletAccount,
         feeInXlm: Decimal,
         memo: StellarMemoType? = nil
         ) {

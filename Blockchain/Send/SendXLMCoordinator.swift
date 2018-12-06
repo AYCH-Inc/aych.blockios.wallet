@@ -235,7 +235,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
 
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation) {
         let transaction = services.transaction
-        let disposable = services.repository.loadStellarKeyPair()
+        let disposable = services.repository.loadKeyPair()
             .asObservable()
             .do(onNext: { [weak self] _ in
                 self?.interface.apply(updates: [

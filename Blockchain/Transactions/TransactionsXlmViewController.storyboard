@@ -67,7 +67,7 @@
                             <constraint firstItem="oKm-eC-nFj" firstAttribute="leading" secondItem="EPP-X5-ycO" secondAttribute="leading" id="oLY-Zu-Nzh"/>
                             <constraint firstItem="3wI-8h-BLL" firstAttribute="top" secondItem="1hL-3q-nOj" secondAttribute="bottom" constant="16" id="oLx-Nu-Pde"/>
                             <constraint firstItem="1iK-3Y-5VZ" firstAttribute="leading" secondItem="EPP-X5-ycO" secondAttribute="leading" constant="48" id="vuZ-tZ-yuf"/>
-                            <constraint firstItem="EPP-X5-ycO" firstAttribute="top" secondItem="oKm-eC-nFj" secondAttribute="top" id="xhI-ZA-r1O"/>
+                            <constraint firstItem="oKm-eC-nFj" firstAttribute="top" secondItem="EPP-X5-ycO" secondAttribute="top" id="xhI-ZA-r1O"/>
                             <constraint firstItem="EPP-X5-ycO" firstAttribute="trailing" secondItem="1iK-3Y-5VZ" secondAttribute="trailing" constant="48" id="xt3-AC-0gD"/>
                             <constraint firstItem="EPP-X5-ycO" firstAttribute="trailing" secondItem="oKm-eC-nFj" secondAttribute="trailing" id="xt9-xs-ksU"/>
                         </constraints>
@@ -78,6 +78,7 @@
                         <outlet property="noTransactionsDescriptionLabel" destination="3wI-8h-BLL" id="arA-9l-o66"/>
                         <outlet property="noTransactionsLabel" destination="1hL-3q-nOj" id="DXo-up-1Ak"/>
                         <outlet property="tableView" destination="oKm-eC-nFj" id="eSn-uM-yPs"/>
+                        <outlet property="topToTableViewConstraint" destination="xhI-ZA-r1O" id="nhJ-qP-Csn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dbX-j0-t2X" userLabel="First Responder" sceneMemberID="firstResponder"/>

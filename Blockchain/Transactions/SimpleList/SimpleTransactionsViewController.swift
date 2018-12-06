@@ -12,7 +12,11 @@ import Foundation
 class SimpleTransactionsViewController: SimpleListViewController {
     // Used to filter by specific HD accounts or imported addresses.
     var filterIndex: Int32 = 0
+    
+    fileprivate static let filterHeight: CGFloat = 40.0
 
+    @IBOutlet var topToTableViewConstraint: NSLayoutConstraint!
+    
     private var noTransactionsTitle: UILabel?
     private var noTransactionsDescription: UILabel?
     private var getBitcoinButton: UIButton?
@@ -31,11 +35,28 @@ class SimpleTransactionsViewController: SimpleListViewController {
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupFilter()
+    }
+    
     // swiftlint:disable function_body_length
     private func setupFilter() {
+        guard filterSelectorView == nil else { return }
+        guard topToTableViewConstraint != nil else { return }
+        guard topToTableViewConstraint.constant == 0 else { return }
+        
         filterIndex = Constants.FilterIndexes.all
 
-        filterSelectorView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40))
+        filterSelectorView = UIView(
+            frame: CGRect(
+                x: 0,
+                y: 0,
+                width: view.frame.size.width,
+                height: SimpleTransactionsViewController.filterHeight
+            )
+        )
+        
         filterSelectorView?.backgroundColor = UIColor.lightGray
 
         let padding: CGFloat = 8
@@ -69,8 +90,11 @@ class SimpleTransactionsViewController: SimpleListViewController {
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.filterSelectorViewTapped))
         filterSelectorView?.addGestureRecognizer(tapGesture)
-
+        
         view.addSubview(filterSelectorView!)
+        topToTableViewConstraint.constant = SimpleTransactionsViewController.filterHeight
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
 
     private func setupNoTransactionsView(in view: UIView?, assetType: LegacyAssetType) {
@@ -186,7 +210,7 @@ class SimpleTransactionsViewController: SimpleListViewController {
         Logger.shared.warning("Warning! getAssetButtonClicked not overriden!")
     }
 
-    @objc private func filterSelectorViewTapped() {
+    @objc func filterSelectorViewTapped() {
         // Overridden by subclass
     }
 

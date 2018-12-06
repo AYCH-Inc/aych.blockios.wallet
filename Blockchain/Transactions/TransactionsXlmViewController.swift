@@ -72,6 +72,10 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
         AppCoordinator.shared.tabControllerManager.tabViewController.updateBalanceLabelText("")
         getBalance()
     }
+    
+    override func filterSelectorViewTapped() {
+        
+    }
 
     func getBalance(displayError: Bool? = false) {
         disposable = accountService.currentStellarAccount(fromCache: false)

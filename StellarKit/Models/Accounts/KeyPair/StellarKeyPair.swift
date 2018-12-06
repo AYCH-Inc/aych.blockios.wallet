@@ -17,9 +17,4 @@ public struct StellarKeyPair: KeyPair {
         self.accountID = accountID
         self.secret = secret
     }
-    
-    public func save(with label: String, completion: @escaping ((String?) -> Void)) {
-        // TODO: We need to remove saving a keypair from JS as well as
-        // fetching metadata.
-    }
 }

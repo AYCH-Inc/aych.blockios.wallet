@@ -1,8 +1,8 @@
 //
 //  CryptoValueTests.swift
-//  BlockchainTests
+//  PlatformKitTests
 //
-//  Created by Chris Arriola on 11/30/18.
+//  Created by Chris Arriola on 12/5/18.
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
@@ -23,7 +23,7 @@ class CryptoValueTests: XCTestCase {
         XCTAssertEqual(Decimal(0.00000001), CryptoValue.bitcoinFromSatoshis(int: 1).majorValue)
         XCTAssertEqual(Decimal(4.90993923), CryptoValue.bitcoinFromSatoshis(int: 490993923).majorValue)
     }
-
+    
     func testCreateFromMajor() {
         XCTAssertEqual(
             1000000000,
@@ -70,18 +70,18 @@ class CryptoValueTests: XCTestCase {
             CryptoValue.createFromMajorValue(4.90993923, assetType: .bitcoin).amount
         )
     }
-
+    
     func testIsZero() {
         XCTAssertTrue(CryptoValue.createFromMajorValue(0, assetType: .bitcoin).isZero)
         XCTAssertFalse(CryptoValue.createFromMajorValue(0.1, assetType: .bitcoin).isZero)
     }
-
+    
     func testIsPositive() {
         XCTAssertTrue(CryptoValue.createFromMajorValue(0, assetType: .bitcoin).isPositive)
         XCTAssertTrue(CryptoValue.createFromMajorValue(0.1, assetType: .bitcoin).isPositive)
         XCTAssertFalse(CryptoValue.createFromMajorValue(-0.1, assetType: .bitcoin).isPositive)
     }
-
+    
     func testCreateFromMajorRoundOff() {
         XCTAssertEqual(
             300000,

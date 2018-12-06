@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import StellarKit
 
 struct StellarRegisterCampaignResponse: Codable {
     let message: String
@@ -18,7 +19,7 @@ struct StellarRegisterCampaignPayload: Codable {
 }
 
 protocol StellarAirdropRegistrationAPI {
-    func registerForCampaign(xlmAccount: WalletXlmAccount, nabuUser: NabuUser) -> Single<StellarRegisterCampaignResponse>
+    func registerForCampaign(xlmAccount: StellarWalletAccount, nabuUser: NabuUser) -> Single<StellarRegisterCampaignResponse>
 }
 
 class StellarAirdropRegistrationService: StellarAirdropRegistrationAPI {
@@ -34,7 +35,7 @@ class StellarAirdropRegistrationService: StellarAirdropRegistrationAPI {
         self.nabuAuthenticationService = nabuAuthenticationService
     }
 
-    func registerForCampaign(xlmAccount: WalletXlmAccount, nabuUser: NabuUser) -> Single<StellarRegisterCampaignResponse> {
+    func registerForCampaign(xlmAccount: StellarWalletAccount, nabuUser: NabuUser) -> Single<StellarRegisterCampaignResponse> {
         return nabuAuthenticationService.getSessionToken()
             .flatMap { [weak self] authToken -> Single<StellarRegisterCampaignResponse> in
                 guard let strongSelf = self else {
@@ -45,7 +46,7 @@ class StellarAirdropRegistrationService: StellarAirdropRegistrationAPI {
     }
 
     private func sendNetworkCall(
-        xlmAccount: WalletXlmAccount,
+        xlmAccount: StellarWalletAccount,
         nabuUser: NabuUser,
         authToken: NabuSessionTokenResponse
     ) -> Single<StellarRegisterCampaignResponse> {

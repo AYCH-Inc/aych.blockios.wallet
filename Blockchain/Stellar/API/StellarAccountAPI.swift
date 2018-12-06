@@ -9,6 +9,7 @@
 import Foundation
 import stellarsdk
 import RxSwift
+import StellarKit
 
 protocol StellarAccountAPI {
     
@@ -34,7 +35,7 @@ protocol StellarAccountAPI {
     func fundAccount(
         _ accountID: AccountID,
         amount: Decimal,
-        sourceKeyPair: StellarKeyPair
+        sourceKeyPair: StellarKit.StellarKeyPair
     ) -> Completable
 
     // Gets the currentStellarAccount if available.

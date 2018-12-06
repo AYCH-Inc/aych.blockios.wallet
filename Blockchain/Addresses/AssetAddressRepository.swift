@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import StellarKit
 
 /// Repository for asset addresses
 @objc class AssetAddressRepository: NSObject {
@@ -17,9 +18,13 @@ import Foundation
     @objc class func sharedInstance() -> AssetAddressRepository { return shared }
 
     private let walletManager: WalletManager
+    private let stellarWalletAccountRepository: StellarWalletAccountRepository
 
-    init(walletManager: WalletManager = WalletManager.shared) {
+    init(walletManager: WalletManager = WalletManager.shared,
+         stellarWalletRepository: StellarWalletAccountRepository = StellarWalletAccountRepository(with: WalletManager.shared.wallet)
+        ) {
         self.walletManager = walletManager
+        self.stellarWalletAccountRepository = stellarWalletRepository
         super.init()
         self.walletManager.swipeAddressDelegate = self
     }
@@ -50,7 +55,7 @@ import Foundation
 
         // Only one address for ethereum and stellar
         appSettings.swipeAddressForEther = wallet.getEtherAddress()
-        appSettings.swipeAddressForStellar = WalletXlmAccountRepository().defaultAccount?.publicKey
+        appSettings.swipeAddressForStellar = stellarWalletAccountRepository.defaultAccount?.publicKey
 
         // Retrieve swipe addresses for bitcoin and bitcoin cash
         let assetTypesWithHDAddresses = [AssetType.bitcoin, AssetType.bitcoinCash]

@@ -10,7 +10,7 @@ import Foundation
 import PlatformKit
 import stellarsdk
 
-public class StellarKeyPairDeriver: KeyPairDeriver {
+public class StellarKeyPairDeriver: KeyPairDeriverAPI {
     public typealias StellarWallet = stellarsdk.Wallet
     public typealias Pair = StellarKeyPair
     

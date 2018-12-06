@@ -10,6 +10,7 @@ import Foundation
 import stellarsdk
 import RxSwift
 import RxCocoa
+import StellarKit
 
 class StellarAccountService: StellarAccountAPI {
 
@@ -17,7 +18,7 @@ class StellarAccountService: StellarAccountAPI {
 
     fileprivate let configuration: StellarConfiguration
     fileprivate let ledgerService: StellarLedgerAPI
-    fileprivate let repository: WalletXlmAccountRepository
+    fileprivate let repository: StellarWalletAccountRepository
     fileprivate lazy var service: AccountService = {
        configuration.sdk.accounts
     }()
@@ -27,7 +28,7 @@ class StellarAccountService: StellarAccountAPI {
     init(
         configuration: StellarConfiguration = .production,
         ledgerService: StellarLedgerAPI,
-        repository: WalletXlmAccountRepository
+        repository: StellarWalletAccountRepository
     ) {
         self.configuration = configuration
         self.ledgerService = ledgerService
@@ -46,7 +47,7 @@ class StellarAccountService: StellarAccountAPI {
     
     // MARK: Private Functions
     
-    fileprivate func defaultXLMAccount() -> WalletXlmAccount? {
+    fileprivate func defaultXLMAccount() -> StellarWalletAccount? {
         return repository.defaultAccount
     }
     
@@ -102,7 +103,7 @@ class StellarAccountService: StellarAccountAPI {
     func fundAccount(
         _ accountID: AccountID,
         amount: Decimal,
-        sourceKeyPair: StellarKeyPair
+        sourceKeyPair: StellarKit.StellarKeyPair
     ) -> Completable {
         return ledgerService.current.take(1)
             .asSingle()
@@ -116,7 +117,7 @@ class StellarAccountService: StellarAccountAPI {
                 guard amount >= baseReserveInXlm * 2 else {
                     return Completable.error(StellarServiceError.insufficientFundsForNewAccount)
                 }
-                return strongSelf.accountResponse(for: sourceKeyPair.accountId)
+                return strongSelf.accountResponse(for: sourceKeyPair.accountID)
                     .flatMapCompletable { [weak self] sourceAccountResponse -> Completable in
                         guard let strongSelf = self else {
                             return Completable.never()
@@ -135,7 +136,7 @@ class StellarAccountService: StellarAccountAPI {
         _ accountID: AccountID,
         amount: Decimal,
         sourceAccountResponse: AccountResponse,
-        sourceKeyPair: StellarKeyPair
+        sourceKeyPair: StellarKit.StellarKeyPair
     ) -> Completable {
         return Completable.create(subscribe: { [weak self] event -> Disposable in
             guard let strongSelf = self else {

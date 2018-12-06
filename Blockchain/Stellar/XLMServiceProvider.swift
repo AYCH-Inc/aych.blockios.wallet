@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import StellarKit
 
 protocol XLMDependencies {
     var accounts: StellarAccountAPI { get }
@@ -15,13 +16,13 @@ protocol XLMDependencies {
     var operation: StellarOperationService { get }
     var transaction: StellarTransactionAPI { get }
     var limits: StellarTradeLimitsAPI { get }
-    var repository: WalletXlmAccountRepository { get }
+    var repository: StellarWalletAccountRepository { get }
     var prices: PriceServiceAPI { get }
     var walletActionEventBus: WalletActionEventBus { get }
 }
 
 struct XLMServices: XLMDependencies {
-    var repository: WalletXlmAccountRepository
+    var repository: StellarWalletAccountRepository
     var accounts: StellarAccountAPI
     var ledger: StellarLedgerService
     var operation: StellarOperationService
@@ -36,7 +37,7 @@ struct XLMServices: XLMDependencies {
         eventBus: WalletActionEventBus = WalletActionEventBus.shared
     ) {
         walletActionEventBus = eventBus
-        repository = WalletXlmAccountRepository(wallet: wallet)
+        repository = StellarWalletAccountRepository(with: wallet)
         ledger = StellarLedgerService(configuration: configuration)
         accounts = StellarAccountService(
             configuration: configuration,

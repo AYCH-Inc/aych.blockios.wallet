@@ -8,6 +8,7 @@
 
 import RxSwift
 import UIKit
+import StellarKit
 
 @objc class ReceiveXlmViewController: UIViewController {
 
@@ -18,10 +19,12 @@ import UIKit
     @IBOutlet private var buttonRequestPayment: UIButton!
 
     private let wallet = WalletManager.shared.wallet
-    private let xlmAccountRepository = WalletXlmAccountRepository()
+    private lazy var stellarWalletAccountRepository: StellarWalletAccountRepository = {
+        return StellarWalletAccountRepository(with: wallet)
+    }()
     private var disposable: Disposable?
 
-    private var xlmAccount: WalletXlmAccount? {
+    private var xlmAccount: StellarWalletAccount? {
         didSet {
             if let xlmAccount = xlmAccount {
                 labelInstructions.text = LocalizationConstants.Receive.tapToCopyThisAddress
@@ -84,7 +87,7 @@ import UIKit
 
     private func initXlmAccountIfNeeded() {
         xlmAccount = nil
-        disposable = xlmAccountRepository.initializeMetadataMaybe()
+        disposable = stellarWalletAccountRepository.initializeMetadataMaybe()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] xlmAccount in

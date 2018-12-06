@@ -40,6 +40,14 @@ end
 target 'PlatformKit' do
     inhibit_all_warnings!
     pod 'RxSwift', '~> 4.0'
+    pod 'BigInt', '~> 3.1'
+    
+    target 'PlatformKitTests' do
+        inherit! :search_paths
+        # Pods for testing
+        pod 'RxSwift', '~> 4.0'
+        pod 'BigInt', '~> 3.1'
+    end
 end
 
 # Post Installation:

@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import StellarKit
 
 /// Router for handling the XLM airdrop flow
 class StellarAirdropRouter {
@@ -14,23 +15,24 @@ class StellarAirdropRouter {
     private let appSettings: BlockchainSettings.App
     private let kycCoordinator: KYCCoordinator
     private let repository: BlockchainDataRepository
-    private let walletXlmAccountRepo: WalletXlmAccountRepository
     private let registrationService: StellarAirdropRegistrationAPI
 
     private let disposables = CompositeDisposable()
+    
+    private let stellarWalletAccountRepository: StellarWalletAccountRepository
 
     init(
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
         kycCoordinator: KYCCoordinator = KYCCoordinator.shared,
         repository: BlockchainDataRepository = BlockchainDataRepository.shared,
-        walletXlmAccountRepo: WalletXlmAccountRepository = WalletXlmAccountRepository(),
+        stellarWalletAccountRepository: StellarWalletAccountRepository = StellarWalletAccountRepository(with: WalletManager.shared.wallet),
         registrationService: StellarAirdropRegistrationAPI = StellarAirdropRegistrationService()
     ) {
         self.appSettings = appSettings
         self.kycCoordinator = kycCoordinator
         self.repository = repository
-        self.walletXlmAccountRepo = walletXlmAccountRepo
         self.registrationService = registrationService
+        self.stellarWalletAccountRepository = stellarWalletAccountRepository
     }
 
     deinit {
@@ -54,11 +56,13 @@ class StellarAirdropRouter {
         }
 
         let nabuUser = repository.nabuUser.take(1)
-        let xlmAccount = walletXlmAccountRepo.initializeMetadataMaybe().asObservable()
+        let xlmAccount = stellarWalletAccountRepository.initializeMetadataMaybe().asObservable()
         let disposable = Observable.combineLatest(nabuUser, xlmAccount)
             .subscribeOn(MainScheduler.asyncInstance)
             .flatMap { [weak self] nabuUser, xlmAccount -> Observable<NabuUser> in
-                guard let strongSelf = self else { return Observable.empty() }
+                guard let strongSelf = self else {
+                    return Observable.empty()
+                }
                 return strongSelf.registerForCampaign(
                     xlmAccount: xlmAccount,
                     nabuUser: nabuUser
@@ -120,7 +124,7 @@ class StellarAirdropRouter {
         disposables.insertWithDiscardableResult(disposable)
     }
 
-    private func registerForCampaign(xlmAccount: WalletXlmAccount, nabuUser: NabuUser) -> Observable<NabuUser> {
+    private func registerForCampaign(xlmAccount: StellarWalletAccount, nabuUser: NabuUser) -> Observable<NabuUser> {
         return registrationService.registerForCampaign(xlmAccount: xlmAccount, nabuUser: nabuUser)
             .do(onSuccess: { response in
                 Logger.shared.info("Successfully registered for sunriver campaign. Message: '\(response.message)'")

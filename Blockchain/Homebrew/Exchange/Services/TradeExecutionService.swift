@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import StellarKit
 
 class TradeExecutionService: TradeExecutionAPI {
     
@@ -17,7 +18,7 @@ class TradeExecutionService: TradeExecutionAPI {
         let accounts: StellarAccountAPI
         let transactionAPI: StellarTransactionAPI
         let ledgerAPI: StellarLedgerAPI
-        let repository: WalletXlmAccountRepository
+        let repository: StellarWalletAccountRepository
         let limits: StellarTradeLimitsAPI
         
         init(xlm: XLMServiceProvider = XLMServiceProvider.shared) {
@@ -247,8 +248,8 @@ class TradeExecutionService: TradeExecutionAPI {
             return NetworkRequest.POST(
                 url: endpoint,
                 body: try? JSONEncoder().encode(order),
-                token: token.token,
-                type: OrderResult.self
+                type: OrderResult.self,
+                headers: [HttpHeaderField.authorization: token.token]
             )
         }
     }
@@ -271,7 +272,7 @@ class TradeExecutionService: TradeExecutionAPI {
             }
             
             let transaction = dependencies.xlm.transactionAPI
-            disposable = dependencies.xlm.repository.loadStellarKeyPair()
+            disposable = dependencies.xlm.repository.loadKeyPair()
                 .asObservable().flatMap { keyPair -> Completable in
                     return transaction.send(paymentOperation, sourceKeyPair: keyPair)
                 }.subscribeOn(MainScheduler.asyncInstance)

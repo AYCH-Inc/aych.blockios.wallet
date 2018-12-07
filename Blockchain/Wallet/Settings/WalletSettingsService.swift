@@ -29,7 +29,7 @@ class WalletSettingsService: WalletSettingsAPI {
             apiCode: apiCode
         )
         let data = try? JSONEncoder().encode(request)
-        return NetworkRequest.POST(url: url, body: data, token: nil, type: WalletSettings.self, contentType: .formUrlEncoded)
+        return NetworkRequest.POST(url: url, body: data, type: WalletSettings.self, contentType: .formUrlEncoded)
     }
 
     func updateSettings(method: WalletSettingsApiMethod, guid: String, sharedKey: String, payload: String) -> Completable {

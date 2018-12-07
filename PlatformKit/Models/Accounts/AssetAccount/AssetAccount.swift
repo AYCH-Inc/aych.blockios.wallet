@@ -8,11 +8,13 @@
 
 import Foundation
 
-/// Describes a Blockchain account for a specific `AssetType`
 public protocol AssetAccount {
-    var index: Int32 { get }
-    var address: String { get }
-    var balance: Decimal { get }
+    // `accountAddress` can be an xpub,
+    // eth address, public key, etc.
+    var accountAddress: String { get }
     var name: String { get }
+    
+    /// TODO: Can this be nil for some accounts? What is the expected
+    /// value of this? 
     var description: String { get }
 }

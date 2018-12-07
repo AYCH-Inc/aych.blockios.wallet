@@ -7,13 +7,14 @@
 //
 
 import RxSwift
+import StellarKit
 import XCTest
 @testable import Blockchain
 
 private class MockRegistrationService: StellarAirdropRegistrationAPI {
     var didCallRegisterExpectation: XCTestExpectation?
 
-    func registerForCampaign(xlmAccount: WalletXlmAccount, nabuUser: NabuUser) -> Single<StellarRegisterCampaignResponse> {
+    func registerForCampaign(xlmAccount: StellarWalletAccount, nabuUser: NabuUser) -> Single<StellarRegisterCampaignResponse> {
         return Single.create(subscribe: { _ -> Disposable in
             self.didCallRegisterExpectation?.fulfill()
             return Disposables.create()
@@ -25,7 +26,7 @@ class StellarAirdropRouterTests: XCTestCase {
 
     private var mockAppSettings: MockBlockchainSettingsApp!
     private var mockRegistration: MockRegistrationService!
-    private var mockXlmWallet: MockXlmWallet!
+    private var mockStellarBridge: MockStellarBridge!
     private var mockDataRepo: MockBlockchainDataRepository!
     private var router: StellarAirdropRouter!
 
@@ -34,19 +35,20 @@ class StellarAirdropRouterTests: XCTestCase {
         mockAppSettings = MockBlockchainSettingsApp()
         mockRegistration = MockRegistrationService()
         mockDataRepo = MockBlockchainDataRepository()
-        mockXlmWallet = MockXlmWallet()
+        mockStellarBridge = MockStellarBridge()
+        
         router = StellarAirdropRouter(
             appSettings: mockAppSettings,
             repository: mockDataRepo,
-            walletXlmAccountRepo: WalletXlmAccountRepository(wallet: mockXlmWallet),
+            stellarWalletAccountRepository: StellarWalletAccountRepository(with: mockStellarBridge),
             registrationService: mockRegistration
         )
     }
 
     func testRoutesIfTappedOnDeepLink() {
         mockAppSettings.mockDidTapOnAirdropDeepLink = true
-        mockXlmWallet.accounts = [
-            WalletXlmAccount(publicKey: "public key", label: "label")
+        mockStellarBridge.accounts = [
+            StellarWalletAccount(index: 0, publicKey: "public key", label: "label", archived: false)
         ]
         mockDataRepo.mockNabuUser = NabuUser(
             personalDetails: nil,

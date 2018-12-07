@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import stellarsdk
+import StellarKit
 
 class StellarTransactionService: StellarTransactionAPI {
     
@@ -18,7 +19,7 @@ class StellarTransactionService: StellarTransactionAPI {
     
     fileprivate let configuration: StellarConfiguration
     fileprivate let accounts: StellarAccountAPI
-    fileprivate let repository: WalletXlmAccountRepository
+    fileprivate let repository: StellarWalletAccountRepository
     fileprivate lazy var service: stellarsdk.TransactionsService = {
         configuration.sdk.transactions
     }()
@@ -26,7 +27,7 @@ class StellarTransactionService: StellarTransactionAPI {
     init(
         configuration: StellarConfiguration = .production,
         accounts: StellarAccountAPI,
-        repository: WalletXlmAccountRepository
+        repository: StellarWalletAccountRepository
     ) {
         self.configuration = configuration
         self.accounts = accounts
@@ -71,8 +72,8 @@ class StellarTransactionService: StellarTransactionAPI {
         }
     }
 
-    func send(_ paymentOperation: StellarPaymentOperation, sourceKeyPair: StellarKeyPair) -> Completable {
-        let sourceAccount = accounts.accountResponse(for: sourceKeyPair.accountId)
+    func send(_ paymentOperation: StellarPaymentOperation, sourceKeyPair: StellarKit.StellarKeyPair) -> Completable {
+        let sourceAccount = accounts.accountResponse(for: sourceKeyPair.accountID)
         return fundAccountIfEmpty(
             paymentOperation,
             sourceKeyPair: sourceKeyPair
@@ -91,7 +92,7 @@ class StellarTransactionService: StellarTransactionAPI {
 
     // MARK: - Private
 
-    private func fundAccountIfEmpty(_ paymentOperation: StellarPaymentOperation, sourceKeyPair: StellarKeyPair) -> Single<Bool> {
+    private func fundAccountIfEmpty(_ paymentOperation: StellarPaymentOperation, sourceKeyPair: StellarKit.StellarKeyPair) -> Single<Bool> {
         return accounts.accountResponse(for: paymentOperation.destinationAccountId)
             .map { _ in return false }
             .catchError { [weak self] error -> Single<Bool> in
@@ -114,7 +115,7 @@ class StellarTransactionService: StellarTransactionAPI {
     private func send(
         _ paymentOperation: StellarPaymentOperation,
         accountResponse: AccountResponse,
-        sourceKeyPair: StellarKeyPair
+        sourceKeyPair: StellarKit.StellarKeyPair
     ) -> Completable {
         return Completable.create(subscribe: { [weak self] event -> Disposable in
             guard let strongSelf = self else {

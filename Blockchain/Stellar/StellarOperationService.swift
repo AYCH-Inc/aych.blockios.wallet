@@ -10,6 +10,7 @@ import Foundation
 import stellarsdk
 import RxSwift
 import RxCocoa
+import StellarKit
 
 /// Model for paginating through StellarSDK calls
 struct StellarPageReponse<A: Any> {
@@ -31,7 +32,7 @@ class StellarOperationService {
     fileprivate let disposables = CompositeDisposable()
     fileprivate var stream: OperationsStreamItem?
     fileprivate let configuration: StellarConfiguration
-    fileprivate let repository: WalletXlmAccountRepository
+    fileprivate let repository: StellarWalletAccountRepository
     
     lazy var service: stellarsdk.OperationsService = {
         configuration.sdk.operations
@@ -62,7 +63,7 @@ class StellarOperationService {
 
     init(
         configuration: StellarConfiguration = .production,
-        repository: WalletXlmAccountRepository
+        repository: StellarWalletAccountRepository
     ) {
         self.configuration = configuration
         self.repository = repository

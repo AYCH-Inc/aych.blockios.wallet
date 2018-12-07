@@ -880,7 +880,7 @@
 "Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Než se dostanete do peněženky, vyberte číslo PIN, které chcete použít k odemknutí peněženky. Je důležité, abyste si tento pin pamatovali, protože jej nelze resetovat ani měnit bez nejprve odemčení aplikace.";
 "Below trading limit" = "Pod obchodním limitem";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Servery Blockchain jsou v současné době v údržbě. Prosím zkuste to znovu později";
-"Buy Now for $99" = "Kup teď za 99 dolarů";
+"Buy Now for $99" = "Kup nyní";
 "By creating a wallet you agree to Blockchain’s" = "Vytvořením peněženky souhlasíte s blokádou";
 "By hitting \"Begin Now\", you agree to Blockchain’s %@ & %@" = "Tím, že stisknete tlačítko Začátek, souhlasíte s tím, že společnost Blockchain %1$@ & %2$@";
 "Cannot send XLM at this time. Please try again." = "XLM nelze odeslat v tuto chvíli. Prosím zkuste to znovu.";

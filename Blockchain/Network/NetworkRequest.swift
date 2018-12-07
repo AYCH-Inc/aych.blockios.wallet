@@ -10,8 +10,6 @@ import RxSwift
 
 typealias HTTPHeaders = [String: String]
 
-/// TICKET: IOS-1242 - Condense HttpHeaderField
-/// and HttpHeaderValue into enums and inject in a token
 struct NetworkRequest {
     
     enum NetworkError: Error {
@@ -39,10 +37,6 @@ struct NetworkRequest {
     // vs. having to serialize outside of this class
     let body: Data?
 
-    // Deprecate this field in favor of headers (i.e. the token should be passed in as an
-    // element in `headers`
-    let token: String?
-
     private let session: URLSession? = {
         guard let session = NetworkManager.shared.session else { return nil }
         return session
@@ -52,13 +46,11 @@ struct NetworkRequest {
     init(
         endpoint: URL,
         method: NetworkMethod,
-        body: Data?,
-        authToken: String? = nil,
+        body: Data? = nil,
         headers: HTTPHeaders? = nil,
         contentType: ContentType = .json
     ) {
         self.endpoint = endpoint
-        self.token = authToken
         self.method = method
         self.body = body
         self.headers = headers
@@ -149,13 +141,6 @@ struct NetworkRequest {
         request.addValue(HttpHeaderValue.json, forHTTPHeaderField: HttpHeaderField.accept)
         request.addValue(contentType.rawValue, forHTTPHeaderField: HttpHeaderField.contentType)
 
-        if let auth = token {
-            request.addValue(
-                auth,
-                forHTTPHeaderField: HttpHeaderField.authorization
-            )
-        }
-
         if let headers = headers {
             headers.forEach {
                 request.addValue($1, forHTTPHeaderField: $0)
@@ -204,10 +189,10 @@ extension NetworkRequest {
     static func GET<ResponseType: Decodable>(
         url: URL,
         body: Data? = nil,
-        token: String? = nil,
+        headers: HTTPHeaders? = nil,
         type: ResponseType.Type
     ) -> Single<ResponseType> {
-        var request = self.init(endpoint: url, method: .get, body: body, authToken: token)
+        var request = self.init(endpoint: url, method: .get, body: body, headers: headers)
         return Single.create(subscribe: { observer -> Disposable in
             request.execute(expecting: ResponseType.self, withCompletion: { result, _ in
                 switch result {
@@ -244,12 +229,11 @@ extension NetworkRequest {
     static func POST<ResponseType: Decodable>(
         url: URL,
         body: Data?,
-        token: String?,
         type: ResponseType.Type,
         headers: HTTPHeaders? = nil,
         contentType: ContentType = .json
     ) -> Single<ResponseType> {
-        var request = self.init(endpoint: url, method: .post, body: body, authToken: token, headers: headers, contentType: contentType)
+        var request = self.init(endpoint: url, method: .post, body: body, headers: headers, contentType: contentType)
         return Single.create(subscribe: { observer -> Disposable in
             request.execute(expecting: ResponseType.self, withCompletion: { result, _ in
                 switch result {
@@ -266,11 +250,10 @@ extension NetworkRequest {
     static func PUT<ResponseType: Decodable>(
         url: URL,
         body: Data?,
-        token: String?,
         type: ResponseType.Type,
         headers: HTTPHeaders? = nil
     ) -> Single<ResponseType> {
-        var request = self.init(endpoint: url, method: .put, body: body, authToken: token, headers: headers)
+        var request = self.init(endpoint: url, method: .put, body: body, headers: headers)
         return Single.create(subscribe: { observer -> Disposable in
             request.execute(expecting: ResponseType.self, withCompletion: { result, _ in
                 switch result {

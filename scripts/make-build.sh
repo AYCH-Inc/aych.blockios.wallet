@@ -11,9 +11,19 @@
 #  ‣ This script only runs on macOS using Bash 3.0+
 #  ‣ Requires Xcode Command Line Tools.
 #
+#  What It Does
+#  ------------
+#  Running this script will merge all the latest changes from `dev` into the `staging` and `release` branches, create a "version bump"
+#  commit, followed by tagging that commit. These changes are then pushed to the remote `origin` repository which subsequently kicks
+#  off workflows defined in CircleCI which ultimately uploads staging and production builds to the app store.
+#
 
 set -eu
 set -o pipefail
+
+#
+# Error checking
+#
 
 if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
   printf '\e[1;31m%-6s\e[m\n' "Making a new build requires that you have a clean git working directory. Please commit your changes or stash them to continue."
@@ -30,7 +40,9 @@ if ! [ -x "$(command -v agvtool)" ]; then
   exit 1
 fi
 
-printf "You are about to tag, archive, and upload a new build.\n"
+#
+# User prompts
+#
 
 git fetch --tags
 latestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
@@ -41,47 +53,105 @@ if ! [[ $project_version_number =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]; then
   exit 1
 fi
 
-read -p "‣ Next, enter the new value for the project build (e.g. 5), followed by [ENTER]: " project_build_number
+read -p "‣ Next, enter the new value for the project build for staging (e.g. 5), followed by [ENTER]: " project_build_number_staging
 
-if ! [[ $project_build_number =~ ^[0-9]+ ]]; then
+if ! [[ $project_build_number_staging =~ ^[0-9]+ ]]; then
   printf '\n\e[1;31m%-6s\e[m\n' "You have entered an invalid build number."
   exit 1
 fi
 
-git_tag="v${project_version_number}(${project_build_number})"
+read -p "‣ Next, enter the new value for the project build for production (e.g. 6), followed by [ENTER]: " project_build_number_prod
 
-if [ $(git tag -l "$git_tag") ]; then
+if ! [[ $project_build_number_prod =~ ^[0-9]+ ]]; then
+  printf '\n\e[1;31m%-6s\e[m\n' "You have entered an invalid build number."
+  exit 1
+fi
+
+if ! [[ $project_build_number_staging -lt $project_build_number_prod ]]; then
+  printf '\n\e[1;31m%-6s\e[m\n' "Staging build number should be less than the Production build number."
+  exit 1
+fi
+git_tag_staging="v${project_version_number}(${project_build_number_staging})staging"
+git_tag_prod="v${project_version_number}(${project_build_number_prod})"
+
+if [ $(git tag -l "$git_tag_staging") ] || [ $(git tag -l "$git_tag_prod") ]; then
   printf '\n\e[1;31m%-6s\e[m\n' "The version you entered already exists!"
   exit 1
 fi
 
+#
+# Confirmation
+#
+
 local_branch="dev"
 release_branch="release"
+staging_branch="staging"
 user_branch=$(git branch | grep \* | cut -d ' ' -f2)
-printf "\nPlease review the information about your build below:\n"
-printf "Xcode project version to use (CFBundleShortVersionString): ${project_version_number}\n"
-printf "Xcode project build number to use (CFBundleVersion): ${project_build_number}\n"
-printf "Git tag to use: ${git_tag}\n"
-printf "Development branch (will be merged into Release branch): ${local_branch}\n"
-printf "Release branch: ${release_branch}\n\n"
+
+printf "#####################################################\n"
+printf "Please review the information about your build below:\n"
+printf "#####################################################\n"
+printf "Xcode project version to use (CFBundleShortVersionString): ${project_version_number}\n\n"
+
+printf "Xcode project build number to use for staging (CFBundleVersion): ${project_build_number_staging}\n"
+printf "Git tag to use for staging: ${git_tag_staging}\n\n"
+
+printf "Xcode project build number to use for production (CFBundleVersion): ${project_build_number_prod}\n"
+printf "Git tag to use for staging: ${git_tag_prod}\n\n"
+
+printf "Staging branch: ${staging_branch}\n"
+printf "Release branch: ${release_branch}\n"
+printf "Development branch (will be merged into Staging/Release branch): ${local_branch}\n\n"
+
+
 read -p "‣ Would you like to proceed? [y/N]: " answer
 if printf "$answer" | grep -iq "^n" ; then
   printf '\e[1;31m%-6s\e[m' "Aborted the build process."
   exit 6
 fi
-git checkout $release_branch > /dev/null 2>&1
-git pull origin $release_branch > /dev/null 2>&1
+
+#
+# Run merge commands for staging
+#
+
+latestTagCommit=$(git show-ref -s $latestTag)
+
+git checkout $staging_branch > /dev/null 2>&1
+git pull origin $staging_branch > /dev/null 2>&1
 git merge $local_branch > /dev/null 2>&1
 agvtool new-marketing-version $project_version_number > /dev/null 2>&1
-agvtool new-version -all $project_build_number > /dev/null 2>&1
+agvtool new-version -all $project_build_number_staging > /dev/null 2>&1
 git add Blockchain/Blockchain-Info.plist
 git add BlockchainTests/Info.plist
 git checkout .
-git commit -m "version bump: ${git_tag}" > /dev/null 2>&1
-latestTagCommit=$(git show-ref -s $latestTag)
-git tag -s $git_tag -m "Release ${project_version_number}" > /dev/null 2>&1
-git push origin $git_tag > /dev/null 2>&1
+git commit -m "version bump: ${git_tag_staging}" > /dev/null 2>&1
+git tag -s $git_tag_staging -m "Release ${project_version_number} (staging build)" > /dev/null 2>&1
+git push origin $git_tag_staging > /dev/null 2>&1
+git push origin $staging_branch > /dev/null 2>&1
+
+#
+printf "Giving staging a 5 minute headstart on building to ensure that it is submitted before production..."
+sleep 300
+# Run merge commands for production
+#
+
+git checkout $release_branch > /dev/null 2>&1
+git pull origin $release_branch > /dev/null 2>&1
+git merge $staging_branch > /dev/null 2>&1
+agvtool new-marketing-version $project_version_number > /dev/null 2>&1
+agvtool new-version -all $project_build_number_prod > /dev/null 2>&1
+git add Blockchain/Blockchain-Info.plist
+git add BlockchainTests/Info.plist
+git checkout .
+git commit -m "version bump: ${git_tag_prod}" > /dev/null 2>&1
+git tag -s $git_tag_prod -m "Release ${project_version_number}" > /dev/null 2>&1
+git push origin $git_tag_prod > /dev/null 2>&1
 git push origin $release_branch > /dev/null 2>&1
+
+#
+# Run git change log
+#
+
 git-changelog -t $latestTagCommit > /dev/null 2>&1
 read -p "‣ Would you like to copy the contents of Changelog.md to your clipboard? [y/N]: " answer
 if printf "$answer" | grep -iq "^y" ; then
@@ -89,6 +159,8 @@ if printf "$answer" | grep -iq "^y" ; then
 fi
 rm Changelog.md
 git checkout $user_branch > /dev/null 2>&1
+
 printf '\n\e[1;32m%-6s\e[m\n' "Script completed successfully 🎉"
+printf '\e[1;32m%-6s\e[m\n' "CircleCI is tracking the branch $staging_branch."
 printf '\e[1;32m%-6s\e[m\n' "CircleCI is tracking the branch $release_branch."
 printf '\e[1;32m%-6s\e[m\n' "Please check Jobs in CircleCI to view the progress of tests, archiving, and uploading the build."

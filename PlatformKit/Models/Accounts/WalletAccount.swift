@@ -9,9 +9,7 @@
 import Foundation
 
 public protocol WalletAccount {
-    /// TODO: Its possible that this should be renamed to `xPub`.
-    /// However you can have addresses for an account that are technically
-    /// `publicKeys` derived from the `xPub`.
+    var index: Int { get }
     var publicKey: String { get }
     var label: String? { get }
     var archived: Bool { get }

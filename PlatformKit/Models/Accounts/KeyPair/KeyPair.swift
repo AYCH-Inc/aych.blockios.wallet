@@ -11,6 +11,4 @@ import Foundation
 public protocol KeyPair {
     var accountID: String { get }
     var secret: String { get }
-    
-    func save(with label: String, completion: @escaping ((String?) -> Void))
 }

@@ -1,5 +1,5 @@
 //
-//  StellarOperationsService.swift
+//  StellarHistoricalTransactionService.swift
 //  StellarKit
 //
 //  Created by Alex McGregor on 11/12/18.
@@ -11,7 +11,7 @@ import PlatformKit
 import RxSwift
 import stellarsdk
 
-public class StellarOperationsService: HistoricalTransactionAPI {
+public class StellarHistoricalTransactionService: HistoricalTransactionAPI {
     
     fileprivate let configuration: StellarConfiguration
     lazy var service: stellarsdk.OperationsService = {

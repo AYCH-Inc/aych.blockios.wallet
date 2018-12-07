@@ -1,8 +1,11 @@
 PODS:
   - Alamofire (4.7.3)
+  - BigInt (3.1.0):
+    - SipHash (~> 1.2)
   - Charts (3.2.1):
     - Charts/Core (= 3.2.1)
   - Charts/Core (3.2.1)
+  - CryptoSwift (0.13.1)
   - Firebase/Core (5.11.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.3.0)
@@ -81,6 +84,15 @@ PODS:
   - PhoneNumberKit/PhoneNumberKitCore (2.5.0)
   - PhoneNumberKit/UIKit (2.5.0):
     - PhoneNumberKit/PhoneNumberKitCore
+  - PromiseKit (6.7.0):
+    - PromiseKit/CorePromise (= 6.7.0)
+    - PromiseKit/Foundation (= 6.7.0)
+    - PromiseKit/UIKit (= 6.7.0)
+  - PromiseKit/CorePromise (6.7.0)
+  - PromiseKit/Foundation (6.7.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.7.0):
+    - PromiseKit/CorePromise
   - Protobuf (3.6.1)
   - RxAtomic (4.4.0)
   - RxBlocking (4.4.0):
@@ -93,12 +105,20 @@ PODS:
   - RxTest (4.4.0):
     - RxAtomic (~> 4.4)
     - RxSwift (~> 4.0)
+  - secp256k1.swift (0.1.4)
+  - SipHash (1.2.2)
   - Starscream (3.0.6)
   - stellar-ios-mac-sdk (1.4.10)
   - SwiftLint (0.27.0)
+  - web3swift (2.0.5):
+    - BigInt (~> 3.1)
+    - CryptoSwift (~> 0.12)
+    - PromiseKit (~> 6.4)
+    - secp256k1.swift
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
+  - BigInt (~> 3.1)
   - Charts (~> 3.2.1)
   - Firebase/Core
   - Firebase/DynamicLinks
@@ -112,11 +132,14 @@ DEPENDENCIES:
   - Starscream (~> 3.0.2)
   - stellar-ios-mac-sdk (~> 1.4.7)
   - SwiftLint
+  - web3swift (from `https://github.com/bankex/web3swift.git`, commit `590bd35`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - BigInt
     - Charts
+    - CryptoSwift
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -130,19 +153,34 @@ SPEC REPOS:
     - nanopb
     - Onfido
     - PhoneNumberKit
+    - PromiseKit
     - Protobuf
     - RxAtomic
     - RxBlocking
     - RxCocoa
     - RxSwift
     - RxTest
+    - secp256k1.swift
+    - SipHash
     - Starscream
     - stellar-ios-mac-sdk
     - SwiftLint
 
+EXTERNAL SOURCES:
+  web3swift:
+    :commit: 590bd35
+    :git: https://github.com/bankex/web3swift.git
+
+CHECKOUT OPTIONS:
+  web3swift:
+    :commit: 590bd35
+    :git: https://github.com/bankex/web3swift.git
+
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   Charts: f122fb70b19847fa5817d018b77d6c5a2296ab25
+  CryptoSwift: ff68c35a53e03177d31aaa2c1e8b3e010aeed6cb
   Firebase: b48f9e653da971ecce5b8c749684bc8bb2d26bd3
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: 63202d2665de4e6adcbdce189135255d8b5962ba
@@ -156,16 +194,20 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Onfido: eb3bde6295f0dc6dd334b9eb01626d2bad5d3c1d
   PhoneNumberKit: 32a1cd1e0aa9e950feb01886a22fd7386b8cf903
+  PromiseKit: 453ddcc947fe7b302f3ef41882b81d31c554df7f
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
   RxBlocking: 138ad53217434444d6eeeb4fb406a45431d92e31
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   RxTest: 19d03286bdc0a3aaea5d61d4cde31fdf4bb8a5ba
+  secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
+  SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   stellar-ios-mac-sdk: 0f5d9b19aedf241cdb55be48b3ede477b57ed70f
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
+  web3swift: 2a33b0dd0fc8901f644d8f9234b0e9bc8611dc87
 
-PODFILE CHECKSUM: c26a81920e3d38afb155f3237ef8610a26f589ff
+PODFILE CHECKSUM: d60244573cb80f235183385ab31ab170934c5aa3
 
 COCOAPODS: 1.5.3

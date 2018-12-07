@@ -59,6 +59,16 @@
                ReferencedContainer = "container:Blockchain.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3A6A1A1E21B9A64D00D97C74"
+               BuildableName = "EthereumKitTests.xctest"
+               BlueprintName = "EthereumKitTests"
+               ReferencedContainer = "container:Blockchain.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

@@ -353,13 +353,19 @@
         [self.chartView animateWithYAxisDuration:1.0];
     }
 
-    [self.bitcoinLegendKey changeBalance:[self.bitcoin.balance stringByAppendingFormat:@" %@", [AssetTypeLegacyHelper symbolFor:LegacyAssetTypeBitcoin]]];
+    NSString *bitcoinBalance = [[NSNumberFormatter assetFormatter] stringFromNumber:[NSDecimalNumber decimalNumberWithString:self.bitcoin.balance]];
+    NSString *bitcoinBalanceFormatted = [bitcoinBalance stringByAppendingFormat:@" %@", [AssetTypeLegacyHelper symbolFor:LegacyAssetTypeBitcoin]];
+    [self.bitcoinLegendKey changeBalance:bitcoinBalanceFormatted];
     [self.bitcoinLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSNumberFormatter fiatStringFromDouble:self.bitcoin.fiatBalance]]];
 
-    [self.etherLegendKey changeBalance:[self.ether.balance stringByAppendingFormat:@" %@", [AssetTypeLegacyHelper symbolFor:LegacyAssetTypeEther]]];
+    NSString *etherBalance = [[NSNumberFormatter assetFormatter] stringFromNumber:[NSDecimalNumber decimalNumberWithString:self.ether.balance]];
+    NSString *etherBalanceFormatted = [etherBalance stringByAppendingFormat:@" %@", [AssetTypeLegacyHelper symbolFor:LegacyAssetTypeEther]];
+    [self.etherLegendKey changeBalance:etherBalanceFormatted];
     [self.etherLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSNumberFormatter fiatStringFromDouble:self.ether.fiatBalance]]];
 
-    [self.bitcoinCashLegendKey changeBalance:[self.bitcoinCash.balance stringByAppendingFormat:@" %@", [AssetTypeLegacyHelper symbolFor:LegacyAssetTypeBitcoinCash]]];
+    NSString *bitcoinCashBalance = [[NSNumberFormatter assetFormatter] stringFromNumber:[NSDecimalNumber decimalNumberWithString:self.bitcoinCash.balance]];
+    NSString *bitcoinCashBalanceFormatted = [bitcoinCashBalance stringByAppendingFormat:@" %@", [AssetTypeLegacyHelper symbolFor:LegacyAssetTypeBitcoinCash]];
+    [self.bitcoinCashLegendKey changeBalance:bitcoinCashBalanceFormatted];
     [self.bitcoinCashLegendKey changeFiatBalance:[self.fiatSymbol stringByAppendingString:[NSNumberFormatter fiatStringFromDouble:self.bitcoinCash.fiatBalance]]];
 
     NSString *stellarBalance = [[NSNumberFormatter stellarFormatter] stringFromNumber:[NSDecimalNumber decimalNumberWithString:self.stellar.balance]];

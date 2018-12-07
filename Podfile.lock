@@ -110,9 +110,9 @@ PODS:
   - Starscream (3.0.6)
   - stellar-ios-mac-sdk (1.4.10)
   - SwiftLint (0.27.0)
-  - web3swift (2.0.5):
+  - web3swift (2.1.2):
     - BigInt (~> 3.1)
-    - CryptoSwift (~> 0.12)
+    - CryptoSwift
     - PromiseKit (~> 6.4)
     - secp256k1.swift
 
@@ -132,7 +132,7 @@ DEPENDENCIES:
   - Starscream (~> 3.0.2)
   - stellar-ios-mac-sdk (~> 1.4.7)
   - SwiftLint
-  - web3swift (from `https://github.com/bankex/web3swift.git`, commit `590bd35`)
+  - web3swift (from `https://github.com/bankex/web3swift.git`, tag `2.1.2`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -168,13 +168,13 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   web3swift:
-    :commit: 590bd35
     :git: https://github.com/bankex/web3swift.git
+    :tag: 2.1.2
 
 CHECKOUT OPTIONS:
   web3swift:
-    :commit: 590bd35
     :git: https://github.com/bankex/web3swift.git
+    :tag: 2.1.2
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
@@ -206,8 +206,8 @@ SPEC CHECKSUMS:
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   stellar-ios-mac-sdk: 0f5d9b19aedf241cdb55be48b3ede477b57ed70f
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
-  web3swift: 2a33b0dd0fc8901f644d8f9234b0e9bc8611dc87
+  web3swift: 868915a0de620a03510efbe712dcfbd576e61799
 
-PODFILE CHECKSUM: d60244573cb80f235183385ab31ab170934c5aa3
+PODFILE CHECKSUM: 0c9c6a2fb4832c79239bd3193a6272c65ea20e42
 
 COCOAPODS: 1.5.3

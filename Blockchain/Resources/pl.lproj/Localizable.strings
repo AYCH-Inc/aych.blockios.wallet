@@ -880,7 +880,7 @@
 "Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Przed uzyskaniem dostępu do portfela, wybierz numer PIN, aby odblokować portfel. Ważne jest, aby pamiętać tę pinezkę, ponieważ nie można jej zresetować ani zmienić bez wcześniejszego odblokowania aplikacji.";
 "Below trading limit" = "Poniżej limitu handlowego";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Serwery Blockchain są obecnie w trakcie konserwacji. Spróbuj ponownie później";
-"Buy Now for $99" = "Kup teraz za 99 USD";
+"Buy Now for $99" = "Kup teraz";
 "By creating a wallet you agree to Blockchain’s" = "Tworząc portfel, zgadzasz się na Blockchaina";
 "By hitting \"Begin Now\", you agree to Blockchain’s %@ & %@" = "Po kliknięciu \"Rozpocznij teraz\", zgadzasz się na %1$@ & %2$@ Blockchaina";
 "Cannot send XLM at this time. Please try again." = "Nie można teraz wysłać XLM. Proszę spróbuj ponownie.";

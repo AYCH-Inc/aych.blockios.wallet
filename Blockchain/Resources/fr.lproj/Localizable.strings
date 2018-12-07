@@ -876,7 +876,7 @@ d'accélérer la réception de bitcoins. Cinq adresses seront chargées consécu
 "Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Avant d’accéder à votre portefeuille, veuillez choisir un code PIN à utiliser pour le déverrouiller. Il est important que vous vous souveniez de ce code, car il ne peut pas être réinitialisé ou modifié sans avoir préalablement déverrouillé l'application.";
 "Below trading limit" = "En dessous de la limite de négociation";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Les serveurs de Blockchain sont actuellement en maintenance. Veuillez réessayer plus tard.";
-"Buy Now for $99" = "Achetez maintenant pour 99 dollars";
+"Buy Now for $99" = "Acheter maintenant";
 "By creating a wallet you agree to Blockchain’s" = "En créant un portefeuille, vous acceptez les conditions de Blockchain";
 "By hitting \"Begin Now\", you agree to Blockchain’s %@ & %@" = "En appuyant sur « Commencer maintenant », j'accepte les %1$@ & %2$@ de Blockchain";
 "Cannot send XLM at this time. Please try again." = "Impossible d'envoyer un XLM à l'heure actuelle. Veuillez réessayer.";

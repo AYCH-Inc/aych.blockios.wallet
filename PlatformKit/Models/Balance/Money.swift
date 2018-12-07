@@ -29,5 +29,5 @@ public protocol Money {
     ///
     /// - Parameter includeSymbol: whether or not the symbol should be included in the string
     /// - Returns: the displayable String
-    func toDisplayString(includeSymbol: Bool) -> String
+    func toDisplayString(includeSymbol: Bool, locale: Locale) -> String
 }

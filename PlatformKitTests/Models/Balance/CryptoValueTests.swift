@@ -10,47 +10,50 @@ import XCTest
 
 class CryptoValueTests: XCTestCase {
     func testMajorValue() {
-        XCTAssertEqual(Decimal(10), CryptoValue.bitcoinFromSatoshis(int: 1000000000).majorValue)
-        XCTAssertEqual(Decimal(1), CryptoValue.bitcoinFromSatoshis(int: 100000000).majorValue)
-        XCTAssertEqual(Decimal(0.1), CryptoValue.bitcoinFromSatoshis(int: 10000000).majorValue)
-        XCTAssertEqual(Decimal(0.01), CryptoValue.bitcoinFromSatoshis(int: 1000000).majorValue)
-        XCTAssertEqual(Decimal(0.001), CryptoValue.bitcoinFromSatoshis(int: 100000).majorValue)
-        XCTAssertEqual(Decimal(0.0001), CryptoValue.bitcoinFromSatoshis(int: 10000).majorValue)
-        XCTAssertEqual(Decimal(0.00001), CryptoValue.bitcoinFromSatoshis(int: 1000).majorValue)
+        XCTAssertEqual(Decimal(100), CryptoValue.bitcoinFromSatoshis(string: "10000000000")!.majorValue)
+        XCTAssertEqual(Decimal(10), CryptoValue.bitcoinFromSatoshis(int: 1_000_000_000).majorValue)
+        XCTAssertEqual(Decimal(1), CryptoValue.bitcoinFromSatoshis(int: 100_000_000).majorValue)
+        XCTAssertEqual(Decimal(0.1), CryptoValue.bitcoinFromSatoshis(int: 10_000_000).majorValue)
+        XCTAssertEqual(Decimal(0.01), CryptoValue.bitcoinFromSatoshis(int: 1_000_000).majorValue)
+        XCTAssertEqual(Decimal(0.001), CryptoValue.bitcoinFromSatoshis(int: 100_000).majorValue)
+        XCTAssertEqual(Decimal(0.0001), CryptoValue.bitcoinFromSatoshis(int: 10_000).majorValue)
+        XCTAssertEqual(Decimal(0.00001), CryptoValue.bitcoinFromSatoshis(int: 1_000).majorValue)
         XCTAssertEqual(Decimal(0.000001), CryptoValue.bitcoinFromSatoshis(int: 100).majorValue)
         XCTAssertEqual(Decimal(0.0000001), CryptoValue.bitcoinFromSatoshis(int: 10).majorValue)
         XCTAssertEqual(Decimal(0.00000001), CryptoValue.bitcoinFromSatoshis(int: 1).majorValue)
-        XCTAssertEqual(Decimal(0.00000001), CryptoValue.bitcoinFromSatoshis(int: 1).majorValue)
-        XCTAssertEqual(Decimal(4.90993923), CryptoValue.bitcoinFromSatoshis(int: 490993923).majorValue)
+
+        // Comparing Strings below since the value Decimal(4.90993923) will produce precision issues
+        // (i.e. the underlying value will be something like 4.9099392300000234821
+        XCTAssertEqual("4.90993923", "\(CryptoValue.bitcoinFromSatoshis(int: 490993923).majorValue)")
     }
     
     func testCreateFromMajor() {
         XCTAssertEqual(
-            1000000000,
+            1_000_000_000,
             CryptoValue.createFromMajorValue(10, assetType: .bitcoin).amount
         )
         XCTAssertEqual(
-            100000000,
+            100_000_000,
             CryptoValue.createFromMajorValue(1, assetType: .bitcoin).amount
         )
         XCTAssertEqual(
-            10000000,
+            10_000_000,
             CryptoValue.createFromMajorValue(0.1, assetType: .bitcoin).amount
         )
         XCTAssertEqual(
-            1000000,
+            1_000_000,
             CryptoValue.createFromMajorValue(0.01, assetType: .bitcoin).amount
         )
         XCTAssertEqual(
-            100000,
+            100_000,
             CryptoValue.createFromMajorValue(0.001, assetType: .bitcoin).amount
         )
         XCTAssertEqual(
-            10000,
+            10_000,
             CryptoValue.createFromMajorValue(0.0001, assetType: .bitcoin).amount
         )
         XCTAssertEqual(
-            1000,
+            1_000,
             CryptoValue.createFromMajorValue(0.00001, assetType: .bitcoin).amount
         )
         XCTAssertEqual(
@@ -84,7 +87,7 @@ class CryptoValueTests: XCTestCase {
     
     func testCreateFromMajorRoundOff() {
         XCTAssertEqual(
-            300000,
+            300_000,
             CryptoValue.createFromMajorValue(0.00300000000002, assetType: .bitcoin).amount
         )
     }

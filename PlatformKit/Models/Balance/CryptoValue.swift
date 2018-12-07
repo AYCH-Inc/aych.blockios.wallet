@@ -56,19 +56,9 @@ extension CryptoValue: Money {
     ///
     /// - Parameter includeSymbol: whether or not the symbol should be included in the string
     /// - Returns: the displayable String
-    public func toDisplayString(includeSymbol: Bool) -> String {
-        // TODO redo number formatting
-        // TICKET: IOS-1721
-        let formatter = NumberFormatter.decimalStyleFormatter(
-            withMinfractionDigits: 0,
-            maxfractionDigits: currencyType.maxDisplayableDecimalPlaces,
-            usesGroupingSeparator: false
-        )
-        var formattedString = formatter.string(from: NSDecimalNumber(decimal: majorValue)) ?? "\(majorValue)"
-        if includeSymbol {
-            formattedString += " " + currencyType.symbol
-        }
-        return formattedString
+    public func toDisplayString(includeSymbol: Bool, locale: Locale = Locale.current) -> String {
+        let formatter = CryptoFormatterProvider.shared.formatter(locale: locale, cryptoCurrency: currencyType)
+        return formatter.format(value: self, withPrecision: .short, includeSymbol: includeSymbol)
     }
 }
 
@@ -120,9 +110,10 @@ public extension CryptoValue {
     }
     
     public static func createFromMajorValue(_ value: Decimal, assetType: CryptoCurrency) -> CryptoValue {
-        let doubleValue = Double(truncating: NSDecimalNumber(decimal: value))
+        let decimalNumberValue = NSDecimalNumber(decimal: value)
+        let doubleValue = Double(truncating: decimalNumberValue)
         let decimalValue = doubleValue.truncatingRemainder(dividingBy: 1) * pow(10.0, Double(assetType.maxDecimalPlaces))
-        let mantissaValue = BigInt(Int(truncating: NSDecimalNumber(decimal: value))) * BigInt(10).power(assetType.maxDecimalPlaces)
+        let mantissaValue = BigInt(Int(floor(doubleValue))) * BigInt(10).power(assetType.maxDecimalPlaces)
         let amount = mantissaValue + BigInt(decimalValue)
         return CryptoValue(currencyType: assetType, amount: amount)
     }
@@ -131,11 +122,14 @@ public extension CryptoValue {
 // MARK: - Bitcoin
 
 public extension CryptoValue {
-    public static func bitcoinFromSatoshis(int satoshis: Int) -> CryptoValue {
-        return CryptoValue(currencyType: .bitcoin, amount: BigInt(satoshis))
+    public static func bitcoinFromSatoshis(string satoshis: String) -> CryptoValue? {
+        guard let satoshiInBigInt = BigInt(satoshis) else {
+            return nil
+        }
+        return CryptoValue(currencyType: .bitcoin, amount: satoshiInBigInt)
     }
-    
-    public static func bitcoinFromSatoshis(long satoshis: CLong) -> CryptoValue {
+
+    public static func bitcoinFromSatoshis(int satoshis: Int) -> CryptoValue {
         return CryptoValue(currencyType: .bitcoin, amount: BigInt(satoshis))
     }
     
@@ -146,36 +140,48 @@ public extension CryptoValue {
     public static func bitcoinFromMajor(decimal bitcoin: Decimal) -> CryptoValue {
         return createFromMajorValue(bitcoin, assetType: .bitcoin)
     }
+
+    public static func bitcoinFromMajor(string bitcoin: String) -> CryptoValue? {
+        guard let bitcoinInDecimal = Decimal(string: bitcoin) else {
+            return nil
+        }
+        return createFromMajorValue(bitcoinInDecimal, assetType: .bitcoin)
+    }
 }
 
 // MARK: - Ethereum
 
 public extension CryptoValue {
-    public static func etherFromWei(long wei: CLong) -> CryptoValue {
-        return CryptoValue(currencyType: .ethereum, amount: BigInt(wei))
-    }
-    
-    public static func etherFromWei(int wei: Int) -> CryptoValue {
-        return CryptoValue(currencyType: .ethereum, amount: BigInt(wei))
-    }
-    
-    public static func etherFromMajor(long ether: CLong) -> CryptoValue {
-        return createFromMajorValue(Decimal(ether), assetType: .ethereum)
+    public static func etherFromWei(string wei: String) -> CryptoValue? {
+        guard let weiInBigInt = BigInt(wei) else {
+            return nil
+        }
+        return CryptoValue(currencyType: .ethereum, amount: weiInBigInt)
     }
     
     public static func etherFromMajor(decimal ether: Decimal) -> CryptoValue {
         return createFromMajorValue(ether, assetType: .ethereum)
+    }
+
+    public static func etherFromMajor(string ether: String) -> CryptoValue? {
+        guard let etherInDecimal = Decimal(string: ether) else {
+            return nil
+        }
+        return createFromMajorValue(etherInDecimal, assetType: .ethereum)
     }
 }
 
 // MARK: - Bitcoin Cash
 
 public extension CryptoValue {
-    public static func bitcoinCashFromSatoshis(int satoshis: Int) -> CryptoValue {
-        return CryptoValue(currencyType: .bitcoinCash, amount: BigInt(satoshis))
+    public static func bitcoinCashFromSatoshis(string satoshis: String) -> CryptoValue? {
+        guard let satoshiInBigInt = BigInt(satoshis) else {
+            return nil
+        }
+        return CryptoValue(currencyType: .bitcoinCash, amount: satoshiInBigInt)
     }
-    
-    public static func bitcoinCashFromSatoshis(long satoshis: CLong) -> CryptoValue {
+
+    public static func bitcoinCashFromSatoshis(int satoshis: Int) -> CryptoValue {
         return CryptoValue(currencyType: .bitcoinCash, amount: BigInt(satoshis))
     }
     
@@ -186,11 +192,29 @@ public extension CryptoValue {
     public static func bitcoinCashFromMajor(decimal bitcoinCash: Decimal) -> CryptoValue {
         return createFromMajorValue(bitcoinCash, assetType: .bitcoinCash)
     }
+
+    public static func bitcoinCashFromMajor(string bitcoinCash: String) -> CryptoValue? {
+        guard let bitcoinInDecimal = Decimal(string: bitcoinCash) else {
+            return nil
+        }
+        return createFromMajorValue(bitcoinInDecimal, assetType: .bitcoinCash)
+    }
 }
 
 // MARK: - Stellar
 
 public extension CryptoValue {
+    public static func lumensFromStroops(int stroops: Int) -> CryptoValue {
+        return CryptoValue(currencyType: .stellar, amount: BigInt(stroops))
+    }
+
+    public static func lumensFromStroops(string stroops: String) -> CryptoValue? {
+        guard let stroopsInBigInt = BigInt(stroops) else {
+            return nil
+        }
+        return CryptoValue(currencyType: .stellar, amount: stroopsInBigInt)
+    }
+
     public static func lumensFromMajor(int lumens: Int) -> CryptoValue {
         return createFromMajorValue(Decimal(lumens), assetType: .stellar)
     }
@@ -198,9 +222,12 @@ public extension CryptoValue {
     public static func lumensFromMajor(decimal lumens: Decimal) -> CryptoValue {
         return createFromMajorValue(lumens, assetType: .stellar)
     }
-    
-    public static func lumensFromStroops(int stroops: Int) -> CryptoValue {
-        return CryptoValue(currencyType: .stellar, amount: BigInt(stroops))
+
+    public static func lumensFromMajor(string lumens: String) -> CryptoValue? {
+        guard let lumensInDecimal = Decimal(string: lumens) else {
+            return nil
+        }
+        return createFromMajorValue(lumensInDecimal, assetType: .stellar)
     }
 }
 
@@ -215,25 +242,27 @@ extension BigInt {
 
 extension Decimal {
     func roundTo(places: Int) -> Decimal {
-        let divisor = Double(truncating: pow(10.0, places) as NSNumber)
-        return Decimal(round(Double(truncating: self as NSNumber) * divisor) / divisor)
-    }
-}
+        guard places >= 0 else {
+            return self
+        }
 
-// MARK: NumberFormatter Extension
+        let decimalInString = "\(self)"
+        guard let peroidIndex = decimalInString.firstIndex(of: ".") else {
+            return self
+        }
 
-extension NumberFormatter {
-    fileprivate static func decimalStyleFormatter(
-        withMinfractionDigits minfractionDigits: Int,
-        maxfractionDigits: Int,
-        usesGroupingSeparator: Bool
-        ) -> NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.usesGroupingSeparator = usesGroupingSeparator
-        formatter.minimumFractionDigits = minfractionDigits
-        formatter.maximumFractionDigits = maxfractionDigits
-        formatter.roundingMode = .down
-        return formatter
+        let startIndex = decimalInString.startIndex
+        let maxIndex = decimalInString.endIndex
+
+        if places == 0 {
+            let roundedString = String(decimalInString[startIndex..<peroidIndex])
+            return Decimal(string: roundedString) ?? self
+        }
+
+        guard let endIndex = decimalInString.index(peroidIndex, offsetBy: places+1, limitedBy: maxIndex) else {
+            return self
+        }
+        let roundedString = String(decimalInString[startIndex..<endIndex])
+        return Decimal(string: roundedString) ?? self
     }
 }

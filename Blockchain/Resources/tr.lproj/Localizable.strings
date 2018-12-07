@@ -880,7 +880,7 @@
 "Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Cüzdanınıza erişmeden önce lütfen cüzdanınızın kilidini açmak için kullanacağınız bir pin numarası seçin. Uygulamanın kilidini açmadan sıfırlanamayacağı veya değiştirilemeyeceği için bu pini hatırlamanız önemlidir.";
 "Below trading limit" = "İşlem limitinin altında";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Blockchain'in sunucuları şu anda bakımda. Lütfen daha sonra tekrar deneyiniz";
-"Buy Now for $99" = "Hemen şimdi 99 USD karşılığında satın alın";
+"Buy Now for $99" = "Şimdi satın al";
 "By creating a wallet you agree to Blockchain’s" = "Bir cüzdan oluşturarak Blockchain'in";
 "By hitting \"Begin Now\", you agree to Blockchain’s %@ & %@" = "\"Hemen Başlayın\" a basarsanız, Blockchain'in %1$@ & %2$@ değerini kabul etmiş olursunuz.";
 "Cannot send XLM at this time. Please try again." = "Şu anda XLM gönderilemiyor. Lütfen tekrar deneyin.";

@@ -52,7 +52,7 @@ end
 
 target 'EthereumKit' do
     inhibit_all_warnings!
-    pod 'web3swift', :git => 'https://github.com/bankex/web3swift.git', :commit => '590bd35'
+    pod 'web3swift', :git => 'https://github.com/bankex/web3swift.git', :tag => '2.1.2'
 end
 
 # Post Installation:

@@ -1594,6 +1594,7 @@
 		3A49A8EE2151802000760B8C /* ConversionRatesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversionRatesView.xib; sourceTree = "<group>"; };
 		3A49B2B82130B5610068F443 /* NewOrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOrderTableViewCell.swift; sourceTree = "<group>"; };
 		3A49B2C42130B56C0068F443 /* NewOrderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewOrderTableViewCell.xib; sourceTree = "<group>"; };
+		3A4E482421BB5B56001A799D /* Prototyping.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Prototyping.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		3A4EAB95214080D700081531 /* TextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		3A4EAB96214080D700081531 /* TextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextCell.xib; sourceTree = "<group>"; };
 		3A4EABA32140826800081531 /* PlainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainCell.swift; sourceTree = "<group>"; };
@@ -4370,6 +4371,22 @@
 				3A3D5DCC211C9C6500E6C241 /* PersonalDetailsService.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		3A4E482221BB5B24001A799D /* Prototyping */ = {
+			isa = PBXGroup;
+			children = (
+				3A4E482321BB5B2E001A799D /* Playgrounds */,
+			);
+			path = Prototyping;
+			sourceTree = "<group>";
+		};
+		3A4E482321BB5B2E001A799D /* Playgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				3A4E482421BB5B56001A799D /* Prototyping.playground */,
+			);
+			path = Playgrounds;
 			sourceTree = "<group>";
 		};
 		3A4EABA22140824100081531 /* Plain */ = {
@@ -7377,6 +7394,7 @@
 				9FB3637B14B60128004BEA02 /* Blockchain */,
 				5194359F208E61F3001EF882 /* BlockchainTests */,
 				516594A4204F1A3B00C50E78 /* Config */,
+				3A4E482221BB5B24001A799D /* Prototyping */,
 				3A68655E219A0BBB0009FF29 /* PlatformKit */,
 				3A68656B219A0BBB0009FF29 /* PlatformKitTests */,
 				3A6865AC219A11660009FF29 /* PlatformUIKit */,

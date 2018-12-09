@@ -13,8 +13,8 @@
 #
 #  What It Does
 #  ------------
-#  Running this script will merge all the latest changes from `dev` into the `staging` and `release` branches, create a "version bump"
-#  commit, followed by tagging that commit. These changes are then pushed to the remote `origin` repository which subsequently kicks
+#  Running this script will pull all the latest changes from a release branch, create a "version bump" commit, then tag that commit.
+#  These changes are done for staging and production and are pushed to the remote `origin` repository which subsequently kicks
 #  off workflows defined in CircleCI which ultimately uploads staging and production builds to the app store.
 #
 
@@ -85,7 +85,6 @@ fi
 
 local_branch="dev"
 release_branch="release"
-staging_branch="staging"
 user_branch=$(git branch | grep \* | cut -d ' ' -f2)
 
 printf "#####################################################\n"
@@ -99,11 +98,6 @@ printf "Git tag to use for staging: ${git_tag_staging}\n\n"
 printf "Xcode project build number to use for production (CFBundleVersion): ${project_build_number_prod}\n"
 printf "Git tag to use for staging: ${git_tag_prod}\n\n"
 
-printf "Staging branch: ${staging_branch}\n"
-printf "Release branch: ${release_branch}\n"
-printf "Development branch (will be merged into Staging/Release branch): ${local_branch}\n\n"
-
-
 read -p "‣ Would you like to proceed? [y/N]: " answer
 if printf "$answer" | grep -iq "^n" ; then
   printf '\e[1;31m%-6s\e[m' "Aborted the build process."
@@ -116,34 +110,50 @@ fi
 
 latestTagCommit=$(git show-ref -s $latestTag)
 
-git checkout $staging_branch > /dev/null 2>&1
-git pull origin $staging_branch > /dev/null 2>&1
-git merge $local_branch > /dev/null 2>&1
+printf "Checking out branch: $release_branch...\n"
+git checkout $release_branch > /dev/null 2>&1
+
+printf "Pulling in changes into $release_branch...\n"
+git pull origin $release_branch > /dev/null 2>&1
+
+printf "Creating staging version in Info.plist file...\n"
 agvtool new-marketing-version $project_version_number > /dev/null 2>&1
 agvtool new-version -all $project_build_number_staging > /dev/null 2>&1
 git add Blockchain/Blockchain-Info.plist
 git add BlockchainTests/Info.plist
 git checkout .
+
+printf "Committing staging version bump: ${git_tag_staging}...\n"
 git commit -m "version bump: ${git_tag_staging}" > /dev/null 2>&1
+
+printf "Creating and pushing staging tag...\n"
 git tag -s $git_tag_staging -m "Release ${project_version_number} (staging build)" > /dev/null 2>&1
 git push origin $git_tag_staging > /dev/null 2>&1
-git push origin $staging_branch > /dev/null 2>&1
+git push origin $release_branch > /dev/null 2>&1
 
 #
-printf "Giving staging a 5 minute headstart on building to ensure that it is submitted before production..."
+printf "Giving staging a 5 minute headstart on building to ensure that it is submitted before production.\nPlease do not make any changes in this directory until the script is finished.\n"
 sleep 300
 # Run merge commands for production
 #
 
+printf "Checking out branch: $release_branch...\n"
 git checkout $release_branch > /dev/null 2>&1
+
+printf "Pulling in changes into $release_branch...\n"
 git pull origin $release_branch > /dev/null 2>&1
-git merge $staging_branch > /dev/null 2>&1
+
+printf "Creating production version in Info.plist file...\n"
 agvtool new-marketing-version $project_version_number > /dev/null 2>&1
 agvtool new-version -all $project_build_number_prod > /dev/null 2>&1
 git add Blockchain/Blockchain-Info.plist
 git add BlockchainTests/Info.plist
 git checkout .
+
+printf "Committing production version bump: ${git_tag_prod}...\n"
 git commit -m "version bump: ${git_tag_prod}" > /dev/null 2>&1
+
+printf "Creating and pushing production tag...\n"
 git tag -s $git_tag_prod -m "Release ${project_version_number}" > /dev/null 2>&1
 git push origin $git_tag_prod > /dev/null 2>&1
 git push origin $release_branch > /dev/null 2>&1
@@ -161,6 +171,5 @@ rm Changelog.md
 git checkout $user_branch > /dev/null 2>&1
 
 printf '\n\e[1;32m%-6s\e[m\n' "Script completed successfully 🎉"
-printf '\e[1;32m%-6s\e[m\n' "CircleCI is tracking the branch $staging_branch."
 printf '\e[1;32m%-6s\e[m\n' "CircleCI is tracking the branch $release_branch."
 printf '\e[1;32m%-6s\e[m\n' "Please check Jobs in CircleCI to view the progress of tests, archiving, and uploading the build."

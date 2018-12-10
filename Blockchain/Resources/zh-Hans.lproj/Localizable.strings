@@ -874,7 +874,7 @@
 "Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "在访问您的钱包前，请选择一个 PIN 码用于解锁您的钱包。 请务必记住此 PIN 码，因为如果不先解锁该应用程序，就无法重置该 PIN 码。";
 "Below trading limit" = "低于交易限额";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Blockchain 的服务器目前正在维护中。请稍后再试。";
-"Buy Now for $99" = "现在购买 $99";
+"Buy Now for $99" = "立即购买";
 "By creating a wallet you agree to Blockchain’s" = "创建钱包则表示您同意 Blockchain 的";
 "By hitting \"Begin Now\", you agree to Blockchain’s %@ & %@" = "点击“立即开始”，则表示您同意 Blockchain 的 %1$@ 和 %2$@";
 "Cannot send XLM at this time. Please try again." = "此次 XLM 发送失败。请再试一次。";

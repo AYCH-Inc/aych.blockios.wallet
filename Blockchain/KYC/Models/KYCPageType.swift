@@ -9,8 +9,8 @@
 import Foundation
 
 enum KYCPageType {
-    typealias PhoneNumber = String
-
+    case enterEmail
+    case confirmEmail
     case welcome
     case country
     case states
@@ -29,6 +29,10 @@ extension KYCPageType {
     func nextPage(for user: NabuUser?, country: KYCCountry?) -> KYCPageType? {
         switch self {
         case .welcome:
+            return .enterEmail
+        case .enterEmail:
+            return .confirmEmail
+        case .confirmEmail:
             return .country
         case .country:
             if let country = country, country.states.count != 0 {

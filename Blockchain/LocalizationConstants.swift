@@ -1467,6 +1467,34 @@ struct LocalizationConstants {
             "This email address has already been used to verify an existing wallet.",
             comment: "The error message when a user attempts to start KYC using an existing email address."
         )
+        static let failedToSendVerificationEmail = NSLocalizedString(
+            "Failed to send verification email. Please try again.",
+            comment: "The error message shown when the user tries to verify their email but the server failed to send the verification email."
+        )
+        static let whyDoWeNeedThis = NSLocalizedString(
+            "Why do we need this?",
+            comment: "Header text for an a page in the KYC flow where we justify why a certain piece of information is being collected."
+        )
+        static let enterEmailExplanation = NSLocalizedString(
+            "We need to verify your email address as an added layer of security.",
+            comment: "Text explaning to the user why we are collecting their email address."
+        )
+        static let checkYourInbox = NSLocalizedString(
+            "Check your inbox.",
+            comment: "Header text telling the user to check their mail inbox to verify their email"
+        )
+        static let confirmEmailExplanation = NSLocalizedString(
+            "We just sent you an email with further instructions.",
+            comment: "Text telling the user to check their mail inbox to verify their email."
+        )
+        static let didntGetTheEmail = NSLocalizedString(
+            "Didn't get the email?",
+            comment: "Text asking if the user didn't get the verification email."
+        )
+        static let emailSent = NSLocalizedString(
+            "Email sent!",
+            comment: "Text displayed when the email verification has successfully been sent."
+        )
     }
 
     struct Lockbox {

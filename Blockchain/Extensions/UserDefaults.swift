@@ -21,6 +21,8 @@ extension UserDefaults {
         case simulateSurge = "debug_simulateSurge"
         case simulateZeroTicker = "debug_zeroTicker"
         case createWalletPrefill = "debug_createWalletPrefill"
+        case createWalletEmailPrefill = "debug_createWalletEmailPrefill"
+        case createWalletEmailRandomSuffix = "debug_createWalletEmailRandomSuffix"
         case useHomebrewForExchange = "debug_useHomebrewForExchange"
         case mockExchangeOrderDepositAddress = "debug_mockExchangeOrderDepositAddress"
         case mockExchangeDeposit = "debug_mockExchangeDeposit"

@@ -22,6 +22,7 @@ typedef NS_ENUM(NSInteger, DebugTableViewRow) {
     RowSecurityReminderTimer,
     RowZeroTickerValue,
     RowCreateWalletPrefill,
+    RowCreateWalletCustomEmail,
     RowUseHomebrewForExchange,
     RowMockExchangeOrderDepositAddress,
     RowMockExchangeDeposit,
@@ -245,6 +246,10 @@ typedef enum {
             cell.accessoryView = prefillToggle;
             break;
         }
+        case RowCreateWalletCustomEmail: {
+            cell.textLabel.text = @"Create wallet custom email prefill";
+            break;
+        }
         case RowUseHomebrewForExchange: {
             cell.textLabel.text = @"Use homebrew for exchange";
             UISwitch *prefillToggle = [[UISwitch alloc] init];
@@ -316,6 +321,32 @@ typedef enum {
         }
         case RowMockExchangeOrderDepositAddress: {
             [self mockExchangeOrderDepositAddress];
+            break;
+        }
+        case RowCreateWalletCustomEmail: {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Custom Email Prefill" message:@"Use a custom email for create wallet prefill." preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"Set static email" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                BCSecureTextField *secureTextField = (BCSecureTextField *)[[alert textFields] firstObject];
+                DebugSettings *settings = DebugSettings.sharedInstance;
+                settings.createWalletEmailRandomSuffix = NO;
+                settings.createWalletEmailPrefill = secureTextField.text;
+            }]];
+            [alert addAction:[UIAlertAction actionWithTitle:@"Set email + timestamped suffix" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                BCSecureTextField *secureTextField = (BCSecureTextField *)[[alert textFields] firstObject];
+                DebugSettings *settings = DebugSettings.sharedInstance;
+                settings.createWalletEmailRandomSuffix = YES;
+                settings.createWalletEmailPrefill = secureTextField.text;
+            }]];
+            [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:nil]];
+            [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                textField.keyboardType = UIKeyboardTypeDefault;
+
+                DebugSettings *settings = DebugSettings.sharedInstance;
+                NSString *currentCustomEmail = settings.createWalletEmailPrefill;
+
+                textField.text = currentCustomEmail;
+            }];
+            [self presentViewController:alert animated:YES completion:nil];
             break;
         }
         default:

@@ -22,6 +22,7 @@ struct NabuUser: Decodable {
     let mobile: Mobile?
     let status: KYCAccountStatus
     let state: UserState
+    let tier: KYCTier? // Note: this shouldn't be optional, but keeping as optional for now since this isn't deployed yet
     let tags: Tags?
 
     // MARK: - Decodable
@@ -37,6 +38,7 @@ struct NabuUser: Decodable {
         case identifier = "id"
         case state = "state"
         case tags = "tags"
+        case tier = "tier"
     }
 
     init(
@@ -45,7 +47,8 @@ struct NabuUser: Decodable {
         mobile: Mobile?,
         status: KYCAccountStatus,
         state: UserState,
-        tags: Tags?
+        tags: Tags?,
+        tier: KYCTier?
     ) {
         self.personalDetails = personalDetails
         self.address = address
@@ -53,6 +56,7 @@ struct NabuUser: Decodable {
         self.status = status
         self.state = state
         self.tags = tags
+        self.tier = tier
     }
 
     init(from decoder: Decoder) throws {
@@ -65,6 +69,7 @@ struct NabuUser: Decodable {
         let phoneVerified = try values.decodeIfPresent(Bool.self, forKey: .mobileVerified)
         let statusValue = try values.decode(String.self, forKey: .status)
         let userState = try values.decode(String.self, forKey: .state)
+        let tierRawValue = try values.decode(String.self, forKey: .tier)
         address = try values.decodeIfPresent(UserAddress.self, forKey: .address)
 
         personalDetails = PersonalDetails(
@@ -87,6 +92,7 @@ struct NabuUser: Decodable {
         status = KYCAccountStatus(rawValue: statusValue) ?? .none
         state = UserState(rawValue: userState) ?? .none
         tags = try values.decodeIfPresent(Tags.self, forKey: .tags)
+        tier = KYCTier(rawValue: tierRawValue)
     }
 }
 

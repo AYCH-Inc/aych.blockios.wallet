@@ -25,6 +25,28 @@ class DebugSettings: NSObject {
         }
     }
 
+    @objc var createWalletEmailPrefill: String {
+        get {
+            let prefill = defaults.object(forKey: UserDefaults.DebugKeys.createWalletEmailPrefill.rawValue) as? String
+            guard let unwrappedPrefill = prefill, unwrappedPrefill.count > 0 else {
+                return "test@doesnotexist.com"
+            }
+            return unwrappedPrefill
+        }
+        set {
+            defaults.set(newValue, forKey: UserDefaults.DebugKeys.createWalletEmailPrefill.rawValue)
+        }
+    }
+
+    @objc var createWalletEmailRandomSuffix: Bool {
+        get {
+            return defaults.bool(forKey: UserDefaults.DebugKeys.createWalletEmailRandomSuffix.rawValue)
+        }
+        set {
+            defaults.set(newValue, forKey: UserDefaults.DebugKeys.createWalletEmailRandomSuffix.rawValue)
+        }
+    }
+
     @objc var useHomebrewForExchange: Bool {
         get {
             return defaults.bool(forKey: UserDefaults.DebugKeys.useHomebrewForExchange.rawValue)

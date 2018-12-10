@@ -9,6 +9,8 @@
 import RxSwift
 import UIKit
 import StellarKit
+import PlatformKit
+import PlatformUIKit
 
 @objc class ReceiveXlmViewController: UIViewController {
 
@@ -29,8 +31,9 @@ import StellarKit
             if let xlmAccount = xlmAccount {
                 labelInstructions.text = LocalizationConstants.Receive.tapToCopyThisAddress
                 imageQrCode.isHidden = false
-                let payload = StellarURLPayload.init(address: xlmAccount.publicKey)
-                imageQrCode.image = QRCodeGenerator().createQRImage(from: payload.absoluteString)
+                let payload = StellarURLPayload(address: xlmAccount.publicKey)
+                let metadata = StellarQRMetadata(address: payload.absoluteString, amount: nil)
+                imageQrCode.image = QRCode(metadata: metadata)?.image
                 labelPublicKey.text = xlmAccount.publicKey
                 buttonEnterPassword.isHidden = true
                 buttonRequestPayment.isHidden = false

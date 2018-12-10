@@ -157,6 +157,13 @@
 		3A49B2BA2130B5610068F443 /* NewOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A49B2B82130B5610068F443 /* NewOrderTableViewCell.swift */; };
 		3A49B2C52130B56C0068F443 /* NewOrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A49B2C42130B56C0068F443 /* NewOrderTableViewCell.xib */; };
 		3A49B2C62130B56C0068F443 /* NewOrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A49B2C42130B56C0068F443 /* NewOrderTableViewCell.xib */; };
+		3A4E47F221BAF764001A799D /* QRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4E47F121BAF764001A799D /* QRCode.swift */; };
+		3A4E480421BB2D45001A799D /* CryptoAssetQRMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4E480321BB2D45001A799D /* CryptoAssetQRMetadata.swift */; };
+		3A4E480721BB3057001A799D /* StellarQRMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4E480621BB3057001A799D /* StellarQRMetadata.swift */; };
+		3A4E480921BB31EE001A799D /* SEP7URI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4E480821BB31EE001A799D /* SEP7URI.swift */; };
+		3A4E480D21BB37AF001A799D /* String+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4E480C21BB37AF001A799D /* String+Conveniences.swift */; };
+		3A4E480F21BB39F9001A799D /* StellarQRResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4E480E21BB39F9001A799D /* StellarQRResponse.swift */; };
+		3A4E484E21BEE4CC001A799D /* BIP21URI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4E484D21BEE4CC001A799D /* BIP21URI.swift */; };
 		3A4EAB97214080D700081531 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4EAB95214080D700081531 /* TextCell.swift */; };
 		3A4EAB98214080D700081531 /* TextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A4EAB96214080D700081531 /* TextCell.xib */; };
 		3A4EABA42140826800081531 /* PlainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4EABA32140826800081531 /* PlainCell.swift */; };
@@ -1604,7 +1611,14 @@
 		3A49A8EE2151802000760B8C /* ConversionRatesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversionRatesView.xib; sourceTree = "<group>"; };
 		3A49B2B82130B5610068F443 /* NewOrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOrderTableViewCell.swift; sourceTree = "<group>"; };
 		3A49B2C42130B56C0068F443 /* NewOrderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewOrderTableViewCell.xib; sourceTree = "<group>"; };
+		3A4E47F121BAF764001A799D /* QRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCode.swift; sourceTree = "<group>"; };
+		3A4E480321BB2D45001A799D /* CryptoAssetQRMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoAssetQRMetadata.swift; sourceTree = "<group>"; };
+		3A4E480621BB3057001A799D /* StellarQRMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarQRMetadata.swift; sourceTree = "<group>"; };
+		3A4E480821BB31EE001A799D /* SEP7URI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEP7URI.swift; sourceTree = "<group>"; };
+		3A4E480C21BB37AF001A799D /* String+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Conveniences.swift"; sourceTree = "<group>"; };
+		3A4E480E21BB39F9001A799D /* StellarQRResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarQRResponse.swift; sourceTree = "<group>"; };
 		3A4E482421BB5B56001A799D /* Prototyping.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Prototyping.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		3A4E484D21BEE4CC001A799D /* BIP21URI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIP21URI.swift; sourceTree = "<group>"; };
 		3A4EAB95214080D700081531 /* TextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		3A4EAB96214080D700081531 /* TextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextCell.xib; sourceTree = "<group>"; };
 		3A4EABA32140826800081531 /* PlainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainCell.swift; sourceTree = "<group>"; };
@@ -4389,6 +4403,57 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		3A4E47EC21BAF64B001A799D /* Receive */ = {
+			isa = PBXGroup;
+			children = (
+				3A4E47F021BAF75B001A799D /* QRCode */,
+			);
+			path = Receive;
+			sourceTree = "<group>";
+		};
+		3A4E47F021BAF75B001A799D /* QRCode */ = {
+			isa = PBXGroup;
+			children = (
+				3A4E47F121BAF764001A799D /* QRCode.swift */,
+			);
+			path = QRCode;
+			sourceTree = "<group>";
+		};
+		3A4E47F921BB2D11001A799D /* Receive */ = {
+			isa = PBXGroup;
+			children = (
+				3A4E480321BB2D45001A799D /* CryptoAssetQRMetadata.swift */,
+				3A4E480821BB31EE001A799D /* SEP7URI.swift */,
+				3A4E484D21BEE4CC001A799D /* BIP21URI.swift */,
+			);
+			path = Receive;
+			sourceTree = "<group>";
+		};
+		3A4E480521BB3021001A799D /* Receive */ = {
+			isa = PBXGroup;
+			children = (
+				3A4E480621BB3057001A799D /* StellarQRMetadata.swift */,
+				3A4E480E21BB39F9001A799D /* StellarQRResponse.swift */,
+			);
+			path = Receive;
+			sourceTree = "<group>";
+		};
+		3A4E480A21BB378A001A799D /* General */ = {
+			isa = PBXGroup;
+			children = (
+				3A4E480B21BB379C001A799D /* Extensions */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		3A4E480B21BB379C001A799D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3A4E480C21BB37AF001A799D /* String+Conveniences.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		3A4E482221BB5B24001A799D /* Prototyping */ = {
 			isa = PBXGroup;
 			children = (
@@ -4481,6 +4546,7 @@
 		3A68655E219A0BBB0009FF29 /* PlatformKit */ = {
 			isa = PBXGroup;
 			children = (
+				3A4E480A21BB378A001A799D /* General */,
 				3A68655F219A0BBB0009FF29 /* PlatformKit.h */,
 				3A686560219A0BBB0009FF29 /* Info.plist */,
 				3A6865A1219A0DA00009FF29 /* APIs */,
@@ -4502,6 +4568,7 @@
 		3A68658C219A0CDE0009FF29 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3A4E47F921BB2D11001A799D /* Receive */,
 				3A8473A7219A471900F22FA6 /* Accounts */,
 				3A6A19DB21B895D200D97C74 /* Balance */,
 				AA55B355219DF97700533533 /* Blockchain */,
@@ -4555,6 +4622,7 @@
 				3A6865AE219A11660009FF29 /* Info.plist */,
 				3A6865C0219A12290009FF29 /* PlatformUIKitAssets.xcassets */,
 				3A6865BB219A11A70009FF29 /* Foundation */,
+				3A4E47EC21BAF64B001A799D /* Receive */,
 				3A6865C2219A12530009FF29 /* Views */,
 			);
 			path = PlatformUIKit;
@@ -4682,6 +4750,7 @@
 		3A686614219A2DA60009FF29 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3A4E480521BB3021001A799D /* Receive */,
 				3AADB30E21B08B9900FD2974 /* General */,
 				3A8473CC219B6D9F00F22FA6 /* Accounts */,
 				3A686615219A2DAB0009FF29 /* Transactions */,
@@ -9749,8 +9818,10 @@
 				3A8473C6219B5D2D00F22FA6 /* KeyPairDeriverAPI.swift in Sources */,
 				3A6A1A0421B89BDB00D97C74 /* CryptoCurrency.swift in Sources */,
 				3A8473C6219B5D2D00F22FA6 /* KeyPairDeriverAPI.swift in Sources */,
+				3A4E484E21BEE4CC001A799D /* BIP21URI.swift in Sources */,
 				3AADB31C21B0AA4400FD2974 /* SingleAddressAssetAccount.swift in Sources */,
 				AA55B34A219DF84500533533 /* WalletSettingsAPI.swift in Sources */,
+				3A4E480921BB31EE001A799D /* SEP7URI.swift in Sources */,
 				3A847401219CAF2B00F22FA6 /* AccountValidationAPI.swift in Sources */,
 				3A9B285421A4CD2200DB46C7 /* KeyPairProviderAPI.swift in Sources */,
 				AA55B359219DFAF800533533 /* WalletSettings.swift in Sources */,
@@ -9762,9 +9833,11 @@
 				3A68659F219A0D540009FF29 /* HistoricalTransaction.swift in Sources */,
 				3A6A1A0021B89BDB00D97C74 /* Money.swift in Sources */,
 				3A68659C219A0D2E0009FF29 /* Tokenized.swift in Sources */,
+				3A4E480421BB2D45001A799D /* CryptoAssetQRMetadata.swift in Sources */,
 				3AADB30521B080FD00FD2974 /* AssetAccountDetailsAPI.swift in Sources */,
 				AA8A3741219E2F0C007AF5E1 /* AuthenticationTwoFactorType.swift in Sources */,
 				3A8473CA219B60FB00F22FA6 /* WalletAccount.swift in Sources */,
+				3A4E480D21BB37AF001A799D /* String+Conveniences.swift in Sources */,
 				3AADB2ED21B0703B00FD2974 /* AssetAccountDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -9793,6 +9866,7 @@
 				3A6865D0219A140A0009FF29 /* Font.swift in Sources */,
 				3A8473BB219B369E00F22FA6 /* TransactionDetail.swift in Sources */,
 				3A6865D2219A143A0009FF29 /* UIColor+Conveniences.swift in Sources */,
+				3A4E47F221BAF764001A799D /* QRCode.swift in Sources */,
 				3A6865C9219A12B90009FF29 /* TransactionDetailCell.swift in Sources */,
 				3A6865D5219A1A510009FF29 /* UIDevice+Conveniences.swift in Sources */,
 				3A6865CB219A12DC0009FF29 /* NSAttributedString+Conveniences.swift in Sources */,
@@ -9804,10 +9878,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A686613219A2D900009FF29 /* StellarConfiguration.swift in Sources */,
+				3A4E480F21BB39F9001A799D /* StellarQRResponse.swift in Sources */,
 				3AADB32321B0B36200FD2974 /* StellarAssetAddress.swift in Sources */,
 				3A8473DD219B795000F22FA6 /* StellarLedgerAPI.swift in Sources */,
 				3A686617219A2DBB0009FF29 /* StellarOperation.swift in Sources */,
 				3A8473D5219B6FF700F22FA6 /* StellarKeyPairDeriver.swift in Sources */,
+				3A4E480721BB3057001A799D /* StellarQRMetadata.swift in Sources */,
 				3A686619219A2DEE0009FF29 /* StellarServiceError.swift in Sources */,
 				3A8473DF219B798800F22FA6 /* StellarLedger.swift in Sources */,
 				3AADB30D21B08B2D00FD2974 /* StellarAssetAccountDetails.swift in Sources */,

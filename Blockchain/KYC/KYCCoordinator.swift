@@ -187,7 +187,8 @@ protocol KYCCoordinatorDelegate: class {
         switch payload {
         case .countrySelected(let country):
             self.country = country
-        case .phoneNumberUpdated:
+        case .phoneNumberUpdated,
+             .emailPendingVerification:
             // Not handled here
             return
         }
@@ -233,6 +234,8 @@ protocol KYCCoordinatorDelegate: class {
     private func handlePageWillAppear(for type: KYCPageType) {
         switch type {
         case .welcome,
+             .enterEmail,
+             .confirmEmail,
              .country,
              .states,
              .accountStatus,

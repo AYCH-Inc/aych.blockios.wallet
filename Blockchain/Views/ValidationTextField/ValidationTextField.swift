@@ -140,6 +140,15 @@ class ValidationTextField: NibBasedView {
         }
     }
 
+    var isEnabled: Bool {
+        get {
+            return textField.isEnabled
+        }
+        set {
+            textField.isEnabled = newValue
+        }
+    }
+
     /// This closure is called when the user taps `next`
     /// or `done` etc. and the `textField` resigns.
     var returnTappedBlock: (() -> Void)?

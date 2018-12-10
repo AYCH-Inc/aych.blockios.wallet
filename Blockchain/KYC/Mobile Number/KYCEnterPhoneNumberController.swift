@@ -63,7 +63,6 @@ final class KYCEnterPhoneNumberController: KYCBaseViewController, BottomButtonCo
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TICKET: IOS-1141 display correct % in the progress view
         validationTextFieldMobileNumber.keyboardType = .numberPad
         validationTextFieldMobileNumber.contentType = .telephoneNumber
         validationTextFieldMobileNumber.textReplacementBlock = { [unowned self] in

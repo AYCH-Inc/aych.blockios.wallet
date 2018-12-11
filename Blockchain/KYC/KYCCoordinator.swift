@@ -47,6 +47,8 @@ protocol KYCCoordinatorDelegate: class {
 
     private(set) var country: KYCCountry?
 
+    private(set) var tier: KYCTier!
+
     private weak var rootViewController: UIViewController?
 
     fileprivate var navController: KYCOnboardingNavigationController!
@@ -72,6 +74,7 @@ protocol KYCCoordinatorDelegate: class {
     }
 
     func start(from viewController: UIViewController, tier: KYCTier = .tier1) {
+        self.tier = tier
         rootViewController = viewController
         LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
         let disposable = BlockchainDataRepository.shared.fetchNabuUser()
@@ -108,7 +111,7 @@ protocol KYCCoordinatorDelegate: class {
             handleFailurePage(for: error)
         case .nextPageFromPageType(let type, let payload):
             handlePayloadFromPageType(type, payload)
-            guard let nextPage = type.nextPage(for: self.user, country: self.country) else { return }
+            guard let nextPage = type.nextPage(forTier: tier, user: self.user, country: self.country) else { return }
             let controller = pageFactory.createFrom(
                 pageType: nextPage,
                 in: self,
@@ -176,7 +179,7 @@ protocol KYCCoordinatorDelegate: class {
         let endPage = pageTypeForUser()
         var currentPage = startingPage
         while currentPage != endPage {
-            guard let nextPage = currentPage.nextPage(for: user, country: country) else { return }
+            guard let nextPage = currentPage.nextPage(forTier: tier, user: user, country: country) else { return }
 
             currentPage = nextPage
 
@@ -282,80 +285,5 @@ protocol KYCCoordinatorDelegate: class {
         navController.modalTransitionStyle = .coverVertical
         presentingViewController.present(navController, animated: true)
         return navController
-    }
-}
-
-// MARK: KYCPageType Extensions
-
-extension KYCPageType {
-    func startingPage(forTierx tier: KYCTier) -> KYCPageType {
-        switch tier {
-        case .tier1:
-            return .enterEmail
-        case .tier2:
-            return .enterPhone
-        }
-    }
-
-    func nextPage(forTier tier: KYCTier, user: NabuUser?, country: KYCCountry?) -> KYCPageType? {
-        switch tier {
-        case .tier1:
-            return nextPageTier1(user: user, country: country)
-        case .tier2:
-            return nextPageTier2(user: user, country: country)
-        }
-    }
-
-    private func nextPageTier1(user: NabuUser?, country: KYCCountry?) -> KYCPageType? {
-        switch self {
-        case .enterEmail:
-            return .confirmEmail
-        case .confirmEmail:
-            return .country
-        case .country:
-            if let country = country, country.states.count != 0 {
-                return .states
-            }
-            return .profile
-        case .states:
-            return .profile
-        case .profile:
-            return .address
-        case .address:
-            // END
-            return nil
-        case .welcome,
-             .enterPhone,
-             .confirmPhone,
-             .verifyIdentity,
-             .applicationComplete,
-             .accountStatus:
-            // All other pages don't have a next page for tier 1
-            return nil
-        }
-    }
-
-    private func nextPageTier2(user: NabuUser?, country: KYCCountry?) -> KYCPageType? {
-        switch self {
-        case .enterPhone:
-            return .confirmPhone
-        case .confirmPhone:
-            return .verifyIdentity
-        case .verifyIdentity:
-            return .applicationComplete
-        case .applicationComplete:
-            // End
-            return nil
-        case .welcome,
-             .enterEmail,
-             .confirmEmail,
-             .country,
-             .states,
-             .profile,
-             .address,
-             .accountStatus:
-            // All other pages don't have a next page for tier 2
-            return nil
-        }
     }
 }

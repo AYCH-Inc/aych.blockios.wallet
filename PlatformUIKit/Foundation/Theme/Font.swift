@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Font {
+public struct Font {
     
     // MARK: Private
     
@@ -17,18 +17,18 @@ struct Font {
     
     // MARK: Init
     
-    init(_ type: FontType, size: FontSize) {
+    public init(_ type: FontType, size: FontSize) {
         self.type = type
         self.size = size
     }
     
-    enum FontType {
+    public enum FontType {
         case branded(FontName)
         case custom(String)
         case system
     }
     
-    enum FontSize {
+    public enum FontSize {
         case standard(StandardSize)
         case custom(Double)
         var value: Double {
@@ -41,11 +41,12 @@ struct Font {
         }
     }
     
-    enum FontName: String {
+    public enum FontName: String {
         case montserratRegular = "Montserrat-Regular"
         case montserratSemiBold = "Montserrat-SemiBold"
         case montserratLight = "Montserrat-Light"
         case montserratMedium = "Montserrat-Medium"
+        case montserratBold = "Montserrat-Bold"
         case montserratExtraLight = "Montserrat-ExtraLight"
         case gillSans = "GillSans"
         case gillSansLight = "GillSans-Light"
@@ -53,7 +54,7 @@ struct Font {
         case helveticaNueueMedium = "HelveticaNeue-Medium"
     }
     
-    enum StandardSize {
+    public enum StandardSize {
         case small(Level)
         case medium(Level)
         case large(Level)
@@ -62,7 +63,7 @@ struct Font {
         /// `Level` goes from high to low in terms of
         /// font sizes. In other words `h1` should be a larger
         /// font size than `h2`.
-        enum Level {
+        public enum Level {
             case h1
             case h2
             case h3
@@ -120,7 +121,7 @@ extension Font.StandardSize {
 }
 
 extension Font {
-    var result: UIFont {
+    public var result: UIFont {
         switch type {
         case .custom(let fontName):
             guard let font = UIFont(name: fontName, size: CGFloat(size.value)) else {

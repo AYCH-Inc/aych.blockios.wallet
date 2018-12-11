@@ -962,6 +962,7 @@
 		AADF6B0221BCB09C00F8CA43 /* KYCConfirmEmailController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AADF6B0121BCB09C00F8CA43 /* KYCConfirmEmailController.storyboard */; };
 		AADF6B0721BDE34800F8CA43 /* KYCTier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF6B0621BDE34800F8CA43 /* KYCTier.swift */; };
 		AADF6B0821BDE34800F8CA43 /* KYCTier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF6B0621BDE34800F8CA43 /* KYCTier.swift */; };
+		AADF6B2C21BF3AEC00F8CA43 /* KYCPageTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF6B2B21BF3AEC00F8CA43 /* KYCPageTypeTests.swift */; };
 		AAE5D19721A3C18200D4A77A /* WalletActionEventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE5D19621A3C18200D4A77A /* WalletActionEventBus.swift */; };
 		AAE5D19821A3C18200D4A77A /* WalletActionEventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE5D19621A3C18200D4A77A /* WalletActionEventBus.swift */; };
 		AAE5D1A421A3C4FE00D4A77A /* WalletActionEventBusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE5D1A321A3C4FE00D4A77A /* WalletActionEventBusTests.swift */; };
@@ -3772,6 +3773,7 @@
 		AADB027D20C0BACA000FFFEC /* WalletCryptoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCryptoService.swift; sourceTree = "<group>"; };
 		AADF6B0121BCB09C00F8CA43 /* KYCConfirmEmailController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = KYCConfirmEmailController.storyboard; sourceTree = "<group>"; };
 		AADF6B0621BDE34800F8CA43 /* KYCTier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCTier.swift; sourceTree = "<group>"; };
+		AADF6B2B21BF3AEC00F8CA43 /* KYCPageTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCPageTypeTests.swift; sourceTree = "<group>"; };
 		AAE5D19621A3C18200D4A77A /* WalletActionEventBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionEventBus.swift; sourceTree = "<group>"; };
 		AAE5D1A321A3C4FE00D4A77A /* WalletActionEventBusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionEventBusTests.swift; sourceTree = "<group>"; };
 		AAE5D1A521A3C52300D4A77A /* WalletActionSubscriberTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionSubscriberTests.swift; sourceTree = "<group>"; };
@@ -5273,6 +5275,7 @@
 				AA7133BF21222A7300CB2AA9 /* KYCCountrySelectionPresenterTests.swift */,
 				AA7133B7212221D400CB2AA9 /* KYCVerifyPhoneNumberPresenterTests.swift */,
 				AA74835421111849008F2768 /* Mock */,
+				AADF6B2121BF3AD800F8CA43 /* Models */,
 				AA54E4F8216D5C51005061F9 /* StateSelection */,
 			);
 			path = KYC;
@@ -8494,6 +8497,14 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		AADF6B2121BF3AD800F8CA43 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AADF6B2B21BF3AEC00F8CA43 /* KYCPageTypeTests.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		AAE5D1A221A3C4DC00D4A77A /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
@@ -10124,6 +10135,7 @@
 				AAA6648A21234250009C1C64 /* LocationUpdateAPI.swift in Sources */,
 				AAE94DCA20C25124005A3595 /* WalletServiceTests.swift in Sources */,
 				AA69118520D0967300DDB541 /* NetworkError.swift in Sources */,
+				AADF6B2C21BF3AEC00F8CA43 /* KYCPageTypeTests.swift in Sources */,
 				AAECF767217E8853008B8832 /* PriceServiceClient.swift in Sources */,
 				3AAEF95E2141CEE9005852D1 /* ExchangeDetailHeaderView.swift in Sources */,
 				AAECF76B217E89B8008B8832 /* PriceInFiat.swift in Sources */,

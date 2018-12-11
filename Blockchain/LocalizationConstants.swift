@@ -1495,6 +1495,34 @@ struct LocalizationConstants {
             "Email sent!",
             comment: "Text displayed when the email verification has successfully been sent."
         )
+        static let freeCrypto = NSLocalizedString(
+            "Get Free Crypto",
+            comment: "Headline displayed on a KYC Tier 2 Cell"
+        )
+        static let tierOneVerification = NSLocalizedString(
+            "Tier 1 Verification",
+            comment: "Tier 1 Verification"
+        )
+        static let tierTwoVerification = NSLocalizedString(
+            "Tier 2 Verification",
+            comment: "Tier 2 Verification"
+        )
+        static let annualSwapLimit = NSLocalizedString(
+            "Annual Swap Limit",
+            comment: "Annual Swap Limit"
+        )
+        static let dailySwapLimit = NSLocalizedString(
+            "Daily Swap Limit",
+            comment: "Daily Swap Limit"
+        )
+        static let takesThreeMinutes = NSLocalizedString(
+            "Takes 3 min",
+            comment: "Duration for Tier 1 application"
+        )
+        static let takesTenMinutes = NSLocalizedString(
+            "Takes 10 min",
+            comment: "Duration for Tier 2 application"
+        )
     }
 
     struct Lockbox {

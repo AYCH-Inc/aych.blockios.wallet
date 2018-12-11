@@ -354,6 +354,11 @@
 		3ADFE700214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADFE6FE214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift */; };
 		3AE5419B217A677A001DDE02 /* StellarTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE5419A217A677A001DDE02 /* StellarTransaction.swift */; };
 		3AE5419C217A677A001DDE02 /* StellarTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE5419A217A677A001DDE02 /* StellarTransaction.swift */; };
+		3AE74B3121C0088500246A9C /* KYCCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3021C0088400246A9C /* KYCCell.swift */; };
+		3AE74B3321C00B2600246A9C /* KYCCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3221C00B2600246A9C /* KYCCellModel.swift */; };
+		3AE74B3521C00B6600246A9C /* KYCTierCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3421C00B6600246A9C /* KYCTierCell.swift */; };
+		3AE74B3821C01E8700246A9C /* KYCTierCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AE74B3721C01E8700246A9C /* KYCTierCell.xib */; };
+		3AE74B3C21C0217000246A9C /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3B21C0217000246A9C /* GradientView.swift */; };
 		3AE92BDB2110DB3C008D7BDC /* KeyboardPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */; };
 		3AE92BDD2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */; };
 		3AE92BDE2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */; };
@@ -1790,6 +1795,11 @@
 		3ADFE6FB214AE17600E7E2D5 /* ExchangeInputsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeInputsService.swift; sourceTree = "<group>"; };
 		3ADFE6FE214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeStyleTemplate.swift; sourceTree = "<group>"; };
 		3AE5419A217A677A001DDE02 /* StellarTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTransaction.swift; sourceTree = "<group>"; };
+		3AE74B3021C0088400246A9C /* KYCCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCCell.swift; sourceTree = "<group>"; };
+		3AE74B3221C00B2600246A9C /* KYCCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCCellModel.swift; sourceTree = "<group>"; };
+		3AE74B3421C00B6600246A9C /* KYCTierCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCTierCell.swift; sourceTree = "<group>"; };
+		3AE74B3721C01E8700246A9C /* KYCTierCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KYCTierCell.xib; sourceTree = "<group>"; };
+		3AE74B3B21C0217000246A9C /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPayload.swift; sourceTree = "<group>"; };
 		3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Conveniences.swift"; sourceTree = "<group>"; };
 		3AEF9E8B21091B71006B1CF9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -5114,6 +5124,32 @@
 			path = PresentationUpdate;
 			sourceTree = "<group>";
 		};
+		3AE74B2621C007DF00246A9C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				3AE74B3621C01E7300246A9C /* KYCTierCell */,
+				3AE74B3021C0088400246A9C /* KYCCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		3AE74B3621C01E7300246A9C /* KYCTierCell */ = {
+			isa = PBXGroup;
+			children = (
+				3AE74B3421C00B6600246A9C /* KYCTierCell.swift */,
+				3AE74B3721C01E8700246A9C /* KYCTierCell.xib */,
+			);
+			path = KYCTierCell;
+			sourceTree = "<group>";
+		};
+		3AE74B3A21C0216400246A9C /* General */ = {
+			isa = PBXGroup;
+			children = (
+				3AE74B3B21C0217000246A9C /* GradientView.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
 		3AE92BBF2110DAF1008D7BDC /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -5483,6 +5519,7 @@
 			children = (
 				AA4770B6211BA984006356B1 /* KYCAccountStatus.swift */,
 				602B9CBB2118E15200BD3D60 /* KYCCountry.swift */,
+				3AE74B3221C00B2600246A9C /* KYCCellModel.swift */,
 				AA46ECB0219A14310077B351 /* KYCDocumentType.swift */,
 				AA126CDE212C9735005886A3 /* KYCPageError.swift */,
 				3AFD18AE21221D95007145EA /* KYCPageModel.swift */,
@@ -5565,6 +5602,7 @@
 		602B9CD32118E15200BD3D60 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3AE74B2621C007DF00246A9C /* Cells */,
 				3A8B2271211DFDFC0091E706 /* Primary Button */,
 				AA477083211B73D1006356B1 /* BottomButtonContainerView.swift */,
 				3A3D5D8A211B44BD00E6C241 /* ProgressableView.swift */,
@@ -8823,6 +8861,7 @@
 		C9D4B2B2193E032200EDA9EA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3AE74B3A21C0216400246A9C /* General */,
 				3A3C7D73218126E00067F442 /* ActionableLabel */,
 				3AFB65E3215585B500EBFF30 /* Buttons */,
 				C70576B1212CFFFC0027C6AA /* Nibable.swift */,
@@ -9659,6 +9698,7 @@
 				C9BE91841945D8F600FD516D /* PEKeyboard-2-done.png in Resources */,
 				5138373A21025AD100767B2E /* beep.wav in Resources */,
 				AA54277C20D88DD900D5FEEE /* SwipeToReceiveAddressView.xib in Resources */,
+				3AE74B3821C01E8700246A9C /* KYCTierCell.xib in Resources */,
 				9F1831F0151744FC00FB3D52 /* ReceiveCell.xib in Resources */,
 				C78238AF2131F0CD008FCCAD /* ExchangeCreateViewController.storyboard in Resources */,
 				ECD244EE19A8AC45004B1F40 /* PEKeyboard-3-next.png in Resources */,
@@ -10565,6 +10605,7 @@
 				23444F8D1DCD219E00573C8C /* BTCData.m in Sources */,
 				60AEA56921125AB50053A753 /* SettingsCell.swift in Sources */,
 				C7442E371FBA448200695E4C /* ExchangeTrade.m in Sources */,
+				3AE74B3321C00B2600246A9C /* KYCCellModel.swift in Sources */,
 				AAE9113120A51C900093A431 /* ReminderType.swift in Sources */,
 				3AC9755A210FBD10006A9263 /* NSAttributedString+Conveniences.swift in Sources */,
 				3A1552EA2136EA8D00683CEB /* TradeExecutionService.swift in Sources */,
@@ -10599,6 +10640,7 @@
 				3A3D5DD0211CA2CD00E6C241 /* PersonalDetailsInterface.swift in Sources */,
 				AAFA97B5211511D000D19ED3 /* Settings+Helpers.swift in Sources */,
 				606399F62110FC2D005B6DF5 /* SRError.m in Sources */,
+				3AE74B3521C00B6600246A9C /* KYCTierCell.swift in Sources */,
 				606399F42110FC2D005B6DF5 /* SRHash.m in Sources */,
 				C7387EB22181138F005D35DA /* AmountTextFieldDelegate.swift in Sources */,
 				51C9EBB620DBE4A700AB521D /* UIView+SafeAreaFrame.swift in Sources */,
@@ -10722,6 +10764,7 @@
 				3AB4D910212FA61E004F0160 /* ExchangeListInteractor.swift in Sources */,
 				60639A022110FC2D005B6DF5 /* NSURLRequest+SRWebSocket.m in Sources */,
 				AA1E522F2097CC010099BD10 /* WalletAuthDelegate.swift in Sources */,
+				3AE74B3121C0088500246A9C /* KYCCell.swift in Sources */,
 				C74E866120B3272B00F7263D /* TransferAllCoordinator.swift in Sources */,
 				60AEA56721125AB00053A753 /* SettingsProtocols.swift in Sources */,
 				3AB4D902212F4A0E004F0160 /* ExchangeListContracts.swift in Sources */,
@@ -11075,6 +11118,7 @@
 				3A1552ED2136EAF000683CEB /* TradeLimits.swift in Sources */,
 				3A390748217E52AB00D2DA01 /* StellarLedgerService.swift in Sources */,
 				3A4EABA42140826800081531 /* PlainCell.swift in Sources */,
+				3AE74B3C21C0217000246A9C /* GradientView.swift in Sources */,
 				AABB74C820D44B0600C0F7C5 /* AboutUsViewController.swift in Sources */,
 				606399F82110FC2D005B6DF5 /* SRRandom.m in Sources */,
 				606399E62110FC2D005B6DF5 /* SRRunLoopThread.m in Sources */,

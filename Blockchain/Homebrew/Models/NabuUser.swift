@@ -69,7 +69,7 @@ struct NabuUser: Decodable {
         let phoneVerified = try values.decodeIfPresent(Bool.self, forKey: .mobileVerified)
         let statusValue = try values.decode(String.self, forKey: .status)
         let userState = try values.decode(String.self, forKey: .state)
-        let tierRawValue = try values.decode(String.self, forKey: .tier)
+        let tierRawValue = try values.decode(Int.self, forKey: .tier)
         address = try values.decodeIfPresent(UserAddress.self, forKey: .address)
 
         personalDetails = PersonalDetails(

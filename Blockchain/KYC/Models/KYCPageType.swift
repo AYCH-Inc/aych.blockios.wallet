@@ -27,7 +27,8 @@ extension KYCPageType {
 
     static func startingPage(forUser user: NabuUser, tier: KYCTier) -> KYCPageType {
         switch tier {
-        case .tier1:
+        case .tier0,
+             .tier1:
             // TODO: check if email is already verified
             return .enterEmail
         case .tier2:
@@ -41,6 +42,8 @@ extension KYCPageType {
 
     func nextPage(forTier tier: KYCTier, user: NabuUser?, country: KYCCountry?) -> KYCPageType? {
         switch tier {
+        case .tier0:
+            return nextPageTier1(user: user, country: country)
         case .tier1:
             return nextPageTier1(user: user, country: country)
         case .tier2:

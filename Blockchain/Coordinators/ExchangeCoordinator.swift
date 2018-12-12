@@ -67,7 +67,7 @@ struct ExchangeServices: ExchangeDependencies {
     private var exchangeListViewController: ExchangeListViewController?
 
     // MARK: - Navigation
-    private var navigationController: BCNavigationController?
+    private var navigationController: ExchangeNavigationController?
     private var exchangeViewController: PartnerExchangeListViewController?
     private var rootViewController: UIViewController?
 
@@ -158,9 +158,9 @@ struct ExchangeServices: ExchangeDependencies {
                 return
             }
             let listViewController = ExchangeListViewController.make(with: ExchangeServices(), coordinator: self)
-            navigationController = BCNavigationController(
+            navigationController = ExchangeNavigationController(
                 rootViewController: listViewController,
-                title: LocalizationConstants.Exchange.navigationTitle
+                title: LocalizationConstants.Swap.swap
             )
             viewController.present(navigationController!, animated: true)
         case .shapeshift:
@@ -169,9 +169,9 @@ struct ExchangeServices: ExchangeDependencies {
                 return
             }
             exchangeViewController = PartnerExchangeListViewController.create(withCountryCode: country?.code)
-            let partnerNavigationController = BCNavigationController(
+            let partnerNavigationController = ExchangeNavigationController(
                 rootViewController: exchangeViewController,
-                title: LocalizationConstants.Exchange.navigationTitle
+                title: LocalizationConstants.Swap.swap
             )
             viewController.present(partnerNavigationController, animated: true)
         }
@@ -186,7 +186,7 @@ struct ExchangeServices: ExchangeDependencies {
                     Logger.shared.error("View controller to present on is nil")
                     return
                 }
-                navigationController = BCNavigationController(
+                navigationController = ExchangeNavigationController(
                     rootViewController: exchangeCreateViewController,
                     title: LocalizationConstants.Exchange.navigationTitle
                 )

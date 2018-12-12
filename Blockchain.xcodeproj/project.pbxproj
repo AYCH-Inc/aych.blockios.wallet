@@ -1152,6 +1152,10 @@
 		C777333D217E224500899930 /* TransactionsXlmInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777333B217E224500899930 /* TransactionsXlmInteractor.swift */; };
 		C777333F217E233C00899930 /* TransactionsXlmDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777333E217E233C00899930 /* TransactionsXlmDataProvider.swift */; };
 		C7773340217E233C00899930 /* TransactionsXlmDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777333E217E233C00899930 /* TransactionsXlmDataProvider.swift */; };
+		C7797DBF21C037070088ABA5 /* BCActionNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7797DBE21C037070088ABA5 /* BCActionNavigationController.swift */; };
+		C7797DC021C037070088ABA5 /* BCActionNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7797DBE21C037070088ABA5 /* BCActionNavigationController.swift */; };
+		C7797DE021C047AE0088ABA5 /* ExchangeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7797DDF21C047AE0088ABA5 /* ExchangeNavigationController.swift */; };
+		C7797DE121C047AE0088ABA5 /* ExchangeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7797DDF21C047AE0088ABA5 /* ExchangeNavigationController.swift */; };
 		C77C19B820C580E5005CB600 /* WalletSecondPasswordDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77C19B720C580E5005CB600 /* WalletSecondPasswordDelegate.swift */; };
 		C77C19B920C580E5005CB600 /* WalletSecondPasswordDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77C19B720C580E5005CB600 /* WalletSecondPasswordDelegate.swift */; };
 		C780A446202228A400E49274 /* BCPriceChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = C780A445202228A400E49274 /* BCPriceChartView.m */; };
@@ -3939,6 +3943,8 @@
 		C777332F217E21F200899930 /* TransactionsXlmPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsXlmPresenter.swift; sourceTree = "<group>"; };
 		C777333B217E224500899930 /* TransactionsXlmInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsXlmInteractor.swift; sourceTree = "<group>"; };
 		C777333E217E233C00899930 /* TransactionsXlmDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsXlmDataProvider.swift; sourceTree = "<group>"; };
+		C7797DBE21C037070088ABA5 /* BCActionNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCActionNavigationController.swift; sourceTree = "<group>"; };
+		C7797DDF21C047AE0088ABA5 /* ExchangeNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeNavigationController.swift; sourceTree = "<group>"; };
 		C77C19B720C580E5005CB600 /* WalletSecondPasswordDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSecondPasswordDelegate.swift; sourceTree = "<group>"; };
 		C780A444202228A400E49274 /* BCPriceChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BCPriceChartView.h; sourceTree = "<group>"; };
 		C780A445202228A400E49274 /* BCPriceChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BCPriceChartView.m; sourceTree = "<group>"; };
@@ -4289,6 +4295,7 @@
 		3A26AF7721277E6E003A8A08 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C7797DDF21C047AE0088ABA5 /* ExchangeNavigationController.swift */,
 				3A26D4EF2140224A00D79BDD /* ExchangeDetailViewController.swift */,
 				3A26D4FB2140227100D79BDD /* ExchangeDetailViewController.storyboard */,
 				3A26AF98212B36F1003A8A08 /* ExchangeCreateViewController.swift */,
@@ -7809,6 +7816,7 @@
 				235BD5651C58216000969B31 /* BCModalViewController.m */,
 				23F8DE511DAEB11C001899AE /* BCNavigationController.h */,
 				23F8DE521DAEB11C001899AE /* BCNavigationController.m */,
+				C7797DBE21C037070088ABA5 /* BCActionNavigationController.swift */,
 				C74E21CB2028A61F00A9FBB1 /* BCPriceChartContainerViewController.h */,
 				C74E21CC2028A61F00A9FBB1 /* BCPriceChartContainerViewController.m */,
 				C790E11F1E5345160063D141 /* BCVerifyEmailViewController.h */,
@@ -10216,6 +10224,7 @@
 				C7C0DC22212F676E000EFE71 /* ExchangeCoordinator.swift in Sources */,
 				C75757462176501400CE7814 /* AssetTypeCell.swift in Sources */,
 				51B7682221065D52003CCD46 /* Environment.swift in Sources */,
+				C7797DE121C047AE0088ABA5 /* ExchangeNavigationController.swift in Sources */,
 				3AE5419C217A677A001DDE02 /* StellarTransaction.swift in Sources */,
 				AACE31D92092A99B00B7B806 /* Reachability.swift in Sources */,
 				AACE31DE2092A99B00B7B806 /* BlockchainAPI.swift in Sources */,
@@ -10340,6 +10349,7 @@
 				51135702209CEEB900056D65 /* PushNotificationAuthPayload.swift in Sources */,
 				C76143A6211A80380041411E /* SocketMessage.swift in Sources */,
 				AA63F87820A39DCF002B719B /* AppFeature.swift in Sources */,
+				C7797DC021C037070088ABA5 /* BCActionNavigationController.swift in Sources */,
 				C77217D020AE44B20087836A /* WalletAccountInfoAndExchangeRatesDelegate.swift in Sources */,
 				AACE31C82092A99B00B7B806 /* ModalPresenter.swift in Sources */,
 				C76D730520B2052000040B57 /* WalletPartnerExchangeDelegate.swift in Sources */,
@@ -10937,6 +10947,7 @@
 				C74A0DE52174DFA000402A2F /* StellarAddress.swift in Sources */,
 				AA63F87720A39DCF002B719B /* AppFeature.swift in Sources */,
 				3A91F7962137067400CDC3FD /* Order.swift in Sources */,
+				C7797DE021C047AE0088ABA5 /* ExchangeNavigationController.swift in Sources */,
 				C7F041961E3BD4A6004E8B4A /* BuyBitcoinViewController.m in Sources */,
 				AA54E492216D28CE005061F9 /* KYCStateSelectionController.swift in Sources */,
 				C7448A9C2034DDF80041947E /* AssetSelectorView.m in Sources */,
@@ -10975,6 +10986,7 @@
 				C723F3461F61D35300A858A9 /* TransactionDetailViewModel.m in Sources */,
 				C79672841FDEF4CC00F07C69 /* NSDateFormatter+VerboseString.m in Sources */,
 				AA126DA2212E1CE2005886A3 /* OnfidoCreateApplicantRequest.swift in Sources */,
+				C7797DBF21C037070088ABA5 /* BCActionNavigationController.swift in Sources */,
 				AAECF766217E8853008B8832 /* PriceServiceClient.swift in Sources */,
 				C769B2DA1FC4ABA9009632B6 /* ContinueButtonInputAccessoryView.m in Sources */,
 				51D17A9920A33A700071E7E0 /* PrivateKeyReader.swift in Sources */,

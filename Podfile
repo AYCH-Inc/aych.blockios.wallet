@@ -50,11 +50,6 @@ target 'PlatformKit' do
     end
 end
 
-target 'EthereumKit' do
-    inhibit_all_warnings!
-    pod 'web3swift', :git => 'https://github.com/bankex/web3swift.git', :tag => '2.1.2'
-end
-
 # Post Installation:
 # - Disable code signing for pods.
 post_install do |installer|

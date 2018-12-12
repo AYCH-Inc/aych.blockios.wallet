@@ -59,7 +59,7 @@ class ExchangeListViewController: UIViewController {
         super.viewWillAppear(animated)
         
         if let controller = navigationController as? BCNavigationController {
-            controller.applyDarkAppearance()
+            controller.apply(NavigationBarAppearanceDark, withBackgroundColor: .brandPrimary)
         }
     }
     

@@ -1570,6 +1570,30 @@ struct LocalizationConstants {
         )
     }
 
+    struct Swap {
+        static let tier = NSLocalizedString(
+            "Tier", comment: "Text shown to represent the level of access a user has to Swap features."
+        )
+        static let locked = NSLocalizedString(
+            "Locked", comment: "Text shown to indicate that Swap features have not been unlocked yet."
+        )
+        static let swapLimit = NSLocalizedString(
+            "Swap Limit", comment: "Text shown to represent the level of access a user has to Swap features."
+        )
+        static let swap = NSLocalizedString(
+            "Swap", comment: "Text shown for the crypto exchange service."
+        )
+        static let previewSwap = NSLocalizedString(
+            "Preview Swap", comment: "Button text shown on the exchange screen to progress to the confirm screen"
+        )
+        static let confirmSwap = NSLocalizedString(
+            "Confirm Swap", comment: "Button text shown on the exchange confirm screen to execute the swap"
+        )
+        static let swapLocked = NSLocalizedString(
+            "Swap Locked", comment: "Button text shown on the exchange screen to show that a swap has been confirmed"
+        )
+    }
+
     struct Lockbox {
         static let getYourLockbox = NSLocalizedString(
             "Get Your Lockbox",

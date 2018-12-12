@@ -109,15 +109,8 @@ class ExchangeCreateViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let navController = navigationController as? BCNavigationController {
-            navController.applyLightAppearance()
+            navController.apply(NavigationBarAppearanceLight, withBackgroundColor: .white)
         }
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        if let navController = navigationController as? BCNavigationController {
-            navController.applyDarkAppearance()
-        }
-        super.viewWillDisappear(animated)
     }
 
     // MARK: Private
@@ -136,6 +129,8 @@ class ExchangeCreateViewController: UIViewController {
 
         tradingPairView.delegate = self
         exchangeButton.layer.cornerRadius = Constants.Measurements.buttonCornerRadius
+
+        exchangeButton.setTitle(LocalizationConstants.Swap.previewSwap, for: .normal)
     }
 
     fileprivate func dependenciesSetup() {
@@ -375,13 +370,6 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             presentationUpdate: presentationUpdate
         )
         tradingPairView.apply(model: model)
-
-        let exchangeButtonTitle = String(
-            format: LocalizationConstants.Exchange.exchangeXForY,
-            pair.from.symbol,
-            pair.to.symbol
-        )
-        exchangeButton.setTitle(exchangeButtonTitle, for: .normal)
     }
 
     func updateTradingPairViewValues(left: String, right: String) {

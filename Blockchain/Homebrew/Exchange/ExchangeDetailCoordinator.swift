@@ -64,7 +64,8 @@ class ExchangeDetailCoordinator: NSObject {
             switch model {
             case .confirm(let orderTransaction, let conversion):
                 interface?.updateBackgroundColor(#colorLiteral(red: 0.89, green: 0.95, blue: 0.97, alpha: 1))
-                interface?.updateTitle(LocalizationConstants.Exchange.confirmExchange)
+                interface?.updateNavigationBar(appearance: NavigationBarAppearanceLight, color: #colorLiteral(red: 0.89, green: 0.95, blue: 0.97, alpha: 1))
+                interface?.updateTitle(LocalizationConstants.Swap.confirmSwap)
 
                 let pair = ExchangeCellModel.TradingPair(
                     model: TradingPairView.confirmationModel(for: conversion)
@@ -123,7 +124,8 @@ class ExchangeDetailCoordinator: NSObject {
                 delegate?.coordinator(self, updated: cellModels)
             case .locked(let orderTransaction, let conversion):
                 interface?.updateBackgroundColor(.brandPrimary)
-                interface?.updateTitle(LocalizationConstants.Exchange.exchangeLocked)
+                interface?.updateNavigationBar(appearance: NavigationBarAppearanceDark, color: .brandPrimary)
+                interface?.updateTitle(LocalizationConstants.Swap.swapLocked)
                 interface?.navigationBarVisibility(.hidden)
 
                 let pair = ExchangeCellModel.TradingPair(
@@ -186,6 +188,7 @@ class ExchangeDetailCoordinator: NSObject {
                 delegate?.coordinator(self, updated: cellModels)
             case .overview(let trade):
                 interface?.updateBackgroundColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
+                interface?.updateNavigationBar(appearance: NavigationBarAppearanceDark, color: .brandPrimary)
                 interface?.updateTitle(trade.amountReceivedCrypto + LocalizationConstants.Exchange.orderID + " " + trade.identifier)
                 interface?.navigationBarVisibility(.visible)
 

@@ -11,6 +11,8 @@ import Foundation
 enum Radius: Int {
     case none
     case roundedRect
+    case roundedTop
+    case roundedBottom
     case circle
 }
 
@@ -86,6 +88,11 @@ class GradientView: UIView {
         updateGradientLayer()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateGradientLayer()
+    }
+    
     // MARK: Private
     
     private func updateGradientLayer() {
@@ -111,6 +118,24 @@ class GradientView: UIView {
             layer.cornerRadius = 0.0
         case .roundedRect:
             layer.cornerRadius = 4.0
+        case .roundedTop:
+            let path = UIBezierPath(
+                roundedRect: bounds,
+                byRoundingCorners: [.topLeft, .topRight],
+                cornerRadii: CGSize(width: 4.0, height: 4.0)
+            )
+            let mask = CAShapeLayer()
+            mask.path = path.cgPath
+            layer.mask = mask
+        case .roundedBottom:
+            let path = UIBezierPath(
+                roundedRect: bounds,
+                byRoundingCorners: [.bottomLeft, .bottomRight],
+                cornerRadii: CGSize(width: 4.0, height: 4.0)
+            )
+            let mask = CAShapeLayer()
+            mask.path = path.cgPath
+            layer.mask = mask
         case .circle:
             layer.cornerRadius = bounds.width / 2
         }

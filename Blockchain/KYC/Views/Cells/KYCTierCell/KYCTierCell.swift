@@ -9,7 +9,7 @@
 import Foundation
 import PlatformUIKit
 
-class KYCTierCell: KYCCell {
+class KYCTierCell: UICollectionViewCell {
     
     // MARK: Private Static Properties
     
@@ -32,32 +32,38 @@ class KYCTierCell: KYCCell {
     @IBOutlet fileprivate var limitTimeframe: UILabel!
     @IBOutlet fileprivate var limitDurationEstimate: UILabel!
     @IBOutlet fileprivate var tierApprovalStatus: UILabel!
+    @IBOutlet fileprivate var shadowView: UIView!
     
     // MARK: Private Properties
     
-    fileprivate var tapActionBlock: KYCCellModel.Action?
+    fileprivate var tier: KYCTier!
+    fileprivate var tapActionBlock: KYCTierCellModel.Action?
     
     // MARK: Actions
     
     @IBAction func disclosureButtonTapped(_ sender: UIButton) {
-        tapActionBlock?()
+        tapActionBlock?(tier)
     }
     
     // MARK: Overrides
     
-    override func configure(with model: KYCCellModel) {
-        guard case let .tier(payload) = model else { return }
-        tapActionBlock = payload.action
+    func configure(with model: KYCTierCellModel) {
+        self.tier = model.tier
+        tapActionBlock = model.action
+        setupShadowView()
         
         disclosureButton.layer.cornerRadius = disclosureButton.bounds.width / 2.0
         disclosureButton.layer.borderWidth = 1.0
         disclosureButton.layer.borderColor = UIColor(red:0.8, green:0.86, blue:0.9, alpha:1).cgColor
         
-        let tier = payload.tier
+        let tier = model.tier
         
-        layer.cornerRadius = 4.0
+        layer.cornerRadius = 8.0
+        layer.masksToBounds = false
+        
+        headlineDescription.isHidden = tier.headline == nil
         if let headline = tier.headline {
-            headlineDescription.text = headline
+            headlineDescription.text = headline.uppercased()
         }
         
         tierDescription.text = tier.tierDescription
@@ -73,9 +79,22 @@ class KYCTierCell: KYCCell {
         layoutIfNeeded()
     }
     
-    override class func heightForProposedWidth(_ width: CGFloat, model: KYCCellModel) -> CGFloat {
-        guard case let .tier(payload) = model else { return 0.0 }
-        let tier = payload.tier
+    fileprivate func setupShadowView() {
+        shadowView.layer.cornerRadius = 4.0
+        shadowView.layer.masksToBounds = false
+        shadowView.layer.shadowRadius = 4.0
+        shadowView.layer.shadowColor = UIColor(
+            red: 0.87,
+            green: 0.87,
+            blue: 0.87,
+            alpha:1
+            ).cgColor
+        shadowView.layer.shadowOffset = CGSize(width: 2.0, height: 4.0)
+        shadowView.layer.shadowOpacity = 1.0
+    }
+    
+    class func heightForProposedWidth(_ width: CGFloat, model: KYCTierCellModel) -> CGFloat {
+        let tier = model.tier
         
         let headlineContainerHeight = tier.headline != nil ? KYCTierCell.headlineContainerHeight : 0.0
         let widthPadding = disclosureButtonWidth + stackviewLeadingPadding + stackviewTrailingPadding + disclosureTrailingPadding
@@ -102,17 +121,17 @@ class KYCTierCell: KYCCell {
         return labelHeights + stackviewInteritemPadding + stackviewVerticalPadding
     }
     
-    static func headlineFont() -> UIFont {
+    fileprivate static func headlineFont() -> UIFont {
         let font = Font(.branded(.montserratBold), size: .custom(14.0))
         return font.result
     }
     
-    static func limitFont() -> UIFont {
+    fileprivate static func limitFont() -> UIFont {
         let font = Font(.branded(.montserratRegular), size: .custom(32.0))
         return font.result
     }
     
-    static func timeframeFont() -> UIFont {
+    fileprivate static func timeframeFont() -> UIFont {
         let font = Font(.branded(.montserratRegular), size: .custom(14.0))
         return font.result
     }

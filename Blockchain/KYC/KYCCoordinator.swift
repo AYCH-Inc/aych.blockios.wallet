@@ -122,7 +122,10 @@ protocol KYCCoordinatorDelegate: class {
         }
     }
 
-    func presentAccountStatusView(for status: KYCAccountStatus, in viewController: UIViewController) {
+    func presentAccountStatusView(
+        for status: KYCAccountStatus,
+        in viewController: UIViewController
+    ) {
         let accountStatusViewController = KYCInformationController.make(with: self)
         let isReceivingAirdrop = BlockchainSettings.App.shared.didTapOnAirdropDeepLink
         accountStatusViewController.viewModel = KYCInformationViewModel.create(

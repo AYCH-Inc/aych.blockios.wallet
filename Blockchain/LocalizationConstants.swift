@@ -1371,9 +1371,13 @@ struct LocalizationConstants {
             "Approved",
             comment: "KYC verification is approved."
         )
+        static let accountInReviewBadge = NSLocalizedString(
+            "In Review",
+            comment: "KYC verification is in Review."
+        )
         static let accountUnderReviewBadge = NSLocalizedString(
             "Under Review",
-            comment: "KYC verification is Under Review."
+            comment: "KYC verification is under Review."
         )
         static let verificationUnderReview = NSLocalizedString(
             "Verification Under Review",
@@ -1391,7 +1395,7 @@ struct LocalizationConstants {
             "Unverified",
             comment: "KYC verification is unverified."
         )
-        static let accounVerifiedBadge = NSLocalizedString(
+        static let accountVerifiedBadge = NSLocalizedString(
             "Verified",
             comment: "KYC verification is complete."
         )

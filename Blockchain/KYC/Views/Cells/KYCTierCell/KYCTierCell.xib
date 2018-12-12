@@ -27,20 +27,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="432" height="233"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Xq-oP-iOk">
+                        <rect key="frame" x="0.0" y="0.0" width="432" height="233"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-1x-Gxt" customClass="GradientView" customModule="Blockchain" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="432" height="50"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GET FREE CRYPTO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFe-Gn-0tP">
-                                <rect key="frame" x="151" y="16.5" width="130.5" height="17.5"/>
-                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="FFe-Gn-0tP" firstAttribute="centerY" secondItem="3Ay-1x-Gxt" secondAttribute="centerY" id="1x1-Pw-b1y"/>
-                            <constraint firstItem="FFe-Gn-0tP" firstAttribute="centerX" secondItem="3Ay-1x-Gxt" secondAttribute="centerX" id="A4v-CQ-myD"/>
                             <constraint firstAttribute="height" constant="50" id="VXN-30-oNN"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -48,7 +42,7 @@
                                 <color key="value" red="0.089999999999999997" green="0.13" blue="0.25" alpha="1" colorSpace="calibratedRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                <integer key="value" value="0"/>
+                                <integer key="value" value="2"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="color" keyPath="endColor">
                                 <color key="value" red="0.20000000000000001" green="0.25" blue="0.40999999999999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -58,6 +52,12 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GET FREE CRYPTO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFe-Gn-0tP">
+                        <rect key="frame" x="151" y="16.5" width="130.5" height="17.5"/>
+                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="p8K-4Q-80Q">
                         <rect key="frame" x="24" y="70" width="320" height="107.5"/>
                         <subviews>
@@ -99,7 +99,7 @@
                             <constraint firstAttribute="height" constant="56" id="6Qm-mH-mPi"/>
                             <constraint firstAttribute="width" constant="56" id="JBu-7S-RLb"/>
                         </constraints>
-                        <state key="normal" image="chevron_down_white"/>
+                        <state key="normal" image="icon_chevron"/>
                         <connections>
                             <action selector="disclosureButtonTapped:" destination="Bsv-GY-QwZ" eventType="touchUpInside" id="iH8-yw-ssa"/>
                         </connections>
@@ -111,9 +111,15 @@
                 <constraint firstItem="p8K-4Q-80Q" firstAttribute="leading" secondItem="Bsv-GY-QwZ" secondAttribute="leading" constant="24" id="EP7-iU-E0P"/>
                 <constraint firstAttribute="trailing" secondItem="3Ay-1x-Gxt" secondAttribute="trailing" id="GQE-CB-Iai"/>
                 <constraint firstItem="BOK-EL-Qb4" firstAttribute="leading" secondItem="p8K-4Q-80Q" secondAttribute="trailing" constant="8" id="OBS-q6-Pf0"/>
+                <constraint firstAttribute="trailing" secondItem="2Xq-oP-iOk" secondAttribute="trailing" id="VWq-WY-Cbt"/>
                 <constraint firstItem="3Ay-1x-Gxt" firstAttribute="top" secondItem="Bsv-GY-QwZ" secondAttribute="top" id="e30-aj-cCI"/>
+                <constraint firstItem="2Xq-oP-iOk" firstAttribute="top" secondItem="Bsv-GY-QwZ" secondAttribute="top" id="e3G-g4-nUc"/>
+                <constraint firstItem="FFe-Gn-0tP" firstAttribute="centerY" secondItem="3Ay-1x-Gxt" secondAttribute="centerY" id="ffB-71-Lz6"/>
+                <constraint firstItem="FFe-Gn-0tP" firstAttribute="centerX" secondItem="3Ay-1x-Gxt" secondAttribute="centerX" id="kmT-ja-FwI"/>
+                <constraint firstItem="2Xq-oP-iOk" firstAttribute="leading" secondItem="Bsv-GY-QwZ" secondAttribute="leading" id="nV4-iP-you"/>
                 <constraint firstAttribute="trailing" secondItem="BOK-EL-Qb4" secondAttribute="trailing" constant="24" id="oFY-R7-kQh"/>
                 <constraint firstItem="3Ay-1x-Gxt" firstAttribute="leading" secondItem="Bsv-GY-QwZ" secondAttribute="leading" id="tGx-2v-l8S"/>
+                <constraint firstAttribute="bottom" secondItem="2Xq-oP-iOk" secondAttribute="bottom" id="xDF-nA-hcX"/>
                 <constraint firstItem="BOK-EL-Qb4" firstAttribute="centerY" secondItem="s8M-wl-mSc" secondAttribute="centerY" id="z2U-vI-j0o"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="s8M-wl-mSc"/>
@@ -126,6 +132,7 @@
                 <outlet property="limitAmountDescription" destination="RgO-Kw-eaf" id="QFU-Gf-Qhd"/>
                 <outlet property="limitDurationEstimate" destination="7yn-Bj-tmh" id="G0n-Qo-gg7"/>
                 <outlet property="limitTimeframe" destination="6m7-ag-yyE" id="yXK-uE-uea"/>
+                <outlet property="shadowView" destination="2Xq-oP-iOk" id="sbz-zH-Edb"/>
                 <outlet property="tierApprovalStatus" destination="qrx-YA-PLK" id="2gY-Hz-Tcd"/>
                 <outlet property="tierDescription" destination="pBN-dO-r8b" id="Lp2-xH-4yQ"/>
             </connections>
@@ -133,6 +140,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="chevron_down_white" width="30" height="30"/>
+        <image name="icon_chevron" width="24" height="24"/>
     </resources>
 </document>

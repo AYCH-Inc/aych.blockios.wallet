@@ -1523,6 +1523,51 @@ struct LocalizationConstants {
             "Takes 10 min",
             comment: "Duration for Tier 2 application"
         )
+        static let swapNow = NSLocalizedString("Swap Now", comment: "Swap Now")
+        static let swapTagline = NSLocalizedString(
+            "A Better Way to Trade Crypto",
+            comment: "The tagline describing what Swap is"
+        )
+        static let swapStatusInReview = NSLocalizedString(
+            "In Review",
+            comment: "Swap status is in review"
+        )
+        static let swapStatusInReviewCTA = NSLocalizedString(
+            "In Review - Need More Info",
+            comment: "Swap status is in review but we require more info from the user."
+        )
+        static let swapStatusUnderReview = NSLocalizedString(
+            "Under Review",
+            comment: "Swap status is under review."
+        )
+        static let swapStatusApproved = NSLocalizedString(
+            "Approved!",
+            comment: "Swap status is approved."
+        )
+        static let swapAnnouncement = NSLocalizedString(
+            "Announcing Swap by Blockchain - the faster, smarter way to trade your crypto",
+            comment: "The announcement and description describing what Swap is."
+        )
+        static let swapLimitDescription = NSLocalizedString(
+            "Your Swap Limit is the maximum amount of crypto you can trade.",
+            comment: "A description of what the user's swap limit is."
+        )
+        static let swapUnavailable = NSLocalizedString(
+            "Swap Currently Unavailable",
+            comment: "Swap Currently Unavailable"
+        )
+        static let swapUnavailableDescription = NSLocalizedString(
+            "We had trouble approving your identity. Your Swap feature has been disabled at this time.",
+            comment: "A description as to why Swap has been disabled"
+        )
+        static let available = NSLocalizedString(
+            "Available",
+            comment: "Available"
+        )
+        static let availableToday = NSLocalizedString(
+            "Available Today",
+            comment: "Available Today"
+        )
     }
 
     struct Lockbox {

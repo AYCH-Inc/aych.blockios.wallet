@@ -19,6 +19,7 @@ protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
     func onExchangeButtonTapped()
 }
 
+// swiftlint:disable line_length
 class ExchangeCreateViewController: UIViewController {
     
     // MARK: Private Static Properties
@@ -110,6 +111,13 @@ class ExchangeCreateViewController: UIViewController {
         super.viewWillAppear(animated)
         if let navController = navigationController as? BCNavigationController {
             navController.apply(NavigationBarAppearanceLight, withBackgroundColor: .white)
+        }
+        if let navController = navigationController as? ExchangeNavigationController {
+            navController.rightButtonTappedBlock = {
+                let controller = KYCTiersViewController.makeFromStoryboard()
+                controller.transitioningDelegate = self
+                self.present(controller, animated: true, completion: nil)
+            }
         }
     }
 
@@ -457,5 +465,16 @@ extension ExchangeCreateViewController: ExchangeAssetAccountListView {
                 toAccount: toAccount
             )
         )
+    }
+}
+
+extension ExchangeCreateViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return ModalAnimator(operation: .dismiss, duration: 0.4)
+    }
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return ModalAnimator(operation: .present, duration: 0.4)
     }
 }

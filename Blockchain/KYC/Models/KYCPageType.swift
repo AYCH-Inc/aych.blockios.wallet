@@ -53,6 +53,8 @@ extension KYCPageType {
 
     private func nextPageTier1(user: NabuUser?, country: KYCCountry?) -> KYCPageType? {
         switch self {
+        case .welcome:
+            return .enterEmail
         case .enterEmail:
             return .confirmEmail
         case .confirmEmail:
@@ -69,8 +71,7 @@ extension KYCPageType {
         case .address:
             // END
             return nil
-        case .welcome,
-             .enterPhone,
+        case .enterPhone,
              .confirmPhone,
              .verifyIdentity,
              .applicationComplete,

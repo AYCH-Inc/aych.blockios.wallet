@@ -22,7 +22,7 @@ struct NabuUser: Decodable {
     let mobile: Mobile?
     let status: KYCAccountStatus
     let state: UserState
-    let tier: KYCTier? // Note: this shouldn't be optional, but keeping as optional for now since this isn't deployed yet
+    let tiers: NabuUserTiers? // Note: this shouldn't be optional, but keeping as optional for now since this isn't deployed yet
     let tags: Tags?
 
     // MARK: - Decodable
@@ -38,7 +38,7 @@ struct NabuUser: Decodable {
         case identifier = "id"
         case state = "state"
         case tags = "tags"
-        case tier = "tier"
+        case tiers = "tiers"
     }
 
     init(
@@ -48,7 +48,7 @@ struct NabuUser: Decodable {
         status: KYCAccountStatus,
         state: UserState,
         tags: Tags?,
-        tier: KYCTier?
+        tiers: NabuUserTiers?
     ) {
         self.personalDetails = personalDetails
         self.address = address
@@ -56,7 +56,7 @@ struct NabuUser: Decodable {
         self.status = status
         self.state = state
         self.tags = tags
-        self.tier = tier
+        self.tiers = tiers
     }
 
     init(from decoder: Decoder) throws {
@@ -69,8 +69,8 @@ struct NabuUser: Decodable {
         let phoneVerified = try values.decodeIfPresent(Bool.self, forKey: .mobileVerified)
         let statusValue = try values.decode(String.self, forKey: .status)
         let userState = try values.decode(String.self, forKey: .state)
-        let tierRawValue = try values.decode(Int.self, forKey: .tier)
         address = try values.decodeIfPresent(UserAddress.self, forKey: .address)
+        tiers = try values.decodeIfPresent(NabuUserTiers.self, forKey: .tiers)
 
         personalDetails = PersonalDetails(
             id: userID,
@@ -92,7 +92,6 @@ struct NabuUser: Decodable {
         status = KYCAccountStatus(rawValue: statusValue) ?? .none
         state = UserState(rawValue: userState) ?? .none
         tags = try values.decodeIfPresent(Tags.self, forKey: .tags)
-        tier = KYCTier(rawValue: tierRawValue)
     }
 }
 

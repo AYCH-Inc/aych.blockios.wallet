@@ -24,4 +24,7 @@ public protocol WalletSettingsAPI {
     ///   - the user buys crypto using fiat
     ///   - the user sends crypto
     func updateLastTxTimeToCurrentTime(guid: String, sharedKey: String) -> Completable
+
+    /// Updates the users email address in this wallet.
+    func updateEmail(email: String, guid: String, sharedKey: String) -> Completable
 }

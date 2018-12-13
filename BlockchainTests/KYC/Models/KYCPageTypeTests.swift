@@ -110,7 +110,7 @@ class KYCPageTypeTests: XCTestCase {
             status: KYCAccountStatus.none,
             state: NabuUser.UserState.none,
             tags: Tags(sunriver: nil),
-            tier: nil
+            tiers: nil
         )
     }
 }

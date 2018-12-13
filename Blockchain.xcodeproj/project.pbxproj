@@ -984,6 +984,8 @@
 		AADF6B0721BDE34800F8CA43 /* KYCTier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF6B0621BDE34800F8CA43 /* KYCTier.swift */; };
 		AADF6B0821BDE34800F8CA43 /* KYCTier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF6B0621BDE34800F8CA43 /* KYCTier.swift */; };
 		AADF6B2C21BF3AEC00F8CA43 /* KYCPageTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF6B2B21BF3AEC00F8CA43 /* KYCPageTypeTests.swift */; };
+		AADF6B3521C07AE600F8CA43 /* NabuUserTiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF6B3321C07AE600F8CA43 /* NabuUserTiers.swift */; };
+		AADF6B4021C07F9200F8CA43 /* NabuUserTiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF6B3321C07AE600F8CA43 /* NabuUserTiers.swift */; };
 		AAE5D19721A3C18200D4A77A /* WalletActionEventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE5D19621A3C18200D4A77A /* WalletActionEventBus.swift */; };
 		AAE5D19821A3C18200D4A77A /* WalletActionEventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE5D19621A3C18200D4A77A /* WalletActionEventBus.swift */; };
 		AAE5D1A421A3C4FE00D4A77A /* WalletActionEventBusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE5D1A321A3C4FE00D4A77A /* WalletActionEventBusTests.swift */; };
@@ -3816,6 +3818,7 @@
 		AADF6B0121BCB09C00F8CA43 /* KYCConfirmEmailController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = KYCConfirmEmailController.storyboard; sourceTree = "<group>"; };
 		AADF6B0621BDE34800F8CA43 /* KYCTier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCTier.swift; sourceTree = "<group>"; };
 		AADF6B2B21BF3AEC00F8CA43 /* KYCPageTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCPageTypeTests.swift; sourceTree = "<group>"; };
+		AADF6B3321C07AE600F8CA43 /* NabuUserTiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NabuUserTiers.swift; sourceTree = "<group>"; };
 		AAE5D19621A3C18200D4A77A /* WalletActionEventBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionEventBus.swift; sourceTree = "<group>"; };
 		AAE5D1A321A3C4FE00D4A77A /* WalletActionEventBusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionEventBusTests.swift; sourceTree = "<group>"; };
 		AAE5D1A521A3C52300D4A77A /* WalletActionSubscriberTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionSubscriberTests.swift; sourceTree = "<group>"; };
@@ -8115,8 +8118,9 @@
 		AA31ABC92141CEDA003AC42F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3A8B229C211E2A960091E706 /* NabuUser.swift */,
 				AA08439E215C47290007BFD1 /* NabuNetworkError.swift */,
+				3A8B229C211E2A960091E706 /* NabuUser.swift */,
+				AADF6B3321C07AE600F8CA43 /* NabuUserTiers.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -10485,6 +10489,7 @@
 				AADB01EA20C09FA7000FFFEC /* WalletService.swift in Sources */,
 				3A3C7D542180E5D50067F442 /* SendXLMCoordinator.swift in Sources */,
 				AACE31C72092A99B00B7B806 /* LocalizationConstants.swift in Sources */,
+				AADF6B3521C07AE600F8CA43 /* NabuUserTiers.swift in Sources */,
 				AA15345E21A45FBF0099BA9D /* WalletSettingsService.swift in Sources */,
 				AA7E773E210BA487009DFB4C /* Strings.swift in Sources */,
 				AACE31CC2092A99B00B7B806 /* BitcoinAddress.swift in Sources */,
@@ -10840,6 +10845,7 @@
 				AA7133B521220B7100CB2AA9 /* KYCCountrySelectionPresenter.swift in Sources */,
 				84B601C7197ACD6300DA1829 /* UITextField+Blocks.m in Sources */,
 				602B9CE42118E15300BD3D60 /* KYCVerifyPhoneNumberInteractor.swift in Sources */,
+				AADF6B4021C07F9200F8CA43 /* NabuUserTiers.swift in Sources */,
 				9F765F4714BC8AEF00048EFB /* MultiAddressResponse.m in Sources */,
 				AA2F121E21405BE6006B1FC1 /* JSContext+Helpers.swift in Sources */,
 				AA63F87A20A3A198002B719B /* AppFeatureConfigurator.swift in Sources */,

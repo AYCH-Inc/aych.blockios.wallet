@@ -37,4 +37,8 @@ class MockWalletSettingsService: WalletSettingsAPI {
         didCallUpdateLastTxTime?.fulfill()
         return Completable.empty()
     }
+
+    func updateEmail(email: String, guid: String, sharedKey: String) -> Completable {
+        return Completable.empty()
+    }
 }

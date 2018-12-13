@@ -54,4 +54,8 @@ class WalletSettingsService: WalletSettingsAPI {
         let currentTime = "\(Int(Date().timeIntervalSince1970))"
         return updateSettings(method: .updateLastTxTime, guid: guid, sharedKey: sharedKey, payload: currentTime)
     }
+
+    func updateEmail(email: String, guid: String, sharedKey: String) -> Completable {
+        return updateSettings(method: .updateEmail, guid: guid, sharedKey: sharedKey, payload: email)
+    }
 }

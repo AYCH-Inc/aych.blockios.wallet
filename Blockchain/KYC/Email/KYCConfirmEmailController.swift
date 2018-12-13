@@ -38,7 +38,7 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
 
     // MARK: Properties
 
-    var email: Email = "" {
+    var email: EmailAddress = "" {
         didSet {
             guard isViewLoaded else { return }
             validationTextFieldEmail.text = email
@@ -76,6 +76,7 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setUpBottomButtonContainerView()
+        presenter.listenForEmailConfirmation()
     }
 
     // MARK: - Actions
@@ -112,6 +113,7 @@ extension KYCConfirmEmailController: KYCConfirmEmailView {
     }
 
     func emailVerifiedSuccess() {
-        // TODO
+        Logger.shared.info("Email is verified.")
+        coordinator.handle(event: .nextPageFromPageType(pageType, nil))
     }
 }

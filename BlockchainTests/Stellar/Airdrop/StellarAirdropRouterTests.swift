@@ -53,6 +53,7 @@ class StellarAirdropRouterTests: XCTestCase {
         mockDataRepo.mockNabuUser = NabuUser(
             personalDetails: nil,
             address: nil,
+            email: Email(address: "test", verified: false),
             mobile: nil,
             status: KYCAccountStatus.none,
             state: NabuUser.UserState.none,

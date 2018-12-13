@@ -106,6 +106,7 @@ class KYCPageTypeTests: XCTestCase {
         return NabuUser(
             personalDetails: nil,
             address: nil,
+            email: Email(address: "test", verified: false),
             mobile: mobile,
             status: KYCAccountStatus.none,
             state: NabuUser.UserState.none,

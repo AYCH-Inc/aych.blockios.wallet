@@ -19,6 +19,7 @@ struct NabuUser: Decodable {
 
     let personalDetails: PersonalDetails?
     let address: UserAddress?
+    let email: Email
     let mobile: Mobile?
     let status: KYCAccountStatus
     let state: UserState
@@ -33,6 +34,7 @@ struct NabuUser: Decodable {
         case firstName = "firstName"
         case lastName = "lastName"
         case email = "email"
+        case emailVerified = "emailVerified"
         case mobile = "mobile"
         case mobileVerified = "mobileVerified"
         case identifier = "id"
@@ -44,6 +46,7 @@ struct NabuUser: Decodable {
     init(
         personalDetails: PersonalDetails?,
         address: UserAddress?,
+        email: Email,
         mobile: Mobile?,
         status: KYCAccountStatus,
         state: UserState,
@@ -52,6 +55,7 @@ struct NabuUser: Decodable {
     ) {
         self.personalDetails = personalDetails
         self.address = address
+        self.email = email
         self.mobile = mobile
         self.status = status
         self.state = state
@@ -64,7 +68,8 @@ struct NabuUser: Decodable {
         let userID = try values.decodeIfPresent(String.self, forKey: .identifier)
         let firstName = try values.decodeIfPresent(String.self, forKey: .firstName)
         let lastName = try values.decodeIfPresent(String.self, forKey: .lastName)
-        let email = try values.decode(String.self, forKey: .email)
+        let emailAddress = try values.decode(String.self, forKey: .email)
+        let emailVerified = try values.decode(Bool.self, forKey: .emailVerified)
         let phoneNumber = try values.decodeIfPresent(String.self, forKey: .mobile)
         let phoneVerified = try values.decodeIfPresent(Bool.self, forKey: .mobileVerified)
         let statusValue = try values.decode(String.self, forKey: .status)
@@ -76,9 +81,10 @@ struct NabuUser: Decodable {
             id: userID,
             first: firstName,
             last: lastName,
-            email: email,
             birthday: nil
         )
+
+        email = Email(address: emailAddress, verified: emailVerified)
         
         if let number = phoneNumber {
             mobile = Mobile(
@@ -92,6 +98,16 @@ struct NabuUser: Decodable {
         status = KYCAccountStatus(rawValue: statusValue) ?? .none
         state = UserState(rawValue: userState) ?? .none
         tags = try values.decodeIfPresent(Tags.self, forKey: .tags)
+    }
+}
+
+struct Email: Decodable {
+    let address: String
+    let verified: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case address = "email"
+        case verified = "emailVerified"
     }
 }
 

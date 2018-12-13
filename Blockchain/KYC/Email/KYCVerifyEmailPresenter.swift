@@ -8,7 +8,7 @@
 
 import RxSwift
 
-typealias Email = String
+typealias EmailAddress = String
 
 protocol KYCVerifyEmailView: class {
     func showLoadingView()
@@ -28,11 +28,10 @@ class KYCVerifyEmailPresenter {
 
     private weak var view: KYCVerifyEmailView?
     private let interactor: KYCVerifyEmailInteractor
-    private var disposable: Disposable?
+    private let disposables = CompositeDisposable()
 
     deinit {
-        disposable?.dispose()
-        disposable = nil
+        disposables.dispose()
     }
 
     init(view: KYCVerifyEmailView, interactor: KYCVerifyEmailInteractor = KYCVerifyEmailInteractor()) {
@@ -40,24 +39,45 @@ class KYCVerifyEmailPresenter {
         self.interactor = interactor
     }
 
-    func sendVerificationEmail(to email: Email) {
+    func listenForEmailConfirmation() {
+//        let disposable = interactor.pollEmailVerification()
+        let disposable = interactor.debugPollEmailVerification()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .distinctUntilChanged()
+            .filter { $0 }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                guard let strongSelf = self else {
+                    return
+                }
+                guard let confirmView = strongSelf.view as? KYCConfirmEmailView else {
+                    return
+                }
+                confirmView.emailVerifiedSuccess()
+            })
+        disposables.insertWithDiscardableResult(disposable)
+    }
+
+    func sendVerificationEmail(to email: EmailAddress) {
         view?.showLoadingView()
-        disposable = interactor.sendVerificationEmail(to: email)
+        let disposable = interactor.sendVerificationEmail(to: email)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
+            .do(onDispose: { [weak self] in
+                self?.view?.hideLoadingView()
+            })
             .subscribe(onCompleted: { [weak self] in
                 guard let strongSelf = self else {
                     return
                 }
-                strongSelf.view?.hideLoadingView()
                 strongSelf.view?.sendEmailVerificationSuccess()
             }, onError: { [weak self] error in
                 Logger.shared.error("Failed to send verification email: \(error.localizedDescription)")
                 guard let strongSelf = self else {
                     return
                 }
-                strongSelf.view?.hideLoadingView()
                 strongSelf.view?.showError(message: LocalizationConstants.KYC.failedToSendVerificationEmail)
             })
+        disposables.insertWithDiscardableResult(disposable)
     }
 }

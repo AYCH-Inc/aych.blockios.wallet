@@ -97,7 +97,7 @@ class KYCVerifyEmailInteractor {
         }.do(onSuccess: { user in
             Logger.shared.debug("""
                 Successfully updated user: \(user.personalDetails?.identifier ?? "").
-                Email number: \(user.email.address ?? "")
+                Email number: \(user.email.address)
             """)
         }).asCompletable()
     }

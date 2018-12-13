@@ -47,7 +47,7 @@ protocol KYCCoordinatorDelegate: class {
 
     private(set) var country: KYCCountry?
 
-    private(set) var tier: KYCTier!
+    private var pager: KYCPagerAPI!
 
     private weak var rootViewController: UIViewController?
 
@@ -74,9 +74,11 @@ protocol KYCCoordinatorDelegate: class {
     }
 
     func start(from viewController: UIViewController, tier: KYCTier = .tier1) {
-        self.tier = tier
+        pager = KYCPager(tier: tier)
         rootViewController = viewController
+
         LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
+
         let disposable = BlockchainDataRepository.shared.fetchNabuUser()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
@@ -95,7 +97,7 @@ protocol KYCCoordinatorDelegate: class {
                 LoadingViewPresenter.shared.hideBusyView()
                 AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
             })
-         _ = disposables.insert(disposable)
+         disposables.insertWithDiscardableResult(disposable)
     }
 
     func finish() {
@@ -110,15 +112,26 @@ protocol KYCCoordinatorDelegate: class {
         case .failurePageForPageType(_, let error):
             handleFailurePage(for: error)
         case .nextPageFromPageType(let type, let payload):
-            handlePayloadFromPageType(type, payload)
-            guard let nextPage = type.nextPage(forTier: tier, user: self.user, country: self.country) else { return }
-            let controller = pageFactory.createFrom(
-                pageType: nextPage,
-                in: self,
-                payload: payload
-            )
-            controller.navigationItem.hidesBackButton = (nextPage == .applicationComplete)
-            navController.pushViewController(controller, animated: true)
+            let disposable = pager.nextPage(from: type, payload: payload)
+                .subscribeOn(MainScheduler.asyncInstance)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { [weak self] nextPage in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    let controller = strongSelf.pageFactory.createFrom(
+                        pageType: nextPage,
+                        in: strongSelf,
+                        payload: payload
+                    )
+                    controller.navigationItem.hidesBackButton = (nextPage == .applicationComplete)
+                    strongSelf.navController.pushViewController(controller, animated: true)
+                }, onError: { error in
+                    Logger.shared.error("Error getting next page: \(error.localizedDescription)")
+                }, onCompleted: {
+                    Logger.shared.info("No more next pages")
+                })
+            disposables.insertWithDiscardableResult(disposable)
         }
     }
 
@@ -256,7 +269,8 @@ protocol KYCCoordinatorDelegate: class {
 
     private func handlePageWillAppear(for type: KYCPageType) {
         switch type {
-        case .welcome,
+        case .tier1ForcedTier2,
+             .welcome,
              .enterEmail,
              .confirmEmail,
              .country,

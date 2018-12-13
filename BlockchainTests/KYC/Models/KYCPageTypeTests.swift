@@ -90,10 +90,7 @@ class KYCPageTypeTests: XCTestCase {
             KYCPageType.verifyIdentity,
             KYCPageType.confirmPhone.nextPage(forTier: .tier2, user: nil, country: nil)
         )
-        XCTAssertEqual(
-            KYCPageType.applicationComplete,
-            KYCPageType.verifyIdentity.nextPage(forTier: .tier2, user: nil, country: nil)
-        )
+        XCTAssertNil(KYCPageType.verifyIdentity.nextPage(forTier: .tier2, user: nil, country: nil))
     }
 
     private func createKycCountry(hasStates: Bool = false) -> KYCCountry {

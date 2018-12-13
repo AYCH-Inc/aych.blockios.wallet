@@ -66,7 +66,7 @@ class KYCTierCell: UICollectionViewCell {
             headlineDescription.text = headline.uppercased()
         }
         
-        tierDescription.text = tier.tierDescription
+        tierDescription.text = tier.tierDescription.uppercased()
         limitAmountDescription.text = tier.limitDescription
         limitTimeframe.text = tier.limitTimeframe
         limitDurationEstimate.text = tier.duration

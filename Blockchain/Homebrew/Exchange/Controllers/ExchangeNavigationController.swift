@@ -11,9 +11,6 @@ import Foundation
 class ExchangeNavigationController: BCActionNavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        rightButtonTappedBlock = {
-
-        }
         rightButton.setImage(UIImage(named: "icon_limit_under"), for: .normal)
         if let imageView = rightButton.imageView {
             imageView.layer.cornerRadius = imageView.frame.size.width / 2

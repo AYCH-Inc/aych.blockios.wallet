@@ -374,6 +374,8 @@
 		3AE74B6721C07AA900246A9C /* KYCTiersFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B6521C07AA900246A9C /* KYCTiersFooterView.swift */; };
 		3AE74B6921C07ADD00246A9C /* KYCTiersFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AE74B6821C07ADD00246A9C /* KYCTiersFooterView.xib */; };
 		3AE74B6A21C08E8400246A9C /* KYCTiersHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B4021C04B0800246A9C /* KYCTiersHeaderView.swift */; };
+		3AE74B8921C1AE4C00246A9C /* ModalAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B8821C1AE4C00246A9C /* ModalAnimator.swift */; };
+		3AE74B8A21C1AE4C00246A9C /* ModalAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B8821C1AE4C00246A9C /* ModalAnimator.swift */; };
 		3AE92BDB2110DB3C008D7BDC /* KeyboardPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */; };
 		3AE92BDD2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */; };
 		3AE92BDE2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */; };
@@ -1830,6 +1832,7 @@
 		3AE74B5721C0768400246A9C /* KYCTierCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KYCTierCellModel.swift; sourceTree = "<group>"; };
 		3AE74B6521C07AA900246A9C /* KYCTiersFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCTiersFooterView.swift; sourceTree = "<group>"; };
 		3AE74B6821C07ADD00246A9C /* KYCTiersFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KYCTiersFooterView.xib; sourceTree = "<group>"; };
+		3AE74B8821C1AE4C00246A9C /* ModalAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAnimator.swift; sourceTree = "<group>"; };
 		3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPayload.swift; sourceTree = "<group>"; };
 		3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Conveniences.swift"; sourceTree = "<group>"; };
 		3AEF9E8B21091B71006B1CF9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -5219,6 +5222,14 @@
 			path = KYCTiersFooterView;
 			sourceTree = "<group>";
 		};
+		3AE74B7E21C1AE2700246A9C /* Transitions */ = {
+			isa = PBXGroup;
+			children = (
+				3AE74B8821C1AE4C00246A9C /* ModalAnimator.swift */,
+			);
+			path = Transitions;
+			sourceTree = "<group>";
+		};
 		3AE92BBF2110DAF1008D7BDC /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -7810,6 +7821,7 @@
 		9FCA4D18151494A300ECDFBE /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3AE74B7E21C1AE2700246A9C /* Transitions */,
 				C73037A2218B4EB100F38BA8 /* Information */,
 				60AEA5BE21125DDD0053A753 /* SettingsSelectorTableViewController.h */,
 				60AEA5BD21125DDD0053A753 /* SettingsSelectorTableViewController.m */,
@@ -10416,6 +10428,7 @@
 				AA126DC0212F4E2D005886A3 /* SignedRetailTokenRequest.swift in Sources */,
 				C7BEE13120C720CA0096003B /* BitcoinCashURLPayload.swift in Sources */,
 				AA126DA3212E1CE2005886A3 /* OnfidoCreateApplicantRequest.swift in Sources */,
+				3AE74B8A21C1AE4C00246A9C /* ModalAnimator.swift in Sources */,
 				602B9D262118E27100BD3D60 /* KYCVerifyPhoneNumberInteractor.swift in Sources */,
 				3ADFE6FD214AE17600E7E2D5 /* ExchangeInputsService.swift in Sources */,
 				51FC1B0A21270DBC007BEB18 /* SettingsTableSectionHeader.swift in Sources */,
@@ -11191,6 +11204,7 @@
 				51E52D13217F6E6A00066F8D /* PricePreviewView.swift in Sources */,
 				3A1552F02136FFE200683CEB /* TradeExecutionAPI.swift in Sources */,
 				AA126D9F212E189C005886A3 /* OnfidoUser.swift in Sources */,
+				3AE74B8921C1AE4C00246A9C /* ModalAnimator.swift in Sources */,
 				AAA3333B2088115C0019AD55 /* Coordinator.swift in Sources */,
 				AACE31F12092B1F800B7B806 /* PasswordRequiredView.swift in Sources */,
 				AAA341D82182448800E09561 /* StellarPaymentOperation.swift in Sources */,

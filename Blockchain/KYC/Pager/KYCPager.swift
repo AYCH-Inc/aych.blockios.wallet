@@ -55,6 +55,9 @@ class KYCPager: KYCPagerAPI {
             guard let tiers = user.tiers else {
                 return Maybe.empty()
             }
+            guard tiers.next.rawValue > tiers.selected.rawValue else {
+                return Maybe.empty()
+            }
 
             let nextTier = tiers.next
             

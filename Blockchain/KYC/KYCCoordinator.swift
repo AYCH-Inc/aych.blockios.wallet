@@ -110,6 +110,7 @@ protocol KYCCoordinatorDelegate: class {
         case .failurePageForPageType(_, let error):
             handleFailurePage(for: error)
         case .nextPageFromPageType(let type, let payload):
+            handlePayloadFromPageType(type, payload)
             let disposable = pager.nextPage(from: type, payload: payload)
                 .subscribeOn(MainScheduler.asyncInstance)
                 .observeOn(MainScheduler.instance)

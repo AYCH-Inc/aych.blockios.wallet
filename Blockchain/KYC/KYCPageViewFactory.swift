@@ -29,9 +29,8 @@ class KYCPageViewFactory {
             }
             return confirmEmailController
         case .tier1ForcedTier2:
-            // TICKET: IOS-1738
             AnalyticsService.shared.trackEvent(title: "kyc_more_info_needed")
-            return KYCWelcomeController.make(with: coordinator)
+            return KYCMoreInformationController.make(with: coordinator)
         case .welcome:
             AnalyticsService.shared.trackEvent(title: "kyc_welcome")
             return KYCWelcomeController.make(with: coordinator)

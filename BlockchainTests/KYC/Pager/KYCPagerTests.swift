@@ -22,7 +22,7 @@ class KYCPagerTests: XCTestCase {
     /// Tests that next page is not null if the backend has decided that the user
     /// should go through the next tier via `user.tiers.next`
     func testHasNextPageOnNextTier() {
-        let exp = expectation(description: "More pages available if next tier is set")
+        let exp = expectation(description: "More information controller is presented if next tier is set")
         let lastPage = KYCPageType.lastPage(forTier: .tier1)
         let tiers = NabuUserTiers(
             current: KYCTier.tier0,
@@ -31,7 +31,8 @@ class KYCPagerTests: XCTestCase {
         )
         dataRepository.mockNabuUser = createTestNabuUser(tiers: tiers)
         _ = pager.nextPage(from: lastPage, payload: nil)
-            .subscribe(onSuccess: { _ in
+            .subscribe(onSuccess: { page in
+                guard case .tier1ForcedTier2 = page else { return }
                 exp.fulfill()
             })
         wait(for: [exp], timeout: 0.1)

@@ -1584,6 +1584,18 @@ struct LocalizationConstants {
             "Requires Tier 1, Phone Number, Govt. ID and a Selfie",
             comment: "A descriptions of the requirements to complete Tier 2 verification"
         )
+        static let notNow = NSLocalizedString(
+            "Not Now",
+            comment: "Text displayed when the user does not want to continue with tier 2 KYC."
+        )
+        static let moreInfoNeededHeaderText = NSLocalizedString(
+            "We Need Some More Information to Complete Your Profile",
+            comment: "Header text when more information is needed from the user for KYCing"
+        )
+        static let moreInfoNeededSubHeaderText = NSLocalizedString(
+            "You’ll need to verify your phone number, provide a government issued ID and a Selfie.",
+            comment: "Header text when more information is needed from the user for KYCing"
+        )
     }
 
     struct Swap {

@@ -82,25 +82,23 @@ protocol KYCCoordinatorDelegate: class {
         let disposable = BlockchainDataRepository.shared.fetchNabuUser()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [unowned self] in
+            .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
+            .subscribe(onSuccess: { [weak self] in
                 Logger.shared.debug("Got user with ID: \($0.personalDetails?.identifier ?? "")")
-                LoadingViewPresenter.shared.hideBusyView()
-                self.user = $0
-                if self.pageTypeForUser() == .accountStatus {
-                    self.presentAccountStatusView(for: $0.status, in: viewController)
-                } else {
-                    self.initializeNavigationStack(viewController, tier: tier)
-                    self.restoreToMostRecentPageIfNeeded(tier: tier)
+                guard let strongSelf = self else {
+                    return
                 }
+                strongSelf.user = $0
+                strongSelf.initializeNavigationStack(viewController, user: $0, tier: tier)
+                strongSelf.restoreToMostRecentPageIfNeeded(tier: tier)
             }, onError: { error in
                 Logger.shared.error("Failed to get user: \(error.localizedDescription)")
-                LoadingViewPresenter.shared.hideBusyView()
                 AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
             })
          disposables.insertWithDiscardableResult(disposable)
     }
 
-    func finish() {
+    @objc func finish() {
         if navController == nil { return }
         navController.dismiss(animated: true)
     }
@@ -171,28 +169,16 @@ protocol KYCCoordinatorDelegate: class {
 
     // MARK: View Restoration
 
-    private func pageTypeForUser() -> KYCPageType {
-        // TODO: redo to take into account tier
-        guard let currentUser = user else { return .welcome }
-
-        guard let personalDetails = currentUser.personalDetails, personalDetails.firstName != nil else {
-            return .welcome
-        }
-
-        guard currentUser.address != nil else { return .country }
-
-        guard currentUser.mobile != nil else { return .enterPhone }
-
-        guard currentUser.status != .none else { return .verifyIdentity }
-
-        return .accountStatus
-    }
-
     /// Restores the user to the most recent page if they dropped off mid-flow while KYC'ing
     private func restoreToMostRecentPageIfNeeded(tier: KYCTier) {
-        // TODO: redo to take tier into account
-        let startingPage = KYCPageType.welcome
-        let endPage = pageTypeForUser()
+        guard let currentUser = user else {
+            return
+        }
+        guard let endPage = KYCPageType.pageType(for: currentUser) else {
+            return
+        }
+
+        let startingPage = KYCPageType.startingPage(forUser: currentUser, tier: tier)
         var currentPage = startingPage
         while currentPage != endPage {
             guard let nextPage = currentPage.nextPage(forTier: tier, user: user, country: country) else { return }
@@ -201,19 +187,48 @@ protocol KYCCoordinatorDelegate: class {
 
             let nextController = pageFactory.createFrom(
                 pageType: currentPage,
-                in: self
+                in: self,
+                payload: createPagePayload(page: currentPage, user: currentUser)
             )
+
             navController.pushViewController(nextController, animated: false)
         }
     }
 
-    private func initializeNavigationStack(_ viewController: UIViewController, tier: KYCTier) {
-        // TODO: redo to take tier into account
-        guard let welcomeViewController = pageFactory.createFrom(
-            pageType: .welcome,
+    private func createPagePayload(page: KYCPageType, user: NabuUser) -> KYCPagePayload? {
+        switch page {
+        case .confirmPhone:
+            return .phoneNumberUpdated(phoneNumber: user.mobile?.phone ?? "")
+        case .confirmEmail:
+            return .emailPendingVerification(email: user.email.address)
+        case .enterEmail,
+             .welcome,
+             .country,
+             .states,
+             .profile,
+             .address,
+             .tier1ForcedTier2,
+             .enterPhone,
+             .verifyIdentity,
+             .accountStatus,
+             .applicationComplete:
+            return nil
+        }
+    }
+
+    private func initializeNavigationStack(_ viewController: UIViewController, user: NabuUser, tier: KYCTier) {
+        let startingPage = KYCPageType.startingPage(forUser: user, tier: tier)
+        let startingViewController = pageFactory.createFrom(
+            pageType: startingPage,
             in: self
-        ) as? KYCWelcomeController else { return }
-        navController = presentInNavigationController(welcomeViewController, in: viewController)
+        )
+        startingViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "close"),
+            style: .plain,
+            target: self,
+            action: #selector(finish)
+        )
+        navController = presentInNavigationController(startingViewController, in: viewController)
     }
 
     // MARK: Private Methods
@@ -302,5 +317,45 @@ protocol KYCCoordinatorDelegate: class {
         navController.modalTransitionStyle = .coverVertical
         presentingViewController.present(navController, animated: true)
         return navController
+    }
+}
+
+extension KYCPageType {
+
+    /// The page type the user should be placed in given the information they have provided
+    static func pageType(for user: NabuUser) -> KYCPageType? {
+        let tier = user.tiers?.selected ?? .tier1
+        switch tier {
+        case .tier0:
+            return nil
+        case .tier1:
+            return tier1PageType(for: user)
+        case .tier2:
+            return tier1PageType(for: user) ?? tier2PageType(for: user)
+        }
+    }
+
+    private static func tier1PageType(for user: NabuUser) -> KYCPageType? {
+        guard user.email.verified else {
+            return .enterEmail
+        }
+
+        guard let personalDetails = user.personalDetails, personalDetails.firstName != nil else {
+            return .country
+        }
+
+        guard user.address != nil else { return .country }
+
+        return nil
+    }
+
+    private static func tier2PageType(for user: NabuUser) -> KYCPageType? {
+        guard let mobile = user.mobile else { return .enterPhone }
+
+        guard mobile.verified else { return .confirmPhone }
+
+        guard user.status != .none else { return .verifyIdentity }
+
+        return nil
     }
 }

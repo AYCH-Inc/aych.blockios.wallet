@@ -1572,6 +1572,10 @@ struct LocalizationConstants {
             "Available Today",
             comment: "Available Today"
         )
+        static let tierTwoVerificationIsBeingReviewed = NSLocalizedString(
+            "Your Tier 2 verification is currently being reviewed by a Blockchain Support Member.",
+            comment: "The Tiers overview screen when the user is approved for Tier 1 but they are in review for Tier 2"
+        )
     }
 
     struct Swap {

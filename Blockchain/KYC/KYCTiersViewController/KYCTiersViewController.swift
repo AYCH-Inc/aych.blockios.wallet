@@ -53,12 +53,12 @@ class KYCTiersViewController: UIViewController {
     
     fileprivate func registerSupplementaryViews() {
         guard let collection = collectionView else { return }
-        let header = UINib(nibName: KYCTiersHeaderView.identifier, bundle: nil)
+        let header = UINib(nibName: pageModel.header.identifier, bundle: nil)
         let footer = UINib(nibName: KYCTiersFooterView.identifier, bundle: nil)
         collection.register(
             header,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: KYCTiersHeaderView.identifier
+            withReuseIdentifier: pageModel.header.identifier
         )
         collection.register(
             footer,
@@ -71,8 +71,6 @@ class KYCTiersViewController: UIViewController {
 extension KYCTiersViewController: KYCTiersHeaderViewDelegate {
     func headerView(_ view: KYCTiersHeaderView, actionTapped: KYCTiersHeaderViewModel.Action) {
         switch actionTapped {
-        case .swapNow:
-            break
         case .contactSupport:
             break
         case .learnMore:
@@ -137,7 +135,7 @@ extension KYCTiersViewController: UICollectionViewDelegateFlowLayout {
         case UICollectionView.elementKindSectionHeader:
             guard let header = collectionView.dequeueReusableSupplementaryView(
                 ofKind: UICollectionView.elementKindSectionHeader,
-                withReuseIdentifier: KYCTiersHeaderView.identifier,
+                withReuseIdentifier: pageModel.header.identifier,
                 for: indexPath
                 ) as? KYCTiersHeaderView else { return UICollectionReusableView() }
             header.configure(with: pageModel.header)
@@ -153,7 +151,7 @@ extension KYCTiersViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForHeaderInSection section: Int
         ) -> CGSize {
-        let height = KYCTiersHeaderView.estimatedHeight(
+        let height = pageModel.header.estimatedHeight(
             for: collectionView.bounds.width,
             model: pageModel.header
         )

@@ -1576,6 +1576,14 @@ struct LocalizationConstants {
             "Your Tier 2 verification is currently being reviewed by a Blockchain Support Member.",
             comment: "The Tiers overview screen when the user is approved for Tier 1 but they are in review for Tier 2"
         )
+        static let tierOneRequirements = NSLocalizedString(
+            "Requires Email, Name, Date of Birth and Address",
+            comment: "A descriptions of the requirements to complete Tier 1 verification"
+        )
+        static let tierTwoRequirements = NSLocalizedString(
+            "Requires Tier 1, Phone Number, Govt. ID and a Selfie",
+            comment: "A descriptions of the requirements to complete Tier 2 verification"
+        )
     }
 
     struct Swap {

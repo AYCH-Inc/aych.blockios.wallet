@@ -69,4 +69,6 @@ public extension UIColor {
     public static let verified = #colorLiteral(red: 0.01176470588, green: 0.662745098, blue: 0.4470588235, alpha: 1)
     
     public static let unverified = #colorLiteral(red: 0.86, green: 0.16, blue: 0.16, alpha: 1)
+    
+    public static let disabled = #colorLiteral(red: 0.88, green: 0.88, blue: 0.88, alpha: 1)
 }

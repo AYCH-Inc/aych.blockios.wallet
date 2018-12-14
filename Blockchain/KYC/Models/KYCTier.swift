@@ -61,6 +61,17 @@ public extension KYCTier {
         }
     }
     
+    var requirementsDescription: String {
+        switch self {
+        case .tier0:
+            return ""
+        case .tier1:
+            return LocalizationConstants.KYC.tierOneRequirements
+        case .tier2:
+            return LocalizationConstants.KYC.tierTwoRequirements
+        }
+    }
+    
     var limitTimeframe: String {
         switch self {
         case .tier0:

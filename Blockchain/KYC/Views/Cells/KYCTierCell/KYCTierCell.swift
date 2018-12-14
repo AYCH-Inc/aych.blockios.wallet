@@ -14,7 +14,7 @@ class KYCTierCell: UICollectionViewCell {
     // MARK: Private Static Properties
     
     static fileprivate let headlineContainerHeight: CGFloat = 50.0
-    static fileprivate let stackviewInteritemPadding: CGFloat = 12.0
+    static fileprivate let stackviewInteritemPadding: CGFloat = 4.0
     static fileprivate let stackviewVerticalPadding: CGFloat = 40.0
     static fileprivate let stackviewLeadingPadding: CGFloat = 24.0
     static fileprivate let stackviewTrailingPadding: CGFloat = 8.0
@@ -32,7 +32,17 @@ class KYCTierCell: UICollectionViewCell {
     @IBOutlet fileprivate var limitTimeframe: UILabel!
     @IBOutlet fileprivate var limitDurationEstimate: UILabel!
     @IBOutlet fileprivate var tierApprovalStatus: UILabel!
+    @IBOutlet fileprivate var tierRequirements: UILabel!
     @IBOutlet fileprivate var shadowView: UIView!
+    
+    fileprivate var allLabels: [UILabel] {
+        return [headlineDescription,
+        tierDescription,
+        limitAmountDescription,
+        limitTimeframe,
+        limitDurationEstimate,
+        tierApprovalStatus]
+    }
     
     // MARK: Private Properties
     
@@ -50,28 +60,45 @@ class KYCTierCell: UICollectionViewCell {
     func configure(with model: KYCTierCellModel) {
         self.tier = model.tier
         tapActionBlock = model.action
-        setupShadowView()
-        
+        layer.cornerRadius = 8.0
+        layer.masksToBounds = false
+        disclosureButton.setImage(model.status.image, for: .normal)
         disclosureButton.layer.cornerRadius = disclosureButton.bounds.width / 2.0
         disclosureButton.layer.borderWidth = 1.0
-        disclosureButton.layer.borderColor = UIColor(red:0.8, green:0.86, blue:0.9, alpha:1).cgColor
+        disclosureButton.layer.borderColor = model.status.color?.cgColor
         
         let tier = model.tier
         
-        layer.cornerRadius = 8.0
-        layer.masksToBounds = false
+        if model.status == .rejected {
+            styleAsDisabled()
+        } else {
+            setupShadowView()
+        }
         
-        headlineDescription.isHidden = tier.headline == nil
+        tierRequirements.isHidden = model.requirementsVisibility.isHidden
+        tierRequirements.text = model.tier.requirementsDescription
+        
+        tierApprovalStatus.isHidden = model.statusVisibility.isHidden
+        tierApprovalStatus.text = model.status.description
+        tierApprovalStatus.textColor = model.status.color
+        
+        headlineDescription.isHidden = (tier.headline == nil || model.status == .rejected)
         if let headline = tier.headline {
             headlineDescription.text = headline.uppercased()
         }
         
-        tierDescription.text = tier.tierDescription.uppercased()
+        let attributedTierDescription = NSAttributedString(
+            string: tier.tierDescription.uppercased(),
+            attributes: [.font: KYCTierCell.headlineFont(),
+                         .kern: NSNumber(value: 4.0)]
+        )
+        
+        tierDescription.attributedText = attributedTierDescription
         limitAmountDescription.text = tier.limitDescription
         limitTimeframe.text = tier.limitTimeframe
         limitDurationEstimate.text = tier.duration
         
-        let headlineContainerHeight = tier.headline != nil ? KYCTierCell.headlineContainerHeight : 0.0
+        let headlineContainerHeight = model.headlineContainerVisibility.isHidden ? 0.0 : KYCTierCell.headlineContainerHeight
         guard headlineContainerHeightConstraint.constant != headlineContainerHeight else { return }
         
         headlineContainerHeightConstraint.constant = headlineContainerHeight
@@ -93,16 +120,29 @@ class KYCTierCell: UICollectionViewCell {
         shadowView.layer.shadowOpacity = 1.0
     }
     
+    fileprivate func styleAsDisabled() {
+        allLabels.forEach({
+            $0.textColor = .disabled
+            $0.alpha = 1
+        })
+        layer.borderColor = UIColor.disabled.cgColor
+        layer.borderWidth = 1.0
+        disclosureButton.setImage(#imageLiteral(resourceName: "icon_lock"), for: .normal)
+        disclosureButton.isEnabled = false
+        disclosureButton.layer.borderColor = UIColor.disabled.cgColor
+    }
+    
     class func heightForProposedWidth(_ width: CGFloat, model: KYCTierCellModel) -> CGFloat {
         let tier = model.tier
         
-        let headlineContainerHeight = tier.headline != nil ? KYCTierCell.headlineContainerHeight : 0.0
+        let headlineContainerHeight = model.headlineContainerVisibility.isHidden ? 0.0 : KYCTierCell.headlineContainerHeight
         let widthPadding = disclosureButtonWidth + stackviewLeadingPadding + stackviewTrailingPadding + disclosureTrailingPadding
         let adjustedWidth = width - widthPadding
         
         let tierDescriptionHeight = NSAttributedString(
             string: tier.tierDescription,
-            attributes: [.font: headlineFont()]).heightForWidth(width: adjustedWidth)
+            attributes: [.font: headlineFont(),
+                         .kern: NSNumber(value: 4.0)]).heightForWidth(width: adjustedWidth)
         
         let limitAmountHeight = NSAttributedString(
             string: tier.limitDescription,
@@ -116,9 +156,37 @@ class KYCTierCell: UICollectionViewCell {
             string: tier.tierDescription,
             attributes: [.font: timeframeFont()]).heightForWidth(width: adjustedWidth)
         
-        let labelHeights = headlineContainerHeight + tierDescriptionHeight + limitAmountHeight + timeframeHeight + durationEstimateHeight
+        var tierRequirementsHeight = NSAttributedString(
+            string: tier.requirementsDescription,
+            attributes: [.font: requirementsFont()]).heightForWidth(width: adjustedWidth)
         
-        return labelHeights + stackviewInteritemPadding + stackviewVerticalPadding
+        var statusHeight: CGFloat = 0.0
+        if let value = model.status.description {
+            statusHeight = NSAttributedString(
+                string: value,
+                attributes: [.font: timeframeFont()]).heightForWidth(width: adjustedWidth)
+        }
+        
+        statusHeight = model.statusVisibility.isHidden ? 0.0 : statusHeight
+        tierRequirementsHeight = model.requirementsVisibility.isHidden ? 0.0 : tierRequirementsHeight
+        
+        let numberVisible = [tierDescriptionHeight,
+                             limitAmountHeight,
+                             timeframeHeight,
+                             durationEstimateHeight,
+                             tierRequirementsHeight,
+                             statusHeight].filter({ $0 > 0.0}).count
+        
+        let stackviewPadding = CGFloat((numberVisible - 1)) * stackviewInteritemPadding
+        
+        let labelHeights = headlineContainerHeight +
+            tierDescriptionHeight +
+            limitAmountHeight +
+            timeframeHeight +
+            durationEstimateHeight +
+            tierRequirementsHeight
+        
+        return labelHeights + stackviewPadding + stackviewVerticalPadding
     }
     
     fileprivate static func headlineFont() -> UIFont {
@@ -127,11 +195,16 @@ class KYCTierCell: UICollectionViewCell {
     }
     
     fileprivate static func limitFont() -> UIFont {
-        let font = Font(.branded(.montserratRegular), size: .custom(32.0))
+        let font = Font(.branded(.montserratSemiBold), size: .custom(32.0))
         return font.result
     }
     
     fileprivate static func timeframeFont() -> UIFont {
+        let font = Font(.branded(.montserratRegular), size: .custom(14.0))
+        return font.result
+    }
+    
+    fileprivate static func requirementsFont() -> UIFont {
         let font = Font(.branded(.montserratRegular), size: .custom(14.0))
         return font.result
     }

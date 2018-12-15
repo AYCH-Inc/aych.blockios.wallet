@@ -9,6 +9,7 @@
 import Foundation
 
 class MockBlockchainSettingsApp: BlockchainSettings.App {
+    var mockDidAttemptToRouteForAirdrop: Bool = false
     var mockDidTapOnAirdropDeepLink: Bool = false
     var mockGuid: String?
     var mockSharedKey: String?
@@ -41,6 +42,15 @@ class MockBlockchainSettingsApp: BlockchainSettings.App {
         }
         set {
             mockDidTapOnAirdropDeepLink = newValue
+        }
+    }
+
+    override var didAttemptToRouteForAirdrop: Bool {
+        get {
+            return mockDidAttemptToRouteForAirdrop
+        }
+        set {
+            mockDidAttemptToRouteForAirdrop = newValue
         }
     }
 }

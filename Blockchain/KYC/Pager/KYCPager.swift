@@ -11,7 +11,7 @@ import RxSwift
 class KYCPager: KYCPagerAPI {
 
     private let dataRepository: BlockchainDataRepository
-    private var tier: KYCTier
+    private(set) var tier: KYCTier
 
     init(
         dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
@@ -130,7 +130,9 @@ extension KYCPageType {
     private func nextPageTier1(user: NabuUser?, country: KYCCountry?) -> KYCPageType? {
         switch self {
         case .welcome:
-            // Not used
+            if let user = user {
+                return KYCPageType.startingPage(forUser: user, tier: .tier1)
+            }
             return .enterEmail
         case .enterEmail:
             return .confirmEmail

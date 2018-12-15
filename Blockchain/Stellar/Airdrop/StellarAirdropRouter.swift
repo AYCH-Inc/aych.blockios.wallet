@@ -89,7 +89,10 @@ class StellarAirdropRouter {
                 guard user.status == .none else {
                     return
                 }
-                strongSelf.kycCoordinator.start()
+                guard let viewController = UIApplication.shared.keyWindow?.rootViewController else {
+                    return
+                }
+                strongSelf.kycCoordinator.start(from: viewController, tier: .tier2)
             }, onError: { [weak self] error in
                 guard let strongSelf = self else {
                     return

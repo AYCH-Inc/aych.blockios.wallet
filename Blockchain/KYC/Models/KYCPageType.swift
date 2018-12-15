@@ -8,10 +8,13 @@
 
 import Foundation
 
-enum KYCPageType {
+enum KYCPageType: Int {
+    // Need to set the first enumeration as 1. The order of these enums also matter
+    // since KycSettings.latestKycPage will look at the rawValue of the enum when
+    // the latestKycPage is set.
+    case welcome = 1
     case enterEmail
     case confirmEmail
-    case welcome
     case country
     case states
     case profile
@@ -20,6 +23,6 @@ enum KYCPageType {
     case enterPhone
     case confirmPhone
     case verifyIdentity
-    case accountStatus
     case applicationComplete
+    case accountStatus
 }

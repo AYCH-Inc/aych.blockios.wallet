@@ -8,9 +8,10 @@
 
 import RxSwift
 
-
 /// Handles paging from one `KYCPageType` to another.
 protocol KYCPagerAPI {
+
+    var tier: KYCTier { get }
 
     /// Returns the next page from the provided KYCPageType. This method also takes into account
     /// sanctioned checks such that if the rules engine determines that a user should be put

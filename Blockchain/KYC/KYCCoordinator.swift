@@ -57,7 +57,11 @@ protocol KYCCoordinatorDelegate: class {
 
     private let disposables = CompositeDisposable()
 
-    private override init() { /* Disallow initializing from outside objects */ }
+    private let appSettings: BlockchainSettings.App
+
+    init(appSettings: BlockchainSettings.App = BlockchainSettings.App.shared) {
+        self.appSettings = appSettings
+    }
 
     deinit {
         disposables.dispose()
@@ -127,8 +131,16 @@ protocol KYCCoordinatorDelegate: class {
                     strongSelf.navController.pushViewController(controller, animated: true)
                 }, onError: { error in
                     Logger.shared.error("Error getting next page: \(error.localizedDescription)")
-                }, onCompleted: {
+                }, onCompleted: { [weak self] in
                     Logger.shared.info("No more next pages")
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    if strongSelf.appSettings.didRegisterForAirdropCampaignSucceed && strongSelf.pager.tier == .tier2 {
+                        strongSelf.presentAccountStatusView(for: .pending, in: strongSelf.navController)
+                        return
+                    }
+                    strongSelf.finish()
                 })
             disposables.insertWithDiscardableResult(disposable)
         }
@@ -139,7 +151,7 @@ protocol KYCCoordinatorDelegate: class {
         in viewController: UIViewController
     ) {
         let accountStatusViewController = KYCInformationController.make(with: self)
-        let isReceivingAirdrop = BlockchainSettings.App.shared.didTapOnAirdropDeepLink
+        let isReceivingAirdrop = appSettings.didRegisterForAirdropCampaignSucceed
         accountStatusViewController.viewModel = KYCInformationViewModel.create(
             for: status,
             isReceivingAirdrop: isReceivingAirdrop
@@ -218,7 +230,9 @@ protocol KYCCoordinatorDelegate: class {
     }
 
     private func initializeNavigationStack(_ viewController: UIViewController, user: NabuUser, tier: KYCTier) {
-        let startingPage = KYCPageType.startingPage(forUser: user, tier: tier)
+        let startingPage = appSettings.didRegisterForAirdropCampaignSucceed ?
+            KYCPageType.welcome :
+            KYCPageType.startingPage(forUser: user, tier: tier)
         let startingViewController = pageFactory.createFrom(
             pageType: startingPage,
             in: self

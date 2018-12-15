@@ -43,7 +43,8 @@ class ExchangeCreateViewController: UIViewController {
     
     // Label that is hidden unlesss the user attempts to submit
     // an exchange that is below the minimum value or above the max.
-    @IBOutlet private var errorLabel: UILabel!
+    @IBOutlet private var errorLabel: ActionableLabel!
+    fileprivate var trigger: ActionableTrigger?
 
     @IBOutlet private var hideRatesButton: UIButton!
     @IBOutlet private var conversionRatesView: ConversionRatesView!
@@ -59,10 +60,12 @@ class ExchangeCreateViewController: UIViewController {
         case updatePrimaryLabel(NSAttributedString?, CGFloat)
         case updateSecondaryLabel(String?)
         case updateErrorLabel(String)
+        case actionableErrorLabelTrigger(ActionableTrigger)
         case updateRateLabels(first: String, second: String, third: String)
         case keypadVisibility(Visibility, animated: Bool)
         case conversionRatesView(Visibility, animated: Bool)
         case loadingIndicator(Visibility)
+        case limitsButtonStatus(Bool)
     }
     
     enum ViewUpdate: Update {
@@ -113,10 +116,9 @@ class ExchangeCreateViewController: UIViewController {
             navController.apply(NavigationBarAppearanceLight, withBackgroundColor: .white)
         }
         if let navController = navigationController as? ExchangeNavigationController {
-            navController.rightButtonTappedBlock = {
-                let controller = KYCTiersViewController.makeFromStoryboard()
-                controller.transitioningDelegate = self
-                self.present(controller, animated: true, completion: nil)
+            navController.rightButtonTappedBlock = { [weak self] in
+                guard let this = self else { return }
+                this.showTiers()
             }
         }
     }
@@ -136,6 +138,8 @@ class ExchangeCreateViewController: UIViewController {
         }
 
         tradingPairView.delegate = self
+        errorLabel.delegate = self
+
         exchangeButton.layer.cornerRadius = Constants.Measurements.buttonCornerRadius
 
         exchangeButton.setTitle(LocalizationConstants.Swap.previewSwap, for: .normal)
@@ -323,6 +327,37 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             conversionRatesView.apply(baseToCounter: first, baseToFiat: second, counterToFiat: third)
         case .updateErrorLabel(let value):
             errorLabel.text = value
+        case .actionableErrorLabelTrigger(let trigger):
+            self.trigger = trigger
+            let primary = NSMutableAttributedString(
+                string: trigger.primaryString,
+                attributes: useErrorTierLimitAttributes()
+            )
+
+            let CTA = NSAttributedString(
+                string: " " + trigger.callToAction,
+                attributes: useErrorTierLimitActionAttributes()
+            )
+
+            primary.append(CTA)
+
+            if let secondary = trigger.secondaryString {
+                let trailing = NSMutableAttributedString(
+                    string: " " + secondary,
+                    attributes: useErrorTierLimitAttributes()
+                )
+                primary.append(trailing)
+            }
+
+            errorLabel.attributedText = primary
+        case .limitsButtonStatus(let withinLimit):
+            if let navController = navigationController as? ExchangeNavigationController {
+                if withinLimit {
+                    navController.showUnderLimit()
+                } else {
+                    navController.showOverLimit()
+                }
+            }
         }
     }
     
@@ -344,6 +379,20 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             textColor: .brandPrimary,
             pendingColor: UIColor.brandPrimary.withAlphaComponent(0.5)
         )
+    }
+
+    fileprivate func useErrorTierLimitAttributes() -> [NSAttributedString.Key: Any] {
+        let fontName = Constants.FontNames.montserratRegular
+        let font = UIFont(name: fontName, size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
+        return [.font: font,
+                .foregroundColor: errorLabel.textColor]
+    }
+
+    fileprivate func useErrorTierLimitActionAttributes() -> [NSAttributedString.Key: Any] {
+        let fontName = Constants.FontNames.montserratRegular
+        let font = UIFont(name: fontName, size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
+        return [.font: font,
+                .foregroundColor: UIColor.brandSecondary]
     }
 
     func updateTradingPairView(pair: TradingPair, fix: Fix) {
@@ -402,6 +451,12 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
     
     func showSummary(orderTransaction: OrderTransaction, conversion: Conversion) {
         ExchangeCoordinator.shared.handle(event: .confirmExchange(orderTransaction: orderTransaction, conversion: conversion))
+    }
+
+    func showTiers() {
+        let controller = KYCTiersViewController.makeFromStoryboard()
+        controller.transitioningDelegate = self
+        self.present(controller, animated: true, completion: nil)
     }
 }
 
@@ -476,5 +531,16 @@ extension ExchangeCreateViewController: UIViewControllerTransitioningDelegate {
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return ModalAnimator(operation: .present, duration: 0.4)
+    }
+}
+
+extension ExchangeCreateViewController: ActionableLabelDelegate {
+    func targetRange(_ label: ActionableLabel) -> NSRange? {
+        return trigger?.actionRange()
+    }
+
+    func actionRequestingExecution(label: ActionableLabel) {
+        guard let trigger = trigger else { return }
+        trigger.execute()
     }
 }

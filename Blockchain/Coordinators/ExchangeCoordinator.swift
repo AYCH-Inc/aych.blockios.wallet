@@ -28,7 +28,7 @@ struct ExchangeServices: ExchangeDependencies {
     let tradeExecution: TradeExecutionAPI
     let assetAccountRepository: AssetAccountRepository
     let tradeLimits: TradeLimitsAPI
-    
+
     init() {
         service = ExchangeService()
         markets = MarketsService()

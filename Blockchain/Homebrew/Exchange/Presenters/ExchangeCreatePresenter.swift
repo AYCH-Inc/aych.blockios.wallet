@@ -61,6 +61,8 @@ class ExchangeCreatePresenter {
                 transition: .crossFade(duration: 0.2)
             )
         )
+
+        interface?.apply(presentationUpdates: [.limitsButtonStatus(true)])
     }
     
     fileprivate func displayError() {
@@ -204,6 +206,16 @@ extension ExchangeCreatePresenter: ExchangeCreateOutput {
     func entryAboveMaximumValue(maximum: String) {
         let display = LocalizationConstants.Exchange.yourMax + " " + maximum
         interface?.apply(presentationUpdates: [.updateErrorLabel(display)])
+        displayError()
+        disableExchangeButton()
+    }
+
+    func entryAboveTierLimit(amount: String) {
+        let triggerText = String(format: LocalizationConstants.Swap.tierlimitErrorMessage, amount)
+        let trigger = ActionableTrigger(text: triggerText, CTA: LocalizationConstants.Swap.upgradeNow, secondary: nil) {
+            self.interface?.showTiers()
+        }
+        interface?.apply(presentationUpdates: [.actionableErrorLabelTrigger(trigger)])
         displayError()
         disableExchangeButton()
     }

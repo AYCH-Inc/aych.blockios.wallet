@@ -11,12 +11,27 @@ import Foundation
 class ExchangeNavigationController: BCActionNavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Default state
+        showUnderLimit()
+    }
+
+    func showUnderLimit() {
         rightButton.setImage(UIImage(named: "icon_limit_under"), for: .normal)
+        drawButtonCircle(color: UIColor.tiersGray)
+    }
+
+    func showOverLimit() {
+        rightButton.setImage(UIImage(named: "icon_limit_over"), for: .normal)
+        drawButtonCircle(color: UIColor.tiersRed)
+    }
+
+    private func drawButtonCircle(color: UIColor) {
         if let imageView = rightButton.imageView {
             imageView.layer.cornerRadius = imageView.frame.size.width / 2
             imageView.clipsToBounds = true
             imageView.layer.borderWidth = 2.0
-            imageView.layer.borderColor = UIColor.circleGray.cgColor
+            imageView.layer.borderColor = color.cgColor
         }
     }
 }

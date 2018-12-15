@@ -33,6 +33,7 @@ struct TradeLimits: Decodable {
         minOrder = try values.decode(String.self, forKey: .minOrder).toDecimal()
         maxOrder = try values.decode(String.self, forKey: .maxOrder).toDecimal()
         maxPossibleOrder = try values.decode(String.self, forKey: .maxPossibleOrder).toDecimal()
+
         daily = try values.decode(Limit.self, forKey: .daily)
         weekly = try values.decode(Limit.self, forKey: .weekly)
         annual = try values.decode(Limit.self, forKey: .annual)

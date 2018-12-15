@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
     func onViewLoaded()
@@ -17,6 +18,7 @@ protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
     func onUseMaximumTapped(assetAccount: AssetAccount)
     func onDisplayInputTypeTapped()
     func onExchangeButtonTapped()
+    func onSwapButtonTapped()
 }
 
 // swiftlint:disable line_length
@@ -91,6 +93,7 @@ class ExchangeCreateViewController: UIViewController {
     fileprivate var assetAccountListPresenter: ExchangeAssetAccountListPresenter!
     fileprivate var fromAccount: AssetAccount!
     fileprivate var toAccount: AssetAccount!
+    fileprivate var disposable: Disposable?
 
     // MARK: Factory
     
@@ -102,6 +105,11 @@ class ExchangeCreateViewController: UIViewController {
     }
 
     // MARK: Lifecycle
+    
+    deinit {
+        disposable?.dispose()
+        disposable = nil
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,9 +124,8 @@ class ExchangeCreateViewController: UIViewController {
             navController.apply(NavigationBarAppearanceLight, withBackgroundColor: .white)
         }
         if let navController = navigationController as? ExchangeNavigationController {
-            navController.rightButtonTappedBlock = { [weak self] in
-                guard let this = self else { return }
-                this.showTiers()
+            navController.rightButtonTappedBlock = { [unowned self] in
+                self.delegate?.onSwapButtonTapped()
             }
         }
     }
@@ -166,6 +173,15 @@ class ExchangeCreateViewController: UIViewController {
         presenter.interface = self
         interactor.output = presenter
         delegate = presenter
+    }
+    
+    fileprivate func routeUserToTiers(_ user: NabuUser) {
+        let currencyCode = BlockchainSettings.App.shared.fiatCurrencySymbol
+        self.disposable = KYCTiersViewController.routeToTiers(
+            fromViewController: self,
+            code: currencyCode,
+            accountStatus: user.status
+        )
     }
     
     // MARK: - IBActions
@@ -225,6 +241,15 @@ extension ExchangeCreateViewController: NumberKeypadViewDelegate {
 }
 
 extension ExchangeCreateViewController: ExchangeCreateInterface {
+    func showTiers() {
+        disposable = BlockchainDataRepository.shared.fetchNabuUser()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { user in
+                self.routeUserToTiers(user)
+            })
+    }
+    
     func apply(transitionPresentation: TransitionPresentationUpdate<ExchangeCreateInterface.TransitionUpdate>) {
         transitionPresentation.transitionType.perform(with: view, animations: { [weak self] in
             guard let this = self else { return }
@@ -451,12 +476,6 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
     
     func showSummary(orderTransaction: OrderTransaction, conversion: Conversion) {
         ExchangeCoordinator.shared.handle(event: .confirmExchange(orderTransaction: orderTransaction, conversion: conversion))
-    }
-
-    func showTiers() {
-        let controller = KYCTiersViewController.makeFromStoryboard()
-        controller.transitioningDelegate = self
-        self.present(controller, animated: true, completion: nil)
     }
 }
 

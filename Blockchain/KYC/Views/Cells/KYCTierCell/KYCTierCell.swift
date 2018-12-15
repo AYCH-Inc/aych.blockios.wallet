@@ -9,7 +9,15 @@
 import Foundation
 import PlatformUIKit
 
+protocol KYCTierCellDelegate: class {
+    func tierCell(_ cell: KYCTierCell, selectedTier: KYCTier)
+}
+
 class KYCTierCell: UICollectionViewCell {
+    
+    // MARK: Public Properties
+    
+    weak var delegate: KYCTierCellDelegate?
     
     // MARK: Private Static Properties
     
@@ -45,21 +53,22 @@ class KYCTierCell: UICollectionViewCell {
     }
     
     // MARK: Private Properties
-    
-    fileprivate var tier: KYCTier!
-    fileprivate var tapActionBlock: KYCTierCellModel.Action?
+    fileprivate var model: KYCTierCellModel!
+    fileprivate var tier: KYCTier {
+        return model.tier
+    }
     
     // MARK: Actions
     
     @IBAction func disclosureButtonTapped(_ sender: UIButton) {
-        tapActionBlock?(tier)
+        guard model.status == .none else { return }
+        delegate?.tierCell(self, selectedTier: tier)
     }
     
     // MARK: Overrides
     
     func configure(with model: KYCTierCellModel) {
-        self.tier = model.tier
-        tapActionBlock = model.action
+        self.model = model
         layer.cornerRadius = 8.0
         layer.masksToBounds = false
         disclosureButton.setImage(model.status.image, for: .normal)

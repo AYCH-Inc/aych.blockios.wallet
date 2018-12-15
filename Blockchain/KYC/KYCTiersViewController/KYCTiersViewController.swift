@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 class KYCTiersViewController: UIViewController {
     
@@ -18,11 +19,18 @@ class KYCTiersViewController: UIViewController {
     
     // MARK: Private Properties
     
+    fileprivate static let limitsAPI: TradeLimitsAPI = ExchangeServices().tradeLimits
     fileprivate var layoutAttributes: LayoutAttributes = .tiersOverview
     
     // MARK: Public Properties
     
-    var pageModel: KYCTiersPageModel = .demo
+    var pageModel: KYCTiersPageModel!
+    
+    static func make(with pageModel: KYCTiersPageModel) -> KYCTiersViewController {
+        let controller = KYCTiersViewController.makeFromStoryboard()
+        controller.pageModel = pageModel
+        return controller
+    }
     
     // MARK: Lifecycle
     
@@ -100,6 +108,7 @@ extension KYCTiersViewController: UICollectionViewDataSource {
             for: indexPath) as? KYCTierCell else {
                 return UICollectionViewCell()
         }
+        cell.delegate = self
         cell.configure(with: item)
         return cell
     }
@@ -171,5 +180,47 @@ extension KYCTiersViewController: UICollectionViewDelegateFlowLayout {
         )
         let width = collectionView.bounds.size.width - layoutAttributes.sectionInsets.left - layoutAttributes.sectionInsets.right
         return CGSize(width: width, height: height)
+    }
+}
+
+extension KYCTiersViewController: KYCTierCellDelegate {
+    func tierCell(_ cell: KYCTierCell, selectedTier: KYCTier) {
+        KYCCoordinator.shared.start(from: self, tier: selectedTier)
+    }
+}
+
+extension KYCTiersViewController {
+    typealias CurrencyCode = String
+    static func routeToTiers(
+        fromViewController: UIViewController,
+        code: CurrencyCode,
+        accountStatus: KYCAccountStatus) -> Disposable {
+        return Observable.zip(
+            BlockchainDataRepository.shared.tiers,
+            limitsAPI.getTradeLimits(withFiatCurrency: code).asObservable()
+            )
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { response in
+                let userTiers = response.0.userTiers
+                let limits = response.1
+                let formatter: NumberFormatter = NumberFormatter.localCurrencyFormatterWithGroupingSeparator
+                let max = NSDecimalNumber(decimal: limits.maxPossibleOrder)
+                
+                let header = KYCTiersHeaderViewModel.make(
+                    with: response.0,
+                    status: accountStatus,
+                    currencySymbol: BlockchainSettings.App.shared.fiatCurrencySymbol,
+                    availableFunds: formatter.string(from: max)
+                )
+                let filtered = userTiers.filter({ $0.tier != .tier0 })
+                let cells = filtered.map({ return KYCTierCellModel.model(from: $0) })
+                let page = KYCTiersPageModel(header: header, cells: cells, disclaimer: nil)
+                let controller = KYCTiersViewController.make(with: page)
+                if let from = fromViewController as? UIViewControllerTransitioningDelegate {
+                    controller.transitioningDelegate = from
+                }
+                fromViewController.present(controller, animated: true, completion: nil)
+            })
     }
 }

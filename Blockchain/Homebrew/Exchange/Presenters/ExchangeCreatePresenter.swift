@@ -78,6 +78,10 @@ class ExchangeCreatePresenter {
         interface?.exchangeButtonEnabled(false)
         exchangeButtonVisibility(.translucent)
     }
+    
+    fileprivate func displayTiers() {
+        interface?.showTiers()
+    }
 }
 
 extension ExchangeCreatePresenter: ExchangeCreateDelegate {
@@ -186,6 +190,10 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
         guard interactor.confirmationIsExecuting() == false else { return }
         interactor.confirmConversion()
     }
+    
+    func onSwapButtonTapped() {
+        displayTiers()
+    }
 }
 
 extension ExchangeCreatePresenter: ExchangeCreateOutput {
@@ -212,8 +220,9 @@ extension ExchangeCreatePresenter: ExchangeCreateOutput {
 
     func entryAboveTierLimit(amount: String) {
         let triggerText = String(format: LocalizationConstants.Swap.tierlimitErrorMessage, amount)
-        let trigger = ActionableTrigger(text: triggerText, CTA: LocalizationConstants.Swap.upgradeNow, secondary: nil) {
-            self.interface?.showTiers()
+        let trigger = ActionableTrigger(text: triggerText, CTA: LocalizationConstants.Swap.upgradeNow, secondary: nil) { [weak self] in
+            guard let this = self else { return }
+            this.displayTiers()
         }
         interface?.apply(presentationUpdates: [.actionableErrorLabelTrigger(trigger)])
         displayError()

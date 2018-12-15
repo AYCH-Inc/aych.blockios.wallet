@@ -166,5 +166,46 @@ extension KYCTiersHeaderViewModel {
 }
 
 extension KYCTiersHeaderViewModel {
+    static func make(
+        with tierResponse: KYCUserTiersResponse,
+        status: KYCAccountStatus,
+        currencySymbol: String,
+        availableFunds: String?
+        ) -> KYCTiersHeaderViewModel {
+        let tiers = tierResponse.userTiers.filter({ $0.tier != .tier0 })
+        guard let tier2 = tiers.filter({ $0.tier == .tier2 }).first else { return .unavailable }
+        
+        switch status {
+        case .none:
+            return .empty
+        case .failed,
+             .expired:
+            return .unavailable
+        case .pending,
+             .underReview:
+            guard let amount = availableFunds else { return .unavailable }
+            let formatted = currencySymbol + amount
+            if tier2.state == .pending || tier2.state == .rejected {
+                return .available(formatted, LocalizationConstants.KYC.tierTwoVerificationIsBeingReviewed)
+            }
+            
+            return .available(formatted, LocalizationConstants.KYC.swapLimitDescription)
+        case .approved:
+            guard let amount = availableFunds else { return .unavailable }
+            let formatted = currencySymbol + amount
+            if tier2.state == .verified {
+                return .availableToday(formatted, LocalizationConstants.KYC.swapLimitDescription)
+            }
+            
+            if tier2.state == .pending || tier2.state == .rejected {
+                return .available(formatted, LocalizationConstants.KYC.tierTwoVerificationIsBeingReviewed)
+            }
+            return .available(formatted, LocalizationConstants.KYC.swapLimitDescription)
+        }
+    }
+}
+
+extension KYCTiersHeaderViewModel {
+    static let welcome: KYCTiersHeaderViewModel = .empty
     static let demo: KYCTiersHeaderViewModel = .unavailable
 }

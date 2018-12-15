@@ -89,7 +89,8 @@ import RxSwift
     func prefetchData() {
         _ = Observable.zip(
             nabuUser,
-            countries.asObservable()
+            countries.asObservable(),
+            tiers
         ).subscribe()
     }
 

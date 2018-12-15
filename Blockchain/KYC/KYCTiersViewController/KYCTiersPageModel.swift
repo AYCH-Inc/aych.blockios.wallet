@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 struct KYCTiersPageModel {
     let header: KYCTiersHeaderViewModel

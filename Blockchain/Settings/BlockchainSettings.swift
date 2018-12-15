@@ -470,6 +470,9 @@ final class BlockchainSettings: NSObject {
             airdropCampaignEmail = nil
             didAttemptToRouteForAirdrop = false
             didRegisterForAirdropCampaignSucceed = false
+
+            KycSettings.shared.reset()
+
             Logger.shared.info("Application settings have been reset.")
         }
 

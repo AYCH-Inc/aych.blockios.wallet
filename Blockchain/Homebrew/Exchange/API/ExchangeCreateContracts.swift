@@ -41,6 +41,8 @@ protocol ExchangeCreateInterface: class {
 
     func isShowingConversionRatesView() -> Bool
     func isExchangeButtonEnabled() -> Bool
+
+    func showTiers()
 }
 
 // Conforms to NumberKeypadViewDelegate to avoid redundancy of keypad input methods
@@ -65,6 +67,7 @@ protocol ExchangeCreateOutput: class {
     func showError(message: String)
     func entryBelowMinimumValue(minimum: String)
     func entryAboveMaximumValue(maximum: String)
+    func entryAboveTierLimit(amount: String)
     func loadingVisibility(_ visibility: Visibility)
     func hideError()
     func exchangeButtonVisibility(_ visibility: Visibility)

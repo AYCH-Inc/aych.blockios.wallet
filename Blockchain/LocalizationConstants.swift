@@ -1624,6 +1624,12 @@ struct LocalizationConstants {
         static let swapLocked = NSLocalizedString(
             "Swap Locked", comment: "Button text shown on the exchange screen to show that a swap has been confirmed"
         )
+        static let tierlimitErrorMessage = NSLocalizedString(
+            "Your max is %@.", comment: "Error message shown on the exchange screen when a user's exchange input would exceed their tier limit"
+        )
+        static let upgradeNow = NSLocalizedString(
+            "Upgrade now.", comment: "Call to action shown to encourage the user to reach a higher swap tier"
+        )
     }
 
     struct Lockbox {

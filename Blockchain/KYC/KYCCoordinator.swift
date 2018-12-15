@@ -287,13 +287,15 @@ protocol KYCCoordinatorDelegate: class {
         switch type {
         case .tier1ForcedTier2,
              .welcome,
-             .enterEmail,
              .confirmEmail,
              .country,
              .states,
              .accountStatus,
              .applicationComplete:
             break
+        case .enterEmail:
+            guard let current = user else { return }
+            delegate?.apply(model: .email(current))
         case .profile:
             guard let current = user else { return }
             delegate?.apply(model: .personalDetails(current))

@@ -1492,7 +1492,7 @@ struct LocalizationConstants {
             comment: "Text telling the user to check their mail inbox to verify their email."
         )
         static let didntGetTheEmail = NSLocalizedString(
-            "Didn't get the email?",
+            "Didn't get the email? Send again",
             comment: "Text asking if the user didn't get the verification email."
         )
         static let emailSent = NSLocalizedString(
@@ -1595,6 +1595,10 @@ struct LocalizationConstants {
         static let moreInfoNeededSubHeaderText = NSLocalizedString(
             "You’ll need to verify your phone number, provide a government issued ID and a Selfie.",
             comment: "Header text when more information is needed from the user for KYCing"
+        )
+        static let openEmailApp = NSLocalizedString(
+            "Open Email App",
+            comment: "CTA for when the user should open the email app to continue email verification."
         )
     }
 

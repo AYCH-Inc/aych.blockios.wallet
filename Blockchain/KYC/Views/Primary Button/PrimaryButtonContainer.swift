@@ -14,6 +14,7 @@ class PrimaryButtonContainer: NibBasedView {
     enum PrimaryButtonFont: Int {
         case kyc = 0
         case send = 1
+        case small = 2
         
         var font: UIFont {
             switch self {
@@ -27,6 +28,11 @@ class PrimaryButtonContainer: NibBasedView {
                     name: Constants.FontNames.montserratRegular,
                     size: 17.0
                     ) ?? UIFont.systemFont(ofSize: 17.0, weight: .regular)
+            case .small:
+                return UIFont(
+                    name: Constants.FontNames.montserratRegular,
+                    size: 14.0
+                ) ?? UIFont.systemFont(ofSize: 14.0, weight: .regular)
             }
         }
     }
@@ -47,6 +53,12 @@ class PrimaryButtonContainer: NibBasedView {
         primaryButton.layer.cornerRadius = 4.0
     }
 
+    var activityIndicatorStyle: UIActivityIndicatorView.Style = .whiteLarge {
+        didSet {
+            activityIndicator.style = activityIndicatorStyle
+        }
+    }
+
     // MARK: IBInspectable
     
     @IBInspectable var primaryButtonFont: Int = 0 {
@@ -59,6 +71,12 @@ class PrimaryButtonContainer: NibBasedView {
     @IBInspectable var buttonBackgroundColor: UIColor = UIColor.brandSecondary {
         didSet {
             primaryButton.backgroundColor = buttonBackgroundColor
+        }
+    }
+
+    @IBInspectable var buttonTitleColor: UIColor = UIColor.white {
+        didSet {
+            primaryButton.setTitleColor(buttonTitleColor, for: .normal)
         }
     }
     

@@ -26,8 +26,8 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
 
     @IBOutlet private var labelHeader: UILabel!
     @IBOutlet private var labelSubHeader: UILabel!
-    @IBOutlet private var labelFooter: UILabel!
     @IBOutlet private var validationTextFieldEmail: ValidationTextField!
+    @IBOutlet private var buttonDidntGetEmail: PrimaryButtonContainer!
     @IBOutlet private var primaryButton: PrimaryButtonContainer!
 
     // MARK: Private Properties
@@ -64,9 +64,15 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
         super.viewDidLoad()
         labelHeader.text = LocalizationConstants.KYC.checkYourInbox
         labelSubHeader.text = LocalizationConstants.KYC.confirmEmailExplanation
-        labelFooter.text = LocalizationConstants.KYC.didntGetTheEmail
         validationTextFieldEmail.text = email
         validationTextFieldEmail.isEnabled = false
+        buttonDidntGetEmail.title = LocalizationConstants.KYC.didntGetTheEmail
+        buttonDidntGetEmail.primaryButtonFont = 2
+        buttonDidntGetEmail.activityIndicatorStyle = .gray
+        buttonDidntGetEmail.actionBlock = { [unowned self] in
+            self.sendVerificationEmail()
+        }
+        primaryButton.title = LocalizationConstants.KYC.openEmailApp
         primaryButton.actionBlock = { [unowned self] in
             self.primaryButtonTapped()
         }
@@ -81,27 +87,37 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
 
     // MARK: - Actions
 
-    private func primaryButtonTapped() {
-        guard case .valid = validationTextFieldEmail.validate() else {
-            validationTextFieldEmail.becomeFocused()
-            Logger.shared.warning("email field is invalid.")
-            return
-        }
-        guard let email = validationTextFieldEmail.text else {
-            Logger.shared.warning("number is nil.")
+    private func sendVerificationEmail() {
+        guard (email as NSString).isEmail() else {
             return
         }
         presenter.sendVerificationEmail(to: email)
+    }
+
+    private func primaryButtonTapped() {
+        UIApplication.shared.openMailApplication()
     }
 }
 
 extension KYCConfirmEmailController: KYCConfirmEmailView {
     func showLoadingView() {
-        primaryButton.isLoading = true
+        buttonDidntGetEmail.isLoading = true
     }
 
     func sendEmailVerificationSuccess() {
-        AlertViewPresenter.shared.standardNotify(message: LocalizationConstants.KYC.emailSent, title: LocalizationConstants.information)
+        let origTitle = buttonDidntGetEmail.title
+        let origColor = buttonDidntGetEmail.buttonTitleColor
+
+        buttonDidntGetEmail.title = LocalizationConstants.KYC.emailSent
+        buttonDidntGetEmail.buttonTitleColor = UIColor.green
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.buttonDidntGetEmail.title = origTitle
+            strongSelf.buttonDidntGetEmail.buttonTitleColor = origColor
+        }
     }
 
     func showError(message: String) {
@@ -109,7 +125,7 @@ extension KYCConfirmEmailController: KYCConfirmEmailView {
     }
 
     func hideLoadingView() {
-        primaryButton.isLoading = false
+        buttonDidntGetEmail.isLoading = false
     }
 
     func emailVerifiedSuccess() {

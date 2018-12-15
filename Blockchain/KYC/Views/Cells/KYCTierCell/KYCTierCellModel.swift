@@ -10,7 +10,6 @@ import Foundation
 import PlatformUIKit
 
 public struct KYCTierCellModel {
-    typealias Action = ((KYCTier) -> Void)
     
     // TODO: Likely to be replaced
     // Only using this to test cells
@@ -25,7 +24,6 @@ public struct KYCTierCellModel {
     
     let tier: KYCTier
     let status: ApprovalStatus
-    let action: Action
 }
 
 extension KYCTierCellModel {
@@ -107,12 +105,27 @@ extension KYCTierCellModel.ApprovalStatus {
 }
 
 extension KYCTierCellModel {
+    
+    static func model(from userTier: KYCUserTier) -> KYCTierCellModel {
+        let value = approvalStatusFromTierState(userTier.state)
+        return KYCTierCellModel(tier: userTier.tier, status: value)
+    }
+    
+    fileprivate static func approvalStatusFromTierState(_ tierState: KYCTierState) -> ApprovalStatus {
+        switch tierState {
+        case .none:
+            return .none
+        case .verified:
+            return .approved
+        case .pending:
+            return .inReview
+        case .rejected:
+            return .rejected
+        }
+    }
+    
     static let demo: KYCTierCellModel = KYCTierCellModel(
-    tier: .tier1, status: .inReview) { tier in
-        print("")
-    }
+    tier: .tier1, status: .inReview)
     static let demo2: KYCTierCellModel = KYCTierCellModel(
-    tier: .tier2, status: .none) { tier in
-        print("")
-    }
+    tier: .tier2, status: .none)
 }

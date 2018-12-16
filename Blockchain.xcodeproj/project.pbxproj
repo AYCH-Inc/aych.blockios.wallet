@@ -873,6 +873,8 @@
 		AA7E773F210BA48B009DFB4C /* AuthenticationCoordinator+Biometrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CA98321079B8500C2AD46 /* AuthenticationCoordinator+Biometrics.swift */; };
 		AA7E7740210BA48B009DFB4C /* AuthenticationCoordinator+Biometrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CA98321079B8500C2AD46 /* AuthenticationCoordinator+Biometrics.swift */; };
 		AA8A3741219E2F0C007AF5E1 /* AuthenticationTwoFactorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD279AF209A5E7C00C0EAFC /* AuthenticationTwoFactorType.swift */; };
+		AA8F21D121C574CB00F45C42 /* KYCSettingsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F21D021C574CB00F45C42 /* KYCSettingsAPI.swift */; };
+		AA8F21D221C574CB00F45C42 /* KYCSettingsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F21D021C574CB00F45C42 /* KYCSettingsAPI.swift */; };
 		AA93227121AC7076000DB69B /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93227021AC7076000DB69B /* AppVersion.swift */; };
 		AA93227221AC7157000DB69B /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93227021AC7076000DB69B /* AppVersion.swift */; };
 		AA93227521AC72CD000DB69B /* AppVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93227421AC72CD000DB69B /* AppVersionTests.swift */; };
@@ -3776,6 +3778,7 @@
 		AA787A032187A63000E2D4CF /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
 		AA787A062187A86100E2D4CF /* DeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRoute.swift; sourceTree = "<group>"; };
 		AA787A0A2187AC0500E2D4CF /* DeepLinkRouteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouteTests.swift; sourceTree = "<group>"; };
+		AA8F21D021C574CB00F45C42 /* KYCSettingsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCSettingsAPI.swift; sourceTree = "<group>"; };
 		AA93227021AC7076000DB69B /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		AA93227421AC72CD000DB69B /* AppVersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionTests.swift; sourceTree = "<group>"; };
 		AA93414821A327FA00248E75 /* WalletAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAction.swift; sourceTree = "<group>"; };
@@ -5595,6 +5598,7 @@
 				AADF6B5021C0D2D200F8CA43 /* Pager */,
 				3A3D5DBA211C98DE00E6C241 /* Personal */,
 				602B9CBC2118E15200BD3D60 /* Search */,
+				AA8F21CF21C5741700F45C42 /* Settings */,
 				AA54E490216D2403005061F9 /* StateSelection */,
 				602B9CA72118E15200BD3D60 /* Storyboards */,
 				602B9CD32118E15200BD3D60 /* Views */,
@@ -8315,7 +8319,6 @@
 			isa = PBXGroup;
 			children = (
 				AA69F65E2086A7500054EFCE /* BlockchainSettings.swift */,
-				C7F1263C21C49BDC008D8F2A /* KYCSettings.swift */,
 				AAFA97B3211511D000D19ED3 /* Settings+Helpers.swift */,
 				AAFA97B4211511D000D19ED3 /* Settings+Table.swift */,
 				515EF9F7210282B4002350B6 /* Backup.storyboard */,
@@ -8387,6 +8390,15 @@
 				F7B8C84221A5EB81005CAA0D /* DeepLinkPayloadTests.swift */,
 			);
 			path = DeepLinking;
+			sourceTree = "<group>";
+		};
+		AA8F21CF21C5741700F45C42 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C7F1263C21C49BDC008D8F2A /* KYCSettings.swift */,
+				AA8F21D021C574CB00F45C42 /* KYCSettingsAPI.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		AA93226F21AC7060000DB69B /* App Version */ = {
@@ -10356,6 +10368,7 @@
 				5152AC2F2142E4B700E769CE /* AnnouncementCardView.swift in Sources */,
 				AA755EBB2187B26C00FC4894 /* StellarAirdropRouter.swift in Sources */,
 				C72AC7032134A90B001DA48B /* ExchangeInputsAPI.swift in Sources */,
+				AA8F21D221C574CB00F45C42 /* KYCSettingsAPI.swift in Sources */,
 				AA722C1A20B4BBA900262A5F /* AssetAddressRepository.swift in Sources */,
 				511356E4209CAFC600056D65 /* NetworkManager+PushNotifications.swift in Sources */,
 				AA787A0B2187AC0500E2D4CF /* DeepLinkRouteTests.swift in Sources */,
@@ -10865,6 +10878,7 @@
 				84FC02FD19815F1B00B97D5B /* crypto_scrypt-nosse.c in Sources */,
 				602B9CE82118E15300BD3D60 /* LocationSuggestion.swift in Sources */,
 				AA447BC82127679A00EC0FA0 /* SideMenuViewController.swift in Sources */,
+				AA8F21D121C574CB00F45C42 /* KYCSettingsAPI.swift in Sources */,
 				3AFB65EE215585DF00EBFF30 /* BounceButton.swift in Sources */,
 				3A56AEAA21765C2100044302 /* StellarAccountAPI.swift in Sources */,
 				C73406221F54791C00143100 /* EtherAmountInputViewController.m in Sources */,

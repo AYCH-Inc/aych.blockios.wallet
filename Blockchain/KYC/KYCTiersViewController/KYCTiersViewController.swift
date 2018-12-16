@@ -195,9 +195,14 @@ extension KYCTiersViewController {
         fromViewController: UIViewController,
         code: CurrencyCode,
         accountStatus: KYCAccountStatus) -> Disposable {
+
+        let tradesObservable = limitsAPI.getTradeLimits(withFiatCurrency: code)
+            .optional()
+            .catchErrorJustReturn(nil)
+            .asObservable() 
         return Observable.zip(
             BlockchainDataRepository.shared.tiers,
-            limitsAPI.getTradeLimits(withFiatCurrency: code).asObservable()
+            tradesObservable
             )
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
@@ -205,12 +210,12 @@ extension KYCTiersViewController {
                 let userTiers = response.0.userTiers
                 let limits = response.1
                 let formatter: NumberFormatter = NumberFormatter.localCurrencyFormatterWithGroupingSeparator
-                let max = NSDecimalNumber(decimal: limits.maxPossibleOrder)
-                
+                let max = NSDecimalNumber(decimal: limits?.maxPossibleOrder ?? 0)
+
                 let header = KYCTiersHeaderViewModel.make(
                     with: response.0,
                     status: accountStatus,
-                    currencySymbol: BlockchainSettings.App.shared.fiatCurrencySymbol,
+                    currencySymbol: code,
                     availableFunds: formatter.string(from: max)
                 )
                 let filtered = userTiers.filter({ $0.tier != .tier0 })

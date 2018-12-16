@@ -67,7 +67,6 @@ final class KYCWelcomeController: KYCBaseViewController {
 
     @IBAction private func primaryButtonTapped(_ sender: Any) {
         coordinator.handle(event: .nextPageFromPageType(pageType, nil))
-        BlockchainSettings.App.shared.isCompletingKyc = true
     }
 
     // MARK: - Private Methods

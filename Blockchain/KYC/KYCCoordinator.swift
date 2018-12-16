@@ -53,14 +53,20 @@ protocol KYCCoordinatorDelegate: class {
 
     fileprivate var navController: KYCOnboardingNavigationController!
 
-    private let pageFactory = KYCPageViewFactory()
-
     private let disposables = CompositeDisposable()
+
+    private let pageFactory = KYCPageViewFactory()
 
     private let appSettings: BlockchainSettings.App
 
-    init(appSettings: BlockchainSettings.App = BlockchainSettings.App.shared) {
+    private var kycSettings: KYCSettingsAPI
+
+    init(
+        appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
+        kycSettings: KYCSettingsAPI = KYCSettings.shared
+    ) {
         self.appSettings = appSettings
+        self.kycSettings = kycSettings
     }
 
     deinit {
@@ -92,6 +98,7 @@ protocol KYCCoordinatorDelegate: class {
                 guard let strongSelf = self else {
                     return
                 }
+                strongSelf.kycSettings.isCompletingKyc = true
                 strongSelf.user = $0
                 strongSelf.initializeNavigationStack(viewController, user: $0, tier: tier)
                 strongSelf.restoreToMostRecentPageIfNeeded(tier: tier)
@@ -136,6 +143,7 @@ protocol KYCCoordinatorDelegate: class {
                     guard let strongSelf = self else {
                         return
                     }
+                    strongSelf.kycSettings.isCompletingKyc = false
                     if strongSelf.appSettings.didRegisterForAirdropCampaignSucceed && strongSelf.pager.tier == .tier2 {
                         strongSelf.presentAccountStatusView(for: .pending, in: strongSelf.navController)
                         return
@@ -187,7 +195,8 @@ protocol KYCCoordinatorDelegate: class {
         guard let currentUser = user else {
             return
         }
-        guard let endPage = KYCPageType.pageType(for: currentUser) else {
+        let latestPage = kycSettings.latestKycPage
+        guard let endPage = KYCPageType.pageType(for: currentUser, latestPage: latestPage) else {
             return
         }
 
@@ -298,6 +307,9 @@ protocol KYCCoordinatorDelegate: class {
     }
 
     private func handlePageWillAppear(for type: KYCPageType) {
+        kycSettings.latestKycPage = type
+
+        // Optionally applie page model
         switch type {
         case .tier1ForcedTier2,
              .welcome,
@@ -337,22 +349,26 @@ protocol KYCCoordinatorDelegate: class {
     }
 }
 
-extension KYCPageType {
+fileprivate extension KYCPageType {
 
     /// The page type the user should be placed in given the information they have provided
-    static func pageType(for user: NabuUser) -> KYCPageType? {
+    static func pageType(for user: NabuUser, latestPage: KYCPageType? = nil) -> KYCPageType? {
         let tier = user.tiers?.selected ?? .tier1
         switch tier {
         case .tier0:
             return nil
         case .tier1:
-            return tier1PageType(for: user)
+            return tier1PageType(for: user, latestPage: latestPage)
         case .tier2:
-            return tier1PageType(for: user) ?? tier2PageType(for: user)
+            return tier1PageType(for: user, latestPage: latestPage) ?? tier2PageType(for: user, latestPage: latestPage)
         }
     }
 
-    private static func tier1PageType(for user: NabuUser) -> KYCPageType? {
+    private static func tier1PageType(for user: NabuUser, latestPage: KYCPageType? = nil) -> KYCPageType? {
+        if let latestPage = latestPage, latestPage == .confirmEmail {
+            return latestPage
+        }
+
         guard user.email.verified else {
             return .enterEmail
         }
@@ -366,7 +382,11 @@ extension KYCPageType {
         return nil
     }
 
-    private static func tier2PageType(for user: NabuUser) -> KYCPageType? {
+    private static func tier2PageType(for user: NabuUser, latestPage: KYCPageType? = nil) -> KYCPageType? {
+        if let latestPage = latestPage, latestPage == .confirmPhone {
+            return latestPage
+        }
+
         guard let mobile = user.mobile else { return .enterPhone }
 
         guard mobile.verified else { return .confirmPhone }

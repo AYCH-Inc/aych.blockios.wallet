@@ -227,7 +227,7 @@ extension SettingsTableViewController {
         switch indexPath.section {
         case sectionProfile:
             switch indexPath.row {
-            case identityVerification: KYCCoordinator.shared.start(from: self)
+            case identityVerification: ExchangeCoordinator.shared.start(rootViewController: self)
             case profileWalletIdentifier: walletIdentifierClicked()
             case profileEmail: emailClicked()
             case profileMobileNumber: mobileNumberClicked()

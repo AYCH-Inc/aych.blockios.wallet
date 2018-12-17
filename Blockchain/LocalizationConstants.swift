@@ -1630,6 +1630,9 @@ struct LocalizationConstants {
         static let upgradeNow = NSLocalizedString(
             "Upgrade now.", comment: "Call to action shown to encourage the user to reach a higher swap tier"
         )
+        static let postTierError = NSLocalizedString(
+            "An error occurred when selecting your tier. Please try again later.", comment: "Error shown when a user selects a tier and an error occurs when posting the tier to the server"
+        )
     }
 
     struct Lockbox {

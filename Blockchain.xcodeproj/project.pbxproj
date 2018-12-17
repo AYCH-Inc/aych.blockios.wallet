@@ -1266,6 +1266,8 @@
 		C7F041961E3BD4A6004E8B4A /* BuyBitcoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F041951E3BD4A6004E8B4A /* BuyBitcoinViewController.m */; };
 		C7F1263D21C49BDC008D8F2A /* KYCSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1263C21C49BDC008D8F2A /* KYCSettings.swift */; };
 		C7F1263E21C49BDC008D8F2A /* KYCSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1263C21C49BDC008D8F2A /* KYCSettings.swift */; };
+		C7F1267921C716F7008D8F2A /* KYCTierPostBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1267821C716F7008D8F2A /* KYCTierPostBody.swift */; };
+		C7F1267A21C716F7008D8F2A /* KYCTierPostBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1267821C716F7008D8F2A /* KYCTierPostBody.swift */; };
 		C7F1577B217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1577A217914B600A56376 /* SimpleTransactionsViewController.swift */; };
 		C7F1577C217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1577A217914B600A56376 /* SimpleTransactionsViewController.swift */; };
 		C7F157A82179214400A56376 /* SimpleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F157A72179214400A56376 /* SimpleListViewController.swift */; };
@@ -4078,6 +4080,7 @@
 		C7F041941E3BD4A6004E8B4A /* BuyBitcoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyBitcoinViewController.h; sourceTree = "<group>"; };
 		C7F041951E3BD4A6004E8B4A /* BuyBitcoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyBitcoinViewController.m; sourceTree = "<group>"; };
 		C7F1263C21C49BDC008D8F2A /* KYCSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCSettings.swift; sourceTree = "<group>"; };
+		C7F1267821C716F7008D8F2A /* KYCTierPostBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KYCTierPostBody.swift; path = Blockchain/KYC/Models/KYCTierPostBody.swift; sourceTree = SOURCE_ROOT; };
 		C7F1577A217914B600A56376 /* SimpleTransactionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTransactionsViewController.swift; sourceTree = "<group>"; };
 		C7F157A72179214400A56376 /* SimpleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleListViewController.swift; sourceTree = "<group>"; };
 		C7F157BC21795E8D00A56376 /* SimpleListContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleListContracts.swift; sourceTree = "<group>"; };
@@ -5664,6 +5667,7 @@
 				3A8B2291211E228C0091E706 /* KYCPageType.swift */,
 				AA54E484216D20C8005061F9 /* KYCState.swift */,
 				AADF6B0621BDE34800F8CA43 /* KYCTier.swift */,
+				C7F1267821C716F7008D8F2A /* KYCTierPostBody.swift */,
 				AA126CD4212C94C1005886A3 /* Network */,
 			);
 			path = Models;
@@ -10742,6 +10746,7 @@
 				3A373C462188CBCE00DDFAFD /* StellarTransactionCaching.swift in Sources */,
 				C76D732D20B2F5CD00040B57 /* WalletFiatAtTimeDelegate.swift in Sources */,
 				C74690602180ACCD001A7C52 /* SEP7URI.swift in Sources */,
+				C7F1267A21C716F7008D8F2A /* KYCTierPostBody.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10957,6 +10962,7 @@
 				AA3CA9B52107F36800C2AD46 /* LogLevel.swift in Sources */,
 				AAB759F82189586500A0AD11 /* StellarAirdropRegistrationService.swift in Sources */,
 				51A862D520921A6E00B338E0 /* BlockchainAPI+URLSuffix.swift in Sources */,
+				C7F1267921C716F7008D8F2A /* KYCTierPostBody.swift in Sources */,
 				AAD708F621C31EBC003E96F6 /* KYCMoreInformationController.swift in Sources */,
 				2378271A1B7E472D00E9EE03 /* BCSecureTextField.swift in Sources */,
 				602B9CF02118E15300BD3D60 /* LocationSuggestionCoordinator.swift in Sources */,

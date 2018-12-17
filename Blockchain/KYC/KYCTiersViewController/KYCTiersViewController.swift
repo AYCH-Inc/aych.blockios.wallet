@@ -20,20 +20,31 @@ class KYCTiersViewController: UIViewController {
     // MARK: Private Properties
     
     fileprivate static let limitsAPI: TradeLimitsAPI = ExchangeServices().tradeLimits
+    fileprivate var authenticationService: NabuAuthenticationService!
     fileprivate var layoutAttributes: LayoutAttributes = .tiersOverview
-    
+    fileprivate var disposable: Disposable?
+
     // MARK: Public Properties
     
     var pageModel: KYCTiersPageModel!
     
-    static func make(with pageModel: KYCTiersPageModel) -> KYCTiersViewController {
+    static func make(
+        with pageModel: KYCTiersPageModel,
+        authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared
+    ) -> KYCTiersViewController {
         let controller = KYCTiersViewController.makeFromStoryboard()
         controller.pageModel = pageModel
+        controller.authenticationService = authenticationService
         return controller
     }
     
     // MARK: Lifecycle
-    
+
+    deinit {
+        disposable?.dispose()
+        disposable = nil
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
@@ -185,7 +196,17 @@ extension KYCTiersViewController: UICollectionViewDelegateFlowLayout {
 
 extension KYCTiersViewController: KYCTierCellDelegate {
     func tierCell(_ cell: KYCTierCell, selectedTier: KYCTier) {
-        KYCCoordinator.shared.start(from: self, tier: selectedTier)
+        disposable?.dispose()
+        disposable = post(tier: selectedTier)
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] _ in
+                guard let strongSelf = self else { return }
+                KYCCoordinator.shared.start(from: strongSelf, tier: selectedTier)
+            }, onError: { error in
+                Logger.shared.error(error.localizedDescription)
+                AlertViewPresenter.shared.standardError(message: LocalizationConstants.Swap.postTierError)
+            })
     }
 }
 
@@ -227,5 +248,29 @@ extension KYCTiersViewController {
                 }
                 fromViewController.present(controller, animated: true, completion: nil)
             })
+    }
+}
+
+extension KYCTiersViewController {
+    func post(tier: KYCTier) -> Single<KYCUserTiersResponse> {
+        guard let baseURL = URL(
+            string: BlockchainAPI.shared.retailCoreUrl) else {
+                return .error(TradeExecutionAPIError.generic)
+        }
+        guard let endpoint = URL.endpoint(
+            baseURL,
+            pathComponents: ["kyc", "tiers"],
+            queryParameters: nil) else {
+                return .error(TradeExecutionAPIError.generic)
+        }
+        let body = KYCTierPostBody(selectedTier:tier)
+        return authenticationService.getSessionToken().flatMap { token in
+            return NetworkRequest.POST(
+                url: endpoint,
+                body: try? JSONEncoder().encode(body),
+                type: KYCUserTiersResponse.self,
+                headers: [HttpHeaderField.authorization: token.token]
+            )
+        }
     }
 }

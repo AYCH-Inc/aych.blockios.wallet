@@ -79,22 +79,15 @@
     [self setupBusyView];
 }
 
-- (void)applyLightAppearance
+- (void)applyNavigationBarAppearance:(NavigationBarAppearance)appearance withBackgroundColor:(UIColor *)backgroundColor
 {
-    [self.backButton setTintColor:[UIColor brandPrimary]];
-    [self.closeButton setTintColor:[UIColor brandPrimary]];
-    [self.headerLabel setTextColor:[UIColor brandPrimary]];
-    [self.backButton setTintColor:[UIColor brandPrimary]];
-    [self.topBar setBackgroundColor:[UIColor whiteColor]];
-}
+    UIColor *appearanceColor = appearance == NavigationBarAppearanceDark ? [UIColor whiteColor] : [UIColor brandPrimary];
 
-- (void)applyDarkAppearance
-{
-    [self.backButton setTintColor:[UIColor whiteColor]];
-    [self.closeButton setTintColor:[UIColor whiteColor]];
-    [self.headerLabel setTextColor:[UIColor whiteColor]];
-    [self.backButton setTintColor:[UIColor whiteColor]];
-    [self.topBar setBackgroundColor:[UIColor brandPrimary]];
+    [self.backButton setTintColor:appearanceColor];
+    [self.closeButton setTintColor:appearanceColor];
+    [self.headerLabel setTextColor:appearanceColor];
+    [self.backButton setTintColor:appearanceColor];
+    [self.topBar setBackgroundColor:backgroundColor];
 }
 
 - (void)setupBusyView

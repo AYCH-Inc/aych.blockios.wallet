@@ -47,15 +47,27 @@ protocol KYCCoordinatorDelegate: class {
 
     private(set) var country: KYCCountry?
 
+    private var pager: KYCPagerAPI!
+
     private weak var rootViewController: UIViewController?
 
     fileprivate var navController: KYCOnboardingNavigationController!
 
-    private let pageFactory = KYCPageViewFactory()
-
     private let disposables = CompositeDisposable()
 
-    private override init() { /* Disallow initializing from outside objects */ }
+    private let pageFactory = KYCPageViewFactory()
+
+    private let appSettings: BlockchainSettings.App
+
+    private var kycSettings: KYCSettingsAPI
+
+    init(
+        appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
+        kycSettings: KYCSettingsAPI = KYCSettings.shared
+    ) {
+        self.appSettings = appSettings
+        self.kycSettings = kycSettings
+    }
 
     deinit {
         disposables.dispose()
@@ -71,32 +83,33 @@ protocol KYCCoordinatorDelegate: class {
         start(from: rootViewController)
     }
 
-    @objc func start(from viewController: UIViewController) {
+    func start(from viewController: UIViewController, tier: KYCTier = .tier1) {
+        pager = KYCPager(tier: tier)
         rootViewController = viewController
+
         LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
+
         let disposable = BlockchainDataRepository.shared.fetchNabuUser()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [unowned self] in
+            .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
+            .subscribe(onSuccess: { [weak self] in
                 Logger.shared.debug("Got user with ID: \($0.personalDetails?.identifier ?? "")")
-                LoadingViewPresenter.shared.hideBusyView()
-                self.user = $0
-                if self.pageTypeForUser() == .accountStatus {
-                    self.presentAccountStatusView(for: $0.status, in: viewController)
-                } else {
-                    self.initializeNavigationStack(viewController)
-                    self.restoreToMostRecentPageIfNeeded()
+                guard let strongSelf = self else {
+                    return
                 }
+                strongSelf.kycSettings.isCompletingKyc = true
+                strongSelf.user = $0
+                strongSelf.initializeNavigationStack(viewController, user: $0, tier: tier)
+                strongSelf.restoreToMostRecentPageIfNeeded(tier: tier)
             }, onError: { error in
                 Logger.shared.error("Failed to get user: \(error.localizedDescription)")
-                LoadingViewPresenter.shared.hideBusyView()
                 AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
             })
-         _ = disposables.insert(disposable)
+         disposables.insertWithDiscardableResult(disposable)
     }
 
-    func finish() {
-        // TODO: if applicable, persist state, do housekeeping, etc...
+    @objc func finish() {
         if navController == nil { return }
         navController.dismiss(animated: true)
     }
@@ -109,20 +122,44 @@ protocol KYCCoordinatorDelegate: class {
             handleFailurePage(for: error)
         case .nextPageFromPageType(let type, let payload):
             handlePayloadFromPageType(type, payload)
-            guard let nextPage = type.nextPage(for: self.user, country: self.country) else { return }
-            let controller = pageFactory.createFrom(
-                pageType: nextPage,
-                in: self,
-                payload: payload
-            )
-            controller.navigationItem.hidesBackButton = (nextPage == .applicationComplete)
-            navController.pushViewController(controller, animated: true)
+            let disposable = pager.nextPage(from: type, payload: payload)
+                .subscribeOn(MainScheduler.asyncInstance)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { [weak self] nextPage in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    let controller = strongSelf.pageFactory.createFrom(
+                        pageType: nextPage,
+                        in: strongSelf,
+                        payload: payload
+                    )
+                    controller.navigationItem.hidesBackButton = (nextPage == .applicationComplete)
+                    strongSelf.navController.pushViewController(controller, animated: true)
+                }, onError: { error in
+                    Logger.shared.error("Error getting next page: \(error.localizedDescription)")
+                }, onCompleted: { [weak self] in
+                    Logger.shared.info("No more next pages")
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    strongSelf.kycSettings.isCompletingKyc = false
+                    if strongSelf.appSettings.didRegisterForAirdropCampaignSucceed && strongSelf.pager.tier == .tier2 {
+                        strongSelf.presentAccountStatusView(for: .pending, in: strongSelf.navController)
+                        return
+                    }
+                    strongSelf.finish()
+                })
+            disposables.insertWithDiscardableResult(disposable)
         }
     }
 
-    func presentAccountStatusView(for status: KYCAccountStatus, in viewController: UIViewController) {
+    func presentAccountStatusView(
+        for status: KYCAccountStatus,
+        in viewController: UIViewController
+    ) {
         let accountStatusViewController = KYCInformationController.make(with: self)
-        let isReceivingAirdrop = BlockchainSettings.App.shared.didTapOnAirdropDeepLink
+        let isReceivingAirdrop = appSettings.didRegisterForAirdropCampaignSucceed
         accountStatusViewController.viewModel = KYCInformationViewModel.create(
             for: status,
             isReceivingAirdrop: isReceivingAirdrop
@@ -144,7 +181,6 @@ protocol KYCCoordinatorDelegate: class {
             case .pending:
                 PushNotificationManager.shared.requestAuthorization()
             case .failed, .expired:
-                // Confirm with design that this is how we should handle this
                 URL(string: Constants.Url.blockchainSupport)?.launch()
             case .none, .underReview: return
             }
@@ -155,29 +191,68 @@ protocol KYCCoordinatorDelegate: class {
     // MARK: View Restoration
 
     /// Restores the user to the most recent page if they dropped off mid-flow while KYC'ing
-    private func restoreToMostRecentPageIfNeeded() {
-        let startingPage = KYCPageType.welcome
-        let endPage = pageTypeForUser()
+    private func restoreToMostRecentPageIfNeeded(tier: KYCTier) {
+        guard let currentUser = user else {
+            return
+        }
+        let latestPage = kycSettings.latestKycPage
+        guard let endPage = KYCPageType.pageType(for: currentUser, latestPage: latestPage) else {
+            return
+        }
+
+        let startingPage = KYCPageType.startingPage(forUser: currentUser, tier: tier)
         var currentPage = startingPage
         while currentPage != endPage {
-            guard let nextPage = currentPage.nextPage(for: user, country: country) else { return }
+            guard let nextPage = currentPage.nextPage(forTier: tier, user: user, country: country) else { return }
 
             currentPage = nextPage
 
             let nextController = pageFactory.createFrom(
                 pageType: currentPage,
-                in: self
+                in: self,
+                payload: createPagePayload(page: currentPage, user: currentUser)
             )
+
             navController.pushViewController(nextController, animated: false)
         }
     }
 
-    private func initializeNavigationStack(_ viewController: UIViewController) {
-        guard let welcomeViewController = pageFactory.createFrom(
-            pageType: .welcome,
+    private func createPagePayload(page: KYCPageType, user: NabuUser) -> KYCPagePayload? {
+        switch page {
+        case .confirmPhone:
+            return .phoneNumberUpdated(phoneNumber: user.mobile?.phone ?? "")
+        case .confirmEmail:
+            return .emailPendingVerification(email: user.email.address)
+        case .enterEmail,
+             .welcome,
+             .country,
+             .states,
+             .profile,
+             .address,
+             .tier1ForcedTier2,
+             .enterPhone,
+             .verifyIdentity,
+             .accountStatus,
+             .applicationComplete:
+            return nil
+        }
+    }
+
+    private func initializeNavigationStack(_ viewController: UIViewController, user: NabuUser, tier: KYCTier) {
+        let startingPage = appSettings.didRegisterForAirdropCampaignSucceed ?
+            KYCPageType.welcome :
+            KYCPageType.startingPage(forUser: user, tier: tier)
+        let startingViewController = pageFactory.createFrom(
+            pageType: startingPage,
             in: self
-        ) as? KYCWelcomeController else { return }
-        navController = presentInNavigationController(welcomeViewController, in: viewController)
+        )
+        startingViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "close"),
+            style: .plain,
+            target: self,
+            action: #selector(finish)
+        )
+        navController = presentInNavigationController(startingViewController, in: viewController)
     }
 
     // MARK: Private Methods
@@ -187,7 +262,8 @@ protocol KYCCoordinatorDelegate: class {
         switch payload {
         case .countrySelected(let country):
             self.country = country
-        case .phoneNumberUpdated:
+        case .phoneNumberUpdated,
+             .emailPendingVerification:
             // Not handled here
             return
         }
@@ -231,13 +307,21 @@ protocol KYCCoordinatorDelegate: class {
     }
 
     private func handlePageWillAppear(for type: KYCPageType) {
+        kycSettings.latestKycPage = type
+
+        // Optionally applie page model
         switch type {
-        case .welcome,
+        case .tier1ForcedTier2,
+             .welcome,
+             .confirmEmail,
              .country,
              .states,
              .accountStatus,
              .applicationComplete:
             break
+        case .enterEmail:
+            guard let current = user else { return }
+            delegate?.apply(model: .email(current))
         case .profile:
             guard let current = user else { return }
             delegate?.apply(model: .personalDetails(current))
@@ -263,20 +347,52 @@ protocol KYCCoordinatorDelegate: class {
         presentingViewController.present(navController, animated: true)
         return navController
     }
+}
 
-    private func pageTypeForUser() -> KYCPageType {
-        guard let currentUser = user else { return .welcome }
+fileprivate extension KYCPageType {
 
-        guard let personalDetails = currentUser.personalDetails, personalDetails.firstName != nil else {
-            return .welcome
+    /// The page type the user should be placed in given the information they have provided
+    static func pageType(for user: NabuUser, latestPage: KYCPageType? = nil) -> KYCPageType? {
+        let tier = user.tiers?.selected ?? .tier1
+        switch tier {
+        case .tier0:
+            return nil
+        case .tier1:
+            return tier1PageType(for: user, latestPage: latestPage)
+        case .tier2:
+            return tier1PageType(for: user, latestPage: latestPage) ?? tier2PageType(for: user, latestPage: latestPage)
+        }
+    }
+
+    private static func tier1PageType(for user: NabuUser, latestPage: KYCPageType? = nil) -> KYCPageType? {
+        if let latestPage = latestPage, latestPage == .confirmEmail {
+            return latestPage
         }
 
-        guard currentUser.address != nil else { return .country }
+        guard user.email.verified else {
+            return .enterEmail
+        }
 
-        guard currentUser.mobile != nil else { return .enterPhone }
+        guard let personalDetails = user.personalDetails, personalDetails.firstName != nil else {
+            return .country
+        }
 
-        guard currentUser.status != .none else { return .verifyIdentity }
+        guard user.address != nil else { return .country }
 
-        return .accountStatus
+        return nil
+    }
+
+    private static func tier2PageType(for user: NabuUser, latestPage: KYCPageType? = nil) -> KYCPageType? {
+        if let latestPage = latestPage, latestPage == .confirmPhone {
+            return latestPage
+        }
+
+        guard let mobile = user.mobile else { return .enterPhone }
+
+        guard mobile.verified else { return .confirmPhone }
+
+        guard user.status != .none else { return .verifyIdentity }
+
+        return nil
     }
 }

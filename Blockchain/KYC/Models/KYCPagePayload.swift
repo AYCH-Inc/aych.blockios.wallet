@@ -12,4 +12,5 @@ import Foundation
 enum KYCPagePayload {
     case countrySelected(country: KYCCountry)
     case phoneNumberUpdated(phoneNumber: String)
+    case emailPendingVerification(email: EmailAddress)
 }

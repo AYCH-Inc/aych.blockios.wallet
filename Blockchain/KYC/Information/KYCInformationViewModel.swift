@@ -14,7 +14,6 @@ struct KYCInformationViewModel {
     let subtitle: String?
     let description: String?
     let buttonTitle: String?
-    var badge: String?
 }
 
 struct KYCInformationViewConfig {
@@ -30,8 +29,7 @@ extension KYCInformationViewModel {
             title: String(format: LocalizationConstants.KYC.comingSoonToX, country.name),
             subtitle: nil,
             description: String(format: LocalizationConstants.KYC.unsupportedCountryDescription, country.name),
-            buttonTitle: LocalizationConstants.KYC.messageMeWhenAvailable,
-            badge: nil
+            buttonTitle: LocalizationConstants.KYC.messageMeWhenAvailable
         )
     }
 
@@ -41,12 +39,14 @@ extension KYCInformationViewModel {
             title: String(format: LocalizationConstants.KYC.comingSoonToX, state.name),
             subtitle: nil,
             description: String(format: LocalizationConstants.KYC.unsupportedStateDescription, state.name),
-            buttonTitle: LocalizationConstants.KYC.messageMeWhenAvailable,
-            badge: nil
+            buttonTitle: LocalizationConstants.KYC.messageMeWhenAvailable
         )
     }
 
-    static func create(for accountStatus: KYCAccountStatus, isReceivingAirdrop: Bool = false) -> KYCInformationViewModel {
+    static func create(
+        for accountStatus: KYCAccountStatus,
+        isReceivingAirdrop: Bool = false
+    ) -> KYCInformationViewModel {
         switch accountStatus {
         case .approved:
             return KYCInformationViewModel(
@@ -54,8 +54,7 @@ extension KYCInformationViewModel {
                 title: LocalizationConstants.KYC.accountApproved,
                 subtitle: nil,
                 description: LocalizationConstants.KYC.accountApprovedDescription,
-                buttonTitle: LocalizationConstants.KYC.getStarted,
-                badge: LocalizationConstants.KYC.accounVerifiedBadge
+                buttonTitle: LocalizationConstants.KYC.getStarted
             )
         case .expired, .failed:
             return KYCInformationViewModel(
@@ -63,8 +62,7 @@ extension KYCInformationViewModel {
                 title: LocalizationConstants.KYC.verificationFailed,
                 subtitle: nil,
                 description: LocalizationConstants.KYC.verificationFailedDescription,
-                buttonTitle: nil,
-                badge: LocalizationConstants.KYC.verificationFailedBadge
+                buttonTitle: nil
             )
         case .pending:
             return createViewModelForPendingStatus(isReceivingAirdrop: isReceivingAirdrop)
@@ -74,8 +72,7 @@ extension KYCInformationViewModel {
                 title: LocalizationConstants.KYC.verificationUnderReview,
                 subtitle: nil,
                 description: LocalizationConstants.KYC.verificationUnderReviewDescription,
-                buttonTitle: nil,
-                badge: LocalizationConstants.KYC.accountUnderReviewBadge
+                buttonTitle: nil
             )
         case .none:
             return KYCInformationViewModel(
@@ -83,8 +80,7 @@ extension KYCInformationViewModel {
                 title: nil,
                 subtitle: nil,
                 description: nil,
-                buttonTitle: nil,
-                badge: LocalizationConstants.KYC.accountUnverifiedBadge
+                buttonTitle: nil
             )
         }
     }
@@ -98,8 +94,7 @@ extension KYCInformationViewModel {
                 title: LocalizationConstants.KYC.verificationInProgress,
                 subtitle: nil,
                 description: LocalizationConstants.KYC.verificationInProgressDescriptionAirdrop,
-                buttonTitle: LocalizationConstants.KYC.notifyMe,
-                badge: LocalizationConstants.KYC.accountUnderReviewBadge
+                buttonTitle: LocalizationConstants.KYC.notifyMe
             )
         } else {
             return KYCInformationViewModel(
@@ -107,8 +102,7 @@ extension KYCInformationViewModel {
                 title: LocalizationConstants.KYC.verificationInProgress,
                 subtitle: LocalizationConstants.KYC.whatHappensNext,
                 description: LocalizationConstants.KYC.verificationInProgressDescription,
-                buttonTitle: LocalizationConstants.KYC.notifyMe,
-                badge: LocalizationConstants.KYC.accountUnderReviewBadge
+                buttonTitle: LocalizationConstants.KYC.notifyMe
             )
         }
     }

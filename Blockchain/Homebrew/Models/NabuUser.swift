@@ -19,9 +19,11 @@ struct NabuUser: Decodable {
 
     let personalDetails: PersonalDetails?
     let address: UserAddress?
+    let email: Email
     let mobile: Mobile?
     let status: KYCAccountStatus
     let state: UserState
+    let tiers: NabuUserTiers? // Note: this shouldn't be optional, but keeping as optional for now since this isn't deployed yet
     let tags: Tags?
 
     // MARK: - Decodable
@@ -32,27 +34,33 @@ struct NabuUser: Decodable {
         case firstName = "firstName"
         case lastName = "lastName"
         case email = "email"
+        case emailVerified = "emailVerified"
         case mobile = "mobile"
         case mobileVerified = "mobileVerified"
         case identifier = "id"
         case state = "state"
         case tags = "tags"
+        case tiers = "tiers"
     }
 
     init(
         personalDetails: PersonalDetails?,
         address: UserAddress?,
+        email: Email,
         mobile: Mobile?,
         status: KYCAccountStatus,
         state: UserState,
-        tags: Tags?
+        tags: Tags?,
+        tiers: NabuUserTiers?
     ) {
         self.personalDetails = personalDetails
         self.address = address
+        self.email = email
         self.mobile = mobile
         self.status = status
         self.state = state
         self.tags = tags
+        self.tiers = tiers
     }
 
     init(from decoder: Decoder) throws {
@@ -60,20 +68,23 @@ struct NabuUser: Decodable {
         let userID = try values.decodeIfPresent(String.self, forKey: .identifier)
         let firstName = try values.decodeIfPresent(String.self, forKey: .firstName)
         let lastName = try values.decodeIfPresent(String.self, forKey: .lastName)
-        let email = try values.decode(String.self, forKey: .email)
+        let emailAddress = try values.decode(String.self, forKey: .email)
+        let emailVerified = try values.decode(Bool.self, forKey: .emailVerified)
         let phoneNumber = try values.decodeIfPresent(String.self, forKey: .mobile)
         let phoneVerified = try values.decodeIfPresent(Bool.self, forKey: .mobileVerified)
         let statusValue = try values.decode(String.self, forKey: .status)
         let userState = try values.decode(String.self, forKey: .state)
         address = try values.decodeIfPresent(UserAddress.self, forKey: .address)
+        tiers = try values.decodeIfPresent(NabuUserTiers.self, forKey: .tiers)
 
         personalDetails = PersonalDetails(
             id: userID,
             first: firstName,
             last: lastName,
-            email: email,
             birthday: nil
         )
+
+        email = Email(address: emailAddress, verified: emailVerified)
         
         if let number = phoneNumber {
             mobile = Mobile(
@@ -87,6 +98,16 @@ struct NabuUser: Decodable {
         status = KYCAccountStatus(rawValue: statusValue) ?? .none
         state = UserState(rawValue: userState) ?? .none
         tags = try values.decodeIfPresent(Tags.self, forKey: .tags)
+    }
+}
+
+struct Email: Decodable {
+    let address: String
+    let verified: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case address = "email"
+        case verified = "emailVerified"
     }
 }
 

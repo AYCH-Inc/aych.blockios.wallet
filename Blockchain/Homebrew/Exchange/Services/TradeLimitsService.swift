@@ -15,7 +15,9 @@ class TradeLimitsService: TradeLimitsAPI {
 
     private let authenticationService: NabuAuthenticationService
     private let socketManager: SocketManager
-    private let cachedLimits = BehaviorRelay<TradeLimits?>(value: nil)
+    private var cachedLimits = BehaviorRelay<TradeLimits?>(value: nil)
+    private var cachedLimitsTimer: Timer?
+    private let clearCachedLimitsInterval: TimeInterval = 60
 
     init(
         authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
@@ -23,14 +25,21 @@ class TradeLimitsService: TradeLimitsAPI {
     ) {
         self.authenticationService = authenticationService
         self.socketManager = socketManager
+        self.cachedLimitsTimer = Timer.scheduledTimer(withTimeInterval: clearCachedLimitsInterval, repeats: true) { [weak self] _ in
+            self?.clearCachedLimits()
+        }
+        self.cachedLimitsTimer?.tolerance = clearCachedLimitsInterval/10
+        self.cachedLimitsTimer?.fire()
+    }
+
+    deinit {
+        cachedLimitsTimer?.invalidate()
+        cachedLimitsTimer = nil
+        disposables.dispose()
     }
 
     enum TradeLimitsAPIError: Error {
         case generic
-    }
-
-    deinit {
-        disposables.dispose()
     }
 
     /// Initializes this TradeLimitsService so that the trade limits for the current
@@ -95,5 +104,9 @@ class TradeLimitsService: TradeLimitsAPI {
                 type: TradeLimits.self
             )
         }
+    }
+
+    private func clearCachedLimits() {
+        cachedLimits = BehaviorRelay<TradeLimits?>(value: nil)
     }
 }

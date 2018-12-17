@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Zqk-il-B5z">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+        <array key="Montserrat-SemiBold.ttf">
+            <string>Montserrat-SemiBold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Confirm Email View Controller-->
+        <scene sceneID="hoS-WH-LjT">
+            <objects>
+                <viewController storyboardIdentifier="KYCConfirmEmailController" title="Confirm Email View Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Zqk-il-B5z" customClass="KYCConfirmEmailController" customModule="Blockchain" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iSo-Ul-jh0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="RMA-4m-Xbs">
+                                <rect key="frame" x="0.0" y="88" width="375" height="8"/>
+                                <color key="tintColor" red="0.01176470588" green="0.66274509800000003" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="8" id="ebP-ph-nrw"/>
+                                </constraints>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check your inbox." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erc-Vu-ZOz">
+                                <rect key="frame" x="16" y="111" width="343" height="14"/>
+                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                <color key="textColor" red="0.30588235289999999" green="0.30588235289999999" blue="0.30588235289999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We just sent you an email with further instructions." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lsp-h7-MM8">
+                                <rect key="frame" x="16" y="127.00000000000001" width="343" height="14.666666666666671"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                <color key="textColor" red="0.30588235289999999" green="0.30588235289999999" blue="0.30588235289999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m0J-We-vsr" customClass="ValidationTextField" customModule="Blockchain" customModuleProvider="target">
+                                <rect key="frame" x="16" y="157.66666666666666" width="343" height="56"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="D3D-c9-HhF"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="supportsAutoCorrect" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderFillColor">
+                                        <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="optionalField" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Your Email"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Vm-sy-Up1" userLabel="Didn't Get The Email" customClass="PrimaryButtonContainer" customModule="Blockchain" customModuleProvider="target">
+                                <rect key="frame" x="16" y="662" width="343" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="oHL-VM-Gxb"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isLoading" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Didn't get the email? Send Again"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isEnabled" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonBackgroundColor">
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonTitleColor">
+                                        <color key="value" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="0.75334439212328763" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4q8-mQ-hUF" customClass="PrimaryButtonContainer" customModule="Blockchain" customModuleProvider="target">
+                                <rect key="frame" x="16" y="718" width="343" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="VEZ-Xi-6Yp"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isLoading" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Open Email App"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isEnabled" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="erc-Vu-ZOz" firstAttribute="top" secondItem="RMA-4m-Xbs" secondAttribute="bottom" constant="15" id="08S-pg-qtD"/>
+                            <constraint firstItem="4q8-mQ-hUF" firstAttribute="leading" secondItem="XxP-Qa-zDO" secondAttribute="leading" constant="16" id="3Yz-Or-FJS"/>
+                            <constraint firstItem="RMA-4m-Xbs" firstAttribute="trailing" secondItem="XxP-Qa-zDO" secondAttribute="trailing" id="7iN-Yq-Uf0"/>
+                            <constraint firstItem="XxP-Qa-zDO" firstAttribute="trailing" secondItem="lsp-h7-MM8" secondAttribute="trailing" constant="16" id="DrZ-jG-6GZ"/>
+                            <constraint firstItem="XxP-Qa-zDO" firstAttribute="bottom" secondItem="4q8-mQ-hUF" secondAttribute="bottom" constant="16" id="PaD-FA-Bf7"/>
+                            <constraint firstItem="4Vm-sy-Up1" firstAttribute="leading" secondItem="4q8-mQ-hUF" secondAttribute="leading" id="RMe-bo-GYW"/>
+                            <constraint firstItem="RMA-4m-Xbs" firstAttribute="leading" secondItem="XxP-Qa-zDO" secondAttribute="leading" id="S9U-Wg-YPa"/>
+                            <constraint firstItem="lsp-h7-MM8" firstAttribute="leading" secondItem="XxP-Qa-zDO" secondAttribute="leading" constant="16" id="SHB-ok-Oda"/>
+                            <constraint firstItem="m0J-We-vsr" firstAttribute="leading" secondItem="XxP-Qa-zDO" secondAttribute="leading" constant="16" id="VDc-dT-jAt"/>
+                            <constraint firstItem="XxP-Qa-zDO" firstAttribute="trailing" secondItem="4q8-mQ-hUF" secondAttribute="trailing" constant="16" id="Wyf-gi-NLY"/>
+                            <constraint firstItem="m0J-We-vsr" firstAttribute="top" secondItem="lsp-h7-MM8" secondAttribute="bottom" constant="16" id="bU4-Ul-cj6"/>
+                            <constraint firstItem="erc-Vu-ZOz" firstAttribute="leading" secondItem="XxP-Qa-zDO" secondAttribute="leading" constant="16" id="brv-6t-34l"/>
+                            <constraint firstItem="RMA-4m-Xbs" firstAttribute="top" secondItem="XxP-Qa-zDO" secondAttribute="top" id="dYI-re-mEI"/>
+                            <constraint firstItem="XxP-Qa-zDO" firstAttribute="trailing" secondItem="erc-Vu-ZOz" secondAttribute="trailing" constant="16" id="efV-ty-yGs"/>
+                            <constraint firstItem="4q8-mQ-hUF" firstAttribute="top" secondItem="4Vm-sy-Up1" secondAttribute="bottom" constant="12" id="exs-a4-znU"/>
+                            <constraint firstItem="XxP-Qa-zDO" firstAttribute="trailing" secondItem="m0J-We-vsr" secondAttribute="trailing" constant="16" id="loL-bf-Kmz"/>
+                            <constraint firstItem="lsp-h7-MM8" firstAttribute="top" secondItem="erc-Vu-ZOz" secondAttribute="bottom" constant="2" id="qhu-FB-H3g"/>
+                            <constraint firstItem="4Vm-sy-Up1" firstAttribute="trailing" secondItem="4q8-mQ-hUF" secondAttribute="trailing" id="zKy-CG-B34"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="XxP-Qa-zDO"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Verify Email" id="1uv-KY-daE"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="buttonDidntGetEmail" destination="4Vm-sy-Up1" id="qsB-Xh-Mbx"/>
+                        <outlet property="labelHeader" destination="erc-Vu-ZOz" id="JcP-Jm-SnM"/>
+                        <outlet property="labelSubHeader" destination="lsp-h7-MM8" id="zAb-Gl-66D"/>
+                        <outlet property="layoutConstraintBottomButton" destination="PaD-FA-Bf7" id="IaS-Xa-9al"/>
+                        <outlet property="primaryButton" destination="4q8-mQ-hUF" id="w5G-Yh-Wy1"/>
+                        <outlet property="progressView" destination="RMA-4m-Xbs" id="9ae-Kv-nmC"/>
+                        <outlet property="validationTextFieldEmail" destination="m0J-We-vsr" id="PoL-ad-h8K"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TRy-yB-wwB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="34" y="146"/>
+        </scene>
+    </scenes>
+</document>

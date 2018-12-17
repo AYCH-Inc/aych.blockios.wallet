@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TradeLimits: Decodable {
+struct TradeLimits {
     let currency: String
     let minOrder: Decimal
     let maxOrder: Decimal
@@ -16,7 +16,9 @@ struct TradeLimits: Decodable {
     let daily: Limit
     let weekly: Limit
     let annual: Limit
-    
+}
+
+extension TradeLimits: Decodable {
     enum CodingKeys: String, CodingKey {
         case currency
         case minOrder
@@ -26,13 +28,14 @@ struct TradeLimits: Decodable {
         case weekly
         case annual
     }
-    
+
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         currency = try values.decode(String.self, forKey: .currency)
         minOrder = try values.decode(String.self, forKey: .minOrder).toDecimal()
         maxOrder = try values.decode(String.self, forKey: .maxOrder).toDecimal()
         maxPossibleOrder = try values.decode(String.self, forKey: .maxPossibleOrder).toDecimal()
+
         daily = try values.decode(Limit.self, forKey: .daily)
         weekly = try values.decode(Limit.self, forKey: .weekly)
         annual = try values.decode(Limit.self, forKey: .annual)

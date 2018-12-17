@@ -125,7 +125,16 @@
     // TICKET: IOS-1281 avoid interacting directly with user defaults
 #ifdef DEBUG
     if (DebugSettings.sharedInstance.createWalletPrefill) {
-        emailTextField.text = @"test@doesnotexist.com";
+        NSString *customEmail = DebugSettings.sharedInstance.createWalletEmailPrefill;
+        NSInteger time = round([[NSDate date] timeIntervalSince1970]);
+        NSString *suffix = [NSString stringWithFormat:@"+%ld", (long)time];
+        if (DebugSettings.sharedInstance.createWalletEmailRandomSuffix) {
+            NSArray *components = [customEmail componentsSeparatedByString:@"@"];
+            emailTextField.text = [[[components firstObject] stringByAppendingString:suffix] stringByAppendingFormat:@"@%@", [components lastObject]];
+        } else {
+            emailTextField.text = customEmail;
+        }
+
         passwordTextField.text = @"testpassword!";
         password2TextField.text = @"testpassword!";
         [self checkPasswordStrength];

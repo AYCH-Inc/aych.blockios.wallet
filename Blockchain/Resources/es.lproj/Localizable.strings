@@ -877,7 +877,7 @@ Guarda tu xPub privada. Alguien con acceso a tu xPub podrá ver todos tus fondos
 "Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Antes de acceder a tu monedero, elige un código pin para desbloquearlo. Es importante que recuerdes este pin, ya que no se puede restablecer ni cambiar sin antes desbloquear la aplicación.";
 "Below trading limit" = "Inferior al límite de intercambio";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Los servidores de Blockchain se encuentran en mantenimiento. Por favor, inténtalo de nuevo más tarde.";
-"Buy Now for $99" = "Comprar ahora por 99 $";
+"Buy Now for $99" = "Comprar ahora";
 "By creating a wallet you agree to Blockchain’s" = "Al crear un monedero, aceptas";
 "By hitting \"Begin Now\", you agree to Blockchain’s %@ & %@" = "Al hacer clic en \"Comenzar\", acepto %1$@ y  %2$@ de Blockchain";
 "Cannot send XLM at this time. Please try again." = "No se pueden enviar XLM en este momento. Por favor, vuelve a intentarlo más tarde. ";

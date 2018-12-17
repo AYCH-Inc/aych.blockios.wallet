@@ -125,37 +125,40 @@ extension SettingsTableViewController {
         cell.accessoryView = switchForEmailNotifications
     }
 
-    func getUserVerificationStatus(handler: @escaping (NabuUser?) -> Void) {
-        disposable = BlockchainDataRepository.shared.nabuUser
-            .subscribeOn(MainScheduler.asyncInstance) // network call will be performed off the main thread
-            .observeOn(MainScheduler.instance) // closures passed in subscribe will be on the main thread
-            .subscribe(onNext: { user in
-                handler(user)
+    func getTiersStatus(handler: @escaping (KYCUserTiersResponse?) -> Void) {
+        disposable = BlockchainDataRepository.shared.tiers
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { response in
+                handler(response)
             }, onError: { error in
-                Logger.shared.error("Failed to get nabu user: \(error.localizedDescription)")
                 handler(nil)
             })
     }
 
     func prepareIdentityCell(_ cell: UITableViewCell) {
-        guard didFetchNabuUser else {
+        cell.textLabel?.text = LocalizationConstants.Swap.swapLimit
+
+        guard didFetchTiers else {
             cell.detailTextLabel?.isHidden = true
-            getUserVerificationStatus { [weak self] user in
+            getTiersStatus { [weak self] tiers in
                 guard let strongSelf = self else { return }
-                strongSelf.didFetchNabuUser = true
-                strongSelf.nabuUser = user
-                strongSelf.prepareIdentityCell(cell)
+                strongSelf.tiers = tiers
+                strongSelf.didFetchTiers = true
             }
             return
         }
 
-        if let nabuUser = nabuUser {
-            let userModel = KYCInformationViewModel.create(for: nabuUser.status)
-            cell.detailTextLabel?.text = userModel.badge
-            createBadge(cell, nabuUser)
+        if let tiers = tiers,
+            let first = tiers.userTiers.first,
+            first.state != .none {
+            let badgeModel = KYCUserTiersBadgeModel(userTiers: tiers)
+            createBadge(cell, color: badgeModel.color, detailText: badgeModel.text)
         } else {
-            cell.detailTextLabel?.text = LocalizationConstants.KYC.accountUnverifiedBadge
-            createBadge(cell, color: .unverified)
+           cell.detailTextLabel?.isHidden = false
+           cell.detailTextLabel?.font = UIFont(name: Constants.FontNames.montserratLight, size: Constants.FontSizes.Small)
+           cell.detailTextLabel?.textColor = .brandPrimary
+           cell.detailTextLabel?.text = LocalizationConstants.Swap.locked
         }
     }
 
@@ -224,7 +227,7 @@ extension SettingsTableViewController {
         switch indexPath.section {
         case sectionProfile:
             switch indexPath.row {
-            case identityVerification: KYCCoordinator.shared.start(from: self)
+            case identityVerification: ExchangeCoordinator.shared.start(rootViewController: self)
             case profileWalletIdentifier: walletIdentifierClicked()
             case profileEmail: emailClicked()
             case profileMobileNumber: mobileNumberClicked()

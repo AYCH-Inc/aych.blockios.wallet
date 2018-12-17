@@ -87,7 +87,6 @@ import UIKit
         let detailWidth =  self.detailTextLabel?.frame.size.width
         let screenWidth = UIScreen.main.bounds.width
         self.detailTextLabel?.frame.origin.x = screenWidth - detailWidth! - 40
-        self.detailTextLabel?.font = UIFont(name: Constants.FontNames.montserratSemiBold, size: Constants.FontSizes.Tiny)
     }
 }
 

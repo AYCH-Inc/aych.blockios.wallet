@@ -342,27 +342,6 @@ final class BlockchainSettings: NSObject {
         }
 
         /**
-         Determines if the user is currently completing the KYC process. This allow the application to determine
-         if it should show the *Continue verification* announcement card on the dashboard.
-
-         - Note:
-         This value is set to `true` whenever the user taps on the primary button on the KYC welcome screen.
-
-         This value is set to `false` whenever the *Application complete* screen in the KYC flow will disappear.
-
-         - Important:
-         This setting **MUST** be set to `false` upon logging the user out of the application.
-         */
-        @objc var isCompletingKyc: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.isCompletingKyc.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.isCompletingKyc.rawValue)
-            }
-        }
-
-        /**
          Determines if the user deep linked into the app using the airdrop dynamic link. This value is used in various
          places to handle the airdrop flow (e.g. prompt the user to KYC to finish the airdrop, to continue KYC'ing if
          they have already gone through the KYC flow, etc.)
@@ -463,13 +442,15 @@ final class BlockchainSettings: NSObject {
             // TODO: - reset all appropriate settings upon logging out
             clearPin()
             appBecameActiveCount = 0
-            isCompletingKyc = false
             didTapOnAirdropDeepLink = false
             didSeeAirdropPending = false
             airdropCampaignCode = nil
             airdropCampaignEmail = nil
             didAttemptToRouteForAirdrop = false
             didRegisterForAirdropCampaignSucceed = false
+
+            KYCSettings.shared.reset()
+
             Logger.shared.info("Application settings have been reset.")
         }
 

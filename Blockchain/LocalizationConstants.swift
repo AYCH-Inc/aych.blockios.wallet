@@ -1371,9 +1371,13 @@ struct LocalizationConstants {
             "Approved",
             comment: "KYC verification is approved."
         )
+        static let accountInReviewBadge = NSLocalizedString(
+            "In Review",
+            comment: "KYC verification is in Review."
+        )
         static let accountUnderReviewBadge = NSLocalizedString(
             "Under Review",
-            comment: "KYC verification is Under Review."
+            comment: "KYC verification is under Review."
         )
         static let verificationUnderReview = NSLocalizedString(
             "Verification Under Review",
@@ -1391,7 +1395,7 @@ struct LocalizationConstants {
             "Unverified",
             comment: "KYC verification is unverified."
         )
-        static let accounVerifiedBadge = NSLocalizedString(
+        static let accountVerifiedBadge = NSLocalizedString(
             "Verified",
             comment: "KYC verification is complete."
         )
@@ -1466,6 +1470,168 @@ struct LocalizationConstants {
         static let emailAddressAlreadyInUse = NSLocalizedString(
             "This email address has already been used to verify an existing wallet.",
             comment: "The error message when a user attempts to start KYC using an existing email address."
+        )
+        static let failedToSendVerificationEmail = NSLocalizedString(
+            "Failed to send verification email. Please try again.",
+            comment: "The error message shown when the user tries to verify their email but the server failed to send the verification email."
+        )
+        static let whyDoWeNeedThis = NSLocalizedString(
+            "Why do we need this?",
+            comment: "Header text for an a page in the KYC flow where we justify why a certain piece of information is being collected."
+        )
+        static let enterEmailExplanation = NSLocalizedString(
+            "We need to verify your email address as an added layer of security.",
+            comment: "Text explaning to the user why we are collecting their email address."
+        )
+        static let checkYourInbox = NSLocalizedString(
+            "Check your inbox.",
+            comment: "Header text telling the user to check their mail inbox to verify their email"
+        )
+        static let confirmEmailExplanation = NSLocalizedString(
+            "We just sent you an email with further instructions.",
+            comment: "Text telling the user to check their mail inbox to verify their email."
+        )
+        static let didntGetTheEmail = NSLocalizedString(
+            "Didn't get the email? Send again",
+            comment: "Text asking if the user didn't get the verification email."
+        )
+        static let emailSent = NSLocalizedString(
+            "Email sent!",
+            comment: "Text displayed when the email verification has successfully been sent."
+        )
+        static let freeCrypto = NSLocalizedString(
+            "Get Free Crypto",
+            comment: "Headline displayed on a KYC Tier 2 Cell"
+        )
+        static let tierOneVerification = NSLocalizedString(
+            "Tier 1 Verification",
+            comment: "Tier 1 Verification"
+        )
+        static let tierTwoVerification = NSLocalizedString(
+            "Tier 2 Verification",
+            comment: "Tier 2 Verification"
+        )
+        static let annualSwapLimit = NSLocalizedString(
+            "Annual Swap Limit",
+            comment: "Annual Swap Limit"
+        )
+        static let dailySwapLimit = NSLocalizedString(
+            "Daily Swap Limit",
+            comment: "Daily Swap Limit"
+        )
+        static let takesThreeMinutes = NSLocalizedString(
+            "Takes 3 min",
+            comment: "Duration for Tier 1 application"
+        )
+        static let takesTenMinutes = NSLocalizedString(
+            "Takes 10 min",
+            comment: "Duration for Tier 2 application"
+        )
+        static let swapNow = NSLocalizedString("Swap Now", comment: "Swap Now")
+        static let swapTagline = NSLocalizedString(
+            "A Better Way to Trade Crypto",
+            comment: "The tagline describing what Swap is"
+        )
+        static let swapStatusInReview = NSLocalizedString(
+            "In Review",
+            comment: "Swap status is in review"
+        )
+        static let swapStatusInReviewCTA = NSLocalizedString(
+            "In Review - Need More Info",
+            comment: "Swap status is in review but we require more info from the user."
+        )
+        static let swapStatusUnderReview = NSLocalizedString(
+            "Under Review",
+            comment: "Swap status is under review."
+        )
+        static let swapStatusApproved = NSLocalizedString(
+            "Approved!",
+            comment: "Swap status is approved."
+        )
+        static let swapAnnouncement = NSLocalizedString(
+            "Announcing Swap by Blockchain - the faster, smarter way to trade your crypto",
+            comment: "The announcement and description describing what Swap is."
+        )
+        static let swapLimitDescription = NSLocalizedString(
+            "Your Swap Limit is the maximum amount of crypto you can trade.",
+            comment: "A description of what the user's swap limit is."
+        )
+        static let swapUnavailable = NSLocalizedString(
+            "Swap Currently Unavailable",
+            comment: "Swap Currently Unavailable"
+        )
+        static let swapUnavailableDescription = NSLocalizedString(
+            "We had trouble approving your identity. Your Swap feature has been disabled at this time.",
+            comment: "A description as to why Swap has been disabled"
+        )
+        static let available = NSLocalizedString(
+            "Available",
+            comment: "Available"
+        )
+        static let availableToday = NSLocalizedString(
+            "Available Today",
+            comment: "Available Today"
+        )
+        static let tierTwoVerificationIsBeingReviewed = NSLocalizedString(
+            "Your Tier 2 verification is currently being reviewed by a Blockchain Support Member.",
+            comment: "The Tiers overview screen when the user is approved for Tier 1 but they are in review for Tier 2"
+        )
+        static let tierOneRequirements = NSLocalizedString(
+            "Requires Email, Name, Date of Birth and Address",
+            comment: "A descriptions of the requirements to complete Tier 1 verification"
+        )
+        static let tierTwoRequirements = NSLocalizedString(
+            "Requires Tier 1, Phone Number, Govt. ID and a Selfie",
+            comment: "A descriptions of the requirements to complete Tier 2 verification"
+        )
+        static let notNow = NSLocalizedString(
+            "Not Now",
+            comment: "Text displayed when the user does not want to continue with tier 2 KYC."
+        )
+        static let moreInfoNeededHeaderText = NSLocalizedString(
+            "We Need Some More Information to Complete Your Profile",
+            comment: "Header text when more information is needed from the user for KYCing"
+        )
+        static let moreInfoNeededSubHeaderText = NSLocalizedString(
+            "You’ll need to verify your phone number, provide a government issued ID and a Selfie.",
+            comment: "Header text when more information is needed from the user for KYCing"
+        )
+        static let openEmailApp = NSLocalizedString(
+            "Open Email App",
+            comment: "CTA for when the user should open the email app to continue email verification."
+        )
+    }
+
+    struct Swap {
+        static let tier = NSLocalizedString(
+            "Tier", comment: "Text shown to represent the level of access a user has to Swap features."
+        )
+        static let locked = NSLocalizedString(
+            "Locked", comment: "Text shown to indicate that Swap features have not been unlocked yet."
+        )
+        static let swapLimit = NSLocalizedString(
+            "Swap Limit", comment: "Text shown to represent the level of access a user has to Swap features."
+        )
+        static let swap = NSLocalizedString(
+            "Swap", comment: "Text shown for the crypto exchange service."
+        )
+        static let previewSwap = NSLocalizedString(
+            "Preview Swap", comment: "Button text shown on the exchange screen to progress to the confirm screen"
+        )
+        static let confirmSwap = NSLocalizedString(
+            "Confirm Swap", comment: "Button text shown on the exchange confirm screen to execute the swap"
+        )
+        static let swapLocked = NSLocalizedString(
+            "Swap Locked", comment: "Button text shown on the exchange screen to show that a swap has been confirmed"
+        )
+        static let tierlimitErrorMessage = NSLocalizedString(
+            "Your max is %@.", comment: "Error message shown on the exchange screen when a user's exchange input would exceed their tier limit"
+        )
+        static let upgradeNow = NSLocalizedString(
+            "Upgrade now.", comment: "Call to action shown to encourage the user to reach a higher swap tier"
+        )
+        static let postTierError = NSLocalizedString(
+            "An error occurred when selecting your tier. Please try again later.", comment: "Error shown when a user selects a tier and an error occurs when posting the tier to the server"
         )
     }
 

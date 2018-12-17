@@ -53,10 +53,12 @@ class StellarAirdropRouterTests: XCTestCase {
         mockDataRepo.mockNabuUser = NabuUser(
             personalDetails: nil,
             address: nil,
+            email: Email(address: "test", verified: false),
             mobile: nil,
             status: KYCAccountStatus.none,
             state: NabuUser.UserState.none,
-            tags: Tags(sunriver: nil)
+            tags: Tags(sunriver: nil),
+            tiers: nil
         )
         mockRegistration.didCallRegisterExpectation = expectation(
             description: "Expects that registration is attempted through router when user has deeplinked."

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
     func onViewLoaded()
@@ -17,8 +18,10 @@ protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
     func onUseMaximumTapped(assetAccount: AssetAccount)
     func onDisplayInputTypeTapped()
     func onExchangeButtonTapped()
+    func onSwapButtonTapped()
 }
 
+// swiftlint:disable line_length
 class ExchangeCreateViewController: UIViewController {
     
     // MARK: Private Static Properties
@@ -42,7 +45,8 @@ class ExchangeCreateViewController: UIViewController {
     
     // Label that is hidden unlesss the user attempts to submit
     // an exchange that is below the minimum value or above the max.
-    @IBOutlet private var errorLabel: UILabel!
+    @IBOutlet private var errorLabel: ActionableLabel!
+    fileprivate var trigger: ActionableTrigger?
 
     @IBOutlet private var hideRatesButton: UIButton!
     @IBOutlet private var conversionRatesView: ConversionRatesView!
@@ -58,10 +62,12 @@ class ExchangeCreateViewController: UIViewController {
         case updatePrimaryLabel(NSAttributedString?, CGFloat)
         case updateSecondaryLabel(String?)
         case updateErrorLabel(String)
+        case actionableErrorLabelTrigger(ActionableTrigger)
         case updateRateLabels(first: String, second: String, third: String)
         case keypadVisibility(Visibility, animated: Bool)
         case conversionRatesView(Visibility, animated: Bool)
         case loadingIndicator(Visibility)
+        case limitsButtonStatus(Bool)
     }
     
     enum ViewUpdate: Update {
@@ -87,6 +93,7 @@ class ExchangeCreateViewController: UIViewController {
     fileprivate var assetAccountListPresenter: ExchangeAssetAccountListPresenter!
     fileprivate var fromAccount: AssetAccount!
     fileprivate var toAccount: AssetAccount!
+    fileprivate var disposable: Disposable?
 
     // MARK: Factory
     
@@ -98,6 +105,11 @@ class ExchangeCreateViewController: UIViewController {
     }
 
     // MARK: Lifecycle
+    
+    deinit {
+        disposable?.dispose()
+        disposable = nil
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,15 +121,13 @@ class ExchangeCreateViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let navController = navigationController as? BCNavigationController {
-            navController.applyLightAppearance()
+            navController.apply(NavigationBarAppearanceLight, withBackgroundColor: .white)
         }
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        if let navController = navigationController as? BCNavigationController {
-            navController.applyDarkAppearance()
+        if let navController = navigationController as? ExchangeNavigationController {
+            navController.rightButtonTappedBlock = { [unowned self] in
+                self.delegate?.onSwapButtonTapped()
+            }
         }
-        super.viewWillDisappear(animated)
     }
 
     // MARK: Private
@@ -135,7 +145,11 @@ class ExchangeCreateViewController: UIViewController {
         }
 
         tradingPairView.delegate = self
+        errorLabel.delegate = self
+
         exchangeButton.layer.cornerRadius = Constants.Measurements.buttonCornerRadius
+
+        exchangeButton.setTitle(LocalizationConstants.Swap.previewSwap, for: .normal)
     }
 
     fileprivate func dependenciesSetup() {
@@ -159,6 +173,15 @@ class ExchangeCreateViewController: UIViewController {
         presenter.interface = self
         interactor.output = presenter
         delegate = presenter
+    }
+    
+    fileprivate func routeUserToTiers(_ user: NabuUser) {
+        let currencyCode = BlockchainSettings.App.shared.fiatCurrencySymbol
+        self.disposable = KYCTiersViewController.routeToTiers(
+            fromViewController: self,
+            code: currencyCode,
+            accountStatus: user.status
+        )
     }
     
     // MARK: - IBActions
@@ -218,6 +241,15 @@ extension ExchangeCreateViewController: NumberKeypadViewDelegate {
 }
 
 extension ExchangeCreateViewController: ExchangeCreateInterface {
+    func showTiers() {
+        disposable = BlockchainDataRepository.shared.fetchNabuUser()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { user in
+                self.routeUserToTiers(user)
+            })
+    }
+    
     func apply(transitionPresentation: TransitionPresentationUpdate<ExchangeCreateInterface.TransitionUpdate>) {
         transitionPresentation.transitionType.perform(with: view, animations: { [weak self] in
             guard let this = self else { return }
@@ -320,6 +352,37 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             conversionRatesView.apply(baseToCounter: first, baseToFiat: second, counterToFiat: third)
         case .updateErrorLabel(let value):
             errorLabel.text = value
+        case .actionableErrorLabelTrigger(let trigger):
+            self.trigger = trigger
+            let primary = NSMutableAttributedString(
+                string: trigger.primaryString,
+                attributes: useErrorTierLimitAttributes()
+            )
+
+            let CTA = NSAttributedString(
+                string: " " + trigger.callToAction,
+                attributes: useErrorTierLimitActionAttributes()
+            )
+
+            primary.append(CTA)
+
+            if let secondary = trigger.secondaryString {
+                let trailing = NSMutableAttributedString(
+                    string: " " + secondary,
+                    attributes: useErrorTierLimitAttributes()
+                )
+                primary.append(trailing)
+            }
+
+            errorLabel.attributedText = primary
+        case .limitsButtonStatus(let withinLimit):
+            if let navController = navigationController as? ExchangeNavigationController {
+                if withinLimit {
+                    navController.showUnderLimit()
+                } else {
+                    navController.showOverLimit()
+                }
+            }
         }
     }
     
@@ -341,6 +404,20 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             textColor: .brandPrimary,
             pendingColor: UIColor.brandPrimary.withAlphaComponent(0.5)
         )
+    }
+
+    fileprivate func useErrorTierLimitAttributes() -> [NSAttributedString.Key: Any] {
+        let fontName = Constants.FontNames.montserratRegular
+        let font = UIFont(name: fontName, size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
+        return [.font: font,
+                .foregroundColor: errorLabel.textColor]
+    }
+
+    fileprivate func useErrorTierLimitActionAttributes() -> [NSAttributedString.Key: Any] {
+        let fontName = Constants.FontNames.montserratRegular
+        let font = UIFont(name: fontName, size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
+        return [.font: font,
+                .foregroundColor: UIColor.brandSecondary]
     }
 
     func updateTradingPairView(pair: TradingPair, fix: Fix) {
@@ -375,13 +452,6 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             presentationUpdate: presentationUpdate
         )
         tradingPairView.apply(model: model)
-
-        let exchangeButtonTitle = String(
-            format: LocalizationConstants.Exchange.exchangeXForY,
-            pair.from.symbol,
-            pair.to.symbol
-        )
-        exchangeButton.setTitle(exchangeButtonTitle, for: .normal)
     }
 
     func updateTradingPairViewValues(left: String, right: String) {
@@ -469,5 +539,27 @@ extension ExchangeCreateViewController: ExchangeAssetAccountListView {
                 toAccount: toAccount
             )
         )
+    }
+}
+
+extension ExchangeCreateViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return ModalAnimator(operation: .dismiss, duration: 0.4)
+    }
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return ModalAnimator(operation: .present, duration: 0.4)
+    }
+}
+
+extension ExchangeCreateViewController: ActionableLabelDelegate {
+    func targetRange(_ label: ActionableLabel) -> NSRange? {
+        return trigger?.actionRange()
+    }
+
+    func actionRequestingExecution(label: ActionableLabel) {
+        guard let trigger = trigger else { return }
+        trigger.execute()
     }
 }

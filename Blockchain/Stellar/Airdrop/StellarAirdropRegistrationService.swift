@@ -25,13 +25,16 @@ protocol StellarAirdropRegistrationAPI {
 class StellarAirdropRegistrationService: StellarAirdropRegistrationAPI {
 
     private let appSettings: BlockchainSettings.App
+    private let kycSettings: KYCSettingsAPI
     private let nabuAuthenticationService: NabuAuthenticationService
 
     init(
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
+        kycSettings: KYCSettingsAPI = KYCSettings.shared,
         nabuAuthenticationService: NabuAuthenticationService = NabuAuthenticationService.shared
     ) {
         self.appSettings = appSettings
+        self.kycSettings = kycSettings
         self.nabuAuthenticationService = nabuAuthenticationService
     }
 
@@ -66,7 +69,7 @@ class StellarAirdropRegistrationService: StellarAirdropRegistrationAPI {
             data[DataParams.code] = code
             data[DataParams.email] = email
         }
-        let isNewUser = (nabuUser.status == .none) && !appSettings.isCompletingKyc
+        let isNewUser = (nabuUser.status == .none) && !kycSettings.isCompletingKyc
         let payload = StellarRegisterCampaignPayload(
             data: data,
             newUser: isNewUser

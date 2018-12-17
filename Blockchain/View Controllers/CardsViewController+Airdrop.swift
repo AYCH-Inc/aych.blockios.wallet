@@ -39,12 +39,13 @@ extension CardsViewController {
     private func showAirdropAndKycCards(nabuUser: NabuUser) -> Bool {
         let airdropConfig = AppFeatureConfigurator.shared.configuration(for: .stellarAirdrop)
         let appSettings = BlockchainSettings.App.shared
+        let kycSettings = KYCSettings.shared
         let onboardingSettings = BlockchainSettings.Onboarding.shared
 
         let shouldShowStellarAirdropCard = airdropConfig.isEnabled &&
             !onboardingSettings.hasSeenAirdropJoinWaitlistCard &&
             !appSettings.didTapOnAirdropDeepLink
-        let shouldShowContinutKYCAnnouncementCard = appSettings.isCompletingKyc
+        let shouldShowContinutKYCAnnouncementCard = kycSettings.isCompletingKyc
         let shouldShowAirdropPending = airdropConfig.isEnabled &&
             appSettings.didRegisterForAirdropCampaignSucceed &&
             nabuUser.status == .approved &&
@@ -87,11 +88,12 @@ extension CardsViewController {
 
     private func showContinueKycCard() {
         let appSettings = BlockchainSettings.App.shared
+        let kycSettings = KYCSettings.shared
         let isAirdropUser = appSettings.didRegisterForAirdropCampaignSucceed
         let model = AnnouncementCardViewModel.continueWithKYC(isAirdropUser: isAirdropUser, action: {
             KYCCoordinator.shared.start(from: AppCoordinator.shared.tabControllerManager)
         }, onClose: { [weak self] in
-            appSettings.isCompletingKyc = false
+            kycSettings.isCompletingKyc = false
             self?.animateHideCards()
         })
         showSingleCard(with: model)

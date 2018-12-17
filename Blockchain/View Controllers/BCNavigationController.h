@@ -24,8 +24,18 @@
 @property(nonatomic, copy) void (^onPopViewController)(void);
 @property(nonatomic, copy) void (^onViewWillDisappear)(void);
 
-- (void)applyLightAppearance;
-- (void)applyDarkAppearance;
+// A light appearance will have dark (dark blue) text.
+// A dark appearance will have light (white) text.
+typedef enum {
+    NavigationBarAppearanceLight,
+    NavigationBarAppearanceDark
+} NavigationBarAppearance;
+
+// Use an appearance that describes the backgroundColor
+// in order to get a text color that is easily readable.
+// If the backgroundColor is dark, use NavigationBarAppearanceDark.
+// If the backgroundColor is light, use NavigationBarAppearanceLight.
+- (void)applyNavigationBarAppearance:(NavigationBarAppearance)appearance withBackgroundColor:(UIColor *)backgroundColor;
 
 - (_Nonnull id)initWithRootViewController:(UIViewController *)rootViewController title:(NSString *)title;
 - (void)showBusyViewWithLoadingText:(NSString *)text;

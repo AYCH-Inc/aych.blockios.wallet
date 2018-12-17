@@ -39,15 +39,16 @@ class KYCVerifyEmailPresenter {
         self.interactor = interactor
     }
 
-    func listenForEmailConfirmation() {
-//        let disposable = interactor.pollEmailVerification()
-        let disposable = interactor.debugPollEmailVerification()
+    func waitForEmailConfirmation() -> Disposable {
+        return interactor.waitForEmailVerification()
             .subscribeOn(MainScheduler.asyncInstance)
-            .distinctUntilChanged()
-            .filter { $0 }
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] _ in
+            .subscribe(onNext: { [weak self] isEmailVerified in
                 guard let strongSelf = self else {
+                    return
+                }
+                guard isEmailVerified else {
+                    Logger.shared.debug("Email not verified")
                     return
                 }
                 guard let confirmView = strongSelf.view as? KYCConfirmEmailView else {
@@ -55,7 +56,6 @@ class KYCVerifyEmailPresenter {
                 }
                 confirmView.emailVerifiedSuccess()
             })
-        disposables.insertWithDiscardableResult(disposable)
     }
 
     func sendVerificationEmail(to email: EmailAddress) {

@@ -14,16 +14,16 @@ class KYCVerifyPhoneNumberInteractor {
     private let phoneNumberKit = PhoneNumberKit()
     private let authenticationService: NabuAuthenticationService
     private let wallet: Wallet
-    private let walletService: WalletService
+    private let walletSync: WalletNabuSynchronizerAPI
 
     init(
         authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
         wallet: Wallet = WalletManager.shared.wallet,
-        walletService: WalletService = WalletService.shared
+        walletSync: WalletNabuSynchronizerAPI = WalletNabuSynchronizerService()
     ) {
         self.authenticationService = authenticationService
         self.wallet = wallet
-        self.walletService = walletService
+        self.walletSync = walletSync
     }
 
     /// Starts the mobile verification process. This should be called when the
@@ -61,36 +61,17 @@ class KYCVerifyPhoneNumberInteractor {
     }
 
     private func updateWalletInfo() -> Completable {
-        let sessionTokenSingle = authenticationService.getSessionToken()
-        let signedRetailToken = walletService.getSignedRetailToken()
-        return Single.zip(sessionTokenSingle, signedRetailToken, resultSelector: {
-            return ($0, $1)
-        }).flatMap { (sessionToken, signedRetailToken) -> Single<NabuUser> in
-
-            // Error checking
-            guard signedRetailToken.success else {
-                return Single.error(NetworkError.generic(message: "Signed retail token failed."))
+        return authenticationService.getSessionToken().flatMap { [weak self] token -> Single<NabuUser> in
+            guard let strongSelf = self else {
+                return Single.never()
             }
-
-            guard let jwtToken = signedRetailToken.token else {
-                return Single.error(NetworkError.generic(message: "Signed retail token is nil."))
-            }
-
-            // If all passes, send JWT to Nabu
-            let headers = [HttpHeaderField.authorization: sessionToken.token]
-            let payload = ["jwt": jwtToken]
-            return KYCNetworkRequest.request(
-                put: .updateWalletInformation,
-                parameters: payload,
-                headers: headers,
-                type: NabuUser.self
-            )
-        }.do(onSuccess: { user in
-            Logger.shared.debug("""
-                Successfully updated user: \(user.personalDetails?.identifier ?? "").
-                Mobile number: \(user.mobile?.phone ?? "")
-            """)
-        }).asCompletable()
+            return strongSelf.walletSync.sync(token: token).do(onSuccess: { user in
+                Logger.shared.debug("""
+                    Successfully updated user: \(user.personalDetails?.identifier ?? "").
+                    Mobile number: \(user.mobile?.phone ?? "")
+                """)
+            })
+        }.asCompletable()
     }
 }
 

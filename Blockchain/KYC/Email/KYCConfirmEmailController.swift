@@ -6,7 +6,7 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import RxSwift
 
 class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerView, ProgressableView {
 
@@ -35,6 +35,8 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
     private lazy var presenter: KYCVerifyEmailPresenter = {
         return KYCVerifyEmailPresenter(view: self)
     }()
+
+    private var disposable: Disposable?
 
     // MARK: Properties
 
@@ -82,7 +84,13 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setUpBottomButtonContainerView()
-        presenter.listenForEmailConfirmation()
+        disposable = presenter.waitForEmailConfirmation()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        disposable?.dispose()
+        disposable = nil
+        super.viewDidDisappear(animated)
     }
 
     // MARK: - Actions

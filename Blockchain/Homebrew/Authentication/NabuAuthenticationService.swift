@@ -16,11 +16,16 @@ final class NabuAuthenticationService {
 
     private let cachedSessionToken = BehaviorRelay<NabuSessionTokenResponse?>(value: nil)
     private let wallet: Wallet
+    private let walletNabuSynchronizer: WalletNabuSynchronizerAPI
 
     // MARK: - Initialization
 
-    init(wallet: Wallet = WalletManager.shared.wallet) {
+    init(
+        wallet: Wallet = WalletManager.shared.wallet,
+        walletNabuSynchronizer: WalletNabuSynchronizerAPI = WalletNabuSynchronizerService()
+    ) {
         self.wallet = wallet
+        self.walletNabuSynchronizer = walletNabuSynchronizer
     }
 
     // MARK: - Public Methods
@@ -126,7 +131,7 @@ final class NabuAuthenticationService {
     /// Creates a KYC user ID and API token followed by updating the wallet metadata with
     /// the KYC user ID and API token.
     private func createAndSaveUserResponse() -> Single<NabuCreateUserResponse> {
-        return WalletService.shared.getSignedRetailToken().flatMap {
+        return walletNabuSynchronizer.getSignedRetailToken().flatMap {
             self.createNabuUser(tokenResponse: $0)
         }.flatMap {
             self.saveToWalletMetadata(createUserResponse: $0)

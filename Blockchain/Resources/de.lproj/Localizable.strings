@@ -880,7 +880,7 @@ Sie haben derzeit E-Mail-Benachrichtigungen aktiviert. Wenn Sie Ihre E-Mail-Adre
 "Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Bevor Sie auf Ihre Wallet zugreifen, wählen Sie eine PIN, die zum Entsperren der Wallet verwendet werden soll. Es ist wichtig, dass Sie sich an diesen Pin erinnern, da er nicht zurückgesetzt oder geändert werden kann, ohne die App zuerst zu entsperren.";
 "Below trading limit" = "Unter dem Handelslimit";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Die Server der Blockchain werden derzeit gewartet. Bitte versuchen Sie es später erneut";
-"Buy Now for $99" = "Jetzt für $ 99 kaufen";
+"Buy Now for $99" = "Kaufe jetzt";
 "By creating a wallet you agree to Blockchain’s" = "Durch das Erstellen einer Wallet stimmen Sie den Geschäftsbedingungen und der Datenschutzrichtlinie von Blockchain zu";
 "By hitting \"Begin Now\", you agree to Blockchain’s %@ & %@" = "Wenn Sie auf „Begin Now\" klicken, stimmen Sie den %1$@ & %2$@ von Blockchain zu.";
 "Cannot send XLM at this time. Please try again." = "XLM kann derzeit nicht gesendet werden. Bitte versuchen Sie es erneut.";

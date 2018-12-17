@@ -880,7 +880,7 @@
 "Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Sebelum mengakses dompet anda, sila pilih nombor pin yang akan digunakan untuk membuka kunci dompet anda. Penting anda mengingati pin ini kerana ia tidak boleh diset semula atau diubah tanpa terlebih dahulu membuka aplikasinya.";
 "Below trading limit" = "Di bawah had dagangan";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Server Blockchain kini sedang dalam penyelenggaraan. Sila cuba sebentar lagi";
-"Buy Now for $99" = "Beli Sekarang untuk $ 99";
+"Buy Now for $99" = "Beli sekarang";
 "By creating a wallet you agree to Blockchain’s" = "Dengan membuat dompet anda bersetuju dengan Blockchain's";
 "By hitting \"Begin Now\", you agree to Blockchain’s %@ & %@" = "Dengan menekan \"Begin Now\", anda bersetuju untuk Blockchain's %1$@ & %2$@";
 "Cannot send XLM at this time. Please try again." = "Tidak boleh menghantar XLM pada masa ini. Sila cuba lagi.";

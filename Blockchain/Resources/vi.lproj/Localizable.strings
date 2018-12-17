@@ -878,7 +878,7 @@ Hãy giữ riêng tư cho xPub của bạn. Người có quyền truy cập vào
 "Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Trước khi truy cập ví của bạn, vui lòng chọn mã pin dùng để mở khóa ví. Điều quan trọng là bạn phải ghi nhớ mã pin này vì bạn sẽ không thể đặt lại hay thay đổi nó khi chưa mở khóa ứng dụng.";
 "Below trading limit" = "Thấp hơn hạn mức giao dịch";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Các máy chủ của Blockchain hiện đang được bảo trì. Vui lòng thử lại sau";
-"Buy Now for $99" = "Mua ngay với giá 99 USD";
+"Buy Now for $99" = "Mua ngay";
 "By creating a wallet you agree to Blockchain’s" = "Bằng cách tạo ví, bạn đồng ý với Blockchain";
 "By hitting \"Begin Now\", you agree to Blockchain’s %@ & %@" = "Bằng cách nhấp vào \"Bắt đầu ngay\", bạn đồng ý với %1$@ & %2$@ của Blockchain";
 "Cannot send XLM at this time. Please try again." = "Không thể gửi XLM tại thời điểm này. Vui lòng thử lại.";

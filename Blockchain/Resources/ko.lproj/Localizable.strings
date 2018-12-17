@@ -880,7 +880,7 @@
 "Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "지갑에 액세스하기 전에 지갑을 잠금 해제하는 데 사용할 핀 번호를 선택하십시오. 이 핀은 앱을 먼저 잠금 해제하지 않고 재설정하거나 변경할 수 없으므로이 핀을 기억하는 것이 중요합니다.";
 "Below trading limit" = "거래 한도 이하";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Blockchain의 서버는 현재 유지 보수 중입니다. 나중에 다시 시도하십시오";
-"Buy Now for $99" = "$ 99에 대한 지금 구입";
+"Buy Now for $99" = "구입";
 "By creating a wallet you agree to Blockchain’s" = "지갑을 만들면 Blockchain 's";
 "By hitting \"Begin Now\", you agree to Blockchain’s %@ & %@" = "\"Begin Now\"를 누르면 Blockchain의 %1$@ & %2$@ 동의하게됩니다.";
 "Cannot send XLM at this time. Please try again." = "현재 XLM을 보낼 수 없습니다. 다시 시도하십시오.";

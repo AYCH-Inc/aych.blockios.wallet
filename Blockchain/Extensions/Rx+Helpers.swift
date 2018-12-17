@@ -13,3 +13,19 @@ extension CompositeDisposable {
         return self.insert(disposable)
     }
 }
+
+extension ObservableType {
+    func optional() -> Observable<E?> {
+        return self.asObservable().map { e -> E? in
+            return e
+        }
+    }
+}
+
+extension PrimitiveSequenceType where TraitType == SingleTrait {
+    func optional() -> Single<ElementType?> {
+        return self.map { e -> ElementType? in
+            return e
+        }
+    }
+}

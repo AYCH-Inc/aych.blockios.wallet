@@ -28,7 +28,7 @@ struct ExchangeServices: ExchangeDependencies {
     let tradeExecution: TradeExecutionAPI
     let assetAccountRepository: AssetAccountRepository
     let tradeLimits: TradeLimitsAPI
-    
+
     init() {
         service = ExchangeService()
         markets = MarketsService()
@@ -65,9 +65,12 @@ struct ExchangeServices: ExchangeDependencies {
     private var disposable: Disposable?
     
     private var exchangeListViewController: ExchangeListViewController?
+    private var limitsService: TradeLimitsAPI = {
+        return ExchangeServices().tradeLimits
+    }()
 
     // MARK: - Navigation
-    private var navigationController: BCNavigationController?
+    private var navigationController: ExchangeNavigationController?
     private var exchangeViewController: PartnerExchangeListViewController?
     private var rootViewController: UIViewController?
 
@@ -81,7 +84,8 @@ struct ExchangeServices: ExchangeDependencies {
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [unowned self] in
                 guard $0.status == .approved else {
-                    KYCCoordinator.shared.start(); return
+                    self.routeUserToTiers($0)
+                    return
                 }
                 
                 self.showAppropriateExchange()
@@ -94,6 +98,19 @@ struct ExchangeServices: ExchangeDependencies {
                 )
                 Logger.shared.error("Failed to get user: \(error.localizedDescription)")
             })
+    }
+    
+    private func routeUserToTiers(_ user: NabuUser) {
+        guard let viewController = rootViewController else {
+            Logger.shared.error("View controller to present on is nil")
+            return
+        }
+        let currencyCode = BlockchainSettings.App.shared.fiatCurrencySymbol
+        disposable = KYCTiersViewController.routeToTiers(
+            fromViewController: viewController,
+            code: currencyCode,
+            accountStatus: user.status
+        )
     }
 
     // TICKET: IOS-1168 - Complete error handling TODOs throughout the KYC
@@ -158,9 +175,9 @@ struct ExchangeServices: ExchangeDependencies {
                 return
             }
             let listViewController = ExchangeListViewController.make(with: ExchangeServices(), coordinator: self)
-            navigationController = BCNavigationController(
+            navigationController = ExchangeNavigationController(
                 rootViewController: listViewController,
-                title: LocalizationConstants.Exchange.navigationTitle
+                title: LocalizationConstants.Swap.swap
             )
             viewController.present(navigationController!, animated: true)
         case .shapeshift:
@@ -169,9 +186,9 @@ struct ExchangeServices: ExchangeDependencies {
                 return
             }
             exchangeViewController = PartnerExchangeListViewController.create(withCountryCode: country?.code)
-            let partnerNavigationController = BCNavigationController(
+            let partnerNavigationController = ExchangeNavigationController(
                 rootViewController: exchangeViewController,
-                title: LocalizationConstants.Exchange.navigationTitle
+                title: LocalizationConstants.Swap.swap
             )
             viewController.present(partnerNavigationController, animated: true)
         }
@@ -186,7 +203,7 @@ struct ExchangeServices: ExchangeDependencies {
                     Logger.shared.error("View controller to present on is nil")
                     return
                 }
-                navigationController = BCNavigationController(
+                navigationController = ExchangeNavigationController(
                     rootViewController: exchangeCreateViewController,
                     title: LocalizationConstants.Exchange.navigationTitle
                 )

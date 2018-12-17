@@ -12,20 +12,16 @@ struct PersonalDetails: Codable {
     let identifier: String?
     let firstName: String?
     let lastName: String?
-    let email: String
     let birthday: Date?
 
     enum CodingKeys: String, CodingKey {
         case identifier = "id"
         case firstName = "firstname"
         case lastName = "lastname"
-        case email = "email"
         case birthday = "dob"
     }
 
-    init?(id: String?, first: String?, last: String?, email: String?, birthday: Date?) {
-        guard let mail = email else { return nil }
-        self.email = mail
+    init(id: String?, first: String?, last: String?, birthday: Date?) {
         self.identifier = id
         self.firstName = first
         self.lastName = last

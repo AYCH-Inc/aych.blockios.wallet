@@ -343,7 +343,7 @@ workflows:
           filters:
             branches:
               only:
-                - staging
+                - release
       - install_deps:
           requires:
             - setup_repo

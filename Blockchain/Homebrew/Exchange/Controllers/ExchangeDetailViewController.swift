@@ -346,6 +346,14 @@ extension ExchangeDetailViewController: ExchangeDetailInterface {
     func updateBackgroundColor(_ color: UIColor) {
         view.backgroundColor = color
     }
+
+    func updateNavigationBar(appearance: NavigationBarAppearance, color: UIColor) {
+        guard let navigationController = self.navigationController as? BCNavigationController else {
+            Logger.shared.error("No navigation controller found")
+            return
+        }
+        navigationController.apply(appearance, withBackgroundColor:color)
+    }
     
     func updateTitle(_ value: String) {
         navigationItem.title = value

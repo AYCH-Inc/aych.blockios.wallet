@@ -24,6 +24,12 @@ struct LayoutAttributes: Equatable {
         sectionInsets: UIEdgeInsets.init(top: 16.0, left: 16.0, bottom: 0.0, right: 16.0)
     )
     
+    static let tiersOverview: LayoutAttributes = LayoutAttributes(
+        minimumInterItemSpacing: 0.0,
+        minimumLineSpacing: 16.0,
+        sectionInsets: UIEdgeInsets.init(top: 16.0, left: 16.0, bottom: 0.0, right: 16.0)
+    )
+    
     static func ==(lhs: LayoutAttributes, rhs: LayoutAttributes) -> Bool {
         guard lhs.minimumInterItemSpacing == rhs.minimumInterItemSpacing else { return false }
         guard lhs.minimumLineSpacing == rhs.minimumLineSpacing else { return false }

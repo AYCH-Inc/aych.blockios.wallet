@@ -30,6 +30,6 @@ extension OnfidoCreateApplicantRequest {
         }
         self.firstName = first
         self.lastName = last
-        self.email = personalDetails.email
+        self.email = kycUser.email.address
     }
 }

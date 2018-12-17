@@ -9,6 +9,7 @@
 import Foundation
 
 enum KYCPageModel {
+    case email(NabuUser)
     case personalDetails(NabuUser)
     case address(NabuUser, KYCCountry?)
     case phone(NabuUser)

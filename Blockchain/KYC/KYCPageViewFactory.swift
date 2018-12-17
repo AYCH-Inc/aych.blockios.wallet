@@ -18,6 +18,19 @@ class KYCPageViewFactory {
         payload: KYCPagePayload? = nil
     ) -> KYCBaseViewController {
         switch pageType {
+        case .enterEmail:
+            AnalyticsService.shared.trackEvent(title: "kyc_enter_email")
+            return KYCEnterEmailController.make(with: coordinator)
+        case .confirmEmail:
+            AnalyticsService.shared.trackEvent(title: "kyc_confirm_email")
+            let confirmEmailController = KYCConfirmEmailController.make(with: coordinator)
+            if let payload = payload, case let .emailPendingVerification(email) = payload {
+                confirmEmailController.email = email
+            }
+            return confirmEmailController
+        case .tier1ForcedTier2:
+            AnalyticsService.shared.trackEvent(title: "kyc_more_info_needed")
+            return KYCMoreInformationController.make(with: coordinator)
         case .welcome:
             AnalyticsService.shared.trackEvent(title: "kyc_welcome")
             return KYCWelcomeController.make(with: coordinator)

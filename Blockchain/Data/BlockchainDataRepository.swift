@@ -47,11 +47,41 @@ import RxSwift
         )
     }
 
+    var tiers: Observable<KYCUserTiersResponse> {
+        guard let baseURL = URL(string: BlockchainAPI.shared.retailCoreUrl) else {
+            return Observable.error(NetworkError.generic(message: "Could not get endpoint"))
+        }
+
+        guard let endpoint = URL.endpoint(
+            baseURL,
+            pathComponents: ["kyc", "tiers"],
+            queryParameters: nil
+        ) else {
+            return Observable.error(NetworkError.generic(message: "Could not get endpoint"))
+        }
+
+        let tiersFetchedOverNetwork = authenticationService.getSessionToken().flatMap { token in
+            return NetworkRequest.GET(
+                url: endpoint,
+                body: nil,
+                headers: [HttpHeaderField.authorization: token.token],
+                type: KYCUserTiersResponse.self
+            )
+        }
+
+        return fetchDataStartingWithCache(
+            cachedValue: cachedTiers,
+            networkValue: tiersFetchedOverNetwork
+        )
+    }
+
     // MARK: - Private Properties
 
     private var cachedCountries = BehaviorRelay<Countries?>(value: nil)
 
     private var cachedUser = BehaviorRelay<NabuUser?>(value: nil)
+
+    private var cachedTiers = BehaviorRelay<KYCUserTiersResponse?>(value: nil)
 
     // MARK: - Public Methods
 
@@ -59,7 +89,8 @@ import RxSwift
     func prefetchData() {
         _ = Observable.zip(
             nabuUser,
-            countries.asObservable()
+            countries.asObservable(),
+            tiers
         ).subscribe()
     }
 

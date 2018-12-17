@@ -23,4 +23,11 @@ class MockBlockchainDataRepository: BlockchainDataRepository {
         }
         return super.nabuUser
     }
+
+    override func fetchNabuUser() -> Single<NabuUser> {
+        if let mock = mockNabuUser {
+            return Single.just(mock)
+        }
+        return super.fetchNabuUser()
+    }
 }

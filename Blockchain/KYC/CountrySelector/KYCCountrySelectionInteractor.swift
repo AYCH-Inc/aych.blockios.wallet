@@ -11,14 +11,14 @@ import RxSwift
 class KYCCountrySelectionInteractor {
 
     private let authenticationService: NabuAuthenticationService
-    private let walletService: WalletService
+    private let walletNabuSynchronizer: WalletNabuSynchronizerAPI
 
     init(
         authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
-        walletService: WalletService = WalletService.shared
+        walletNabuSynchronizer: WalletNabuSynchronizerAPI = WalletNabuSynchronizerService()
     ) {
         self.authenticationService = authenticationService
-        self.walletService = walletService
+        self.walletNabuSynchronizer = walletNabuSynchronizer
     }
 
     func selected(country: KYCCountry, shouldBeNotifiedWhenAvailable: Bool? = nil) -> Disposable {
@@ -39,7 +39,7 @@ class KYCCountrySelectionInteractor {
         shouldBeNotifiedWhenAvailable: Bool? = nil
     ) -> Disposable {
         let sessionTokenSingle = authenticationService.getSessionToken()
-        let signedRetailToken = walletService.getSignedRetailToken()
+        let signedRetailToken = walletNabuSynchronizer.getSignedRetailToken()
         return Single.zip(sessionTokenSingle, signedRetailToken, resultSelector: {
             return ($0, $1)
         }).flatMapCompletable { (sessionToken, signedRetailToken) -> Completable in

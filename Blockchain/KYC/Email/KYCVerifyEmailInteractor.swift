@@ -17,43 +17,41 @@ class KYCVerifyEmailInteractor {
 
     private let appSettings: BlockchainSettings.App
     private let authenticationService: NabuAuthenticationService
-    private let dataRepository: BlockchainDataRepository
     private let walletSettings: WalletSettingsAPI
-    private let walletService: WalletService
+    private let walletSync: WalletNabuSynchronizerAPI
 
     init(
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
         authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
-        dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
         walletSettings: WalletSettingsAPI = WalletSettingsService(),
-        walletService: WalletService = WalletService.shared
+        walletSync: WalletNabuSynchronizerAPI = WalletNabuSynchronizerService()
     ) {
         self.appSettings = appSettings
         self.authenticationService = authenticationService
-        self.dataRepository = dataRepository
         self.walletSettings = walletSettings
-        self.walletService = walletService
+        self.walletSync = walletSync
     }
 
-    // DEBUG CODE - remove and use `pollEmailVerification()` once server is updated. Will return true after 3 seconds
-    func debugPollEmailVerification() -> Observable<Bool> {
-        return Observable<Int>.interval(1, scheduler: MainScheduler.asyncInstance).map { i -> Bool in
-            return i > 3
-        }
-    }
-
-    /// Polls every second to check if the email has been verified. The sequence will return "true" if the email
-    /// is verified, otherwise, "false".
-    func pollEmailVerification() -> Observable<Bool> {
-        return Observable<Int>.interval(1, scheduler: MainScheduler.asyncInstance).flatMap { [weak self] _ -> Observable<NabuUser> in
-            guard let strongSelf = self else {
-                return Observable.empty()
+    /// Waits until the email is verified by the user. Once the email is verified, the Completable sequence will complete
+    ///
+    /// This works by polling WalletService every 1 sec, and if the email is verified, it will call sync on the wallet-nabu
+    /// synchronizer.
+    func waitForEmailVerification() -> Observable<Bool> {
+        return pollWalletSettings()
+            .map { $0.emailVerified }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .flatMap { [weak self] isVerified -> Observable<Bool> in
+                guard let strongSelf = self else {
+                    return Observable.empty()
+                }
+                guard isVerified else {
+                    return Observable.just(false)
+                }
+                return strongSelf.updateWalletInfo().andThen(
+                    Observable.just(true)
+                )
             }
-            return strongSelf.dataRepository.fetchNabuUser()
-                .asObservable()
-        }.map { user -> Bool in
-            return user.email.verified
-        }
     }
 
     func sendVerificationEmail(to email: EmailAddress) -> Completable {
@@ -71,35 +69,40 @@ class KYCVerifyEmailInteractor {
         )
     }
 
+    // MARK: Private Methods
+
     private func updateWalletInfo() -> Completable {
-        let sessionTokenSingle = authenticationService.getSessionToken()
-        let signedRetailToken = walletService.getSignedRetailToken()
-        return Single.zip(sessionTokenSingle, signedRetailToken).flatMap { (sessionToken, signedRetailToken) -> Single<NabuUser> in
-
-            // Error checking
-            guard signedRetailToken.success else {
-                return Single.error(NetworkError.generic(message: "Signed retail token failed."))
+        return authenticationService.getSessionToken().flatMap { [weak self] token -> Single<NabuUser> in
+            guard let strongSelf = self else {
+                return Single.never()
             }
-
-            guard let jwtToken = signedRetailToken.token else {
-                return Single.error(NetworkError.generic(message: "Signed retail token is nil."))
-            }
-
-            // If all passes, send JWT to Nabu
-            let headers = [HttpHeaderField.authorization: sessionToken.token]
-            let payload = ["jwt": jwtToken]
-            return KYCNetworkRequest.request(
-                put: .updateWalletInformation,
-                parameters: payload,
-                headers: headers,
-                type: NabuUser.self
-            )
-        }.do(onSuccess: { user in
-            Logger.shared.debug("""
-                Successfully updated user: \(user.personalDetails?.identifier ?? "").
-                Email number: \(user.email.address)
-            """)
-        }).asCompletable()
+            return strongSelf.walletSync.sync(token: token).do(onSuccess: { user in
+                Logger.shared.debug("""
+                    Successfully updated user: \(user.personalDetails?.identifier ?? "").
+                    Email addres: \(user.email.address)
+                    Email verified: \(user.email.verified)
+                """)
+            })
+        }.asCompletable()
     }
 
+    private func pollWalletSettings() -> Observable<WalletSettings> {
+        return Observable<Int>.interval(
+            1,
+            scheduler: MainScheduler.asyncInstance
+        ).flatMap { [weak self] _ -> Observable<WalletSettings> in
+            guard let strongSelf = self else {
+                return Observable.empty()
+            }
+            guard let guid = strongSelf.appSettings.guid else {
+                return Observable.error(VerifyEmailError.invalidWalletState)
+            }
+
+            guard let sharedKey = strongSelf.appSettings.sharedKey else {
+                return Observable.error(VerifyEmailError.invalidWalletState)
+            }
+            return strongSelf.walletSettings.fetchSettings(guid: guid, sharedKey: sharedKey)
+                .asObservable()
+        }
+    }
 }

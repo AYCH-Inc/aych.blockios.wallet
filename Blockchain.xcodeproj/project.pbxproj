@@ -875,6 +875,10 @@
 		AA8A3741219E2F0C007AF5E1 /* AuthenticationTwoFactorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD279AF209A5E7C00C0EAFC /* AuthenticationTwoFactorType.swift */; };
 		AA8F21D121C574CB00F45C42 /* KYCSettingsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F21D021C574CB00F45C42 /* KYCSettingsAPI.swift */; };
 		AA8F21D221C574CB00F45C42 /* KYCSettingsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F21D021C574CB00F45C42 /* KYCSettingsAPI.swift */; };
+		AA8F21E121C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F21E021C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift */; };
+		AA8F21E221C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F21E021C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift */; };
+		AA8F21E421C719B700F45C42 /* WalletNabuSynchronizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F21E321C719B700F45C42 /* WalletNabuSynchronizerService.swift */; };
+		AA8F21E521C719B700F45C42 /* WalletNabuSynchronizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F21E321C719B700F45C42 /* WalletNabuSynchronizerService.swift */; };
 		AA93227121AC7076000DB69B /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93227021AC7076000DB69B /* AppVersion.swift */; };
 		AA93227221AC7157000DB69B /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93227021AC7076000DB69B /* AppVersion.swift */; };
 		AA93227521AC72CD000DB69B /* AppVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93227421AC72CD000DB69B /* AppVersionTests.swift */; };
@@ -3781,6 +3785,8 @@
 		AA787A062187A86100E2D4CF /* DeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRoute.swift; sourceTree = "<group>"; };
 		AA787A0A2187AC0500E2D4CF /* DeepLinkRouteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouteTests.swift; sourceTree = "<group>"; };
 		AA8F21D021C574CB00F45C42 /* KYCSettingsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCSettingsAPI.swift; sourceTree = "<group>"; };
+		AA8F21E021C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNabuSynchronizerAPI.swift; sourceTree = "<group>"; };
+		AA8F21E321C719B700F45C42 /* WalletNabuSynchronizerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNabuSynchronizerService.swift; sourceTree = "<group>"; };
 		AA93227021AC7076000DB69B /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		AA93227421AC72CD000DB69B /* AppVersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionTests.swift; sourceTree = "<group>"; };
 		AA93414821A327FA00248E75 /* WalletAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAction.swift; sourceTree = "<group>"; };
@@ -8405,6 +8411,15 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		AA8F21D621C718F400F45C42 /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				AA8F21E021C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift */,
+				AA8F21E321C719B700F45C42 /* WalletNabuSynchronizerService.swift */,
+			);
+			path = Sync;
+			sourceTree = "<group>";
+		};
 		AA93226F21AC7060000DB69B /* App Version */ = {
 			isa = PBXGroup;
 			children = (
@@ -8841,6 +8856,7 @@
 				AA126DB0212F4D6A005886A3 /* Authentication */,
 				C75F64F62124BB9000396B65 /* Exchange */,
 				AA31ABC92141CEDA003AC42F /* Models */,
+				AA8F21D621C718F400F45C42 /* Sync */,
 			);
 			name = Homebrew;
 			path = Blockchain/Homebrew;
@@ -10391,6 +10407,7 @@
 				AACE320B20978EB100B7B806 /* MockWallet.swift in Sources */,
 				3A3D5D8F211B455D00E6C241 /* DateFormatter+Conveniences.swift in Sources */,
 				AA63F85420A12FC8002B719B /* BitcoinURLPayloadTests.swift in Sources */,
+				AA8F21E521C719B700F45C42 /* WalletNabuSynchronizerService.swift in Sources */,
 				AADF6B5621C0EFDD00F8CA43 /* KYCPagerTests.swift in Sources */,
 				AAFA97AE2115110000D19ED3 /* SettingsCell.swift in Sources */,
 				602B9D182118E25A00BD3D60 /* LocationSuggestionAPI.swift in Sources */,
@@ -10588,6 +10605,7 @@
 				AACE31C72092A99B00B7B806 /* LocalizationConstants.swift in Sources */,
 				AADF6B3521C07AE600F8CA43 /* NabuUserTiers.swift in Sources */,
 				AA15345E21A45FBF0099BA9D /* WalletSettingsService.swift in Sources */,
+				AA8F21E221C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift in Sources */,
 				AA7E773E210BA487009DFB4C /* Strings.swift in Sources */,
 				AACE31CC2092A99B00B7B806 /* BitcoinAddress.swift in Sources */,
 				C702A7E7217E9D0400A8DED1 /* TransactionDetailViewModel+XLM.swift in Sources */,
@@ -10766,6 +10784,7 @@
 				C7FF110F2141E24000CBA3CB /* InputsState.swift in Sources */,
 				3A3D5DB6211B96FA00E6C241 /* LocationUpdateAPI.swift in Sources */,
 				C7A85927217A294000502935 /* Identifiable.swift in Sources */,
+				AA8F21E421C719B700F45C42 /* WalletNabuSynchronizerService.swift in Sources */,
 				AA3E589E217A7E8F00EFF992 /* ReceiveXlmViewController.swift in Sources */,
 				AA755EF92188EDBB00FC4894 /* StellarTradeLimitsService.swift in Sources */,
 				23444F8D1DCD219E00573C8C /* BTCData.m in Sources */,
@@ -11191,6 +11210,7 @@
 				C7F157A82179214400A56376 /* SimpleListViewController.swift in Sources */,
 				AA94965E20CB5FA600A9C2DD /* AssetAddressFactory.swift in Sources */,
 				AA4770B7211BA984006356B1 /* KYCAccountStatus.swift in Sources */,
+				AA8F21E121C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift in Sources */,
 				AACE31222091004A00B7B806 /* UIApplication+Suspend.m in Sources */,
 				AAFA97B6211511D000D19ED3 /* Settings+Table.swift in Sources */,
 				602B9CED2118E15300BD3D60 /* LocationSuggestionService.swift in Sources */,

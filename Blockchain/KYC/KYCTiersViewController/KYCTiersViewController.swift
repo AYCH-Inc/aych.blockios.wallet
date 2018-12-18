@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SafariServices
 import UIKit
 import RxSwift
 
@@ -91,9 +92,13 @@ extension KYCTiersViewController: KYCTiersHeaderViewDelegate {
     func headerView(_ view: KYCTiersHeaderView, actionTapped: KYCTiersHeaderViewModel.Action) {
         switch actionTapped {
         case .contactSupport:
-            break
+            guard let supportURL = URL(string: Constants.Url.blockchainSupport) else { return }
+            let controller = SFSafariViewController(url: supportURL)
+            present(controller, animated: true, completion: nil)
         case .learnMore:
-            break
+            guard let verificationURL = URL(string: Constants.Url.verificationRejectedURL) else { return }
+            let controller = SFSafariViewController(url: verificationURL)
+            present(controller, animated: true, completion: nil)
         }
     }
     

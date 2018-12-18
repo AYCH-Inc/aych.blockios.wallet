@@ -240,7 +240,7 @@ extension KYCTiersViewController {
                     availableFunds: formatter.string(from: max)
                 )
                 let filtered = userTiers.filter({ $0.tier != .tier0 })
-                let cells = filtered.map({ return KYCTierCellModel.model(from: $0) })
+                let cells = filtered.map({ return KYCTierCellModel.model(from: $0) }).compactMap({ return $0 })
                 let page = KYCTiersPageModel(header: header, cells: cells, disclaimer: nil)
                 let controller = KYCTiersViewController.make(with: page)
                 if let from = fromViewController as? UIViewControllerTransitioningDelegate {

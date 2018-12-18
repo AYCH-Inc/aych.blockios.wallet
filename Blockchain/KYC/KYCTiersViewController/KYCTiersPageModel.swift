@@ -14,11 +14,3 @@ struct KYCTiersPageModel {
     let cells: [KYCTierCellModel]
     let disclaimer: String?
 }
-
-extension KYCTiersPageModel {
-    static let demo: KYCTiersPageModel = KYCTiersPageModel(
-        header: .demo,
-        cells: [.demo, .demo2],
-        disclaimer: nil
-    )
-}

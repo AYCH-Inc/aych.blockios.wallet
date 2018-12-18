@@ -122,6 +122,7 @@ class ExchangeCreateViewController: UIViewController {
         super.viewWillAppear(animated)
         if let navController = navigationController as? BCNavigationController {
             navController.apply(NavigationBarAppearanceLight, withBackgroundColor: .white)
+            navController.headerTitle = LocalizationConstants.Swap.swap
         }
         if let navController = navigationController as? ExchangeNavigationController {
             navController.rightButtonTappedBlock = { [unowned self] in

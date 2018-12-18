@@ -909,8 +909,8 @@ struct LocalizationConstants {
             "Backup Funds",
             comment: "Item displayed on the side menu of the app for when the user wants to back up their funds by saving their 12 word mneumonic phrase."
         )
-        static let exchange = NSLocalizedString(
-            "Exchange",
+        static let swap = NSLocalizedString(
+            "Swap",
             comment: "Item displayed on the side menu of the app for when the user wants to exchange crypto-to-crypto."
         )
         static let settings = NSLocalizedString(

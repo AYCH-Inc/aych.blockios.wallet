@@ -67,7 +67,7 @@ class ExchangeCreateViewController: UIViewController {
         case keypadVisibility(Visibility, animated: Bool)
         case conversionRatesView(Visibility, animated: Bool)
         case loadingIndicator(Visibility)
-        case limitsButtonStatus(Bool)
+        case limitsButtonStatus(LimitsButtonStatus)
     }
     
     enum ViewUpdate: Update {
@@ -375,13 +375,9 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             }
 
             errorLabel.attributedText = primary
-        case .limitsButtonStatus(let withinLimit):
+        case .limitsButtonStatus(let status):
             if let navController = navigationController as? ExchangeNavigationController {
-                if withinLimit {
-                    navController.showUnderLimit()
-                } else {
-                    navController.showOverLimit()
-                }
+                navController.update(status: status)
             }
         }
     }

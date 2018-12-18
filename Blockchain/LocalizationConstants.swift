@@ -1600,6 +1600,14 @@ struct LocalizationConstants {
             "Open Email App",
             comment: "CTA for when the user should open the email app to continue email verification."
         )
+        static let submit = NSLocalizedString(
+            "Submit",
+            comment: "Text displayed on the CTA when submitting KYC information."
+        )
+        static let termsOfServiceAndPrivacyPolicyNoticeAddress = NSLocalizedString(
+            "By tapping Submit, you agree to Blockchain’s %@ & %@",
+            comment: "Text displayed to the user notifying them that they implicitly agree to Blockchain’s terms of service and privacy policy when they start the KYC process."
+        )
     }
 
     struct Swap {

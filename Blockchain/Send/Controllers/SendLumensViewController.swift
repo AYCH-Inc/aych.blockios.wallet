@@ -392,7 +392,7 @@ extension SendLumensViewController: ActionableLabelDelegate {
     func targetRange(_ label: ActionableLabel) -> NSRange? {
         return trigger?.actionRange()
     }
-    
+
     func actionRequestingExecution(label: ActionableLabel) {
         guard let trigger = trigger else { return }
         trigger.execute()

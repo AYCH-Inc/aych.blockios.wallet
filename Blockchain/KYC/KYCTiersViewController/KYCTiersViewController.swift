@@ -237,12 +237,18 @@ extension KYCTiersViewController {
                 let limits = response.1
                 let formatter: NumberFormatter = NumberFormatter.localCurrencyFormatterWithGroupingSeparator
                 let max = NSDecimalNumber(decimal: limits?.maxPossibleOrder ?? 0)
-
+                
+                /// Sometimes design wants to suppress the chevron that is shown in both
+                /// of the `KYCTiersHeaderViews` (there are two of them). We only show this
+                /// when there is a custom transition (like while in the exchange).
+                let suppressDismissalCTA = fromViewController is UIViewControllerTransitioningDelegate == false
+                
                 let header = KYCTiersHeaderViewModel.make(
                     with: response.0,
                     status: accountStatus,
                     currencySymbol: code,
-                    availableFunds: formatter.string(from: max)
+                    availableFunds: formatter.string(from: max),
+                    suppressDismissCTA: suppressDismissalCTA
                 )
                 let filtered = userTiers.filter({ $0.tier != .tier0 })
                 let cells = filtered.map({ return KYCTierCellModel.model(from: $0) }).compactMap({ return $0 })
@@ -251,7 +257,16 @@ extension KYCTiersViewController {
                 if let from = fromViewController as? UIViewControllerTransitioningDelegate {
                     controller.transitioningDelegate = from
                 }
-                fromViewController.present(controller, animated: true, completion: nil)
+                if suppressDismissalCTA {
+                    if let navController = fromViewController.navigationController {
+                        navController.pushViewController(controller, animated: true)
+                    } else {
+                        let navController = BCNavigationController(rootViewController: controller)
+                        fromViewController.present(navController, animated: true, completion: nil)
+                    }
+                } else {
+                    fromViewController.present(controller, animated: true, completion: nil)
+                }
             })
     }
 }

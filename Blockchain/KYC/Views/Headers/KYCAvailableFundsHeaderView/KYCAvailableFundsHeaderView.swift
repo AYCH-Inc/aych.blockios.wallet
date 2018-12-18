@@ -22,6 +22,8 @@ class KYCAvailableFundsHeaderView: KYCTiersHeaderView {
     fileprivate static let amountStackViewPadding: CGFloat = 4.0
     fileprivate static let outerStackViewPadding: CGFloat = 16.0
     fileprivate static let dismissButtonHeight: CGFloat = 30.0
+    /// The height when you suppress the chevron at the top of the header
+    fileprivate static let suppressDismissalTopPadding: CGFloat = 32.0
     fileprivate static let dismissButtonVerticalPadding: CGFloat = 8.0
     fileprivate static let labelsToBottomPadding: CGFloat = 16.0
     
@@ -31,13 +33,22 @@ class KYCAvailableFundsHeaderView: KYCTiersHeaderView {
     @IBOutlet fileprivate var availableAmount: UILabel!
     @IBOutlet fileprivate var availabilityHeadline: UILabel!
     @IBOutlet fileprivate var availabilityDescription: UILabel!
-    
+    @IBOutlet fileprivate var stackViewToTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate var stackViewToDismissButtonConstraint: NSLayoutConstraint!
     // MARK: Public Class Functions
     
     override func configure(with viewModel: KYCTiersHeaderViewModel) {
         availableAmount.text = viewModel.amount
         availabilityHeadline.text = viewModel.availabilityTitle
         availabilityDescription.text = viewModel.availabilityDescription
+        
+        dismissButton.isHidden = viewModel.suppressDismissCTA
+        if viewModel.suppressDismissCTA, stackViewToDismissButtonConstraint.isActive {
+            NSLayoutConstraint.deactivate([stackViewToDismissButtonConstraint])
+            NSLayoutConstraint.activate([stackViewToTopConstraint])
+            setNeedsLayout()
+            layoutIfNeeded()
+        }
     }
     
     // MARK: Actions
@@ -74,8 +85,16 @@ class KYCAvailableFundsHeaderView: KYCTiersHeaderView {
         }
         
         let availabilityHeights = availabilityHeadlineHeight + availabilityDescriptionHeight + availableAmountHeight
-        let padding = amountStackViewPadding + outerStackViewPadding + dismissButtonVerticalPadding + labelsToBottomPadding
-        let result = availabilityHeights + dismissButtonHeight + padding
+        
+        var topPadding: CGFloat = 0.0
+        if model.suppressDismissCTA {
+            topPadding = dismissButtonVerticalPadding + dismissButtonHeight
+        } else {
+            topPadding = suppressDismissalTopPadding
+        }
+        
+        let padding = amountStackViewPadding + outerStackViewPadding + labelsToBottomPadding
+        let result = availabilityHeights + padding + topPadding
         
         return result
     }

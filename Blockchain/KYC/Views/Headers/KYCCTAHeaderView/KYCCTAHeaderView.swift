@@ -25,6 +25,7 @@ class KYCCTAHeaderView: KYCTiersHeaderView {
     fileprivate static let CTAInteritemPadding: CGFloat = 16.0
     fileprivate static let CTABottomPadding: CGFloat = 8.0
     fileprivate static let labelsToCTAPadding: CGFloat = 32.0
+    fileprivate static let topToLabelsPadding: CGFloat = 32.0
     fileprivate static let labelsInteritemPadding: CGFloat = 4.0
     fileprivate static let dismissButtonHeight: CGFloat = 30.0
     fileprivate static let dismissButtonVerticalPadding: CGFloat = 36.0
@@ -39,6 +40,9 @@ class KYCCTAHeaderView: KYCTiersHeaderView {
     @IBOutlet fileprivate var dismissButton: UIButton!
     @IBOutlet fileprivate var labelStackViewToBottomConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate var labelStackViewToCTAsConstraint: NSLayoutConstraint!
+    
+    @IBOutlet var stackViewToTopConstraint: NSLayoutConstraint!
+    @IBOutlet var stackViewToDismissalButtonConstraint: NSLayoutConstraint!
     
     fileprivate var CTAs: [UIButton] {
         return [learnMoreButton, contactSupportButton]
@@ -64,6 +68,11 @@ class KYCCTAHeaderView: KYCTiersHeaderView {
         
         learnMoreButton.setTitle(LocalizationConstants.ObjCStrings.BC_STRING_LEARN_MORE, for: .normal)
         contactSupportButton.setTitle(LocalizationConstants.KYC.contactSupport, for: .normal)
+        dismissButton.isHidden = viewModel.suppressDismissCTA
+        if viewModel.suppressDismissCTA, stackViewToDismissalButtonConstraint.isActive {
+            NSLayoutConstraint.deactivate([stackViewToDismissalButtonConstraint])
+            NSLayoutConstraint.activate([stackViewToTopConstraint])
+        }
         guard viewModel.actions == nil else { return }
         guard labelStackViewToBottomConstraint.isActive == false else { return }
         NSLayoutConstraint.deactivate([labelStackViewToCTAsConstraint])

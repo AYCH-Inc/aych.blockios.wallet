@@ -6,6 +6,7 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import PlatformUIKit
 import UIKit
 
 class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomButtonContainerView {
@@ -22,6 +23,7 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
     @IBOutlet fileprivate var searchBar: UISearchBar!
     @IBOutlet fileprivate var tableView: UITableView!
     @IBOutlet fileprivate var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet fileprivate var labelFooter: UILabel!
 
     // MARK: Private IBOutlets (ValidationTextField)
     @IBOutlet fileprivate var addressTextField: ValidationTextField!
@@ -98,10 +100,12 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
 
         progressView.tintColor = .green
 
+        initFooter()
         validationFieldsSetup()
         setupNotifications()
         setUpBottomButtonContainerView()
 
+        primaryButtonContainer.title = LocalizationConstants.KYC.submit
         primaryButtonContainer.actionBlock = { [weak self] in
             guard let this = self else { return }
             this.primaryButtonTapped()
@@ -116,7 +120,52 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
         cleanUp()
     }
 
+    // MARK: IBActions
+
+    @IBAction func onFooterTapped(_ sender: UITapGestureRecognizer) {
+        guard let text = labelFooter.text else {
+            return
+        }
+        if let tosRange = text.range(of: LocalizationConstants.tos),
+            sender.didTapAttributedText(in: labelFooter, range: NSRange(tosRange, in: text)) {
+            UIApplication.shared.openWebView(
+                url: Constants.Url.termsOfService,
+                title: LocalizationConstants.tos,
+                presentingViewController: self
+            )
+        }
+        if let privacyPolicyRange = text.range(of: LocalizationConstants.privacyPolicy),
+            sender.didTapAttributedText(in: labelFooter, range: NSRange(privacyPolicyRange, in: text)) {
+            UIApplication.shared.openWebView(
+                url: Constants.Url.privacyPolicy,
+                title: LocalizationConstants.privacyPolicy,
+                presentingViewController: self
+            )
+        }
+    }
+
     // MARK: Private Functions
+
+    private func initFooter() {
+        // TICKET: IOS-1436
+        // Tap target is a bit off here. Refactor ActionableLabel to take in 2 CTAs
+        let font = Font(.branded(.montserratRegular), size: .custom(15.0)).result
+        let labelAttributes = [
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: UIColor.gray5
+        ]
+        let labelText = NSMutableAttributedString(
+            string: String(
+                format: LocalizationConstants.KYC.termsOfServiceAndPrivacyPolicyNoticeAddress,
+                LocalizationConstants.tos,
+                LocalizationConstants.privacyPolicy
+            ),
+            attributes: labelAttributes
+        )
+        labelText.addForegroundColor(UIColor.brandSecondary, to: LocalizationConstants.tos)
+        labelText.addForegroundColor(UIColor.brandSecondary, to: LocalizationConstants.privacyPolicy)
+        labelFooter.attributedText = labelText
+    }
 
     fileprivate func validationFieldsSetup() {
 

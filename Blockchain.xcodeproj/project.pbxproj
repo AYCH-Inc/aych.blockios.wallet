@@ -535,7 +535,6 @@
 		51FC1B0921270DBC007BEB18 /* SettingsTableSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FC1B0821270DBC007BEB18 /* SettingsTableSectionHeader.swift */; };
 		51FC1B0A21270DBC007BEB18 /* SettingsTableSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FC1B0821270DBC007BEB18 /* SettingsTableSectionHeader.swift */; };
 		51FC1B112127473D007BEB18 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055D371210F692D000B8E95 /* UIView.swift */; };
-		51FE9128213867FD00F49B12 /* KYCAddressController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51FE911D213867FD00F49B12 /* KYCAddressController.storyboard */; };
 		600E18BB2118D46B003C1846 /* KeyboardPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */; };
 		601F5EEB211B32AA002697AB /* OnfidoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601F5EE0211B32AA002697AB /* OnfidoController.swift */; };
 		602B9CD72118E15300BD3D60 /* KYCInformationController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 602B9CA82118E15200BD3D60 /* KYCInformationController.storyboard */; };
@@ -880,6 +879,7 @@
 		AA8F21E221C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F21E021C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift */; };
 		AA8F21E421C719B700F45C42 /* WalletNabuSynchronizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F21E321C719B700F45C42 /* WalletNabuSynchronizerService.swift */; };
 		AA8F21E521C719B700F45C42 /* WalletNabuSynchronizerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F21E321C719B700F45C42 /* WalletNabuSynchronizerService.swift */; };
+		AA8F21F221C82C8900F45C42 /* KYCAddressController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51FE911D213867FD00F49B12 /* KYCAddressController.storyboard */; };
 		AA93227121AC7076000DB69B /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93227021AC7076000DB69B /* AppVersion.swift */; };
 		AA93227221AC7157000DB69B /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93227021AC7076000DB69B /* AppVersion.swift */; };
 		AA93227521AC72CD000DB69B /* AppVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93227421AC72CD000DB69B /* AppVersionTests.swift */; };
@@ -9840,6 +9840,7 @@
 				C9BE91831945D8F600FD516D /* PEKeyboard-1.png in Resources */,
 				3A80B7C4216E820700679927 /* SideMenuCell.xib in Resources */,
 				515EFAE9210282B4002350B6 /* AccountsAndAddresses.storyboard in Resources */,
+				AA8F21F221C82C8900F45C42 /* KYCAddressController.storyboard in Resources */,
 				C7773312217A764D00899930 /* TransactionsXlmViewController.storyboard in Resources */,
 				60A08C632118F733006DB9E8 /* Settings.storyboard in Resources */,
 				3A49A8EF2151802000760B8C /* ConversionRatesView.xib in Resources */,
@@ -9888,7 +9889,6 @@
 				AAD27A5320A0DE1200C0EAFC /* PasswordConfirmView.xib in Resources */,
 				C718595B1F4B85E800745A87 /* Transactions.xib in Resources */,
 				ECD244EB19A8AC45004B1F40 /* PEKeyboard-3-done.png in Resources */,
-				51FE9128213867FD00F49B12 /* KYCAddressController.storyboard in Resources */,
 				5138373B21025AD100767B2E /* alert-received.wav in Resources */,
 				ECD244F019A8AC45004B1F40 /* PEKeyboard-4-done.png in Resources */,
 				3A26AF5521272026003A8A08 /* ExchangeListViewController.storyboard in Resources */,

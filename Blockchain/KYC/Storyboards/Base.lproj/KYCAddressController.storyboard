@@ -182,12 +182,32 @@
                                 <rect key="frame" x="169" y="450.66666666666669" width="37" height="37"/>
                                 <color key="color" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gxg-gF-d4A">
+                                <rect key="frame" x="16" y="664.66666666666663" width="343" height="33.333333333333371"/>
+                                <gestureRecognizers/>
+                                <attributedString key="attributedText">
+                                    <fragment content="By hitting Submit, you agree to Blockchain's Terms of Service &amp; Privacy Policy">
+                                        <attributes>
+                                            <color key="NSColor" red="0.30588235294117649" green="0.30588235294117649" blue="0.30588235294117649" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="12" name="Montserrat-Regular"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="4" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="d2m-LQ-ZE3" appends="YES" id="den-Jr-LAg"/>
+                                </connections>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bhb-q7-xBR" customClass="PrimaryButtonContainer" customModule="Blockchain" customModuleProvider="target">
                                 <rect key="frame" x="16" y="718" width="343" height="44"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="7OT-yL-tsy"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Submit"/>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -195,6 +215,7 @@
                             <constraint firstItem="FFX-OX-l36" firstAttribute="centerX" secondItem="fkm-6J-r0r" secondAttribute="centerX" id="0Ut-0l-I7u"/>
                             <constraint firstItem="AxH-7G-UPE" firstAttribute="trailing" secondItem="bhb-q7-xBR" secondAttribute="trailing" constant="16" id="3ol-UA-lS5"/>
                             <constraint firstItem="AxH-7G-UPE" firstAttribute="bottom" secondItem="HTQ-Da-JDA" secondAttribute="bottom" constant="92" id="6ml-qb-GDk"/>
+                            <constraint firstItem="gxg-gF-d4A" firstAttribute="trailing" secondItem="bhb-q7-xBR" secondAttribute="trailing" id="73U-PY-Wdf"/>
                             <constraint firstItem="LU7-BL-Zrb" firstAttribute="top" secondItem="AxH-7G-UPE" secondAttribute="top" id="CrN-Ju-eUo"/>
                             <constraint firstItem="TVk-mv-RzC" firstAttribute="trailing" secondItem="6g6-gf-4D1" secondAttribute="trailing" constant="-8" id="DWW-Xs-MOP"/>
                             <constraint firstItem="HTQ-Da-JDA" firstAttribute="top" secondItem="6g6-gf-4D1" secondAttribute="bottom" id="HmF-fx-8n3"/>
@@ -204,12 +225,14 @@
                             <constraint firstItem="6g6-gf-4D1" firstAttribute="top" secondItem="LU7-BL-Zrb" secondAttribute="bottom" constant="8" id="P8D-R4-GLd"/>
                             <constraint firstItem="HTQ-Da-JDA" firstAttribute="top" secondItem="6g6-gf-4D1" secondAttribute="bottom" id="X7I-lC-XMT"/>
                             <constraint firstItem="fkm-6J-r0r" firstAttribute="leading" secondItem="AxH-7G-UPE" secondAttribute="leading" id="bXa-KO-AG8"/>
+                            <constraint firstItem="gxg-gF-d4A" firstAttribute="leading" secondItem="bhb-q7-xBR" secondAttribute="leading" id="dkn-IW-Wqw"/>
                             <constraint firstItem="AxH-7G-UPE" firstAttribute="trailing" secondItem="6g6-gf-4D1" secondAttribute="trailing" constant="8" id="eXM-Ti-fr6"/>
                             <constraint firstItem="HTQ-Da-JDA" firstAttribute="width" secondItem="fkm-6J-r0r" secondAttribute="width" id="fGV-2G-FUa"/>
                             <constraint firstAttribute="trailing" secondItem="LU7-BL-Zrb" secondAttribute="trailing" id="fdv-7i-NAs"/>
                             <constraint firstItem="FFX-OX-l36" firstAttribute="centerY" secondItem="fkm-6J-r0r" secondAttribute="centerY" id="gEx-Xs-EYn"/>
                             <constraint firstItem="AxH-7G-UPE" firstAttribute="bottom" secondItem="fkm-6J-r0r" secondAttribute="bottom" id="gZO-b6-sp3"/>
                             <constraint firstItem="TVk-mv-RzC" firstAttribute="leading" secondItem="6g6-gf-4D1" secondAttribute="leading" constant="8" id="hJZ-Mr-1UM"/>
+                            <constraint firstItem="AxH-7G-UPE" firstAttribute="bottom" secondItem="gxg-gF-d4A" secondAttribute="bottom" constant="80" id="jkb-n4-ZId"/>
                             <constraint firstItem="bhb-q7-xBR" firstAttribute="leading" secondItem="AxH-7G-UPE" secondAttribute="leading" constant="16" id="kXq-zY-apF"/>
                             <constraint firstItem="AxH-7G-UPE" firstAttribute="bottom" secondItem="bhb-q7-xBR" secondAttribute="bottom" constant="16" id="mQa-gA-TTY"/>
                             <constraint firstItem="fkm-6J-r0r" firstAttribute="top" secondItem="6g6-gf-4D1" secondAttribute="bottom" id="rId-YP-cpw"/>
@@ -228,6 +251,7 @@
                         <outlet property="addressTextField" destination="HnA-P2-2Gj" id="Gl8-tC-Ya0"/>
                         <outlet property="apartmentTextField" destination="5mF-Bq-VW9" id="P4y-WS-nbX"/>
                         <outlet property="cityTextField" destination="j8H-Lr-LlB" id="C3k-xF-5Hp"/>
+                        <outlet property="labelFooter" destination="gxg-gF-d4A" id="aul-gR-aG6"/>
                         <outlet property="layoutConstraintBottomButton" destination="mQa-gA-TTY" id="fO2-mo-UgL"/>
                         <outlet property="postalCodeTextField" destination="LF7-ax-XE2" id="1zJ-7Y-SwY"/>
                         <outlet property="primaryButtonContainer" destination="bhb-q7-xBR" id="0UF-pO-SuD"/>
@@ -240,6 +264,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Df-d3-fO3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="d2m-LQ-ZE3">
+                    <connections>
+                        <action selector="onFooterTapped:" destination="1m4-Wz-u3W" id="xYi-qN-P5p"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="84.375" y="151.05633802816902"/>
         </scene>

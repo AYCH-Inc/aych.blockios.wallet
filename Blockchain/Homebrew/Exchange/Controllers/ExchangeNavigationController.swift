@@ -13,17 +13,18 @@ class ExchangeNavigationController: BCActionNavigationController {
         super.viewDidLoad()
 
         // Default state
-        showUnderLimit()
+        update(status: .withinLimit)
     }
 
-    func showUnderLimit() {
-        rightButton.setImage(UIImage(named: "icon_limit_under"), for: .normal)
-        drawButtonCircle(color: UIColor.tiersGray)
-    }
-
-    func showOverLimit() {
-        rightButton.setImage(UIImage(named: "icon_limit_over"), for: .normal)
-        drawButtonCircle(color: UIColor.tiersRed)
+    func update(status: LimitsButtonStatus) {
+        switch status {
+        case .withinLimit:
+            rightButton.setImage(UIImage(named: "icon_limit_under"), for: .normal)
+            drawButtonCircle(color: UIColor.tiersGray)
+        case .overLimit:
+            rightButton.setImage(UIImage(named: "icon_limit_over"), for: .normal)
+            drawButtonCircle(color: UIColor.tiersRed)
+        }
     }
 
     private func drawButtonCircle(color: UIColor) {

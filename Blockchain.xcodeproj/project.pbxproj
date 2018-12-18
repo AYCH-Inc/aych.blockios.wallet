@@ -1204,6 +1204,8 @@
 		C78893E620A36572003C0A8F /* Trade.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78893E420A36572003C0A8F /* Trade.swift */; };
 		C78893EE20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78893ED20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift */; };
 		C78893EF20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78893ED20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift */; };
+		C78EE42721C84A8A00979FAB /* LimitsButtonStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78EE42621C84A8A00979FAB /* LimitsButtonStatus.swift */; };
+		C78EE42821C84A8A00979FAB /* LimitsButtonStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78EE42621C84A8A00979FAB /* LimitsButtonStatus.swift */; };
 		C7900C832177CEEB00F57A9F /* SimpleListDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7900C822177CEEB00F57A9F /* SimpleListDataProvider.swift */; };
 		C7900C842177CEEB00F57A9F /* SimpleListDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7900C822177CEEB00F57A9F /* SimpleListDataProvider.swift */; };
 		C790E0F81E4E60AE0063D141 /* NSDateFormatter+TimeAgoString.m in Sources */ = {isa = PBXBuildFile; fileRef = C790E0F71E4E60AE0063D141 /* NSDateFormatter+TimeAgoString.m */; };
@@ -4008,6 +4010,7 @@
 		C78893D920A34DF4003C0A8F /* WalletSettingsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSettingsDelegate.swift; sourceTree = "<group>"; };
 		C78893E420A36572003C0A8F /* Trade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trade.swift; sourceTree = "<group>"; };
 		C78893ED20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSendBitcoinDelegate.swift; sourceTree = "<group>"; };
+		C78EE42621C84A8A00979FAB /* LimitsButtonStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitsButtonStatus.swift; sourceTree = "<group>"; };
 		C7900C822177CEEB00F57A9F /* SimpleListDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleListDataProvider.swift; sourceTree = "<group>"; };
 		C790E0F21E4913F00063D141 /* Blockchain.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Blockchain.entitlements; sourceTree = "<group>"; };
 		C790E0F61E4E60AE0063D141 /* NSDateFormatter+TimeAgoString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+TimeAgoString.h"; sourceTree = "<group>"; };
@@ -4329,6 +4332,7 @@
 		3A26AF6721274EEA003A8A08 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C78EE42621C84A8A00979FAB /* LimitsButtonStatus.swift */,
 				C74E836321C1643B00DCB34C /* KYCTiersResponse.swift */,
 				3ADFE6FE214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift */,
 				C7FF10DE2141A89500CBA3CB /* Fix.swift */,
@@ -10371,6 +10375,7 @@
 				C7F157CD21796A7200A56376 /* SimpleListInteractor.swift in Sources */,
 				516546F6208FCF710019EE63 /* NetworkManager+UserAgent.swift in Sources */,
 				3AB4D91E21309BEE004F0160 /* LoadingTableViewCell.swift in Sources */,
+				C78EE42821C84A8A00979FAB /* LimitsButtonStatus.swift in Sources */,
 				3AB4D92321309C5B004F0160 /* Result.swift in Sources */,
 				AA126D13212D1B2B005886A3 /* KYCUpdateAddressRequest.swift in Sources */,
 				AAC9FCE620ADF17100E28B7A /* SoundManager.swift in Sources */,
@@ -10845,6 +10850,7 @@
 				C76143AB211A80D30041411E /* Codable+Coding.swift in Sources */,
 				C7A9E7A61FAB5FF600027F22 /* UILabel+CGRectForSubstring.m in Sources */,
 				AAC9FCE520ADF17100E28B7A /* SoundManager.swift in Sources */,
+				C78EE42721C84A8A00979FAB /* LimitsButtonStatus.swift in Sources */,
 				C7343BD1214FF9D0001B1EC9 /* ExchangeDetailContracts.swift in Sources */,
 				C7E4D293203E12AA00F6DCEB /* TransactionsBitcoinCashViewController.m in Sources */,
 				23F720F21C32DC0A00577738 /* DebugTableViewController.m in Sources */,

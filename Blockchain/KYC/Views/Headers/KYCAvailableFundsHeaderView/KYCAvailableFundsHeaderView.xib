@@ -68,12 +68,14 @@
                 <constraint firstItem="4ia-Ag-IEx" firstAttribute="bottom" secondItem="w44-TG-Uc2" secondAttribute="bottom" constant="4" id="P7d-Eh-z6T"/>
                 <constraint firstItem="w44-TG-Uc2" firstAttribute="leading" secondItem="4ia-Ag-IEx" secondAttribute="leading" constant="16" id="PcT-1Z-Uwp"/>
                 <constraint firstItem="4ia-Ag-IEx" firstAttribute="trailing" secondItem="w44-TG-Uc2" secondAttribute="trailing" constant="16" id="Ub2-F1-Grl"/>
+                <constraint firstItem="w44-TG-Uc2" firstAttribute="top" secondItem="4ia-Ag-IEx" secondAttribute="top" constant="32" id="hUW-Hn-Yyq"/>
                 <constraint firstItem="TYn-u9-75C" firstAttribute="centerX" secondItem="4ia-Ag-IEx" secondAttribute="centerX" id="zED-22-ak5"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="4ia-Ag-IEx"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="P7d-Eh-z6T"/>
+                    <exclude reference="hUW-Hn-Yyq"/>
                 </mask>
             </variation>
             <connections>
@@ -81,6 +83,8 @@
                 <outlet property="availabilityHeadline" destination="GZe-hY-AJ9" id="k7m-hr-qHX"/>
                 <outlet property="availableAmount" destination="Rl8-CJ-XGO" id="4nv-qW-sVY"/>
                 <outlet property="dismissButton" destination="TYn-u9-75C" id="wln-zE-pV9"/>
+                <outlet property="stackViewToDismissButtonConstraint" destination="K8h-Hi-U6F" id="wSX-Vv-Sof"/>
+                <outlet property="stackViewToTopConstraint" destination="hUW-Hn-Yyq" id="wKd-2B-zrd"/>
             </connections>
             <point key="canvasLocation" x="64.799999999999997" y="78.710644677661179"/>
         </collectionReusableView>

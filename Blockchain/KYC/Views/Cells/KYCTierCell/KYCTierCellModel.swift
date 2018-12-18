@@ -25,14 +25,14 @@ public struct KYCTierCellModel {
     let tier: KYCTier
     let status: ApprovalStatus
     let limit: Decimal
+    let fiatCurrencySymbol: String
 }
 
 extension KYCTierCellModel {
     
     var limitDescription: String {
-        let symbol = Locale.current.currencySymbol ?? "$"
         let formatter: NumberFormatter = NumberFormatter.localCurrencyFormatterWithGroupingSeparator
-        return symbol + (formatter.string(from: limit as NSDecimalNumber) ?? "0.0")
+        return fiatCurrencySymbol + (formatter.string(from: limit as NSDecimalNumber) ?? "0.0")
     }
     
     var requirementsVisibility: Visibility {
@@ -113,11 +113,15 @@ extension KYCTierCellModel.ApprovalStatus {
 
 extension KYCTierCellModel {
     
-    static func model(from userTier: KYCUserTier) -> KYCTierCellModel? {
+    static func model(
+        from userTier: KYCUserTier,
+        appSettings: BlockchainSettings.App = BlockchainSettings.App.shared
+    ) -> KYCTierCellModel? {
         let value = approvalStatusFromTierState(userTier.state)
         guard let limits = userTier.limits else { return nil }
+        let symbol = appSettings.fiatSymbolFromCode(currencyCode: limits.currency) ?? "$"
         let limit: Decimal = (limits.annual ?? limits.daily) ?? 0.0
-        return KYCTierCellModel(tier: userTier.tier, status: value, limit: limit)
+        return KYCTierCellModel(tier: userTier.tier, status: value, limit: limit, fiatCurrencySymbol: symbol)
     }
     
     fileprivate static func approvalStatusFromTierState(_ tierState: KYCTierState) -> ApprovalStatus {

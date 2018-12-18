@@ -103,7 +103,7 @@ class KYCTierCell: UICollectionViewCell {
         )
         
         tierDescription.attributedText = attributedTierDescription
-        limitAmountDescription.text = tier.limitDescription
+        limitAmountDescription.text = model.limitDescription
         limitTimeframe.text = tier.limitTimeframe
         limitDurationEstimate.text = tier.duration
         
@@ -154,7 +154,7 @@ class KYCTierCell: UICollectionViewCell {
                          .kern: NSNumber(value: 4.0)]).heightForWidth(width: adjustedWidth)
         
         let limitAmountHeight = NSAttributedString(
-            string: tier.limitDescription,
+            string: model.limitDescription,
             attributes: [.font: limitFont()]).heightForWidth(width: adjustedWidth)
         
         let timeframeHeight = NSAttributedString(

@@ -28,7 +28,7 @@ extension SideMenuItem {
         case .accountsAndAddresses: return LocalizationConstants.SideMenu.addresses
         case .backup: return LocalizationConstants.SideMenu.backupFunds
         case .buyBitcoin: return LocalizationConstants.SideMenu.buySellBitcoin
-        case .exchange: return LocalizationConstants.SideMenu.exchange
+        case .exchange: return LocalizationConstants.SideMenu.swap
         case .logout: return LocalizationConstants.SideMenu.logout
         case .settings: return LocalizationConstants.SideMenu.settings
         case .support: return LocalizationConstants.SideMenu.support

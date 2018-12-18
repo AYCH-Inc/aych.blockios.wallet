@@ -29,7 +29,7 @@
                             <constraint firstAttribute="height" constant="56" id="DCN-C7-RVz"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="20"/>
-                        <state key="normal" title="Start an Exchange">
+                        <state key="normal" title="Swap Now">
                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                         <connections>

@@ -62,6 +62,9 @@ class ExchangeListViewController: UIViewController {
             controller.apply(NavigationBarAppearanceDark, withBackgroundColor: .brandPrimary)
             controller.headerTitle = LocalizationConstants.Swap.swap
         }
+        if let navController = navigationController as? ExchangeNavigationController {
+            navController.rightButtonTappedBlock = nil
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {

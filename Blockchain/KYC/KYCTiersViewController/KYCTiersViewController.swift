@@ -269,7 +269,8 @@ extension KYCTiersViewController {
                 )
                 let filtered = userTiers.filter({ $0.tier != .tier0 })
                 let cells = filtered.map({ return KYCTierCellModel.model(from: $0) }).compactMap({ return $0 })
-                let page = KYCTiersPageModel(header: header, cells: cells, disclaimer: nil)
+                
+                let page = KYCTiersPageModel(header: header, cells: cells)
                 let controller = KYCTiersViewController.make(with: page)
                 if let from = fromViewController as? UIViewControllerTransitioningDelegate {
                     controller.transitioningDelegate = from

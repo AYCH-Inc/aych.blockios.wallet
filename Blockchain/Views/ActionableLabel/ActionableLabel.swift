@@ -9,12 +9,12 @@
 import Foundation
 
 protocol ActionableLabelDelegate: class {
-    
+
     /// This returns the range of the call to action text
     /// Users must tap within this range in order to trigger
     /// the delegate call back inidicating the CTA was tapped.
     func targetRange(_ label: ActionableLabel) -> NSRange?
-    
+
     func actionRequestingExecution(label: ActionableLabel)
 }
 

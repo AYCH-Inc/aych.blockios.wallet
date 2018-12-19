@@ -67,7 +67,7 @@ class ExchangeCreateViewController: UIViewController {
         case keypadVisibility(Visibility, animated: Bool)
         case conversionRatesView(Visibility, animated: Bool)
         case loadingIndicator(Visibility)
-        case limitsButtonStatus(Bool)
+        case limitsButtonStatus(LimitsButtonStatus)
     }
     
     enum ViewUpdate: Update {
@@ -122,6 +122,7 @@ class ExchangeCreateViewController: UIViewController {
         super.viewWillAppear(animated)
         if let navController = navigationController as? BCNavigationController {
             navController.apply(NavigationBarAppearanceLight, withBackgroundColor: .white)
+            navController.headerTitle = LocalizationConstants.Swap.swap
         }
         if let navController = navigationController as? ExchangeNavigationController {
             navController.rightButtonTappedBlock = { [unowned self] in
@@ -375,13 +376,9 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             }
 
             errorLabel.attributedText = primary
-        case .limitsButtonStatus(let withinLimit):
+        case .limitsButtonStatus(let status):
             if let navController = navigationController as? ExchangeNavigationController {
-                if withinLimit {
-                    navController.showUnderLimit()
-                } else {
-                    navController.showOverLimit()
-                }
+                navController.update(status: status)
             }
         }
     }

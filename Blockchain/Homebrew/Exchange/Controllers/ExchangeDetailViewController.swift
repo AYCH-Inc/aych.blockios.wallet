@@ -356,7 +356,11 @@ extension ExchangeDetailViewController: ExchangeDetailInterface {
     }
     
     func updateTitle(_ value: String) {
-        navigationItem.title = value
+        guard let navigationController = self.navigationController as? BCNavigationController else {
+            Logger.shared.error("No navigation controller found")
+            return
+        }
+        navigationController.headerTitle = value
     }
 
     func loadingVisibility(_ visibility: Visibility, action: ExchangeDetailCoordinator.Action) {

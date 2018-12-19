@@ -92,6 +92,7 @@
                 <constraint firstItem="oVE-YZ-kJZ" firstAttribute="trailing" secondItem="C0G-AB-E4b" secondAttribute="trailing" constant="16" id="3ax-mt-xy8"/>
                 <constraint firstItem="RXH-5G-KXo" firstAttribute="centerX" secondItem="oVE-YZ-kJZ" secondAttribute="centerX" id="IhP-qV-fBO"/>
                 <constraint firstItem="oVE-YZ-kJZ" firstAttribute="bottom" secondItem="jr4-KU-aDx" secondAttribute="bottom" constant="8" id="J4I-6y-5C4"/>
+                <constraint firstItem="C0G-AB-E4b" firstAttribute="top" secondItem="i8U-MZ-GWK" secondAttribute="top" constant="32" id="O2T-zw-xaG"/>
                 <constraint firstItem="oVE-YZ-kJZ" firstAttribute="bottom" secondItem="C0G-AB-E4b" secondAttribute="bottom" constant="4" id="boY-39-pNi"/>
                 <constraint firstItem="VM3-YJ-x5q" firstAttribute="width" secondItem="KhX-uc-6ee" secondAttribute="width" id="fQ2-hX-Y7t"/>
                 <constraint firstItem="oVE-YZ-kJZ" firstAttribute="trailing" secondItem="jr4-KU-aDx" secondAttribute="trailing" id="hcP-ib-CrQ"/>
@@ -102,6 +103,7 @@
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="boY-39-pNi"/>
+                    <exclude reference="O2T-zw-xaG"/>
                 </mask>
             </variation>
             <connections>
@@ -110,6 +112,8 @@
                 <outlet property="labelStackViewToBottomConstraint" destination="boY-39-pNi" id="4zz-iT-e97"/>
                 <outlet property="labelStackViewToCTAsConstraint" destination="jNb-Ce-84h" id="XD7-Gd-hmV"/>
                 <outlet property="learnMoreButton" destination="VM3-YJ-x5q" id="g0U-Ih-nLR"/>
+                <outlet property="stackViewToDismissalButtonConstraint" destination="26r-SD-HRK" id="vR7-LO-ZiP"/>
+                <outlet property="stackViewToTopConstraint" destination="O2T-zw-xaG" id="cmn-LE-vGq"/>
                 <outlet property="subtitle" destination="KhX-uc-6ee" id="C2c-El-h2Z"/>
                 <outlet property="title" destination="28z-E3-xoE" id="Abi-qp-B14"/>
             </connections>

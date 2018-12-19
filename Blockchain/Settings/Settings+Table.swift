@@ -148,18 +148,23 @@ extension SettingsTableViewController {
             }
             return
         }
-
-        if let tiers = tiers,
-            let first = tiers.userTiers.first,
-            first.state != .none {
-            let badgeModel = KYCUserTiersBadgeModel(userTiers: tiers)
-            createBadge(cell, color: badgeModel.color, detailText: badgeModel.text)
-        } else {
-           cell.detailTextLabel?.isHidden = false
-           cell.detailTextLabel?.font = UIFont(name: Constants.FontNames.montserratLight, size: Constants.FontSizes.Small)
-           cell.detailTextLabel?.textColor = .brandPrimary
-           cell.detailTextLabel?.text = LocalizationConstants.Swap.locked
+        
+        let showLockedLabel = {
+            cell.detailTextLabel?.isHidden = false
+            cell.detailTextLabel?.font = UIFont(
+                name: Constants.FontNames.montserratLight,
+                size: Constants.FontSizes.Small
+            )
+            cell.detailTextLabel?.textColor = .brandPrimary
+            cell.detailTextLabel?.text = LocalizationConstants.Swap.locked
         }
+        
+        guard let tiers = tiers else { showLockedLabel(); return }
+        guard let badgeModel = KYCUserTiersBadgeModel(response: tiers) else {
+            showLockedLabel()
+            return
+        }
+        createBadge(cell, color: badgeModel.color, detailText: badgeModel.text)
     }
 
     // swiftlint:disable:next cyclomatic_complexity

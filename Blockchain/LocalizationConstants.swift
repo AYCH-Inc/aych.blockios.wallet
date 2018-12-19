@@ -909,8 +909,8 @@ struct LocalizationConstants {
             "Backup Funds",
             comment: "Item displayed on the side menu of the app for when the user wants to back up their funds by saving their 12 word mneumonic phrase."
         )
-        static let exchange = NSLocalizedString(
-            "Exchange",
+        static let swap = NSLocalizedString(
+            "Swap",
             comment: "Item displayed on the side menu of the app for when the user wants to exchange crypto-to-crypto."
         )
         static let settings = NSLocalizedString(
@@ -1599,6 +1599,14 @@ struct LocalizationConstants {
         static let openEmailApp = NSLocalizedString(
             "Open Email App",
             comment: "CTA for when the user should open the email app to continue email verification."
+        )
+        static let submit = NSLocalizedString(
+            "Submit",
+            comment: "Text displayed on the CTA when submitting KYC information."
+        )
+        static let termsOfServiceAndPrivacyPolicyNoticeAddress = NSLocalizedString(
+            "By tapping Submit, you agree to Blockchain’s %@ & %@",
+            comment: "Text displayed to the user notifying them that they implicitly agree to Blockchain’s terms of service and privacy policy when they start the KYC process."
         )
     }
 

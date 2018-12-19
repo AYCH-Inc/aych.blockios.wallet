@@ -14,6 +14,10 @@ struct KYCUserTiersResponse: Codable {
     enum CodingKeys: String, CodingKey {
         case userTiers = "tiers"
     }
+    
+    init(tiers: [KYCUserTier]) {
+        self.userTiers = tiers
+    }
 }
 
 struct KYCUserTier: Codable {
@@ -37,6 +41,25 @@ struct KYCUserTier: Codable {
         state = try values.decode(KYCTierState.self, forKey: .state)
         limits = try values.decodeIfPresent(KYCUserTiersLimits.self, forKey: .limits)
     }
+    
+    /// MARK - Init - Convenience init for testing purposes
+    init(tier: KYCTier, state: KYCTierState) {
+        self.tier = tier
+        self.state = state
+        self.name = ""
+        self.limits = nil
+    }
+}
+
+extension KYCUserTier: Equatable {
+    
+    static func ==(lhs: KYCUserTier, rhs: KYCUserTier) -> Bool {
+        return lhs.tier == rhs.tier &&
+        lhs.state == rhs.state &&
+        lhs.name == rhs.name &&
+        lhs.limits == rhs.limits
+    }
+    
 }
 
 struct KYCUserTiersLimits: Codable {
@@ -51,17 +74,10 @@ struct KYCUserTiersLimits: Codable {
     }
 }
 
-extension KYCUserTier {
-    static func latestTier(tiers: [KYCUserTier]) -> KYCUserTier? {
-        let allUserTiers = tiers
-        guard let firstTier = allUserTiers.first else {
-            return nil
-        }
-        for (index, userTier) in allUserTiers.enumerated() {
-            if userTier.state == .none && userTier.tier != firstTier.tier {
-                return allUserTiers[index - 1] as KYCUserTier
-            }
-        }
-        return nil
+extension KYCUserTiersLimits: Equatable {
+    static func ==(lhs: KYCUserTiersLimits, rhs: KYCUserTiersLimits) -> Bool {
+        return lhs.currency == rhs.currency &&
+        lhs.daily == rhs.daily &&
+        lhs.annual == rhs.annual
     }
 }

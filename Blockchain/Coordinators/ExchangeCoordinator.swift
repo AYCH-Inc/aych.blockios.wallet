@@ -77,24 +77,36 @@ struct ExchangeServices: ExchangeDependencies {
     // MARK: - Entry Point
 
     func start() {
-        disposable = BlockchainDataRepository.shared.nabuUser
+        let user = BlockchainDataRepository.shared.nabuUser
             .take(1)
             .asSingle()
+        let tiers = BlockchainDataRepository.shared.tiers
+            .take(1)
+            .asSingle()
+        disposable = Single.zip(user, tiers)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [unowned self] in
-                guard $0.status == .approved else {
-                    self.routeUserToTiers($0)
+            .subscribe(onSuccess: { [weak self] payload in
+                guard let strongSelf = self else { return }
+                let user = payload.0
+                let tiersResponse = payload.1
+
+                let approved = tiersResponse.userTiers.contains(where: {
+                    return $0.tier != .tier0 && $0.state == .verified
+                })
+                guard approved == true else {
+                    strongSelf.routeUserToTiers(user)
                     return
                 }
                 
-                self.showAppropriateExchange()
-                Logger.shared.debug("Got user with ID: \($0.personalDetails?.identifier ?? "")")
-            }, onError: { error in
+                strongSelf.showAppropriateExchange()
+                Logger.shared.debug("Got user with ID: \(user.personalDetails?.identifier ?? "")")
+            }, onError: { [weak self] error in
+                guard let strongSelf = self else { return }
                 AlertViewPresenter.shared.standardError(
-                    message: self.errorMessage(for: error),
+                    message: strongSelf.errorMessage(for: error),
                     title: LocalizationConstants.Errors.error,
-                    in: self.rootViewController
+                    in: strongSelf.rootViewController
                 )
                 Logger.shared.error("Failed to get user: \(error.localizedDescription)")
             })

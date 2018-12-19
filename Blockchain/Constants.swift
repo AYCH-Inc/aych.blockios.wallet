@@ -133,6 +133,7 @@ struct Constants {
         static let cookiePolicy = blockchainHome + "/cookies"
         static let appStoreLinkPrefix = "itms-apps://itunes.apple.com/app/"
         static let blockchainSupport = "https://support.blockchain.com"
+        static let verificationRejectedURL = "https://support.blockchain.com/hc/en-us/articles/360018080352-Why-has-my-ID-submission-been-rejected-"
         static let blockchainSupportRequest = blockchainSupport + "/hc/en-us/requests/new?"
         static let supportTicketBuySellExchange = blockchainSupportRequest + "ticket_form_id=360000014686"
         static let forgotPassword = "https://support.blockchain.com/hc/en-us/articles/211205343-I-forgot-my-password-What-can-you-do-to-help-"

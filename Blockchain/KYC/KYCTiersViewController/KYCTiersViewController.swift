@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SafariServices
 import UIKit
 import RxSwift
 
@@ -91,9 +92,13 @@ extension KYCTiersViewController: KYCTiersHeaderViewDelegate {
     func headerView(_ view: KYCTiersHeaderView, actionTapped: KYCTiersHeaderViewModel.Action) {
         switch actionTapped {
         case .contactSupport:
-            break
+            guard let supportURL = URL(string: Constants.Url.blockchainSupport) else { return }
+            let controller = SFSafariViewController(url: supportURL)
+            present(controller, animated: true, completion: nil)
         case .learnMore:
-            break
+            guard let verificationURL = URL(string: Constants.Url.verificationRejectedURL) else { return }
+            let controller = SFSafariViewController(url: verificationURL)
+            present(controller, animated: true, completion: nil)
         }
     }
     
@@ -122,6 +127,23 @@ extension KYCTiersViewController: UICollectionViewDataSource {
         cell.delegate = self
         cell.configure(with: item)
         return cell
+    }
+}
+
+extension KYCTiersViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = pageModel.cells[indexPath.row]
+        guard let cell = collectionView.cellForItem(at: indexPath) as? KYCTierCell else { return }
+        guard item.status == .none else {
+            Logger.shared.debug(
+                """
+                Not presenting KYC. KYC should only be presented if the status is `.none` for \(item.tier.tierDescription).
+                The status is: \(item.status)
+                """
+            )
+            return
+        }
+        tierCell(cell, selectedTier: item.tier)
     }
 }
 
@@ -232,21 +254,36 @@ extension KYCTiersViewController {
                 let limits = response.1
                 let formatter: NumberFormatter = NumberFormatter.localCurrencyFormatterWithGroupingSeparator
                 let max = NSDecimalNumber(decimal: limits?.maxPossibleOrder ?? 0)
-
+                
+                /// Sometimes design wants to suppress the chevron that is shown in both
+                /// of the `KYCTiersHeaderViews` (there are two of them). We only show this
+                /// when there is a custom transition (like while in the exchange).
+                let suppressDismissalCTA = fromViewController is UIViewControllerTransitioningDelegate == false
+                
                 let header = KYCTiersHeaderViewModel.make(
                     with: response.0,
                     status: accountStatus,
                     currencySymbol: code,
-                    availableFunds: formatter.string(from: max)
+                    availableFunds: formatter.string(from: max),
+                    suppressDismissCTA: suppressDismissalCTA
                 )
                 let filtered = userTiers.filter({ $0.tier != .tier0 })
-                let cells = filtered.map({ return KYCTierCellModel.model(from: $0) })
+                let cells = filtered.map({ return KYCTierCellModel.model(from: $0) }).compactMap({ return $0 })
                 let page = KYCTiersPageModel(header: header, cells: cells, disclaimer: nil)
                 let controller = KYCTiersViewController.make(with: page)
                 if let from = fromViewController as? UIViewControllerTransitioningDelegate {
                     controller.transitioningDelegate = from
                 }
-                fromViewController.present(controller, animated: true, completion: nil)
+                if suppressDismissalCTA {
+                    if let navController = fromViewController.navigationController {
+                        navController.pushViewController(controller, animated: true)
+                    } else {
+                        let navController = BCNavigationController(rootViewController: controller)
+                        fromViewController.present(navController, animated: true, completion: nil)
+                    }
+                } else {
+                    fromViewController.present(controller, animated: true, completion: nil)
+                }
             })
     }
 }

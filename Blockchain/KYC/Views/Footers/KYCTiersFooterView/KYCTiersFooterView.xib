@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tlr-LP-j25">
-                    <rect key="frame" x="24" y="16" width="327" height="34"/>
+                    <rect key="frame" x="24" y="16" width="327" height="18"/>
                     <string key="text">By completing Tier 2 you are automatically
 eligible for our airdrop program.</string>
                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
@@ -33,7 +33,7 @@ eligible for our airdrop program.</string>
             <constraints>
                 <constraint firstItem="CTw-bU-XEJ" firstAttribute="trailing" secondItem="tlr-LP-j25" secondAttribute="trailing" constant="24" id="4wA-v8-byH"/>
                 <constraint firstItem="tlr-LP-j25" firstAttribute="leading" secondItem="CTw-bU-XEJ" secondAttribute="leading" constant="24" id="CE4-7V-Bix"/>
-                <constraint firstItem="CTw-bU-XEJ" firstAttribute="bottom" secondItem="tlr-LP-j25" secondAttribute="bottom" id="D3i-xK-eRh"/>
+                <constraint firstItem="CTw-bU-XEJ" firstAttribute="bottom" secondItem="tlr-LP-j25" secondAttribute="bottom" constant="16" id="D3i-xK-eRh"/>
                 <constraint firstItem="tlr-LP-j25" firstAttribute="top" secondItem="CTw-bU-XEJ" secondAttribute="top" constant="16" id="TMh-iF-L9Y"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="CTw-bU-XEJ"/>

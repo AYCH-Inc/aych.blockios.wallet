@@ -130,6 +130,23 @@ extension KYCTiersViewController: UICollectionViewDataSource {
     }
 }
 
+extension KYCTiersViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = pageModel.cells[indexPath.row]
+        guard let cell = collectionView.cellForItem(at: indexPath) as? KYCTierCell else { return }
+        guard item.status == .none else {
+            Logger.shared.debug(
+                """
+                Not presenting KYC. KYC should only be presented if the status is `.none` for \(item.tier.tierDescription).
+                The status is: \(item.status)
+                """
+            )
+            return
+        }
+        tierCell(cell, selectedTier: item.tier)
+    }
+}
+
 extension KYCTiersViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,

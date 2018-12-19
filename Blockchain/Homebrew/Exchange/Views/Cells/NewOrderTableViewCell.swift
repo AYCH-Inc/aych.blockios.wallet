@@ -24,6 +24,7 @@ class NewOrderTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         newExchangeButton.layer.cornerRadius = 4.0
+        newExchangeButton.setTitle(LocalizationConstants.KYC.swapNow, for: .normal)
     }
     
     // MARK: Actions

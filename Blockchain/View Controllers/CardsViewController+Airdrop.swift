@@ -90,12 +90,27 @@ extension CardsViewController {
         let appSettings = BlockchainSettings.App.shared
         let kycSettings = KYCSettings.shared
         let isAirdropUser = appSettings.didRegisterForAirdropCampaignSucceed
-        let model = AnnouncementCardViewModel.continueWithKYC(isAirdropUser: isAirdropUser, action: {
-            KYCCoordinator.shared.start(from: AppCoordinator.shared.tabControllerManager)
+        let model = AnnouncementCardViewModel.continueWithKYC(isAirdropUser: isAirdropUser, action: { [unowned self] in
+            self.continueKyc()
         }, onClose: { [weak self] in
             kycSettings.isCompletingKyc = false
             self?.animateHideCards()
         })
         showSingleCard(with: model)
+    }
+
+    private func continueKyc() {
+        // Ignoring the disposable here since it can't be stored in CardsViewController.m/.h
+        // since RxSwift doesn't work in Obj-C.
+        _ = BlockchainDataRepository.shared.fetchNabuUser()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] user in
+                guard self != nil else {
+                    return
+                }
+                let tier = user.tiers?.selected ?? .tier1
+                KYCCoordinator.shared.start(from: AppCoordinator.shared.tabControllerManager, tier: tier)
+            })
     }
 }

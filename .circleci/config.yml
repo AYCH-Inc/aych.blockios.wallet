@@ -325,7 +325,7 @@ workflows:
       - archive_and_export_production:
           filters:
             tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)/
+              only: /v\d+\.\d+\.\d+\(\d+\)$/
           requires:
             - install_deps
             - build_openssl
@@ -361,7 +361,7 @@ workflows:
       - archive_and_export_staging:
           filters:
             tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)staging/
+              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
           requires:
             - install_deps
             - build_openssl

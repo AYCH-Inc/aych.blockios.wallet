@@ -46,21 +46,6 @@ public extension KYCTier {
         }
     }
     
-    var limitDescription: String {
-        let symbol = Locale.current.currencySymbol ?? "$"
-        let formatter: NumberFormatter = NumberFormatter.localCurrencyFormatterWithGroupingSeparator
-        switch self {
-        case .tier0:
-            return "0"
-        case .tier1:
-            let amount = NSNumber(value: 1000)
-            return symbol + (formatter.string(from: amount) ?? "1,000")
-        case .tier2:
-            let amount = NSNumber(value: 25000)
-            return symbol + (formatter.string(from: amount) ?? "25,000")
-        }
-    }
-    
     var requirementsDescription: String {
         switch self {
         case .tier0:

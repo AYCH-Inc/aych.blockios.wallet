@@ -92,7 +92,7 @@ extension KYCTiersViewController: KYCTiersHeaderViewDelegate {
     func headerView(_ view: KYCTiersHeaderView, actionTapped: KYCTiersHeaderViewModel.Action) {
         switch actionTapped {
         case .contactSupport:
-            guard let supportURL = URL(string: Constants.Url.blockchainSupport) else { return }
+            guard let supportURL = URL(string: Constants.Url.blockchainSupportRequest) else { return }
             let controller = SFSafariViewController(url: supportURL)
             present(controller, animated: true, completion: nil)
         case .learnMore:

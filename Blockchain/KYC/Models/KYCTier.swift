@@ -24,6 +24,8 @@ public enum KYCTier: Int, Codable {
 }
 
 public extension KYCTier {
+    static let lockedAnalyticsKey: String = "kyc_tiers_locked"
+    
     var headline: String? {
         switch self {
         case .tier0:
@@ -76,6 +78,31 @@ public extension KYCTier {
             return LocalizationConstants.KYC.takesThreeMinutes
         case .tier2:
             return LocalizationConstants.KYC.takesTenMinutes
+        }
+    }
+    
+    var startAnalyticsKey: String {
+        switch self {
+        case .tier0:
+            return "kyc_tier0_start"
+        case .tier1:
+            return "kyc_tier1_start"
+        case .tier2:
+            return "kyc_tier2_start"
+        }
+    }
+    
+    var completionAnalyticsKey: String {
+        switch self {
+        case .tier0:
+            /// You should never be able to actually
+            /// complete `tier0` since it's not actually
+            /// a thing.
+            return ""
+        case .tier1:
+            return "kyc_tier1_complete"
+        case .tier2:
+            return "kyc_tier2_complete"
         }
     }
 }

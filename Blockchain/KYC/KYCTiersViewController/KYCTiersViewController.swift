@@ -52,6 +52,7 @@ class KYCTiersViewController: UIViewController {
         registerCells()
         registerSupplementaryViews()
         collectionView.reloadData()
+        pageModel.trackPresentation()
     }
     
     fileprivate func setupLayout() {
@@ -224,6 +225,7 @@ extension KYCTiersViewController: KYCTierCellDelegate {
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] _ in
                 guard let strongSelf = self else { return }
+                AnalyticsService.shared.trackEvent(title: selectedTier.startAnalyticsKey)
                 KYCCoordinator.shared.start(from: strongSelf, tier: selectedTier)
             }, onError: { error in
                 Logger.shared.error(error.localizedDescription)

@@ -251,6 +251,10 @@ extension KYCAddressController: UITableViewDelegate {
 }
 
 extension KYCAddressController: LocationSuggestionInterface {
+    func termsOfServiceDisclaimer(_ visibility: Visibility) {
+        labelFooter.alpha = visibility.defaultAlpha
+    }
+    
     func primaryButtonActivityIndicator(_ visibility: Visibility) {
         primaryButtonContainer.isLoading = visibility == .visible
     }

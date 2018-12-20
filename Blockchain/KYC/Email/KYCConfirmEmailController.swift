@@ -36,7 +36,7 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
         return KYCVerifyEmailPresenter(view: self)
     }()
 
-    private var disposable: Disposable?
+    internal var disposable: Disposable?
 
     // MARK: Properties
 

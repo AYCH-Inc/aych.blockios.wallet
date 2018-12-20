@@ -59,6 +59,22 @@ final class NabuAuthenticationService {
         }
     }
 
+    // Syncs the Nabu service with the wallet. Call this when something like Settings is updated on the client and Nabu needs to know about the new changes.
+    func updateWalletInfo() -> Completable {
+        return getSessionToken().flatMap { [weak self] token -> Single<NabuUser> in
+            guard let strongSelf = self else {
+                return Single.never()
+            }
+            return strongSelf.walletNabuSynchronizer.sync(token: token).do(onSuccess: { user in
+                Logger.shared.debug("""
+                    Successfully updated user: \(user.personalDetails?.identifier ?? "").
+                    Email address: \(user.email.address)
+                    Email verified: \(user.email.verified)
+                    """)
+            })
+        }.asCompletable()
+    }
+
     // MARK: - Private Methods
 
     private func getSessionTokenIfNeeded(from userResponse: NabuCreateUserResponse, requestNewToken: Bool) -> Single<NabuSessionTokenResponse> {

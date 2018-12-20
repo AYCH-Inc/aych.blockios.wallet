@@ -135,6 +135,19 @@ protocol KYCCoordinatorDelegate: class {
                         payload: payload
                     )
                     controller.navigationItem.hidesBackButton = (nextPage == .applicationComplete)
+                    
+                    /// Tracking KYC completion is contextual based on what tier
+                    /// the user is applying to.
+                    if nextPage == .applicationComplete {
+                        switch strongSelf.pager.tier {
+                        case .tier0:
+                            break
+                        case .tier1:
+                            AnalyticsService.shared.trackEvent(title: "kyc_tier1_complete")
+                        case .tier2:
+                            AnalyticsService.shared.trackEvent(title: "kyc_tier2_complete")
+                        }
+                    }
                     strongSelf.navController.pushViewController(controller, animated: true)
                 }, onError: { error in
                     Logger.shared.error("Error getting next page: \(error.localizedDescription)")
@@ -145,7 +158,10 @@ protocol KYCCoordinatorDelegate: class {
                     }
                     strongSelf.kycSettings.isCompletingKyc = false
                     if strongSelf.appSettings.didRegisterForAirdropCampaignSucceed && strongSelf.pager.tier == .tier2 {
-                        strongSelf.presentAccountStatusView(for: .pending, in: strongSelf.navController)
+                        strongSelf.presentAccountStatusView(
+                            for: .pending,
+                            in: strongSelf.navController
+                        )
                         return
                     }
                     strongSelf.finish()
@@ -309,7 +325,7 @@ protocol KYCCoordinatorDelegate: class {
     private func handlePageWillAppear(for type: KYCPageType) {
         kycSettings.latestKycPage = type
 
-        // Optionally applie page model
+        // Optionally apply page model
         switch type {
         case .tier1ForcedTier2,
              .welcome,

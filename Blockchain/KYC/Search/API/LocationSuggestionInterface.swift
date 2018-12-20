@@ -9,6 +9,7 @@
 protocol LocationSuggestionInterface: class {
     func updateActivityIndicator(_ visibility: Visibility)
     func suggestionsList(_ visibility: Visibility)
+    func termsOfServiceDisclaimer(_ visibility: Visibility)
     func addressEntryView(_ visibility: Visibility)
     func primaryButtonEnabled(_ enabled: Bool)
     func primaryButton(_ visibility: Visibility)

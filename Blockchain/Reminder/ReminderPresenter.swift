@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 /// Presenter for displaying various security-related reminders to the user.
 @objc class ReminderPresenter: NSObject {
@@ -19,8 +20,11 @@ import Foundation
     /// Optional ReminderType to show after the wallet's account info has been retrieved
     var reminderTypeToShow: ReminderType?
 
+    var disposable: Disposable?
+
     private let walletManager: WalletManager
-    
+    internal let authenticationService: NabuAuthenticationService
+
     /// This `completionHandler` is called when any of the modals
     /// are dismissed. Upon dismissal we need to potentially route the
     /// user through the KYC flow if they arrived to the app via a deep link.
@@ -29,10 +33,19 @@ import Foundation
 
     // MARK: - Initializers
 
-    private init(walletManager: WalletManager = WalletManager.shared) {
+    private init(
+        walletManager: WalletManager = WalletManager.shared,
+        authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared
+    ) {
         self.walletManager = walletManager
+        self.authenticationService = authenticationService
         super.init()
         self.walletManager.accountInfoDelegate = self
+    }
+
+    deinit {
+        disposable?.dispose()
+        disposable = nil
     }
 
     // MARK: - Public Methods
@@ -140,6 +153,8 @@ extension ReminderPresenter: WalletAccountInfoDelegate {
 
             self.reminderTypeToShow = nil
         }
+
+        disposable = syncNabuWithWallet(successHandler: nil, errorHandler: nil)
     }
 }
 

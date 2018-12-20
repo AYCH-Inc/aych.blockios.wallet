@@ -1196,6 +1196,8 @@
 		C78238BC2131F2F7008FCCAD /* NumberKeypadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78238BA2131F2F7008FCCAD /* NumberKeypadView.xib */; };
 		C78238C42131FA08008FCCAD /* NumberKeypadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78238C32131FA08008FCCAD /* NumberKeypadView.swift */; };
 		C78238C52131FA08008FCCAD /* NumberKeypadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78238C32131FA08008FCCAD /* NumberKeypadView.swift */; };
+		C782D84E21CBEDB3001582D0 /* WalletNabuSyncable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782D84D21CBEDB3001582D0 /* WalletNabuSyncable.swift */; };
+		C782D84F21CBEDB3001582D0 /* WalletNabuSyncable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782D84D21CBEDB3001582D0 /* WalletNabuSyncable.swift */; };
 		C787180120A22362000CC46E /* WalletAddressesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C787180020A22362000CC46E /* WalletAddressesDelegate.swift */; };
 		C787180220A22362000CC46E /* WalletAddressesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C787180020A22362000CC46E /* WalletAddressesDelegate.swift */; };
 		C78893DA20A34DF4003C0A8F /* WalletSettingsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78893D920A34DF4003C0A8F /* WalletSettingsDelegate.swift */; };
@@ -4006,6 +4008,7 @@
 		C78238AE2131F0CD008FCCAD /* ExchangeCreateViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ExchangeCreateViewController.storyboard; sourceTree = "<group>"; };
 		C78238BA2131F2F7008FCCAD /* NumberKeypadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NumberKeypadView.xib; sourceTree = "<group>"; };
 		C78238C32131FA08008FCCAD /* NumberKeypadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberKeypadView.swift; sourceTree = "<group>"; };
+		C782D84D21CBEDB3001582D0 /* WalletNabuSyncable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNabuSyncable.swift; sourceTree = "<group>"; };
 		C787180020A22362000CC46E /* WalletAddressesDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAddressesDelegate.swift; sourceTree = "<group>"; };
 		C78893D920A34DF4003C0A8F /* WalletSettingsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSettingsDelegate.swift; sourceTree = "<group>"; };
 		C78893E420A36572003C0A8F /* Trade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trade.swift; sourceTree = "<group>"; };
@@ -8420,6 +8423,7 @@
 		AA8F21D621C718F400F45C42 /* Sync */ = {
 			isa = PBXGroup;
 			children = (
+				C782D84D21CBEDB3001582D0 /* WalletNabuSyncable.swift */,
 				AA8F21E021C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift */,
 				AA8F21E321C719B700F45C42 /* WalletNabuSynchronizerService.swift */,
 			);
@@ -10641,6 +10645,7 @@
 				AAF2AEC521237A1A00687E30 /* PersonalDetailsInterface.swift in Sources */,
 				AA1E52352097CC2E0099BD10 /* AuthenticationCoordinator+Pin.swift in Sources */,
 				C761439A211A7FD70041411E /* SocketManager.swift in Sources */,
+				C782D84F21CBEDB3001582D0 /* WalletNabuSyncable.swift in Sources */,
 				602B9D0C2118E23400BD3D60 /* KYCCoordinator.swift in Sources */,
 				AA7133B8212221D400CB2AA9 /* KYCVerifyPhoneNumberPresenterTests.swift in Sources */,
 				AA54E493216D28CE005061F9 /* KYCStateSelectionController.swift in Sources */,
@@ -10955,6 +10960,7 @@
 				AA0A414B214B152100807163 /* AssetAccount.swift in Sources */,
 				3AB4D91421308640004F0160 /* ListPresentationUpdate.swift in Sources */,
 				AAD279E0209A99DA00C0EAFC /* AVCaptureDeviceInput.swift in Sources */,
+				C782D84E21CBEDB3001582D0 /* WalletNabuSyncable.swift in Sources */,
 				3AE74B6621C07AA900246A9C /* KYCTiersFooterView.swift in Sources */,
 				23B731D31E01AC1100129770 /* ReminderModalViewController.m in Sources */,
 				23444F9F1DCD221A00573C8C /* BTCProtocolSerialization.m in Sources */,

@@ -212,11 +212,16 @@ protocol KYCCoordinatorDelegate: class {
             return
         }
         let latestPage = kycSettings.latestKycPage
-        guard let endPage = KYCPageType.pageType(for: currentUser, latestPage: latestPage) else {
+
+        let startingPage = KYCPageType.startingPage(forUser: currentUser, tier: tier)
+
+        guard let endPageForLastUsedTier = KYCPageType.pageType(for: currentUser, latestPage: latestPage) else {
             return
         }
 
-        let startingPage = KYCPageType.startingPage(forUser: currentUser, tier: tier)
+        // If a user has moved to a new tier, they need to use the starting page for the new tier
+        let endPage = endPageForLastUsedTier.rawValue >= startingPage.rawValue ? endPageForLastUsedTier : startingPage
+
         var currentPage = startingPage
         while currentPage != endPage {
             guard let nextPage = currentPage.nextPage(forTier: tier, user: user, country: country) else { return }

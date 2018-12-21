@@ -11,6 +11,12 @@ import SafariServices
 import UIKit
 import RxSwift
 
+protocol KYCTiersInterface: class {
+    func apply(_ model: KYCTiersPageModel)
+    func loadingIndicator(_ visibility: Visibility)
+    func collectionViewVisibility(_ visibility: Visibility)
+}
+
 class KYCTiersViewController: UIViewController {
     
     // MARK: Private IBOutlets
@@ -23,6 +29,7 @@ class KYCTiersViewController: UIViewController {
     fileprivate static let limitsAPI: TradeLimitsAPI = ExchangeServices().tradeLimits
     fileprivate var authenticationService: NabuAuthenticationService!
     fileprivate var layoutAttributes: LayoutAttributes = .tiersOverview
+    fileprivate var coordinator: KYCTiersCoordinator!
     fileprivate var disposable: Disposable?
 
     // MARK: Public Properties
@@ -42,15 +49,18 @@ class KYCTiersViewController: UIViewController {
     // MARK: Lifecycle
 
     deinit {
+        NotificationCenter.default.removeObserver(self)
         disposable?.dispose()
         disposable = nil
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        coordinator = KYCTiersCoordinator(interface: self)
         setupLayout()
         registerCells()
         registerSupplementaryViews()
+        registerForNotifications()
         collectionView.reloadData()
         pageModel.trackPresentation()
     }
@@ -86,6 +96,17 @@ class KYCTiersViewController: UIViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
             withReuseIdentifier: KYCTiersFooterView.identifier
         )
+    }
+    
+    fileprivate func registerForNotifications() {
+        NotificationCenter.when(Constants.NotificationKeys.kycComplete) { [weak self] _ in
+            guard let this = self else { return }
+            let currencyCode = BlockchainSettings.App.shared.fiatCurrencySymbol
+            this.coordinator.refreshViewModel(
+                withCurrencyCode: currencyCode,
+                suppressCTA: this.pageModel.header.suppressDismissCTA
+            )
+        }
     }
 }
 
@@ -231,6 +252,31 @@ extension KYCTiersViewController: KYCTierCellDelegate {
                 Logger.shared.error(error.localizedDescription)
                 AlertViewPresenter.shared.standardError(message: LocalizationConstants.Swap.postTierError)
             })
+    }
+}
+
+extension KYCTiersViewController: KYCTiersInterface {
+    func apply(_ model: KYCTiersPageModel) {
+        pageModel = model
+        registerSupplementaryViews()
+        collectionView.reloadData()
+        pageModel.trackPresentation()
+    }
+    
+    func collectionViewVisibility(_ visibility: Visibility) {
+        collectionView.alpha = visibility.defaultAlpha
+    }
+    
+    func loadingIndicator(_ visibility: Visibility) {
+        switch visibility {
+        case .visible:
+            LoadingViewPresenter.shared.showBusyView(
+                withLoadingText: LocalizationConstants.loading
+            )
+        case .hidden,
+             .translucent:
+            LoadingViewPresenter.shared.hideBusyView()
+        }
     }
 }
 

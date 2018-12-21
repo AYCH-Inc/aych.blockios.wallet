@@ -254,7 +254,7 @@ extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
                     withReuseIdentifier: ActionableFooterView.identifier,
                     for: indexPath
                 ) as? ActionableFooterView else { return UICollectionReusableView() }
-                footer.title = LocalizationConstants.Exchange.requestRefund
+                footer.title = LocalizationConstants.KYC.contactSupport
                 footer.actionBlock = {
                     guard let url = URL(string: Constants.Url.supportTicketBuySellExchange) else {
                         return

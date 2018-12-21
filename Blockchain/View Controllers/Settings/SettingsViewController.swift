@@ -56,6 +56,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     weak var delegate: (UIViewController & EmailDelegate)!
     weak var numberDelegate: (UIViewController & MobileNumberDelegate)!
     let walletManager: WalletManager
+    let authenticationService: NabuAuthenticationService
     
     var disposable: Disposable?
     internal var tiers: KYCUserTiersResponse?
@@ -71,17 +72,13 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
 
     required init?(coder aDecoder: NSCoder) {
         self.walletManager = WalletManager.shared
+        self.authenticationService = NabuAuthenticationService.shared
         super.init(coder: aDecoder)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
-        self.walletManager.accountInfoDelegate = self
-    }
-
-    convenience init(walletManager: WalletManager = WalletManager.shared) {
-        self.init(walletManager: walletManager)
         self.walletManager.accountInfoDelegate = self
     }
 
@@ -572,8 +569,15 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
 
     @objc func didGetAccountInfo() {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "GetAccountInfo"), object: nil)
-        updateAccountInfo()
+        let accountInfoUpdate: (() -> ()) = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.updateAccountInfo()
+        }
+        disposable = syncNabuWithWallet(successHandler: accountInfoUpdate, errorHandler: { _ in
+            accountInfoUpdate()
+        })
     }
+
     func getAccountInfo() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.didGetAccountInfo),

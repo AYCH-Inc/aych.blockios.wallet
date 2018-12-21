@@ -33,6 +33,7 @@ class KYCPageViewFactory {
             return KYCMoreInformationController.make(with: coordinator)
         case .welcome:
             AnalyticsService.shared.trackEvent(title: "kyc_welcome")
+            AnalyticsService.shared.trackEvent(title: "kyc_sunriver_start")
             return KYCWelcomeController.make(with: coordinator)
         case .country:
             AnalyticsService.shared.trackEvent(title: "kyc_country")
@@ -67,7 +68,6 @@ class KYCPageViewFactory {
             AnalyticsService.shared.trackEvent(title: "kyc_account_status")
             return KYCInformationController.make(with: coordinator)
         case .applicationComplete:
-            AnalyticsService.shared.trackEvent(title: "kyc_complete")
             return KYCApplicationCompleteController.make(with: coordinator)
         }
     }

@@ -47,9 +47,11 @@ extension LocationSuggestionCoordinator: SearchControllerDelegate {
             interface?.searchFieldText(nil)
             interface?.primaryButton(.visible)
             interface?.suggestionsList(.hidden)
+            interface?.termsOfServiceDisclaimer(.visible)
             interface?.addressEntryView(.visible)
         case false:
             interface?.primaryButton(.hidden)
+            interface?.termsOfServiceDisclaimer(.hidden)
             interface?.suggestionsList(.visible)
             interface?.addressEntryView(.hidden)
         }
@@ -71,6 +73,7 @@ extension LocationSuggestionCoordinator: SearchControllerDelegate {
         if let input = selection as? LocationSuggestion {
             interface?.searchFieldText("")
             interface?.suggestionsList(.hidden)
+            interface?.termsOfServiceDisclaimer(.visible)
             interface?.primaryButton(.visible)
             interface?.updateActivityIndicator(.visible)
             service.fetchAddress(from: input) { [weak self] (address) in
@@ -130,8 +133,10 @@ extension LocationSuggestionCoordinator: SearchControllerDelegate {
             )
 
             let listVisibility: Visibility = suggestions != nil ? .visible: .hidden
+            let termsVisibility: Visibility = suggestions != nil ? .hidden: .visible
             this.interface?.updateActivityIndicator(.hidden)
             this.interface?.suggestionsList(listVisibility)
+            this.interface?.termsOfServiceDisclaimer(termsVisibility)
             this.model = result
         }
     }
@@ -139,6 +144,7 @@ extension LocationSuggestionCoordinator: SearchControllerDelegate {
     func onSearchViewCancel() {
         interface?.searchFieldActive(false)
         interface?.suggestionsList(.hidden)
+        interface?.termsOfServiceDisclaimer(.visible)
         interface?.primaryButton(.visible)
         interface?.addressEntryView(.visible)
         guard service.isExecuting else { return }

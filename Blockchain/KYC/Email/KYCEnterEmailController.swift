@@ -76,6 +76,8 @@ class KYCEnterEmailController: KYCBaseViewController, BottomButtonContainerView,
             self.primaryButtonTapped()
         }
         originalBottomButtonConstraint = layoutConstraintBottomButton.constant
+        
+        AnalyticsService.shared.trackEvent(title: "kyc_email")
     }
 
     override func viewDidAppear(_ animated: Bool) {

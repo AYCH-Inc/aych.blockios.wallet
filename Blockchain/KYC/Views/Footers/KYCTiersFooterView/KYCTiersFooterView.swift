@@ -14,7 +14,7 @@ class KYCTiersFooterView: UICollectionReusableView {
     
     static let identifier: String = String(describing: KYCTiersFooterView.self)
     
-    fileprivate static let verticalPadding: CGFloat = 16.0
+    fileprivate static let verticalPadding: CGFloat = 32.0
     fileprivate static let horizontalPadding: CGFloat = 24.0
     
     // MARK: IBOutlets

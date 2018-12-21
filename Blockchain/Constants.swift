@@ -102,6 +102,7 @@ struct Constants {
         static let backupSuccess = NSNotification.Name("backupSuccess")
         static let getFiatAtTime = NSNotification.Name("getFiatAtTime")
         static let exchangeSubmitted = NSNotification.Name("exchangeSubmitted")
+        static let kycComplete = NSNotification.Name("kycComplete")
     }
     struct PushNotificationKeys {
         static let userInfoType = "type"

@@ -273,6 +273,8 @@
 		3A8B2292211E228C0091E706 /* KYCPageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B2291211E228C0091E706 /* KYCPageType.swift */; };
 		3A8B229D211E2A960091E706 /* NabuUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B229C211E2A960091E706 /* NabuUser.swift */; };
 		3A8B229F2122117A0091E706 /* KYCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B229E2122117A0091E706 /* KYCBaseViewController.swift */; };
+		3A902D1221CD69780068C4D3 /* KYCTiersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A902D1121CD69780068C4D3 /* KYCTiersCoordinator.swift */; };
+		3A902D1321CD69780068C4D3 /* KYCTiersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A902D1121CD69780068C4D3 /* KYCTiersCoordinator.swift */; };
 		3A91F7962137067400CDC3FD /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A91F7952137067400CDC3FD /* Order.swift */; };
 		3A91F7972137067400CDC3FD /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A91F7952137067400CDC3FD /* Order.swift */; };
 		3A91F7C1213845F700CDC3FD /* TradingPairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A91F7C0213845F700CDC3FD /* TradingPairView.swift */; };
@@ -1804,6 +1806,7 @@
 		3A8B2291211E228C0091E706 /* KYCPageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCPageType.swift; sourceTree = "<group>"; };
 		3A8B229C211E2A960091E706 /* NabuUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NabuUser.swift; sourceTree = "<group>"; };
 		3A8B229E2122117A0091E706 /* KYCBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCBaseViewController.swift; sourceTree = "<group>"; };
+		3A902D1121CD69780068C4D3 /* KYCTiersCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCTiersCoordinator.swift; sourceTree = "<group>"; };
 		3A91F7952137067400CDC3FD /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		3A91F7C0213845F700CDC3FD /* TradingPairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradingPairView.swift; sourceTree = "<group>"; };
 		3A91F7CC2138460900CDC3FD /* TradingPairView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TradingPairView.xib; sourceTree = "<group>"; };
@@ -5268,6 +5271,7 @@
 			children = (
 				3AE74B3D21C043ED00246A9C /* KYCTiersViewController.swift */,
 				3AE74B4521C04C4B00246A9C /* KYCTiersPageModel.swift */,
+				3A902D1121CD69780068C4D3 /* KYCTiersCoordinator.swift */,
 			);
 			path = KYCTiersViewController;
 			sourceTree = "<group>";
@@ -10314,6 +10318,7 @@
 				51135709209CF6C000056D65 /* SecondPasswordViewController.swift in Sources */,
 				5176A4C8214AA5B80006769F /* DashboardController.swift in Sources */,
 				C7BEE14B20C9775B0096003B /* WalletOptions.swift in Sources */,
+				3A902D1321CD69780068C4D3 /* KYCTiersCoordinator.swift in Sources */,
 				AAE5D19821A3C18200D4A77A /* WalletActionEventBus.swift in Sources */,
 				AACE32012093FA1A00B7B806 /* ReminderPresenter.swift in Sources */,
 				3A26D51A2140405400D79BDD /* ExchangeCellModel.swift in Sources */,
@@ -11154,6 +11159,7 @@
 				606399DE2110FC2D005B6DF5 /* NSRunLoop+SRWebSocket.m in Sources */,
 				AA54E4F6216D3B3F005061F9 /* KYCStateSelectionInteractor.swift in Sources */,
 				AA755EED2188ED6800FC4894 /* StellarTradeLimitsAPI.swift in Sources */,
+				3A902D1221CD69780068C4D3 /* KYCTiersCoordinator.swift in Sources */,
 				C7EA091E21766F640050FE81 /* Direction.swift in Sources */,
 				231FF2CD1B56F9F1009EEB02 /* SettingsWebViewController.m in Sources */,
 				C723F3461F61D35300A858A9 /* TransactionDetailViewModel.m in Sources */,

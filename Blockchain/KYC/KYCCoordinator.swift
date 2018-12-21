@@ -35,6 +35,7 @@ protocol KYCCoordinatorDelegate: class {
 
     weak var delegate: KYCCoordinatorDelegate?
 
+    static let kycCompleteNotification: String = "kycCompleteNotification"
     static let shared = KYCCoordinator()
 
     @objc class func sharedInstance() -> KYCCoordinator {
@@ -112,6 +113,10 @@ protocol KYCCoordinatorDelegate: class {
     @objc func finish() {
         if navController == nil { return }
         navController.dismiss(animated: true)
+        NotificationCenter.default.post(
+            name: Constants.NotificationKeys.kycComplete,
+            object: nil
+        )
     }
 
     func handle(event: KYCEvent) {

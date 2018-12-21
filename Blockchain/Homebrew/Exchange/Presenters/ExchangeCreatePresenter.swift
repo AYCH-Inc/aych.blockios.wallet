@@ -192,6 +192,7 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
     }
     
     func onSwapButtonTapped() {
+        AnalyticsService.shared.trackEvent(title: "swap_tiers")
         displayTiers()
     }
 }

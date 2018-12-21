@@ -35,6 +35,7 @@ protocol KYCCoordinatorDelegate: class {
 
     weak var delegate: KYCCoordinatorDelegate?
 
+    static let kycCompleteNotification: String = "kycCompleteNotification"
     static let shared = KYCCoordinator()
 
     @objc class func sharedInstance() -> KYCCoordinator {
@@ -112,6 +113,10 @@ protocol KYCCoordinatorDelegate: class {
     @objc func finish() {
         if navController == nil { return }
         navController.dismiss(animated: true)
+        NotificationCenter.default.post(
+            name: Constants.NotificationKeys.kycComplete,
+            object: nil
+        )
     }
 
     func handle(event: KYCEvent) {
@@ -135,6 +140,19 @@ protocol KYCCoordinatorDelegate: class {
                         payload: payload
                     )
                     controller.navigationItem.hidesBackButton = (nextPage == .applicationComplete)
+                    
+                    /// Tracking KYC completion is contextual based on what tier
+                    /// the user is applying to.
+                    if nextPage == .applicationComplete {
+                        switch strongSelf.pager.tier {
+                        case .tier0:
+                            break
+                        case .tier1:
+                            AnalyticsService.shared.trackEvent(title: "kyc_tier1_complete")
+                        case .tier2:
+                            AnalyticsService.shared.trackEvent(title: "kyc_tier2_complete")
+                        }
+                    }
                     strongSelf.navController.pushViewController(controller, animated: true)
                 }, onError: { error in
                     Logger.shared.error("Error getting next page: \(error.localizedDescription)")
@@ -145,7 +163,10 @@ protocol KYCCoordinatorDelegate: class {
                     }
                     strongSelf.kycSettings.isCompletingKyc = false
                     if strongSelf.appSettings.didRegisterForAirdropCampaignSucceed && strongSelf.pager.tier == .tier2 {
-                        strongSelf.presentAccountStatusView(for: .pending, in: strongSelf.navController)
+                        strongSelf.presentAccountStatusView(
+                            for: .pending,
+                            in: strongSelf.navController
+                        )
                         return
                     }
                     strongSelf.finish()
@@ -196,11 +217,16 @@ protocol KYCCoordinatorDelegate: class {
             return
         }
         let latestPage = kycSettings.latestKycPage
-        guard let endPage = KYCPageType.pageType(for: currentUser, latestPage: latestPage) else {
+
+        let startingPage = KYCPageType.startingPage(forUser: currentUser, tier: tier)
+
+        guard let endPageForLastUsedTier = KYCPageType.pageType(for: currentUser, latestPage: latestPage) else {
             return
         }
 
-        let startingPage = KYCPageType.startingPage(forUser: currentUser, tier: tier)
+        // If a user has moved to a new tier, they need to use the starting page for the new tier
+        let endPage = endPageForLastUsedTier.rawValue >= startingPage.rawValue ? endPageForLastUsedTier : startingPage
+
         var currentPage = startingPage
         while currentPage != endPage {
             guard let nextPage = currentPage.nextPage(forTier: tier, user: user, country: country) else { return }
@@ -309,7 +335,7 @@ protocol KYCCoordinatorDelegate: class {
     private func handlePageWillAppear(for type: KYCPageType) {
         kycSettings.latestKycPage = type
 
-        // Optionally applie page model
+        // Optionally apply page model
         switch type {
         case .tier1ForcedTier2,
              .welcome,

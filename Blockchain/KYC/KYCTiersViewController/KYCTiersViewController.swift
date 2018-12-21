@@ -11,6 +11,12 @@ import SafariServices
 import UIKit
 import RxSwift
 
+protocol KYCTiersInterface: class {
+    func apply(_ model: KYCTiersPageModel)
+    func loadingIndicator(_ visibility: Visibility)
+    func collectionViewVisibility(_ visibility: Visibility)
+}
+
 class KYCTiersViewController: UIViewController {
     
     // MARK: Private IBOutlets
@@ -23,6 +29,7 @@ class KYCTiersViewController: UIViewController {
     fileprivate static let limitsAPI: TradeLimitsAPI = ExchangeServices().tradeLimits
     fileprivate var authenticationService: NabuAuthenticationService!
     fileprivate var layoutAttributes: LayoutAttributes = .tiersOverview
+    fileprivate var coordinator: KYCTiersCoordinator!
     fileprivate var disposable: Disposable?
 
     // MARK: Public Properties
@@ -42,16 +49,20 @@ class KYCTiersViewController: UIViewController {
     // MARK: Lifecycle
 
     deinit {
+        NotificationCenter.default.removeObserver(self)
         disposable?.dispose()
         disposable = nil
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        coordinator = KYCTiersCoordinator(interface: self)
         setupLayout()
         registerCells()
         registerSupplementaryViews()
+        registerForNotifications()
         collectionView.reloadData()
+        pageModel.trackPresentation()
     }
     
     fileprivate func setupLayout() {
@@ -86,13 +97,24 @@ class KYCTiersViewController: UIViewController {
             withReuseIdentifier: KYCTiersFooterView.identifier
         )
     }
+    
+    fileprivate func registerForNotifications() {
+        NotificationCenter.when(Constants.NotificationKeys.kycComplete) { [weak self] _ in
+            guard let this = self else { return }
+            let currencyCode = BlockchainSettings.App.shared.fiatCurrencySymbol
+            this.coordinator.refreshViewModel(
+                withCurrencyCode: currencyCode,
+                suppressCTA: this.pageModel.header.suppressDismissCTA
+            )
+        }
+    }
 }
 
 extension KYCTiersViewController: KYCTiersHeaderViewDelegate {
     func headerView(_ view: KYCTiersHeaderView, actionTapped: KYCTiersHeaderViewModel.Action) {
         switch actionTapped {
         case .contactSupport:
-            guard let supportURL = URL(string: Constants.Url.blockchainSupport) else { return }
+            guard let supportURL = URL(string: Constants.Url.blockchainSupportRequest) else { return }
             let controller = SFSafariViewController(url: supportURL)
             present(controller, animated: true, completion: nil)
         case .learnMore:
@@ -224,11 +246,37 @@ extension KYCTiersViewController: KYCTierCellDelegate {
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] _ in
                 guard let strongSelf = self else { return }
+                AnalyticsService.shared.trackEvent(title: selectedTier.startAnalyticsKey)
                 KYCCoordinator.shared.start(from: strongSelf, tier: selectedTier)
             }, onError: { error in
                 Logger.shared.error(error.localizedDescription)
                 AlertViewPresenter.shared.standardError(message: LocalizationConstants.Swap.postTierError)
             })
+    }
+}
+
+extension KYCTiersViewController: KYCTiersInterface {
+    func apply(_ model: KYCTiersPageModel) {
+        pageModel = model
+        registerSupplementaryViews()
+        collectionView.reloadData()
+        pageModel.trackPresentation()
+    }
+    
+    func collectionViewVisibility(_ visibility: Visibility) {
+        collectionView.alpha = visibility.defaultAlpha
+    }
+    
+    func loadingIndicator(_ visibility: Visibility) {
+        switch visibility {
+        case .visible:
+            LoadingViewPresenter.shared.showBusyView(
+                withLoadingText: LocalizationConstants.loading
+            )
+        case .hidden,
+             .translucent:
+            LoadingViewPresenter.shared.hideBusyView()
+        }
     }
 }
 
@@ -269,7 +317,8 @@ extension KYCTiersViewController {
                 )
                 let filtered = userTiers.filter({ $0.tier != .tier0 })
                 let cells = filtered.map({ return KYCTierCellModel.model(from: $0) }).compactMap({ return $0 })
-                let page = KYCTiersPageModel(header: header, cells: cells, disclaimer: nil)
+                
+                let page = KYCTiersPageModel(header: header, cells: cells)
                 let controller = KYCTiersViewController.make(with: page)
                 if let from = fromViewController as? UIViewControllerTransitioningDelegate {
                     controller.transitioningDelegate = from

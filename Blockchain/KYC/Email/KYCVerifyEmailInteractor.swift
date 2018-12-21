@@ -18,18 +18,15 @@ class KYCVerifyEmailInteractor {
     private let appSettings: BlockchainSettings.App
     private let authenticationService: NabuAuthenticationService
     private let walletSettings: WalletSettingsAPI
-    private let walletSync: WalletNabuSynchronizerAPI
 
     init(
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
         authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
-        walletSettings: WalletSettingsAPI = WalletSettingsService(),
-        walletSync: WalletNabuSynchronizerAPI = WalletNabuSynchronizerService()
+        walletSettings: WalletSettingsAPI = WalletSettingsService()
     ) {
         self.appSettings = appSettings
         self.authenticationService = authenticationService
         self.walletSettings = walletSettings
-        self.walletSync = walletSync
     }
 
     /// Waits until the email is verified by the user. Once the email is verified, the Completable sequence will complete
@@ -48,7 +45,7 @@ class KYCVerifyEmailInteractor {
                 guard isVerified else {
                     return Observable.just(false)
                 }
-                return strongSelf.updateWalletInfo().andThen(
+                return strongSelf.authenticationService.updateWalletInfo().andThen(
                     Observable.just(true)
                 )
             }
@@ -65,26 +62,11 @@ class KYCVerifyEmailInteractor {
         }
         
         return walletSettings.updateEmail(email: email, guid: guid, sharedKey: sharedKey).andThen(
-            updateWalletInfo()
+            authenticationService.updateWalletInfo()
         )
     }
 
     // MARK: Private Methods
-
-    private func updateWalletInfo() -> Completable {
-        return authenticationService.getSessionToken().flatMap { [weak self] token -> Single<NabuUser> in
-            guard let strongSelf = self else {
-                return Single.never()
-            }
-            return strongSelf.walletSync.sync(token: token).do(onSuccess: { user in
-                Logger.shared.debug("""
-                    Successfully updated user: \(user.personalDetails?.identifier ?? "").
-                    Email addres: \(user.email.address)
-                    Email verified: \(user.email.verified)
-                """)
-            })
-        }.asCompletable()
-    }
 
     private func pollWalletSettings() -> Observable<WalletSettings> {
         return Observable<Int>.interval(

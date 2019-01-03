@@ -88,9 +88,9 @@ class KYCAvailableFundsHeaderView: KYCTiersHeaderView {
         
         var topPadding: CGFloat = 0.0
         if model.suppressDismissCTA {
-            topPadding = dismissButtonVerticalPadding + dismissButtonHeight
-        } else {
             topPadding = suppressDismissalTopPadding
+        } else {
+            topPadding = dismissButtonVerticalPadding + dismissButtonHeight
         }
         
         let padding = amountStackViewPadding + outerStackViewPadding + labelsToBottomPadding

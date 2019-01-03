@@ -31,8 +31,7 @@ import PlatformUIKit
             if let xlmAccount = xlmAccount {
                 labelInstructions.text = LocalizationConstants.Receive.tapToCopyThisAddress
                 imageQrCode.isHidden = false
-                let payload = StellarURLPayload(address: xlmAccount.publicKey)
-                let metadata = StellarQRMetadata(address: payload.absoluteString, amount: nil)
+                let metadata = StellarQRMetadata(address: xlmAccount.publicKey, amount: nil)
                 imageQrCode.image = QRCode(metadata: metadata)?.image
                 labelPublicKey.text = xlmAccount.publicKey
                 buttonEnterPassword.isHidden = true

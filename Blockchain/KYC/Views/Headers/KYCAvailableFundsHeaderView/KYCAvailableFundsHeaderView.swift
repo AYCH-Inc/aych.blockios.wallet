@@ -20,8 +20,10 @@ class KYCAvailableFundsHeaderView: KYCTiersHeaderView {
     
     fileprivate static let horizontalPadding: CGFloat = 32.0
     fileprivate static let amountStackViewPadding: CGFloat = 4.0
-    fileprivate static let outerStackViewPadding: CGFloat = 16.0
+    fileprivate static let outerStackViewPadding: CGFloat = 32.0
     fileprivate static let dismissButtonHeight: CGFloat = 30.0
+    fileprivate static let swapNowButtonHeight: CGFloat = 57.0
+    
     /// The height when you suppress the chevron at the top of the header
     fileprivate static let suppressDismissalTopPadding: CGFloat = 32.0
     fileprivate static let dismissButtonVerticalPadding: CGFloat = 8.0
@@ -35,12 +37,16 @@ class KYCAvailableFundsHeaderView: KYCTiersHeaderView {
     @IBOutlet fileprivate var availabilityDescription: UILabel!
     @IBOutlet fileprivate var stackViewToTopConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate var stackViewToDismissButtonConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate var swapNowButton: UIButton!
+    
     // MARK: Public Class Functions
     
     override func configure(with viewModel: KYCTiersHeaderViewModel) {
         availableAmount.text = viewModel.amount
         availabilityHeadline.text = viewModel.availabilityTitle
         availabilityDescription.text = viewModel.availabilityDescription
+        swapNowButton.setTitle(LocalizationConstants.KYC.swapNow, for: .normal)
+        swapNowButton.layer.cornerRadius = 4.0
         
         dismissButton.isHidden = viewModel.suppressDismissCTA
         if viewModel.suppressDismissCTA, stackViewToDismissButtonConstraint.isActive {
@@ -55,6 +61,10 @@ class KYCAvailableFundsHeaderView: KYCTiersHeaderView {
     
     @IBAction func dismissButtonTapped(_ sender: UIButton) {
         delegate?.dismissButtonTapped(self)
+    }
+    
+    @IBAction func swapNowTapped(_ sender: UIButton) {
+        delegate?.headerView(self, actionTapped: .swapNow)
     }
     
     // MARK: Overrides
@@ -94,7 +104,7 @@ class KYCAvailableFundsHeaderView: KYCTiersHeaderView {
         }
         
         let padding = amountStackViewPadding + outerStackViewPadding + labelsToBottomPadding
-        let result = availabilityHeights + padding + topPadding
+        let result = availabilityHeights + padding + topPadding + swapNowButtonHeight
         
         return result
     }

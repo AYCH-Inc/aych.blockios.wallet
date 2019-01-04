@@ -15,6 +15,7 @@ enum KYCTiersHeaderViewModel {
     enum Action {
         case learnMore
         case contactSupport
+        case swapNow
     }
     typealias Amount = String
     

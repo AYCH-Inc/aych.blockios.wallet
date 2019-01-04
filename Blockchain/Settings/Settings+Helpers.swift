@@ -117,6 +117,11 @@ extension SettingsTableViewController {
                                                selector: #selector(self.reloadAfterMultiAddressResponse),
                                                name: NSNotification.Name(rawValue: "reloadSettingsAfterMultiAddress"),
                                                object: nil)
+        
+        NotificationCenter.when(Constants.NotificationKeys.kycComplete) { [weak self] _ in
+            guard let this = self else { return }
+            this.reloadTableView()
+        }
     }
 }
 

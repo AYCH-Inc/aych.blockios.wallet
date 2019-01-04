@@ -310,7 +310,6 @@ extension KYCTiersViewController {
                 
                 let header = KYCTiersHeaderViewModel.make(
                     with: response.0,
-                    status: accountStatus,
                     currencySymbol: code,
                     availableFunds: formatter.string(from: max),
                     suppressDismissCTA: suppressDismissalCTA

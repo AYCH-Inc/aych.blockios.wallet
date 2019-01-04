@@ -180,55 +180,58 @@ extension KYCTiersHeaderViewModel {
 }
 
 extension KYCTiersHeaderViewModel {
+    
     static func make(
         with tierResponse: KYCUserTiersResponse,
-        status: KYCAccountStatus,
         currencySymbol: String,
         availableFunds: String?,
         suppressDismissCTA: Bool = false
         ) -> KYCTiersHeaderViewModel {
         let tiers = tierResponse.userTiers.filter({ $0.tier != .tier0 })
-        guard let tier2 = tiers.filter({ $0.tier == .tier2 }).first else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
         
-        switch status {
-        case .none:
-            return .empty(suppressDismissCTA: suppressDismissCTA)
-        case .failed,
-             .expired:
+        guard let tier1 = tiers.filter({ $0.tier == .tier1 }).first else {
+            /// This should never occur
             return .unavailable(suppressDismissCTA: suppressDismissCTA)
-        case .pending,
-             .underReview:
+        }
+        guard let tier2 = tiers.filter({ $0.tier == .tier2 }).first else {
+            /// This should never occur
+            return .unavailable(suppressDismissCTA: suppressDismissCTA)
+        }
+        
+        switch (tier1.state, tier2.state) {
+        case (.none, _):
+            return .empty(suppressDismissCTA: suppressDismissCTA)
+        case (.rejected, .rejected),
+             (.rejected, .none),
+             (.rejected, .pending),
+             (_, .rejected):
+            return .unavailable(suppressDismissCTA: suppressDismissCTA)
+        case (.pending, .none):
             guard let amount = availableFunds else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
             let formatted = currencySymbol + amount
-            if tier2.state == .pending || tier2.state == .rejected {
-                return .available(
-                    formatted, LocalizationConstants.KYC.tierTwoVerificationIsBeingReviewed,
-                    suppressDismissCTA: suppressDismissCTA
-                )
-            }
-            
             return .available(
                 formatted, LocalizationConstants.KYC.swapLimitDescription,
                 suppressDismissCTA: suppressDismissCTA
             )
-        case .approved:
+        case (.pending, .pending),
+             (.verified, .pending):
             guard let amount = availableFunds else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
             let formatted = currencySymbol + amount
-            if tier2.state == .verified {
-                return .availableToday(
-                    formatted,
-                    LocalizationConstants.KYC.swapLimitDescription,
-                    suppressDismissCTA: suppressDismissCTA
-                )
-            }
-            
-            if tier2.state == .pending || tier2.state == .rejected {
-                return .available(
-                    formatted,
-                    LocalizationConstants.KYC.tierTwoVerificationIsBeingReviewed,
-                    suppressDismissCTA: suppressDismissCTA
-                )
-            }
+            return .available(
+                formatted, LocalizationConstants.KYC.tierTwoVerificationIsBeingReviewed,
+                suppressDismissCTA: suppressDismissCTA
+            )
+        case (_, .verified):
+            guard let amount = availableFunds else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
+            let formatted = currencySymbol + amount
+            return .availableToday(
+                formatted,
+                LocalizationConstants.KYC.swapLimitDescription,
+                suppressDismissCTA: suppressDismissCTA
+            )
+        case (.verified, .none):
+            guard let amount = availableFunds else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
+            let formatted = currencySymbol + amount
             return .available(
                 formatted,
                 LocalizationConstants.KYC.swapLimitDescription,

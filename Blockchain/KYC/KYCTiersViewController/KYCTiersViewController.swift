@@ -63,6 +63,13 @@ class KYCTiersViewController: UIViewController {
         registerForNotifications()
         collectionView.reloadData()
         pageModel.trackPresentation()
+        
+        if let navController = navigationController as? BCNavigationController {
+            navController.headerLabel.text = LocalizationConstants.KYC.swapLimits
+        }
+        if let navController = navigationController as? SettingsNavigationController {
+            navController.headerLabel.text = LocalizationConstants.KYC.swapLimits
+        }
     }
     
     fileprivate func setupLayout() {
@@ -121,6 +128,23 @@ extension KYCTiersViewController: KYCTiersHeaderViewDelegate {
             guard let verificationURL = URL(string: Constants.Url.verificationRejectedURL) else { return }
             let controller = SFSafariViewController(url: verificationURL)
             present(controller, animated: true, completion: nil)
+        case .swapNow:
+            /// This isn't pretty but, we only use the custom transition when presenting
+            /// tiers from the exchange screen. Outside of that, the only other place where we use
+            /// the tiers screen is in settings.
+            if transitioningDelegate != nil {
+                dismiss(animated: true, completion: nil)
+            } else {
+                /// Tiers is pushed on when presented from settings. If they go through KYC and are
+                /// approved for either tier, there will be a `Swap Now` button in the header. If they
+                /// tap this button, we need to pop to root (back to settings) and then resume the
+                /// `ExchangeCoordinator` using settings as the root. That will display the exchange.
+                guard let navController = navigationController else { return }
+                navController.popToRootViewControllerWithHandler {
+                    guard let root = navController.viewControllers.first else { return }
+                    ExchangeCoordinator.shared.start(rootViewController: root)
+                }
+            }
         }
     }
     

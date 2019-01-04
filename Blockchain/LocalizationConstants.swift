@@ -1524,6 +1524,7 @@ struct LocalizationConstants {
             comment: "Duration for Tier 2 application"
         )
         static let swapNow = NSLocalizedString("Swap Now", comment: "Swap Now")
+        static let swapLimits = NSLocalizedString("Swap Limits", comment: "Swap Limits")
         static let swapTagline = NSLocalizedString(
             "A Better Way to Trade Crypto",
             comment: "The tagline describing what Swap is"

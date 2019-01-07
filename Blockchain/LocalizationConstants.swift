@@ -1526,7 +1526,7 @@ struct LocalizationConstants {
         static let swapNow = NSLocalizedString("Swap Now", comment: "Swap Now")
         static let swapLimits = NSLocalizedString("Swap Limits", comment: "Swap Limits")
         static let swapTagline = NSLocalizedString(
-            "A Better Way to Trade Crypto",
+            "Trading your crypto doesn't mean trading away control.",
             comment: "The tagline describing what Swap is"
         )
         static let swapStatusInReview = NSLocalizedString(
@@ -1546,7 +1546,7 @@ struct LocalizationConstants {
             comment: "Swap status is approved."
         )
         static let swapAnnouncement = NSLocalizedString(
-            "Announcing Swap by Blockchain - the faster, smarter way to trade your crypto",
+            "Swap by Blockchain enables you to trade crypto with best prices, and quick settlement, all while maintaining full control of your funds.",
             comment: "The announcement and description describing what Swap is."
         )
         static let swapLimitDescription = NSLocalizedString(

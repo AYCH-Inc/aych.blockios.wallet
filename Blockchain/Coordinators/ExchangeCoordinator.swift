@@ -117,10 +117,8 @@ struct ExchangeServices: ExchangeDependencies {
             Logger.shared.error("View controller to present on is nil")
             return
         }
-        let currencyCode = BlockchainSettings.App.shared.fiatCurrencySymbol
         disposable = KYCTiersViewController.routeToTiers(
             fromViewController: viewController,
-            code: currencyCode,
             accountStatus: user.status
         )
     }

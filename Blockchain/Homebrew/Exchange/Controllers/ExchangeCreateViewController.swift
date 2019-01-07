@@ -177,10 +177,8 @@ class ExchangeCreateViewController: UIViewController {
     }
     
     fileprivate func routeUserToTiers(_ user: NabuUser) {
-        let currencyCode = BlockchainSettings.App.shared.fiatCurrencySymbol
         self.disposable = KYCTiersViewController.routeToTiers(
             fromViewController: self,
-            code: currencyCode,
             accountStatus: user.status
         )
     }

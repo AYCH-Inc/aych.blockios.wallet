@@ -308,8 +308,9 @@ extension KYCTiersViewController {
     typealias CurrencyCode = String
     static func routeToTiers(
         fromViewController: UIViewController,
-        code: CurrencyCode,
-        accountStatus: KYCAccountStatus) -> Disposable {
+        accountStatus: KYCAccountStatus,
+        code: CurrencyCode = "USD"
+    ) -> Disposable {
 
         let tradesObservable = limitsAPI.getTradeLimits(withFiatCurrency: code)
             .optional()

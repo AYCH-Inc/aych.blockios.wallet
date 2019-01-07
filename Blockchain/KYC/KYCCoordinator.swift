@@ -306,6 +306,7 @@ protocol KYCCoordinatorDelegate: class {
 
         switch error {
         case .countryNotSupported(let country):
+            kycSettings.isCompletingKyc = false
             informationViewController.viewModel = KYCInformationViewModel.createForUnsupportedCountry(country)
             informationViewController.primaryButtonAction = { [unowned self] viewController in
                 viewController.presentingViewController?.presentingViewController?.dismiss(animated: true)
@@ -318,6 +319,7 @@ protocol KYCCoordinatorDelegate: class {
             }
             presentInNavigationController(informationViewController, in: navController)
         case .stateNotSupported(let state):
+            kycSettings.isCompletingKyc = false
             informationViewController.viewModel = KYCInformationViewModel.createForUnsupportedState(state)
             informationViewController.primaryButtonAction = { [unowned self] viewController in
                 viewController.presentingViewController?.presentingViewController?.dismiss(animated: true)

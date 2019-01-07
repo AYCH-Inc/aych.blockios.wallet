@@ -379,10 +379,8 @@ fileprivate extension KYCPageType {
 
     /// The page type the user should be placed in given the information they have provided
     static func pageType(for user: NabuUser, latestPage: KYCPageType? = nil) -> KYCPageType? {
-        if let latestPage = latestPage {
-            return latestPage
-        }
-        
+        // Note: latestPage is only used by tier 2 flow, for tier 1, we need to infer the page,
+        // because the user may need to select the country again.
         let tier = user.tiers?.selected ?? .tier1
         switch tier {
         case .tier0:
@@ -390,7 +388,7 @@ fileprivate extension KYCPageType {
         case .tier1:
             return tier1PageType(for: user)
         case .tier2:
-            return tier1PageType(for: user) ?? tier2PageType(for: user)
+            return tier1PageType(for: user) ?? tier2PageType(for: user, latestPage: latestPage)
         }
     }
 
@@ -408,7 +406,11 @@ fileprivate extension KYCPageType {
         return nil
     }
 
-    private static func tier2PageType(for user: NabuUser) -> KYCPageType? {
+    private static func tier2PageType(for user: NabuUser, latestPage: KYCPageType? = nil) -> KYCPageType? {
+        if let latestPage = latestPage {
+            return latestPage
+        }
+
         guard let mobile = user.mobile else { return .enterPhone }
 
         guard mobile.verified else { return .confirmPhone }

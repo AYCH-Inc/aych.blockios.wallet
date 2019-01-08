@@ -184,8 +184,7 @@ extension KYCTiersHeaderViewModel {
     
     static func make(
         with tierResponse: KYCUserTiersResponse,
-        currencySymbol: String,
-        availableFunds: String?,
+        availableFunds: String? = nil,
         suppressDismissCTA: Bool = false
         ) -> KYCTiersHeaderViewModel {
         let tiers = tierResponse.userTiers.filter({ $0.tier != .tier0 })
@@ -209,7 +208,7 @@ extension KYCTiersHeaderViewModel {
             return .unavailable(suppressDismissCTA: suppressDismissCTA)
         case (.pending, .none):
             guard let amount = availableFunds else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
-            let formatted = currencySymbol + amount
+            let formatted = "$" + amount
             return .available(
                 formatted, LocalizationConstants.KYC.swapLimitDescription,
                 suppressDismissCTA: suppressDismissCTA
@@ -217,14 +216,14 @@ extension KYCTiersHeaderViewModel {
         case (.pending, .pending),
              (.verified, .pending):
             guard let amount = availableFunds else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
-            let formatted = currencySymbol + amount
+            let formatted = "$" + amount
             return .available(
                 formatted, LocalizationConstants.KYC.tierTwoVerificationIsBeingReviewed,
                 suppressDismissCTA: suppressDismissCTA
             )
         case (_, .verified):
             guard let amount = availableFunds else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
-            let formatted = currencySymbol + amount
+            let formatted = "$" + amount
             return .availableToday(
                 formatted,
                 LocalizationConstants.KYC.swapLimitDescription,
@@ -232,7 +231,7 @@ extension KYCTiersHeaderViewModel {
             )
         case (.verified, .none):
             guard let amount = availableFunds else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
-            let formatted = currencySymbol + amount
+            let formatted = "$" + amount
             return .available(
                 formatted,
                 LocalizationConstants.KYC.swapLimitDescription,

@@ -40,7 +40,6 @@ class KYCTiersCoordinator {
                 let max = NSDecimalNumber(decimal: limits?.maxPossibleOrder ?? 0)
                 let header = KYCTiersHeaderViewModel.make(
                     with: response,
-                    currencySymbol: code,
                     availableFunds: formatter.string(from: max),
                     suppressDismissCTA: suppressCTA
                 )

@@ -129,6 +129,13 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
                                                           title: LocalizationConstantsObjcBridge.cookiePolicy())
         present(navigationController, animated: true)
     }
+    
+    func swapTapped() {
+        disposable = KYCTiersViewController.routeToTiers(
+            fromViewController: self
+        )
+    }
+    
     func convertFloat(toString floatNumber: Float, forDisplay isForDisplay: Bool) -> String? {
         let feePerKbFormatter = NumberFormatter()
         feePerKbFormatter.numberStyle = .decimal

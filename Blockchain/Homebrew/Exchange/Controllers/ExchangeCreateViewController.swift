@@ -176,13 +176,6 @@ class ExchangeCreateViewController: UIViewController {
         delegate = presenter
     }
     
-    fileprivate func routeUserToTiers(_ user: NabuUser) {
-        self.disposable = KYCTiersViewController.routeToTiers(
-            fromViewController: self,
-            accountStatus: user.status
-        )
-    }
-    
     // MARK: - IBActions
 
     @IBAction func fixToggleButtonTapped(_ sender: UIButton) {
@@ -241,12 +234,9 @@ extension ExchangeCreateViewController: NumberKeypadViewDelegate {
 
 extension ExchangeCreateViewController: ExchangeCreateInterface {
     func showTiers() {
-        disposable = BlockchainDataRepository.shared.fetchNabuUser()
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { user in
-                self.routeUserToTiers(user)
-            })
+        disposable = KYCTiersViewController.routeToTiers(
+            fromViewController: self
+        )
     }
     
     func apply(transitionPresentation: TransitionPresentationUpdate<ExchangeCreateInterface.TransitionUpdate>) {

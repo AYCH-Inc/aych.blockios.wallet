@@ -26,11 +26,19 @@ enum KYCTiersHeaderViewModel {
     
     case available(Amount, AmountDescription, suppressDismissCTA: Bool)
     case availableToday(Amount, AmountDescription, suppressDismissCTA: Bool)
-    case unavailable(suppressDismissCTA: Bool)
+    case unavailable(actions: [Action]?, suppressDismissCTA: Bool)
     case empty(suppressDismissCTA: Bool)
 }
 
 extension KYCTiersHeaderViewModel {
+    /// This is a convenience function for showing the `unavailable` header state
+    /// without any CTAs.
+    fileprivate static func unavailable(suppressDismissCTA: Bool) -> KYCTiersHeaderViewModel {
+        return .unavailable(
+            actions: nil,
+            suppressDismissCTA: suppressDismissCTA
+        )
+    }
     
     var suppressDismissCTA: Bool {
         switch self {
@@ -38,7 +46,7 @@ extension KYCTiersHeaderViewModel {
             return value
         case .availableToday(_, _, let value):
             return value
-        case .unavailable(let value):
+        case .unavailable(_, let value):
             return value
         case .empty(let value):
             return value
@@ -125,8 +133,8 @@ extension KYCTiersHeaderViewModel {
              .availableToday,
              .empty:
             return nil
-        case .unavailable:
-            return [.contactSupport, .learnMore]
+        case .unavailable(let value, _):
+            return value
         }
     }
     
@@ -191,23 +199,30 @@ extension KYCTiersHeaderViewModel {
         
         guard let tier1 = tiers.filter({ $0.tier == .tier1 }).first else {
             /// This should never occur
-            return .unavailable(suppressDismissCTA: suppressDismissCTA)
+            return unavailable(suppressDismissCTA: suppressDismissCTA)
         }
         guard let tier2 = tiers.filter({ $0.tier == .tier2 }).first else {
             /// This should never occur
-            return .unavailable(suppressDismissCTA: suppressDismissCTA)
+            return unavailable(suppressDismissCTA: suppressDismissCTA)
         }
         
         switch (tier1.state, tier2.state) {
         case (.none, _):
             return .empty(suppressDismissCTA: suppressDismissCTA)
-        case (.rejected, .rejected),
-             (.rejected, .none),
-             (.rejected, .pending),
-             (_, .rejected):
+        case (.rejected, .none),
+             (.rejected, .pending):
             return .unavailable(suppressDismissCTA: suppressDismissCTA)
+            /// In the case that `Tier1` and `Tier2` is rejected
+            /// or if `Tier2` is rejected, we want to show the CTAs
+            /// that prompt the user to contact support.
+        case (.rejected, .rejected),
+             (_, .rejected):
+            return .unavailable(
+                actions: [.learnMore, .contactSupport],
+                suppressDismissCTA: suppressDismissCTA
+            )
         case (.pending, .none):
-            guard let amount = availableFunds else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
+            guard let amount = availableFunds else { return unavailable(suppressDismissCTA: suppressDismissCTA) }
             let formatted = "$" + amount
             return .available(
                 formatted, LocalizationConstants.KYC.swapLimitDescription,
@@ -215,14 +230,14 @@ extension KYCTiersHeaderViewModel {
             )
         case (.pending, .pending),
              (.verified, .pending):
-            guard let amount = availableFunds else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
+            guard let amount = availableFunds else { return unavailable(suppressDismissCTA: suppressDismissCTA) }
             let formatted = "$" + amount
             return .available(
                 formatted, LocalizationConstants.KYC.tierTwoVerificationIsBeingReviewed,
                 suppressDismissCTA: suppressDismissCTA
             )
         case (_, .verified):
-            guard let amount = availableFunds else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
+            guard let amount = availableFunds else { return unavailable(suppressDismissCTA: suppressDismissCTA) }
             let formatted = "$" + amount
             return .availableToday(
                 formatted,
@@ -230,7 +245,7 @@ extension KYCTiersHeaderViewModel {
                 suppressDismissCTA: suppressDismissCTA
             )
         case (.verified, .none):
-            guard let amount = availableFunds else { return .unavailable(suppressDismissCTA: suppressDismissCTA) }
+            guard let amount = availableFunds else { return unavailable(suppressDismissCTA: suppressDismissCTA) }
             let formatted = "$" + amount
             return .available(
                 formatted,
@@ -250,7 +265,7 @@ extension KYCTiersHeaderViewModel {
         suppressDismissCTA: true
     )
     
-    static let empty: KYCTiersHeaderViewModel = .empty(
-        suppressDismissCTA: true
+    static let empty: KYCTiersHeaderViewModel = unavailable(
+        suppressDismissCTA: false
     )
 }

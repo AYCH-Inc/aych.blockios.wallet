@@ -70,6 +70,7 @@ class KYCTiersViewController: UIViewController {
         if let navController = navigationController as? SettingsNavigationController {
             navController.headerLabel.text = LocalizationConstants.KYC.swapLimits
         }
+        view.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.968627451, blue: 0.9764705882, alpha: 1)
     }
     
     fileprivate func setupLayout() {
@@ -308,7 +309,6 @@ extension KYCTiersViewController {
     typealias CurrencyCode = String
     static func routeToTiers(
         fromViewController: UIViewController,
-        accountStatus: KYCAccountStatus,
         code: CurrencyCode = "USD"
     ) -> Disposable {
 
@@ -335,7 +335,6 @@ extension KYCTiersViewController {
                 
                 let header = KYCTiersHeaderViewModel.make(
                     with: response.0,
-                    currencySymbol: code,
                     availableFunds: formatter.string(from: max),
                     suppressDismissCTA: suppressDismissalCTA
                 )

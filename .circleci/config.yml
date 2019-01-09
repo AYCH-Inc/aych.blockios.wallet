@@ -306,8 +306,9 @@ workflows:
       - setup_repo:
           filters:
             branches:
-              only:
-                - release
+              ignore: /.*/
+            tags:
+              only: /v\d+\.\d+\.\d+\(\d+\)$/
       - install_deps:
           requires:
             - setup_repo
@@ -323,9 +324,6 @@ workflows:
             - build_openssl
             - install_pods
       - archive_and_export_production:
-          filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)$/
           requires:
             - install_deps
             - build_openssl
@@ -342,8 +340,9 @@ workflows:
       - setup_repo:
           filters:
             branches:
-              only:
-                - release
+              ignore: /.*/
+            tags:
+              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
       - install_deps:
           requires:
             - setup_repo
@@ -359,9 +358,6 @@ workflows:
             - build_openssl
             - install_pods
       - archive_and_export_staging:
-          filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
           requires:
             - install_deps
             - build_openssl

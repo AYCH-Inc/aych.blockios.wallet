@@ -95,7 +95,7 @@ struct ExchangeServices: ExchangeDependencies {
                     return $0.tier != .tier0 && $0.state == .verified
                 })
                 guard approved == true else {
-                    strongSelf.routeUserToTiers(user)
+                    strongSelf.routeToTiers()
                     return
                 }
                 
@@ -112,14 +112,13 @@ struct ExchangeServices: ExchangeDependencies {
             })
     }
     
-    private func routeUserToTiers(_ user: NabuUser) {
+    private func routeToTiers() {
         guard let viewController = rootViewController else {
             Logger.shared.error("View controller to present on is nil")
             return
         }
         disposable = KYCTiersViewController.routeToTiers(
-            fromViewController: viewController,
-            accountStatus: user.status
+            fromViewController: viewController
         )
     }
 

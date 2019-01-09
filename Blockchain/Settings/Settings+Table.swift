@@ -232,18 +232,25 @@ extension SettingsTableViewController {
         switch indexPath.section {
         case sectionProfile:
             switch indexPath.row {
-            case identityVerification: ExchangeCoordinator.shared.start(rootViewController: self)
-            case profileWalletIdentifier: walletIdentifierClicked()
-            case profileEmail: emailClicked()
-            case profileMobileNumber: mobileNumberClicked()
-            case profileWebLogin: webLoginClicked()
-            default: return
+            case identityVerification:
+                swapTapped()
+            case profileWalletIdentifier:
+                walletIdentifierClicked()
+            case profileEmail:
+                emailClicked()
+            case profileMobileNumber:
+                mobileNumberClicked()
+            case profileWebLogin:
+                webLoginClicked()
+            default:
+                return
             }
         case sectionPreferences:
             switch indexPath.row {
             case preferencesLocalCurrency:
                 performSingleSegue(withIdentifier: "currency", sender: nil)
-            default: return
+            default:
+                return
             }
         case sectionSecurity:
             if indexPath.row == securityTwoStep {
@@ -257,11 +264,16 @@ extension SettingsTableViewController {
             }
         case aboutSection:
             switch indexPath.row {
-            case aboutUs: aboutUsClicked()
-            case aboutTermsOfService: termsOfServiceClicked()
-            case aboutPrivacyPolicy: showPrivacyPolicy()
-            case aboutCookiePolicy: showCookiePolicy()
-            default: return
+            case aboutUs:
+                aboutUsClicked()
+            case aboutTermsOfService:
+                termsOfServiceClicked()
+            case aboutPrivacyPolicy:
+                showPrivacyPolicy()
+            case aboutCookiePolicy:
+                showCookiePolicy()
+            default:
+                return
             }
         default: return
         }

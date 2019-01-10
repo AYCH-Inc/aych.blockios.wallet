@@ -13,9 +13,9 @@ struct TradeLimits {
     let minOrder: Decimal
     let maxOrder: Decimal
     let maxPossibleOrder: Decimal
-    let daily: Limit
-    let weekly: Limit
-    let annual: Limit
+    let daily: Limit?
+    let weekly: Limit?
+    let annual: Limit?
 }
 
 extension TradeLimits: Decodable {
@@ -36,9 +36,9 @@ extension TradeLimits: Decodable {
         maxOrder = try values.decode(String.self, forKey: .maxOrder).toDecimal()
         maxPossibleOrder = try values.decode(String.self, forKey: .maxPossibleOrder).toDecimal()
 
-        daily = try values.decode(Limit.self, forKey: .daily)
-        weekly = try values.decode(Limit.self, forKey: .weekly)
-        annual = try values.decode(Limit.self, forKey: .annual)
+        daily = try values.decodeIfPresent(Limit.self, forKey: .daily)
+        weekly = try values.decodeIfPresent(Limit.self, forKey: .weekly)
+        annual = try values.decodeIfPresent(Limit.self, forKey: .annual)
     }
 }
 

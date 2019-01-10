@@ -521,13 +521,13 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
 
     private func dailyAvailable() -> Maybe<Decimal> {
         return tradingLimitInfo(info: { tradingLimits -> Decimal in
-            return tradingLimits.daily.available
+            return tradingLimits.daily?.available ?? 0
         })
     }
 
     private func annualAvailable() -> Maybe<Decimal> {
         return tradingLimitInfo(info: { tradingLimits -> Decimal in
-            return tradingLimits.annual.available
+            return tradingLimits.annual?.available ?? 0
         })
     }
 

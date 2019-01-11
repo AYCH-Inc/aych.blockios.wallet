@@ -319,7 +319,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         /// This will return `true` for all other asset types other than `.stellar` O
         let disposable = tradeExecution.validateVolume(volume, for: model.marketPair.fromAccount)
             .asObservable()
-            .flatMap { [weak self] error -> Observable<(Decimal, Decimal, Decimal, Decimal)> in
+            .flatMap { [weak self] error -> Observable<(Decimal, Decimal, Decimal?, Decimal?)> in
                 guard let strongSelf = self else {
                     return Observable.empty()
                 }
@@ -354,14 +354,14 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
 
                 let greatestFiniteMagnitude = Decimal.greatestFiniteMagnitude
 
-                let periodicLimit = [daily, annual].min() ?? 0
+                let periodicLimit = daily ?? annual ?? 0
 
                 switch candidate {
                 case ..<minValue:
                     let formattedValue = strongSelf.formatLimit(fiatCurrencySymbol: model.fiatCurrencySymbol, value: minValue)
                     output.entryBelowMinimumValue(minimum: formattedValue)
                 case periodicLimit..<greatestFiniteMagnitude:
-                    let formattedValue = strongSelf.formatLimit(fiatCurrencySymbol: model.fiatCurrencySymbol, value: daily)
+                    let formattedValue = strongSelf.formatLimit(fiatCurrencySymbol: model.fiatCurrencySymbol, value: (daily ?? 0))
                     output.entryAboveTierLimit(amount: formattedValue)
                 case maxValue..<greatestFiniteMagnitude:
                     let formattedValue = strongSelf.formatLimit(fiatCurrencySymbol: model.fiatCurrencySymbol, value: maxValue)
@@ -519,16 +519,22 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         })
     }
 
-    private func dailyAvailable() -> Maybe<Decimal> {
-        return tradingLimitInfo(info: { tradingLimits -> Decimal in
-            return tradingLimits.daily?.available ?? 0
-        })
+    private func dailyAvailable() -> Maybe<Decimal?> {
+        guard let model = model else {
+            return Maybe.empty()
+        }
+        return tradeLimitService.getTradeLimits(withFiatCurrency: model.fiatCurrencyCode).asMaybe().map { limits -> Decimal? in
+            return limits.daily?.available
+        }
     }
 
-    private func annualAvailable() -> Maybe<Decimal> {
-        return tradingLimitInfo(info: { tradingLimits -> Decimal in
-            return tradingLimits.annual?.available ?? 0
-        })
+    private func annualAvailable() -> Maybe<Decimal?> {
+        guard let model = model else {
+            return Maybe.empty()
+        }
+        return tradeLimitService.getTradeLimits(withFiatCurrency: model.fiatCurrencyCode).asMaybe().map { limits -> Decimal? in
+            return limits.annual?.available
+        }
     }
 
     // Need to ensure that these are newly fetched after each trade

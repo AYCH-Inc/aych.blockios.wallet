@@ -23,7 +23,7 @@ struct NabuUser: Decodable {
     let mobile: Mobile?
     let status: KYCAccountStatus
     let state: UserState
-    let tiers: NabuUserTiers? // Note: this shouldn't be optional, but keeping as optional for now since this isn't deployed yet
+    let tiers: NabuUserTiers?
     let tags: Tags?
 
     // MARK: - Decodable

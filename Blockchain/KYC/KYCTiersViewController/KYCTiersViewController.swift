@@ -326,7 +326,7 @@ extension KYCTiersViewController {
                 let userTiers = response.0.userTiers
                 let limits = response.1
                 let formatter: NumberFormatter = NumberFormatter.localCurrencyFormatterWithGroupingSeparator
-                let max = NSDecimalNumber(decimal: limits?.maxPossibleOrder ?? 0)
+                let max = NSDecimalNumber(decimal: limits?.daily?.available ?? limits?.maxPossibleOrder ?? 0)
                 
                 /// Sometimes design wants to suppress the chevron that is shown in both
                 /// of the `KYCTiersHeaderViews` (there are two of them). We only show this

@@ -298,8 +298,8 @@ jobs:
       - run:
           name: Distribute IPA
           command: |
-            appcenter login --token $APP_CENTER_API_TOKEN
-            appcenter distribute release -f ./output_ad_hoc/Blockchain.ipa -g Testers --app $APP_CENTER_APP
+            appcenter login --token $APP_CENTER_API_TOKEN --disable-telemetry --quiet
+            appcenter distribute release -f ./output_ad_hoc/Blockchain.ipa -g Testers --app $APP_CENTER_APP --disable-telemetry --quiet
   upload_artifactory:
     <<: *defaults
     steps:
@@ -336,7 +336,10 @@ workflows:
   version: 2
   run-tests-only:
     jobs:
-      - setup_repo
+      - setup_repo:
+          filters:
+            branches:
+              ignore: release
       - install_deps:
           requires:
             - setup_repo

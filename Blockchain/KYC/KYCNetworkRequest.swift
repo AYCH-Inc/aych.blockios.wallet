@@ -22,6 +22,7 @@ final class KYCNetworkRequest {
     struct KYCEndpoints {
         enum GET {
             case credentials
+            case credentiasForVeriff
             case credentialsForOnfido
             case healthCheck
             case listOfCountries
@@ -34,6 +35,8 @@ final class KYCNetworkRequest {
                 switch self {
                 case .credentials:
                     return ["kyc", "credentials"]
+                case .credentiasForVeriff:
+                    return ["kyc", "credentials", "veriff"]
                 case .credentialsForOnfido:
                     return ["kyc", "credentials", "onfido"]
                 case .healthCheck:
@@ -54,6 +57,7 @@ final class KYCNetworkRequest {
             var parameters: [String: String]? {
                 switch self {
                 case .credentials,
+                     .credentiasForVeriff,
                      .credentialsForOnfido,
                      .healthCheck,
                      .listOfCountries,
@@ -127,6 +131,7 @@ final class KYCNetworkRequest {
     /// HTTP GET Request
     @discardableResult convenience init?(
         get url: KYCEndpoints.GET,
+        body: Data? = nil,
         pathComponents: [String]? = nil,
         headers: [String: String]? = nil,
         taskSuccess: @escaping TaskSuccess,
@@ -141,6 +146,7 @@ final class KYCNetworkRequest {
         ) else { return nil }
         self.init(url: endpoint, httpMethod: "GET")
         request.allHTTPHeaderFields = headers
+        request.httpBody = body
         send(taskSuccess: taskSuccess, taskFailure: taskFailure)
     }
 
@@ -324,6 +330,7 @@ extension KYCNetworkRequest {
 
     static func request<ResponseType: Decodable>(
         get url: KYCNetworkRequest.KYCEndpoints.GET,
+        body: Data? = nil,
         pathComponents: [String]? = nil,
         headers: [String: String]? = nil,
         type: ResponseType.Type

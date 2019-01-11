@@ -194,7 +194,7 @@ extension KYCTiersHeaderViewModel {
         with tierResponse: KYCUserTiersResponse,
         availableFunds: String? = nil,
         suppressDismissCTA: Bool = false
-        ) -> KYCTiersHeaderViewModel {
+    ) -> KYCTiersHeaderViewModel {
         let tiers = tierResponse.userTiers.filter({ $0.tier != .tier0 })
         
         guard let tier1 = tiers.filter({ $0.tier == .tier1 }).first else {

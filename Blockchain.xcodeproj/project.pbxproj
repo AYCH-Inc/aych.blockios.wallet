@@ -88,6 +88,10 @@
 		3A1C7F9E2178FA7A001AC6D3 /* StellarOperationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */; };
 		3A1C7FA821790A49001AC6D3 /* StellarOperationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */; };
 		3A1C7FA921790AB3001AC6D3 /* StellarOperationsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A02602177F10200E2848E /* StellarOperationsAPI.swift */; };
+		3A25517821E68CF6005D4E66 /* VeriffService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25517721E68CF6005D4E66 /* VeriffService.swift */; };
+		3A25517921E68CF6005D4E66 /* VeriffService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25517721E68CF6005D4E66 /* VeriffService.swift */; };
+		3A25519521E6E286005D4E66 /* VeriffCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25519421E6E286005D4E66 /* VeriffCredentials.swift */; };
+		3A25519621E6E286005D4E66 /* VeriffCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25519421E6E286005D4E66 /* VeriffCredentials.swift */; };
 		3A258C0D210A486F00C023F5 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A258C0C210A486F00C023F5 /* ReusableView.swift */; };
 		3A258C0E210A486F00C023F5 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A258C0C210A486F00C023F5 /* ReusableView.swift */; };
 		3A26AF5321272019003A8A08 /* ExchangeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF5221272019003A8A08 /* ExchangeListViewController.swift */; };
@@ -247,6 +251,9 @@
 		3A76F8F72119EDE0002F7946 /* ValidationDateField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A76F8F62119EDE0002F7946 /* ValidationDateField.xib */; };
 		3A76F8FE211A067A002F7946 /* ValidationFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76F8FD211A067A002F7946 /* ValidationFormView.swift */; };
 		3A76F902211A3BA5002F7946 /* DateFormatter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76F901211A3BA5002F7946 /* DateFormatter+Conveniences.swift */; };
+		3A7A7C6B21E7B75A00871067 /* Veriff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7A7C6921E7B75900871067 /* Veriff.framework */; };
+		3A7A7C6C21E7B7BD00871067 /* Veriff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7A7C6921E7B75900871067 /* Veriff.framework */; };
+		3A7A7C6D21E7B7BD00871067 /* Veriff.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7A7C6921E7B75900871067 /* Veriff.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3A7F7EE3210F6C77001E20AF /* Visibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7F7EE2210F6C77001E20AF /* Visibility.swift */; };
 		3A7F7EE4210F6C77001E20AF /* Visibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7F7EE2210F6C77001E20AF /* Visibility.swift */; };
 		3A80B7C4216E820700679927 /* SideMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A80B7C3216E820700679927 /* SideMenuCell.xib */; };
@@ -1514,6 +1521,7 @@
 			files = (
 				3A4E489721BF3070001A799D /* BitcoinKit.framework in Embed Frameworks */,
 				3A6A1A2D21B9A64D00D97C74 /* EthereumKit.framework in Embed Frameworks */,
+				3A7A7C6D21E7B7BD00871067 /* Veriff.framework in Embed Frameworks */,
 				3A6865B3219A11660009FF29 /* PlatformUIKit.framework in Embed Frameworks */,
 				3A6865F3219A26A30009FF29 /* StellarKit.framework in Embed Frameworks */,
 				3A686573219A0BBB0009FF29 /* PlatformKit.framework in Embed Frameworks */,
@@ -1663,6 +1671,8 @@
 		3A1552EC2136EAF000683CEB /* TradeLimits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeLimits.swift; sourceTree = "<group>"; };
 		3A1552EF2136FFE200683CEB /* TradeExecutionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeExecutionAPI.swift; sourceTree = "<group>"; };
 		3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarOperationService.swift; sourceTree = "<group>"; };
+		3A25517721E68CF6005D4E66 /* VeriffService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VeriffService.swift; sourceTree = "<group>"; };
+		3A25519421E6E286005D4E66 /* VeriffCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VeriffCredentials.swift; sourceTree = "<group>"; };
 		3A258C0C210A486F00C023F5 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		3A26AF5221272019003A8A08 /* ExchangeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListViewController.swift; sourceTree = "<group>"; };
 		3A26AF5421272026003A8A08 /* ExchangeListViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ExchangeListViewController.storyboard; sourceTree = "<group>"; };
@@ -1782,6 +1792,7 @@
 		3A76F8F62119EDE0002F7946 /* ValidationDateField.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ValidationDateField.xib; sourceTree = "<group>"; };
 		3A76F8FD211A067A002F7946 /* ValidationFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationFormView.swift; sourceTree = "<group>"; };
 		3A76F901211A3BA5002F7946 /* DateFormatter+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Conveniences.swift"; sourceTree = "<group>"; };
+		3A7A7C6921E7B75900871067 /* Veriff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Veriff.framework; sourceTree = "<group>"; };
 		3A7F7EE2210F6C77001E20AF /* Visibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visibility.swift; sourceTree = "<group>"; };
 		3A80B7C3216E820700679927 /* SideMenuCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SideMenuCell.xib; sourceTree = "<group>"; };
 		3A847399219A3E6100F22FA6 /* HistoricalTransactionStreamingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalTransactionStreamingAPI.swift; sourceTree = "<group>"; };
@@ -4236,6 +4247,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A7A7C6B21E7B75A00871067 /* Veriff.framework in Frameworks */,
 				C6FFCE3372082DAB9DA7021E /* Pods_BlockchainTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4246,6 +4258,7 @@
 			files = (
 				3A686572219A0BBB0009FF29 /* PlatformKit.framework in Frameworks */,
 				3A6865F2219A26A30009FF29 /* StellarKit.framework in Frameworks */,
+				3A7A7C6C21E7B7BD00871067 /* Veriff.framework in Frameworks */,
 				3A6A1A2C21B9A64D00D97C74 /* EthereumKit.framework in Frameworks */,
 				3AEF9E8C21091B72006B1CF9 /* MapKit.framework in Frameworks */,
 				5149BD03205718ED00DC88A0 /* Crashlytics.framework in Frameworks */,
@@ -4308,6 +4321,23 @@
 				3A019121212DF0EB00AED2BF /* AsyncBlockOperationTests.swift */,
 			);
 			path = Operations;
+			sourceTree = "<group>";
+		};
+		3A25518321E68F76005D4E66 /* Onfido */ = {
+			isa = PBXGroup;
+			children = (
+				AA126DA4212E2C3B005886A3 /* OnfidoCredentials.swift */,
+				AA126D9E212E189C005886A3 /* OnfidoUser.swift */,
+			);
+			path = Onfido;
+			sourceTree = "<group>";
+		};
+		3A25518421E68F7F005D4E66 /* Veriff */ = {
+			isa = PBXGroup;
+			children = (
+				3A25519421E6E286005D4E66 /* VeriffCredentials.swift */,
+			);
+			path = Veriff;
 			sourceTree = "<group>";
 		};
 		3A258C0B210A485D00C023F5 /* Cells */ = {
@@ -5100,6 +5130,14 @@
 				3A8B227B211DFE110091E706 /* PrimaryButtonContainer.xib */,
 			);
 			path = "Primary Button";
+			sourceTree = "<group>";
+		};
+		3A8C958321E665C400AAC940 /* Veriff */ = {
+			isa = PBXGroup;
+			children = (
+				3A7A7C6921E7B75900871067 /* Veriff.framework */,
+			);
+			path = Veriff;
 			sourceTree = "<group>";
 		};
 		3A9B285221A4CD0300DB46C7 /* KeyPair */ = {
@@ -8103,6 +8141,7 @@
 			isa = PBXGroup;
 			children = (
 				AA126D90212E17A3005886A3 /* OnfidoService.swift */,
+				3A25517721E68CF6005D4E66 /* VeriffService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -8110,8 +8149,8 @@
 		AA126D9D212E187F005886A3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				AA126DA4212E2C3B005886A3 /* OnfidoCredentials.swift */,
-				AA126D9E212E189C005886A3 /* OnfidoUser.swift */,
+				3A25518421E68F7F005D4E66 /* Veriff */,
+				3A25518321E68F76005D4E66 /* Onfido */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -9037,6 +9076,7 @@
 		C9D4B2AE193E020D00EDA9EA /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				3A8C958321E665C400AAC940 /* Veriff */,
 				9F2780B515343A7D0015F83F /* UncaughtExceptionHandler.h */,
 				9F2780B615343A7D0015F83F /* UncaughtExceptionHandler.m */,
 				606399A92110FC2D005B6DF5 /* SocketRocket */,
@@ -10490,6 +10530,7 @@
 				602B9D162118E25A00BD3D60 /* LocationSuggestionService.swift in Sources */,
 				AA1E52332097CC260099BD10 /* WalletAuthDelegate.swift in Sources */,
 				AAE94DCF20C25F37005A3595 /* MockNetworkManager.swift in Sources */,
+				3A25517921E68CF6005D4E66 /* VeriffService.swift in Sources */,
 				C7F1577C217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */,
 				AA126CDD212C94CB005886A3 /* NabuSessionTokenResponse.swift in Sources */,
 				AAE5D1A821A3C7F500D4A77A /* MockWalletSettingsService.swift in Sources */,
@@ -10667,6 +10708,7 @@
 				C774A1272102B87300DCCC17 /* ExchangeRate.swift in Sources */,
 				C7BEE13C20C828B20096003B /* BuySellCoordinator.swift in Sources */,
 				AAE94F3220C64B49005A3595 /* PinInteractor.swift in Sources */,
+				3A25519621E6E286005D4E66 /* VeriffCredentials.swift in Sources */,
 				511356E1209CA4BA00056D65 /* BlockchainAPI+PayloadTests.swift in Sources */,
 				602B9D192118E25F00BD3D60 /* LocationDataProvider.swift in Sources */,
 				3A9511CF21769DA600F26631 /* SendLumensViewController.swift in Sources */,
@@ -11270,6 +11312,7 @@
 				C7900C832177CEEB00F57A9F /* SimpleListDataProvider.swift in Sources */,
 				239539831B486C7100989667 /* UILabel+MultiLineAutoSize.m in Sources */,
 				C7343BCF214FF93A001B1EC9 /* ExchangeDetailInteractor.swift in Sources */,
+				3A25517821E68CF6005D4E66 /* VeriffService.swift in Sources */,
 				C7414E531FD72574001A89FA /* StateSelectorViewController.m in Sources */,
 				AA126DBC212F4DA5005886A3 /* SignedRetailTokenResponse.swift in Sources */,
 				51A7349720891EB3009727D5 /* BlockchainAPI.swift in Sources */,
@@ -11288,6 +11331,7 @@
 				C733A89321236F02007DADE0 /* HttpHeader.swift in Sources */,
 				AA46ECC3219A2EE10077B351 /* KYCVerifyIdentityInteractor.swift in Sources */,
 				3A373C452188CBCE00DDFAFD /* StellarTransactionCaching.swift in Sources */,
+				3A25519521E6E286005D4E66 /* VeriffCredentials.swift in Sources */,
 				AA31A7D12099310B00FE6268 /* WalletBuySellDelegate.swift in Sources */,
 				3A26AF99212B36F2003A8A08 /* ExchangeCreateViewController.swift in Sources */,
 				AA126DA5212E2C3B005886A3 /* OnfidoCredentials.swift in Sources */,
@@ -15260,6 +15304,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYMROOT)/Release$(EFFECTIVE_PLATFORM_NAME)",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Blockchain/Blockchain-Prefix.pch";
@@ -15376,6 +15426,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYMROOT)/Release$(EFFECTIVE_PLATFORM_NAME)",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Blockchain/Blockchain-Prefix.pch";
@@ -15492,6 +15543,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYMROOT)/Release$(EFFECTIVE_PLATFORM_NAME)",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Blockchain/Blockchain-Prefix.pch";
@@ -15569,7 +15626,10 @@
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -15647,7 +15707,10 @@
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -15725,7 +15788,10 @@
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -15783,7 +15849,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -15881,6 +15950,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYMROOT)/Release$(EFFECTIVE_PLATFORM_NAME)",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Blockchain/Blockchain-Prefix.pch";

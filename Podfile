@@ -22,6 +22,7 @@ target 'Blockchain' do
   pod 'Starscream', '~> 3.0.2'
   pod 'SwiftLint'
   pod 'stellar-ios-mac-sdk', '~> 1.4.7'
+  pod 'VeriffSDK'
 
   target 'BlockchainTests' do
     inherit! :search_paths

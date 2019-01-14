@@ -316,12 +316,21 @@ jobs:
       - attach_workspace:
           at: /Users/distiller/project
       - run:
+          name: Setup keychain
+          command: |
+            security create-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN_NAME
+            # Disable keychain locking timeout
+            security set-keychain-settings $KEYCHAIN_NAME
+            security unlock-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN_NAME
+            security default-keychain -s $KEYCHAIN_NAME
+      - run:
           name: Install App Center
           command: npm install -g appcenter-cli
       - run:
           name: Distribute IPA
           command: |
-            appcenter login --token $APP_CENTER_API_TOKEN --disable-telemetry --quiet
+            appcenter telemetry off --disable-telemetry
+            appcenter login --token $APP_CENTER_API_TOKEN --quiet
             appcenter distribute release -f ./output_ad_hoc/Blockchain.ipa -g Testers --app $APP_CENTER_APP --disable-telemetry --quiet
   upload_artifactory:
     <<: *defaults

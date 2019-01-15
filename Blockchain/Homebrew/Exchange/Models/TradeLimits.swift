@@ -18,6 +18,12 @@ struct TradeLimits {
     let annual: Limit?
 }
 
+extension TradeLimits {
+    var maxTradableToday: Decimal {
+        return daily?.available ?? maxPossibleOrder
+    }
+}
+
 extension TradeLimits: Decodable {
     enum CodingKeys: String, CodingKey {
         case currency

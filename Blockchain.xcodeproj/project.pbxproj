@@ -88,6 +88,10 @@
 		3A1C7F9E2178FA7A001AC6D3 /* StellarOperationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */; };
 		3A1C7FA821790A49001AC6D3 /* StellarOperationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */; };
 		3A1C7FA921790AB3001AC6D3 /* StellarOperationsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A02602177F10200E2848E /* StellarOperationsAPI.swift */; };
+		3A25517821E68CF6005D4E66 /* VeriffService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25517721E68CF6005D4E66 /* VeriffService.swift */; };
+		3A25517921E68CF6005D4E66 /* VeriffService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25517721E68CF6005D4E66 /* VeriffService.swift */; };
+		3A25519521E6E286005D4E66 /* VeriffCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25519421E6E286005D4E66 /* VeriffCredentials.swift */; };
+		3A25519621E6E286005D4E66 /* VeriffCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25519421E6E286005D4E66 /* VeriffCredentials.swift */; };
 		3A258C0D210A486F00C023F5 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A258C0C210A486F00C023F5 /* ReusableView.swift */; };
 		3A258C0E210A486F00C023F5 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A258C0C210A486F00C023F5 /* ReusableView.swift */; };
 		3A26AF5321272019003A8A08 /* ExchangeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF5221272019003A8A08 /* ExchangeListViewController.swift */; };
@@ -1663,6 +1667,8 @@
 		3A1552EC2136EAF000683CEB /* TradeLimits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeLimits.swift; sourceTree = "<group>"; };
 		3A1552EF2136FFE200683CEB /* TradeExecutionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeExecutionAPI.swift; sourceTree = "<group>"; };
 		3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarOperationService.swift; sourceTree = "<group>"; };
+		3A25517721E68CF6005D4E66 /* VeriffService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VeriffService.swift; sourceTree = "<group>"; };
+		3A25519421E6E286005D4E66 /* VeriffCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VeriffCredentials.swift; sourceTree = "<group>"; };
 		3A258C0C210A486F00C023F5 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		3A26AF5221272019003A8A08 /* ExchangeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListViewController.swift; sourceTree = "<group>"; };
 		3A26AF5421272026003A8A08 /* ExchangeListViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ExchangeListViewController.storyboard; sourceTree = "<group>"; };
@@ -4308,6 +4314,23 @@
 				3A019121212DF0EB00AED2BF /* AsyncBlockOperationTests.swift */,
 			);
 			path = Operations;
+			sourceTree = "<group>";
+		};
+		3A25518321E68F76005D4E66 /* Onfido */ = {
+			isa = PBXGroup;
+			children = (
+				AA126DA4212E2C3B005886A3 /* OnfidoCredentials.swift */,
+				AA126D9E212E189C005886A3 /* OnfidoUser.swift */,
+			);
+			path = Onfido;
+			sourceTree = "<group>";
+		};
+		3A25518421E68F7F005D4E66 /* Veriff */ = {
+			isa = PBXGroup;
+			children = (
+				3A25519421E6E286005D4E66 /* VeriffCredentials.swift */,
+			);
+			path = Veriff;
 			sourceTree = "<group>";
 		};
 		3A258C0B210A485D00C023F5 /* Cells */ = {
@@ -8103,6 +8126,7 @@
 			isa = PBXGroup;
 			children = (
 				AA126D90212E17A3005886A3 /* OnfidoService.swift */,
+				3A25517721E68CF6005D4E66 /* VeriffService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -8110,8 +8134,8 @@
 		AA126D9D212E187F005886A3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				AA126DA4212E2C3B005886A3 /* OnfidoCredentials.swift */,
-				AA126D9E212E189C005886A3 /* OnfidoUser.swift */,
+				3A25518421E68F7F005D4E66 /* Veriff */,
+				3A25518321E68F76005D4E66 /* Onfido */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -10111,7 +10135,6 @@
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${PODS_ROOT}/Onfido/Onfido.framework",
 				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
@@ -10119,6 +10142,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
+				"${PODS_ROOT}/VeriffSDK/Veriff.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/stellar-ios-mac-sdk/stellarsdk.framework",
 			);
@@ -10128,7 +10152,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Onfido.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
@@ -10136,6 +10159,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Veriff.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/stellarsdk.framework",
 			);
@@ -10490,6 +10514,7 @@
 				602B9D162118E25A00BD3D60 /* LocationSuggestionService.swift in Sources */,
 				AA1E52332097CC260099BD10 /* WalletAuthDelegate.swift in Sources */,
 				AAE94DCF20C25F37005A3595 /* MockNetworkManager.swift in Sources */,
+				3A25517921E68CF6005D4E66 /* VeriffService.swift in Sources */,
 				C7F1577C217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */,
 				AA126CDD212C94CB005886A3 /* NabuSessionTokenResponse.swift in Sources */,
 				AAE5D1A821A3C7F500D4A77A /* MockWalletSettingsService.swift in Sources */,
@@ -10667,6 +10692,7 @@
 				C774A1272102B87300DCCC17 /* ExchangeRate.swift in Sources */,
 				C7BEE13C20C828B20096003B /* BuySellCoordinator.swift in Sources */,
 				AAE94F3220C64B49005A3595 /* PinInteractor.swift in Sources */,
+				3A25519621E6E286005D4E66 /* VeriffCredentials.swift in Sources */,
 				511356E1209CA4BA00056D65 /* BlockchainAPI+PayloadTests.swift in Sources */,
 				602B9D192118E25F00BD3D60 /* LocationDataProvider.swift in Sources */,
 				3A9511CF21769DA600F26631 /* SendLumensViewController.swift in Sources */,
@@ -11270,6 +11296,7 @@
 				C7900C832177CEEB00F57A9F /* SimpleListDataProvider.swift in Sources */,
 				239539831B486C7100989667 /* UILabel+MultiLineAutoSize.m in Sources */,
 				C7343BCF214FF93A001B1EC9 /* ExchangeDetailInteractor.swift in Sources */,
+				3A25517821E68CF6005D4E66 /* VeriffService.swift in Sources */,
 				C7414E531FD72574001A89FA /* StateSelectorViewController.m in Sources */,
 				AA126DBC212F4DA5005886A3 /* SignedRetailTokenResponse.swift in Sources */,
 				51A7349720891EB3009727D5 /* BlockchainAPI.swift in Sources */,
@@ -11288,6 +11315,7 @@
 				C733A89321236F02007DADE0 /* HttpHeader.swift in Sources */,
 				AA46ECC3219A2EE10077B351 /* KYCVerifyIdentityInteractor.swift in Sources */,
 				3A373C452188CBCE00DDFAFD /* StellarTransactionCaching.swift in Sources */,
+				3A25519521E6E286005D4E66 /* VeriffCredentials.swift in Sources */,
 				AA31A7D12099310B00FE6268 /* WalletBuySellDelegate.swift in Sources */,
 				3A26AF99212B36F2003A8A08 /* ExchangeCreateViewController.swift in Sources */,
 				AA126DA5212E2C3B005886A3 /* OnfidoCredentials.swift in Sources */,
@@ -15569,7 +15597,10 @@
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -15599,10 +15630,7 @@
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
-				"WARNING_CFLAGS[arch=*]" = (
-					"-fdiagnostics-show-option",
-					"-Wno-nullability-completeness",
-				);
+				"WARNING_CFLAGS[arch=*]" = "-fdiagnostics-show-option -Wno-nullability-completeness";
 			};
 			name = "Debug Production";
 		};
@@ -15647,7 +15675,10 @@
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -15677,10 +15708,7 @@
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
-				"WARNING_CFLAGS[arch=*]" = (
-					"-fdiagnostics-show-option",
-					"-Wno-nullability-completeness",
-				);
+				"WARNING_CFLAGS[arch=*]" = "-fdiagnostics-show-option -Wno-nullability-completeness";
 			};
 			name = "Debug Staging";
 		};
@@ -15725,7 +15753,10 @@
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -15755,12 +15786,7 @@
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
-				"WARNING_CFLAGS[arch=*]" = (
-					"-fdiagnostics-show-option",
-					"-Wno-nullability-completeness",
-					"-Wno-incompatible-property-type",
-					"-Wno-objc-property-synthesis",
-				);
+				"WARNING_CFLAGS[arch=*]" = "-fdiagnostics-show-option -Wno-nullability-completeness -Wno-incompatible-property-type -Wno-objc-property-synthesis";
 			};
 			name = "Debug Dev";
 		};
@@ -15783,7 +15809,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"$(PROJECT_DIR)/Third\\ Party/Veriff",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;

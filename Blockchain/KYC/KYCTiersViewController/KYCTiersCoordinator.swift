@@ -37,7 +37,7 @@ class KYCTiersCoordinator {
             .subscribe(onNext: { [weak self] (response, limits) in
                 guard let this = self else { return }
                 let formatter: NumberFormatter = NumberFormatter.localCurrencyFormatterWithGroupingSeparator
-                let max = NSDecimalNumber(decimal: limits?.maxPossibleOrder ?? 0)
+                let max = NSDecimalNumber(decimal: limits?.maxTradableToday ?? 0)
                 let header = KYCTiersHeaderViewModel.make(
                     with: response,
                     availableFunds: formatter.string(from: max),

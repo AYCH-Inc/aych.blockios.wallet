@@ -48,6 +48,16 @@ extension UserAddress: Equatable {
 }
 
 extension UserAddress: Hashable {
+    
+    var delimited: String {
+        return [lineOne,
+                (lineTwo ?? ""),
+                postalCode,
+                city,
+                (state ?? ""),
+                countryCode].joined(separator: ", ")
+    }
+    
     var hashValue: Int {
         return lineOne.hashValue ^
             postalCode.hashValue ^

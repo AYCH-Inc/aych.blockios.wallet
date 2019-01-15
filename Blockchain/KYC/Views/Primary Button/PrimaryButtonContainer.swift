@@ -94,6 +94,12 @@ class PrimaryButtonContainer: NibBasedView {
         }
     }
 
+    @IBInspectable var attributedTitle: NSAttributedString = NSAttributedString(string: "") {
+        didSet {
+            primaryButton.setAttributedTitle(attributedTitle, for: .normal)
+        }
+    }
+
     @IBInspectable var isEnabled: Bool = true {
         didSet {
             primaryButton.isEnabled = isEnabled

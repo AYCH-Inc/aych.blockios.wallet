@@ -1488,7 +1488,11 @@ struct LocalizationConstants {
             comment: "Text telling the user to check their mail inbox to verify their email."
         )
         static let didntGetTheEmail = NSLocalizedString(
-            "Didn't get the email? Send again",
+            "Didn't get the email?",
+            comment: "Text asking if the user didn't get the verification email."
+        )
+        static let sendAgain = NSLocalizedString(
+            "Send again",
             comment: "Text asking if the user didn't get the verification email."
         )
         static let emailSent = NSLocalizedString(

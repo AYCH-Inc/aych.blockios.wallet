@@ -23,7 +23,7 @@ class KYCTiersCoordinator {
         interface?.collectionViewVisibility(.hidden)
         interface?.loadingIndicator(.visible)
         
-        let limitsObservable = limitsAPI.getTradeLimits(withFiatCurrency: code)
+        let limitsObservable = limitsAPI.getTradeLimits(withFiatCurrency: code, ignoringCache: true)
             .optional()
             .catchErrorJustReturn(nil)
             .asObservable()

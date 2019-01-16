@@ -23,7 +23,6 @@ final class KYCNetworkRequest {
         enum GET {
             case credentials
             case credentiasForVeriff
-            case credentialsForOnfido
             case healthCheck
             case listOfCountries
             case nextKYCMethod
@@ -37,8 +36,6 @@ final class KYCNetworkRequest {
                     return ["kyc", "credentials"]
                 case .credentiasForVeriff:
                     return ["kyc", "credentials", "veriff"]
-                case .credentialsForOnfido:
-                    return ["kyc", "credentials", "onfido"]
                 case .healthCheck:
                     return ["healthz"]
                 case .listOfCountries:
@@ -58,7 +55,6 @@ final class KYCNetworkRequest {
                 switch self {
                 case .credentials,
                      .credentiasForVeriff,
-                     .credentialsForOnfido,
                      .healthCheck,
                      .listOfCountries,
                      .nextKYCMethod,

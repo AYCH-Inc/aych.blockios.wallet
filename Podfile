@@ -15,7 +15,6 @@ target 'Blockchain' do
   pod 'Firebase/Core'
   pod 'Firebase/DynamicLinks'
   pod 'Firebase/RemoteConfig'
-  pod 'Onfido', '~> 10.0.0'
   pod 'PhoneNumberKit', '~> 2.1'
   pod 'RxCocoa', '~> 4.0'
   pod 'RxSwift', '~> 4.0'

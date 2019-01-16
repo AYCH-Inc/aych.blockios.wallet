@@ -207,7 +207,10 @@ extension KYCTiersHeaderViewModel {
         }
         
         switch (tier1.state, tier2.state) {
-        case (.none, _):
+        case (.none, _),
+             (.pending, .none):
+            /// Showing any available amount here wouldn't be useful since
+            /// `.pending` for Tier 1 means they can't actually make any trades.
             return .empty(suppressDismissCTA: suppressDismissCTA)
         case (.rejected, .none),
              (.rejected, .pending):
@@ -219,13 +222,6 @@ extension KYCTiersHeaderViewModel {
              (_, .rejected):
             return .unavailable(
                 actions: [.learnMore, .contactSupport],
-                suppressDismissCTA: suppressDismissCTA
-            )
-        case (.pending, .none):
-            guard let amount = availableFunds else { return unavailable(suppressDismissCTA: suppressDismissCTA) }
-            let formatted = "$" + amount
-            return .available(
-                formatted, LocalizationConstants.KYC.swapLimitDescription,
                 suppressDismissCTA: suppressDismissCTA
             )
         case (.pending, .pending),

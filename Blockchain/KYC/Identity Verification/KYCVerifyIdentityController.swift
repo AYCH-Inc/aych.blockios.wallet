@@ -6,7 +6,6 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Onfido
 import Veriff
 import RxSwift
 import UIKit
@@ -15,7 +14,6 @@ import UIKit
 final class KYCVerifyIdentityController: KYCBaseViewController {
     
     enum VerificationProviders {
-        case onfido
         case veriff
     }
     
@@ -35,8 +33,6 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
     @IBOutlet private var nextButton: PrimaryButtonContainer!
 
     // MARK: - Properties
-
-    private let onfidoService = OnfidoService()
     
     private let veriffService = VeriffService()
     private let veriff: Veriff = {
@@ -78,52 +74,11 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
             switch self.currentProvider {
             case .veriff:
                 self.startVerificationFlow()
-            case .onfido:
-               self.presenter.presentDocumentTypeOptions(countryCode)
             }
         }
     }
 
     // MARK: - Private Methods
-
-    /// Sets up the Onfido config depending on user selection
-    ///
-    /// - Parameters:
-    ///   - document: Onfido document type
-    ///   - countryCode: Users locale
-    /// - Returns: a configuration determining the onfido document verification
-    private func onfidoConfigurator(
-        _ document: DocumentType,
-        _ onfidoUser: OnfidoUser,
-        _ providerCredentials: OnfidoCredentials
-    ) -> OnfidoConfig? {
-        guard let countryCode = countryCode else {
-            Logger.shared.warning("Cannot construct OnfidoConfig. Country code is nil.")
-            return nil
-        }
-
-        let config = try? OnfidoConfig.builder()
-            .withToken(providerCredentials.key)
-            .withApplicantId(onfidoUser.identifier)
-            .withDocumentStep(ofType: document, andCountryCode: countryCode)
-            .withFaceStep(ofVariant: .video)
-            .build()
-        return config
-    }
-
-    /// Asks for credentials for a given identity verification provider and once obtained launch the Onfido flow
-    ///
-    /// - Parameters:
-    ///   - provider: Object with a provider and API key
-    func onfidoCredentialsRequest(documentType: DocumentType) {
-        disposable = BlockchainDataRepository.shared.fetchNabuUser().flatMap { [unowned self] user in
-            return self.onfidoService.createUserAndCredentials(user: user)
-            }.subscribeOn(MainScheduler.asyncInstance).observeOn(MainScheduler.instance).subscribe(onSuccess: { onfidoUser, token in
-                self.launchOnfidoController(documentType, onfidoUser, token)
-            }, onError: { error in
-                Logger.shared.error("Failed to get onfido user and credentials. Error: \(error.localizedDescription)")
-            })
-    }
     
     func veriffCredentialsRequest() {
         disposable = veriffService.createCredentials()
@@ -145,9 +100,6 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
     ///   - provider: the current provider of verification services
     fileprivate func startVerificationFlow(_ document: KYCDocumentType? = nil, provider: VerificationProviders = .veriff) {
         switch provider {
-        case .onfido:
-            guard let doc = document else { return }
-            onfidoCredentialsRequest(documentType: doc.toOnfidoType())
         case .veriff:
             veriffCredentialsRequest()
         }
@@ -155,18 +107,6 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
 
     private func didSelect(_ document: KYCDocumentType) {
         startVerificationFlow(document, provider: currentProvider)
-    }
-
-    private func launchOnfidoController(_ document: DocumentType, _ user: OnfidoUser, _ credentials: OnfidoCredentials) {
-        guard let currentConfig = self.onfidoConfigurator(document, user, credentials) else {
-            Logger.shared.warning("Cannot launch OnfidoController.")
-            return
-        }
-        let onfidoController = OnfidoController(config: currentConfig)
-        onfidoController.user = user
-        onfidoController.delegate = self
-        onfidoController.modalPresentationStyle = .overCurrentContext
-        self.present(onfidoController, animated: true)
     }
     
     private func launchVeriffController() {
@@ -274,49 +214,5 @@ extension KYCVerifyIdentityController: KYCVerifyIdentityView {
 
     func showErrorMessage(_ message: String) {
         AlertViewPresenter.shared.standardError(message: message)
-    }
-}
-
-extension KYCVerifyIdentityController: OnfidoControllerDelegate {
-    func onOnfidoControllerCancelled(_ onfidoController: OnfidoController) {
-        onfidoController.dismiss(animated: true)
-    }
-
-    func onOnfidoControllerErrored(_ onfidoController: OnfidoController, error: Error) {
-        onfidoController.dismiss(animated: true) {
-            AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.error)
-        }
-    }
-
-    func onOnfidoControllerSuccess(_ onfidoController: OnfidoController) {
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.KYC.submittingInformation)
-        _ = onfidoService.submitVerification(onfidoController.user)
-            .subscribe(onCompleted: { [unowned self] in
-                LoadingViewPresenter.shared.hideBusyView()
-                self.dismiss(animated: true, completion: {
-                    self.coordinator.handle(event: .nextPageFromPageType(self.pageType, nil))
-                })
-            }, onError: { error in
-                LoadingViewPresenter.shared.hideBusyView()
-                self.dismiss(animated: true, completion: {
-                    AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
-                })
-                Logger.shared.error("Failed to submit verification \(error.localizedDescription)")
-            })
-    }
-}
-
-// MARK: KYCDocumentType
-
-extension KYCDocumentType {
-    func toOnfidoType() -> DocumentType {
-        switch self {
-        case .driversLicense:
-            return DocumentType.drivingLicence
-        case .passport:
-            return DocumentType.passport
-        case .nationalIdentityCard:
-            return DocumentType.nationalIdentityCard
-        }
     }
 }

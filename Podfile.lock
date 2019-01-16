@@ -76,7 +76,6 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
-  - Onfido (10.0.0)
   - PhoneNumberKit (2.5.0):
     - PhoneNumberKit/PhoneNumberKitCore (= 2.5.0)
     - PhoneNumberKit/UIKit (= 2.5.0)
@@ -108,7 +107,6 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/DynamicLinks
   - Firebase/RemoteConfig
-  - Onfido (~> 10.0.0)
   - PhoneNumberKit (~> 2.1)
   - RxBlocking (~> 4.0)
   - RxCocoa (~> 4.0)
@@ -135,7 +133,6 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleUtilities
     - nanopb
-    - Onfido
     - PhoneNumberKit
     - Protobuf
     - RxAtomic
@@ -164,7 +161,6 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
   GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  Onfido: eb3bde6295f0dc6dd334b9eb01626d2bad5d3c1d
   PhoneNumberKit: 32a1cd1e0aa9e950feb01886a22fd7386b8cf903
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
@@ -178,6 +174,6 @@ SPEC CHECKSUMS:
   SwiftLint: bfa7ca7b4d170cfaf0d236ca3ffd969e88a2f002
   VeriffSDK: 91ff8bb0095a24b2c4e44200eeeed2a34bf2d30c
 
-PODFILE CHECKSUM: a0f1ec66994848b199fa82e4ef04b19ac3e12292
+PODFILE CHECKSUM: 5ba2af00182abd6dfe6dfd7e29cb9affbe49b646
 
 COCOAPODS: 1.5.3

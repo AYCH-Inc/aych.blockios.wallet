@@ -228,7 +228,7 @@ jobs:
             bundle exec fastlane code_signing
             security find-identity -v -p codesigning
             git clone -b xcodebuild $CREDENTIALS_REPO /tmp/xcodebuild
-            xcodebuild -workspace Blockchain.xcworkspace -scheme Blockchain\ \(Staging\) -sdk iphoneos -configuration Debug\ Staging archive -archivePath ./output/Blockchain.xcarchive | xcpretty
+            xcodebuild -workspace Blockchain.xcworkspace -scheme Blockchain\ \(Staging\) -sdk iphoneos -configuration Release\ Staging archive -archivePath ./output/Blockchain.xcarchive | xcpretty
             xcodebuild -exportArchive -archivePath output/Blockchain.xcarchive -exportOptionsPlist /tmp/xcodebuild/exportOptions.plist -exportPath ./output | xcpretty
       - persist_to_workspace:
           root: /Users/distiller/project
@@ -251,7 +251,7 @@ jobs:
             bundle exec fastlane code_signing
             security find-identity -v -p codesigning
             git clone -b xcodebuild $CREDENTIALS_REPO /tmp/xcodebuild
-            xcodebuild -workspace Blockchain.xcworkspace -scheme Blockchain\ \(Staging\) -sdk iphoneos -configuration Debug\ Staging archive -archivePath ./output_ad_hoc/Blockchain.xcarchive | xcpretty
+            xcodebuild -workspace Blockchain.xcworkspace -scheme Blockchain\ \(Staging\) -sdk iphoneos -configuration Release\ Staging archive -archivePath ./output_ad_hoc/Blockchain.xcarchive | xcpretty
             xcodebuild -exportArchive -archivePath output_ad_hoc/Blockchain.xcarchive -exportOptionsPlist /tmp/xcodebuild/exportOptionsAdHoc.plist -exportPath ./output_ad_hoc | xcpretty
       - persist_to_workspace:
           root: /Users/distiller/project

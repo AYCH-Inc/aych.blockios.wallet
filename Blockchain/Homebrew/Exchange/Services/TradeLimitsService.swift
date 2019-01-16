@@ -45,7 +45,7 @@ class TradeLimitsService: TradeLimitsAPI {
     /// Initializes this TradeLimitsService so that the trade limits for the current
     /// user is pre-fetched and cached
     func initialize(withFiatCurrency currency: String) {
-        let disposable = getTradeLimits(withFiatCurrency: currency)
+        let disposable = getTradeLimits(withFiatCurrency: currency, ignoringCache: false)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { _ in
@@ -57,7 +57,7 @@ class TradeLimitsService: TradeLimitsAPI {
     }
 
     func getTradeLimits(withFiatCurrency currency: String, withCompletion: @escaping ((Result<TradeLimits>) -> Void)) {
-        let disposable = getTradeLimits(withFiatCurrency: currency)
+        let disposable = getTradeLimits(withFiatCurrency: currency, ignoringCache: false)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { (payload) in
@@ -68,9 +68,11 @@ class TradeLimitsService: TradeLimitsAPI {
         _ = disposables.insert(disposable)
     }
 
-    func getTradeLimits(withFiatCurrency currency: String) -> Single<TradeLimits> {
+    func getTradeLimits(withFiatCurrency currency: String, ignoringCache: Bool) -> Single<TradeLimits> {
         return Single.deferred { [unowned self] in
-            guard let cachedLimits = self.cachedLimits.value, cachedLimits.currency == currency else {
+            guard let cachedLimits = self.cachedLimits.value,
+                cachedLimits.currency == currency,
+                ignoringCache == false else {
                 return self.getTradeLimitsNetwork(withFiatCurrency: currency)
             }
             return Single.just(cachedLimits)

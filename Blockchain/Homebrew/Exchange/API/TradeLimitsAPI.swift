@@ -28,5 +28,5 @@ protocol TradeLimitsAPI {
     // MARK: - Rx
 
     /// Rx version of `getTradeLimits(withFiatCurrency: withCompletion:)`
-    func getTradeLimits(withFiatCurrency currency: String) -> Single<TradeLimits>
+    func getTradeLimits(withFiatCurrency currency: String, ignoringCache: Bool) -> Single<TradeLimits>
 }

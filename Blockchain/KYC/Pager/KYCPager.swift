@@ -55,11 +55,18 @@ class KYCPager: KYCPagerAPI {
             guard let tiers = user.tiers else {
                 return Maybe.empty()
             }
-            guard tiers.next.rawValue > tiers.selected.rawValue else {
+
+            let nextTier = tiers.next
+
+            // If the next tier is the same as the tier property in KYCPager, this means that the
+            // user has already completely the flow for the tier property.
+            guard nextTier != strongSelf.tier else {
                 return Maybe.empty()
             }
 
-            let nextTier = tiers.next
+            guard nextTier.rawValue > tiers.selected.rawValue else {
+                return Maybe.empty()
+            }
             
             guard let moreInfoPage = KYCPageType.moreInfoPage(forTier: nextTier) else {
                 return Maybe.empty()

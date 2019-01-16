@@ -312,7 +312,7 @@ extension KYCTiersViewController {
         code: CurrencyCode = "USD"
     ) -> Disposable {
 
-        let tradesObservable = limitsAPI.getTradeLimits(withFiatCurrency: code)
+        let tradesObservable = limitsAPI.getTradeLimits(withFiatCurrency: code, ignoringCache: true)
             .optional()
             .catchErrorJustReturn(nil)
             .asObservable() 

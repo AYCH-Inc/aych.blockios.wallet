@@ -523,7 +523,9 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         guard let model = model else {
             return Maybe.empty()
         }
-        return tradeLimitService.getTradeLimits(withFiatCurrency: model.fiatCurrencyCode).asMaybe().map { limits -> Decimal? in
+        return tradeLimitService.getTradeLimits(
+            withFiatCurrency: model.fiatCurrencyCode,
+            ignoringCache: false).asMaybe().map { limits -> Decimal? in
             return limits.daily?.available
         }
     }
@@ -532,7 +534,9 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         guard let model = model else {
             return Maybe.empty()
         }
-        return tradeLimitService.getTradeLimits(withFiatCurrency: model.fiatCurrencyCode).asMaybe().map { limits -> Decimal? in
+        return tradeLimitService.getTradeLimits(
+            withFiatCurrency: model.fiatCurrencyCode,
+            ignoringCache: false).asMaybe().map { limits -> Decimal? in
             return limits.annual?.available
         }
     }
@@ -543,7 +547,8 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             return Maybe.empty()
         }
         return tradeLimitService.getTradeLimits(
-            withFiatCurrency: model.fiatCurrencyCode).map { tradingLimits -> Decimal in
+            withFiatCurrency: model.fiatCurrencyCode,
+            ignoringCache: false).map { tradingLimits -> Decimal in
             return info(tradingLimits)
         }.asMaybe()
     }
@@ -562,7 +567,9 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         output?.updateTradingPair(pair: model.pair, fix: model.fix)
 
         // Compute trading limit and take into account user's balance
-        let tradingLimitsSingle = tradeLimitService.getTradeLimits(withFiatCurrency: model.fiatCurrencyCode)
+        let tradingLimitsSingle = tradeLimitService.getTradeLimits(
+            withFiatCurrency: model.fiatCurrencyCode,
+            ignoringCache: false)
         let balanceFiatValue = markets.fiatBalance(
             forAssetAccount: assetAccount,
             fiatCurrencyCode: model.fiatCurrencyCode

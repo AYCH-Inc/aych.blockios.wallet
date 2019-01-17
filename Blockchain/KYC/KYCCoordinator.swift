@@ -218,7 +218,7 @@ protocol KYCCoordinatorDelegate: class {
         }
         let latestPage = kycSettings.latestKycPage
 
-        let startingPage = KYCPageType.startingPage(forUser: currentUser, tier: tier)
+        let startingPage = KYCPageType.startingPage(forUser: currentUser)
 
         guard let endPageForLastUsedTier = KYCPageType.pageType(for: currentUser, latestPage: latestPage) else {
             return
@@ -267,7 +267,7 @@ protocol KYCCoordinatorDelegate: class {
     private func initializeNavigationStack(_ viewController: UIViewController, user: NabuUser, tier: KYCTier) {
         let startingPage = appSettings.didRegisterForAirdropCampaignSucceed ?
             KYCPageType.welcome :
-            KYCPageType.startingPage(forUser: user, tier: tier)
+            KYCPageType.startingPage(forUser: user)
         let startingViewController = pageFactory.createFrom(
             pageType: startingPage,
             in: self

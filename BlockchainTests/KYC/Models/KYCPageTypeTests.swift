@@ -10,15 +10,23 @@ import XCTest
 
 class KYCPageTypeTests: XCTestCase {
 
-    func testStartingPageTier1() {
-        // TODO: add test to skip email verification step if user has already verified their email (waiting on backend)
-        XCTAssertEqual(KYCPageType.enterEmail, KYCPageType.startingPage(forUser: createNabuUser(), tier: .tier1))
-    }
-
-    func testStartingPageTier2() {
-        // TODO: add tests for starting page for tier2 but user is not tier1 approved (waiting on backend)
-        XCTAssertEqual(KYCPageType.enterPhone, KYCPageType.startingPage(forUser: createNabuUser(), tier: .tier2))
-        XCTAssertEqual(KYCPageType.verifyIdentity, KYCPageType.startingPage(forUser: createNabuUser(isMobileVerified: true), tier: .tier2))
+    func testStartingPage() {
+        XCTAssertEqual(
+            KYCPageType.enterEmail,
+            KYCPageType.startingPage(forUser: createNabuUser())
+        )
+        XCTAssertEqual(
+            KYCPageType.country,
+            KYCPageType.startingPage(forUser: createNabuUser(isEmailVerified: true))
+        )
+        XCTAssertEqual(
+            KYCPageType.enterPhone,
+            KYCPageType.startingPage(forUser: createNabuUser(isEmailVerified: true, hasAddress: true))
+        )
+        XCTAssertEqual(
+            KYCPageType.verifyIdentity,
+            KYCPageType.startingPage(forUser: createNabuUser(isMobileVerified: true, isEmailVerified: true, hasAddress: true))
+        )
     }
 
     func testNextPageTier1() {
@@ -98,12 +106,23 @@ class KYCPageTypeTests: XCTestCase {
         return KYCCountry(code: "test", name: "Test Country", regions: [], scopes: nil, states: states)
     }
 
-    private func createNabuUser(isMobileVerified: Bool = false) -> NabuUser {
+    private func createNabuUser(isMobileVerified: Bool = false, isEmailVerified: Bool = false, hasAddress: Bool = false) -> NabuUser {
         let mobile = Mobile(phone: "1234567890", verified: isMobileVerified)
+        var address: UserAddress? = nil
+        if hasAddress {
+            address = UserAddress(
+                lineOne: "Address",
+                lineTwo: "Address 2",
+                postalCode: "123",
+                city: "City",
+                state: "CA",
+                countryCode: "US"
+            )
+        }
         return NabuUser(
             personalDetails: nil,
-            address: nil,
-            email: Email(address: "test", verified: false),
+            address: address,
+            email: Email(address: "test", verified: isEmailVerified),
             mobile: mobile,
             status: KYCAccountStatus.none,
             state: NabuUser.UserState.none,

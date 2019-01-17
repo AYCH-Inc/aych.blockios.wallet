@@ -109,9 +109,7 @@ class KYCTiersViewController: UIViewController {
     fileprivate func registerForNotifications() {
         NotificationCenter.when(Constants.NotificationKeys.kycComplete) { [weak self] _ in
             guard let this = self else { return }
-            let currencyCode = BlockchainSettings.App.shared.fiatCurrencySymbol
             this.coordinator.refreshViewModel(
-                withCurrencyCode: currencyCode,
                 suppressCTA: this.pageModel.header.suppressDismissCTA
             )
         }

@@ -85,23 +85,20 @@ class KYCPager: KYCPagerAPI {
 
 extension KYCPageType {
 
-    static func startingPage(forUser user: NabuUser, tier: KYCTier) -> KYCPageType {
-        switch tier {
-        case .tier0,
-             .tier1:
-            if user.email.verified {
-                return .country
-            }
+    static func startingPage(forUser user: NabuUser) -> KYCPageType {
+        if !user.email.verified {
             return .enterEmail
-        case .tier2:
-            if let tiers = user.tiers, tiers.current == .tier0 {
-                return startingPage(forUser: user, tier: .tier1)
-            }
-            if let mobile = user.mobile, mobile.verified {
-                return .verifyIdentity
-            }
-            return .enterPhone
         }
+
+        if user.address == nil {
+            return .country
+        }
+
+        if let mobile = user.mobile, mobile.verified {
+            return .verifyIdentity
+        }
+
+        return .enterPhone
     }
 
     static func lastPage(forTier tier: KYCTier) -> KYCPageType {
@@ -138,7 +135,7 @@ extension KYCPageType {
         switch self {
         case .welcome:
             if let user = user {
-                return KYCPageType.startingPage(forUser: user, tier: .tier1)
+                return KYCPageType.startingPage(forUser: user)
             }
             return .enterEmail
         case .enterEmail:

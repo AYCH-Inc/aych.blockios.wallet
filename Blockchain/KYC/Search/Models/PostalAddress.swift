@@ -18,14 +18,16 @@ struct PostalAddress {
 }
 
 // TICKET: IOS-1145 - Combine PostalAddress and UserAddress models.
-struct UserAddress: Codable {
+struct UserAddress {
     let lineOne: String
     let lineTwo: String?
     let postalCode: String
     let city: String
     let state: String?
     let countryCode: String
+}
 
+extension UserAddress: Codable {
     enum CodingKeys: String, CodingKey {
         case lineOne = "line1"
         case lineTwo = "line2"

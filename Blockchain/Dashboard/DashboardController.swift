@@ -145,8 +145,12 @@ final class DashboardController: UIViewController {
         scrollView.addSubview(contentView)
         scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: contentViewFrame.size.height)
 
-        cardsViewController.reloadAllCards()
         AnalyticsService.shared.trackEvent(title: "dashboard")
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        cardsViewController.reloadAllCards()
     }
 
     // TICKET: IOS-1507 - Refactor to use autolayout

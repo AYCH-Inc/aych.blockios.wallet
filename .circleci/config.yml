@@ -228,7 +228,7 @@ jobs:
             bundle exec fastlane code_signing
             security find-identity -v -p codesigning
             git clone -b xcodebuild $CREDENTIALS_REPO /tmp/xcodebuild
-            xcodebuild -workspace Blockchain.xcworkspace -scheme Blockchain\ \(Staging\) -sdk iphoneos -configuration Debug\ Staging archive -archivePath ./output/Blockchain.xcarchive | xcpretty
+            xcodebuild -workspace Blockchain.xcworkspace -scheme Blockchain\ \(Staging\) -sdk iphoneos -configuration Release\ Staging archive -archivePath ./output/Blockchain.xcarchive | xcpretty
             xcodebuild -exportArchive -archivePath output/Blockchain.xcarchive -exportOptionsPlist /tmp/xcodebuild/exportOptions.plist -exportPath ./output | xcpretty
       - persist_to_workspace:
           root: /Users/distiller/project
@@ -251,7 +251,7 @@ jobs:
             bundle exec fastlane code_signing
             security find-identity -v -p codesigning
             git clone -b xcodebuild $CREDENTIALS_REPO /tmp/xcodebuild
-            xcodebuild -workspace Blockchain.xcworkspace -scheme Blockchain\ \(Staging\) -sdk iphoneos -configuration Debug\ Staging archive -archivePath ./output_ad_hoc/Blockchain.xcarchive | xcpretty
+            xcodebuild -workspace Blockchain.xcworkspace -scheme Blockchain\ \(Staging\) -sdk iphoneos -configuration Release\ Staging archive -archivePath ./output_ad_hoc/Blockchain.xcarchive | xcpretty
             xcodebuild -exportArchive -archivePath output_ad_hoc/Blockchain.xcarchive -exportOptionsPlist /tmp/xcodebuild/exportOptionsAdHoc.plist -exportPath ./output_ad_hoc | xcpretty
       - persist_to_workspace:
           root: /Users/distiller/project
@@ -332,22 +332,6 @@ jobs:
             appcenter telemetry off --disable-telemetry
             appcenter login --token $APP_CENTER_API_TOKEN --quiet
             appcenter distribute release -f ./output_ad_hoc/Blockchain.ipa -g Testers --app $APP_CENTER_APP --disable-telemetry --quiet
-  upload_artifactory:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: /Users/distiller/project
-      - run:
-          name: Install jFrog CLI
-          command: curl -fL https://getcli.jfrog.io | sh
-      - run:
-          name: Upload IPA to Artifactory
-          command: |
-            latestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
-            ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --password $ARTIFACTORY_PASSWORD --interactive=false
-            ./jfrog rt u ./output_ad_hoc/Blockchain.ipa docker/$latestTag.ipa --build-name=$latestTag --build-number=$CIRCLE_BUILD_NUM
-            ./jfrog rt bce $latestTag $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
-            ./jfrog rt bp $latestTag $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
   upload_app_store:
     <<: *defaults
     steps:

@@ -10,6 +10,7 @@ import Foundation
 import RxSwift
 
 protocol HomebrewExchangeAPI {
+    // Currently this filters out trades with an unsupported trading pair.
     func nextPage(fromTimestamp: Date, completion: @escaping ExchangeCompletion)
 }
 
@@ -36,7 +37,7 @@ class HomebrewExchangeService: HomebrewExchangeAPI {
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { (payload) in
-                let result: [ExchangeTradeModel] = payload.map({ return .homebrew($0) })
+                let result: [ExchangeTradeModel] = payload.filter { return $0.pair != nil }.map({ return .homebrew($0) })
                 completion(.success(result))
             }, onError: { error in
                 completion(.error(error))

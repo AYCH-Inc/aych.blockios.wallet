@@ -129,7 +129,11 @@ extension ExchangeTradeModel {
             if let value = model.deposit?.value, let symbol = model.deposit?.symbol {
                 return value + " " + symbol
             } else {
-                return "0" + " " + model.pair.from.symbol
+                let zero = "0"
+                guard let symbol = model.pair?.from.symbol else {
+                    return zero
+                }
+                return zero + " " + symbol
             }
         }
     }
@@ -142,7 +146,11 @@ extension ExchangeTradeModel {
             if let value = model.withdrawal?.value, let symbol = model.withdrawal?.symbol {
                 return value + " " + symbol
             } else {
-                return "0" + " " + model.pair.to.symbol
+                let zero = "0"
+                guard let symbol = model.pair?.to.symbol else {
+                    return zero
+                }
+                return zero + " " + symbol
             }
         }
     }
@@ -260,7 +268,7 @@ struct ExchangeTradeCellModel: Decodable {
     let status: TradeStatus
     let createdAt: Date
     let updatedAt: Date
-    let pair: TradingPair
+    let pair: TradingPair?
     let refundAddress: String
     let rate: String?
     let depositAddress: String
@@ -328,13 +336,7 @@ struct ExchangeTradeCellModel: Decodable {
         let pairValue = try values.decode(String.self, forKey: .pair)
         let statusValue = try values.decode(String.self, forKey: .status)
         status = TradeStatus(homebrew: statusValue)
-        
-        if let pairType = TradingPair(string: pairValue) {
-            pair = pairType
-        } else {
-            fatalError("Failed to map \(pairValue)")
-        }
-        
+        pair = TradingPair(string: pairValue)
         refundAddress = try values.decode(String.self, forKey: .refundAddress)
         rate = try values.decodeIfPresent(String.self, forKey: .rate)
         depositAddress = try values.decode(String.self, forKey: .depositAddress)

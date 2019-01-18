@@ -19,7 +19,7 @@ class KYCTiersCoordinator {
         self.interface = interface
     }
     
-    func refreshViewModel(withCurrencyCode code: String, suppressCTA: Bool = false) {
+    func refreshViewModel(withCurrencyCode code: String = "USD", suppressCTA: Bool = false) {
         interface?.collectionViewVisibility(.hidden)
         interface?.loadingIndicator(.visible)
         

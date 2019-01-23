@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct TransactionDetail {
+public struct TransactionDetail: Equatable {
     let description: String
     let value: String
     let backgroundColor: UIColor
@@ -31,4 +31,33 @@ public struct TransactionDetail {
         self.bold = bold
         self.statusTintColor = statusTintColor
     }
+}
+
+public extension TransactionDetail {
+    public static func ==(lhs: TransactionDetail, rhs: TransactionDetail) -> Bool {
+        return lhs.description == rhs.description &&
+        lhs.value == rhs.value &&
+        lhs.backgroundColor == rhs.backgroundColor &&
+        lhs.statusVisibility == rhs.statusVisibility &&
+        lhs.statusTintColor == rhs.statusTintColor &&
+        lhs.bold == rhs.bold
+    }
+}
+
+public extension TransactionDetail {
+    
+    public static let demo1: TransactionDetail = TransactionDetail(
+        description: "This is a demo description",
+        value: "This is a demo value"
+    )
+    
+    public static let demo2: TransactionDetail = TransactionDetail(
+        description: "This is a demo description",
+        value: "$1234",
+        backgroundColor: .darkBlue,
+        statusVisibility: .visible,
+        bold: true,
+        statusTintColor: .green
+    )
+    
 }

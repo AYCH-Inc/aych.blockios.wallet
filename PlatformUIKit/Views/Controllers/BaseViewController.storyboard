@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Bwv-Y4-M9n">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Base View Controller-->
+        <scene sceneID="Azh-Oh-rDE">
+            <objects>
+                <viewController id="Bwv-Y4-M9n" customClass="BaseViewController" customModule="PlatformUIKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="c3Q-C8-PGX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5gr-oE-iLB">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="UnV-nP-0Z5">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="5gr-oE-iLB" firstAttribute="leading" secondItem="hCm-40-N7h" secondAttribute="leading" id="Pq1-mK-l3W"/>
+                            <constraint firstItem="hCm-40-N7h" firstAttribute="trailing" secondItem="5gr-oE-iLB" secondAttribute="trailing" id="gE6-yK-99N"/>
+                            <constraint firstItem="hCm-40-N7h" firstAttribute="bottom" secondItem="5gr-oE-iLB" secondAttribute="bottom" id="lSc-7Y-Yj2"/>
+                            <constraint firstItem="5gr-oE-iLB" firstAttribute="top" secondItem="hCm-40-N7h" secondAttribute="top" id="zEW-hJ-F4j"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hCm-40-N7h"/>
+                    </view>
+                    <connections>
+                        <outlet property="layout" destination="UnV-nP-0Z5" id="g9p-Nh-PHA"/>
+                        <outlet property="outerCollectionView" destination="5gr-oE-iLB" id="13Q-st-DTt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Ce-kU-DF9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="209" y="81"/>
+        </scene>
+    </scenes>
+</document>

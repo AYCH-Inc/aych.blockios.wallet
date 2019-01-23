@@ -232,7 +232,7 @@ private extension ExchangeCreateView {
 
     func setupLineBelow(view: UIView) {
         let lineAboveButtonsView = BCLine(yPosition: view.frame.origin.y + view.frame.size.height)
-        addSubview(lineAboveButtonsView!)
+        addSubview(lineAboveButtonsView)
     }
 
     var minMaxButtonHeight: CGFloat { return 50 }

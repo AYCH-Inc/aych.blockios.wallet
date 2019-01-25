@@ -875,6 +875,9 @@
 		AA755EEE2188ED6800FC4894 /* StellarTradeLimitsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA755EEC2188ED6800FC4894 /* StellarTradeLimitsAPI.swift */; };
 		AA755EF92188EDBB00FC4894 /* StellarTradeLimitsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA755EF82188EDBB00FC4894 /* StellarTradeLimitsService.swift */; };
 		AA755EFA2188EDBB00FC4894 /* StellarTradeLimitsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA755EF82188EDBB00FC4894 /* StellarTradeLimitsService.swift */; };
+		AA75F8AC21F155C70003B19E /* FiatValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA75F8AB21F155C70003B19E /* FiatValue.swift */; };
+		AA75F8AD21F155D10003B19E /* FiatValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA75F8AB21F155C70003B19E /* FiatValue.swift */; };
+		AA75F8B121F15E690003B19E /* FiatValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA75F8B021F15E690003B19E /* FiatValueTests.swift */; };
 		AA787A042187A63000E2D4CF /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA787A032187A63000E2D4CF /* DeepLinkHandler.swift */; };
 		AA787A052187A63000E2D4CF /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA787A032187A63000E2D4CF /* DeepLinkHandler.swift */; };
 		AA787A072187A86100E2D4CF /* DeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA787A062187A86100E2D4CF /* DeepLinkRoute.swift */; };
@@ -3816,6 +3819,8 @@
 		AA755ED521880F1200FC4894 /* StellarAccountServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StellarAccountServiceTests.swift; sourceTree = "<group>"; };
 		AA755EEC2188ED6800FC4894 /* StellarTradeLimitsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTradeLimitsAPI.swift; sourceTree = "<group>"; };
 		AA755EF82188EDBB00FC4894 /* StellarTradeLimitsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTradeLimitsService.swift; sourceTree = "<group>"; };
+		AA75F8AB21F155C70003B19E /* FiatValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiatValue.swift; sourceTree = "<group>"; };
+		AA75F8B021F15E690003B19E /* FiatValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiatValueTests.swift; sourceTree = "<group>"; };
 		AA787A032187A63000E2D4CF /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
 		AA787A062187A86100E2D4CF /* DeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRoute.swift; sourceTree = "<group>"; };
 		AA787A0A2187AC0500E2D4CF /* DeepLinkRouteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouteTests.swift; sourceTree = "<group>"; };
@@ -4828,10 +4833,10 @@
 		3A68655E219A0BBB0009FF29 /* PlatformKit */ = {
 			isa = PBXGroup;
 			children = (
-				3A4E480A21BB378A001A799D /* General */,
 				3A68655F219A0BBB0009FF29 /* PlatformKit.h */,
 				3A686560219A0BBB0009FF29 /* Info.plist */,
 				3A6865A1219A0DA00009FF29 /* APIs */,
+				3A4E480A21BB378A001A799D /* General */,
 				3A68658C219A0CDE0009FF29 /* Models */,
 			);
 			path = PlatformKit;
@@ -5061,6 +5066,7 @@
 				3A6A19FF21B89BDB00D97C74 /* CryptoCurrency.swift */,
 				AA02104A21B8AA3B0083088B /* CryptoFormatter.swift */,
 				3A6A19FE21B89BDB00D97C74 /* CryptoValue.swift */,
+				AA75F8AB21F155C70003B19E /* FiatValue.swift */,
 				3A6A19FD21B89BDB00D97C74 /* Money.swift */,
 			);
 			path = Balance;
@@ -5071,6 +5077,7 @@
 			children = (
 				AACD861A21B8B5FC00C860D1 /* CryptoFormatterTests.swift */,
 				3A6A19EF21B8963400D97C74 /* CryptoValueTests.swift */,
+				AA75F8B021F15E690003B19E /* FiatValueTests.swift */,
 			);
 			path = Balance;
 			sourceTree = "<group>";
@@ -10320,6 +10327,7 @@
 				3A4E480921BB31EE001A799D /* SEP7URI.swift in Sources */,
 				3A847401219CAF2B00F22FA6 /* AccountValidationAPI.swift in Sources */,
 				3A9B285421A4CD2200DB46C7 /* KeyPairProviderAPI.swift in Sources */,
+				AA75F8AC21F155C70003B19E /* FiatValue.swift in Sources */,
 				AA55B359219DFAF800533533 /* WalletSettings.swift in Sources */,
 				3A8473FD219CA2D300F22FA6 /* MultiAccountAssetAPI.swift in Sources */,
 				3A68659A219A0D170009FF29 /* PageResult.swift in Sources */,
@@ -10346,6 +10354,8 @@
 				3A6A19F021B8963400D97C74 /* CryptoValueTests.swift in Sources */,
 				3A6A1A0521B89BDB00D97C74 /* CryptoCurrency.swift in Sources */,
 				3A68656D219A0BBB0009FF29 /* PlatformKitTests.swift in Sources */,
+				AA75F8B121F15E690003B19E /* FiatValueTests.swift in Sources */,
+				AA75F8AD21F155D10003B19E /* FiatValue.swift in Sources */,
 				3A6A1A0321B89BDB00D97C74 /* CryptoValue.swift in Sources */,
 				AACD861C21B8B66B00C860D1 /* CryptoFormatter.swift in Sources */,
 				3A6A1A0121B89BDB00D97C74 /* Money.swift in Sources */,

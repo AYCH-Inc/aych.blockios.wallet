@@ -1459,6 +1459,10 @@ struct LocalizationConstants {
             "National Identity Card",
             comment: "The title of the UIAlertAction for the national identity card option."
         )
+        static let residencePermit = NSLocalizedString(
+            "Residence Permit",
+            comment: "The title of the UIAlertAction for the residence permit option."
+        )
         static let submittingInformation = NSLocalizedString(
             "Submitting information...",
             comment: "Text prompt to the user when the client is submitting the identity documents to Blockchain's servers."
@@ -1617,6 +1621,12 @@ struct LocalizationConstants {
             "By completing Tier 2 you are automatically eligible for our airdrop program.",
             comment: "Description of what the user gets out of completing Tier 2 verification that is seen at the bottom of the Tiers screen. This particular description is when the user has been Tier 1 verified."
         )
+        static let needSomeHelp = NSLocalizedString("Need some help?", comment: "Need some help?")
+        static let helpGuides = NSLocalizedString(
+            "Our Blockchain Support Team has written Help Guides explaining why we need to verify your identity",
+            comment: "Description shown in modal that is presented when tapping the question mark in KYC."
+        )
+        static let readNow = NSLocalizedString("Read Now", comment: "Read Now")
     }
 
     struct Swap {

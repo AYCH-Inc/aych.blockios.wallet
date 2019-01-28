@@ -9,24 +9,28 @@
 import Foundation
 
 class ExchangeNavigationController: BCActionNavigationController {
+    
+    var status: LimitsButtonStatus = .withinLimit {
+        didSet {
+            guard rightButton != nil else { return }
+            switch status {
+            case .withinLimit:
+                rightButton.setImage(UIImage(named: "icon_limit_under"), for: .normal)
+                drawButtonCircle(color: .tiersGray)
+            case .overLimit:
+                rightButton.setImage(UIImage(named: "icon_limit_over"), for: .normal)
+                drawButtonCircle(color: .tiersRed)
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Default state
-        update(status: .withinLimit)
+        status = .withinLimit
     }
-
-    func update(status: LimitsButtonStatus) {
-        switch status {
-        case .withinLimit:
-            rightButton.setImage(UIImage(named: "icon_limit_under"), for: .normal)
-            drawButtonCircle(color: UIColor.tiersGray)
-        case .overLimit:
-            rightButton.setImage(UIImage(named: "icon_limit_over"), for: .normal)
-            drawButtonCircle(color: UIColor.tiersRed)
-        }
-    }
-
+    
     private func drawButtonCircle(color: UIColor) {
         if let imageView = rightButton.imageView {
             imageView.layer.cornerRadius = imageView.frame.size.width / 2

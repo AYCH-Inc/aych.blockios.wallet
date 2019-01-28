@@ -366,7 +366,7 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             errorLabel.attributedText = primary
         case .limitsButtonStatus(let status):
             if let navController = navigationController as? ExchangeNavigationController {
-                navController.update(status: status)
+                navController.status = status
             }
         }
     }

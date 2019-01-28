@@ -25,6 +25,7 @@ struct NabuUser: Decodable {
     let state: UserState
     let tiers: NabuUserTiers?
     let tags: Tags?
+    let needsDocumentResubmission: DocumentResubmission?
 
     // MARK: - Decodable
 
@@ -35,12 +36,13 @@ struct NabuUser: Decodable {
         case lastName = "lastName"
         case email = "email"
         case emailVerified = "emailVerified"
-        case mobile = "mobile"
         case mobileVerified = "mobileVerified"
+        case mobile = "mobile"
         case identifier = "id"
         case state = "state"
         case tags = "tags"
         case tiers = "tiers"
+        case needsDocumentResubmission = "resubmission"
     }
 
     init(
@@ -51,7 +53,8 @@ struct NabuUser: Decodable {
         status: KYCAccountStatus,
         state: UserState,
         tags: Tags?,
-        tiers: NabuUserTiers?
+        tiers: NabuUserTiers?,
+        needsDocumentResubmission: DocumentResubmission?
     ) {
         self.personalDetails = personalDetails
         self.address = address
@@ -61,6 +64,7 @@ struct NabuUser: Decodable {
         self.state = state
         self.tags = tags
         self.tiers = tiers
+        self.needsDocumentResubmission = needsDocumentResubmission
     }
 
     init(from decoder: Decoder) throws {
@@ -98,6 +102,7 @@ struct NabuUser: Decodable {
         status = KYCAccountStatus(rawValue: statusValue) ?? .none
         state = UserState(rawValue: userState) ?? .none
         tags = try values.decodeIfPresent(Tags.self, forKey: .tags)
+        needsDocumentResubmission = try values.decodeIfPresent(DocumentResubmission.self, forKey: .needsDocumentResubmission)
     }
 }
 
@@ -134,5 +139,13 @@ struct Sunriver: Decodable {
 
     enum CodingKeys: String, CodingKey {
         case campaignAddress = "x-campaign-address"
+    }
+}
+
+struct DocumentResubmission: Decodable {
+    let reason: Int
+
+    enum CodingKeys: String, CodingKey {
+        case reason
     }
 }

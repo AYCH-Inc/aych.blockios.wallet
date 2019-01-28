@@ -890,6 +890,18 @@ struct LocalizationConstants {
             "Continue verification",
             comment: "The title of the action on the announcement card."
         )
+        static let uploadDocumentsCardTitle = NSLocalizedString(
+            "Documents needed",
+            comment: "The title of the action on the announcement card for when a user needs to submit documents to verify their identity."
+        )
+        static let uploadDocumentsCardDescription = NSLocalizedString(
+            "We had some issues with the documents you’ve supplied.\nPlease try uploading the documents again to continue with your verification.",
+            comment: "The description on the announcement card for when a user needs to submit documents to verify their identity."
+        )
+        static let uploadDocumentsActionButtonTitle = NSLocalizedString(
+            "Upload documents",
+            comment: "The title of the action on the announcement card for when a user needs to submit documents to verify their identity."
+        )
     }
 
     struct SideMenu {

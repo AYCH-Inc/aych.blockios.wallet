@@ -272,12 +272,6 @@ protocol KYCCoordinatorDelegate: class {
             pageType: startingPage,
             in: self
         )
-        startingViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: "close"),
-            style: .plain,
-            target: self,
-            action: #selector(finish)
-        )
         navController = presentInNavigationController(startingViewController, in: viewController)
     }
 

@@ -12,6 +12,7 @@ enum KYCDocumentType: String, CaseIterable, Codable {
     case passport = "PASSPORT"
     case driversLicense = "DRIVING_LICENCE"
     case nationalIdentityCard = "NATIONAL_IDENTITY_CARD"
+    case residencePermit = "RESIDENCE_PERMIT"
 }
 
 extension KYCDocumentType {
@@ -23,6 +24,8 @@ extension KYCDocumentType {
             return LocalizationConstants.KYC.driversLicense
         case .nationalIdentityCard:
             return LocalizationConstants.KYC.nationalIdentityCard
+        case .residencePermit:
+            return LocalizationConstants.KYC.residencePermit
         }
     }
 }

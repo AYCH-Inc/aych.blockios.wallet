@@ -89,4 +89,19 @@ extension AnnouncementCardViewModel {
             )
         }
     }
+
+    @objc class func resubmitDocuments(
+        action: @escaping Action,
+        onClose: @escaping Action
+    ) -> AnnouncementCardViewModel {
+        return AnnouncementCardViewModel(
+            title: LocalizationConstants.AnnouncementCards.uploadDocumentsCardTitle,
+            message: LocalizationConstants.AnnouncementCards.uploadDocumentsCardDescription,
+            actionButtonTitle: LocalizationConstants.AnnouncementCards.uploadDocumentsActionButtonTitle,
+            image: #imageLiteral(resourceName: "identity_verification_card"),
+            imageTint: nil,
+            action: action,
+            onClose: onClose
+        )
+    }
 }

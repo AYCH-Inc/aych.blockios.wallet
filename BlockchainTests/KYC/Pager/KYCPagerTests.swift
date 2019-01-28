@@ -60,7 +60,8 @@ class KYCPagerTests: XCTestCase {
             status: .none,
             state: .active,
             tags: nil,
-            tiers: tiers
+            tiers: tiers,
+            needsDocumentResubmission: nil
         )
     }
 }

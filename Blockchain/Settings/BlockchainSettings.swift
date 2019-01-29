@@ -59,6 +59,24 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.appBecameActiveCount.rawValue)
             }
         }
+        
+        @objc var didRequestCameraPermissions: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didRequestCameraPermissions.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didRequestCameraPermissions.rawValue)
+            }
+        }
+        
+        @objc var didRequestNotificationPermissions: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didRequestNotificationPermissions.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didRequestNotificationPermissions.rawValue)
+            }
+        }
 
         /**
          Stores the encrypted wallet password.

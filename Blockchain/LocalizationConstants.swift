@@ -1647,6 +1647,10 @@ struct LocalizationConstants {
             "Please allow your Blockchain App access your camera to upload your ID and take a Selfie.",
             comment: "Description as to why the user should permit camera access"
         )
+        static let allowCameraAccess = NSLocalizedString(
+            "Allow camera access?",
+            comment: "Headline in alert asking the user to allow camera access."
+        )
     }
 
     struct Swap {

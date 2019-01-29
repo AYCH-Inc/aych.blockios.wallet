@@ -10,6 +10,20 @@ import XCTest
 
 class FiatValueTests: XCTestCase {
 
+    func testUSDDecimalPlaces() {
+        XCTAssertEqual(
+            2,
+            FiatValue.create(amountString: "1.00", currencyCode: "USD").maxDecimalPlaces
+        )
+    }
+
+    func testJPYDecimalPlaces() {
+        XCTAssertEqual(
+            0,
+            FiatValue.create(amountString: "1.000000", currencyCode: "JPY").maxDecimalPlaces
+        )
+    }
+
     func testSymbol() {
         let usdValue = FiatValue(currencyCode: "USD", amount: 0)
         XCTAssertEqual("$", usdValue.symbol)
@@ -110,15 +124,23 @@ class FiatValueTests: XCTestCase {
 
     func testDisplayYENinUS() {
         XCTAssertEqual(
-            "¥1.00",
+            "¥1",
             FiatValue.create(amountString: "1.00", currencyCode: "JPY")
                 .toDisplayString(locale: Locale.US)
         )
     }
 
+    func testDisplayYENinUSNoSymbol() {
+        XCTAssertEqual(
+            "1",
+            FiatValue.create(amountString: "1.00", currencyCode: "JPY")
+                .toDisplayString(includeSymbol: false, locale: Locale.US)
+        )
+    }
+
     func testDisplayYENinCanada() {
         XCTAssertEqual(
-            "JP¥1.00",
+            "JP¥1",
             FiatValue.create(amountString: "1.00", currencyCode: "JPY")
                 .toDisplayString(locale: Locale.Canada)
         )
@@ -126,16 +148,9 @@ class FiatValueTests: XCTestCase {
 
     func testDisplayYenInJapan() {
         XCTAssertEqual(
-            "¥1.00",
+            "¥1",
             FiatValue.create(amountString: "1.00", currencyCode: "JPY")
                 .toDisplayString(locale: Locale.US)
         )
     }
-}
-
-extension Locale {
-    static let US = Locale(identifier: "en_US")
-    static let Canada = Locale(identifier: "en_CA")
-    static let France = Locale(identifier: "fr_FR")
-    static let Japan = Locale(identifier: "ja_JP")
 }

@@ -1122,6 +1122,7 @@
 		C732DF122200BA8500F3687A /* DeepLinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF102200BA8500F3687A /* DeepLinkRouter.swift */; };
 		C732DF1D2200BC6A00F3687A /* DeepLinkRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF1C2200BC6A00F3687A /* DeepLinkRouting.swift */; };
 		C732DF1E2200BC6B00F3687A /* DeepLinkRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF1C2200BC6A00F3687A /* DeepLinkRouting.swift */; };
+		C732DF422200DFD200F3687A /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF412200DFD200F3687A /* LoadingView.swift */; };
 		C733A89321236F02007DADE0 /* HttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C733A89221236F02007DADE0 /* HttpHeader.swift */; };
 		C73406221F54791C00143100 /* EtherAmountInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73406211F54791C00143100 /* EtherAmountInputViewController.m */; };
 		C7343BC4214FF8B1001B1EC9 /* ExchangeDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7343BC3214FF8B1001B1EC9 /* ExchangeDetailPresenter.swift */; };
@@ -1280,6 +1281,12 @@
 		C7C0DC28212F67E1000EFE71 /* PartnerExchangeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF7C212B13FA003A8A08 /* PartnerExchangeService.swift */; };
 		C7C572BD21FA54DA008B174D /* KYCResubmitIdentityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C572BC21FA54DA008B174D /* KYCResubmitIdentityRouter.swift */; };
 		C7C572BE21FA54DA008B174D /* KYCResubmitIdentityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C572BC21FA54DA008B174D /* KYCResubmitIdentityRouter.swift */; };
+		C7C572F021FBBBFC008B174D /* VeriffController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C572EF21FBBBFC008B174D /* VeriffController.swift */; };
+		C7C572F121FBBBFC008B174D /* VeriffController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C572EF21FBBBFC008B174D /* VeriffController.swift */; };
+		C7C572FF21FBC09F008B174D /* KYCResubmitIdentityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C572FE21FBC09F008B174D /* KYCResubmitIdentityController.swift */; };
+		C7C5730021FBC09F008B174D /* KYCResubmitIdentityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C572FE21FBC09F008B174D /* KYCResubmitIdentityController.swift */; };
+		C7C5730E21FF5CBC008B174D /* KYCResubmitIdentityController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7C5731021FF5CBC008B174D /* KYCResubmitIdentityController.storyboard */; };
+		C7C5737221FF84DD008B174D /* KYCResubmitIdentityController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7C5731021FF5CBC008B174D /* KYCResubmitIdentityController.storyboard */; };
 		C7CE25AA2135E3B500DCC43B /* ExchangeCreateContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CE25A92135E3B500DCC43B /* ExchangeCreateContracts.swift */; };
 		C7CE25AB2135E3B500DCC43B /* ExchangeCreateContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CE25A92135E3B500DCC43B /* ExchangeCreateContracts.swift */; };
 		C7CE25B62135E3D300DCC43B /* ExchangeCreatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CE25B52135E3D300DCC43B /* ExchangeCreatePresenter.swift */; };
@@ -3975,6 +3982,7 @@
 		C73037A9218B508C00F38BA8 /* InformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
 		C732DF102200BA8500F3687A /* DeepLinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouter.swift; sourceTree = "<group>"; };
 		C732DF1C2200BC6A00F3687A /* DeepLinkRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouting.swift; sourceTree = "<group>"; };
+		C732DF412200DFD200F3687A /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		C733A89221236F02007DADE0 /* HttpHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpHeader.swift; sourceTree = "<group>"; };
 		C73406201F54791C00143100 /* EtherAmountInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EtherAmountInputViewController.h; sourceTree = "<group>"; };
 		C73406211F54791C00143100 /* EtherAmountInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EtherAmountInputViewController.m; sourceTree = "<group>"; };
@@ -4127,6 +4135,50 @@
 		C7BEE14920C9775B0096003B /* WalletOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletOptions.swift; sourceTree = "<group>"; };
 		C7C0DC05212F6594000EFE71 /* TradingPair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradingPair.swift; sourceTree = "<group>"; };
 		C7C572BC21FA54DA008B174D /* KYCResubmitIdentityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCResubmitIdentityRouter.swift; sourceTree = "<group>"; };
+		C7C572EF21FBBBFC008B174D /* VeriffController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VeriffController.swift; sourceTree = "<group>"; };
+		C7C572FE21FBC09F008B174D /* KYCResubmitIdentityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCResubmitIdentityController.swift; sourceTree = "<group>"; };
+		C7C5730F21FF5CBC008B174D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/KYCResubmitIdentityController.storyboard; sourceTree = "<group>"; };
+		C7C5731221FF5CC2008B174D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5731421FF5CCD008B174D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/KYCResubmitIdentityController.strings"; sourceTree = "<group>"; };
+		C7C5731621FF5CD0008B174D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5731821FF5CD6008B174D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5731A21FF5CDC008B174D /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5731C21FF5CE0008B174D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5731E21FF5CE2008B174D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5732021FF5CE4008B174D /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5732221FF5CE9008B174D /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5732421FF5CF5008B174D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/KYCResubmitIdentityController.strings"; sourceTree = "<group>"; };
+		C7C5732621FF5CF8008B174D /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5732821FF5CFB008B174D /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/KYCResubmitIdentityController.strings"; sourceTree = "<group>"; };
+		C7C5732A21FF5CFD008B174D /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5732C21FF5D00008B174D /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5732E21FF5D01008B174D /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5733021FF5D04008B174D /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5733221FF5D06008B174D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5733421FF5D09008B174D /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5733621FF5D0B008B174D /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5733821FF5D19008B174D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5733A21FF5D1E008B174D /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5733C21FF5D23008B174D /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5733E21FF5D27008B174D /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5734021FF5D2A008B174D /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5734221FF5D31008B174D /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5734421FF5D34008B174D /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5734621FF5D37008B174D /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5734821FF5FA9008B174D /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5734A21FF5FAB008B174D /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5734C21FF5FAF008B174D /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5734E21FF5FB1008B174D /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5735021FF5FB3008B174D /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5735221FF5FB5008B174D /* es-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-ES"; path = "es-ES.lproj/KYCResubmitIdentityController.strings"; sourceTree = "<group>"; };
+		C7C5735421FF5FB8008B174D /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5735621FF5FBA008B174D /* sl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sl; path = sl.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
+		C7C5735821FF5FBC008B174D /* sv-SE */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "sv-SE"; path = "sv-SE.lproj/KYCResubmitIdentityController.strings"; sourceTree = "<group>"; };
+		C7C5735A21FF5FBE008B174D /* zh-CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-CN"; path = "zh-CN.lproj/KYCResubmitIdentityController.strings"; sourceTree = "<group>"; };
+		C7C5735C21FF5FBF008B174D /* zh-TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-TW"; path = "zh-TW.lproj/KYCResubmitIdentityController.strings"; sourceTree = "<group>"; };
+		C7C5735E21FF5FC2008B174D /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/KYCResubmitIdentityController.strings"; sourceTree = "<group>"; };
+		C7C5736021FF5FC4008B174D /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/KYCResubmitIdentityController.strings"; sourceTree = "<group>"; };
+		C7C5736221FF5FC9008B174D /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/KYCResubmitIdentityController.strings; sourceTree = "<group>"; };
 		C7CE25A92135E3B500DCC43B /* ExchangeCreateContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCreateContracts.swift; sourceTree = "<group>"; };
 		C7CE25B52135E3D300DCC43B /* ExchangeCreatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCreatePresenter.swift; sourceTree = "<group>"; };
 		C7CE25B82135E41900DCC43B /* ExchangeCreateInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCreateInteractor.swift; sourceTree = "<group>"; };
@@ -4942,6 +4994,7 @@
 				3A6865BB219A11A70009FF29 /* Foundation */,
 				3A4E47EC21BAF64B001A799D /* Receive */,
 				3A6865C2219A12530009FF29 /* Views */,
+				C732DF372200DFB900F3687A /* Protocols */,
 			);
 			path = PlatformUIKit;
 			sourceTree = "<group>";
@@ -5811,6 +5864,7 @@
 				3AE74B4C21C04D9C00246A9C /* KYCTiersViewController.storyboard */,
 				51F5D19621542ED4003D6237 /* KYCVerifyIdentityController.storyboard */,
 				51F5D1EB21542F6D003D6237 /* KYCWelcomeController.storyboard */,
+				C7C5731021FF5CBC008B174D /* KYCResubmitIdentityController.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -8255,6 +8309,8 @@
 		AA126D77212DEAD4005886A3 /* Identity Verification */ = {
 			isa = PBXGroup;
 			children = (
+				C7C572EF21FBBBFC008B174D /* VeriffController.swift */,
+				C7C572FE21FBC09F008B174D /* KYCResubmitIdentityController.swift */,
 				C7C572BC21FA54DA008B174D /* KYCResubmitIdentityRouter.swift */,
 				602B9CD22118E15200BD3D60 /* KYCVerifyIdentityController.swift */,
 				AA46ECC2219A2EE10077B351 /* KYCVerifyIdentityInteractor.swift */,
@@ -8995,6 +9051,14 @@
 				C73037A9218B508C00F38BA8 /* InformationViewController.swift */,
 			);
 			path = Information;
+			sourceTree = "<group>";
+		};
+		C732DF372200DFB900F3687A /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				C732DF412200DFD200F3687A /* LoadingView.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		C7387ED221814CE2005D35DA /* TextFieldInput */ = {
@@ -9938,6 +10002,7 @@
 				C7773313217A764D00899930 /* TransactionsXlmViewController.storyboard in Resources */,
 				3A26D4FD2140227100D79BDD /* ExchangeDetailViewController.storyboard in Resources */,
 				C78238B02131F0CD008FCCAD /* ExchangeCreateViewController.storyboard in Resources */,
+				C7C5730E21FF5CBC008B174D /* KYCResubmitIdentityController.storyboard in Resources */,
 				C75757522176504100CE7814 /* AssetTypeCell.xib in Resources */,
 				3AAEF95421417563005852D1 /* ExchangeLockedHeaderView.xib in Resources */,
 				7ADD19D821874C220013A525 /* Firebase in Resources */,
@@ -9963,6 +10028,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7C5737221FF84DD008B174D /* KYCResubmitIdentityController.storyboard in Resources */,
 				511713B02155489D000C3AD1 /* Localizable.strings in Resources */,
 				511713AF21554880000C3AD1 /* InfoPlist.strings in Resources */,
 				51B767A92106369A003CCD46 /* Montserrat-Black.ttf in Resources */,
@@ -10429,6 +10495,7 @@
 				3A6865BF219A11C40009FF29 /* Visibility.swift in Sources */,
 				3A6865C6219A12860009FF29 /* CellModel.swift in Sources */,
 				3AEA402121FBA9DC00952587 /* AlertView.swift in Sources */,
+				C732DF422200DFD200F3687A /* LoadingView.swift in Sources */,
 				3A6865D0219A140A0009FF29 /* Font.swift in Sources */,
 				3A3F3B9E21E4073A003BFDFC /* BaseCell.swift in Sources */,
 				3A3F3B9021E3FE89003BFDFC /* ContainerModel.swift in Sources */,
@@ -10766,6 +10833,7 @@
 				C7773340217E233C00899930 /* TransactionsXlmDataProvider.swift in Sources */,
 				C7387EB32181138F005D35DA /* AmountTextFieldDelegate.swift in Sources */,
 				AACB48BB214784D6008FCCD0 /* Collection+HelpersTests.swift in Sources */,
+				C7C572F121FBBBFC008B174D /* VeriffController.swift in Sources */,
 				AAE94F3620C70B97005A3595 /* AssetURLPayload.swift in Sources */,
 				AAFE9E9321016132002E4E1E /* PinError.swift in Sources */,
 				51D17A9A20A33A700071E7E0 /* PrivateKeyReader.swift in Sources */,
@@ -10804,6 +10872,7 @@
 				C74FEA2620979259007CAB5D /* JSContextWithDOMTests.swift in Sources */,
 				AA2F122C2140A92E006B1FC1 /* JSContext+HelpersTests.swift in Sources */,
 				3AE74B4821C04C5800246A9C /* KYCTiersViewController.swift in Sources */,
+				C7C5730021FBC09F008B174D /* KYCResubmitIdentityController.swift in Sources */,
 				AA2D000220D96FA300B7BE0E /* SwipeToReceiveAddressView.swift in Sources */,
 				AA4770B8211BA984006356B1 /* KYCAccountStatus.swift in Sources */,
 				AA54E4F4216D3B30005061F9 /* KYCStateSelectionPresenter.swift in Sources */,
@@ -11279,6 +11348,7 @@
 				C7FF10DF2141A89500CBA3CB /* Fix.swift in Sources */,
 				C7614399211A7FD70041411E /* SocketManager.swift in Sources */,
 				67D95A261B3DD86B0012EBB1 /* BCTextField.swift in Sources */,
+				C7C572F021FBBBFC008B174D /* VeriffController.swift in Sources */,
 				C77217E820AFCC3C0087836A /* WalletBackupDelegate.swift in Sources */,
 				5171E39020F4F98000E8913E /* Colors.swift in Sources */,
 				AA084412215EEF750007BFD1 /* LockboxAccount.swift in Sources */,
@@ -11378,6 +11448,7 @@
 				23444F9E1DCD221A00573C8C /* BTCErrors.m in Sources */,
 				C72D6CC21EC0B7F80000F922 /* FeeTableCell.m in Sources */,
 				C746905F2180ACCD001A7C52 /* SEP7URI.swift in Sources */,
+				C7C572FF21FBC09F008B174D /* KYCResubmitIdentityController.swift in Sources */,
 				AAD25829219E4E3E00D9CEA1 /* WalletSettingsRequest.swift in Sources */,
 				AA7E7723210BA487009DFB4C /* Strings.swift in Sources */,
 				238FC4D21DEC79E200591D5F /* TransactionDetailDoubleSpendWarningCell.m in Sources */,
@@ -12546,6 +12617,55 @@
 				AA54E4F1216D3157005061F9 /* zh */,
 			);
 			name = KYCStateSelectionController.storyboard;
+			sourceTree = "<group>";
+		};
+		C7C5731021FF5CBC008B174D /* KYCResubmitIdentityController.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C7C5730F21FF5CBC008B174D /* Base */,
+				C7C5731221FF5CC2008B174D /* fr */,
+				C7C5731421FF5CCD008B174D /* zh-Hans */,
+				C7C5731621FF5CD0008B174D /* es */,
+				C7C5731821FF5CD6008B174D /* de */,
+				C7C5731A21FF5CDC008B174D /* zh */,
+				C7C5731C21FF5CE0008B174D /* ja */,
+				C7C5731E21FF5CE2008B174D /* it */,
+				C7C5732021FF5CE4008B174D /* nl */,
+				C7C5732221FF5CE9008B174D /* ko */,
+				C7C5732421FF5CF5008B174D /* zh-Hant */,
+				C7C5732621FF5CF8008B174D /* pt */,
+				C7C5732821FF5CFB008B174D /* pt-PT */,
+				C7C5732A21FF5CFD008B174D /* da */,
+				C7C5732C21FF5D00008B174D /* fi */,
+				C7C5732E21FF5D01008B174D /* nb */,
+				C7C5733021FF5D04008B174D /* sv */,
+				C7C5733221FF5D06008B174D /* ru */,
+				C7C5733421FF5D09008B174D /* pl */,
+				C7C5733621FF5D0B008B174D /* tr */,
+				C7C5733821FF5D19008B174D /* ar */,
+				C7C5733A21FF5D1E008B174D /* th */,
+				C7C5733C21FF5D23008B174D /* cs */,
+				C7C5733E21FF5D27008B174D /* hu */,
+				C7C5734021FF5D2A008B174D /* hr */,
+				C7C5734221FF5D31008B174D /* el */,
+				C7C5734421FF5D34008B174D /* he */,
+				C7C5734621FF5D37008B174D /* ro */,
+				C7C5734821FF5FA9008B174D /* sk */,
+				C7C5734A21FF5FAB008B174D /* uk */,
+				C7C5734C21FF5FAF008B174D /* id */,
+				C7C5734E21FF5FB1008B174D /* ms */,
+				C7C5735021FF5FB3008B174D /* vi */,
+				C7C5735221FF5FB5008B174D /* es-ES */,
+				C7C5735421FF5FB8008B174D /* hi */,
+				C7C5735621FF5FBA008B174D /* sl */,
+				C7C5735821FF5FBC008B174D /* sv-SE */,
+				C7C5735A21FF5FBE008B174D /* zh-CN */,
+				C7C5735C21FF5FBF008B174D /* zh-TW */,
+				C7C5735E21FF5FC2008B174D /* es-MX */,
+				C7C5736021FF5FC4008B174D /* pt-BR */,
+				C7C5736221FF5FC9008B174D /* ca */,
+			);
+			name = KYCResubmitIdentityController.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

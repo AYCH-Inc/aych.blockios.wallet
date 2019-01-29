@@ -16,6 +16,12 @@ protocol KYCVerifyIdentityView: class {
     func showDocumentTypes(_ types: [KYCDocumentType])
 
     func showErrorMessage(_ message: String)
+    
+    func showCameraPermissionsDenied()
+    
+    func promptToAcceptCameraPermissions()
+    
+    func sendToVeriff()
 }
 
 class KYCVerifyIdentityPresenter {
@@ -47,4 +53,32 @@ class KYCVerifyIdentityPresenter {
                 self?.view?.showErrorMessage(LocalizationConstants.Errors.genericError)
             })
     }
+    
+    func didTapNext() {
+        if PermissionsRequestor.shouldDisplayCameraPermissionsRequest() {
+            view?.promptToAcceptCameraPermissions()
+            return
+        }
+        if PermissionsRequestor.cameraRefused() == false {
+            view?.sendToVeriff()
+        } else {
+            view?.showCameraPermissionsDenied()
+        }
+    }
+    
+    func requestedCameraPermissions() {
+        permissionsRequestor.requestPermissions(camera: true) { [weak self] in
+            guard let this = self else { return }
+            switch PermissionsRequestor.cameraEnabled() {
+            case true:
+                this.view?.sendToVeriff()
+            case false:
+                this.view?.showCameraPermissionsDenied()
+            }
+        }
+    }
+    
+    private lazy var permissionsRequestor: PermissionsRequestor = {
+       return PermissionsRequestor()
+    }()
 }

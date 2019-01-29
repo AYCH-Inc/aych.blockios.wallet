@@ -9,6 +9,7 @@
 import Veriff
 import RxSwift
 import UIKit
+import PlatformUIKit
 
 /// Account verification screen in KYC flow
 final class KYCVerifyIdentityController: KYCBaseViewController {
@@ -85,7 +86,7 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
         nextButton.actionBlock = { [unowned self] in
             switch self.currentProvider {
             case .veriff:
-                self.startVerificationFlow()
+                self.presenter.didTapNext()
             }
         }
         enableCamera.text = LocalizationConstants.KYC.enableCamera
@@ -106,14 +107,16 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
     // MARK: - Private Methods
     
     func veriffCredentialsRequest() {
+        showLoadingIndicator()
         disposable = veriffService.createCredentials()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
+            .do(onDispose: { [weak self] in self?.hideLoadingIndicator() })
             .subscribe(onSuccess: { [weak self] credentials in
                 guard let this = self else { return }
                 this.veriffCredentials = credentials
                 this.launchVeriffController()
-                }, onError: { error in
+                }, onError: { [weak self] error in
                     Logger.shared.error("Failed to get Veriff credentials. Error: \(error.localizedDescription)")
             })
     }
@@ -217,6 +220,59 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
 }
 
 extension KYCVerifyIdentityController: KYCVerifyIdentityView {
+    func showCameraPermissionsDenied() {
+        let action = AlertAction(
+            title: LocalizationConstants.goToSettings,
+            style: .confirm
+        )
+        let model = AlertModel(
+            headline: LocalizationConstants.Errors.cameraAccessDenied,
+            body: LocalizationConstants.Errors.cameraAccessDeniedMessage,
+            actions: [action]
+        )
+        let alert = AlertView.make(with: model) { output in
+            switch output.style {
+            case .confirm:
+                guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+                UIApplication.shared.open(settingsURL)
+            case .default:
+                break
+            }
+        }
+        alert.show()
+    }
+    
+    func promptToAcceptCameraPermissions() {
+        let okay = AlertAction(
+            title: LocalizationConstants.okString,
+            style: .confirm
+        )
+        let notNow = AlertAction(
+            title: LocalizationConstants.KYC.notNow,
+            style: .default
+        )
+        
+        let model = AlertModel(
+            headline: LocalizationConstants.KYC.allowCameraAccess,
+            body: LocalizationConstants.KYC.enableCameraDescription,
+            actions: [okay, notNow]
+        )
+        let alert = AlertView.make(with: model) { [weak self] output in
+            guard let this = self else { return }
+            switch output.style {
+            case .confirm:
+                this.presenter.requestedCameraPermissions()
+            case .default:
+                break
+            }
+        }
+        alert.show()
+    }
+    
+    func sendToVeriff() {
+        startVerificationFlow()
+    }
+    
     func showLoadingIndicator() {
         nextButton.isLoading = true
     }

@@ -13,7 +13,7 @@ protocol KYCVerifyIdentityView: class {
 
     func hideLoadingIndicator()
 
-    func showDocumentTypesActionSheet(_ types: [KYCDocumentType])
+    func showDocumentTypes(_ types: [KYCDocumentType])
 
     func showErrorMessage(_ message: String)
 }
@@ -40,7 +40,7 @@ class KYCVerifyIdentityPresenter {
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] documentTypes in
                 self?.view?.hideLoadingIndicator()
-                self?.view?.showDocumentTypesActionSheet(documentTypes)
+                self?.view?.showDocumentTypes(documentTypes)
             }, onError: { [weak self] error in
                 Logger.shared.error("Error: \(error.localizedDescription)")
                 self?.view?.hideLoadingIndicator()

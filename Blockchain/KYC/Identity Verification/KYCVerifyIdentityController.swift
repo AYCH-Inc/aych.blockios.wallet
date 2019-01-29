@@ -31,7 +31,22 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
     // MARK: - Views
 
     @IBOutlet private var nextButton: PrimaryButtonContainer!
-
+    
+    // MARK: - UILabels
+    
+    @IBOutlet private var headline: UILabel!
+    @IBOutlet private var subheadline: UILabel!
+    @IBOutlet private var passport: UILabel!
+    @IBOutlet private var nationalIDCard: UILabel!
+    @IBOutlet private var residenceCard: UILabel!
+    @IBOutlet private var driversLicense: UILabel!
+    @IBOutlet private var enableCamera: UILabel!
+    @IBOutlet private var enableCameraDescription: UILabel!
+    
+    // MARK: UIStackView
+    
+    @IBOutlet private var documentTypeStackView: UIStackView!
+    
     // MARK: - Properties
     
     private let veriffService = VeriffService()
@@ -68,14 +83,24 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         nextButton.actionBlock = { [unowned self] in
-            guard let countryCode = self.countryCode else {
-                return
-            }
             switch self.currentProvider {
             case .veriff:
                 self.startVerificationFlow()
             }
         }
+        enableCamera.text = LocalizationConstants.KYC.enableCamera
+        enableCameraDescription.text = LocalizationConstants.KYC.enableCameraDescription
+        passport.text = LocalizationConstants.KYC.passport
+        nationalIDCard.text = LocalizationConstants.KYC.nationalIdentityCard
+        residenceCard.text = LocalizationConstants.KYC.residencePermit
+        driversLicense.text = LocalizationConstants.KYC.driversLicense
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard let code = countryCode else { return }
+        presenter.presentDocumentTypeOptions(code)
     }
 
     // MARK: - Private Methods
@@ -200,16 +225,21 @@ extension KYCVerifyIdentityController: KYCVerifyIdentityView {
         nextButton.isLoading = false
     }
 
-    func showDocumentTypesActionSheet(_ types: [KYCDocumentType]) {
-        let documentDialog = UIAlertController(title: LocalizationConstants.KYC.whichDocumentAreYouUsing, message: nil, preferredStyle: .actionSheet)
-        types.forEach { documentType  in
-            let action = UIAlertAction(title: documentType.description, style: .default, handler: { [unowned self] _ in
-                self.didSelect(documentType)
-            })
-            documentDialog.addAction(action)
+    func showDocumentTypes(_ types: [KYCDocumentType]) {
+        documentTypeStackView.isHidden = false
+        types.forEach { [weak self] type in
+            guard let this = self else { return }
+            switch type {
+            case .driversLicense:
+                this.driversLicense.isHidden = false
+            case .nationalIdentityCard:
+                this.nationalIDCard.isHidden = false
+            case .passport:
+                this.passport.isHidden = false
+            case .residencePermit:
+                this.residenceCard.isHidden = false
+            }
         }
-        documentDialog.addAction(UIAlertAction(title: LocalizationConstants.cancel, style: .cancel))
-        present(documentDialog, animated: true)
     }
 
     func showErrorMessage(_ message: String) {

@@ -1460,7 +1460,7 @@ struct LocalizationConstants {
             comment: ""
         )
         static let passport = NSLocalizedString(
-            "Passport",
+            "Valid Passport",
             comment: "The title of the UIAlertAction for the passport option."
         )
         static let driversLicense = NSLocalizedString(
@@ -1468,11 +1468,11 @@ struct LocalizationConstants {
             comment: "The title of the UIAlertAction for the driver's license option."
         )
         static let nationalIdentityCard = NSLocalizedString(
-            "National Identity Card",
+            "National ID Card",
             comment: "The title of the UIAlertAction for the national identity card option."
         )
         static let residencePermit = NSLocalizedString(
-            "Residence Permit",
+            "Residence Card",
             comment: "The title of the UIAlertAction for the residence permit option."
         )
         static let submittingInformation = NSLocalizedString(
@@ -1639,6 +1639,14 @@ struct LocalizationConstants {
             comment: "Description shown in modal that is presented when tapping the question mark in KYC."
         )
         static let readNow = NSLocalizedString("Read Now", comment: "Read Now")
+        static let enableCamera = NSLocalizedString(
+            "Also, enable your camera!",
+            comment: "Requesting user to enable their camera"
+        )
+        static let enableCameraDescription = NSLocalizedString(
+            "Please allow your Blockchain App access your camera to upload your ID and take a Selfie.",
+            comment: "Description as to why the user should permit camera access"
+        )
     }
 
     struct Swap {

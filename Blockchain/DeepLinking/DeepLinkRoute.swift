@@ -10,6 +10,7 @@ import Foundation
 
 enum DeepLinkRoute: String, CaseIterable {
     case xlmAirdop
+    case kycDocumentResubmission
 }
 
 extension DeepLinkRoute {
@@ -47,6 +48,7 @@ extension DeepLinkRoute {
                     let routeParameters = parameters {
                     return routeParameters[key] == value
                 }
+                return true
             }
             return false
         }
@@ -56,6 +58,8 @@ extension DeepLinkRoute {
         switch self {
         case .xlmAirdop:
             return "referral"
+        case .kycDocumentResubmission:
+            return "login"
         }
     }
 
@@ -63,6 +67,8 @@ extension DeepLinkRoute {
         switch self {
         case .xlmAirdop:
             return "campaign"
+        case .kycDocumentResubmission:
+            return "deep_link_path"
         }
     }
 
@@ -70,6 +76,8 @@ extension DeepLinkRoute {
         switch self {
         case .xlmAirdop:
             return "sunriver"
+        case .kycDocumentResubmission:
+            return "verification"
         }
     }
 }

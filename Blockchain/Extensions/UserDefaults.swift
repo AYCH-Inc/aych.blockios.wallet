@@ -66,6 +66,8 @@ extension UserDefaults {
         case didAttemptToRouteForAirdrop
         case didRegisterForAirdropCampaignSucceed
         case kycLatestPage
+        case didTapOnDocumentResubmissionDeepLink
+        case documentResubmissionLinkReason
     }
 
     func migrateLegacyKeysIfNeeded() {

@@ -48,7 +48,12 @@ extension FiatValue: Money {
     }
 
     public var maxDecimalPlaces: Int {
-        return 2
+        let formattedString = toDisplayString(includeSymbol: false, locale: Locale.US)
+        let components = formattedString.split(separator: ".")
+        guard let lastComponent = components.last, components.count > 1 else {
+            return 0
+        }
+        return lastComponent.count
     }
 
     public var maxDisplayableDecimalPlaces: Int {
@@ -56,8 +61,20 @@ extension FiatValue: Money {
     }
 
     public func toDisplayString(includeSymbol: Bool = true, locale: Locale = Locale.current) -> String {
-        let formatter = FiatFormatterProvider.shared.formatter(locale: locale, fiatValue: self, includeSymbol: includeSymbol)
-        return formatter.string(from: NSDecimalNumber(decimal: amount)) ?? "\(amount)"
+        let formatter = FiatFormatterProvider.shared.formatter(locale: locale, fiatValue: self)
+        let formattedString = formatter.string(from: NSDecimalNumber(decimal: amount)) ?? "\(amount)"
+        if let firstDigitIndex = formattedString.firstIndex(where: { $0.inSet(characterSet: CharacterSet.decimalDigits) }),
+           let lastDigitIndex = formattedString.lastIndex(where: { $0.inSet(characterSet: CharacterSet.decimalDigits) }),
+           !includeSymbol {
+            return String(formattedString[firstDigitIndex...lastDigitIndex])
+        }
+        return formattedString
+    }
+}
+
+extension Character {
+    func inSet(characterSet: CharacterSet) -> Bool {
+        return CharacterSet(charactersIn: "\(self)").isSubset(of: characterSet)
     }
 }
 
@@ -106,35 +123,27 @@ private class FiatFormatterProvider {
 
     private var formatterMap = [String: NumberFormatter]()
 
-    func formatter(locale: Locale, fiatValue: FiatValue, includeSymbol: Bool = true) -> NumberFormatter {
-        let mapKey = key(locale: locale, fiatValue: fiatValue, includeSymbol: includeSymbol)
+    func formatter(locale: Locale, fiatValue: FiatValue) -> NumberFormatter {
+        let mapKey = key(locale: locale, fiatValue: fiatValue)
         guard let matchingFormatter = formatterMap[mapKey] else {
-            let formatter = createNumberFormatter(locale: locale, fiatValue: fiatValue, includeSymbol: includeSymbol)
+            let formatter = createNumberFormatter(locale: locale, fiatValue: fiatValue)
             formatterMap[mapKey] = formatter
             return formatter
         }
         return matchingFormatter
     }
 
-    private func key(locale: Locale, fiatValue: FiatValue, includeSymbol: Bool) -> String {
-        return "\(locale.identifier)_\(fiatValue.currencyCode)_\(includeSymbol)"
+    private func key(locale: Locale, fiatValue: FiatValue) -> String {
+        return "\(locale.identifier)_\(fiatValue.currencyCode)"
     }
 
-    private func createNumberFormatter(locale: Locale, fiatValue: FiatValue, includeSymbol: Bool) -> NumberFormatter {
+    private func createNumberFormatter(locale: Locale, fiatValue: FiatValue) -> NumberFormatter {
         let formatter = NumberFormatter()
         formatter.usesGroupingSeparator = true
-        formatter.minimumFractionDigits = fiatValue.maxDecimalPlaces
-        formatter.maximumFractionDigits = fiatValue.maxDecimalPlaces
         formatter.roundingMode = .down
         formatter.locale = locale
         formatter.currencyCode = fiatValue.currencyCode
-
-        if includeSymbol {
-            formatter.numberStyle = .currency
-        } else {
-            formatter.numberStyle = .decimal
-        }
-
+        formatter.numberStyle = .currency
         return formatter
     }
 }

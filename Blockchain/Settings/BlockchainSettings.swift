@@ -416,7 +416,30 @@ final class BlockchainSettings: NSObject {
             }
         }
 
-         override init() {
+        /// Determines if the user deep linked into the app using a document resubmission link. This
+        /// value is used to continue KYC'ing at the Verify Your Identity step.
+        var didTapOnDocumentResubmissionDeepLink: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didTapOnDocumentResubmissionDeepLink.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didTapOnDocumentResubmissionDeepLink.rawValue)
+            }
+        }
+
+        /// Property saved from parsing '' query param from document resubmission deeplink.
+        /// Used to pass reasons for initial verification failure to display in the Verify Your
+        /// Identity screen
+        var documentResubmissionLinkReason: String? {
+            get {
+                return defaults.string(forKey: UserDefaults.Keys.documentResubmissionLinkReason.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.documentResubmissionLinkReason.rawValue)
+            }
+        }
+
+        override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
             // access an instance of this class.
             super.init()

@@ -1116,6 +1116,10 @@
 		C73037A8218B4EE700F38BA8 /* InformationViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C73037A6218B4EE700F38BA8 /* InformationViewController.storyboard */; };
 		C73037AA218B508C00F38BA8 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73037A9218B508C00F38BA8 /* InformationViewController.swift */; };
 		C73037AB218B508C00F38BA8 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73037A9218B508C00F38BA8 /* InformationViewController.swift */; };
+		C732DF112200BA8500F3687A /* DeepLinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF102200BA8500F3687A /* DeepLinkRouter.swift */; };
+		C732DF122200BA8500F3687A /* DeepLinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF102200BA8500F3687A /* DeepLinkRouter.swift */; };
+		C732DF1D2200BC6A00F3687A /* DeepLinkRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF1C2200BC6A00F3687A /* DeepLinkRouting.swift */; };
+		C732DF1E2200BC6B00F3687A /* DeepLinkRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF1C2200BC6A00F3687A /* DeepLinkRouting.swift */; };
 		C733A89321236F02007DADE0 /* HttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C733A89221236F02007DADE0 /* HttpHeader.swift */; };
 		C73406221F54791C00143100 /* EtherAmountInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73406211F54791C00143100 /* EtherAmountInputViewController.m */; };
 		C7343BC4214FF8B1001B1EC9 /* ExchangeDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7343BC3214FF8B1001B1EC9 /* ExchangeDetailPresenter.swift */; };
@@ -1272,6 +1276,8 @@
 		C7C0DC25212F67A6000EFE71 /* ExchangeTradeCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF7121274EF9003A8A08 /* ExchangeTradeCellModel.swift */; };
 		C7C0DC26212F67AD000EFE71 /* PartnerExchangeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF79212B0CCB003A8A08 /* PartnerExchangeAPI.swift */; };
 		C7C0DC28212F67E1000EFE71 /* PartnerExchangeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF7C212B13FA003A8A08 /* PartnerExchangeService.swift */; };
+		C7C572BD21FA54DA008B174D /* KYCResubmitIdentityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C572BC21FA54DA008B174D /* KYCResubmitIdentityRouter.swift */; };
+		C7C572BE21FA54DA008B174D /* KYCResubmitIdentityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C572BC21FA54DA008B174D /* KYCResubmitIdentityRouter.swift */; };
 		C7CE25AA2135E3B500DCC43B /* ExchangeCreateContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CE25A92135E3B500DCC43B /* ExchangeCreateContracts.swift */; };
 		C7CE25AB2135E3B500DCC43B /* ExchangeCreateContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CE25A92135E3B500DCC43B /* ExchangeCreateContracts.swift */; };
 		C7CE25B62135E3D300DCC43B /* ExchangeCreatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CE25B52135E3D300DCC43B /* ExchangeCreatePresenter.swift */; };
@@ -3964,6 +3970,8 @@
 		C72D6CC91ED3472D0000F922 /* FeeTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeeTypes.h; sourceTree = "<group>"; };
 		C73037A6218B4EE700F38BA8 /* InformationViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InformationViewController.storyboard; sourceTree = "<group>"; };
 		C73037A9218B508C00F38BA8 /* InformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
+		C732DF102200BA8500F3687A /* DeepLinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouter.swift; sourceTree = "<group>"; };
+		C732DF1C2200BC6A00F3687A /* DeepLinkRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouting.swift; sourceTree = "<group>"; };
 		C733A89221236F02007DADE0 /* HttpHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpHeader.swift; sourceTree = "<group>"; };
 		C73406201F54791C00143100 /* EtherAmountInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EtherAmountInputViewController.h; sourceTree = "<group>"; };
 		C73406211F54791C00143100 /* EtherAmountInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EtherAmountInputViewController.m; sourceTree = "<group>"; };
@@ -4115,6 +4123,7 @@
 		C7BEE13A20C828B20096003B /* BuySellCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuySellCoordinator.swift; sourceTree = "<group>"; };
 		C7BEE14920C9775B0096003B /* WalletOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletOptions.swift; sourceTree = "<group>"; };
 		C7C0DC05212F6594000EFE71 /* TradingPair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradingPair.swift; sourceTree = "<group>"; };
+		C7C572BC21FA54DA008B174D /* KYCResubmitIdentityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCResubmitIdentityRouter.swift; sourceTree = "<group>"; };
 		C7CE25A92135E3B500DCC43B /* ExchangeCreateContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCreateContracts.swift; sourceTree = "<group>"; };
 		C7CE25B52135E3D300DCC43B /* ExchangeCreatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCreatePresenter.swift; sourceTree = "<group>"; };
 		C7CE25B82135E41900DCC43B /* ExchangeCreateInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCreateInteractor.swift; sourceTree = "<group>"; };
@@ -8234,6 +8243,7 @@
 		AA126D77212DEAD4005886A3 /* Identity Verification */ = {
 			isa = PBXGroup;
 			children = (
+				C7C572BC21FA54DA008B174D /* KYCResubmitIdentityRouter.swift */,
 				602B9CD22118E15200BD3D60 /* KYCVerifyIdentityController.swift */,
 				AA46ECC2219A2EE10077B351 /* KYCVerifyIdentityInteractor.swift */,
 				AA46ECBF219A2ED50077B351 /* KYCVerifyIdentityPresenter.swift */,
@@ -8543,7 +8553,9 @@
 			isa = PBXGroup;
 			children = (
 				AA787A032187A63000E2D4CF /* DeepLinkHandler.swift */,
+				C732DF1C2200BC6A00F3687A /* DeepLinkRouting.swift */,
 				AA787A062187A86100E2D4CF /* DeepLinkRoute.swift */,
+				C732DF102200BA8500F3687A /* DeepLinkRouter.swift */,
 				F7B8C83721A5E607005CAA0D /* DeepLinkPayload.swift */,
 			);
 			path = DeepLinking;
@@ -10773,6 +10785,7 @@
 				602B9D0A2118E22B00BD3D60 /* KYCNetworkRequest.swift in Sources */,
 				602B9D152118E25400BD3D60 /* LocationSuggestionCell.swift in Sources */,
 				5146E29E21518826009B62D7 /* AnnouncementCardViewModel.swift in Sources */,
+				C732DF1E2200BC6B00F3687A /* DeepLinkRouting.swift in Sources */,
 				F7B8C84321A5EB81005CAA0D /* DeepLinkPayloadTests.swift in Sources */,
 				C7A85928217A294000502935 /* Identifiable.swift in Sources */,
 				C74FEA2620979259007CAB5D /* JSContextWithDOMTests.swift in Sources */,
@@ -10783,6 +10796,7 @@
 				AA54E4F4216D3B30005061F9 /* KYCStateSelectionPresenter.swift in Sources */,
 				AADB01EA20C09FA7000FFFEC /* WalletService.swift in Sources */,
 				3A3C7D542180E5D50067F442 /* SendXLMCoordinator.swift in Sources */,
+				C7C572BE21FA54DA008B174D /* KYCResubmitIdentityRouter.swift in Sources */,
 				AACE31C72092A99B00B7B806 /* LocalizationConstants.swift in Sources */,
 				AADF6B3521C07AE600F8CA43 /* NabuUserTiers.swift in Sources */,
 				AA15345E21A45FBF0099BA9D /* WalletSettingsService.swift in Sources */,
@@ -10945,6 +10959,7 @@
 				AA94966420CB613100A9C2DD /* AssetAddressFactoryTests.swift in Sources */,
 				C7387ED621814D6D005D35DA /* AmountTextFieldDelegateTests.swift in Sources */,
 				3A373C462188CBCE00DDFAFD /* StellarTransactionCaching.swift in Sources */,
+				C732DF122200BA8500F3687A /* DeepLinkRouter.swift in Sources */,
 				C76D732D20B2F5CD00040B57 /* WalletFiatAtTimeDelegate.swift in Sources */,
 				C74690602180ACCD001A7C52 /* SEP7URI.swift in Sources */,
 				C7F1267A21C716F7008D8F2A /* KYCTierPostBody.swift in Sources */,
@@ -11124,6 +11139,7 @@
 				3A12A71821ACFD5800C616F6 /* Wallet+Extensions.swift in Sources */,
 				602B9CF42118E15300BD3D60 /* KYCCoordinator.swift in Sources */,
 				AA126D12212D1B2B005886A3 /* KYCUpdateAddressRequest.swift in Sources */,
+				C7C572BD21FA54DA008B174D /* KYCResubmitIdentityRouter.swift in Sources */,
 				AA69F65F2086A7500054EFCE /* BlockchainSettings.swift in Sources */,
 				3A56AEB921766D4800044302 /* StellarAccount.swift in Sources */,
 				3AAEF94D21417547005852D1 /* ExchangeLockedHeaderView.swift in Sources */,
@@ -11168,6 +11184,7 @@
 				51A862D520921A6E00B338E0 /* BlockchainAPI+URLSuffix.swift in Sources */,
 				C7F1267921C716F7008D8F2A /* KYCTierPostBody.swift in Sources */,
 				AAD708F621C31EBC003E96F6 /* KYCMoreInformationController.swift in Sources */,
+				C732DF1D2200BC6A00F3687A /* DeepLinkRouting.swift in Sources */,
 				2378271A1B7E472D00E9EE03 /* BCSecureTextField.swift in Sources */,
 				602B9CF02118E15300BD3D60 /* LocationSuggestionCoordinator.swift in Sources */,
 				606399FE2110FC2D005B6DF5 /* SRIOConsumerPool.m in Sources */,
@@ -11472,6 +11489,7 @@
 				6055D372210F692D000B8E95 /* UIView.swift in Sources */,
 				3A26AF9B212B3743003A8A08 /* ExchangeCreateView.swift in Sources */,
 				602B9CEC2118E15300BD3D60 /* SearchControllerDelegate.swift in Sources */,
+				C732DF112200BA8500F3687A /* DeepLinkRouter.swift in Sources */,
 				602B9CEE2118E15300BD3D60 /* LocationSuggestionInterface.swift in Sources */,
 				AA54E4F3216D3B30005061F9 /* KYCStateSelectionPresenter.swift in Sources */,
 				51E52D1F217F724B00066F8D /* PricePreviewViewFactory.swift in Sources */,

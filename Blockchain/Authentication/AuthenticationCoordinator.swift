@@ -123,7 +123,7 @@ import PlatformKit
         }
 
         // Handle airdrop routing
-        airDropRouter.routeIfNeeded()
+        deepLinkRouter.routeIfNeeded()
     }
 
     internal let dataRepository: BlockchainDataRepository
@@ -133,7 +133,7 @@ import PlatformKit
 
     private let walletService: WalletService
 
-    private let airDropRouter: StellarAirdropRouter
+    private let deepLinkRouter: DeepLinkRouter
 
     @objc internal(set) var pinEntryViewController: PEPinEntryController?
 
@@ -162,13 +162,13 @@ import PlatformKit
         walletService: WalletService = WalletService.shared,
         dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
         xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared,
-        airDropRouter: StellarAirdropRouter = StellarAirdropRouter()
+        deepLinkRouter: DeepLinkRouter = DeepLinkRouter()
     ) {
         self.walletManager = walletManager
         self.walletService = walletService
         self.dataRepository = dataRepository
         self.xlmServiceProvider = xlmServiceProvider
-        self.airDropRouter = airDropRouter
+        self.deepLinkRouter = deepLinkRouter
         super.init()
         self.walletManager.secondPasswordDelegate = self
     }

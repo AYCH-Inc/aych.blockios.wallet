@@ -26,6 +26,8 @@ class DeepLinkHandler {
         switch route {
         case .xlmAirdop:
             handleXlmAirdrop(payload.params)
+        case .kycDocumentResubmission:
+            handleKycDocumentResubmission(payload.params)
         }
     }
 
@@ -35,5 +37,10 @@ class DeepLinkHandler {
         appSettings.airdropCampaignCode = params["campaign_code"]
         appSettings.airdropCampaignEmail = params["campaign_email"]
         Analytics.setUserProperty(AnalyticsService.Campaigns.sunriver.rawValue, forName: "campaign")
+    }
+
+    private func handleKycDocumentResubmission(_ params: [String: String]) {
+        appSettings.didTapOnDocumentResubmissionDeepLink = true
+        appSettings.documentResubmissionLinkReason = params["resubmission_reason"]
     }
 }

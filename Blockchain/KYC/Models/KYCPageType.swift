@@ -23,6 +23,7 @@ enum KYCPageType: Int {
     case enterPhone
     case confirmPhone
     case verifyIdentity
+    case resubmitIdentity
     case applicationComplete
     case accountStatus
 }

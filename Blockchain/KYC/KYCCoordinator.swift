@@ -258,6 +258,7 @@ protocol KYCCoordinatorDelegate: class {
              .tier1ForcedTier2,
              .enterPhone,
              .verifyIdentity,
+             .resubmitIdentity,
              .accountStatus,
              .applicationComplete:
             return nil
@@ -339,7 +340,8 @@ protocol KYCCoordinatorDelegate: class {
              .country,
              .states,
              .accountStatus,
-             .applicationComplete:
+             .applicationComplete,
+             .resubmitIdentity:
             break
         case .enterEmail:
             guard let current = user else { return }

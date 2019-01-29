@@ -95,7 +95,7 @@ extension KYCPageType {
         }
 
         if let mobile = user.mobile, mobile.verified {
-            return .verifyIdentity
+            return user.needsDocumentResubmission == nil ? .verifyIdentity : .resubmitIdentity
         }
 
         return .enterPhone
@@ -107,6 +107,7 @@ extension KYCPageType {
              .tier1:
             return .address
         case .tier2:
+            // IOS-1873 handle .resubmitIdentity and update tests
             return .verifyIdentity
         }
     }
@@ -158,6 +159,7 @@ extension KYCPageType {
              .enterPhone,
              .confirmPhone,
              .verifyIdentity,
+             .resubmitIdentity,
              .applicationComplete,
              .accountStatus:
             // All other pages don't have a next page for tier 1
@@ -171,14 +173,15 @@ extension KYCPageType {
              .tier1ForcedTier2:
             // Skip the enter phone step if the user already has verified their phone number
             if let user = user, let mobile = user.mobile, mobile.verified {
-                return .verifyIdentity
+                return user.needsDocumentResubmission == nil ? .verifyIdentity : .resubmitIdentity
             }
             return .enterPhone
         case .enterPhone:
             return .confirmPhone
         case .confirmPhone:
-            return .verifyIdentity
-        case .verifyIdentity:
+            return user?.needsDocumentResubmission == nil ? .verifyIdentity : .resubmitIdentity
+        case .verifyIdentity,
+             .resubmitIdentity:
             // End
             return nil
         case .applicationComplete:

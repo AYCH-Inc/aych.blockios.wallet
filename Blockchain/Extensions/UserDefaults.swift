@@ -61,8 +61,6 @@ extension UserDefaults {
         case swipeToReceiveEnabled = "swipeToReceive"
         case symbolLocal
         case hasSeenAirdropJoinWaitlistCard
-        case airdropCampaignCode
-        case airdropCampaignEmail
         case didAttemptToRouteForAirdrop
         case didRegisterForAirdropCampaignSucceed
         case kycLatestPage

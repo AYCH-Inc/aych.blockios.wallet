@@ -391,28 +391,6 @@ final class BlockchainSettings: NSObject {
             }
         }
 
-        /// Property saved from parsing 'campaign_code' query param from airdrop email.
-        /// Used to pass to Stellar airdrop registration backend api
-        var airdropCampaignCode: String? {
-            get {
-                return defaults.string(forKey: UserDefaults.Keys.airdropCampaignCode.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.airdropCampaignCode.rawValue)
-            }
-        }
-
-        /// Property saved from parsing 'campaign_email' query param from airdrop email.
-        /// Used to pass to Stellar airdrop registration backend api
-        var airdropCampaignEmail: String? {
-            get {
-                return defaults.string(forKey: UserDefaults.Keys.airdropCampaignEmail.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.airdropCampaignEmail.rawValue)
-            }
-        }
-
         /// Determines if the app already tried to route the user for the airdrop flow as a result
         /// of tapping on a deep link
         var didAttemptToRouteForAirdrop: Bool {
@@ -485,8 +463,6 @@ final class BlockchainSettings: NSObject {
             appBecameActiveCount = 0
             didTapOnAirdropDeepLink = false
             didSeeAirdropPending = false
-            airdropCampaignCode = nil
-            airdropCampaignEmail = nil
             didAttemptToRouteForAirdrop = false
             didRegisterForAirdropCampaignSucceed = false
 

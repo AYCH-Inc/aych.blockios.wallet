@@ -539,7 +539,7 @@ extension ExchangeCreateViewController: ActionableLabelDelegate {
     }
 }
 
-extension ExchangeCreateViewController: NavigatableView {
+extension ExchangeCreateViewController: ExchangeNavigatableView {
     var ctaTintColor: UIColor? {
         return UIColor.brandPrimary
     }

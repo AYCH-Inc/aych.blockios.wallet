@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import PlatformKit
+import StellarKit
 
 @objc class AuthenticationCoordinator: NSObject, Coordinator {
 
@@ -64,7 +65,11 @@ import PlatformKit
 
         strongSelf.dataRepository.prefetchData()
         strongSelf.xlmServiceProvider.services.accounts.prefetch()
-
+        
+        /// Users register for XLM airdrop on authentication. If they
+        /// are not `tier2` verified, they will not be registered.
+        strongSelf.stellarRegistrationService.autoRegisterIfNeeded()
+        
         /// Prompt the user for push notification permission
         PushNotificationManager.shared.requestAuthorization()
 
@@ -132,6 +137,8 @@ import PlatformKit
     internal let walletManager: WalletManager
 
     private let walletService: WalletService
+    
+    private let stellarRegistrationService: StellarAirdropRegistrationService
 
     private let deepLinkRouter: DeepLinkRouter
 
@@ -162,13 +169,15 @@ import PlatformKit
         walletService: WalletService = WalletService.shared,
         dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
         xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared,
-        deepLinkRouter: DeepLinkRouter = DeepLinkRouter()
+        deepLinkRouter: DeepLinkRouter = DeepLinkRouter(),
+        stellarRegistrationService: StellarAirdropRegistrationService = StellarAirdropRegistrationService()
     ) {
         self.walletManager = walletManager
         self.walletService = walletService
         self.dataRepository = dataRepository
         self.xlmServiceProvider = xlmServiceProvider
         self.deepLinkRouter = deepLinkRouter
+        self.stellarRegistrationService = stellarRegistrationService
         super.init()
         self.walletManager.secondPasswordDelegate = self
     }

@@ -1666,6 +1666,14 @@ struct LocalizationConstants {
     }
 
     struct Swap {
+        static let viewMySwapLimit = NSLocalizedString(
+            "View My Swap Limit",
+            comment: "Text displayed on the CTA when the user wishes to view their swap limits."
+        )
+        static let helpDescription = NSLocalizedString(
+            "Our Blockchain Support Team is standing by to help any questions you have.",
+            comment: "Text displayed in the help modal."
+        )
         static let tier = NSLocalizedString(
             "Tier", comment: "Text shown to represent the level of access a user has to Swap features."
         )

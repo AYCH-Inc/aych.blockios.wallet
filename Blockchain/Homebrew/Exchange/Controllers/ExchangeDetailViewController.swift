@@ -377,7 +377,7 @@ extension ExchangeDetailViewController: ExchangeDetailInterface {
     }
 }
 
-extension ExchangeDetailViewController: NavigatableView {
+extension ExchangeDetailViewController: ExchangeNavigatableView {
     var ctaTintColor: UIColor? {
         guard let model = model else { return nil }
         switch model {

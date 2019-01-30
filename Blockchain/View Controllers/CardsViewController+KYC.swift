@@ -40,16 +40,24 @@ extension CardsViewController {
         let airdropConfig = AppFeatureConfigurator.shared.configuration(for: .stellarAirdrop)
         let appSettings = BlockchainSettings.App.shared
         let kycSettings = KYCSettings.shared
-        let onboardingSettings = BlockchainSettings.Onboarding.shared
-
-        let shouldShowStellarAirdropCard = airdropConfig.isEnabled &&
-            !onboardingSettings.hasSeenAirdropJoinWaitlistCard &&
-            !appSettings.didTapOnAirdropDeepLink
+        
         let shouldShowContinueKYCAnnouncementCard = kycSettings.isCompletingKyc
         let shouldShowAirdropPending = airdropConfig.isEnabled &&
             appSettings.didRegisterForAirdropCampaignSucceed &&
             nabuUser.status == .approved &&
             !appSettings.didSeeAirdropPending
+        
+        let onboardingSettings = BlockchainSettings.Onboarding.shared
+        
+        var airdropRegistered: Bool = false
+        if let tiers = nabuUser.tiers {
+            airdropRegistered = tiers.current == .tier2 && nabuUser.tags?.sunriver != nil
+        }
+        
+        let shouldShowStellarAirdropCard = airdropConfig.isEnabled &&
+            !onboardingSettings.hasSeenAirdropJoinWaitlistCard &&
+            !appSettings.didTapOnAirdropDeepLink &&
+            airdropRegistered == false
 
         if shouldShowAirdropPending {
             showAirdropPending()

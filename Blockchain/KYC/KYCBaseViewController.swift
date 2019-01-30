@@ -90,7 +90,7 @@ class KYCBaseViewController: UIViewController, KYCCoordinatorDelegate {
 }
 
 extension KYCBaseViewController: KYCOnboardingNavigationControllerDelegate {
-    func navControllerCTAType() -> KYCOnboardingNavigationCTA {
+    func navControllerCTAType() -> NavigationCTA {
         guard let navController = navigationController as? KYCOnboardingNavigationController else { return .none }
         return navController.viewControllers.count == 1 ? .dismiss : .help
     }

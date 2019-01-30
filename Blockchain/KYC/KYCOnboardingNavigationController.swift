@@ -8,38 +8,8 @@
 
 import UIKit
 
-enum KYCOnboardingNavigationCTA {
-    case dismiss
-    case help
-    case none
-}
-
-extension KYCOnboardingNavigationCTA {
-    var image: UIImage? {
-        switch self {
-        case .dismiss:
-            return #imageLiteral(resourceName: "close.png")
-        case .help:
-            return #imageLiteral(resourceName: "icon_help.pdf")
-        case .none:
-            return nil
-        }
-    }
-    
-    var visibility: Visibility {
-        switch self {
-        case .dismiss:
-            return .visible
-        case .help:
-            return .visible
-        case .none:
-            return .hidden
-        }
-    }
-}
-
 protocol KYCOnboardingNavigationControllerDelegate: class {
-    func navControllerCTAType() -> KYCOnboardingNavigationCTA
+    func navControllerCTAType() -> NavigationCTA
     func navControllerRightBarButtonTapped(_ navController: KYCOnboardingNavigationController)
 }
 

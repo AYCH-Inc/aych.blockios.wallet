@@ -22,7 +22,7 @@ class ExchangeNavigationController: BCActionNavigationController {
     }
 
     private func updateNavBarIfNeeded() {
-        guard let navigatableView = visibleViewController as? NavigatableView else {
+        guard let navigatableView = visibleViewController as? ExchangeNavigatableView else {
             return
         }
         let CTA = navigatableView.navControllerCTAType()

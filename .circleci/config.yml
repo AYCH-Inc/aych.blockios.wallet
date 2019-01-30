@@ -208,34 +208,6 @@ jobs:
           path: output
       - store_test_results:
           path: output/scan
-  # Archive and export application (staging):
-  # - Update code signing.
-  # - Get export options plist file from private repo.
-  # - Archive the application.
-  # - Export the .ipa file.
-  archive_and_export_staging_app_store:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: /Users/distiller/project
-      - run:
-          name: Archive & Export Application
-          command: |
-            export LANG=en_US.UTF-8
-            export LC_ALL=en_US.UTF-8
-            export CREDENTIALS_REPO=$CREDENTIALS_REPO
-            export FASTLANE_USER=$FASTLANE_USER
-            bundle exec fastlane code_signing
-            security find-identity -v -p codesigning
-            git clone -b xcodebuild $CREDENTIALS_REPO /tmp/xcodebuild
-            xcodebuild -workspace Blockchain.xcworkspace -scheme Blockchain\ \(Staging\) -sdk iphoneos -configuration Release\ Staging archive -archivePath ./output/Blockchain.xcarchive | xcpretty
-            xcodebuild -exportArchive -archivePath output/Blockchain.xcarchive -exportOptionsPlist /tmp/xcodebuild/exportOptions.plist -exportPath ./output | xcpretty
-      - persist_to_workspace:
-          root: /Users/distiller/project
-          paths:
-            - output
-      - store_artifacts:
-          path: output
   archive_and_export_staging_ad_hoc:
     <<: *defaults
     steps:
@@ -491,13 +463,6 @@ workflows:
             - install_deps
             - build_openssl
             - install_pods
-      - upload_app_store:
-          filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
-          requires:
-            - run_tests
-            - archive_and_export_staging_app_store
       - upload_app_center:
           filters:
             tags:

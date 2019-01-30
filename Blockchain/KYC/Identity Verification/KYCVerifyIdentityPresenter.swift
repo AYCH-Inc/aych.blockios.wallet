@@ -9,12 +9,6 @@
 import PlatformUIKit
 
 protocol KYCVerifyIdentityView: class {
-    func showCameraPermissionsDenied()
-
-    func promptToAcceptCameraPermissions()
-
-    func sendToVeriff()
-
     func showDocumentTypes(_ types: [KYCDocumentType])
 }
 
@@ -36,10 +30,6 @@ class KYCVerifyIdentityPresenter {
     // TODO: Separate and use in a different presenter specifically made
     // for the KYCVerifyIdentityViewController.
     weak var identityView: KYCVerifyIdentityView?
-
-    private lazy var permissionsRequestor: PermissionsRequestor = {
-        return PermissionsRequestor()
-    }()
 
     init(
         interactor: KYCVerifyIdentityInteractor,
@@ -64,7 +54,17 @@ class KYCVerifyIdentityPresenter {
             }
         )
     }
+
+    // MARK: - CameraPrompting
+
+    weak var delegate: CameraPromptingDelegate?
+
+    internal lazy var permissionsRequestor: PermissionsRequestor = {
+        return PermissionsRequestor()
+    }()
 }
+
+extension KYCVerifyIdentityPresenter: CameraPrompting { }
 
 extension KYCVerifyIdentityPresenter: KYCVerifyIdentityDelegate {
     func submitVerification(onCompleted: @escaping (() -> Void), onError: @escaping ((Error) -> Void)) {
@@ -76,26 +76,6 @@ extension KYCVerifyIdentityPresenter: KYCVerifyIdentityDelegate {
     }
     
     func didTapNext() {
-        if PermissionsRequestor.shouldDisplayCameraPermissionsRequest() {
-            identityView?.promptToAcceptCameraPermissions()
-            return
-        }
-        if PermissionsRequestor.cameraRefused() == false {
-            identityView?.sendToVeriff()
-        } else {
-            identityView?.showCameraPermissionsDenied()
-        }
-    }
-    
-    func requestedCameraPermissions() {
-        permissionsRequestor.requestPermissions(camera: true) { [weak self] in
-            guard let this = self else { return }
-            switch PermissionsRequestor.cameraEnabled() {
-            case true:
-                this.identityView?.sendToVeriff()
-            case false:
-                this.identityView?.showCameraPermissionsDenied()
-            }
-        }
+        willUseCamera()
     }
 }

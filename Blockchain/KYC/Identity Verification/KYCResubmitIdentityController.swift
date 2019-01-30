@@ -30,6 +30,10 @@ final class KYCResubmitIdentityController: KYCBaseViewController {
     // MARK: - Views
 
     @IBOutlet private var resubmitButton: PrimaryButtonContainer!
+    @IBOutlet var summary: UILabel!
+    @IBOutlet var reasonsTitle: UILabel!
+    @IBOutlet var reasonsDescription: UILabel!
+    @IBOutlet var imageTopConstraint: NSLayoutConstraint!
 
     // MARK: - Public Properties
 
@@ -63,11 +67,19 @@ final class KYCResubmitIdentityController: KYCBaseViewController {
                 self.startVerificationFlow()
             }
         }
+        summary.text = LocalizationConstants.KYC.documentsNeededSummary
+        reasonsTitle.text = LocalizationConstants.KYC.reasonsTitle
+        reasonsDescription.text = LocalizationConstants.KYC.reasonsDescription
+
+        if !Constants.Booleans.IsUsingScreenSizeLargerThan5s {
+            imageTopConstraint.constant = 24
+        }
     }
 
     private func dependenciesSetup() {
         let interactor = KYCVerifyIdentityInteractor()
         let identityPresenter = KYCVerifyIdentityPresenter(interactor: interactor, loadingView: self)
+        identityPresenter.delegate = self
         presenter = identityPresenter
         delegate = presenter
     }
@@ -134,5 +146,11 @@ extension KYCResubmitIdentityController: VeriffController {
             }, onError: { error in
                 Logger.shared.error("Failed to get Veriff credentials. Error: \(error.localizedDescription)")
         })
+    }
+}
+
+extension KYCResubmitIdentityController: CameraPromptingDelegate {
+    func proceed() {
+        startVerificationFlow()
     }
 }

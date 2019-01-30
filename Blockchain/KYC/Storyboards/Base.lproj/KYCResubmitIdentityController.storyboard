@@ -90,7 +90,11 @@ We were unable to read the images you submitted due to image quality. </string>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="imageTopConstraint" destination="nZ9-Co-Nun" id="jty-we-S84"/>
+                        <outlet property="reasonsDescription" destination="9gM-7S-r5O" id="qqT-RI-nhL"/>
+                        <outlet property="reasonsTitle" destination="osZ-MU-leR" id="BJc-9j-1kR"/>
                         <outlet property="resubmitButton" destination="d33-wl-vbz" id="HQL-ka-h0F"/>
+                        <outlet property="summary" destination="ztk-gM-QYF" id="d7B-bz-ECk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WaU-VU-caX" userLabel="First Responder" sceneMemberID="firstResponder"/>

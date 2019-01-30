@@ -63,8 +63,7 @@ struct ExchangeServices: ExchangeDependencies {
     private let walletService: WalletService
 
     private var disposable: Disposable?
-    
-    private var exchangeListViewController: ExchangeListViewController?
+
     private var limitsService: TradeLimitsAPI = {
         return ExchangeServices().tradeLimits
     }()

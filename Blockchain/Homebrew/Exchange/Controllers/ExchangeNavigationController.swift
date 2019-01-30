@@ -9,34 +9,28 @@
 import Foundation
 
 class ExchangeNavigationController: BCActionNavigationController {
-    
-    var status: LimitsButtonStatus = .withinLimit {
-        didSet {
-            guard rightButton != nil else { return }
-            switch status {
-            case .withinLimit:
-                rightButton.setImage(UIImage(named: "icon_limit_under"), for: .normal)
-                drawButtonCircle(color: .tiersGray)
-            case .overLimit:
-                rightButton.setImage(UIImage(named: "icon_limit_over"), for: .normal)
-                drawButtonCircle(color: .tiersRed)
-            }
-        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
 
-        // Default state
-        status = .withinLimit
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        super.pushViewController(viewController, animated: animated)
+        updateNavBarIfNeeded()
     }
-    
-    private func drawButtonCircle(color: UIColor) {
-        if let imageView = rightButton.imageView {
-            imageView.layer.cornerRadius = imageView.frame.size.width / 2
-            imageView.clipsToBounds = true
-            imageView.layer.borderWidth = 2.0
-            imageView.layer.borderColor = color.cgColor
+
+    override func popViewController(animated: Bool) -> UIViewController? {
+        let poppedViewController = super.popViewController(animated: animated)
+        updateNavBarIfNeeded()
+        return poppedViewController
+    }
+
+    private func updateNavBarIfNeeded() {
+        guard let navigatableView = visibleViewController as? NavigatableView else {
+            return
+        }
+        let CTA = navigatableView.navControllerCTAType()
+        rightButton.setImage(CTA.image?.withRenderingMode(.alwaysTemplate), for: .normal)
+        rightButton.tintColor = navigatableView.ctaTintColor
+        rightButton.isHidden = CTA.visibility.isHidden
+        rightButtonTappedBlock = { [unowned self] in
+            navigatableView.navControllerRightBarButtonTapped(self)
         }
     }
 }

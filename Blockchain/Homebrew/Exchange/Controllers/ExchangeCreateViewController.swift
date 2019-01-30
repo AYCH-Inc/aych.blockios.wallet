@@ -67,7 +67,6 @@ class ExchangeCreateViewController: UIViewController {
         case keypadVisibility(Visibility, animated: Bool)
         case conversionRatesView(Visibility, animated: Bool)
         case loadingIndicator(Visibility)
-        case limitsButtonStatus(LimitsButtonStatus)
     }
     
     enum ViewUpdate: Update {
@@ -123,11 +122,6 @@ class ExchangeCreateViewController: UIViewController {
         if let navController = navigationController as? BCNavigationController {
             navController.apply(NavigationBarAppearanceLight, withBackgroundColor: .white)
             navController.headerTitle = LocalizationConstants.Swap.swap
-        }
-        if let navController = navigationController as? ExchangeNavigationController {
-            navController.rightButtonTappedBlock = { [unowned self] in
-                self.delegate?.onSwapButtonTapped()
-            }
         }
     }
 
@@ -364,10 +358,6 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             }
 
             errorLabel.attributedText = primary
-        case .limitsButtonStatus(let status):
-            if let navController = navigationController as? ExchangeNavigationController {
-                navController.status = status
-            }
         }
     }
     
@@ -546,5 +536,15 @@ extension ExchangeCreateViewController: ActionableLabelDelegate {
     func actionRequestingExecution(label: ActionableLabel) {
         guard let trigger = trigger else { return }
         trigger.execute()
+    }
+}
+
+extension ExchangeCreateViewController: NavigatableView {
+    var ctaTintColor: UIColor? {
+        return UIColor.brandPrimary
+    }
+
+    func navControllerCTAType() -> NavigationCTA {
+        return NavigationCTA.help
     }
 }

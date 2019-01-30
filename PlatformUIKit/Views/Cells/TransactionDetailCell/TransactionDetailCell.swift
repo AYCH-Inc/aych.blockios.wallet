@@ -9,7 +9,7 @@
 import Foundation
 import PlatformKit
 
-public class TransactionDetailCell: UICollectionViewCell {
+public class TransactionDetailCell: BaseCell {
     
     // MARK: Private Static Properties
     
@@ -22,7 +22,7 @@ public class TransactionDetailCell: UICollectionViewCell {
     @IBOutlet fileprivate var descriptionLabel: UILabel!
     @IBOutlet fileprivate var statusImageView: UIImageView!
     
-    public func configure(with model: CellModel) {
+    public override func configure(_ model: CellModel) {
         guard case let .transactionDetail(payload) = model else { return }
         
         layer.cornerRadius = 4.0
@@ -36,7 +36,7 @@ public class TransactionDetailCell: UICollectionViewCell {
         statusImageView.tintColor = payload.statusTintColor
     }
     
-    public class func heightForProposedWidth(_ width: CGFloat, model: CellModel) -> CGFloat {
+    public override class func heightForProposedWidth(_ width: CGFloat, model: CellModel) -> CGFloat {
         guard case let .transactionDetail(payload) = model else { return 0.0 }
         let description = NSAttributedString(
             string: payload.description,
@@ -55,13 +55,6 @@ public class TransactionDetailCell: UICollectionViewCell {
     }
     
     // MARK: - Accessibility
-    
-    /// Implements initial cell accessibility property values.
-    internal func applyAccessibility() {
-        isAccessibilityElement = true
-        accessibilityTraits = UIAccessibilityTraitNone
-        shouldGroupAccessibilityChildren = false
-    }
     
     fileprivate static func mediumFont() -> UIFont {
         let font = Font(

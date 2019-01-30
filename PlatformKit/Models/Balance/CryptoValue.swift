@@ -8,7 +8,7 @@
 
 import BigInt
 
-public struct ComparisonError: Error {
+public struct CryptoComparisonError: Error {
     let currencyType1: CryptoCurrency
     let currencyType2: CryptoCurrency
 }
@@ -67,7 +67,7 @@ extension CryptoValue: Money {
 extension CryptoValue: Hashable, Equatable {
     private static func ensureComparable(value: CryptoValue, other: CryptoValue) throws {
         if value.currencyType != other.currencyType {
-            throw ComparisonError(currencyType1: value.currencyType, currencyType2: other.currencyType)
+            throw CryptoComparisonError(currencyType1: value.currencyType, currencyType2: other.currencyType)
         }
     }
     

@@ -10,6 +10,7 @@ import Foundation
 import SafariServices
 import UIKit
 import RxSwift
+import PlatformUIKit
 
 protocol KYCTiersInterface: class {
     func apply(_ model: KYCTiersPageModel)

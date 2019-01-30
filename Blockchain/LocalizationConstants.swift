@@ -890,6 +890,18 @@ struct LocalizationConstants {
             "Continue verification",
             comment: "The title of the action on the announcement card."
         )
+        static let uploadDocumentsCardTitle = NSLocalizedString(
+            "Documents needed",
+            comment: "The title of the action on the announcement card for when a user needs to submit documents to verify their identity."
+        )
+        static let uploadDocumentsCardDescription = NSLocalizedString(
+            "We had some issues with the documents you’ve supplied.\nPlease try uploading the documents again to continue with your verification.",
+            comment: "The description on the announcement card for when a user needs to submit documents to verify their identity."
+        )
+        static let uploadDocumentsActionButtonTitle = NSLocalizedString(
+            "Upload documents",
+            comment: "The title of the action on the announcement card for when a user needs to submit documents to verify their identity."
+        )
     }
 
     struct SideMenu {
@@ -1448,7 +1460,7 @@ struct LocalizationConstants {
             comment: ""
         )
         static let passport = NSLocalizedString(
-            "Passport",
+            "Valid Passport",
             comment: "The title of the UIAlertAction for the passport option."
         )
         static let driversLicense = NSLocalizedString(
@@ -1456,8 +1468,24 @@ struct LocalizationConstants {
             comment: "The title of the UIAlertAction for the driver's license option."
         )
         static let nationalIdentityCard = NSLocalizedString(
-            "National Identity Card",
+            "National ID Card",
             comment: "The title of the UIAlertAction for the national identity card option."
+        )
+        static let residencePermit = NSLocalizedString(
+            "Residence Card",
+            comment: "The title of the UIAlertAction for the residence permit option."
+        )
+        static let documentsNeededSummary = NSLocalizedString(
+            "Unfortunately we're having trouble verifying your identity, and we need you to resubmit your verification information.",
+            comment: "The main message shown in the Documents Needed screen."
+        )
+        static let reasonsTitle = NSLocalizedString(
+            "Main reasons for this to happen:",
+            comment: "Title text in the Documents Needed screen preceding the list of reasons a user would need to resubmit their documents"
+        )
+        static let reasonsDescription = NSLocalizedString(
+            "The required photos are missing.\n\nThe document you submitted is incorrect.\n\nWe were unable to read the images you submitted due to image quality. ",
+            comment: "Description text in the Documents Needed screen preceding the list of reasons a user would need to resubmit their documents"
         )
         static let submittingInformation = NSLocalizedString(
             "Submitting information...",
@@ -1616,6 +1644,24 @@ struct LocalizationConstants {
         static let completingTierTwoAutoEligible = NSLocalizedString(
             "By completing Tier 2 you are automatically eligible for our airdrop program.",
             comment: "Description of what the user gets out of completing Tier 2 verification that is seen at the bottom of the Tiers screen. This particular description is when the user has been Tier 1 verified."
+        )
+        static let needSomeHelp = NSLocalizedString("Need some help?", comment: "Need some help?")
+        static let helpGuides = NSLocalizedString(
+            "Our Blockchain Support Team has written Help Guides explaining why we need to verify your identity",
+            comment: "Description shown in modal that is presented when tapping the question mark in KYC."
+        )
+        static let readNow = NSLocalizedString("Read Now", comment: "Read Now")
+        static let enableCamera = NSLocalizedString(
+            "Also, enable your camera!",
+            comment: "Requesting user to enable their camera"
+        )
+        static let enableCameraDescription = NSLocalizedString(
+            "Please allow your Blockchain App access your camera to upload your ID and take a Selfie.",
+            comment: "Description as to why the user should permit camera access"
+        )
+        static let allowCameraAccess = NSLocalizedString(
+            "Allow camera access?",
+            comment: "Headline in alert asking the user to allow camera access."
         )
     }
 

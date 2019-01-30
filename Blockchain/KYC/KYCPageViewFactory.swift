@@ -64,6 +64,9 @@ class KYCPageViewFactory {
         case .verifyIdentity:
             AnalyticsService.shared.trackEvent(title: "kyc_verify_identity")
             return KYCVerifyIdentityController.make(with: coordinator)
+        case .resubmitIdentity:
+            AnalyticsService.shared.trackEvent(title: "kyc_resubmit_documents")
+            return KYCResubmitIdentityController.make(with: coordinator)
         case .accountStatus:
             AnalyticsService.shared.trackEvent(title: "kyc_account_status")
             return KYCInformationController.make(with: coordinator)

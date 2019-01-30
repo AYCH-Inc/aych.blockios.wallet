@@ -1,5 +1,5 @@
 //
-//  CardsViewController+Airdrop.swift
+//  CardsViewController+KYC.swift
 //  Blockchain
 //
 //  Created by Chris Arriola on 10/31/18.
@@ -45,7 +45,7 @@ extension CardsViewController {
         let shouldShowStellarAirdropCard = airdropConfig.isEnabled &&
             !onboardingSettings.hasSeenAirdropJoinWaitlistCard &&
             !appSettings.didTapOnAirdropDeepLink
-        let shouldShowContinutKYCAnnouncementCard = kycSettings.isCompletingKyc
+        let shouldShowContinueKYCAnnouncementCard = kycSettings.isCompletingKyc
         let shouldShowAirdropPending = airdropConfig.isEnabled &&
             appSettings.didRegisterForAirdropCampaignSucceed &&
             nabuUser.status == .approved &&
@@ -54,7 +54,10 @@ extension CardsViewController {
         if shouldShowAirdropPending {
             showAirdropPending()
             return true
-        } else if shouldShowContinutKYCAnnouncementCard {
+        } else if nabuUser.needsDocumentResubmission != nil {
+            showUploadDocumentsCard()
+            return true
+        } else if shouldShowContinueKYCAnnouncementCard {
             showContinueKycCard()
             return true
         } else if shouldShowStellarAirdropCard {
@@ -112,5 +115,14 @@ extension CardsViewController {
                 let tier = user.tiers?.selected ?? .tier1
                 KYCCoordinator.shared.start(from: AppCoordinator.shared.tabControllerManager, tier: tier)
             })
+    }
+
+    private func showUploadDocumentsCard() {
+        let model = AnnouncementCardViewModel.resubmitDocuments(action: { [unowned self] in
+            self.continueKyc()
+        }, onClose: { [weak self] in
+            self?.animateHideCards()
+        })
+        showSingleCard(with: model)
     }
 }

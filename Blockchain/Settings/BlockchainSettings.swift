@@ -59,6 +59,24 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.appBecameActiveCount.rawValue)
             }
         }
+        
+        @objc var didRequestCameraPermissions: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didRequestCameraPermissions.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didRequestCameraPermissions.rawValue)
+            }
+        }
+        
+        @objc var didRequestNotificationPermissions: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didRequestNotificationPermissions.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didRequestNotificationPermissions.rawValue)
+            }
+        }
 
         /**
          Stores the encrypted wallet password.
@@ -373,28 +391,6 @@ final class BlockchainSettings: NSObject {
             }
         }
 
-        /// Property saved from parsing 'campaign_code' query param from airdrop email.
-        /// Used to pass to Stellar airdrop registration backend api
-        var airdropCampaignCode: String? {
-            get {
-                return defaults.string(forKey: UserDefaults.Keys.airdropCampaignCode.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.airdropCampaignCode.rawValue)
-            }
-        }
-
-        /// Property saved from parsing 'campaign_email' query param from airdrop email.
-        /// Used to pass to Stellar airdrop registration backend api
-        var airdropCampaignEmail: String? {
-            get {
-                return defaults.string(forKey: UserDefaults.Keys.airdropCampaignEmail.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.airdropCampaignEmail.rawValue)
-            }
-        }
-
         /// Determines if the app already tried to route the user for the airdrop flow as a result
         /// of tapping on a deep link
         var didAttemptToRouteForAirdrop: Bool {
@@ -416,7 +412,30 @@ final class BlockchainSettings: NSObject {
             }
         }
 
-         override init() {
+        /// Determines if the user deep linked into the app using a document resubmission link. This
+        /// value is used to continue KYC'ing at the Verify Your Identity step.
+        var didTapOnDocumentResubmissionDeepLink: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didTapOnDocumentResubmissionDeepLink.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didTapOnDocumentResubmissionDeepLink.rawValue)
+            }
+        }
+
+        /// Property saved from parsing '' query param from document resubmission deeplink.
+        /// Used to pass reasons for initial verification failure to display in the Verify Your
+        /// Identity screen
+        var documentResubmissionLinkReason: String? {
+            get {
+                return defaults.string(forKey: UserDefaults.Keys.documentResubmissionLinkReason.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.documentResubmissionLinkReason.rawValue)
+            }
+        }
+
+        override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
             // access an instance of this class.
             super.init()
@@ -444,8 +463,6 @@ final class BlockchainSettings: NSObject {
             appBecameActiveCount = 0
             didTapOnAirdropDeepLink = false
             didSeeAirdropPending = false
-            airdropCampaignCode = nil
-            airdropCampaignEmail = nil
             didAttemptToRouteForAirdrop = false
             didRegisterForAirdropCampaignSucceed = false
 

@@ -10,7 +10,7 @@ import RxSwift
 import StellarKit
 
 /// Router for handling the XLM airdrop flow
-class StellarAirdropRouter {
+class StellarAirdropRouter: DeepLinkRouting {
 
     private let appSettings: BlockchainSettings.App
     private let kycCoordinator: KYCCoordinator

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Medium.ttf">
+            <string>Montserrat-Medium</string>
+        </array>
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Gdl-5C-h42" customClass="AlertView" customModule="PlatformUIKit" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="314"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Tub-Tv-IPM">
+                    <rect key="frame" x="20" y="32" width="335" height="103"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Need some help?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMH-3h-xM5">
+                            <rect key="frame" x="0.0" y="0.0" width="335" height="32"/>
+                            <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="22"/>
+                            <color key="textColor" red="0.35999999999999999" green="0.35999999999999999" blue="0.35999999999999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Our Blockchain Support Team has written Help Guides explaining why we need to verify your identity." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TS2-x6-RO5">
+                            <rect key="frame" x="0.0" y="40" width="335" height="63"/>
+                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="18"/>
+                            <color key="textColor" red="0.35999999999999999" green="0.35999999999999999" blue="0.35999999999999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                </stackView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="vXl-SB-GNz">
+                    <rect key="frame" x="20" y="156" width="335" height="126"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHT-0b-NgS">
+                            <rect key="frame" x="0.0" y="0.0" width="335" height="56"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="WVf-p4-yau"/>
+                            </constraints>
+                            <state key="normal" title="OK"/>
+                            <connections>
+                                <action selector="confirmButtonTapped:" destination="Gdl-5C-h42" eventType="touchUpInside" id="xuH-Z6-Yyx"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zpf-og-7yj">
+                            <rect key="frame" x="0.0" y="70" width="335" height="56"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="LRx-yo-pUP"/>
+                            </constraints>
+                            <state key="normal" title="Cancel"/>
+                            <connections>
+                                <action selector="defaultButtonTapped:" destination="Gdl-5C-h42" eventType="touchUpInside" id="BMO-Gj-wEC"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="Zpf-og-7yj" firstAttribute="width" secondItem="OHT-0b-NgS" secondAttribute="width" id="kxa-br-Cab"/>
+                    </constraints>
+                </stackView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJ3-ZU-F1W">
+                    <rect key="frame" x="321" y="24" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="IMM-hl-Xad"/>
+                        <constraint firstAttribute="height" constant="30" id="lRm-cI-BVE"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                    <state key="normal" image="close_large"/>
+                    <connections>
+                        <action selector="dismissButtonTapped:" destination="Gdl-5C-h42" eventType="touchUpInside" id="uDt-IG-yYI"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="bWz-z9-ZgB" firstAttribute="bottom" secondItem="vXl-SB-GNz" secondAttribute="bottom" constant="32" id="4Ri-RF-CK2"/>
+                <constraint firstItem="OHT-0b-NgS" firstAttribute="width" secondItem="Tub-Tv-IPM" secondAttribute="width" id="GS8-5C-Fc8"/>
+                <constraint firstAttribute="trailing" secondItem="Tub-Tv-IPM" secondAttribute="trailing" constant="20" id="YNZ-eu-CAw"/>
+                <constraint firstItem="vXl-SB-GNz" firstAttribute="leading" secondItem="Gdl-5C-h42" secondAttribute="leading" constant="20" id="cNo-Ih-1xu"/>
+                <constraint firstItem="vXl-SB-GNz" firstAttribute="top" secondItem="Tub-Tv-IPM" secondAttribute="bottom" constant="21" id="cam-kl-GcA"/>
+                <constraint firstItem="Zpf-og-7yj" firstAttribute="width" secondItem="Tub-Tv-IPM" secondAttribute="width" id="cx1-UI-8tH"/>
+                <constraint firstAttribute="trailing" secondItem="vXl-SB-GNz" secondAttribute="trailing" constant="20" id="gL8-6A-26H"/>
+                <constraint firstItem="dJ3-ZU-F1W" firstAttribute="top" secondItem="Gdl-5C-h42" secondAttribute="top" constant="24" id="hqX-7b-psR"/>
+                <constraint firstItem="Tub-Tv-IPM" firstAttribute="leading" secondItem="Gdl-5C-h42" secondAttribute="leading" constant="20" id="i37-1Y-vzo"/>
+                <constraint firstItem="Tub-Tv-IPM" firstAttribute="top" secondItem="Gdl-5C-h42" secondAttribute="top" constant="32" id="lZo-eR-SFZ"/>
+                <constraint firstAttribute="trailing" secondItem="dJ3-ZU-F1W" secondAttribute="trailing" constant="24" id="ndg-cR-Rls"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="bWz-z9-ZgB"/>
+            <connections>
+                <outlet property="closeButton" destination="dJ3-ZU-F1W" id="bMa-jb-UpC"/>
+                <outlet property="confirmButton" destination="OHT-0b-NgS" id="yqL-bC-UPt"/>
+                <outlet property="defaultButton" destination="Zpf-og-7yj" id="Atx-Ck-XmU"/>
+                <outlet property="headline" destination="XMH-3h-xM5" id="Aau-UB-4ah"/>
+                <outlet property="message" destination="TS2-x6-RO5" id="gfk-hm-y78"/>
+            </connections>
+            <point key="canvasLocation" x="288.80000000000001" y="-156.52173913043478"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="close_large" width="30" height="30"/>
+    </resources>
+</document>

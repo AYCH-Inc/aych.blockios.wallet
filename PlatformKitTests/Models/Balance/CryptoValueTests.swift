@@ -84,6 +84,13 @@ class CryptoValueTests: XCTestCase {
         XCTAssertTrue(CryptoValue.createFromMajorValue(0.1, assetType: .bitcoin).isPositive)
         XCTAssertFalse(CryptoValue.createFromMajorValue(-0.1, assetType: .bitcoin).isPositive)
     }
+
+    func testEquatable() {
+        XCTAssertEqual(
+            CryptoValue.createFromMajorValue(0.123, assetType: .bitcoin),
+            CryptoValue.createFromMajorValue(0.123, assetType: .bitcoin)
+        )
+    }
     
     func testCreateFromMajorRoundOff() {
         XCTAssertEqual(

@@ -1125,6 +1125,8 @@
 		C732DF1D2200BC6A00F3687A /* DeepLinkRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF1C2200BC6A00F3687A /* DeepLinkRouting.swift */; };
 		C732DF1E2200BC6B00F3687A /* DeepLinkRouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF1C2200BC6A00F3687A /* DeepLinkRouting.swift */; };
 		C732DF422200DFD200F3687A /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF412200DFD200F3687A /* LoadingView.swift */; };
+		C732DF6B2201199000F3687A /* CameraPrompting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF5F2201184200F3687A /* CameraPrompting.swift */; };
+		C732DF6C2201199000F3687A /* CameraPrompting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C732DF5F2201184200F3687A /* CameraPrompting.swift */; };
 		C733A89321236F02007DADE0 /* HttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C733A89221236F02007DADE0 /* HttpHeader.swift */; };
 		C73406221F54791C00143100 /* EtherAmountInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73406211F54791C00143100 /* EtherAmountInputViewController.m */; };
 		C7343BC4214FF8B1001B1EC9 /* ExchangeDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7343BC3214FF8B1001B1EC9 /* ExchangeDetailPresenter.swift */; };
@@ -3984,6 +3986,7 @@
 		C732DF102200BA8500F3687A /* DeepLinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouter.swift; sourceTree = "<group>"; };
 		C732DF1C2200BC6A00F3687A /* DeepLinkRouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouting.swift; sourceTree = "<group>"; };
 		C732DF412200DFD200F3687A /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		C732DF5F2201184200F3687A /* CameraPrompting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPrompting.swift; sourceTree = "<group>"; };
 		C733A89221236F02007DADE0 /* HttpHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpHeader.swift; sourceTree = "<group>"; };
 		C73406201F54791C00143100 /* EtherAmountInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EtherAmountInputViewController.h; sourceTree = "<group>"; };
 		C73406211F54791C00143100 /* EtherAmountInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EtherAmountInputViewController.m; sourceTree = "<group>"; };
@@ -8095,6 +8098,7 @@
 				AACE317E2092793300B7B806 /* Pin */,
 				AAECF75B217E86FE008B8832 /* Price */,
 				51042C8820B1FDA600B022DE /* PrivateKeyReader */,
+				C732DF6A2201194700F3687A /* Protocols */,
 				AA3E5890217A7E4D00EFF992 /* Receive */,
 				AACE31FA2093F9F200B7B806 /* Reminder */,
 				C9D4B2AF193E023C00EDA9EA /* Resources */,
@@ -9065,6 +9069,14 @@
 			isa = PBXGroup;
 			children = (
 				C732DF412200DFD200F3687A /* LoadingView.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		C732DF6A2201194700F3687A /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				C732DF5F2201184200F3687A /* CameraPrompting.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -10619,6 +10631,7 @@
 				AAE94DCA20C25124005A3595 /* WalletServiceTests.swift in Sources */,
 				AA69118520D0967300DDB541 /* NetworkError.swift in Sources */,
 				AADF6B2C21BF3AEC00F8CA43 /* KYCPageTypeTests.swift in Sources */,
+				C732DF6C2201199000F3687A /* CameraPrompting.swift in Sources */,
 				AAECF767217E8853008B8832 /* PriceServiceClient.swift in Sources */,
 				3AAEF95E2141CEE9005852D1 /* ExchangeDetailHeaderView.swift in Sources */,
 				AAECF76B217E89B8008B8832 /* PriceInFiat.swift in Sources */,
@@ -11415,6 +11428,7 @@
 				606399F22110FC2D005B6DF5 /* SRLog.m in Sources */,
 				513C828620EBF30C00ECDE52 /* UIDevice+Biometrics.swift in Sources */,
 				C7F157C921795F6800A56376 /* SimpleListPresenter.swift in Sources */,
+				C732DF6B2201199000F3687A /* CameraPrompting.swift in Sources */,
 				AA10767122011CA9000612A1 /* NavigatableView.swift in Sources */,
 				67EE1DCC19E3325900DBBFC9 /* ECSlidingInteractiveTransition.m in Sources */,
 				6775569919E752A00054699B /* BCWebViewController.m in Sources */,

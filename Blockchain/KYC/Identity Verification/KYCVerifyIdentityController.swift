@@ -95,6 +95,7 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
         let interactor = KYCVerifyIdentityInteractor()
         let identityPresenter = KYCVerifyIdentityPresenter(interactor: interactor, loadingView: self)
         identityPresenter.identityView = self
+        identityPresenter.delegate = self
         presenter = identityPresenter
         delegate = presenter
     }
@@ -117,59 +118,6 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
 }
 
 extension KYCVerifyIdentityController: KYCVerifyIdentityView {
-    func showCameraPermissionsDenied() {
-        let action = AlertAction(
-            title: LocalizationConstants.goToSettings,
-            style: .confirm
-        )
-        let model = AlertModel(
-            headline: LocalizationConstants.Errors.cameraAccessDenied,
-            body: LocalizationConstants.Errors.cameraAccessDeniedMessage,
-            actions: [action]
-        )
-        let alert = AlertView.make(with: model) { output in
-            switch output.style {
-            case .confirm:
-                guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
-                UIApplication.shared.open(settingsURL)
-            case .default:
-                break
-            }
-        }
-        alert.show()
-    }
-    
-    func promptToAcceptCameraPermissions() {
-        let okay = AlertAction(
-            title: LocalizationConstants.okString,
-            style: .confirm
-        )
-        let notNow = AlertAction(
-            title: LocalizationConstants.KYC.notNow,
-            style: .default
-        )
-        
-        let model = AlertModel(
-            headline: LocalizationConstants.KYC.allowCameraAccess,
-            body: LocalizationConstants.KYC.enableCameraDescription,
-            actions: [okay, notNow]
-        )
-        let alert = AlertView.make(with: model) { [weak self] output in
-            guard let this = self else { return }
-            switch output.style {
-            case .confirm:
-                this.presenter.requestedCameraPermissions()
-            case .default:
-                break
-            }
-        }
-        alert.show()
-    }
-    
-    func sendToVeriff() {
-        startVerificationFlow()
-    }
-
     func showDocumentTypes(_ types: [KYCDocumentType]) {
         documentTypeStackView.isHidden = false
         types.forEach { [weak self] type in
@@ -232,5 +180,11 @@ extension KYCVerifyIdentityController: VeriffController {
         }, onError: { error in
             Logger.shared.error("Failed to get Veriff credentials. Error: \(error.localizedDescription)")
         })
+    }
+}
+
+extension KYCVerifyIdentityController: CameraPromptingDelegate {
+    func proceed() {
+        startVerificationFlow()
     }
 }

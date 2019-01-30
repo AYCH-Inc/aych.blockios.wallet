@@ -1475,6 +1475,18 @@ struct LocalizationConstants {
             "Residence Card",
             comment: "The title of the UIAlertAction for the residence permit option."
         )
+        static let documentsNeededSummary = NSLocalizedString(
+            "Unfortunately we're having trouble verifying your identity, and we need you to resubmit your verification information.",
+            comment: "The main message shown in the Documents Needed screen."
+        )
+        static let reasonsTitle = NSLocalizedString(
+            "Main reasons for this to happen:",
+            comment: "Title text in the Documents Needed screen preceding the list of reasons a user would need to resubmit their documents"
+        )
+        static let reasonsDescription = NSLocalizedString(
+            "The required photos are missing.\n\nThe document you submitted is incorrect.\n\nWe were unable to read the images you submitted due to image quality. ",
+            comment: "Description text in the Documents Needed screen preceding the list of reasons a user would need to resubmit their documents"
+        )
         static let submittingInformation = NSLocalizedString(
             "Submitting information...",
             comment: "Text prompt to the user when the client is submitting the identity documents to Blockchain's servers."

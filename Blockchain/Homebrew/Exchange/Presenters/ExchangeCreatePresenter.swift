@@ -61,8 +61,6 @@ class ExchangeCreatePresenter {
                 transition: .crossFade(duration: 0.2)
             )
         )
-
-        interface?.apply(presentationUpdates: [.limitsButtonStatus(.withinLimit)])
     }
     
     fileprivate func displayError() {
@@ -200,21 +198,21 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
 extension ExchangeCreatePresenter: ExchangeCreateOutput {
     
     func insufficientFunds(balance: String) {
-        interface?.apply(presentationUpdates: [.updateErrorLabel(balance), .limitsButtonStatus(.withinLimit)])
+        interface?.apply(presentationUpdates: [.updateErrorLabel(balance)])
         displayError()
         disableExchangeButton()
     }
     
     func entryBelowMinimumValue(minimum: String) {
         let display = LocalizationConstants.Exchange.yourMin + " " + minimum
-        interface?.apply(presentationUpdates: [.updateErrorLabel(display), .limitsButtonStatus(.withinLimit)])
+        interface?.apply(presentationUpdates: [.updateErrorLabel(display)])
         displayError()
         disableExchangeButton()
     }
     
     func entryAboveMaximumValue(maximum: String) {
         let display = LocalizationConstants.Exchange.yourMax + " " + maximum
-        interface?.apply(presentationUpdates: [.updateErrorLabel(display), .limitsButtonStatus(.withinLimit)])
+        interface?.apply(presentationUpdates: [.updateErrorLabel(display)])
         displayError()
         disableExchangeButton()
     }
@@ -225,13 +223,13 @@ extension ExchangeCreatePresenter: ExchangeCreateOutput {
             guard let this = self else { return }
             this.displayTiers()
         }
-        interface?.apply(presentationUpdates: [.actionableErrorLabelTrigger(trigger), .limitsButtonStatus(.overLimit)])
+        interface?.apply(presentationUpdates: [.actionableErrorLabelTrigger(trigger)])
         displayError()
         disableExchangeButton()
     }
 
     func showError(message: String) {
-        interface?.apply(presentationUpdates: [.updateErrorLabel(message), .limitsButtonStatus(.withinLimit)])
+        interface?.apply(presentationUpdates: [.updateErrorLabel(message)])
         displayError()
         disableExchangeButton()
     }

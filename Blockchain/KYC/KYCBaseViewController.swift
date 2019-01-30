@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import SafariServices
+import PlatformUIKit
 
 class KYCBaseViewController: UIViewController, KYCCoordinatorDelegate {
 
@@ -26,6 +28,12 @@ class KYCBaseViewController: UIViewController, KYCCoordinatorDelegate {
         super.viewDidLoad()
         // TICKET: IOS-1236 - Refactor KYCBaseViewController NavigationBarItem Titles
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        setupBarButtonItem()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setupBarButtonItem()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -37,5 +45,64 @@ class KYCBaseViewController: UIViewController, KYCCoordinatorDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         coordinator.delegate = nil
         super.viewWillDisappear(animated)
+    }
+    
+    // MARK: Private Functions
+    
+    fileprivate func setupBarButtonItem() {
+        guard let navController = navigationController as? KYCOnboardingNavigationController else { return }
+        navController.onboardingDelegate = self
+        navController.setupBarButtonItem()
+    }
+    
+    fileprivate func presentNeedSomeHelpAlert() {
+        let confirm = AlertAction(title: LocalizationConstants.KYC.readNow, style: .confirm)
+        let cancel = AlertAction(title: LocalizationConstants.KYC.contactSupport, style: .default)
+        let model = AlertModel(
+            headline: LocalizationConstants.KYC.needSomeHelp,
+            body: LocalizationConstants.KYC.helpGuides,
+            actions: [confirm, cancel]
+        )
+        let alert = AlertView.make(with: model) { [weak self] action in
+            guard let this = self else { return }
+            guard let endpoint = URL(string: "https://blockchain.zendesk.com/") else { return }
+            switch action.style {
+            case .confirm:
+                guard let url = URL.endpoint(
+                    endpoint,
+                    pathComponents: ["hc", "en-us", "categories", "360001135512-Identity-Verification"],
+                    queryParameters: nil
+                    ) else { return }
+                let controller = SFSafariViewController(url: url)
+                this.present(controller, animated: true, completion: nil)
+            case .default:
+                guard let url = URL.endpoint(
+                    endpoint,
+                    pathComponents: ["hc", "en-us", "requests", "new"],
+                    queryParameters: ["ticket_form_id" : "360000186571"]
+                    ) else { return }
+                let controller = SFSafariViewController(url: url)
+                this.present(controller, animated: true, completion: nil)
+            }
+        }
+        alert.show()
+    }
+}
+
+extension KYCBaseViewController: KYCOnboardingNavigationControllerDelegate {
+    func navControllerCTAType() -> NavigationCTA {
+        guard let navController = navigationController as? KYCOnboardingNavigationController else { return .none }
+        return navController.viewControllers.count == 1 ? .dismiss : .help
+    }
+    
+    func navControllerRightBarButtonTapped(_ navController: KYCOnboardingNavigationController) {
+        switch navControllerCTAType() {
+        case .none:
+            break
+        case .dismiss:
+            coordinator.finish()
+        case .help:
+            presentNeedSomeHelpAlert()
+        }
     }
 }

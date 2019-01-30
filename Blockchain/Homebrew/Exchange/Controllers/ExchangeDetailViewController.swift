@@ -8,6 +8,7 @@
 
 import Foundation
 import SafariServices
+import PlatformUIKit
 
 protocol ExchangeDetailDelegate: class {
     func onViewLoaded()
@@ -373,5 +374,22 @@ extension ExchangeDetailViewController: ExchangeDetailInterface {
             }
             LoadingViewPresenter.shared.showBusyView(withLoadingText: text)
         }
+    }
+}
+
+extension ExchangeDetailViewController: NavigatableView {
+    var ctaTintColor: UIColor? {
+        guard let model = model else { return nil }
+        switch model {
+        case .confirm,
+             .locked:
+            return UIColor.brandPrimary
+        case .overview:
+            return UIColor.white
+        }
+    }
+
+    func navControllerCTAType() -> NavigationCTA {
+        return NavigationCTA.help
     }
 }

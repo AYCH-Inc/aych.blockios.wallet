@@ -258,6 +258,7 @@ protocol KYCCoordinatorDelegate: class {
              .tier1ForcedTier2,
              .enterPhone,
              .verifyIdentity,
+             .resubmitIdentity,
              .accountStatus,
              .applicationComplete:
             return nil
@@ -271,12 +272,6 @@ protocol KYCCoordinatorDelegate: class {
         let startingViewController = pageFactory.createFrom(
             pageType: startingPage,
             in: self
-        )
-        startingViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: "close"),
-            style: .plain,
-            target: self,
-            action: #selector(finish)
         )
         navController = presentInNavigationController(startingViewController, in: viewController)
     }
@@ -345,7 +340,8 @@ protocol KYCCoordinatorDelegate: class {
              .country,
              .states,
              .accountStatus,
-             .applicationComplete:
+             .applicationComplete,
+             .resubmitIdentity:
             break
         case .enterEmail:
             guard let current = user else { return }

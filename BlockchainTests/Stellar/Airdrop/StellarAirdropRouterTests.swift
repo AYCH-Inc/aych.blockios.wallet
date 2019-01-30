@@ -12,7 +12,12 @@ import XCTest
 @testable import Blockchain
 
 private class MockRegistrationService: StellarAirdropRegistrationAPI {
+    
     var didCallRegisterExpectation: XCTestExpectation?
+    
+    func autoRegisterIfNeeded() {
+        // no op
+    }
     
     func registerForCampaign(xlmAccount: StellarWalletAccount, nabuUser: NabuUser) -> Single<StellarRegisterCampaignResponse> {
         return Single.create(subscribe: { _ -> Disposable in

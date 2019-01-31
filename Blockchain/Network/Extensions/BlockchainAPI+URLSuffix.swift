@@ -49,7 +49,7 @@ import Foundation
         case .ethereum:
             return "\(etherExplorerUrl)/tx/\(transactionHash)"
         case .bitcoinCash:
-            return "\(blockchairUrl)/bitcoin-cash/transaction/\(transactionHash)"
+            return "\(bitcoinCashExplorerUrl)/tx/\(transactionHash)"
         case .stellar:
             return "\(stellarchainUrl)/tx/\(transactionHash)"
         }

@@ -39,8 +39,8 @@ extension BlockchainAPI {
         return "https://\(hostAndPath)"
     }
 
-    var blockchairUrl: String {
-        return "https://\(PartnerHosts.blockchair.rawValue)"
+    var bitcoinCashExplorerUrl: String {
+        return "\(walletUrl)/bch"
     }
 
     var etherExplorerUrl: String {

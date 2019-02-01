@@ -73,7 +73,6 @@
 		3A019124212DF24700AED2BF /* ExchangeCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF9A212B3742003A8A08 /* ExchangeCreateView.swift */; };
 		3A01914A212E17E500AED2BF /* ExchangeCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF98212B36F1003A8A08 /* ExchangeCreateViewController.swift */; };
 		3A01914E212E180500AED2BF /* FromToButtonDelegateIntermediate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF92212B36B2003A8A08 /* FromToButtonDelegateIntermediate.swift */; };
-		3A06A125220256E1003869F2 /* StellarAirdropRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A06A124220256E1003869F2 /* StellarAirdropRouterTests.swift */; };
 		3A07814C21E54DB200760BF9 /* UICollectionViewCell+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A07814B21E54DB200760BF9 /* UICollectionViewCell+Conveniences.swift */; };
 		3A0E301A21C8276700E64BE0 /* KYCUserTierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0E301921C8276700E64BE0 /* KYCUserTierTests.swift */; };
 		3A12A71821ACFD5800C616F6 /* Wallet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A12A71721ACFD5800C616F6 /* Wallet+Extensions.swift */; };
@@ -931,6 +930,7 @@
 		AAB43A892162C19C0015C863 /* Rx+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB43A882162C19C0015C863 /* Rx+Helpers.swift */; };
 		AAB43A8A2162C19C0015C863 /* Rx+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB43A882162C19C0015C863 /* Rx+Helpers.swift */; };
 		AAB759F82189586500A0AD11 /* StellarAirdropRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB759F72189586500A0AD11 /* StellarAirdropRegistrationService.swift */; };
+		AAB759FB21895C6C00A0AD11 /* StellarAirdropRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB759FA21895C6C00A0AD11 /* StellarAirdropRouterTests.swift */; };
 		AAB759FF21895CD200A0AD11 /* MockBlockchainSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB759FE21895CD200A0AD11 /* MockBlockchainSettings.swift */; };
 		AAB75A00218960C300A0AD11 /* StellarAirdropRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB759F72189586500A0AD11 /* StellarAirdropRegistrationService.swift */; };
 		AAB75A022189641900A0AD11 /* MockXlmWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB75A012189641900A0AD11 /* MockXlmWallet.swift */; };
@@ -1693,7 +1693,6 @@
 		3A01911A212DE57A00AED2BF /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		3A01911C212DEF8000AED2BF /* AsyncBlockOperaiton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncBlockOperaiton.swift; sourceTree = "<group>"; };
 		3A019121212DF0EB00AED2BF /* AsyncBlockOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncBlockOperationTests.swift; sourceTree = "<group>"; };
-		3A06A124220256E1003869F2 /* StellarAirdropRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAirdropRouterTests.swift; sourceTree = "<group>"; };
 		3A07814B21E54DB200760BF9 /* UICollectionViewCell+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Conveniences.swift"; sourceTree = "<group>"; };
 		3A0E301921C8276700E64BE0 /* KYCUserTierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCUserTierTests.swift; sourceTree = "<group>"; };
 		3A12A71721ACFD5800C616F6 /* Wallet+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Wallet+Extensions.swift"; sourceTree = "<group>"; };
@@ -3876,6 +3875,7 @@
 		AAA341D72182448800E09561 /* StellarPaymentOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarPaymentOperation.swift; sourceTree = "<group>"; };
 		AAB43A882162C19C0015C863 /* Rx+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+Helpers.swift"; sourceTree = "<group>"; };
 		AAB759F72189586500A0AD11 /* StellarAirdropRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAirdropRegistrationService.swift; sourceTree = "<group>"; };
+		AAB759FA21895C6C00A0AD11 /* StellarAirdropRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAirdropRouterTests.swift; sourceTree = "<group>"; };
 		AAB759FE21895CD200A0AD11 /* MockBlockchainSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBlockchainSettings.swift; sourceTree = "<group>"; };
 		AAB75A012189641900A0AD11 /* MockXlmWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockXlmWallet.swift; sourceTree = "<group>"; };
 		AAB75A032189650D00A0AD11 /* MockBlockchainDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBlockchainDataRepository.swift; sourceTree = "<group>"; };
@@ -8750,7 +8750,7 @@
 		AAB759F921895C5700A0AD11 /* Airdrop */ = {
 			isa = PBXGroup;
 			children = (
-				3A06A124220256E1003869F2 /* StellarAirdropRouterTests.swift */,
+				AAB759FA21895C6C00A0AD11 /* StellarAirdropRouterTests.swift */,
 			);
 			path = Airdrop;
 			sourceTree = "<group>";
@@ -10805,6 +10805,7 @@
 				3A91F7C2213845F700CDC3FD /* TradingPairView.swift in Sources */,
 				AACE31822092858600B7B806 /* Pin.swift in Sources */,
 				C7C0DC23212F677C000EFE71 /* MarketsService.swift in Sources */,
+				AAB759FB21895C6C00A0AD11 /* StellarAirdropRouterTests.swift in Sources */,
 				C729D64421874C8B0084D497 /* NumberFormatterTests.swift in Sources */,
 				AACE31D72092A99B00B7B806 /* Enum+Enumeratable.swift in Sources */,
 				3A1552EB2136EA8D00683CEB /* TradeExecutionService.swift in Sources */,
@@ -10900,7 +10901,6 @@
 				C7C5730021FBC09F008B174D /* KYCResubmitIdentityController.swift in Sources */,
 				AA2D000220D96FA300B7BE0E /* SwipeToReceiveAddressView.swift in Sources */,
 				AA4770B8211BA984006356B1 /* KYCAccountStatus.swift in Sources */,
-				3A06A125220256E1003869F2 /* StellarAirdropRouterTests.swift in Sources */,
 				AA54E4F4216D3B30005061F9 /* KYCStateSelectionPresenter.swift in Sources */,
 				AADB01EA20C09FA7000FFFEC /* WalletService.swift in Sources */,
 				3A3C7D542180E5D50067F442 /* SendXLMCoordinator.swift in Sources */,

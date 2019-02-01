@@ -22,18 +22,19 @@ class PermissionsRequestor {
         callback: @escaping () -> Void
         ) {
         
-        let shouldDisplayCamera = PermissionsRequestor.shouldDisplayCameraPermissionsRequest()
-        let shouldDisplayNotifications = PermissionsRequestor.shouldDisplayNotificationsPermissionsRequest()
+        let shouldDisplayCameraRequest = PermissionsRequestor.shouldDisplayCameraPermissionsRequest()
+        let shouldDisplayNotificationsRequest = PermissionsRequestor.shouldDisplayNotificationsPermissionsRequest()
         
         // If we've asked the user for camera and/or notification permissions
         // we want to call the completion handler.
         switch (camera, notification) {
         case (true, true):
-            guard shouldDisplayCamera && shouldDisplayNotifications == false else { callback(); return }
+            let both = shouldDisplayCameraRequest && shouldDisplayNotificationsRequest
+            guard both == true else { callback(); return }
         case (true, false):
-            guard shouldDisplayCamera == false else { callback(); return }
+            guard shouldDisplayCameraRequest == true else { callback(); return }
         case (false, true):
-            guard shouldDisplayNotifications == false else { callback(); return }
+            guard shouldDisplayNotificationsRequest == true else { callback(); return }
         default:
             callback()
             return

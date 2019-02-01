@@ -13,9 +13,10 @@ import StellarKit
 class StellarAirdropRouter: DeepLinkRouting {
 
     private let appSettings: BlockchainSettings.App
+    private let kycCoordinator: KYCCoordinator
     private let repository: BlockchainDataRepository
     private let registrationService: StellarAirdropRegistrationAPI
-    private let kycCoordinator: KYCCoordinator
+
     private let disposables = CompositeDisposable()
     
     private let stellarWalletAccountRepository: StellarWalletAccountRepository
@@ -37,18 +38,23 @@ class StellarAirdropRouter: DeepLinkRouting {
     deinit {
         disposables.dispose()
     }
-    
+
+    /// Conditionally route the user to complete the Stellar airdrop flow if they have tapped on the
+    /// Stellar airdrop link.
+    ///
+    /// The user will be prompted to complete the KYC flow if they have not yet already done so.
+    /// This function will also register the user to the Stellar campaign.
     func routeIfNeeded() {
         // Only route if the user actually tapped on the airdrop link
         guard appSettings.didTapOnAirdropDeepLink else {
             return
         }
-        
+
         // Only route if we did try to route already
         guard !appSettings.didAttemptToRouteForAirdrop else {
             return
         }
-        
+
         let nabuUser = repository.nabuUser.take(1)
         let xlmAccount = stellarWalletAccountRepository.initializeMetadataMaybe().asObservable()
         let disposable = Observable.combineLatest(nabuUser, xlmAccount)
@@ -57,7 +63,6 @@ class StellarAirdropRouter: DeepLinkRouting {
                 guard let strongSelf = self else {
                     return Observable.empty()
                 }
-                
                 return strongSelf.registerForCampaign(
                     xlmAccount: xlmAccount,
                     nabuUser: nabuUser
@@ -77,7 +82,10 @@ class StellarAirdropRouter: DeepLinkRouting {
                 guard let strongSelf = self else {
                     return
                 }
-                
+
+                strongSelf.appSettings.didAttemptToRouteForAirdrop = true
+                strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = true
+
                 guard user.status == .none else {
                     return
                 }
@@ -85,10 +93,6 @@ class StellarAirdropRouter: DeepLinkRouting {
                     return
                 }
                 strongSelf.kycCoordinator.start(from: viewController, tier: .tier2)
-                
-                strongSelf.appSettings.didAttemptToRouteForAirdrop = true
-                strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = true
-                
             }, onError: { [weak self] error in
                 guard let strongSelf = self else {
                     return
@@ -97,7 +101,7 @@ class StellarAirdropRouter: DeepLinkRouting {
                 strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = false
 
                 Logger.shared.error("Failed to register for campaign: \(error.localizedDescription)")
-                
+
                 guard let httpError = error as? HTTPRequestServerError else { return }
                 guard case let .badStatusCode(_, payload) = httpError else { return }
                 guard let value = payload as? NabuNetworkError else {
@@ -114,7 +118,7 @@ class StellarAirdropRouter: DeepLinkRouting {
                     )
                     return
                 }
-                
+
                 AlertViewPresenter.shared.standardNotify(
                     message: value.description,
                     title: LocalizationConstants.Errors.error

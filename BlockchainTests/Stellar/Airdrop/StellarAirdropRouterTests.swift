@@ -14,11 +14,7 @@ import XCTest
 private class MockRegistrationService: StellarAirdropRegistrationAPI {
     
     var didCallRegisterExpectation: XCTestExpectation?
-    
-    func autoRegisterIfNeeded() {
-        // no op
-    }
-    
+
     func registerForCampaign(xlmAccount: StellarWalletAccount, nabuUser: NabuUser) -> Single<StellarRegisterCampaignResponse> {
         return Single.create(subscribe: { _ -> Disposable in
             self.didCallRegisterExpectation?.fulfill()
@@ -28,13 +24,13 @@ private class MockRegistrationService: StellarAirdropRegistrationAPI {
 }
 
 class StellarAirdropRouterTests: XCTestCase {
-    
+
     private var mockAppSettings: MockBlockchainSettingsApp!
     private var mockRegistration: MockRegistrationService!
     private var mockStellarBridge: MockStellarBridge!
     private var mockDataRepo: MockBlockchainDataRepository!
     private var router: StellarAirdropRouter!
-    
+
     override func setUp() {
         super.setUp()
         mockAppSettings = MockBlockchainSettingsApp()
@@ -49,7 +45,7 @@ class StellarAirdropRouterTests: XCTestCase {
             registrationService: mockRegistration
         )
     }
-    
+
     func testRoutesIfTappedOnDeepLink() {
         mockAppSettings.mockDidTapOnAirdropDeepLink = true
         mockStellarBridge.accounts = [
@@ -63,7 +59,7 @@ class StellarAirdropRouterTests: XCTestCase {
             status: KYCAccountStatus.none,
             state: NabuUser.UserState.none,
             tags: Tags(sunriver: nil),
-            tiers: NabuUserTiers(current: .tier2, selected: .tier0, next: .tier0),
+            tiers: nil,
             needsDocumentResubmission: nil
         )
         mockRegistration.didCallRegisterExpectation = expectation(
@@ -72,7 +68,7 @@ class StellarAirdropRouterTests: XCTestCase {
         router.routeIfNeeded()
         waitForExpectations(timeout: 0.1)
     }
-    
+
     func testDoesNotRouteIfDidntTapOnDeepLink() {
         mockAppSettings.mockDidTapOnAirdropDeepLink = false
         let exp = expectation(

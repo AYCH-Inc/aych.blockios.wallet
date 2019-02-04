@@ -376,7 +376,6 @@
 
     [self.tabViewController didFetchEthExchangeRate];
     [_sendEtherViewController updateExchangeRate:self.latestEthExchangeRate];
-    [_dashboardViewController updateEthExchangeRate:self.latestEthExchangeRate];
 }
 
 #pragma mark - Wallet Send Ether Delegate

@@ -17,7 +17,7 @@
 ## Install JS Dependencies
 
 Install a node version manager such as [nvm](https://github.com/creationix/nvm) or [n](https://github.com/tj/n).
-    
+
     # use node v7.9.0
     npm install -g n
     n v7.9.0
@@ -28,12 +28,9 @@ Install a node version manager such as [nvm](https://github.com/creationix/nvm) 
     # install and build js files
     sh scripts/install-js.sh && sh scripts/build-js.sh
 
-    # build js files, watch My-Wallet-V3 for changes
-    sh scripts/watch-js.sh
-
 ## Prepare OpenSSL
 
-    cd ../OpenSSL-for-iPhone
+    cd ./Submodules/OpenSSL-for-iPhone
     ./build-libssl.sh
 
 ## Install Cocoapods
@@ -72,15 +69,15 @@ Install a node version manager such as [nvm](https://github.com/creationix/nvm) 
     GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 COCOAPODS=1
 
     OTHER_SWIFT_FLAGS = -DDEBUG
-    
+
     RETAIL_CORE_URL = api.dev.blockchain.info/nabu-app
 
 ## Add Config to Pods
     In XCode, Go to Pods folder
     open corresponding .xcconfig
-    
+
     Add the contents of the above .xcconfig file to the end of `Pods/Target Support Files/Pods-Blockchain/Pods-Blockchain.xcconfig`
-    
+
 ## Add Firebase Config Files
 
 Create the following directories:
@@ -90,8 +87,8 @@ Create the following directories:
 ./Blockchain/Firebase/Staging
 ./Blockchain/Firebase/Prod
 ```
-    
-    In each directory, you'll need to copy/paste the environment-specific GoogleService-Info.plist files that are in credentials repository.
+
+    In each directory, you'll need to copy/paste the environment-specific GoogleService-Info.plist files that are in `wallet-ios-credentials` repository.
 ## Open the project in Xcode
 
     open Blockchain.xcworkspace

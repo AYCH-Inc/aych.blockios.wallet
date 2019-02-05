@@ -72,12 +72,6 @@ Install a node version manager such as [nvm](https://github.com/creationix/nvm) 
 
     RETAIL_CORE_URL = api.dev.blockchain.info/nabu-app
 
-## Add Config to Pods
-    In XCode, Go to Pods folder
-    open corresponding .xcconfig
-
-    Add the contents of the above .xcconfig file to the end of `Pods/Target Support Files/Pods-Blockchain/Pods-Blockchain.xcconfig`
-
 ## Add Firebase Config Files
 
 Create the following directories:

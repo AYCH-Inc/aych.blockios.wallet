@@ -176,10 +176,11 @@ jobs:
             fi
             pod install --verbose
             git clone -b xcconfig-ci $CREDENTIALS_REPO /tmp/xcconfig
-            cat "/tmp/xcconfig/Pods-Blockchain/Pods-Blockchain.debug dev.xcconfig" >> "Pods/Target Support Files/Pods-Blockchain/Pods-Blockchain.debug dev.xcconfig"
-            cat "/tmp/xcconfig/Pods-Blockchain/Pods-Blockchain.debug staging.xcconfig" >> "Pods/Target Support Files/Pods-Blockchain/Pods-Blockchain.debug staging.xcconfig"
-            cat "/tmp/xcconfig/Pods-Blockchain/Pods-Blockchain.debug production.xcconfig" >> "Pods/Target Support Files/Pods-Blockchain/Pods-Blockchain.debug production.xcconfig"
-            cat "/tmp/xcconfig/Pods-Blockchain/Pods-Blockchain.release.xcconfig" >> "Pods/Target Support Files/Pods-Blockchain/Pods-Blockchain.release.xcconfig"
+            mkdir Config
+            cp /tmp/xcconfig/Config/Development.xcconfig Config/Development.xcconfig
+            cp /tmp/xcconfig/Config/Production.xcconfig Config/Production.xcconfig
+            cp /tmp/xcconfig/Config/Release.xcconfig Config/Release.xcconfig
+            cp /tmp/xcconfig/Config/Staging.xcconfig Config/Staging.xcconfig
       - save_cache:
           key: pods-cache-{{ checksum "Podfile.lock" }}
           paths:
@@ -188,6 +189,7 @@ jobs:
       - persist_to_workspace:
           root: /Users/distiller/project
           paths:
+            - ./Config
             - ./Pods
             - ./Blockchain.xcworkspace
   # Run tests job:

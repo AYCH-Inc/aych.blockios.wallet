@@ -54,7 +54,7 @@ extension ExchangeNavigatableView where Self: UIViewController {
                 guard let url = URL.endpoint(
                     endpoint,
                     pathComponents: ["hc", "en-us", "requests", "new"],
-                    queryParameters: ["ticket_form_id" : "360000186571"]
+                    queryParameters: ["ticket_form_id" : "360000180551"]
                     ) else { return }
                 let controller = SFSafariViewController(url: url)
                 this.present(controller, animated: true, completion: nil)

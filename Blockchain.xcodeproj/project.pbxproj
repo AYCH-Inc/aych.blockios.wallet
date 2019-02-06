@@ -288,6 +288,12 @@
 		3A8473DF219B798800F22FA6 /* StellarLedger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8473DE219B798800F22FA6 /* StellarLedger.swift */; };
 		3A8473FD219CA2D300F22FA6 /* MultiAccountAssetAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8473FC219CA2D300F22FA6 /* MultiAccountAssetAPI.swift */; };
 		3A847401219CAF2B00F22FA6 /* AccountValidationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A847400219CAF2B00F22FA6 /* AccountValidationAPI.swift */; };
+		3A8994C422039B6500CCA8FF /* PricePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8994C322039B6500CCA8FF /* PricePreview.swift */; };
+		3A8994C622039FCE00CCA8FF /* PricePreviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A8994C522039FCE00CCA8FF /* PricePreviewCell.xib */; };
+		3A8994C822039FDF00CCA8FF /* PricePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8994C722039FDF00CCA8FF /* PricePreviewCell.swift */; };
+		3A8994CB2203F04900CCA8FF /* Skeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8994CA2203F04900CCA8FF /* Skeleton.swift */; };
+		3A8994CE2203F83100CCA8FF /* AnimatedGradientContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8994CD2203F83100CCA8FF /* AnimatedGradientContainerView.swift */; };
+		3A8994D02203F87900CCA8FF /* AnimatedGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8994CF2203F87900CCA8FF /* AnimatedGradientView.swift */; };
 		3A8B224C211CA7990091E706 /* PersonalDetailsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B224B211CA7990091E706 /* PersonalDetailsDelegate.swift */; };
 		3A8B227C211DFE110091E706 /* PrimaryButtonContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A8B227B211DFE110091E706 /* PrimaryButtonContainer.xib */; };
 		3A8B228A211E0B380091E706 /* KYCPersonalDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B2289211E0B380091E706 /* KYCPersonalDetailsController.swift */; };
@@ -1857,6 +1863,12 @@
 		3A8473DE219B798800F22FA6 /* StellarLedger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarLedger.swift; sourceTree = "<group>"; };
 		3A8473FC219CA2D300F22FA6 /* MultiAccountAssetAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiAccountAssetAPI.swift; sourceTree = "<group>"; };
 		3A847400219CAF2B00F22FA6 /* AccountValidationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountValidationAPI.swift; sourceTree = "<group>"; };
+		3A8994C322039B6500CCA8FF /* PricePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PricePreview.swift; sourceTree = "<group>"; };
+		3A8994C522039FCE00CCA8FF /* PricePreviewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PricePreviewCell.xib; sourceTree = "<group>"; };
+		3A8994C722039FDF00CCA8FF /* PricePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PricePreviewCell.swift; sourceTree = "<group>"; };
+		3A8994CA2203F04900CCA8FF /* Skeleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skeleton.swift; sourceTree = "<group>"; };
+		3A8994CD2203F83100CCA8FF /* AnimatedGradientContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedGradientContainerView.swift; sourceTree = "<group>"; };
+		3A8994CF2203F87900CCA8FF /* AnimatedGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedGradientView.swift; sourceTree = "<group>"; };
 		3A8B224B211CA7990091E706 /* PersonalDetailsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDetailsDelegate.swift; sourceTree = "<group>"; };
 		3A8B227B211DFE110091E706 /* PrimaryButtonContainer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrimaryButtonContainer.xib; sourceTree = "<group>"; };
 		3A8B2289211E0B380091E706 /* KYCPersonalDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KYCPersonalDetailsController.swift; sourceTree = "<group>"; };
@@ -5044,6 +5056,7 @@
 		3A6865C2219A12530009FF29 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3A8994CC2203F80700CCA8FF /* AnimatedGradientContainerView */,
 				3AEA401621FBA9D000952587 /* AlertView */,
 				3A6865C3219A126B0009FF29 /* Cells */,
 				3A45607E21F26F1D006C2568 /* Controllers */,
@@ -5054,6 +5067,7 @@
 		3A6865C3219A126B0009FF29 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				3A8994B922039AF500CCA8FF /* PricePreviewCell */,
 				3A3F3B9C21E4072F003BFDFC /* BaseCell */,
 				3A3F3B8421E3FBBC003BFDFC /* ContainerCells */,
 				3A6865C7219A12A50009FF29 /* TransactionDetailCell */,
@@ -5293,6 +5307,26 @@
 				3A9B284721A4C6C100DB46C7 /* StellarWalletBridgeAPI.swift */,
 			);
 			path = APIs;
+			sourceTree = "<group>";
+		};
+		3A8994B922039AF500CCA8FF /* PricePreviewCell */ = {
+			isa = PBXGroup;
+			children = (
+				3A8994C322039B6500CCA8FF /* PricePreview.swift */,
+				3A8994C522039FCE00CCA8FF /* PricePreviewCell.xib */,
+				3A8994C722039FDF00CCA8FF /* PricePreviewCell.swift */,
+			);
+			path = PricePreviewCell;
+			sourceTree = "<group>";
+		};
+		3A8994CC2203F80700CCA8FF /* AnimatedGradientContainerView */ = {
+			isa = PBXGroup;
+			children = (
+				3A8994CA2203F04900CCA8FF /* Skeleton.swift */,
+				3A8994CD2203F83100CCA8FF /* AnimatedGradientContainerView.swift */,
+				3A8994CF2203F87900CCA8FF /* AnimatedGradientView.swift */,
+			);
+			path = AnimatedGradientContainerView;
 			sourceTree = "<group>";
 		};
 		3A8B2271211DFDFC0091E706 /* Primary Button */ = {
@@ -9993,6 +10027,7 @@
 			files = (
 				3A3F3BA221E40A3E003BFDFC /* HorizontalContainerCell.xib in Resources */,
 				3AEA402321FBAAEF00952587 /* AlertView.xib in Resources */,
+				3A8994C622039FCE00CCA8FF /* PricePreviewCell.xib in Resources */,
 				3AC90D0421F78CF2006DD565 /* PaginatedContainerCell.xib in Resources */,
 				3A6865C1219A12290009FF29 /* PlatformUIKitAssets.xcassets in Resources */,
 				3A6865CD219A136C0009FF29 /* TransactionDetailCell.xib in Resources */,
@@ -10524,7 +10559,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A8994C822039FDF00CCA8FF /* PricePreviewCell.swift in Sources */,
 				3A3F3B9221E40088003BFDFC /* StandardContainerModel.swift in Sources */,
+				3A8994CB2203F04900CCA8FF /* Skeleton.swift in Sources */,
 				3AC90D0621F79377006DD565 /* PaginatedContainerModel.swift in Sources */,
 				3A6865BF219A11C40009FF29 /* Visibility.swift in Sources */,
 				3A6865C6219A12860009FF29 /* CellModel.swift in Sources */,
@@ -10543,14 +10580,17 @@
 				3A33F8F921FA6285001F96FC /* AlertModel.swift in Sources */,
 				3AC90D0221F78C96006DD565 /* PaginatedContainerCell.swift in Sources */,
 				3A45608921F270B7006C2568 /* BaseViewController.swift in Sources */,
+				3A8994CE2203F83100CCA8FF /* AnimatedGradientContainerView.swift in Sources */,
 				3A6865D5219A1A510009FF29 /* UIDevice+Conveniences.swift in Sources */,
 				3A3F3B9421E400DE003BFDFC /* LayoutAttributes.swift in Sources */,
 				3AB692FF21FB8A840069CB90 /* UIView+Conveniences.swift in Sources */,
 				3A3F3BA721E41171003BFDFC /* ContainerLayout.swift in Sources */,
 				3A3F3B9B21E406F1003BFDFC /* NestedCollectionViewCell.swift in Sources */,
+				3A8994C422039B6500CCA8FF /* PricePreview.swift in Sources */,
 				3A6865CB219A12DC0009FF29 /* NSAttributedString+Conveniences.swift in Sources */,
 				3A3F3B9921E40556003BFDFC /* VerticalContainerCell.swift in Sources */,
 				3A3F3BA021E40807003BFDFC /* Container.swift in Sources */,
+				3A8994D02203F87900CCA8FF /* AnimatedGradientView.swift in Sources */,
 				3A3F3BA521E410BF003BFDFC /* ContainerModel+Conveniences.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

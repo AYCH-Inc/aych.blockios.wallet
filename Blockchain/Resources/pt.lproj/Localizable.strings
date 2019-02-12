@@ -520,7 +520,7 @@ Estas opções são recomendadas apenas para usuários avançados. Deseja contin
 "Please select a different address to send from." = "Por favor, selecione um endereço diferente para enviar a partir.";
 "Please send %@ to bitcoin address.\
 %@" = "Vazio";
-"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@" = "Por favor enviar o pagamento ao endereço bitcoin (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">ajuda</a>): %@";
+"Please send payment to bitcoin address (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">help?</a>): %@" = "Por favor enviar o pagamento ao endereço bitcoin (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">ajuda</a>): %@";
 "Please verify your mobile number first." = "Por favor verifique o número do seu celular primeiro.";
 "Preparing transfer" = "Preparando a transferência";
 "Rate Blockchain Wallet" = "Carteira de Blockchain de taxa";

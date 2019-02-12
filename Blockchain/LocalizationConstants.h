@@ -170,7 +170,7 @@
 #define BC_STRING_PAYMENT_REQUEST_BITCOIN_CASH_ARGUMENT NSLocalizedString(@"Please send BCH to the Bitcoin Cash address\n%@", nil)
 #define BC_STRING_PAYMENT_REQUEST_ETHER_ARGUMENT NSLocalizedString(@"Please send ether to %@.", nil)
 #define BC_STRING_AMOUNT NSLocalizedString(@"Amount", nil)
-#define BC_STRING_PAYMENT_REQUEST_HTML NSLocalizedString(@"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@", nil)
+#define BC_STRING_PAYMENT_REQUEST_HTML NSLocalizedString(@"Please send payment to bitcoin address (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">help?</a>): %@", nil)
 #define BC_STRING_PAYMENT_REQUEST_ETHER_SUBJECT NSLocalizedString(@"Ether payment request", nil)
 #define BC_STRING_CLOSE NSLocalizedString(@"Close", nil)
 

@@ -136,8 +136,8 @@ NSMutableArray *visitedPages;
 {
     // External sites open in the system browser
     NSString *hostname = [[request URL] host];
-    if ([hostname rangeOfString:[[BlockchainAPI sharedInstance] blockchainDotInfo]].location == NSNotFound &&
-        [hostname rangeOfString:[[BlockchainAPI sharedInstance] blockchainDotCom]].location == NSNotFound) {
+    if ([hostname rangeOfString:[[BlockchainAPI sharedInstance] blockchainUrl]].location == NSNotFound &&
+        [hostname rangeOfString:[[BlockchainAPI sharedInstance] blockchainUrlLegacy]].location == NSNotFound) {
         [[UIApplication sharedApplication] openURL:[request URL]];
         return NO;
     }
@@ -174,7 +174,7 @@ NSMutableArray *visitedPages;
 - (void)addCookiesToRequest:(NSMutableURLRequest*)request
 {
     NSHTTPCookie *no_header_cookie = [NSHTTPCookie cookieWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                         @"blockchain.info", NSHTTPCookieDomain,
+                                                                         @"blockchain.com", NSHTTPCookieDomain,
                                                                          @"\\", NSHTTPCookiePath,  // IMPORTANT!
                                                                          @"no_header", NSHTTPCookieName,
                                                                          @"true", NSHTTPCookieValue,
@@ -182,7 +182,7 @@ NSMutableArray *visitedPages;
     
     
     NSHTTPCookie *no_footer_cookie = [NSHTTPCookie cookieWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                         @"blockchain.info", NSHTTPCookieDomain,
+                                                                         @"blockchain.com", NSHTTPCookieDomain,
                                                                          @"\\", NSHTTPCookiePath,  // IMPORTANT!
                                                                          @"no_footer", NSHTTPCookieName,
                                                                          @"true", NSHTTPCookieValue,

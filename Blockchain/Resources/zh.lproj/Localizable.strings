@@ -886,7 +886,7 @@
 %2$@";
 
 /* (No Commment) */
-"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@" = "请向比特币地址发送付款 （<a href=\"https://blockchain.info/wallet/bitcoin-faq\">需要帮助?</a>）: %@";
+"Please send payment to bitcoin address (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">help?</a>): %@" = "请向比特币地址发送付款 （<a href=\"https://blockchain.com/wallet/bitcoin-faq\">需要帮助?</a>）: %@";
 
 /* No comment provided by engineer. */
 "Please try again" = "请重试";

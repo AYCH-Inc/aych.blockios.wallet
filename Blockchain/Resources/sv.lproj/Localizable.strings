@@ -522,7 +522,7 @@
 "Please send %@ to bitcoin address.\
 %@" = "Behaga sända %1$@ till bitcoin adress.\
 %2$@";
-"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@" = "Vänligen skicka betalning till bitcoin adress (< en href = \"https://blockchain.info/wallet/bitcoin-faq\" > hjälpa? < /a >): %@";
+"Please send payment to bitcoin address (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">help?</a>): %@" = "Vänligen skicka betalning till bitcoin adress (< en href = \"https://blockchain.com/wallet/bitcoin-faq\" > hjälpa? < /a >): %@";
 "Please verify your mobile number first." = "Kontrollera först ditt mobilnummer.";
 "Preparing transfer" = "Förbereda överföringen";
 "Rate Blockchain Wallet" = "Betygsätt Blockchain plånbok";

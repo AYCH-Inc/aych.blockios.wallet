@@ -522,7 +522,7 @@ Hãy giữ riêng tư cho xPub của bạn. Người có quyền truy cập vào
 "Please send %@ to bitcoin address.\
 %@" = "Vui lòng gửi %1$@ đến địa chỉ bitcoin.\
 %2$@";
-"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@" = "Vui lòng gửi thanh toán đến địa chỉ bitcoin (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">giúp đỡ?</a>): %@";
+"Please send payment to bitcoin address (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">help?</a>): %@" = "Vui lòng gửi thanh toán đến địa chỉ bitcoin (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">giúp đỡ?</a>): %@";
 "Please verify your mobile number first." = "Vui lòng xác minh số điện thoại của bạn trước.";
 "Preparing transfer" = "Chuẩn bị chuyển khoản";
 "Rate Blockchain Wallet" = "Đánh giá Ví Blockchain";

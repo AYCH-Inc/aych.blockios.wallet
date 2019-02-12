@@ -37,9 +37,8 @@ final class BlockchainAPI: NSObject {
      extension of this class.
      */
     enum Hosts: String, RawValued {
-        case blockchainAPI  = "api.blockchain.info"
-        case blockchainDotInfo = "blockchain.info"
-        case blockchainDotCom = "blockchain.com"
+        case blockchainAPI  = "api.blockchain.com"
+        case blockchain = "blockchain.com"
     }
     
     /// Public hosts used for partner API calls.
@@ -73,11 +72,11 @@ final class BlockchainAPI: NSObject {
     @objc func blockchainAPI() -> String {
         return Hosts.blockchainAPI.rawValue
     }
-    @objc func blockchainDotInfo() -> String {
-        return Hosts.blockchainDotInfo.rawValue
+    @objc func blockchainUrl() -> String {
+        return Hosts.blockchain.rawValue
     }
-    @objc func blockchainDotCom() -> String {
-        return Hosts.blockchainDotCom.rawValue
+    @objc func blockchainUrlLegacy() -> String {
+        return "blockchain.info"
     }
     @objc func coinify() -> String {
         return PartnerHosts.coinify.rawValue

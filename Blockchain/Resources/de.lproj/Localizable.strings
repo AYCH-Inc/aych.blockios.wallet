@@ -522,7 +522,7 @@ Wenn Geldmittel vorhanden sind, sind diese sicher. Um diese Sache wieder zu verw
 "Please send %@ to bitcoin address.\
 %@" = "Bitte %1$@ an folgende Bitcoin-Adresse senden: \
 %2$@";
-"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@" = "Bitte Zahlung an folgende Bitcoin-Adresse senden (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">Hilfe nötig?</a>): %@";
+"Please send payment to bitcoin address (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">help?</a>): %@" = "Bitte Zahlung an folgende Bitcoin-Adresse senden (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">Hilfe nötig?</a>): %@";
 "Please verify your mobile number first." = "Bitte verifizieren Sie zuerst Ihre Handynummer.";
 "Preparing transfer" = "Überweisung wird vorbereitet";
 "Rate Blockchain Wallet" = "Blockchain Wallet bewerten";

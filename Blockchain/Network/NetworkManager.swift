@@ -118,7 +118,7 @@ class NetworkManager: NSObject, URLSessionDelegate {
     /// fails, it will be attempted to be decoded as a String. It is up to the observer to check the type.
     ///
     /// - Parameters:
-    ///   - url: the URL for the request (e.g. "http://blockchain.info/uuid-generator?n=3")
+    ///   - url: the URL for the request (e.g. "http://blockchain.com/uuid-generator?n=3")
     ///   - method: the HTTP method
     ///   - parameters: the parameters for the request
     /// - Returns: a Single returning the HTTPURLResponse and the decoded response data

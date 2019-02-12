@@ -522,7 +522,7 @@
 "Please send %@ to bitcoin address.\
 %@" = "Verzend %1$@ naar Bitcoin-adres.\
 %2$@";
-"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@" = "Verzend betaling naar Bitcoin-adres (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@";
+"Please send payment to bitcoin address (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">help?</a>): %@" = "Verzend betaling naar Bitcoin-adres (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">help?</a>): %@";
 "Please verify your mobile number first." = "Verifieer eerst uw mobiele nummer.";
 "Preparing transfer" = "De overdracht aan het voorbereiden";
 "Rate Blockchain Wallet" = "Blockchain Portemonnee beoordelen";

@@ -14,7 +14,7 @@ protocol PriceServiceAPI {
 
 /// Class for interacting with Blockchain's Service-Price backend service. This
 /// service is in charge of all price related data (e.g. crypto to fiat prices, etc.)
-/// Spec: https://api.blockchain.info/price/specs
+/// Spec: https://api.blockchain.com/price/specs
 class PriceServiceClient: PriceServiceAPI {
 
     typealias AssetTypesToPrices = [AssetType: PriceInFiatValue]

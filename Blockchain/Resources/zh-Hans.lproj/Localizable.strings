@@ -518,7 +518,7 @@
 "Please send %@ to bitcoin address.\
 %@" = "请发送 %1$@ 至比特币地址。\
 %2$@";
-"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@" = "请向比特币地址发送付款 （<a href=\"https://blockchain.info/wallet/bitcoin-faq\">需要帮助?</a>）: %@";
+"Please send payment to bitcoin address (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">help?</a>): %@" = "请向比特币地址发送付款 （<a href=\"https://blockchain.com/wallet/bitcoin-faq\">需要帮助?</a>）: %@";
 "Please verify your mobile number first." = "请先验证您的手机号码。";
 "Preparing transfer" = "正在准备转帐";
 "Rate Blockchain Wallet" = "请对Blockchain钱包进行评价";

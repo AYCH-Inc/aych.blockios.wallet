@@ -134,7 +134,10 @@ class ExchangeDetailCoordinator: NSObject {
 
                 let value = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.value,
-                    value: valueString(for: conversion.quote.currencyRatio.counter.fiat.value, currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol)
+                    value: valueString(
+                        for: conversion.quote.currencyRatio.counter.fiat.value,
+                        currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol
+                    )
                 )
 
                 let fees = ExchangeCellModel.Plain(
@@ -303,10 +306,23 @@ class ExchangeDetailCoordinator: NSObject {
                         )
                     )
                     this.delegate?.coordinator(this, completedTransaction: transaction)
-            }) { [weak self] errorDescription in
+            }) { [weak self] errorDescription, transactionID in
                 guard let this = self else { return }
-                this.interface?.loadingVisibility(.hidden, action: .confirmExchange)
-                AlertViewPresenter.shared.standardError(message: errorDescription)
+                let complete: () -> Void = { [weak self] in
+                    guard let this = self else { return }
+                    this.interface?.loadingVisibility(.hidden, action: .confirmExchange)
+                    AlertViewPresenter.shared.standardError(message: errorDescription)
+                }
+                if let identifier = transactionID {
+                    this.tradeExecution.trackTransactionFailure(errorDescription, transactionID: identifier, completion: { error in
+                        if let value = error {
+                            Logger.shared.error(value.localizedDescription)
+                        }
+                        complete()
+                    })
+                } else {
+                    complete()
+                }
             }
         }
     }

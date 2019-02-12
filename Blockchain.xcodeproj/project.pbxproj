@@ -207,6 +207,8 @@
 		3A53B950213466580020ECAD /* ExchangeListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A53B94E213466580020ECAD /* ExchangeListHeaderView.swift */; };
 		3A53B95B213466670020ECAD /* ExchangeListHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A53B95A213466670020ECAD /* ExchangeListHeaderView.xib */; };
 		3A53B95C213466670020ECAD /* ExchangeListHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A53B95A213466670020ECAD /* ExchangeListHeaderView.xib */; };
+		3A562BB3220CDC87002CFFAF /* TransactionFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A562BB2220CDC87002CFFAF /* TransactionFailure.swift */; };
+		3A562BB4220CDC87002CFFAF /* TransactionFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A562BB2220CDC87002CFFAF /* TransactionFailure.swift */; };
 		3A56AEA721764D3A00044302 /* StellarTransactionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEA621764D3A00044302 /* StellarTransactionAPI.swift */; };
 		3A56AEA821764D3A00044302 /* StellarTransactionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEA621764D3A00044302 /* StellarTransactionAPI.swift */; };
 		3A56AEAA21765C2100044302 /* StellarAccountAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEA921765C2100044302 /* StellarAccountAPI.swift */; };
@@ -1792,6 +1794,7 @@
 		3A52C1272176946F00C03103 /* SendLumensViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendLumensViewController.swift; sourceTree = "<group>"; };
 		3A53B94E213466580020ECAD /* ExchangeListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListHeaderView.swift; sourceTree = "<group>"; };
 		3A53B95A213466670020ECAD /* ExchangeListHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeListHeaderView.xib; sourceTree = "<group>"; };
+		3A562BB2220CDC87002CFFAF /* TransactionFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionFailure.swift; sourceTree = "<group>"; };
 		3A56AEA621764D3A00044302 /* StellarTransactionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTransactionAPI.swift; sourceTree = "<group>"; };
 		3A56AEA921765C2100044302 /* StellarAccountAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAccountAPI.swift; sourceTree = "<group>"; };
 		3A56AEAE2176620400044302 /* StellarTransactionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTransactionService.swift; sourceTree = "<group>"; };
@@ -4487,6 +4490,7 @@
 				3A1552EC2136EAF000683CEB /* TradeLimits.swift */,
 				C7C0DC05212F6594000EFE71 /* TradingPair.swift */,
 				3A1552E6213600B400683CEB /* TradingPairConfiguration.swift */,
+				3A562BB2220CDC87002CFFAF /* TransactionFailure.swift */,
 				3A26D5172140404100D79BDD /* CellModels */,
 			);
 			path = Models;
@@ -10873,6 +10877,7 @@
 				3A56AEB02176620400044302 /* StellarTransactionService.swift in Sources */,
 				AA6336B621BC5A710073ED4A /* KYCVerifyEmailPresenter.swift in Sources */,
 				AA54E4FC216D5CC4005061F9 /* MockKYCStateSelectionView.swift in Sources */,
+				3A562BB4220CDC87002CFFAF /* TransactionFailure.swift in Sources */,
 				C7CE25BA2135E41900DCC43B /* ExchangeCreateInteractor.swift in Sources */,
 				AA56423820DDBDAA0092A022 /* PinTests.swift in Sources */,
 				3A91F7972137067400CDC3FD /* Order.swift in Sources */,
@@ -11220,6 +11225,7 @@
 				3A3D5DD2211CA4A700E6C241 /* PersonalDetailsCoordinator.swift in Sources */,
 				AA447BCA21276DA900EC0FA0 /* SideMenuPresenter.swift in Sources */,
 				AAFE9E752100D169002E4E1E /* PinStoreKeyPair.swift in Sources */,
+				3A562BB3220CDC87002CFFAF /* TransactionFailure.swift in Sources */,
 				C7A0E9261FA89FE9004F4267 /* ExchangeModalView.m in Sources */,
 				C7C0DC0F212F6594000EFE71 /* TradingPair.swift in Sources */,
 				3AD7EEA221126578006B924F /* NibBasedView.swift in Sources */,

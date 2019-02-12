@@ -57,7 +57,7 @@ class TradeExecutionService: TradeExecutionAPI {
     private let wallet: Wallet
     private let assetAccountRepository: AssetAccountRepository
     private let dependencies: Dependencies
-    private var disposable: Disposable?
+    private let disposables = CompositeDisposable()
     private var pendingXlmPaymentOperation: StellarPaymentOperation?
     
     // MARK: TradeExecutionAPI
@@ -117,7 +117,7 @@ class TradeExecutionService: TradeExecutionAPI {
     }
     
     deinit {
-        disposable?.dispose()
+        disposables.dispose()
     }
     
     // MARK: - Main Functions
@@ -172,7 +172,54 @@ class TradeExecutionService: TradeExecutionAPI {
             )
             success(orderTransaction, conversion)
         }
-        buildOrder(from: orderTransactionLegacy, success: createOrderCompletion, error: error)
+        
+        buildOrder(
+            from: orderTransactionLegacy,
+            success: createOrderCompletion,
+            error: { (message, transactionID) in
+                error(message)
+        })
+    }
+    
+    func trackTransactionFailure(_ reason: String, transactionID: String, completion: @escaping (Error?) -> Void) {
+        guard let baseURL = URL(string: BlockchainAPI.shared.retailCoreUrl) else {
+            completion(TradeExecutionAPIError.generic)
+            return
+        }
+        
+        guard let endpoint = URL.endpoint(
+            baseURL,
+            pathComponents: ["trades", transactionID, "failure-reason"],
+            queryParameters: nil
+            ) else {
+                completion(TradeExecutionAPIError.generic)
+                return
+        }
+        
+        let payload = TransactionFailure(message: reason)
+        
+        let disposable = authentication.getSessionToken()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] token in
+                guard let this = self else { return }
+                let disposable = NetworkRequest.PUT(url: endpoint,
+                                                    body: try? JSONEncoder().encode(payload),
+                                                    headers: [HttpHeaderField.authorization: token.token])
+                    .subscribeOn(MainScheduler.asyncInstance)
+                    .observeOn(MainScheduler.instance)
+                    .subscribe(onCompleted: {
+                        completion(nil)
+                    }, onError: { error in
+                        completion(error)
+                    })
+            
+            this.disposables.insertWithDiscardableResult(disposable)
+        }, onError: { error in
+            completion(error)
+        })
+        
+        disposables.insertWithDiscardableResult(disposable)
     }
 
     // Build an order from an OrderTransactionLegacy struct.
@@ -180,8 +227,9 @@ class TradeExecutionService: TradeExecutionAPI {
     // that has no Exchange information.
     fileprivate func buildOrder(
         from orderTransactionLegacy: OrderTransactionLegacy,
+        transactionID: TransactionID? = nil,
         success: @escaping ((OrderTransactionLegacy) -> Void),
-        error: @escaping ((String) -> Void),
+        error: @escaping ((ErrorMessage, TransactionID?) -> Void),
         memo: String? = nil // TODO: IOS-1291 Remove and separate
     ) {
         let assetType = AssetType.from(legacyAssetType: orderTransactionLegacy.legacyAssetType)
@@ -222,10 +270,10 @@ class TradeExecutionService: TradeExecutionAPI {
                 completion: { [weak self] in
                     guard let this = self else { return }
                     this.isExecuting = false
-                },
-                success: createOrderPaymentSuccess,
-                error: error
-            )
+            }, success: createOrderPaymentSuccess,
+               error: { errorMessage in
+                error(errorMessage, transactionID)
+            })
         }
     }
 
@@ -257,9 +305,10 @@ class TradeExecutionService: TradeExecutionAPI {
     // Sign and send the payment object created by either of the buildOrder methods.
     fileprivate func sendTransaction(
         assetType: AssetType,
+        transactionID: String?,
         secondPassword: String?,
         success: @escaping (() -> Void),
-        error: @escaping ((String) -> Void)
+        error: @escaping ((ErrorMessage, TransactionID?) -> Void)
     ) {
         let executionDone = { [weak self] in
             guard let this = self else { return }
@@ -272,7 +321,7 @@ class TradeExecutionService: TradeExecutionAPI {
             }
             
             let transaction = dependencies.xlm.transactionAPI
-            disposable = dependencies.xlm.repository.loadKeyPair()
+            let disposable = dependencies.xlm.repository.loadKeyPair()
                 .asObservable().flatMap { keyPair -> Completable in
                     return transaction.send(paymentOperation, sourceKeyPair: keyPair)
                 }.subscribeOn(MainScheduler.asyncInstance)
@@ -285,8 +334,9 @@ class TradeExecutionService: TradeExecutionAPI {
                         // User cancelled transaction when shown second password - do not show an error.
                         return
                     }
-                    error(LocalizationConstants.Stellar.cannotSendXLMAtThisTime)
+                    error(LocalizationConstants.Stellar.cannotSendXLMAtThisTime, transactionID)
                 }, onCompleted: success)
+            disposables.insertWithDiscardableResult(disposable)
         } else {
             isExecuting = true
             wallet.sendOrderTransaction(
@@ -294,7 +344,9 @@ class TradeExecutionService: TradeExecutionAPI {
                 secondPassword: secondPassword,
                 completion: executionDone,
                 success: success,
-                error: error,
+                error: { message in
+                    error(message, transactionID)
+            },
                 cancel: executionDone
             )
         }
@@ -313,7 +365,7 @@ fileprivate extension TradeExecutionService {
         fromAccount: AssetAccount,
         toAccount: AssetAccount,
         success: @escaping ((OrderTransaction, Conversion) -> Void),
-        error: @escaping ((String) -> Void)
+        error: @escaping ((ErrorMessage, TransactionID?) -> Void)
     ) {
         isExecuting = true
         let conversionQuote = conversion.quote
@@ -345,7 +397,7 @@ fileprivate extension TradeExecutionService {
             refundAddress: refundAddress!,
             quote: quote
         )
-        disposable = process(order: order)
+        let disposable = process(order: order)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] payload in
@@ -366,27 +418,28 @@ fileprivate extension TradeExecutionService {
                     )
                     success(orderTransaction, conversion)
                 }
-                this.buildOrder(from: payload, fromAccount: fromAccount, success: createOrderCompletion, error: error)
+                this.buildOrderFrom(orderResult: payload, fromAccount: fromAccount, success: createOrderCompletion, error: error)
             }, onError: { [weak self] requestError in
                 guard let this = self else { return }
                 this.isExecuting = false
                 guard let httpRequestError = requestError as? HTTPRequestError else {
-                    error(requestError.localizedDescription)
+                    error(requestError.localizedDescription, nil)
                     return
                 }
-                error(httpRequestError.debugDescription)
+                error(httpRequestError.debugDescription, nil)
             })
+        disposables.insertWithDiscardableResult(disposable)
     }
     // swiftlint:enable function_body_length
 
     // Private helper method for building an order from an OrderResult struct (returned from the trades endpoint).
     // This method is called by the processAndBuildOrder(with conversion...) method
     // and calls buildOrder(from orderTransactionLegacy...)
-    func buildOrder(
-        from orderResult: OrderResult,
+    func buildOrderFrom(
+        orderResult: OrderResult,
         fromAccount: AssetAccount,
         success: @escaping ((OrderTransactionLegacy) -> Void),
-        error: @escaping ((String) -> Void)
+        error: @escaping ((ErrorMessage, TransactionID?) -> Void)
         ) {
         #if DEBUG
         let settings = DebugSettings.shared
@@ -402,7 +455,7 @@ fileprivate extension TradeExecutionService {
         let assetType = pair!.from
         #endif
         guard assetType == fromAccount.address.assetType else {
-            error("AssetType from fromAccount and AssetType from OrderResult do not match")
+            error("AssetType from fromAccount and AssetType from OrderResult do not match", orderResult.id)
             return
         }
         let orderTransactionLegacy = OrderTransactionLegacy(
@@ -412,7 +465,13 @@ fileprivate extension TradeExecutionService {
             amount: depositQuantity,
             fees: nil
         )
-        buildOrder(from: orderTransactionLegacy, success: success, error: error, memo: orderResult.depositMemo)
+        buildOrder(
+            from: orderTransactionLegacy,
+            transactionID: orderResult.id,
+            success: success,
+            error: error,
+            memo: orderResult.depositMemo
+        )
     }
 }
 
@@ -426,7 +485,7 @@ extension TradeExecutionService {
         from: AssetAccount,
         to: AssetAccount,
         success: @escaping ((OrderTransaction) -> Void),
-        error: @escaping ((String) -> Void)
+        error: @escaping ((ErrorMessage, TransactionID?) -> Void)
     ) {
         let processAndBuild: ((String?) -> ()) = { [weak self] secondPassword in
             guard let this = self else { return }
@@ -438,6 +497,7 @@ extension TradeExecutionService {
                     guard let this = self else { return }
                     this.sendTransaction(
                         assetType: orderTransaction.to.assetType,
+                        transactionID: orderTransaction.orderIdentifier,
                         secondPassword: secondPassword,
                         success: {
                             success(orderTransaction)

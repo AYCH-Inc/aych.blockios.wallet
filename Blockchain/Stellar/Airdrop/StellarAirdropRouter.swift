@@ -111,16 +111,23 @@ class StellarAirdropRouter: DeepLinkRouting {
                     )
                     return
                 }
-                if value.code.isCampaignError {
-                    AlertViewPresenter.shared.standardNotify(
-                        message: LocalizationConstants.Stellar.XLMHasBeenClaimed,
-                        title: LocalizationConstants.Stellar.ohNo
-                    )
-                    return
+
+                let errorMessage: String
+                switch value.code {
+                case .invalidCampaignUser:
+                    errorMessage = LocalizationConstants.Airdrop.invalidCampaignUser
+                case .campaignUserAlreadyRegistered:
+                    errorMessage = LocalizationConstants.Airdrop.alreadyRegistered
+                case .campaignExpired:
+                    errorMessage = LocalizationConstants.Airdrop.xlmCampaignOver
+                case .invalidCampaignInfo:
+                    errorMessage = LocalizationConstants.Airdrop.genericError
+                default:
+                    errorMessage = value.description
                 }
 
                 AlertViewPresenter.shared.standardNotify(
-                    message: value.description,
+                    message: errorMessage,
                     title: LocalizationConstants.Errors.error
                 )
             })

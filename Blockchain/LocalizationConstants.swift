@@ -1860,13 +1860,28 @@ struct LocalizationConstants {
             "We have successfully verified your identity.",
             comment: "Description displayed on the onboarding card notifying them that their airdrop is on its way."
         )
-        static let XLMHasBeenClaimed = NSLocalizedString(
-            "Link is invalid or XLM has already been claimed using this link",
-            comment: "Error shown when deep linking from a claim your XLM link."
-        )
         static let ohNo = NSLocalizedString(
             "Oh no!",
             comment: "Error title shown when deep linking from a claim your XLM link."
+        )
+    }
+
+    struct Airdrop {
+        static let invalidCampaignUser = NSLocalizedString(
+            "We're sorry, the airdrop program is currently not available where you are.",
+            comment: "Error message displayed when the user that is trying to register for the campaign cannot register."
+        )
+        static let alreadyRegistered = NSLocalizedString(
+            "Looks like you've already received your airdrop!",
+            comment: "Error message displayed when the user has already claimed their airdrop."
+        )
+        static let xlmCampaignOver = NSLocalizedString(
+            "We're sorry, the XLM airdrop is over. Complete your profile to be eligible for future airdrops and access trading.",
+            comment: "Error message displayed when the XLM airdrop is over."
+        )
+        static let genericError = NSLocalizedString(
+            "Oops! We had trouble processing your airdrop. Please try again.",
+            comment: "Generic airdrop error."
         )
     }
 }

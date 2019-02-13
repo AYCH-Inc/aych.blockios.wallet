@@ -1637,12 +1637,8 @@ struct LocalizationConstants {
             "By tapping Submit, you agree to Blockchain’s %@ & %@",
             comment: "Text displayed to the user notifying them that they implicitly agree to Blockchain’s terms of service and privacy policy when they start the KYC process."
         )
-        static let completingTierTwoEligibility = NSLocalizedString(
-            "By completing Tier 2 you will be eligible to participate in our airdrop program.",
-            comment: "Description of what the user gets out of completing Tier 2 verification that is seen at the bottom of the Tiers screen. This particular description is when the user has not been Tier 1 verified."
-        )
         static let completingTierTwoAutoEligible = NSLocalizedString(
-            "By completing Tier 2 you are automatically eligible for our airdrop program.",
+            "By completing Tier 2 you will automatically receive free crypto and will also be eligible for future airdrops.",
             comment: "Description of what the user gets out of completing Tier 2 verification that is seen at the bottom of the Tiers screen. This particular description is when the user has been Tier 1 verified."
         )
         static let needSomeHelp = NSLocalizedString("Need some help?", comment: "Need some help?")

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,8 +21,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tlr-LP-j25">
-                    <rect key="frame" x="24" y="16" width="327" height="18"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tlr-LP-j25" customClass="ActionableLabel" customModule="Blockchain" customModuleProvider="target">
+                    <rect key="frame" x="24" y="8" width="327" height="34"/>
                     <string key="text">By completing Tier 2 you are automatically
 eligible for our airdrop program.</string>
                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
@@ -33,12 +33,12 @@ eligible for our airdrop program.</string>
             <constraints>
                 <constraint firstItem="CTw-bU-XEJ" firstAttribute="trailing" secondItem="tlr-LP-j25" secondAttribute="trailing" constant="24" id="4wA-v8-byH"/>
                 <constraint firstItem="tlr-LP-j25" firstAttribute="leading" secondItem="CTw-bU-XEJ" secondAttribute="leading" constant="24" id="CE4-7V-Bix"/>
-                <constraint firstItem="CTw-bU-XEJ" firstAttribute="bottom" secondItem="tlr-LP-j25" secondAttribute="bottom" constant="16" id="D3i-xK-eRh"/>
-                <constraint firstItem="tlr-LP-j25" firstAttribute="top" secondItem="CTw-bU-XEJ" secondAttribute="top" constant="16" id="TMh-iF-L9Y"/>
+                <constraint firstItem="CTw-bU-XEJ" firstAttribute="bottom" secondItem="tlr-LP-j25" secondAttribute="bottom" constant="8" id="D3i-xK-eRh"/>
+                <constraint firstItem="tlr-LP-j25" firstAttribute="top" secondItem="CTw-bU-XEJ" secondAttribute="top" constant="8" id="TMh-iF-L9Y"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="CTw-bU-XEJ"/>
             <connections>
-                <outlet property="disclaimerLabel" destination="tlr-LP-j25" id="vck-mh-F2z"/>
+                <outlet property="disclaimerLabel" destination="tlr-LP-j25" id="BzH-MN-5ue"/>
             </connections>
         </collectionReusableView>
     </objects>

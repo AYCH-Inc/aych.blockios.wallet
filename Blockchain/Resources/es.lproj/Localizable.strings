@@ -522,7 +522,7 @@ Guarda tu xPub privada. Alguien con acceso a tu xPub podrá ver todos tus fondos
 "Please send %@ to bitcoin address.\
 %@" = "Por favor, envía %1$@ a la dirección Bitcoin.\
 %2$@";
-"Please send payment to bitcoin address (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">help?</a>): %@" = "Por favor, envía el pago a la dirección Bitcoin (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">¿ayuda?</a>): %@";
+"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@" = "Por favor, envía el pago a la dirección Bitcoin (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">¿ayuda?</a>): %@";
 "Please verify your mobile number first." = "Por favor verifica primero tu número de teléfono.";
 "Preparing transfer" = "Preparando la transferencia";
 "Rate Blockchain Wallet" = "Califica el monedero Blockchain";

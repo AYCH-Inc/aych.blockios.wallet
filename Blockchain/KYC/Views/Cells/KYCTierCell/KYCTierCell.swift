@@ -95,9 +95,10 @@ class KYCTierCell: UICollectionViewCell {
         if let headline = tier.headline {
             headlineDescription.text = headline.uppercased()
         }
-        
+
+        let tierPromptText = LocalizationConstants.KYC.unlock + "\n" + tier.tierDescription
         let attributedTierDescription = NSAttributedString(
-            string: tier.tierDescription.uppercased(),
+            string: tierPromptText.uppercased(),
             attributes: [.font: KYCTierCell.headlineFont(),
                          .kern: NSNumber(value: 4.0)]
         )
@@ -149,7 +150,7 @@ class KYCTierCell: UICollectionViewCell {
         let adjustedWidth = width - widthPadding
         
         let tierDescriptionHeight = NSAttributedString(
-            string: tier.tierDescription,
+            string: LocalizationConstants.KYC.unlock + "\n" + tier.tierDescription,
             attributes: [.font: headlineFont(),
                          .kern: NSNumber(value: 4.0)]).heightForWidth(width: adjustedWidth)
         

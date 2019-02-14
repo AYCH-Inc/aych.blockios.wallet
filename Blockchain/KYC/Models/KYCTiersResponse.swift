@@ -37,7 +37,11 @@ struct KYCUserTier: Codable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let tierRawValue = try values.decode(Int.self, forKey: .tier)
         tier = KYCTier(rawValue: tierRawValue) ?? .tier0
-        name = try values.decode(String.self, forKey: .name)
+        switch tier {
+        case .tier0: name = LocalizationConstants.KYC.tierZeroVerification
+        case .tier1: name = LocalizationConstants.KYC.tierOneVerification
+        case .tier2: name = LocalizationConstants.KYC.tierTwoVerification
+        }
         state = try values.decode(KYCTierState.self, forKey: .state)
         limits = try values.decodeIfPresent(KYCUserTiersLimits.self, forKey: .limits)
     }

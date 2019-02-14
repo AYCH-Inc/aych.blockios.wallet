@@ -1531,12 +1531,20 @@ struct LocalizationConstants {
             "Get Free Crypto",
             comment: "Headline displayed on a KYC Tier 2 Cell"
         )
+        static let unlock = NSLocalizedString(
+            "Unlock",
+            comment: "Prompt to complete a verification tier"
+        )
+        static let tierZeroVerification = NSLocalizedString(
+            "Tier zero",
+            comment: "Tier 0 Verification"
+        )
         static let tierOneVerification = NSLocalizedString(
-            "Tier 1 Verification",
+            "Silver Level",
             comment: "Tier 1 Verification"
         )
         static let tierTwoVerification = NSLocalizedString(
-            "Tier 2 Verification",
+            "Gold Level",
             comment: "Tier 2 Verification"
         )
         static let annualSwapLimit = NSLocalizedString(
@@ -1602,15 +1610,16 @@ struct LocalizationConstants {
             comment: "Available Today"
         )
         static let tierTwoVerificationIsBeingReviewed = NSLocalizedString(
-            "Your Tier 2 verification is currently being reviewed by a Blockchain Support Member.",
+            "Your Gold level verification is currently being reviewed by a Blockchain Support Member.",
             comment: "The Tiers overview screen when the user is approved for Tier 1 but they are in review for Tier 2"
         )
         static let tierOneRequirements = NSLocalizedString(
             "Requires Email, Name, Date of Birth and Address",
             comment: "A descriptions of the requirements to complete Tier 1 verification"
         )
+        // TODO: how should we handle conditional strings? What if the mobile requirement gets added back?
         static let tierTwoRequirements = NSLocalizedString(
-            "Requires Tier 1, Phone Number, Govt. ID and a Selfie",
+            "Requires Silver level, Govt. ID and a Selfie",
             comment: "A descriptions of the requirements to complete Tier 2 verification"
         )
         static let notNow = NSLocalizedString(
@@ -1638,7 +1647,7 @@ struct LocalizationConstants {
             comment: "Text displayed to the user notifying them that they implicitly agree to Blockchain’s terms of service and privacy policy when they start the KYC process."
         )
         static let completingTierTwoAutoEligible = NSLocalizedString(
-            "By completing Tier 2 you will automatically receive free crypto and will also be eligible for future airdrops.",
+            "By completing Gold level you will automatically receive free crypto and will also be eligible for future airdrops.",
             comment: "Description of what the user gets out of completing Tier 2 verification that is seen at the bottom of the Tiers screen. This particular description is when the user has been Tier 1 verified."
         )
         static let needSomeHelp = NSLocalizedString("Need some help?", comment: "Need some help?")

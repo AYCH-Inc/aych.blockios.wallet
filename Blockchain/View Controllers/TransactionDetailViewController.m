@@ -53,7 +53,8 @@ const CGFloat rowHeightValueReceived = 80;
 
     self.rows = [NSMutableArray new];
 
-    if (self.transactionModel.doubleSpend || self.transactionModel.replaceByFee) [self.rows addObject:CELL_IDENTIFIER_TRANSACTION_DETAIL_WARNING];
+    if ((self.transactionModel.doubleSpend ||
+        self.transactionModel.replaceByFee) && self.transactionModel.confirmations < 1) [self.rows addObject:CELL_IDENTIFIER_TRANSACTION_DETAIL_WARNING];
     [self.rows addObject:CELL_IDENTIFIER_TRANSACTION_DETAIL_VALUE];
     if (!self.transactionModel.hideNote) [self.rows addObject:CELL_IDENTIFIER_TRANSACTION_DETAIL_DESCRIPTION];
     [self.rows addObject:CELL_IDENTIFIER_TRANSACTION_DETAIL_TO];

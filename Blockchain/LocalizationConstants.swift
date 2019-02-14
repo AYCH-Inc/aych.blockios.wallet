@@ -1009,7 +1009,7 @@ struct LocalizationConstants {
         static let orderID = NSLocalizedString("Order ID", comment: "Label in the exchange locked screen.")
         static let exchangeLocked = NSLocalizedString("Exchange Locked", comment: "Header title for the Exchange Locked screen.")
         static let done = NSLocalizedString("Done", comment: "Footer button title")
-        static let sendNow = NSLocalizedString("Send Now", comment: "Footer button title for Exchange Confirmation screen")
+        static let confirm = NSLocalizedString("Confirm", comment: "Footer button title for Exchange Confirmation screen")
         static let creatingOrder = NSLocalizedString("Creating order", comment: "Loading text shown when a final exchange order is being created")
         static let sendingOrder = NSLocalizedString("Sending order", comment: "Loading text shown when a final exchange order is being sent")
         static let exchangeXForY = NSLocalizedString(
@@ -1682,8 +1682,8 @@ struct LocalizationConstants {
         static let swap = NSLocalizedString(
             "Swap", comment: "Text shown for the crypto exchange service."
         )
-        static let previewSwap = NSLocalizedString(
-            "Preview Swap", comment: "Button text shown on the exchange screen to progress to the confirm screen"
+        static let exchange = NSLocalizedString(
+            "Exchange", comment: "Button text shown on the exchange screen to progress to the confirm screen"
         )
         static let confirmSwap = NSLocalizedString(
             "Confirm Swap", comment: "Button text shown on the exchange confirm screen to execute the swap"

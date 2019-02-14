@@ -144,7 +144,7 @@ class ExchangeCreateViewController: UIViewController {
 
         exchangeButton.layer.cornerRadius = Constants.Measurements.buttonCornerRadius
 
-        exchangeButton.setTitle(LocalizationConstants.Swap.previewSwap, for: .normal)
+        exchangeButton.setTitle(LocalizationConstants.Swap.exchange, for: .normal)
     }
 
     fileprivate func dependenciesSetup() {

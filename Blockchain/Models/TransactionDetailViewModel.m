@@ -42,7 +42,8 @@
         self.txType = transaction.txType;
         self.time = transaction.time;
         self.note = transaction.note;
-        self.confirmations = [NSString stringWithFormat:@"%u/%u", transaction.confirmations, kConfirmationBitcoinThreshold];
+        self.confirmationsString = [NSString stringWithFormat:@"%lul/%u", transaction.confirmations, kConfirmationBitcoinThreshold];
+        self.confirmations = transaction.confirmations;
         self.confirmed = transaction.confirmations >= kConfirmationBitcoinThreshold;
         self.fiatAmountsAtTime = transaction.fiatAmountsAtTime;
         self.doubleSpend = transaction.doubleSpend;
@@ -84,7 +85,8 @@
         [[[BlockchainAPI sharedInstance] etherExplorer] stringByAppendingFormat:@"/tx/%@", self.myHash];
 
         self.ethExchangeRate = exchangeRate;
-        self.confirmations = [NSString stringWithFormat:@"%lld/%u", etherTransaction.confirmations, kConfirmationEtherThreshold];
+        self.confirmationsString = [NSString stringWithFormat:@"%lul/%u", etherTransaction.confirmations, kConfirmationEtherThreshold];
+        self.confirmations = etherTransaction.confirmations;
         self.confirmed = etherTransaction.confirmations >= kConfirmationEtherThreshold;
         self.fiatAmountsAtTime = etherTransaction.fiatAmountsAtTime;
     }

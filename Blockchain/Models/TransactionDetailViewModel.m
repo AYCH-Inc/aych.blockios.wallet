@@ -56,7 +56,7 @@
         self.decimalAmount = [NSDecimalNumber decimalNumberWithString:decimalString];
         WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc = currentSymbol;
         
-        self.detailButtonTitle = [[NSString stringWithFormat:@"%@ %@",BC_STRING_VIEW_ON_URL_ARGUMENT, [[BlockchainAPI sharedInstance] blockchainUrl]] uppercaseString];
+        self.detailButtonTitle = [[NSString stringWithFormat:@"%@ %@",BC_STRING_VIEW_ON_URL_ARGUMENT, [[BlockchainAPI sharedInstance] blockchainDotCom]] uppercaseString];
         self.detailButtonLink = [[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingFormat:@"/tx/%@", self.myHash];
     }
     return self;
@@ -79,7 +79,7 @@
         self.note = etherTransaction.note;
         self.time = etherTransaction.time;
         self.dateString = [NSDateFormatter verboseStringFromDate:[NSDate dateWithTimeIntervalSince1970:self.time]];
-        self.detailButtonTitle = [[NSString stringWithFormat:@"%@ %@",BC_STRING_VIEW_ON_URL_ARGUMENT, [[BlockchainAPI sharedInstance] blockchainUrl]] uppercaseString];
+        self.detailButtonTitle = [[NSString stringWithFormat:@"%@ %@",BC_STRING_VIEW_ON_URL_ARGUMENT, [[BlockchainAPI sharedInstance] blockchainDotCom]] uppercaseString];
         self.detailButtonLink =
         [[[BlockchainAPI sharedInstance] etherExplorer] stringByAppendingFormat:@"/tx/%@", self.myHash];
 
@@ -112,7 +112,7 @@
 
     model.assetType = LegacyAssetTypeBitcoinCash;
     model.hideNote = YES;
-    model.detailButtonTitle = [[BC_STRING_VIEW_ON_URL_ARGUMENT stringByAppendingFormat:@" %@", [[BlockchainAPI sharedInstance] blockchainUrl]] uppercaseString];
+    model.detailButtonTitle = [[BC_STRING_VIEW_ON_URL_ARGUMENT stringByAppendingFormat:@" %@", [[BlockchainAPI sharedInstance] blockchainDotCom]] uppercaseString];
     model.detailButtonLink = [BlockchainAPI.sharedInstance transactionDetailURLFor:model.myHash assetType:AssetTypeBitcoinCash];
     return model;
 }

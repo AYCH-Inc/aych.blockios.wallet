@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- Handles certificate pinning for connections to blockchain.com.
+ Handles certificate pinning for connections to blockchain.info.
  # Usage
  TBD
  - Author: Maurice Achtenhagen

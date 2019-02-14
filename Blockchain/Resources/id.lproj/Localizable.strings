@@ -522,7 +522,7 @@
 "Please send %@ to bitcoin address.\
 %@" = "Silakan kirim %1$@ ke alamat bitcoin.\
 %2$@";
-"Please send payment to bitcoin address (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">help?</a>): %@" = "Silakan kirim pembayaran ke alamat bitcoin (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">bantuan?</a>): %@";
+"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@" = "Silakan kirim pembayaran ke alamat bitcoin (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">bantuan?</a>): %@";
 "Please verify your mobile number first." = "Verifikasi dulu nomor ponsel Anda.";
 "Preparing transfer" = "Menyiapkan transfer";
 "Rate Blockchain Wallet" = "Beri Nilai Dompet Blockchain";

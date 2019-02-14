@@ -815,10 +815,10 @@
 "Please select a different address to send from." = "Seleccioneu una adreça per enviar de diferent.";
 
 /* (No Commment) */
-"Please send payment to bitcoin address (<a href=\"https://blockchain.com/wallet/bitcoin-faq\">help?</a>): %@" = "Si us plau enviï el pagament a bitcoin adreça (< a href = \"https://blockchain.com/wallet/bitcoin-faq\" > ajudar? < /a >): %@";
+"Please send payment to bitcoin address (<a href=\"https://blockchain.info/wallet/bitcoin-faq\">help?</a>): %@" = "Si us plau enviï el pagament a bitcoin adreça (< a href = \"https://blockchain.info/wallet/bitcoin-faq\" > ajudar? < /a >): %@";
 
 /* (No Commment) */
-"Please send payment to bitcoin address. FAQ: (https://blockchain.com/wallet/bitcoin-faq): %@" = "Si us plau enviï el pagament a l'adreça bitcoin. FAQ: (https://blockchain.com/wallet/bitcoin-faq): %@";
+"Please send payment to bitcoin address. FAQ: (https://blockchain.info/wallet/bitcoin-faq): %@" = "Si us plau enviï el pagament a l'adreça bitcoin. FAQ: (https://blockchain.info/wallet/bitcoin-faq): %@";
 
 /* No comment provided by engineer. */
 "Please try again" = "Intenteu-ho novament";

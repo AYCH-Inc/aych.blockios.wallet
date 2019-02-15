@@ -218,7 +218,13 @@ extension KYCTiersViewController: UICollectionViewDelegateFlowLayout {
                 withReuseIdentifier: KYCTiersFooterView.identifier,
                 for: indexPath
                 ) as? KYCTiersFooterView else { return UICollectionReusableView() }
-            footer.configure(with: disclaimer)
+            let trigger = ActionableTrigger( text: disclaimer, CTA: LocalizationConstants.ObjCStrings.BC_STRING_LEARN_MORE) { [weak self] in
+                guard let strongSelf = self else { return }
+                guard let supportURL = URL(string: Constants.Url.airdropProgram) else { return }
+                let controller = SFSafariViewController(url: supportURL)
+                strongSelf.present(controller, animated: true, completion: nil)
+            }
+            footer.configure(with: trigger)
             return footer
         case UICollectionView.elementKindSectionHeader:
             guard let header = collectionView.dequeueReusableSupplementaryView(

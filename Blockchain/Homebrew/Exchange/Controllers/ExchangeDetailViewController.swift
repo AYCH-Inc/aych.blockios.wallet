@@ -201,7 +201,7 @@ extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
                 withReuseIdentifier: ActionableFooterView.identifier,
                 for: indexPath
                 ) as? ActionableFooterView else { return UICollectionReusableView() }
-            footer.title = LocalizationConstants.Exchange.sendNow
+            footer.title = LocalizationConstants.Exchange.confirm
             guard let order = mostRecentOrderTransaction else { return UICollectionReusableView() }
             footer.actionBlock = {
                 self.coordinator.handle(event: .confirmExchange(order))

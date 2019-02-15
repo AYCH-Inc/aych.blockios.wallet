@@ -25,6 +25,11 @@ Install a node version manager such as [nvm](https://github.com/creationix/nvm) 
     # use npm 5.6.0
     npm install -g npm@5.6.0
 
+    # checkout ios branch
+    cd Submodules/My-Wallet-V3
+    git checkout ios
+    cd ../..
+
     # install and build js files
     sh scripts/install-js.sh && sh scripts/build-js.sh
 

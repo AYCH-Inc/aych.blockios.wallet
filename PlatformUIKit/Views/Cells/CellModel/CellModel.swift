@@ -10,6 +10,7 @@ import Foundation
 
 public enum CellModel: Equatable {
     case transactionDetail(TransactionDetail)
+    case pricePreview(PricePreview)
 }
 
 public extension CellModel {
@@ -23,6 +24,10 @@ public extension CellModel {
         switch (lhs, rhs) {
         case (.transactionDetail(let left), .transactionDetail(let right)):
             return left == right
+        case (.pricePreview(let left), .pricePreview(let right)):
+            return left == right
+        default:
+            return false
         }
     }
 }

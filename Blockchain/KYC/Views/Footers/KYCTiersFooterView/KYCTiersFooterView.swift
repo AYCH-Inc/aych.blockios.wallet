@@ -16,10 +16,12 @@ class KYCTiersFooterView: UICollectionReusableView {
     
     fileprivate static let verticalPadding: CGFloat = 32.0
     fileprivate static let horizontalPadding: CGFloat = 24.0
+
+    fileprivate var trigger: ActionableTrigger?
     
     // MARK: IBOutlets
     
-    @IBOutlet fileprivate var disclaimerLabel: UILabel!
+    @IBOutlet fileprivate var disclaimerLabel: ActionableLabel!
     
     // MARK: Public Functions
     
@@ -44,4 +46,54 @@ class KYCTiersFooterView: UICollectionReusableView {
         return font.result
     }
     
+}
+
+extension KYCTiersFooterView {
+    func configure(with actionableTrigger: ActionableTrigger) {
+        disclaimerLabel.delegate = self
+        self.trigger = actionableTrigger
+
+        let actionableText = NSMutableAttributedString(
+            string: actionableTrigger.primaryString,
+            attributes: defaultAttributes()
+        )
+
+        let CTA = NSAttributedString(
+            string: " " + actionableTrigger.callToAction,
+            attributes: actionAttributes()
+        )
+
+        actionableText.append(CTA)
+
+        if let secondary = actionableTrigger.secondaryString {
+            let trailing = NSMutableAttributedString(
+                string: " " + secondary,
+                attributes: defaultAttributes()
+            )
+            actionableText.append(trailing)
+        }
+
+        disclaimerLabel.attributedText = actionableText
+    }
+
+    private func actionAttributes() -> [NSAttributedString.Key: Any] {
+        return [.font: Font(.branded(.montserratRegular), size: .custom(12.0)).result,
+         .foregroundColor: UIColor.brandSecondary]
+    }
+
+    private func defaultAttributes() -> [NSAttributedString.Key: Any] {
+        return [.font: KYCTiersFooterView.disclaimerFont(),
+         .foregroundColor: disclaimerLabel.textColor]
+    }
+}
+
+extension KYCTiersFooterView: ActionableLabelDelegate {
+    func targetRange(_ label: ActionableLabel) -> NSRange? {
+        return trigger?.actionRange()
+    }
+
+    func actionRequestingExecution(label: ActionableLabel) {
+        guard let trigger = trigger else { return }
+        trigger.execute()
+    }
 }

@@ -1009,7 +1009,7 @@ struct LocalizationConstants {
         static let orderID = NSLocalizedString("Order ID", comment: "Label in the exchange locked screen.")
         static let exchangeLocked = NSLocalizedString("Exchange Locked", comment: "Header title for the Exchange Locked screen.")
         static let done = NSLocalizedString("Done", comment: "Footer button title")
-        static let sendNow = NSLocalizedString("Send Now", comment: "Footer button title for Exchange Confirmation screen")
+        static let confirm = NSLocalizedString("Confirm", comment: "Footer button title for Exchange Confirmation screen")
         static let creatingOrder = NSLocalizedString("Creating order", comment: "Loading text shown when a final exchange order is being created")
         static let sendingOrder = NSLocalizedString("Sending order", comment: "Loading text shown when a final exchange order is being sent")
         static let exchangeXForY = NSLocalizedString(
@@ -1531,12 +1531,20 @@ struct LocalizationConstants {
             "Get Free Crypto",
             comment: "Headline displayed on a KYC Tier 2 Cell"
         )
+        static let unlock = NSLocalizedString(
+            "Unlock",
+            comment: "Prompt to complete a verification tier"
+        )
+        static let tierZeroVerification = NSLocalizedString(
+            "Tier zero",
+            comment: "Tier 0 Verification"
+        )
         static let tierOneVerification = NSLocalizedString(
-            "Tier 1 Verification",
+            "Silver Level",
             comment: "Tier 1 Verification"
         )
         static let tierTwoVerification = NSLocalizedString(
-            "Tier 2 Verification",
+            "Gold Level",
             comment: "Tier 2 Verification"
         )
         static let annualSwapLimit = NSLocalizedString(
@@ -1602,15 +1610,16 @@ struct LocalizationConstants {
             comment: "Available Today"
         )
         static let tierTwoVerificationIsBeingReviewed = NSLocalizedString(
-            "Your Tier 2 verification is currently being reviewed by a Blockchain Support Member.",
+            "Your Gold level verification is currently being reviewed by a Blockchain Support Member.",
             comment: "The Tiers overview screen when the user is approved for Tier 1 but they are in review for Tier 2"
         )
         static let tierOneRequirements = NSLocalizedString(
             "Requires Email, Name, Date of Birth and Address",
             comment: "A descriptions of the requirements to complete Tier 1 verification"
         )
+        // TODO: how should we handle conditional strings? What if the mobile requirement gets added back?
         static let tierTwoRequirements = NSLocalizedString(
-            "Requires Tier 1, Phone Number, Govt. ID and a Selfie",
+            "Requires Silver level, Govt. ID and a Selfie",
             comment: "A descriptions of the requirements to complete Tier 2 verification"
         )
         static let notNow = NSLocalizedString(
@@ -1637,12 +1646,8 @@ struct LocalizationConstants {
             "By tapping Submit, you agree to Blockchain’s %@ & %@",
             comment: "Text displayed to the user notifying them that they implicitly agree to Blockchain’s terms of service and privacy policy when they start the KYC process."
         )
-        static let completingTierTwoEligibility = NSLocalizedString(
-            "By completing Tier 2 you will be eligible to participate in our airdrop program.",
-            comment: "Description of what the user gets out of completing Tier 2 verification that is seen at the bottom of the Tiers screen. This particular description is when the user has not been Tier 1 verified."
-        )
         static let completingTierTwoAutoEligible = NSLocalizedString(
-            "By completing Tier 2 you are automatically eligible for our airdrop program.",
+            "By completing Gold level you will automatically receive free crypto and will also be eligible for future airdrops.",
             comment: "Description of what the user gets out of completing Tier 2 verification that is seen at the bottom of the Tiers screen. This particular description is when the user has been Tier 1 verified."
         )
         static let needSomeHelp = NSLocalizedString("Need some help?", comment: "Need some help?")
@@ -1686,8 +1691,8 @@ struct LocalizationConstants {
         static let swap = NSLocalizedString(
             "Swap", comment: "Text shown for the crypto exchange service."
         )
-        static let previewSwap = NSLocalizedString(
-            "Preview Swap", comment: "Button text shown on the exchange screen to progress to the confirm screen"
+        static let exchange = NSLocalizedString(
+            "Exchange", comment: "Button text shown on the exchange screen to progress to the confirm screen"
         )
         static let confirmSwap = NSLocalizedString(
             "Confirm Swap", comment: "Button text shown on the exchange confirm screen to execute the swap"
@@ -1864,13 +1869,28 @@ struct LocalizationConstants {
             "We have successfully verified your identity.",
             comment: "Description displayed on the onboarding card notifying them that their airdrop is on its way."
         )
-        static let XLMHasBeenClaimed = NSLocalizedString(
-            "Link is invalid or XLM has already been claimed using this link",
-            comment: "Error shown when deep linking from a claim your XLM link."
-        )
         static let ohNo = NSLocalizedString(
             "Oh no!",
             comment: "Error title shown when deep linking from a claim your XLM link."
+        )
+    }
+
+    struct Airdrop {
+        static let invalidCampaignUser = NSLocalizedString(
+            "We're sorry, the airdrop program is currently not available where you are.",
+            comment: "Error message displayed when the user that is trying to register for the campaign cannot register."
+        )
+        static let alreadyRegistered = NSLocalizedString(
+            "Looks like you've already received your airdrop!",
+            comment: "Error message displayed when the user has already claimed their airdrop."
+        )
+        static let xlmCampaignOver = NSLocalizedString(
+            "We're sorry, the XLM airdrop is over. Complete your profile to be eligible for future airdrops and access trading.",
+            comment: "Error message displayed when the XLM airdrop is over."
+        )
+        static let genericError = NSLocalizedString(
+            "Oops! We had trouble processing your airdrop. Please try again.",
+            comment: "Generic airdrop error."
         )
     }
 }

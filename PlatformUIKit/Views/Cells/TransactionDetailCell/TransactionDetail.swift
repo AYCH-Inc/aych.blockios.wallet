@@ -59,5 +59,4 @@ public extension TransactionDetail {
         bold: true,
         statusTintColor: .green
     )
-    
 }

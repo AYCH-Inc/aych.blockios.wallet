@@ -19,6 +19,9 @@ enum TradeExecutionAPIError: Error {
 }
 
 protocol TradeExecutionAPI {
+    
+    typealias ErrorMessage = String
+    typealias TransactionID = String
 
     // Build a transaction to display on the confirm screen
     func prebuildOrder(
@@ -35,8 +38,14 @@ protocol TradeExecutionAPI {
         from: AssetAccount,
         to: AssetAccount,
         success: @escaping ((OrderTransaction) -> Void),
-        error: @escaping ((String) -> Void)
+        error: @escaping ((ErrorMessage, TransactionID?) -> Void)
     )
+    
+    /// In the event that a transaction fails, we need to track the cause of failure.
+    /// We PUT this result to Nabu including a reason and the transactionID. This allows
+    /// us to show the cause of failure in the order details as well as filter out
+    /// failed trades from the user's exchange history.
+    func trackTransactionFailure(_ reason: String, transactionID: String, completion: @escaping (Error?) -> Void)
 
     /// Check if the service is currently executing a request prior to
     /// submitting an additional request.

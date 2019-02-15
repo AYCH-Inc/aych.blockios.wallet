@@ -68,7 +68,7 @@
     warningImageView.image = [warningImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [warningImageView setTintColor:UIColor.error];
     
-    if (transaction.doubleSpend || transaction.replaceByFee) {
+    if ((transaction.doubleSpend || transaction.replaceByFee) && transaction.confirmations < 1) {
         warningImageView.hidden = NO;
         actionLabel.frame = CGRectMake(actionLabel.frame.origin.x, actionLabel.frame.origin.y, 152, actionLabel.frame.size.height);
         dateLabel.frame = CGRectMake(dateLabel.frame.origin.x, dateLabel.frame.origin.y, 152, dateLabel.frame.size.height);

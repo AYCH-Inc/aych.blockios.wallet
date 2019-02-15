@@ -141,6 +141,7 @@ struct Constants {
         static let blockchainWalletLogin = "https://login.blockchain.com"
         static let lockbox = "https://blockchain.com/lockbox"
         static let stellarMinimumBalanceInfo = "https://www.stellar.org/developers/guides/concepts/fees.html#minimum-account-balance"
+        static let airdropProgram = "https://support.blockchain.com/hc/en-us/categories/360001126692-Airdrop-Program"
         static let airdropWaitlist = blockchainHome + "/getcrypto"
     }
     struct Wallet {

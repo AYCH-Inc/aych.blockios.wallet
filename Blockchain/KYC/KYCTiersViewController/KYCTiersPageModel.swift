@@ -19,11 +19,7 @@ extension KYCTiersPageModel {
         guard let tierOne = cells.filter({ $0.tier == .tier1 }).first else { return nil }
         guard let tierTwo = cells.filter({ $0.tier == .tier2 }).first else { return nil }
         guard tierTwo.status != .rejected else { return nil }
-        if tierOne.status == .none && tierTwo.status == .none {
-            return LocalizationConstants.KYC.completingTierTwoEligibility
-        } else {
-            return LocalizationConstants.KYC.completingTierTwoAutoEligible
-        }
+        return LocalizationConstants.KYC.completingTierTwoAutoEligible
     }
     
     func trackPresentation() {

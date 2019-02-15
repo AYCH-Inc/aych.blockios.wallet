@@ -44,14 +44,4 @@ public extension StandardContainerModel {
         backgroundColor: .lightGray,
         title: "Insert Title"
     )
-    
-    public static let demo2: StandardContainerModel = StandardContainerModel(
-        layout: ContainerLayout(type: .vertical, columns: 1.0),
-        cells: [.transactionDetail(.demo2),
-                .transactionDetail(.demo1),
-                .transactionDetail(.demo2),
-                .transactionDetail(.demo1)],
-        backgroundColor: .gray,
-        title: nil
-    )
 }

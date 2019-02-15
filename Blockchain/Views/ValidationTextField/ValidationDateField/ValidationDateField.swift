@@ -28,11 +28,19 @@ class ValidationDateField: ValidationTextField {
         }
     }
 
+    var maximumDate: Date? {
+        get {
+            return pickerView.maximumDate
+        }
+        set {
+            pickerView.maximumDate = newValue
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         pickerView.datePickerMode = .date
-        pickerView.maximumDate = Date()
         textFieldInputView = pickerView
         pickerView.addTarget(self, action: #selector(datePickerUpdated(_:)), for: .valueChanged)
     }

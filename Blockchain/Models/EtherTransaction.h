@@ -21,7 +21,7 @@
 @property (nonatomic) NSString *note;
 @property (nonatomic) NSString *txType;
 @property (nonatomic) uint64_t time;
-@property (nonatomic) uint64_t confirmations;
+@property (nonatomic) NSUInteger confirmations;
 
 @property(nonatomic, strong) NSMutableDictionary *fiatAmountsAtTime;
 

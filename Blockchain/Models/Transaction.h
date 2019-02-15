@@ -11,7 +11,7 @@
 + (Transaction *)fromJSONDict:(NSDictionary *)dict;
 
 @property(nonatomic, assign) uint32_t block_height;
-@property(nonatomic, assign) uint32_t confirmations;
+@property(nonatomic, assign) NSUInteger confirmations;
 @property(nonatomic, assign) int64_t fee;
 @property(nonatomic, strong) NSString *myHash;
 @property(nonatomic, strong) NSString *txType;

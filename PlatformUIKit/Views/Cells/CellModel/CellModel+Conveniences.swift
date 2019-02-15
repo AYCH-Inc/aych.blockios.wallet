@@ -13,6 +13,8 @@ extension CellModel {
         switch self {
         case .transactionDetail:
             return TransactionDetailCell.self
+        case .pricePreview:
+            return PricePreviewCell.self
         }
     }
     
@@ -20,6 +22,8 @@ extension CellModel {
         switch self {
         case .transactionDetail:
             return TransactionDetailCell.identifier
+        case .pricePreview:
+            return PricePreviewCell.identifier
         }
     }
     

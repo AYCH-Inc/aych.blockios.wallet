@@ -18,7 +18,7 @@
     transaction.to = [transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_TO];
 
     transaction.block_height = [[transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_BLOCK_HEIGHT] intValue];
-    transaction.confirmations = [[transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_CONFIRMATIONS] intValue];
+    transaction.confirmations = [[transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_CONFIRMATIONS] unsignedIntegerValue];
     transaction.fee = [[transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_FEE] longLongValue];
     transaction.myHash = [transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_MY_HASH] ? : [transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_HASH];
     transaction.txType = [transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_TX_TYPE];

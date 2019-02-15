@@ -72,6 +72,8 @@ final class KYCPersonalDetailsController: KYCBaseViewController,
 
         firstNameField.text = personalDetails.firstName
         lastNameField.text = personalDetails.lastName
+
+        birthdayField.maximumDate = NabuUser.minimumAge
         if let birthday = personalDetails.birthday {
             birthdayField.selectedDate = birthday
         }
@@ -131,7 +133,7 @@ final class KYCPersonalDetailsController: KYCBaseViewController,
         birthdayField.validationBlock = { value in
             guard let birthday = value else { return .invalid(nil) }
             guard let date = DateFormatter.medium.date(from: birthday) else { return .invalid(nil) }
-            if date <= Date.eighteenYears {
+            if date <= NabuUser.minimumAge {
                 return .valid
             } else {
                 return .invalid(.minimumDateRequirement)
@@ -193,8 +195,8 @@ extension KYCPersonalDetailsController: UIScrollViewDelegate {
     }
 }
 
-extension Date {
-    static let eighteenYears: Date = Calendar.current.date(
+extension NabuUser {
+    static let minimumAge: Date = Calendar.current.date(
         byAdding: .year,
         value: -18,
         to: Date()

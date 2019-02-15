@@ -95,24 +95,6 @@ enum NabuNetworkErrorCode: Int, Codable {
     case campaignInfoAlreadyUsed = 61
 }
 
-extension NabuNetworkErrorCode {
-    var isCampaignError: Bool {
-        switch self {
-            case .invalidCampaign,
-                 .invalidCampaignUser,
-                 .campaignUserAlreadyRegistered,
-                 .campaignExpired,
-                 .invalidCampaignInfo,
-                 .campaignWithdrawalFailed,
-                 .tradeForceExecuteError,
-                 .campaignInfoAlreadyUsed:
-            return true
-        default:
-            return false
-        }
-    }
-}
-
 enum NabuNetworkErrorType: String, Codable {
 
     // Generic HTTP errors

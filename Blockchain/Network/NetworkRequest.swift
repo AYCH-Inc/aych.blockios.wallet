@@ -246,6 +246,25 @@ extension NetworkRequest {
             return Disposables.create()
         })
     }
+    
+    static func PUT(
+        url: URL,
+        body: Data?,
+        headers: HTTPHeaders? = nil
+    ) -> Completable {
+        var request = self.init(endpoint: url, method: .put, body: body, headers: headers)
+        return Completable.create(subscribe: { observer -> Disposable in
+            request.execute(expecting: EmptyNetworkResponse.self, withCompletion: { result, _ in
+                switch result {
+                case .success(_):
+                    observer(.completed)
+                case .error(let error):
+                    observer(.error(error ?? NetworkError.generic))
+                }
+            })
+            return Disposables.create()
+        })
+    }
 
     static func PUT<ResponseType: Decodable>(
         url: URL,

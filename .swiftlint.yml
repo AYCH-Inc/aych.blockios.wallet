@@ -36,6 +36,7 @@ file_length:
   warning: 800
   error: 1000000000
 line_length:
+  ignores_comments: true
   warning: 150
   error: 1000000000
 type_body_length:

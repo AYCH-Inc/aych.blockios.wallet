@@ -17,7 +17,7 @@ public extension UIView {
     }
     
     public func addConstrainedSubview(_ subview: UIView) {
-        subview.frame = bounds
+        subview.translatesAutoresizingMaskIntoConstraints = false
         addSubview(subview)
         subview.constrain(to: self)
     }

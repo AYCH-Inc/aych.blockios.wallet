@@ -62,7 +62,7 @@
         [self setupWelcomeCardsView];
     } else if (self.announcementCards.count > 0) {
         [self setupCardsViewWithConfigurations:self.announcementCards];
-    } else if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local) {
+    } else if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local && [self shouldHideSwapCard]) {
         [self removeCardsView];
     }
 }
@@ -437,6 +437,11 @@
     self.cardsView = nil;
     self.dashboardScrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.dashboardContentView ? self.dashboardContentView.frame.size.height : 0);
     [self.dashboardContentView changeYPosition:0];
+}
+
+- (BOOL)shouldHideSwapCard
+{
+    return [[BlockchainSettings sharedAppInstance] shouldHideSwapCard];
 }
 
 @end

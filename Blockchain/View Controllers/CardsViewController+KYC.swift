@@ -12,11 +12,28 @@ extension CardsViewController {
     @objc func reloadAllCards() {
         // Ignoring the disposable here since it can't be stored in CardsViewController.m/.h
         // since RxSwift doesn't work in Obj-C.
-        _ = BlockchainDataRepository.shared.nabuUser
+        guard WalletManager.shared.wallet.isInitialized() == true else { return }
+        _ = Observable.zip(BlockchainDataRepository.shared.nabuUser, ExchangeService.shared.hasExecutedTrades().asObservable())
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] nabuUser in
+            .subscribe(onNext: { [weak self] nabuUser, hasTrades in
                 guard let strongSelf = self else { return }
+                let canShowSwapCTA = nabuUser.swapApproved()
+                let shouldHideSwapCTA = BlockchainSettings.App.shared.shouldHideSwapCard
+                
+                /// We display the `Swap` card if the user has not submitted a trade,
+                /// has not hidden the card before, and if the user is at least tier1 approved.
+                let displaySwapCTA = (hasTrades == false && shouldHideSwapCTA == false && canShowSwapCTA)
+                if displaySwapCTA {
+                    strongSelf.showSwapCTA()
+                }
+                
+                /// If the user has traded before we need to set this flag as this is the only way
+                /// `CardsViewController` can determine if it needs to show the `Swap` card.
+                if hasTrades == true {
+                    BlockchainSettings.App.shared.shouldHideSwapCard = true
+                }
+                
                 let didShowAirdropAndKycCards = strongSelf.showAirdropAndKycCards(nabuUser: nabuUser)
                 if !didShowAirdropAndKycCards {
                     strongSelf.reloadWelcomeCards()
@@ -86,6 +103,17 @@ extension CardsViewController {
             BlockchainSettings.Onboarding.shared.hasSeenAirdropJoinWaitlistCard = true
             self?.animateHideCards()
         })
+        showSingleCard(with: model)
+    }
+    
+    private func showSwapCTA() {
+        let model = AnnouncementCardViewModel.swapCTA(action: {
+            let tabController = AppCoordinator.shared.tabControllerManager
+            ExchangeCoordinator.shared.start(rootViewController: tabController)
+        }) { [weak self] in
+            BlockchainSettings.App.shared.shouldHideSwapCard = true
+            self?.animateHideCards()
+        }
         showSingleCard(with: model)
     }
 

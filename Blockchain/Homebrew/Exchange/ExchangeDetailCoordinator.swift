@@ -192,7 +192,7 @@ class ExchangeDetailCoordinator: NSObject {
             case .overview(let trade):
                 interface?.updateBackgroundColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
                 interface?.updateNavigationBar(appearance: NavigationBarAppearanceDark, color: .brandPrimary)
-                interface?.updateTitle(trade.amountReceivedCrypto + LocalizationConstants.Exchange.orderID + " " + trade.identifier)
+                interface?.updateTitle(LocalizationConstants.Exchange.orderID + " " + trade.identifier)
                 interface?.navigationBarVisibility(.visible)
 
                 let status = ExchangeCellModel.Plain(

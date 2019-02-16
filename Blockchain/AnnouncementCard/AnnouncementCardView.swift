@@ -18,6 +18,8 @@ class AnnouncementCardView: UIView {
 
     // MARK: - IBOutlets
 
+    @IBOutlet private var backgroundImageView: UIImageView!
+    @IBOutlet private var newContainerView: UIView!
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var bodyLabel: UILabel!
     @IBOutlet private var imageView: UIImageView!
@@ -28,6 +30,16 @@ class AnnouncementCardView: UIView {
 
     @objc class func create(withModel model: AnnouncementCardViewModel) -> AnnouncementCardView {
         let cardView = AnnouncementCardView.makeFromNib()
+        cardView.backgroundImageView.isHidden = model.palette.backgroundImage == nil
+        cardView.backgroundImageView.image = model.palette.backgroundImage
+        cardView.backgroundImageView.contentMode = model.palette.contentMode
+        cardView.backgroundImageView.clipsToBounds = true
+        cardView.newContainerView.isHidden = model.palette.isNew == false
+        cardView.newContainerView.layer.cornerRadius = 4.0
+        cardView.titleLabel.textColor = model.palette.titleTextColor
+        cardView.bodyLabel.textColor = model.palette.messageTextColor
+        cardView.actionButton.setTitleColor(model.palette.actionTextColor, for: .normal)
+        cardView.backgroundColor = model.palette.backgroundColor
         cardView.titleLabel.text = model.title
         cardView.bodyLabel.text = model.message
         cardView.imageView.image = model.image

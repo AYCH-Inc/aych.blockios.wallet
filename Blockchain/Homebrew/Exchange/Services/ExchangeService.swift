@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 typealias CompletionHandler = ((Result<[ExchangeTradeModel]>) -> Void)
 
@@ -14,6 +15,7 @@ protocol ExchangeHistoryAPI {
     var tradeModels: [ExchangeTradeModel] { get set }
     var canPage: Bool { get set }
     
+    func hasExecutedTrades() -> Single<Bool>
     func getHomebrewTrades(before date: Date, completion: @escaping CompletionHandler)
     func getAllTrades(with completion: @escaping CompletionHandler)
     func isExecuting() -> Bool
@@ -21,6 +23,12 @@ protocol ExchangeHistoryAPI {
 }
 
 class ExchangeService: NSObject {
+    
+    /// Note: Don't use the `shared` instance unless absolutely necessary
+    /// this is only being used in `CardsViewController+KYC` because
+    /// `CardsViewController` is an ObjC class and extensions
+    /// cannot have stored properties. 
+    static let shared = ExchangeService()
     
     typealias CompletionHandler = ((Result<[ExchangeTradeModel]>) -> Void)
 
@@ -45,6 +53,22 @@ class ExchangeService: NSObject {
 }
 
 extension ExchangeService: ExchangeHistoryAPI {
+    
+    func hasExecutedTrades() -> Single<Bool> {
+        return Single.create(subscribe: { [weak self] event -> Disposable in
+            guard let this = self else { return Disposables.create() }
+            this.getAllTrades(with: { result in
+                switch result {
+                case .success(let models):
+                    let hasExecuted = models.count > 0
+                    event(.success(hasExecuted))
+                case .error:
+                    event(.success(false))
+                }
+            })
+            return Disposables.create()
+        })
+    }
     
     func getHomebrewTrades(before date: Date = Date(), completion: @escaping CompletionHandler) {
         

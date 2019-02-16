@@ -390,6 +390,6 @@ extension ExchangeDetailViewController: ExchangeNavigatableView {
     }
 
     func navControllerCTAType() -> NavigationCTA {
-        return NavigationCTA.help
+        return .none
     }
 }

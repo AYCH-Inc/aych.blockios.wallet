@@ -390,6 +390,22 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.didSeeAirdropPending.rawValue)
             }
         }
+        
+        /**
+         Determines if the user has dismissed the `Swap` card. Users that have not completed
+         a swap transaction will see this card until they submit a transaction or they dismiss the card.
+         
+         - Important:
+         This setting **MUST** be set to `false` upon logging the user out of the application.
+         */
+        @objc var shouldHideSwapCard: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.shouldHideSwapCard.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.shouldHideSwapCard.rawValue)
+            }
+        }
 
         /// Determines if the app already tried to route the user for the airdrop flow as a result
         /// of tapping on a deep link

@@ -1709,6 +1709,11 @@ struct LocalizationConstants {
         static let postTierError = NSLocalizedString(
             "An error occurred when selecting your tier. Please try again later.", comment: "Error shown when a user selects a tier and an error occurs when posting the tier to the server"
         )
+        static let swapCardMessage = NSLocalizedString(
+            "Exchange one crypto for another without ever leaving your Blockchain Wallet.",
+            comment: "Message on the swap card"
+        )
+        static let checkItOut = NSLocalizedString("Check it out!", comment: "CTA on the swap card")
     }
 
     struct Lockbox {

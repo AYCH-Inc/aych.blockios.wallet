@@ -5,42 +5,55 @@
 //  Created by Alex McGregor on 9/6/18.
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
+import PlatformUIKit
 
-class ExchangeDetailHeaderView: UICollectionReusableView {
+class ExchangeDetailHeaderView: ExchangeHeaderView {
     
     // MARK: Private Static Properties
     
     fileprivate static let verticalPadding: CGFloat = 16.0
     
-    // MARK: Public Properties
-    
-    static let identifier = String(describing: ExchangeDetailHeaderView.self)
-    
-    var title: String? = nil {
-        didSet {
-            headerTitle.text = title
-        }
-    }
-    
     // MARK: Private IBOutlets
     
     @IBOutlet fileprivate var headerTitle: UILabel!
     
-    // MARK: Lifecycle
+    // MARK: Public Functions
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        backgroundColor = .brandPrimary
+    override func configure(with model: ExchangeHeader) {
+        guard case let .detail(payload) = model else { return }
+        headerTitle.text = payload.title
+        backgroundColor = payload.backgroundColor
     }
     
-    // MARK: Static Functions
-    
-    static func height(for title: String) -> CGFloat {
-        guard let titleFont = UIFont(name: Constants.FontNames.montserratRegular, size: 32.0) else { return 0.0 }
+    override class func heightForProposedWidth(_ width: CGFloat, model: ExchangeHeader) -> CGFloat {
+        guard case let .detail(payload) = model else { return 0.0 }
         let attributedTitle = NSAttributedString(
-            string: title,
-            attributes: [NSAttributedString.Key.font: titleFont]
+            string: payload.title,
+            attributes: [.font: titleFont()]
         )
-        return attributedTitle.height + verticalPadding + verticalPadding
+        return attributedTitle.heightForWidth(width: width) + verticalPadding + verticalPadding
     }
+    
+    // MARK: Private Class Functions
+    
+    fileprivate class func titleFont() -> UIFont {
+        let font = Font(.branded(.montserratRegular), size: .custom(32.0))
+        return font.result
+    }
+}
+
+struct ExchangeDetailHeaderModel {
+    let title: String
+    let backgroundColor: UIColor
+    
+    init(title: String, backgroundColor: UIColor = .brandPrimary) {
+        self.title = title
+        self.backgroundColor = backgroundColor
+    }
+}
+
+extension ExchangeDetailHeaderModel {
+    static let locked: ExchangeDetailHeaderModel = ExchangeDetailHeaderModel(
+        title: LocalizationConstants.Exchange.exchangeLocked
+    )
 }

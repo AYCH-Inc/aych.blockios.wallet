@@ -176,7 +176,7 @@ class TradeExecutionService: TradeExecutionAPI {
         buildOrder(
             from: orderTransactionLegacy,
             success: createOrderCompletion,
-            error: { (message, transactionID) in
+            error: { (message, transactionID, nabuNetworkError) in
                 error(message)
         })
     }
@@ -229,7 +229,7 @@ class TradeExecutionService: TradeExecutionAPI {
         from orderTransactionLegacy: OrderTransactionLegacy,
         transactionID: TransactionID? = nil,
         success: @escaping ((OrderTransactionLegacy) -> Void),
-        error: @escaping ((ErrorMessage, TransactionID?) -> Void),
+        error: @escaping ((ErrorMessage, TransactionID?, NabuNetworkError?) -> Void),
         memo: String? = nil // TODO: IOS-1291 Remove and separate
     ) {
         let assetType = AssetType.from(legacyAssetType: orderTransactionLegacy.legacyAssetType)
@@ -272,7 +272,7 @@ class TradeExecutionService: TradeExecutionAPI {
                     this.isExecuting = false
             }, success: createOrderPaymentSuccess,
                error: { errorMessage in
-                error(errorMessage, transactionID)
+                error(errorMessage, transactionID, nil)
             })
         }
     }
@@ -308,7 +308,7 @@ class TradeExecutionService: TradeExecutionAPI {
         transactionID: String?,
         secondPassword: String?,
         success: @escaping (() -> Void),
-        error: @escaping ((ErrorMessage, TransactionID?) -> Void)
+        error: @escaping ((ErrorMessage, TransactionID?, NabuNetworkError?) -> Void)
     ) {
         let executionDone = { [weak self] in
             guard let this = self else { return }
@@ -334,7 +334,11 @@ class TradeExecutionService: TradeExecutionAPI {
                         // User cancelled transaction when shown second password - do not show an error.
                         return
                     }
-                    error(LocalizationConstants.Stellar.cannotSendXLMAtThisTime, transactionID)
+                    error(
+                        LocalizationConstants.Stellar.cannotSendXLMAtThisTime,
+                        transactionID,
+                        paymentError as? NabuNetworkError
+                    )
                 }, onCompleted: success)
             disposables.insertWithDiscardableResult(disposable)
         } else {
@@ -345,7 +349,7 @@ class TradeExecutionService: TradeExecutionAPI {
                 completion: executionDone,
                 success: success,
                 error: { message in
-                    error(message, transactionID)
+                    error(message, transactionID, nil)
             },
                 cancel: executionDone
             )
@@ -365,7 +369,7 @@ fileprivate extension TradeExecutionService {
         fromAccount: AssetAccount,
         toAccount: AssetAccount,
         success: @escaping ((OrderTransaction, Conversion) -> Void),
-        error: @escaping ((ErrorMessage, TransactionID?) -> Void)
+        error: @escaping ((ErrorMessage, TransactionID?, NabuNetworkError?) -> Void)
     ) {
         isExecuting = true
         let conversionQuote = conversion.quote
@@ -422,11 +426,15 @@ fileprivate extension TradeExecutionService {
             }, onError: { [weak self] requestError in
                 guard let this = self else { return }
                 this.isExecuting = false
-                guard let httpRequestError = requestError as? HTTPRequestError else {
-                    error(requestError.localizedDescription, nil)
+                if let nabuError = requestError as? NabuNetworkError {
+                    error(requestError.localizedDescription, nil, nabuError)
                     return
                 }
-                error(httpRequestError.debugDescription, nil)
+                guard let httpRequestError = requestError as? HTTPRequestError else {
+                    error(requestError.localizedDescription, nil, nil)
+                    return
+                }
+                error(httpRequestError.debugDescription, nil, nil)
             })
         disposables.insertWithDiscardableResult(disposable)
     }
@@ -439,7 +447,7 @@ fileprivate extension TradeExecutionService {
         orderResult: OrderResult,
         fromAccount: AssetAccount,
         success: @escaping ((OrderTransactionLegacy) -> Void),
-        error: @escaping ((ErrorMessage, TransactionID?) -> Void)
+        error: @escaping ((ErrorMessage, TransactionID?, NabuNetworkError?) -> Void)
         ) {
         #if DEBUG
         let settings = DebugSettings.shared
@@ -455,7 +463,7 @@ fileprivate extension TradeExecutionService {
         let assetType = pair!.from
         #endif
         guard assetType == fromAccount.address.assetType else {
-            error("AssetType from fromAccount and AssetType from OrderResult do not match", orderResult.id)
+            error("AssetType from fromAccount and AssetType from OrderResult do not match", orderResult.id, nil)
             return
         }
         let orderTransactionLegacy = OrderTransactionLegacy(
@@ -485,7 +493,7 @@ extension TradeExecutionService {
         from: AssetAccount,
         to: AssetAccount,
         success: @escaping ((OrderTransaction) -> Void),
-        error: @escaping ((ErrorMessage, TransactionID?) -> Void)
+        error: @escaping ((ErrorMessage, TransactionID?, NabuNetworkError?) -> Void)
     ) {
         let processAndBuild: ((String?) -> ()) = { [weak self] secondPassword in
             guard let this = self else { return }

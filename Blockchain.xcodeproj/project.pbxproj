@@ -1278,6 +1278,8 @@
 		C7A85981217A5BAE00502935 /* StellarTransactionServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A8597F217A5BAE00502935 /* StellarTransactionServiceAPI.swift */; };
 		C7A923ED1F8531FD003D9DAF /* GraphTimeFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A923EC1F8531FD003D9DAF /* GraphTimeFrame.m */; };
 		C7A9E7A61FAB5FF600027F22 /* UILabel+CGRectForSubstring.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A9E7A51FAB5FF600027F22 /* UILabel+CGRectForSubstring.m */; };
+		C7B463CF221B572300ADDC22 /* KYCVerifyEmailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B463CE221B572300ADDC22 /* KYCVerifyEmailRouter.swift */; };
+		C7B463D9221B572800ADDC22 /* KYCVerifyEmailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B463CE221B572300ADDC22 /* KYCVerifyEmailRouter.swift */; };
 		C7B6855B1F17AE2A00A18A5C /* BCEmptyPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B6855A1F17AE2A00A18A5C /* BCEmptyPageView.m */; };
 		C7BD107B209A01690062269E /* NumberFormatter+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD107A209A01690062269E /* NumberFormatter+Assets.swift */; };
 		C7BD107C209A01690062269E /* NumberFormatter+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD107A209A01690062269E /* NumberFormatter+Assets.swift */; };
@@ -4159,6 +4161,7 @@
 		C7A923EC1F8531FD003D9DAF /* GraphTimeFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GraphTimeFrame.m; sourceTree = "<group>"; };
 		C7A9E7A41FAB5FF600027F22 /* UILabel+CGRectForSubstring.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+CGRectForSubstring.h"; sourceTree = "<group>"; };
 		C7A9E7A51FAB5FF600027F22 /* UILabel+CGRectForSubstring.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+CGRectForSubstring.m"; sourceTree = "<group>"; };
+		C7B463CE221B572300ADDC22 /* KYCVerifyEmailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCVerifyEmailRouter.swift; sourceTree = "<group>"; };
 		C7B685591F17AE2A00A18A5C /* BCEmptyPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCEmptyPageView.h; sourceTree = "<group>"; };
 		C7B6855A1F17AE2A00A18A5C /* BCEmptyPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCEmptyPageView.m; sourceTree = "<group>"; };
 		C7BD107A209A01690062269E /* NumberFormatter+Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Assets.swift"; sourceTree = "<group>"; };
@@ -8587,6 +8590,7 @@
 		AA6336A421BC5A1C0073ED4A /* Email */ = {
 			isa = PBXGroup;
 			children = (
+				C7B463CE221B572300ADDC22 /* KYCVerifyEmailRouter.swift */,
 				AA6336B121BC5A630073ED4A /* KYCConfirmEmailController.swift */,
 				AA6336AE21BC5A430073ED4A /* KYCEnterEmailController.swift */,
 				AAF3E7CC21BC5B3D00912B13 /* KYCVerifyEmailInteractor.swift */,
@@ -10681,6 +10685,7 @@
 				C787180220A22362000CC46E /* WalletAddressesDelegate.swift in Sources */,
 				AA31A7BC2098DFCF00FE6268 /* SideMenuItem.swift in Sources */,
 				AA63F85920A134DA002B719B /* BCTextField.swift in Sources */,
+				C7B463D9221B572800ADDC22 /* KYCVerifyEmailRouter.swift in Sources */,
 				AAF3E7D721BC5B4200912B13 /* KYCVerifyEmailInteractor.swift in Sources */,
 				AACE31D42092A99B00B7B806 /* AppCoordinator.swift in Sources */,
 				AA3CA9B92107F66E00C2AD46 /* ConsoleLogDestination.swift in Sources */,
@@ -11277,6 +11282,7 @@
 				AA447BC82127679A00EC0FA0 /* SideMenuViewController.swift in Sources */,
 				AA8F21D121C574CB00F45C42 /* KYCSettingsAPI.swift in Sources */,
 				3AFB65EE215585DF00EBFF30 /* BounceButton.swift in Sources */,
+				C7B463CF221B572300ADDC22 /* KYCVerifyEmailRouter.swift in Sources */,
 				3A56AEAA21765C2100044302 /* StellarAccountAPI.swift in Sources */,
 				C73406221F54791C00143100 /* EtherAmountInputViewController.m in Sources */,
 				3A9A02612177F10200E2848E /* StellarOperationsAPI.swift in Sources */,

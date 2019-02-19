@@ -20,7 +20,7 @@ extension NavigationCTA {
         case .dismiss:
             return #imageLiteral(resourceName: "close.png")
         case .help:
-            return #imageLiteral(resourceName: "icon_help.pdf")
+            return UIImage(named: "ios_icon_more")
         case .none:
             return nil
         }

@@ -13,6 +13,12 @@ struct NabuNetworkError: Codable, Error {
     let code: NabuNetworkErrorCode
     let type: NabuNetworkErrorType
     let description: String
+    
+    init(code: NabuNetworkErrorCode, type: NabuNetworkErrorType = .internalServerError, description: String = "demo") {
+        self.code = code
+        self.type = type
+        self.description = description
+    }
 }
 
 enum NabuNetworkErrorCode: Int, Codable {

@@ -229,7 +229,7 @@ struct ExchangeServices: ExchangeDependencies {
             Logger.shared.error("No navigation controller found")
             return
         }
-        let model = ExchangeDetailViewController.PageModel.confirm(orderTransaction, conversion)
+        let model = ExchangeDetailPageModel(type: .confirm(orderTransaction, conversion))
         let confirmController = ExchangeDetailViewController.make(with: model, dependencies: ExchangeServices())
         navigationController.pushViewController(confirmController, animated: true)
     }
@@ -239,13 +239,17 @@ struct ExchangeServices: ExchangeDependencies {
             Logger.shared.error("No navigation controller found")
             return
         }
-        let model = ExchangeDetailViewController.PageModel.locked(orderTransaction, conversion)
+        let model = ExchangeDetailPageModel(type: .locked(orderTransaction, conversion))
         let controller = ExchangeDetailViewController.make(with: model, dependencies: ExchangeServices())
         navigationController.present(controller, animated: true, completion: nil)
     }
 
     private func showTradeDetails(trade: ExchangeTradeModel) {
-        let detailViewController = ExchangeDetailViewController.make(with: .overview(trade), dependencies: ExchangeServices())
+        let model = ExchangeDetailPageModel(type: .overview(trade))
+        let detailViewController = ExchangeDetailViewController.make(
+            with: model,
+            dependencies: ExchangeServices()
+        )
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 

@@ -12,12 +12,16 @@ public class AlertView: UIView {
     
     // MARK: Private Static Properties
     
-    fileprivate static let horizontalPadding: CGFloat = 24.0
-    fileprivate static let topToHeadlingPadding: CGFloat = 56.0
+    fileprivate static let sheetBottomPadding: CGFloat = 16.0
+    fileprivate static let titleTrailingPadding: CGFloat = 58.0
+    fileprivate static let horizontalOffset: CGFloat = 32.0
+    fileprivate static let horizontalPadding: CGFloat = 40.0
+    fileprivate static let dismissableHeadlingPadding: CGFloat = 16.0
+    fileprivate static let topToHeadlingPadding: CGFloat = 32.0
     fileprivate static let messageToActionsPadding: CGFloat = 24.0
-    fileprivate static let actionsToBottomPadding: CGFloat = 32.0
-    fileprivate static let headlineToMessagePadding: CGFloat = 8.0
-    fileprivate static let actionsVerticalPadding: CGFloat = 14.0
+    fileprivate static let actionsToBottomPadding: CGFloat = 24.0
+    fileprivate static let headlineToMessagePadding: CGFloat = 4.0
+    fileprivate static let actionsVerticalPadding: CGFloat = 20.0
     fileprivate static let actionButtonHeight: CGFloat = 56.0
     
     // MARK: Private IBOutlets
@@ -27,6 +31,7 @@ public class AlertView: UIView {
     @IBOutlet fileprivate var confirmButton: UIButton!
     @IBOutlet fileprivate var defaultButton: UIButton!
     @IBOutlet fileprivate var closeButton: UIButton!
+    @IBOutlet fileprivate var headlineTrailingConstraint: NSLayoutConstraint!
     
     fileprivate var model: AlertModel!
     fileprivate var completion: ((AlertAction) -> Void)?
@@ -54,7 +59,8 @@ public class AlertView: UIView {
                 string: value,
                 attributes: [.font: headlineFont()]
             )
-            headlineHeight = attributed.heightForWidth(width: adjustedWidth)
+            let trailingPadding = model.style == .default ? titleTrailingPadding : 0.0
+            headlineHeight = attributed.heightForWidth(width: adjustedWidth - trailingPadding)
         }
         if let value = model.body {
             let attributed = NSAttributedString(
@@ -70,23 +76,23 @@ public class AlertView: UIView {
             interItemPadding += actionsVerticalPadding
         }
         model.actions.forEach({ _ in actionsHeight += actionButtonHeight })
-        
-        return topToHeadlingPadding +
-            messageToActionsPadding +
+        let topPadding = model.dismissable ? topToHeadlingPadding : dismissableHeadlingPadding
+        return messageToActionsPadding +
             actionsToBottomPadding +
             actionsHeight +
             headlineHeight +
             messageHeight +
-        interItemPadding
+            interItemPadding +
+            topPadding
     }
     
     public class func headlineFont() -> UIFont {
-        let font = Font(.branded(.montserratMedium), size: .custom(22.0))
+        let font = Font(.branded(.montserratSemiBold), size: .custom(18.0))
         return font.result
     }
     
     public class func messageFont() -> UIFont {
-        let font = Font(.branded(.montserratRegular), size: .custom(18.0))
+        let font = Font(.branded(.montserratMedium), size: .custom(14.0))
         return font.result
     }
     
@@ -104,12 +110,16 @@ public class AlertView: UIView {
         message.text = model.body
         confirmButton.isHidden = model.actions.contains(where: { $0.style == .confirm }) == false
         defaultButton.isHidden = model.actions.contains(where: { $0.style == .default }) == false
-        layer.cornerRadius = 4.0
+        layer.cornerRadius = 8.0
         closeButton.tintColor = .gray4
+        closeButton.isHidden = model.style == .sheet
+        if closeButton.isHidden && headlineTrailingConstraint.isActive {
+            NSLayoutConstraint.deactivate([headlineTrailingConstraint])
+        }
         model.actions.forEach { action in
             switch action.style {
             case .confirm:
-                let font = Font(.branded(.montserratMedium), size: .custom(20.0)).result
+                let font = Font(.branded(.montserratSemiBold), size: .custom(20.0)).result
                 let attributedTitle = NSAttributedString(
                     string: action.title,
                     attributes: [.font: font,
@@ -117,7 +127,7 @@ public class AlertView: UIView {
                 )
                 confirmButton.setAttributedTitle(attributedTitle, for: .normal)
             case .default:
-                let font = Font(.branded(.montserratMedium), size: .custom(20.0)).result
+                let font = Font(.branded(.montserratSemiBold), size: .custom(20.0)).result
                 let attributedTitle = NSAttributedString(
                     string: action.title,
                     attributes: [.font: font,
@@ -141,6 +151,13 @@ public class AlertView: UIView {
             })
             UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 0.2, animations: {
                 self.dimmingView.alpha = 0.0
+                switch self.model.style {
+                case .default:
+                    break
+                case .sheet:
+                    guard let window = UIApplication.shared.keyWindow else { return }
+                    self.frame = self.frame.offsetBy(dx: 0.0, dy: window.bounds.maxY)
+                }
             })
         }, completion: { [weak self] _ in
             guard let this = self else { return }
@@ -153,6 +170,7 @@ public class AlertView: UIView {
     }
     
     @objc func dismiss() {
+        guard model.dismissable == true else { return }
         teardown()
     }
     
@@ -175,31 +193,80 @@ public class AlertView: UIView {
     // MARK: Public
     
     public func show() {
+        switch model.style {
+        case .default:
+            presentDefaultView()
+        case .sheet:
+            presentSheetView()
+        }
+    }
+    
+    fileprivate func presentDefaultView() {
         guard let window = UIApplication.shared.keyWindow else { return }
         alpha = 0.0
-        transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        let width = window.bounds.width - AlertView.horizontalOffset
         let height = AlertView.estimatedHeight(
-            for: AlertView.horizontalPadding,
+            for: width,
             model: model
         )
         frame = CGRect(
             origin: frame.origin,
             size: .init(
-                width: bounds.width - AlertView.horizontalPadding,
+                width: width,
                 height: height
             )
         )
         center = window.center
+        transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
         window.addSubview(dimmingView)
         window.addSubview(self)
         
         UIView.animateKeyframes(withDuration: 0.4, delay: 0.0, options: .calculationModeCubic, animations: {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.1, animations: {
-                self.dimmingView.alpha = 0.75
+                self.dimmingView.alpha = 0.4
             })
             UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.2, animations: {
                 self.alpha = 1.0
                 self.transform = .identity
+            })
+        }, completion: nil)
+    }
+    
+    fileprivate func presentSheetView() {
+        guard let window = UIApplication.shared.keyWindow else { return }
+        alpha = 0.0
+        let width = window.bounds.width - AlertView.horizontalOffset
+        let height = AlertView.estimatedHeight(
+            for: width,
+            model: model
+        )
+        let start = CGPoint(
+            x: window.bounds.midX - (width / 2.0),
+            y: window.bounds.maxY
+        )
+        frame = CGRect(
+            origin: start,
+            size: .init(
+                width: width,
+                height: height
+            )
+        )
+        window.addSubview(dimmingView)
+        window.addSubview(self)
+        
+        transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        
+        UIView.animateKeyframes(withDuration: 0.4, delay: 0.0, options: .calculationModeCubic, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.1, animations: {
+                self.dimmingView.alpha = 0.4
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.2, animations: {
+                self.alpha = 1.0
+                self.transform = .identity
+                self.frame.origin = CGPoint(
+                    x: self.frame.origin.x,
+                    y: window.frame.maxY - height - AlertView.sheetBottomPadding
+                )
             })
         }, completion: nil)
     }

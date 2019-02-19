@@ -12,21 +12,47 @@ public struct AlertModel {
     public let headline: String?
     public let body: String?
     public let actions: [AlertAction]
+    public let dismissable: Bool
+    public let style: AlertViewStyle
     
-    public init(headline: String?, body: String?, actions: [AlertAction]) {
+    public init(
+        headline: String?,
+        body: String?,
+        actions: [AlertAction],
+        dismissable: Bool = true,
+        style: AlertViewStyle = .default
+        ) {
         self.headline = headline
         self.body = body
         self.actions = actions
+        self.dismissable = dismissable
+        self.style = style
     }
 }
+
+public protocol AlertActionPayload { }
 
 public struct AlertAction {
     public let title: String
     public let style: AlertActionStyle
+    public let metadata: Metadata?
     
-    public init(title: String, style: AlertActionStyle) {
+    public init(title: String, style: AlertActionStyle, metadata: AlertAction.Metadata? = nil) {
         self.title = title
         self.style = style
+        self.metadata = metadata
+    }
+    
+    /// This may be renamed but the idea here is that where `AlertActions` are built
+    /// you can define different things that should happen when the action is selected like
+    /// presenting a URL, executing a block, or receiving any `AlertActionPayload` if you
+    /// need some custom behavior.
+    public enum Metadata {
+        case url(URL)
+        case block(() -> Void)
+        case pop
+        case dismiss
+        case payload(AlertActionPayload)
     }
 }
 
@@ -37,4 +63,9 @@ public enum AlertActionStyle {
     /// `UIButton` with blue border and blue text.
     /// It appears _below_ the `confirm` style button.
     case `default`
+}
+
+public enum AlertViewStyle {
+    case `default`
+    case sheet
 }

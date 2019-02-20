@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformUIKit
 
 enum ExchangeTradeModel {
     case partner(PartnerTrade)
@@ -18,6 +19,7 @@ enum ExchangeTradeModel {
         case resolved
         case inProgress
         case pendingRefund
+        case delayed
         case refunded
         case cancelled
         case failed
@@ -45,6 +47,8 @@ enum ExchangeTradeModel {
                 self = .failed
             case "EXPIRED":
                 self = .expired
+            case "DELAYED":
+                self = .delayed
             default:
                 self = .none
             }
@@ -73,18 +77,61 @@ enum ExchangeTradeModel {
 }
 
 extension ExchangeTradeModel {
-    var statusDescription: String? {
+    var alertModel: AlertModel? {
         switch self {
         case .partner:
             return nil
         case .homebrew:
+            guard let supportURL = URL(string: Constants.Url.supportTicketBuySellExchange) else {
+                return nil
+            }
+            
+            let action =  AlertAction(
+                title: LocalizationConstants.KYC.contactSupport,
+                style: .confirm,
+                metadata: .url(supportURL)
+            )
+            let generic = AlertModel(
+                headline: LocalizationConstants.Exchange.somethingNotRight,
+                body: LocalizationConstants.Exchange.somethingNotRightDetails,
+                actions: [action],
+                style: .sheet
+            )
             switch self.status {
-            case .expired: return LocalizationConstants.Exchange.expiredDescription
-            case .failed: return LocalizationConstants.Exchange.failedDescription
-            default: return nil
+            case .expired, .failed:
+                return generic
+            case .inProgress:
+                guard let yesterday = Calendar.current.date(
+                    byAdding: .day,
+                    value: -1,
+                    to: Date()
+                    ) else { return nil }
+                if transactionDate < yesterday {
+                    return generic
+                }
+                return nil
+            case .delayed:
+                guard let url = URL(string: "https://support.blockchain.com/hc/en-us/articles/360023819791-Why-is-my-order-delayed-") else {
+                    return nil
+                }
+                let learnMore = AlertAction(
+                    title: LocalizationConstants.Exchange.learnMore,
+                    style: .confirm,
+                    metadata: .url(url)
+                )
+                let delayed = AlertModel(
+                    headline: LocalizationConstants.Exchange.networkDelay,
+                    body: LocalizationConstants.Exchange.dontWorry,
+                    actions: [learnMore],
+                    style: .sheet
+                )
+                return delayed
+            default:
+                return nil
             }
         }
     }
+    
     var withdrawalAddress: String {
         switch self {
         case .partner(let model):
@@ -382,7 +429,8 @@ extension ExchangeTradeModel.TradeStatus {
              .cancelled:
             return .green
         case .inProgress,
-             .noDeposits:
+             .noDeposits,
+             .delayed:
            return #colorLiteral(red: 0.96, green: 0.65, blue: 0.14, alpha: 1)
         case .pendingRefund:
             return #colorLiteral(red: 0.96, green: 0.65, blue: 0.14, alpha: 1)
@@ -399,6 +447,8 @@ extension ExchangeTradeModel.TradeStatus {
         case .complete,
              .resolved:
             return LocalizationConstants.Exchange.complete
+        case .delayed:
+            return LocalizationConstants.Exchange.delayed
         case .pendingRefund:
             return LocalizationConstants.Exchange.refundInProgress
         case .refunded,

@@ -10,6 +10,7 @@ import Foundation
 
 enum DeepLinkRoute: String, CaseIterable {
     case xlmAirdop
+    case kycVerifyEmail
     case kycDocumentResubmission
 }
 
@@ -58,7 +59,8 @@ extension DeepLinkRoute {
         switch self {
         case .xlmAirdop:
             return "referral"
-        case .kycDocumentResubmission:
+        case .kycVerifyEmail,
+             .kycDocumentResubmission:
             return "login"
         }
     }
@@ -67,7 +69,8 @@ extension DeepLinkRoute {
         switch self {
         case .xlmAirdop:
             return "campaign"
-        case .kycDocumentResubmission:
+        case .kycVerifyEmail,
+             .kycDocumentResubmission:
             return "deep_link_path"
         }
     }
@@ -76,6 +79,8 @@ extension DeepLinkRoute {
         switch self {
         case .xlmAirdop:
             return "sunriver"
+        case .kycVerifyEmail:
+            return "email_verified"
         case .kycDocumentResubmission:
             return "verification"
         }

@@ -104,6 +104,12 @@ struct NabuUser: Decodable {
         tags = try values.decodeIfPresent(Tags.self, forKey: .tags)
         needsDocumentResubmission = try values.decodeIfPresent(DocumentResubmission.self, forKey: .needsDocumentResubmission)
     }
+    
+    func swapApproved() -> Bool {
+        guard let tiers = tiers else { return false }
+        guard tiers.current != .tier0 else { return false }
+        return true
+    }
 }
 
 struct Email: Decodable {

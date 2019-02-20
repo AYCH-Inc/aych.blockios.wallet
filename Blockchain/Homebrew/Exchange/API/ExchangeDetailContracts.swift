@@ -11,9 +11,11 @@ import Foundation
 protocol ExchangeDetailInterface: class {
     func updateBackgroundColor(_ color: UIColor)
     func updateNavigationBar(appearance: NavigationBarAppearance, color: UIColor)
+    func presentURL(_ url: URL)
+    func presentTiers()
     func navigationBarVisibility(_ visibility: Visibility)
     func updateTitle(_ value: String)
-    func loadingVisibility(_ visibility: Visibility, action: ExchangeDetailCoordinator.Action)
+    func loadingVisibility(_ visibility: Visibility)
     func updateConfirmDetails(conversion: Conversion)
 
     // When live updates are being received, the ExchangeDetailCoordinator

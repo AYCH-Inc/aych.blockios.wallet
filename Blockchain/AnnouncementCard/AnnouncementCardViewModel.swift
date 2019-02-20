@@ -8,27 +8,60 @@
 
 import Foundation
 
+@objc class AnnouncementCardPallete: NSObject {
+    let isNew: Bool
+    let backgroundImage: UIImage?
+    let contentMode: UIView.ContentMode
+    let titleTextColor: UIColor
+    let messageTextColor: UIColor
+    let actionTextColor: UIColor
+    let backgroundColor: UIColor
+    
+    @objc init(
+        isNew: Bool = false,
+        backgroundImage: UIImage? = nil,
+        backgroundContentMode: UIView.ContentMode = .scaleAspectFill,
+        titleTextColor: UIColor = #colorLiteral(red: 0.004, green: 0.29, blue: 0.486, alpha: 1),
+        messageTextColor: UIColor = #colorLiteral(red: 0.373, green: 0.373, blue: 0.373, alpha: 1),
+        actionTextColor: UIColor = #colorLiteral(red: 0.06274509804, green: 0.6784313725, blue: 0.8941176471, alpha: 1),
+        backgroundColor: UIColor = .clear
+        ) {
+        self.isNew = isNew
+        self.contentMode = backgroundContentMode
+        self.backgroundColor = backgroundColor
+        self.backgroundImage = backgroundImage
+        self.titleTextColor = titleTextColor
+        self.messageTextColor = messageTextColor
+        self.actionTextColor = actionTextColor
+    }
+    
+    static let standard: AnnouncementCardPallete = AnnouncementCardPallete()
+}
+
 @objc class AnnouncementCardViewModel: NSObject {
     typealias Action = () -> Void
 
     let title: String
     let message: String
+    let palette: AnnouncementCardPallete
     let actionButtonTitle: String?
     let imageTint: UIColor?
-    let image: UIImage
+    let image: UIImage?
     let action, onClose: Action
 
     @objc init(
         title: String,
         message: String,
         actionButtonTitle: String?,
-        image: UIImage,
-        imageTint: UIColor?,
+        palette: AnnouncementCardPallete = .standard,
+        image: UIImage? = nil,
+        imageTint: UIColor? = nil,
         action: @escaping Action,
         onClose: @escaping Action
     ) {
         self.title = title
         self.message = message
+        self.palette = palette
         self.actionButtonTitle = actionButtonTitle
         self.image = image
         self.imageTint = imageTint
@@ -48,6 +81,27 @@ extension AnnouncementCardViewModel {
             action: action,
             onClose: onClose
         )
+    }
+    
+    @objc class func swapCTA(action: @escaping Action, onClose: @escaping Action) -> AnnouncementCardViewModel {
+        let palette = AnnouncementCardPallete(
+            isNew: true,
+            backgroundImage: #imageLiteral(resourceName: "swap_promo_bg"),
+            backgroundContentMode: .topRight,
+            titleTextColor: .white,
+            messageTextColor: .white,
+            actionTextColor: .white,
+            backgroundColor: #colorLiteral(red: 0.07, green: 0.08, blue: 0.23, alpha: 1)
+        )
+        let model = AnnouncementCardViewModel(
+            title: LocalizationConstants.Swap.swap,
+            message: LocalizationConstants.Swap.swapCardMessage,
+            actionButtonTitle: LocalizationConstants.Swap.checkItOut + " " + "👉",
+            palette: palette,
+            action: action,
+            onClose: onClose
+        )
+        return model
     }
 
     @objc class func airdropOnItsWay(action: @escaping Action, onClose: @escaping Action) -> AnnouncementCardViewModel {

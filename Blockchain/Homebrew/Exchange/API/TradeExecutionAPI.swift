@@ -38,7 +38,7 @@ protocol TradeExecutionAPI {
         from: AssetAccount,
         to: AssetAccount,
         success: @escaping ((OrderTransaction) -> Void),
-        error: @escaping ((ErrorMessage, TransactionID?) -> Void)
+        error: @escaping ((ErrorMessage, TransactionID?, NabuNetworkError?) -> Void)
     )
     
     /// In the event that a transaction fails, we need to track the cause of failure.

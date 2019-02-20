@@ -56,6 +56,7 @@ extension UserDefaults {
         case shouldHideBuySellCard = "shouldHideBuySellNotificationCard"
         case shouldShowBiometrySetup
         case isCompletingKyc = "shouldShowKYCAnnouncementCard"
+        case shouldHideSwapCard
         case didTapOnAirdropDeepLink
         case didSeeAirdropPending
         case swipeToReceiveEnabled = "swipeToReceive"
@@ -66,6 +67,7 @@ extension UserDefaults {
         case kycLatestPage
         case didRequestCameraPermissions
         case didRequestNotificationPermissions
+        case didTapOnVerifyEmailDeepLink
         case didTapOnDocumentResubmissionDeepLink
         case documentResubmissionLinkReason
     }

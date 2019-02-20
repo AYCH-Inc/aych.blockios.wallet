@@ -350,6 +350,7 @@ final class DashboardController: UIViewController {
                 priceChartContainerView?.changeYPosition(offset)
                 contentView.changeHeight(defaultContentHeight)
             }
+            cardsViewController.reloadAllCards()
         }
 
         balancesChartView.updateChart()

@@ -26,6 +26,8 @@ class DeepLinkHandler {
         switch route {
         case .xlmAirdop:
             handleXlmAirdrop(payload.params)
+        case .kycVerifyEmail:
+            handleKycVerifyEmail()
         case .kycDocumentResubmission:
             handleKycDocumentResubmission(payload.params)
         }
@@ -40,5 +42,9 @@ class DeepLinkHandler {
     private func handleKycDocumentResubmission(_ params: [String: String]) {
         appSettings.didTapOnDocumentResubmissionDeepLink = true
         appSettings.documentResubmissionLinkReason = params["resubmission_reason"]
+    }
+
+    private func handleKycVerifyEmail() {
+        appSettings.didTapOnKycVerifyEmailDeepLink = true
     }
 }

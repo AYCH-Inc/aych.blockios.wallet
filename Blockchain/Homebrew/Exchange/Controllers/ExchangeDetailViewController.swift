@@ -20,13 +20,7 @@ protocol ExchangeDetailDelegate: class {
 /// a `UICollectionView`.
 class ExchangeDetailViewController: UIViewController {
 
-    enum PageModel {
-        case confirm(OrderTransaction, Conversion)
-        case locked(OrderTransaction, Conversion)
-        case overview(ExchangeTradeModel)
-    }
-
-    static func make(with model: PageModel, dependencies: ExchangeDependencies) -> ExchangeDetailViewController {
+    static func make(with model: ExchangeDetailPageModel, dependencies: ExchangeDependencies) -> ExchangeDetailViewController {
         let controller = ExchangeDetailViewController.makeFromStoryboard()
         controller.model = model
         controller.dependencies = dependencies
@@ -47,8 +41,7 @@ class ExchangeDetailViewController: UIViewController {
     // MARK: Private Properties
 
     fileprivate var layoutAttributes: LayoutAttributes!
-    fileprivate var model: PageModel!
-    fileprivate var cellModels: [ExchangeCellModel]?
+    fileprivate var model: ExchangeDetailPageModel!
     fileprivate var reuseIdentifiers: Set<String> = []
     fileprivate var coordinator: ExchangeDetailCoordinator!
     fileprivate var presenter: ExchangeDetailPresenter!
@@ -80,7 +73,7 @@ class ExchangeDetailViewController: UIViewController {
     fileprivate func setupLayout() {
         guard let page = model else { return }
         
-        switch page {
+        switch page.pageType {
         case .confirm, .locked:
             layoutAttributes = .exchangeDetail
         case .overview:
@@ -96,8 +89,10 @@ class ExchangeDetailViewController: UIViewController {
     fileprivate func registerCells() {
         collectionView.delegate = self
         collectionView.dataSource = self
+        guard let page = model else { return }
+        guard let cells = page.cells else { return }
         
-        cellModels?.forEach({ (cellModel) in
+        cells.forEach({ (cellModel) in
             let reuse = cellModel.reuseIdentifier
             if !reuseIdentifiers.contains(reuse) {
                 let nib = UINib.init(nibName: reuse, bundle: nil)
@@ -109,46 +104,49 @@ class ExchangeDetailViewController: UIViewController {
     
     fileprivate func registerSupplementaryViews() {
         guard let page = model else { return }
-        switch page {
-        case .confirm:
+        if let _ = page.footer {
             let footerNib = UINib(nibName: ActionableFooterView.identifier, bundle: nil)
             collectionView.register(
                 footerNib,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                 withReuseIdentifier: ActionableFooterView.identifier
             )
-            AnalyticsService.shared.trackEvent(title: "exchange_detail_confirm")
-        case .locked:
-            let headerNib = UINib(nibName: ExchangeLockedHeaderView.identifier, bundle: nil)
-            collectionView.register(
-                headerNib,
-                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                withReuseIdentifier: ExchangeLockedHeaderView.identifier
-            )
-            
-            let footerNib = UINib(nibName: ActionableFooterView.identifier, bundle: nil)
-            collectionView.register(
-                footerNib,
-                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                withReuseIdentifier: ActionableFooterView.identifier
-            )
-            AnalyticsService.shared.trackEvent(title: "exchange_detail_locked")
-        case .overview:
-            let headerNib = UINib(nibName: ExchangeDetailHeaderView.identifier, bundle: nil)
-            collectionView.register(
-                headerNib,
-                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                withReuseIdentifier: ExchangeDetailHeaderView.identifier
-            )
-
-            let footerNib = UINib(nibName: ActionableFooterView.identifier, bundle: nil)
-            collectionView.register(
-                footerNib,
-                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                withReuseIdentifier: ActionableFooterView.identifier
-            )
-            AnalyticsService.shared.trackEvent(title: "exchange_detail_overview")
         }
+        
+        if let header = page.header {
+            let headerNib = UINib(nibName: header.reuseIdentifier, bundle: nil)
+            collectionView.register(
+                headerNib,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: header.reuseIdentifier
+            )
+        }
+        
+        AnalyticsService.shared.trackEvent(title: page.pageType.analyticsIdentifier)
+    }
+    
+    fileprivate func presentAlert(with alertModel: AlertModel) {
+        let alert = AlertView.make(with: alertModel) { [weak self] action in
+            guard let this = self else { return }
+            guard let value = action.metadata else { return }
+            
+            switch value {
+            case .url(let url):
+                this.presentURL(url)
+                /// The alert will be dismissed after the action is selected
+                /// and we want the user to be back at the Swap or History screen.
+                this.navigationController?.popViewController(animated: true)
+            case .block(let block):
+                block()
+            case .pop:
+                this.navigationController?.popViewController(animated: true)
+            case .dismiss:
+                this.dismiss(animated: true, completion: nil)
+            case .payload:
+                break
+            }
+        }
+        alert.show()
     }
 }
 
@@ -159,11 +157,13 @@ extension ExchangeDetailViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cellModels?.count ?? 0
+        guard let page = model else { return 0 }
+        return page.cells?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let items = cellModels else { return UICollectionViewCell() }
+        guard let page = model else { return UICollectionViewCell() }
+        guard let items = page.cells else { return UICollectionViewCell() }
         let item = items[indexPath.row]
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: item.reuseIdentifier,
@@ -176,11 +176,16 @@ extension ExchangeDetailViewController: UICollectionViewDataSource {
 }
 
 extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let models = cellModels else { return .zero }
-        let model = models[indexPath.row]
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+        ) -> CGSize {
+        guard let page = model else { return .zero }
+        guard let cells = page.cells else { return .zero }
+        let cellModel = cells[indexPath.row]
         let width = collectionView.bounds.size.width - layoutAttributes.sectionInsets.left - layoutAttributes.sectionInsets.right
-        let height = model.heightForProposed(width: width)
+        let height = cellModel.heightForProposed(width: width)
         return CGSize(width: width, height: height)
     }
 
@@ -192,70 +197,30 @@ extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
         at indexPath: IndexPath
     ) -> UICollectionReusableView {
         guard let page = model else { return UICollectionReusableView() }
-        switch page {
-        case .confirm:
-            guard kind == UICollectionView.elementKindSectionFooter else { return UICollectionReusableView() }
-            
+        
+        switch kind {
+        case UICollectionView.elementKindSectionFooter:
+            guard let footerModel = page.footer else { return UICollectionReusableView() }
             guard let footer = collectionView.dequeueReusableSupplementaryView(
-                ofKind: UICollectionView.elementKindSectionFooter,
+                ofKind: kind,
                 withReuseIdentifier: ActionableFooterView.identifier,
                 for: indexPath
                 ) as? ActionableFooterView else { return UICollectionReusableView() }
-            footer.title = LocalizationConstants.Exchange.confirm
-            guard let order = mostRecentOrderTransaction else { return UICollectionReusableView() }
-            footer.actionBlock = {
-                self.coordinator.handle(event: .confirmExchange(order))
-            }
-
-            return footer
             
-        case .locked:
-            switch kind {
-            case UICollectionView.elementKindSectionHeader:
-                guard let header = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: ExchangeLockedHeaderView.identifier,
-                    for: indexPath
-                    ) as? ExchangeLockedHeaderView else { return UICollectionReusableView() }
-                header.closeTapped = { [weak self] in
-                    guard let this = self else { return }
-                    this.dismiss(animated: true, completion: nil)
+            footer.configure(footerModel)
+            
+            switch page.pageType {
+            case .confirm:
+                guard let order = mostRecentOrderTransaction else { return footer }
+                footer.actionBlock = {
+                    self.coordinator.handle(event: .confirmExchange(order))
                 }
-                
-                return header
-            case UICollectionView.elementKindSectionFooter:
-                guard let footer = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionView.elementKindSectionFooter,
-                    withReuseIdentifier: ActionableFooterView.identifier,
-                    for: indexPath
-                    ) as? ActionableFooterView else { return UICollectionReusableView() }
-                footer.title = LocalizationConstants.Exchange.done
+            case .locked:
                 footer.actionBlock = { [weak self] in
                     guard let this = self else { return }
                     this.dismiss(animated: true, completion: nil)
                 }
-                
-                return footer
-            default:
-                return UICollectionReusableView()
-            }
-        case .overview(let trade):
-            switch kind {
-            case UICollectionView.elementKindSectionHeader:
-                guard let header = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: ExchangeDetailHeaderView.identifier,
-                    for: indexPath
-                ) as? ExchangeDetailHeaderView else { return UICollectionReusableView() }
-                header.title = trade.amountReceivedCrypto
-                return header
-            case UICollectionView.elementKindSectionFooter:
-                guard let footer = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionView.elementKindSectionFooter,
-                    withReuseIdentifier: ActionableFooterView.identifier,
-                    for: indexPath
-                ) as? ActionableFooterView else { return UICollectionReusableView() }
-                footer.title = LocalizationConstants.KYC.contactSupport
+            case .overview:
                 footer.actionBlock = {
                     guard let url = URL(string: Constants.Url.supportTicketBuySellExchange) else {
                         return
@@ -264,10 +229,29 @@ extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
                     viewController.modalPresentationStyle = .overFullScreen
                     self.present(viewController, animated: true, completion: nil)
                 }
-                return footer
-            default:
-                return UICollectionReusableView()
             }
+            
+            return footer
+            
+        case UICollectionView.elementKindSectionHeader:
+            guard let header = page.header else { return UICollectionReusableView() }
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: header.reuseIdentifier,
+                for: indexPath
+                ) as? ExchangeHeaderView else { return UICollectionReusableView() }
+            headerView.configure(with: header)
+            
+            if let view = headerView as? ExchangeLockedHeaderView {
+                view.closeTapped = { [weak self] in
+                    guard let this = self else { return }
+                    this.dismiss(animated: true, completion: nil)
+                }
+            }
+            return headerView
+            
+        default:
+            return UICollectionReusableView()
         }
     }
     // swiftlint:enable function_body_length
@@ -278,22 +262,10 @@ extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
         referenceSizeForHeaderInSection section: Int
     ) -> CGSize {
         guard let page = model else { return .zero }
-        switch page {
-        case .confirm:
-            return .zero
-        case .locked:
-            return CGSize(
-                width: collectionView.bounds.width,
-                height: ExchangeLockedHeaderView.estimatedHeight()
-            )
-        case .overview(let trade):
-            let title = trade.amountReceivedCrypto
-            let height = ExchangeDetailHeaderView.height(for: title)
-            return CGSize(
-                width: collectionView.bounds.width,
-                height: height
-            )
-        }
+        guard let header = page.header else { return .zero }
+        let width = collectionView.bounds.width
+        let height = header.heightForProposed(width: width)
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(
@@ -302,27 +274,22 @@ extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
         referenceSizeForFooterInSection section: Int
     ) -> CGSize {
         guard let page = model else { return .zero }
-        switch page {
-        case .confirm, .locked:
-            return CGSize(
-                width: collectionView.bounds.width,
-                height: ActionableFooterView.height()
-            )
-        case .overview(let trade):
-            return trade.status == .expired ? CGSize(
-                width: collectionView.bounds.width,
-                height: ActionableFooterView.height()
-            ) : .zero
-        }
+        guard let footer = page.footer else { return .zero }
+        let width = collectionView.bounds.width
+        let height = ActionableFooterView.height(with: footer, width: width)
+        return CGSize(width: width, height: height)
     }
 }
 
 extension ExchangeDetailViewController: ExchangeDetailCoordinatorDelegate {
-    func coordinator(_ detailCoordinator: ExchangeDetailCoordinator, updated models: [ExchangeCellModel]) {
-        cellModels = models
+    func coordinator(_ detailCoordinator: ExchangeDetailCoordinator, updated model: ExchangeDetailPageModel) {
+        self.model = model
         registerCells()
         registerSupplementaryViews()
         collectionView.reloadData()
+        if let alertModel = model.alertModel {
+            presentAlert(with: alertModel)
+        }
     }
     func coordinator(_ detailCoordinator: ExchangeDetailCoordinator, completedTransaction: OrderTransaction) {
         guard let navController = navigationController else { return }
@@ -331,9 +298,30 @@ extension ExchangeDetailViewController: ExchangeDetailCoordinatorDelegate {
 }
 
 extension ExchangeDetailViewController: ExchangeDetailInterface {
+    
+    func presentTiers() {
+        _ = KYCTiersViewController.routeToTiers(fromViewController: self)
+    }
+    
+    func presentURL(_ url: URL) {
+        let viewController = SFSafariViewController(url: url)
+        viewController.modalPresentationStyle = .overFullScreen
+        present(viewController, animated: true, completion: nil)
+    }
+    
     func updateConfirmDetails(conversion: Conversion) {
         guard let orderTransaction = self.mostRecentOrderTransaction else {
             Logger.shared.error("Missing order transaction - should have been stored after onLoaded ExchangeDetailCoordinator event")
+            return
+        }
+        /// We're still getting `conversion` updates when the user gets an error after
+        /// submitting an order. If they've ever recieved an error on the `Confirm Order`
+        /// screen, we want them to update the order prior to being able to submit.
+        /// If we continue to update the conversion, the collectionView will reload
+        /// and the footer with the submission button will be visible again.
+        guard let model = model else { return }
+        guard model.alertModel == nil else {
+             Logger.shared.info("Not updating confirm details. Alert is currently presented.")
             return
         }
         coordinator.handle(event: .updateConfirmDetails(orderTransaction, conversion))
@@ -364,23 +352,36 @@ extension ExchangeDetailViewController: ExchangeDetailInterface {
         navigationController.headerTitle = value
     }
 
-    func loadingVisibility(_ visibility: Visibility, action: ExchangeDetailCoordinator.Action) {
+    func loadingVisibility(_ visibility: Visibility) {
         if visibility == .hidden {
             LoadingViewPresenter.shared.hideBusyView()
         } else {
-            var text = LocalizationConstants.loading
-            switch action {
-            case .confirmExchange, .sentTransaction: text = LocalizationConstants.Exchange.sendingOrder
-            }
-            LoadingViewPresenter.shared.showBusyView(withLoadingText: text)
+            LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.Exchange.sendingOrder)
         }
+    }
+}
+
+extension ExchangeDetailViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let animator = ModalAnimator(operation: .dismiss, duration: 0.4)
+        return dismissed is KYCTiersViewController ? animator: nil
+    }
+    
+    func animationController(
+        forPresented presented: UIViewController,
+        presenting: UIViewController,
+        source: UIViewController
+        ) -> UIViewControllerAnimatedTransitioning? {
+        let animator = ModalAnimator(operation: .dismiss, duration: 0.4)
+        return presented is KYCTiersViewController ? animator : nil
     }
 }
 
 extension ExchangeDetailViewController: ExchangeNavigatableView {
     var ctaTintColor: UIColor? {
         guard let model = model else { return nil }
-        switch model {
+        switch model.pageType {
         case .confirm,
              .locked:
             return UIColor.brandPrimary
@@ -390,6 +391,13 @@ extension ExchangeDetailViewController: ExchangeNavigatableView {
     }
 
     func navControllerCTAType() -> NavigationCTA {
-        return NavigationCTA.help
+        guard let model = model else { return .none }
+        switch model.pageType {
+        case .confirm:
+            return .help
+        case .locked,
+             .overview:
+            return .none
+        }
     }
 }

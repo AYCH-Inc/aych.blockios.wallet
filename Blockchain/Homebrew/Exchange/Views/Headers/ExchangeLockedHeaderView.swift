@@ -6,11 +6,12 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-class ExchangeLockedHeaderView: UICollectionReusableView {
+import PlatformUIKit
+
+class ExchangeLockedHeaderView: ExchangeHeaderView {
     
     // MARK: - Public
     
-    static let identifier: String = String(describing: ExchangeLockedHeaderView.self)
     var closeTapped: (() -> Void)?
     
     // MARK: - Private Static Properties
@@ -21,28 +22,35 @@ class ExchangeLockedHeaderView: UICollectionReusableView {
     
     @IBOutlet fileprivate var title: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    // MARK: Public
+    
+    override func configure(with model: ExchangeHeader) {
+        guard case let .locked(payload) = model else { return }
+        title.text = payload.title
+    }
+    
+    override class func heightForProposedWidth(_ width: CGFloat, model: ExchangeHeader) -> CGFloat {
+        guard case let .locked(payload) = model else { return 0.0 }
+        let attributedTitle = NSAttributedString(
+            string: payload.title,
+            attributes: [
+                NSAttributedString.Key.font: titleFont()
+            ]
+        )
         
-        title.text = LocalizationConstants.Exchange.exchangeLocked
+        return attributedTitle.heightForWidth(width: width) + verticalPadding
+    }
+    
+    // MARK: Private Class Functions
+    
+    fileprivate class func titleFont() -> UIFont {
+        let font = Font(.branded(.montserratRegular), size: .custom(20.0))
+        return font.result
     }
     
     // MARK: - Actions
     
     @IBAction func closeButtonTapped(_ sender: UIButton) {
         closeTapped?()
-    }
-    
-    static func estimatedHeight() -> CGFloat {
-        
-        guard let titleFont = UIFont(name: Constants.FontNames.montserratRegular, size: 20) else { return 0.0 }
-        
-        let attributedTitle = NSAttributedString(
-            string: LocalizationConstants.Exchange.exchangeLocked,
-            attributes: [
-                NSAttributedString.Key.font: titleFont
-            ]
-        )
-        return verticalPadding + attributedTitle.height
     }
 }

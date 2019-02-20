@@ -1,188 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="Montserrat-Medium.ttf">
             <string>Montserrat-Medium</string>
         </array>
+        <array key="Montserrat-SemiBold.ttf">
+            <string>Montserrat-SemiBold</string>
+        </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" id="iN0-l3-epB" userLabel="Announcement Card" customClass="AnnouncementCardView" customModule="Blockchain" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="168"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="221"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UPPERCASED TITLE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2K1-wR-9yV" userLabel="Card Title">
-                    <rect key="frame" x="16" y="16" width="139" height="18"/>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xZb-b3-QcR">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="221"/>
+                </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="6uE-Li-RVw">
+                    <rect key="frame" x="16" y="24" width="170" height="66"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XOD-co-FrI">
+                            <rect key="frame" x="0.0" y="0.0" width="47" height="29"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="NEW" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R47-FN-D0u">
+                                    <rect key="frame" x="8" y="4" width="31" height="21"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" red="0.062745098040000002" green="0.67843137249999996" blue="0.89411764709999997" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstItem="R47-FN-D0u" firstAttribute="leading" secondItem="XOD-co-FrI" secondAttribute="leading" constant="8" id="B5S-4s-s1i"/>
+                                <constraint firstAttribute="bottom" secondItem="R47-FN-D0u" secondAttribute="bottom" constant="4" id="I54-od-4Ha"/>
+                                <constraint firstAttribute="trailing" secondItem="R47-FN-D0u" secondAttribute="trailing" constant="8" id="at6-6m-Snl"/>
+                                <constraint firstItem="R47-FN-D0u" firstAttribute="top" secondItem="XOD-co-FrI" secondAttribute="top" constant="4" id="pSO-8I-eJ3"/>
+                                <constraint firstAttribute="height" constant="29" id="uat-B5-4P7"/>
+                            </constraints>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UPPERCASED TITLE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2K1-wR-9yV" userLabel="Card Title">
+                            <rect key="frame" x="0.0" y="45" width="170" height="21"/>
+                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="17"/>
+                            <color key="textColor" red="0.0039215686274509803" green="0.29019607843137252" blue="0.48627450980392156" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Lorem Ipsum is Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is Lorem Ipsum is" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="O5O-L1-1fi" userLabel="Card Message">
+                    <rect key="frame" x="16" y="106" width="253" height="72"/>
                     <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
-                    <color key="textColor" red="0.0039215686274509803" green="0.29019607843137252" blue="0.48627450980392156" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="O5O-L1-1fi" userLabel="Card Message">
-                    <rect key="frame" x="16" y="50" width="253" height="75"/>
-                    <attributedString key="attributedText">
-                        <fragment content="Lorem Ipsum is ">
-                            <attributes>
-                                <color key="NSColor" red="0.37254999999999999" green="0.37254999999999999" blue="0.37254999999999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <font key="NSFont" size="14" name="Montserrat-Light"/>
-                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" lineSpacing="2" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                    <tabStops>
-                                        <textTab alignment="left" location="28">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="56">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="84">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="112">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="140">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="168">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="196">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="224">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="252">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="280">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="308">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="336">
-                                            <options/>
-                                        </textTab>
-                                    </tabStops>
-                                </paragraphStyle>
-                            </attributes>
-                        </fragment>
-                        <fragment content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. ">
-                            <attributes>
-                                <color key="NSColor" red="0.37254901960784315" green="0.37254901960784315" blue="0.37254901960784315" alpha="1" colorSpace="calibratedRGB"/>
-                                <font key="NSFont" size="14" name="Montserrat-Light"/>
-                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" lineSpacing="2" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                    <tabStops>
-                                        <textTab alignment="left" location="28">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="56">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="84">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="112">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="140">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="168">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="196">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="224">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="252">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="280">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="308">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="336">
-                                            <options/>
-                                        </textTab>
-                                    </tabStops>
-                                </paragraphStyle>
-                            </attributes>
-                        </fragment>
-                        <fragment content="Lorem Ipsum is Lorem Ipsum is">
-                            <attributes>
-                                <color key="NSColor" red="0.37254999999999999" green="0.37254999999999999" blue="0.37254999999999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <font key="NSFont" size="14" name="Montserrat-Light"/>
-                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural" lineSpacing="2" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                    <tabStops>
-                                        <textTab alignment="left" location="28">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="56">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="84">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="112">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="140">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="168">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="196">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="224">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="252">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="280">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="308">
-                                            <options/>
-                                        </textTab>
-                                        <textTab alignment="left" location="336">
-                                            <options/>
-                                        </textTab>
-                                    </tabStops>
-                                </paragraphStyle>
-                            </attributes>
-                        </fragment>
-                    </attributedString>
+                    <color key="textColor" red="0.37254999999999999" green="0.37254999999999999" blue="0.37254999999999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="luy-A8-JmJ" userLabel="Card Image">
-                    <rect key="frame" x="285" y="56.5" width="74" height="55"/>
+                    <rect key="frame" x="285" y="83" width="74" height="55"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="55" id="5K6-hO-M6f"/>
                         <constraint firstAttribute="width" constant="74" id="mvO-EH-Esr"/>
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4eX-Ib-LhG">
-                    <rect key="frame" x="16" y="130" width="133" height="30"/>
+                    <rect key="frame" x="16" y="183" width="134" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="5QI-jj-sVJ"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                    <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
                     <state key="normal" title="Action Button Title">
                         <color key="titleColor" red="0.058823529411764705" green="0.67843137254901964" blue="0.89411764705882346" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -205,29 +97,35 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="4eX-Ib-LhG" secondAttribute="bottom" constant="8" id="3Q8-i4-lgR"/>
+                <constraint firstItem="O5O-L1-1fi" firstAttribute="top" secondItem="6uE-Li-RVw" secondAttribute="bottom" constant="16" id="4bf-jG-LtL"/>
+                <constraint firstAttribute="bottom" secondItem="xZb-b3-QcR" secondAttribute="bottom" id="71h-wg-Etm"/>
+                <constraint firstItem="xZb-b3-QcR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="HjI-aG-J5E"/>
                 <constraint firstItem="4eX-Ib-LhG" firstAttribute="top" secondItem="O5O-L1-1fi" secondAttribute="bottom" constant="5" id="MXU-9A-RY0"/>
                 <constraint firstItem="luy-A8-JmJ" firstAttribute="leading" secondItem="O5O-L1-1fi" secondAttribute="trailing" constant="16" id="VAc-4w-4Hm"/>
                 <constraint firstItem="luy-A8-JmJ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="ZZ8-Zy-GSe"/>
+                <constraint firstItem="6uE-Li-RVw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="bAQ-m3-OKI"/>
                 <constraint firstAttribute="trailing" secondItem="luy-A8-JmJ" secondAttribute="trailing" constant="16" id="bqJ-bC-ulh"/>
                 <constraint firstItem="O5O-L1-1fi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="fxB-MI-sRu"/>
                 <constraint firstAttribute="trailing" secondItem="pO5-lR-lcl" secondAttribute="trailing" constant="16" id="lTa-96-JEl"/>
-                <constraint firstItem="O5O-L1-1fi" firstAttribute="top" secondItem="2K1-wR-9yV" secondAttribute="bottom" constant="16" id="oTw-gr-hgh"/>
-                <constraint firstItem="2K1-wR-9yV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="sZ6-nG-ka9"/>
-                <constraint firstItem="2K1-wR-9yV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="t8G-U5-lx4"/>
+                <constraint firstItem="6uE-Li-RVw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="meD-ah-qlz"/>
+                <constraint firstItem="xZb-b3-QcR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="sSl-qq-pK4"/>
                 <constraint firstItem="pO5-lR-lcl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="the-zy-PHt"/>
                 <constraint firstItem="4eX-Ib-LhG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="vzV-0R-C7E"/>
+                <constraint firstAttribute="trailing" secondItem="xZb-b3-QcR" secondAttribute="trailing" id="xdh-9V-pfA"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="actionButton" destination="4eX-Ib-LhG" id="bHm-Zj-4YB"/>
+                <outlet property="backgroundImageView" destination="xZb-b3-QcR" id="v4B-nO-0kH"/>
                 <outlet property="bodyLabel" destination="O5O-L1-1fi" id="k6A-Rh-9Ax"/>
                 <outlet property="closeButton" destination="pO5-lR-lcl" id="ZuJ-jj-x91"/>
                 <outlet property="imageView" destination="luy-A8-JmJ" id="eBE-5S-RiH"/>
+                <outlet property="newContainerView" destination="XOD-co-FrI" id="WMu-TR-7VT"/>
                 <outlet property="titleLabel" destination="2K1-wR-9yV" id="qnJ-gR-B0n"/>
             </connections>
-            <point key="canvasLocation" x="-69.5" y="-134"/>
+            <point key="canvasLocation" x="-70.3125" y="-162.14788732394365"/>
         </view>
     </objects>
     <resources>

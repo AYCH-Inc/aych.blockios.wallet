@@ -7,33 +7,43 @@
 //
 
 import Foundation
+import PlatformUIKit
+import PlatformKit
+import RxSwift
 
 protocol ExchangeDetailCoordinatorDelegate: class {
-    func coordinator(_ detailCoordinator: ExchangeDetailCoordinator, updated models: [ExchangeCellModel])
+    func coordinator(_ detailCoordinator: ExchangeDetailCoordinator, updated model: ExchangeDetailPageModel)
     func coordinator(_ detailCoordinator: ExchangeDetailCoordinator, completedTransaction: OrderTransaction)
 }
 
+// TICKET: IOS-1918 - Refactor `ExchangeDetailCoordinator` into separate classes
 class ExchangeDetailCoordinator: NSObject {
-
+    
     enum Event {
-        case pageLoaded(ExchangeDetailViewController.PageModel)
+        case pageLoaded(ExchangeDetailPageModel)
         case confirmExchange(OrderTransaction)
         case updateConfirmDetails(OrderTransaction, Conversion)
     }
 
-    enum Action {
-        case confirmExchange
-        case sentTransaction
-    }
-
     fileprivate weak var delegate: ExchangeDetailCoordinatorDelegate?
     fileprivate weak var interface: ExchangeDetailInterface?
-    let tradeExecution: TradeExecutionAPI
+    
+    fileprivate var current: ExchangeDetailPageModel!
+    
+    fileprivate let tradeExecution: TradeExecutionAPI
+    fileprivate let tradeLimitsService: TradeLimitsAPI
     fileprivate var accountRepository: AssetAccountRepository {
         get {
             return AssetAccountRepository.shared
         }
     }
+    fileprivate var fiatCurrencyCode: String = {
+        return BlockchainSettings.App.shared.fiatCurrencyCode
+    }()
+    fileprivate var fiatCurrencySymbol: String = {
+        return BlockchainSettings.App.shared.fiatCurrencySymbol
+    }()
+    fileprivate let disposables = CompositeDisposable()
 
     init(
         delegate: ExchangeDetailCoordinatorDelegate,
@@ -42,6 +52,7 @@ class ExchangeDetailCoordinator: NSObject {
     ) {
         self.delegate = delegate
         self.interface = interface
+        self.tradeLimitsService = dependencies.tradeLimits
         self.tradeExecution = dependencies.tradeExecution
         super.init()
     }
@@ -51,20 +62,17 @@ class ExchangeDetailCoordinator: NSObject {
         switch event {
         case .updateConfirmDetails(let orderTransaction, let conversion):
             interface?.mostRecentConversion = conversion
-            handle(event: .pageLoaded(.confirm(orderTransaction, conversion)))
+            let model = ExchangeDetailPageModel(type: .confirm(orderTransaction, conversion))
+            handle(event: .pageLoaded(model))
         case .pageLoaded(let model):
-
-            // TODO: These are placeholder `ViewModels`
-            // and are not to be shipped. That being said,
-            // they do demonstrate how to use `ExchangeCellModel`
-            // to display the correct cellTypes.
-
+            current = model
+            
             var cellModels: [ExchangeCellModel] = []
 
-            switch model {
+            switch model.pageType {
             case .confirm(let orderTransaction, let conversion):
-                interface?.updateBackgroundColor(#colorLiteral(red: 0.89, green: 0.95, blue: 0.97, alpha: 1))
-                interface?.updateNavigationBar(appearance: NavigationBarAppearanceLight, color: #colorLiteral(red: 0.89, green: 0.95, blue: 0.97, alpha: 1))
+                interface?.updateBackgroundColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
+                interface?.updateNavigationBar(appearance: NavigationBarAppearanceLight, color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
                 interface?.updateTitle(LocalizationConstants.Swap.confirmSwap)
 
                 let pair = ExchangeCellModel.TradingPair(
@@ -73,55 +81,50 @@ class ExchangeDetailCoordinator: NSObject {
 
                 let value = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.value,
-                    value: valueString(for: conversion.quote.currencyRatio.counter.fiat.value, currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol)
+                    value: valueString(for: conversion.quote.currencyRatio.counter.fiat.value, currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol),
+                    backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
                 )
 
                 let fees = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.fees,
-                    value: orderTransaction.fees + " " + orderTransaction.from.address.assetType.symbol
+                    value: orderTransaction.fees + " " + orderTransaction.from.address.assetType.symbol,
+                    backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
                 )
 
                 let receive = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.receive,
                     value: orderTransaction.amountToReceive + " " + TradingPair(string: conversion.quote.pair)!.to.symbol,
+                    backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1),
                     bold: true
                 )
 
                 let sendTo = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.sendTo,
-                    value: accountRepository.nameOfAccountContaining(address: orderTransaction.destination.address.address)
+                    value: accountRepository.nameOfAccountContaining(address: orderTransaction.destination.address.address),
+                    backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
                 )
-
-                let paragraphStyle = NSMutableParagraphStyle()
-                paragraphStyle.alignment = .center
-
-                let attributedTextFont = UIFont(name: Constants.FontNames.montserratRegular, size: 16.0)
-                    ?? UIFont.systemFont(ofSize: 16.0, weight: .regular)
-                let attributedText = NSAttributedString(
-                    string: LocalizationConstants.Exchange.amountVariation +  " \n\n " + LocalizationConstants.Exchange.orderStartDisclaimer,
-                    attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.64, green: 0.64, blue: 0.64, alpha: 1),
-                                 NSAttributedString.Key.font: attributedTextFont,
-                                 NSAttributedString.Key.paragraphStyle: paragraphStyle]
-                )
-
-                let text = ExchangeCellModel.Text(
-                    attributedString: attributedText
-                )
-
+                
                 cellModels.append(contentsOf: [
                     .tradingPair(pair),
                     .plain(value),
                     .plain(fees),
                     .plain(receive),
-                    .plain(sendTo),
-                    .text(text)
+                    .plain(sendTo)
                     ]
                 )
+                
+                let footer = ActionableFooterModel(
+                    title: LocalizationConstants.Exchange.confirm,
+                    description: LocalizationConstants.Exchange.amountVariation +  " \n\n " + LocalizationConstants.Exchange.orderStartDisclaimer
+                )
+                
+                current.cells = cellModels
+                current.footer = footer
 
                 interface?.mostRecentOrderTransaction = orderTransaction
                 interface?.mostRecentConversion = conversion
 
-                delegate?.coordinator(self, updated: cellModels)
+                delegate?.coordinator(self, updated: current)
             case .locked(let orderTransaction, let conversion):
                 interface?.updateBackgroundColor(.brandPrimary)
                 interface?.updateNavigationBar(appearance: NavigationBarAppearanceDark, color: .brandPrimary)
@@ -171,11 +174,7 @@ class ExchangeDetailCoordinator: NSObject {
                     )
                 }
 
-                let paragraphStyle = NSMutableParagraphStyle()
-                paragraphStyle.alignment = .center
-
-                // Setting an empty text in the exchange locked view since we want the space
-                let text = ExchangeCellModel.Text(attributedString: NSAttributedString())
+                let footer = ActionableFooterModel(title: LocalizationConstants.Exchange.done)
 
                 cellModels.append(contentsOf: [
                     .tradingPair(pair),
@@ -183,16 +182,22 @@ class ExchangeDetailCoordinator: NSObject {
                     .plain(fees),
                     .plain(receive),
                     .plain(sendTo),
-                    .plain(orderId),
-                    .text(text)
+                    .plain(orderId)
                     ]
                 )
+                
+                current.header = .locked(.locked)
+                current.cells = cellModels
+                current.footer = footer
 
-                delegate?.coordinator(self, updated: cellModels)
+                delegate?.coordinator(self, updated: current)
             case .overview(let trade):
                 interface?.updateBackgroundColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
-                interface?.updateNavigationBar(appearance: NavigationBarAppearanceDark, color: .brandPrimary)
-                interface?.updateTitle(trade.amountReceivedCrypto + LocalizationConstants.Exchange.orderID + " " + trade.identifier)
+                interface?.updateNavigationBar(
+                    appearance: NavigationBarAppearanceDark,
+                    color: trade.alertModel != nil ? #colorLiteral(red: 0.41, green: 0.44, blue: 0.52, alpha: 1) : .brandPrimary
+                )
+                interface?.updateTitle(LocalizationConstants.Exchange.orderID + " " + trade.identifier)
                 interface?.navigationBarVisibility(.visible)
 
                 let status = ExchangeCellModel.Plain(
@@ -253,31 +258,27 @@ class ExchangeDetailCoordinator: NSObject {
                     .plain(orderId)
                     ]
                 )
-
-                if let description = trade.statusDescription {
-
-                    let paragraphStyle = NSMutableParagraphStyle()
-                    paragraphStyle.alignment = .center
-
-                    let attributedTextFont = UIFont(name: Constants.FontNames.montserratRegular, size: 12.0)
-                        ?? UIFont.systemFont(ofSize: 12.0, weight: .regular)
-                    let attributedText = NSAttributedString(
-                        string: description,
-                        attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.64, green: 0.64, blue: 0.64, alpha: 1),
-                                     NSAttributedString.Key.font: attributedTextFont,
-                                     NSAttributedString.Key.paragraphStyle: paragraphStyle]
+                
+                /// If there's a `alertModel` than there was a problem with the trade.
+                /// Only `expired`, `delayed`, `failed`, or `inProgress` trades (that are greater
+                /// than 24 hours old) have an `alertModel`.
+                /// We used to show a `ActionableFooterModel` but now an alert is shown.
+                current.alertModel = trade.alertModel
+                current.header = .detail(
+                    ExchangeDetailHeaderModel(
+                        title: trade.amountReceivedCrypto,
+                        backgroundColor: trade.alertModel != nil ? #colorLiteral(red: 0.41, green: 0.44, blue: 0.52, alpha: 1) : .brandPrimary
                     )
+                )
+                current.cells = cellModels
 
-                    let text = ExchangeCellModel.Text(
-                        attributedString: attributedText
-                    )
-                    cellModels.append(contentsOf: [
-                            .text(text)
-                        ]
+                delegate?.coordinator(self, updated: current)
+                if trade.alertModel != nil {
+                    interface?.updateNavigationBar(
+                        appearance: NavigationBarAppearanceDark,
+                        color: #colorLiteral(red: 0.41, green: 0.44, blue: 0.52, alpha: 1)
                     )
                 }
-
-                delegate?.coordinator(self, updated: cellModels)
             }
         case .confirmExchange(let transaction):
             guard let lastConversion = interface?.mostRecentConversion else {
@@ -285,7 +286,7 @@ class ExchangeDetailCoordinator: NSObject {
                 return
             }
             guard tradeExecution.isExecuting == false else { return }
-            interface?.loadingVisibility(.visible, action: .confirmExchange)
+            interface?.loadingVisibility(.visible)
 
             tradeExecution.buildAndSend(
                 with: lastConversion,
@@ -298,7 +299,7 @@ class ExchangeDetailCoordinator: NSObject {
                         Notification(name: Constants.NotificationKeys.exchangeSubmitted)
                     )
 
-                    this.interface?.loadingVisibility(.hidden, action: .confirmExchange)
+                    this.interface?.loadingVisibility(.hidden)
                     ExchangeCoordinator.shared.handle(
                         event: .sentTransaction(
                             orderTransaction: orderTransaction,
@@ -306,13 +307,18 @@ class ExchangeDetailCoordinator: NSObject {
                         )
                     )
                     this.delegate?.coordinator(this, completedTransaction: transaction)
-            }) { [weak self] errorDescription, transactionID in
+            }) { [weak self] errorDescription, transactionID, nabuError in
                 guard let this = self else { return }
                 let complete: () -> Void = { [weak self] in
                     guard let this = self else { return }
-                    this.interface?.loadingVisibility(.hidden, action: .confirmExchange)
-                    AlertViewPresenter.shared.standardError(message: errorDescription)
+                    if let networkError = nabuError {
+                        this.showAlertFrom(networkError)
+                    } else {
+                        this.interface?.loadingVisibility(.hidden)
+                        AlertViewPresenter.shared.standardError(message: errorDescription)
+                    }
                 }
+                
                 if let identifier = transactionID {
                     this.tradeExecution.trackTransactionFailure(errorDescription, transactionID: identifier, completion: { error in
                         if let value = error {
@@ -327,7 +333,201 @@ class ExchangeDetailCoordinator: NSObject {
         }
     }
 }
-// swiftlint:enable function_body_length
+
+extension ExchangeDetailCoordinator {
+    
+    fileprivate func showAlertFrom(_ nabuError: NabuNetworkError) {
+        let min = minTradingLimit().asObservable()
+        let max = maxTradingLimit().asObservable()
+        let daily = dailyAvailable().asObservable()
+        let annual = annualAvailable().asObservable()
+        
+        let disposable = Observable.zip(min, max, daily, annual)
+            .observeOn(MainScheduler.instance)
+            .subscribeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { [weak self] payload in
+                guard let this = self else { return }
+                let code = this.fiatCurrencyCode
+                let minValue = FiatValue.create(amount: payload.0, currencyCode: code)
+                let maxValue = FiatValue.create(amount: payload.1, currencyCode: code)
+                let dailyValue = FiatValue.create(amount: payload.2 ?? 0, currencyCode: code)
+                let annualValue = FiatValue.create(amount: payload.3 ?? 0, currencyCode: code)
+                
+                var alert: AlertModel
+                switch nabuError.code {
+                case .orderBelowMinLimit:
+                    alert = this.belowMinimumAlert(minValue)
+                case .orderAboveMaxLimit:
+                    alert = this.aboveMaximumAlert(maxValue)
+                case .dailyLimitExceeded:
+                    alert = this.aboveDailyAlert(dailyValue)
+                case .weeklyLimitExceeded,
+                     .annualLimitExceeded:
+                    alert = this.aboveAnnualAlert(annualValue)
+                case .internalServerError:
+                    alert = this.albertErrorAlert()
+                default:
+                    alert = this.albertErrorAlert()
+                }
+                this.current.footer = nil
+                this.current.alertModel = alert
+                this.delegate?.coordinator(this, updated: this.current)
+            }, onError: { error in
+                AlertViewPresenter.shared.standardError(message: error.localizedDescription)
+            }, onDisposed: { [weak self] in
+                guard let this = self else { return }
+                this.interface?.loadingVisibility(.hidden)
+            })
+        
+        disposables.insertWithDiscardableResult(disposable)
+    }
+    
+    // MARK: AlertModel
+    
+    fileprivate func belowMinimumAlert(_ value: FiatValue) -> AlertModel {
+        let body = LocalizationConstants.Exchange.marketMovementMinimum + " " + value.toDisplayString()
+        return AlertModel(
+            headline: LocalizationConstants.Exchange.marketsMoving,
+            body: body,
+            actions: [updateOrderAction(), moreInfoAction()],
+            style: .sheet
+        )
+    }
+    
+    fileprivate func aboveMaximumAlert(_ value: FiatValue) -> AlertModel {
+        let body = LocalizationConstants.Exchange.marketMovementMaximum + " " + value.toDisplayString()
+        return AlertModel(
+            headline: LocalizationConstants.Exchange.marketsMoving,
+            body: body,
+            actions: [updateOrderAction(), moreInfoAction()],
+            style: .sheet
+        )
+    }
+    
+    fileprivate func aboveDailyAlert(_ value: FiatValue) -> AlertModel {
+        let body = LocalizationConstants.Exchange.dailyAnnualLimitExceeded + " " + value.toDisplayString()
+        return AlertModel(
+            headline: LocalizationConstants.Exchange.holdHorses,
+            body: body,
+            actions: [updateOrderAction(), moreInfoAction()],
+            style: .sheet
+        )
+    }
+    
+    fileprivate func aboveAnnualAlert(_ value: FiatValue) -> AlertModel {
+        let body = LocalizationConstants.Exchange.dailyAnnualLimitExceeded + " " + value.toDisplayString()
+        return AlertModel(
+            headline: LocalizationConstants.Exchange.holdHorses,
+            body: body,
+            actions: [updateOrderAction(), increaseLimitsAction()],
+            style: .sheet
+        )
+    }
+    
+    fileprivate func aboveBalanceAlert(_ value: FiatValue) -> AlertModel {
+        return AlertModel(
+            headline: LocalizationConstants.Exchange.marketsMoving,
+            body: LocalizationConstants.Exchange.marketMovementMaximum,
+            actions: [updateOrderAction(), moreInfoAction()],
+            style: .sheet
+        )
+    }
+    
+    fileprivate func albertErrorAlert() -> AlertModel {
+        return AlertModel(
+            headline: LocalizationConstants.Exchange.oopsSomethingWentWrong,
+            body: LocalizationConstants.Exchange.oopsSwapDescription,
+            actions: [tryAgainAction()],
+            style: .sheet
+        )
+    }
+    
+    // MARK: AlertActions
+    
+    fileprivate func updateOrderAction() -> AlertAction {
+        return AlertAction(
+            title: LocalizationConstants.Exchange.updateOrder,
+            style: .confirm,
+            metadata: .pop
+        )
+    }
+    
+    fileprivate func moreInfoAction() -> AlertAction {
+        let url = URL(string: "https://support.blockchain.com/hc/en-us/articles/360023819571-Order-exceeds-wallet-balance")!
+        return AlertAction(
+            title: LocalizationConstants.Exchange.moreInfo,
+            style: .default,
+            metadata: .url(url)
+        )
+    }
+    
+    fileprivate func increaseLimitsAction() -> AlertAction {
+        return AlertAction(
+            title: LocalizationConstants.Exchange.increaseMyLimits,
+            style: .default,
+            metadata: .block({ [weak self] in
+                guard let this = self else { return }
+                this.interface?.presentTiers()
+            })
+        )
+    }
+    
+    fileprivate func tryAgainAction() -> AlertAction {
+        return AlertAction(
+            title: LocalizationConstants.Exchange.tryAgain,
+            style: .confirm,
+            metadata: .block({ [weak self] in
+                guard let this = self else { return }
+                guard case let .confirm(transaction, _) = this.current.pageType else { return }
+                /// Not ideal but, this will be addressed when this is refactored.
+                /// If the user tries to submit their trade again, the model shouldn't reflect that
+                /// there's an error. If it does, the view will not receive conversion updates.
+                this.current.alertModel = nil
+                this.handle(event: .confirmExchange(transaction))
+            })
+        )
+    }
+}
+
+// MARK: TradeLimits
+
+extension ExchangeDetailCoordinator {
+    fileprivate func tradingLimitInfo(info: @escaping (TradeLimits) -> Decimal) -> Maybe<Decimal> {
+        return tradeLimitsService.getTradeLimits(
+            withFiatCurrency: fiatCurrencyCode,
+            ignoringCache: false).map { tradingLimits -> Decimal in
+                return info(tradingLimits)
+            }.asMaybe()
+    }
+    
+    fileprivate func minTradingLimit() -> Maybe<Decimal> {
+        return tradingLimitInfo(info: { tradingLimits -> Decimal in
+            return tradingLimits.minOrder
+        })
+    }
+    
+    fileprivate func maxTradingLimit() -> Maybe<Decimal> {
+        return tradingLimitInfo(info: { tradingLimits -> Decimal in
+            return tradingLimits.maxPossibleOrder
+        })
+    }
+    
+    fileprivate func dailyAvailable() -> Maybe<Decimal?> {
+        return tradeLimitsService.getTradeLimits(
+            withFiatCurrency: fiatCurrencyCode,
+            ignoringCache: false).asMaybe().map { limits -> Decimal? in
+                return limits.daily?.available
+        }
+    }
+    
+    fileprivate func annualAvailable() -> Maybe<Decimal?> {
+        return tradeLimitsService.getTradeLimits(
+            withFiatCurrency: fiatCurrencyCode,
+            ignoringCache: false).asMaybe().map { limits -> Decimal? in
+                return limits.annual?.available
+        }
+    }
+}
 
 extension ExchangeDetailCoordinator {
     // TICKET: IOS-1328 Find a better place for this

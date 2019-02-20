@@ -132,6 +132,8 @@ git push origin $git_tag_staging > /dev/null 2>&1
 git push origin $release_branch > /dev/null 2>&1
 
 #
+printf "Giving staging a 5 minute headstart on building to ensure that it is submitted before production.\nPlease do not make any changes in this directory until the script is finished.\n"
+sleep 300
 # Run merge commands for production
 #
 

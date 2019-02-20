@@ -959,6 +959,10 @@ struct LocalizationConstants {
             "Complete",
             comment: "Text shown on the exchange list cell indicating the trade status"
         )
+        static let delayed = NSLocalizedString(
+            "Delayed",
+            comment: "Text shown on the exchange list cell indicating the trade status"
+        )
         static let expired = NSLocalizedString(
             "Expired",
             comment: "Text shown on the exchange list cell indicating the trade status"
@@ -1029,11 +1033,19 @@ struct LocalizationConstants {
             "Send to",
             comment: "Text displayed when reviewing where the result of an exchange order will be sent to")
         static let expiredDescription = NSLocalizedString(
-            "This exchange has expired as we have still not received your funds. If we receive your funds we will complete your trade. If you require further assistance please contact support.",
+            "Your order has expired. No funds left your account.",
             comment: "Helper text shown when a user is viewing an order that has expired."
         )
+        static let delayedDescription = NSLocalizedString(
+            "Your order has not completed yet due to network delays. It will be processed as soon as funds are received.",
+            comment: "Helper text shown when a user is viewing an order that is delayed."
+        )
+        static let tradeProblemWindow = NSLocalizedString(
+            "Unfortunately, there is a problem with your order. We are researching and will resolve very soon.",
+            comment: "Helper text shown when a user is viewing an order that is stuck (e.g. pending withdrawal and older than 24 hours)."
+        )
         static let failedDescription = NSLocalizedString(
-            "Your trade has failed. If any funds have been broadcast from your wallet, they will be returned automatically minus the network fee. Please return to the New Exchange screen to start a new trade.",
+            "There was a problem with your order.",
             comment: "Helper text shown when a user is viewing an order that has expired."
         )
         static let whatDoYouWantToExchange = NSLocalizedString(
@@ -1107,6 +1119,52 @@ struct LocalizationConstants {
             "Your spendable balance is",
             comment: "Error message shown to a user if they try to exchange more than what is permitted."
         )
+        static let marketsMoving = NSLocalizedString(
+            "Markets are Moving 🚀",
+            comment: "Error title when markets are fluctuating on the order confirmation screen"
+        )
+        static let holdHorses = NSLocalizedString(
+            "Whoa! Hold your horses. 🐴",
+            comment: "Error title shown when users are exceeding their limits in the order confirmation screen."
+        )
+        static let marketMovementMinimum = NSLocalizedString(
+            "Due to market movement, your order value is now below the minimum required threshold of",
+            comment: "Error message shown to a user if they try to exchange too little."
+        )
+        static let marketMovementMaximum = NSLocalizedString(
+            "Due to market movement, your order value is now above the maximum allowable threshold of",
+            comment: "Error message shown to a user if they try to exchange too much."
+        )
+        static let dailyAnnualLimitExceeded = NSLocalizedString(
+            "There is a limit to how much crypto you can exchange. The value of your order must be less than your limit of",
+            comment: "Error message shown to a user if they try to exchange beyond their limits whether annual or daily."
+        )
+        static let oopsSomethingWentWrong = NSLocalizedString(
+            "Ooops! Something went wrong.",
+            comment: "Oops error title"
+        )
+        static let oopsSwapDescription = NSLocalizedString(
+            "We're not sure what happened but we didn't receive your order details.  Unfortunately, you're going to have to enter your order again.",
+            comment: "Message that coincides with the `Oops! Something went wrong.` error title."
+        )
+        static let somethingNotRight = NSLocalizedString(
+            "Hmm, something's not right. 👀",
+            comment: "Error title shown when a trade's status is `stuck`."
+        )
+        static let somethingNotRightDetails = NSLocalizedString(
+            "Most exchanges on Swap are completed seamlessly in two hours.  Please contact us. Together, we can figure this out.",
+            comment: "Error description that coincides with `something's not right`."
+        )
+        static let networkDelay = NSLocalizedString("Network Delays", comment: "Network Delays")
+        static let dontWorry = NSLocalizedString(
+            "Don't worry, your exchange is in process. Swap trades are competed on-chain. If transaction volumes are high, there are sometimes delays.",
+            comment: "Network delay description."
+        )
+        static let moreInfo = NSLocalizedString("More Info", comment: "More Info")
+        static let updateOrder = NSLocalizedString("Update Order", comment: "Update Order")
+        static let tryAgain = NSLocalizedString("Try Again", comment: "try again")
+        static let increaseMyLimits = NSLocalizedString("Increase My Limits", comment: "Increase My Limits")
+        static let learnMore = NSLocalizedString("Learn More", comment: "Learn More")
     }
 
     struct AddressAndKeyImport {
@@ -1709,6 +1767,11 @@ struct LocalizationConstants {
         static let postTierError = NSLocalizedString(
             "An error occurred when selecting your tier. Please try again later.", comment: "Error shown when a user selects a tier and an error occurs when posting the tier to the server"
         )
+        static let swapCardMessage = NSLocalizedString(
+            "Exchange one crypto for another without ever leaving your Blockchain Wallet.",
+            comment: "Message on the swap card"
+        )
+        static let checkItOut = NSLocalizedString("Check it out!", comment: "CTA on the swap card")
     }
 
     struct Lockbox {

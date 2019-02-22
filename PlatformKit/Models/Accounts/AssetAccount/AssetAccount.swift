@@ -17,4 +17,6 @@ public protocol AssetAccount {
     /// TODO: Can this be nil for some accounts? What is the expected
     /// value of this? 
     var description: String { get }
+
+    var walletIndex: Int { get }
 }

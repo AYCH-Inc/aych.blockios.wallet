@@ -14,10 +14,12 @@ public enum Direction {
 }
 
 public protocol HistoricalTransaction: Tokenized {
+    associatedtype Address: AssetAddress
+
     var identifier: String { get }
     var token: String { get }
-    var fromAddress: String { get }
-    var toAddress: String { get }
+    var fromAddress: Address { get }
+    var toAddress: Address { get }
     var direction: Direction { get }
     var amount: String { get }
     var transactionHash: String { get }

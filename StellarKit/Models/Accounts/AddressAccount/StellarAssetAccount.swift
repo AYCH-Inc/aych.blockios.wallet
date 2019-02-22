@@ -10,6 +10,8 @@ import Foundation
 import PlatformKit
 
 public struct StellarAssetAccount: SingleAddressAssetAccount {
+    public var walletIndex: Int
+
     public typealias Address = StellarAssetAddress
     
     public var address: StellarAssetAddress
@@ -24,6 +26,7 @@ public struct StellarAssetAccount: SingleAddressAssetAccount {
                 description: String,
                 sequence: Int,
                 subentryCount: Int) {
+        self.walletIndex = 0
         self.accountAddress = accountAddress
         self.name = name
         self.description = description

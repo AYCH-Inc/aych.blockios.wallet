@@ -24,7 +24,7 @@ import Foundation
     }
 
     //: Nil if device input is unavailable
-    private var privateKeyReader: PrivateKeyReader?
+    private var qrCodeScannerViewController: QRCodeScannerViewController?
 
     /// Observer key for notifications used throughout this class
     private let backupKey = Constants.NotificationKeys.backupSuccess
@@ -49,31 +49,107 @@ import Foundation
     }
 
     func start() { /* Tasks which do not require scanning should call this */ }
-
+    
     func start(with delegate: PrivateKeyReaderDelegate,
                in viewController: UIViewController,
                assetType: AssetType = .bitcoin,
                acceptPublicKeys: Bool = false,
                loadingText: String = LocalizationConstants.AddressAndKeyImport.loadingImportKey,
                assetAddress: AssetAddress? = nil) {
-        privateKeyReader = PrivateKeyReader(assetType: assetType, acceptPublicKeys: acceptPublicKeys, assetAddress: assetAddress)
-        guard privateKeyReader != nil else { return }
-        privateKeyReader!.delegate = delegate
-        privateKeyReader!.startReadingQRCode()
-        viewController.present(privateKeyReader!, animated: true, completion: nil)
-    }
+        
+        let privateKeyQRCodeParser = PrivateKeyQRCodeParser(
+            walletManager: walletManager,
+            loadingViewPresenter: LoadingViewPresenter.shared,
+            acceptPublicKeys: acceptPublicKeys,
+            assetAddress: assetAddress
+        )
 
+        qrCodeScannerViewController =
+            QRCodeScannerViewControllerBuilder(
+                parser: privateKeyQRCodeParser,
+                textViewModel: PrivateKeyQRCodeTextViewModel(loadingText: loadingText),
+                completed: { [weak self] result in
+                    self?.handlePrivateKeyScan(result: result, delegate: delegate)
+                }
+            )
+            .with(loadingViewPresenter: LoadingViewPresenter.shared)
+            .build()
+
+        viewController.present(qrCodeScannerViewController!, animated: true, completion: nil)
+    }
+    
+    // TODO: remove once LegacyPrivateKeyDelegate is deprecated
     @objc func start(with delegate: LegacyPrivateKeyDelegate,
                      in viewController: UIViewController,
                      assetType: LegacyAssetType = .bitcoin,
                      acceptPublicKeys: Bool = false,
                      loadingText: String = LocalizationConstants.AddressAndKeyImport.loadingImportKey,
                      assetAddress: AssetAddress? = nil) {
-        privateKeyReader = PrivateKeyReader(assetType: assetType, acceptPublicKeys: acceptPublicKeys, assetAddress: assetAddress)
-        guard privateKeyReader != nil else { return }
-        privateKeyReader!.legacyDelegate = delegate
-        privateKeyReader!.startReadingQRCode()
-        viewController.present(privateKeyReader!, animated: true, completion: nil)
+        
+        let privateKeyQRCodeParser = PrivateKeyQRCodeParser(
+            walletManager: walletManager,
+            loadingViewPresenter: LoadingViewPresenter.shared,
+            acceptPublicKeys: acceptPublicKeys,
+            assetAddress: assetAddress
+        )
+
+        qrCodeScannerViewController =
+            QRCodeScannerViewControllerBuilder(
+                parser: privateKeyQRCodeParser,
+                textViewModel: PrivateKeyQRCodeTextViewModel(loadingText: loadingText),
+                completed: { [weak self] result in
+                    self?.handlePrivateKeyScan(result: result, legacyDelegate: delegate)
+                }
+            )
+            .with(loadingViewPresenter: LoadingViewPresenter.shared)
+            .build()
+
+        viewController.present(qrCodeScannerViewController!, animated: true, completion: nil)
+    }
+    
+    private func handlePrivateKeyScan(result: NewResult<PrivateKeyQRCodeParser.PrivateKey, PrivateKeyQRCodeParser.PrivateKeyQRCodeParserError>, delegate: PrivateKeyReaderDelegate) {
+        handlePrivateKeyScan(result: result)
+        switch result {
+        case .success(let privateKey):
+            delegate.didFinishScanning(privateKey.scannedKey, for: privateKey.assetAddress)
+        case .failure(let error):
+            presentPrivateKeyScan(error: error.privateKeyReaderError)
+            delegate.didFinishScanningWithError?(error.privateKeyReaderError)
+        }
+    }
+    
+    // TODO: remove once LegacyPrivateKeyDelegate is deprecated
+    private func handlePrivateKeyScan(result: NewResult<PrivateKeyQRCodeParser.PrivateKey, PrivateKeyQRCodeParser.PrivateKeyQRCodeParserError>, legacyDelegate: LegacyPrivateKeyDelegate) {
+        handlePrivateKeyScan(result: result)
+        switch result {
+        case .success(let privateKey):
+            legacyDelegate.didFinishScanning(privateKey.scannedKey)
+        case .failure(let error):
+            presentPrivateKeyScan(error: error.privateKeyReaderError)
+            legacyDelegate.didFinishScanningWithError?(error.privateKeyReaderError)
+        }
+    }
+    
+    private func handlePrivateKeyScan(result: NewResult<PrivateKeyQRCodeParser.PrivateKey, PrivateKeyQRCodeParser.PrivateKeyQRCodeParserError>) {
+        LoadingViewPresenter.shared.hideBusyView()
+        qrCodeScannerViewController = nil
+        if case .success(let privateKey) = result {
+            walletManager.wallet.addKey(
+                privateKey.scannedKey,
+                toWatchOnlyAddress: privateKey.assetAddress?.address
+            )
+        }
+    }
+    
+    private func presentPrivateKeyScan(error: PrivateKeyReaderError) {
+        switch error {
+        case .badMetadataObject:
+            AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.error)
+        case .unknownKeyFormat:
+            AlertViewPresenter.shared.standardError(message: LocalizationConstants.AddressAndKeyImport.unknownKeyFormat)
+        case .unsupportedPrivateKey:
+            AlertViewPresenter.shared.standardError(message: LocalizationConstants.AddressAndKeyImport.unsupportedPrivateKey)
+        }
     }
 
     // MARK: - Temporary Objective-C bridging methods for backwards compatibility

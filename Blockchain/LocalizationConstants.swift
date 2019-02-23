@@ -596,6 +596,10 @@ struct LocalizationConstants {
     static let twostep = NSLocalizedString("Enable 2-Step", comment: "")
     static let localCurrency = NSLocalizedString("Local Currency", comment: "")
     static let scanQRCode = NSLocalizedString("Scan QR Code", comment: "")
+    static let scanPairingCode = NSLocalizedString("Scan Pairing Code", comment: " ")
+    static let parsingPairingCode = NSLocalizedString("Parsing Pairing Code", comment: " ")
+    static let invalidPairingCode = NSLocalizedString("Invalid Pairing Code", comment: " ")
+    
     static let dontShowAgain = NSLocalizedString(
         "Don’t show again",
         comment: "Text displayed to the user when an action has the option to not be asked again."

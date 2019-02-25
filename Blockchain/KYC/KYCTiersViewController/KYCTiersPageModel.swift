@@ -16,7 +16,6 @@ struct KYCTiersPageModel {
 
 extension KYCTiersPageModel {
     var disclaimer: String? {
-        guard let tierOne = cells.filter({ $0.tier == .tier1 }).first else { return nil }
         guard let tierTwo = cells.filter({ $0.tier == .tier2 }).first else { return nil }
         guard tierTwo.status != .rejected else { return nil }
         return LocalizationConstants.KYC.completingTierTwoAutoEligible

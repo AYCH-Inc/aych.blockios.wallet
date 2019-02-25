@@ -15,8 +15,9 @@ public protocol HDAddressAssetAccount: MultiAddressAssetAccount {
     
     // The xpub address where addresses are derived from
     var xpub: String { get }
-    
-    // Derived address from the current receive index
+
+    /** Derived address from the current receive index. This is expected to change to a new address after first receiving funds.
+     */
     var currentAddress: Address { get }
     
     // The current receive index

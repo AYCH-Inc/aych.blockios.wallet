@@ -90,18 +90,29 @@ protocol KYCCoordinatorDelegate: class {
 
         LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
 
-        let disposable = BlockchainDataRepository.shared.fetchNabuUser()
+        let user = BlockchainDataRepository.shared.nabuUser
+            .take(1)
+            .asSingle()
+        let tiers = BlockchainDataRepository.shared.tiers
+            .take(1)
+            .asSingle()
+        let disposable = Single.zip(user, tiers)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
-            .subscribe(onSuccess: { [weak self] in
-                Logger.shared.debug("Got user with ID: \($0.personalDetails?.identifier ?? "")")
+            .subscribe(onSuccess: { [weak self] payload in
+                let user = payload.0
+                let tiersResponse = payload.1
+                Logger.shared.debug("Got user with ID: \(user.personalDetails?.identifier ?? "")")
                 guard let strongSelf = self else {
                     return
                 }
                 strongSelf.kycSettings.isCompletingKyc = true
-                strongSelf.user = $0
-                strongSelf.initializeNavigationStack(viewController, user: $0, tier: tier)
+                strongSelf.user = user
+                let tier2Pending = tiersResponse.userTiers.contains(where: {
+                    return $0.tier == .tier2 && $0.state == .pending
+                })
+                strongSelf.initializeNavigationStack(viewController, user: user, tier: tier, pendingTier2Approval: tier2Pending)
                 strongSelf.restoreToMostRecentPageIfNeeded(tier: tier)
             }, onError: { error in
                 Logger.shared.error("Failed to get user: \(error.localizedDescription)")
@@ -179,34 +190,7 @@ protocol KYCCoordinatorDelegate: class {
         for status: KYCAccountStatus,
         in viewController: UIViewController
     ) {
-        let accountStatusViewController = KYCInformationController.make(with: self)
-        let isReceivingAirdrop = appSettings.didRegisterForAirdropCampaignSucceed
-        accountStatusViewController.viewModel = KYCInformationViewModel.create(
-            for: status,
-            isReceivingAirdrop: isReceivingAirdrop
-        )
-        accountStatusViewController.viewConfig = KYCInformationViewConfig.create(
-            for: status,
-            isReceivingAirdrop: isReceivingAirdrop
-        )
-        accountStatusViewController.primaryButtonAction = { viewController in
-            switch status {
-            case .approved:
-                viewController.dismiss(animated: true) {
-                    guard let viewController = self.rootViewController else {
-                        Logger.shared.error("View controller to present on is nil.")
-                        return
-                    }
-                    ExchangeCoordinator.shared.start(rootViewController: viewController)
-                }
-            case .pending:
-                PushNotificationManager.shared.requestAuthorization()
-            case .failed, .expired:
-                URL(string: Constants.Url.blockchainSupport)?.launch()
-            case .none, .underReview: return
-            }
-        }
-        presentInNavigationController(accountStatusViewController, in: viewController)
+        presentInNavigationController(accountStatusViewController(for: status), in: viewController)
     }
 
     // MARK: View Restoration
@@ -265,14 +249,28 @@ protocol KYCCoordinatorDelegate: class {
         }
     }
 
-    private func initializeNavigationStack(_ viewController: UIViewController, user: NabuUser, tier: KYCTier) {
-        let startingPage = appSettings.didRegisterForAirdropCampaignSucceed ?
-            KYCPageType.welcome :
-            KYCPageType.startingPage(forUser: user)
-        let startingViewController = pageFactory.createFrom(
-            pageType: startingPage,
-            in: self
-        )
+    private func initializeNavigationStack(
+        _ viewController: UIViewController,
+        user: NabuUser,
+        tier: KYCTier,
+        pendingTier2Approval: Bool
+    ) {
+        let startingViewController: KYCBaseViewController
+        if appSettings.didRegisterForAirdropCampaignSucceed == true {
+            if pendingTier2Approval == true {
+                startingViewController = accountStatusViewController(for: user.status)
+            } else {
+                startingViewController = pageFactory.createFrom(
+                    pageType: .welcome,
+                    in: self
+                )
+            }
+        } else {
+            startingViewController = pageFactory.createFrom(
+                pageType: KYCPageType.startingPage(forUser: user),
+                in: self
+            )
+        }
         navController = presentInNavigationController(startingViewController, in: viewController)
     }
 
@@ -370,6 +368,37 @@ protocol KYCCoordinatorDelegate: class {
         navController.modalTransitionStyle = .coverVertical
         presentingViewController.present(navController, animated: true)
         return navController
+    }
+
+    private func accountStatusViewController(for accountStatus: KYCAccountStatus) -> KYCInformationController {
+        let accountStatusViewController = KYCInformationController.make(with: self)
+        let isReceivingAirdrop = appSettings.didRegisterForAirdropCampaignSucceed
+        accountStatusViewController.viewModel = KYCInformationViewModel.create(
+            for: accountStatus,
+            isReceivingAirdrop: isReceivingAirdrop
+        )
+        accountStatusViewController.viewConfig = KYCInformationViewConfig.create(
+            for: accountStatus,
+            isReceivingAirdrop: isReceivingAirdrop
+        )
+        accountStatusViewController.primaryButtonAction = { viewController in
+            switch accountStatus {
+            case .approved:
+                viewController.dismiss(animated: true) {
+                    guard let viewController = self.rootViewController else {
+                        Logger.shared.error("View controller to present on is nil.")
+                        return
+                    }
+                    ExchangeCoordinator.shared.start(rootViewController: viewController)
+                }
+            case .pending:
+                PushNotificationManager.shared.requestAuthorization()
+            case .failed, .expired:
+                URL(string: Constants.Url.blockchainSupport)?.launch()
+            case .none, .underReview: return
+            }
+        }
+        return accountStatusViewController
     }
 }
 

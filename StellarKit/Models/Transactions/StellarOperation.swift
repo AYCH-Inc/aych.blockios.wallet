@@ -10,6 +10,9 @@ import Foundation
 import PlatformKit
 
 public enum StellarOperation: HistoricalTransaction, Tokenized {
+
+    public typealias Address = StellarAssetAddress
+
     public var fee: Int? {
         switch self {
         case .accountCreated(let value):
@@ -46,21 +49,21 @@ public enum StellarOperation: HistoricalTransaction, Tokenized {
         }
     }
     
-    public var fromAddress: String {
+    public var fromAddress: Address {
         switch self {
         case .accountCreated(let value):
-            return value.funder
+            return StellarAssetAddress(publicKey: value.funder)
         case .payment(let value):
-            return value.fromAccount
+            return StellarAssetAddress(publicKey: value.fromAccount)
         }
     }
     
-    public var toAddress: String {
+    public var toAddress: Address {
         switch self {
         case .accountCreated(let value):
-            return value.account
+            return StellarAssetAddress(publicKey: value.account)
         case .payment(let value):
-            return value.toAccount
+            return StellarAssetAddress(publicKey: value.toAccount)
         }
     }
     

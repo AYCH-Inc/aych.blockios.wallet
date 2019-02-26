@@ -652,6 +652,7 @@ struct LocalizationConstants {
             A connection cannot be established because the server certificate could not be validated. Please check your network settings and ensure that you are using a secure connection.
             """, comment: "Message shown when the app has detected a possible man-in-the-middle attack.")
         static let notEnoughXForFees = NSLocalizedString("Not enough %@ for fees", comment: "Message shown when the user has attempted to send more funds than the user can spend (input amount plus fees)")
+        static let balancesGeneric = NSLocalizedString("We are experiencing a service issue that may affect displayed balances. Don't worry, your funds are safe.", comment: "Message shown when an error occurs while fetching balance or transaction history")
     }
 
     struct Authentication {
@@ -2119,4 +2120,6 @@ struct LocalizationConstants {
     @objc class func yesterday() -> String { return LocalizationConstants.Transactions.yesterday }
 
     @objc class func myBitcoinWallet() -> String { return LocalizationConstants.ObjCStrings.BC_STRING_MY_BITCOIN_WALLET }
+
+    @objc class func balancesErrorGeneric() -> String { return LocalizationConstants.Errors.balancesGeneric }
 }

@@ -34,6 +34,8 @@
 #import "NSData+BTCData.h"
 #import "NSNumberFormatter+Currencies.h"
 
+@import FirebaseAnalytics;
+
 #define DICTIONARY_KEY_CURRENCY @"currency"
 
 NSString * const kAccountInvitations = @"invited";
@@ -784,7 +786,8 @@ NSString * const kLockboxInvitation = @"lockbox";
     };
 
     self.context[@"objc_on_fetch_bch_history_error"] = ^(JSValue *error) {
-        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[error toString] title:BC_STRING_ERROR in:nil handler: nil];
+        [FIRAnalytics logEventWithName:@"bch_history_error" parameters:@{@"error": [error toString]}];
+        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[LocalizationConstantsObjcBridge balancesErrorGeneric] title:BC_STRING_ERROR in:nil handler: nil];
     };
     
     self.context[@"objc_did_get_bitcoin_cash_exchange_rates"] = ^(JSValue *result) {

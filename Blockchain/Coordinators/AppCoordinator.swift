@@ -364,7 +364,8 @@ extension AppCoordinator: WalletHistoryDelegate {
             AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.noInternetConnectionPleaseCheckNetwork)
             return
         }
-        AlertViewPresenter.shared.standardError(message: errorMessage)
+        AnalyticsService.shared.trackEvent(title: "btc_history_error", parameters: ["error": errorMessage])
+        AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.balancesGeneric)
     }
 
     func didFetchEthHistory() {

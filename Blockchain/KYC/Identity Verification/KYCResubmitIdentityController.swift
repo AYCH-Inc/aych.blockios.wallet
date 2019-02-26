@@ -136,15 +136,19 @@ extension KYCResubmitIdentityController: VeriffController {
     }
 
     func onVeriffCancelled() {
-        coordinator.handle(event: .nextPageFromPageType(pageType, nil))
+        LoadingViewPresenter.shared.hideBusyView()
+        dismiss(animated: true, completion: { [weak self] in
+            guard let this = self else { return }
+            this.coordinator.handle(event: .nextPageFromPageType(this.pageType, nil))
+        })
     }
 
     func veriffCredentialsRequest() {
         delegate?.createCredentials(onSuccess: { [weak self] credentials in
             guard let this = self else { return }
             this.launchVeriffController(credentials: credentials, version: this.veriffVersion)
-            }, onError: { error in
-                Logger.shared.error("Failed to get Veriff credentials. Error: \(error.localizedDescription)")
+        }, onError: { error in
+            Logger.shared.error("Failed to get Veriff credentials. Error: \(error.localizedDescription)")
         })
     }
 }

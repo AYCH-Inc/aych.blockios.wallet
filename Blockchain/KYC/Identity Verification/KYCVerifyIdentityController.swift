@@ -170,7 +170,11 @@ extension KYCVerifyIdentityController: VeriffController {
     }
 
     func onVeriffCancelled() {
-        coordinator.handle(event: .nextPageFromPageType(pageType, nil))
+        LoadingViewPresenter.shared.hideBusyView()
+        dismiss(animated: true, completion: { [weak self] in
+            guard let this = self else { return }
+            this.coordinator.handle(event: .nextPageFromPageType(this.pageType, nil))
+        })
     }
 
     func veriffCredentialsRequest() {

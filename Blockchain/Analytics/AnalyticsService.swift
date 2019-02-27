@@ -12,7 +12,9 @@ import Firebase
 class AnalyticsService {
     
     static let shared = AnalyticsService()
-    
+
+    typealias AnalyticsParameters = [String: Any]
+
     // MARK: - Properties
     
     // Enumerates campaigns that can be used in analytics events
@@ -23,9 +25,9 @@ class AnalyticsService {
     // MARK: Public Methods
     
     // Simple custom event with no parameters
-    func trackEvent(title: String) {
+    func trackEvent(title: String, parameters: AnalyticsParameters? = nil) {
         if !title.isEmpty {
-           Analytics.logEvent(title, parameters: [:])
+           Analytics.logEvent(title, parameters: parameters)
         }
     }
 }

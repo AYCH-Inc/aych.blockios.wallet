@@ -2933,8 +2933,7 @@ MyWalletPhone.bch = {
             objc_on_get_available_btc_balance_error(e);
         }
 
-        var options = walletOptions.getValue();
-        MyWallet.wallet.bch.accounts[accountIndex].getAvailableBalance(options.bcash.feePerByte).then(success).catch(error);
+        MyWallet.wallet.bch.accounts[accountIndex].getAvailableBalance(this.feePerByte()).then(success).catch(error);
     },
 
     hasAccount : function() {
@@ -3062,13 +3061,17 @@ MyWalletPhone.bch = {
 
     // Payment
 
+    feePerByte : function() {
+        let options = walletOptions.getValue();
+        return options.bcash.feePerByte || 4;
+    },
+
     changePaymentFromAccount : function(from) {
         console.log('Changing bch payment from account');
         var bchAccount = MyWallet.wallet.bch.accounts[from];
         currentBitcoinCashPayment = bchAccount.createPayment();
-
-        var options = walletOptions.getValue();
-        bchAccount.getAvailableBalance(options.bcash.feePerByte).then(function(balance) {
+1
+        bchAccount.getAvailableBalance(this.feePerByte()).then(function(balance) {
             var fee = balance.sweepFee;
             var maxAvailable = balance.amount;
             objc_update_total_available_final_fee(maxAvailable, fee);
@@ -3083,8 +3086,7 @@ MyWalletPhone.bch = {
         var importedAddresses = MyWallet.wallet.bch.importedAddresses;
         currentBitcoinCashPayment = importedAddresses.createPayment();
 
-        var options = walletOptions.getValue();
-        importedAddresses.getAvailableBalance(options.bcash.feePerByte).then(function(balance) {
+        importedAddresses.getAvailableBalance(this.feePerByte()).then(function(balance) {
             var fee = balance.sweepFee;
             var maxAvailable = balance.amount;
             objc_update_total_available_final_fee(maxAvailable, fee);
@@ -3127,8 +3129,7 @@ MyWalletPhone.bch = {
 
         MyWalletPhone.bch.changePaymentAmount(amount);
 
-        var options = walletOptions.getValue()
-        currentBitcoinCashPayment.feePerByte(options.bcash.feePerByte);
+        currentBitcoinCashPayment.feePerByte(this.feePerByte());
         currentBitcoinCashPayment.build();
     },
 
@@ -3213,10 +3214,9 @@ MyWalletPhone.tradeExecution = {
             MyWalletPhone.bch.changePaymentToAddress(to);
             currentBitcoinCashPayment.amount(amount);
 
-            let options = walletOptions.getValue()
-            bchAccount.getAvailableBalance(options.bcash.feePerByte).then(function(balance) {
+            bchAccount.getAvailableBalance(MyWalletPhone.bch.feePerByte()).then(function(balance) {
                 var fee = balance.sweepFee;
-                currentBitcoinCashPayment.feePerByte(options.bcash.feePerByte);
+                currentBitcoinCashPayment.feePerByte(MyWalletPhone.bch.feePerByte());
                 currentBitcoinCashPayment.build();
                 objc_on_create_order_payment_success(fee);
             }).catch(objc_on_create_order_payment_error);

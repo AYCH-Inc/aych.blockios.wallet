@@ -5,38 +5,38 @@ PODS:
   - Charts (3.2.2):
     - Charts/Core (= 3.2.2)
   - Charts/Core (3.2.2)
-  - Firebase/Core (5.16.0):
+  - Firebase/Core (5.17.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 5.5.0)
-  - Firebase/CoreOnly (5.16.0):
-    - FirebaseCore (= 5.2.0)
-  - Firebase/DynamicLinks (5.16.0):
+    - FirebaseAnalytics (= 5.6.0)
+  - Firebase/CoreOnly (5.17.0):
+    - FirebaseCore (= 5.3.0)
+  - Firebase/DynamicLinks (5.17.0):
     - Firebase/CoreOnly
     - FirebaseDynamicLinks (= 3.4.0)
-  - Firebase/RemoteConfig (5.16.0):
+  - Firebase/RemoteConfig (5.17.0):
     - Firebase/Core
     - FirebaseRemoteConfig (= 3.1.0)
   - FirebaseABTesting (2.0.0):
     - FirebaseCore (~> 5.0)
     - Protobuf (~> 3.5)
-  - FirebaseAnalytics (5.5.0):
-    - FirebaseCore (~> 5.2)
-    - FirebaseInstanceID (~> 3.4)
-    - GoogleAppMeasurement (= 5.5.0)
+  - FirebaseAnalytics (5.6.0):
+    - FirebaseCore (~> 5.3)
+    - FirebaseInstanceID (~> 3.5)
+    - GoogleAppMeasurement (= 5.6.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - FirebaseAnalyticsInterop (1.1.0)
-  - FirebaseCore (5.2.0):
+  - FirebaseAnalyticsInterop (1.2.0)
+  - FirebaseCore (5.3.0):
     - GoogleUtilities/Logger (~> 5.2)
   - FirebaseDynamicLinks (3.4.0):
     - FirebaseAnalytics (~> 5.1)
     - FirebaseAnalyticsInterop (~> 1.0)
     - FirebaseCore (~> 5.2)
-  - FirebaseInstanceID (3.4.0):
-    - FirebaseCore (~> 5.2)
+  - FirebaseInstanceID (3.5.0):
+    - FirebaseCore (~> 5.3)
     - GoogleUtilities/Environment (~> 5.3)
     - GoogleUtilities/UserDefaults (~> 5.3)
   - FirebaseRemoteConfig (3.1.0):
@@ -47,7 +47,7 @@ PODS:
     - GoogleUtilities/Environment (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - Protobuf (~> 3.5)
-  - GoogleAppMeasurement (5.5.0):
+  - GoogleAppMeasurement (5.6.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
@@ -96,9 +96,9 @@ PODS:
     - RxSwift (~> 4.0)
   - SipHash (1.2.2)
   - Starscream (3.0.6)
-  - stellar-ios-mac-sdk (1.4.10)
+  - stellar-ios-mac-sdk (1.5.8)
   - SwiftLint (0.30.1)
-  - VeriffSDK (1.6.6)
+  - VeriffSDK (2.0.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
@@ -113,9 +113,9 @@ DEPENDENCIES:
   - RxSwift (~> 4.0)
   - RxTest (~> 4.0)
   - Starscream (~> 3.0.2)
-  - stellar-ios-mac-sdk (~> 1.4.7)
+  - stellar-ios-mac-sdk (from `https://github.com/thisisalexmcgregor/stellar-ios-mac-sdk`, commit `672ec29bb3248eddd34878b694f773aa108c2528`)
   - SwiftLint
-  - VeriffSDK
+  - VeriffSDK (~> 2.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -142,23 +142,32 @@ SPEC REPOS:
     - RxTest
     - SipHash
     - Starscream
-    - stellar-ios-mac-sdk
     - SwiftLint
     - VeriffSDK
+
+EXTERNAL SOURCES:
+  stellar-ios-mac-sdk:
+    :commit: 672ec29bb3248eddd34878b694f773aa108c2528
+    :git: https://github.com/thisisalexmcgregor/stellar-ios-mac-sdk
+
+CHECKOUT OPTIONS:
+  stellar-ios-mac-sdk:
+    :commit: 672ec29bb3248eddd34878b694f773aa108c2528
+    :git: https://github.com/thisisalexmcgregor/stellar-ios-mac-sdk
 
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
-  Firebase: 749a8ff4962f9d8c79dda1966de20f6f77583d67
+  Firebase: 59d557e064217fab6a03ff00baa73c06e73832e6
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
-  FirebaseAnalytics: d35d47c03c50c73c14a7fd31463c5775843e78a9
-  FirebaseAnalyticsInterop: e5f21be9af6548372e2f0815834ff909bff395a2
-  FirebaseCore: ea2d1816723ef21492b8e9113303e1350db5e08c
+  FirebaseAnalytics: 75e4bbc6417d190cc98ec1f17c41a4fad4c2c976
+  FirebaseAnalyticsInterop: efbe45c8385ec626e29f9525e5ebd38520dfb6c1
+  FirebaseCore: c0c4befb82374d6aef64d800e569f47625352edc
   FirebaseDynamicLinks: 83a0071c95ad715bc324fcb8f51028d5b6a58af0
-  FirebaseInstanceID: 97ea7a5dca9afd72c79bfcdddb7a44aa1cbb42a1
+  FirebaseInstanceID: 4522aad88f69297622062c0e9ffccdee3dd9b151
   FirebaseRemoteConfig: 7e11c65f0769c09bff6947997c209515058c5318
-  GoogleAppMeasurement: 621f3bc6211d5ba548debe01fafad30cf5ab6859
+  GoogleAppMeasurement: 008e04ecd8efedd97a693aea8634aefe220bd26e
   GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   PhoneNumberKit: 167ee1f0bbb6efce7c62559e620eae745595532f
@@ -170,10 +179,10 @@ SPEC CHECKSUMS:
   RxTest: f8e548755ca3c7502dc41c7d3b28802c90115a38
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
-  stellar-ios-mac-sdk: 0f5d9b19aedf241cdb55be48b3ede477b57ed70f
+  stellar-ios-mac-sdk: e330bf3cc9626b10e31bf1ac8169dbb1b3352903
   SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
-  VeriffSDK: 91ff8bb0095a24b2c4e44200eeeed2a34bf2d30c
+  VeriffSDK: 146b4a1f77b0b114ddf928ca4303c5ec2780080f
 
-PODFILE CHECKSUM: 5ba2af00182abd6dfe6dfd7e29cb9affbe49b646
+PODFILE CHECKSUM: 198b2d1ac45eb42a46b632794ee9dbbe9ad2916d
 
 COCOAPODS: 1.5.3

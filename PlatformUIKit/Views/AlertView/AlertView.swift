@@ -23,16 +23,19 @@ public class AlertView: UIView {
     fileprivate static let headlineToMessagePadding: CGFloat = 4.0
     fileprivate static let actionsVerticalPadding: CGFloat = 20.0
     fileprivate static let actionButtonHeight: CGFloat = 56.0
+    fileprivate static let imageHeight: CGFloat = 128.0
     
     // MARK: Private IBOutlets
-    
+
+    @IBOutlet fileprivate var imageView: UIImageView!
     @IBOutlet fileprivate var headline: UILabel!
     @IBOutlet fileprivate var message: UILabel!
     @IBOutlet fileprivate var confirmButton: UIButton!
     @IBOutlet fileprivate var defaultButton: UIButton!
     @IBOutlet fileprivate var closeButton: UIButton!
     @IBOutlet fileprivate var headlineTrailingConstraint: NSLayoutConstraint!
-    
+    @IBOutlet var imageViewHeightConstraint: NSLayoutConstraint!
+
     fileprivate var model: AlertModel!
     fileprivate var completion: ((AlertAction) -> Void)?
     
@@ -49,11 +52,15 @@ public class AlertView: UIView {
     
     public class func estimatedHeight(for width: CGFloat, model: AlertModel) -> CGFloat {
         let adjustedWidth = width - horizontalPadding
+        var imageViewHeight: CGFloat = 0.0
         var headlineHeight: CGFloat = 0.0
         var messageHeight: CGFloat = 0.0
         var interItemPadding: CGFloat = 0.0
         var actionsHeight: CGFloat = 0.0
-        
+
+        if model.image != nil {
+            imageViewHeight += imageHeight
+        }
         if let value = model.headline {
             let attributed = NSAttributedString(
                 string: value,
@@ -80,6 +87,7 @@ public class AlertView: UIView {
         return messageToActionsPadding +
             actionsToBottomPadding +
             actionsHeight +
+            imageHeight +
             headlineHeight +
             messageHeight +
             interItemPadding +
@@ -108,6 +116,10 @@ public class AlertView: UIView {
         message.isHidden = model.body == nil
         headline.text = model.headline
         message.text = model.body
+        if let image = model.image {
+            imageView.image = image
+            imageViewHeightConstraint.constant = imageView.bounds.size.width
+        }
         confirmButton.isHidden = model.actions.contains(where: { $0.style == .confirm }) == false
         defaultButton.isHidden = model.actions.contains(where: { $0.style == .default }) == false
         layer.cornerRadius = 8.0

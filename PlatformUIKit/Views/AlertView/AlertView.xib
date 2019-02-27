@@ -81,20 +81,29 @@
                         <constraint firstItem="Zpf-og-7yj" firstAttribute="width" secondItem="OHT-0b-NgS" secondAttribute="width" id="kxa-br-Cab"/>
                     </constraints>
                 </stackView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="26G-g9-uGa">
+                    <rect key="frame" x="123.5" y="16" width="128" height="0.0"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="128" id="iB7-i6-wqH"/>
+                        <constraint firstAttribute="height" id="imc-cV-nyc"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="bWz-z9-ZgB" firstAttribute="bottom" secondItem="vXl-SB-GNz" secondAttribute="bottom" constant="24" id="4Ri-RF-CK2"/>
+                <constraint firstItem="26G-g9-uGa" firstAttribute="top" secondItem="bWz-z9-ZgB" secondAttribute="top" constant="16" id="6y4-9B-os9"/>
                 <constraint firstItem="OHT-0b-NgS" firstAttribute="width" secondItem="Tub-Tv-IPM" secondAttribute="width" id="GS8-5C-Fc8"/>
                 <constraint firstItem="dJ3-ZU-F1W" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="XMH-3h-xM5" secondAttribute="trailing" constant="4" id="NOf-xA-Jro"/>
                 <constraint firstAttribute="trailing" secondItem="Tub-Tv-IPM" secondAttribute="trailing" constant="20" id="YNZ-eu-CAw"/>
                 <constraint firstItem="vXl-SB-GNz" firstAttribute="leading" secondItem="Gdl-5C-h42" secondAttribute="leading" constant="20" id="cNo-Ih-1xu"/>
                 <constraint firstItem="vXl-SB-GNz" firstAttribute="top" secondItem="Tub-Tv-IPM" secondAttribute="bottom" constant="20" id="cam-kl-GcA"/>
+                <constraint firstItem="26G-g9-uGa" firstAttribute="centerX" secondItem="bWz-z9-ZgB" secondAttribute="centerX" id="cff-tM-gmj"/>
                 <constraint firstItem="Zpf-og-7yj" firstAttribute="width" secondItem="Tub-Tv-IPM" secondAttribute="width" id="cx1-UI-8tH"/>
                 <constraint firstAttribute="trailing" secondItem="vXl-SB-GNz" secondAttribute="trailing" constant="20" id="gL8-6A-26H"/>
                 <constraint firstItem="dJ3-ZU-F1W" firstAttribute="top" secondItem="Gdl-5C-h42" secondAttribute="top" constant="20" id="hqX-7b-psR"/>
                 <constraint firstItem="Tub-Tv-IPM" firstAttribute="leading" secondItem="Gdl-5C-h42" secondAttribute="leading" constant="20" id="i37-1Y-vzo"/>
-                <constraint firstItem="Tub-Tv-IPM" firstAttribute="top" secondItem="Gdl-5C-h42" secondAttribute="top" constant="32" id="lZo-eR-SFZ"/>
+                <constraint firstItem="Tub-Tv-IPM" firstAttribute="top" secondItem="26G-g9-uGa" secondAttribute="bottom" constant="16" id="nct-qP-Gsf"/>
                 <constraint firstAttribute="trailing" secondItem="dJ3-ZU-F1W" secondAttribute="trailing" constant="24" id="ndg-cR-Rls"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -105,6 +114,8 @@
                 <outlet property="defaultButton" destination="Zpf-og-7yj" id="Atx-Ck-XmU"/>
                 <outlet property="headline" destination="XMH-3h-xM5" id="Aau-UB-4ah"/>
                 <outlet property="headlineTrailingConstraint" destination="NOf-xA-Jro" id="Tfw-d6-KUo"/>
+                <outlet property="imageView" destination="26G-g9-uGa" id="TFJ-0x-kvd"/>
+                <outlet property="imageViewHeightConstraint" destination="imc-cV-nyc" id="isS-dB-RV9"/>
                 <outlet property="message" destination="TS2-x6-RO5" id="gfk-hm-y78"/>
             </connections>
             <point key="canvasLocation" x="288.80000000000001" y="-156.52173913043478"/>

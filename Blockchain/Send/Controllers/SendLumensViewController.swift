@@ -160,7 +160,8 @@ protocol SendXLMViewControllerDelegate: class {
         guard let qrCodeScannerViewController = viewController else { return }
         
         DispatchQueue.main.async {
-            self.present(qrCodeScannerViewController, animated: false)
+            guard let controller = AppCoordinator.shared.tabControllerManager.tabViewController else { return }
+            controller.present(qrCodeScannerViewController, animated: true, completion: nil)
         }
     }
     

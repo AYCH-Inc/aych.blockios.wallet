@@ -65,6 +65,15 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
         /// an account doesn't exist is `notFound`). It made more sense to do this.
         let disposable = provider.services.accounts.currentStellarAccount(fromCache: false)
             .subscribeOn(MainScheduler.asyncInstance)
+            /// This error occurs when the user goes to the
+            /// `Transactions` screen prior to ever receiving XLM. We want to catch
+            /// this error in this case as we know the user has an XLM account.
+            .filter { account -> Bool in
+                guard account.assetAccount.balance > 0 else {
+                    throw StellarServiceError.noDefaultAccount
+                }
+                return true
+            }
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { account in
                 self.fetch(with: output)

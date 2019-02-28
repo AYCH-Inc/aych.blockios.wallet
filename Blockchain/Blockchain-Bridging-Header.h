@@ -33,8 +33,6 @@
 #import "NSNumberFormatter+Currencies.h"
 #import "NSString+SHA256.h"
 #import "PEPinEntryController.h"
-#import "PairingCodeParser.h"
-#import "PairingCodeParser.h"
 #import "QRCodeGenerator.h"
 #import "Reachability.h"
 #import "ReminderModalViewController.h"

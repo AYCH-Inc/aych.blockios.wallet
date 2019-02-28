@@ -34,6 +34,18 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
             .scan([], accumulator: {
                 return $1 + $0
             })
+            .catchError({ error -> Observable<[StellarOperation]> in
+                /// The only time we call `fetch` is if the user has
+                /// an XLM account. Since `operationService.operations` is backed
+                /// by a `ReplaySubject`, it will replay prior errors, including
+                /// `.noDefaultAccount`. This error occurs when the user goes to the
+                /// `Transactions` screen prior to ever receiving XLM. We want to catch
+                /// this error in this case as we know the user has an XLM account.
+                if let error = error as? StellarServiceError {
+                    guard error != .noDefaultAccount else { return Observable.empty() }
+                }
+                throw error
+            })
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] result in

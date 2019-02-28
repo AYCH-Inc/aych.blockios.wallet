@@ -65,6 +65,31 @@
 		23FDEF9A1D6CBC7000FC80D6 /* TransactionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEF991D6CBC7000FC80D6 /* TransactionDetailViewController.m */; };
 		23FDEFA91D6E43DE00FC80D6 /* TransactionDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEFA81D6E43DE00FC80D6 /* TransactionDetailTableCell.m */; };
 		23FDEFAC1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEFAB1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m */; };
+		3460EDA422149C5C00614F52 /* QRCodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3460EDA322149C5C00614F52 /* QRCodeScanner.swift */; };
+		3460EDB12216FDF600614F52 /* QRCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3460EDB02216FDF600614F52 /* QRCodeScannerViewController.swift */; };
+		3460EDB32216FE1600614F52 /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3460EDB22216FE1600614F52 /* QRCodeScannerView.swift */; };
+		3460EDB52217156600614F52 /* QRCodeScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3460EDB42217156600614F52 /* QRCodeScannerViewModel.swift */; };
+		348B2B67221B0C4500394526 /* AppFeatureConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F87920A3A198002B719B /* AppFeatureConfigurator.swift */; };
+		348DAB7A221C27F80058782B /* MockQRCodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348DAB79221C27F80058782B /* MockQRCodeScanner.swift */; };
+		349C4B99221887A500332BFF /* QRCodeScannerParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349C4B98221887A500332BFF /* QRCodeScannerParsing.swift */; };
+		34A54DD4221A06B000FD99BC /* QRCodeScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A54DD3221A06B000FD99BC /* QRCodeScannerTests.swift */; };
+		34BD972C221B122D00D40D4C /* QRCodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3460EDA322149C5C00614F52 /* QRCodeScanner.swift */; };
+		34BD9736221B123000D40D4C /* PairingCodeQRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C0AFF422196B6500D46361 /* PairingCodeQRCodeParser.swift */; };
+		34BD9737221B123300D40D4C /* PrivateKeyQRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C0AFE922196B3E00D46361 /* PrivateKeyQRCodeParser.swift */; };
+		34BD9738221B123500D40D4C /* AddressQRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D88F61221A96C300AE9DE5 /* AddressQRCodeParser.swift */; };
+		34BD9739221B123800D40D4C /* QRCodeScannerParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349C4B98221887A500332BFF /* QRCodeScannerParsing.swift */; };
+		34BD973A221B123B00D40D4C /* QRCodeScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3460EDB42217156600614F52 /* QRCodeScannerViewModel.swift */; };
+		34BD973B221B123E00D40D4C /* QRCodeScannerViewControllerBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D88F83221AC56200AE9DE5 /* QRCodeScannerViewControllerBuilder.swift */; };
+		34BD973C221B124100D40D4C /* QRCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3460EDB02216FDF600614F52 /* QRCodeScannerViewController.swift */; };
+		34BD973D221B124500D40D4C /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3460EDB22216FE1600614F52 /* QRCodeScannerView.swift */; };
+		34BD973E221B124D00D40D4C /* NewResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C0B01E22198CE600D46361 /* NewResult.swift */; };
+		34BD9740221BF9A100D40D4C /* MockAVCaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BD973F221BF9A100D40D4C /* MockAVCaptureSession.swift */; };
+		34C0AFEA22196B3E00D46361 /* PrivateKeyQRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C0AFE922196B3E00D46361 /* PrivateKeyQRCodeParser.swift */; };
+		34C0AFF522196B6500D46361 /* PairingCodeQRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C0AFF422196B6500D46361 /* PairingCodeQRCodeParser.swift */; };
+		34C0B01F22198CE600D46361 /* NewResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C0B01E22198CE600D46361 /* NewResult.swift */; };
+		34D88F62221A96C300AE9DE5 /* AddressQRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D88F61221A96C300AE9DE5 /* AddressQRCodeParser.swift */; };
+		34D88F76221AC06F00AE9DE5 /* QRCodeScannerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D88F75221AC06F00AE9DE5 /* QRCodeScannerViewModelTests.swift */; };
+		34D88F84221AC56200AE9DE5 /* QRCodeScannerViewControllerBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D88F83221AC56200AE9DE5 /* QRCodeScannerViewControllerBuilder.swift */; };
 		3A01911B212DE57A00AED2BF /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A01911A212DE57A00AED2BF /* AsyncOperation.swift */; };
 		3A01911D212DEF8000AED2BF /* AsyncBlockOperaiton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A01911C212DEF8000AED2BF /* AsyncBlockOperaiton.swift */; };
 		3A01911E212DF0B300AED2BF /* AsyncBlockOperaiton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A01911C212DEF8000AED2BF /* AsyncBlockOperaiton.swift */; };
@@ -692,7 +717,6 @@
 		7ADD19D821874C220013A525 /* Firebase in Resources */ = {isa = PBXBuildFile; fileRef = 7ADD19D621874C220013A525 /* Firebase */; };
 		84B601C7197ACD6300DA1829 /* UITextField+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B601C6197ACD6300DA1829 /* UITextField+Blocks.m */; };
 		84B601CA197AD03800DA1829 /* BCModalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B601C9197AD03800DA1829 /* BCModalView.m */; };
-		84F4BDFA197F21D700B7BF7B /* PairingCodeParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F4BDF9197F21D700B7BF7B /* PairingCodeParser.m */; };
 		84FC02FA1981452D00B97D5B /* NSString+JSONParser_NSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FC02F91981452D00B97D5B /* NSString+JSONParser_NSString.m */; };
 		84FC02FD19815F1B00B97D5B /* crypto_scrypt-nosse.c in Sources */ = {isa = PBXBuildFile; fileRef = 84FC02FB19815F1B00B97D5B /* crypto_scrypt-nosse.c */; };
 		84FC02FE19815F1B00B97D5B /* sha256.c in Sources */ = {isa = PBXBuildFile; fileRef = 84FC02FC19815F1B00B97D5B /* sha256.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -865,7 +889,6 @@
 		AA63F87720A39DCF002B719B /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F87620A39DCF002B719B /* AppFeature.swift */; };
 		AA63F87820A39DCF002B719B /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F87620A39DCF002B719B /* AppFeature.swift */; };
 		AA63F87A20A3A198002B719B /* AppFeatureConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F87920A3A198002B719B /* AppFeatureConfigurator.swift */; };
-		AA63F87B20A3A198002B719B /* AppFeatureConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F87920A3A198002B719B /* AppFeatureConfigurator.swift */; };
 		AA68F42F2151A9CE0099BB83 /* TradeLimitsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA68F42E2151A9CD0099BB83 /* TradeLimitsAPI.swift */; };
 		AA68F4302151A9CE0099BB83 /* TradeLimitsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA68F42E2151A9CD0099BB83 /* TradeLimitsAPI.swift */; };
 		AA68F43B2151AA1F0099BB83 /* TradeLimitsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA68F43A2151AA1F0099BB83 /* TradeLimitsService.swift */; };
@@ -1717,6 +1740,20 @@
 		23FDEFA81D6E43DE00FC80D6 /* TransactionDetailTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransactionDetailTableCell.m; sourceTree = "<group>"; };
 		23FDEFAA1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+SendSynchronousRequest.h"; sourceTree = "<group>"; };
 		23FDEFAB1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+SendSynchronousRequest.m"; sourceTree = "<group>"; };
+		3460EDA322149C5C00614F52 /* QRCodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanner.swift; sourceTree = "<group>"; };
+		3460EDB02216FDF600614F52 /* QRCodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerViewController.swift; sourceTree = "<group>"; };
+		3460EDB22216FE1600614F52 /* QRCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerView.swift; sourceTree = "<group>"; };
+		3460EDB42217156600614F52 /* QRCodeScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerViewModel.swift; sourceTree = "<group>"; };
+		348DAB79221C27F80058782B /* MockQRCodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQRCodeScanner.swift; sourceTree = "<group>"; };
+		349C4B98221887A500332BFF /* QRCodeScannerParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerParsing.swift; sourceTree = "<group>"; };
+		34A54DD3221A06B000FD99BC /* QRCodeScannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerTests.swift; sourceTree = "<group>"; };
+		34BD973F221BF9A100D40D4C /* MockAVCaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAVCaptureSession.swift; sourceTree = "<group>"; };
+		34C0AFE922196B3E00D46361 /* PrivateKeyQRCodeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeyQRCodeParser.swift; sourceTree = "<group>"; };
+		34C0AFF422196B6500D46361 /* PairingCodeQRCodeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingCodeQRCodeParser.swift; sourceTree = "<group>"; };
+		34C0B01E22198CE600D46361 /* NewResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewResult.swift; sourceTree = "<group>"; };
+		34D88F61221A96C300AE9DE5 /* AddressQRCodeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressQRCodeParser.swift; sourceTree = "<group>"; };
+		34D88F75221AC06F00AE9DE5 /* QRCodeScannerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerViewModelTests.swift; sourceTree = "<group>"; };
+		34D88F83221AC56200AE9DE5 /* QRCodeScannerViewControllerBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerViewControllerBuilder.swift; sourceTree = "<group>"; };
 		3A01911A212DE57A00AED2BF /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		3A01911C212DEF8000AED2BF /* AsyncBlockOperaiton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncBlockOperaiton.swift; sourceTree = "<group>"; };
 		3A019121212DF0EB00AED2BF /* AsyncBlockOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncBlockOperationTests.swift; sourceTree = "<group>"; };
@@ -3687,8 +3724,6 @@
 		84C2569319810DF300F901D1 /* scrypt_platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = scrypt_platform.h; path = include/scrypt_platform.h; sourceTree = "<group>"; };
 		84C2569419810DF300F901D1 /* sysendian.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = sysendian.h; path = include/sysendian.h; sourceTree = "<group>"; };
 		84C2569719810E1400F901D1 /* sha256.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = sha256.h; path = include/sha256.h; sourceTree = "<group>"; };
-		84F4BDF8197F21D700B7BF7B /* PairingCodeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PairingCodeParser.h; sourceTree = "<group>"; };
-		84F4BDF9197F21D700B7BF7B /* PairingCodeParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PairingCodeParser.m; sourceTree = "<group>"; };
 		84FC02F81981452D00B97D5B /* NSString+JSONParser_NSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JSONParser_NSString.h"; sourceTree = "<group>"; };
 		84FC02F91981452D00B97D5B /* NSString+JSONParser_NSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSONParser_NSString.m"; sourceTree = "<group>"; };
 		84FC02FB19815F1B00B97D5B /* crypto_scrypt-nosse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "crypto_scrypt-nosse.c"; path = "src/crypto_scrypt-nosse.c"; sourceTree = "<group>"; };
@@ -4457,6 +4492,31 @@
 			);
 			name = CoreBitcoin;
 			path = ../Submodules/CoreBitcoin;
+			sourceTree = "<group>";
+		};
+		3460ED9922149C2800614F52 /* QRCodeScanner */ = {
+			isa = PBXGroup;
+			children = (
+				3460EDA322149C5C00614F52 /* QRCodeScanner.swift */,
+				34C0AFF422196B6500D46361 /* PairingCodeQRCodeParser.swift */,
+				34C0AFE922196B3E00D46361 /* PrivateKeyQRCodeParser.swift */,
+				34D88F61221A96C300AE9DE5 /* AddressQRCodeParser.swift */,
+				349C4B98221887A500332BFF /* QRCodeScannerParsing.swift */,
+				3460EDB42217156600614F52 /* QRCodeScannerViewModel.swift */,
+				34D88F83221AC56200AE9DE5 /* QRCodeScannerViewControllerBuilder.swift */,
+				3460EDB02216FDF600614F52 /* QRCodeScannerViewController.swift */,
+				3460EDB22216FE1600614F52 /* QRCodeScannerView.swift */,
+			);
+			path = QRCodeScanner;
+			sourceTree = "<group>";
+		};
+		34A54DD2221A069300FD99BC /* QRCodeScanner */ = {
+			isa = PBXGroup;
+			children = (
+				34A54DD3221A06B000FD99BC /* QRCodeScannerTests.swift */,
+				34D88F75221AC06F00AE9DE5 /* QRCodeScannerViewModelTests.swift */,
+			);
+			path = QRCodeScanner;
 			sourceTree = "<group>";
 		};
 		3A019119212DE54C00AED2BF /* Operations */ = {
@@ -5824,6 +5884,7 @@
 				519435A0208E61F3001EF882 /* BlockchainTests.swift */,
 				51A862E32092686300B338E0 /* CheckForUnusedAddressTests.swift */,
 				C74FEA2520979259007CAB5D /* JSContextWithDOMTests.swift */,
+				34A54DD2221A069300FD99BC /* QRCodeScanner */,
 				AA94966120CB611F00A9C2DD /* Addresses */,
 				AA93227321AC7282000DB69B /* App Version */,
 				AACE3206209782DD00B7B806 /* Authentication */,
@@ -8142,9 +8203,7 @@
 				C790E0F21E4913F00063D141 /* Blockchain.entitlements */,
 				A2599B9D1B0B5FC700C2EA81 /* Blockchain-Bridging-Header.h */,
 				67470A0519D438E000757D46 /* LocalizationConstants.h */,
-				84F4BDF8197F21D700B7BF7B /* PairingCodeParser.h */,
 				C73CFBE81EA16B4A00C115F0 /* PrivateHeaders.h */,
-				84F4BDF9197F21D700B7BF7B /* PairingCodeParser.m */,
 				9FB3638314B60128004BEA02 /* Blockchain-Prefix.pch */,
 				511713AD215545D7000C3AD1 /* Blockchain-Info.plist */,
 				AAA3333220880A2B0019AD55 /* AppDelegate.swift */,
@@ -8157,6 +8216,7 @@
 				AAA3316020895A9C00BBD292 /* LoadingViewPresenter.swift */,
 				51E5C73020741A130000A7FD /* LocalizationConstants.swift */,
 				AAA3333E2088131D0019AD55 /* ModalPresenter.swift */,
+				34C0B01E22198CE600D46361 /* NewResult.swift */,
 				AA0A4149214B142200807163 /* Accounts */,
 				AA722C1720B4BB8F00262A5F /* Addresses */,
 				AAA33169208964FC00BBD292 /* Alerts */,
@@ -8165,6 +8225,7 @@
 				AA93226F21AC7060000DB69B /* App Version */,
 				511BF4F020E6828900A14072 /* AppReviewPrompt */,
 				510EA1732080F58700A63AB8 /* Authentication */,
+				3460ED9922149C2800614F52 /* QRCodeScanner */,
 				AAD279DE209A99CA00C0EAFC /* AV */,
 				9F1831F315176F2200FB3D52 /* Categories */,
 				AAA33338208811460019AD55 /* Coordinators */,
@@ -9025,6 +9086,8 @@
 				AA6911A020D18B6E00DDB541 /* MockWalletService.swift */,
 				AAB75A012189641900A0AD11 /* MockXlmWallet.swift */,
 				AAE5D1A721A3C7F500D4A77A /* MockWalletSettingsService.swift */,
+				34BD973F221BF9A100D40D4C /* MockAVCaptureSession.swift */,
+				348DAB79221C27F80058782B /* MockQRCodeScanner.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -10824,7 +10887,6 @@
 				AACE32012093FA1A00B7B806 /* ReminderPresenter.swift in Sources */,
 				3A26D51A2140405400D79BDD /* ExchangeCellModel.swift in Sources */,
 				3AFD18AD21221D40007145EA /* KYCBaseViewController.swift in Sources */,
-				AA63F87B20A3A198002B719B /* AppFeatureConfigurator.swift in Sources */,
 				AACE31DA2092A99B00B7B806 /* Application+Helpers.swift in Sources */,
 				602B9D252118E27100BD3D60 /* KYCVerifyPhoneNumberPresenter.swift in Sources */,
 				3AE74B6221C0768500246A9C /* KYCTierCellModel.swift in Sources */,
@@ -10930,6 +10992,7 @@
 				AADF6B5621C0EFDD00F8CA43 /* KYCPagerTests.swift in Sources */,
 				AAFA97AE2115110000D19ED3 /* SettingsCell.swift in Sources */,
 				602B9D182118E25A00BD3D60 /* LocationSuggestionAPI.swift in Sources */,
+				34BD973A221B123B00D40D4C /* QRCodeScannerViewModel.swift in Sources */,
 				3A1C7FA821790A49001AC6D3 /* StellarOperationService.swift in Sources */,
 				602B9D122118E24800BD3D60 /* KYCAddressController.swift in Sources */,
 				51A862E42092686300B338E0 /* CheckForUnusedAddressTests.swift in Sources */,
@@ -10950,6 +11013,7 @@
 				3AFDD8B42200D64300CA7A21 /* PermissionsRequestor.swift in Sources */,
 				AA63F84C20A12AE9002B719B /* URLs.swift in Sources */,
 				3AAEF96221421C6F005852D1 /* TextCell.swift in Sources */,
+				34BD9737221B123300D40D4C /* PrivateKeyQRCodeParser.swift in Sources */,
 				3A373C8F218BB56200DDFAFD /* UIDevice.swift in Sources */,
 				AA68F4302151A9CE0099BB83 /* TradeLimitsAPI.swift in Sources */,
 				C7EA091F21766F640050FE81 /* Direction.swift in Sources */,
@@ -10963,6 +11027,7 @@
 				5113570A209CF6CE00056D65 /* BCSecureTextField.swift in Sources */,
 				C7CE25AB2135E3B500DCC43B /* ExchangeCreateContracts.swift in Sources */,
 				C76D731820B24B5400040B57 /* WalletTransferAllDelegate.swift in Sources */,
+				34BD973E221B124D00D40D4C /* NewResult.swift in Sources */,
 				AA3CA9B62107F36800C2AD46 /* LogLevel.swift in Sources */,
 				AACE31D52092A99B00B7B806 /* Coordinator.swift in Sources */,
 				AACE32082097835F00B7B806 /* AuthenticationManagerTests.swift in Sources */,
@@ -10981,6 +11046,8 @@
 				AA126DBD212F4DA5005886A3 /* SignedRetailTokenResponse.swift in Sources */,
 				C79DD06F20B3B74A00DF3684 /* WalletWatchOnlyDelegate.swift in Sources */,
 				AA084419215EF4EC0007BFD1 /* LockboxRepository.swift in Sources */,
+				34BD973D221B124500D40D4C /* QRCodeScannerView.swift in Sources */,
+				348DAB7A221C27F80058782B /* MockQRCodeScanner.swift in Sources */,
 				3A390755217E7F6E00D2DA01 /* SendXLMInterface.swift in Sources */,
 				AA7133B621220B7100CB2AA9 /* KYCCountrySelectionPresenter.swift in Sources */,
 				AAFA97AF2115110000D19ED3 /* SettingsTwoStepVC.swift in Sources */,
@@ -11018,6 +11085,7 @@
 				AA3CA9B32107F2B700C2AD46 /* LogDestination.swift in Sources */,
 				AA0A4148214B0B2100807163 /* ExchangeAssetAccountListPresenter.swift in Sources */,
 				AA126CD9212C94CB005886A3 /* NabuCreateUserResponse.swift in Sources */,
+				34BD9739221B123800D40D4C /* QRCodeScannerParsing.swift in Sources */,
 				AADB027F20C0BACA000FFFEC /* WalletCryptoService.swift in Sources */,
 				AA0843C5215D72340007BFD1 /* MockSocketManager.swift in Sources */,
 				3A91F7C2213845F700CDC3FD /* TradingPairView.swift in Sources */,
@@ -11057,6 +11125,8 @@
 				AA0843C9215D73F50007BFD1 /* MarketsServiceTests.swift in Sources */,
 				3A1552EE2136EAF000683CEB /* TradeLimits.swift in Sources */,
 				3A1C7FA921790AB3001AC6D3 /* StellarOperationsAPI.swift in Sources */,
+				34A54DD4221A06B000FD99BC /* QRCodeScannerTests.swift in Sources */,
+				348B2B67221B0C4500394526 /* AppFeatureConfigurator.swift in Sources */,
 				3A2BBCCA21C31B01001E55BF /* KYCAvailableFundsHeaderView.swift in Sources */,
 				AA25F1812146F87C0028C82E /* NabuAuthenticationError.swift in Sources */,
 				51979169210BA7AC0096E50B /* HTTPRequestError.swift in Sources */,
@@ -11096,6 +11166,7 @@
 				AAD25827219E481A00D9CEA1 /* EmptyNetworkResponse.swift in Sources */,
 				AA54E4F7216D3B3F005061F9 /* KYCStateSelectionInteractor.swift in Sources */,
 				AAE94F6820C75B8D005A3595 /* PinPresenterTests.swift in Sources */,
+				34BD973B221B123E00D40D4C /* QRCodeScannerViewControllerBuilder.swift in Sources */,
 				AA93414A21A327FA00248E75 /* WalletAction.swift in Sources */,
 				51578AEF20B44AD400B0080A /* KeyImportCoordinator.swift in Sources */,
 				604598B22118BB2A00AE08C8 /* Currency.swift in Sources */,
@@ -11107,6 +11178,7 @@
 				3AB4D91D21309BE7004F0160 /* ExchangeListViewCell.swift in Sources */,
 				AA084410215EEF320007BFD1 /* LockboxDeviceType.swift in Sources */,
 				519435B1208E62F6001EF882 /* BlockchainAPI+URL.swift in Sources */,
+				34BD9736221B123000D40D4C /* PairingCodeQRCodeParser.swift in Sources */,
 				602B9D1D2118E26900BD3D60 /* KYCCountry.swift in Sources */,
 				602B9D0A2118E22B00BD3D60 /* KYCNetworkRequest.swift in Sources */,
 				602B9D152118E25400BD3D60 /* LocationSuggestionCell.swift in Sources */,
@@ -11158,9 +11230,11 @@
 				C761439A211A7FD70041411E /* SocketManager.swift in Sources */,
 				C782D84F21CBEDB3001582D0 /* WalletNabuSyncable.swift in Sources */,
 				602B9D0C2118E23400BD3D60 /* KYCCoordinator.swift in Sources */,
+				34BD9740221BF9A100D40D4C /* MockAVCaptureSession.swift in Sources */,
 				AA7133B8212221D400CB2AA9 /* KYCVerifyPhoneNumberPresenterTests.swift in Sources */,
 				AA54E493216D28CE005061F9 /* KYCStateSelectionController.swift in Sources */,
 				3A91F7E221387A5300CDC3FD /* AnimatablePresentationUpdate.swift in Sources */,
+				34BD973C221B124100D40D4C /* QRCodeScannerViewController.swift in Sources */,
 				3AE74B6A21C08E8400246A9C /* KYCTiersHeaderView.swift in Sources */,
 				C7343BD8215003E6001B1EC9 /* ExchangeDetailContracts.swift in Sources */,
 				AACE3134209121B800B7B806 /* WalletManager.swift in Sources */,
@@ -11221,6 +11295,7 @@
 				C74690632180C07D001A7C52 /* StellarURLPayload.swift in Sources */,
 				AA56423C20DDBDBB0092A022 /* NumberFormatter+AssetsTests.swift in Sources */,
 				51135706209CF64900056D65 /* BackupNavigationViewController.swift in Sources */,
+				34BD9738221B123500D40D4C /* AddressQRCodeParser.swift in Sources */,
 				C75684CA212F053200B5059C /* TradingPairTests.swift in Sources */,
 				AA30893621A5F6FA002F9B37 /* DeepLinkPayload.swift in Sources */,
 				AA1E52342097CC2C0099BD10 /* AuthenticationCoordinator.swift in Sources */,
@@ -11248,6 +11323,7 @@
 				AA63F85120A12DA6002B719B /* BitcoinURLPayload.swift in Sources */,
 				51E52D14217F6E6A00066F8D /* PricePreviewView.swift in Sources */,
 				AA7A474721C3353F006AA0D3 /* KYCMoreInformationController.swift in Sources */,
+				34D88F76221AC06F00AE9DE5 /* QRCodeScannerViewModelTests.swift in Sources */,
 				AACE31D32092A99B00B7B806 /* OnboardingCoordinator.swift in Sources */,
 				C7E4E41920EE98590061059E /* WatchOnlyBalanceView.swift in Sources */,
 				AA755ED621880F1200FC4894 /* StellarAccountServiceTests.swift in Sources */,
@@ -11260,6 +11336,7 @@
 				C7343C1821516A64001B1EC9 /* ExchangeDetailPresenter.swift in Sources */,
 				C7773331217E21F200899930 /* TransactionsXlmPresenter.swift in Sources */,
 				5114EA2420CD8B900098E26E /* UINavigationBar+TitleAttributes.swift in Sources */,
+				34BD972C221B122D00D40D4C /* QRCodeScanner.swift in Sources */,
 				AA3CA9B02107F18D00C2AD46 /* Logger.swift in Sources */,
 				3AFB65EF215585DF00EBFF30 /* BounceButton.swift in Sources */,
 				3A9B7F122135CF9800754FD6 /* NetworkRequest.swift in Sources */,
@@ -11312,6 +11389,7 @@
 				C7A85927217A294000502935 /* Identifiable.swift in Sources */,
 				AA8F21E421C719B700F45C42 /* WalletNabuSynchronizerService.swift in Sources */,
 				AA3E589E217A7E8F00EFF992 /* ReceiveXlmViewController.swift in Sources */,
+				34D88F62221A96C300AE9DE5 /* AddressQRCodeParser.swift in Sources */,
 				AA755EF92188EDBB00FC4894 /* StellarTradeLimitsService.swift in Sources */,
 				23444F8D1DCD219E00573C8C /* BTCData.m in Sources */,
 				60AEA56921125AB50053A753 /* SettingsCell.swift in Sources */,
@@ -11329,7 +11407,6 @@
 				AAE94F3520C70B97005A3595 /* AssetURLPayload.swift in Sources */,
 				678AD5E919D4610000E9A778 /* BCModalContentView.m in Sources */,
 				3A26AF96212B36B2003A8A08 /* FromToButtonDelegateIntermediate.swift in Sources */,
-				84F4BDFA197F21D700B7BF7B /* PairingCodeParser.m in Sources */,
 				AA126D2A212D23FE005886A3 /* KYCUpdateMobileRequest.swift in Sources */,
 				23444F8A1DCD218F00573C8C /* BTCAddress.m in Sources */,
 				9F45F82C1514E53C00018AED /* UIButtonPressAndHold.m in Sources */,
@@ -11427,6 +11504,7 @@
 				516546F5208FCF710019EE63 /* NetworkManager+UserAgent.swift in Sources */,
 				C777333F217E233C00899930 /* TransactionsXlmDataProvider.swift in Sources */,
 				AADF6B0721BDE34800F8CA43 /* KYCTier.swift in Sources */,
+				34C0B01F22198CE600D46361 /* NewResult.swift in Sources */,
 				84FC02FD19815F1B00B97D5B /* crypto_scrypt-nosse.c in Sources */,
 				602B9CE82118E15300BD3D60 /* LocationSuggestion.swift in Sources */,
 				AA447BC82127679A00EC0FA0 /* SideMenuViewController.swift in Sources */,
@@ -11435,12 +11513,14 @@
 				C7B463CF221B572300ADDC22 /* KYCVerifyEmailRouter.swift in Sources */,
 				3A56AEAA21765C2100044302 /* StellarAccountAPI.swift in Sources */,
 				C73406221F54791C00143100 /* EtherAmountInputViewController.m in Sources */,
+				3460EDB32216FE1600614F52 /* QRCodeScannerView.swift in Sources */,
 				3A9A02612177F10200E2848E /* StellarOperationsAPI.swift in Sources */,
 				51A7349320891EB3009727D5 /* NetworkManager.swift in Sources */,
 				606399EA2110FC2D005B6DF5 /* SRDelegateController.m in Sources */,
 				3A331E5F22148D5E00ECA937 /* ExchangeHeaderView.swift in Sources */,
 				3A26AF9F212B51C0003A8A08 /* HomebrewExchangeService.swift in Sources */,
 				3A01911D212DEF8000AED2BF /* AsyncBlockOperaiton.swift in Sources */,
+				34C0AFF522196B6500D46361 /* PairingCodeQRCodeParser.swift in Sources */,
 				3AE92BDB2110DB3C008D7BDC /* KeyboardPayload.swift in Sources */,
 				AADF6B5221C0D3B900F8CA43 /* KYCPager.swift in Sources */,
 				C7559CB21F56FE09005B2375 /* TransactionsEtherViewController.m in Sources */,
@@ -11605,6 +11685,7 @@
 				A2599BA71B0B726900C2EA81 /* BackupVerifyViewController.swift in Sources */,
 				3A26AF7221274EF9003A8A08 /* ExchangeTradeCellModel.swift in Sources */,
 				C77217ED20AFCF940087836A /* WalletRecoveryDelegate.swift in Sources */,
+				34D88F84221AC56200AE9DE5 /* QRCodeScannerViewControllerBuilder.swift in Sources */,
 				C78893E520A36572003C0A8F /* Trade.swift in Sources */,
 				AA126DBF212F4E2D005886A3 /* SignedRetailTokenRequest.swift in Sources */,
 				AA1E523D2097E6AC0099BD10 /* PinStoreResponse.swift in Sources */,
@@ -11632,6 +11713,7 @@
 				C7E4E41820EE98590061059E /* WatchOnlyBalanceView.swift in Sources */,
 				C79EEFC21E898E380087DDCD /* WalletSetupViewController.m in Sources */,
 				6762507D1A2CC5800052B63F /* BCEditAccountView.m in Sources */,
+				34C0AFEA22196B3E00D46361 /* PrivateKeyQRCodeParser.swift in Sources */,
 				C723F3491F64413400A858A9 /* TransactionsViewController.m in Sources */,
 				602B9CF32118E15300BD3D60 /* KYCInformationController.swift in Sources */,
 				AA787A042187A63000E2D4CF /* DeepLinkHandler.swift in Sources */,
@@ -11678,6 +11760,7 @@
 				C7EA091E21766F640050FE81 /* Direction.swift in Sources */,
 				231FF2CD1B56F9F1009EEB02 /* SettingsWebViewController.m in Sources */,
 				C723F3461F61D35300A858A9 /* TransactionDetailViewModel.m in Sources */,
+				349C4B99221887A500332BFF /* QRCodeScannerParsing.swift in Sources */,
 				C79672841FDEF4CC00F07C69 /* NSDateFormatter+VerboseString.m in Sources */,
 				C7797DBF21C037070088ABA5 /* BCActionNavigationController.swift in Sources */,
 				AAECF766217E8853008B8832 /* PriceServiceClient.swift in Sources */,
@@ -11720,6 +11803,7 @@
 				C79261B51E8ADF0300C87CED /* BCCardView.m in Sources */,
 				ECD244F719A8B444004B1F40 /* UIImage+Utils.m in Sources */,
 				511356E3209CAFC600056D65 /* NetworkManager+PushNotifications.swift in Sources */,
+				3460EDB12216FDF600614F52 /* QRCodeScannerViewController.swift in Sources */,
 				C740FA89210BAF740060292F /* WalletExchangeIntermediateDelegate.swift in Sources */,
 				23444F961DCD21C600573C8C /* BTCKeychain.m in Sources */,
 				AA6336B221BC5A630073ED4A /* KYCConfirmEmailController.swift in Sources */,
@@ -11756,6 +11840,7 @@
 				C7414E451FD7131C001A89FA /* ConfirmStateViewController.m in Sources */,
 				23E579541DB45F3A00220542 /* TransferAmountTableCell.m in Sources */,
 				51E5C73220741A130000A7FD /* AuthenticationManager.swift in Sources */,
+				3460EDA422149C5C00614F52 /* QRCodeScanner.swift in Sources */,
 				3A1552D82135FFDB00683CEB /* ExchangeTradingPairs.swift in Sources */,
 				230FD2D91C5BF1A700336683 /* BCQRCodeView.m in Sources */,
 				F7B8C83821A5E607005CAA0D /* DeepLinkPayload.swift in Sources */,
@@ -11836,6 +11921,7 @@
 				3ADFE6FC214AE17600E7E2D5 /* ExchangeInputsService.swift in Sources */,
 				3A26AF5321272019003A8A08 /* ExchangeListViewController.swift in Sources */,
 				AA63F85020A12DA6002B719B /* BitcoinURLPayload.swift in Sources */,
+				3460EDB52217156600614F52 /* QRCodeScannerViewModel.swift in Sources */,
 				51A862DC20921EBD00B338E0 /* BitcoinCashAddress.swift in Sources */,
 				3A91F7E121387A5300CDC3FD /* AnimatablePresentationUpdate.swift in Sources */,
 				3ADFE6FF214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift in Sources */,

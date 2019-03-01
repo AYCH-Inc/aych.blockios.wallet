@@ -87,7 +87,7 @@ public class AlertView: UIView {
         return messageToActionsPadding +
             actionsToBottomPadding +
             actionsHeight +
-            imageHeight +
+            imageViewHeight +
             headlineHeight +
             messageHeight +
             interItemPadding +

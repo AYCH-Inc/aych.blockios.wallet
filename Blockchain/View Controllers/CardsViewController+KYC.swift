@@ -72,10 +72,7 @@ extension CardsViewController {
             appSettings.didRegisterForAirdropCampaignSucceed &&
             nabuUser.status == .approved &&
             !appSettings.didSeeAirdropPending
-        // appSettings.isPinSet needs to be checked in order to prevent
-        // showing this modal over the PIN screen when creating a wallet
-        let shouldShowStellarModal = appSettings.isPinSet &&
-            airdropConfig.isEnabled &&
+        let shouldShowStellarView = airdropConfig.isEnabled &&
             !appSettings.didTapOnAirdropDeepLink &&
             tiersResponse.userTiers.contains(where: {
                 return $0.tier == .tier2 &&
@@ -91,8 +88,16 @@ extension CardsViewController {
         } else if shouldShowContinueKYCAnnouncementCard {
             showContinueKycCard()
             return true
-        } else if shouldShowStellarModal {
-            showStellarModal()
+        } else if shouldShowStellarView {
+            if onboardingSettings.hasSeenGetFreeXlmModal == true {
+                showCompleteYourProfileCard()
+            } else {
+                // appSettings.isPinSet needs to be checked in order to prevent
+                // showing this modal over the PIN screen when creating a wallet
+                if appSettings.isPinSet {
+                    showStellarModal()
+                }
+            }
             return true
         } else if shouldShowStellarAirdropCard {
             showStellarAirdropCard()
@@ -184,16 +189,18 @@ extension CardsViewController {
         let alert = AlertView.make(with: alertModel) { action in
             switch action.style {
             case .confirm:
+                BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal = true
                 KYCCoordinator.shared.start()
             case .default:
+                BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal = true
                 break
             }
         }
         alert.show()
     }
 
-    private func showGetFreeXlmCard() {
-        let model = AnnouncementCardViewModel.resubmitDocuments(action: { [unowned self] in
+    private func showCompleteYourProfileCard() {
+        let model = AnnouncementCardViewModel.completeYourProfile(action: { [unowned self] in
             self.continueKyc()
         }, onClose: { [weak self] in
             self?.animateHideCards()

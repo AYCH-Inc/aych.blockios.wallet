@@ -246,6 +246,7 @@ import PlatformKit
 
         dataRepository.clearCache()
 
+        SocketManager.shared.disconnectAll()
         XLMServiceProvider.shared.tearDown()
         BlockchainSettings.App.shared.reset()
         BlockchainSettings.Onboarding.shared.reset()

@@ -17,17 +17,12 @@
 #import "ReceiveEtherViewController.h"
 #import "TransactionsBitcoinCashViewController.h"
 
-@protocol TabControllerDelegate
-- (void)toggleSideMenu;
-@end
-@interface TabControllerManager : UINavigationController <AssetDelegate>
+@interface TabControllerManager : UIViewController <AssetDelegate>
 
-@property (strong, nonatomic) IBOutlet TabViewController *tabViewController;
+@property (strong, nonatomic) TabViewController *tabViewController;
 
 @property (nonatomic) LegacyAssetType assetType;
 @property (nonatomic) NSDecimalNumber *latestEthExchangeRate;
-
-@property (weak, nonatomic) id <TabControllerDelegate> delegate;
 
 @property (strong, nonatomic) TransactionsBitcoinViewController *transactionsBitcoinViewController;
 @property (strong, nonatomic) ReceiveBitcoinViewController *receiveBitcoinViewController;
@@ -57,6 +52,7 @@
 - (void)receiveCoinClicked:(UITabBarItem *)sender;
 - (void)transactionsClicked:(UITabBarItem *)sender;
 - (void)sendCoinsClicked:(UITabBarItem *)sender;
+- (void)swapTapped:(UITabBarItem *)sender;
 - (void)qrCodeButtonClicked;
 - (void)transitionToIndex:(NSInteger)index;
 
@@ -95,7 +91,6 @@
 // Transactions View Controller
 - (void)updateTransactionsViewControllerData:(MultiAddressResponse *)data;
 - (void)filterTransactionsByAccount:(int)accountIndex filterLabel:(NSString *)filterLabel assetType:(LegacyAssetType)assetType;
-- (NSInteger)getFilterIndex;
 - (void)filterTransactionsByImportedAddresses;
 - (void)selectPayment:(NSString *)payment;
 - (void)showTransactionDetailForHash:(NSString *)hash;

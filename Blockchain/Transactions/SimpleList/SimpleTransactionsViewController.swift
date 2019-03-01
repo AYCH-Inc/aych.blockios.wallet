@@ -77,10 +77,7 @@ class SimpleTransactionsViewController: SimpleListViewController {
     }
 
     private func updateBalanceLabel() {
-        let tabViewController: TabViewController? = AppCoordinator.sharedInstance().tabControllerManager.tabViewController
-        if tabViewController?.activeViewController == self {
-            tabViewController?.updateBalanceLabelText(balance)
-        }
+        title = balance
     }
     
     // MARK: Lazy Properties

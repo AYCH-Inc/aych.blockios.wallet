@@ -164,10 +164,7 @@
 
 - (void)updateBalanceLabel
 {
-    TabViewController *tabViewController = [AppCoordinator sharedInstance].tabControllerManager.tabViewController;
-    if (tabViewController.activeViewController == self) {
-        [tabViewController updateBalanceLabelText:self.balance];
-    }
+    self.title = self.balance;
 }
 
 @end

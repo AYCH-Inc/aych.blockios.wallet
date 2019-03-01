@@ -21,7 +21,8 @@ class SideMenuViewController: UIViewController {
     // MARK: - Private Properties
 
     @IBOutlet private var tableView: UITableView!
-
+    @IBOutlet private var footerView: SideMenuFooterView!
+    
     private var tapToCloseGestureRecognizerVC: UITapGestureRecognizer!
     private var tapToCloseGestureRecognizerTabBar: UITapGestureRecognizer!
 
@@ -42,15 +43,16 @@ class SideMenuViewController: UIViewController {
         AppCoordinator.shared.slidingViewController.delegate = self
         tapToCloseGestureRecognizerTabBar = UITapGestureRecognizer(
             target: AppCoordinator.shared,
-            action: #selector(AppCoordinator.toggleSideMenu)
+            action: #selector(AppCoordinator.shared.toggleSideMenu)
         )
         tapToCloseGestureRecognizerVC = UITapGestureRecognizer(
             target: AppCoordinator.shared,
-            action: #selector(AppCoordinator.toggleSideMenu)
+            action: #selector(AppCoordinator.shared.toggleSideMenu)
         )
         registerCells()
         initializeTableView()
         addShadow()
+        footerView.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -81,7 +83,6 @@ class SideMenuViewController: UIViewController {
     private func initializeTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.tableFooterView = UIView(frame: .zero)
     }
 
     private func addShadow() {
@@ -170,5 +171,16 @@ extension SideMenuViewController: ECSlidingViewControllerDelegate {
             setSideMenuGestures()
         }
         return nil
+    }
+}
+
+extension SideMenuViewController: SideMenuFooterDelegate {
+    func footerView(_ footerView: SideMenuFooterView, selectedAction: SideMenuFooterView.Action) {
+        switch selectedAction {
+        case .logout:
+            delegate?.sideMenuViewController(self, didTapOn: .logout)
+        case .pairWebWallet:
+            delegate?.sideMenuViewController(self, didTapOn: .webLogin)
+        }
     }
 }

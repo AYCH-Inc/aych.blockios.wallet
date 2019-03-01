@@ -2086,33 +2086,6 @@ BOOL displayingLocalSymbolSend;
     }
     
     [WalletManager.sharedInstance.wallet getSurgeStatus];
-    
-    //    if ([[WalletManager.sharedInstance.wallet.addressBook objectForKey:self.toAddress] length] == 0 && ![WalletManager.sharedInstance.wallet.allLegacyAddresses containsObject:self.toAddress]) {
-    //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:BC_STRING_ADD_TO_ADDRESS_BOOK
-    //                                                        message:[NSString stringWithFormat:BC_STRING_ASK_TO_ADD_TO_ADDRESS_BOOK, self.toAddress]
-    //                                                       delegate:nil
-    //                                              cancelButtonTitle:BC_STRING_NO
-    //                                              otherButtonTitles:BC_STRING_YES, nil];
-    //
-    //        alert.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
-    //            // do nothing & proceed
-    //            if (buttonIndex == 0) {
-    //                [self confirmPayment];
-    //            }
-    //            // let user save address in addressbook
-    //            else if (buttonIndex == 1) {
-    //                labelAddressLabel.text = toField.text;
-    //
-    //                [app showModal:labelAddressView isClosable:TRUE];
-    //
-    //                [labelAddressTextField becomeFirstResponder];
-    //            }
-    //        };
-    //        
-    //        [alert show];
-    //    } else {
-    //        [self confirmPayment];
-    //    }
 }
 
 @end

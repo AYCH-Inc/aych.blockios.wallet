@@ -28,7 +28,6 @@ class BCActionNavigationController: BCNavigationController {
     override func viewDidLayoutSubviews() {
         rightButton.isHidden = rightButtonTappedBlock == nil
         super.viewDidLayoutSubviews()
-        closeButton.isHidden = self.viewControllers.count > 1
     }
 
     @objc func rightButtonTapped() {

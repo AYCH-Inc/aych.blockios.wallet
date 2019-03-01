@@ -57,6 +57,7 @@ class KYCTiersViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = LocalizationConstants.KYC.swapLimits
         coordinator = KYCTiersCoordinator(interface: self)
         setupLayout()
         registerCells()
@@ -333,15 +334,10 @@ extension KYCTiersViewController {
                 let formatter: NumberFormatter = NumberFormatter.localCurrencyFormatterWithGroupingSeparator
                 let max = NSDecimalNumber(decimal: limits?.maxTradableToday ?? 0)
                 
-                /// Sometimes design wants to suppress the chevron that is shown in both
-                /// of the `KYCTiersHeaderViews` (there are two of them). We only show this
-                /// when there is a custom transition (like while in the exchange).
-                let suppressDismissalCTA = fromViewController is UIViewControllerTransitioningDelegate == false
-                
                 let header = KYCTiersHeaderViewModel.make(
                     with: response.0,
                     availableFunds: formatter.string(from: max),
-                    suppressDismissCTA: suppressDismissalCTA
+                    suppressDismissCTA: true
                 )
                 let filtered = userTiers.filter({ $0.tier != .tier0 })
                 let cells = filtered.map({ return KYCTierCellModel.model(from: $0) }).compactMap({ return $0 })
@@ -351,17 +347,49 @@ extension KYCTiersViewController {
                 if let from = fromViewController as? UIViewControllerTransitioningDelegate {
                     controller.transitioningDelegate = from
                 }
-                if suppressDismissalCTA {
-                    if let navController = fromViewController.navigationController {
-                        navController.pushViewController(controller, animated: true)
-                    } else {
-                        let navController = BCNavigationController(rootViewController: controller)
-                        fromViewController.present(navController, animated: true, completion: nil)
-                    }
+                if let navController = fromViewController.navigationController {
+                    navController.pushViewController(controller, animated: true)
                 } else {
-                    fromViewController.present(controller, animated: true, completion: nil)
+                    let navController = BCNavigationController(rootViewController: controller)
+                    fromViewController.present(navController, animated: true, completion: nil)
                 }
             })
+    }
+}
+
+extension KYCTiersViewController: NavigatableView {
+    
+    var leftCTATintColor: UIColor {
+        return .white
+    }
+    
+    var rightCTATintColor: UIColor {
+        return .white
+    }
+    
+    var leftNavControllerCTAType: NavigationCTAType {
+        guard let navController = navigationController else { return .dismiss }
+        return navController.viewControllers.count > 1 ? .back : .dismiss
+    }
+    
+    var rightNavControllerCTAType: NavigationCTAType {
+        return .none
+    }
+    
+    var navigationDisplayMode: NavigationBarDisplayMode {
+        return .dark
+    }
+    
+    func navControllerLeftBarButtonTapped(_ navController: UINavigationController) {
+        guard let navController = navigationController else {
+            dismiss(animated: true, completion: nil)
+            return
+        }
+        navController.popViewController(animated: true)
+    }
+    
+    func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
+        // no op
     }
 }
 

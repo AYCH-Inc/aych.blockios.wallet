@@ -37,9 +37,8 @@ import Foundation
         return viewController
     }()
 
-    @objc lazy var tabControllerManager: TabControllerManager = { [unowned self] in
-        let tabControllerManager = TabControllerManager.instanceFromNib()
-        tabControllerManager.delegate = self
+    @objc lazy var tabControllerManager: TabControllerManager = {
+        let tabControllerManager = TabControllerManager.makeFromStoryboard()
         return tabControllerManager
     }()
 
@@ -108,6 +107,19 @@ import Foundation
             upgradeViewController,
             animated: true
         )
+    }
+    
+    // Shows the side menu (i.e. ECSlidingViewController)
+    @objc func toggleSideMenu() {
+        // If the sideMenu is not shown, show it
+        if slidingViewController.currentTopViewPosition == .centered {
+            slidingViewController.anchorTopViewToRight(animated: true)
+        } else {
+            slidingViewController.resetTopView(animated: true)
+        }
+        
+        // TODO remove app reference and use wallet singleton.isFe
+        walletManager.wallet.isFetchingTransactions = false
     }
 
     @objc func showDebugView(presenter: Int32) {
@@ -223,8 +235,6 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
             handleLogout()
         case .buyBitcoin:
             handleBuyBitcoin()
-        case .exchange:
-            handleExchange()
         case .lockbox:
             let storyboard = UIStoryboard(name: "LockboxViewController", bundle: nil)
             let lockboxViewController = storyboard.instantiateViewController(withIdentifier: "LockboxViewController") as! LockboxViewController
@@ -324,20 +334,6 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
     
     private func handleExchange() {
         ExchangeCoordinator.shared.start(rootViewController: self.tabControllerManager)
-    }
-}
-
-extension AppCoordinator: TabControllerDelegate {
-    @objc func toggleSideMenu() {
-        // If the sideMenu is not shown, show it
-        if slidingViewController.currentTopViewPosition == .centered {
-            slidingViewController.anchorTopViewToRight(animated: true)
-        } else {
-            slidingViewController.resetTopView(animated: true)
-        }
-
-        // TODO remove app reference and use wallet singleton.isFe
-        walletManager.wallet.isFetchingTransactions = false
     }
 }
 

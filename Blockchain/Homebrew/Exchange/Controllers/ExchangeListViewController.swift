@@ -13,7 +13,6 @@ protocol ExchangeListDelegate: class {
     func onDisappear()
     func onNextPageRequest(_ identifier: String)
     func onTradeCellTapped(_ trade: ExchangeTradeModel)
-    func onNewOrderTapped()
     func onPullToRefresh()
 }
 
@@ -32,14 +31,12 @@ class ExchangeListViewController: UIViewController {
     fileprivate var dataProvider: ExchangeListDataProvider?
     fileprivate var presenter: ExchangeListPresenter!
     fileprivate var dependencies: ExchangeDependencies!
-    fileprivate var coordinator: ExchangeCoordinator!
     
     // MARK: Factory
     
-    class func make(with dependencies: ExchangeDependencies, coordinator: ExchangeCoordinator) -> ExchangeListViewController {
+    class func make(with dependencies: ExchangeDependencies) -> ExchangeListViewController {
         let controller = ExchangeListViewController.makeFromStoryboard()
         controller.dependencies = dependencies
-        controller.coordinator = coordinator
         AnalyticsService.shared.trackEvent(title: "exchange_history")
         return controller
     }
@@ -57,14 +54,7 @@ class ExchangeListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if let controller = navigationController as? BCNavigationController {
-            controller.apply(NavigationBarAppearanceDark, withBackgroundColor: .brandPrimary)
-            controller.headerTitle = LocalizationConstants.Swap.swap
-        }
-        if let navController = navigationController as? ExchangeNavigationController {
-            navController.rightButtonTappedBlock = nil
-        }
+        title = LocalizationConstants.Swap.swap
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -94,7 +84,12 @@ class ExchangeListViewController: UIViewController {
 
 extension ExchangeListViewController: ExchangeListInterface {
     func showTradeDetails(trade: ExchangeTradeModel) {
-        coordinator.handle(event: .showTradeDetails(trade: trade))
+        let model = ExchangeDetailPageModel(type: .overview(trade))
+        let detailViewController = ExchangeDetailViewController.make(
+            with: model,
+            dependencies: ExchangeServices()
+        )
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 
     func paginationActivityIndicatorVisibility(_ visibility: Visibility) {
@@ -118,7 +113,7 @@ extension ExchangeListViewController: ExchangeListInterface {
     }
     
     func showNewExchange(animated: Bool) {
-        coordinator.handle(event: .createHomebrewExchange(animated: animated, viewController: nil))
+        
     }
 
     func showError(message: String) {
@@ -135,11 +130,25 @@ extension ExchangeListViewController: ExchangeListDataProviderDelegate {
         delegate?.onPullToRefresh()
     }
     
-    func newOrderTapped(_ dataProvider: ExchangeListDataProvider) {
-        delegate?.onNewOrderTapped()
-    }
-    
     func dataProvider(_ dataProvider: ExchangeListDataProvider, nextPageBefore identifier: String) {
         delegate?.onNextPageRequest(identifier)
+    }
+}
+
+extension ExchangeListViewController: NavigatableView {
+    func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
+        // No-Op
+    }
+    
+    func navControllerLeftBarButtonTapped(_ navController: UINavigationController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    var leftNavControllerCTAType: NavigationCTAType {
+        return .dismiss
+    }
+    
+    var rightNavControllerCTAType: NavigationCTAType {
+        return .none
     }
 }

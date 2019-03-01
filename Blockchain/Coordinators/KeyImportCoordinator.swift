@@ -24,7 +24,7 @@ import Foundation
     }
 
     //: Nil if device input is unavailable
-    private var qrCodeScannerViewController: QRCodeScannerViewController?
+    private var qrCodeScannerViewController: UIViewController?
 
     /// Observer key for notifications used throughout this class
     private let backupKey = Constants.NotificationKeys.backupSuccess

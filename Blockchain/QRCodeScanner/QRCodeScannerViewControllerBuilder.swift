@@ -59,7 +59,7 @@ final class QRCodeScannerViewControllerBuilder<P: QRCodeScannerParsing> {
         return self
     }
     
-    func build() -> QRCodeScannerViewController? {
+    func build() -> UIViewController? {
         switch setupType {
         case .dependencies(let dependencies):
             guard let scanner = scanner else { return nil }
@@ -72,18 +72,20 @@ final class QRCodeScannerViewControllerBuilder<P: QRCodeScannerParsing> {
             )
     
             guard let qrCodeScannerViewModel = vm else { return nil }
-    
-            return QRCodeScannerViewController(
+            
+            let scannerViewController = QRCodeScannerViewController(
                 viewModel: qrCodeScannerViewModel,
                 loadingViewPresenter: loadingViewPresenter,
                 dismissAnimated: dismissAnimated
             )
+            return UINavigationController(rootViewController: scannerViewController)
         case .viewModel(let qrCodeScannerViewModel):
-            return QRCodeScannerViewController(
+            let scannerViewController = QRCodeScannerViewController(
                 viewModel: qrCodeScannerViewModel,
                 loadingViewPresenter: loadingViewPresenter,
                 dismissAnimated: dismissAnimated
             )
+            return UINavigationController(rootViewController: scannerViewController)
         }
     }
 }

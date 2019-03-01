@@ -34,7 +34,7 @@ public class AlertView: UIView {
     @IBOutlet fileprivate var defaultButton: UIButton!
     @IBOutlet fileprivate var closeButton: UIButton!
     @IBOutlet fileprivate var headlineTrailingConstraint: NSLayoutConstraint!
-    @IBOutlet var imageViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate var imageViewHeightConstraint: NSLayoutConstraint!
 
     fileprivate var model: AlertModel!
     fileprivate var completion: ((AlertAction) -> Void)?

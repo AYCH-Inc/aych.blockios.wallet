@@ -13,10 +13,13 @@ extension CardsViewController {
         // Ignoring the disposable here since it can't be stored in CardsViewController.m/.h
         // since RxSwift doesn't work in Obj-C.
         guard WalletManager.shared.wallet.isInitialized() == true else { return }
-        _ = Observable.zip(BlockchainDataRepository.shared.nabuUser, ExchangeService.shared.hasExecutedTrades().asObservable())
+        let user = BlockchainDataRepository.shared.nabuUser
+        let tiers = BlockchainDataRepository.shared.tiers
+        let hasExecutedTrades = ExchangeService.shared.hasExecutedTrades().asObservable()
+        _ = Observable.zip(user, tiers, hasExecutedTrades)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] nabuUser, hasTrades in
+            .subscribe(onNext: { [weak self] nabuUser, tiers, hasTrades in
                 guard let strongSelf = self else { return }
                 let canShowSwapCTA = nabuUser.swapApproved()
                 let shouldHideSwapCTA = BlockchainSettings.App.shared.shouldHideSwapCard
@@ -34,7 +37,7 @@ extension CardsViewController {
                     BlockchainSettings.App.shared.shouldHideSwapCard = true
                 }
                 
-                let didShowAirdropAndKycCards = strongSelf.showAirdropAndKycCards(nabuUser: nabuUser)
+                let didShowAirdropAndKycCards = strongSelf.showAirdropAndKycCards(nabuUser: nabuUser, tiersResponse: tiers)
                 if !didShowAirdropAndKycCards {
                     strongSelf.reloadWelcomeCards()
                 }
@@ -53,7 +56,7 @@ extension CardsViewController {
             })
     }
 
-    private func showAirdropAndKycCards(nabuUser: NabuUser) -> Bool {
+    private func showAirdropAndKycCards(nabuUser: NabuUser, tiersResponse: KYCUserTiersResponse) -> Bool {
         let airdropConfig = AppFeatureConfigurator.shared.configuration(for: .stellarAirdrop)
         let appSettings = BlockchainSettings.App.shared
         let kycSettings = KYCSettings.shared

@@ -159,7 +159,7 @@ extension AnnouncementCardViewModel {
         )
     }
 
-    @objc class func getFreeXlm(
+    @objc class func completeYourProfile(
         action: @escaping Action,
         onClose: @escaping Action
     ) -> AnnouncementCardViewModel {

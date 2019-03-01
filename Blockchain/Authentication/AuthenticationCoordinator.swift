@@ -137,7 +137,7 @@ import PlatformKit
 
     @objc internal(set) var pinEntryViewController: PEPinEntryController?
     
-    private var pairingCodeParserViewController: QRCodeScannerViewController?
+    private var pairingCodeParserViewController: UIViewController?
 
     private var loginTimeout: Timer?
 

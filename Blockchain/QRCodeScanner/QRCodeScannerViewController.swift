@@ -57,12 +57,26 @@ final class QRCodeScannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.frame = viewFrame
+        title = viewModel.headerText
         
-        guard let f = UIApplication.shared.keyWindow?.rootViewController?.view.frame else { return }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: #imageLiteral(resourceName: "close"),
+            style: .plain,
+            target: self,
+            action: #selector(closeButtonClicked)
+        )
         
-        scannerView = QRCodeScannerView(viewModel: viewModel, frame: f)
+        scannerView = QRCodeScannerView(viewModel: viewModel, frame: viewFrame)
         view.addSubview(scannerView!)
+        
+        scannerView!.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            scannerView!.topAnchor.constraint(equalTo: view.topAnchor),
+            scannerView!.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scannerView!.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scannerView!.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -70,6 +84,10 @@ final class QRCodeScannerViewController: UIViewController {
         
         viewModel.startReadingQRCode()
         scannerView?.startReadingQRCode()
+    }
+    
+    @objc func closeButtonClicked(sender: AnyObject) {
+        viewModel.closeButtonPressed()
     }
     
     private func handleScanComplete(with result: NewResult<String, QRScannerError>) {

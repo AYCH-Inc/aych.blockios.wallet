@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import PlatformUIKit
 
 extension CardsViewController {
     @objc func reloadAllCards() {
@@ -57,6 +58,7 @@ extension CardsViewController {
     }
 
     private func showAirdropAndKycCards(nabuUser: NabuUser, tiersResponse: KYCUserTiersResponse) -> Bool {
+
         let airdropConfig = AppFeatureConfigurator.shared.configuration(for: .stellarAirdrop)
         let appSettings = BlockchainSettings.App.shared
         let kycSettings = KYCSettings.shared
@@ -70,6 +72,12 @@ extension CardsViewController {
             appSettings.didRegisterForAirdropCampaignSucceed &&
             nabuUser.status == .approved &&
             !appSettings.didSeeAirdropPending
+        let shouldShowStellarModal = airdropConfig.isEnabled &&
+            !appSettings.didTapOnAirdropDeepLink &&
+            tiersResponse.userTiers.contains(where: {
+                return $0.tier == .tier2 &&
+                    ($0.state != .pending && $0.state != .rejected && $0.state != .verified)
+            })
 
         if shouldShowAirdropPending {
             showAirdropPending()
@@ -79,6 +87,9 @@ extension CardsViewController {
             return true
         } else if shouldShowContinueKYCAnnouncementCard {
             showContinueKycCard()
+            return true
+        } else if shouldShowStellarModal {
+            showStellarModal()
             return true
         } else if shouldShowStellarAirdropCard {
             showStellarAirdropCard()
@@ -155,5 +166,26 @@ extension CardsViewController {
             self?.animateHideCards()
         })
         showSingleCard(with: model)
+    }
+
+    private func showStellarModal() {
+        let getStarted = AlertAction(title: LocalizationConstants.AnnouncementCards.getStarted, style: .confirm)
+        let alertModel = AlertModel(
+            headline: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoTitle,
+            body: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoDescription,
+            actions: [getStarted],
+            image: UIImage(named: "symbol-xlm-color"),
+            dismissable: true,
+            style: .sheet
+        )
+        let alert = AlertView.make(with: alertModel) { action in
+            switch action.style {
+            case .confirm:
+                KYCCoordinator.shared.start()
+            case .default:
+                break
+            }
+        }
+        alert.show()
     }
 }

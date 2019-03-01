@@ -95,12 +95,12 @@ public class AlertView: UIView {
     }
     
     public class func headlineFont() -> UIFont {
-        let font = Font(.branded(.montserratSemiBold), size: .custom(18.0))
+        let font = Font(.branded(.montserratRegular), size: .custom(20.0))
         return font.result
     }
     
     public class func messageFont() -> UIFont {
-        let font = Font(.branded(.montserratMedium), size: .custom(14.0))
+        let font = Font(.branded(.montserratRegular), size: .custom(17.0))
         return font.result
     }
     

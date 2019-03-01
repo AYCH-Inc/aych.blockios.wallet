@@ -72,7 +72,9 @@ extension CardsViewController {
             appSettings.didRegisterForAirdropCampaignSucceed &&
             nabuUser.status == .approved &&
             !appSettings.didSeeAirdropPending
-        let shouldShowStellarModal = appSettings.isPinSet && // prevent showing over PIN screen when creating wallet
+        // appSettings.isPinSet needs to be checked in order to prevent
+        // showing this modal over the PIN screen when creating a wallet
+        let shouldShowStellarModal = appSettings.isPinSet &&
             airdropConfig.isEnabled &&
             !appSettings.didTapOnAirdropDeepLink &&
             tiersResponse.userTiers.contains(where: {

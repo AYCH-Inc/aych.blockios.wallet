@@ -170,11 +170,11 @@ extension CardsViewController {
     }
 
     private func showStellarModal() {
-        let getStarted = AlertAction(title: LocalizationConstants.AnnouncementCards.getStarted, style: .confirm)
+        let getFreeXlm = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoAction, style: .confirm)
         let alertModel = AlertModel(
             headline: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoDescription,
-            actions: [getStarted],
+            actions: [getFreeXlm],
             image: UIImage(named: "symbol-xlm-color"),
             dismissable: true,
             style: .sheet

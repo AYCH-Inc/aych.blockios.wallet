@@ -10,16 +10,25 @@
 #import "UIView+ChangeFrameAttribute.h"
 #import "Blockchain-Swift.h"
 
-@interface TabViewController () <AssetSelectorViewDelegate>
+@interface TabViewController () <AssetSelectorContainerDelegate>
+
+#pragma mark - Private IBOutlets
+
+@property (strong, nonatomic) IBOutlet UITabBarItem *requestTabBarItem;
+@property (strong, nonatomic) IBOutlet UITabBarItem *sendTabBarItem;
+@property (strong, nonatomic) IBOutlet UITabBarItem *homeTabBarItem;
+@property (strong, nonatomic) IBOutlet UITabBarItem *activityTabBarItem;
+@property (strong, nonatomic) IBOutlet UITabBarItem *swapTabBarItem;
+@property (strong, nonatomic) AssetSelectorContainerViewController *assetSelectorViewController;
+@property (strong, nonatomic) IBOutlet UIView *assetContainerView;
+
+
 @end
 
 @implementation TabViewController
 
-@synthesize oldViewController;
 @synthesize activeViewController;
 @synthesize contentView;
-
-UILabel *titleLabel;
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
@@ -30,16 +39,9 @@ UILabel *titleLabel;
 {
     [super awakeFromNib];
 
-    self.assetSelectorView = [[AssetSelectorView alloc] initWithFrame:CGRectMake(0, 0, bannerView.bounds.size.width, bannerView.bounds.size.height) delegate:self];
-    [bannerView addSubview:self.assetSelectorView];
-
-    [self setupNavigationItemTitleView];
-
     tabBar.delegate = self;
 
     selectedIndex = [ConstantsObjcBridge tabDashboard];
-
-    [self setupTabButtons];
 }
 
 - (void)viewDidLayoutSubviews
@@ -51,6 +53,15 @@ UILabel *titleLabel;
         safeAreaInsetBottom = window.rootViewController.view.safeAreaInsets.bottom;
     }
     _tabBarBottomConstraint.constant = safeAreaInsetBottom;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController isKindOfClass:[BaseNavigationController class]]) {
+        BaseNavigationController *controller = (BaseNavigationController *)segue.destinationViewController;
+        self.assetSelectorViewController = (AssetSelectorContainerViewController *)[controller viewControllers].firstObject;
+        self.assetSelectorViewController.delegate = self;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -65,43 +76,6 @@ UILabel *titleLabel;
     }
 }
 
-/**
- Setup custom title view for tap gesture support
- - SeeAlso:
- [titleView](https://developer.apple.com/documentation/uikit/uinavigationitem/1624935-titleview)
- */
-- (void)setupNavigationItemTitleView
-{
-    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, self.navigationBar.frame.size.height)];
-    titleLabel.adjustsFontSizeToFitWidth = NO;
-    titleLabel.font = [UIFont fontWithName:@"Montserrat-Regular" size:20];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.textColor = UIColor.whiteColor;
-
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleSymbol)];
-    [titleLabel addGestureRecognizer:tapGesture];
-
-    self.navigationItem.titleView = titleLabel;
-}
-
-- (void)toggleSymbol
-{
-    BlockchainSettings.sharedAppInstance.symbolLocal = !BlockchainSettings.sharedAppInstance.symbolLocal;
-}
-
-- (void)setupTabButtons
-{
-    NSDictionary *tabButtons = @{BC_STRING_SEND:sendButton, BC_STRING_DASHBOARD:dashBoardButton, BC_STRING_TRANSACTIONS:overviewButton, BC_STRING_REQUEST:requestButton};
-    for (UITabBarItem *button in [tabButtons allValues]) {
-        NSString *label = [[tabButtons allKeysForObject:button] firstObject];
-        button.title = label;
-        button.image = [button.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        button.selectedImage = [button.selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        [button setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_EXTRA_EXTRA_SMALL], NSForegroundColorAttributeName : UIColor.gray5} forState:UIControlStateNormal];
-        [button setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_EXTRA_EXTRA_SMALL], NSForegroundColorAttributeName : UIColor.brandSecondary} forState:UIControlStateSelected];
-    }
-}
-
 - (void)setActiveViewController:(UIViewController *)nviewcontroller
 {
     [self setActiveViewController:nviewcontroller animated:NO index:selectedIndex];
@@ -111,30 +85,21 @@ UILabel *titleLabel;
 {
     if (nviewcontroller == activeViewController)
         return;
-
-    self.oldViewController = activeViewController;
-
+    
     activeViewController = nviewcontroller;
-
-    CGFloat previousSelectedIndex = selectedIndex;
-
+    
     [self setSelectedIndex:newIndex];
-
-    [self insertActiveView];
-
-    self.oldViewController = nil;
-
-    if (animated) {
-        CATransition *animation = [CATransition animation];
-        [animation setDuration:ANIMATION_DURATION];
-        [animation setType:kCATransitionPush];
-        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
-        if (newIndex > previousSelectedIndex || (newIndex == previousSelectedIndex && self.assetSelectorView.selectedAsset == LegacyAssetTypeEther)) {
-            [animation setSubtype:kCATransitionFromRight];
-        } else {
-            [animation setSubtype:kCATransitionFromLeft];
-        }
-        [[contentView layer] addAnimation:animation forKey:@"SwitchToView1"];
+    
+    switch (newIndex) {
+        case 1:
+        case 2:
+            [self.assetContainerView setHidden:YES];
+            [self insertActiveView];
+            break;
+        default:
+            [self.assetContainerView setHidden:NO];
+            [self.assetSelectorViewController insertWithViewController:activeViewController];
+            break;
     }
     [self updateTopBarForIndex:newIndex];
 }
@@ -144,12 +109,15 @@ UILabel *titleLabel;
     if ([contentView.subviews count] > 0) {
         [[contentView.subviews firstObject] removeFromSuperview];
     }
-
-    CGFloat offsetForAssetSelector = (self.selectedIndex == [ConstantsObjcBridge tabDashboard]) ? 0 : [ConstantsObjcBridge assetTypeCellHeight];
+    
+    BOOL noOffset = (self.selectedIndex == [ConstantsObjcBridge tabDashboard] || [ConstantsObjcBridge tabSwap]);
+    
+    CGFloat offsetForAssetSelector = (noOffset) ? 0 : [ConstantsObjcBridge assetTypeCellHeight];
     activeViewController.view.frame = CGRectMake(0,
                                                  offsetForAssetSelector,
                                                  contentView.frame.size.width,
                                                  contentView.frame.size.height - offsetForAssetSelector);
+    
     [activeViewController.view setNeedsLayout];
 
     [contentView addSubview:activeViewController.view];
@@ -169,25 +137,10 @@ UILabel *titleLabel;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self->tabBar.selectedItem = [[self->tabBar items] objectAtIndex:selectedIndex];
     });
-
-    NSArray *titles = @[BC_STRING_SEND, BC_STRING_DASHBOARD, BC_STRING_TRANSACTIONS, BC_STRING_REQUEST];
-    if (nindex == 2) { return; }
-    if (nindex < titles.count) {
-        [self setTitleLabelText:[titles objectAtIndex:nindex]];
-    } else {
-        DLog(@"TabViewController Warning: no title found for selected index (array out of bounds)");
-    }
 }
 
 - (void)updateTopBarForIndex:(int)newIndex
 {
-    if (newIndex == [ConstantsObjcBridge tabDashboard]) {
-        [bannerView changeHeight:0];
-        [self.assetSelectorView hide];
-    } else {
-        [bannerView changeHeight:[ConstantsObjcBridge assetTypeCellHeight]];
-        [self.assetSelectorView show];
-    }
     self.navigationItem.titleView.userInteractionEnabled = (newIndex == [ConstantsObjcBridge tabTransactions]);
 }
 
@@ -210,16 +163,17 @@ UILabel *titleLabel;
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-    [self.assetSelectorView close];
-
-    if (item == sendButton) {
+    // TODO: Close asset selectors
+    if (item == self.sendTabBarItem) {
         [[AppCoordinator sharedInstance].tabControllerManager sendCoinsClicked:item];
-    } else if (item == overviewButton) {
+    } else if (item == self.activityTabBarItem) {
         [[AppCoordinator sharedInstance].tabControllerManager transactionsClicked:item];
-    } else if (item == requestButton) {
+    } else if (item == self.requestTabBarItem) {
         [[AppCoordinator sharedInstance].tabControllerManager receiveCoinClicked:item];
-    } else if (item == dashBoardButton) {
+    } else if (item == self.homeTabBarItem) {
         [[AppCoordinator sharedInstance].tabControllerManager dashBoardClicked:item];
+    } else if (item == self.swapTabBarItem) {
+        [[AppCoordinator sharedInstance].tabControllerManager swapTapped:item];
     }
 }
 
@@ -229,34 +183,9 @@ UILabel *titleLabel;
     [[[tabBar items] objectAtIndex:index] setBadgeValue:badgeString];
 }
 
-- (void)setTitleLabelText:(NSString *)text
-{
-    titleLabel.text = text;
-    titleLabel.font = [titleLabel.font fontWithSize:20];
-    titleLabel.adjustsFontSizeToFitWidth = NO;
-    [self.navigationItem.titleView sizeToFit];
-}
-
-- (void)updateBalanceLabelText:(NSString *)text
-{
-    titleLabel.text = text;
-    titleLabel.font = [titleLabel.font fontWithSize:27];
-    titleLabel.adjustsFontSizeToFitWidth = YES;
-    [self.navigationItem.titleView sizeToFit];
-}
-
 - (void)selectAsset:(LegacyAssetType)assetType
 {
-    self.assetSelectorView.selectedAsset = assetType;
-
-    [self assetSelectorChanged];
-}
-
-- (void)assetSelectorChanged
-{
-    LegacyAssetType asset = self.assetSelectorView.selectedAsset;
-
-    [self.assetDelegate didSetAssetType:asset];
+    self.assetSelectorViewController.currentAsset = assetType;
 }
 
 - (void)didFetchEthExchangeRate
@@ -281,30 +210,14 @@ UILabel *titleLabel;
 
 # pragma mark - Asset Selector Delegate
 
-- (void)didSelectAsset:(LegacyAssetType)assetType
+- (void)assetSelectorContainer:(AssetSelectorContainerViewController *)viewController selectedAsset:(LegacyAssetType)selectedAsset
 {
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        CGFloat offsetForAssetSelector = (self.selectedIndex == [ConstantsObjcBridge tabDashboard]) ? 0 : [ConstantsObjcBridge assetTypeCellHeight];
-        self.activeViewController.view.frame = CGRectMake(0,
-                                                          offsetForAssetSelector,
-                                                          self->contentView.frame.size.width,
-                                                          self->contentView.frame.size.height - offsetForAssetSelector);
-        [self->bannerView changeHeight:offsetForAssetSelector];
-    }];
-
-    [self selectAsset:assetType];
+    [self.assetDelegate didSetAssetType:selectedAsset];
 }
 
-- (void)didOpenSelector
+- (void)assetSelectorContainer:(AssetSelectorContainerViewController *)viewController tappedQRReaderFor:(LegacyAssetType)assetType
 {
-    CGFloat offsetForAssetSelector = [ConstantsObjcBridge assetTypeCellHeight] * self.assetSelectorView.assets.count;
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        self.activeViewController.view.frame = CGRectMake(0,
-                                                          offsetForAssetSelector,
-                                                          self->contentView.frame.size.width,
-                                                          self->contentView.frame.size.height - offsetForAssetSelector);
-        [self->bannerView changeHeight:offsetForAssetSelector];
-    }];
+    [self.assetDelegate qrCodeButtonClicked];
 }
 
 @end

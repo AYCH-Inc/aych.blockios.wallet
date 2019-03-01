@@ -518,41 +518,6 @@
     [totalAmountView updateLabelsWithAmount:[self getInputAmountInSatoshi]];
 }
 
-- (void)changeTopView:(BOOL)shouldShowQR
-{
-    UIView *viewToHide = shouldShowQR ? self.view.topView : self.headerView;
-    UIView *viewToShow = shouldShowQR ? self.headerView : self.view.topView;
-    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
-    CGFloat newContainerYPosition = shouldShowQR ? self.view.frame.origin.y + self.view.frame.size.height - (IS_USING_SCREEN_SIZE_4S ? BOTTOM_CONTAINER_HEIGHT_PLUS_BUTTON_SPACE_4S : BOTTOM_CONTAINER_HEIGHT_PLUS_BUTTON_SPACE_DEFAULT) - tabControllerManager.tabViewController.assetControlContainer.frame.size.height : self.view.topView.frame.size.height;
-    
-    viewToShow.alpha = 0;
-    viewToShow.hidden = NO;
-    
-    viewToHide.alpha = 1;
-    viewToHide.hidden = NO;
-    
-    CGFloat newContainerHeight = shouldShowQR ? BOTTOM_CONTAINER_HEIGHT_PARTIAL : BOTTOM_CONTAINER_HEIGHT_FULL;
-    CGFloat newLineXPosition = shouldShowQR ? 0 : 15;
-    
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        viewToHide.alpha = 0;
-        [self.bottomContainerView changeYPosition:newContainerYPosition];
-        [self.bottomContainerView changeHeight:newContainerHeight];
-        [self.lineBelowFromField changeXPosition:newLineXPosition];
-    } completion:^(BOOL finished) {
-        
-        viewToHide.hidden = YES;
-        
-        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-            viewToShow.alpha = 1;
-        }];
-    }];
-}
-
-#pragma mark - Asset Agnostic Methods
-
-
-
 #pragma mark - Actions
 
 - (IBAction)doneButtonClicked:(UIButton *)sender

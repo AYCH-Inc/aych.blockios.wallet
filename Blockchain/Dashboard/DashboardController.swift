@@ -127,8 +127,9 @@ final class DashboardController: UIViewController {
             object: nil
         )
 
+        title = LocalizationConstants.ObjCStrings.BC_STRING_DASHBOARD
+        
         view.backgroundColor = .lightGray
-
         contentView.addSubview(balancesChartView)
 
         setupPricePreviewViews()
@@ -297,6 +298,12 @@ final class DashboardController: UIViewController {
     }
 
     private func reloadBalances(_ balances: [AssetType: CryptoValue]? = nil) {
+        /// NOTE: This is here due to an issue moving `Swap` to the tab bar caused.
+        /// If the view hadn't loaded subviews would be lazily instantiated prior to being
+        /// added as subviews resulting in multiple instances of `balancesChartView` being
+        /// created.
+        guard isViewLoaded == true else { return }
+        
         let btcBalance = balances?[.bitcoin] ?? CryptoValue.bitcoinFromMajor(int: 0)
         let btcFiatBalance = btcBalance.convertToFiatValue(exchangeRate: lastBtcExchangeRate)
 
@@ -359,6 +366,12 @@ final class DashboardController: UIViewController {
     // TICKET: IOS-1506 - Encapsulate methods to get balances into separate component & decouple from DashboardController
     // swiftlint:disable:next function_body_length
     @objc func reload() {
+        /// NOTE: This is here due to an issue moving `Swap` to the tab bar caused.
+        /// If the view hadn't loaded subviews would be lazily instantiated prior to being
+        /// added as subviews resulting in multiple instances of `balancesChartView` being
+        /// created.
+        /// More than likely this will go away once we move the dashboard to a `UICollectionView`.
+        guard isViewLoaded == true else { return }
         if !wallet.isInitialized() {
             reloadBalances()
         }
@@ -567,5 +580,15 @@ extension DashboardController: IAxisValueFormatter {
             Logger.shared.warning("Warning: no axis found!")
             return String()
         }
+    }
+}
+
+extension DashboardController: NavigatableView {
+    func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
+        AppCoordinator.shared.tabControllerManager.qrCodeButtonClicked()
+    }
+    
+    func navControllerLeftBarButtonTapped(_ navController: UINavigationController) {
+        AppCoordinator.shared.toggleSideMenu()
     }
 }

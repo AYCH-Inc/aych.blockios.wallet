@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2c8-3Y-eUy">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Tab Controller Manager-->
+        <scene sceneID="1gJ-h2-rvq">
+            <objects>
+                <viewController id="2c8-3Y-eUy" customClass="TabControllerManager" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DqC-5K-gKu">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jww-WB-DG7">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <connections>
+                                    <segue destination="dTk-Xn-vT8" kind="embed" id="lOi-RW-van"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jww-WB-DG7" firstAttribute="top" secondItem="DqC-5K-gKu" secondAttribute="top" id="FWs-fM-DzF"/>
+                            <constraint firstItem="jww-WB-DG7" firstAttribute="leading" secondItem="zVP-DB-C4c" secondAttribute="leading" id="Gu6-jT-IDY"/>
+                            <constraint firstItem="zVP-DB-C4c" firstAttribute="bottom" secondItem="jww-WB-DG7" secondAttribute="bottom" id="Mw4-16-OmM"/>
+                            <constraint firstItem="zVP-DB-C4c" firstAttribute="trailing" secondItem="jww-WB-DG7" secondAttribute="trailing" id="Wyj-8j-ccQ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="zVP-DB-C4c"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uWs-34-F8p" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-218" y="-449"/>
+        </scene>
+        <!--TabViewController-->
+        <scene sceneID="kgc-Y8-Y0h">
+            <objects>
+                <viewControllerPlaceholder storyboardName="TabViewController" id="dTk-Xn-vT8" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PzZ-EA-yaz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="518" y="-450"/>
+        </scene>
+    </scenes>
+</document>

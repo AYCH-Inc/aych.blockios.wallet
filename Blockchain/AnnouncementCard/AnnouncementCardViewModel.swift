@@ -24,7 +24,7 @@ import Foundation
         titleTextColor: UIColor = #colorLiteral(red: 0.004, green: 0.29, blue: 0.486, alpha: 1),
         messageTextColor: UIColor = #colorLiteral(red: 0.373, green: 0.373, blue: 0.373, alpha: 1),
         actionTextColor: UIColor = #colorLiteral(red: 0.06274509804, green: 0.6784313725, blue: 0.8941176471, alpha: 1),
-        backgroundColor: UIColor = .clear
+        backgroundColor: UIColor = .white
         ) {
         self.isNew = isNew
         self.contentMode = backgroundContentMode

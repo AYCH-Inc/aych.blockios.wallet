@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -33,7 +33,7 @@
                     <viewLayoutGuide key="safeArea" id="jfF-XY-3Dn"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Fl-kg-VGQ">
-                    <rect key="frame" x="50" y="8" width="301" height="28"/>
+                    <rect key="frame" x="50" y="8" width="45.5" height="28"/>
                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -61,12 +61,11 @@
             <color key="backgroundColor" red="0.0" green="0.25882352941176467" blue="0.43529411764705883" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="0Fl-kg-VGQ" firstAttribute="leading" secondItem="4nA-rw-wQW" secondAttribute="trailing" constant="12" id="B3E-kD-Kzk"/>
-                <constraint firstItem="iCG-sr-J43" firstAttribute="leading" secondItem="0Fl-kg-VGQ" secondAttribute="trailing" constant="8" id="CtD-aZ-nTj"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="iCG-sr-J43" secondAttribute="trailing" id="Ju2-sp-K5j"/>
                 <constraint firstItem="4nA-rw-wQW" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="Ukg-CE-axa"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="0Fl-kg-VGQ" secondAttribute="bottom" constant="8" id="a6Q-gM-Pn3"/>
                 <constraint firstItem="iCG-sr-J43" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="k2H-i9-m0t"/>
                 <constraint firstItem="4nA-rw-wQW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="12" id="nj0-Od-RXA"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="iCG-sr-J43" secondAttribute="trailing" id="vuF-IL-L1h"/>
                 <constraint firstItem="0Fl-kg-VGQ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="xLR-P7-LII"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>

@@ -34,10 +34,6 @@ extension ExchangeListPresenter: ExchangeListDelegate {
         interactor.nextPageBefore(identifier: identifier)
     }
     
-    func onNewOrderTapped() {
-        interface?.showNewExchange(animated: true)
-    }
-    
     func onPullToRefresh() {
         interface?.refreshControlVisibility(.visible)
         interactor.refresh()

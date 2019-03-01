@@ -26,10 +26,11 @@ struct Constants {
         static let durationLong = 0.5
     }
     struct Navigation {
-        static let tabSend = 0
-        static let tabDashboard = 1
-        static let tabTransactions = 2
-        static let tabReceive = 3
+        static let tabTransactions = 0
+        static let tabSwap = 1
+        static let tabDashboard = 2
+        static let tabSend = 3
+        static let tabReceive = 4
     }
     struct TransactionTypes {
         // TODO: change to enum, move to its own file,
@@ -193,6 +194,10 @@ struct Constants {
 
     @objc class func notificationKeyGetFiatAtTime() -> String {
         return Constants.NotificationKeys.getFiatAtTime.rawValue
+    }
+    
+    @objc class func tabSwap() -> Int {
+        return Constants.Navigation.tabSwap
     }
 
     @objc class func tabSend() -> Int {

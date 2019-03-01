@@ -878,6 +878,9 @@ struct LocalizationConstants {
             "See Charts",
             comment: "The title of the action button in the price preview views."
         )
+        static let activity = NSLocalizedString("Activity", comment: "Activity tab item")
+        static let send = NSLocalizedString("Send", comment: "Send tab item")
+        static let request = NSLocalizedString("Request", comment: "request tab item")
     }
 
     struct AnnouncementCards {
@@ -910,7 +913,7 @@ struct LocalizationConstants {
     }
 
     struct SideMenu {
-        static let loginToWebWallet = NSLocalizedString("Log in to Web Wallet", comment: "")
+        static let loginToWebWallet = NSLocalizedString("Pair Web Wallet", comment: "")
         static let logout = NSLocalizedString("Logout", comment: "")
         static let debug = NSLocalizedString("Debug", comment: "")
         static let logoutConfirm = NSLocalizedString("Do you really want to log out?", comment: "")
@@ -1399,6 +1402,7 @@ struct LocalizationConstants {
     }
 
     struct KYC {
+        static let welcome = NSLocalizedString("Welcome", comment: "Welcome")
         static let welcomeMainText = NSLocalizedString(
             "Introducing Blockchain's faster, smarter way to trade your crypto. Upgrade now to enjoy benefits such as better prices, higher trade limits and live rates.",
             comment: "Text displayed when user is starting KYC"
@@ -1777,6 +1781,9 @@ struct LocalizationConstants {
             comment: "Message on the swap card"
         )
         static let checkItOut = NSLocalizedString("Check it out!", comment: "CTA on the swap card")
+        static let swapInfo = NSLocalizedString("Swap Info", comment: "Swap Info")
+        static let close = NSLocalizedString("Close", comment: "Close")
+        static let orderHistory = NSLocalizedString("Order History", comment: "Order History")
     }
 
     struct Lockbox {

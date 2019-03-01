@@ -38,8 +38,16 @@
                           target:self action:@selector(transferAllFundsWarningClicked)];
 
     WalletManager.sharedInstance.addressesDelegate = self;
-
-    self.assetSelectorView = [[AssetSelectorView alloc] initWithFrame:CGRectMake(0, safeAreaInsetTop + navBarHeight, self.view.frame.size.width, [ConstantsObjcBridge assetTypeCellHeight]) assets:@[[NSNumber numberWithInteger:LegacyAssetTypeBitcoin], [NSNumber numberWithInteger:LegacyAssetTypeBitcoinCash]] delegate:self];
+    
+    CGRect selectorFrame = CGRectMake(0,
+                                      safeAreaInsetTop + navBarHeight,
+                                      self.view.frame.size.width,
+                                      [ConstantsObjcBridge assetTypeCellHeight]);
+    
+    self.assetSelectorView = [[AssetSelectorView alloc]
+                              initWithFrame:selectorFrame
+                              assets:@[[NSNumber numberWithInteger:LegacyAssetTypeBitcoin], [NSNumber numberWithInteger:LegacyAssetTypeBitcoinCash]]];
+    self.assetSelectorView.delegate = self;
     [self.view addSubview:self.assetSelectorView];
     
     [self setupBusyView];

@@ -9,6 +9,11 @@
 import Foundation
 
 class ExchangeNavigationController: BCActionNavigationController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateNavBarIfNeeded()
+    }
 
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         super.pushViewController(viewController, animated: animated)
@@ -26,11 +31,18 @@ class ExchangeNavigationController: BCActionNavigationController {
             return
         }
         let CTA = navigatableView.navControllerCTAType()
+        closeButton.isHidden = CTA != .dismiss
         rightButton.setImage(CTA.image?.withRenderingMode(.alwaysTemplate), for: .normal)
         rightButton.tintColor = navigatableView.ctaTintColor
         rightButton.isHidden = CTA.visibility.isHidden
         rightButtonTappedBlock = { [unowned self] in
             navigatableView.navControllerRightBarButtonTapped(self)
         }
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        backButton.isHidden = viewControllers.count == 1
     }
 }

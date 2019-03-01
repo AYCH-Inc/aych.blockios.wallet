@@ -13,9 +13,12 @@
 
 @interface TabControllerManager () <WalletSettingsDelegate, WalletSendBitcoinDelegate, WalletSendEtherDelegate, WalletExchangeIntermediateDelegate, WalletTransactionDelegate, WalletWatchOnlyDelegate, WalletFiatAtTimeDelegate>
 
-@property (strong, nonatomic) DashboardController *dashboardViewController;
+#pragma mark - Private Properties
+
+@property (strong, nonatomic) DashboardContainerViewController *dashboardContainer;
 @property (strong, nonatomic) SendLumensViewController *sendLumensViewController;
 @property (strong, nonatomic) TransactionsXlmViewController *transactionsStellarViewController;
+@property (strong, nonatomic) ExchangeContainerViewController *exchangeContainerViewController;
 
 @end
 @implementation TabControllerManager
@@ -24,14 +27,11 @@
 {
     [super viewDidLoad];
 
-    self.tabViewController.navigationBar = self.navigationBar;
     self.tabViewController.assetDelegate = self;
-
-    self.viewControllers = @[self.tabViewController];
 
     NSInteger assetType = [[[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_ASSET_TYPE] integerValue];
     self.assetType = assetType;
-    [self.tabViewController.assetSelectorView setSelectedAsset:assetType];
+    [self.tabViewController selectAsset:assetType];
 
     WalletManager *walletManager = WalletManager.sharedInstance;
     walletManager.settingsDelegate = self;
@@ -47,6 +47,14 @@
 {
     [super viewDidAppear:animated];
     [AppCoordinator.sharedInstance showHdUpgradeViewIfNeeded];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    [super prepareForSegue:segue sender:sender];
+    if ([segue.destinationViewController isKindOfClass:[TabViewController class]]) {
+        self.tabViewController = segue.destinationViewController;
+    }
 }
 
 - (void)didSetAssetType:(LegacyAssetType)assetType
@@ -142,7 +150,7 @@
 
 - (void)reload
 {
-    [_dashboardViewController reload];
+    [self.dashboardContainer.dashboard reload];
     [_sendBitcoinViewController reload];
     [_sendEtherViewController reload];
     [_sendBitcoinCashViewController reload];
@@ -156,7 +164,7 @@
 
 - (void)reloadAfterMultiAddressResponse
 {
-    [_dashboardViewController reload];
+    [self.dashboardContainer.dashboard reload];
     [_sendBitcoinViewController reloadAfterMultiAddressResponse];
     [_sendEtherViewController reloadAfterMultiAddressResponse];
     [_sendBitcoinCashViewController reloadAfterMultiAddressResponse];
@@ -178,6 +186,7 @@
     [self updateTransactionsViewControllerData:nil];
     [self.sendEtherViewController clearFundsAvailable];
     [_receiveBitcoinViewController clearAmounts];
+    [self.exchangeContainerViewController showWelcome];
 
     [self dashBoardClicked:nil];
 }
@@ -189,6 +198,7 @@
     self.receiveBitcoinCashViewController = nil;
     self.transactionsStellarViewController = nil;
     self.sendLumensViewController = nil;
+    self.exchangeContainerViewController = nil;
     [_transactionsBitcoinViewController setData:nil];
 }
 
@@ -510,15 +520,11 @@
 
 - (void)showDashboardAnimated:(BOOL)animated
 {
-    if (!_dashboardViewController) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Dashboard" bundle:nil];
-        DashboardController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardController"];
-        self.dashboardViewController = dashboardViewController;
+    [_tabViewController setActiveViewController:self.dashboardContainer animated:animated index:[ConstantsObjcBridge tabDashboard]];
+
+    if (self.dashboardContainer.dashboard != nil) {
+        [self.dashboardContainer.dashboard setAssetType:self.assetType];
     }
-
-    [_tabViewController setActiveViewController:self.dashboardViewController animated:animated index:[ConstantsObjcBridge tabDashboard]];
-
-    [self.dashboardViewController setAssetType:self.assetType];
 }
 
 #pragma mark - Transactions
@@ -574,11 +580,6 @@
     [_receiveBitcoinViewController reloadMainAddress];
 }
 
-- (NSInteger)getFilterIndex
-{
-    return _transactionsBitcoinViewController.filterIndex;
-}
-
 - (void)filterTransactionsByImportedAddresses
 {
     _transactionsBitcoinViewController.clickedFetchMore = NO;
@@ -616,14 +617,13 @@
 
 - (void)reloadSymbols
 {
-    [_dashboardViewController reloadSymbols];
+    [self.dashboardContainer.dashboard reloadSymbols];
     [_sendBitcoinViewController reloadSymbols];
     [_sendBitcoinCashViewController reloadSymbols];
     [_transactionsBitcoinViewController reloadSymbols];
     [_transactionsEtherViewController reloadSymbols];
     [_transactionsBitcoinCashViewController reloadSymbols];
     [_tabViewController reloadSymbols];
-    [[ExchangeCoordinator sharedInstance] reloadSymbols];
 }
 
 - (void)reloadSendController
@@ -714,8 +714,6 @@
     if (self.sendBitcoinViewController) {
         [self hideSendKeyboard];
     }
-
-    [self.delegate toggleSideMenu];
 }
 
 - (void)dashBoardClicked:(UITabBarItem *)sender
@@ -726,6 +724,11 @@
 - (void)receiveCoinClicked:(UITabBarItem *)sender
 {
     [self showReceiveAnimated:YES];
+}
+
+- (void)swapTapped:(UITabBarItem *)sender
+{
+    [self.tabViewController setActiveViewController:self.exchangeContainerViewController animated:true index:[ConstantsObjcBridge tabSwap]];
 }
 
 - (void)showReceiveBitcoinCash
@@ -769,9 +772,8 @@
     self.assetType = assetType;
 
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.assetType] forKey:USER_DEFAULTS_KEY_ASSET_TYPE];
-
-    self.tabViewController.assetSelectorView.selectedAsset = self.assetType;
-    [self.tabViewController.assetSelectorView reload];
+ 
+    [self.tabViewController selectAsset:assetType];
 }
 
 - (void)transactionsClicked:(UITabBarItem *)sender
@@ -860,9 +862,12 @@
     [_tabViewController setActiveViewController:viewControllerToPresent animated:NO index:[ConstantsObjcBridge tabSend]];
 }
 
+/// This callback happens when an Eth account is created. This happens when a user goes to
+/// swap for the first time. This is a delegate callback from the JS layer. This needs to be
+/// refactored so that it is in a completion handler and only in `ExchangeContainerViewController`
 - (void)didCreateEthAccountForExchange
 {
-    [ExchangeCoordinator.sharedInstance startWithRootViewController:self];
+    [self.exchangeContainerViewController showExchange];
 }
 
 - (void)showGetAssetsAlert
@@ -901,6 +906,22 @@
     }]];
 
     [self.tabViewController.presentedViewController presentViewController:showGetAssetsAlert animated:YES completion:nil];
+}
+
+- (ExchangeContainerViewController *)exchangeContainerViewController {
+    if (_exchangeContainerViewController == nil) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ExchangeContainerViewController" bundle:[NSBundle mainBundle]];
+        _exchangeContainerViewController = [storyboard instantiateInitialViewController];
+    }
+    return _exchangeContainerViewController;
+}
+
+- (DashboardContainerViewController *)dashboardContainer {
+    if (_dashboardContainer == nil) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"DashboardContainerViewController" bundle:[NSBundle mainBundle]];
+        _dashboardContainer = [storyboard instantiateInitialViewController];
+    }
+    return _dashboardContainer;
 }
 
 @end

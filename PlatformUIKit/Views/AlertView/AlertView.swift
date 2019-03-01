@@ -23,7 +23,7 @@ public class AlertView: UIView {
     fileprivate static let headlineToMessagePadding: CGFloat = 4.0
     fileprivate static let actionsVerticalPadding: CGFloat = 20.0
     fileprivate static let actionButtonHeight: CGFloat = 56.0
-    fileprivate static let imageHeight: CGFloat = 128.0
+    fileprivate static let imageHeight: CGFloat = 72.0
     
     // MARK: Private IBOutlets
 

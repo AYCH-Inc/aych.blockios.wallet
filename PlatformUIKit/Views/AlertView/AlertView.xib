@@ -25,16 +25,16 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Tub-Tv-IPM">
-                    <rect key="frame" x="20" y="32" width="335" height="112"/>
+                    <rect key="frame" x="20" y="36" width="335" height="108"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Need some help?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMH-3h-xM5">
-                            <rect key="frame" x="90" y="0.0" width="155.5" height="32"/>
+                            <rect key="frame" x="90" y="0.0" width="155.5" height="30.5"/>
                             <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="18"/>
                             <color key="textColor" red="0.35999999999999999" green="0.35999999999999999" blue="0.35999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Our Blockchain Support Team has written Help Guides explaining why we need to verify your identity." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TS2-x6-RO5">
-                            <rect key="frame" x="1" y="36" width="333" height="76"/>
+                            <rect key="frame" x="1" y="34.5" width="333" height="73.5"/>
                             <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                             <color key="textColor" red="0.35999999999999999" green="0.35999999999999999" blue="0.35999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -82,9 +82,9 @@
                     </constraints>
                 </stackView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="26G-g9-uGa">
-                    <rect key="frame" x="123.5" y="16" width="128" height="0.0"/>
+                    <rect key="frame" x="151.5" y="20" width="72" height="0.0"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="128" id="iB7-i6-wqH"/>
+                        <constraint firstAttribute="width" constant="72" id="iB7-i6-wqH"/>
                         <constraint firstAttribute="height" id="imc-cV-nyc"/>
                     </constraints>
                 </imageView>
@@ -92,7 +92,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="bWz-z9-ZgB" firstAttribute="bottom" secondItem="vXl-SB-GNz" secondAttribute="bottom" constant="24" id="4Ri-RF-CK2"/>
-                <constraint firstItem="26G-g9-uGa" firstAttribute="top" secondItem="bWz-z9-ZgB" secondAttribute="top" constant="16" id="6y4-9B-os9"/>
+                <constraint firstItem="26G-g9-uGa" firstAttribute="top" secondItem="bWz-z9-ZgB" secondAttribute="top" constant="20" id="6y4-9B-os9"/>
                 <constraint firstItem="OHT-0b-NgS" firstAttribute="width" secondItem="Tub-Tv-IPM" secondAttribute="width" id="GS8-5C-Fc8"/>
                 <constraint firstItem="dJ3-ZU-F1W" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="XMH-3h-xM5" secondAttribute="trailing" constant="4" id="NOf-xA-Jro"/>
                 <constraint firstAttribute="trailing" secondItem="Tub-Tv-IPM" secondAttribute="trailing" constant="20" id="YNZ-eu-CAw"/>

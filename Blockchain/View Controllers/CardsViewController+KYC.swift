@@ -191,4 +191,13 @@ extension CardsViewController {
         }
         alert.show()
     }
+
+    private func showGetFreeXlmCard() {
+        let model = AnnouncementCardViewModel.resubmitDocuments(action: { [unowned self] in
+            self.continueKyc()
+        }, onClose: { [weak self] in
+            self?.animateHideCards()
+        })
+        showSingleCard(with: model)
+    }
 }

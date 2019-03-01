@@ -108,7 +108,7 @@ import Foundation
     }
     
     private func handlePrivateKeyScan(result: NewResult<PrivateKeyQRCodeParser.PrivateKey, PrivateKeyQRCodeParser.PrivateKeyQRCodeParserError>, delegate: PrivateKeyReaderDelegate) {
-        handlePrivateKeyScan(result: result)
+        handlePrivateKeyScanFinished()
         switch result {
         case .success(let privateKey):
             delegate.didFinishScanning(privateKey.scannedKey, for: privateKey.assetAddress)
@@ -120,7 +120,7 @@ import Foundation
     
     // TODO: remove once LegacyPrivateKeyDelegate is deprecated
     private func handlePrivateKeyScan(result: NewResult<PrivateKeyQRCodeParser.PrivateKey, PrivateKeyQRCodeParser.PrivateKeyQRCodeParserError>, legacyDelegate: LegacyPrivateKeyDelegate) {
-        handlePrivateKeyScan(result: result)
+        handlePrivateKeyScanFinished()
         switch result {
         case .success(let privateKey):
             legacyDelegate.didFinishScanning(privateKey.scannedKey)
@@ -130,15 +130,9 @@ import Foundation
         }
     }
     
-    private func handlePrivateKeyScan(result: NewResult<PrivateKeyQRCodeParser.PrivateKey, PrivateKeyQRCodeParser.PrivateKeyQRCodeParserError>) {
+    private func handlePrivateKeyScanFinished() {
         LoadingViewPresenter.shared.hideBusyView()
         qrCodeScannerViewController = nil
-        if case .success(let privateKey) = result {
-            walletManager.wallet.addKey(
-                privateKey.scannedKey,
-                toWatchOnlyAddress: privateKey.assetAddress?.address
-            )
-        }
     }
     
     private func presentPrivateKeyScan(error: PrivateKeyReaderError) {

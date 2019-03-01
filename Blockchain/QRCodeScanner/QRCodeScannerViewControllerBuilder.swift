@@ -72,7 +72,7 @@ final class QRCodeScannerViewControllerBuilder<P: QRCodeScannerParsing> {
             )
     
             guard let qrCodeScannerViewModel = vm else { return nil }
-    
+            
             let scannerViewController = QRCodeScannerViewController(
                 viewModel: qrCodeScannerViewModel,
                 loadingViewPresenter: loadingViewPresenter,

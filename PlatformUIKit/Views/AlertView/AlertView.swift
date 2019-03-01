@@ -34,6 +34,7 @@ public class AlertView: UIView {
     @IBOutlet fileprivate var defaultButton: UIButton!
     @IBOutlet fileprivate var closeButton: UIButton!
     @IBOutlet fileprivate var headlineTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate var imageViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate var imageViewHeightConstraint: NSLayoutConstraint!
 
     fileprivate var model: AlertModel!
@@ -52,15 +53,12 @@ public class AlertView: UIView {
     
     public class func estimatedHeight(for width: CGFloat, model: AlertModel) -> CGFloat {
         let adjustedWidth = width - horizontalPadding
-        var imageViewHeight: CGFloat = 0.0
+        let imageViewHeight: CGFloat = model.imageHeight ?? 0
         var headlineHeight: CGFloat = 0.0
         var messageHeight: CGFloat = 0.0
         var interItemPadding: CGFloat = 0.0
         var actionsHeight: CGFloat = 0.0
 
-        if model.image != nil {
-            imageViewHeight += imageHeight
-        }
         if let value = model.headline {
             let attributed = NSAttributedString(
                 string: value,
@@ -116,9 +114,11 @@ public class AlertView: UIView {
         message.isHidden = model.body == nil
         headline.text = model.headline
         message.text = model.body
-        if let image = model.image {
+        if let image = model.image,
+            let height = model.imageHeight {
             imageView.image = image
-            imageViewHeightConstraint.constant = imageView.bounds.size.width
+            imageViewHeightConstraint.constant = height
+            imageViewWidthConstraint.constant = height
         }
         confirmButton.isHidden = model.actions.contains(where: { $0.style == .confirm }) == false
         defaultButton.isHidden = model.actions.contains(where: { $0.style == .default }) == false

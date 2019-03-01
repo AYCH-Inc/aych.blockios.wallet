@@ -178,6 +178,7 @@ extension CardsViewController {
             body: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoDescription,
             actions: [getFreeXlm],
             image: UIImage(named: "symbol-xlm-color"),
+            imageHeight: 72.0,
             dismissable: true,
             style: .sheet
         )

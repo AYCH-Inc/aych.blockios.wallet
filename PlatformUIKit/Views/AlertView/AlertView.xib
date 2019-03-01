@@ -82,9 +82,9 @@
                     </constraints>
                 </stackView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="26G-g9-uGa">
-                    <rect key="frame" x="151.5" y="20" width="72" height="0.0"/>
+                    <rect key="frame" x="187.5" y="20" width="0.0" height="0.0"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="72" id="iB7-i6-wqH"/>
+                        <constraint firstAttribute="width" id="iB7-i6-wqH"/>
                         <constraint firstAttribute="height" id="imc-cV-nyc"/>
                     </constraints>
                 </imageView>
@@ -116,6 +116,7 @@
                 <outlet property="headlineTrailingConstraint" destination="NOf-xA-Jro" id="Tfw-d6-KUo"/>
                 <outlet property="imageView" destination="26G-g9-uGa" id="TFJ-0x-kvd"/>
                 <outlet property="imageViewHeightConstraint" destination="imc-cV-nyc" id="isS-dB-RV9"/>
+                <outlet property="imageViewWidthConstraint" destination="iB7-i6-wqH" id="Ua4-26-O2x"/>
                 <outlet property="message" destination="TS2-x6-RO5" id="gfk-hm-y78"/>
             </connections>
             <point key="canvasLocation" x="288.80000000000001" y="-156.52173913043478"/>

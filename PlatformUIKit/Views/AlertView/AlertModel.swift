@@ -10,7 +10,6 @@ import UIKit
 
 public struct AlertModel {
     public let image: UIImage?
-    public let imageHeight: CGFloat?
     public let headline: String?
     public let body: String?
     public let actions: [AlertAction]
@@ -22,7 +21,6 @@ public struct AlertModel {
         body: String?,
         actions: [AlertAction],
         image: UIImage? = nil,
-        imageHeight: CGFloat? = nil,
         dismissable: Bool = true,
         style: AlertViewStyle = .default
     ) {
@@ -30,7 +28,6 @@ public struct AlertModel {
         self.body = body
         self.actions = actions
         self.image = image
-        self.imageHeight = imageHeight
         self.dismissable = dismissable
         self.style = style
     }

@@ -53,7 +53,7 @@ public class AlertView: UIView {
     
     public class func estimatedHeight(for width: CGFloat, model: AlertModel) -> CGFloat {
         let adjustedWidth = width - horizontalPadding
-        let imageViewHeight: CGFloat = model.imageHeight ?? 0
+        let imageViewHeight: CGFloat = model.image?.size.height ?? 0
         var headlineHeight: CGFloat = 0.0
         var messageHeight: CGFloat = 0.0
         var interItemPadding: CGFloat = 0.0
@@ -114,11 +114,10 @@ public class AlertView: UIView {
         message.isHidden = model.body == nil
         headline.text = model.headline
         message.text = model.body
-        if let image = model.image,
-            let height = model.imageHeight {
+        if let image = model.image {
             imageView.image = image
-            imageViewHeightConstraint.constant = height
-            imageViewWidthConstraint.constant = height
+            imageViewHeightConstraint.constant = image.size.height
+            imageViewWidthConstraint.constant = image.size.width
         }
         confirmButton.isHidden = model.actions.contains(where: { $0.style == .confirm }) == false
         defaultButton.isHidden = model.actions.contains(where: { $0.style == .default }) == false

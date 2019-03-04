@@ -16,7 +16,6 @@ import Foundation
     @objc func stellarAirdropCardActionTapped() {
         let appSettings = BlockchainSettings.App.shared
         stellarAirdropRouter.registerForCampaign(success: { user in
-            appSettings.didAttemptToRouteForAirdrop = true
             appSettings.didRegisterForAirdropCampaignSucceed = true
             guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
                 Logger.shared.warning("Cannot start KYC. rootViewController is nil.")
@@ -24,7 +23,6 @@ import Foundation
             }
             KYCCoordinator.shared.start(from: rootViewController, tier: .tier2)
         }, error: { error in
-            appSettings.didAttemptToRouteForAirdrop = true
             appSettings.didRegisterForAirdropCampaignSucceed = false
             AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
         })

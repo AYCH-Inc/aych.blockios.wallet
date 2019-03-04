@@ -894,7 +894,7 @@ struct LocalizationConstants {
             comment: "Title of a bottom sheet alert prompting the user to complete KYC"
         )
         static let cardCompleteProfileDescription = NSLocalizedString(
-            "Complete your profile today and we will airdrop $25 of free Stellar (XLM) into your Wallet!",
+            "Complete your Blockchain profile today and we'll airdrop $25 of XLM directly into your Wallet!",
             comment: "Description of a bottom sheet alert prompting the user to complete KYC"
         )
         static let cardCompleteProfileAction = NSLocalizedString(

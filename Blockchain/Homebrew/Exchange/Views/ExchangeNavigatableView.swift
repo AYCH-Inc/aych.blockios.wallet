@@ -62,6 +62,8 @@ extension ExchangeNavigatableView where Self: UIViewController {
                 _ = KYCTiersViewController.routeToTiers(
                     fromViewController: this
                 )
+            case .dismiss:
+                break
             }
         }
         alert.show()

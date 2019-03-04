@@ -178,10 +178,11 @@ extension CardsViewController {
 
     private func showStellarModal() {
         let getFreeXlm = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoAction, style: .confirm)
+        let dismiss = AlertAction(title: "discard", style: .dismiss)
         let alertModel = AlertModel(
             headline: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoDescription,
-            actions: [getFreeXlm],
+            actions: [getFreeXlm, dismiss],
             image: UIImage(named: "symbol-xlm-color"),
             dismissable: true,
             style: .sheet
@@ -191,9 +192,9 @@ extension CardsViewController {
             case .confirm:
                 BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal = true
                 KYCCoordinator.shared.start()
-            case .default:
+            case .default,
+                 .dismiss:
                 BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal = true
-                break
             }
         }
         alert.show()

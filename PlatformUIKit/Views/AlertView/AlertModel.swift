@@ -66,6 +66,8 @@ public enum AlertActionStyle {
     /// `UIButton` with blue border and blue text.
     /// It appears _below_ the `confirm` style button.
     case `default`
+    /// When the user taps outside of the view to dismiss it.
+    case dismiss
 }
 
 public enum AlertViewStyle {

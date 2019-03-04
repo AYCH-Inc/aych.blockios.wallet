@@ -94,11 +94,16 @@ extension CardsViewController {
 
     private func showStellarAirdropCard() {
         let model = AnnouncementCardViewModel.joinAirdropWaitlist(action: {
-            UIApplication.shared.openWebView(
-                url: Constants.Url.airdropWaitlist,
-                title: LocalizationConstants.Stellar.claimYourFreeXLMNow,
-                presentingViewController: AppCoordinator.shared.tabControllerManager
-            )
+            let router = StellarAirdropRouter()
+            router.registerForCampaign(success: { user in
+                guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+                    Logger.shared.warning("Cannot start KYC. rootViewController is nil.")
+                    return
+                }
+                KYCCoordinator.shared.start(from: rootViewController, tier: .tier2)
+            }, error: { error in
+                AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
+            })
         }, onClose: { [weak self] in
             BlockchainSettings.Onboarding.shared.hasSeenAirdropJoinWaitlistCard = true
             self?.animateHideCards()

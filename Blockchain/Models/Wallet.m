@@ -2685,21 +2685,28 @@ NSString * const kLockboxInvitation = @"lockbox";
         formattedAmount = [NSString stringWithFormat:@"%lld", [NSNumberFormatter parseBtcValueFromString:orderTransaction.amount]];
         [self.context invokeOnceWithValueFunctionBlock:^(JSValue *_Nonnull errorValue) {
             completion();
-            error([NSString stringWithFormat:[LocalizationConstantsObjcBridge notEnoughXForFees], [ConstantsObjcBridge btcCode]]);
+            /// TODO: We used to provide a more user friendly message noting that the user may not have
+            /// enough BTC to cover fees. However we use this closure to report various error messages and
+            /// diagnose why trades may be expiring, so we need to display the actual error that is thrown
+            /// by the JS layer.
+            NSString *errorMessage = [errorValue toString];
+            error(errorMessage);
         } forJsFunctionName:@"objc_on_create_order_payment_error"];
     } else if (orderTransaction.legacyAssetType == LegacyAssetTypeBitcoinCash) {
         tradeExecutionType = @"bitcoinCash";
         formattedAmount = [NSString stringWithFormat:@"%lld", [NSNumberFormatter parseBtcValueFromString:orderTransaction.amount]];
-        [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull errorValue) {
+        [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull errorValue) {
+            NSString *errorMessage = [errorValue toString];
             completion();
-            error(errorValue);
+            error(errorMessage);
         } forJsFunctionName:@"objc_on_create_order_payment_error"];
     } else if (orderTransaction.legacyAssetType == LegacyAssetTypeEther) {
         tradeExecutionType = @"ether";
         formattedAmount = orderTransaction.amount;
-        [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull errorValue) {
+        [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull errorValue) {
             completion();
-            error(errorValue);
+            NSString *errorMessage = [errorValue toString];
+            error(errorMessage);
         } forJsFunctionName:@"objc_on_create_order_payment_error"];
     } else {
         DLog(@"Unsupported legacy asset type");
@@ -2716,9 +2723,10 @@ NSString * const kLockboxInvitation = @"lockbox";
         success();
     } forJsFunctionName:@"objc_on_send_order_transaction_success"];
     
-    [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull errorValue) {
+    [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull errorValue) {
+        NSString *errorMessage = [errorValue toString];
         completion();
-        error(errorValue);
+        error(errorMessage);
     } forJsFunctionName:@"objc_on_send_order_transaction_error"];
 
     [self.context invokeOnceWithFunctionBlock:^{

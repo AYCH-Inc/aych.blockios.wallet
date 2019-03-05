@@ -3199,7 +3199,9 @@ MyWalletPhone.tradeExecution = {
             .then(function (paymentPromise) {
                 objc_on_create_order_payment_success(paymentPromise.finalFee);
                 return paymentPromise
-            }).catch(objc_on_create_order_payment_error);
+                  }).catch(function(e) {
+                        objc_on_create_order_payment_error(JSON.stringify(e))
+                });
         },
         send: function(secondPassword) {
             MyWalletPhone.sendBitcoinPayment(currentPayment, secondPassword, objc_on_send_order_transaction_success, objc_on_send_order_transaction_error, objc_on_send_order_transaction_dismiss);
@@ -3219,7 +3221,9 @@ MyWalletPhone.tradeExecution = {
                 currentBitcoinCashPayment.feePerByte(MyWalletPhone.bch.feePerByte());
                 currentBitcoinCashPayment.build();
                 objc_on_create_order_payment_success(fee);
-            }).catch(objc_on_create_order_payment_error);
+            }).catch(function(e) {
+                objc_on_create_order_payment_error(JSON.stringify(e))
+            });
         },
         send: function(secondPassword) {
             MyWalletPhone.sendBitcoinPayment(currentBitcoinCashPayment, secondPassword, objc_on_send_order_transaction_success, objc_on_send_order_transaction_error, objc_on_send_order_transaction_dismiss);
@@ -3236,7 +3240,9 @@ MyWalletPhone.tradeExecution = {
                 currentEtherPayment.setTo(to);
                 currentEtherPayment.setValue(amount);
                 objc_on_create_order_payment_success(currentEtherPayment.fee);
-            }).catch(objc_on_create_order_payment_error);
+            }).catch(function(e) {
+                objc_on_create_order_payment_error(JSON.stringify(e))
+            });
         },
         send: function(secondPassword) {
             MyWalletPhone.sendEtherPayment(currentEtherPayment, secondPassword, objc_on_send_order_transaction_success, objc_on_send_order_transaction_error, objc_on_send_order_transaction_dismiss);

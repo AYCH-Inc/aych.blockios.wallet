@@ -23,6 +23,7 @@ protocol SendXLMViewControllerDelegate: class {
 
 @objc class SendLumensViewController: UIViewController, BottomButtonContainerView {
     
+    
     fileprivate static let topToStackView: CGFloat = 12.0
     fileprivate static let maximumMemoTextLength: Int = 28
     
@@ -92,7 +93,9 @@ protocol SendXLMViewControllerDelegate: class {
     private var xlmAmount: Decimal?
     private var xlmFee: Decimal?
     private var baseReserve: Decimal?
-
+    
+    private var qrScannerViewModel: QRCodeScannerViewModel<AddressQRCodeParser>?
+    
     // MARK: Factory
     
     @objc class func make(with provider: XLMServiceProvider) -> SendLumensViewController {
@@ -136,10 +139,37 @@ protocol SendXLMViewControllerDelegate: class {
     // MARK: Public Methods
 
     @objc func scanQrCodeForDestinationAddress() {
-        let qrCodeScanner = QRCodeScannerSendViewController()
-        qrCodeScanner.qrCodebuttonClicked(nil)
-        qrCodeScanner.delegate = self
-        present(qrCodeScanner, animated: false)
+        guard let scanner = QRCodeScanner() else { return }
+        
+        let parser = AddressQRCodeParser(assetType: .stellar)
+        let textViewModel = AddressQRCodeTextViewModel()
+        
+        qrScannerViewModel = QRCodeScannerViewModel(
+            parser: parser,
+            textViewModel: textViewModel,
+            scanner: scanner,
+            completed: { [weak self] result in
+                self?.handleAddressScan(result: result)
+            }
+        )
+        
+        let viewController = QRCodeScannerViewControllerBuilder(viewModel: qrScannerViewModel)?
+            .with(dismissAnimated: false)
+            .build()
+        
+        guard let qrCodeScannerViewController = viewController else { return }
+        
+        DispatchQueue.main.async {
+            guard let controller = AppCoordinator.shared.tabControllerManager.tabViewController else { return }
+            controller.present(qrCodeScannerViewController, animated: true, completion: nil)
+        }
+    }
+    
+    private func handleAddressScan(result: NewResult<AddressQRCodeParser.Address, AddressQRCodeParser.AddressQRCodeParserError>) {
+        if case .success(let address) = result {
+            stellarAddressField.text = address.payload.address
+            stellarAmountField.text = address.payload.amount
+        }
     }
     
     // MARK: Lifecycle
@@ -396,19 +426,6 @@ extension SendLumensViewController: ActionableLabelDelegate {
     func actionRequestingExecution(label: ActionableLabel) {
         guard let trigger = trigger else { return }
         trigger.execute()
-    }
-}
-
-extension SendLumensViewController: QRCodeScannerViewControllerDelegate {
-    func qrCodeScannerViewController(_ qrCodeScannerViewController: QRCodeScannerSendViewController, didScanString scannedString: String?) {
-        qrCodeScannerViewController.dismiss(animated: false)
-        guard let scanned = scannedString else { return }
-        guard let payload = AssetURLPayloadFactory.create(fromString: scanned, assetType: .stellar) else {
-            Logger.shared.error("Could not create payload from scanned string: \(scanned)")
-            return
-        }
-        stellarAddressField.text = payload.address
-        stellarAmountField.text = payload.amount
     }
 }
 

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import PlatformUIKit
+import SafariServices
 import RxSwift
 
 protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
@@ -88,20 +90,11 @@ class ExchangeCreateViewController: UIViewController {
     // MARK: Private Properties
 
     fileprivate var presenter: ExchangeCreatePresenter!
-    fileprivate var dependencies: ExchangeDependencies!
+    fileprivate var dependencies: ExchangeDependencies = ExchangeServices()
     fileprivate var assetAccountListPresenter: ExchangeAssetAccountListPresenter!
     fileprivate var fromAccount: AssetAccount!
     fileprivate var toAccount: AssetAccount!
     fileprivate var disposable: Disposable?
-
-    // MARK: Factory
-    
-    class func make(with dependencies: ExchangeDependencies) -> ExchangeCreateViewController {
-        let controller = ExchangeCreateViewController.makeFromStoryboard()
-        controller.dependencies = dependencies
-        AnalyticsService.shared.trackEvent(title: "exchange_create")
-        return controller
-    }
 
     // MARK: Lifecycle
     
@@ -112,6 +105,7 @@ class ExchangeCreateViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = LocalizationConstants.Swap.swap
         dependenciesSetup()
         viewsSetup()
         delegate?.onViewLoaded()
@@ -120,7 +114,6 @@ class ExchangeCreateViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let navController = navigationController as? BCNavigationController {
-            navController.apply(NavigationBarAppearanceLight, withBackgroundColor: .white)
             navController.headerTitle = LocalizationConstants.Swap.swap
         }
     }
@@ -150,7 +143,7 @@ class ExchangeCreateViewController: UIViewController {
     fileprivate func dependenciesSetup() {
         fromAccount = dependencies.assetAccountRepository.defaultAccount(for: .bitcoin)
         toAccount = dependencies.assetAccountRepository.defaultAccount(for: .ethereum)
-
+        
         // DEBUG - ideally add an .empty state for a blank/loading state for MarketsModel here.
         let interactor = ExchangeCreateInteractor(
             dependencies: dependencies,
@@ -168,6 +161,12 @@ class ExchangeCreateViewController: UIViewController {
         presenter.interface = self
         interactor.output = presenter
         delegate = presenter
+    }
+    
+    fileprivate func presentURL(_ url: URL) {
+        let viewController = SFSafariViewController(url: url)
+        viewController.modalPresentationStyle = .overFullScreen
+        present(viewController, animated: true, completion: nil)
     }
     
     // MARK: - IBActions
@@ -450,7 +449,9 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
     }
     
     func showSummary(orderTransaction: OrderTransaction, conversion: Conversion) {
-        ExchangeCoordinator.shared.handle(event: .confirmExchange(orderTransaction: orderTransaction, conversion: conversion))
+        let model = ExchangeDetailPageModel(type: .confirm(orderTransaction, conversion))
+        let confirmController = ExchangeDetailViewController.make(with: model, dependencies: ExchangeServices())
+        navigationController?.pushViewController(confirmController, animated: true)
     }
 }
 
@@ -539,12 +540,75 @@ extension ExchangeCreateViewController: ActionableLabelDelegate {
     }
 }
 
-extension ExchangeCreateViewController: ExchangeNavigatableView {
-    var ctaTintColor: UIColor? {
-        return UIColor.brandPrimary
+extension ExchangeCreateViewController: NavigatableView {
+    var leftCTATintColor: UIColor {
+        return .white
     }
-
-    func navControllerCTAType() -> NavigationCTA {
-        return NavigationCTA.help
+    
+    var rightCTATintColor: UIColor {
+        return .white
+    }
+    
+    var leftNavControllerCTAType: NavigationCTAType {
+        return .menu
+    }
+    
+    var rightNavControllerCTAType: NavigationCTAType {
+        return .help
+    }
+    
+    var navigationDisplayMode: NavigationBarDisplayMode {
+        return .dark
+    }
+    
+    func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
+        guard let endpoint = URL(string: "https://blockchain.zendesk.com/") else { return }
+        guard let url = URL.endpoint(
+            endpoint,
+            pathComponents: ["hc", "en-us", "requests", "new"],
+            queryParameters: ["ticket_form_id" : "360000180551"]
+            ) else { return }
+        
+        let orderHistory = BottomSheetAction(title: LocalizationConstants.Swap.orderHistory, metadata: .block({
+            guard let root = UIApplication.shared.keyWindow?.rootViewController else {
+                Logger.shared.error("No navigation controller found")
+                return
+            }
+            let controller = ExchangeListViewController.make(with: self.dependencies)
+            let navController = BaseNavigationController(rootViewController: controller)
+            navController.modalTransitionStyle = .coverVertical
+            root.present(navController, animated: true, completion: nil)
+        }))
+        let viewLimits = BottomSheetAction(title: LocalizationConstants.Swap.viewMySwapLimit, metadata: .block({
+            _ = KYCTiersViewController.routeToTiers(fromViewController: self)
+        }))
+        let contactSupport = BottomSheetAction(title: LocalizationConstants.KYC.contactSupport, metadata: .url(url))
+        let model = BottomSheet(
+            title: LocalizationConstants.Swap.swapInfo,
+            dismissalTitle: LocalizationConstants.Swap.close,
+            actions: [orderHistory, contactSupport, viewLimits]
+        )
+        let sheet = BottomSheetView.make(with: model) { [weak self] action in
+            guard let this = self else { return }
+            guard let value = action.metadata else { return }
+            
+            switch value {
+            case .url(let url):
+                this.presentURL(url)
+            case .block(let block):
+                block()
+            case .pop:
+                this.navigationController?.popViewController(animated: true)
+            case .dismiss:
+                this.dismiss(animated: true, completion: nil)
+            case .payload:
+                break
+            }
+        }
+        sheet.show()
+    }
+    
+    func navControllerLeftBarButtonTapped(_ navController: UINavigationController) {
+        AppCoordinator.shared.toggleSideMenu()
     }
 }

@@ -21,4 +21,15 @@ public extension UIView {
         addSubview(subview)
         subview.constrain(to: self)
     }
+    
+    public func applyRadius(_ radius: CGFloat, to corners: UIRectCorner) {
+        let path = UIBezierPath(
+            roundedRect: bounds,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
+    }
 }

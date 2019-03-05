@@ -69,7 +69,6 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
     }
     
     @objc func reload() {
-        AppCoordinator.shared.tabControllerManager.tabViewController.updateBalanceLabelText("")
         getBalance()
     }
     
@@ -85,7 +84,7 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
                 let decimalNumber = NSDecimalNumber(decimal: account.assetAccount.balance)
                 let truncatedBalance = NumberFormatter.stellarFormatter.string(from: decimalNumber) ?? ""
                 let formattedBalance = truncatedBalance.appendAssetSymbol(for: .stellar)
-                AppCoordinator.shared.tabControllerManager.tabViewController.updateBalanceLabelText(formattedBalance)
+                self.title = formattedBalance
             }, onError: { error in
                 if let shouldShowError = displayError, shouldShowError == true {
                     AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)

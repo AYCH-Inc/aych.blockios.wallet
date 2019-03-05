@@ -15,16 +15,39 @@
 @interface AssetSelectorView () <UITableViewDataSource, UITableViewDelegate, AssetTypeCellDelegate>
 @property (nonatomic) UITableView *tableView;
 @property (nonatomic, readwrite) BOOL isOpen;
-@property (nonatomic, weak) id <AssetSelectorViewDelegate> delegate;
 @property (nonatomic, readwrite) NSArray *assets;
 @end
 
 @implementation AssetSelectorView
 
-- (id)initWithFrame:(CGRect)frame delegate:(id<AssetSelectorViewDelegate>)delegate
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame
 {
     if (self == [super initWithFrame:frame]) {
+        [self setup];
+    }
+    
+    return self;
+}
 
+- (id)initWithFrame:(CGRect)frame assets:(NSArray *)assets
+{
+    AssetSelectorView *assetSelectorView = [self initWithFrame:frame];
+    assetSelectorView.assets = assets;
+    return assetSelectorView;
+}
+
+- (void)setup
+{
+    if (self.tableView == nil) {
         NSMutableArray *allAssets = [
                                      @[[NSNumber numberWithInteger:LegacyAssetTypeBitcoin],
                                        [NSNumber numberWithInteger:LegacyAssetTypeEther],
@@ -36,28 +59,18 @@
         
         self.clipsToBounds = YES;
         
-        self.delegate = delegate;
         self.tableView = [[UITableView alloc] initWithFrame:self.bounds];
-        self.tableView.separatorColor = [UIColor clearColor];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         [self.tableView registerNib:[UINib nibWithNibName:@"AssetTypeCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:[AssetTypeCell identifier]];
         [self addSubview:self.tableView];
-
-        self.tableView.backgroundColor = UIColor.darkBlue;
-        self.backgroundColor = [UIColor clearColor];
-
+        
+        self.tableView.separatorColor = [UIColor darkBlue];
+        self.tableView.backgroundColor = [UIColor darkBlue];
+        self.backgroundColor = [UIColor darkBlue];
+        
         [self.tableView changeHeight:[ConstantsObjcBridge assetTypeCellHeight] * self.assets.count];
     }
-    
-    return self;
-}
-
-- (id)initWithFrame:(CGRect)frame assets:(NSArray *)assets delegate:(id<AssetSelectorViewDelegate>)delegate
-{
-    AssetSelectorView *assetSelectorView = [self initWithFrame:frame delegate:delegate];
-    assetSelectorView.assets = assets;
-    return assetSelectorView;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -67,6 +80,7 @@
     AssetType asset = [AssetTypeLegacyHelper convertFromLegacy:legacyAsset];
 
     AssetTypeCell *cell = [tableView dequeueReusableCellWithIdentifier:[AssetTypeCell identifier]];
+    cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, 0.0);
     [cell configureWith:asset showChevronButton:showChevron];
     cell.delegate = self;
     return cell;

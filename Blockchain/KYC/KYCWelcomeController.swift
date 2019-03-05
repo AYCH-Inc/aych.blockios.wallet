@@ -34,6 +34,7 @@ final class KYCWelcomeController: KYCBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = LocalizationConstants.KYC.welcome
         initMainView()
         initFooter()
     }

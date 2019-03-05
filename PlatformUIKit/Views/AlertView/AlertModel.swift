@@ -33,29 +33,15 @@ public struct AlertModel {
     }
 }
 
-public protocol AlertActionPayload { }
-
 public struct AlertAction {
     public let title: String
     public let style: AlertActionStyle
-    public let metadata: Metadata?
+    public let metadata: ActionMetadata?
     
-    public init(title: String, style: AlertActionStyle, metadata: AlertAction.Metadata? = nil) {
+    public init(title: String, style: AlertActionStyle, metadata: ActionMetadata? = nil) {
         self.title = title
         self.style = style
         self.metadata = metadata
-    }
-    
-    /// This may be renamed but the idea here is that where `AlertActions` are built
-    /// you can define different things that should happen when the action is selected like
-    /// presenting a URL, executing a block, or receiving any `AlertActionPayload` if you
-    /// need some custom behavior.
-    public enum Metadata {
-        case url(URL)
-        case block(() -> Void)
-        case pop
-        case dismiss
-        case payload(AlertActionPayload)
     }
 }
 

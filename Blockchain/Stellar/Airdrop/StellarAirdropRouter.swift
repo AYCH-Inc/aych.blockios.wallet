@@ -86,6 +86,9 @@ class StellarAirdropRouter: DeepLinkRouting {
                 strongSelf.appSettings.didAttemptToRouteForAirdrop = true
                 strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = true
 
+                guard user.status == .none else {
+                    return
+                }
                 guard let viewController = UIApplication.shared.keyWindow?.rootViewController else {
                     return
                 }

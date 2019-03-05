@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jKB-tY-Hco">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jKB-tY-Hco">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UOA-vy-LXW" userLabel="Content Container View">
-                                <rect key="frame" x="0.0" y="180.33333333333334" width="375" height="329.33333333333326"/>
+                                <rect key="frame" x="0.0" y="181" width="375" height="328"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Welcome" translatesAutoresizingMaskIntoConstraints="NO" id="sgf-OY-RMl">
                                         <rect key="frame" x="52.666666666666657" y="0.0" width="270" height="136"/>
@@ -36,13 +36,13 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dC5-hc-bdm" userLabel="Description Label">
-                                        <rect key="frame" x="24" y="166" width="327" height="74.333333333333314"/>
+                                        <rect key="frame" x="24" y="166" width="327" height="73"/>
                                         <attributedString key="attributedText">
                                             <fragment>
                                                 <string key="content">Introducing Blockchain's faster, smarter way to trade your crypto. Upgrade now to enjoy benefits such as better prices, higher trade limits and live rates.</string>
                                                 <attributes>
                                                     <color key="NSColor" red="0.35686274509803922" green="0.35686274509803922" blue="0.35686274509803922" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <font key="NSFont" size="14" name="Montserrat-Regular"/>
+                                                    <font key="NSFont" metaFont="system" size="14"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="2" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                 </attributes>
                                             </fragment>
@@ -50,7 +50,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dv9-ck-b0t" customClass="PrimaryButton" customModule="Blockchain" customModuleProvider="target">
-                                        <rect key="frame" x="24" y="278.33333333333331" width="327" height="44"/>
+                                        <rect key="frame" x="24" y="277" width="327" height="44"/>
                                         <color key="backgroundColor" red="0.062745098040000002" green="0.67843137249999996" blue="0.89411764709999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="pw6-gR-4vR"/>
@@ -64,7 +64,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.063" green="0.67800000000000005" blue="0.066000000000000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="dv9-ck-b0t" secondAttribute="bottom" constant="7" id="6Q3-RU-Lr4"/>
                                     <constraint firstItem="dC5-hc-bdm" firstAttribute="top" secondItem="sgf-OY-RMl" secondAttribute="bottom" constant="30" id="AnG-iO-8gT"/>
@@ -107,14 +107,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AzT-gm-yhf"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Exchange" id="PEt-7H-7Yn">
-                        <barButtonItem key="rightBarButtonItem" image="close" id="hvI-Vv-SE2">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="onCloseTapped:" destination="jKB-tY-Hco" id="Rkh-bF-xde"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="imageViewMain" destination="sgf-OY-RMl" id="rur-2E-OGb"/>
@@ -134,6 +126,5 @@
     </scenes>
     <resources>
         <image name="Welcome" width="272" height="137"/>
-        <image name="close" width="18" height="18"/>
     </resources>
 </document>

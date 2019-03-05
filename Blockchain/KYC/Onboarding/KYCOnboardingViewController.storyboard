@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KGS-kh-g0P">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Onboarding View Controller-->
+        <scene sceneID="SI9-tP-mnP">
+            <objects>
+                <viewController id="KGS-kh-g0P" customClass="KYCOnboardingViewController" customModule="Blockchain" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="64x-tN-cJL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E0F-bt-SaE" customClass="PrimaryButton" customModule="Blockchain" customModuleProvider="target">
+                                <rect key="frame" x="24" y="599" width="327" height="44"/>
+                                <color key="backgroundColor" red="0.062745098040000002" green="0.67843137249999996" blue="0.89411764709999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="01f-Pt-tge"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                <state key="normal" title="Begin Now">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="beginNowTapped:" destination="KGS-kh-g0P" eventType="touchUpInside" id="Sha-Ty-5Gg"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="42" translatesAutoresizingMaskIntoConstraints="NO" id="yea-nR-Xhe">
+                                <rect key="frame" x="24" y="205" width="327" height="277"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Welcome" translatesAutoresizingMaskIntoConstraints="NO" id="lob-gp-DMs">
+                                        <rect key="frame" x="3" y="0.0" width="321" height="162"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="lob-gp-DMs" secondAttribute="height" multiplier="135:68" id="KjV-Vl-6nI"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PBn-Wd-1AJ" userLabel="Description Label">
+                                        <rect key="frame" x="3" y="204" width="321" height="73"/>
+                                        <attributedString key="attributedText">
+                                            <fragment>
+                                                <string key="content">Introducing Blockchain's faster, smarter way to trade your crypto. Upgrade now to enjoy benefits such as better prices, higher trade limits and live rates.</string>
+                                                <attributes>
+                                                    <color key="NSColor" red="0.35686274509803922" green="0.35686274509803922" blue="0.35686274509803922" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" metaFont="system" size="14"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="2" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="lob-gp-DMs" firstAttribute="width" secondItem="PBn-Wd-1AJ" secondAttribute="width" id="Fa4-RF-mtc"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Sst-BS-ywy" firstAttribute="bottom" secondItem="E0F-bt-SaE" secondAttribute="bottom" constant="24" id="0Wk-r4-jVB"/>
+                            <constraint firstItem="E0F-bt-SaE" firstAttribute="leading" secondItem="Sst-BS-ywy" secondAttribute="leading" constant="24" id="4CN-Bi-eKE"/>
+                            <constraint firstItem="yea-nR-Xhe" firstAttribute="centerY" secondItem="Sst-BS-ywy" secondAttribute="centerY" id="4h3-6p-zaW"/>
+                            <constraint firstAttribute="trailing" secondItem="yea-nR-Xhe" secondAttribute="trailing" constant="24" id="6TW-LQ-ILy"/>
+                            <constraint firstItem="Sst-BS-ywy" firstAttribute="trailing" secondItem="E0F-bt-SaE" secondAttribute="trailing" constant="24" id="Aet-kR-O97"/>
+                            <constraint firstItem="yea-nR-Xhe" firstAttribute="leading" secondItem="Sst-BS-ywy" secondAttribute="leading" constant="24" id="dzA-sb-5A5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Sst-BS-ywy"/>
+                    </view>
+                    <connections>
+                        <outlet property="beginNowButton" destination="E0F-bt-SaE" id="A56-cH-zBd"/>
+                        <outlet property="welcomeDescription" destination="PBn-Wd-1AJ" id="GgG-u3-sdN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T17-dF-vS3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="223" y="104"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Welcome" width="272" height="137"/>
+    </resources>
+</document>

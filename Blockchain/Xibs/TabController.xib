@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14269.14" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14252.5"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TabControllerManager"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <navigationController id="f5Z-eL-LNT" customClass="TabControllerManager">
+        <navigationController id="f5Z-eL-LNT">
             <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="gnj-XK-anL">
                 <rect key="frame" x="0.0" y="-44" width="375" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -110,8 +110,17 @@
             <connections>
                 <outlet property="tabViewController" destination="M9G-7G-NQi" id="8Tc-3g-FU4"/>
             </connections>
-            <point key="canvasLocation" x="-819.5" y="-447"/>
+            <point key="canvasLocation" x="-1012" y="-449"/>
         </navigationController>
+        <viewController id="Hqt-79-hTL" customClass="TabControllerManager">
+            <view key="view" contentMode="scaleToFill" id="sps-Ov-mA3">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <viewLayoutGuide key="safeArea" id="Bsa-nb-O6W"/>
+            </view>
+            <point key="canvasLocation" x="-218" y="-449"/>
+        </viewController>
     </objects>
     <resources>
         <image name="dashboard" width="24" height="24"/>

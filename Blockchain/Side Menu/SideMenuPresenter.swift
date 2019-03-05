@@ -41,79 +41,29 @@ class SideMenuPresenter {
     }
 
     func loadSideMenu() {
-        guard let countryCodeGuess = wallet.countryCodeGuess() else {
-            setMenuItems(showExchange: false)
-            return
-        }
-
-        setMenuItems(showExchange: false)
-        
-        let stateCodeGuess = wallet.stateCodeGuess()
-        
-        let homebrewRegion = walletService.isCountryInHomebrewRegion(
-            countryCode: countryCodeGuess
-        ).asObservable()
-        let partnerRegion = walletService.isInPartnerRegionForExchange(
-            countryCode: countryCodeGuess,
-            state: stateCodeGuess
-        ).asObservable()
-        
-        disposable = Observable.combineLatest(BlockchainDataRepository.shared.nabuUser, homebrewRegion, partnerRegion) {
-            return ($0, $1, $2)
-        }.subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] payload in
-                guard let this = self else { return }
-                
-                let user = payload.0
-                let homebrewSupported = payload.1
-                let partnerSupported = payload.2
-                
-                /// Any user, regardless of their location should see
-                /// the exchange if they are approved.
-                if user.status == .approved {
-                    this.setMenuItems(showExchange: true)
-                } else {
-                    /// If the user is not approved, fall back on whether or not
-                    /// the region is HB or partner supported. 
-                    this.setMenuItems(
-                        showExchange: homebrewSupported || partnerSupported
-                    )
-                }
-            }, onError: { [weak self] error in
-                guard let this = self else { return }
-                Logger.shared.error("Failed to determine whether the country is supported by homebrew or by shapeshift.")
-                this.setMenuItems(showExchange: false)
-            })
+        setMenuItems()
     }
 
-    private func setMenuItems(showExchange: Bool) {
-        var items: [SideMenuItem] = []
+    private func setMenuItems() {
+        var items: [SideMenuItem] = [.accountsAndAddresses]
         
-        if wallet.isBuyEnabled() {
-            items.append(.buyBitcoin)
+        if wallet.isLockboxEnabled() {
+            items.append(.lockbox)
         }
-        if showExchange {
-            items.append(.exchange)
-        }
+        
         if wallet.didUpgradeToHd() {
             items.append(.backup)
         } else {
             items.append(.upgrade)
         }
-        items.append(contentsOf: [
-            .settings,
-            .accountsAndAddresses
-            ]
-        )
-        if wallet.isLockboxEnabled() {
-            items.append(.lockbox)
+        
+        if wallet.isBuyEnabled() {
+            items.append(.buyBitcoin)
         }
-        items.append(
-            contentsOf: [
-                .webLogin,
-                .support,
-                .logout
+        
+        items.append(contentsOf: [
+            .support,
+            .settings
             ]
         )
         view?.setMenu(items: items)

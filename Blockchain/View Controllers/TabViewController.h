@@ -15,12 +15,7 @@
 @end
 
 @interface TabViewController : UIViewController <UITabBarDelegate> {
-    IBOutlet UITabBarItem *sendButton;
-    IBOutlet UITabBarItem *dashBoardButton;
-    IBOutlet UITabBarItem *overviewButton;
-    IBOutlet UITabBarItem *requestButton;
     IBOutlet UITabBar *tabBar;
-    IBOutlet UIView *bannerView;
     UIViewController *activeViewController;
 	UIViewController *oldViewController;
 
@@ -29,26 +24,20 @@
 
 @property (nonatomic, retain) UINavigationBar *navigationBar;
 @property (nonatomic, retain) UIViewController *activeViewController;
-@property (nonatomic, retain) UIViewController *oldViewController;
 @property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *tabBarBottomConstraint;
-@property (nonatomic, retain) AssetSelectorView *assetSelectorView;
 @property (strong, nonatomic) UIView *assetControlContainer;
 @property (nonatomic, retain) UIView *menuSwipeRecognizerView;
 @property (nonatomic) UIView *tabBarGestureView;
-@property (nonatomic) UIView *bannerPricesView;
-@property (nonatomic) UILabel *ethPriceLabel;
-@property (nonatomic) UILabel *btcPriceLabel;
 
 @property(weak, nonatomic) id <AssetDelegate> assetDelegate;
+
 - (void)selectAsset:(LegacyAssetType)assetType;
 - (void)setActiveViewController:(UIViewController *)nviewcontroller animated:(BOOL)animated index:(int)index;
 - (void)addTapGestureRecognizerToTabBar:(UITapGestureRecognizer *)tapGestureRecognizer;
 - (void)removeTapGestureRecognizerFromTabBar:(UITapGestureRecognizer *)tapGestureRecognizer;
 - (int)selectedIndex;
 - (void)updateBadgeNumber:(NSInteger)number forSelectedIndex:(int)index;
-- (void)setTitleLabelText:(NSString *)text;
-- (void)updateBalanceLabelText:(NSString *)text;
 - (void)didFetchEthExchangeRate;
 - (void)reloadSymbols;
 @end

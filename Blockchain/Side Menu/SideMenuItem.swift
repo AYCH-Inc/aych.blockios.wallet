@@ -13,7 +13,6 @@ enum SideMenuItem: String, RawValued {
     case accountsAndAddresses = "accounts_and_addresses"
     case backup = "backup"
     case buyBitcoin = "buy_bitcoin"
-    case exchange = "exchange"
     case logout = "logout"
     case settings = "settings"
     case support = "support"
@@ -28,7 +27,6 @@ extension SideMenuItem {
         case .accountsAndAddresses: return LocalizationConstants.SideMenu.addresses
         case .backup: return LocalizationConstants.SideMenu.backupFunds
         case .buyBitcoin: return LocalizationConstants.SideMenu.buySellBitcoin
-        case .exchange: return LocalizationConstants.SideMenu.swap
         case .logout: return LocalizationConstants.SideMenu.logout
         case .settings: return LocalizationConstants.SideMenu.settings
         case .support: return LocalizationConstants.SideMenu.support
@@ -40,16 +38,15 @@ extension SideMenuItem {
 
     var image: UIImage {
         switch self {
-        case .accountsAndAddresses: return #imageLiteral(resourceName: "Icon-Address")
-        case .backup: return #imageLiteral(resourceName: "Icon-Backup")
+        case .accountsAndAddresses: return #imageLiteral(resourceName: "icon_wallet")
+        case .backup: return #imageLiteral(resourceName: "icon_backup")
         case .buyBitcoin: return #imageLiteral(resourceName: "Icon-Buy")
-        case .exchange: return #imageLiteral(resourceName: "Icon-Exchange-1")
         case .logout: return #imageLiteral(resourceName: "Icon-Logout")
-        case .settings: return #imageLiteral(resourceName: "Icon-Settings")
-        case .support: return #imageLiteral(resourceName: "Icon-Question")
+        case .settings: return #imageLiteral(resourceName: "icon_settings")
+        case .support: return #imageLiteral(resourceName: "icon_help")
         case .upgrade: return #imageLiteral(resourceName: "icon_upgrade")
         case .webLogin: return #imageLiteral(resourceName: "Icon-Web")
-        case .lockbox: return #imageLiteral(resourceName: "Icon-Lockbox")
+        case .lockbox: return #imageLiteral(resourceName: "icon_lbx")
         }
     }
     
@@ -60,7 +57,6 @@ extension SideMenuItem {
         case .accountsAndAddresses,
              .backup,
              .buyBitcoin,
-             .exchange,
              .logout,
              .settings,
              .support,

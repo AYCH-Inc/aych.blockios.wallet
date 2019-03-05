@@ -11,7 +11,6 @@ import Foundation
 protocol ExchangeListDataProviderDelegate: class {
     func dataProvider(_ dataProvider: ExchangeListDataProvider, nextPageBefore identifier: String)
     func dataProvider(_ dataProvider: ExchangeListDataProvider, didSelect trade: ExchangeTradeModel)
-    func newOrderTapped(_ dataProvider: ExchangeListDataProvider)
     func refreshControlTriggered(_ dataProvider: ExchangeListDataProvider)
 }
 
@@ -74,14 +73,12 @@ class ExchangeListDataProvider: NSObject {
 
     fileprivate func registerAllCellTypes() {
         guard let table = tableView else { return }
-        let newOrderCell = UINib(nibName: NewOrderTableViewCell.identifier, bundle: nil)
         let listCell = UINib(nibName: ExchangeListViewCell.identifier, bundle: nil)
         let loadingCell = UINib(nibName: LoadingTableViewCell.identifier, bundle: nil)
         let headerView = UINib(nibName: String(describing: ExchangeListHeaderView.self), bundle: nil)
         table.register(headerView, forHeaderFooterViewReuseIdentifier: String(describing: ExchangeListHeaderView.self))
         table.register(listCell, forCellReuseIdentifier: ExchangeListViewCell.identifier)
         table.register(loadingCell, forCellReuseIdentifier: LoadingTableViewCell.identifier)
-        table.register(newOrderCell, forCellReuseIdentifier: NewOrderTableViewCell.identifier)
     }
     
     func setupPullToRefresh() {
@@ -115,34 +112,36 @@ class ExchangeListDataProvider: NSObject {
 extension ExchangeListDataProvider: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        guard let items = models else { return 1 }
-        return items.count > 0 ? 2 : 1
+        return 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 1
-        case 1:
-            guard let current = models else { return 0 }
-            return isPaging ? current.count + 1 : current.count
-        default:
-            return 0
-        }
+        guard let current = models else { return 0 }
+        return isPaging ? current.count + 1 : current.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let newOrderIdentifier = NewOrderTableViewCell.identifier
         let listIdentifier = ExchangeListViewCell.identifier
         let loadingIdentifier = LoadingTableViewCell.identifier
         
-        switch indexPath.section {
-        case 0:
+        guard let items = models else { return UITableViewCell() }
+        
+        if items.count > indexPath.row {
+            let model = items[indexPath.row]
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: newOrderIdentifier,
+                withIdentifier: listIdentifier,
                 for: indexPath
-                ) as? NewOrderTableViewCell else { return UITableViewCell() }
+                ) as? ExchangeListViewCell else { return UITableViewCell() }
+            
+            cell.configure(with: model)
+            return cell
+        }
+        
+        if indexPath.row == items.count && isPaging {
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: loadingIdentifier,
+                for: indexPath
+                ) as? LoadingTableViewCell else { return UITableViewCell() }
             
             /// This particular cell shouldn't have a separator.
             /// This is how we hide it.
@@ -152,47 +151,7 @@ extension ExchangeListDataProvider: UITableViewDataSource {
                 bottom: 0.0,
                 right: .greatestFiniteMagnitude
             )
-            
-            cell.actionHandler = { [weak self] in
-                guard let this = self else { return }
-                this.delegate?.newOrderTapped(this)
-            }
-            
             return cell
-            
-        case 1:
-            guard let items = models else { return UITableViewCell() }
-            
-            if items.count > indexPath.row {
-                let model = items[indexPath.row]
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: listIdentifier,
-                    for: indexPath
-                    ) as? ExchangeListViewCell else { return UITableViewCell() }
-                
-                cell.configure(with: model)
-                return cell
-            }
-            
-            if indexPath.row == items.count && isPaging {
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: loadingIdentifier,
-                    for: indexPath
-                    ) as? LoadingTableViewCell else { return UITableViewCell() }
-                
-                /// This particular cell shouldn't have a separator.
-                /// This is how we hide it.
-                cell.separatorInset = UIEdgeInsets(
-                    top: 0.0,
-                    left: 0.0,
-                    bottom: 0.0,
-                    right: .greatestFiniteMagnitude
-                )
-                return cell
-            }
-            
-        default:
-            break
         }
         
         return UITableViewCell()
@@ -200,7 +159,6 @@ extension ExchangeListDataProvider: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let items = models else { return }
-        guard indexPath.section == 1 else { return }
         guard items.count > indexPath.row else { return }
         let model = items[indexPath.row]
         delegate?.dataProvider(self, didSelect: model)
@@ -209,10 +167,6 @@ extension ExchangeListDataProvider: UITableViewDataSource {
 
 extension ExchangeListDataProvider: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if indexPath.section == 0 {
-            return NewOrderTableViewCell.height()
-        }
         
         guard let items = models else { return tableView.estimatedRowHeight }
         
@@ -239,7 +193,6 @@ extension ExchangeListDataProvider: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let items = models else { return 0.0 }
         guard items.count > 0 else { return 0.0 }
-        guard section == 1 else { return 0.0 }
         
         return ExchangeListHeaderView.height()
     }

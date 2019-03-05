@@ -136,6 +136,8 @@ import PlatformKit
     private let deepLinkRouter: DeepLinkRouter
 
     @objc internal(set) var pinEntryViewController: PEPinEntryController?
+    
+    private var pairingCodeParserViewController: UIViewController?
 
     private var loginTimeout: Timer?
 
@@ -244,6 +246,7 @@ import PlatformKit
 
         dataRepository.clearCache()
 
+        SocketManager.shared.disconnectAll()
         XLMServiceProvider.shared.tearDown()
         BlockchainSettings.App.shared.reset()
         BlockchainSettings.Onboarding.shared.reset()
@@ -293,37 +296,34 @@ import PlatformKit
 
     /// Starts the wallet pairing flow by scanning a QR code
     func startQRCodePairing() {
-        // Check that we have access to the camera
-        do {
-            _ = try AVCaptureDeviceInput.deviceInputForQRScanner()
-        } catch let error as AVCaptureDeviceError {
-            switch error.type {
-            case .notAuthorized:
-                AlertViewPresenter.shared.showNeedsCameraPermissionAlert()
-            default:
-                AlertViewPresenter.shared.standardError(message: error.localizedDescription)
-            }
-            return
-        } catch {
-            AlertViewPresenter.shared.standardError(message: error.localizedDescription)
-        }
+        pairingCodeParserViewController =
+            QRCodeScannerViewControllerBuilder(
+                parser: PairingCodeQRCodeParser(),
+                textViewModel: PairingCodeQRCodeTextViewModel(),
+                completed: { [weak self] result in
+                    self?.handlePairingCodeResult(result: result)
+                }
+            )
+            .with(loadingViewPresenter: LoadingViewPresenter.shared)
+            .build()
 
-        let pairingCodeParserViewController = PairingCodeParser(success: { [weak self] response in
-            guard let strongSelf = self else { return }
-            guard let dictResponse = response else { return }
+        guard let pairingCodeParserViewController = pairingCodeParserViewController else { return }
 
-            let payload = PasscodePayload(dictionary: dictResponse)
-            AuthenticationManager.shared.authenticate(using: payload, andReply: strongSelf.authHandler)
-        }, error: { error in
-            guard let errorMessage = error else { return }
-            AlertViewPresenter.shared.standardError(message: errorMessage)
-        })!
         UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
             pairingCodeParserViewController,
             animated: true
         )
     }
-
+    
+    private func handlePairingCodeResult(result: NewResult<PairingCodeQRCodeParser.PairingCode, PairingCodeQRCodeParser.PairingCodeParsingError>) {
+        switch result {
+        case .success(let pairingCode):
+            AuthenticationManager.shared.authenticate(using: pairingCode.passcodePayload, andReply: authHandler)
+        case .failure(let error):
+            AlertViewPresenter.shared.standardError(message: error.localizedDescription)
+        }
+    }
+    
     private func showForgotPasswordAlert() {
         let title = String(format: LocalizationConstants.openArg, Constants.Url.blockchainSupport)
         let alert = UIAlertController(

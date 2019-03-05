@@ -441,12 +441,12 @@ final class BlockchainSettings: NSObject {
 
         /// Determines if the user deep linked into the app using an email verification link. This
         /// value is used to continue KYC'ing at the Verify Email step.
-        var didTapOnKycVerifyEmailDeepLink: Bool {
+        var didTapOnKycDeepLink: Bool {
             get {
-                return defaults.bool(forKey: UserDefaults.Keys.didTapOnVerifyEmailDeepLink.rawValue)
+                return defaults.bool(forKey: UserDefaults.Keys.didTapOnKycDeepLink.rawValue)
             }
             set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.didTapOnVerifyEmailDeepLink.rawValue)
+                defaults.set(newValue, forKey: UserDefaults.Keys.didTapOnKycDeepLink.rawValue)
             }
         }
 
@@ -492,7 +492,7 @@ final class BlockchainSettings: NSObject {
             didSeeAirdropPending = false
             didAttemptToRouteForAirdrop = false
             didRegisterForAirdropCampaignSucceed = false
-            didTapOnKycVerifyEmailDeepLink = false
+            didTapOnKycDeepLink = false
 
             KYCSettings.shared.reset()
 

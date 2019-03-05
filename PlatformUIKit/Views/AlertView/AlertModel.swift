@@ -6,9 +6,10 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public struct AlertModel {
+    public let image: UIImage?
     public let headline: String?
     public let body: String?
     public let actions: [AlertAction]
@@ -19,12 +20,14 @@ public struct AlertModel {
         headline: String?,
         body: String?,
         actions: [AlertAction],
+        image: UIImage? = nil,
         dismissable: Bool = true,
         style: AlertViewStyle = .default
-        ) {
+    ) {
         self.headline = headline
         self.body = body
         self.actions = actions
+        self.image = image
         self.dismissable = dismissable
         self.style = style
     }

@@ -25,14 +25,17 @@ public class AlertView: UIView {
     fileprivate static let actionButtonHeight: CGFloat = 56.0
     
     // MARK: Private IBOutlets
-    
+
+    @IBOutlet fileprivate var imageView: UIImageView!
     @IBOutlet fileprivate var headline: UILabel!
     @IBOutlet fileprivate var message: UILabel!
     @IBOutlet fileprivate var confirmButton: UIButton!
     @IBOutlet fileprivate var defaultButton: UIButton!
     @IBOutlet fileprivate var closeButton: UIButton!
     @IBOutlet fileprivate var headlineTrailingConstraint: NSLayoutConstraint!
-    
+    @IBOutlet fileprivate var imageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate var imageViewHeightConstraint: NSLayoutConstraint!
+
     fileprivate var model: AlertModel!
     fileprivate var completion: ((AlertAction) -> Void)?
     
@@ -49,11 +52,12 @@ public class AlertView: UIView {
     
     public class func estimatedHeight(for width: CGFloat, model: AlertModel) -> CGFloat {
         let adjustedWidth = width - horizontalPadding
+        let imageViewHeight: CGFloat = model.image?.size.height ?? 0
         var headlineHeight: CGFloat = 0.0
         var messageHeight: CGFloat = 0.0
         var interItemPadding: CGFloat = 0.0
         var actionsHeight: CGFloat = 0.0
-        
+
         if let value = model.headline {
             let attributed = NSAttributedString(
                 string: value,
@@ -80,6 +84,7 @@ public class AlertView: UIView {
         return messageToActionsPadding +
             actionsToBottomPadding +
             actionsHeight +
+            imageViewHeight +
             headlineHeight +
             messageHeight +
             interItemPadding +
@@ -87,12 +92,12 @@ public class AlertView: UIView {
     }
     
     public class func headlineFont() -> UIFont {
-        let font = Font(.branded(.montserratSemiBold), size: .custom(18.0))
+        let font = Font(.branded(.montserratRegular), size: .custom(20.0))
         return font.result
     }
     
     public class func messageFont() -> UIFont {
-        let font = Font(.branded(.montserratMedium), size: .custom(14.0))
+        let font = Font(.branded(.montserratRegular), size: .custom(17.0))
         return font.result
     }
     
@@ -108,6 +113,11 @@ public class AlertView: UIView {
         message.isHidden = model.body == nil
         headline.text = model.headline
         message.text = model.body
+        if let image = model.image {
+            imageView.image = image
+            imageViewHeightConstraint.constant = image.size.height
+            imageViewWidthConstraint.constant = image.size.width
+        }
         confirmButton.isHidden = model.actions.contains(where: { $0.style == .confirm }) == false
         defaultButton.isHidden = model.actions.contains(where: { $0.style == .default }) == false
         layer.cornerRadius = 8.0

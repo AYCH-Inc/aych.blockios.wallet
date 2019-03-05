@@ -51,7 +51,7 @@
 
 - (void)stellarModalKycCompletedActionTapped
 {
-    [self.actionRouter stellarModalKycCompletedActionTapped];
+    [self.actionHandler stellarModalKycCompletedActionTapped];
 }
 
 - (void)reloadWelcomeCards

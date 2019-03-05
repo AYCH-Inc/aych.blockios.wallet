@@ -29,7 +29,7 @@
 @property (nonatomic) UIButton *closeCardsViewButton;
 @property (nonatomic) UIButton *skipAllButton;
 
-@property (nonatomic) AnnouncementCardActionRouter *actionRouter;
+@property (nonatomic) AnnouncementCardActionHandler *actionHandler;
 @end
 
 @implementation CardsViewController
@@ -38,15 +38,15 @@
  Temporary code to show KYC announcement card
  - SeeAlso: IOS-1249 - Refactor CardsViewController
  */
-- (AnnouncementCardActionRouter *)actionRouter
+- (AnnouncementCardActionHandler *)actionHandler
 {
-    if (!_actionRouter) _actionRouter = [AnnouncementCardActionRouter new];
-    return _actionRouter;
+    if (!_actionHandler) _actionHandler = [AnnouncementCardActionHandler new];
+    return _actionHandler;
 }
 
 - (void)stellarAirdropCardActionTapped
 {
-    [self.actionRouter stellarAirdropCardActionTapped];
+    [self.actionHandler stellarAirdropCardActionTapped];
 }
 
 - (void)reloadWelcomeCards

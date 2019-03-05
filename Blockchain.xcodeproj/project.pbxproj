@@ -1170,7 +1170,7 @@
 		C711351821C1993C00F70AF0 /* KYCUserTiersBadgeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711351621C1993C00F70AF0 /* KYCUserTiersBadgeModel.swift */; };
 		C711352321C19D7A00F70AF0 /* KYCTierState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711352221C19D7A00F70AF0 /* KYCTierState.swift */; };
 		C711352421C19D7A00F70AF0 /* KYCTierState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711352221C19D7A00F70AF0 /* KYCTierState.swift */; };
-		C7132461222DBD03006E8F9B /* AnnouncementCardActionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7132460222DBD03006E8F9B /* AnnouncementCardActionRouter.swift */; };
+		C7132461222DBD03006E8F9B /* AnnouncementCardActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7132460222DBD03006E8F9B /* AnnouncementCardActionHandler.swift */; };
 		C7174BA1220BA9270074ECF5 /* EthereumTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7174BA0220BA9270074ECF5 /* EthereumTransaction.swift */; };
 		C7174BA4220BAC820074ECF5 /* EthereumAssetAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7174BA3220BAC820074ECF5 /* EthereumAssetAccount.swift */; };
 		C7174BA7220BACDB0074ECF5 /* EthereumAssetAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7174BA6220BACDB0074ECF5 /* EthereumAssetAddress.swift */; };
@@ -4093,7 +4093,7 @@
 		C70FF5651E7B051C00AC7F8B /* ContactTransactionTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTransactionTableCell.xib; sourceTree = "<group>"; };
 		C711351621C1993C00F70AF0 /* KYCUserTiersBadgeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCUserTiersBadgeModel.swift; sourceTree = "<group>"; };
 		C711352221C19D7A00F70AF0 /* KYCTierState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCTierState.swift; sourceTree = "<group>"; };
-		C7132460222DBD03006E8F9B /* AnnouncementCardActionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementCardActionRouter.swift; sourceTree = "<group>"; };
+		C7132460222DBD03006E8F9B /* AnnouncementCardActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementCardActionHandler.swift; sourceTree = "<group>"; };
 		C7174BA0220BA9270074ECF5 /* EthereumTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransaction.swift; sourceTree = "<group>"; };
 		C7174BA3220BAC820074ECF5 /* EthereumAssetAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumAssetAccount.swift; sourceTree = "<group>"; };
 		C7174BA6220BACDB0074ECF5 /* EthereumAssetAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumAssetAddress.swift; sourceTree = "<group>"; };
@@ -5911,7 +5911,7 @@
 		5152AC242142DD1100E769CE /* AnnouncementCard */ = {
 			isa = PBXGroup;
 			children = (
-				C7132460222DBD03006E8F9B /* AnnouncementCardActionRouter.swift */,
+				C7132460222DBD03006E8F9B /* AnnouncementCardActionHandler.swift */,
 				5152AC2D2142E4B700E769CE /* AnnouncementCardView.swift */,
 				5176A45B2147F6600006769F /* CardsView.swift */,
 				5152AC302142E4BE00E769CE /* AnnouncementCardView.xib */,
@@ -11513,7 +11513,7 @@
 				AA6336AF21BC5A430073ED4A /* KYCEnterEmailController.swift in Sources */,
 				511646DF20851BC600C43522 /* Bundle.swift in Sources */,
 				237C9E901C482132000754F7 /* AccountsAndAddressesDetailViewController.m in Sources */,
-				C7132461222DBD03006E8F9B /* AnnouncementCardActionRouter.swift in Sources */,
+				C7132461222DBD03006E8F9B /* AnnouncementCardActionHandler.swift in Sources */,
 				C7CE25B62135E3D300DCC43B /* ExchangeCreatePresenter.swift in Sources */,
 				C7FF110F2141E24000CBA3CB /* InputsState.swift in Sources */,
 				3A3D5DB6211B96FA00E6C241 /* LocationUpdateAPI.swift in Sources */,

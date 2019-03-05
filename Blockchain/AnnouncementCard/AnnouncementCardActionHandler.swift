@@ -1,5 +1,5 @@
 //
-//  AnnouncementCardActionRouter.swift
+//  AnnouncementCardActionHandler.swift
 //  Blockchain
 //
 //  Created by kevinwu on 3/4/19.
@@ -10,7 +10,7 @@ import Foundation
 
 // Class used to keep objects in memory while performing async operations for
 // the CardsViewController instance.
-@objc class AnnouncementCardActionRouter: NSObject {
+@objc class AnnouncementCardActionHandler: NSObject {
     private let stellarAirdropRouter = StellarAirdropRouter()
 
     @objc func stellarAirdropCardActionTapped() {

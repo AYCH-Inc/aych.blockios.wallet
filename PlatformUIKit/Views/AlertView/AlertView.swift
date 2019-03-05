@@ -23,6 +23,7 @@ public class AlertView: UIView {
     fileprivate static let headlineToMessagePadding: CGFloat = 4.0
     fileprivate static let actionsVerticalPadding: CGFloat = 20.0
     fileprivate static let actionButtonHeight: CGFloat = 56.0
+    fileprivate static let imageHeight: CGFloat = 72.0
     
     // MARK: Private IBOutlets
 
@@ -144,6 +145,8 @@ public class AlertView: UIView {
                                  .foregroundColor: #colorLiteral(red: 0.06274509804, green: 0.6784313725, blue: 0.8941176471, alpha: 1)]
                 )
                 defaultButton.setAttributedTitle(attributedTitle, for: .normal)
+            case .dismiss:
+                break
             }
         }
         [confirmButton, defaultButton].forEach({ $0?.layer.cornerRadius = 4.0 })
@@ -181,7 +184,8 @@ public class AlertView: UIView {
     
     @objc func dismiss() {
         guard model.dismissable == true else { return }
-        teardown()
+        let dismiss = model.actions.filter({ $0.style == .dismiss }).first
+        teardown(with: dismiss)
     }
     
     // MARK: Actions

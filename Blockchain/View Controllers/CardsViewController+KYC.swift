@@ -58,9 +58,12 @@ extension CardsViewController {
     }
 
     private func showAirdropAndKycCards(nabuUser: NabuUser, tiersResponse: KYCUserTiersResponse) -> Bool {
+        // appSettings.isPinSet needs to be checked in order to prevent
+        // showing AlertView sheets over the PIN screen when creating a wallet
+        let appSettings = BlockchainSettings.App.shared
+        guard appSettings.isPinSet == true else { return false }
 
         let airdropConfig = AppFeatureConfigurator.shared.configuration(for: .stellarAirdrop)
-        let appSettings = BlockchainSettings.App.shared
         let kycSettings = KYCSettings.shared
         let onboardingSettings = BlockchainSettings.Onboarding.shared
 
@@ -72,10 +75,7 @@ extension CardsViewController {
             appSettings.didRegisterForAirdropCampaignSucceed &&
             nabuUser.status == .approved &&
             !appSettings.didSeeAirdropPending
-        // appSettings.isPinSet needs to be checked in order to prevent
-        // showing this modal over the PIN screen when creating a wallet
-        let shouldShowStellarModal = appSettings.isPinSet &&
-            airdropConfig.isEnabled &&
+        let shouldShowStellarView = airdropConfig.isEnabled &&
             !appSettings.didTapOnAirdropDeepLink &&
             tiersResponse.userTiers.contains(where: {
                 return $0.tier == .tier2 &&
@@ -91,8 +91,12 @@ extension CardsViewController {
         } else if shouldShowContinueKYCAnnouncementCard {
             showContinueKycCard()
             return true
-        } else if shouldShowStellarModal {
-            showStellarModal()
+        } else if shouldShowStellarView {
+            if onboardingSettings.hasSeenGetFreeXlmModal == true {
+                showCompleteYourProfileCard()
+            } else {
+                showStellarModal()
+            }
             return true
         } else if shouldShowStellarAirdropCard {
             showStellarAirdropCard()
@@ -173,10 +177,11 @@ extension CardsViewController {
 
     private func showStellarModal() {
         let getFreeXlm = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoAction, style: .confirm)
+        let dismiss = AlertAction(title: "discard", style: .dismiss)
         let alertModel = AlertModel(
             headline: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoDescription,
-            actions: [getFreeXlm],
+            actions: [getFreeXlm, dismiss],
             image: UIImage(named: "symbol-xlm-color"),
             dismissable: true,
             style: .sheet
@@ -184,11 +189,22 @@ extension CardsViewController {
         let alert = AlertView.make(with: alertModel) { action in
             switch action.style {
             case .confirm:
+                BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal = true
                 KYCCoordinator.shared.start()
-            case .default:
-                break
+            case .default,
+                 .dismiss:
+                BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal = true
             }
         }
         alert.show()
+    }
+
+    private func showCompleteYourProfileCard() {
+        let model = AnnouncementCardViewModel.completeYourProfile(action: { [unowned self] in
+            self.continueKyc()
+        }, onClose: { [weak self] in
+            self?.animateHideCards()
+        })
+        showSingleCard(with: model)
     }
 }

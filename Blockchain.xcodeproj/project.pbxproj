@@ -446,6 +446,8 @@
 		3ADFE6FD214AE17600E7E2D5 /* ExchangeInputsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADFE6FB214AE17600E7E2D5 /* ExchangeInputsService.swift */; };
 		3ADFE6FF214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADFE6FE214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift */; };
 		3ADFE700214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADFE6FE214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift */; };
+		3AE17AD22229C9A10061AC86 /* TransactionFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE17AD12229C9A10061AC86 /* TransactionFee.swift */; };
+		3AE17ADF2229CECA0061AC86 /* BitcoinTransactionFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE17ADE2229CECA0061AC86 /* BitcoinTransactionFee.swift */; };
 		3AE5419B217A677A001DDE02 /* StellarTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE5419A217A677A001DDE02 /* StellarTransaction.swift */; };
 		3AE5419C217A677A001DDE02 /* StellarTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE5419A217A677A001DDE02 /* StellarTransaction.swift */; };
 		3AE74B3521C00B6600246A9C /* KYCTierCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3421C00B6600246A9C /* KYCTierCell.swift */; };
@@ -2037,6 +2039,8 @@
 		3ADFE6F8214AE0E300E7E2D5 /* InputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputComponent.swift; sourceTree = "<group>"; };
 		3ADFE6FB214AE17600E7E2D5 /* ExchangeInputsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeInputsService.swift; sourceTree = "<group>"; };
 		3ADFE6FE214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeStyleTemplate.swift; sourceTree = "<group>"; };
+		3AE17AD12229C9A10061AC86 /* TransactionFee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionFee.swift; sourceTree = "<group>"; };
+		3AE17ADE2229CECA0061AC86 /* BitcoinTransactionFee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinTransactionFee.swift; sourceTree = "<group>"; };
 		3AE5419A217A677A001DDE02 /* StellarTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTransaction.swift; sourceTree = "<group>"; };
 		3AE74B3421C00B6600246A9C /* KYCTierCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCTierCell.swift; sourceTree = "<group>"; };
 		3AE74B3721C01E8700246A9C /* KYCTierCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KYCTierCell.xib; sourceTree = "<group>"; };
@@ -5162,6 +5166,7 @@
 			children = (
 				C7174BD5220BB6CF0074ECF5 /* Mineable.swift */,
 				3A68659E219A0D540009FF29 /* HistoricalTransaction.swift */,
+				3AE17AD12229C9A10061AC86 /* TransactionFee.swift */,
 			);
 			path = Transactions;
 			sourceTree = "<group>";
@@ -9459,6 +9464,7 @@
 			isa = PBXGroup;
 			children = (
 				C76E4D0C220B4A0B00B21B82 /* BitcoinTransaction.swift */,
+				3AE17ADE2229CECA0061AC86 /* BitcoinTransactionFee.swift */,
 			);
 			path = Transactions;
 			sourceTree = "<group>";
@@ -10818,6 +10824,7 @@
 				C7B4EB56220A66DE001C1795 /* BitcoinAssetAddress.swift in Sources */,
 				C7B4EB47220A3E8F001C1795 /* BitcoinWalletAccountRepository.swift in Sources */,
 				C76E4D0D220B4A0B00B21B82 /* BitcoinTransaction.swift in Sources */,
+				3AE17ADF2229CECA0061AC86 /* BitcoinTransactionFee.swift in Sources */,
 				C7B4EB62220A68BA001C1795 /* BitcoinWalletBridgeAPI.swift in Sources */,
 				C7B4EB44220A3BBA001C1795 /* BitcoinHDAssetAccount.swift in Sources */,
 			);
@@ -10864,6 +10871,7 @@
 				3A68659A219A0D170009FF29 /* PageResult.swift in Sources */,
 				3A8473AB219A473A00F22FA6 /* AssetAccount.swift in Sources */,
 				3AADB30821B0849300FD2974 /* AssetAccountRepositoryAPI.swift in Sources */,
+				3AE17AD22229C9A10061AC86 /* TransactionFee.swift in Sources */,
 				3A8473AD219A4A6100F22FA6 /* KeyPair.swift in Sources */,
 				3A68659F219A0D540009FF29 /* HistoricalTransaction.swift in Sources */,
 				3A6A1A0021B89BDB00D97C74 /* Money.swift in Sources */,
@@ -13205,7 +13213,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = BitcoinKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -13286,7 +13294,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = BitcoinKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -13367,7 +13375,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = BitcoinKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -13418,7 +13426,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = BitcoinKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -17197,7 +17205,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = BitcoinKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;

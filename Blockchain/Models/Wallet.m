@@ -2680,9 +2680,12 @@ NSString * const kLockboxInvitation = @"lockbox";
 
     NSString *tradeExecutionType;
     NSString *formattedAmount;
+    NSString *formattedFee;
+    
     if (orderTransaction.legacyAssetType == LegacyAssetTypeBitcoin) {
         tradeExecutionType = @"bitcoin";
         formattedAmount = [NSString stringWithFormat:@"%lld", [NSNumberFormatter parseBtcValueFromString:orderTransaction.amount]];
+        formattedFee = [NSString stringWithFormat:@"%lld", [NSNumberFormatter parseBtcValueFromString:orderTransaction.fees]];
         [self.context invokeOnceWithValueFunctionBlock:^(JSValue *_Nonnull errorValue) {
             completion();
             /// TODO: We used to provide a more user friendly message noting that the user may not have
@@ -2695,6 +2698,7 @@ NSString * const kLockboxInvitation = @"lockbox";
     } else if (orderTransaction.legacyAssetType == LegacyAssetTypeBitcoinCash) {
         tradeExecutionType = @"bitcoinCash";
         formattedAmount = [NSString stringWithFormat:@"%lld", [NSNumberFormatter parseBtcValueFromString:orderTransaction.amount]];
+        formattedFee = [NSString stringWithFormat:@"%lld", [NSNumberFormatter parseBtcValueFromString:orderTransaction.fees]];
         [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull errorValue) {
             NSString *errorMessage = [errorValue toString];
             completion();
@@ -2703,6 +2707,7 @@ NSString * const kLockboxInvitation = @"lockbox";
     } else if (orderTransaction.legacyAssetType == LegacyAssetTypeEther) {
         tradeExecutionType = @"ether";
         formattedAmount = orderTransaction.amount;
+        formattedFee = orderTransaction.fees;
         [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull errorValue) {
             completion();
             NSString *errorMessage = [errorValue toString];
@@ -2712,7 +2717,7 @@ NSString * const kLockboxInvitation = @"lockbox";
         DLog(@"Unsupported legacy asset type");
         return;
     }
-    NSString *script = [NSString stringWithFormat:@"MyWalletPhone.tradeExecution.%@.createPayment(%d, \"%@\", %@)", [tradeExecutionType escapedForJS], orderTransaction.from, [orderTransaction.to escapedForJS], [formattedAmount escapedForJS]];
+    NSString *script = [NSString stringWithFormat:@"MyWalletPhone.tradeExecution.%@.createPayment(%d, \"%@\", %@, %@, %@)", [tradeExecutionType escapedForJS], orderTransaction.from, [orderTransaction.to escapedForJS], [formattedAmount escapedForJS], [formattedFee escapedForJS], [orderTransaction.gasLimit escapedForJS]];
     [self.context evaluateScript:script];
 }
 

@@ -894,7 +894,23 @@ struct LocalizationConstants {
         )
         static let bottomSheetFreeCryptoAction = NSLocalizedString(
             "Get Free XLM",
-            comment: "Button title of a bottom sheet alert prompting the user to complete KYC"
+            comment: "Action button title of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let bottomSheetFreeCryptoKycCompleteTitle = NSLocalizedString(
+            "Claim Your Free Crypto",
+            comment: "Title of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let bottomSheetFreeCryptoKycCompleteDescription = NSLocalizedString(
+            "Tap the button to automatically receive your $25 of free Stellar (XLM) once Gold level is unlocked.",
+            comment: "Description of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let bottomSheetFreeCryptoKycCompleteAction = NSLocalizedString(
+            "Claim Your XLM",
+            comment: "Action button title of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let bottomSheetFreeCryptoKycCompleteCancel = NSLocalizedString(
+            "Maybe Later",
+            comment: "Cancel button title of a bottom sheet alert prompting the user to complete KYC"
         )
         static let cardCompleteProfileTitle = NSLocalizedString(
             "Complete Your Profile",

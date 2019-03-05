@@ -114,15 +114,6 @@ extension CardsViewController {
         showSingleCard(with: model)
     }
 
-    private func showClaimStellarInAdvance() {
-        let model = AnnouncementCardViewModel.claimStellarInAdvance(action: {
-            self.claimStellarInAdvanceCardActionTapped()
-        }, onClose: { [weak self] in
-            self?.animateHideCards()
-        })
-        showSingleCard(with: model)
-    }
-
     private func showStellarAirdropCard() {
         let model = AnnouncementCardViewModel.joinAirdropWaitlist(action: {
             self.stellarAirdropCardActionTapped()
@@ -200,6 +191,30 @@ extension CardsViewController {
             case .default,
                  .dismiss:
                 BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal = true
+            }
+        }
+        alert.show()
+    }
+
+    private func showStellarModalKycCompleted() {
+        let getFreeXlm = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoKycCompleteAction, style: .confirm)
+        let dismiss = AlertAction(title: "discard", style: .dismiss)
+        let maybeLater = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoKycCompleteCancel, style: .dismiss)
+        let alertModel = AlertModel(
+            headline: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoKycCompleteTitle,
+            body: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoKycCompleteDescription,
+            actions: [getFreeXlm, maybeLater, dismiss],
+            image: UIImage(named: "symbol-xlm-color"),
+            dismissable: true,
+            style: .sheet
+        )
+        let alert = AlertView.make(with: alertModel) { action in
+            switch action.style {
+            case .confirm:
+                self.stellarModalKycCompletedActionTapped()
+            case .default,
+                 .dismiss:
+                break
             }
         }
         alert.show()

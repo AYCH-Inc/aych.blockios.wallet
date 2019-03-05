@@ -28,7 +28,7 @@ import Foundation
         })
     }
 
-    @objc func claimStellarInAdvanceCardActionTapped() {
+    @objc func stellarModalKycCompletedActionTapped() {
         let appSettings = BlockchainSettings.App.shared
         stellarAirdropRouter.registerForCampaign(success: { user in
             appSettings.didRegisterForAirdropCampaignSucceed = true

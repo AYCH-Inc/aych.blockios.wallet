@@ -49,9 +49,9 @@
     [self.actionHandler stellarAirdropCardActionTapped];
 }
 
-- (void)claimStellarInAdvanceCardActionTapped
+- (void)stellarModalKycCompletedActionTapped
 {
-    [self.actionRouter claimStellarInAdvanceCardActionTapped];
+    [self.actionRouter stellarModalKycCompletedActionTapped];
 }
 
 - (void)reloadWelcomeCards

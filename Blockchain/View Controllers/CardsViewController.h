@@ -21,5 +21,5 @@
 
 // Actions
 - (void)stellarAirdropCardActionTapped;
-- (void)claimStellarInAdvanceCardActionTapped;
+- (void)stellarModalKycCompletedActionTapped;
 @end

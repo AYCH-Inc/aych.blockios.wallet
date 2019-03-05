@@ -92,6 +92,15 @@ extension CardsViewController {
         showSingleCard(with: model)
     }
 
+    private func showClaimStellarInAdvance() {
+        let model = AnnouncementCardViewModel.claimStellarInAdvance(action: {
+            self.claimStellarInAdvanceCardActionTapped()
+        }, onClose: { [weak self] in
+            self?.animateHideCards()
+        })
+        showSingleCard(with: model)
+    }
+
     private func showStellarAirdropCard() {
         let model = AnnouncementCardViewModel.joinAirdropWaitlist(action: {
             self.stellarAirdropCardActionTapped()

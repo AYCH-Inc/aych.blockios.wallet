@@ -83,6 +83,8 @@ class KYCBaseViewController: UIViewController, KYCCoordinatorDelegate {
                     ) else { return }
                 let controller = SFSafariViewController(url: url)
                 this.present(controller, animated: true, completion: nil)
+            case .dismiss:
+                break
             }
         }
         alert.show()

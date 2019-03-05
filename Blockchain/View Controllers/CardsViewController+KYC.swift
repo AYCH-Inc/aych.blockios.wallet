@@ -10,6 +10,17 @@ import RxSwift
 import PlatformUIKit
 
 extension CardsViewController {
+    @objc func setupNotifications() {
+        NotificationCenter.when(Constants.NotificationKeys.kycComplete) { [weak self] _ in
+            guard let this = self else { return }
+            this.showStellarModalKycCompleted()
+        }
+    }
+
+    @objc func tearDownNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     @objc func reloadAllCards() {
         // Ignoring the disposable here since it can't be stored in CardsViewController.m/.h
         // since RxSwift doesn't work in Obj-C.

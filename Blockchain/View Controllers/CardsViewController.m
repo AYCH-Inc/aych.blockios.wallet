@@ -38,6 +38,20 @@
  Temporary code to show KYC announcement card
  - SeeAlso: IOS-1249 - Refactor CardsViewController
  */
+
+- (id)init
+{
+    if (self = [super init]) {
+        [self setupNotifications];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [self tearDownNotifications];
+}
+
 - (AnnouncementCardActionHandler *)actionHandler
 {
     if (!_actionHandler) _actionHandler = [AnnouncementCardActionHandler new];

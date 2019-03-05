@@ -27,4 +27,15 @@ import Foundation
             AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
         })
     }
+
+    @objc func claimStellarInAdvanceCardActionTapped() {
+        let appSettings = BlockchainSettings.App.shared
+        stellarAirdropRouter.registerForCampaign(success: { user in
+            appSettings.didRegisterForAirdropCampaignSucceed = true
+
+        }, error: { error in
+            appSettings.didRegisterForAirdropCampaignSucceed = false
+            AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
+        })
+    }
 }

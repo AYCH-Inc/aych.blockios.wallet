@@ -49,6 +49,11 @@
     [self.actionRouter stellarAirdropCardActionTapped];
 }
 
+- (void)claimStellarInAdvanceCardActionTapped
+{
+    [self.actionRouter claimStellarInAdvanceCardActionTapped];
+}
+
 - (void)reloadWelcomeCards
 {
     self.cardsViewHeight = 0;

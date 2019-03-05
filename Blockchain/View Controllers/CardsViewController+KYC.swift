@@ -7,16 +7,20 @@
 //
 
 import RxSwift
+import PlatformUIKit
 
 extension CardsViewController {
     @objc func reloadAllCards() {
         // Ignoring the disposable here since it can't be stored in CardsViewController.m/.h
         // since RxSwift doesn't work in Obj-C.
         guard WalletManager.shared.wallet.isInitialized() == true else { return }
-        _ = Observable.zip(BlockchainDataRepository.shared.nabuUser, ExchangeService.shared.hasExecutedTrades().asObservable())
+        let user = BlockchainDataRepository.shared.nabuUser
+        let tiers = BlockchainDataRepository.shared.tiers
+        let hasExecutedTrades = ExchangeService.shared.hasExecutedTrades().asObservable()
+        _ = Observable.zip(user, tiers, hasExecutedTrades)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] nabuUser, hasTrades in
+            .subscribe(onNext: { [weak self] nabuUser, tiers, hasTrades in
                 guard let strongSelf = self else { return }
                 let canShowSwapCTA = nabuUser.swapApproved()
                 let shouldHideSwapCTA = BlockchainSettings.App.shared.shouldHideSwapCard
@@ -34,7 +38,7 @@ extension CardsViewController {
                     BlockchainSettings.App.shared.shouldHideSwapCard = true
                 }
                 
-                let didShowAirdropAndKycCards = strongSelf.showAirdropAndKycCards(nabuUser: nabuUser)
+                let didShowAirdropAndKycCards = strongSelf.showAirdropAndKycCards(nabuUser: nabuUser, tiersResponse: tiers)
                 if !didShowAirdropAndKycCards {
                     strongSelf.reloadWelcomeCards()
                 }
@@ -53,7 +57,8 @@ extension CardsViewController {
             })
     }
 
-    private func showAirdropAndKycCards(nabuUser: NabuUser) -> Bool {
+    private func showAirdropAndKycCards(nabuUser: NabuUser, tiersResponse: KYCUserTiersResponse) -> Bool {
+
         let airdropConfig = AppFeatureConfigurator.shared.configuration(for: .stellarAirdrop)
         let appSettings = BlockchainSettings.App.shared
         let kycSettings = KYCSettings.shared
@@ -67,6 +72,12 @@ extension CardsViewController {
             appSettings.didRegisterForAirdropCampaignSucceed &&
             nabuUser.status == .approved &&
             !appSettings.didSeeAirdropPending
+        let shouldShowStellarView = airdropConfig.isEnabled &&
+            !appSettings.didTapOnAirdropDeepLink &&
+            tiersResponse.userTiers.contains(where: {
+                return $0.tier == .tier2 &&
+                    ($0.state != .pending && $0.state != .rejected && $0.state != .verified)
+            })
 
         if shouldShowAirdropPending {
             showAirdropPending()
@@ -76,6 +87,17 @@ extension CardsViewController {
             return true
         } else if shouldShowContinueKYCAnnouncementCard {
             showContinueKycCard()
+            return true
+        } else if shouldShowStellarView {
+            if onboardingSettings.hasSeenGetFreeXlmModal == true {
+                showCompleteYourProfileCard()
+            } else {
+                // appSettings.isPinSet needs to be checked in order to prevent
+                // showing this modal over the PIN screen when creating a wallet
+                if appSettings.isPinSet {
+                    showStellarModal()
+                }
+            }
             return true
         } else if shouldShowStellarAirdropCard {
             showStellarAirdropCard()
@@ -152,6 +174,39 @@ extension CardsViewController {
 
     private func showUploadDocumentsCard() {
         let model = AnnouncementCardViewModel.resubmitDocuments(action: { [unowned self] in
+            self.continueKyc()
+        }, onClose: { [weak self] in
+            self?.animateHideCards()
+        })
+        showSingleCard(with: model)
+    }
+
+    private func showStellarModal() {
+        let getFreeXlm = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoAction, style: .confirm)
+        let dismiss = AlertAction(title: "discard", style: .dismiss)
+        let alertModel = AlertModel(
+            headline: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoTitle,
+            body: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoDescription,
+            actions: [getFreeXlm, dismiss],
+            image: UIImage(named: "symbol-xlm-color"),
+            dismissable: true,
+            style: .sheet
+        )
+        let alert = AlertView.make(with: alertModel) { action in
+            switch action.style {
+            case .confirm:
+                BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal = true
+                KYCCoordinator.shared.start()
+            case .default,
+                 .dismiss:
+                BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal = true
+            }
+        }
+        alert.show()
+    }
+
+    private func showCompleteYourProfileCard() {
+        let model = AnnouncementCardViewModel.completeYourProfile(action: { [unowned self] in
             self.continueKyc()
         }, onClose: { [weak self] in
             self?.animateHideCards()

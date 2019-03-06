@@ -75,13 +75,21 @@ protocol KYCCoordinatorDelegate: class {
     }
 
     // MARK: Public
-
+    
     func start() {
         guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
             Logger.shared.warning("Cannot start KYC. rootViewController is nil.")
             return
         }
         start(from: rootViewController)
+    }
+
+    func startFrom(_ tier: KYCTier = .tier1) {
+        guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+            Logger.shared.warning("Cannot start KYC. rootViewController is nil.")
+            return
+        }
+        start(from: rootViewController, tier: tier)
     }
 
     func start(from viewController: UIViewController, tier: KYCTier = .tier1) {

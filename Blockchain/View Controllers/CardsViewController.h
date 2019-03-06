@@ -18,4 +18,7 @@
 - (void)reloadWelcomeCards;
 - (void)animateHideCards;
 - (void)showSingleCardWithViewModel:(AnnouncementCardViewModel *)viewModel;
+
+// Actions
+- (void)stellarAirdropCardActionTapped;
 @end

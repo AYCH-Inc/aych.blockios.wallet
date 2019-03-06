@@ -115,11 +115,7 @@ extension CardsViewController {
 
     private func showStellarAirdropCard() {
         let model = AnnouncementCardViewModel.joinAirdropWaitlist(action: {
-            UIApplication.shared.openWebView(
-                url: Constants.Url.airdropWaitlist,
-                title: LocalizationConstants.Stellar.claimYourFreeXLMNow,
-                presentingViewController: AppCoordinator.shared.tabControllerManager
-            )
+            self.stellarAirdropCardActionTapped()
         }, onClose: { [weak self] in
             BlockchainSettings.Onboarding.shared.hasSeenAirdropJoinWaitlistCard = true
             self?.animateHideCards()

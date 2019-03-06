@@ -37,7 +37,6 @@ class KYCAvailableFundsHeaderView: KYCTiersHeaderView {
     @IBOutlet fileprivate var availabilityDescription: UILabel!
     @IBOutlet fileprivate var stackViewToTopConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate var stackViewToDismissButtonConstraint: NSLayoutConstraint!
-    @IBOutlet fileprivate var swapNowButton: UIButton!
     
     // MARK: Public Class Functions
     
@@ -45,8 +44,6 @@ class KYCAvailableFundsHeaderView: KYCTiersHeaderView {
         availableAmount.text = viewModel.amount
         availabilityHeadline.text = viewModel.availabilityTitle
         availabilityDescription.text = viewModel.availabilityDescription
-        swapNowButton.setTitle(LocalizationConstants.KYC.swapNow, for: .normal)
-        swapNowButton.layer.cornerRadius = 4.0
         
         dismissButton.isHidden = viewModel.suppressDismissCTA
         if viewModel.suppressDismissCTA, stackViewToDismissButtonConstraint.isActive {
@@ -61,10 +58,6 @@ class KYCAvailableFundsHeaderView: KYCTiersHeaderView {
     
     @IBAction func dismissButtonTapped(_ sender: UIButton) {
         delegate?.dismissButtonTapped(self)
-    }
-    
-    @IBAction func swapNowTapped(_ sender: UIButton) {
-        delegate?.headerView(self, actionTapped: .swapNow)
     }
     
     // MARK: Overrides
@@ -104,7 +97,7 @@ class KYCAvailableFundsHeaderView: KYCTiersHeaderView {
         }
         
         let padding = amountStackViewPadding + outerStackViewPadding + labelsToBottomPadding
-        let result = availabilityHeights + padding + topPadding + swapNowButtonHeight
+        let result = availabilityHeights + padding + topPadding
         
         return result
     }

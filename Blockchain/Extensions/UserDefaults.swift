@@ -68,7 +68,7 @@ extension UserDefaults {
         case kycLatestPage
         case didRequestCameraPermissions
         case didRequestNotificationPermissions
-        case didTapOnVerifyEmailDeepLink
+        case didTapOnKycDeepLink
         case didTapOnDocumentResubmissionDeepLink
         case documentResubmissionLinkReason
     }

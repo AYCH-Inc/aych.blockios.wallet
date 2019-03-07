@@ -69,9 +69,12 @@ extension CardsViewController {
     }
 
     private func showAirdropAndKycCards(nabuUser: NabuUser, tiersResponse: KYCUserTiersResponse) -> Bool {
+        // appSettings.isPinSet needs to be checked in order to prevent
+        // showing AlertView sheets over the PIN screen when creating a wallet
+        let appSettings = BlockchainSettings.App.shared
+        guard appSettings.isPinSet == true else { return false }
 
         let airdropConfig = AppFeatureConfigurator.shared.configuration(for: .stellarAirdrop)
-        let appSettings = BlockchainSettings.App.shared
         let kycSettings = KYCSettings.shared
         let onboardingSettings = BlockchainSettings.Onboarding.shared
 
@@ -103,11 +106,7 @@ extension CardsViewController {
             if onboardingSettings.hasSeenGetFreeXlmModal == true {
                 showCompleteYourProfileCard()
             } else {
-                // appSettings.isPinSet needs to be checked in order to prevent
-                // showing this modal over the PIN screen when creating a wallet
-                if appSettings.isPinSet {
-                    showStellarModal()
-                }
+                showStellarModal()
             }
             return true
         } else if shouldShowStellarAirdropCard {

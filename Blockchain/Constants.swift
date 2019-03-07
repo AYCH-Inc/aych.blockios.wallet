@@ -104,6 +104,7 @@ struct Constants {
         static let getFiatAtTime = NSNotification.Name("getFiatAtTime")
         static let exchangeSubmitted = NSNotification.Name("exchangeSubmitted")
         static let kycComplete = NSNotification.Name("kycComplete")
+        static let kycStopped = NSNotification.Name("kycStopped")
     }
     struct PushNotificationKeys {
         static let userInfoType = "type"

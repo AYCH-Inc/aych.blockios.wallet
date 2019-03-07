@@ -21,6 +21,9 @@ class ExchangeCreateInteractor {
 
     private let disposables = CompositeDisposable()
     private var tradingLimitDisposable: Disposable?
+    private var repository: AssetAccountRepository = {
+       return AssetAccountRepository.shared
+    }()
 
     fileprivate let inputs: ExchangeInputsAPI
     fileprivate let markets: ExchangeMarketsAPI
@@ -103,7 +106,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         }
     }
     
-    func viewLoaded() {
+    func setup() {
         guard let output = output else { return }
         guard let model = model else { return }
         inputs.setup(with: output.styleTemplate(), usingFiat: model.isUsingFiat)
@@ -111,8 +114,21 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         updatedInput()
         
         markets.setup()
-
+    }
+    
+    func resume() {
         // Authenticate, then listen for conversions
+        guard let output = output else { return }
+        guard let model = model else { return }
+        if tradeExecution.canTradeAssetType(model.pair.from) == false {
+            if let errorMessage = errorMessage(for: model.pair.from) {
+                output.showError(message: errorMessage)
+            } else {
+                // This shouldn't happen because the only case (eth) should have an error message,
+                // but just in case show an error here
+                output.showError(message: LocalizationConstants.Errors.genericError)
+            }
+        }
         markets.authenticate(completion: { [unowned self] in
             self.tradeLimitService.initialize(withFiatCurrency: model.fiatCurrencyCode)
             self.subscribeToConversions()
@@ -281,8 +297,17 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 this.output?.showSummary(orderTransaction: orderTransaction, conversion: conversion)
             }, error: { [weak self] errorMessage in
                 guard let this = self else { return }
-                this.output?.showError(message: errorMessage)
-                this.output?.loadingVisibility(.hidden)
+                /// BTC transactions that have insufficient funds will return
+                /// a very long error message that contains the below string. We want to
+                /// report the true error that we're receiving from JS but we don't want to show
+                /// it to the user. We show a more user friendly error message instead. 
+                if errorMessage.contains("NO_UNSPENT_OUTPUTS") {
+                    let message = LocalizationConstants.Errors.notEnoughXForFees + Constants.AssetTypeCodes.bitcoin
+                    this.output?.showError(message: message)
+                } else {
+                    this.output?.showError(message: errorMessage)
+                    this.output?.loadingVisibility(.hidden)
+                }
             }
         )
     }
@@ -292,8 +317,17 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         guard let model = model else { return }
         guard let output = output else { return }
         
-        let account = model.marketPair.fromAccount
-
+        /// The reason we have a `repository` in this class is we need to
+        /// validate that the user has the necessary funds to make a swap.
+        /// So, we have to do a fresh fetch of the account details for the asset.
+        let fromAssetType = model.marketPair.pair.from
+        let address = model.marketPair.fromAccount.address.address
+        let accounts = repository.accounts(for: fromAssetType)
+        
+        /// You should never hit the `return` here. You should definitely have an account
+        /// that pairs with this address. 
+        guard let account = accounts.filter({ $0.address.address == address }).first else { return }
+        
         guard let conversion = model.lastConversion else {
             Logger.shared.error("No conversion stored")
             return
@@ -553,6 +587,10 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         }.asMaybe()
     }
     
+    /// NOTE: This function currently is not in use as we are not supporting
+    /// `Use Max` or `Use Min` at this time. When it is supported you may not
+    /// use `assetAccount`. If you do you must inject the correct account from
+    /// `repository` in order to ensure you have the correct balance.
     private func applyTradingLimit(limit: TradingLimit, assetAccount: AssetAccount) {
         guard let model = model else { return }
 

@@ -1759,6 +1759,15 @@ struct LocalizationConstants {
             "Allow camera access?",
             comment: "Headline in alert asking the user to allow camera access."
         )
+        static let streetLine = NSLocalizedString("Street line", comment: "Street line")
+        static let addressLine = NSLocalizedString("Address line", comment: "Address line")
+        static let city = NSLocalizedString("City", comment: "city")
+        static let cityTownVillage = NSLocalizedString("City / Town / Village", comment: "City / Town / Village")
+        static let zipCode = NSLocalizedString("Zip Code", comment: "zip code")
+        static let required = NSLocalizedString("Required", comment: "required")
+        static let state = NSLocalizedString("State", comment: "state")
+        static let stateRegionProvinceCountry = NSLocalizedString("State / Region / Province / Country", comment: "State / Region / Province / Country")
+        static let postalCode = NSLocalizedString("Postal Code", comment: "postal code")
     }
 
     struct Swap {

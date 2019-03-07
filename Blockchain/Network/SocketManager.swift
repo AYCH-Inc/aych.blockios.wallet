@@ -93,7 +93,6 @@ class SocketManager {
 
         do {
             let string = try message.JSONMessage.encodeToString(encoding: .utf8)
-            Logger.shared.debug("Writing to socket: \(string)")
             socket.write(string: string)
         } catch {
             Logger.shared.error("Could not send websocket message as string")
@@ -121,10 +120,6 @@ extension SocketManager: WebSocketAdvancedDelegate {
     func websocketDidReceiveMessage(socket: WebSocket, text: String, response: WebSocket.WSResponse) {
         let socketType: SocketType = socket == self.exchangeSocket ? .exchange : .unassigned
 
-        let onAcknowledge: (String) -> Void = { message in
-            Logger.shared.debug("Acknowledged messsage: \(message)")
-        }
-
         let onError: (String) -> Void = { message in
             Logger.shared.error("Could not form SocketMessage object from string: \(message)")
         }
@@ -151,11 +146,9 @@ extension SocketManager: WebSocketAdvancedDelegate {
         // Optimization: avoid retyping "tryToDecode(data: data, onSuccess: onSuccess, onError: onError)" for each case
         switch channel {
         case "auth":
-            onAcknowledge("Successfully subscribed. Websocket: \(socket), Payload: \(text)")
+            break
         case "exchange_rate":
-            Logger.shared.debug("Received exchange_rate socket message: \(text)")
             if let event = json["event"] as? String, event == "updated" {
-                Logger.shared.debug("Attempting to decode event of type '\(event)'")
                 ExchangeRates.tryToDecode(socketType: socketType, data: data, onSuccess: onSuccess, onError: onError)
             }
         case "conversion":

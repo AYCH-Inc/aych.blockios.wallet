@@ -74,7 +74,6 @@ class MarketsService {
 
     deinit {
         disposables.dispose()
-        socketManager.disconnect(socketType: .exchange)
     }
 }
 

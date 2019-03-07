@@ -8483,13 +8483,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		AA0843C6215D73780007BFD1 /* Exchange */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Exchange;
-			sourceTree = "<group>";
-		};
 		AA084400215EEC630007BFD1 /* Lockbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -9417,7 +9410,6 @@
 			isa = PBXGroup;
 			children = (
 				AABE35ED21939C500001AE4A /* Authentication */,
-				AA0843C6215D73780007BFD1 /* Exchange */,
 				C75684C9212F053200B5059C /* TradingPairTests.swift */,
 			);
 			path = Homebrew;

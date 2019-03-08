@@ -6,7 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformUIKit
 
 // Class used to keep objects in memory while performing async operations for
 // the CardsViewController instance.
@@ -32,7 +32,14 @@ import Foundation
         let appSettings = BlockchainSettings.App.shared
         stellarAirdropRouter.registerForCampaign(success: { user in
             appSettings.didRegisterForAirdropCampaignSucceed = true
-
+            let okAction = AlertAction(title: LocalizationConstants.okString, style: .confirm)
+            let alertModel = AlertModel(
+                headline: LocalizationConstants.AnnouncementCards.registerAirdropSuccessTitle,
+                body: LocalizationConstants.AnnouncementCards.registerAirdropSuccessDescription,
+                actions: [okAction]
+            )
+            let alert = AlertView.make(with: alertModel, completion: nil)
+            alert.show()
         }, error: { error in
             appSettings.didRegisterForAirdropCampaignSucceed = false
             AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)

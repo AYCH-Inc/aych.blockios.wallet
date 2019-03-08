@@ -15,6 +15,11 @@
 @property (nonatomic) CGFloat cardsViewHeight;
 @property (nonatomic) UIView *dashboardContentView;
 @property (nonatomic) UIScrollView *dashboardScrollView;
+
+// This should be private or readonly, but it cannot be accessed
+// from an extension.
+@property (nonatomic) BOOL didShowCoinifyKycModal;
+
 - (void)reloadWelcomeCards;
 - (void)animateHideCards;
 - (void)showSingleCardWithViewModel:(AnnouncementCardViewModel *)viewModel;

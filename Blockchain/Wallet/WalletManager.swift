@@ -170,6 +170,7 @@ extension WalletManager: WalletDelegate {
 
     func walletDidLoad() {
         Logger.shared.info("walletDidLoad()")
+        BlockchainSettings.App.shared.walletDidLoad()
         endBackgroundUpdateTask()
     }
 

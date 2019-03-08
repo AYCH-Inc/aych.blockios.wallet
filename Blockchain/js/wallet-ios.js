@@ -2157,6 +2157,10 @@ MyWalletPhone.getExchangeAccount = function () {
     }
 }
 
+MyWalletPhone.isCoinifyTrader = function() {
+    return MyWallet.wallet.external.coinify.hasAccount;
+}
+
 var tradeToObject = function (trade) {
   return {
     createdAt: new Date(trade.createdAt).toLocaleString(),

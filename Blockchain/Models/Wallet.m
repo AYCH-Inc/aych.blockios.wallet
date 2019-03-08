@@ -2394,6 +2394,11 @@ NSString * const kLockboxInvitation = @"lockbox";
     return [[self.context evaluateScript:@"MyWalletPhone.isBuyFeatureEnabled()"] toBool];
 }
 
+- (BOOL)isCoinifyTrader
+{
+    return [[self.context evaluateScript:@"MyWalletPhone.isCoinifyTrader()"] toBool];
+}
+
 - (BOOL)canUseSfox
 {
     return [[self.context evaluateScript:@"MyWalletPhone.canUseSfox()"] toBool];

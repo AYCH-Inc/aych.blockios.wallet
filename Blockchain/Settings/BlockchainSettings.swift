@@ -499,6 +499,10 @@ final class BlockchainSettings: NSObject {
             Logger.shared.info("Application settings have been reset.")
         }
 
+        func walletDidLoad() {
+            Onboarding.shared.shouldShowCoinifyKycModal = true
+        }
+
         /// - Warning: Calling This function will remove **ALL** settings in the application.
         func clear() {
             UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
@@ -642,6 +646,10 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenGetFreeXlmModal.rawValue)
             }
         }
+
+        /// Property indicating whether or not the modal to prompt Coinify users to complete KYC
+        /// should be shown
+        @objc var shouldShowCoinifyKycModal = false
 
         private override init() {
             super.init()

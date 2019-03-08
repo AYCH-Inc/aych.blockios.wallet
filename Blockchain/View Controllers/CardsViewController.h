@@ -21,4 +21,5 @@
 
 // Actions
 - (void)stellarAirdropCardActionTapped;
+- (void)coinifyKycActionTapped;
 @end

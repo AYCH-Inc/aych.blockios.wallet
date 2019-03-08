@@ -49,6 +49,11 @@
     [self.actionHandler stellarAirdropCardActionTapped];
 }
 
+- (void)coinifyKycActionTapped
+{
+    [self.actionHandler coinifyKycActionTapped];
+}
+
 - (void)reloadWelcomeCards
 {
     self.cardsViewHeight = 0;

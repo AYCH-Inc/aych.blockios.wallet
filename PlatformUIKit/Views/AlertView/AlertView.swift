@@ -70,7 +70,7 @@ public class AlertView: UIView {
         if let value = model.body {
             let attributed = NSAttributedString(
                 string: value,
-                attributes: [.font: headlineFont()]
+                attributes: [.font: messageFont()]
             )
             messageHeight = attributed.heightForWidth(width: adjustedWidth)
         }

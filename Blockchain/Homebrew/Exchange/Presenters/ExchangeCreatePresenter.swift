@@ -84,9 +84,13 @@ class ExchangeCreatePresenter {
 
 extension ExchangeCreatePresenter: ExchangeCreateDelegate {
     
-    func onViewLoaded() {
+    func onViewDidLoad() {
+        interactor.setup()
+    }
+    
+    func onViewWillAppear() {
         AnalyticsService.shared.trackEvent(title: "exchange_create")
-        interactor.viewLoaded()
+        interactor.resume()
         
         interface?.apply(
             presentationUpdates:[

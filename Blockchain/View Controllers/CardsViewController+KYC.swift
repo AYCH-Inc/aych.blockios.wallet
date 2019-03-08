@@ -11,8 +11,10 @@ import PlatformUIKit
 
 extension CardsViewController {
     @objc func setupNotifications() {
-        NotificationCenter.when(Constants.NotificationKeys.kycComplete) { [weak self] _ in
+        NotificationCenter.when(Constants.NotificationKeys.kycComplete) { [weak self] action in
             guard let this = self else { return }
+            guard let tier = action.userInfo?["tier"] as? KYCTier else { return }
+            guard tier == .tier2 else { return }
             this.showStellarModalKycCompleted()
         }
     }

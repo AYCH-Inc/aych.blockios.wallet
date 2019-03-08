@@ -13,8 +13,14 @@ extension CardsViewController {
     @objc func setupNotifications() {
         NotificationCenter.when(Constants.NotificationKeys.kycComplete) { [weak self] action in
             guard let this = self else { return }
-            guard let tier = action.userInfo?["tier"] as? KYCTier else { return }
+            guard let userInfo = action.userInfo else { return }
+
+            guard let hasRegisteredForAirdrop = userInfo["hasRegistered"] as? Bool else { return }
+            guard hasRegisteredForAirdrop == false else { return }
+
+            guard let tier = userInfo["tier"] as? KYCTier else { return }
             guard tier == .tier2 else { return }
+
             this.showStellarModalKycCompleted()
         }
     }

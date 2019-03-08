@@ -121,10 +121,11 @@ protocol KYCCoordinatorDelegate: class {
     // Called when the entire KYC process has been completed.
     @objc func finish() {
         stop()
+        let hasRegisteredForAirdrop = user?.tags?.sunriver != nil
         NotificationCenter.default.post(
             name: Constants.NotificationKeys.kycComplete,
             object: nil,
-            userInfo: ["tier": pager.tier]
+            userInfo: ["tier": pager.tier, "hasRegistered": hasRegisteredForAirdrop]
         )
     }
 

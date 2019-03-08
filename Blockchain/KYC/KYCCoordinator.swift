@@ -123,7 +123,8 @@ protocol KYCCoordinatorDelegate: class {
         stop()
         NotificationCenter.default.post(
             name: Constants.NotificationKeys.kycComplete,
-            object: nil
+            object: nil,
+            userInfo: ["tier": pager.tier]
         )
     }
 

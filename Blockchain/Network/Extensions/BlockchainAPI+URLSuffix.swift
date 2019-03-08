@@ -45,7 +45,7 @@ import Foundation
     func transactionDetailURL(for transactionHash: String, assetType: AssetType) -> String? {
         switch assetType {
         case .bitcoin:
-            return "\(walletUrl)/tx/\(transactionHash)"
+            return "\(bitcoinExplorerUrl)/tx/\(transactionHash)"
         case .ethereum:
             return "\(etherExplorerUrl)/tx/\(transactionHash)"
         case .bitcoinCash:

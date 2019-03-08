@@ -82,7 +82,7 @@ extension CardsViewController {
         let shouldShowCoinifyKycModal = coinifyConfig.isEnabled &&
             tiersResponse.canCompleteTier2 &&
             WalletManager.shared.wallet.isCoinifyTrader() &&
-            onboardingSettings.shouldShowCoinifyKycModal
+            !didShowCoinifyKycModal
 
         if shouldShowCoinifyKycModal {
             showCoinifyKycModal()
@@ -168,7 +168,7 @@ extension CardsViewController {
     }
 
     private func showCoinifyKycModal() {
-        BlockchainSettings.Onboarding.shared.shouldShowCoinifyKycModal = false
+        didShowCoinifyKycModal = true
 
         let updateNow = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoAction, style: .confirm)
         let learnMore = AlertAction(title: LocalizationConstants.AnnouncementCards.learnMore, style: .default)

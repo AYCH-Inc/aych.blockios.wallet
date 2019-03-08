@@ -68,6 +68,11 @@
     [self.actionHandler stellarModalKycCompletedActionTapped];
 }
 
+- (void)coinifyKycActionTapped
+{
+    [self.actionHandler coinifyKycActionTapped];
+}
+
 - (void)reloadWelcomeCards
 {
     self.cardsViewHeight = 0;

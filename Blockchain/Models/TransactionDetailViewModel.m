@@ -59,7 +59,7 @@
         WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc = currentSymbol;
         
         self.detailButtonTitle = [[NSString stringWithFormat:@"%@ %@",BC_STRING_VIEW_ON_URL_ARGUMENT, [[BlockchainAPI sharedInstance] blockchainDotCom]] uppercaseString];
-        self.detailButtonLink = [[[BlockchainAPI sharedInstance] walletUrl] stringByAppendingFormat:@"/tx/%@", self.myHash];
+        self.detailButtonLink = [[[BlockchainAPI sharedInstance] bitcoinExplorerUrl] stringByAppendingFormat:@"/tx/%@", self.myHash];
     }
     return self;
 }

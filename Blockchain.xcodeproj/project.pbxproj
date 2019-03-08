@@ -784,7 +784,6 @@
 		AA08439F215C47290007BFD1 /* NabuNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08439E215C47290007BFD1 /* NabuNetworkError.swift */; };
 		AA0843A0215C47290007BFD1 /* NabuNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08439E215C47290007BFD1 /* NabuNetworkError.swift */; };
 		AA0843C5215D72340007BFD1 /* MockSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0843C4215D72340007BFD1 /* MockSocketManager.swift */; };
-		AA0843C9215D73F50007BFD1 /* MarketsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0843C8215D73F50007BFD1 /* MarketsServiceTests.swift */; };
 		AA08440C215EEDF90007BFD1 /* Lockbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08440B215EEDF90007BFD1 /* Lockbox.swift */; };
 		AA08440D215EEDF90007BFD1 /* Lockbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08440B215EEDF90007BFD1 /* Lockbox.swift */; };
 		AA08440F215EEF320007BFD1 /* LockboxDeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08440E215EEF320007BFD1 /* LockboxDeviceType.swift */; };
@@ -3839,7 +3838,6 @@
 		AA084399215C0E210007BFD1 /* SocketMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketMessageTests.swift; sourceTree = "<group>"; };
 		AA08439E215C47290007BFD1 /* NabuNetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NabuNetworkError.swift; sourceTree = "<group>"; };
 		AA0843C4215D72340007BFD1 /* MockSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSocketManager.swift; sourceTree = "<group>"; };
-		AA0843C8215D73F50007BFD1 /* MarketsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsServiceTests.swift; sourceTree = "<group>"; };
 		AA08440B215EEDF90007BFD1 /* Lockbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lockbox.swift; sourceTree = "<group>"; };
 		AA08440E215EEF320007BFD1 /* LockboxDeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockboxDeviceType.swift; sourceTree = "<group>"; };
 		AA084411215EEF750007BFD1 /* LockboxAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockboxAccount.swift; sourceTree = "<group>"; };
@@ -8485,22 +8483,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		AA0843C6215D73780007BFD1 /* Exchange */ = {
-			isa = PBXGroup;
-			children = (
-				AA0843C7215D737D0007BFD1 /* Services */,
-			);
-			path = Exchange;
-			sourceTree = "<group>";
-		};
-		AA0843C7215D737D0007BFD1 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				AA0843C8215D73F50007BFD1 /* MarketsServiceTests.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		AA084400215EEC630007BFD1 /* Lockbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -9428,7 +9410,6 @@
 			isa = PBXGroup;
 			children = (
 				AABE35ED21939C500001AE4A /* Authentication */,
-				AA0843C6215D73780007BFD1 /* Exchange */,
 				C75684C9212F053200B5059C /* TradingPairTests.swift */,
 			);
 			path = Homebrew;
@@ -11260,7 +11241,6 @@
 				3A1552E8213600B400683CEB /* TradingPairConfiguration.swift in Sources */,
 				3AE92BDE2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */,
 				3AB4D91821309BAD004F0160 /* ExchangeListContracts.swift in Sources */,
-				AA0843C9215D73F50007BFD1 /* MarketsServiceTests.swift in Sources */,
 				3A1552EE2136EAF000683CEB /* TradeLimits.swift in Sources */,
 				3A1C7FA921790AB3001AC6D3 /* StellarOperationsAPI.swift in Sources */,
 				34A54DD4221A06B000FD99BC /* QRCodeScannerTests.swift in Sources */,

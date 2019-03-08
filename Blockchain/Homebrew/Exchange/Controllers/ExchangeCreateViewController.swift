@@ -12,7 +12,8 @@ import SafariServices
 import RxSwift
 
 protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
-    func onViewLoaded()
+    func onViewDidLoad()
+    func onViewWillAppear()
     func onDisplayRatesTapped()
     func onHideRatesTapped()
     func onKeypadVisibilityUpdated(_ visibility: Visibility, animated: Bool)
@@ -108,14 +109,12 @@ class ExchangeCreateViewController: UIViewController {
         title = LocalizationConstants.Swap.swap
         dependenciesSetup()
         viewsSetup()
-        delegate?.onViewLoaded()
+        delegate?.onViewDidLoad()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let navController = navigationController as? BCNavigationController {
-            navController.headerTitle = LocalizationConstants.Swap.swap
-        }
+        delegate?.onViewWillAppear()
     }
 
     // MARK: Private
@@ -451,7 +450,7 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
     
     func showSummary(orderTransaction: OrderTransaction, conversion: Conversion) {
         let model = ExchangeDetailPageModel(type: .confirm(orderTransaction, conversion))
-        let confirmController = ExchangeDetailViewController.make(with: model, dependencies: ExchangeServices())
+        let confirmController = ExchangeDetailViewController.make(with: model, dependencies: self.dependencies)
         navigationController?.pushViewController(confirmController, animated: true)
     }
 }

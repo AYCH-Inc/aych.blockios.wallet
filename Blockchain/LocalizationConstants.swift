@@ -884,6 +884,14 @@ struct LocalizationConstants {
     }
 
     struct AnnouncementCards {
+        static let registerAirdropSuccessTitle = NSLocalizedString(
+            "You're All Set!",
+            comment: "Title of an alert that notifies the user that airdrop registration has succeded"
+        )
+        static let registerAirdropSuccessDescription = NSLocalizedString(
+            "Once your profile is approved for Gold, we will airdrop your free crypto into your Wallet.",
+            comment: "Description of an alert that notifies the user that airdrop registration has succeded"
+        )
         static let bottomSheetFreeCryptoTitle = NSLocalizedString(
             "Get Free XLM",
             comment: "Title of a bottom sheet alert prompting the user to complete KYC"

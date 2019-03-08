@@ -64,6 +64,7 @@ extension CardsViewController {
         guard appSettings.isPinSet == true else { return false }
 
         let airdropConfig = AppFeatureConfigurator.shared.configuration(for: .stellarAirdrop)
+        let coinifyConfig = AppFeatureConfigurator.shared.configuration(for: .notifyCoinifyUserToKyc)
         let kycSettings = KYCSettings.shared
         let onboardingSettings = BlockchainSettings.Onboarding.shared
 
@@ -77,12 +78,16 @@ extension CardsViewController {
             !appSettings.didSeeAirdropPending
         let shouldShowStellarView = airdropConfig.isEnabled &&
             !appSettings.didTapOnAirdropDeepLink &&
-            tiersResponse.userTiers.contains(where: {
-                return $0.tier == .tier2 &&
-                    ($0.state != .pending && $0.state != .rejected && $0.state != .verified)
-            })
+            tiersResponse.canCompleteTier2
+        let shouldShowCoinifyKycModal = coinifyConfig.isEnabled &&
+            tiersResponse.canCompleteTier2 &&
+            WalletManager.shared.wallet.isCoinifyTrader() &&
+            onboardingSettings.shouldShowCoinifyKycModal
 
-        if shouldShowAirdropPending {
+        if shouldShowCoinifyKycModal {
+            showCoinifyKycModal()
+            return true
+        } else if shouldShowAirdropPending {
             showAirdropPending()
             return true
         } else if nabuUser.needsDocumentResubmission != nil {
@@ -160,6 +165,34 @@ extension CardsViewController {
                 let tier = user.tiers?.selected ?? .tier1
                 KYCCoordinator.shared.start(from: AppCoordinator.shared.tabControllerManager, tier: tier)
             })
+    }
+
+    private func showCoinifyKycModal() {
+        BlockchainSettings.Onboarding.shared.shouldShowCoinifyKycModal = false
+
+        let updateNow = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoAction, style: .confirm)
+        let learnMore = AlertAction(title: LocalizationConstants.AnnouncementCards.learnMore, style: .default)
+        let alertModel = AlertModel(
+            headline: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoTitle,
+            body: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoDescription,
+            actions: [updateNow, learnMore],
+            image: UIImage(named: "symbol-xlm-color"),
+            dismissable: true,
+            style: .sheet
+        )
+        let alert = AlertView.make(with: alertModel) { action in
+            switch action.style {
+            case .confirm:
+                self.coinifyKycActionTapped()
+            case .default:
+                UIApplication.shared.openSafariViewController(
+                    url: Constants.Url.requiredIdentityVerificationURL,
+                    presentingViewController: AppCoordinator.shared.tabControllerManager.tabViewController)
+            case .dismiss:
+                break
+            }
+        }
+        alert.show()
     }
 
     private func showUploadDocumentsCard() {

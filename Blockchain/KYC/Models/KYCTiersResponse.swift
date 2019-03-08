@@ -20,6 +20,15 @@ struct KYCUserTiersResponse: Codable {
     }
 }
 
+extension KYCUserTiersResponse {
+    var canCompleteTier2: Bool {
+        return userTiers.contains(where: {
+            return $0.tier == .tier2 &&
+                ($0.state != .pending && $0.state != .rejected && $0.state != .verified)
+        })
+    }
+}
+
 struct KYCUserTier: Codable {
     let tier: KYCTier
     let name: String

@@ -14,6 +14,14 @@ import Foundation
     private let stellarAirdropRouter = StellarAirdropRouter()
 
     @objc func stellarAirdropCardActionTapped() {
+        registerForAirdropThenKyc()
+    }
+
+    @objc func coinifyKycActionTapped() {
+        registerForAirdropThenKyc()
+    }
+
+    private func registerForAirdropThenKyc() {
         let appSettings = BlockchainSettings.App.shared
         stellarAirdropRouter.registerForCampaign(success: { user in
             appSettings.didRegisterForAirdropCampaignSucceed = true

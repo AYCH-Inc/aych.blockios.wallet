@@ -58,6 +58,7 @@ class ExchangeCreateViewController: UIViewController {
     @IBOutlet private var conversionTitleLabel: UILabel!
     @IBOutlet private var exchangeButton: UIButton!
     @IBOutlet private var primaryLabelCenterXConstraint: NSLayoutConstraint!
+    @IBOutlet private var exchangeButtonBottomConstraint: NSLayoutConstraint!
     
     enum PresentationUpdate {
         case wiggleInputLabels
@@ -137,6 +138,11 @@ class ExchangeCreateViewController: UIViewController {
         exchangeButton.layer.cornerRadius = Constants.Measurements.buttonCornerRadius
 
         exchangeButton.setTitle(LocalizationConstants.Swap.exchange, for: .normal)
+        
+        let isAboveSE = UIDevice.current.type.isAbove(.iPhoneSE)
+        exchangeButtonBottomConstraint.constant = isAboveSE ? 16.0 : 0.0
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
 
     fileprivate func dependenciesSetup() {

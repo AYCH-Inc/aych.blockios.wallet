@@ -1009,7 +1009,8 @@ MyWalletPhone.sendBitcoinPayment = function(payment, secondPassword, success, er
             payment
             .sign(secondPassword)
             .publish()
-            .then(success).catch(error);
+            .then(success)
+            .catch(error);
         } else {
             MyWalletPhone.getSecondPassword(function (pw) {
               secondPassword = pw;
@@ -1023,7 +1024,8 @@ MyWalletPhone.sendBitcoinPayment = function(payment, secondPassword, success, er
         payment
         .sign()
         .publish()
-        .then(success).catch(error);
+        .then(success)
+        .catch(error);
     }
 }
 
@@ -2499,7 +2501,10 @@ MyWalletPhone.sendEtherPayment = function(payment, secondPassword, success, erro
             payment
             .publish()
             .then(recordTx)
-            .then(success).catch(error);
+            .then(success)
+            .catch(function(e) {
+                error(JSON.stringify(e))
+            })
         } else {
             MyWalletPhone.getSecondPassword(function (pw) {
                 var privateKey = eth.getPrivateKeyForAccount(eth.defaultAccount, pw);
@@ -2507,7 +2512,10 @@ MyWalletPhone.sendEtherPayment = function(payment, secondPassword, success, erro
                 payment
                 .publish()
                 .then(recordTx)
-                .then(success).catch(error);
+                .then(success)
+                .catch(function(e) {
+                        error(JSON.stringify(e))
+                })
             }, dismiss);
         }
     } else {
@@ -2516,7 +2524,10 @@ MyWalletPhone.sendEtherPayment = function(payment, secondPassword, success, erro
         payment
         .publish()
         .then(recordTx)
-        .then(success).catch(error);
+        .then(success)
+        .catch(function(e){
+            error(JSON.stringify(e))
+        })
     }
 }
 

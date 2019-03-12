@@ -28,7 +28,6 @@ class KYCTiersViewController: UIViewController {
     // MARK: Private Properties
     
     fileprivate static let limitsAPI: TradeLimitsAPI = ExchangeServices().tradeLimits
-    fileprivate var authenticationService: NabuAuthenticationService!
     fileprivate var layoutAttributes: LayoutAttributes = .tiersOverview
     fileprivate var coordinator: KYCTiersCoordinator!
     fileprivate var disposable: Disposable?
@@ -39,12 +38,10 @@ class KYCTiersViewController: UIViewController {
     var selectedTier: ((KYCTier) -> Void)?
     
     static func make(
-        with pageModel: KYCTiersPageModel,
-        authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared
+        with pageModel: KYCTiersPageModel
     ) -> KYCTiersViewController {
         let controller = KYCTiersViewController.makeFromStoryboard()
         controller.pageModel = pageModel
-        controller.authenticationService = authenticationService
         return controller
     }
     
@@ -255,25 +252,14 @@ extension KYCTiersViewController: UICollectionViewDelegateFlowLayout {
 
 extension KYCTiersViewController: KYCTierCellDelegate {
     func tierCell(_ cell: KYCTierCell, selectedTier: KYCTier) {
-        disposable?.dispose()
-        disposable = post(tier: selectedTier)
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] _ in
-                guard let strongSelf = self else { return }
-                AnalyticsService.shared.trackEvent(title: selectedTier.startAnalyticsKey)
-                /// When a user is selecting a tier from `Swap` (which only happens
-                /// when the user isn't KYC approved) we want to present KYC from the applications
-                /// rootViewController rather than from `self`. 
-                if let block = strongSelf.selectedTier {
-                    block(selectedTier)
-                } else {
-                    KYCCoordinator.shared.start(from: strongSelf, tier: selectedTier)
-                }
-            }, onError: { error in
-                Logger.shared.error(error.localizedDescription)
-                AlertViewPresenter.shared.standardError(message: LocalizationConstants.Swap.postTierError)
-            })
+        /// When a user is selecting a tier from `Swap` (which only happens
+        /// when the user isn't KYC approved) we want to present KYC from the applications
+        /// rootViewController rather than from `self`.
+        if let block = self.selectedTier {
+            block(selectedTier)
+        } else {
+            KYCCoordinator.shared.start(from: self, tier: selectedTier)
+        }
     }
 }
 
@@ -393,29 +379,5 @@ extension KYCTiersViewController: NavigatableView {
     
     func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
         // no op
-    }
-}
-
-extension KYCTiersViewController {
-    func post(tier: KYCTier) -> Single<KYCUserTiersResponse> {
-        guard let baseURL = URL(
-            string: BlockchainAPI.shared.retailCoreUrl) else {
-                return .error(TradeExecutionAPIError.generic)
-        }
-        guard let endpoint = URL.endpoint(
-            baseURL,
-            pathComponents: ["kyc", "tiers"],
-            queryParameters: nil) else {
-                return .error(TradeExecutionAPIError.generic)
-        }
-        let body = KYCTierPostBody(selectedTier:tier)
-        return authenticationService.getSessionToken().flatMap { token in
-            return NetworkRequest.POST(
-                url: endpoint,
-                body: try? JSONEncoder().encode(body),
-                type: KYCUserTiersResponse.self,
-                headers: [HttpHeaderField.authorization: token.token]
-            )
-        }
     }
 }

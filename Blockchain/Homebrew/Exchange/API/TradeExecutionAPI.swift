@@ -7,6 +7,8 @@
 //
 
 import RxSwift
+import PlatformKit
+import BitcoinKit
 
 enum TradeExecutionAPIError: Error {
     case generic
@@ -22,6 +24,16 @@ protocol TradeExecutionAPI {
     
     typealias ErrorMessage = String
     typealias TransactionID = String
+    
+    /// This pulls from a Blockchain.info endpoint that serves up
+    /// current BTC transaction fees. We use this in order to inject a `fee` value
+    /// into the JS. Only `Swap` uses priority fees.
+    func bitcoinTransactionFee() -> Single<BitcoinTransactionFee>
+    
+    /// This pulls from a Blockchain.info endpoint that serves up
+    /// current ETH transaction fees. We use this in order to inject a `fee` value
+    /// into the JS. Only `Swap` uses priority fees.
+    func ethereumTransactionFee() -> Single<EthereumTransactionFee>
 
     // Build a transaction to display on the confirm screen
     func prebuildOrder(

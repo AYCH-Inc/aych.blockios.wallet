@@ -19,6 +19,11 @@ extension BlockchainAPI {
         let host = Bundle.main.infoDictionary!["WALLET_SERVER"] as! String
         return "https://\(host)"
     }
+
+    var explorerUrl: String {
+        let host = Bundle.main.infoDictionary!["EXPLORER_SERVER"] as! String
+        return "https://\(host)"
+    }
     
     var retailCoreUrl: String {
         let host = Bundle.main.infoDictionary!["RETAIL_CORE_URL"] as! String
@@ -39,12 +44,16 @@ extension BlockchainAPI {
         return "https://\(hostAndPath)"
     }
 
+    var bitcoinExplorerUrl: String {
+        return explorerUrl
+    }
+
     var bitcoinCashExplorerUrl: String {
-        return "\(walletUrl)/bch"
+        return "\(explorerUrl)/bch"
     }
 
     var etherExplorerUrl: String {
-        return "\(walletUrl)/eth"
+        return "\(explorerUrl)/eth"
     }
 
     var stellarchainUrl: String {

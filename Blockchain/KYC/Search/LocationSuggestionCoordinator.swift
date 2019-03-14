@@ -42,15 +42,14 @@ class LocationSuggestionCoordinator: NSObject {
 extension LocationSuggestionCoordinator: SearchControllerDelegate {
 
     func onStart() {
+        interface?.primaryButton(.hidden)
         switch model.suggestions.isEmpty {
         case true:
             interface?.searchFieldText(nil)
-            interface?.primaryButton(.visible)
             interface?.suggestionsList(.hidden)
             interface?.termsOfServiceDisclaimer(.visible)
             interface?.addressEntryView(.visible)
         case false:
-            interface?.primaryButton(.hidden)
             interface?.termsOfServiceDisclaimer(.hidden)
             interface?.suggestionsList(.visible)
             interface?.addressEntryView(.hidden)
@@ -73,12 +72,12 @@ extension LocationSuggestionCoordinator: SearchControllerDelegate {
         if let input = selection as? LocationSuggestion {
             interface?.searchFieldText("")
             interface?.suggestionsList(.hidden)
-            interface?.termsOfServiceDisclaimer(.visible)
-            interface?.primaryButton(.visible)
             interface?.updateActivityIndicator(.visible)
             service.fetchAddress(from: input) { [weak self] (address) in
                 guard let this = self else { return }
+                this.interface?.termsOfServiceDisclaimer(.visible)
                 this.interface?.addressEntryView(.visible)
+                this.interface?.primaryButton(.visible)
                 this.interface?.updateActivityIndicator(.hidden)
                 this.interface?.searchFieldActive(false)
                 this.interface?.populateAddressEntryView(address)

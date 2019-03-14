@@ -57,13 +57,15 @@ struct OrderResult: Codable {
         from: Int32,
         to: String,
         amount: String,
-        fees: String?
+        fees: String?,
+        gasLimit: String?
     ) {
         self.legacyAssetType = legacyAssetType
         self.from = from
         self.to = to
         self.amount = amount
         self.fees = fees
+        self.gasLimit = gasLimit
         super.init()
     }
     @objc let legacyAssetType: LegacyAssetType
@@ -71,6 +73,7 @@ struct OrderResult: Codable {
     @objc let to: String
     @objc let amount: String
     @objc var fees: String?
+    @objc var gasLimit: String?
 }
 
 struct OrderTransaction {

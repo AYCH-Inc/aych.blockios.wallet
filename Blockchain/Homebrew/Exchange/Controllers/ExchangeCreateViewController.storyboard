@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZL9-nX-8IY">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZL9-nX-8IY">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,18 +19,18 @@
             <objects>
                 <viewController id="ZL9-nX-8IY" customClass="ExchangeCreateViewController" customModule="Blockchain" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jre-mq-FDr">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V30-pI-8jo" customClass="TradingPairView" customModule="Blockchain" customModuleProvider="target">
-                                <rect key="frame" x="16" y="28" width="343" height="60"/>
+                                <rect key="frame" x="16" y="28" width="288" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="eAr-RZ-O8R"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j0b-5p-LkW">
-                                <rect key="frame" x="327" y="309.5" width="32" height="32"/>
+                                <rect key="frame" x="272" y="245" width="32" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="yuY-LZ-oDw"/>
                                 </constraints>
@@ -40,24 +40,24 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hcw-SG-3XL" customClass="ConversionRatesView" customModule="Blockchain" customModuleProvider="target">
-                                <rect key="frame" x="16" y="375" width="343" height="198.5"/>
+                                <rect key="frame" x="16" y="308" width="288" height="169"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dfm-a1-ad2" customClass="NumberKeypadView" customModule="Blockchain" customModuleProvider="target">
-                                <rect key="frame" x="16" y="357.5" width="343" height="233.5"/>
+                                <rect key="frame" x="16" y="293" width="288" height="199"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eA3-pM-NKs">
-                                <rect key="frame" x="16" y="309.5" width="303" height="32"/>
+                                <rect key="frame" x="16" y="245" width="248" height="32"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C9l-S4-AAj">
-                                        <rect key="frame" x="151.5" y="16" width="0.0" height="0.0"/>
+                                        <rect key="frame" x="124" y="16" width="0.0" height="0.0"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                                         <color key="textColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCs-Hh-I8i">
-                                        <rect key="frame" x="283" y="9" width="8" height="14"/>
+                                        <rect key="frame" x="228" y="9" width="8" height="14"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="14" id="M20-tN-3VR"/>
                                             <constraint firstAttribute="width" constant="8" id="wN4-Hn-SZR"/>
@@ -82,7 +82,7 @@
                                 </connections>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coY-Dg-Mc5">
-                                <rect key="frame" x="165.5" y="607" width="44" height="44"/>
+                                <rect key="frame" x="138" y="508" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="OD1-yy-iOw"/>
                                     <constraint firstAttribute="height" constant="44" id="eez-mb-zwg"/>
@@ -93,7 +93,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.5" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DUe-4D-nhJ">
-                                <rect key="frame" x="16" y="607" width="343" height="44"/>
+                                <rect key="frame" x="16" y="508" width="288" height="44"/>
                                 <color key="backgroundColor" red="0.059999999999999998" green="0.68000000000000005" blue="0.89000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="OUu-3B-15Y"/>
@@ -107,26 +107,26 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lwt-zv-6qV">
-                                <rect key="frame" x="0.0" y="96" width="375" height="213.5"/>
+                                <rect key="frame" x="0.0" y="96" width="320" height="149"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gwW-KU-9VB">
-                                        <rect key="frame" x="0.0" y="41" width="375" height="132"/>
+                                        <rect key="frame" x="0.0" y="8.5" width="320" height="132"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$200.42" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="okC-2w-xB9">
-                                                <rect key="frame" x="155" y="90" width="65.5" height="20.5"/>
+                                                <rect key="frame" x="127.5" y="90" width="65.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your min is $4.56" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fAr-Eh-XkB" customClass="ActionableLabel" customModule="Blockchain" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="114.5" width="375" height="17.5"/>
+                                                <rect key="frame" x="0.0" y="114.5" width="320" height="17.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                                                 <color key="textColor" red="0.95999999999999996" green="0.26000000000000001" blue="0.26000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DPE-Uz-yYf" userLabel="Fiat Button">
-                                                <rect key="frame" x="330" y="77.5" width="45" height="45"/>
+                                                <rect key="frame" x="275" y="78" width="45" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="45" id="DPy-T1-MAF"/>
                                                     <constraint firstAttribute="width" constant="45" id="jae-sI-L1J"/>
@@ -137,7 +137,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12345.12345678 BTC" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="cbA-yh-J0A">
-                                                <rect key="frame" x="16" y="0.0" width="343" height="86"/>
+                                                <rect key="frame" x="16" y="0.0" width="288" height="86"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="72"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -205,6 +205,7 @@
                         <outlet property="conversionView" destination="eA3-pM-NKs" id="veU-HE-Ibp"/>
                         <outlet property="errorLabel" destination="fAr-Eh-XkB" id="Lbh-2l-zky"/>
                         <outlet property="exchangeButton" destination="DUe-4D-nhJ" id="8Ye-3x-3jU"/>
+                        <outlet property="exchangeButtonBottomConstraint" destination="oTE-Cd-lXS" id="RKK-FI-Teu"/>
                         <outlet property="fixToggleButton" destination="j0b-5p-LkW" id="loF-hg-LpF"/>
                         <outlet property="hideRatesButton" destination="coY-Dg-Mc5" id="bEB-4e-zyz"/>
                         <outlet property="numberKeypadView" destination="dfm-a1-ad2" id="yN5-Le-zxp"/>

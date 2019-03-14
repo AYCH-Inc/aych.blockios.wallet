@@ -269,7 +269,6 @@ protocol ExchangeCoordinatorAPI {
     }
 
     // MARK: - Services
-    private let marketsService: MarketsService
     private let exchangeService: ExchangeService
     private let stellarAccountService: StellarAccountAPI
     private let xlmAccountRepository: StellarWalletAccountRepository
@@ -277,13 +276,11 @@ protocol ExchangeCoordinatorAPI {
     // MARK: - Lifecycle
     private init(
         walletManager: WalletManager = WalletManager.shared,
-        marketsService: MarketsService = MarketsService(),
         exchangeService: ExchangeService = ExchangeService(),
         stellarAccountService: StellarAccountAPI = XLMServiceProvider.shared.services.accounts,
         xlmAccountRepository: StellarWalletAccountRepository = XLMServiceProvider.shared.services.repository
     ) {
         self.walletManager = walletManager
-        self.marketsService = marketsService 
         self.exchangeService = exchangeService
         self.stellarAccountService = stellarAccountService
         self.xlmAccountRepository = xlmAccountRepository

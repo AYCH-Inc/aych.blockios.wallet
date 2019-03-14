@@ -884,6 +884,34 @@ struct LocalizationConstants {
     }
 
     struct AnnouncementCards {
+        static let bottomSheetCoinifyInfoTitle = NSLocalizedString("More Info Needed", comment: "Title of an alert informing a user that personal information needs to be updated.")
+        static let bottomSheetCoinifyInfoDescription = NSLocalizedString("To keep using Buy & Sell, we'll need you to update your profile. We'll airdrop $25 of XLM as a thank you when you do!", comment: "Description of an alert informing a user that personal information needs to be updated.")
+        static let updateNow = NSLocalizedString("Update Now", comment: "Title of a button that a user can tap on to update their information")
+        static let learnMore = NSLocalizedString("Learn More", comment: "Title of a button that a user can tap on to learn more about an announcement")
+        static let bottomSheetFreeCryptoTitle = NSLocalizedString(
+            "Get Free XLM",
+            comment: "Title of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let bottomSheetFreeCryptoDescription = NSLocalizedString(
+            "Complete your profile today and we will airdrop $25 of free Stellar (XLM) in your Wallet.",
+            comment: "Description of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let bottomSheetFreeCryptoAction = NSLocalizedString(
+            "Get Free XLM",
+            comment: "Button title of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let cardCompleteProfileTitle = NSLocalizedString(
+            "Complete Your Profile",
+            comment: "Title of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let cardCompleteProfileDescription = NSLocalizedString(
+            "Complete your Blockchain profile today and we'll airdrop $25 of XLM directly into your Wallet!",
+            comment: "Description of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let cardCompleteProfileAction = NSLocalizedString(
+            "Continue to Claim Your XLM",
+            comment: "Button title of a bottom sheet alert prompting the user to complete KYC"
+        )
         static let buySellCardTitle = NSLocalizedString("The wait is over", comment: "The title of the card.")
         static let continueKYCCardTitle = NSLocalizedString("Verify Your Identity", comment: "The title of the card.")
         static let buySellCardDescription = NSLocalizedString(
@@ -1735,6 +1763,15 @@ struct LocalizationConstants {
             "Allow camera access?",
             comment: "Headline in alert asking the user to allow camera access."
         )
+        static let streetLine = NSLocalizedString("Street line", comment: "Street line")
+        static let addressLine = NSLocalizedString("Address line", comment: "Address line")
+        static let city = NSLocalizedString("City", comment: "city")
+        static let cityTownVillage = NSLocalizedString("City / Town / Village", comment: "City / Town / Village")
+        static let zipCode = NSLocalizedString("Zip Code", comment: "zip code")
+        static let required = NSLocalizedString("Required", comment: "required")
+        static let state = NSLocalizedString("State", comment: "state")
+        static let stateRegionProvinceCountry = NSLocalizedString("State / Region / Province / Country", comment: "State / Region / Province / Country")
+        static let postalCode = NSLocalizedString("Postal Code", comment: "postal code")
     }
 
     struct Swap {

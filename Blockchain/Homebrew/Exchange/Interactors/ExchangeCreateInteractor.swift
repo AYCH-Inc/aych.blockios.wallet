@@ -306,8 +306,9 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                     this.output?.showError(message: message)
                 } else {
                     this.output?.showError(message: errorMessage)
-                    this.output?.loadingVisibility(.hidden)
                 }
+                
+                this.output?.loadingVisibility(.hidden)
             }
         )
     }

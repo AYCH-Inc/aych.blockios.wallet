@@ -42,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>7</string>
+	<string>13</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -98,6 +98,8 @@
 	<false/>
 	<key>WALLET_SERVER</key>
 	<string>$(WALLET_SERVER)</string>
+	<key>EXPLORER_SERVER</key>
+	<string>$(EXPLORER_SERVER)</string>
 	<key>WEBSOCKET_SERVER</key>
 	<string>$(WEBSOCKET_SERVER)</string>
 	<key>WEBSOCKET_SERVER_BCH</key>

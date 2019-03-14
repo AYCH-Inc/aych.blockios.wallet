@@ -35,6 +35,7 @@ struct NabuUser: Decodable {
         case firstName = "firstName"
         case lastName = "lastName"
         case email = "email"
+        case dob
         case emailVerified = "emailVerified"
         case mobileVerified = "mobileVerified"
         case mobile = "mobile"
@@ -80,12 +81,16 @@ struct NabuUser: Decodable {
         let userState = try values.decode(String.self, forKey: .state)
         address = try values.decodeIfPresent(UserAddress.self, forKey: .address)
         tiers = try values.decodeIfPresent(NabuUserTiers.self, forKey: .tiers)
-
+        let birthdayValue = try values.decodeIfPresent(String.self, forKey: .dob)
+        var birthday: Date?
+        if let value = birthdayValue {
+            birthday = DateFormatter.birthday.date(from: value)
+        }
         personalDetails = PersonalDetails(
             id: userID,
             first: firstName,
             last: lastName,
-            birthday: nil
+            birthday: birthday
         )
 
         email = Email(address: emailAddress, verified: emailVerified)

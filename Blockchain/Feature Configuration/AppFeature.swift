@@ -15,6 +15,7 @@ import Foundation
     case transferFundsFromImportedAddress
     case stellar
     case stellarAirdrop
+    case notifyCoinifyUserToKyc
 }
 
 extension AppFeature {
@@ -23,6 +24,8 @@ extension AppFeature {
         switch self {
         case .stellarAirdrop:
             return "ios_sunriver_airdrop_enabled"
+        case .notifyCoinifyUserToKyc:
+            return "ios_notify_coinify_users_to_kyc"
         default:
             return nil
         }

@@ -441,12 +441,12 @@ final class BlockchainSettings: NSObject {
 
         /// Determines if the user deep linked into the app using an email verification link. This
         /// value is used to continue KYC'ing at the Verify Email step.
-        var didTapOnKycVerifyEmailDeepLink: Bool {
+        var didTapOnKycDeepLink: Bool {
             get {
-                return defaults.bool(forKey: UserDefaults.Keys.didTapOnVerifyEmailDeepLink.rawValue)
+                return defaults.bool(forKey: UserDefaults.Keys.didTapOnKycDeepLink.rawValue)
             }
             set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.didTapOnVerifyEmailDeepLink.rawValue)
+                defaults.set(newValue, forKey: UserDefaults.Keys.didTapOnKycDeepLink.rawValue)
             }
         }
 
@@ -492,7 +492,7 @@ final class BlockchainSettings: NSObject {
             didSeeAirdropPending = false
             didAttemptToRouteForAirdrop = false
             didRegisterForAirdropCampaignSucceed = false
-            didTapOnKycVerifyEmailDeepLink = false
+            didTapOnKycDeepLink = false
 
             KYCSettings.shared.reset()
 
@@ -632,11 +632,23 @@ final class BlockchainSettings: NSObject {
             }
         }
 
+        /// Property indicating whether or not the user has already seen, and clicked, on the
+        /// Stellar "Get Free XLM" bottom modal
+        @objc var hasSeenGetFreeXlmModal: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.hasSeenGetFreeXlmModal.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenGetFreeXlmModal.rawValue)
+            }
+        }
+
         private override init() {
             super.init()
         }
 
         func reset() {
+            hasSeenGetFreeXlmModal = false
             hasSeenAirdropJoinWaitlistCard = false
         }
     }

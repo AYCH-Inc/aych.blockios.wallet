@@ -18,11 +18,16 @@ class ExchangeContainerViewController: BaseNavigationController {
     private let disposables = CompositeDisposable()
     private let coordinator: ExchangeCoordinator = ExchangeCoordinator.shared
     private let wallet: Wallet = WalletManager.shared.wallet
+    private var tiersViewController: KYCTiersViewController?
     
     // MARK: Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setupNotifications()
         setupExchangeIfPermitted()
     }
@@ -40,9 +45,21 @@ class ExchangeContainerViewController: BaseNavigationController {
     }
     
     @objc func showWelcome() {
-        viewControllers.removeAll()
-        LoadingViewPresenter.shared.hideBusyView()
-        setViewControllers([onboardingController], animated: false)
+        if viewControllers.count > 0 {
+            viewControllers.removeAll()
+        }
+        let disposable = KYCTiersViewController.tiersMetadata()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
+            .subscribe(onNext: { [weak self] model in
+                guard let self = self else { return }
+                self.setupTiersController(model)
+            }, onError: { [weak self] error in
+                guard let self = self else { return }
+                self.setViewControllers([self.onboardingController], animated: false)
+            })
+        disposables.insertWithDiscardableResult(disposable)
     }
     
     fileprivate func setupNotifications() {
@@ -78,14 +95,19 @@ class ExchangeContainerViewController: BaseNavigationController {
         disposables.insertWithDiscardableResult(disposable)
     }
     
-    fileprivate func startKYC() {
-        KYCCoordinator.shared.start()
+    fileprivate func setupTiersController(_ model: KYCTiersPageModel) {
+        tiersViewController = KYCTiersViewController.make(with: model)
+        guard let controller = tiersViewController else { return }
+        controller.selectedTier = { tier in
+            KYCCoordinator.shared.startFrom(tier)
+        }
+        setViewControllers([controller], animated: false)
     }
     
     lazy var onboardingController: KYCOnboardingViewController = {
         let controller = KYCOnboardingViewController.makeFromStoryboard()
         controller.action = {
-            self.startKYC()
+            KYCCoordinator.shared.start()
         }
         return controller
     }()

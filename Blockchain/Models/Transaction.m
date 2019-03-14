@@ -16,11 +16,8 @@
     
     transaction.from = [transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_FROM];
     transaction.to = [transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_TO];
-    
-    if ([transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_BLOCK_HEIGHT] != [NSNull null]) {
-        transaction.block_height = [[transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_BLOCK_HEIGHT] intValue];
-    }
-    
+
+    transaction.block_height = [[transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_BLOCK_HEIGHT] intValue];
     transaction.confirmations = [[transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_CONFIRMATIONS] unsignedIntegerValue];
     transaction.fee = [[transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_FEE] longLongValue];
     transaction.myHash = [transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_MY_HASH] ? : [transactionDict objectForKey:DICTIONARY_KEY_TRANSACTION_HASH];

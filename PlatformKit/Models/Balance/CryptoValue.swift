@@ -164,15 +164,6 @@ public extension CryptoValue {
         return CryptoValue(currencyType: .ethereum, amount: weiInBigInt)
     }
     
-    public static func etherFromGwei(string gwei: String) -> CryptoValue? {
-        guard let gweiInBigInt = BigInt(gwei) else {
-            return nil
-        }
-        let weiInBigInt = gweiInBigInt * BigInt(integerLiteral: 1_000_000_000)
-        
-        return CryptoValue(currencyType: .ethereum, amount: weiInBigInt)
-    }
-    
     public static func etherFromMajor(decimal ether: Decimal) -> CryptoValue {
         return createFromMajorValue(ether, assetType: .ethereum)
     }

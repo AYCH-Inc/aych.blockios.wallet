@@ -70,8 +70,7 @@ extension CameraPromptingDelegate {
             case .confirm:
                 guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
                 UIApplication.shared.open(settingsURL)
-            case .default,
-                 .dismiss:
+            case .default:
                 break
             }
         }
@@ -97,8 +96,7 @@ extension CameraPromptingDelegate {
             switch output.style {
             case .confirm:
                 confirmHandler()
-            case .default,
-                 .dismiss:
+            case .default:
                 break
             }
         }

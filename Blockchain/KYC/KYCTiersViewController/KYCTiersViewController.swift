@@ -28,6 +28,7 @@ class KYCTiersViewController: UIViewController {
     // MARK: Private Properties
     
     fileprivate static let limitsAPI: TradeLimitsAPI = ExchangeServices().tradeLimits
+    fileprivate var authenticationService: NabuAuthenticationService!
     fileprivate var layoutAttributes: LayoutAttributes = .tiersOverview
     fileprivate var coordinator: KYCTiersCoordinator!
     fileprivate var disposable: Disposable?
@@ -35,13 +36,14 @@ class KYCTiersViewController: UIViewController {
     // MARK: Public Properties
     
     var pageModel: KYCTiersPageModel!
-    var selectedTier: ((KYCTier) -> Void)?
     
     static func make(
-        with pageModel: KYCTiersPageModel
+        with pageModel: KYCTiersPageModel,
+        authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared
     ) -> KYCTiersViewController {
         let controller = KYCTiersViewController.makeFromStoryboard()
         controller.pageModel = pageModel
+        controller.authenticationService = authenticationService
         return controller
     }
     
@@ -127,6 +129,23 @@ extension KYCTiersViewController: KYCTiersHeaderViewDelegate {
             guard let verificationURL = URL(string: Constants.Url.verificationRejectedURL) else { return }
             let controller = SFSafariViewController(url: verificationURL)
             present(controller, animated: true, completion: nil)
+        case .swapNow:
+            /// This isn't pretty but, we only use the custom transition when presenting
+            /// tiers from the exchange screen. Outside of that, the only other place where we use
+            /// the tiers screen is in settings.
+            if transitioningDelegate != nil {
+                dismiss(animated: true, completion: nil)
+            } else {
+                /// Tiers is pushed on when presented from settings. If they go through KYC and are
+                /// approved for either tier, there will be a `Swap Now` button in the header. If they
+                /// tap this button, we need to pop to root (back to settings) and then resume the
+                /// `ExchangeCoordinator` using settings as the root. That will display the exchange.
+                guard let navController = navigationController else { return }
+                navController.popToRootViewControllerWithHandler {
+                    guard let root = navController.viewControllers.first else { return }
+                    ExchangeCoordinator.shared.start(rootViewController: root)
+                }
+            }
         }
     }
     
@@ -252,14 +271,18 @@ extension KYCTiersViewController: UICollectionViewDelegateFlowLayout {
 
 extension KYCTiersViewController: KYCTierCellDelegate {
     func tierCell(_ cell: KYCTierCell, selectedTier: KYCTier) {
-        /// When a user is selecting a tier from `Swap` (which only happens
-        /// when the user isn't KYC approved) we want to present KYC from the applications
-        /// rootViewController rather than from `self`.
-        if let block = self.selectedTier {
-            block(selectedTier)
-        } else {
-            KYCCoordinator.shared.start(from: self, tier: selectedTier)
-        }
+        disposable?.dispose()
+        disposable = post(tier: selectedTier)
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] _ in
+                guard let strongSelf = self else { return }
+                AnalyticsService.shared.trackEvent(title: selectedTier.startAnalyticsKey)
+                KYCCoordinator.shared.start(from: strongSelf, tier: selectedTier)
+            }, onError: { error in
+                Logger.shared.error(error.localizedDescription)
+                AlertViewPresenter.shared.standardError(message: LocalizationConstants.Swap.postTierError)
+            })
     }
 }
 
@@ -290,20 +313,29 @@ extension KYCTiersViewController: KYCTiersInterface {
 
 extension KYCTiersViewController {
     typealias CurrencyCode = String
-    
-    static func tiersMetadata(_ currencyCode: CurrencyCode = "USD") -> Observable<KYCTiersPageModel> {
-        let tradesObservable = limitsAPI.getTradeLimits(withFiatCurrency: currencyCode, ignoringCache: true)
+    static func routeToTiers(
+        fromViewController: UIViewController,
+        code: CurrencyCode = "USD"
+    ) -> Disposable {
+
+        let tradesObservable = limitsAPI.getTradeLimits(withFiatCurrency: code, ignoringCache: true)
             .optional()
             .catchErrorJustReturn(nil)
-            .asObservable()
-        return Observable.zip(BlockchainDataRepository.shared.tiers, tradesObservable)
+            .asObservable() 
+        return Observable.zip(
+            BlockchainDataRepository.shared.tiers,
+            tradesObservable
+            )
             .subscribeOn(MainScheduler.asyncInstance)
-            .map { (response, limits) -> KYCTiersPageModel in
-                let userTiers = response.userTiers
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { response in
+                let userTiers = response.0.userTiers
+                let limits = response.1
                 let formatter: NumberFormatter = NumberFormatter.localCurrencyFormatterWithGroupingSeparator
                 let max = NSDecimalNumber(decimal: limits?.maxTradableToday ?? 0)
+                
                 let header = KYCTiersHeaderViewModel.make(
-                    with: response,
+                    with: response.0,
                     availableFunds: formatter.string(from: max),
                     suppressDismissCTA: true
                 )
@@ -311,19 +343,7 @@ extension KYCTiersViewController {
                 let cells = filtered.map({ return KYCTierCellModel.model(from: $0) }).compactMap({ return $0 })
                 
                 let page = KYCTiersPageModel(header: header, cells: cells)
-                return page
-        }
-    }
-    
-    static func routeToTiers(
-        fromViewController: UIViewController,
-        code: CurrencyCode = "USD"
-    ) -> Disposable {
-        return tiersMetadata()
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { model in
-                let controller = KYCTiersViewController.make(with: model)
+                let controller = KYCTiersViewController.make(with: page)
                 if let from = fromViewController as? UIViewControllerTransitioningDelegate {
                     controller.transitioningDelegate = from
                 }
@@ -349,11 +369,7 @@ extension KYCTiersViewController: NavigatableView {
     
     var leftNavControllerCTAType: NavigationCTAType {
         guard let navController = navigationController else { return .dismiss }
-        if parent is ExchangeContainerViewController && navController.viewControllers.count == 1 {
-            return .menu
-        } else {
-            return navController.viewControllers.count > 1 ? .back : .dismiss
-        }
+        return navController.viewControllers.count > 1 ? .back : .dismiss
     }
     
     var rightNavControllerCTAType: NavigationCTAType {
@@ -365,11 +381,6 @@ extension KYCTiersViewController: NavigatableView {
     }
     
     func navControllerLeftBarButtonTapped(_ navController: UINavigationController) {
-        if parent is ExchangeContainerViewController && navController.viewControllers.count == 1 {
-            AppCoordinator.shared.toggleSideMenu()
-            return
-        }
-        
         guard let navController = navigationController else {
             dismiss(animated: true, completion: nil)
             return
@@ -379,5 +390,29 @@ extension KYCTiersViewController: NavigatableView {
     
     func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
         // no op
+    }
+}
+
+extension KYCTiersViewController {
+    func post(tier: KYCTier) -> Single<KYCUserTiersResponse> {
+        guard let baseURL = URL(
+            string: BlockchainAPI.shared.retailCoreUrl) else {
+                return .error(TradeExecutionAPIError.generic)
+        }
+        guard let endpoint = URL.endpoint(
+            baseURL,
+            pathComponents: ["kyc", "tiers"],
+            queryParameters: nil) else {
+                return .error(TradeExecutionAPIError.generic)
+        }
+        let body = KYCTierPostBody(selectedTier:tier)
+        return authenticationService.getSessionToken().flatMap { token in
+            return NetworkRequest.POST(
+                url: endpoint,
+                body: try? JSONEncoder().encode(body),
+                type: KYCUserTiersResponse.self,
+                headers: [HttpHeaderField.authorization: token.token]
+            )
+        }
     }
 }

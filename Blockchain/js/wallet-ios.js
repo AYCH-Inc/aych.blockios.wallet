@@ -1009,8 +1009,7 @@ MyWalletPhone.sendBitcoinPayment = function(payment, secondPassword, success, er
             payment
             .sign(secondPassword)
             .publish()
-            .then(success)
-            .catch(error);
+            .then(success).catch(error);
         } else {
             MyWalletPhone.getSecondPassword(function (pw) {
               secondPassword = pw;
@@ -1024,8 +1023,7 @@ MyWalletPhone.sendBitcoinPayment = function(payment, secondPassword, success, er
         payment
         .sign()
         .publish()
-        .then(success)
-        .catch(error);
+        .then(success).catch(error);
     }
 }
 
@@ -2159,10 +2157,6 @@ MyWalletPhone.getExchangeAccount = function () {
     }
 }
 
-MyWalletPhone.isCoinifyTrader = function() {
-    return MyWallet.wallet.external.coinify.hasAccount;
-}
-
 var tradeToObject = function (trade) {
   return {
     createdAt: new Date(trade.createdAt).toLocaleString(),
@@ -2501,10 +2495,7 @@ MyWalletPhone.sendEtherPayment = function(payment, secondPassword, success, erro
             payment
             .publish()
             .then(recordTx)
-            .then(success)
-            .catch(function(e) {
-                error(JSON.stringify(e))
-            })
+            .then(success).catch(error);
         } else {
             MyWalletPhone.getSecondPassword(function (pw) {
                 var privateKey = eth.getPrivateKeyForAccount(eth.defaultAccount, pw);
@@ -2512,10 +2503,7 @@ MyWalletPhone.sendEtherPayment = function(payment, secondPassword, success, erro
                 payment
                 .publish()
                 .then(recordTx)
-                .then(success)
-                .catch(function(e) {
-                        error(JSON.stringify(e))
-                })
+                .then(success).catch(error);
             }, dismiss);
         }
     } else {
@@ -2524,10 +2512,7 @@ MyWalletPhone.sendEtherPayment = function(payment, secondPassword, success, erro
         payment
         .publish()
         .then(recordTx)
-        .then(success)
-        .catch(function(e){
-            error(JSON.stringify(e))
-        })
+        .then(success).catch(error);
     }
 }
 
@@ -3204,10 +3189,9 @@ MyWalletPhone.getHistoryForAllAssets = function() {
 
 MyWalletPhone.tradeExecution = {
     bitcoin: {
-        createPayment: function(from, to, amount, feePerByte, gas) {
+        createPayment: function(from, to, amount) {
             currentPayment = MyWallet.wallet.createPayment();
             currentPayment
-            .updateFeePerKb(feePerByte)
             .from(from)
             .to(to)
             .amount(amount)
@@ -3215,9 +3199,7 @@ MyWalletPhone.tradeExecution = {
             .then(function (paymentPromise) {
                 objc_on_create_order_payment_success(paymentPromise.finalFee);
                 return paymentPromise
-                  }).catch(function(e) {
-                        objc_on_create_order_payment_error(JSON.stringify(e))
-                });
+            }).catch(objc_on_create_order_payment_error);
         },
         send: function(secondPassword) {
             MyWalletPhone.sendBitcoinPayment(currentPayment, secondPassword, objc_on_send_order_transaction_success, objc_on_send_order_transaction_error, objc_on_send_order_transaction_dismiss);
@@ -3225,21 +3207,19 @@ MyWalletPhone.tradeExecution = {
     },
 
     bitcoinCash: {
-        createPayment: function(from, to, amount, feePerByte, gas) {
+        createPayment: function(from, to, amount) {
             // Currently cannot send from BCH addresses
             let bchAccount = MyWallet.wallet.bch.accounts[from];
             currentBitcoinCashPayment = bchAccount.createPayment();
             MyWalletPhone.bch.changePaymentToAddress(to);
             currentBitcoinCashPayment.amount(amount);
 
-            bchAccount.getAvailableBalance(feePerByte).then(function(balance) {
+            bchAccount.getAvailableBalance(MyWalletPhone.bch.feePerByte()).then(function(balance) {
                 var fee = balance.sweepFee;
-                currentBitcoinCashPayment.feePerByte(feePerByte);
+                currentBitcoinCashPayment.feePerByte(MyWalletPhone.bch.feePerByte());
                 currentBitcoinCashPayment.build();
                 objc_on_create_order_payment_success(fee);
-            }).catch(function(e) {
-                objc_on_create_order_payment_error(JSON.stringify(e))
-            });
+            }).catch(objc_on_create_order_payment_error);
         },
         send: function(secondPassword) {
             MyWalletPhone.sendBitcoinPayment(currentBitcoinCashPayment, secondPassword, objc_on_send_order_transaction_success, objc_on_send_order_transaction_error, objc_on_send_order_transaction_dismiss);
@@ -3247,14 +3227,16 @@ MyWalletPhone.tradeExecution = {
     },
 
     ether: {
-        createPayment: function(from, to, amount, feePerByte, gas) {
+        createPayment: function(from, to, amount) {
             let eth = MyWallet.wallet.eth;
-            currentEtherPayment = eth.defaultAccount.createPayment();
-            currentEtherPayment.setGasPrice(feePerByte);
-            currentEtherPayment.setGasLimit(gas);
-            currentEtherPayment.setTo(to);
-            currentEtherPayment.setValue(amount);
-            objc_on_create_order_payment_success(currentEtherPayment.fee);
+            eth.fetchFees().then(function(fees) {
+                currentEtherPayment = eth.defaultAccount.createPayment();
+                currentEtherPayment.setGasPrice(fees.regular);
+                currentEtherPayment.setGasLimit(fees.gasLimit);
+                currentEtherPayment.setTo(to);
+                currentEtherPayment.setValue(amount);
+                objc_on_create_order_payment_success(currentEtherPayment.fee);
+            }).catch(objc_on_create_order_payment_error);
         },
         send: function(secondPassword) {
             MyWalletPhone.sendEtherPayment(currentEtherPayment, secondPassword, objc_on_send_order_transaction_success, objc_on_send_order_transaction_error, objc_on_send_order_transaction_dismiss);

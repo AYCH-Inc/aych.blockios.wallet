@@ -104,15 +104,8 @@ extension ActionableFooterModel {
             let font = Font(.branded(.montserratRegular), size: .custom(14.0))
             return font.result
         case true:
-            let isAboveSE = UIDevice.current.type.isAbove(.iPhoneSE)
-            switch isAboveSE {
-            case true:
-                let font = Font(.branded(.montserratRegular), size: .custom(16.0))
-                return font.result
-            case false:
-                let font = Font(.branded(.montserratRegular), size: .custom(12.0))
-                return font.result
-            }
+            let font = Font(.branded(.montserratRegular), size: .custom(16.0))
+            return font.result
         }
     }
     

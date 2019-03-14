@@ -158,19 +158,4 @@ extension AnnouncementCardViewModel {
             onClose: onClose
         )
     }
-
-    @objc class func completeYourProfile(
-        action: @escaping Action,
-        onClose: @escaping Action
-    ) -> AnnouncementCardViewModel {
-        return AnnouncementCardViewModel(
-            title: LocalizationConstants.AnnouncementCards.cardCompleteProfileTitle,
-            message: LocalizationConstants.AnnouncementCards.cardCompleteProfileDescription,
-            actionButtonTitle: LocalizationConstants.AnnouncementCards.cardCompleteProfileAction,
-            image: #imageLiteral(resourceName: "symbol-xlm-color"),
-            imageTint: nil,
-            action: action,
-            onClose: onClose
-        )
-    }
 }

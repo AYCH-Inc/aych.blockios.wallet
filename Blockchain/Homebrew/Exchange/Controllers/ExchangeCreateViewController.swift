@@ -12,8 +12,7 @@ import SafariServices
 import RxSwift
 
 protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
-    func onViewDidLoad()
-    func onViewWillAppear()
+    func onViewLoaded()
     func onDisplayRatesTapped()
     func onHideRatesTapped()
     func onKeypadVisibilityUpdated(_ visibility: Visibility, animated: Bool)
@@ -58,7 +57,6 @@ class ExchangeCreateViewController: UIViewController {
     @IBOutlet private var conversionTitleLabel: UILabel!
     @IBOutlet private var exchangeButton: UIButton!
     @IBOutlet private var primaryLabelCenterXConstraint: NSLayoutConstraint!
-    @IBOutlet private var exchangeButtonBottomConstraint: NSLayoutConstraint!
     
     enum PresentationUpdate {
         case wiggleInputLabels
@@ -110,12 +108,14 @@ class ExchangeCreateViewController: UIViewController {
         title = LocalizationConstants.Swap.swap
         dependenciesSetup()
         viewsSetup()
-        delegate?.onViewDidLoad()
+        delegate?.onViewLoaded()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        delegate?.onViewWillAppear()
+        if let navController = navigationController as? BCNavigationController {
+            navController.headerTitle = LocalizationConstants.Swap.swap
+        }
     }
 
     // MARK: Private
@@ -138,11 +138,6 @@ class ExchangeCreateViewController: UIViewController {
         exchangeButton.layer.cornerRadius = Constants.Measurements.buttonCornerRadius
 
         exchangeButton.setTitle(LocalizationConstants.Swap.exchange, for: .normal)
-        
-        let isAboveSE = UIDevice.current.type.isAbove(.iPhoneSE)
-        exchangeButtonBottomConstraint.constant = isAboveSE ? 16.0 : 0.0
-        view.setNeedsLayout()
-        view.layoutIfNeeded()
     }
 
     fileprivate func dependenciesSetup() {
@@ -170,9 +165,8 @@ class ExchangeCreateViewController: UIViewController {
     
     fileprivate func presentURL(_ url: URL) {
         let viewController = SFSafariViewController(url: url)
-        guard let controller = AppCoordinator.shared.tabControllerManager.tabViewController else { return }
-        viewController.modalPresentationStyle = .overCurrentContext
-        controller.present(viewController, animated: true, completion: nil)
+        viewController.modalPresentationStyle = .overFullScreen
+        present(viewController, animated: true, completion: nil)
     }
     
     // MARK: - IBActions
@@ -456,7 +450,7 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
     
     func showSummary(orderTransaction: OrderTransaction, conversion: Conversion) {
         let model = ExchangeDetailPageModel(type: .confirm(orderTransaction, conversion))
-        let confirmController = ExchangeDetailViewController.make(with: model, dependencies: self.dependencies)
+        let confirmController = ExchangeDetailViewController.make(with: model, dependencies: ExchangeServices())
         navigationController?.pushViewController(confirmController, animated: true)
     }
 }

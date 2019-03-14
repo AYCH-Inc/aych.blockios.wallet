@@ -59,15 +59,18 @@ protocol KYCCoordinatorDelegate: class {
     private let pageFactory = KYCPageViewFactory()
 
     private let appSettings: BlockchainSettings.App
+    private let authenticationService: NabuAuthenticationService
 
     private var kycSettings: KYCSettingsAPI
 
     init(
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
-        kycSettings: KYCSettingsAPI = KYCSettings.shared
+        kycSettings: KYCSettingsAPI = KYCSettings.shared,
+        authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared
     ) {
         self.appSettings = appSettings
         self.kycSettings = kycSettings
+        self.authenticationService = authenticationService
     }
 
     deinit {
@@ -89,33 +92,37 @@ protocol KYCCoordinatorDelegate: class {
             Logger.shared.warning("Cannot start KYC. rootViewController is nil.")
             return
         }
+        
         start(from: rootViewController, tier: tier)
     }
 
     func start(from viewController: UIViewController, tier: KYCTier = .tier1) {
         pager = KYCPager(tier: tier)
         rootViewController = viewController
-
+        AnalyticsService.shared.trackEvent(title: tier.startAnalyticsKey)
+        
         LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
-
-        let disposable = BlockchainDataRepository.shared.fetchNabuUser()
+        let postTierObservable = post(tier: tier).asObservable()
+        let userObservable = BlockchainDataRepository.shared.fetchNabuUser().asObservable()
+        
+        let disposable = Observable.zip(userObservable, postTierObservable)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
-            .subscribe(onSuccess: { [weak self] in
-                Logger.shared.debug("Got user with ID: \($0.personalDetails?.identifier ?? "")")
+            .subscribe(onNext: { [weak self] (user, _) in
+                Logger.shared.debug("Got user with ID: \(user.personalDetails?.identifier ?? "")")
                 guard let strongSelf = self else {
                     return
                 }
                 strongSelf.kycSettings.isCompletingKyc = true
-                strongSelf.user = $0
-                strongSelf.initializeNavigationStack(viewController, user: $0, tier: tier)
+                strongSelf.user = user
+                strongSelf.initializeNavigationStack(viewController, user: user, tier: tier)
                 strongSelf.restoreToMostRecentPageIfNeeded(tier: tier)
             }, onError: { error in
                 Logger.shared.error("Failed to get user: \(error.localizedDescription)")
                 AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
             })
-         disposables.insertWithDiscardableResult(disposable)
+        disposables.insertWithDiscardableResult(disposable)
     }
 
     @objc func finish() {
@@ -366,6 +373,28 @@ protocol KYCCoordinatorDelegate: class {
         case .verifyIdentity:
             guard let countryCode = country?.code ?? user?.address?.countryCode else { return }
             delegate?.apply(model: .verifyIdentity(countryCode: countryCode))
+        }
+    }
+    
+    private func post(tier: KYCTier) -> Single<KYCUserTiersResponse> {
+        guard let baseURL = URL(
+            string: BlockchainAPI.shared.retailCoreUrl) else {
+                return .error(TradeExecutionAPIError.generic)
+        }
+        guard let endpoint = URL.endpoint(
+            baseURL,
+            pathComponents: ["kyc", "tiers"],
+            queryParameters: nil) else {
+                return .error(TradeExecutionAPIError.generic)
+        }
+        let body = KYCTierPostBody(selectedTier:tier)
+        return authenticationService.getSessionToken().flatMap { token in
+            return NetworkRequest.POST(
+                url: endpoint,
+                body: try? JSONEncoder().encode(body),
+                type: KYCUserTiersResponse.self,
+                headers: [HttpHeaderField.authorization: token.token]
+            )
         }
     }
 

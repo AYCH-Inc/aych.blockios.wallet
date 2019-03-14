@@ -9,8 +9,6 @@
 import Foundation
 import RxSwift
 import StellarKit
-import PlatformKit
-import BitcoinKit
 
 class TradeExecutionService: TradeExecutionAPI {
     
@@ -73,36 +71,6 @@ class TradeExecutionService: TradeExecutionAPI {
         default:
             return true
         }
-    }
-    
-    func bitcoinTransactionFee() -> Single<BitcoinTransactionFee> {
-        guard let baseURL = URL(string: BlockchainAPI.shared.apiUrl) else {
-            return .error(TradeExecutionAPIError.generic)
-        }
-        
-        guard let endpoint = URL.endpoint(
-            baseURL,
-            pathComponents: ["mempool", "fees", "btc"],
-            queryParameters: nil
-            ) else {
-            return .error(TradeExecutionAPIError.generic)
-        }
-        return NetworkRequest.GET(url: endpoint, type: BitcoinTransactionFee.self)
-    }
-    
-    func ethereumTransactionFee() -> Single<EthereumTransactionFee> {
-        guard let baseURL = URL(string: BlockchainAPI.shared.apiUrl) else {
-            return .error(TradeExecutionAPIError.generic)
-        }
-        
-        guard let endpoint = URL.endpoint(
-            baseURL,
-            pathComponents: ["mempool", "fees", "eth"],
-            queryParameters: nil
-            ) else {
-                return .error(TradeExecutionAPIError.generic)
-        }
-        return NetworkRequest.GET(url: endpoint, type: EthereumTransactionFee.self)
     }
     
     func validateVolume(_ volume: Decimal, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
@@ -186,8 +154,7 @@ class TradeExecutionService: TradeExecutionAPI {
             from: from.index,
             to: placeholderAddress,
             amount: currencyRatio.base.crypto.value,
-            fees: nil,
-            gasLimit: nil
+            fees: nil
         )
         let createOrderCompletion: ((OrderTransactionLegacy) -> Void) = { orderTransactionLegacy in
             let orderTransactionTo = AssetAddressFactory.create(
@@ -298,44 +265,15 @@ class TradeExecutionService: TradeExecutionAPI {
             )
             createOrderPaymentSuccess("\(fee)")
         } else {
-            
-            let bitcoinFeeObservable = bitcoinTransactionFee().asObservable()
-            let ethereumFeeObservable = ethereumTransactionFee().asObservable()
-            let disposable = Observable.zip(
-                bitcoinFeeObservable,
-                ethereumFeeObservable
-                )
-                /// Should either transaction fee fetches fail, we fall back to
-                /// default fee models.
-                .catchErrorJustReturn((.default, .default))
-                .subscribeOn(MainScheduler.asyncInstance)
-                .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { [weak self] (bitcoinFee, ethereumFee) in
-                    guard let self = self else { return }
-                    switch assetType {
-                    case .bitcoin,
-                         .bitcoinCash:
-                        orderTransactionLegacy.fees = bitcoinFee.priority.toDisplayString(includeSymbol: false)
-                    case .ethereum:
-                        orderTransactionLegacy.fees = ethereumFee.priorityGweiValue
-                        orderTransactionLegacy.gasLimit = String(ethereumFee.gasLimit)
-                    case .stellar:
-                        break
-                    }
-                    
-                    self.wallet.createOrderPayment(
-                        withOrderTransaction: orderTransactionLegacy,
-                        completion: { [weak self] in
-                            guard let self = self else { return }
-                            self.isExecuting = false
-                        }, success: createOrderPaymentSuccess,
-                           error: { errorMessage in
-                            error(errorMessage, transactionID, nil)
-                    })
-                    }, onError: { networkError in
-                      error(networkError.localizedDescription, nil, nil)
-                })
-            disposables.insertWithDiscardableResult(disposable)
+            wallet.createOrderPayment(
+                withOrderTransaction: orderTransactionLegacy,
+                completion: { [weak self] in
+                    guard let this = self else { return }
+                    this.isExecuting = false
+            }, success: createOrderPaymentSuccess,
+               error: { errorMessage in
+                error(errorMessage, transactionID, nil)
+            })
         }
     }
 
@@ -401,10 +339,7 @@ class TradeExecutionService: TradeExecutionAPI {
                         transactionID,
                         paymentError as? NabuNetworkError
                     )
-                }, onCompleted: {
-                    executionDone()
-                    success()
-                })
+                }, onCompleted: success)
             disposables.insertWithDiscardableResult(disposable)
         } else {
             isExecuting = true
@@ -466,7 +401,6 @@ fileprivate extension TradeExecutionService {
             refundAddress: refundAddress!,
             quote: quote
         )
-        
         let disposable = process(order: order)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
@@ -532,46 +466,20 @@ fileprivate extension TradeExecutionService {
             error("AssetType from fromAccount and AssetType from OrderResult do not match", orderResult.id, nil)
             return
         }
-        
         let orderTransactionLegacy = OrderTransactionLegacy(
             legacyAssetType: fromAccount.address.assetType.legacy,
             from: fromAccount.index,
             to: depositAddress,
             amount: depositQuantity,
-            fees: nil,
-            gasLimit: nil
+            fees: nil
         )
-        
-        let bitcoinFeeObservable = bitcoinTransactionFee().asObservable()
-        let ethereumFeeObservable = ethereumTransactionFee().asObservable()
-        let disposable = Observable.zip(bitcoinFeeObservable, ethereumFeeObservable)
-        .subscribeOn(MainScheduler.asyncInstance)
-        .observeOn(MainScheduler.instance)
-        .subscribe(onNext: { [weak self] (bitcoinFee, ethereumFee) in
-            guard let self = self else { return }
-            switch assetType {
-            case .bitcoin,
-                 .bitcoinCash:
-                orderTransactionLegacy.fees = bitcoinFee.priority.toDisplayString(includeSymbol: false)
-            case .ethereum:
-                orderTransactionLegacy.fees = ethereumFee.priorityGweiValue
-                orderTransactionLegacy.gasLimit = String(ethereumFee.gasLimit)
-            case .stellar:
-                break
-            }
-            
-            self.buildOrder(
-                from: orderTransactionLegacy,
-                transactionID: orderResult.id,
-                success: success,
-                error: error,
-                memo: orderResult.depositMemo
-            )
-        }, onError: { networkError in
-            error(networkError.localizedDescription, nil, nil)
-        })
-        
-        disposables.insertWithDiscardableResult(disposable)
+        buildOrder(
+            from: orderTransactionLegacy,
+            transactionID: orderResult.id,
+            success: success,
+            error: error,
+            memo: orderResult.depositMemo
+        )
     }
 }
 

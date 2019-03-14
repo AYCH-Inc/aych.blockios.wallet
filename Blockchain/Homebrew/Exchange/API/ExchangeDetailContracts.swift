@@ -31,8 +31,10 @@ protocol ExchangeDetailInterface: class {
 
 protocol ExchangeDetailInput: class {
     func viewLoaded()
+    func sendOrderTapped()
 }
 
 protocol ExchangeDetailOutput: class {
     func received(conversion: Conversion)
+    func orderSent()
 }

@@ -144,7 +144,6 @@ struct Constants {
         static let stellarMinimumBalanceInfo = "https://www.stellar.org/developers/guides/concepts/fees.html#minimum-account-balance"
         static let airdropProgram = "https://support.blockchain.com/hc/en-us/categories/360001126692-Airdrop-Program"
         static let airdropWaitlist = blockchainHome + "/getcrypto"
-        static let requiredIdentityVerificationURL = "https://support.blockchain.com/hc/en-us/articles/360018359871-What-Blockchain-products-require-identity-verification-"
     }
     struct Wallet {
         static let swipeToReceiveAddressCount = 5

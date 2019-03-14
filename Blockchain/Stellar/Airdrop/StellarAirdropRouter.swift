@@ -55,62 +55,6 @@ class StellarAirdropRouter: DeepLinkRouting {
             return
         }
 
-        registerForCampaign(success: { [weak self] user in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.appSettings.didAttemptToRouteForAirdrop = true
-            strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = true
-
-            guard user.status == .none else {
-                return
-            }
-            guard let viewController = UIApplication.shared.keyWindow?.rootViewController else {
-                return
-            }
-            strongSelf.kycCoordinator.start(from: viewController, tier: .tier2)
-        }, error: { [weak self] error in
-            guard let strongSelf = self else {
-                return
-            }
-            strongSelf.appSettings.didAttemptToRouteForAirdrop = true
-            strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = false
-
-            Logger.shared.error("Failed to register for campaign: \(error.localizedDescription)")
-
-            guard let httpError = error as? HTTPRequestServerError else { return }
-            guard case let .badStatusCode(_, payload) = httpError else { return }
-            guard let value = payload as? NabuNetworkError else {
-                AlertViewPresenter.shared.standardNotify(
-                    message: LocalizationConstants.Errors.genericError,
-                    title: LocalizationConstants.Errors.error
-                )
-                return
-            }
-
-            let errorMessage: String
-            switch value.code {
-            case .invalidCampaignUser:
-                errorMessage = LocalizationConstants.Airdrop.invalidCampaignUser
-            case .campaignUserAlreadyRegistered:
-                errorMessage = LocalizationConstants.Airdrop.alreadyRegistered
-            case .campaignExpired:
-                errorMessage = LocalizationConstants.Airdrop.xlmCampaignOver
-            case .invalidCampaignInfo:
-                errorMessage = LocalizationConstants.Airdrop.genericError
-            default:
-                errorMessage = value.description
-            }
-
-            AlertViewPresenter.shared.standardNotify(
-                message: errorMessage,
-                title: LocalizationConstants.Errors.error
-            )
-        })
-    }
-
-    func registerForCampaign(success: @escaping ((NabuUser) -> Void), error: @escaping ((Swift.Error) -> Void)) {
         let nabuUser = repository.nabuUser.take(1)
         let xlmAccount = stellarWalletAccountRepository.initializeMetadataMaybe().asObservable()
         let disposable = Observable.combineLatest(nabuUser, xlmAccount)
@@ -134,7 +78,59 @@ class StellarAirdropRouter: DeepLinkRouting {
                 }
             }
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: success, onError: error)
+            .subscribe(onNext: { [weak self] user in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                strongSelf.appSettings.didAttemptToRouteForAirdrop = true
+                strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = true
+
+                guard user.status == .none else {
+                    return
+                }
+                guard let viewController = UIApplication.shared.keyWindow?.rootViewController else {
+                    return
+                }
+                strongSelf.kycCoordinator.start(from: viewController, tier: .tier2)
+            }, onError: { [weak self] error in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.appSettings.didAttemptToRouteForAirdrop = true
+                strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = false
+
+                Logger.shared.error("Failed to register for campaign: \(error.localizedDescription)")
+
+                guard let httpError = error as? HTTPRequestServerError else { return }
+                guard case let .badStatusCode(_, payload) = httpError else { return }
+                guard let value = payload as? NabuNetworkError else {
+                    AlertViewPresenter.shared.standardNotify(
+                        message: LocalizationConstants.Errors.genericError,
+                        title: LocalizationConstants.Errors.error
+                    )
+                    return
+                }
+
+                let errorMessage: String
+                switch value.code {
+                case .invalidCampaignUser:
+                    errorMessage = LocalizationConstants.Airdrop.invalidCampaignUser
+                case .campaignUserAlreadyRegistered:
+                    errorMessage = LocalizationConstants.Airdrop.alreadyRegistered
+                case .campaignExpired:
+                    errorMessage = LocalizationConstants.Airdrop.xlmCampaignOver
+                case .invalidCampaignInfo:
+                    errorMessage = LocalizationConstants.Airdrop.genericError
+                default:
+                    errorMessage = value.description
+                }
+
+                AlertViewPresenter.shared.standardNotify(
+                    message: errorMessage,
+                    title: LocalizationConstants.Errors.error
+                )
+            })
         disposables.insertWithDiscardableResult(disposable)
     }
 

@@ -12,6 +12,7 @@ import PlatformUIKit
 
 protocol ExchangeDetailDelegate: class {
     func onViewLoaded()
+    func onSendOrderTapped()
 }
 
 /// This `UIViewController` is used for the `Exchange Confirmation`,
@@ -337,6 +338,7 @@ extension ExchangeDetailViewController: ExchangeDetailInterface {
 
     func updateNavigationBar(appearance: NavigationBarAppearance, color: UIColor) {
         guard let navigationController = self.navigationController as? BCNavigationController else {
+            Logger.shared.error("No navigation controller found")
             return
         }
         navigationController.apply(appearance, withBackgroundColor:color)

@@ -83,6 +83,8 @@ fi
 # Confirmation
 #
 
+local_branch="dev"
+release_branch="release"
 user_branch=$(git branch | grep \* | cut -d ' ' -f2)
 
 printf "#####################################################\n"
@@ -108,8 +110,11 @@ fi
 
 latestTagCommit=$(git show-ref -s $latestTag)
 
-printf "Pulling in changes into $user_branch...\n"
-git pull origin $user_branch > /dev/null 2>&1
+printf "Checking out branch: $release_branch...\n"
+git checkout $release_branch > /dev/null 2>&1
+
+printf "Pulling in changes into $release_branch...\n"
+git pull origin $release_branch > /dev/null 2>&1
 
 printf "Creating staging version in Info.plist file...\n"
 agvtool new-marketing-version $project_version_number > /dev/null 2>&1
@@ -124,13 +129,19 @@ git commit -m "version bump: ${git_tag_staging}" > /dev/null 2>&1
 printf "Creating and pushing staging tag...\n"
 git tag -s $git_tag_staging -m "Release ${project_version_number} (staging build)" > /dev/null 2>&1
 git push origin $git_tag_staging > /dev/null 2>&1
-git push origin $user_branch > /dev/null 2>&1
+git push origin $release_branch > /dev/null 2>&1
 
 #
 printf "Giving staging a 5 minute headstart on building to ensure that it is submitted before production.\nPlease do not make any changes in this directory until the script is finished.\n"
 sleep 300
 # Run merge commands for production
 #
+
+printf "Checking out branch: $release_branch...\n"
+git checkout $release_branch > /dev/null 2>&1
+
+printf "Pulling in changes into $release_branch...\n"
+git pull origin $release_branch > /dev/null 2>&1
 
 printf "Creating production version in Info.plist file...\n"
 agvtool new-marketing-version $project_version_number > /dev/null 2>&1
@@ -145,7 +156,7 @@ git commit -m "version bump: ${git_tag_prod}" > /dev/null 2>&1
 printf "Creating and pushing production tag...\n"
 git tag -s $git_tag_prod -m "Release ${project_version_number}" > /dev/null 2>&1
 git push origin $git_tag_prod > /dev/null 2>&1
-git push origin $user_branch > /dev/null 2>&1
+git push origin $release_branch > /dev/null 2>&1
 
 #
 # Run git change log
@@ -160,5 +171,5 @@ rm Changelog.md
 git checkout $user_branch > /dev/null 2>&1
 
 printf '\n\e[1;32m%-6s\e[m\n' "Script completed successfully 🎉"
-printf '\e[1;32m%-6s\e[m\n' "CircleCI is tracking the branch $user_branch."
+printf '\e[1;32m%-6s\e[m\n' "CircleCI is tracking the branch $release_branch."
 printf '\e[1;32m%-6s\e[m\n' "Please check Jobs in CircleCI to view the progress of tests, archiving, and uploading the build."

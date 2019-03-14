@@ -24,8 +24,7 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
     @IBOutlet fileprivate var tableView: UITableView!
     @IBOutlet fileprivate var activityIndicator: UIActivityIndicatorView!
     @IBOutlet fileprivate var labelFooter: UILabel!
-    @IBOutlet fileprivate var requiredLabel: UILabel!
-    
+
     // MARK: Private IBOutlets (ValidationTextField)
     @IBOutlet fileprivate var addressTextField: ValidationTextField!
     @IBOutlet fileprivate var apartmentTextField: ValidationTextField!
@@ -78,10 +77,7 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
         guard case let .address(user, country) = model else { return }
         self.user = user
         self.country = country
-        if let country = self.country {
-            validationFieldsPlaceholderSetup(country.code)
-        }
-        
+
         guard let address = user.address else { return }
         addressTextField.text = address.lineOne
         apartmentTextField.text = address.lineTwo
@@ -98,13 +94,11 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
         dataProvider = LocationDataProvider(with: tableView)
         searchBar.delegate = self
         tableView.delegate = self
-        scrollView.alwaysBounceVertical = true
 
         searchBar.barTintColor = .clear
         searchBar.placeholder = LocalizationConstants.KYC.yourHomeAddress
 
         progressView.tintColor = .green
-        requiredLabel.text = LocalizationConstants.KYC.required + "*"
 
         initFooter()
         validationFieldsSetup()
@@ -118,6 +112,8 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
         }
 
         originalBottomButtonConstraint = layoutConstraintBottomButton.constant
+
+        searchDelegate?.onStart()
     }
 
     deinit {
@@ -205,46 +201,6 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
         }
 
         handleKeyboardOffset()
-    }
-    
-    fileprivate func validationFieldsPlaceholderSetup(_ countryCode: String) {
-        if countryCode == "US" {
-            addressTextField.placeholder = LocalizationConstants.KYC.streetLine + " 1"
-            addressTextField.optionalField = false
-            
-            apartmentTextField.placeholder = LocalizationConstants.KYC.streetLine + " 2"
-            apartmentTextField.optionalField = true
-            
-            cityTextField.placeholder = LocalizationConstants.KYC.city
-            cityTextField.optionalField = false
-            
-            stateTextField.placeholder = LocalizationConstants.KYC.state
-            stateTextField.optionalField = false
-            
-            postalCodeTextField.placeholder = LocalizationConstants.KYC.zipCode
-            postalCodeTextField.optionalField = false
-        } else {
-            addressTextField.placeholder = LocalizationConstants.KYC.addressLine + " 1"
-            addressTextField.optionalField = false
-            
-            apartmentTextField.placeholder = LocalizationConstants.KYC.addressLine + " 2"
-            apartmentTextField.optionalField = true
-            
-            cityTextField.placeholder = LocalizationConstants.KYC.cityTownVillage
-            cityTextField.optionalField = false
-            
-            stateTextField.placeholder = LocalizationConstants.KYC.stateRegionProvinceCountry
-            stateTextField.optionalField = false
-            
-            postalCodeTextField.placeholder = LocalizationConstants.KYC.postalCode
-            postalCodeTextField.optionalField = true
-        }
-        
-        validationFields.forEach { field in
-            if field.optionalField == false {
-                field.placeholder += "*"
-            }
-        }
     }
 
     fileprivate func setupNotifications() {
@@ -365,7 +321,6 @@ extension KYCAddressController: UISearchBarDelegate {
 
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.setShowsCancelButton(false, animated: true)
-        searchDelegate?.onSearchViewCancel()
         return true
     }
 

@@ -2394,11 +2394,6 @@ NSString * const kLockboxInvitation = @"lockbox";
     return [[self.context evaluateScript:@"MyWalletPhone.isBuyFeatureEnabled()"] toBool];
 }
 
-- (BOOL)isCoinifyTrader
-{
-    return [[self.context evaluateScript:@"MyWalletPhone.isCoinifyTrader()"] toBool];
-}
-
 - (BOOL)canUseSfox
 {
     return [[self.context evaluateScript:@"MyWalletPhone.canUseSfox()"] toBool];
@@ -2685,44 +2680,32 @@ NSString * const kLockboxInvitation = @"lockbox";
 
     NSString *tradeExecutionType;
     NSString *formattedAmount;
-    NSString *formattedFee;
-    
     if (orderTransaction.legacyAssetType == LegacyAssetTypeBitcoin) {
         tradeExecutionType = @"bitcoin";
         formattedAmount = [NSString stringWithFormat:@"%lld", [NSNumberFormatter parseBtcValueFromString:orderTransaction.amount]];
-        formattedFee = [NSString stringWithFormat:@"%lld", [NSNumberFormatter parseBtcValueFromString:orderTransaction.fees]];
         [self.context invokeOnceWithValueFunctionBlock:^(JSValue *_Nonnull errorValue) {
             completion();
-            /// TODO: We used to provide a more user friendly message noting that the user may not have
-            /// enough BTC to cover fees. However we use this closure to report various error messages and
-            /// diagnose why trades may be expiring, so we need to display the actual error that is thrown
-            /// by the JS layer.
-            NSString *errorMessage = [errorValue toString];
-            error(errorMessage);
+            error([NSString stringWithFormat:[LocalizationConstantsObjcBridge notEnoughXForFees], [ConstantsObjcBridge btcCode]]);
         } forJsFunctionName:@"objc_on_create_order_payment_error"];
     } else if (orderTransaction.legacyAssetType == LegacyAssetTypeBitcoinCash) {
         tradeExecutionType = @"bitcoinCash";
         formattedAmount = [NSString stringWithFormat:@"%lld", [NSNumberFormatter parseBtcValueFromString:orderTransaction.amount]];
-        formattedFee = [NSString stringWithFormat:@"%lld", [NSNumberFormatter parseBtcValueFromString:orderTransaction.fees]];
-        [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull errorValue) {
-            NSString *errorMessage = [errorValue toString];
+        [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull errorValue) {
             completion();
-            error(errorMessage);
+            error(errorValue);
         } forJsFunctionName:@"objc_on_create_order_payment_error"];
     } else if (orderTransaction.legacyAssetType == LegacyAssetTypeEther) {
         tradeExecutionType = @"ether";
         formattedAmount = orderTransaction.amount;
-        formattedFee = orderTransaction.fees;
-        [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull errorValue) {
+        [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull errorValue) {
             completion();
-            NSString *errorMessage = [errorValue toString];
-            error(errorMessage);
+            error(errorValue);
         } forJsFunctionName:@"objc_on_create_order_payment_error"];
     } else {
         DLog(@"Unsupported legacy asset type");
         return;
     }
-    NSString *script = [NSString stringWithFormat:@"MyWalletPhone.tradeExecution.%@.createPayment(%d, \"%@\", %@, %@, %@)", [tradeExecutionType escapedForJS], orderTransaction.from, [orderTransaction.to escapedForJS], [formattedAmount escapedForJS], [formattedFee escapedForJS], [orderTransaction.gasLimit escapedForJS]];
+    NSString *script = [NSString stringWithFormat:@"MyWalletPhone.tradeExecution.%@.createPayment(%d, \"%@\", %@)", [tradeExecutionType escapedForJS], orderTransaction.from, [orderTransaction.to escapedForJS], [formattedAmount escapedForJS]];
     [self.context evaluateScript:script];
 }
 
@@ -2733,10 +2716,9 @@ NSString * const kLockboxInvitation = @"lockbox";
         success();
     } forJsFunctionName:@"objc_on_send_order_transaction_success"];
     
-    [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull errorValue) {
-        NSString *errorMessage = [errorValue toString];
+    [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull errorValue) {
         completion();
-        error(errorMessage);
+        error(errorValue);
     } forJsFunctionName:@"objc_on_send_order_transaction_error"];
 
     [self.context invokeOnceWithFunctionBlock:^{

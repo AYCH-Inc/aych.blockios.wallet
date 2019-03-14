@@ -47,8 +47,7 @@ protocol ExchangeCreateInterface: class {
 
 // Conforms to NumberKeypadViewDelegate to avoid redundancy of keypad input methods
 protocol ExchangeCreateInput: NumberKeypadViewDelegate {
-    func setup()
-    func resume()
+    func viewLoaded()
     func displayInputTypeTapped()
     func useMinimumAmount(assetAccount: AssetAccount)
     func useMaximumAmount(assetAccount: AssetAccount)

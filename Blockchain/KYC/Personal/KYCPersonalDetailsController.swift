@@ -72,9 +72,6 @@ final class KYCPersonalDetailsController: KYCBaseViewController,
 
         firstNameField.text = personalDetails.firstName
         lastNameField.text = personalDetails.lastName
-        
-        firstNameField.contentType = .givenName
-        lastNameField.contentType = .familyName
 
         birthdayField.maximumDate = NabuUser.minimumAge
         if let birthday = personalDetails.birthday {

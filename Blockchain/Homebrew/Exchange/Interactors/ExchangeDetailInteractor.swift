@@ -34,4 +34,8 @@ extension ExchangeDetailInteractor: ExchangeDetailInput {
             this.output?.received(conversion: conversion)
         })
     }
+
+    func sendOrderTapped() {
+
+    }
 }

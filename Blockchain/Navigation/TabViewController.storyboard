@@ -31,7 +31,7 @@
                                 <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
-                                    <tabBarItem title="Activity" image="icon_activity_clear" id="tMc-VR-xuI">
+                                    <tabBarItem title="Activity" image="icon_activity" id="tMc-VR-xuI">
                                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                                     </tabBarItem>
                                     <tabBarItem title="Swap" image="icon_swap" id="aef-Zj-Qbh"/>
@@ -111,7 +111,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_activity_clear" width="16" height="18"/>
+        <image name="icon_activity" width="24" height="24"/>
         <image name="icon_home" width="24" height="24"/>
         <image name="icon_request" width="24" height="24"/>
         <image name="icon_send" width="24" height="24"/>

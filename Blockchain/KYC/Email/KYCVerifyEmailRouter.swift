@@ -9,7 +9,7 @@
 import UIKit
 
 /// Router for handling the KYC verify email flow
-class KYCDeepLinkRouter: DeepLinkRouting {
+class KYCVerifyEmailRouter: DeepLinkRouting {
 
     private let appSettings: BlockchainSettings.App
     private let kycSettings: KYCSettingsAPI
@@ -27,10 +27,10 @@ class KYCDeepLinkRouter: DeepLinkRouting {
 
     func routeIfNeeded() {
         // Only route if the user actually tapped on the verify email link
-        guard appSettings.didTapOnKycDeepLink else {
+        guard appSettings.didTapOnKycVerifyEmailDeepLink else {
             return
         }
-        appSettings.didTapOnKycDeepLink = false
+        appSettings.didTapOnKycVerifyEmailDeepLink = false
 
         // Only route if the user was completing kyc
         guard kycSettings.isCompletingKyc else {

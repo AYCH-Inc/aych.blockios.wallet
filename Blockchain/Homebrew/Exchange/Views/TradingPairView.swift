@@ -6,8 +6,6 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformUIKit
-
 protocol TradingPairViewDelegate: class {
     func onLeftButtonTapped(_ view: TradingPairView, title: String)
     func onRightButtonTapped(_ view: TradingPairView, title: String)
@@ -178,17 +176,6 @@ class TradingPairView: NibBasedView {
 
         let swapImage = UIImage(named: "Icon-Exchange")?.withRenderingMode(.alwaysTemplate)
         swapButton.setImage(swapImage, for: .normal)
-        
-        let isAboveSE = UIDevice.current.type.isAbove(.iPhoneSE)
-        var font: Font
-        switch isAboveSE {
-        case true:
-            font = Font(.branded(.montserratRegular), size: .custom(16.0))
-        case false:
-            font = Font(.branded(.montserratRegular), size: .custom(12.0))
-        }
-        leftButton.titleLabel?.font = font.result
-        rightButton.titleLabel?.font = font.result
     }
 }
 

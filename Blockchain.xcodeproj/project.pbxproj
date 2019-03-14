@@ -446,6 +446,8 @@
 		3ADFE6FD214AE17600E7E2D5 /* ExchangeInputsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADFE6FB214AE17600E7E2D5 /* ExchangeInputsService.swift */; };
 		3ADFE6FF214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADFE6FE214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift */; };
 		3ADFE700214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADFE6FE214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift */; };
+		3AE17AD22229C9A10061AC86 /* TransactionFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE17AD12229C9A10061AC86 /* TransactionFee.swift */; };
+		3AE17ADF2229CECA0061AC86 /* BitcoinTransactionFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE17ADE2229CECA0061AC86 /* BitcoinTransactionFee.swift */; };
 		3AE5419B217A677A001DDE02 /* StellarTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE5419A217A677A001DDE02 /* StellarTransaction.swift */; };
 		3AE5419C217A677A001DDE02 /* StellarTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE5419A217A677A001DDE02 /* StellarTransaction.swift */; };
 		3AE74B3521C00B6600246A9C /* KYCTierCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3421C00B6600246A9C /* KYCTierCell.swift */; };
@@ -782,7 +784,6 @@
 		AA08439F215C47290007BFD1 /* NabuNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08439E215C47290007BFD1 /* NabuNetworkError.swift */; };
 		AA0843A0215C47290007BFD1 /* NabuNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08439E215C47290007BFD1 /* NabuNetworkError.swift */; };
 		AA0843C5215D72340007BFD1 /* MockSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0843C4215D72340007BFD1 /* MockSocketManager.swift */; };
-		AA0843C9215D73F50007BFD1 /* MarketsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0843C8215D73F50007BFD1 /* MarketsServiceTests.swift */; };
 		AA08440C215EEDF90007BFD1 /* Lockbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08440B215EEDF90007BFD1 /* Lockbox.swift */; };
 		AA08440D215EEDF90007BFD1 /* Lockbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08440B215EEDF90007BFD1 /* Lockbox.swift */; };
 		AA08440F215EEF320007BFD1 /* LockboxDeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08440E215EEF320007BFD1 /* LockboxDeviceType.swift */; };
@@ -1170,6 +1171,7 @@
 		C711351821C1993C00F70AF0 /* KYCUserTiersBadgeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711351621C1993C00F70AF0 /* KYCUserTiersBadgeModel.swift */; };
 		C711352321C19D7A00F70AF0 /* KYCTierState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711352221C19D7A00F70AF0 /* KYCTierState.swift */; };
 		C711352421C19D7A00F70AF0 /* KYCTierState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711352221C19D7A00F70AF0 /* KYCTierState.swift */; };
+		C7132461222DBD03006E8F9B /* AnnouncementCardActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7132460222DBD03006E8F9B /* AnnouncementCardActionHandler.swift */; };
 		C7174BA1220BA9270074ECF5 /* EthereumTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7174BA0220BA9270074ECF5 /* EthereumTransaction.swift */; };
 		C7174BA4220BAC820074ECF5 /* EthereumAssetAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7174BA3220BAC820074ECF5 /* EthereumAssetAccount.swift */; };
 		C7174BA7220BACDB0074ECF5 /* EthereumAssetAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7174BA6220BACDB0074ECF5 /* EthereumAssetAddress.swift */; };
@@ -1340,8 +1342,8 @@
 		C7A85981217A5BAE00502935 /* StellarTransactionServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A8597F217A5BAE00502935 /* StellarTransactionServiceAPI.swift */; };
 		C7A923ED1F8531FD003D9DAF /* GraphTimeFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A923EC1F8531FD003D9DAF /* GraphTimeFrame.m */; };
 		C7A9E7A61FAB5FF600027F22 /* UILabel+CGRectForSubstring.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A9E7A51FAB5FF600027F22 /* UILabel+CGRectForSubstring.m */; };
-		C7B463CF221B572300ADDC22 /* KYCVerifyEmailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B463CE221B572300ADDC22 /* KYCVerifyEmailRouter.swift */; };
-		C7B463D9221B572800ADDC22 /* KYCVerifyEmailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B463CE221B572300ADDC22 /* KYCVerifyEmailRouter.swift */; };
+		C7B463CF221B572300ADDC22 /* KYCDeepLinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B463CE221B572300ADDC22 /* KYCDeepLinkRouter.swift */; };
+		C7B463D9221B572800ADDC22 /* KYCDeepLinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B463CE221B572300ADDC22 /* KYCDeepLinkRouter.swift */; };
 		C7B4EB44220A3BBA001C1795 /* BitcoinHDAssetAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B4EB43220A3BBA001C1795 /* BitcoinHDAssetAccount.swift */; };
 		C7B4EB47220A3E8F001C1795 /* BitcoinWalletAccountRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B4EB46220A3E8F001C1795 /* BitcoinWalletAccountRepository.swift */; };
 		C7B4EB4B220A3F48001C1795 /* BitcoinWalletAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B4EB4A220A3F48001C1795 /* BitcoinWalletAccount.swift */; };
@@ -2037,6 +2039,8 @@
 		3ADFE6F8214AE0E300E7E2D5 /* InputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputComponent.swift; sourceTree = "<group>"; };
 		3ADFE6FB214AE17600E7E2D5 /* ExchangeInputsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeInputsService.swift; sourceTree = "<group>"; };
 		3ADFE6FE214AE1E100E7E2D5 /* ExchangeStyleTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeStyleTemplate.swift; sourceTree = "<group>"; };
+		3AE17AD12229C9A10061AC86 /* TransactionFee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionFee.swift; sourceTree = "<group>"; };
+		3AE17ADE2229CECA0061AC86 /* BitcoinTransactionFee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinTransactionFee.swift; sourceTree = "<group>"; };
 		3AE5419A217A677A001DDE02 /* StellarTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTransaction.swift; sourceTree = "<group>"; };
 		3AE74B3421C00B6600246A9C /* KYCTierCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCTierCell.swift; sourceTree = "<group>"; };
 		3AE74B3721C01E8700246A9C /* KYCTierCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KYCTierCell.xib; sourceTree = "<group>"; };
@@ -3834,7 +3838,6 @@
 		AA084399215C0E210007BFD1 /* SocketMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketMessageTests.swift; sourceTree = "<group>"; };
 		AA08439E215C47290007BFD1 /* NabuNetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NabuNetworkError.swift; sourceTree = "<group>"; };
 		AA0843C4215D72340007BFD1 /* MockSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSocketManager.swift; sourceTree = "<group>"; };
-		AA0843C8215D73F50007BFD1 /* MarketsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsServiceTests.swift; sourceTree = "<group>"; };
 		AA08440B215EEDF90007BFD1 /* Lockbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lockbox.swift; sourceTree = "<group>"; };
 		AA08440E215EEF320007BFD1 /* LockboxDeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockboxDeviceType.swift; sourceTree = "<group>"; };
 		AA084411215EEF750007BFD1 /* LockboxAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockboxAccount.swift; sourceTree = "<group>"; };
@@ -4092,6 +4095,7 @@
 		C70FF5651E7B051C00AC7F8B /* ContactTransactionTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTransactionTableCell.xib; sourceTree = "<group>"; };
 		C711351621C1993C00F70AF0 /* KYCUserTiersBadgeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCUserTiersBadgeModel.swift; sourceTree = "<group>"; };
 		C711352221C19D7A00F70AF0 /* KYCTierState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCTierState.swift; sourceTree = "<group>"; };
+		C7132460222DBD03006E8F9B /* AnnouncementCardActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementCardActionHandler.swift; sourceTree = "<group>"; };
 		C7174BA0220BA9270074ECF5 /* EthereumTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransaction.swift; sourceTree = "<group>"; };
 		C7174BA3220BAC820074ECF5 /* EthereumAssetAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumAssetAccount.swift; sourceTree = "<group>"; };
 		C7174BA6220BACDB0074ECF5 /* EthereumAssetAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumAssetAddress.swift; sourceTree = "<group>"; };
@@ -4268,7 +4272,7 @@
 		C7A923EC1F8531FD003D9DAF /* GraphTimeFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GraphTimeFrame.m; sourceTree = "<group>"; };
 		C7A9E7A41FAB5FF600027F22 /* UILabel+CGRectForSubstring.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+CGRectForSubstring.h"; sourceTree = "<group>"; };
 		C7A9E7A51FAB5FF600027F22 /* UILabel+CGRectForSubstring.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+CGRectForSubstring.m"; sourceTree = "<group>"; };
-		C7B463CE221B572300ADDC22 /* KYCVerifyEmailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCVerifyEmailRouter.swift; sourceTree = "<group>"; };
+		C7B463CE221B572300ADDC22 /* KYCDeepLinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCDeepLinkRouter.swift; sourceTree = "<group>"; };
 		C7B4EB43220A3BBA001C1795 /* BitcoinHDAssetAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinHDAssetAccount.swift; sourceTree = "<group>"; };
 		C7B4EB46220A3E8F001C1795 /* BitcoinWalletAccountRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinWalletAccountRepository.swift; sourceTree = "<group>"; };
 		C7B4EB4A220A3F48001C1795 /* BitcoinWalletAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinWalletAccount.swift; sourceTree = "<group>"; };
@@ -5162,6 +5166,7 @@
 			children = (
 				C7174BD5220BB6CF0074ECF5 /* Mineable.swift */,
 				3A68659E219A0D540009FF29 /* HistoricalTransaction.swift */,
+				3AE17AD12229C9A10061AC86 /* TransactionFee.swift */,
 			);
 			path = Transactions;
 			sourceTree = "<group>";
@@ -5909,6 +5914,7 @@
 		5152AC242142DD1100E769CE /* AnnouncementCard */ = {
 			isa = PBXGroup;
 			children = (
+				C7132460222DBD03006E8F9B /* AnnouncementCardActionHandler.swift */,
 				5152AC2D2142E4B700E769CE /* AnnouncementCardView.swift */,
 				5176A45B2147F6600006769F /* CardsView.swift */,
 				5152AC302142E4BE00E769CE /* AnnouncementCardView.xib */,
@@ -8477,22 +8483,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		AA0843C6215D73780007BFD1 /* Exchange */ = {
-			isa = PBXGroup;
-			children = (
-				AA0843C7215D737D0007BFD1 /* Services */,
-			);
-			path = Exchange;
-			sourceTree = "<group>";
-		};
-		AA0843C7215D737D0007BFD1 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				AA0843C8215D73F50007BFD1 /* MarketsServiceTests.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		AA084400215EEC630007BFD1 /* Lockbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -8787,7 +8777,7 @@
 		AA6336A421BC5A1C0073ED4A /* Email */ = {
 			isa = PBXGroup;
 			children = (
-				C7B463CE221B572300ADDC22 /* KYCVerifyEmailRouter.swift */,
+				C7B463CE221B572300ADDC22 /* KYCDeepLinkRouter.swift */,
 				AA6336B121BC5A630073ED4A /* KYCConfirmEmailController.swift */,
 				AA6336AE21BC5A430073ED4A /* KYCEnterEmailController.swift */,
 				AAF3E7CC21BC5B3D00912B13 /* KYCVerifyEmailInteractor.swift */,
@@ -9420,7 +9410,6 @@
 			isa = PBXGroup;
 			children = (
 				AABE35ED21939C500001AE4A /* Authentication */,
-				AA0843C6215D73780007BFD1 /* Exchange */,
 				C75684C9212F053200B5059C /* TradingPairTests.swift */,
 			);
 			path = Homebrew;
@@ -9459,6 +9448,7 @@
 			isa = PBXGroup;
 			children = (
 				C76E4D0C220B4A0B00B21B82 /* BitcoinTransaction.swift */,
+				3AE17ADE2229CECA0061AC86 /* BitcoinTransactionFee.swift */,
 			);
 			path = Transactions;
 			sourceTree = "<group>";
@@ -10818,6 +10808,7 @@
 				C7B4EB56220A66DE001C1795 /* BitcoinAssetAddress.swift in Sources */,
 				C7B4EB47220A3E8F001C1795 /* BitcoinWalletAccountRepository.swift in Sources */,
 				C76E4D0D220B4A0B00B21B82 /* BitcoinTransaction.swift in Sources */,
+				3AE17ADF2229CECA0061AC86 /* BitcoinTransactionFee.swift in Sources */,
 				C7B4EB62220A68BA001C1795 /* BitcoinWalletBridgeAPI.swift in Sources */,
 				C7B4EB44220A3BBA001C1795 /* BitcoinHDAssetAccount.swift in Sources */,
 			);
@@ -10864,6 +10855,7 @@
 				3A68659A219A0D170009FF29 /* PageResult.swift in Sources */,
 				3A8473AB219A473A00F22FA6 /* AssetAccount.swift in Sources */,
 				3AADB30821B0849300FD2974 /* AssetAccountRepositoryAPI.swift in Sources */,
+				3AE17AD22229C9A10061AC86 /* TransactionFee.swift in Sources */,
 				3A8473AD219A4A6100F22FA6 /* KeyPair.swift in Sources */,
 				3A68659F219A0D540009FF29 /* HistoricalTransaction.swift in Sources */,
 				3A6A1A0021B89BDB00D97C74 /* Money.swift in Sources */,
@@ -11017,7 +11009,7 @@
 				C787180220A22362000CC46E /* WalletAddressesDelegate.swift in Sources */,
 				AA31A7BC2098DFCF00FE6268 /* SideMenuItem.swift in Sources */,
 				AA63F85920A134DA002B719B /* BCTextField.swift in Sources */,
-				C7B463D9221B572800ADDC22 /* KYCVerifyEmailRouter.swift in Sources */,
+				C7B463D9221B572800ADDC22 /* KYCDeepLinkRouter.swift in Sources */,
 				AAF3E7D721BC5B4200912B13 /* KYCVerifyEmailInteractor.swift in Sources */,
 				AACE31D42092A99B00B7B806 /* AppCoordinator.swift in Sources */,
 				AA3CA9B92107F66E00C2AD46 /* ConsoleLogDestination.swift in Sources */,
@@ -11249,7 +11241,6 @@
 				3A1552E8213600B400683CEB /* TradingPairConfiguration.swift in Sources */,
 				3AE92BDE2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */,
 				3AB4D91821309BAD004F0160 /* ExchangeListContracts.swift in Sources */,
-				AA0843C9215D73F50007BFD1 /* MarketsServiceTests.swift in Sources */,
 				3A1552EE2136EAF000683CEB /* TradeLimits.swift in Sources */,
 				3A1C7FA921790AB3001AC6D3 /* StellarOperationsAPI.swift in Sources */,
 				34A54DD4221A06B000FD99BC /* QRCodeScannerTests.swift in Sources */,
@@ -11510,6 +11501,7 @@
 				AA6336AF21BC5A430073ED4A /* KYCEnterEmailController.swift in Sources */,
 				511646DF20851BC600C43522 /* Bundle.swift in Sources */,
 				237C9E901C482132000754F7 /* AccountsAndAddressesDetailViewController.m in Sources */,
+				C7132461222DBD03006E8F9B /* AnnouncementCardActionHandler.swift in Sources */,
 				C7CE25B62135E3D300DCC43B /* ExchangeCreatePresenter.swift in Sources */,
 				C7FF110F2141E24000CBA3CB /* InputsState.swift in Sources */,
 				3A3D5DB6211B96FA00E6C241 /* LocationUpdateAPI.swift in Sources */,
@@ -11638,7 +11630,7 @@
 				AA447BC82127679A00EC0FA0 /* SideMenuViewController.swift in Sources */,
 				AA8F21D121C574CB00F45C42 /* KYCSettingsAPI.swift in Sources */,
 				3AFB65EE215585DF00EBFF30 /* BounceButton.swift in Sources */,
-				C7B463CF221B572300ADDC22 /* KYCVerifyEmailRouter.swift in Sources */,
+				C7B463CF221B572300ADDC22 /* KYCDeepLinkRouter.swift in Sources */,
 				3A56AEAA21765C2100044302 /* StellarAccountAPI.swift in Sources */,
 				C73406221F54791C00143100 /* EtherAmountInputViewController.m in Sources */,
 				3460EDB32216FE1600614F52 /* QRCodeScannerView.swift in Sources */,
@@ -13205,7 +13197,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = BitcoinKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -13286,7 +13278,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = BitcoinKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -13367,7 +13359,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = BitcoinKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -13418,7 +13410,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = BitcoinKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -17197,7 +17189,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = BitcoinKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;

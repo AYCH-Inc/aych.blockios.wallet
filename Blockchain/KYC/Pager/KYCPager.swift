@@ -147,6 +147,9 @@ extension KYCPageType {
             if let country = country, country.states.count != 0 {
                 return .states
             }
+            if let user = user, user.personalDetails?.isComplete == true {
+                return .address
+            }
             return .profile
         case .states:
             return .profile

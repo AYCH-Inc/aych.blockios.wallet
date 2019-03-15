@@ -1832,9 +1832,9 @@ struct LocalizationConstants {
             "Safely store your crypto currency offline.",
             comment: "Subtitle prompting the user to buy a lockbox."
         )
-        static let buyNowFor99 = NSLocalizedString(
-            "Buy Now for $99",
-            comment: "Price of a lockbox."
+        static let buyNow = NSLocalizedString(
+            "Buy Now",
+            comment: "Buy now CTA for a lockbox device."
         )
         static let alreadyOwnOne = NSLocalizedString(
             "Already own one?",

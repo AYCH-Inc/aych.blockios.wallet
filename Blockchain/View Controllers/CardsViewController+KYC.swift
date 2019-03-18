@@ -219,7 +219,7 @@ extension CardsViewController {
             switch action.style {
             case .confirm:
                 BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal = true
-                KYCCoordinator.shared.start()
+                self.stellarAirdropCardActionTapped()
             case .default,
                  .dismiss:
                 BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal = true

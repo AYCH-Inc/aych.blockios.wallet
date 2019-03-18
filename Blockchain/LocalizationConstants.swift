@@ -1962,7 +1962,7 @@ struct LocalizationConstants {
             comment: "Title displayed in the onboarding card showing that we support Stellar."
         )
         static let weNowSupportStellarDescription = NSLocalizedString(
-            "XLM is a token that enables quick, low cost global transactions. Send, receive, and trade XLM in the wallet today. Join the waitlist to",
+            "XLM is a token that enables quick, low cost global transactions. Send, receive, and trade XLM in the wallet today.",
             comment: "Description displayed in the onboarding card showing that we support Stellar."
         )
         static let claimYourFreeXLMNow = NSLocalizedString(

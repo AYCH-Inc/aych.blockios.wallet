@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 
 protocol ExchangeListDelegate: class {
     func onLoaded()

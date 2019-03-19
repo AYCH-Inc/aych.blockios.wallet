@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 
 /// Protocol definition for a view that contains a CTA button at the bottom of it's view.
 /// Conforming to this protocol will auto-adjust the CTA button whenever the keyboard

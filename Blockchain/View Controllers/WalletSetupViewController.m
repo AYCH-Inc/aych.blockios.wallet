@@ -209,7 +209,8 @@
 {
     self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self dismissViewControllerAnimated:YES completion:^{
-        [self.delegate onWalletSetupViewControllerCompleted];
+        NSNotification *walletSetupCompleteNotification = [NSNotification notificationWithName:[ConstantsObjcBridge walletSetupDismissedNotification] object:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:walletSetupCompleteNotification];
     }];
 }
 

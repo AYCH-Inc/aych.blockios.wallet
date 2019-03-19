@@ -7,6 +7,7 @@
 //
 
 import PlatformUIKit
+import PlatformKit
 import UIKit
 
 class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomButtonContainerView {

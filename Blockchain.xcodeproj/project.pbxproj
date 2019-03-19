@@ -114,6 +114,7 @@
 		3A1C7F9E2178FA7A001AC6D3 /* StellarOperationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */; };
 		3A1C7FA821790A49001AC6D3 /* StellarOperationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */; };
 		3A1C7FA921790AB3001AC6D3 /* StellarOperationsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A02602177F10200E2848E /* StellarOperationsAPI.swift */; };
+		3A1FD14C224049CE00E613E8 /* NotificationCenter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1FD14B224049CE00E613E8 /* NotificationCenter+Conveniences.swift */; };
 		3A25517821E68CF6005D4E66 /* VeriffService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25517721E68CF6005D4E66 /* VeriffService.swift */; };
 		3A25517921E68CF6005D4E66 /* VeriffService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25517721E68CF6005D4E66 /* VeriffService.swift */; };
 		3A25519521E6E286005D4E66 /* VeriffCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25519421E6E286005D4E66 /* VeriffCredentials.swift */; };
@@ -472,8 +473,6 @@
 		3AE74B8921C1AE4C00246A9C /* ModalAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B8821C1AE4C00246A9C /* ModalAnimator.swift */; };
 		3AE74B8A21C1AE4C00246A9C /* ModalAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B8821C1AE4C00246A9C /* ModalAnimator.swift */; };
 		3AE92BDB2110DB3C008D7BDC /* KeyboardPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */; };
-		3AE92BDD2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */; };
-		3AE92BDE2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */; };
 		3AEA402121FBA9DC00952587 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEA402021FBA9DC00952587 /* AlertView.swift */; };
 		3AEA402321FBAAEF00952587 /* AlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AEA402221FBAAEF00952587 /* AlertView.xib */; };
 		3AEE9690221DDE7700F8B5D5 /* DashboardContainerViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AEE968F221DDE7700F8B5D5 /* DashboardContainerViewController.storyboard */; };
@@ -1799,6 +1798,7 @@
 		3A1552EC2136EAF000683CEB /* TradeLimits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeLimits.swift; sourceTree = "<group>"; };
 		3A1552EF2136FFE200683CEB /* TradeExecutionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeExecutionAPI.swift; sourceTree = "<group>"; };
 		3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarOperationService.swift; sourceTree = "<group>"; };
+		3A1FD14B224049CE00E613E8 /* NotificationCenter+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Conveniences.swift"; sourceTree = "<group>"; };
 		3A25517721E68CF6005D4E66 /* VeriffService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VeriffService.swift; sourceTree = "<group>"; };
 		3A25519421E6E286005D4E66 /* VeriffCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VeriffCredentials.swift; sourceTree = "<group>"; };
 		3A258C0C210A486F00C023F5 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
@@ -2055,7 +2055,6 @@
 		3AE74B6821C07ADD00246A9C /* KYCTiersFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KYCTiersFooterView.xib; sourceTree = "<group>"; };
 		3AE74B8821C1AE4C00246A9C /* ModalAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalAnimator.swift; sourceTree = "<group>"; };
 		3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPayload.swift; sourceTree = "<group>"; };
-		3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Conveniences.swift"; sourceTree = "<group>"; };
 		3AEA402021FBA9DC00952587 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		3AEA402221FBAAEF00952587 /* AlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertView.xib; sourceTree = "<group>"; };
 		3AEE968F221DDE7700F8B5D5 /* DashboardContainerViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DashboardContainerViewController.storyboard; sourceTree = "<group>"; };
@@ -5002,6 +5001,7 @@
 			children = (
 				3A4E480C21BB37AF001A799D /* String+Conveniences.swift */,
 				AA7F866B2200CA6900498D3E /* Locale+Conveniences.swift */,
+				3A1FD14B224049CE00E613E8 /* NotificationCenter+Conveniences.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -5831,7 +5831,6 @@
 				3A76F901211A3BA5002F7946 /* DateFormatter+Conveniences.swift */,
 				516546F7208FCF800019EE63 /* Enum+Enumeratable.swift */,
 				5185E123208F6E5E00A26B64 /* Enum+RawValued.swift */,
-				3AE92BDC2110DF33008D7BDC /* NotificationCenter+Conveniences.swift */,
 				3AC97559210FBD10006A9263 /* NSAttributedString+Conveniences.swift */,
 				AABDED6F208FACB9002D8BAC /* Reachability.swift */,
 				51C2ADD520BDECE700D66108 /* String+EscapeJS.swift */,
@@ -10847,6 +10846,7 @@
 				AA55B34A219DF84500533533 /* WalletSettingsAPI.swift in Sources */,
 				3A4E480921BB31EE001A799D /* SEP7URI.swift in Sources */,
 				3A847401219CAF2B00F22FA6 /* AccountValidationAPI.swift in Sources */,
+				3A1FD14C224049CE00E613E8 /* NotificationCenter+Conveniences.swift in Sources */,
 				3A9B285421A4CD2200DB46C7 /* KeyPairProviderAPI.swift in Sources */,
 				AA7F866C2200CA6900498D3E /* Locale+Conveniences.swift in Sources */,
 				AA75F8AC21F155C70003B19E /* FiatValue.swift in Sources */,
@@ -11239,7 +11239,6 @@
 				AACE31C92092A99B00B7B806 /* AlertViewPresenter.swift in Sources */,
 				51F504C6216E71C400E1FE0C /* LockboxViewController.swift in Sources */,
 				3A1552E8213600B400683CEB /* TradingPairConfiguration.swift in Sources */,
-				3AE92BDE2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */,
 				3AB4D91821309BAD004F0160 /* ExchangeListContracts.swift in Sources */,
 				3A1552EE2136EAF000683CEB /* TradeLimits.swift in Sources */,
 				3A1C7FA921790AB3001AC6D3 /* StellarOperationsAPI.swift in Sources */,
@@ -12076,7 +12075,6 @@
 				C790E1241E5358540063D141 /* BCVerifyMobileNumberViewController.m in Sources */,
 				C7F1263D21C49BDC008D8F2A /* KYCSettings.swift in Sources */,
 				AAE94F3C20C70F4B005A3595 /* BIP21URI.swift in Sources */,
-				3AE92BDD2110DF33008D7BDC /* NotificationCenter+Conveniences.swift in Sources */,
 				C7773330217E21F200899930 /* TransactionsXlmPresenter.swift in Sources */,
 				C7B6855B1F17AE2A00A18A5C /* BCEmptyPageView.m in Sources */,
 				3A8B228A211E0B380091E706 /* KYCPersonalDetailsController.swift in Sources */,

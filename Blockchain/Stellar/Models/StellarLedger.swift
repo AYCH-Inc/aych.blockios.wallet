@@ -20,7 +20,6 @@ struct StellarLedger {
     let operationCount: Int
     let closedAt: Date
     let totalCoins: String
-    let feePool: String
     let baseFeeInStroops: Int?
     let baseReserveInStroops: Int?
 }

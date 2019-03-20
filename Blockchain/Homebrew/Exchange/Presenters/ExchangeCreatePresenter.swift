@@ -177,14 +177,6 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
         interactor.toggleFix()
     }
 
-    func onUseMinimumTapped(assetAccount: AssetAccount) {
-        interactor.useMinimumAmount(assetAccount: assetAccount)
-    }
-
-    func onUseMaximumTapped(assetAccount: AssetAccount) {
-        interactor.useMaximumAmount(assetAccount: assetAccount)
-    }
-
     func onDisplayInputTypeTapped() {
         interactor.displayInputTypeTapped()
     }
@@ -247,13 +239,9 @@ extension ExchangeCreatePresenter: ExchangeCreateOutput {
         interface?.apply(presentationUpdates: [.wigglePrimaryLabel])
     }
     
-    func styleTemplate() -> ExchangeStyleTemplate {
-        return interface?.styleTemplate() ?? .standard
-    }
-    
-    func updatedInput(primary: NSAttributedString?, secondary: String?, primaryOffset: CGFloat) {
+    func updatedInput(primary: NSAttributedString?, secondary: String?) {
         interface?.apply(presentationUpdates: [
-            .updatePrimaryLabel(primary, primaryOffset),
+            .updatePrimaryLabel(primary),
             .updateSecondaryLabel(secondary)
             ]
         )

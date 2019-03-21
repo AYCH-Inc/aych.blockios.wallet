@@ -16,11 +16,10 @@ struct StellarLedger {
     let identifier: String
     let token: String
     let sequence: Int
-    let transactionCount: Int
+    let transactionCount: Int?
     let operationCount: Int
     let closedAt: Date
     let totalCoins: String
-    let feePool: String
     let baseFeeInStroops: Int?
     let baseReserveInStroops: Int?
 }

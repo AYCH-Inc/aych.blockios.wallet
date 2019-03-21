@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Montserrat-Medium.ttf">
-            <string>Montserrat-Medium</string>
-        </array>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NumberKeypadView" customModule="Blockchain" customModuleProvider="target">
             <connections>
@@ -41,40 +36,31 @@
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qpy-Gp-51b">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="75"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NCn-ay-Eff" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NCn-ay-Eff" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="119.5" height="75"/>
-                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                     <state key="normal" title="1">
-                                        <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" red="0.16862745100000001" green="0.29411764709999999" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
                                         <action selector="numberButtonTapped:" destination="-1" eventType="touchUpInside" id="YFz-Rp-wFZ"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aYO-De-n4k" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aYO-De-n4k" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
                                     <rect key="frame" x="127.5" y="0.0" width="120" height="75"/>
-                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                     <state key="normal" title="2">
-                                        <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" red="0.16862745100000001" green="0.29411764709999999" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
                                         <action selector="numberButtonTapped:" destination="-1" eventType="touchUpInside" id="M3w-Cc-KVn"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PkX-kC-KSG" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PkX-kC-KSG" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
                                     <rect key="frame" x="255.5" y="0.0" width="119.5" height="75"/>
-                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                     <state key="normal" title="3">
-                                        <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" red="0.16862745100000001" green="0.29411764709999999" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
                                         <action selector="numberButtonTapped:" destination="-1" eventType="touchUpInside" id="zRI-6C-SH5"/>
@@ -92,7 +78,7 @@
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ctr-Ct-wVn" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="119.5" height="75"/>
-                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                     <state key="normal" title="4">
                                         <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
@@ -105,7 +91,7 @@
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ICd-bU-rTb" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
                                     <rect key="frame" x="127.5" y="0.0" width="120" height="75"/>
-                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                     <state key="normal" title="5">
                                         <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
@@ -118,7 +104,7 @@
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5mu-Rh-ATf" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
                                     <rect key="frame" x="255.5" y="0.0" width="119.5" height="75"/>
-                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                     <state key="normal" title="6">
                                         <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
@@ -141,7 +127,7 @@
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yuq-1L-HoU" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="119.5" height="75"/>
-                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                     <state key="normal" title="7">
                                         <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
@@ -154,7 +140,7 @@
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SDk-qh-2Hi" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
                                     <rect key="frame" x="127.5" y="0.0" width="120" height="75"/>
-                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                     <state key="normal" title="8">
                                         <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
@@ -167,7 +153,7 @@
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vOX-WC-Mc9" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
                                     <rect key="frame" x="255.5" y="0.0" width="119.5" height="75"/>
-                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                     <state key="normal" title="9">
                                         <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
@@ -190,7 +176,7 @@
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sr2-Ia-gcZ" userLabel="Decimal" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="119.5" height="75"/>
-                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                     <state key="normal" title=".">
                                         <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
@@ -200,7 +186,7 @@
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kma-Kx-hJu" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
                                     <rect key="frame" x="127.5" y="0.0" width="120" height="75"/>
-                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                     <state key="normal" title="0">
                                         <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
@@ -213,7 +199,7 @@
                                 </button>
                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sq4-OM-1dd" userLabel="Backspace" customClass="BounceButton" customModule="Blockchain" customModuleProvider="target">
                                     <rect key="frame" x="255.5" y="0.0" width="119.5" height="75"/>
-                                    <state key="normal" image="backspace">
+                                    <state key="normal" image="delete-arrow">
                                         <color key="titleColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
@@ -255,6 +241,6 @@
         </view>
     </objects>
     <resources>
-        <image name="backspace" width="25" height="20"/>
+        <image name="delete-arrow" width="22" height="22"/>
     </resources>
 </document>

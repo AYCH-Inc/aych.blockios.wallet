@@ -107,6 +107,7 @@ class KYCTierCell: UICollectionViewCell {
         limitAmountDescription.text = model.limitDescription
         limitTimeframe.text = tier.limitTimeframe
         limitDurationEstimate.text = tier.duration
+        limitDurationEstimate.isHidden = model.durationEstimateVisibility.isHidden
         
         let headlineContainerHeight = model.headlineContainerVisibility.isHidden ? 0.0 : KYCTierCell.headlineContainerHeight
         guard headlineContainerHeightConstraint.constant != headlineContainerHeight else { return }
@@ -163,7 +164,7 @@ class KYCTierCell: UICollectionViewCell {
             attributes: [.font: timeframeFont()]).heightForWidth(width: adjustedWidth)
         
         let durationEstimateHeight = NSAttributedString(
-            string: tier.tierDescription,
+            string: tier.duration,
             attributes: [.font: timeframeFont()]).heightForWidth(width: adjustedWidth)
         
         var tierRequirementsHeight = NSAttributedString(

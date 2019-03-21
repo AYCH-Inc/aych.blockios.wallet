@@ -210,7 +210,6 @@
                         <outlet property="hideRatesButton" destination="coY-Dg-Mc5" id="bEB-4e-zyz"/>
                         <outlet property="numberKeypadView" destination="dfm-a1-ad2" id="yN5-Le-zxp"/>
                         <outlet property="primaryAmountLabel" destination="cbA-yh-J0A" id="xGh-pL-sDT"/>
-                        <outlet property="primaryLabelCenterXConstraint" destination="UFh-rC-wXL" id="ROV-fk-3TO"/>
                         <outlet property="secondaryAmountLabel" destination="okC-2w-xB9" id="K2v-uv-GkY"/>
                         <outlet property="tradingPairView" destination="V30-pI-8jo" id="DIp-jX-nte"/>
                     </connections>

@@ -25,7 +25,6 @@ protocol ExchangeCreateInterface: class {
         ExchangeCreatePresenter.InternalEvent
     >
     
-    func styleTemplate() -> ExchangeStyleTemplate
     func updateTradingPairViewValues(left: String, right: String)
     func updateTradingPairView(pair: TradingPair, fix: Fix)
     func showSummary(orderTransaction: OrderTransaction, conversion: Conversion)
@@ -50,8 +49,6 @@ protocol ExchangeCreateInput: NumberKeypadViewDelegate {
     func setup()
     func resume()
     func displayInputTypeTapped()
-    func useMinimumAmount(assetAccount: AssetAccount)
-    func useMaximumAmount(assetAccount: AssetAccount)
     func confirmationIsExecuting() -> Bool
     func confirmConversion()
     func changeMarketPair(marketPair: MarketPair)
@@ -59,8 +56,7 @@ protocol ExchangeCreateInput: NumberKeypadViewDelegate {
 
 protocol ExchangeCreateOutput: class {
     func entryRejected()
-    func styleTemplate() -> ExchangeStyleTemplate
-    func updatedInput(primary: NSAttributedString?, secondary: String?, primaryOffset: CGFloat)
+    func updatedInput(primary: NSAttributedString?, secondary: String?)
     func updatedRates(first: String, second: String, third: String)
     func updateTradingPairValues(left: String, right: String)
     func updateTradingPair(pair: TradingPair, fix: Fix)

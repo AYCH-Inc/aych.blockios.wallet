@@ -11,6 +11,7 @@ import SafariServices
 import UIKit
 import RxSwift
 import PlatformUIKit
+import PlatformKit
 
 protocol KYCTiersInterface: class {
     func apply(_ model: KYCTiersPageModel)

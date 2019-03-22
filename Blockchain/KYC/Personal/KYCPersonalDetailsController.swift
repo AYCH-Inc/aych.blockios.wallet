@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PlatformKit
 
 /// Personal details entry screen in KYC flow
 final class KYCPersonalDetailsController: KYCBaseViewController,

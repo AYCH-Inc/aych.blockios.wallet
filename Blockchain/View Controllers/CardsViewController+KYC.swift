@@ -7,9 +7,21 @@
 //
 
 import RxSwift
+import PlatformKit
 import PlatformUIKit
 
 extension CardsViewController {
+    
+    @objc func registerForNotifications() {
+        NotificationCenter.when(Constants.NotificationKeys.walletSetupViewControllerDismissed) { [weak self] _ in
+            guard let self = self else { return }
+            let hasSeenXLMModel = BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal
+            let didDeepLink = BlockchainSettings.App.shared.didTapOnAirdropDeepLink
+            guard hasSeenXLMModel == false, didDeepLink == false else { return }
+            self.showStellarModal()
+        }
+    }
+    
     @objc func reloadAllCards() {
         // Ignoring the disposable here since it can't be stored in CardsViewController.m/.h
         // since RxSwift doesn't work in Obj-C.
@@ -99,8 +111,6 @@ extension CardsViewController {
         } else if shouldShowStellarView {
             if onboardingSettings.hasSeenGetFreeXlmModal == true {
                 showCompleteYourProfileCard()
-            } else {
-                showStellarModal()
             }
             return true
         } else if shouldShowStellarAirdropCard {

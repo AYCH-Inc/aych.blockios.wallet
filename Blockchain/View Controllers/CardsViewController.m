@@ -34,6 +34,12 @@
 
 @implementation CardsViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self registerForNotifications];
+}
+
 /**
  Temporary code to show KYC announcement card
  - SeeAlso: IOS-1249 - Refactor CardsViewController

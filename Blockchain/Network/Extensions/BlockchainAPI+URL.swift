@@ -45,7 +45,7 @@ extension BlockchainAPI {
     }
 
     var bitcoinExplorerUrl: String {
-        return explorerUrl
+        return "\(explorerUrl)/btc"
     }
 
     var bitcoinCashExplorerUrl: String {

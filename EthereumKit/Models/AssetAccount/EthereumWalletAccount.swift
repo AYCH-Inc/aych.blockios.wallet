@@ -13,4 +13,14 @@ public struct EthereumWalletAccount: WalletAccount, Codable {
     public let publicKey: String
     public var label: String?
     public var archived: Bool
+    
+    public init(index: Int,
+                publicKey: String,
+                label: String?,
+                archived: Bool) {
+        self.index = index
+        self.publicKey = publicKey
+        self.label = label
+        self.archived = archived
+    }
 }

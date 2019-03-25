@@ -8,7 +8,7 @@
 
 import PlatformKit
 
-public struct BitcoinAssetAddress: AssetAddress {
+public struct BitcoinAssetAddress: AssetAddress, Importable {
     public let isImported: Bool
     public let publicKey: String
 }

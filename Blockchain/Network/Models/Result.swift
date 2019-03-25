@@ -12,6 +12,7 @@ import Foundation
 /// Some endpoints may not return an error, and
 /// sometimes you may want to return a `error`
 /// result but don't have an error to provide.
+@available(*, deprecated, message: "Use NewResult instead")
 enum Result<A> {
     case success(A)
     case error(Error?)

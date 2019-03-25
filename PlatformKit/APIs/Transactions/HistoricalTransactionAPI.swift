@@ -10,10 +10,25 @@ import Foundation
 import RxSwift
 
 /// `HistoricalTransactionAPI` is used for fetching transactions that the user has already submitted.
-/// It returns a `PageResult<HistoricalTransaction>`. Depending on what asset type you are requesting
-/// the page size may vary. 
+/// It returns a `[<HistoricalTransaction>]`. Depending on what asset type you are requesting
+/// the page size may vary.
 public protocol HistoricalTransactionAPI {
+    
     typealias AccountID = String
+    
     associatedtype Model: HistoricalTransaction
+    
+    func fetchTransactions(for accountID: AccountID) -> Single<[Model]>
+}
+
+/// `HistoricalTransactionAPI` is used for fetching transactions that the user has already submitted.
+/// It returns a `PageResult<HistoricalTransaction & Tokenized>`. Depending on what asset type you are requesting
+/// the page size may vary. 
+public protocol TokenizedHistoricalTransactionAPI {
+    
+    typealias AccountID = String
+    
+    associatedtype Model: HistoricalTransaction & Tokenized
+    
     func fetchTransactions(from accountID: AccountID, token: String?, size: Int) -> Observable<PageResult<Model>>
 }

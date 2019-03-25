@@ -41,7 +41,7 @@
 @property(nonatomic, assign) int tag;
 @end
 
-@class Wallet, Transaction, JSValue, JSContext, ExchangeRate, OrderTransactionLegacy;
+@class Wallet, Transaction, JSValue, JSContext, ExchangeRate, OrderTransactionLegacy, EthereumWallet, EtherTransaction;
 
 @protocol WalletSuccessCallback, WalletDismissCallback;
 
@@ -203,7 +203,8 @@
 
 @property (nonatomic) NSArray *bitcoinCashTransactions;
 
-@property (nonatomic) NSArray *etherTransactions;
+@property (readonly, nonatomic) EthereumWallet *ethereum;
+@property (nonatomic) NSArray<EtherTransaction *> *etherTransactions;
 @property (nonatomic) NSDecimalNumber *latestEthExchangeRate;
 
 - (id)init;
@@ -426,13 +427,19 @@
 // Ethereum
 - (NSString *)getEthBalance;
 - (NSString *)getEthBalanceTruncated;
-- (NSArray *)getEthTransactions;
+- (nullable NSNumber *)getEthBalanceTruncatedNumber;
+- (nullable NSArray<EtherTransaction *> *)getEthTransactions;
 - (void)getEthHistory;
 - (void)getEthExchangeRate;
 
 // Ether send
 - (void)sendEtherPaymentWithNote:(NSString *)note;
-- (NSString *)getEtherAddress;
+
+// TODO: deprecate in favor of async method
+// getEtherAddressWithSuccess:error:
+- (NSString *_Nullable)getEtherAddress;
+- (void)getEtherAddressWithSuccess:(void (^ _Nonnull)(NSString *_Nonnull))success error: (void (^ _Nonnull)(NSString *_Nullable))error;
+
 - (void)isEtherContractAddress:(NSString *)address completion:(void (^ __nullable)(NSData *data, NSURLResponse *response, NSError *error))completion;
 - (void)sweepEtherPayment;
 - (BOOL)hasEthAccount;

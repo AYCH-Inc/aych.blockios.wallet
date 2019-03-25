@@ -8,16 +8,16 @@
 
 import Foundation
 
-public enum Direction {
+public enum Direction: String {
     case credit
     case debit
+    case transfer
 }
 
-public protocol HistoricalTransaction: Tokenized {
+public protocol HistoricalTransaction {
     associatedtype Address: AssetAddress
 
     var identifier: String { get }
-    var token: String { get }
     var fromAddress: Address { get }
     var toAddress: Address { get }
     var direction: Direction { get }

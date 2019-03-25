@@ -13,9 +13,10 @@
 #import "SendBitcoinViewController.h"
 #import "ReceiveBitcoinViewController.h"
 #import "SendEtherViewController.h"
-#import "TransactionsEtherViewController.h"
 #import "ReceiveEtherViewController.h"
 #import "TransactionsBitcoinCashViewController.h"
+
+@class TransactionsEthereumViewController;
 
 @interface TabControllerManager : UIViewController <AssetDelegate>
 
@@ -31,7 +32,9 @@
 @property (strong, nonatomic) SendBitcoinViewController *sendBitcoinCashViewController;
 
 @property (strong, nonatomic) SendEtherViewController *sendEtherViewController;
-@property (strong, nonatomic) TransactionsEtherViewController *transactionsEtherViewController;
+
+@property (strong, nonatomic) TransactionsEthereumViewController *transactionsEtherViewController;
+
 @property (strong, nonatomic) ReceiveEtherViewController *receiveEtherViewController;
 
 @property (strong, nonatomic) TransactionsBitcoinCashViewController *transactionsBitcoinCashViewController;

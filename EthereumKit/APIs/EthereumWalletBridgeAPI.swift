@@ -7,16 +7,12 @@
 //
 
 import PlatformKit
+import RxSwift
 
 public protocol EthereumWalletBridgeAPI: class {
-
-    // MARK: - Getters
-
-    func balance() -> CryptoValue
-
-    func name() -> String
-
-    func address() -> String
-
-    func transactions() -> [EthereumTransaction]
+    var balance: Single<CryptoValue> { get }
+    var name: Single<String> { get }
+    var address: Single<String> { get }
+    var transactions: Single<[EthereumTransaction]> { get }
+    var account: Single<EthereumAssetAccount> { get }
 }

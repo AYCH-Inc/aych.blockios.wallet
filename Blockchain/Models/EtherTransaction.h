@@ -11,18 +11,19 @@
 @interface EtherTransaction : NSObject
 
 + (EtherTransaction *)fromJSONDict:(NSDictionary *)dict;
++ (NSString *)truncatedAmount:(NSString *)amountString;
 
-@property (nonatomic) NSString *amount;
-@property (nonatomic) NSString *amountTruncated;
-@property (nonatomic) NSString *fee;
-@property (nonatomic) NSString *from;
-@property (nonatomic) NSString *to;
-@property (nonatomic) NSString *myHash;
-@property (nonatomic) NSString *note;
-@property (nonatomic) NSString *txType;
+@property (nonatomic, nullable) NSString *amount;
+@property (nonatomic, nullable) NSString *amountTruncated;
+@property (nonatomic, nullable) NSString *fee;
+@property (nonatomic, nullable) NSString *from;
+@property (nonatomic, nullable) NSString *to;
+@property (nonatomic, nullable) NSString *myHash;
+@property (nonatomic, nullable) NSString *note;
+@property (nonatomic, nullable) NSString *txType;
 @property (nonatomic) uint64_t time;
 @property (nonatomic) NSUInteger confirmations;
 
-@property(nonatomic, strong) NSMutableDictionary *fiatAmountsAtTime;
+@property (nonatomic, strong, nullable) NSMutableDictionary *fiatAmountsAtTime;
 
 @end

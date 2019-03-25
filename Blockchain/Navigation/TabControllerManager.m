@@ -541,7 +541,7 @@
         [_tabViewController setActiveViewController:_transactionsBitcoinViewController animated:animated index:tabIndex];
     } else if (self.assetType == LegacyAssetTypeEther) {
         if (!_transactionsEtherViewController) {
-            _transactionsEtherViewController = [[TransactionsEtherViewController alloc] init];
+            _transactionsEtherViewController = [[TransactionsEthereumViewController alloc] init];
         }
 
         [_tabViewController setActiveViewController:_transactionsEtherViewController animated:animated index:tabIndex];

@@ -14,8 +14,6 @@ public struct EthereumTransaction: HistoricalTransaction, Mineable {
 
     public let identifier: String
 
-    public let token: String
-
     public let fromAddress: Address
 
     public let toAddress: Address
@@ -38,5 +36,28 @@ public struct EthereumTransaction: HistoricalTransaction, Mineable {
 
     public var isConfirmed: Bool {
         return confirmations == 12
+    }
+    
+    public init(
+                identifier: String,
+                fromAddress: Address,
+                toAddress: Address,
+                direction: Direction,
+                amount: String,
+                transactionHash: String,
+                createdAt: Date,
+                fee: Int?,
+                memo: String?,
+                confirmations: Int) {
+        self.identifier = identifier
+        self.fromAddress = fromAddress
+        self.toAddress = toAddress
+        self.direction = direction
+        self.amount = amount
+        self.transactionHash = transactionHash
+        self.createdAt = createdAt
+        self.fee = fee
+        self.memo = memo
+        self.confirmations = confirmations
     }
 }

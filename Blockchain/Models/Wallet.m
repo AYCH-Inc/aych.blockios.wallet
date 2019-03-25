@@ -34,6 +34,8 @@
 #import "NSData+BTCData.h"
 #import "NSNumberFormatter+Currencies.h"
 
+#import "Blockchain-Swift.h"
+
 @import FirebaseAnalytics;
 
 #define DICTIONARY_KEY_CURRENCY @"currency"
@@ -83,6 +85,7 @@ NSString * const kLockboxInvitation = @"lockbox";
 
     if (self) {
         _transactionProgressListeners = [NSMutableDictionary dictionary];
+        _ethereum = [[EthereumWallet alloc] initWithWallet:self];
     }
 
     return self;
@@ -2768,11 +2771,11 @@ NSString * const kLockboxInvitation = @"lockbox";
     }
 }
 
-- (NSArray *)getEthTransactions
+- (nullable NSArray<EtherTransaction *> *)getEthTransactions
 {
     if ([self isInitialized]) {
-        NSArray *transactions = [[self.context evaluateScript:@"MyWalletPhone.getEthTransactions()"] toArray];
-        NSMutableArray *convertedTransactions = [NSMutableArray new];
+        NSArray<NSDictionary *> *transactions = [[self.context evaluateScript:@"MyWalletPhone.getEthTransactions()"] toArray];
+        NSMutableArray<EtherTransaction *> *convertedTransactions = [NSMutableArray new];
         for (NSDictionary *dict in transactions) {
             EtherTransaction *transaction = [EtherTransaction fromJSONDict:dict];
             [convertedTransactions addObject:transaction];
@@ -2801,6 +2804,17 @@ NSString * const kLockboxInvitation = @"lockbox";
     }
 }
 
+- (nullable NSNumber *)getEthBalanceTruncatedNumber
+{
+    if ([self isInitialized] && [WalletManager.sharedInstance.wallet hasEthAccount]) {
+        NSNumber *balanceNumber = [[self.context evaluateScript:@"MyWalletPhone.getEthBalance()"] toNumber];
+        return balanceNumber;
+    } else {
+        DLog(@"Warning: getting eth balance when not initialized - returning 0");
+        return nil;
+    }
+}
+
 - (void)getEthHistory
 {
     if ([self isInitialized]) {
@@ -2822,7 +2836,7 @@ NSString * const kLockboxInvitation = @"lockbox";
     }
 }
 
-- (NSString *)getEtherAddress
+- (nullable NSString *)getEtherAddress
 {
     if ([self isInitialized]) {
         NSString *setupHelperText = [LocalizationConstantsObjcBridge etherSecondPasswordPrompt];
@@ -2833,6 +2847,18 @@ NSString * const kLockboxInvitation = @"lockbox";
     }
 
     return nil;
+}
+
+- (void)getEtherAddressWithSuccess:(void (^)(NSString * _Nonnull))success error:(void (^)(NSString * _Nullable))error
+{
+    if ([self isInitialized]) {
+        NSString *setupHelperText = [LocalizationConstantsObjcBridge etherSecondPasswordPrompt];
+        [self.context invokeOnceWithStringFunctionBlock:success forJsFunctionName:@"objc_on_get_ether_address_success"];
+        [self.context invokeOnceWithStringFunctionBlock:error forJsFunctionName:@"objc_on_get_ether_address_error"];
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getEtherAddressAsync(\"%@\")", [setupHelperText escapedForJS]]];
+    } else {
+        error(@"Wallet not initialized");
+    }
 }
 
 - (void)isEtherContractAddress:(NSString *)address completion:(void (^ _Nullable)(NSData *, NSURLResponse *, NSError *))completion

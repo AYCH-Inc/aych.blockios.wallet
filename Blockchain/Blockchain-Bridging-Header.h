@@ -45,6 +45,8 @@
 #import "UIViewController+AutoDismiss.h"
 #import "UncaughtExceptionHandler.h"
 #import "Wallet.h"
+#import "EtherTransaction.h"
+#import "TransactionEtherTableViewCell.h"
 #import "WalletSetupViewController.h"
 #import "WebLoginViewController.h"
 #import "BCInsetLabel.h"

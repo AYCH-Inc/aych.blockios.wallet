@@ -10,7 +10,6 @@ import Foundation
 import PlatformKit
 
 public struct StellarAssetAddress: AssetAddress {
-    public var isImported: Bool = false
     public var publicKey: String
     
     public init(publicKey: String) {

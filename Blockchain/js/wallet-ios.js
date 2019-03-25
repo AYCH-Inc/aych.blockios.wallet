@@ -2561,6 +2561,27 @@ MyWalletPhone.getEtherAddress = function(helperText) {
     }
 }
 
+MyWalletPhone.getEtherAddressAsync = function(helperText) {
+
+    var eth = MyWallet.wallet.eth;
+
+    if (eth && eth.defaultAccount) {
+        objc_on_get_ether_address_success(eth.defaultAccount.address);
+    } else {
+        if (MyWallet.wallet.isDoubleEncrypted) {
+            MyWalletPhone.getSecondPassword(function (pw) {
+                eth.createAccount(void 0, pw).then(function() {
+                    objc_on_get_ether_address_success(eth.defaultAccount.address);
+                });
+            }, function(){}, helperText);
+        } else {
+            eth.createAccount(void 0).then(function() {
+                objc_on_get_ether_address_success(eth.defaultAccount.address);
+            });
+        }
+    }
+}
+
 MyWalletPhone.sweepEtherPayment = function() {
     currentEtherPayment.setSweep();
     MyWalletPhone.updateEtherPayment(true);

@@ -10,10 +10,14 @@ import PlatformKit
 
 public struct EthereumAssetAccount: AssetAccount {
     public var walletIndex: Int
-
     public let accountAddress: String
-
     public var name: String
 
-    public var description: String
+    public init(walletIndex: Int,
+                accountAddress: String,
+                name: String) {
+        self.walletIndex = walletIndex
+        self.accountAddress = accountAddress
+        self.name = name
+    }
 }

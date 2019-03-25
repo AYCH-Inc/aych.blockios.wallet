@@ -17,8 +17,6 @@ protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
     func onDisplayRatesTapped()
     func onHideRatesTapped()
     func onKeypadVisibilityUpdated(_ visibility: Visibility, animated: Bool)
-    func onUseMinimumTapped(assetAccount: AssetAccount)
-    func onUseMaximumTapped(assetAccount: AssetAccount)
     func onDisplayInputTypeTapped()
     func onExchangeButtonTapped()
     func onSwapButtonTapped()
@@ -31,7 +29,7 @@ class ExchangeCreateViewController: UIViewController {
     
     static let isLargerThan5S: Bool = Constants.Booleans.IsUsingScreenSizeLargerThan5s
     static let primaryFontName: String = Constants.FontNames.montserratMedium
-    static let primaryFontSize: CGFloat = isLargerThan5S ? 72.0 : Constants.FontSizes.Gigantic
+    static let primaryFontSize: CGFloat = isLargerThan5S ? 64.0 : Constants.FontSizes.Gigantic
     static let secondaryFontName: String = Constants.FontNames.montserratRegular
     static let secondaryFontSize: CGFloat = Constants.FontSizes.Huge
 
@@ -57,12 +55,12 @@ class ExchangeCreateViewController: UIViewController {
     @IBOutlet private var conversionView: UIView!
     @IBOutlet private var conversionTitleLabel: UILabel!
     @IBOutlet private var exchangeButton: UIButton!
-    @IBOutlet private var primaryLabelCenterXConstraint: NSLayoutConstraint!
+    @IBOutlet private var exchangeButtonBottomConstraint: NSLayoutConstraint!
     
     enum PresentationUpdate {
         case wiggleInputLabels
         case wigglePrimaryLabel
-        case updatePrimaryLabel(NSAttributedString?, CGFloat)
+        case updatePrimaryLabel(NSAttributedString?)
         case updateSecondaryLabel(String?)
         case updateErrorLabel(String)
         case actionableErrorLabelTrigger(ActionableTrigger)
@@ -124,7 +122,6 @@ class ExchangeCreateViewController: UIViewController {
             $0?.textColor = UIColor.brandPrimary
         }
         
-        secondaryAmountLabel.font = styleTemplate().secondaryFont
         errorLabel.font = UIFont(name: Constants.FontNames.montserratRegular, size: Constants.FontSizes.ExtraExtraSmall)
         
         [conversionView, hideRatesButton].forEach {
@@ -137,6 +134,11 @@ class ExchangeCreateViewController: UIViewController {
         exchangeButton.layer.cornerRadius = Constants.Measurements.buttonCornerRadius
 
         exchangeButton.setTitle(LocalizationConstants.Swap.exchange, for: .normal)
+        
+        let isAboveSE = UIDevice.current.type.isAbove(.iPhoneSE)
+        exchangeButtonBottomConstraint.constant = isAboveSE ? 16.0 : 0.0
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
 
     fileprivate func dependenciesSetup() {
@@ -316,12 +318,8 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
                 guard let this = self else { return }
                 this.delegate?.onKeypadVisibilityUpdated(visibility, animated: animated)
             }
-        case .updatePrimaryLabel(let value, let offset):
+        case .updatePrimaryLabel(let value):
             primaryAmountLabel.attributedText = value
-            guard primaryLabelCenterXConstraint.constant != offset else { return }
-            primaryLabelCenterXConstraint.constant = offset
-            view.setNeedsLayout()
-            view.layoutIfNeeded()
         case .updateSecondaryLabel(let value):
             secondaryAmountLabel.text = value
         case .wiggleInputLabels:
@@ -358,26 +356,6 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
 
             errorLabel.attributedText = primary
         }
-    }
-    
-    func styleTemplate() -> ExchangeStyleTemplate {
-        
-        let primary = UIFont(
-            name: ExchangeCreateViewController.primaryFontName,
-            size: ExchangeCreateViewController.primaryFontSize
-        ) ?? UIFont.systemFont(ofSize: 17.0)
-        
-        let secondary = UIFont(
-            name: ExchangeCreateViewController.secondaryFontName,
-            size: ExchangeCreateViewController.secondaryFontSize
-        ) ?? UIFont.systemFont(ofSize: 17.0)
-        
-        return ExchangeStyleTemplate(
-            primaryFont: primary,
-            secondaryFont: secondary,
-            textColor: .brandPrimary,
-            pendingColor: UIColor.brandPrimary.withAlphaComponent(0.5)
-        )
     }
 
     fileprivate func useErrorTierLimitAttributes() -> [NSAttributedString.Key: Any] {

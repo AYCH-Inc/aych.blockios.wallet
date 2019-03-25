@@ -10,7 +10,6 @@
 
 @protocol SetupDelegate
 - (void)enableTouchIDClicked:(void (^_Nonnull)(BOOL success))completion;
-- (void)onWalletSetupViewControllerCompleted;
 @end
 
 @interface WalletSetupViewController : UIViewController

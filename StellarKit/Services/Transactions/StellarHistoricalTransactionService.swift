@@ -11,7 +11,7 @@ import PlatformKit
 import RxSwift
 import stellarsdk
 
-public class StellarHistoricalTransactionService: HistoricalTransactionAPI {
+public class StellarHistoricalTransactionService: TokenizedHistoricalTransactionAPI {
     
     fileprivate let configuration: StellarConfiguration
     lazy var service: stellarsdk.OperationsService = {

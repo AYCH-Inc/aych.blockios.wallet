@@ -95,6 +95,7 @@ struct Constants {
         static let IsUsingScreenSizeLargerThan5s = UIScreen.main.bounds.size.height > Measurements.ScreenHeightIphone5S
     }
     struct NotificationKeys {
+        static let walletSetupViewControllerDismissed = NSNotification.Name("walletSetupDismissed")
         static let modalViewDismissed = NSNotification.Name("modalViewDismissed")
         static let reloadToDismissViews = NSNotification.Name("reloadToDismissViews")
         static let newAddress = NSNotification.Name("newAddress")
@@ -173,6 +174,10 @@ struct Constants {
     @objc class func animationDuration() -> Double { return Constants.Animation.duration }
 
     @objc class func animationDurationLong() -> Double { return Constants.Animation.durationLong }
+    
+    @objc class func walletSetupDismissedNotification() -> String {
+        return Constants.NotificationKeys.walletSetupViewControllerDismissed.rawValue
+    }
 
     @objc class func notificationKeyModalViewDismissed() -> String {
         return Constants.NotificationKeys.modalViewDismissed.rawValue

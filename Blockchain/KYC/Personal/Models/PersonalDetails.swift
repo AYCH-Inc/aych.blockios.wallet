@@ -28,3 +28,14 @@ struct PersonalDetails: Codable {
         self.birthday = birthday
     }
 }
+
+extension PersonalDetails {
+    /// This is used to forward a user past the Personal Details screen in
+    /// KYC. Whether or not they have an identifier doesn't matter. 
+    var isComplete: Bool {
+        if let first = firstName, let last = lastName {
+            return first.count > 0 && last.count > 0 && birthday != nil
+        }
+        return false
+    }
+}

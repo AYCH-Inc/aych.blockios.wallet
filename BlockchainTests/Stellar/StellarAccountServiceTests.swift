@@ -68,7 +68,6 @@ fileprivate extension StellarLedger {
             operationCount: 0,
             closedAt: Date(),
             totalCoins: "",
-            feePool: "",
             baseFeeInStroops: nil,
             baseReserveInStroops: baseReserveInStroops
         )

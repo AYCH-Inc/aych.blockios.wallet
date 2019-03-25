@@ -893,7 +893,7 @@ struct LocalizationConstants {
             comment: "Description of an alert that notifies the user that airdrop registration has succeded"
         )
         static let bottomSheetCoinifyInfoTitle = NSLocalizedString("More Info Needed", comment: "Title of an alert informing a user that personal information needs to be updated.")
-        static let bottomSheetCoinifyInfoDescription = NSLocalizedString("To keep using Buy & Sell, we'll need you to update your profile. We'll airdrop $25 of XLM as a thank you when you do!", comment: "Description of an alert informing a user that personal information needs to be updated.")
+        static let bottomSheetCoinifyInfoDescription = NSLocalizedString("To keep using Buy & Sell, we'll need you to update your profile. We'll airdrop $50 of XLM as a thank you when you do!", comment: "Description of an alert informing a user that personal information needs to be updated.")
         static let updateNow = NSLocalizedString("Update Now", comment: "Title of a button that a user can tap on to update their information")
         static let learnMore = NSLocalizedString("Learn More", comment: "Title of a button that a user can tap on to learn more about an announcement")
         static let bottomSheetFreeCryptoTitle = NSLocalizedString(
@@ -1856,9 +1856,9 @@ struct LocalizationConstants {
             "Safely store your crypto currency offline.",
             comment: "Subtitle prompting the user to buy a lockbox."
         )
-        static let buyNowFor99 = NSLocalizedString(
-            "Buy Now for $99",
-            comment: "Price of a lockbox."
+        static let buyNow = NSLocalizedString(
+            "Buy Now",
+            comment: "Buy now CTA for a lockbox device."
         )
         static let alreadyOwnOne = NSLocalizedString(
             "Already own one?",
@@ -1986,7 +1986,7 @@ struct LocalizationConstants {
             comment: "Title displayed in the onboarding card showing that we support Stellar."
         )
         static let weNowSupportStellarDescription = NSLocalizedString(
-            "XLM is a token that enables quick, low cost global transactions. Send, receive, and trade XLM in the wallet today. Join the waitlist to",
+            "XLM is a token that enables quick, low cost global transactions. Send, receive, and trade XLM in the wallet today.",
             comment: "Description displayed in the onboarding card showing that we support Stellar."
         )
         static let claimYourFreeXLMNow = NSLocalizedString(

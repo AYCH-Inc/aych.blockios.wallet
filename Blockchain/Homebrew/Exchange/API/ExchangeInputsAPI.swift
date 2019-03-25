@@ -7,35 +7,21 @@
 //
 
 import Foundation
+import PlatformKit
 
 protocol ExchangeInputsAPI: class {
     
-    var activeInput: String { get }
-    var isUsingFiat: Bool { get set }
-    var inputComponents: ExchangeInputComponents { get set }
-    
-    func setup(with template: ExchangeStyleTemplate, usingFiat: Bool)
-    
-    func primaryFiatAttributedString(currencySymbol: String) -> NSAttributedString
-    func primaryAssetAttributedString(symbol: String) -> NSAttributedString
-    func estimatedSymbolWidth(currencySymbol: String, template: ExchangeStyleTemplate) -> CGFloat
-    
-    func maxFiatInteger() -> Int
-    func maxAssetInteger() -> Int
-    func maxFiatFractional() -> Int
-    func maxAssetFractional(type: AssetType) -> Int
+    var activeInputValue: String { get }
+    var inputViewModel: ExchangeInputViewModel { get set }
+    var fiatValue: FiatValue? { get }
+    var cryptoValue: CryptoValue? { get }
+    var attributedInputValue: NSAttributedString { get }
     
     func canBackspace() -> Bool
-    func canAddFiatCharacter(_ character: String) -> Bool
-    func canAddAssetCharacter(_ character: String, type: AssetType) -> Bool
-    func canAddFractionalFiat() -> Bool
-    func canAddFractionalAsset(type: AssetType) -> Bool
-    func canAddDelimiter() -> Bool
-    
-    func add(character: String)
-    func add(delimiter: String)
+    func canAdd(character: Character) -> Bool
+    func add(character: Character)
 
     func clear()
     func backspace()
-    func toggleInput(withOutput output: String)
+    func toggleInput(inputType: InputType, withOutput output: String)
 }

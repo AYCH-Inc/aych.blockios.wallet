@@ -44,6 +44,7 @@ class StellarLedgerService: StellarLedgerAPI {
                 switch response {
                 case .success(let value):
                     if let input = value.records.first {
+                        
                         let ledger = StellarLedger(
                             identifier: input.id,
                             token: input.pagingToken,
@@ -52,7 +53,6 @@ class StellarLedgerService: StellarLedgerAPI {
                             operationCount: input.operationCount,
                             closedAt: input.closedAt,
                             totalCoins: input.totalCoins,
-                            feePool: input.feePool,
                             baseFeeInStroops: input.baseFeeInStroops,
                             baseReserveInStroops: input.baseReserveInStroops
                         )

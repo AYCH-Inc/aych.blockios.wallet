@@ -401,7 +401,10 @@ class TradeExecutionService: TradeExecutionAPI {
                         transactionID,
                         paymentError as? NabuNetworkError
                     )
-                }, onCompleted: success)
+                }, onCompleted: {
+                    executionDone()
+                    success()
+                })
             disposables.insertWithDiscardableResult(disposable)
         } else {
             isExecuting = true

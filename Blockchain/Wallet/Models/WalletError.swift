@@ -8,6 +8,6 @@
 
 import Foundation
 
-enum WalletError: Error {
+enum WalletError: Error, Equatable {
     case notInitialized
 }

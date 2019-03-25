@@ -42,7 +42,7 @@
 - (id)init
 {
     if (self = [super init]) {
-        [self setupNotifications];
+        [self registerForNotifications];
     }
     return self;
 }

@@ -107,6 +107,13 @@ public class AlertView: UIView {
         apply(model: model)
     }
     
+    public func registerForNotifications() {
+        NotificationCenter.when(.UIApplicationDidEnterBackground) { [weak self] _ in
+            guard let self = self else { return }
+            self.teardown()
+        }
+    }
+    
     // MARK: Private
     
     fileprivate func apply(model: AlertModel) {
@@ -213,6 +220,7 @@ public class AlertView: UIView {
         case .sheet:
             presentSheetView()
         }
+        registerForNotifications()
     }
     
     fileprivate func presentDefaultView() {

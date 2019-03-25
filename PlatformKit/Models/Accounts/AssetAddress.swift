@@ -9,6 +9,5 @@
 import Foundation
 
 public protocol AssetAddress {
-    var isImported: Bool { get }
     var publicKey: String { get }
 }

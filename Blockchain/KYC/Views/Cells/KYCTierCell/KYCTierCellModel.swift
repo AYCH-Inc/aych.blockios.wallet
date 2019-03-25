@@ -59,6 +59,11 @@ extension KYCTierCellModel {
         guard hide.contains(where: { $0 == self.status }) == false else { return .hidden }
         return .visible
     }
+    
+    var durationEstimateVisibility: Visibility {
+        guard status == .none else { return .hidden }
+        return .visible
+    }
 }
 
 extension KYCTierCellModel.ApprovalStatus {

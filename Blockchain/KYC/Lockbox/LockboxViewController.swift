@@ -57,7 +57,7 @@ class LockboxViewController: UIViewController {
             mainCardTitleLabel.text = LocalizationConstants.Lockbox.getYourLockbox
             mainCardDescriptionLabel.text = LocalizationConstants.Lockbox.safelyStoreYourLockbox
             mainCardImageView.image = #imageLiteral(resourceName: "Image-LockboxDevice")
-            mainCardButton.setTitle(LocalizationConstants.Lockbox.buyNowFor99, for: .normal)
+            mainCardButton.setTitle(LocalizationConstants.Lockbox.buyNow, for: .normal)
 
             addShadow(to: announcementCardView.layer)
             announcementCardTitleLabel.text = LocalizationConstants.Lockbox.alreadyOwnOne

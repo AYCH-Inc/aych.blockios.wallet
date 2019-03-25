@@ -20,7 +20,7 @@ target 'Blockchain' do
   pod 'RxSwift', '~> 4.0'
   pod 'Starscream', '~> 3.0.2'
   pod 'SwiftLint'
-  pod 'stellar-ios-mac-sdk', :git => 'https://github.com/thisisalexmcgregor/stellar-ios-mac-sdk', :commit => '672ec29bb3248eddd34878b694f773aa108c2528'
+  pod 'stellar-ios-mac-sdk', '~> 1.6.0'
   pod 'VeriffSDK', '~> 2.0.3'
 
   target 'BlockchainTests' do
@@ -32,30 +32,34 @@ target 'Blockchain' do
 end
 
 target 'StellarKit' do
-    pod 'RxSwift', '~> 4.0'
-    pod 'RxCocoa', '~> 4.0'
-    pod 'stellar-ios-mac-sdk', :git => 'https://github.com/thisisalexmcgregor/stellar-ios-mac-sdk', :commit => '672ec29bb3248eddd34878b694f773aa108c2528'
+  pod 'RxSwift', '~> 4.0'
+  pod 'RxCocoa', '~> 4.0'
+  pod 'stellar-ios-mac-sdk', '~> 1.6.0'
+end
 
+target 'EthereumKit' do
+  pod 'RxSwift', '~> 4.0'
+  pod 'RxCocoa', '~> 4.0'
 end
 
 target 'PlatformKit' do
-    inhibit_all_warnings!
+  inhibit_all_warnings!
+  pod 'RxSwift', '~> 4.0'
+  pod 'BigInt', '~> 3.1'
+  
+  target 'PlatformKitTests' do
+    inherit! :search_paths
+    # Pods for testing
     pod 'RxSwift', '~> 4.0'
     pod 'BigInt', '~> 3.1'
-    
-    target 'PlatformKitTests' do
-        inherit! :search_paths
-        # Pods for testing
-        pod 'RxSwift', '~> 4.0'
-        pod 'BigInt', '~> 3.1'
-    end
+  end
 end
 
 # Post Installation:
 # - Disable code signing for pods.
 post_install do |installer|
   installer.pods_project.build_configurations.each do |config|
-      config.build_settings.delete('CODE_SIGNING_ALLOWED')
-      config.build_settings.delete('CODE_SIGNING_REQUIRED')
+    config.build_settings.delete('CODE_SIGNING_ALLOWED')
+    config.build_settings.delete('CODE_SIGNING_REQUIRED')
   end
 end

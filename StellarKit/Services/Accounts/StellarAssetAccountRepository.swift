@@ -15,13 +15,7 @@ open class StellarAssetAccountRepository: AssetAccountRepositoryAPI {
     public typealias Details = StellarAssetAccountDetails
     
     public var assetAccountDetails: Maybe<Details> {
-        if let cached = privateAccountDetails.value {
-            return Maybe.just(cached)
-        }
-        guard let walletAccount = walletRepository.defaultAccount else {
-            return Maybe.error(StellarServiceError.noXLMAccount)
-        }
-        return fetchAssetAccountDetails(walletAccount.publicKey)
+        return currentAssetAccountDetails(fromCache: true)
     }
     
     fileprivate let service: StellarAssetAccountDetailsService
@@ -35,14 +29,8 @@ open class StellarAssetAccountRepository: AssetAccountRepositoryAPI {
         self.walletRepository = walletRepository
     }
     
-    deinit {
-        disposable?.dispose()
-        disposable = nil
-    }
-    
     // MARK: Private Properties
     
-    fileprivate var disposable: Disposable?
     fileprivate var privateAccountDetails = BehaviorRelay<Details?>(value: nil)
     
     // MARK: AssetAccountRepositoryAPI
@@ -55,9 +43,7 @@ open class StellarAssetAccountRepository: AssetAccountRepositoryAPI {
             return Maybe.error(StellarServiceError.noXLMAccount)
         }
         let accountID = walletAccount.publicKey
-        return service.accountDetails(for: accountID).do(onNext: { [weak self] account in
-            self?.privateAccountDetails.accept(account)
-        })
+        return fetchAssetAccountDetails(accountID)
     }
     
     // MARK: Private Functions

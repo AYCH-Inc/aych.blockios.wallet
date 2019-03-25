@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import PlatformKit
+import PlatformUIKit
 
 @objc class AuthenticationCoordinator: NSObject, Coordinator {
 
@@ -173,6 +174,7 @@ import PlatformKit
         self.deepLinkRouter = deepLinkRouter
         super.init()
         self.walletManager.secondPasswordDelegate = self
+        registerForNotifications()
     }
 
     deinit {
@@ -313,6 +315,13 @@ import PlatformKit
             pairingCodeParserViewController,
             animated: true
         )
+    }
+    
+    private func registerForNotifications() {
+        NotificationCenter.when(Constants.NotificationKeys.walletSetupViewControllerDismissed) { [weak self] _ in
+            guard let self = self else { return }
+            self.handlePostAuthenticationRouting()
+        }
     }
     
     private func handlePairingCodeResult(result: NewResult<PairingCodeQRCodeParser.PairingCode, PairingCodeQRCodeParser.PairingCodeParsingError>) {
@@ -658,10 +667,6 @@ extension AuthenticationCoordinator: SetupDelegate {
 
             completion(true)
         }
-    }
-
-    func onWalletSetupViewControllerCompleted() {
-        handlePostAuthenticationRouting()
     }
 }
 

@@ -9,7 +9,10 @@
 import PlatformKit
 
 public struct EthereumAssetAddress: AssetAddress {
-    public let isImported: Bool
     public let publicKey: String
+    
+    public init(publicKey: String) {
+        self.publicKey = publicKey
+    }
 }
 

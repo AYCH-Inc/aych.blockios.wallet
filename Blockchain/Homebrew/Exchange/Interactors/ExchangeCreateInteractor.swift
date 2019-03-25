@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import PlatformKit
 
 class ExchangeCreateInteractor {
 
@@ -107,9 +108,6 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
     }
     
     func setup() {
-        guard let output = output else { return }
-        guard let model = model else { return }
-        inputs.setup(with: output.styleTemplate(), usingFiat: model.isUsingFiat)
         
         updatedInput()
         
@@ -151,7 +149,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             Logger.shared.error("Updating input with no model")
             return
         }
-        model.volume = inputs.activeInput
+        model.volume = inputs.activeInputValue
 
         // Update interface to reflect what has been typed
         updateOutput()
@@ -169,17 +167,11 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         
         let secondaryAmount = conversions.output == "0" ? "0.00": conversions.output
         let secondaryResult = model.isUsingFiat ? (secondaryAmount + " " + suffix) : (symbol + secondaryAmount)
-        let primaryOffset = inputs.estimatedSymbolWidth(currencySymbol: symbol, template: output.styleTemplate())
 
-        if model.isUsingFiat {
-            let primary = inputs.primaryFiatAttributedString(currencySymbol: symbol)
-            output.updatedInput(primary: primary, secondary: secondaryResult, primaryOffset: -primaryOffset)
-        } else {
-            let assetType = model.isUsingBase ? model.pair.from : model.pair.to
-            let symbol = assetType.symbol
-            let primary = inputs.primaryAssetAttributedString(symbol: symbol)
-            output.updatedInput(primary: primary, secondary: secondaryResult, primaryOffset: -primaryOffset)
-        }
+        output.updatedInput(
+            primary: inputs.attributedInputValue,
+            secondary: secondaryResult
+        )
     }
 
     func updateTradingValues(left: String, right: String) {
@@ -189,17 +181,10 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
     func displayInputTypeTapped() {
         guard let model = model else { return }
         model.toggleFiatInput()
-        inputs.isUsingFiat = model.isUsingFiat
-        inputs.toggleInput(withOutput: conversions.output)
+        let assetType = model.isUsingBase ? model.pair.from : model.pair.to
+        let inputType: InputType = model.isUsingFiat ? .fiat : .nonfiat(assetType.toCryptoCurrency())
+        inputs.toggleInput(inputType: inputType, withOutput: conversions.output)
         updatedInput()
-    }
-    
-    func useMinimumAmount(assetAccount: AssetAccount) {
-        applyTradingLimit(limit: .min, assetAccount: assetAccount)
-    }
-    
-    func useMaximumAmount(assetAccount: AssetAccount) {
-        applyTradingLimit(limit: .max, assetAccount: assetAccount)
     }
 
     func toggleFix() {
@@ -232,33 +217,20 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             Logger.shared.error("Updating conversion with no model")
             return
         }
-        
-        guard canAddAdditionalCharacter(value) == true else {
+        guard inputs.canAdd(character: Character(value)) else {
             output?.entryRejected()
             return
         }
-        
-        inputs.add(
-            character: value
-        )
-        
+        inputs.add(character: Character(value))
         updatedInput()
     }
     
     func onDelimiterTapped(value: String) {
-        guard inputs.canAddDelimiter() else {
+        guard inputs.canAdd(character: Character(value)) else {
             output?.entryRejected()
             return
         }
-        
-        guard let model = model else { return }
-        
-        let text = model.isUsingFiat ? "00" : value
-        
-        inputs.add(
-            delimiter: text
-        )
-        
+        inputs.add(character: Character(value))
         updatedInput()
     }
 
@@ -306,8 +278,9 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                     this.output?.showError(message: message)
                 } else {
                     this.output?.showError(message: errorMessage)
-                    this.output?.loadingVisibility(.hidden)
                 }
+                
+                this.output?.loadingVisibility(.hidden)
             }
         )
     }
@@ -499,21 +472,15 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             
             let secondaryAmount = "0.00"
             let secondaryResult = model.isUsingFiat ? (secondaryAmount + " " + suffix) : (symbol + secondaryAmount)
-            let primaryOffset = this.inputs.estimatedSymbolWidth(currencySymbol: symbol, template: output.styleTemplate())
             
             /// When users are above or below the trading limit, `conversion.output` will not be updated
             /// with the correct conversion value. This is because the volume entered is either too little
             /// or too large. In this case we want the `secondaryAmountLabel` to read as `0.00`. We don't
-            /// want to update `conversion.output` manually though as that'd be a side-effect. 
-            if model.isUsingFiat {
-                let primary = this.inputs.primaryFiatAttributedString(currencySymbol: symbol)
-                output.updatedInput(primary: primary, secondary: secondaryResult, primaryOffset: -primaryOffset)
-            } else {
-                let assetType = model.isUsingBase ? model.pair.from : model.pair.to
-                let symbol = assetType.symbol
-                let primary = this.inputs.primaryAssetAttributedString(symbol: symbol)
-                output.updatedInput(primary: primary, secondary: secondaryResult, primaryOffset: -primaryOffset)
-            }
+            /// want to update `conversion.output` manually though as that'd be a side-effect.
+            output.updatedInput(
+                primary: this.inputs.attributedInputValue,
+                secondary: secondaryResult
+            )
             
             Logger.shared.error(socketError.description)
 
@@ -586,70 +553,11 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             return info(tradingLimits)
         }.asMaybe()
     }
-    
-    /// NOTE: This function currently is not in use as we are not supporting
-    /// `Use Max` or `Use Min` at this time. When it is supported you may not
-    /// use `assetAccount`. If you do you must inject the correct account from
-    /// `repository` in order to ensure you have the correct balance.
-    private func applyTradingLimit(limit: TradingLimit, assetAccount: AssetAccount) {
-        guard let model = model else { return }
-
-        // Dispose previous subscription
-        tradingLimitDisposable?.dispose()
-
-        // Update MarketsModel to baseInFiat and update view
-        model.fix = .baseInFiat
-        model.lastConversion = nil
-        inputs.isUsingFiat = true
-        clearInputs()
-        output?.updateTradingPair(pair: model.pair, fix: model.fix)
-
-        // Compute trading limit and take into account user's balance
-        let tradingLimitsSingle = tradeLimitService.getTradeLimits(
-            withFiatCurrency: model.fiatCurrencyCode,
-            ignoringCache: false)
-        let balanceFiatValue = markets.fiatBalance(
-            forAssetAccount: assetAccount,
-            fiatCurrencyCode: model.fiatCurrencyCode
-        )
-
-        tradingLimitDisposable = Single.zip(tradingLimitsSingle, balanceFiatValue.take(1).asSingle()) {
-            return ($0, $1)
-        }.subscribeOn(MainScheduler.asyncInstance)
-        .observeOn(MainScheduler.instance)
-        .subscribe(onSuccess: { [weak self] (limits, accountFiatValue) in
-            guard let strongSelf = self else { return }
-
-            let limitInDecimal: Decimal
-            switch limit {
-            case .min:
-                limitInDecimal = (accountFiatValue < limits.minOrder) ? accountFiatValue : limits.minOrder
-            case .max:
-                limitInDecimal = (accountFiatValue < limits.maxPossibleOrder) ? accountFiatValue : limits.maxPossibleOrder
-            }
-
-            guard let limitString = NumberFormatter.localCurrencyFormatter.string(for: limitInDecimal) else { return }
-            strongSelf.applyValue(stringValue: limitString)
-        }, onError: { error in
-            Logger.shared.error("Failed to compute trading limits: \(error)")
-        })
-    }
 
     private func clearInputs() {
         inputs.clear()
         conversions.clear()
         output?.updateTradingPairValues(left: "", right: "")
-    }
-
-    fileprivate func canAddAdditionalCharacter(_ value: String) -> Bool {
-        guard let model = model else { return false }
-        switch model.isUsingFiat {
-        case true:
-            return inputs.canAddFiatCharacter(value)
-        case false:
-            let assetType = model.isUsingBase ? model.pair.from : model.pair.to
-            return inputs.canAddAssetCharacter(value, type: assetType)
-        }
     }
 
     // Error message to show if the user is not allowed to trade a certain asset type
@@ -667,5 +575,23 @@ extension ExchangeRates {
             return ""
         }
         return "1 \(fromCurrency) = \(rate.price) \(toCurrency)"
+    }
+}
+
+fileprivate extension AssetType {
+    /// NOTE: This is used for `ExchangeInputViewModel`.
+    /// The view model can provide a `FiatValue` or `CryptoValue`. When
+    /// returning a `CryptoValue` we must provide the `CrptoValue` 
+    func toCryptoCurrency() -> CryptoCurrency {
+        switch self {
+        case .bitcoin:
+            return .bitcoin
+        case .bitcoinCash:
+            return .bitcoinCash
+        case .stellar:
+            return .stellar
+        case .ethereum:
+            return .ethereum
+        }
     }
 }

@@ -418,14 +418,6 @@ workflows:
             - install_deps
             - build_openssl
             - install_pods
-      - archive_and_export_production_ad_hoc:
-          filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)$/
-          requires:
-            - install_deps
-            - build_openssl
-            - install_pods
       - upload_app_store:
           filters:
             tags:
@@ -433,13 +425,6 @@ workflows:
           requires:
             - run_tests
             - archive_and_export_production_app_store
-      - upload_app_center:
-          filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)$/
-          requires:
-            - run_tests
-            - archive_and_export_production_ad_hoc
 
   # Create build and upload a staging to App Store Connect
   # - Only triggered on a new tag on the staging branch

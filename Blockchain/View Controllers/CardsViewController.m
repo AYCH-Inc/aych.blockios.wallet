@@ -63,9 +63,9 @@
     [self.actionHandler stellarAirdropCardActionTapped];
 }
 
-- (void)stellarModalKycCompletedActionTapped
+- (void)stellarModalPromptForAirdropRegistrationActionTapped
 {
-    [self.actionHandler stellarModalKycCompletedActionTapped];
+    [self.actionHandler stellarModalPromptForAirdropRegistrationActionTapped];
 }
 
 - (void)coinifyKycActionTapped

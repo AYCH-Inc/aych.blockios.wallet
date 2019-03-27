@@ -23,19 +23,6 @@ extension CardsViewController {
             guard hasSeenXLMModel == false, didDeepLink == false else { return }
             self.showStellarModalPromptForKyc()
         }
-
-        NotificationCenter.when(Constants.NotificationKeys.kycComplete) { [weak self] action in
-            guard let this = self else { return }
-            guard let userInfo = action.userInfo else { return }
-
-            guard let hasRegisteredForAirdrop = userInfo["hasRegistered"] as? Bool else { return }
-            guard hasRegisteredForAirdrop == false else { return }
-
-            guard let tier = userInfo["tier"] as? KYCTier else { return }
-            guard tier == .tier2 else { return }
-
-            this.showStellarModalPromptForAirdropRegistration()
-        }
     }
     
     @objc func reloadAllCards() {
@@ -111,6 +98,8 @@ extension CardsViewController {
             tiersResponse.canCompleteTier2 &&
             WalletManager.shared.wallet.isCoinifyTrader() &&
             !didShowCoinifyKycModal
+        let shouldShowStellarModalPromptForAirdropRegistration =
+            nabuUser.isSunriverAirdropRegistered == false && tiersResponse.isTier2Pending
 
         if shouldShowCoinifyKycModal {
             showCoinifyKycModal()
@@ -128,6 +117,9 @@ extension CardsViewController {
             if onboardingSettings.hasSeenGetFreeXlmModal == true {
                 showCompleteYourProfileCard()
             }
+            return true
+        } else if shouldShowStellarModalPromptForAirdropRegistration {
+            showStellarModalPromptForAirdropRegistration()
             return true
         } else if shouldShowStellarAirdropCard {
             showStellarAirdropCard()
@@ -268,7 +260,7 @@ extension CardsViewController {
         let alert = AlertView.make(with: alertModel) { action in
             switch action.style {
             case .confirm:
-                self.stellarModalKycCompletedActionTapped()
+                self.stellarModalPromptForAirdropRegistrationActionTapped()
             case .default,
                  .dismiss:
                 break

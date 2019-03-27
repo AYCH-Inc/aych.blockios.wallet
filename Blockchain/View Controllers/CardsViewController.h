@@ -26,6 +26,6 @@
 
 // Actions
 - (void)stellarAirdropCardActionTapped;
-- (void)stellarModalKycCompletedActionTapped;
+- (void)stellarModalPromptForAirdropRegistrationActionTapped;
 - (void)coinifyKycActionTapped;
 @end

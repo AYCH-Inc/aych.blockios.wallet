@@ -8,8 +8,9 @@
 
 import Foundation
 import RxSwift
-import StellarKit
 import PlatformKit
+import StellarKit
+import EthereumKit
 import BitcoinKit
 
 class TradeExecutionService: TradeExecutionAPI {
@@ -34,13 +35,16 @@ class TradeExecutionService: TradeExecutionAPI {
     
     struct Dependencies {
         let assetAccountRepository: AssetAccountRepository
+        let feeService: FeeServiceAPI
         let xlm: XLMDependencies
         
         init(
             repository: AssetAccountRepository = AssetAccountRepository.shared,
+            cryptoFeeService: FeeServiceAPI = FeeService.shared,
             xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared
         ) {
             assetAccountRepository = repository
+            feeService = cryptoFeeService
             xlm = XLMDependencies(xlm: xlmServiceProvider)
         }
     }
@@ -62,6 +66,18 @@ class TradeExecutionService: TradeExecutionAPI {
     private let disposables = CompositeDisposable()
     private var pendingXlmPaymentOperation: StellarPaymentOperation?
     
+    private var bitcoinTransactionFee: Single<BitcoinTransactionFee> {
+        return dependencies.feeService.bitcoin
+    }
+    
+    private var ethereumTransactionFee: Single<EthereumTransactionFee> {
+        return dependencies.feeService.ethereum
+    }
+    
+    private var stellarTransactionFee: Single<StellarTransactionFee> {
+        return dependencies.feeService.stellar
+    }
+    
     // MARK: TradeExecutionAPI
     
     var isExecuting: Bool = false
@@ -73,36 +89,6 @@ class TradeExecutionService: TradeExecutionAPI {
         default:
             return true
         }
-    }
-    
-    func bitcoinTransactionFee() -> Single<BitcoinTransactionFee> {
-        guard let baseURL = URL(string: BlockchainAPI.shared.apiUrl) else {
-            return .error(TradeExecutionAPIError.generic)
-        }
-        
-        guard let endpoint = URL.endpoint(
-            baseURL,
-            pathComponents: ["mempool", "fees", "btc"],
-            queryParameters: nil
-            ) else {
-            return .error(TradeExecutionAPIError.generic)
-        }
-        return NetworkRequest.GET(url: endpoint, type: BitcoinTransactionFee.self)
-    }
-    
-    func ethereumTransactionFee() -> Single<EthereumTransactionFee> {
-        guard let baseURL = URL(string: BlockchainAPI.shared.apiUrl) else {
-            return .error(TradeExecutionAPIError.generic)
-        }
-        
-        guard let endpoint = URL.endpoint(
-            baseURL,
-            pathComponents: ["mempool", "fees", "eth"],
-            queryParameters: nil
-            ) else {
-                return .error(TradeExecutionAPIError.generic)
-        }
-        return NetworkRequest.GET(url: endpoint, type: EthereumTransactionFee.self)
     }
     
     func validateVolume(_ volume: Decimal, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
@@ -279,31 +265,38 @@ class TradeExecutionService: TradeExecutionAPI {
 
         // TICKET: IOS-1550 Move this to a different service
         if assetType == .stellar {
-            guard let sourceAccount = dependencies.xlm.repository.defaultAccount,
-            let ledger = dependencies.xlm.ledgerAPI.currentLedger,
-            let fee = ledger.baseFeeInXlm,
-            let amount = Decimal(string: orderTransactionLegacy.amount) else { return }
-            
-            var paymentMemo: StellarMemoType?
-            if let value = memo {
-                paymentMemo = .text(value)
-            }
-
-            pendingXlmPaymentOperation = StellarPaymentOperation(
-                destinationAccountId: orderTransactionLegacy.to,
-                amountInXlm: amount,
-                sourceAccount: sourceAccount,
-                feeInXlm: fee,
-                memo: paymentMemo
-            )
-            createOrderPaymentSuccess("\(fee)")
+            let disposable = stellarTransactionFee.asObservable()
+                .catchErrorJustReturn(.default)
+                .subscribeOn(MainScheduler.asyncInstance)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onNext: { [weak self] stellarFee in
+                    guard let self = self else { return }
+                    
+                    guard let sourceAccount = self.dependencies.xlm.repository.defaultAccount,
+                        let ledger = self.dependencies.xlm.ledgerAPI.currentLedger,
+                        let amount = Decimal(string: orderTransactionLegacy.amount) else { return }
+                    
+                    var paymentMemo: StellarMemoType?
+                    if let value = memo {
+                        paymentMemo = .text(value)
+                    }
+                    
+                    let fee = stellarFee.regular.majorValue
+                    
+                    self.pendingXlmPaymentOperation = StellarPaymentOperation(
+                        destinationAccountId: orderTransactionLegacy.to,
+                        amountInXlm: amount,
+                        sourceAccount: sourceAccount,
+                        feeInXlm: fee,
+                        memo: paymentMemo
+                    )
+                    createOrderPaymentSuccess("\(fee)")
+                })
+            disposables.insertWithDiscardableResult(disposable)
         } else {
-            
-            let bitcoinFeeObservable = bitcoinTransactionFee().asObservable()
-            let ethereumFeeObservable = ethereumTransactionFee().asObservable()
             let disposable = Observable.zip(
-                bitcoinFeeObservable,
-                ethereumFeeObservable
+                    bitcoinTransactionFee.asObservable(),
+                    ethereumTransactionFee.asObservable()
                 )
                 /// Should either transaction fee fetches fail, we fall back to
                 /// default fee models.
@@ -542,35 +535,35 @@ fileprivate extension TradeExecutionService {
             gasLimit: nil
         )
         
-        let bitcoinFeeObservable = bitcoinTransactionFee().asObservable()
-        let ethereumFeeObservable = ethereumTransactionFee().asObservable()
-        let disposable = Observable.zip(bitcoinFeeObservable, ethereumFeeObservable)
-        .subscribeOn(MainScheduler.asyncInstance)
-        .observeOn(MainScheduler.instance)
-        .subscribe(onNext: { [weak self] (bitcoinFee, ethereumFee) in
-            guard let self = self else { return }
-            switch assetType {
-            case .bitcoin,
-                 .bitcoinCash:
-                orderTransactionLegacy.fees = bitcoinFee.priority.toDisplayString(includeSymbol: false)
-            case .ethereum:
-                orderTransactionLegacy.fees = ethereumFee.priorityGweiValue
-                orderTransactionLegacy.gasLimit = String(ethereumFee.gasLimit)
-            case .stellar:
-                break
-            }
-            
-            self.buildOrder(
-                from: orderTransactionLegacy,
-                transactionID: orderResult.id,
-                success: success,
-                error: error,
-                memo: orderResult.depositMemo
+        let disposable = Observable.zip(
+                bitcoinTransactionFee.asObservable(),
+                ethereumTransactionFee.asObservable()
             )
-        }, onError: { networkError in
-            error(networkError.localizedDescription, nil, nil)
-        })
-        
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] (bitcoinFee, ethereumFee) in
+                guard let self = self else { return }
+                switch assetType {
+                case .bitcoin,
+                     .bitcoinCash:
+                    orderTransactionLegacy.fees = bitcoinFee.priority.toDisplayString(includeSymbol: false)
+                case .ethereum:
+                    orderTransactionLegacy.fees = ethereumFee.priorityGweiValue
+                    orderTransactionLegacy.gasLimit = String(ethereumFee.gasLimit)
+                case .stellar:
+                    break
+                }
+                
+                self.buildOrder(
+                    from: orderTransactionLegacy,
+                    transactionID: orderResult.id,
+                    success: success,
+                    error: error,
+                    memo: orderResult.depositMemo
+                )
+            }, onError: { networkError in
+                error(networkError.localizedDescription, nil, nil)
+            })
         disposables.insertWithDiscardableResult(disposable)
     }
 }

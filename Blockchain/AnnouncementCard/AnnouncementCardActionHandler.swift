@@ -33,10 +33,8 @@ import PlatformUIKit
         })
     }
 
-    @objc func stellarModalKycCompletedActionTapped() {
-        let appSettings = BlockchainSettings.App.shared
+    @objc func stellarModalPromptForAirdropRegistrationActionTapped() {
         stellarAirdropRouter.registerForCampaign(success: { user in
-            appSettings.didRegisterForAirdropCampaignSucceed = true
             let okAction = AlertAction(title: LocalizationConstants.okString, style: .confirm)
             let alertModel = AlertModel(
                 headline: LocalizationConstants.AnnouncementCards.registerAirdropSuccessTitle,
@@ -46,7 +44,6 @@ import PlatformUIKit
             let alert = AlertView.make(with: alertModel, completion: nil)
             alert.show()
         }, error: { error in
-            appSettings.didRegisterForAirdropCampaignSucceed = false
             AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
         })
     }

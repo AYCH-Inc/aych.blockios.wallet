@@ -35,7 +35,6 @@ protocol KYCCoordinatorDelegate: class {
 
     weak var delegate: KYCCoordinatorDelegate?
 
-    static let kycCompleteNotification: String = "kycCompleteNotification"
     static let shared = KYCCoordinator()
 
     @objc class func sharedInstance() -> KYCCoordinator {
@@ -128,12 +127,6 @@ protocol KYCCoordinatorDelegate: class {
     // Called when the entire KYC process has been completed.
     @objc func finish() {
         stop()
-        let hasRegisteredForAirdrop = user?.tags?.sunriver != nil
-        NotificationCenter.default.post(
-            name: Constants.NotificationKeys.kycComplete,
-            object: nil,
-            userInfo: ["tier": pager.tier, "hasRegistered": hasRegisteredForAirdrop]
-        )
     }
 
     // Called when the KYC process is completed or stopped before completing.

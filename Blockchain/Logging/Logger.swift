@@ -66,6 +66,10 @@ import Foundation
     ) {
         log(message, level: .error, file: file, function: function, line: line)
     }
+    
+    func error(_ error: Error) {
+        log(error.localizedDescription, level: .error)
+    }
 
     func log (
         _ message: String,

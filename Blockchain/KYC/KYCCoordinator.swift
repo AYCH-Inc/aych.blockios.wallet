@@ -189,7 +189,7 @@ protocol KYCCoordinatorDelegate: class {
                         return
                     }
                     strongSelf.kycSettings.isCompletingKyc = false
-                    if strongSelf.appSettings.didRegisterForAirdropCampaignSucceed && strongSelf.pager.tier == .tier2 {
+                    if strongSelf.user?.isSunriverAirdropRegistered == true && strongSelf.pager.tier == .tier2 {
                         strongSelf.presentAccountStatusView(
                             for: .pending,
                             in: strongSelf.navController
@@ -207,7 +207,7 @@ protocol KYCCoordinatorDelegate: class {
         in viewController: UIViewController
     ) {
         let accountStatusViewController = KYCInformationController.make(with: self)
-        let isReceivingAirdrop = appSettings.didRegisterForAirdropCampaignSucceed
+        let isReceivingAirdrop = user?.isSunriverAirdropRegistered == true
         accountStatusViewController.viewModel = KYCInformationViewModel.create(
             for: status,
             isReceivingAirdrop: isReceivingAirdrop
@@ -293,7 +293,7 @@ protocol KYCCoordinatorDelegate: class {
     }
 
     private func initializeNavigationStack(_ viewController: UIViewController, user: NabuUser, tier: KYCTier) {
-        let startingPage = appSettings.didRegisterForAirdropCampaignSucceed ?
+        let startingPage = user.isSunriverAirdropRegistered == true ?
             KYCPageType.welcome :
             KYCPageType.startingPage(forUser: user)
         let startingViewController = pageFactory.createFrom(

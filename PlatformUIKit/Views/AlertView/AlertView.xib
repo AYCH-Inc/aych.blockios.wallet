@@ -10,9 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Montserrat-Medium.ttf">
-            <string>Montserrat-Medium</string>
-        </array>
         <array key="Montserrat-SemiBold.ttf">
             <string>Montserrat-SemiBold</string>
         </array>
@@ -24,18 +21,26 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="314"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T0n-w3-J1V">
+                    <rect key="frame" x="171.5" y="8" width="32" height="4"/>
+                    <color key="backgroundColor" red="0.80000000000000004" green="0.81999999999999995" blue="0.87" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="32" id="5RU-7c-fkz"/>
+                        <constraint firstAttribute="height" constant="4" id="8wT-Tf-n36"/>
+                    </constraints>
+                </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Tub-Tv-IPM">
-                    <rect key="frame" x="20" y="36" width="335" height="108"/>
+                    <rect key="frame" x="20" y="40" width="335" height="100"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Need some help?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMH-3h-xM5">
-                            <rect key="frame" x="90" y="0.0" width="155.5" height="30.5"/>
-                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="18"/>
-                            <color key="textColor" red="0.0" green="0.28999999999999998" blue="0.48999999999999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <rect key="frame" x="89" y="0.0" width="157.5" height="30.5"/>
+                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
+                            <color key="textColor" red="0.029999999999999999" green="0.28999999999999998" blue="0.47999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Our Blockchain Support Team has written Help Guides explaining why we need to verify your identity." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TS2-x6-RO5">
-                            <rect key="frame" x="1" y="34.5" width="333" height="73.5"/>
-                            <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                            <rect key="frame" x="19" y="34.5" width="297.5" height="65.5"/>
+                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
                             <color key="textColor" red="0.35999999999999999" green="0.35999999999999999" blue="0.35999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -82,7 +87,7 @@
                     </constraints>
                 </stackView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="26G-g9-uGa">
-                    <rect key="frame" x="187.5" y="20" width="0.0" height="0.0"/>
+                    <rect key="frame" x="187.5" y="24" width="0.0" height="0.0"/>
                     <constraints>
                         <constraint firstAttribute="width" id="iB7-i6-wqH"/>
                         <constraint firstAttribute="height" id="imc-cV-nyc"/>
@@ -92,12 +97,12 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="bWz-z9-ZgB" firstAttribute="bottom" secondItem="vXl-SB-GNz" secondAttribute="bottom" constant="24" id="4Ri-RF-CK2"/>
-                <constraint firstItem="26G-g9-uGa" firstAttribute="top" secondItem="bWz-z9-ZgB" secondAttribute="top" constant="20" id="6y4-9B-os9"/>
+                <constraint firstItem="T0n-w3-J1V" firstAttribute="top" secondItem="bWz-z9-ZgB" secondAttribute="top" constant="8" id="EsW-gE-XLW"/>
                 <constraint firstItem="OHT-0b-NgS" firstAttribute="width" secondItem="Tub-Tv-IPM" secondAttribute="width" id="GS8-5C-Fc8"/>
                 <constraint firstItem="dJ3-ZU-F1W" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="XMH-3h-xM5" secondAttribute="trailing" constant="4" id="NOf-xA-Jro"/>
                 <constraint firstAttribute="trailing" secondItem="Tub-Tv-IPM" secondAttribute="trailing" constant="20" id="YNZ-eu-CAw"/>
                 <constraint firstItem="vXl-SB-GNz" firstAttribute="leading" secondItem="Gdl-5C-h42" secondAttribute="leading" constant="20" id="cNo-Ih-1xu"/>
-                <constraint firstItem="vXl-SB-GNz" firstAttribute="top" secondItem="Tub-Tv-IPM" secondAttribute="bottom" constant="20" id="cam-kl-GcA"/>
+                <constraint firstItem="vXl-SB-GNz" firstAttribute="top" secondItem="Tub-Tv-IPM" secondAttribute="bottom" constant="24" id="cam-kl-GcA"/>
                 <constraint firstItem="26G-g9-uGa" firstAttribute="centerX" secondItem="bWz-z9-ZgB" secondAttribute="centerX" id="cff-tM-gmj"/>
                 <constraint firstItem="Zpf-og-7yj" firstAttribute="width" secondItem="Tub-Tv-IPM" secondAttribute="width" id="cx1-UI-8tH"/>
                 <constraint firstAttribute="trailing" secondItem="vXl-SB-GNz" secondAttribute="trailing" constant="20" id="gL8-6A-26H"/>
@@ -105,6 +110,8 @@
                 <constraint firstItem="Tub-Tv-IPM" firstAttribute="leading" secondItem="Gdl-5C-h42" secondAttribute="leading" constant="20" id="i37-1Y-vzo"/>
                 <constraint firstItem="Tub-Tv-IPM" firstAttribute="top" secondItem="26G-g9-uGa" secondAttribute="bottom" constant="16" id="nct-qP-Gsf"/>
                 <constraint firstAttribute="trailing" secondItem="dJ3-ZU-F1W" secondAttribute="trailing" constant="24" id="ndg-cR-Rls"/>
+                <constraint firstItem="T0n-w3-J1V" firstAttribute="centerX" secondItem="26G-g9-uGa" secondAttribute="centerX" id="tNY-FE-jOx"/>
+                <constraint firstItem="26G-g9-uGa" firstAttribute="top" secondItem="bWz-z9-ZgB" secondAttribute="top" constant="24" id="z6y-aM-pfb"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="bWz-z9-ZgB"/>
@@ -112,12 +119,15 @@
                 <outlet property="closeButton" destination="dJ3-ZU-F1W" id="bMa-jb-UpC"/>
                 <outlet property="confirmButton" destination="OHT-0b-NgS" id="yqL-bC-UPt"/>
                 <outlet property="defaultButton" destination="Zpf-og-7yj" id="Atx-Ck-XmU"/>
+                <outlet property="defaultButtonHeightConstraint" destination="LRx-yo-pUP" id="jAI-EH-85G"/>
                 <outlet property="headline" destination="XMH-3h-xM5" id="Aau-UB-4ah"/>
                 <outlet property="headlineTrailingConstraint" destination="NOf-xA-Jro" id="Tfw-d6-KUo"/>
                 <outlet property="imageView" destination="26G-g9-uGa" id="TFJ-0x-kvd"/>
                 <outlet property="imageViewHeightConstraint" destination="imc-cV-nyc" id="isS-dB-RV9"/>
                 <outlet property="imageViewWidthConstraint" destination="iB7-i6-wqH" id="Ua4-26-O2x"/>
                 <outlet property="message" destination="TS2-x6-RO5" id="gfk-hm-y78"/>
+                <outlet property="notch" destination="T0n-w3-J1V" id="rVN-gW-ehh"/>
+                <outlet property="okayButtonHeightConstraint" destination="WVf-p4-yau" id="CoP-RZ-qW2"/>
             </connections>
             <point key="canvasLocation" x="288.80000000000001" y="-156.52173913043478"/>
         </view>

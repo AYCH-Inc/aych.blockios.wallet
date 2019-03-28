@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import PlatformKit
+import PlatformUIKit
 
 protocol ExchangeCreateInterface: class {
     typealias ViewUpdate = ExchangeCreateViewController.ViewUpdate
@@ -36,9 +38,9 @@ protocol ExchangeCreateInterface: class {
     func apply(animatedUpdate: AnimatedUpdate)
     func apply(transitionPresentation: AnimatedTransitionUpdate)
 
+    func exchangeStatusUpdated()
     func exchangeButtonEnabled(_ enabled: Bool)
-
-    func isShowingConversionRatesView() -> Bool
+    
     func isExchangeButtonEnabled() -> Bool
 
     func showTiers()
@@ -48,7 +50,6 @@ protocol ExchangeCreateInterface: class {
 protocol ExchangeCreateInput: NumberKeypadViewDelegate {
     func setup()
     func resume()
-    func displayInputTypeTapped()
     func confirmationIsExecuting() -> Bool
     func confirmConversion()
     func changeMarketPair(marketPair: MarketPair)
@@ -57,17 +58,17 @@ protocol ExchangeCreateInput: NumberKeypadViewDelegate {
 protocol ExchangeCreateOutput: class {
     func entryRejected()
     func updatedInput(primary: NSAttributedString?, secondary: String?)
-    func updatedRates(first: String, second: String, third: String)
+    func updateRateMetadata(_ metadata: ExchangeRateMetadata)
+    func updateBalance(cryptoValue: CryptoValue, fiatValue: FiatValue)
     func updateTradingPairValues(left: String, right: String)
     func updateTradingPair(pair: TradingPair, fix: Fix)
-    func insufficientFunds(balance: String)
-    func showError(message: String)
-    func entryBelowMinimumValue(minimum: String)
-    func entryAboveMaximumValue(maximum: String)
-    func entryAboveTierLimit(amount: String)
+    func errorReceived()
+    func tradeValidationInFlight()
+    func errorDismissed()
     func loadingVisibility(_ visibility: Visibility)
-    func hideError()
     func exchangeButtonVisibility(_ visibility: Visibility)
     func exchangeButtonEnabled(_ enabled: Bool)
     func showSummary(orderTransaction: OrderTransaction, conversion: Conversion)
+
+    var status: ExchangeInteractorStatus { get }
 }

@@ -66,6 +66,14 @@ public extension NSAttributedString {
         }
         return copy() as! NSAttributedString
     }
+    
+    public static func lineBreak() -> NSAttributedString {
+        return NSAttributedString(string: "\n")
+    }
+    
+    public static func space() -> NSAttributedString {
+        return NSAttributedString(string: " ")
+    }
 }
 
 extension Sequence where Element: NSAttributedString {

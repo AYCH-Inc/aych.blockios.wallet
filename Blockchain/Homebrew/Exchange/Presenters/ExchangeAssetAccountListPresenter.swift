@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 enum ExchangeAction {
     case exchanging
@@ -30,6 +31,7 @@ class ExchangeAssetAccountListPresenter {
 
     private weak var view: ExchangeAssetAccountListView?
     private let assetAccountRepository: AssetAccountRepository
+    private let disposables = CompositeDisposable()
 
     init(
         view: ExchangeAssetAccountListView,
@@ -40,10 +42,14 @@ class ExchangeAssetAccountListPresenter {
     }
 
     func presentPicker(excludingAccount assetAccount: AssetAccount?, for action: ExchangeAction) {
-        let accountsToPick = assetAccountRepository.allAccounts().filter { account -> Bool in
-            guard let excluding = assetAccount else { return true }
-            return account != excluding
-        }
-        view?.showPicker(for: accountsToPick, action: action)
+        let disposable = assetAccountRepository.accounts
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] accounts in
+                guard let self = self else { return }
+                let available = accounts.filter({ $0 != assetAccount })
+                self.view?.showPicker(for: available, action: action)
+            })
+        disposables.insertWithDiscardableResult(disposable)
     }
 }

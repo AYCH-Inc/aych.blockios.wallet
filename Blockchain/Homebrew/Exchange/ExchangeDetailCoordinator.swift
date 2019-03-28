@@ -71,126 +71,142 @@ class ExchangeDetailCoordinator: NSObject {
 
             switch model.pageType {
             case .confirm(let orderTransaction, let conversion):
-                interface?.updateBackgroundColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
-                interface?.updateNavigationBar(appearance: NavigationBarAppearanceLight, color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
-                interface?.updateTitle(LocalizationConstants.Swap.confirmSwap)
-
-                let pair = ExchangeCellModel.TradingPair(
-                    model: TradingPairView.confirmationModel(for: conversion)
-                )
-
-                let value = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.value,
-                    value: valueString(for: conversion.quote.currencyRatio.counter.fiat.value, currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol),
-                    backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
-                )
-
-                let fees = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.fees,
-                    value: orderTransaction.fees + " " + orderTransaction.from.address.assetType.symbol,
-                    backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
-                )
-
-                let receive = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.receive,
-                    value: orderTransaction.amountToReceive + " " + TradingPair(string: conversion.quote.pair)!.to.symbol,
-                    backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1),
-                    bold: true
-                )
-
-                let sendTo = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.sendTo,
-                    value: accountRepository.nameOfAccountContaining(address: orderTransaction.destination.address.address),
-                    backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
-                )
-                
-                cellModels.append(contentsOf: [
-                    .tradingPair(pair),
-                    .plain(value),
-                    .plain(fees),
-                    .plain(receive),
-                    .plain(sendTo)
-                    ]
-                )
-                
-                let footer = ActionableFooterModel(
-                    title: LocalizationConstants.Exchange.confirm,
-                    description: LocalizationConstants.Exchange.amountVariation +  " \n\n " + LocalizationConstants.Exchange.orderStartDisclaimer
-                )
-                
-                current.cells = cellModels
-                current.footer = footer
-
-                interface?.mostRecentOrderTransaction = orderTransaction
-                interface?.mostRecentConversion = conversion
-
-                delegate?.coordinator(self, updated: current)
+                let disposable = accountRepository.nameOfAccountContaining(address: orderTransaction.destination.address.address).asObservable()
+                    .take(1)
+                    .subscribeOn(MainScheduler.asyncInstance)
+                    .observeOn(MainScheduler.instance)
+                    .subscribe(onNext: { [weak self] name in
+                        guard let self = self else { return }
+                        self.interface?.updateBackgroundColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
+                        self.interface?.updateNavigationBar(appearance: NavigationBarAppearanceLight, color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
+                        self.interface?.updateTitle(LocalizationConstants.Swap.confirmSwap)
+                        
+                        let pair = ExchangeCellModel.TradingPair(
+                            model: TradingPairView.confirmationModel(for: conversion)
+                        )
+                        
+                        let value = ExchangeCellModel.Plain(
+                            description: LocalizationConstants.Exchange.value,
+                            value: self.valueString(for: conversion.quote.currencyRatio.counter.fiat.value, currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol),
+                            backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
+                        )
+                        
+                        let fees = ExchangeCellModel.Plain(
+                            description: LocalizationConstants.Exchange.fees,
+                            value: orderTransaction.fees + " " + orderTransaction.from.address.assetType.symbol,
+                            backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
+                        )
+                        
+                        let receive = ExchangeCellModel.Plain(
+                            description: LocalizationConstants.Exchange.receive,
+                            value: orderTransaction.amountToReceive + " " + TradingPair(string: conversion.quote.pair)!.to.symbol,
+                            backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1),
+                            bold: true
+                        )
+                        
+                        let sendTo = ExchangeCellModel.Plain(
+                            description: LocalizationConstants.Exchange.sendTo,
+                            value: name,
+                            backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
+                        )
+                        
+                        cellModels.append(contentsOf: [
+                            .tradingPair(pair),
+                            .plain(value),
+                            .plain(fees),
+                            .plain(receive),
+                            .plain(sendTo)
+                            ]
+                        )
+                        
+                        let footer = ActionableFooterModel(
+                            title: LocalizationConstants.Exchange.confirm,
+                            description: LocalizationConstants.Exchange.amountVariation +  " \n\n " + LocalizationConstants.Exchange.orderStartDisclaimer
+                        )
+                        
+                        self.current.cells = cellModels
+                        self.current.footer = footer
+                        
+                        self.interface?.mostRecentOrderTransaction = orderTransaction
+                        self.interface?.mostRecentConversion = conversion
+                        
+                        self.delegate?.coordinator(self, updated: self.current)
+                    })
+                disposables.insertWithDiscardableResult(disposable)
             case .locked(let orderTransaction, let conversion):
-                interface?.updateBackgroundColor(.brandPrimary)
-                interface?.updateNavigationBar(appearance: NavigationBarAppearanceDark, color: .brandPrimary)
-                interface?.updateTitle(LocalizationConstants.Swap.swapLocked)
-                interface?.navigationBarVisibility(.hidden)
-
-                let pair = ExchangeCellModel.TradingPair(
-                    model: TradingPairView.confirmationModel(for: conversion)
-                )
-
-                let value = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.value,
-                    value: valueString(
-                        for: conversion.quote.currencyRatio.counter.fiat.value,
-                        currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol
-                    )
-                )
-
-                let fees = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.fees,
-                    value: orderTransaction.fees + " " + orderTransaction.from.address.assetType.symbol
-                )
-
-                let receive = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.receive,
-                    value: orderTransaction.amountToReceive + " " + TradingPair(string: conversion.quote.pair)!.to.symbol,
-                    bold: true
-                )
-
-                let sendTo = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.sendTo,
-                    value: accountRepository.nameOfAccountContaining(address: orderTransaction.destination.address.address)
-                )
-
-                var orderId = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.orderID,
-                    value: orderTransaction.orderIdentifier ?? ""
-                )
-                orderId.descriptionActionBlock = {
-                    guard let text = $0.text else { return }
-                    UIPasteboard.general.string = text
-                    $0.animate(
-                        fromText: orderTransaction.orderIdentifier ?? "",
-                        toIntermediateText: LocalizationConstants.copiedToClipboard,
-                        speed: 1,
-                        gestureReceiver: $0
-                    )
-                }
-
-                let footer = ActionableFooterModel(title: LocalizationConstants.Exchange.done)
-
-                cellModels.append(contentsOf: [
-                    .tradingPair(pair),
-                    .plain(value),
-                    .plain(fees),
-                    .plain(receive),
-                    .plain(sendTo),
-                    .plain(orderId)
-                    ]
-                )
-                
-                current.header = .locked(.locked)
-                current.cells = cellModels
-                current.footer = footer
-
-                delegate?.coordinator(self, updated: current)
+                let disposable = accountRepository.nameOfAccountContaining(address: orderTransaction.destination.address.address).asObservable()
+                    .take(1)
+                    .subscribeOn(MainScheduler.asyncInstance)
+                    .observeOn(MainScheduler.instance)
+                    .subscribe(onNext: { [weak self] name in
+                        guard let self = self else { return }
+                        self.interface?.updateBackgroundColor(.brandPrimary)
+                        self.interface?.updateNavigationBar(appearance: NavigationBarAppearanceDark, color: .brandPrimary)
+                        self.interface?.updateTitle(LocalizationConstants.Swap.swapLocked)
+                        self.interface?.navigationBarVisibility(.hidden)
+                        
+                        let pair = ExchangeCellModel.TradingPair(
+                            model: TradingPairView.confirmationModel(for: conversion)
+                        )
+                        
+                        let value = ExchangeCellModel.Plain(
+                            description: LocalizationConstants.Exchange.value,
+                            value: self.valueString(
+                                for: conversion.quote.currencyRatio.counter.fiat.value,
+                                currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol
+                            )
+                        )
+                        
+                        let fees = ExchangeCellModel.Plain(
+                            description: LocalizationConstants.Exchange.fees,
+                            value: orderTransaction.fees + " " + orderTransaction.from.address.assetType.symbol
+                        )
+                        
+                        let receive = ExchangeCellModel.Plain(
+                            description: LocalizationConstants.Exchange.receive,
+                            value: orderTransaction.amountToReceive + " " + TradingPair(string: conversion.quote.pair)!.to.symbol,
+                            bold: true
+                        )
+                        
+                        let sendTo = ExchangeCellModel.Plain(
+                            description: LocalizationConstants.Exchange.sendTo,
+                            value: name
+                        )
+                        
+                        var orderId = ExchangeCellModel.Plain(
+                            description: LocalizationConstants.Exchange.orderID,
+                            value: orderTransaction.orderIdentifier ?? ""
+                        )
+                        orderId.descriptionActionBlock = {
+                            guard let text = $0.text else { return }
+                            UIPasteboard.general.string = text
+                            $0.animate(
+                                fromText: orderTransaction.orderIdentifier ?? "",
+                                toIntermediateText: LocalizationConstants.copiedToClipboard,
+                                speed: 1,
+                                gestureReceiver: $0
+                            )
+                        }
+                        
+                        let footer = ActionableFooterModel(title: LocalizationConstants.Exchange.done)
+                        
+                        cellModels.append(contentsOf: [
+                            .tradingPair(pair),
+                            .plain(value),
+                            .plain(fees),
+                            .plain(receive),
+                            .plain(sendTo),
+                            .plain(orderId)
+                            ]
+                        )
+                        
+                        self.current.header = .locked(.locked)
+                        self.current.cells = cellModels
+                        self.current.footer = footer
+                        
+                        self.delegate?.coordinator(self, updated: self.current)
+                    })
+                disposables.insertWithDiscardableResult(disposable)
             case .overview(let trade):
                 interface?.updateBackgroundColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
                 interface?.updateNavigationBar(
@@ -298,7 +314,7 @@ class ExchangeDetailCoordinator: NSObject {
                     NotificationCenter.default.post(
                         Notification(name: Constants.NotificationKeys.exchangeSubmitted)
                     )
-
+                    
                     this.interface?.loadingVisibility(.hidden)
                     ExchangeCoordinator.shared.handle(
                         event: .sentTransaction(

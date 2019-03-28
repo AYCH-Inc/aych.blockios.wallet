@@ -104,6 +104,7 @@
 {
     [SoundManager.sharedInstance playBeep];
     [self receivedTransactionMessage];
+    [[NSNotificationCenter defaultCenter] postNotificationName:[ConstantsObjcBridge notificationKeyTransactionReceived] object:nil];
 }
 
 - (void)didPushTransaction

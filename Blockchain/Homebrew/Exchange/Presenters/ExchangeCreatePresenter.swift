@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import PlatformUIKit
+import PlatformKit
 
 class ExchangeCreatePresenter {
     
@@ -22,7 +24,10 @@ class ExchangeCreatePresenter {
     
     fileprivate let interactor: ExchangeCreateInteractor
     fileprivate let feedback: UINotificationFeedbackGenerator
-    fileprivate var errorDisappearenceTimer: Timer?
+    fileprivate var currentRateDescriptionType: ExchangeRateDescriptionType = .fromAssetToFiat
+    fileprivate var recycleRateTimer: Timer?
+    fileprivate var ratesMetadata: ExchangeRateMetadata?
+    
     weak var interface: ExchangeCreateInterface?
 
     init(interactor: ExchangeCreateInteractor) {
@@ -49,13 +54,6 @@ class ExchangeCreatePresenter {
     
     internal func hideError() {
         interface?.apply(
-            animatedUpdate: ExchangeCreateInterface.AnimatedUpdate(
-                animations: [.errorLabel(.hidden)],
-                animation: .standard(duration: 0.2)
-            )
-        )
-        
-        interface?.apply(
             transitionPresentation: ExchangeCreateInterface.AnimatedTransitionUpdate(
                 transitions: [.primaryLabelTextColor(.brandPrimary)],
                 transition: .crossFade(duration: 0.2)
@@ -64,12 +62,7 @@ class ExchangeCreatePresenter {
     }
     
     fileprivate func displayError() {
-        interface?.apply(
-            animatedUpdate: ExchangeCreateInterface.AnimatedUpdate(
-                animations: [.errorLabel(.visible)],
-                animation: .standard(duration: 0.2)
-            )
-        )
+        // TODO:
     }
 
     fileprivate func disableExchangeButton() {
@@ -77,8 +70,50 @@ class ExchangeCreatePresenter {
         exchangeButtonVisibility(.translucent)
     }
     
+    fileprivate func enableExchangeButton() {
+        interface?.exchangeButtonEnabled(true)
+        exchangeButtonVisibility(.visible)
+    }
+    
     fileprivate func displayTiers() {
         interface?.showTiers()
+    }
+    
+    fileprivate func cancelRatesTimer() {
+        recycleRateTimer?.invalidate()
+        recycleRateTimer = nil
+    }
+    
+    fileprivate func setRatesRecycleTimer(duration: TimeInterval) {
+        guard recycleRateTimer == nil else { return }
+        recycleRateTimer = Timer(
+            timeInterval: duration,
+            repeats: true,
+            block: { [weak self] _ in
+                guard let self = self else { return }
+                self.recycleRatesTimerFired()
+                self.currentRateDescriptionType = self.currentRateDescriptionType.next()
+        })
+        guard let timer = recycleRateTimer else { return }
+        RunLoop.main.add(timer, forMode: .common)
+    }
+    
+    fileprivate func recycleRatesTimerFired() {
+        guard let metadata = ratesMetadata else { return }
+        let font = Font(.branded(.montserratSemiBold), size: .custom(12.0)).result
+        let attributedText = metadata.description(
+            for: currentRateDescriptionType,
+            font: font,
+            fromColor: .brandPrimary,
+            toColor: .darkGray
+        )
+        
+        interface?.apply(
+            transitionPresentation: ExchangeCreateInterface.AnimatedTransitionUpdate(
+                transitions: [.updateConversionRateLabel(attributedText)],
+                transition: .crossFade(duration: 0.5)
+            )
+        )
     }
 }
 
@@ -86,61 +121,22 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
     
     func onViewDidLoad() {
         interactor.setup()
+        interactor.resume()
     }
     
     func onViewWillAppear() {
         AnalyticsService.shared.trackEvent(title: "exchange_create")
         interactor.resume()
-        
-        interface?.apply(
-            presentationUpdates:[
-                .conversionRatesView(.hidden, animated: false),
-                .keypadVisibility(.visible, animated: false)
-            ]
-        )
-        
-        interface?.apply(
-            animatedUpdate: ExchangeCreateInterface.AnimatedUpdate(
-                animations: [
-                    .conversionView(.visible),
-                    .ratesChevron(.hidden),
-                    .errorLabel(.hidden)],
-                animation: .none)
-        )
+    }
+    
+    func onViewDidDisappear() {
+        cancelRatesTimer()
     }
     
     func onDisplayRatesTapped() {
         interface?.apply(
-            presentationUpdates:[
-                .conversionRatesView(.visible, animated: true),
-                .keypadVisibility(.hidden, animated: true)
-                ]
-        )
-        
-        interface?.apply(
             animatedUpdate: ExchangeCreateInterface.AnimatedUpdate(
-                animations: [.exchangeButton(.hidden),
-                             .conversionView(.hidden)],
-                animation: .easeIn(duration: 0.2)
-            )
-        )
-    }
-    
-    func onHideRatesTapped() {
-        interface?.apply(
-            presentationUpdates:[
-                .conversionRatesView(.hidden, animated: true),
-                .keypadVisibility(.visible, animated: true)
-                ]
-        )
-        
-        interface?.apply(
-            animatedUpdate: ExchangeCreateInterface.AnimatedUpdate(
-                animations: [
-                    .conversionView(.visible),
-                    .ratesChevron(.hidden),
-                    .exchangeButton(interface?.isExchangeButtonEnabled() == true ? .visible : .translucent)
-                ],
+                animations: [.exchangeButton(.hidden)],
                 animation: .easeIn(duration: 0.2)
             )
         )
@@ -157,17 +153,6 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
     func onBackspaceTapped() {
         interactor.onBackspaceTapped()
     }
-    
-    func onKeypadVisibilityUpdated(_ visibility: Visibility, animated: Bool) {
-        let ratesViewVisibility: Visibility = visibility == .hidden ? .visible : .hidden
-        interface?.apply(presentationUpdates: [.conversionRatesView(ratesViewVisibility, animated: animated)])
-        interface?.apply(
-            animatedUpdate: ExchangeCreateInterface.AnimatedUpdate(
-                animations: [.ratesChevron(ratesViewVisibility)],
-                animation: .easeIn(duration: 0.2)
-            )
-        )
-    }
 
     func changeMarketPair(marketPair: MarketPair) {
         interactor.changeMarketPair(marketPair: marketPair)
@@ -175,10 +160,6 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
 
     func onToggleFixTapped() {
         interactor.toggleFix()
-    }
-
-    func onDisplayInputTypeTapped() {
-        interactor.displayInputTypeTapped()
     }
 
     func onExchangeButtonTapped() {
@@ -190,30 +171,41 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
         AnalyticsService.shared.trackEvent(title: "swap_tiers")
         displayTiers()
     }
+    
+    var rightNavigationCTAType: NavigationCTAType {
+        switch interactor.status {
+        case .error:
+            return .error
+        case .inflight:
+            return .activityIndicator
+        case .unknown,
+             .valid:
+             return .help
+        }
+    }
 }
 
 extension ExchangeCreatePresenter: ExchangeCreateOutput {
-    
-    func insufficientFunds(balance: String) {
-        interface?.apply(presentationUpdates: [.updateErrorLabel(balance)])
-        displayError()
+    func tradeValidationInFlight() {
         disableExchangeButton()
+        interface?.exchangeStatusUpdated()
     }
     
-    func entryBelowMinimumValue(minimum: String) {
-        let display = LocalizationConstants.Exchange.yourMin + " " + minimum
-        interface?.apply(presentationUpdates: [.updateErrorLabel(display)])
-        displayError()
-        disableExchangeButton()
+    var status: ExchangeInteractorStatus {
+        return interactor.status
     }
     
-    func entryAboveMaximumValue(maximum: String) {
-        let display = LocalizationConstants.Exchange.yourMax + " " + maximum
-        interface?.apply(presentationUpdates: [.updateErrorLabel(display)])
-        displayError()
+    func errorReceived() {
         disableExchangeButton()
+        interface?.exchangeStatusUpdated()
     }
-
+    
+    func errorDismissed() {
+        enableExchangeButton()
+        interface?.exchangeButtonEnabled(true)
+        interface?.exchangeStatusUpdated()
+    }
+    
     func entryAboveTierLimit(amount: String) {
         let triggerText = String(format: LocalizationConstants.Swap.tierlimitErrorMessage, amount)
         let trigger = ActionableTrigger(text: triggerText, CTA: LocalizationConstants.Swap.upgradeNow, secondary: nil) { [weak self] in
@@ -221,12 +213,6 @@ extension ExchangeCreatePresenter: ExchangeCreateOutput {
             this.displayTiers()
         }
         interface?.apply(presentationUpdates: [.actionableErrorLabelTrigger(trigger)])
-        displayError()
-        disableExchangeButton()
-    }
-
-    func showError(message: String) {
-        interface?.apply(presentationUpdates: [.updateErrorLabel(message)])
         displayError()
         disableExchangeButton()
     }
@@ -247,12 +233,34 @@ extension ExchangeCreatePresenter: ExchangeCreateOutput {
         )
     }
     
-    func updatedRates(first: String, second: String, third: String) {
-        interface?.apply(presentationUpdates: [.updateRateLabels(first: first, second: second, third: third)])
+    func updateRateMetadata(_ metadata: ExchangeRateMetadata) {
+        self.ratesMetadata = metadata
+        setRatesRecycleTimer(duration: 4.5)
+    }
+    
+    func updateBalance(cryptoValue: CryptoValue, fiatValue: FiatValue) {
+        let font = Font(.branded(.montserratSemiBold), size: .custom(12.0)).result
+        let first = NSAttributedString(
+            string: "Your \(cryptoValue.currencyType.symbol) Balance",
+            attributes: [.font: font,
+                         .foregroundColor: UIColor.brandPrimary]
+        )
+        let fiat = NSAttributedString(
+            string: fiatValue.toDisplayString(includeSymbol: true, locale: .current),
+            attributes: [.font: font,
+                         .foregroundColor: UIColor.green]
+        )
+        let asset = NSAttributedString(
+            string: cryptoValue.toDisplayString(includeSymbol: true, locale: .current),
+            attributes: [.font: font,
+                         .foregroundColor: UIColor.darkGray]
+        )
+        let second = [fiat, asset].join(withSeparator: .space())
+        let result = [first, second].join(withSeparator: .lineBreak())
         interface?.apply(
-            animatedUpdate: ExchangeCreateInterface.AnimatedUpdate(
-                animations: [.conversionTitleLabel(.visible)],
-                animation: .standard(duration: 0.2)
+            transitionPresentation: ExchangeCreateInterface.AnimatedTransitionUpdate(
+                transitions: [.updateBalanceLabel(result)],
+                transition: .crossFade(duration: 0.5)
             )
         )
     }
@@ -266,10 +274,6 @@ extension ExchangeCreatePresenter: ExchangeCreateOutput {
     }
 
     func exchangeButtonVisibility(_ visibility: Visibility) {
-        if interface?.isShowingConversionRatesView() == true {
-            return
-        }
-
         interface?.apply(
             animatedUpdate: ExchangeCreateInterface.AnimatedUpdate(
                 animations: [.exchangeButton(visibility)],

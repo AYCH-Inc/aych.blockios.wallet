@@ -432,6 +432,8 @@
 - (void)getEthHistory;
 - (void)getEthExchangeRate;
 
+- (void)fetchEthereumBalance:(void (^)(NSString *_Nonnull balance))completion error:(void (^ _Nonnull)(NSString *_Nonnull))error;
+
 // Ether send
 - (void)sendEtherPaymentWithNote:(NSString *)note;
 

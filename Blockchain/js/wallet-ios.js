@@ -2691,7 +2691,10 @@ MyWalletPhone.getAvailableEthBalance = function() {
         console.log(e);
         objc_on_get_available_eth_balance_error(e);
     }
-    MyWallet.wallet.eth.accounts[0].getAvailableBalance().then(success).catch(error);
+    
+    MyWallet.wallet.eth.accounts[0].fetchBalance().then(function() {
+            MyWallet.wallet.eth.accounts[0].getAvailableBalance().then(success).catch(error);
+    });
 }
 
 MyWalletPhone.getLabelForEthAccount = function() {

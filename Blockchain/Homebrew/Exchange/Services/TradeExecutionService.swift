@@ -127,11 +127,9 @@ class TradeExecutionService: TradeExecutionAPI {
                 guard !isSpendable else {
                     return Single.just(nil)
                 }
-
-                let value = "\(maxSpendable)".appendAssetSymbol(for: assetType)
-                let description = LocalizationConstants.Stellar.notEnoughXLM + " " + LocalizationConstants.Exchange.yourSpendableBalance
-                let result = description + " " + value
-                return Single.error(TradeExecutionAPIError.exceededMaxVolume(result))
+                
+                let crytpo = CryptoValue.createFromMajorValue(maxSpendable, assetType: .stellar)
+                return Single.error(TradeExecutionAPIError.exceededMaxVolume(crytpo))
             }
     }
     

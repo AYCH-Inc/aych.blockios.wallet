@@ -105,6 +105,7 @@ struct Constants {
         static let getFiatAtTime = NSNotification.Name("getFiatAtTime")
         static let exchangeSubmitted = NSNotification.Name("exchangeSubmitted")
         static let kycComplete = NSNotification.Name("kycComplete")
+        static let transactionReceived = NSNotification.Name("transactionReceived")
     }
     struct PushNotificationKeys {
         static let userInfoType = "type"
@@ -200,6 +201,10 @@ struct Constants {
 
     @objc class func notificationKeyGetFiatAtTime() -> String {
         return Constants.NotificationKeys.getFiatAtTime.rawValue
+    }
+    
+    @objc class func notificationKeyTransactionReceived() -> String {
+        return Constants.NotificationKeys.transactionReceived.rawValue
     }
     
     @objc class func tabSwap() -> Int {

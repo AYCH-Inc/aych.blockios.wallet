@@ -27,10 +27,7 @@ class TradingPairView: NibBasedView {
     }
     
     enum ViewUpdate: Update {
-        case statusTintColor(UIColor)
         case titleColor(UIColor)
-        case leftStatusVisibility(Visibility)
-        case rightStatusVisibility(Visibility)
         case backgroundColors(left: UIColor, right: UIColor)
         case swapTintColor(UIColor)
     }
@@ -46,8 +43,6 @@ class TradingPairView: NibBasedView {
     @IBOutlet fileprivate var leftButton: UIButton!
     @IBOutlet fileprivate var rightButton: UIButton!
     @IBOutlet fileprivate var swapButton: UIButton!
-    @IBOutlet fileprivate var leftIconStatusImageView: UIImageView!
-    @IBOutlet fileprivate var rightIconStatusImageView: UIImageView!
     @IBOutlet fileprivate var exchangeLabel: UILabel!
     @IBOutlet fileprivate var receiveLabel: UILabel!
     
@@ -87,10 +82,7 @@ class TradingPairView: NibBasedView {
         let presentationUpdate = TradingPresentationUpdate(
             animations: [
                 .backgroundColors(left: pair.from.brandColor, right: pair.to.brandColor),
-                .statusTintColor(.green),
-                .swapTintColor(.grayBlue),
-                .rightStatusVisibility(.visible),
-                .leftStatusVisibility(.hidden)
+                .swapTintColor(.grayBlue)
             ],
             animation: animation
         )
@@ -99,7 +91,7 @@ class TradingPairView: NibBasedView {
             transitions: [
                 .images(left: pair.from.brandImage, right: pair.to.brandImage),
                 .titles(left: pair.from.description, right: pair.to.description),
-                .swapImage(#imageLiteral(resourceName: "Icon-Exchange").withRenderingMode(.alwaysTemplate))
+                .swapImage(#imageLiteral(resourceName: "trading-pair-arrow").withRenderingMode(.alwaysTemplate))
             ],
             transition: transition
         )
@@ -129,16 +121,6 @@ class TradingPairView: NibBasedView {
         case .titleColor(let color):
             exchangeLabel.textColor = color
             receiveLabel.textColor = color
-            
-        case .statusTintColor(let color):
-            rightIconStatusImageView.tintColor = color
-            leftIconStatusImageView.tintColor = color
-            
-        case .rightStatusVisibility(let visibility):
-            rightIconStatusImageView.alpha = visibility.defaultAlpha
-            
-        case .leftStatusVisibility(let visibility):
-            leftIconStatusImageView.alpha = visibility.defaultAlpha
             
         case .backgroundColors(left: let leftColor, right: let rightColor):
             leftButton.backgroundColor = leftColor
@@ -176,7 +158,7 @@ class TradingPairView: NibBasedView {
         leftButton.titleEdgeInsets = edgeInsets
         rightButton.titleEdgeInsets = edgeInsets
 
-        let swapImage = UIImage(named: "Icon-Exchange")?.withRenderingMode(.alwaysTemplate)
+        let swapImage = #imageLiteral(resourceName: "trading-pair-arrow").withRenderingMode(.alwaysTemplate)
         swapButton.setImage(swapImage, for: .normal)
         
         let isAboveSE = UIDevice.current.type.isAbove(.iPhoneSE)
@@ -203,7 +185,7 @@ extension TradingPairView {
         // API. In the mean time, this demonstrates how the Model
         // is built and how it is to be used for the exchangeLocked screen
         let transitionUpdate = TradingTransitionUpdate(
-            transitions: [.swapImage(#imageLiteral(resourceName: "Icon-SingleArrow")),
+            transitions: [.swapImage(#imageLiteral(resourceName: "trading-pair-arrow")),
                           .images(left: fromAsset.brandImage, right: toAsset.brandImage),
                           .titles(left: "123 BTC", right: "123 ETH")
             ],
@@ -213,8 +195,6 @@ extension TradingPairView {
         let presentationUpdate = TradingPresentationUpdate(
             animations: [
                 .backgroundColors(left: fromAsset.brandColor, right: toAsset.brandColor),
-                .leftStatusVisibility(.hidden),
-                .rightStatusVisibility(.hidden),
                 .swapTintColor(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)),
                 .titleColor(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
             ],
@@ -259,7 +239,7 @@ extension TradingPairView {
         let toAmountAndSymbol = toAmount + " " + toSymbol
 
         let transitionUpdate = TradingTransitionUpdate(
-            transitions: [.swapImage(#imageLiteral(resourceName: "Icon-SingleArrow")),
+            transitions: [.swapImage(#imageLiteral(resourceName: "trading-pair-arrow")),
                           .images(left: nil, right: nil),
                           .titles(left: fromAmountAndSymbol, right: toAmountAndSymbol)
             ],
@@ -269,8 +249,6 @@ extension TradingPairView {
         let presentationUpdate = TradingPresentationUpdate(
             animations: [
                 .backgroundColors(left: fromAsset.brandColor, right: toAsset.brandColor),
-                .leftStatusVisibility(.hidden),
-                .rightStatusVisibility(.hidden),
                 .swapTintColor(.brandPrimary),
                 .titleColor(.brandPrimary)
             ],

@@ -35,7 +35,6 @@ protocol KYCCoordinatorDelegate: class {
 
     weak var delegate: KYCCoordinatorDelegate?
 
-    static let kycCompleteNotification: String = "kycCompleteNotification"
     static let shared = KYCCoordinator()
 
     @objc class func sharedInstance() -> KYCCoordinator {
@@ -125,11 +124,17 @@ protocol KYCCoordinatorDelegate: class {
         disposables.insertWithDiscardableResult(disposable)
     }
 
+    // Called when the entire KYC process has been completed.
     @objc func finish() {
+        stop()
+    }
+
+    // Called when the KYC process is completed or stopped before completing.
+    @objc func stop() {
         if navController == nil { return }
         navController.dismiss(animated: true)
         NotificationCenter.default.post(
-            name: Constants.NotificationKeys.kycComplete,
+            name: Constants.NotificationKeys.kycStopped,
             object: nil
         )
     }

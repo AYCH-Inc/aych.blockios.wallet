@@ -6,7 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformUIKit
 
 // Class used to keep objects in memory while performing async operations for
 // the CardsViewController instance.
@@ -28,6 +28,21 @@ import Foundation
                 return
             }
             KYCCoordinator.shared.start(from: rootViewController, tier: .tier2)
+        }, error: { error in
+            AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
+        })
+    }
+
+    @objc func stellarModalPromptForAirdropRegistrationActionTapped() {
+        stellarAirdropRouter.registerForCampaign(success: { user in
+            let okAction = AlertAction(title: LocalizationConstants.okString, style: .confirm)
+            let alertModel = AlertModel(
+                headline: LocalizationConstants.AnnouncementCards.registerAirdropSuccessTitle,
+                body: LocalizationConstants.AnnouncementCards.registerAirdropSuccessDescription,
+                actions: [okAction]
+            )
+            let alert = AlertView.make(with: alertModel, completion: nil)
+            alert.show()
         }, error: { error in
             AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.genericError)
         })

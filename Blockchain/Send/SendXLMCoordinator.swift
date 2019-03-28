@@ -150,14 +150,17 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
 
         let fiatSymbol = BlockchainSettings.App.shared.fiatCurrencyCode
         interface.apply(updates: [.fiatSymbolLabel(fiatSymbol)])
-
+        
         let disposable = Single.zip(
-            services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: fiatSymbol),
-            services.ledger.current.take(1).asSingle()
-        ).subscribeOn(MainScheduler.asyncInstance)
+                services.prices.fiatPrice(forAssetType: .stellar, fiatSymbol: fiatSymbol),
+                services.ledger.current.take(1).asSingle(),
+                services.feeService.fees
+            )
+            .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [unowned self] price, ledger in
-                guard let feeInXlm = ledger.baseFeeInXlm else {
+            .subscribe(onSuccess: { [weak self] price, ledger, fee in
+                guard let self = self else { return }
+                guard let baseFeeInXlm = ledger.baseFeeInXlm else {
                     Logger.shared.error("Fee is nil.")
                     self.interface.apply(updates: [
                         .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
@@ -165,6 +168,9 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                     ])
                     return
                 }
+                
+                let feeInXlm: Decimal = fee.regular.majorValue
+                
                 self.modelInterface.updateBaseReserve(ledger.baseReserveInXlm)
                 self.modelInterface.updateFee(feeInXlm)
                 self.modelInterface.updatePrice(price.priceInFiat.amount)

@@ -98,7 +98,7 @@ PODS:
   - Starscream (3.0.6)
   - stellar-ios-mac-sdk (1.6.0)
   - SwiftLint (0.30.1)
-  - VeriffSDK (2.0.3)
+  - VeriffSDK (2.0.4)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
@@ -115,7 +115,7 @@ DEPENDENCIES:
   - Starscream (~> 3.0.2)
   - stellar-ios-mac-sdk (~> 1.6.0)
   - SwiftLint
-  - VeriffSDK (~> 2.0.3)
+  - VeriffSDK (~> 2.0.4)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -172,8 +172,8 @@ SPEC CHECKSUMS:
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   stellar-ios-mac-sdk: da6e4623e6574e54b2755e2ff14a317385062f8a
   SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
-  VeriffSDK: 36251afbd9b074868f8a9413bffd1ee85d1afd4c
+  VeriffSDK: c9fe64b14ebab9a85aa9d78048146b7f079f6969
 
-PODFILE CHECKSUM: 667e06a145f0c673e074205d764a9ba820bda00c
+PODFILE CHECKSUM: 9f65be6050d256bf89f0fb06d046e6e01e7e706b
 
 COCOAPODS: 1.5.3

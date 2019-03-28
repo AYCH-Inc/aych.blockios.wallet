@@ -102,7 +102,7 @@ extension KYCBaseViewController: KYCOnboardingNavigationControllerDelegate {
         case .none:
             break
         case .dismiss:
-            coordinator.finish()
+            coordinator.stop()
         case .help:
             presentNeedSomeHelpAlert()
         }

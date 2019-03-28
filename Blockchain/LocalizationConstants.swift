@@ -884,21 +884,46 @@ struct LocalizationConstants {
     }
 
     struct AnnouncementCards {
+        static let registerAirdropSuccessTitle = NSLocalizedString(
+            "You're All Set!",
+            comment: "Title of an alert that notifies the user that airdrop registration has succeded"
+        )
+        static let registerAirdropSuccessDescription = NSLocalizedString(
+            "Once your profile is approved for Gold, we will airdrop your free crypto into your Wallet.",
+            comment: "Description of an alert that notifies the user that airdrop registration has succeded"
+        )
         static let bottomSheetCoinifyInfoTitle = NSLocalizedString("More Info Needed", comment: "Title of an alert informing a user that personal information needs to be updated.")
         static let bottomSheetCoinifyInfoDescription = NSLocalizedString("To keep using Buy & Sell, we'll need you to update your profile. We'll airdrop $50 of XLM as a thank you when you do!", comment: "Description of an alert informing a user that personal information needs to be updated.")
+        static let bottomSheetCoinifyInfoAction = NSLocalizedString("Get Free XLM", comment: "Action button title of an alert informing a user that personal information needs to be updated.")
         static let updateNow = NSLocalizedString("Update Now", comment: "Title of a button that a user can tap on to update their information")
         static let learnMore = NSLocalizedString("Learn More", comment: "Title of a button that a user can tap on to learn more about an announcement")
-        static let bottomSheetFreeCryptoTitle = NSLocalizedString(
+        static let bottomSheetPromptForKycTitle = NSLocalizedString(
             "Get Free XLM",
             comment: "Title of a bottom sheet alert prompting the user to complete KYC"
         )
-        static let bottomSheetFreeCryptoDescription = NSLocalizedString(
+        static let bottomSheetPromptForKycDescription = NSLocalizedString(
             "Complete your profile today and we will airdrop $25 of free Stellar (XLM) in your Wallet.",
             comment: "Description of a bottom sheet alert prompting the user to complete KYC"
         )
-        static let bottomSheetFreeCryptoAction = NSLocalizedString(
+        static let bottomSheetPromptForKycAction = NSLocalizedString(
             "Get Free XLM",
-            comment: "Button title of a bottom sheet alert prompting the user to complete KYC"
+            comment: "Action button title of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let bottomSheetPromptForAirdropRegistrationTitle = NSLocalizedString(
+            "Claim Your Free Crypto",
+            comment: "Title of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let bottomSheetPromptForAirdropRegistrationDescription = NSLocalizedString(
+            "Tap the button to automatically receive your $25 of free Stellar (XLM) once Gold level is unlocked.",
+            comment: "Description of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let bottomSheetPromptForAirdropRegistrationAction = NSLocalizedString(
+            "Claim Your XLM",
+            comment: "Action button title of a bottom sheet alert prompting the user to complete KYC"
+        )
+        static let bottomSheetPromptForAirdropRegistrationCancel = NSLocalizedString(
+            "Maybe Later",
+            comment: "Cancel button title of a bottom sheet alert prompting the user to complete KYC"
         )
         static let cardCompleteProfileTitle = NSLocalizedString(
             "Complete Your Profile",

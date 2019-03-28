@@ -14,8 +14,11 @@ import Foundation
 /// models to a separate framework called `BalanceKit`.
 /// This should be used a replacement for `AssetType` which is currently defined
 /// in the app target.
-public enum CryptoCurrency {
-    case bitcoin, bitcoinCash, ethereum, stellar
+public enum CryptoCurrency: String {
+    case bitcoin = "BTC"
+    case bitcoinCash = "BCH"
+    case ethereum = "ETH"
+    case stellar = "XLM"
 }
 
 public extension CryptoCurrency {
@@ -33,16 +36,7 @@ public extension CryptoCurrency {
     }
     
     var symbol: String {
-        switch self {
-        case .bitcoin:
-            return "BTC"
-        case .bitcoinCash:
-            return "BCH"
-        case .ethereum:
-            return "ETH"
-        case .stellar:
-            return "XLM"
-        }
+        return rawValue
     }
     
     var maxDecimalPlaces: Int {

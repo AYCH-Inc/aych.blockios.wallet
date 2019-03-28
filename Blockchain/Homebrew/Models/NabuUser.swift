@@ -117,6 +117,12 @@ struct NabuUser: Decodable {
     }
 }
 
+extension NabuUser {
+    var isSunriverAirdropRegistered: Bool {
+        return tags?.sunriver != nil
+    }
+}
+
 struct Email: Decodable {
     let address: String
     let verified: Bool

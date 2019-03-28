@@ -418,16 +418,6 @@ final class BlockchainSettings: NSObject {
             }
         }
 
-        /// Determines if the network call to /register-campaign for the Stellar airdop succeeded or not
-        var didRegisterForAirdropCampaignSucceed: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.didRegisterForAirdropCampaignSucceed.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.didRegisterForAirdropCampaignSucceed.rawValue)
-            }
-        }
-
         /// Determines if the user deep linked into the app using a document resubmission link. This
         /// value is used to continue KYC'ing at the Verify Your Identity step.
         var didTapOnDocumentResubmissionDeepLink: Bool {
@@ -491,7 +481,6 @@ final class BlockchainSettings: NSObject {
             didTapOnAirdropDeepLink = false
             didSeeAirdropPending = false
             didAttemptToRouteForAirdrop = false
-            didRegisterForAirdropCampaignSucceed = false
             didTapOnKycDeepLink = false
 
             KYCSettings.shared.reset()

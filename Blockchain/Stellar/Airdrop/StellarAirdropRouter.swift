@@ -61,7 +61,6 @@ class StellarAirdropRouter: DeepLinkRouting {
             }
 
             strongSelf.appSettings.didAttemptToRouteForAirdrop = true
-            strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = true
 
             guard user.status == .none else {
                 return
@@ -75,7 +74,6 @@ class StellarAirdropRouter: DeepLinkRouting {
                 return
             }
             strongSelf.appSettings.didAttemptToRouteForAirdrop = true
-            strongSelf.appSettings.didRegisterForAirdropCampaignSucceed = false
 
             Logger.shared.error("Failed to register for campaign: \(error.localizedDescription)")
 

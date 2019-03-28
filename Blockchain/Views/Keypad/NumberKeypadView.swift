@@ -29,6 +29,12 @@ class NumberKeypadView: NibBasedView {
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        guard let delimiter = keypadButtons.first(where: { $0.titleLabel?.text == "." }) else { return }
+        delimiter.setTitle(Locale.current.decimalSeparator ?? ".", for: .normal)
+    }
+    
     func updateKeypadVisibility(_ visibility: Visibility, animated: Bool = true, completion: (() -> Void)? = nil) {
         guard let keypadButtons = keypadButtons else { return }
         guard keypadButtons.count > 0 else { return }

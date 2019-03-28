@@ -90,6 +90,11 @@ class ExchangeInputViewModel {
         append(component: component)
     }
     
+    func appendDelimiter() {
+        guard canAppend(component: .delimiter) else { return }
+        append(component: .delimiter)
+    }
+    
     func dropLast() {
         guard canDrop() == true else { return }
         components = components.drop()

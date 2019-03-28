@@ -271,7 +271,8 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
     }
     
     func onDelimiterTapped(value: String) {
-        guard inputs.canAdd(character: Character(value)) else {
+        let separator = Locale.current.decimalSeparator ?? "."
+        guard inputs.canAdd(character: Character(separator)) else {
             output?.entryRejected()
             return
         }

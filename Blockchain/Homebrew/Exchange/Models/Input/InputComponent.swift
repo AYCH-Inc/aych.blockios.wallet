@@ -30,7 +30,7 @@ extension InputComponent {
     static let tenthsZero = InputComponent(entry: .zero("0"), type: .tenths)
     static let hundredthsZero = InputComponent(entry: .zero("0"), type: .hundredths)
     static let fractionalZero = InputComponent(entry: .zero("0"), type: .fractional)
-    static let delimiter = InputComponent(entry: .nonzero("."), type: .delimiter)
+    static let delimiter = InputComponent(entry: .nonzero(Locale.current.decimalSeparator ?? "."), type: .delimiter)
     
     var value: String {
         switch entry {

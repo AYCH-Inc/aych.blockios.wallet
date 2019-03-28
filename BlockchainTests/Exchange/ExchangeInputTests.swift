@@ -46,23 +46,23 @@ class ExchangeInputTests: XCTestCase {
         viewModel.append(character: "4")
         viewModel.append(character: "5")
         viewModel.append(character: "6")
-        viewModel.append(character: ".")
+        viewModel.appendDelimiter()
         viewModel.append(character: "1")
         viewModel.append(character: "3")
         let value = viewModel.currentValue()
-        XCTAssertEqual("$456.13", value)
+        XCTAssertEqual("$456" + (Locale.current.decimalSeparator ?? ".") + "13", value)
     }
     
     func testCryptoInputUpdate() {
         viewModel.append(character: "4")
         viewModel.append(character: "5")
         viewModel.append(character: "6")
-        viewModel.append(character: ".")
+        viewModel.appendDelimiter()
         viewModel.append(character: "1")
         viewModel.append(character: "3")
-        viewModel.update(inputType: .nonfiat(.bitcoin), with: "123.123")
+        viewModel.update(inputType: .nonfiat(.bitcoin), with: "123" + (Locale.current.decimalSeparator ?? ".") + "123")
         let value = viewModel.currentValue()
-        XCTAssertEqual("123.123 BTC", value)
+        XCTAssertEqual("123" + (Locale.current.decimalSeparator ?? ".") + "123 BTC", value)
     }
     
     func testCryptoTrailingZeros() {
@@ -70,13 +70,13 @@ class ExchangeInputTests: XCTestCase {
         viewModel.append(character: "4")
         viewModel.append(character: "5")
         viewModel.append(character: "6")
-        viewModel.append(character: ".")
+        viewModel.appendDelimiter()
         viewModel.append(character: "1")
         viewModel.append(character: "3")
         viewModel.append(character: "0")
         viewModel.append(character: "0")
         let value = viewModel.currentValue()
-        XCTAssertEqual("456.1300 BTC", value)
+        XCTAssertEqual("456" + (Locale.current.decimalSeparator ?? ".") + "1300 BTC", value)
     }
     
     func testCryptoValueWithTrailingZeros() {
@@ -84,7 +84,7 @@ class ExchangeInputTests: XCTestCase {
         viewModel.append(character: "4")
         viewModel.append(character: "5")
         viewModel.append(character: "6")
-        viewModel.append(character: ".")
+        viewModel.appendDelimiter()
         viewModel.append(character: "1")
         viewModel.append(character: "3")
         viewModel.append(character: "0")
@@ -98,7 +98,7 @@ class ExchangeInputTests: XCTestCase {
         viewModel.append(character: "4")
         viewModel.append(character: "5")
         viewModel.append(character: "6")
-        viewModel.append(character: ".")
+        viewModel.appendDelimiter()
         viewModel.append(character: "1")
         viewModel.append(character: "3")
         viewModel.append(character: "0")
@@ -106,8 +106,8 @@ class ExchangeInputTests: XCTestCase {
         let fiatValue = viewModel.fiatValue()
         XCTAssertNotNil(fiatValue)
         guard let fiat = fiatValue else { return }
-        let value = fiat.toDisplayString(includeSymbol: true, locale: .current)
-        XCTAssertEqual("$456.13", value)
+        let value = fiat.toDisplayString(includeSymbol: false, locale: .current)
+        XCTAssertEqual("456" + (Locale.current.decimalSeparator ?? ".") + "13", value)
     }
     
     func testFiatValueWithDelimiter() {
@@ -115,12 +115,12 @@ class ExchangeInputTests: XCTestCase {
         viewModel.append(character: "4")
         viewModel.append(character: "5")
         viewModel.append(character: "6")
-        viewModel.append(character: ".")
+        viewModel.appendDelimiter()
         let fiatValue = viewModel.fiatValue()
         XCTAssertNotNil(fiatValue)
         guard let fiat = fiatValue else { return }
-        let value = fiat.toDisplayString(includeSymbol: true, locale: .current)
-        XCTAssertEqual("$456.00", value)
+        let value = fiat.toDisplayString(includeSymbol: false, locale: .current)
+        XCTAssertEqual("456" + (Locale.current.decimalSeparator ?? ".") + "00", value)
     }
     
     func testCurrentCryptoInputWithDelimiter() {
@@ -128,9 +128,9 @@ class ExchangeInputTests: XCTestCase {
         viewModel.append(character: "4")
         viewModel.append(character: "5")
         viewModel.append(character: "6")
-        viewModel.append(character: ".")
+        viewModel.appendDelimiter()
         let value = viewModel.currentValue()
-        XCTAssertEqual("456.0 BTC", value)
+        XCTAssertEqual("456" + (Locale.current.decimalSeparator ?? ".") + "0 BTC", value)
     }
     
     func testCurrentFiatInputWithDelimiter() {
@@ -138,9 +138,9 @@ class ExchangeInputTests: XCTestCase {
         viewModel.append(character: "4")
         viewModel.append(character: "5")
         viewModel.append(character: "6")
-        viewModel.append(character: ".")
+        viewModel.appendDelimiter()
         let value = viewModel.currentValue()
-        XCTAssertEqual("$456.0", value)
+        XCTAssertEqual("$456" + (Locale.current.decimalSeparator ?? ".") + "0", value)
     }
     
     func testCurrentFiatInputWithDelimiterAndOneZero() {
@@ -148,10 +148,10 @@ class ExchangeInputTests: XCTestCase {
         viewModel.append(character: "4")
         viewModel.append(character: "5")
         viewModel.append(character: "6")
-        viewModel.append(character: ".")
+        viewModel.appendDelimiter()
         viewModel.append(character: "0")
         let value = viewModel.currentValue()
-        XCTAssertEqual("$456.0", value)
+        XCTAssertEqual("$456" + (Locale.current.decimalSeparator ?? ".") + "0", value)
     }
     
     func testCurrentCryptoInputWithDelimiterAndOneZero() {
@@ -159,29 +159,29 @@ class ExchangeInputTests: XCTestCase {
         viewModel.append(character: "4")
         viewModel.append(character: "5")
         viewModel.append(character: "6")
-        viewModel.append(character: ".")
+        viewModel.appendDelimiter()
         viewModel.append(character: "0")
         let value = viewModel.currentValue()
-        XCTAssertEqual("456.0 BTC", value)
+        XCTAssertEqual("456" + (Locale.current.decimalSeparator ?? ".") + "0 BTC", value)
     }
     
     func testDoubleDelimiter() {
         viewModel.inputType = .nonfiat(.bitcoin)
         viewModel.append(character: "1")
-        viewModel.append(character: ".")
-        viewModel.append(character: ".")
+        viewModel.appendDelimiter()
+        viewModel.appendDelimiter()
         viewModel.append(character: "0")
         let value = viewModel.currentValue()
-        XCTAssertEqual("1.0 BTC", value)
+        XCTAssertEqual("1" + (Locale.current.decimalSeparator ?? ".") + "0 BTC", value)
     }
     
     func testTogglingInputType() {
         viewModel.inputType = .fiat
         viewModel.append(character: "1")
-        viewModel.append(character: ".")
+        viewModel.appendDelimiter()
         viewModel.append(character: "1")
         viewModel.append(character: "2")
-        viewModel.update(inputType: .nonfiat(.bitcoin), with: "0.45678")
-        XCTAssertEqual("0.45678 BTC", viewModel.currentValue())
+        viewModel.update(inputType: .nonfiat(.bitcoin), with: "0" + (Locale.current.decimalSeparator ?? ".") +  "45678")
+        XCTAssertEqual("0" + (Locale.current.decimalSeparator ?? ".") + "45678 BTC", viewModel.currentValue())
     }
 }

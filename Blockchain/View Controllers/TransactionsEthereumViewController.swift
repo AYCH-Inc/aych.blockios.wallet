@@ -30,8 +30,8 @@ extension TransactionsViewController {
         }
     }
     
-    fileprivate func _setupNoTransactionView(in view: UIView, assetType: LegacyAssetType) {
-        perform("setupNoTransactionsViewInView:assetType:", with: view, with: assetType)
+    fileprivate func _setupNoTransactionView(in view: UIView) {
+        perform("setupNoTransactionsViewEtherInView:", with: view)
     }
 }
 
@@ -65,7 +65,7 @@ final class TransactionsEthereumViewController: TransactionsViewController {
         
         setupPullToRefresh()
         
-        _setupNoTransactionView(in: tableView, assetType: .ether)
+        _setupNoTransactionView(in: tableView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -140,8 +140,13 @@ final class TransactionsEthereumViewController: TransactionsViewController {
                 self._noTransactionsView.isHidden = self.transactions.count > 0
                 self.tableView.reloadData()
                 self.refreshControl.endRefreshing()
+            }, onError: { [weak self] _ in
+                guard let `self` = self else { return }
                 
-            }, onError: nil)
+                self._noTransactionsView.isHidden = self.transactions.count > 0
+                self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
+            })
         disposables.insertWithDiscardableResult(disposable)
     }
     

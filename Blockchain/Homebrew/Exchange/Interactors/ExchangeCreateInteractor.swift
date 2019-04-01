@@ -270,13 +270,12 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         updatedInput()
     }
     
-    func onDelimiterTapped(value: String) {
-        let separator = Locale.current.decimalSeparator ?? "."
-        guard inputs.canAdd(character: Character(separator)) else {
+    func onDelimiterTapped() {
+        guard inputs.canAddDelimiter() else {
             output?.entryRejected()
             return
         }
-        inputs.add(character: Character(value))
+        inputs.addDelimiter()
         updatedInput()
     }
 
@@ -577,7 +576,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             if CharacterSet.decimalDigits.contains(char) {
                 onAddInputTapped(value: charStringValue)
             } else if "." == charStringValue {
-                onDelimiterTapped(value: charStringValue)
+                onDelimiterTapped()
             }
         }
     }

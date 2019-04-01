@@ -114,7 +114,9 @@ extension CardsViewController {
             showContinueKycCard(isAirdropUser: nabuUser.isSunriverAirdropRegistered)
             return true
         } else if shouldShowStellarView {
-            if onboardingSettings.hasSeenGetFreeXlmModal == true {
+            let hasDismissedProfileCard = onboardingSettings.hasDismissedCompleteYourProfileCard
+            if onboardingSettings.hasSeenGetFreeXlmModal == true,
+                hasDismissedProfileCard == false {
                 showCompleteYourProfileCard()
             }
             return true
@@ -149,7 +151,7 @@ extension CardsViewController {
     private func showSwapCTA() {
         let model = AnnouncementCardViewModel.swapCTA(action: {
             let tabController = AppCoordinator.shared.tabControllerManager
-            ExchangeCoordinator.shared.start(rootViewController: tabController)
+            tabController.swapTapped(nil)
         }) { [weak self] in
             BlockchainSettings.App.shared.shouldHideSwapCard = true
             self?.animateHideCards()
@@ -273,6 +275,7 @@ extension CardsViewController {
         let model = AnnouncementCardViewModel.completeYourProfile(action: { [unowned self] in
             self.continueKyc()
         }, onClose: { [weak self] in
+            BlockchainSettings.Onboarding.shared.hasDismissedCompleteYourProfileCard = true
             self?.animateHideCards()
         })
         showSingleCard(with: model)

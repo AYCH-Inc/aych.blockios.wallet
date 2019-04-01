@@ -209,8 +209,8 @@ extension ExchangeCreateViewController {
 }
 
 extension ExchangeCreateViewController: NumberKeypadViewDelegate {
-    func onDelimiterTapped(value: String) {
-        delegate?.onDelimiterTapped(value: value)
+    func onDelimiterTapped() {
+        delegate?.onDelimiterTapped()
     }
     
     func onAddInputTapped(value: String) {
@@ -487,16 +487,29 @@ extension ExchangeCreateViewController: NavigatableView {
     
     func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
         if case let .error(value) = presenter.status {
+            
             let action = AlertAction(title: LocalizationConstants.Exchange.done, style: .default)
+            var actions = [action]
+            if let url = value.url {
+                let learnMore = AlertAction(
+                    title: LocalizationConstants.Exchange.learnMore,
+                    style: .confirm,
+                    metadata: .url(url)
+                )
+                actions.append(learnMore)
+            }
             let model = AlertModel(
                 headline: value.title,
                 body: value.description,
-                actions: [action],
+                actions: actions,
                 image: value.image,
                 style: .sheet
             )
-            let alert = AlertView.make(with: model) { _ in
-                
+            let alert = AlertView.make(with: model) { [weak self] action in
+                guard let self = self else { return }
+                guard let data = action.metadata else { return }
+                guard case let .url(url) = data else { return }
+                self.presentURL(url)
             }
             alert.show()
             return

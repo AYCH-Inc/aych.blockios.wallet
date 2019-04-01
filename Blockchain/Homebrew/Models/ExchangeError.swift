@@ -128,6 +128,23 @@ extension ExchangeError {
             return #imageLiteral(resourceName: "error-triangle.pdf")
         }
     }
+    
+    var url: URL? {
+        switch self {
+        case .belowTradingLimit,
+             .aboveTierLimit,
+             .aboveTradingLimit,
+             .aboveMaxVolume:
+            guard let base = URL(string: "https://support.blockchain.com") else { return nil }
+            return URL.endpoint(
+                base,
+                pathComponents: ["hc", "en-us", "articles", "360018353031-What-are-the-minimum-and-maximum-amounts-I-can-Swap-"],
+                queryParameters: nil
+            )
+        default:
+            return nil
+        }
+    }
 }
 
 extension CryptoCurrency {

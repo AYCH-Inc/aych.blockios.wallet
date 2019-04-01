@@ -727,7 +727,7 @@
     [self showReceiveAnimated:YES];
 }
 
-- (void)swapTapped:(UITabBarItem *)sender
+- (void)swapTapped:(nullable UITabBarItem *)sender
 {
     [self.tabViewController setActiveViewController:self.exchangeContainerViewController animated:true index:[ConstantsObjcBridge tabSwap]];
 }

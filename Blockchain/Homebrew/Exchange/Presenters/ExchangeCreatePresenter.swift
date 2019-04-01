@@ -142,8 +142,8 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
         )
     }
     
-    func onDelimiterTapped(value: String) {
-        interactor.onDelimiterTapped(value: value)
+    func onDelimiterTapped() {
+        interactor.onDelimiterTapped()
     }
 
     func onAddInputTapped(value: String) {

@@ -82,6 +82,10 @@ class ExchangeInputViewModel {
         return canAppend(component: inputComponent)
     }
     
+    func canAppendDelimiter() -> Bool {
+        return canAppend(component: .delimiter)
+    }
+    
     func append(character: Character) {
         guard let type = inputComponentTypeForCharacter(String(character)) else { return }
         let entry: InputComponentEntry = character == "0" ? .zero(String(character)) : .nonzero(String(character))

@@ -10,7 +10,7 @@ import Foundation
 
 protocol NumberKeypadViewDelegate: class {
     func onAddInputTapped(value: String)
-    func onDelimiterTapped(value: String)
+    func onDelimiterTapped()
     func onBackspaceTapped()
 }
 
@@ -63,10 +63,9 @@ class NumberKeypadView: NibBasedView {
     }
 
     @IBAction func delimiterButtonTapped(_ sender: UIButton) {
-        guard let titleLabel = sender.titleLabel, let value = titleLabel.text else { return }
         feedback.prepare()
         feedback.impactOccurred()
-        delegate?.onDelimiterTapped(value: value)
+        delegate?.onDelimiterTapped()
     }
     
     @IBAction func numberButtonTapped(_ sender: UIButton) {

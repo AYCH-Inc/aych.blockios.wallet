@@ -55,7 +55,7 @@
 - (void)receiveCoinClicked:(UITabBarItem *)sender;
 - (void)transactionsClicked:(UITabBarItem *)sender;
 - (void)sendCoinsClicked:(UITabBarItem *)sender;
-- (void)swapTapped:(UITabBarItem *)sender;
+- (void)swapTapped:(nullable UITabBarItem *)sender;
 - (void)qrCodeButtonClicked;
 - (void)transitionToIndex:(NSInteger)index;
 

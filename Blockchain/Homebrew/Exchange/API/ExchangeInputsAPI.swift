@@ -19,7 +19,9 @@ protocol ExchangeInputsAPI: class {
     
     func canBackspace() -> Bool
     func canAdd(character: Character) -> Bool
+    func canAddDelimiter() -> Bool
     func add(character: Character)
+    func addDelimiter()
 
     func clear()
     func backspace()

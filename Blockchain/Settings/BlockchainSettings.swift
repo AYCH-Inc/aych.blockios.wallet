@@ -631,12 +631,22 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenGetFreeXlmModal.rawValue)
             }
         }
+        
+        @objc var hasDismissedCompleteYourProfileCard: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.hasDismissedCompleteYourProfileCard.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.hasDismissedCompleteYourProfileCard.rawValue)
+            }
+        }
 
         private override init() {
             super.init()
         }
 
         func reset() {
+            hasDismissedCompleteYourProfileCard = false
             hasSeenGetFreeXlmModal = false
             hasSeenAirdropJoinWaitlistCard = false
         }

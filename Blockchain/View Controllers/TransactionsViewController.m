@@ -59,6 +59,10 @@
     [self.view addSubview:self.filterSelectorView];
 }
 
+- (void)setupNoTransactionsViewEtherInView:(UIView *)view {
+    [self setupNoTransactionsViewInView:view assetType:LegacyAssetTypeEther];
+}
+
 - (void)setupNoTransactionsViewInView:(UIView *)view assetType:(LegacyAssetType)assetType
 {
     [self.noTransactionsView removeFromSuperview];

@@ -532,6 +532,10 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 }
                 return
             }
+            guard model.volume != "0" else {
+                this.status = .error(.noVolumeProvided)
+                return
+            }
 
             let symbol = model.fiatCurrencySymbol
             let suffix = model.pair.from.symbol

@@ -15,6 +15,7 @@ enum ExchangeError: Error, Equatable {
     case aboveTierLimit(FiatValue, AssetType)
     case aboveMaxVolume(CryptoValue)
     case insufficientFunds(CryptoValue)
+    case noVolumeProvided
     
     /// Should only happen when `"NO_UNSPENT_OUTPUTS"` is returned
     /// from the JS layer.
@@ -45,6 +46,8 @@ extension ExchangeError {
             return true
         case (.default(let left), .default(let right)):
             return left == right
+        case (.noVolumeProvided, .noVolumeProvided):
+            return true
         default:
             return false
         }
@@ -54,7 +57,8 @@ extension ExchangeError {
 extension ExchangeError {
     var title: String {
         switch self {
-        case .belowTradingLimit:
+        case .belowTradingLimit,
+             .noVolumeProvided:
             return LocalizationConstants.Exchange.belowTradingLimit
         case .aboveTradingLimit:
             return LocalizationConstants.Exchange.aboveTradingLimit
@@ -103,6 +107,8 @@ extension ExchangeError {
             return LocalizationConstants.Errors.notEnoughXForFees + assetType.symbol
         case .waitingOnEthereumPayment:
             return nil
+        case .noVolumeProvided:
+            return nil
         case .default(let value):
             return value
         }
@@ -124,7 +130,8 @@ extension ExchangeError {
             return cryptoValue.currencyType.toAssetType.errorImage
         case .insufficientFunds(let cryptoValue):
             return cryptoValue.currencyType.toAssetType.errorImage
-        case .default:
+        case .default,
+             .noVolumeProvided:
             return #imageLiteral(resourceName: "error-triangle.pdf")
         }
     }

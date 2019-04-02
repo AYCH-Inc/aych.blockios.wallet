@@ -174,8 +174,8 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
     
     var rightNavigationCTAType: NavigationCTAType {
         switch interactor.status {
-        case .error:
-            return .error
+        case .error(let value):
+            return value == .noVolumeProvided ? .help : .error
         case .inflight:
             return .activityIndicator
         case .unknown,

@@ -466,8 +466,8 @@ extension ExchangeCreateViewController: NavigatableView {
     
     var rightCTATintColor: UIColor {
         guard let presenter = presenter else { return .white }
-        if case .error = presenter.status {
-            return .pending
+        if case .error(let value) = presenter.status {
+            return value == .noVolumeProvided ? .white : .pending
         }
         
         return .white
@@ -486,7 +486,7 @@ extension ExchangeCreateViewController: NavigatableView {
     }
     
     func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
-        if case let .error(value) = presenter.status {
+        if case let .error(value) = presenter.status, value != .noVolumeProvided {
             
             let action = AlertAction(title: LocalizationConstants.Exchange.done, style: .default)
             var actions = [action]

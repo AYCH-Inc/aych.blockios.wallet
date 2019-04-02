@@ -902,7 +902,7 @@ struct LocalizationConstants {
             comment: "Title of a bottom sheet alert prompting the user to complete KYC"
         )
         static let bottomSheetPromptForKycDescription = NSLocalizedString(
-            "Complete your profile today and we will airdrop $25 of free Stellar (XLM) in your Wallet.",
+            "Complete your profile today and we will airdrop free Stellar (XLM) in your Wallet.",
             comment: "Description of a bottom sheet alert prompting the user to complete KYC"
         )
         static let bottomSheetPromptForKycAction = NSLocalizedString(
@@ -914,7 +914,7 @@ struct LocalizationConstants {
             comment: "Title of a bottom sheet alert prompting the user to complete KYC"
         )
         static let bottomSheetPromptForAirdropRegistrationDescription = NSLocalizedString(
-            "Tap the button to automatically receive your $25 of free Stellar (XLM) once Gold level is unlocked.",
+            "Tap the button to automatically receive free Stellar (XLM) once Gold level is unlocked.",
             comment: "Description of a bottom sheet alert prompting the user to complete KYC"
         )
         static let bottomSheetPromptForAirdropRegistrationAction = NSLocalizedString(
@@ -930,7 +930,7 @@ struct LocalizationConstants {
             comment: "Title of a bottom sheet alert prompting the user to complete KYC"
         )
         static let cardCompleteProfileDescription = NSLocalizedString(
-            "Complete your Blockchain profile today and we'll airdrop $25 of XLM directly into your Wallet!",
+            "Complete your Blockchain profile today and we'll airdrop XLM directly into your Wallet!",
             comment: "Description of a bottom sheet alert prompting the user to complete KYC"
         )
         static let cardCompleteProfileAction = NSLocalizedString(

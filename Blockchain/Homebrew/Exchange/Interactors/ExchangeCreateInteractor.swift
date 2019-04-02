@@ -452,6 +452,10 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] accounts in
                 guard let self = self else { return }
+                /// When we are validating the user's input, we check to
+                /// make sure that the status is not currently `.inflight`.
+                /// So we need to set the status to `.unknown` here.
+                self.status = .unknown
                 self.updatedInput()
                 self.validateInput()
             })

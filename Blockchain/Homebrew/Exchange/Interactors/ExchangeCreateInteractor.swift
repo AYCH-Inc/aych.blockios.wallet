@@ -38,6 +38,7 @@ class ExchangeCreateInteractor {
     }
 
     private let disposables = CompositeDisposable()
+    private var accountDisposeBag: DisposeBag = DisposeBag()
     private var tradingLimitDisposable: Disposable?
     private var repository: AssetAccountRepository = {
        return AssetAccountRepository.shared
@@ -202,7 +203,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         let address = model.marketPair.fromAccount.address.address
         let type = model.marketPair.pair.from
         
-        let disposable = repository.accounts(for: type).asObservable()
+        repository.accounts(for: type).asObservable()
             .subscribeOn(MainScheduler.asyncInstance)
             .flatMap { [weak self] accounts -> Observable<(Decimal, Decimal)> in
                 guard let self = self else { return Observable.empty() }
@@ -225,7 +226,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                     fiatValue: fiatValue
                 )
             })
-        disposables.insertWithDiscardableResult(disposable)
+            .disposed(by: accountDisposeBag)
     }
 
     func updateTradingValues(left: String, right: String) {
@@ -288,6 +289,13 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
 
         // Update to new pair
         model.marketPair = marketPair
+        
+        /// Fetching the user's balance can sometimes take as much as two seconds
+        /// so if that request is still in flight, we want to dispose of it by
+        /// creating a new `DisposeBag`. This ensures that we show the user's correct balance
+        /// every time they change their wallet selection. Typically this
+        /// is when the user has mulitple HD accounts.
+        accountDisposeBag = DisposeBag()
         updatedInput()
         output?.updateTradingPair(pair: model.pair, fix: model.fix)
     }

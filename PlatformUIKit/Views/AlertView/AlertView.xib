@@ -29,17 +29,17 @@
                         <constraint firstAttribute="height" constant="4" id="8wT-Tf-n36"/>
                     </constraints>
                 </view>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Tub-Tv-IPM">
-                    <rect key="frame" x="20" y="40" width="335" height="100"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Tub-Tv-IPM">
+                    <rect key="frame" x="20" y="40" width="335" height="80"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Need some help?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMH-3h-xM5">
-                            <rect key="frame" x="89" y="0.0" width="157.5" height="30.5"/>
+                            <rect key="frame" x="81" y="0.0" width="173" height="24.5"/>
                             <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
                             <color key="textColor" red="0.029999999999999999" green="0.28999999999999998" blue="0.47999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Our Blockchain Support Team has written Help Guides explaining why we need to verify your identity." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TS2-x6-RO5">
-                            <rect key="frame" x="19" y="34.5" width="297.5" height="65.5"/>
+                            <rect key="frame" x="0.0" y="28.5" width="335" height="51.5"/>
                             <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
                             <color key="textColor" red="0.35999999999999999" green="0.35999999999999999" blue="0.35999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -58,8 +58,8 @@
                         <action selector="dismissButtonTapped:" destination="Gdl-5C-h42" eventType="touchUpInside" id="uDt-IG-yYI"/>
                     </connections>
                 </button>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="vXl-SB-GNz">
-                    <rect key="frame" x="20" y="164" width="335" height="126"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="vXl-SB-GNz">
+                    <rect key="frame" x="20" y="144" width="335" height="132"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHT-0b-NgS">
                             <rect key="frame" x="0.0" y="0.0" width="335" height="56"/>
@@ -72,7 +72,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zpf-og-7yj">
-                            <rect key="frame" x="0.0" y="70" width="335" height="56"/>
+                            <rect key="frame" x="0.0" y="76" width="335" height="56"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="56" id="LRx-yo-pUP"/>
                             </constraints>
@@ -96,7 +96,6 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="bWz-z9-ZgB" firstAttribute="bottom" secondItem="vXl-SB-GNz" secondAttribute="bottom" constant="24" id="4Ri-RF-CK2"/>
                 <constraint firstItem="T0n-w3-J1V" firstAttribute="top" secondItem="bWz-z9-ZgB" secondAttribute="top" constant="8" id="EsW-gE-XLW"/>
                 <constraint firstItem="OHT-0b-NgS" firstAttribute="width" secondItem="Tub-Tv-IPM" secondAttribute="width" id="GS8-5C-Fc8"/>
                 <constraint firstItem="dJ3-ZU-F1W" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="XMH-3h-xM5" secondAttribute="trailing" constant="4" id="NOf-xA-Jro"/>

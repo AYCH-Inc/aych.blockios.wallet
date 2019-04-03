@@ -113,7 +113,7 @@ DEPENDENCIES:
   - RxSwift (~> 4.0)
   - RxTest (~> 4.0)
   - Starscream (~> 3.0.2)
-  - stellar-ios-mac-sdk (~> 1.6.0)
+  - "stellar-ios-mac-sdk (from `git@github.com:jackpooleybc/stellar-ios-mac-sdk.git`, commit `48ee0b340919c015c3d50977f8d8ebdeffa209ec`)"
   - SwiftLint
   - VeriffSDK (~> 2.0.4)
 
@@ -142,9 +142,18 @@ SPEC REPOS:
     - RxTest
     - SipHash
     - Starscream
-    - stellar-ios-mac-sdk
     - SwiftLint
     - VeriffSDK
+
+EXTERNAL SOURCES:
+  stellar-ios-mac-sdk:
+    :commit: 48ee0b340919c015c3d50977f8d8ebdeffa209ec
+    :git: "git@github.com:jackpooleybc/stellar-ios-mac-sdk.git"
+
+CHECKOUT OPTIONS:
+  stellar-ios-mac-sdk:
+    :commit: 48ee0b340919c015c3d50977f8d8ebdeffa209ec
+    :git: "git@github.com:jackpooleybc/stellar-ios-mac-sdk.git"
 
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
@@ -174,6 +183,6 @@ SPEC CHECKSUMS:
   SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
   VeriffSDK: c9fe64b14ebab9a85aa9d78048146b7f079f6969
 
-PODFILE CHECKSUM: 9f65be6050d256bf89f0fb06d046e6e01e7e706b
+PODFILE CHECKSUM: 78c07b30f45d2c04301e665b9d9ee06c1df9fd96
 
 COCOAPODS: 1.5.3

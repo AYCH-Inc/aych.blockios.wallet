@@ -160,7 +160,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] price, ledger, fee in
                 guard let self = self else { return }
-                guard let baseFeeInXlm = ledger.baseFeeInXlm else {
+                guard let _ = ledger.baseFeeInXlm else {
                     Logger.shared.error("Fee is nil.")
                     self.interface.apply(updates: [
                         .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),

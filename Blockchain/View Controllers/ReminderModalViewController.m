@@ -91,6 +91,7 @@
         [continueButton addTarget:self action:@selector(openMail) forControlEvents:UIControlEventTouchUpInside];
         
         UILabel *emailLabel = [[UILabel alloc] initWithFrame:titleLabel.frame];
+        emailLabel.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupReminderScreen.emailLabel;
         emailLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_SEMIBOLD size:FONT_SIZE_SMALL_MEDIUM];
         emailLabel.text = self.displayString;
         emailLabel.textAlignment = NSTextAlignmentCenter;
@@ -124,6 +125,11 @@
     
     [detailLabel sizeToFit];
     detailLabel.center = CGPointMake(iconImageView.center.x, detailLabel.center.y);
+    
+    titleLabel.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupReminderScreen.titleLabel;
+    detailLabel.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupReminderScreen.detailLabel;
+    continueButton.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupReminderScreen.continueButton;
+    cancelButton.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupReminderScreen.cancelButton;
 }
 
 - (void)viewWillDisappear:(BOOL)animated

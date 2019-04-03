@@ -36,6 +36,7 @@ Boolean shouldShowAnimation;
         
         // Buttons
         self.createWalletButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.createWalletButton.accessibilityIdentifier = AccessibilityIdentifiers_WelcomeScreen.createWalletButton;
         self.createWalletButton.frame = CGRectMake(0, self.frame.size.height - 230, 240, BUTTON_HEIGHT);
         self.createWalletButton.layer.cornerRadius = CORNER_RADIUS_BUTTON;
         self.createWalletButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_MEDIUM];
@@ -51,6 +52,7 @@ Boolean shouldShowAnimation;
         self.createWalletButton.alpha = 0.0;
         
         self.existingWalletButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.existingWalletButton.accessibilityIdentifier = AccessibilityIdentifiers_WelcomeScreen.loginButton;
         self.existingWalletButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_MEDIUM];
         self.existingWalletButton.titleLabel.adjustsFontSizeToFitWidth = YES;
         self.existingWalletButton.layer.cornerRadius = CORNER_RADIUS_BUTTON;
@@ -63,6 +65,7 @@ Boolean shouldShowAnimation;
         self.existingWalletButton.alpha = 0.0;
         
         self.recoverWalletButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.recoverWalletButton.accessibilityIdentifier = AccessibilityIdentifiers_WelcomeScreen.recoverFundsButton;
         self.recoverWalletButton.titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_MEDIUM];
         self.recoverWalletButton.titleLabel.adjustsFontSizeToFitWidth = YES;
         [self.recoverWalletButton setTitleColor:UIColor.brandPrimary forState:UIControlStateNormal];

@@ -112,6 +112,15 @@
     [self.swipeLabelImageView setTintColor:UIColor.brandPrimary];
 
     [self setupTapActionForSwipeQR];
+    
+    pin0.accessibilityIdentifier = AccessibilityIdentifiers_PinScreen.pinIndicator0;
+    pin1.accessibilityIdentifier = AccessibilityIdentifiers_PinScreen.pinIndicator1;
+    pin2.accessibilityIdentifier = AccessibilityIdentifiers_PinScreen.pinIndicator2;
+    pin3.accessibilityIdentifier = AccessibilityIdentifiers_PinScreen.pinIndicator3;
+    promptLabel.accessibilityIdentifier = AccessibilityIdentifiers_PinScreen.enterPINLabel;
+    self.versionLabel.accessibilityIdentifier = AccessibilityIdentifiers_PinScreen.versionLabel;
+    self.swipeLabel.accessibilityIdentifier = AccessibilityIdentifiers_PinScreen.swipeLabel;
+    
 }
 
 - (IBAction)cancelChangePin:(id)sender

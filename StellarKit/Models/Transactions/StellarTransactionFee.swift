@@ -53,7 +53,7 @@ public struct StellarTransactionFee: TransactionFee, Decodable {
         limits = try values.decode(TransactionFeeLimits.self, forKey: .limits)
     }
 
-    init(limits: TransactionFeeLimits, regular: Int, priority: Int) {
+    public init(limits: TransactionFeeLimits, regular: Int, priority: Int) {
         self.limits = limits
         self.regular = CryptoValue.lumensFromStroops(string: String(regular))!
         self.priority = CryptoValue.lumensFromStroops(string: String(priority))!

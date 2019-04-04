@@ -160,7 +160,6 @@ extension CardsViewController {
     }
 
     private func showContinueKycCard(isAirdropUser: Bool) {
-        let appSettings = BlockchainSettings.App.shared
         let kycSettings = KYCSettings.shared
         let model = AnnouncementCardViewModel.continueWithKYC(isAirdropUser: isAirdropUser, action: { [unowned self] in
             self.continueKyc()
@@ -271,10 +270,12 @@ extension CardsViewController {
     }
 
     private func showCompleteYourProfileCard() {
+        let onboardingSettings = BlockchainSettings.Onboarding.shared
         let model = AnnouncementCardViewModel.completeYourProfile(action: { [unowned self] in
-            self.continueKyc()
+            onboardingSettings.hasDismissedCompleteYourProfileCard = true
+            self.stellarAirdropCardActionTapped()
         }, onClose: { [weak self] in
-            BlockchainSettings.Onboarding.shared.hasDismissedCompleteYourProfileCard = true
+            onboardingSettings.hasDismissedCompleteYourProfileCard = true
             self?.animateHideCards()
         })
         showSingleCard(with: model)

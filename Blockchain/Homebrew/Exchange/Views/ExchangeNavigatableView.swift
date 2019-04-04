@@ -39,8 +39,8 @@ extension ExchangeNavigatableView where Self: UIViewController {
     /// swap limits. Override this method or navControllerRightBarButtonTapped to change the
     /// behavior
     func presentNeedSomeHelpAlert() {
-        let contactSupport = AlertAction(title: LocalizationConstants.KYC.contactSupport, style: .confirm)
-        let viewLimits = AlertAction(title: LocalizationConstants.Swap.viewMySwapLimit, style: .default)
+        let contactSupport = AlertAction(style: .confirm(LocalizationConstants.KYC.contactSupport))
+        let viewLimits = AlertAction(style: .default(LocalizationConstants.Swap.viewMySwapLimit))
         let model = AlertModel(
             headline: LocalizationConstants.KYC.needSomeHelp,
             body: LocalizationConstants.Swap.helpDescription,

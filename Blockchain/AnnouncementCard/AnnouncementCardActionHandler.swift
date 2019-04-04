@@ -35,7 +35,7 @@ import PlatformUIKit
 
     @objc func stellarModalPromptForAirdropRegistrationActionTapped() {
         stellarAirdropRouter.registerForCampaign(success: { user in
-            let okAction = AlertAction(title: LocalizationConstants.okString, style: .confirm)
+            let okAction = AlertAction(style: .confirm(LocalizationConstants.okString))
             let alertModel = AlertModel(
                 headline: LocalizationConstants.AnnouncementCards.registerAirdropSuccessTitle,
                 body: LocalizationConstants.AnnouncementCards.registerAirdropSuccessDescription,

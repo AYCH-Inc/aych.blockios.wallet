@@ -86,15 +86,19 @@ public class AlertView: UIView {
         if model.actions.count > 1 {
             interItemPadding += actionsVerticalPadding
         }
-        model.actions.forEach({ _ in actionsHeight += actionButtonHeight })
-        return messageToActionsPadding +
+        /// A `.dismiss` action type is not a button but rather when the user
+        /// swipes away the `AlertView` or taps outside of it.
+        let actions = model.actions.filter({ $0.style != .dismiss })
+        actions.forEach({ _ in actionsHeight += actionButtonHeight })
+        let result = messageToActionsPadding +
             actionsToBottomPadding +
             topToHeadingPadding +
             actionsHeight +
             imageViewHeight +
             headlineHeight +
             messageHeight +
-            interItemPadding
+        interItemPadding
+        return result
     }
     
     public class func headlineFont() -> UIFont {
@@ -135,8 +139,10 @@ public class AlertView: UIView {
             imageViewHeightConstraint.constant = image.size.height
             imageViewWidthConstraint.constant = image.size.width
         }
-        confirmButton.isHidden = model.actions.contains(where: { $0.style == .confirm }) == false
-        defaultButton.isHidden = model.actions.contains(where: { $0.style == .default }) == false
+        
+        confirmButton.isHidden = model.actions.first(where: { $0.style == .confirm($0.title ?? "") }) == nil
+        
+        defaultButton.isHidden = model.actions.first(where: { $0.style == .default($0.title ?? "") }) == nil
         
         if defaultButton.isHidden {
            defaultButtonHeightConstraint.constant = 0.0
@@ -154,18 +160,18 @@ public class AlertView: UIView {
         }
         model.actions.forEach { action in
             switch action.style {
-            case .confirm:
+            case .confirm(let title):
                 let font = Font(.branded(.montserratSemiBold), size: .custom(18.0)).result
                 let attributedTitle = NSAttributedString(
-                    string: action.title,
+                    string: title,
                     attributes: [.font: font,
                                  .foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)]
                 )
                 confirmButton.setAttributedTitle(attributedTitle, for: .normal)
-            case .default:
+            case .default(let title):
                 let font = Font(.branded(.montserratSemiBold), size: .custom(18.0)).result
                 let attributedTitle = NSAttributedString(
-                    string: action.title,
+                    string: title,
                     attributes: [.font: font,
                                  .foregroundColor: #colorLiteral(red: 0.06274509804, green: 0.6784313725, blue: 0.8941176471, alpha: 1)]
                 )
@@ -270,19 +276,19 @@ public class AlertView: UIView {
     
     @objc func dismiss() {
         guard model.dismissable == true else { return }
-        let dismiss = model.actions.filter({ $0.style == .dismiss }).first
+        guard let dismiss = model.actions.first(where: { $0.style == .dismiss }) else { return }
         teardown(with: dismiss)
     }
     
     // MARK: Actions
     
     @IBAction func confirmButtonTapped(_ sender: UIButton) {
-        guard let confirm = model.actions.filter({ $0.style == .confirm }).first else { return }
+        guard let confirm = model.actions.first(where: { $0.style == .confirm($0.title ?? "") }) else { return }
         teardown(with: confirm)
     }
     
     @IBAction func defaultButtonTapped(_ sender: UIButton) {
-        guard let action = model.actions.filter({ $0.style == .default }).first else { return }
+        guard let action = model.actions.first(where: { $0.style == .default($0.title ?? "") }) else { return }
         teardown(with: action)
     }
     

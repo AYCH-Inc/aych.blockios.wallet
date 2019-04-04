@@ -189,8 +189,8 @@ extension CardsViewController {
     private func showCoinifyKycModal() {
         didShowCoinifyKycModal = true
 
-        let updateNow = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoAction, style: .confirm)
-        let learnMore = AlertAction(title: LocalizationConstants.AnnouncementCards.learnMore, style: .default)
+        let updateNow = AlertAction(style: .confirm(LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoAction))
+        let learnMore = AlertAction(style: .default(LocalizationConstants.AnnouncementCards.learnMore))
         let alertModel = AlertModel(
             headline: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoDescription,
@@ -224,8 +224,8 @@ extension CardsViewController {
     }
 
     private func showStellarModalPromptForKyc() {
-        let getFreeXlm = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetPromptForKycAction, style: .confirm)
-        let dismiss = AlertAction(title: "discard", style: .dismiss)
+        let getFreeXlm = AlertAction(style: .confirm(LocalizationConstants.AnnouncementCards.bottomSheetPromptForKycAction))
+        let dismiss = AlertAction(style: .dismiss)
         let alertModel = AlertModel(
             headline: LocalizationConstants.AnnouncementCards.bottomSheetPromptForKycTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetPromptForKycDescription,
@@ -248,13 +248,12 @@ extension CardsViewController {
     }
 
     private func showStellarModalPromptForAirdropRegistration() {
-        let getFreeXlm = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationAction, style: .confirm)
-        let dismiss = AlertAction(title: "discard", style: .dismiss)
-        let maybeLater = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationCancel, style: .dismiss)
+        let getFreeXlm = AlertAction(style: .confirm(LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationAction))
+        let dismiss = AlertAction(style: .default(LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationCancel))
         let alertModel = AlertModel(
             headline: LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationDescription,
-            actions: [getFreeXlm, maybeLater, dismiss],
+            actions: [getFreeXlm, dismiss],
             image: UIImage(named: "symbol-xlm-color"),
             dismissable: true,
             style: .sheet

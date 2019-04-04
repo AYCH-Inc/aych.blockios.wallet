@@ -488,12 +488,11 @@ extension ExchangeCreateViewController: NavigatableView {
     func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
         if case let .error(value) = presenter.status, value != .noVolumeProvided {
             
-            let action = AlertAction(title: LocalizationConstants.Exchange.done, style: .default)
+            let action = AlertAction(style: .default(LocalizationConstants.Exchange.done))
             var actions = [action]
             if let url = value.url {
                 let learnMore = AlertAction(
-                    title: LocalizationConstants.Exchange.learnMore,
-                    style: .confirm,
+                    style: .confirm(LocalizationConstants.Exchange.learnMore),
                     metadata: .url(url)
                 )
                 actions.append(learnMore)

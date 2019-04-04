@@ -56,10 +56,7 @@ protocol CameraPromptingDelegate: class {
 
 extension CameraPromptingDelegate {
     func showCameraPermissionsDenied() {
-        let action = AlertAction(
-            title: LocalizationConstants.goToSettings,
-            style: .confirm
-        )
+        let action = AlertAction(style: .confirm(LocalizationConstants.goToSettings))
         let model = AlertModel(
             headline: LocalizationConstants.Errors.cameraAccessDenied,
             body: LocalizationConstants.Errors.cameraAccessDeniedMessage,
@@ -79,15 +76,9 @@ extension CameraPromptingDelegate {
     }
 
     func promptToAcceptCameraPermissions(confirmHandler: @escaping (() -> Void)) {
-        let okay = AlertAction(
-            title: LocalizationConstants.okString,
-            style: .confirm
-        )
-        let notNow = AlertAction(
-            title: LocalizationConstants.KYC.notNow,
-            style: .default
-        )
-
+        let okay = AlertAction(style: .confirm(LocalizationConstants.okString))
+        let notNow = AlertAction(style: .default(LocalizationConstants.KYC.notNow))
+        
         let model = AlertModel(
             headline: LocalizationConstants.KYC.allowCameraAccess,
             body: LocalizationConstants.KYC.enableCameraDescription,

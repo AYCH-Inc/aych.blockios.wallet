@@ -462,8 +462,7 @@ extension ExchangeDetailCoordinator {
     
     fileprivate func updateOrderAction() -> AlertAction {
         return AlertAction(
-            title: LocalizationConstants.Exchange.updateOrder,
-            style: .confirm,
+            style: .confirm(LocalizationConstants.Exchange.updateOrder),
             metadata: .pop
         )
     }
@@ -471,16 +470,14 @@ extension ExchangeDetailCoordinator {
     fileprivate func moreInfoAction() -> AlertAction {
         let url = URL(string: "https://support.blockchain.com/hc/en-us/articles/360023819571-Order-exceeds-wallet-balance")!
         return AlertAction(
-            title: LocalizationConstants.Exchange.moreInfo,
-            style: .default,
+            style: .default(LocalizationConstants.Exchange.moreInfo),
             metadata: .url(url)
         )
     }
     
     fileprivate func increaseLimitsAction() -> AlertAction {
         return AlertAction(
-            title: LocalizationConstants.Exchange.increaseMyLimits,
-            style: .default,
+            style: .default(LocalizationConstants.Exchange.increaseMyLimits),
             metadata: .block({ [weak self] in
                 guard let this = self else { return }
                 this.interface?.presentTiers()
@@ -490,8 +487,7 @@ extension ExchangeDetailCoordinator {
     
     fileprivate func tryAgainAction() -> AlertAction {
         return AlertAction(
-            title: LocalizationConstants.Exchange.tryAgain,
-            style: .confirm,
+            style: .confirm(LocalizationConstants.Exchange.tryAgain),
             metadata: .block({ [weak self] in
                 guard let this = self else { return }
                 guard case let .confirm(transaction, _) = this.current.pageType else { return }

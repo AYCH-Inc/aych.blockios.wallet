@@ -18,7 +18,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="Gdl-5C-h42" customClass="AlertView" customModule="PlatformUIKit" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="314"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="296"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T0n-w3-J1V">
@@ -128,7 +128,7 @@
                 <outlet property="notch" destination="T0n-w3-J1V" id="rVN-gW-ehh"/>
                 <outlet property="okayButtonHeightConstraint" destination="WVf-p4-yau" id="CoP-RZ-qW2"/>
             </connections>
-            <point key="canvasLocation" x="288.80000000000001" y="-156.52173913043478"/>
+            <point key="canvasLocation" x="288.80000000000001" y="-164.6176911544228"/>
         </view>
     </objects>
     <resources>

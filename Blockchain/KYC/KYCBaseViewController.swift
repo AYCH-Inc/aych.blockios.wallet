@@ -56,8 +56,8 @@ class KYCBaseViewController: UIViewController, KYCCoordinatorDelegate {
     }
     
     fileprivate func presentNeedSomeHelpAlert() {
-        let confirm = AlertAction(title: LocalizationConstants.KYC.readNow, style: .confirm)
-        let cancel = AlertAction(title: LocalizationConstants.KYC.contactSupport, style: .default)
+        let confirm = AlertAction(style: .confirm(LocalizationConstants.KYC.readNow))
+        let cancel = AlertAction(style: .default(LocalizationConstants.KYC.contactSupport))
         let model = AlertModel(
             headline: LocalizationConstants.KYC.needSomeHelp,
             body: LocalizationConstants.KYC.helpGuides,

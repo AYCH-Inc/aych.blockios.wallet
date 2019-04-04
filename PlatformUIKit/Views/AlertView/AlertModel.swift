@@ -19,7 +19,7 @@ public struct AlertModel {
     public init(
         headline: String?,
         body: String?,
-        actions: [AlertAction],
+        actions: [AlertAction] = [.defaultDismissal],
         image: UIImage? = nil,
         dismissable: Bool = true,
         style: AlertViewStyle = .default
@@ -44,6 +44,8 @@ public struct AlertAction {
 }
 
 public extension AlertAction {
+    
+    public static let defaultDismissal = AlertAction(style: .dismiss)
     
     var title: String? {
         switch style {

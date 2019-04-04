@@ -63,6 +63,7 @@ extension UserDefaults {
         case symbolLocal
         case hasSeenAirdropJoinWaitlistCard
         case hasSeenGetFreeXlmModal
+        case hasSeenStellarAirdropRegistrationAlert
         case hasDismissedCompleteYourProfileCard
         case didAttemptToRouteForAirdrop
         case didRegisterForAirdropCampaignSucceed

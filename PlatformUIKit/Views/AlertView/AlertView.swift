@@ -48,6 +48,12 @@ public class AlertView: UIView {
     
     // MARK: Public Class Functions
     
+    /// Note that the `completion` block is optional, however if you do provide
+    /// a completion block, the action of type `.dismiss` will **always** be called
+    /// assuming the user didn't tap one of the buttons.
+    /// This is because users can swipe away the alert without actually selecting
+    /// an action. Also, you shouldn't have to always provide an `AlertAction`
+    /// of type `.dismiss`.  
     public class func make(with model: AlertModel, completion: ((AlertAction) -> Void)?) -> AlertView {
         let bundle = Bundle(for: AlertView.self)
         let nib = UINib(nibName: String(describing: AlertView.self), bundle: bundle)
@@ -243,8 +249,11 @@ public class AlertView: UIView {
                     self.dimmingView.alpha = 0.0
                 }) { [weak self] _ in
                     guard let self = self else { return }
-                    guard let dismiss = self.model.actions.filter({ $0.style == .dismiss }).first else { return }
-                    self.completion?(dismiss)
+                    if let dismiss = self.model.actions.filter({ $0.style == .dismiss }).first {
+                        self.completion?(dismiss)
+                    } else {
+                        self.completion?(.defaultDismissal)
+                    }
                 }
             }
         case .ended, .cancelled, .failed:
@@ -276,8 +285,11 @@ public class AlertView: UIView {
     
     @objc func dismiss() {
         guard model.dismissable == true else { return }
-        guard let dismiss = model.actions.first(where: { $0.style == .dismiss }) else { return }
-        teardown(with: dismiss)
+        if let dismiss = model.actions.first(where: { $0.style == .dismiss }) {
+            teardown(with: dismiss)
+        } else {
+            teardown(with: .defaultDismissal)
+        }
     }
     
     // MARK: Actions
@@ -299,6 +311,13 @@ public class AlertView: UIView {
     // MARK: Public
     
     public func show() {
+        guard let window = UIApplication.shared.keyWindow else { return }
+        
+        /// You can only present one `AlertView` at a time
+        guard window.subviews.contains(where: { $0 is AlertView }) == false else {
+            print("You can only present one `AlertView` at a time.")
+            return
+        }
         switch model.style {
         case .default:
             presentDefaultView()

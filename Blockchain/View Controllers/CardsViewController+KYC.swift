@@ -271,10 +271,12 @@ extension CardsViewController {
     }
 
     private func showCompleteYourProfileCard() {
+        let onboardingSettings = BlockchainSettings.Onboarding.shared
         let model = AnnouncementCardViewModel.completeYourProfile(action: { [unowned self] in
+            onboardingSettings.hasDismissedCompleteYourProfileCard = true
             self.stellarAirdropCardActionTapped()
         }, onClose: { [weak self] in
-            BlockchainSettings.Onboarding.shared.hasDismissedCompleteYourProfileCard = true
+            onboardingSettings.hasDismissedCompleteYourProfileCard = true
             self?.animateHideCards()
         })
         showSingleCard(with: model)

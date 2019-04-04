@@ -632,6 +632,15 @@ final class BlockchainSettings: NSObject {
             }
         }
         
+        @objc var hasSeenStellarAirdropRegistrationAlert: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.hasSeenStellarAirdropRegistrationAlert.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenStellarAirdropRegistrationAlert.rawValue)
+            }
+        }
+        
         @objc var hasDismissedCompleteYourProfileCard: Bool {
             get {
                 return defaults.bool(forKey: UserDefaults.Keys.hasDismissedCompleteYourProfileCard.rawValue)
@@ -646,6 +655,7 @@ final class BlockchainSettings: NSObject {
         }
 
         func reset() {
+            hasSeenStellarAirdropRegistrationAlert = false
             hasDismissedCompleteYourProfileCard = false
             hasSeenGetFreeXlmModal = false
             hasSeenAirdropJoinWaitlistCard = false

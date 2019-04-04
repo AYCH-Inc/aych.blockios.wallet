@@ -174,6 +174,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NetworkManager.shared.session.reset {
             Logger.shared.debug("URLSession reset completed.")
         }
+        
+        /// This is a special case. One of the `AlertViews` has a `Maybe Later`
+        /// CTA. In the event that the user swipes the `AlertView` away, we don't
+        /// want to represent the alert until the user dismisses the application
+        /// and relaunches it later. 
+        BlockchainSettings.Onboarding.shared.hasSeenStellarAirdropRegistrationAlert = false
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

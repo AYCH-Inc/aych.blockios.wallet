@@ -98,8 +98,11 @@ extension CardsViewController {
             tiersResponse.canCompleteTier2 &&
             WalletManager.shared.wallet.isCoinifyTrader() &&
             !didShowCoinifyKycModal
+        let hasSeenStellarRegistrationAlert = onboardingSettings.hasSeenStellarAirdropRegistrationAlert
         let shouldShowStellarModalPromptForAirdropRegistration =
-            nabuUser.isSunriverAirdropRegistered == false && tiersResponse.isTier2Pending
+            nabuUser.isSunriverAirdropRegistered == false &&
+            (tiersResponse.isTier2Pending || tiersResponse.isTier2Verified) &&
+            hasSeenStellarRegistrationAlert == false
 
         if shouldShowCoinifyKycModal {
             showCoinifyKycModal()
@@ -224,11 +227,10 @@ extension CardsViewController {
 
     private func showStellarModalPromptForKyc() {
         let getFreeXlm = AlertAction(style: .confirm(LocalizationConstants.AnnouncementCards.bottomSheetPromptForKycAction))
-        let dismiss = AlertAction(style: .dismiss)
         let alertModel = AlertModel(
             headline: LocalizationConstants.AnnouncementCards.bottomSheetPromptForKycTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetPromptForKycDescription,
-            actions: [getFreeXlm, dismiss],
+            actions: [getFreeXlm],
             image: UIImage(named: "symbol-xlm-color"),
             dismissable: true,
             style: .sheet
@@ -260,10 +262,12 @@ extension CardsViewController {
         let alert = AlertView.make(with: alertModel) { action in
             switch action.style {
             case .confirm:
+                BlockchainSettings.Onboarding.shared.hasSeenStellarAirdropRegistrationAlert = true
                 self.stellarModalPromptForAirdropRegistrationActionTapped()
-            case .default,
-                 .dismiss:
+            case .default:
                 break
+            case .dismiss:
+                BlockchainSettings.Onboarding.shared.hasSeenStellarAirdropRegistrationAlert = true
             }
         }
         alert.show()

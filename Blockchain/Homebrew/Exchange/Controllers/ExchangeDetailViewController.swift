@@ -60,6 +60,10 @@ class ExchangeDetailViewController: UIViewController {
         coordinator.handle(event: .pageLoaded(model))
         delegate?.onViewLoaded()
     }
+    
+    deinit {
+        presenter = nil
+    }
 
     fileprivate func dependenciesSetup() {
         let interactor = ExchangeDetailInteractor(dependencies: dependencies)
@@ -211,8 +215,10 @@ extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
             switch page.pageType {
             case .confirm:
                 guard let order = mostRecentOrderTransaction else { return footer }
-                footer.actionBlock = {
+                footer.actionBlock = { [weak self] in
+                    guard let self = self else { return }
                     self.coordinator.handle(event: .confirmExchange(order))
+                    self.dismiss(animated: false, completion: nil)
                 }
             case .locked:
                 footer.actionBlock = { [weak self] in

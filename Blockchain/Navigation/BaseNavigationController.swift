@@ -15,6 +15,8 @@ enum NavigationCTAType {
     case back
     case menu
     case help
+    case error
+    case activityIndicator
     case none
 }
 
@@ -31,6 +33,10 @@ fileprivate extension NavigationCTAType {
             return #imageLiteral(resourceName: "icon_menu.png").withRenderingMode(.alwaysTemplate)
         case .back:
             return #imageLiteral(resourceName: "back_chevron_icon.png").withRenderingMode(.alwaysTemplate)
+        case .error:
+            return #imageLiteral(resourceName: "error-triangle.pdf")
+        case .activityIndicator:
+            return nil
         case .none:
             return nil
         }
@@ -115,25 +121,38 @@ extension NavigatableView where Self: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
+        setupNavigationController()
+    }
+    
+    fileprivate func setupNavigationController() {
         guard let controller = viewControllers.last else { return }
         guard let navigatableView = controller as? NavigatableView else {
             return
         }
         
-        controller.navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: navigatableView.rightNavControllerCTAType.image,
-            style: .plain,
-            target: self,
-            action: #selector(rightBarButtonTapped)
-        )
+        if navigatableView.rightNavControllerCTAType == .activityIndicator {
+            let activityIndicator = UIActivityIndicatorView(style: .white)
+            activityIndicator.startAnimating()
+            controller.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicator)
+        } else {
+            controller.navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: navigatableView.rightNavControllerCTAType.image,
+                style: .plain,
+                target: self,
+                action: #selector(rightBarButtonTapped)
+            )
+        }
         
-        controller.navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: navigatableView.leftNavControllerCTAType.image,
-            style: .plain,
-            target: self,
-            action: #selector(leftBarButtonTapped)
-        )
+        if navigatableView.leftNavControllerCTAType == .activityIndicator {
+            assertionFailure("You should put the activity indicator in the right CTA.")
+        } else {
+            controller.navigationItem.leftBarButtonItem = UIBarButtonItem(
+                image: navigatableView.leftNavControllerCTAType.image,
+                style: .plain,
+                target: self,
+                action: #selector(leftBarButtonTapped)
+            )
+        }
         
         controller.navigationItem.rightBarButtonItem?.tintColor = navigatableView.rightCTATintColor
         controller.navigationItem.leftBarButtonItem?.tintColor = navigatableView.leftCTATintColor
@@ -145,10 +164,15 @@ extension NavigatableView where Self: UIViewController {
         ]
     }
     
+    @objc func update() {
+        setupNavigationController()
+    }
+    
     @objc fileprivate func rightBarButtonTapped() {
         guard let navigatableView = visibleViewController as? NavigatableView else {
             return
         }
+        guard navigatableView.rightNavControllerCTAType != .activityIndicator else { return }
         navigatableView.navControllerRightBarButtonTapped(self)
     }
     

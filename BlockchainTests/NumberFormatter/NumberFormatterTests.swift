@@ -20,7 +20,7 @@ class NumberFormatterTests: XCTestCase {
             return
         }
         let localCurrencyAmount = NumberFormatter.localCurrencyAmount(fromAmount: amount, fiatPerAmount: rate)
-        XCTAssert(localCurrencyAmount == "537.36", "Formatted string should have two decimal places and round down when truncating")
+        XCTAssert(localCurrencyAmount == "537" + (Locale.current.decimalSeparator ?? ".") + "36", "Formatted string should have two decimal places and round down when truncating")
     }
 
     func testAssetConversion() {
@@ -36,6 +36,6 @@ class NumberFormatterTests: XCTestCase {
         // "Ambiguous use of 'assetTypeAmount(fromAmount:fiatPerAmount:assetType:)'"
         let assetType: AssetType = .ethereum
         let assetTypeAmount = NumberFormatter.assetTypeAmount(fromAmount: amount, fiatPerAmount: rate, assetType: assetType)
-        XCTAssert(assetTypeAmount == "1.88634971", "Formatted string should have eight decimal places and round down when truncating")
+        XCTAssert(assetTypeAmount == "1" + (Locale.current.decimalSeparator ?? ".") + "88634971", "Formatted string should have eight decimal places and round down when truncating")
     }
 }

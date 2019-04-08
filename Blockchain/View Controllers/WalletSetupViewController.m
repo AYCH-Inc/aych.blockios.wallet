@@ -105,6 +105,11 @@
     [doneButton addTarget:self action:@selector(goToSecondPage) forControlEvents:UIControlEventTouchUpInside];
     [biometricView addSubview:doneButton];
     
+    titleLabel.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.biometricTitleLabel;
+    body.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.biometricBodyTextView;
+    enableBiometricButton.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.biometricEnableButton;
+    doneButton.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.biometricDoneButton;
+    
     return biometricView;
 }
 
@@ -152,6 +157,12 @@
     doneButton.layer.cornerRadius = CORNER_RADIUS_BUTTON;
     [doneButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     [emailView addSubview:doneButton];
+    
+    titleLabel.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.emailTitleLabel;
+    self.emailLabel.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.emailEmailLabel;
+    body.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.emailBodyTextView;
+    openMailButton.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.emailOpenMailButton;
+    doneButton.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.emailDoneButton;
     
     return emailView;
 }

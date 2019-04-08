@@ -196,7 +196,8 @@ class BackupVerifyViewController: UIViewController, UITextFieldDelegate, SecondP
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "verifyBackupWithSecondPassword" {
             let navController = segue.destination as! UINavigationController
-            let secondPasswordController = SecondPasswordViewController()
+            let storyboard = UIStoryboard(name: "Backup", bundle: nil)
+            guard let secondPasswordController = storyboard.instantiateViewController(withIdentifier: "secondPasswordController") as? SecondPasswordViewController else { return }
             secondPasswordController.delegate = self
             secondPasswordController.wallet = wallet
             navController.viewControllers = [secondPasswordController]

@@ -10,6 +10,7 @@ import Foundation
 import RxSwift
 import stellarsdk
 import StellarKit
+import PlatformKit
 
 class StellarTransactionService: StellarTransactionAPI {
     
@@ -142,9 +143,14 @@ class StellarTransactionService: StellarTransactionAPI {
                     }
                 }
                 
+                // Use dynamic base fee
+                let feeCryptoValue = CryptoValue.lumensFromMajor(decimal: paymentOperation.feeInXlm)
+                let baseFeeInStroops = (try? StellarValue(value: feeCryptoValue).stroops()) ?? StellarTransactionFee.defaultLimits.min
+                
                 let transaction = try StellarTransaction(
                     sourceAccount: accountResponse,
                     operations: [payment],
+                    baseFee: baseFeeInStroops,
                     memo: memo,
                     timeBounds: nil
                 )

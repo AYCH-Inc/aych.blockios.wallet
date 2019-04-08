@@ -19,8 +19,26 @@ class ExchangeCreateInteractor {
             didSetModel(oldModel: nil)
         }
     }
+    
+    var status: ExchangeInteractorStatus {
+        willSet {
+            guard newValue != status else { return }
+        }
+        didSet {
+            switch status {
+            case .error:
+                output?.errorReceived()
+            case .inflight,
+                 .unknown:
+                output?.tradeValidationInFlight()
+            case .valid:
+                output?.errorDismissed()
+            }
+        }
+    }
 
     private let disposables = CompositeDisposable()
+    private var accountDisposeBag: DisposeBag = DisposeBag()
     private var tradingLimitDisposable: Disposable?
     private var repository: AssetAccountRepository = {
        return AssetAccountRepository.shared
@@ -44,6 +62,7 @@ class ExchangeCreateInteractor {
         self.tradeExecution = dependencies.tradeExecution
         self.tradeLimitService = dependencies.tradeLimits
         self.model = model
+        self.status = .unknown
     }
 
     func didSetModel(oldModel: MarketsModel?) {
@@ -112,21 +131,29 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         updatedInput()
         
         markets.setup()
+        
+        NotificationCenter.when(Constants.NotificationKeys.transactionReceived) { [weak self] _ in
+            self?.refreshAccounts()
+        }
+        
+        NotificationCenter.when(Constants.NotificationKeys.exchangeSubmitted) { [weak self] _ in
+            self?.refreshAccounts()
+        }
     }
     
     func resume() {
         // Authenticate, then listen for conversions
-        guard let output = output else { return }
         guard let model = model else { return }
         if tradeExecution.canTradeAssetType(model.pair.from) == false {
-            if let errorMessage = errorMessage(for: model.pair.from) {
-                output.showError(message: errorMessage)
+            if let _ = errorMessage(for: model.pair.from) {
+                status = .error(.waitingOnEthereumPayment)
             } else {
-                // This shouldn't happen because the only case (eth) should have an error message,
-                // but just in case show an error here
-                output.showError(message: LocalizationConstants.Errors.genericError)
+                status = .error(.default(nil))
             }
         }
+        
+        updateOutput()
+        
         markets.authenticate(completion: { [unowned self] in
             self.tradeLimitService.initialize(withFiatCurrency: model.fiatCurrencyCode)
             self.subscribeToConversions()
@@ -172,19 +199,38 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             primary: inputs.attributedInputValue,
             secondary: secondaryResult
         )
+        
+        let address = model.marketPair.fromAccount.address.address
+        let type = model.marketPair.pair.from
+        
+        repository.accounts(for: type).asObservable()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .flatMap { [weak self] accounts -> Observable<(Decimal, Decimal)> in
+                guard let self = self else { return Observable.empty() }
+                guard let account = accounts.filter({ $0.address.address == address }).first else { return Observable.empty() }
+                let observable = self.markets.fiatBalance(
+                    forAssetAccount: account,
+                    fiatCurrencyCode:
+                    model.fiatCurrencyCode
+                )
+                return Observable.combineLatest(observable, Observable.just(account.balance))
+            }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] fiatBalance, cryptoBalance in
+                guard let self = self else { return }
+                guard type == self.model?.marketPair.pair.from else { return }
+                let fiatValue = FiatValue.create(amount: fiatBalance, currencyCode: model.fiatCurrencyCode)
+                let cryptoValue = CryptoValue.createFromMajorValue(cryptoBalance, assetType: type.toCryptoCurrency())
+                self.output?.updateBalance(
+                    cryptoValue: cryptoValue,
+                    fiatValue: fiatValue
+                )
+            })
+            .disposed(by: accountDisposeBag)
     }
 
     func updateTradingValues(left: String, right: String) {
         output?.updateTradingPairValues(left: left, right: right)
-    }
-
-    func displayInputTypeTapped() {
-        guard let model = model else { return }
-        model.toggleFiatInput()
-        let assetType = model.isUsingBase ? model.pair.from : model.pair.to
-        let inputType: InputType = model.isUsingFiat ? .fiat : .nonfiat(assetType.toCryptoCurrency())
-        inputs.toggleInput(inputType: inputType, withOutput: conversions.output)
-        updatedInput()
     }
 
     func toggleFix() {
@@ -225,12 +271,12 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         updatedInput()
     }
     
-    func onDelimiterTapped(value: String) {
-        guard inputs.canAdd(character: Character(value)) else {
+    func onDelimiterTapped() {
+        guard inputs.canAddDelimiter() else {
             output?.entryRejected()
             return
         }
-        inputs.add(character: Character(value))
+        inputs.addDelimiter()
         updatedInput()
     }
 
@@ -243,6 +289,13 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
 
         // Update to new pair
         model.marketPair = marketPair
+        
+        /// Fetching the user's balance can sometimes take as much as two seconds
+        /// so if that request is still in flight, we want to dispose of it by
+        /// creating a new `DisposeBag`. This ensures that we show the user's correct balance
+        /// every time they change their wallet selection. Typically this
+        /// is when the user has mulitple HD accounts.
+        accountDisposeBag = DisposeBag()
         updatedInput()
         output?.updateTradingPair(pair: model.pair, fix: model.fix)
     }
@@ -274,10 +327,9 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 /// report the true error that we're receiving from JS but we don't want to show
                 /// it to the user. We show a more user friendly error message instead. 
                 if errorMessage.contains("NO_UNSPENT_OUTPUTS") {
-                    let message = LocalizationConstants.Errors.notEnoughXForFees + Constants.AssetTypeCodes.bitcoin
-                    this.output?.showError(message: message)
+                    this.status = .error(.insufficientFundsForFees(.bitcoin))
                 } else {
-                    this.output?.showError(message: errorMessage)
+                    this.status = .error(.default(errorMessage))
                 }
                 
                 this.output?.loadingVisibility(.hidden)
@@ -287,38 +339,29 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
 
     // swiftlint:disable:next cyclomatic_complexity
     func validateInput() {
+        guard status != .inflight else { return }
+        status = .inflight
         guard let model = model else { return }
         guard let output = output else { return }
-        
-        /// The reason we have a `repository` in this class is we need to
-        /// validate that the user has the necessary funds to make a swap.
-        /// So, we have to do a fresh fetch of the account details for the asset.
-        let fromAssetType = model.marketPair.pair.from
-        let address = model.marketPair.fromAccount.address.address
-        let accounts = repository.accounts(for: fromAssetType)
-        
-        /// You should never hit the `return` here. You should definitely have an account
-        /// that pairs with this address. 
-        guard let account = accounts.filter({ $0.address.address == address }).first else { return }
-        
         guard let conversion = model.lastConversion else {
             Logger.shared.error("No conversion stored")
             return
         }
-        
         guard let volume = Decimal(string: conversion.quote.currencyRatio.base.crypto.value) else { return }
         guard let candidate = Decimal(string: conversion.baseFiatValue) else { return }
-        
         guard tradeExecution.canTradeAssetType(model.pair.from) else {
-            if let errorMessage = errorMessage(for: model.pair.from) {
-                output.showError(message: errorMessage)
+            if let _ = errorMessage(for: model.pair.from) {
+                status = .error(.waitingOnEthereumPayment)
             } else {
                 // This shouldn't happen because the only case (eth) should have an error message,
                 // but just in case show an error here
-                output.showError(message: LocalizationConstants.Errors.genericError)
+                status = .error(.default(nil))
             }
             return
         }
+        
+        let fromAssetType = model.marketPair.pair.from
+        let address = model.marketPair.fromAccount.address.address
         
         /// Volume is used for XLM in this case. `tradeExecution` has
         /// references to XLM specific services so it can validate
@@ -326,7 +369,8 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         /// This will return `true` for all other asset types other than `.stellar` O
         let disposable = tradeExecution.validateVolume(volume, for: model.marketPair.fromAccount)
             .asObservable()
-            .flatMap { [weak self] error -> Observable<(Decimal, Decimal, Decimal?, Decimal?)> in
+            .subscribeOn(MainScheduler.asyncInstance)
+            .flatMapLatest { [weak self] error -> Observable<([AssetAccount], Decimal, Decimal, Decimal?, Decimal?)> in
                 guard let strongSelf = self else {
                     return Observable.empty()
                 }
@@ -337,7 +381,12 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 let max = strongSelf.maxTradingLimit().asObservable()
                 let daily = strongSelf.dailyAvailable().asObservable()
                 let annual = strongSelf.annualAvailable().asObservable()
-                return Observable.zip(min, max, daily, annual)
+                
+                /// The reason we have a `repository` in this class is we need to
+                /// validate that the user has the necessary funds to make a swap.
+                /// So, we have to do a fresh fetch of the account details for the asset.
+                let accounts = strongSelf.repository.accounts(for: fromAssetType).asObservable()
+                return Observable.zip(accounts, min, max, daily, annual)
             }
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] payload in
@@ -345,17 +394,20 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                     return
                 }
 
-                let minValue = payload.0
-                let maxValue = payload.1
-                let daily = payload.2
-                let annual = payload.3
+                let accounts = payload.0
+                let minValue = payload.1
+                let maxValue = payload.2
+                let daily = payload.3
+                let annual = payload.4
+                
+                guard let account = accounts.first(where: { $0.address.address == address }) else { return }
 
                 if account.balance < volume {
-                    let symbol = conversion.baseCryptoSymbol
-                    let notEnough = LocalizationConstants.Exchange.notEnough + " " + symbol + "."
-                    let yourBalance = LocalizationConstants.Exchange.yourBalance + " " + "\(account.balance)" + " " + symbol
-                    let value = notEnough + " " + yourBalance + "."
-                    output.insufficientFunds(balance: value)
+                    let cryptoValue = CryptoValue.createFromMajorValue(
+                        account.balance,
+                        assetType: fromAssetType.toCryptoCurrency()
+                    )
+                    strongSelf.status = .error(.insufficientFunds(cryptoValue))
                     return
                 }
 
@@ -365,16 +417,16 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
 
                 switch candidate {
                 case ..<minValue:
-                    let formattedValue = strongSelf.formatLimit(fiatCurrencySymbol: model.fiatCurrencySymbol, value: minValue)
-                    output.entryBelowMinimumValue(minimum: formattedValue)
+                    let fiatValue = FiatValue.create(amount: minValue, currencyCode: model.fiatCurrencyCode)
+                    strongSelf.status = .error(.belowTradingLimit(fiatValue, fromAssetType))
                 case periodicLimit..<greatestFiniteMagnitude:
-                    let formattedValue = strongSelf.formatLimit(fiatCurrencySymbol: model.fiatCurrencySymbol, value: (daily ?? 0))
-                    output.entryAboveTierLimit(amount: formattedValue)
+                    let fiatValue = FiatValue.create(amount: daily ?? 0, currencyCode: model.fiatCurrencyCode)
+                    strongSelf.status = .error(.aboveTierLimit(fiatValue, fromAssetType))
                 case maxValue..<greatestFiniteMagnitude:
-                    let formattedValue = strongSelf.formatLimit(fiatCurrencySymbol: model.fiatCurrencySymbol, value: maxValue)
-                    output.entryAboveMaximumValue(maximum: formattedValue)
+                    let fiatValue = FiatValue.create(amount: maxValue, currencyCode: model.fiatCurrencyCode)
+                    strongSelf.status = .error(.aboveTradingLimit(fiatValue, fromAssetType))
                 default:
-                    output.hideError()
+                    strongSelf.status = .valid
                     output.exchangeButtonVisibility(.visible)
                     output.exchangeButtonEnabled(true)
                 }
@@ -382,9 +434,9 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 if let tradingError = error as? TradeExecutionAPIError {
                     switch tradingError {
                     case .generic:
-                        self?.output?.showError(message: LocalizationConstants.Errors.genericError)
+                        self?.status = .error(.default(nil))
                     case .exceededMaxVolume(let value):
-                        self?.output?.showError(message: value)
+                        self?.status = .error(.aboveMaxVolume(value))
                     }
                 }
             })
@@ -392,6 +444,24 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
     }
 
     // MARK: - Private
+    
+    private func refreshAccounts() {
+        status = .inflight
+        let disposable = self.repository.fetchAccounts()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] accounts in
+                guard let self = self else { return }
+                /// When we are validating the user's input, we check to
+                /// make sure that the status is not currently `.inflight`.
+                /// So we need to set the status to `.unknown` here.
+                self.status = .unknown
+                self.updatedInput()
+                self.validateInput()
+            })
+        disposables.insertWithDiscardableResult(disposable)
+    }
+    
     private func formatLimit(fiatCurrencySymbol: String, value: Decimal) -> String {
         let value = NumberFormatter.localCurrencyFormatter.string(for: value) ?? ""
         let limit = fiatCurrencySymbol + value
@@ -406,14 +476,14 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             guard let marketsModel = strongSelf.model else { return }
 
             let fiatCode = marketsModel.fiatCurrencyCode
-            let baseCode = marketsModel.pair.from.symbol
-            let counterCode = marketsModel.pair.to.symbol
 
-            strongSelf.output?.updatedRates(
-                first: rates.exchangeRateDescription(fromCurrency: baseCode, toCurrency: counterCode),
-                second: rates.exchangeRateDescription(fromCurrency: baseCode, toCurrency: fiatCode),
-                third: rates.exchangeRateDescription(fromCurrency: counterCode, toCurrency: fiatCode)
+            let metadata = ExchangeRateMetadata(
+                currencyCode: fiatCode,
+                fromAsset: marketsModel.pair.from,
+                toAsset: marketsModel.pair.to,
+                rates: rates.rates
             )
+            strongSelf.output?.updateRateMetadata(metadata)
         })
         disposables.insertWithDiscardableResult(bestRatesDisposable)
     }
@@ -457,13 +527,17 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             guard let output = this.output else { return }
 
             guard this.tradeExecution.canTradeAssetType(model.pair.from) else {
-                if let errorMessage = this.errorMessage(for: model.pair.from) {
-                    output.showError(message: errorMessage)
+                if let _ = this.errorMessage(for: model.pair.from) {
+                    this.status = .error(.waitingOnEthereumPayment)
                 } else {
                     // This shouldn't happen because the only case (eth) should have an error message,
                     // but just in case show an error here
-                    output.showError(message: LocalizationConstants.Errors.genericError)
+                    this.status = .error(.default(nil))
                 }
+                return
+            }
+            guard model.volume != "0" else {
+                this.status = .error(.noVolumeProvided)
                 return
             }
 
@@ -481,16 +555,31 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 primary: this.inputs.attributedInputValue,
                 secondary: secondaryResult
             )
-            
-            Logger.shared.error(socketError.description)
 
-            switch socketError.errorType {
-            case .currencyRatioError:
-                let exchangeError = ExchangeCreateError(errorCode: socketError.code)
-                this.output?.showError(message: exchangeError.message)
-            case .default:
-                this.output?.showError(message: LocalizationConstants.Errors.error)
-            }
+            let min = this.minTradingLimit().asObservable()
+            let max = this.maxTradingLimit().asObservable()
+            let disposable = Observable.zip(min, max)
+                .subscribeOn(MainScheduler.asyncInstance)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onNext: { (minimum, maximum) in
+                    let minFiat = FiatValue.create(amount: minimum, currencyCode: model.fiatCurrencyCode)
+                    let maxFiat = FiatValue.create(amount: maximum, currencyCode: model.fiatCurrencyCode)
+                    switch socketError.errorType {
+                    case .currencyRatioError:
+                        switch socketError.code {
+                        case .tooBigVolume:
+                            this.status = .error(.aboveTradingLimit(maxFiat, model.marketPair.pair.from))
+                        case .tooSmallVolume,
+                             .resultCurrencyRatioTooSmall:
+                            this.status = .error(.belowTradingLimit(minFiat, model.marketPair.pair.from))
+                        default:
+                            this.status = .error(.default(nil))
+                        }
+                    case .default:
+                        this.status = .error(.default(nil))
+                    }
+                })
+            this.disposables.insertWithDiscardableResult(disposable)
         })
 
         disposables.insertWithDiscardableResult(conversionsDisposable)
@@ -503,7 +592,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             if CharacterSet.decimalDigits.contains(char) {
                 onAddInputTapped(value: charStringValue)
             } else if "." == charStringValue {
-                onDelimiterTapped(value: charStringValue)
+                onDelimiterTapped()
             }
         }
     }

@@ -104,6 +104,7 @@
 {
     [SoundManager.sharedInstance playBeep];
     [self receivedTransactionMessage];
+    [[NSNotificationCenter defaultCenter] postNotificationName:[ConstantsObjcBridge notificationKeyTransactionReceived] object:nil];
 }
 
 - (void)didPushTransaction
@@ -726,7 +727,7 @@
     [self showReceiveAnimated:YES];
 }
 
-- (void)swapTapped:(UITabBarItem *)sender
+- (void)swapTapped:(nullable UITabBarItem *)sender
 {
     [self.tabViewController setActiveViewController:self.exchangeContainerViewController animated:true index:[ConstantsObjcBridge tabSwap]];
 }

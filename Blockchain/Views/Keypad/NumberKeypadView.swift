@@ -10,7 +10,7 @@ import Foundation
 
 protocol NumberKeypadViewDelegate: class {
     func onAddInputTapped(value: String)
-    func onDelimiterTapped(value: String)
+    func onDelimiterTapped()
     func onBackspaceTapped()
 }
 
@@ -27,6 +27,12 @@ class NumberKeypadView: NibBasedView {
                 button.setTitleColor(buttonTitleColor, for: .normal)
             }
         }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        guard let delimiter = keypadButtons.first(where: { $0.titleLabel?.text == "." }) else { return }
+        delimiter.setTitle(Locale.current.decimalSeparator ?? ".", for: .normal)
     }
     
     func updateKeypadVisibility(_ visibility: Visibility, animated: Bool = true, completion: (() -> Void)? = nil) {
@@ -57,10 +63,9 @@ class NumberKeypadView: NibBasedView {
     }
 
     @IBAction func delimiterButtonTapped(_ sender: UIButton) {
-        guard let titleLabel = sender.titleLabel, let value = titleLabel.text else { return }
         feedback.prepare()
         feedback.impactOccurred()
-        delegate?.onDelimiterTapped(value: value)
+        delegate?.onDelimiterTapped()
     }
     
     @IBAction func numberButtonTapped(_ sender: UIButton) {

@@ -19,7 +19,7 @@ enum TradeExecutionAPIError: Error {
     /// balance requirements. If the user tries to send
     /// an amount more than their minimum balance, we will
     /// return this error. 
-    case exceededMaxVolume(String)
+    case exceededMaxVolume(CryptoValue)
 }
 
 protocol TradeExecutionAPI {

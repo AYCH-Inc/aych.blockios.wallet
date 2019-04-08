@@ -34,16 +34,24 @@
 
 @implementation CardsViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    [self registerForNotifications];
-}
-
 /**
  Temporary code to show KYC announcement card
  - SeeAlso: IOS-1249 - Refactor CardsViewController
  */
+
+- (id)init
+{
+    if (self = [super init]) {
+        [self registerForNotifications];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [self tearDownNotifications];
+}
+
 - (AnnouncementCardActionHandler *)actionHandler
 {
     if (!_actionHandler) _actionHandler = [AnnouncementCardActionHandler new];
@@ -53,6 +61,11 @@
 - (void)stellarAirdropCardActionTapped
 {
     [self.actionHandler stellarAirdropCardActionTapped];
+}
+
+- (void)stellarModalPromptForAirdropRegistrationActionTapped
+{
+    [self.actionHandler stellarModalPromptForAirdropRegistrationActionTapped];
 }
 
 - (void)coinifyKycActionTapped

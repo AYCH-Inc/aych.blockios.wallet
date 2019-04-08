@@ -19,6 +19,7 @@ class ExchangeContainerViewController: BaseNavigationController {
     private let disposables = CompositeDisposable()
     private let coordinator: ExchangeCoordinator = ExchangeCoordinator.shared
     private let wallet: Wallet = WalletManager.shared.wallet
+    private let accountsRepository: AssetAccountRepository = AssetAccountRepository.shared
     private var tiersViewController: KYCTiersViewController?
     
     // MARK: Lifecycle
@@ -34,15 +35,23 @@ class ExchangeContainerViewController: BaseNavigationController {
     }
     
     @objc func showExchange() {
-        LoadingViewPresenter.shared.hideBusyView()
-        guard viewControllers.filter({ $0 is ExchangeCreateViewController == true }).count == 0 else { return }
-        viewControllers.removeAll()
-        let storyboard = UIStoryboard(
-            name: String(describing: ExchangeCreateViewController.self),
-            bundle: Bundle(for: type(of: self))
-        )
-        guard let rootViewController = storyboard.instantiateInitialViewController() else { return }
-        setViewControllers([rootViewController], animated: false)
+        /// We want to ensure that we have the latest balances for all accounts.
+        let disposable = accountsRepository.fetchAccounts()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] _ in
+                guard let self = self else { return }
+                LoadingViewPresenter.shared.hideBusyView()
+                guard self.viewControllers.filter({ $0 is ExchangeCreateViewController == true }).count == 0 else { return }
+                self.viewControllers.removeAll()
+                let storyboard = UIStoryboard(
+                    name: String(describing: ExchangeCreateViewController.self),
+                    bundle: Bundle(for: type(of: self))
+                )
+                guard let rootViewController = storyboard.instantiateInitialViewController() else { return }
+                self.setViewControllers([rootViewController], animated: false)
+            })
+        disposables.insertWithDiscardableResult(disposable)
     }
     
     @objc func showWelcome() {
@@ -64,7 +73,7 @@ class ExchangeContainerViewController: BaseNavigationController {
     }
     
     fileprivate func setupNotifications() {
-        NotificationCenter.when(Constants.NotificationKeys.kycComplete) { [weak self] _ in
+        NotificationCenter.when(Constants.NotificationKeys.kycStopped) { [weak self] _ in
             guard let this = self else { return }
             this.setupExchangeIfPermitted()
         }

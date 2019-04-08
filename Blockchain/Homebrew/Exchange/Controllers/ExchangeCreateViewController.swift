@@ -14,12 +14,11 @@ import RxSwift
 protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
     func onViewDidLoad()
     func onViewWillAppear()
+    func onViewDidDisappear()
     func onDisplayRatesTapped()
-    func onHideRatesTapped()
-    func onKeypadVisibilityUpdated(_ visibility: Visibility, animated: Bool)
-    func onDisplayInputTypeTapped()
     func onExchangeButtonTapped()
     func onSwapButtonTapped()
+    var rightNavigationCTAType: NavigationCTAType { get }
 }
 
 // swiftlint:disable line_length
@@ -43,17 +42,10 @@ class ExchangeCreateViewController: UIViewController {
 
     // Amount being typed in converted to input crypto or input fiat
     @IBOutlet private var secondaryAmountLabel: UILabel!
+    @IBOutlet private var walletBalanceLabel: UILabel!
+    @IBOutlet private var conversionRateLabel: UILabel!
     
-    // Label that is hidden unlesss the user attempts to submit
-    // an exchange that is below the minimum value or above the max.
-    @IBOutlet private var errorLabel: ActionableLabel!
     fileprivate var trigger: ActionableTrigger?
-
-    @IBOutlet private var hideRatesButton: UIButton!
-    @IBOutlet private var conversionRatesView: ConversionRatesView!
-    @IBOutlet private var fixToggleButton: UIButton!
-    @IBOutlet private var conversionView: UIView!
-    @IBOutlet private var conversionTitleLabel: UILabel!
     @IBOutlet private var exchangeButton: UIButton!
     @IBOutlet private var exchangeButtonBottomConstraint: NSLayoutConstraint!
     
@@ -62,23 +54,17 @@ class ExchangeCreateViewController: UIViewController {
         case wigglePrimaryLabel
         case updatePrimaryLabel(NSAttributedString?)
         case updateSecondaryLabel(String?)
-        case updateErrorLabel(String)
         case actionableErrorLabelTrigger(ActionableTrigger)
-        case updateRateLabels(first: String, second: String, third: String)
-        case keypadVisibility(Visibility, animated: Bool)
-        case conversionRatesView(Visibility, animated: Bool)
         case loadingIndicator(Visibility)
     }
     
     enum ViewUpdate: Update {
-        case conversionTitleLabel(Visibility)
-        case conversionView(Visibility)
         case exchangeButton(Visibility)
-        case ratesChevron(Visibility)
-        case errorLabel(Visibility)
     }
     
     enum TransitionUpdate: Transition {
+        case updateConversionRateLabel(NSAttributedString)
+        case updateBalanceLabel(NSAttributedString)
         case primaryLabelTextColor(UIColor)
     }
 
@@ -93,26 +79,36 @@ class ExchangeCreateViewController: UIViewController {
     fileprivate var assetAccountListPresenter: ExchangeAssetAccountListPresenter!
     fileprivate var fromAccount: AssetAccount!
     fileprivate var toAccount: AssetAccount!
-    fileprivate var disposable: Disposable?
+    fileprivate let disposables = CompositeDisposable()
 
     // MARK: Lifecycle
     
     deinit {
-        disposable?.dispose()
-        disposable = nil
+        disposables.dispose()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = LocalizationConstants.Swap.swap
-        dependenciesSetup()
-        viewsSetup()
-        delegate?.onViewDidLoad()
+        let disposable = dependenciesSetup()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onCompleted: { [weak self] in
+                guard let self = self else { return }
+                self.viewsSetup()
+                self.delegate?.onViewDidLoad()
+            })
+        disposables.insertWithDiscardableResult(disposable)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         delegate?.onViewWillAppear()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.onViewDidDisappear()
     }
 
     // MARK: Private
@@ -122,14 +118,12 @@ class ExchangeCreateViewController: UIViewController {
             $0?.textColor = UIColor.brandPrimary
         }
         
-        errorLabel.font = UIFont(name: Constants.FontNames.montserratRegular, size: Constants.FontSizes.ExtraExtraSmall)
-        
-        [conversionView, hideRatesButton].forEach {
-            addStyleToView($0)
+        [walletBalanceLabel, conversionRateLabel].forEach {
+            let font = Font(.branded(.montserratMedium), size: .custom(12.0)).result
+            $0?.attributedText = NSAttributedString(string: "\n\n", attributes: [.font: font])
         }
-
+        
         tradingPairView.delegate = self
-        errorLabel.delegate = self
 
         exchangeButton.layer.cornerRadius = Constants.Measurements.buttonCornerRadius
 
@@ -141,27 +135,46 @@ class ExchangeCreateViewController: UIViewController {
         view.layoutIfNeeded()
     }
 
-    fileprivate func dependenciesSetup() {
-        fromAccount = dependencies.assetAccountRepository.defaultAccount(for: .bitcoin)
-        toAccount = dependencies.assetAccountRepository.defaultAccount(for: .ethereum)
-        
-        // DEBUG - ideally add an .empty state for a blank/loading state for MarketsModel here.
-        let interactor = ExchangeCreateInteractor(
-            dependencies: dependencies,
-            model: MarketsModel(
-                marketPair: MarketPair(fromAccount: fromAccount, toAccount: toAccount),
-                fiatCurrencyCode: BlockchainSettings.sharedAppInstance().fiatCurrencyCode ?? "USD",
-                fiatCurrencySymbol: BlockchainSettings.App.shared.fiatCurrencySymbol,
-                fix: .baseInFiat,
-                volume: "0"
-            )
-        )
-        assetAccountListPresenter = ExchangeAssetAccountListPresenter(view: self)
-        numberKeypadView.delegate = self
-        presenter = ExchangeCreatePresenter(interactor: interactor)
-        presenter.interface = self
-        interactor.output = presenter
-        delegate = presenter
+    fileprivate func dependenciesSetup() -> Completable {
+        return Completable.create(subscribe: { [weak self] observer -> Disposable in
+            guard let self = self else {
+                observer(.completed)
+                return Disposables.create()
+            }
+            let btcAccount = self.dependencies.assetAccountRepository.accounts(for: .bitcoin)
+            let ethAccount = self.dependencies.assetAccountRepository.accounts(for: .ethereum)
+            
+            let disposable = Maybe.zip(btcAccount, ethAccount)
+                .subscribeOn(MainScheduler.asyncInstance)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { [weak self] (bitcoin, ethereum) in
+                    guard let self = self else { return }
+                    guard let bitcoinAccount = bitcoin.first else { return }
+                    guard let ethereumAccount = ethereum.first else { return }
+                    self.fromAccount = bitcoinAccount
+                    self.toAccount = ethereumAccount
+                    // DEBUG - ideally add an .empty state for a blank/loading state for MarketsModel here.
+                    let interactor = ExchangeCreateInteractor(
+                        dependencies: self.dependencies,
+                        model: MarketsModel(
+                            marketPair: MarketPair(fromAccount: self.fromAccount, toAccount: self.toAccount),
+                            fiatCurrencyCode: BlockchainSettings.sharedAppInstance().fiatCurrencyCode ?? "USD",
+                            fiatCurrencySymbol: BlockchainSettings.App.shared.fiatCurrencySymbol,
+                            fix: .baseInFiat,
+                            volume: "0"
+                        )
+                    )
+                    self.assetAccountListPresenter = ExchangeAssetAccountListPresenter(view: self)
+                    self.numberKeypadView.delegate = self
+                    self.presenter = ExchangeCreatePresenter(interactor: interactor)
+                    self.presenter.interface = self
+                    interactor.output = self.presenter
+                    self.delegate = self.presenter
+                    observer(.completed)
+                })
+            self.disposables.insertWithDiscardableResult(disposable)
+            return Disposables.create()
+        })
     }
     
     fileprivate func presentURL(_ url: URL) {
@@ -173,26 +186,8 @@ class ExchangeCreateViewController: UIViewController {
     
     // MARK: - IBActions
 
-    @IBAction func fixToggleButtonTapped(_ sender: UIButton) {
-        let imageToggle = (fixToggleButton.currentImage == #imageLiteral(resourceName: "icon-toggle-left")) ? #imageLiteral(resourceName: "icon-toggle-right") : #imageLiteral(resourceName: "icon-toggle-left")
-        fixToggleButton.setImage(imageToggle, for: .normal)
-        presenter.onToggleFixTapped()
-    }
-
     @IBAction private func ratesViewTapped(_ sender: UITapGestureRecognizer) {
         delegate?.onDisplayRatesTapped()
-    }
-    
-    @IBAction private func rateButtonTapped(_ sender: UIButton) {
-        delegate?.onDisplayRatesTapped()
-    }
-    
-    @IBAction private func hideRatesButtonTapped(_ sender: UIButton) {
-        delegate?.onHideRatesTapped()
-    }
-    
-    @IBAction private func displayInputTypeTapped(_ sender: Any) {
-        delegate?.onDisplayInputTypeTapped()
     }
     
     @IBAction private func exchangeButtonTapped(_ sender: Any) {
@@ -214,8 +209,8 @@ extension ExchangeCreateViewController {
 }
 
 extension ExchangeCreateViewController: NumberKeypadViewDelegate {
-    func onDelimiterTapped(value: String) {
-        delegate?.onDelimiterTapped(value: value)
+    func onDelimiterTapped() {
+        delegate?.onDelimiterTapped()
     }
     
     func onAddInputTapped(value: String) {
@@ -228,10 +223,18 @@ extension ExchangeCreateViewController: NumberKeypadViewDelegate {
 }
 
 extension ExchangeCreateViewController: ExchangeCreateInterface {
+    
+    func exchangeStatusUpdated() {
+        guard let navController = navigationController as? BaseNavigationController else { return }
+        navController.update()
+        
+    }
+    
     func showTiers() {
-        disposable = KYCTiersViewController.routeToTiers(
+        let disposable = KYCTiersViewController.routeToTiers(
             fromViewController: self
         )
+        disposables.insertWithDiscardableResult(disposable)
     }
     
     func apply(transitionPresentation: TransitionPresentationUpdate<ExchangeCreateInterface.TransitionUpdate>) {
@@ -280,21 +283,17 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
         switch transition {
         case .primaryLabelTextColor(let color):
             primaryAmountLabel.textColor = color
+        case .updateConversionRateLabel(let attributedString):
+            conversionRateLabel.attributedText = attributedString
+        case .updateBalanceLabel(let attributedString):
+            walletBalanceLabel.attributedText = attributedString
         }
     }
     
     func apply(update: ViewUpdate) {
         switch update {
-        case .conversionTitleLabel(let visibility):
-            conversionTitleLabel.alpha = visibility.defaultAlpha
-        case .conversionView(let visibility):
-            conversionView.alpha = visibility.defaultAlpha
         case .exchangeButton(let visibility):
             exchangeButton.alpha = visibility.defaultAlpha
-        case .ratesChevron(let visibility):
-            hideRatesButton.alpha = visibility.defaultAlpha
-        case .errorLabel(let visibility):
-            errorLabel.alpha = visibility.defaultAlpha
         }
     }
     
@@ -311,13 +310,6 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             default:
                 Logger.shared.warning("Visibility not handled")
             }
-        case .conversionRatesView(let visibility, animated: let animated):
-            conversionRatesView.updateVisibility(visibility, animated: animated)
-        case .keypadVisibility(let visibility, animated: let animated):
-            numberKeypadView.updateKeypadVisibility(visibility, animated: animated) { [weak self] in
-                guard let this = self else { return }
-                this.delegate?.onKeypadVisibilityUpdated(visibility, animated: animated)
-            }
         case .updatePrimaryLabel(let value):
             primaryAmountLabel.attributedText = value
         case .updateSecondaryLabel(let value):
@@ -327,58 +319,14 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             secondaryAmountLabel.wiggle()
         case .wigglePrimaryLabel:
             primaryAmountLabel.wiggle()
-        case .updateRateLabels(first: let first, second: let second, third: let third):
-            conversionTitleLabel.text = first
-            conversionRatesView.apply(baseToCounter: first, baseToFiat: second, counterToFiat: third)
-        case .updateErrorLabel(let value):
-            errorLabel.text = value
         case .actionableErrorLabelTrigger(let trigger):
-            self.trigger = trigger
-            let primary = NSMutableAttributedString(
-                string: trigger.primaryString,
-                attributes: useErrorTierLimitAttributes()
-            )
-
-            let CTA = NSAttributedString(
-                string: " " + trigger.callToAction,
-                attributes: useErrorTierLimitActionAttributes()
-            )
-
-            primary.append(CTA)
-
-            if let secondary = trigger.secondaryString {
-                let trailing = NSMutableAttributedString(
-                    string: " " + secondary,
-                    attributes: useErrorTierLimitAttributes()
-                )
-                primary.append(trailing)
-            }
-
-            errorLabel.attributedText = primary
+            break
         }
-    }
-
-    fileprivate func useErrorTierLimitAttributes() -> [NSAttributedString.Key: Any] {
-        let fontName = Constants.FontNames.montserratRegular
-        let font = UIFont(name: fontName, size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
-        return [.font: font,
-                .foregroundColor: errorLabel.textColor]
-    }
-
-    fileprivate func useErrorTierLimitActionAttributes() -> [NSAttributedString.Key: Any] {
-        let fontName = Constants.FontNames.montserratRegular
-        let font = UIFont(name: fontName, size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
-        return [.font: font,
-                .foregroundColor: UIColor.brandSecondary]
     }
 
     func updateTradingPairView(pair: TradingPair, fix: Fix) {
         let fromAsset = pair.from
         let toAsset = pair.to
-
-        let isUsingBase = fix == .base || fix == .baseInFiat
-        let leftVisibility: TradingPairView.ViewUpdate = .leftStatusVisibility(isUsingBase ? .visible : .hidden)
-        let rightVisibility: TradingPairView.ViewUpdate = .rightStatusVisibility(isUsingBase ? .hidden : .visible)
 
         let transitionUpdate = TradingPairView.TradingTransitionUpdate(
             transitions: [
@@ -391,9 +339,6 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
         let presentationUpdate = TradingPairView.TradingPresentationUpdate(
             animations: [
                 .backgroundColors(left: fromAsset.brandColor, right: toAsset.brandColor),
-                leftVisibility,
-                rightVisibility,
-                .statusTintColor(#colorLiteral(red: 0.01176470588, green: 0.662745098, blue: 0.4470588235, alpha: 1)),
                 .swapTintColor(#colorLiteral(red: 0, green: 0.2901960784, blue: 0.4862745098, alpha: 1)),
                 .titleColor(#colorLiteral(red: 0, green: 0.2901960784, blue: 0.4862745098, alpha: 1))
             ],
@@ -418,17 +363,13 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
         exchangeButton.isEnabled = enabled
     }
 
-    func isShowingConversionRatesView() -> Bool {
-        return conversionRatesView.alpha == 1
-    }
-
     func isExchangeButtonEnabled() -> Bool {
         return exchangeButton.isEnabled
     }
     
     func showSummary(orderTransaction: OrderTransaction, conversion: Conversion) {
         let model = ExchangeDetailPageModel(type: .confirm(orderTransaction, conversion))
-        let confirmController = ExchangeDetailViewController.make(with: model, dependencies: self.dependencies)
+        let confirmController = ExchangeDetailViewController.make(with: model, dependencies: ExchangeServices())
         navigationController?.pushViewController(confirmController, animated: true)
     }
 }
@@ -524,6 +465,11 @@ extension ExchangeCreateViewController: NavigatableView {
     }
     
     var rightCTATintColor: UIColor {
+        guard let presenter = presenter else { return .white }
+        if case .error(let value) = presenter.status {
+            return value == .noVolumeProvided ? .white : .pending
+        }
+        
         return .white
     }
     
@@ -532,7 +478,7 @@ extension ExchangeCreateViewController: NavigatableView {
     }
     
     var rightNavControllerCTAType: NavigationCTAType {
-        return .help
+        return delegate?.rightNavigationCTAType ?? .help
     }
     
     var navigationDisplayMode: NavigationBarDisplayMode {
@@ -540,6 +486,34 @@ extension ExchangeCreateViewController: NavigatableView {
     }
     
     func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
+        if case let .error(value) = presenter.status, value != .noVolumeProvided {
+            
+            let action = AlertAction(style: .default(LocalizationConstants.Exchange.done))
+            var actions = [action]
+            if let url = value.url {
+                let learnMore = AlertAction(
+                    style: .confirm(LocalizationConstants.Exchange.learnMore),
+                    metadata: .url(url)
+                )
+                actions.append(learnMore)
+            }
+            let model = AlertModel(
+                headline: value.title,
+                body: value.description,
+                actions: actions,
+                image: value.image,
+                style: .sheet
+            )
+            let alert = AlertView.make(with: model) { [weak self] action in
+                guard let self = self else { return }
+                guard let data = action.metadata else { return }
+                guard case let .url(url) = data else { return }
+                self.presentURL(url)
+            }
+            alert.show()
+            return
+        }
+        
         guard let endpoint = URL(string: "https://blockchain.zendesk.com/") else { return }
         guard let url = URL.endpoint(
             endpoint,

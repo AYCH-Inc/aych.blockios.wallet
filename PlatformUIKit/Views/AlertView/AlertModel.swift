@@ -19,7 +19,7 @@ public struct AlertModel {
     public init(
         headline: String?,
         body: String?,
-        actions: [AlertAction],
+        actions: [AlertAction] = [.defaultDismissal],
         image: UIImage? = nil,
         dismissable: Bool = true,
         style: AlertViewStyle = .default
@@ -34,26 +34,57 @@ public struct AlertModel {
 }
 
 public struct AlertAction {
-    public let title: String
     public let style: AlertActionStyle
     public let metadata: ActionMetadata?
     
-    public init(title: String, style: AlertActionStyle, metadata: ActionMetadata? = nil) {
-        self.title = title
+    public init(style: AlertActionStyle, metadata: ActionMetadata? = nil) {
         self.style = style
         self.metadata = metadata
     }
 }
 
-public enum AlertActionStyle {
+public extension AlertAction {
+    
+    public static let defaultDismissal = AlertAction(style: .dismiss)
+    
+    var title: String? {
+        switch style {
+        case .confirm(let title):
+            return title
+        case .default(let title):
+            return title
+        case .dismiss:
+            return nil
+        }
+    }
+    
+}
+
+public enum AlertActionStyle: Equatable {
+    public typealias Title = String
     /// Filled in `UIButton` with white text.
     /// It appears _above_ the `default` style button.
-    case confirm
+    case confirm(Title)
     /// `UIButton` with blue border and blue text.
     /// It appears _below_ the `confirm` style button.
-    case `default`
+    case `default`(Title)
     /// When the user taps outside of the view to dismiss it.
     case dismiss
+}
+
+public extension AlertActionStyle {
+    public static func ==(lhs: AlertActionStyle, rhs: AlertActionStyle) -> Bool {
+        switch (lhs, rhs) {
+        case (.confirm(let left), .confirm(let right)):
+            return left == right
+        case (.default(let left), .default(let right)):
+            return left == right
+        case (.dismiss, .dismiss):
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 public enum AlertViewStyle {

@@ -53,8 +53,16 @@ class ExchangeInputsService: ExchangeInputsAPI {
         return components.canDrop
     }
     
+    func canAddDelimiter() -> Bool {
+        return inputViewModel.canAppendDelimiter()
+    }
+    
     func canAdd(character: Character) -> Bool {
         return inputViewModel.canAppend(character: character)
+    }
+    
+    func addDelimiter() {
+        inputViewModel.appendDelimiter()
     }
     
     func add(character: Character) {

@@ -72,10 +72,6 @@ class SecondPasswordViewController: UIViewController, UITextFieldDelegate {
         } else if wallet!.validateSecondPassword(secondPassword) {
             password?.resignFirstResponder()
             delegate?.didGetSecondPassword(secondPassword!)
-            if delegate!.isVerifying {
-                // if we are verifying backup, go to verify words view controller
-                self.navigationController?.performSegue(withIdentifier: "backupVerify", sender: nil)
-            }
 			self.dismiss(animated: true, completion: nil)
         } else {
             alertUserWithErrorMessage(LocalizationConstants.Authentication.secondPasswordIncorrect)

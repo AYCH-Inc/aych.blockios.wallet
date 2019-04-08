@@ -93,6 +93,26 @@ extension CryptoFeeService where T == BitcoinTransactionFee {
     static let shared: CryptoFeeService<T> = CryptoFeeService<T>()
 }
 
+protocol StellarFeeServiceAPI {
+    var fees: Single<StellarTransactionFee> { get }
+}
+
+class StellarFeeService: StellarFeeServiceAPI {
+    static let shared: StellarFeeService = StellarFeeService()
+    
+    // MARK: Public Properties
+    
+    var fees: Single<StellarTransactionFee> {
+        return cryptoFeeService.fees
+    }
+    
+    private let cryptoFeeService: CryptoFeeService<StellarTransactionFee>
+    
+    init(cryptoFeeService: CryptoFeeService<StellarTransactionFee> = CryptoFeeService<StellarTransactionFee>.shared) {
+        self.cryptoFeeService = cryptoFeeService
+    }
+}
+
 extension CryptoFeeService where T == StellarTransactionFee {
     static let shared: CryptoFeeService<T> = CryptoFeeService<T>()
 }

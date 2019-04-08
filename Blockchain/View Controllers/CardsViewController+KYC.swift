@@ -11,14 +11,17 @@ import PlatformKit
 import PlatformUIKit
 
 extension CardsViewController {
-    
+    @objc func tearDownNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     @objc func registerForNotifications() {
         NotificationCenter.when(Constants.NotificationKeys.walletSetupViewControllerDismissed) { [weak self] _ in
             guard let self = self else { return }
             let hasSeenXLMModel = BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal
             let didDeepLink = BlockchainSettings.App.shared.didTapOnAirdropDeepLink
             guard hasSeenXLMModel == false, didDeepLink == false else { return }
-            self.showStellarModal()
+            self.showStellarModalPromptForKyc()
         }
     }
     
@@ -95,6 +98,11 @@ extension CardsViewController {
             tiersResponse.canCompleteTier2 &&
             WalletManager.shared.wallet.isCoinifyTrader() &&
             !didShowCoinifyKycModal
+        let hasSeenStellarRegistrationAlert = onboardingSettings.hasSeenStellarAirdropRegistrationAlert
+        let shouldShowStellarModalPromptForAirdropRegistration =
+            nabuUser.isSunriverAirdropRegistered == false &&
+            (tiersResponse.isTier2Pending || tiersResponse.isTier2Verified) &&
+            hasSeenStellarRegistrationAlert == false
 
         if shouldShowCoinifyKycModal {
             showCoinifyKycModal()
@@ -109,9 +117,14 @@ extension CardsViewController {
             showContinueKycCard(isAirdropUser: nabuUser.isSunriverAirdropRegistered)
             return true
         } else if shouldShowStellarView {
-            if onboardingSettings.hasSeenGetFreeXlmModal == true {
+            let hasDismissedProfileCard = onboardingSettings.hasDismissedCompleteYourProfileCard
+            if onboardingSettings.hasSeenGetFreeXlmModal == true,
+                hasDismissedProfileCard == false {
                 showCompleteYourProfileCard()
             }
+            return true
+        } else if shouldShowStellarModalPromptForAirdropRegistration {
+            showStellarModalPromptForAirdropRegistration()
             return true
         } else if shouldShowStellarAirdropCard {
             showStellarAirdropCard()
@@ -141,7 +154,7 @@ extension CardsViewController {
     private func showSwapCTA() {
         let model = AnnouncementCardViewModel.swapCTA(action: {
             let tabController = AppCoordinator.shared.tabControllerManager
-            ExchangeCoordinator.shared.start(rootViewController: tabController)
+            tabController.swapTapped(nil)
         }) { [weak self] in
             BlockchainSettings.App.shared.shouldHideSwapCard = true
             self?.animateHideCards()
@@ -150,7 +163,6 @@ extension CardsViewController {
     }
 
     private func showContinueKycCard(isAirdropUser: Bool) {
-        let appSettings = BlockchainSettings.App.shared
         let kycSettings = KYCSettings.shared
         let model = AnnouncementCardViewModel.continueWithKYC(isAirdropUser: isAirdropUser, action: { [unowned self] in
             self.continueKyc()
@@ -179,8 +191,8 @@ extension CardsViewController {
     private func showCoinifyKycModal() {
         didShowCoinifyKycModal = true
 
-        let updateNow = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoAction, style: .confirm)
-        let learnMore = AlertAction(title: LocalizationConstants.AnnouncementCards.learnMore, style: .default)
+        let updateNow = AlertAction(style: .confirm(LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoAction))
+        let learnMore = AlertAction(style: .default(LocalizationConstants.AnnouncementCards.learnMore))
         let alertModel = AlertModel(
             headline: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoDescription,
@@ -213,13 +225,12 @@ extension CardsViewController {
         showSingleCard(with: model)
     }
 
-    private func showStellarModal() {
-        let getFreeXlm = AlertAction(title: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoAction, style: .confirm)
-        let dismiss = AlertAction(title: "discard", style: .dismiss)
+    private func showStellarModalPromptForKyc() {
+        let getFreeXlm = AlertAction(style: .confirm(LocalizationConstants.AnnouncementCards.bottomSheetPromptForKycAction))
         let alertModel = AlertModel(
-            headline: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoTitle,
-            body: LocalizationConstants.AnnouncementCards.bottomSheetFreeCryptoDescription,
-            actions: [getFreeXlm, dismiss],
+            headline: LocalizationConstants.AnnouncementCards.bottomSheetPromptForKycTitle,
+            body: LocalizationConstants.AnnouncementCards.bottomSheetPromptForKycDescription,
+            actions: [getFreeXlm],
             image: UIImage(named: "symbol-xlm-color"),
             dismissable: true,
             style: .sheet
@@ -237,10 +248,38 @@ extension CardsViewController {
         alert.show()
     }
 
+    private func showStellarModalPromptForAirdropRegistration() {
+        let getFreeXlm = AlertAction(style: .confirm(LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationAction))
+        let dismiss = AlertAction(style: .default(LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationCancel))
+        let alertModel = AlertModel(
+            headline: LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationTitle,
+            body: LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationDescription,
+            actions: [getFreeXlm, dismiss],
+            image: UIImage(named: "symbol-xlm-color"),
+            dismissable: true,
+            style: .sheet
+        )
+        let alert = AlertView.make(with: alertModel) { action in
+            switch action.style {
+            case .confirm:
+                BlockchainSettings.Onboarding.shared.hasSeenStellarAirdropRegistrationAlert = true
+                self.stellarModalPromptForAirdropRegistrationActionTapped()
+            case .default:
+                break
+            case .dismiss:
+                BlockchainSettings.Onboarding.shared.hasSeenStellarAirdropRegistrationAlert = true
+            }
+        }
+        alert.show()
+    }
+
     private func showCompleteYourProfileCard() {
+        let onboardingSettings = BlockchainSettings.Onboarding.shared
         let model = AnnouncementCardViewModel.completeYourProfile(action: { [unowned self] in
-            self.continueKyc()
+            onboardingSettings.hasDismissedCompleteYourProfileCard = true
+            self.stellarAirdropCardActionTapped()
         }, onClose: { [weak self] in
+            onboardingSettings.hasDismissedCompleteYourProfileCard = true
             self?.animateHideCards()
         })
         showSingleCard(with: model)

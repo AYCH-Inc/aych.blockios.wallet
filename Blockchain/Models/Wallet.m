@@ -2679,6 +2679,19 @@ NSString * const kLockboxInvitation = @"lockbox";
     return nil;
 }
 
+- (void)fetchEthereumBalance:(void (^)(NSString * _Nonnull))completion error:(void (^)(NSString * _Nonnull))error
+{
+    [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull response) {
+        completion(response);
+    } forJsFunctionName:@"objc_on_get_available_eth_balance_success"];
+    
+    [self.context invokeOnceWithStringFunctionBlock:^(NSString *_Nonnull errorValue) {
+        error(errorValue);
+    } forJsFunctionName:@"objc_on_get_available_eth_balance_error"];
+    
+    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getAvailableEthBalance()"]];
+}
+
 - (void)createOrderPaymentWithOrderTransaction:(OrderTransactionLegacy *_Nonnull)orderTransaction completion:(void (^ _Nonnull)(void))completion success:(void (^)(NSString *_Nonnull))success error:(void (^ _Nonnull)(NSString *_Nonnull))error
 {
     [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull response) {

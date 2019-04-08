@@ -84,6 +84,13 @@
     UIView *tappableViewPrivacyPolicy = [self viewWithTapGesture:tapGesturePrivacyPolicy onSubstring:privacyPolicy ofText:self.agreementTappableLabel.text inLabel:measuringLabel];
     [tappableViewPrivacyPolicy changeYPosition:tappableViewPrivacyPolicy.frame.origin.y - 8];
     [self.agreementTappableLabel addSubview:tappableViewPrivacyPolicy];
+    
+    emailTextField.accessibilityIdentifier = AccessibilityIdentifiers_CreateWalletScreen.emailField;
+    passwordTextField.accessibilityIdentifier = AccessibilityIdentifiers_CreateWalletScreen.passwordField;
+    password2TextField.accessibilityIdentifier = AccessibilityIdentifiers_CreateWalletScreen.confirmPasswordField;
+    tappableViewTermsOfService.accessibilityIdentifier = AccessibilityIdentifiers_CreateWalletScreen.termsOfServiceTappableView;
+    tappableViewPrivacyPolicy.accessibilityIdentifier = AccessibilityIdentifiers_CreateWalletScreen.privacyPolicyTappableView;
+    self.createButton.accessibilityIdentifier = AccessibilityIdentifiers_CreateWalletScreen.createWalletButton;
 }
 
 - (void)createBlankWallet

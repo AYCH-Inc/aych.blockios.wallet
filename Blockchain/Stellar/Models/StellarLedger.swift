@@ -46,3 +46,19 @@ extension StellarLedger {
         return Decimal(reserveInStroops) / Decimal(Constants.Conversions.stroopsInXlm)
     }
 }
+
+extension StellarLedger {
+    func apply(baseFeeInStroops: Int) -> StellarLedger {
+        return StellarLedger(
+            identifier: identifier,
+            token: token,
+            sequence: sequence,
+            transactionCount: transactionCount,
+            operationCount: operationCount,
+            closedAt: closedAt,
+            totalCoins: totalCoins,
+            baseFeeInStroops: baseFeeInStroops,
+            baseReserveInStroops: baseReserveInStroops
+        )
+    }
+}

@@ -82,12 +82,21 @@ class ExchangeInputViewModel {
         return canAppend(component: inputComponent)
     }
     
+    func canAppendDelimiter() -> Bool {
+        return canAppend(component: .delimiter)
+    }
+    
     func append(character: Character) {
         guard let type = inputComponentTypeForCharacter(String(character)) else { return }
         let entry: InputComponentEntry = character == "0" ? .zero(String(character)) : .nonzero(String(character))
         let component = InputComponent(entry: entry, type: type)
         guard canAppend(component: component) == true else { return }
         append(component: component)
+    }
+    
+    func appendDelimiter() {
+        guard canAppend(component: .delimiter) else { return }
+        append(component: .delimiter)
     }
     
     func dropLast() {
@@ -111,7 +120,11 @@ class ExchangeInputViewModel {
         case .whole:
             if let first = components.first, first == .zero, component == .zero {
                 /// `00` is an invalid entry. The current display value is already `0`
-                return false
+                /// If there's more than 1 component, that means other `whole` values
+                /// have been entered and accepted, so additional whole values are fine.
+                if components.count == 1 {
+                    return false
+                }
             }
             let wholes = components.filter({ $0.type == .whole })
             return wholes.count <= inputType.maxIntegerPlaces

@@ -27,6 +27,18 @@ extension KYCUserTiersResponse {
                 ($0.state != .pending && $0.state != .rejected && $0.state != .verified)
         })
     }
+
+    var isTier2Pending: Bool {
+        return userTiers.contains(where: {
+            return $0.tier == .tier2 && $0.state == .pending
+        })
+    }
+    
+    var isTier2Verified: Bool {
+        return userTiers.contains(where: {
+            return $0.tier == .tier2 && $0.state == .verified
+        })
+    }
 }
 
 struct KYCUserTier: Codable {

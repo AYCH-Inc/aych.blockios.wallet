@@ -12,16 +12,17 @@
         <array key="Montserrat-Regular.ttf">
             <string>Montserrat-Regular</string>
         </array>
+        <array key="Montserrat-SemiBold.ttf">
+            <string>Montserrat-SemiBold</string>
+        </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TradingPairView" customModule="Blockchain" customModuleProvider="target">
             <connections>
                 <outlet property="exchangeLabel" destination="mEa-sJ-jfN" id="7fg-j4-fbC"/>
                 <outlet property="leftButton" destination="GNR-OY-3hz" id="Uua-Ij-Ugm"/>
-                <outlet property="leftIconStatusImageView" destination="Bqm-I7-yVy" id="ZL0-F8-Hvp"/>
                 <outlet property="receiveLabel" destination="HMc-y4-c3x" id="lPG-qE-A0l"/>
                 <outlet property="rightButton" destination="KVO-Wl-0DT" id="MIr-ct-XPn"/>
-                <outlet property="rightIconStatusImageView" destination="0ad-gs-pwk" id="Z0d-5h-9qS"/>
                 <outlet property="swapButton" destination="mjP-2F-nXO" id="QCP-pO-L4C"/>
             </connections>
         </placeholder>
@@ -42,28 +43,14 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exchange" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEa-sJ-jfN">
-                    <rect key="frame" x="0.0" y="0.0" width="59" height="15"/>
-                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                    <rect key="frame" x="0.0" y="0.0" width="60" height="15"/>
+                    <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-StatusDot" translatesAutoresizingMaskIntoConstraints="NO" id="Bqm-I7-yVy">
-                    <rect key="frame" x="61" y="3.5" width="8" height="8"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="8" id="XXy-bd-3df"/>
-                        <constraint firstAttribute="height" constant="8" id="hL5-k6-7f6"/>
-                    </constraints>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-StatusDot" translatesAutoresizingMaskIntoConstraints="NO" id="0ad-gs-pwk">
-                    <rect key="frame" x="257.5" y="3.5" width="8" height="8"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="8" id="P8s-44-qb3"/>
-                        <constraint firstAttribute="width" constant="8" id="bmz-ZN-RoV"/>
-                    </constraints>
-                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Receive" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HMc-y4-c3x">
-                    <rect key="frame" x="209.5" y="0.0" width="46" height="15"/>
-                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                    <rect key="frame" x="209.5" y="0.0" width="47" height="15"/>
+                    <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -91,15 +78,12 @@
                 <constraint firstItem="mEa-sJ-jfN" firstAttribute="top" secondItem="QVq-IM-xha" secondAttribute="top" id="05V-f3-DJJ"/>
                 <constraint firstItem="mjP-2F-nXO" firstAttribute="leading" secondItem="GNR-OY-3hz" secondAttribute="trailing" id="1Sy-2Q-kTd"/>
                 <constraint firstItem="GNR-OY-3hz" firstAttribute="leading" secondItem="QVq-IM-xha" secondAttribute="leading" id="26e-iJ-ctS"/>
-                <constraint firstItem="0ad-gs-pwk" firstAttribute="centerY" secondItem="HMc-y4-c3x" secondAttribute="centerY" id="668-4M-jiQ"/>
                 <constraint firstItem="mjP-2F-nXO" firstAttribute="centerX" secondItem="QVq-IM-xha" secondAttribute="centerX" id="9gV-6O-eDg"/>
                 <constraint firstItem="GNR-OY-3hz" firstAttribute="top" secondItem="mEa-sJ-jfN" secondAttribute="bottom" constant="3" id="D5I-rJ-glB"/>
-                <constraint firstItem="0ad-gs-pwk" firstAttribute="leading" secondItem="HMc-y4-c3x" secondAttribute="trailing" constant="2" id="KRf-UT-5P5"/>
                 <constraint firstItem="KVO-Wl-0DT" firstAttribute="top" secondItem="QVq-IM-xha" secondAttribute="top" id="OUS-Yq-n83"/>
                 <constraint firstItem="KVO-Wl-0DT" firstAttribute="top" secondItem="HMc-y4-c3x" secondAttribute="bottom" constant="3" id="OjX-fo-PlQ"/>
                 <constraint firstItem="QVq-IM-xha" firstAttribute="trailing" secondItem="KVO-Wl-0DT" secondAttribute="trailing" id="Pps-t7-TES"/>
                 <constraint firstItem="mEa-sJ-jfN" firstAttribute="leading" secondItem="QVq-IM-xha" secondAttribute="leading" id="R2K-jp-pIL"/>
-                <constraint firstItem="Bqm-I7-yVy" firstAttribute="centerY" secondItem="mEa-sJ-jfN" secondAttribute="centerY" id="YBl-lr-JxV"/>
                 <constraint firstItem="KVO-Wl-0DT" firstAttribute="leading" secondItem="mjP-2F-nXO" secondAttribute="trailing" id="fkT-3J-ZC4"/>
                 <constraint firstItem="QVq-IM-xha" firstAttribute="bottom" secondItem="KVO-Wl-0DT" secondAttribute="bottom" id="mx8-iz-V9Q"/>
                 <constraint firstItem="HMc-y4-c3x" firstAttribute="leading" secondItem="KVO-Wl-0DT" secondAttribute="leading" id="n3G-md-mNs"/>
@@ -107,7 +91,6 @@
                 <constraint firstItem="HMc-y4-c3x" firstAttribute="top" secondItem="QVq-IM-xha" secondAttribute="top" id="qXo-7g-b9D"/>
                 <constraint firstItem="QVq-IM-xha" firstAttribute="bottom" secondItem="GNR-OY-3hz" secondAttribute="bottom" id="uU0-BO-dIN"/>
                 <constraint firstItem="mjP-2F-nXO" firstAttribute="centerY" secondItem="GNR-OY-3hz" secondAttribute="centerY" id="xW6-Pm-rP4"/>
-                <constraint firstItem="Bqm-I7-yVy" firstAttribute="leading" secondItem="mEa-sJ-jfN" secondAttribute="trailing" constant="2" id="yhR-C9-M2F"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="QVq-IM-xha"/>
@@ -124,6 +107,5 @@
         <image name="Icon-BTC" width="24" height="24"/>
         <image name="Icon-ETH" width="24" height="24"/>
         <image name="Icon-Exchange" width="20" height="18"/>
-        <image name="Icon-StatusDot" width="8" height="8"/>
     </resources>
 </document>

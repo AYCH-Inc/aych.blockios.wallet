@@ -8,8 +8,11 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 /// A repository for `AssetAccount` objects
+// TICKET: [IOS-2087] - Integrate PlatformKit Account Repositories
+// and Deprecate AssetAccountRepository
 class AssetAccountRepository {
 
     static let shared = AssetAccountRepository()
@@ -17,7 +20,8 @@ class AssetAccountRepository {
     private let wallet: Wallet
     private let xlmServiceProvider: XLMServiceProvider
     private let stellarAccountService: StellarAccountAPI
-    private var disposable: Disposable?
+    private var cachedAccounts = BehaviorRelay<[AssetAccount]?>(value: nil)
+    private let disposables = CompositeDisposable()
 
     init(
         wallet: Wallet = WalletManager.shared.wallet,
@@ -29,84 +33,135 @@ class AssetAccountRepository {
     }
 
     deinit {
-        disposable?.dispose()
+        disposables.dispose()
     }
 
     // MARK: Public Methods
-
-    func accounts(for assetType: AssetType) -> [AssetAccount] {
-
+    
+    func accounts(for assetType: AssetType, fromCache: Bool = true) -> Maybe<[AssetAccount]> {
         // A crash occurs in the for loop if wallet.getActiveAccountsCount returns 0
         // "Fatal error: Can't form Range with upperBound < lowerBound"
         if !wallet.isInitialized() {
-            return []
+            return Maybe.empty()
         }
-
-        // Handle ethereum
+        
+        if fromCache {
+            return accounts.asMaybe().flatMap { result -> Maybe<[AssetAccount]> in
+                let cached = result.filter({ $0.address.assetType == assetType })
+                return Maybe.just(cached)
+            }
+        }
+        
         if assetType == .ethereum {
-            if let ethereumAccount = defaultEthereumAccount() {
-                return [ethereumAccount]
-            }
-            return []
+            return defaultEthereumAccount().flatMap({
+                return Maybe.just([$0])
+            })
         }
-
+        
         if assetType == .stellar {
-            if let stellarAccount = defaultStellarAccount() {
-                return [stellarAccount]
+            if fromCache == false {
+                return stellarAccountService.currentStellarAccount(fromCache: false).map({ return [$0.assetAccount] })
             }
-            return []
+            if let stellarAccount = defaultStellarAccount() {
+                return Maybe.just([stellarAccount])
+            }
+            
+            return Maybe.empty()
         }
-
+        
         // Handle BTC and BCH
         // TODO pull in legacy addresses.
         // TICKET: IOS-1290
-        var accounts: [AssetAccount] = []
+        var result: [AssetAccount] = []
         for index in 0...wallet.getActiveAccountsCount(assetType.legacy)-1 {
             let index = wallet.getIndexOfActiveAccount(index, assetType: assetType.legacy)
             if let assetAccount = AssetAccount.create(assetType: assetType, index: index, wallet: wallet) {
-                accounts.append(assetAccount)
+                result.append(assetAccount)
             }
         }
-        return accounts
+        return Maybe.just(result)
     }
-
-    func allAccounts() -> [AssetAccount] {
-        var allAccounts: [AssetAccount] = []
-        AssetType.all.forEach {
-            allAccounts.append(contentsOf: accounts(for: $0))
+    
+    var accounts: Observable<[AssetAccount]> {
+        guard let value = cachedAccounts.value else {
+            return fetchAccounts().asObservable()
         }
-        return allAccounts
+        return Observable.just(value)
     }
 
-    func defaultAccount(for assetType: AssetType) -> AssetAccount? {
+    func fetchAccounts() -> Single<[AssetAccount]> {
+        var observables: [Observable<[AssetAccount]>] = []
+        AssetType.all.forEach {
+            let observable = accounts(for: $0, fromCache: false).asObservable()
+            observables.append(observable)
+        }
+        return Single.create { observer -> Disposable in
+            let disposable = Observable.zip(observables)
+                .subscribeOn(MainScheduler.asyncInstance)
+                .map({ $0.flatMap({ return $0 })})
+                .subscribe(onNext: { [weak self] output in
+                    guard let self = self else { return }
+                    self.cachedAccounts.accept(output)
+                    observer(.success(output))
+                })
+            self.disposables.insertWithDiscardableResult(disposable)
+            return Disposables.create()
+        }
+    }
+
+    func defaultAccount(for assetType: AssetType, fromCache: Bool = true) -> Maybe<AssetAccount> {
         if assetType == .ethereum {
             return defaultEthereumAccount()
         } else if assetType == .stellar {
-            return defaultStellarAccount()
+            if let account = defaultStellarAccount() {
+                return Maybe.just(account)
+            } else {
+                return Maybe.empty()
+            }
         }
         let index = wallet.getDefaultAccountIndex(for: assetType.legacy)
-        return AssetAccount.create(assetType: assetType, index: index, wallet: wallet)
+        let account = AssetAccount.create(assetType: assetType, index: index, wallet: wallet)
+        if let result = account {
+            return Maybe.just(result)
+        } else {
+            return Maybe.empty()
+        }
     }
 
-    func defaultEthereumAccount() -> AssetAccount? {
-        guard let ethereumAddress = wallet.getEtherAddress(), wallet.hasEthAccount() else {
-            Logger.shared.debug("This wallet has no ethereum address.")
-            return nil
-        }
-
-        let ethBalance: Decimal
-        if let ethStringBalance = wallet.getEthBalance() {
-            ethBalance = Decimal(string: ethStringBalance) ?? Decimal(0)
-        } else {
-            ethBalance = 0
-        }
-
-        return AssetAccount(
-            index: 0,
-            address: AssetAddressFactory.create(fromAddressString: ethereumAddress, assetType: .ethereum),
-            balance: ethBalance,
-            name: LocalizationConstants.myEtherWallet
-        )
+    func defaultEthereumAccount() -> Maybe<AssetAccount> {
+        return Maybe.create(subscribe: { [weak self] observer -> Disposable in
+            guard let self = self else {
+                observer(.completed)
+                return Disposables.create()
+            }
+            
+            guard let ethereumAddress = self.wallet.getEtherAddress(), self.wallet.hasEthAccount() else {
+                Logger.shared.debug("This wallet has no ethereum address.")
+                observer(.completed)
+                return Disposables.create()
+            }
+            
+            self.wallet.fetchEthereumBalance({ balance in
+                let account = AssetAccount(
+                    index: 0,
+                    address: AssetAddressFactory.create(fromAddressString: ethereumAddress, assetType: .ethereum),
+                    balance: Decimal(string: balance) ?? 0,
+                    name: LocalizationConstants.myEtherWallet
+                )
+                observer(.success(account))
+            }, error: { error in
+                Logger.shared.error(error)
+                let account = AssetAccount(
+                    index: 0,
+                    address: AssetAddressFactory.create(fromAddressString: ethereumAddress, assetType: .ethereum),
+                    balance: 0,
+                    name: LocalizationConstants.myEtherWallet
+                )
+                observer(.success(account))
+            })
+            
+            return Disposables.create()
+        })
     }
 
     func defaultStellarAccount() -> AssetAccount? {
@@ -145,13 +200,24 @@ extension AssetAccount {
 }
 
 extension AssetAccountRepository {
-    func nameOfAccountContaining(address: String) -> String {
-        let accounts = allAccounts()
-
-        // TICKET: IOS-1326 - Destination Name on Exchange Locked Screen Should Match Withdrawal Address
-        let destination = accounts.filter({
-            return $0.address.address.lowercased() == address.lowercased()
-        }).first
-        return destination?.name ?? ""
+    
+    fileprivate func fetchAccountsStartingWithCache(
+        cachedValue: BehaviorRelay<[AssetAccount]?>,
+        networkValue: Single<[AssetAccount]>
+        ) -> Observable<[AssetAccount]> {
+        let networkObservable = networkValue.asObservable()
+        guard let cached = cachedValue.value else {
+            return networkObservable
+        }
+        return networkObservable.startWith(cached)
+    }
+    
+    func nameOfAccountContaining(address: String) -> Maybe<String> {
+        return accounts.asSingle().flatMapMaybe { output -> Maybe<String> in
+            guard let result = output.first(where: { $0.address.address == address }) else {
+                return Maybe.empty()
+            }
+            return Maybe.just(result.name)
+        }
     }
 }

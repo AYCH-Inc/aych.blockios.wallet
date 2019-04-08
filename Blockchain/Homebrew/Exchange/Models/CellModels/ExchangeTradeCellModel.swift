@@ -87,8 +87,7 @@ extension ExchangeTradeModel {
             }
             
             let action =  AlertAction(
-                title: LocalizationConstants.KYC.contactSupport,
-                style: .confirm,
+                style: .confirm(LocalizationConstants.KYC.contactSupport),
                 metadata: .url(supportURL)
             )
             let generic = AlertModel(
@@ -115,8 +114,7 @@ extension ExchangeTradeModel {
                     return nil
                 }
                 let learnMore = AlertAction(
-                    title: LocalizationConstants.Exchange.learnMore,
-                    style: .confirm,
+                    style: .confirm(LocalizationConstants.Exchange.learnMore),
                     metadata: .url(url)
                 )
                 let delayed = AlertModel(

@@ -8,7 +8,8 @@
 
 import Foundation
 
-enum StellarServiceError: Error {
+// TODO: Should be deprecated in favor of `StellarServiceError` in `StellarKit`
+enum StellarServiceError: Error, Equatable {
     case insufficientFundsForNewAccount
     case noDefaultAccount
     case noXLMAccount
@@ -18,5 +19,28 @@ enum StellarServiceError: Error {
     case unauthorized
     case forbidden
     case amountTooLow
+    case badRequest(message: String)
     case unknown
+}
+
+extension StellarServiceError {
+    static func ==(lhs: StellarServiceError, rhs: StellarServiceError) -> Bool {
+        switch (lhs, rhs) {
+        case (.insufficientFundsForNewAccount, .insufficientFundsForNewAccount),
+             (.noDefaultAccount, .noDefaultAccount),
+             (.noXLMAccount, .noXLMAccount),
+             (.rateLimitExceeded, .rateLimitExceeded),
+             (.internalError, .internalError),
+             (.parsingError, .parsingError),
+             (.unauthorized, .unauthorized),
+             (.forbidden, .forbidden),
+             (.amountTooLow, .amountTooLow),
+             (.unknown, .unknown):
+            return true
+        case (.badRequest(message: let left), .badRequest(message: let right)):
+            return left == right
+        default:
+            return false
+        }
+    }
 }

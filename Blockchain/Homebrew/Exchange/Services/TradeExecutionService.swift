@@ -387,8 +387,14 @@ class TradeExecutionService: TradeExecutionAPI {
                         // User cancelled transaction when shown second password - do not show an error.
                         return
                     }
+                    var message = LocalizationConstants.Stellar.cannotSendXLMAtThisTime
+                    if let serviceError = paymentError as? StellarServiceError {
+                        if case let .badRequest(message: value) = serviceError {
+                            message = value
+                        }
+                    }
                     error(
-                        LocalizationConstants.Stellar.cannotSendXLMAtThisTime,
+                        message,
                         transactionID,
                         paymentError as? NabuNetworkError
                     )

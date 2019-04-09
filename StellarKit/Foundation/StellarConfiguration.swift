@@ -10,7 +10,7 @@ import Foundation
 import stellarsdk
 
 private struct HorizonServer {
-    static let production = "https://horizon.stellar.org"
+    static let production = "https://horizon.blockchain.info"
     static let test = "https://horizon-testnet.stellar.org"
 }
 

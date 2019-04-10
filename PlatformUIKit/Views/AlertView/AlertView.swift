@@ -39,6 +39,7 @@ public class AlertView: UIView {
     @IBOutlet var defaultButtonHeightConstraint: NSLayoutConstraint!
     @IBOutlet var okayButtonHeightConstraint: NSLayoutConstraint!
     
+    fileprivate var observer: NSKeyValueObservation?
     fileprivate var model: AlertModel!
     fileprivate var completion: ((AlertAction) -> Void)?
     fileprivate var animator: UIDynamicAnimator!
@@ -127,6 +128,10 @@ public class AlertView: UIView {
             guard let self = self else { return }
             self.teardown()
         }
+    }
+    
+    deinit {
+        observer?.invalidate()
     }
     
     // MARK: Private
@@ -235,32 +240,46 @@ public class AlertView: UIView {
             let offset = UIOffset(horizontal: location.x - center.x, vertical: location.y - center.y)
             let velocity = panGestureRecognizer.velocity(in: self)
             if velocity.magnitude > 1000 {
-                guard animator.behaviors.contains(pushBehavior) == false else { return }
-                pushBehavior.pushDirection = velocity.vector
-                pushBehavior.setTargetOffsetFromCenter(offset, for: self)
-                pushBehavior.magnitude = velocity.magnitude * 0.2
-                animator.removeBehavior(snapBehavior)
-                animator.addBehavior(gravityBehavior)
-                animator.addBehavior(pushBehavior)
-                isUserInteractionEnabled = false
-                
-                UIView.animate(withDuration: 0.5, animations: { [weak self] in
-                    guard let self = self else { return }
-                    self.dimmingView.alpha = 0.0
-                }) { [weak self] _ in
-                    guard let self = self else { return }
-                    if let dismiss = self.model.actions.filter({ $0.style == .dismiss }).first {
-                        self.completion?(dismiss)
-                    } else {
-                        self.completion?(.defaultDismissal)
-                    }
-                }
+                startAnimators(with: velocity, offset: offset)
             }
         case .ended, .cancelled, .failed:
             guard animator.behaviors.contains(pushBehavior) == false else { return }
             animator.addBehavior(snapBehavior)
         case .possible:
             break
+        }
+    }
+    
+    fileprivate func startAnimators(with velocity: CGPoint, offset: UIOffset) {
+        guard animator.behaviors.contains(pushBehavior) == false else { return }
+        pushBehavior.pushDirection = velocity.vector
+        pushBehavior.setTargetOffsetFromCenter(offset, for: self)
+        pushBehavior.magnitude = velocity.magnitude * 0.2
+        animator.removeBehavior(snapBehavior)
+        animator.addBehavior(gravityBehavior)
+        animator.addBehavior(pushBehavior)
+        isUserInteractionEnabled = false
+        
+        observer = observe(\.center, options: [.new]) { [weak self] (object, change) in
+            guard let self = self else { return }
+            guard let point = change.newValue else { return }
+            guard UIScreen.main.bounds.contains(point) == false else { return }
+            guard let superview = self.superview else { return }
+            guard superview.subviews.contains(self.dimmingView) else { return }
+            UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                guard let self = self else { return }
+                self.alpha = 0.0
+                self.dimmingView.alpha = 0.0
+            }) { [weak self] _ in
+                guard let self = self else { return }
+                if let dismiss = self.model.actions.filter({ $0.style == .dismiss }).first {
+                    self.completion?(dismiss)
+                } else {
+                    self.completion?(.defaultDismissal)
+                }
+                self.dimmingView.removeFromSuperview()
+                self.removeFromSuperview()
+            }
         }
     }
     

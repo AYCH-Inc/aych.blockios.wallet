@@ -2771,7 +2771,7 @@ NSString * const kLockboxInvitation = @"lockbox";
         return;
     }
     
-    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.tradeExecution.%@.send(%@)", tradeExecutionType, [secondPassword escapedForJS]]];
+    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.tradeExecution.%@.send(\"%@\")", tradeExecutionType, [secondPassword escapedForJS]]];
 }
 
 # pragma mark - Ethereum

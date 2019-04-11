@@ -15,6 +15,7 @@ private struct Keys {
     static let mobileInfo = "mobileInfo"
     static let shapeshift = "shapeshift"
     static let ios = "ios"
+    static let xlm = "xlm"
 }
 
 // TODO: Conform to Decodable
@@ -38,6 +39,11 @@ struct WalletOptions {
     struct IosConfig {
         let showShapeshift: Bool
     }
+    
+    struct XLMMetadata {
+        let operationFee: Int
+        let sendTimeOutSeconds: Int
+    }
 
     // MARK: - Properties
 
@@ -50,6 +56,21 @@ struct WalletOptions {
     let shapeshift: Shapeshift?
 
     let iosConfig: IosConfig?
+    
+    let xlmMetadata: XLMMetadata?
+}
+
+extension WalletOptions.XLMMetadata {
+    init?(json: JSON) {
+        if let xlmData = json[Keys.xlm] as? [String: Int] {
+            guard let fee = xlmData["operationFee"] else { return nil }
+            guard let timeout = xlmData["sendTimeOutSeconds"] else { return nil }
+            self.operationFee = fee
+            self.sendTimeOutSeconds = timeout
+        } else {
+            return nil
+        }
+    }
 }
 
 extension WalletOptions.Mobile {
@@ -104,5 +125,6 @@ extension WalletOptions {
         self.mobileInfo = WalletOptions.MobileInfo(json: json)
         self.shapeshift = WalletOptions.Shapeshift(json: json)
         self.iosConfig = WalletOptions.IosConfig(json: json)
+        self.xlmMetadata = WalletOptions.XLMMetadata(json: json)
     }
 }

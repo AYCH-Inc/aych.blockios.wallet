@@ -16,7 +16,7 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
     
     fileprivate let cache: StellarTransactionCache
     fileprivate let provider: XLMServiceProvider
-    fileprivate let operationService: StellarOperationService
+    fileprivate let operationService: StellarOperationsAPI
     fileprivate let transactionService: StellarTransactionAPI
     fileprivate let disposables = CompositeDisposable()
     fileprivate var operations: [StellarOperation]?

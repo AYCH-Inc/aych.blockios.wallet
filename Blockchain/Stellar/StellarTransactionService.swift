@@ -21,6 +21,7 @@ class StellarTransactionService: StellarTransactionAPI {
     fileprivate let configuration: StellarConfiguration
     fileprivate let accounts: StellarAccountAPI
     fileprivate let repository: StellarWalletAccountRepository
+    fileprivate let walletService: WalletService
     fileprivate lazy var service: stellarsdk.TransactionsService = {
         configuration.sdk.transactions
     }()
@@ -28,11 +29,13 @@ class StellarTransactionService: StellarTransactionAPI {
     init(
         configuration: StellarConfiguration = .production,
         accounts: StellarAccountAPI,
-        repository: StellarWalletAccountRepository
+        repository: StellarWalletAccountRepository,
+        walletService: WalletService = WalletService.shared
     ) {
         self.configuration = configuration
         self.accounts = accounts
         self.repository = repository
+        self.walletService = walletService
     }
     
     func get(transaction transactionHash: String, completion: @escaping ((Result<StellarTransactionResponse>) -> Void)) {
@@ -75,7 +78,7 @@ class StellarTransactionService: StellarTransactionAPI {
 
     func send(_ paymentOperation: StellarPaymentOperation, sourceKeyPair: StellarKit.StellarKeyPair) -> Completable {
         let sourceAccount = accounts.accountResponse(for: sourceKeyPair.accountID)
-        return Single.zip(WalletService.shared.walletOptions, fundAccountIfEmpty(
+        return Single.zip(walletService.walletOptions, fundAccountIfEmpty(
             paymentOperation,
             sourceKeyPair: sourceKeyPair
         )).flatMapCompletable { [weak self] walletOptions, didFundAccount in
@@ -154,19 +157,17 @@ class StellarTransactionService: StellarTransactionAPI {
                 let baseFeeInStroops = (try? StellarValue(value: feeCryptoValue).stroops()) ?? StellarTransactionFee.defaultLimits.min
                 
                 var timebounds: TimeBounds?
+                let future = Calendar.current.date(
+                    byAdding: .second,
+                    value: timeout ?? 10,
+                    to: Date()
+                    )?.timeIntervalSince1970
                 
-                if let value = timeout {
-                    let future = Calendar.current.date(
-                        byAdding: .second,
-                        value: value,
-                        to: Date()
-                        )?.timeIntervalSince1970
-                    if let futureDate = future {
-                        timebounds = try? TimeBounds(
-                            minTime: UInt64(0),
-                            maxTime: UInt64(futureDate)
-                        )
-                    }
+                if let value = future {
+                    timebounds = try? TimeBounds(
+                        minTime: UInt64(0),
+                        maxTime: UInt64(value)
+                    )
                 }
                 
                 let transaction = try StellarTransaction(

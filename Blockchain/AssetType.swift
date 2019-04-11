@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 
 /// The asset type is used to distinguish between different types of digital assets.
 @objc public enum AssetType: Int {
@@ -211,6 +212,23 @@ extension AssetType {
         case .stellar:
             // TODO: add formatting methods
             return "stellar in crypto"
+        }
+    }
+}
+
+extension AssetType {
+    /// The view model can provide a `FiatValue` or `CryptoValue`. When
+    /// returning a `CryptoValue` we must provide the `CrptoValue`
+    func toCryptoCurrency() -> CryptoCurrency {
+        switch self {
+        case .bitcoin:
+            return .bitcoin
+        case .bitcoinCash:
+            return .bitcoinCash
+        case .stellar:
+            return .stellar
+        case .ethereum:
+            return .ethereum
         }
     }
 }

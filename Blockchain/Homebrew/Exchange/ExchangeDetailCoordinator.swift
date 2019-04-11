@@ -134,6 +134,8 @@ class ExchangeDetailCoordinator: NSObject {
                     })
                 disposables.insertWithDiscardableResult(disposable)
             case .locked(let orderTransaction, let conversion):
+                logTransactionLocked(orderTransaction)
+                
                 let disposable = accountRepository.nameOfAccountContaining(address: orderTransaction.destination.address.address).asObservable()
                     .take(1)
                     .subscribeOn(MainScheduler.asyncInstance)
@@ -297,6 +299,8 @@ class ExchangeDetailCoordinator: NSObject {
                 }
             }
         case .confirmExchange(let transaction):
+            AnalyticsService.shared.trackEvent(title: "swap_confirmed")
+            
             guard let lastConversion = interface?.mostRecentConversion else {
                 Logger.shared.error("No conversion to use")
                 return
@@ -336,6 +340,7 @@ class ExchangeDetailCoordinator: NSObject {
                 }
                 
                 if let identifier = transactionID {
+                    this.logTransactionFailure(transaction, errorMessage: errorDescription)
                     this.tradeExecution.trackTransactionFailure(errorDescription, transactionID: identifier, completion: { error in
                         if let value = error {
                             Logger.shared.error(value.localizedDescription)
@@ -347,6 +352,54 @@ class ExchangeDetailCoordinator: NSObject {
                 }
             }
         }
+    }
+    
+    fileprivate func logTransactionFailure(_ orderTransaction: OrderTransaction, errorMessage: String) {
+        /// We want to make sure we have the latest balance
+        /// in the event of a failure, in case there was a discrepancy between
+        /// the balance reflected in the `OrderTransaction` and the user's actual
+        /// balance. 
+        let disposable = accountRepository.defaultAccount(
+            for: orderTransaction.from.address.assetType,
+            fromCache: false
+        )
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { account in
+                let balance = CryptoValue.createFromMajorValue(
+                    account.balance,
+                    assetType: account.address.assetType.toCryptoCurrency()
+                )
+                AnalyticsService.shared.trackEvent(
+                    title: "swap_failure",
+                    parameters: [
+                        "balance": balance.toDisplayString(includeSymbol: true),
+                        "assetType": orderTransaction.from.address.assetType.description,
+                        "amount_to_send": orderTransaction.amountToSend,
+                        "amount_to_receive": orderTransaction.amountToReceive,
+                        "fees": orderTransaction.fees,
+                        "error_message": errorMessage,
+                        "order_identifier": orderTransaction.orderIdentifier ?? "unknown"
+                    ])
+            })
+        disposables.insertWithDiscardableResult(disposable)
+    }
+    
+    fileprivate func logTransactionLocked(_ orderTransaction: OrderTransaction) {
+        let balance = CryptoValue.createFromMajorValue(
+            orderTransaction.from.balance,
+            assetType: orderTransaction.from.address.assetType.toCryptoCurrency()
+        )
+        AnalyticsService.shared.trackEvent(
+            title: "swap_locked",
+            parameters: [
+                "balance": balance.toDisplayString(includeSymbol: true),
+                "assetType": orderTransaction.from.address.assetType.description,
+                "amount_to_send": orderTransaction.amountToSend,
+                "amount_to_receive": orderTransaction.amountToReceive,
+                "fees": orderTransaction.fees,
+                "order_identifier": orderTransaction.orderIdentifier ?? "unknown"
+            ])
     }
 }
 

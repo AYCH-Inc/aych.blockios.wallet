@@ -666,21 +666,3 @@ extension ExchangeRates {
         return "1 \(fromCurrency) = \(rate.price) \(toCurrency)"
     }
 }
-
-fileprivate extension AssetType {
-    /// NOTE: This is used for `ExchangeInputViewModel`.
-    /// The view model can provide a `FiatValue` or `CryptoValue`. When
-    /// returning a `CryptoValue` we must provide the `CrptoValue` 
-    func toCryptoCurrency() -> CryptoCurrency {
-        switch self {
-        case .bitcoin:
-            return .bitcoin
-        case .bitcoinCash:
-            return .bitcoinCash
-        case .stellar:
-            return .stellar
-        case .ethereum:
-            return .ethereum
-        }
-    }
-}

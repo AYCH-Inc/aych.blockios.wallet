@@ -14,7 +14,7 @@ import StellarKit
 protocol XLMDependencies {
     var accounts: StellarAccountAPI { get }
     var ledger: StellarLedgerService { get }
-    var operation: StellarOperationService { get }
+    var operation: StellarOperationsAPI { get }
     var transaction: StellarTransactionAPI { get }
     var limits: StellarTradeLimitsAPI { get }
     var repository: StellarWalletAccountRepository { get }
@@ -27,7 +27,7 @@ struct XLMServices: XLMDependencies {
     var repository: StellarWalletAccountRepository
     var accounts: StellarAccountAPI
     var ledger: StellarLedgerService
-    var operation: StellarOperationService
+    var operation: StellarOperationsAPI
     var transaction: StellarTransactionAPI
     var prices: PriceServiceAPI
     var limits: StellarTradeLimitsAPI

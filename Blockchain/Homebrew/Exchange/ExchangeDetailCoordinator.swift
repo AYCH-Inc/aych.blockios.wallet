@@ -335,7 +335,11 @@ class ExchangeDetailCoordinator: NSObject {
                         this.showAlertFrom(networkError)
                     } else {
                         this.interface?.loadingVisibility(.hidden)
-                        AlertViewPresenter.shared.standardError(message: errorDescription)
+                        var description = errorDescription
+                        if transaction.from.address.assetType == .stellar {
+                            description = LocalizationConstants.Stellar.cannotSendXLMAtThisTime
+                        }
+                        AlertViewPresenter.shared.standardError(message: description)
                     }
                 }
                 

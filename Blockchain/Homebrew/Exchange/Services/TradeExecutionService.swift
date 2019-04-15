@@ -389,9 +389,7 @@ class TradeExecutionService: TradeExecutionAPI {
                     Logger.shared.error("Failed to send XLM. Error: \(paymentError)")
                     var message = LocalizationConstants.Stellar.cannotSendXLMAtThisTime
                     if let serviceError = paymentError as? StellarServiceError {
-                        if case let .badRequest(message: value) = serviceError {
-                            message = value
-                        }
+                        message = serviceError.message
                     }
                     error(
                         message,

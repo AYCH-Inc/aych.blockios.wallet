@@ -75,7 +75,7 @@ extension ExchangeError {
             let notEnouch = LocalizationConstants.Exchange.notEnough + " " + symbol + "."
             return notEnouch
         case .insufficientFundsForFees(let cryptoValue):
-            return LocalizationConstants.Errors.notEnoughXForFees + cryptoValue.symbol
+            return String(format: LocalizationConstants.Errors.notEnoughXForFees, cryptoValue.symbol)
         case .waitingOnEthereumPayment:
             return LocalizationConstants.SendEther.waitingForPaymentToFinishMessage
         case .default:
@@ -104,7 +104,7 @@ extension ExchangeError {
             let yourBalance = LocalizationConstants.Exchange.yourBalance + " " + cryptoValue.toDisplayString(includeSymbol: true, locale: .current)
             return yourBalance + "."
         case .insufficientFundsForFees(let assetType):
-            return LocalizationConstants.Errors.notEnoughXForFees + assetType.symbol
+            return String(format: LocalizationConstants.Errors.notEnoughXForFees, assetType.symbol)
         case .waitingOnEthereumPayment:
             return nil
         case .noVolumeProvided:

@@ -360,6 +360,7 @@ class TradeExecutionService: TradeExecutionAPI {
         assetType: AssetType,
         transactionID: String?,
         secondPassword: String?,
+        keyPair: KeyPair?,
         success: @escaping (() -> Void),
         error: @escaping ((ErrorMessage, TransactionID?, NabuNetworkError?) -> Void)
     ) {
@@ -372,9 +373,13 @@ class TradeExecutionService: TradeExecutionAPI {
                 Logger.shared.error("No pending payment operation found")
                 return
             }
+            guard let pair = keyPair as? StellarKeyPair else {
+                Logger.shared.error("No KeyPair provided")
+                return
+            }
             
             let transaction = dependencies.xlm.transactionAPI
-            let disposable = dependencies.xlm.repository.loadKeyPair()
+            let disposable = Single.just(pair)
                 .asObservable().flatMap { keyPair -> Completable in
                     return transaction.send(paymentOperation, sourceKeyPair: keyPair)
                 }.subscribeOn(MainScheduler.asyncInstance)
@@ -382,11 +387,6 @@ class TradeExecutionService: TradeExecutionAPI {
                 .subscribe(onError: { paymentError in
                     executionDone()
                     Logger.shared.error("Failed to send XLM. Error: \(paymentError)")
-                    if let operationError = paymentError as? StellarPaymentOperationError,
-                        operationError == .cancelled {
-                        // User cancelled transaction when shown second password - do not show an error.
-                        return
-                    }
                     var message = LocalizationConstants.Stellar.cannotSendXLMAtThisTime
                     if let serviceError = paymentError as? StellarServiceError {
                         if case let .badRequest(message: value) = serviceError {
@@ -584,8 +584,14 @@ extension TradeExecutionService {
         success: @escaping ((OrderTransaction) -> Void),
         error: @escaping ((ErrorMessage, TransactionID?, NabuNetworkError?) -> Void)
     ) {
-        let processAndBuild: ((String?) -> ()) = { [weak self] secondPassword in
+        /// This is not great but, `TradeExecutionService` is likely to be broken
+        /// up and refactored in the future. The `String` is the secondary password.
+        /// Not all users have one. The `KeyPair` is, at the moment, for XLM only.
+        let processAndBuild: ((String?, KeyPair?) -> ()) = { [weak self] secondPassword, pair in
             guard let this = self else { return }
+            if secondPassword != nil && pair != nil {
+                Logger.shared.warning("You shouldn't need to provide a secondary password if you have the keyPair.")
+            }
             this.processAndBuildOrder(
                 with: conversion,
                 fromAccount: from,
@@ -596,6 +602,7 @@ extension TradeExecutionService {
                         assetType: orderTransaction.to.assetType,
                         transactionID: orderTransaction.orderIdentifier,
                         secondPassword: secondPassword,
+                        keyPair: pair,
                         success: {
                             success(orderTransaction)
                         },
@@ -605,23 +612,40 @@ extension TradeExecutionService {
                 error: error
             )
         }
-
+        
+        let secondaryPasswordRequired = wallet.needsSecondPassword()
+        
         // Second password must be prompted before an order is processed since it is
         // a cancellable action - otherwise an order will be created even if cancelling
         // second password
-        if wallet.needsSecondPassword() && from.address.assetType != .stellar {
-            AuthenticationCoordinator.shared.showPasswordConfirm(
-                withDisplayText: LocalizationConstants.Authentication.secondPasswordDefaultDescription,
-                headerText: LocalizationConstants.Authentication.secondPasswordRequired,
-                validateSecondPassword: true,
-                confirmHandler: { (secondPass) in
-                    processAndBuild(secondPass)
-                }
-            )
+        if secondaryPasswordRequired {
+            if from.address.assetType == .stellar {
+                /// `loadKeyPair()` will trigger a prompt for the user to enter their
+                /// secondary password.
+                let disposable = dependencies.xlm.repository.loadKeyPair()
+                    .subscribeOn(MainScheduler.asyncInstance)
+                    .observeOn(MainScheduler.instance)
+                    .subscribe(onSuccess: { keyPair in
+                        processAndBuild(nil, keyPair)
+                    }, onError: { output in
+                        error(LocalizationConstants.Authentication.secondPasswordIncorrect, nil, nil)
+                    })
+                disposables.insertWithDiscardableResult(disposable)
+            } else {
+                AuthenticationCoordinator.shared.showPasswordConfirm(
+                    withDisplayText: LocalizationConstants.Authentication.secondPasswordDefaultDescription,
+                    headerText: LocalizationConstants.Authentication.secondPasswordRequired,
+                    validateSecondPassword: true,
+                    confirmHandler: { (secondPass) in
+                        processAndBuild(secondPass, nil)
+                },
+                    dismissHandler: {
+                        error(LocalizationConstants.Authentication.secondPasswordIncorrect, nil, nil)
+                })
+            }
         } else {
-            processAndBuild(nil)
+            processAndBuild(nil, nil)
         }
-
     }
 }
 

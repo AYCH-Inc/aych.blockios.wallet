@@ -613,34 +613,36 @@ extension TradeExecutionService {
         
         let secondaryPasswordRequired = wallet.needsSecondPassword()
         
+        let loadXLMKeyPair = {
+            /// `loadKeyPair()` will trigger a prompt for the user to enter their
+            /// secondary password
+            let disposable = self.dependencies.xlm.repository.loadKeyPair()
+                .subscribeOn(MainScheduler.asyncInstance)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { keyPair in
+                    processAndBuild(nil, keyPair)
+                }, onError: { output in
+                    error(LocalizationConstants.Authentication.secondPasswordIncorrect, nil, nil)
+                })
+            self.disposables.insertWithDiscardableResult(disposable)
+        }
+        
         // Second password must be prompted before an order is processed since it is
         // a cancellable action - otherwise an order will be created even if cancelling
         // second password
-        if secondaryPasswordRequired {
-            if from.address.assetType == .stellar {
-                /// `loadKeyPair()` will trigger a prompt for the user to enter their
-                /// secondary password.
-                let disposable = dependencies.xlm.repository.loadKeyPair()
-                    .subscribeOn(MainScheduler.asyncInstance)
-                    .observeOn(MainScheduler.instance)
-                    .subscribe(onSuccess: { keyPair in
-                        processAndBuild(nil, keyPair)
-                    }, onError: { output in
-                        error(LocalizationConstants.Authentication.secondPasswordIncorrect, nil, nil)
-                    })
-                disposables.insertWithDiscardableResult(disposable)
-            } else {
-                AuthenticationCoordinator.shared.showPasswordConfirm(
-                    withDisplayText: LocalizationConstants.Authentication.secondPasswordDefaultDescription,
-                    headerText: LocalizationConstants.Authentication.secondPasswordRequired,
-                    validateSecondPassword: true,
-                    confirmHandler: { (secondPass) in
-                        processAndBuild(secondPass, nil)
-                },
-                    dismissHandler: {
-                        error(LocalizationConstants.Authentication.secondPasswordIncorrect, nil, nil)
-                })
-            }
+        if from.address.assetType == .stellar {
+            loadXLMKeyPair()
+        } else if secondaryPasswordRequired {
+            AuthenticationCoordinator.shared.showPasswordConfirm(
+                withDisplayText: LocalizationConstants.Authentication.secondPasswordDefaultDescription,
+                headerText: LocalizationConstants.Authentication.secondPasswordRequired,
+                validateSecondPassword: true,
+                confirmHandler: { (secondPass) in
+                    processAndBuild(secondPass, nil)
+            },
+                dismissHandler: {
+                    error(LocalizationConstants.Authentication.secondPasswordIncorrect, nil, nil)
+            })
         } else {
             processAndBuild(nil, nil)
         }

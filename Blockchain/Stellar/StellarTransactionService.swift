@@ -21,6 +21,7 @@ class StellarTransactionService: StellarTransactionAPI {
     fileprivate let configuration: StellarConfiguration
     fileprivate let accounts: StellarAccountAPI
     fileprivate let repository: StellarWalletAccountRepository
+    fileprivate let walletService: WalletService
     fileprivate lazy var service: stellarsdk.TransactionsService = {
         configuration.sdk.transactions
     }()
@@ -28,11 +29,13 @@ class StellarTransactionService: StellarTransactionAPI {
     init(
         configuration: StellarConfiguration = .production,
         accounts: StellarAccountAPI,
-        repository: StellarWalletAccountRepository
+        repository: StellarWalletAccountRepository,
+        walletService: WalletService = WalletService.shared
     ) {
         self.configuration = configuration
         self.accounts = accounts
         self.repository = repository
+        self.walletService = walletService
     }
     
     func get(transaction transactionHash: String, completion: @escaping ((Result<StellarTransactionResponse>) -> Void)) {
@@ -75,10 +78,10 @@ class StellarTransactionService: StellarTransactionAPI {
 
     func send(_ paymentOperation: StellarPaymentOperation, sourceKeyPair: StellarKit.StellarKeyPair) -> Completable {
         let sourceAccount = accounts.accountResponse(for: sourceKeyPair.accountID)
-        return fundAccountIfEmpty(
+        return Single.zip(walletService.walletOptions, fundAccountIfEmpty(
             paymentOperation,
             sourceKeyPair: sourceKeyPair
-        ).flatMapCompletable { [weak self] didFundAccount in
+        )).flatMapCompletable { [weak self] walletOptions, didFundAccount in
             guard !didFundAccount else {
                 return Completable.empty()
             }
@@ -86,7 +89,12 @@ class StellarTransactionService: StellarTransactionAPI {
                 guard let strongSelf = self else {
                     return Completable.never()
                 }
-                return strongSelf.send(paymentOperation, accountResponse: accountResponse, sourceKeyPair: sourceKeyPair)
+                return strongSelf.send(
+                    paymentOperation,
+                    accountResponse: accountResponse,
+                    sourceKeyPair: sourceKeyPair,
+                    timeout: walletOptions.xlmMetadata?.sendTimeOutSeconds
+                )
             }
         }
     }
@@ -116,7 +124,8 @@ class StellarTransactionService: StellarTransactionAPI {
     private func send(
         _ paymentOperation: StellarPaymentOperation,
         accountResponse: AccountResponse,
-        sourceKeyPair: StellarKit.StellarKeyPair
+        sourceKeyPair: StellarKit.StellarKeyPair,
+        timeout: Int? = nil
     ) -> Completable {
         return Completable.create(subscribe: { [weak self] event -> Disposable in
             guard let strongSelf = self else {
@@ -147,12 +156,26 @@ class StellarTransactionService: StellarTransactionAPI {
                 let feeCryptoValue = CryptoValue.lumensFromMajor(decimal: paymentOperation.feeInXlm)
                 let baseFeeInStroops = (try? StellarValue(value: feeCryptoValue).stroops()) ?? StellarTransactionFee.defaultLimits.min
                 
+                var timebounds: TimeBounds?
+                let future = Calendar.current.date(
+                    byAdding: .second,
+                    value: timeout ?? 10,
+                    to: Date()
+                    )?.timeIntervalSince1970
+                
+                if let value = future {
+                    timebounds = try? TimeBounds(
+                        minTime: UInt64(0),
+                        maxTime: UInt64(value)
+                    )
+                }
+                
                 let transaction = try StellarTransaction(
                     sourceAccount: accountResponse,
                     operations: [payment],
                     baseFee: baseFeeInStroops,
                     memo: memo,
-                    timeBounds: nil
+                    timeBounds: timebounds
                 )
 
                 // Sign transaction
@@ -165,7 +188,7 @@ class StellarTransactionService: StellarTransactionAPI {
                         case .success(details: _):
                             event(.completed)
                         case .failure(let error):
-                            event(.error(error))
+                            event(.error(error.toStellarServiceError()))
                         }
                     })
             } catch {

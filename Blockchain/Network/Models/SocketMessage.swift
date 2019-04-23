@@ -89,6 +89,15 @@ struct ConversionSubscribeParams: Codable {
     let fiatCurrency: String
     let fix: Fix
     let volume: String
+    
+    init(type: String, pair: String, fiatCurrency: String, fix: Fix, volume: String) {
+        self.type = type
+        self.pair = pair
+        self.fiatCurrency = fiatCurrency
+        self.fix = fix
+        let formatted = volume.components(separatedBy: Locale.current.decimalSeparator ?? ".")
+        self.volume = formatted.joined(separator: ".")
+    }
 }
 
 struct AllCurrencyPairsUnsubscribeParams: Codable {

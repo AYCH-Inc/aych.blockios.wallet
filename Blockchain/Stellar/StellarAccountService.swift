@@ -227,6 +227,13 @@ extension HorizonRequestError {
             return .parsingError
         case .forbidden:
             return .forbidden
+        case .badRequest(message: let message, horizonErrorResponse: let response):
+            var value = message
+            if let response = response {
+                value += (" " + response.extras.resultCodes.transaction)
+                value += (" " + response.extras.resultCodes.operations.joined(separator: " "))
+            }
+            return .badRequest(message: value)
         default:
             return .unknown
         }

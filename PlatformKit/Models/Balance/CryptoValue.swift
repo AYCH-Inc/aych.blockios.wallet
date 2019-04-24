@@ -245,6 +245,21 @@ public extension CryptoValue {
     }
 }
 
+// MARK: - PAX
+
+public extension CryptoValue {
+    public static func paxFromMajor(decimal ether: Decimal) -> CryptoValue {
+        return createFromMajorValue(ether, assetType: .pax)
+    }
+    
+    public static func paxFromMajor(string pax: String) -> CryptoValue? {
+        guard let paxInDecimal = Decimal(string: pax) else {
+            return nil
+        }
+        return createFromMajorValue(paxInDecimal, assetType: .pax)
+    }
+}
+
 // MARK: - Number Extensions
 
 extension BigInt {

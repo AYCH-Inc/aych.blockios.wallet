@@ -103,7 +103,7 @@ extension AssetType {
         case .stellar:
             return #imageLiteral(resourceName: "Icon-XLM")
         case .pax:
-            return #imageLiteral(resourceName: "Icon-ETH")
+            return #imageLiteral(resourceName: "Icon-PAX")
         }
     }
 

@@ -20,7 +20,9 @@
 @property (strong, nonatomic) TransactionsXlmViewController *transactionsStellarViewController;
 @property (strong, nonatomic) ExchangeContainerViewController *exchangeContainerViewController;
 
-@property (strong, nonatomic) ActivityPaxViewController *activityPaxViewController;
+@property (strong, nonatomic) PaxComingSoonViewController *activityPaxComingSoonViewController;
+@property (strong, nonatomic) PaxComingSoonViewController *sendPaxComingSoonViewController;
+@property (strong, nonatomic) PaxComingSoonViewController *receivePaxComingSoonViewController;
 
 @end
 @implementation TabControllerManager
@@ -251,7 +253,10 @@
             break;
         }
         case LegacyAssetTypePax: {
-            // TODO: as part of IOS-2063
+            if (!_sendPaxComingSoonViewController) {
+                _sendPaxComingSoonViewController = [[PaxComingSoonViewController alloc] init];
+            }
+            [_tabViewController setActiveViewController:_sendPaxComingSoonViewController animated:animated index:tabIndex];
             break;
         }
     }
@@ -514,7 +519,10 @@
             break;
         }
         case LegacyAssetTypePax: {
-            // TODO: as part of IOS-2064
+            if (!_receivePaxComingSoonViewController) {
+                _receivePaxComingSoonViewController = [[PaxComingSoonViewController alloc] init];
+            }
+            [_tabViewController setActiveViewController:_receivePaxComingSoonViewController animated:animated index:tabIndex];
             break;
         }
     }
@@ -596,10 +604,10 @@
             break;
         }
         case LegacyAssetTypePax: {
-            if (!_activityPaxViewController) {
-                _activityPaxViewController = [[ActivityPaxViewController alloc] init];
+            if (!_activityPaxComingSoonViewController) {
+                _activityPaxComingSoonViewController = [[PaxComingSoonViewController alloc] init];
             }
-            [_tabViewController setActiveViewController:_activityPaxViewController animated:animated index:tabIndex];
+            [_tabViewController setActiveViewController:_activityPaxComingSoonViewController animated:animated index:tabIndex];
             break;
         }
     }
@@ -904,7 +912,7 @@
             break;
         }
         case LegacyAssetTypePax: {
-            // TODO
+            // TODO 
             break;
         }
     }

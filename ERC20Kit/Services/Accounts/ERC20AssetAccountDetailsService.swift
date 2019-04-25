@@ -89,6 +89,6 @@ public class AnyERC20BalanceService<Token: ERC20Token>: ERC20BalanceServiceAPI {
     
     public func balance(for address: String) -> Single<CryptoValue> {
         return self.accountClient.fetchWalletAccount(ethereumAddress: address)
-            .map { Token.cryptoValue(from: $0.balance) ?? Token.cryptoValue(from: Decimal(0)) }
+            .map { Token.cryptoValueFrom(minor: $0.balance) ?? Token.cryptoValue(from: Decimal(0)) }
     }
 }

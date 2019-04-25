@@ -19,6 +19,11 @@ public struct CryptoValue {
     /// The amount is the smallest unit of the currency (i.e. satoshi for BTC, wei for ETH, etc.)
     /// a.k.a. the minor value of the currency
     public let amount: BigInt
+    
+    private init(currencyType: CryptoCurrency, amount: BigInt) {
+        self.currencyType = currencyType
+        self.amount = amount
+    }
 }
 
 // MARK: - Money
@@ -107,6 +112,10 @@ public extension CryptoValue {
         let divisor = BigInt(10).power(currencyType.maxDecimalPlaces)
         let majorValue = amount.decimalDivision(divisor: divisor)
         return majorValue.roundTo(places: currencyType.maxDecimalPlaces)
+    }
+    
+    public static func createFromMinorValue(_ value: BigInt, assetType: CryptoCurrency) -> CryptoValue {
+        return CryptoValue(currencyType: assetType, amount: value)
     }
     
     public static func createFromMajorValue(_ value: Decimal, assetType: CryptoCurrency) -> CryptoValue {

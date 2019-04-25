@@ -65,7 +65,7 @@
 		23FDEF9A1D6CBC7000FC80D6 /* TransactionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEF991D6CBC7000FC80D6 /* TransactionDetailViewController.m */; };
 		23FDEFA91D6E43DE00FC80D6 /* TransactionDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEFA81D6E43DE00FC80D6 /* TransactionDetailTableCell.m */; };
 		23FDEFAC1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEFAB1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m */; };
-		3422FFA1226F8063005FBB2E /* ActivityPaxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3422FFA0226F8063005FBB2E /* ActivityPaxViewController.swift */; };
+		3422FFA1226F8063005FBB2E /* PaxComingSoonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3422FFA0226F8063005FBB2E /* PaxComingSoonViewController.swift */; };
 		3426B162225533A9001831CF /* StellarSDK+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426B161225533A9001831CF /* StellarSDK+Extensions.swift */; };
 		3426B175225541A7001831CF /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426B13A2254E643001831CF /* AccessibilityIdentifiers.swift */; };
 		3426B17F225541A8001831CF /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426B13A2254E643001831CF /* AccessibilityIdentifiers.swift */; };
@@ -1856,7 +1856,7 @@
 		23FDEFAB1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+SendSynchronousRequest.m"; sourceTree = "<group>"; };
 		2D108A231ACAABFA2ACA5904 /* Pods-ERC20KitTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20KitTests.release staging.xcconfig"; path = "Pods/Target Support Files/Pods-ERC20KitTests/Pods-ERC20KitTests.release staging.xcconfig"; sourceTree = "<group>"; };
 		2D27EB77F4AE77811F2F0DCE /* Pods_ERC20KitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ERC20KitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3422FFA0226F8063005FBB2E /* ActivityPaxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPaxViewController.swift; sourceTree = "<group>"; };
+		3422FFA0226F8063005FBB2E /* PaxComingSoonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaxComingSoonViewController.swift; sourceTree = "<group>"; };
 		3426B13A2254E643001831CF /* AccessibilityIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifiers.swift; sourceTree = "<group>"; };
 		3426B161225533A9001831CF /* StellarSDK+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StellarSDK+Extensions.swift"; sourceTree = "<group>"; };
 		342799E62226D8B8001FA074 /* EthereumHistoricalTransactionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumHistoricalTransactionService.swift; sourceTree = "<group>"; };
@@ -4717,7 +4717,7 @@
 		3422FF9F226F803A005FBB2E /* Activity */ = {
 			isa = PBXGroup;
 			children = (
-				3422FFA0226F8063005FBB2E /* ActivityPaxViewController.swift */,
+				3422FFA0226F8063005FBB2E /* PaxComingSoonViewController.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -12222,7 +12222,7 @@
 				3A56AEA721764D3A00044302 /* StellarTransactionAPI.swift in Sources */,
 				3A26AF7A212B0CCB003A8A08 /* PartnerExchangeAPI.swift in Sources */,
 				AA1E522D2097CA480099BD10 /* AuthenticationCoordinator+Pin.swift in Sources */,
-				3422FFA1226F8063005FBB2E /* ActivityPaxViewController.swift in Sources */,
+				3422FFA1226F8063005FBB2E /* PaxComingSoonViewController.swift in Sources */,
 				23444F871DCD217E00573C8C /* BTCNetwork.m in Sources */,
 				3A1D3C3E223965D5006F0D22 /* InputComponentType.swift in Sources */,
 				C7BEE14A20C9775B0096003B /* WalletOptions.swift in Sources */,

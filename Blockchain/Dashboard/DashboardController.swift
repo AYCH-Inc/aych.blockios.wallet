@@ -589,7 +589,7 @@ extension DashboardController: BCBalancesChartViewDelegate {
     }
     
     func paxLegendTapped() {
-        // TODO: no-op for now
+        tabControllerManager.showTransactionsPax()
     }
 
     func watchOnlyViewTapped() {

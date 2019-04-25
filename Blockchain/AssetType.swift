@@ -102,6 +102,7 @@ extension AssetType {
             return #imageLiteral(resourceName: "Icon-ETH")
         case .stellar:
             return #imageLiteral(resourceName: "Icon-XLM")
+
         case .pax:
             return #imageLiteral(resourceName: "Icon-PAX")
         }
@@ -131,7 +132,7 @@ extension AssetType {
         case .bitcoinCash:
             return UIColor(red: 0.24, green: 0.86, blue: 0.54, alpha: 1)
         case .stellar:
-            return UIColor(red: 0.02, green: 0.71, blue: 0.90, alpha: 1)
+            return UIColor(red: 0.07, green: 0.11, blue: 0.20, alpha: 1)
         case .pax:
             return UIColor(red: 0.13, green: 0.24, blue: 0.65, alpha: 1)
         }

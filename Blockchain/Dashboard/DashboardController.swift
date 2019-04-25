@@ -341,7 +341,7 @@ final class DashboardController: UIViewController {
 
         let totalBalance: FiatValue
         do {
-            totalBalance = try btcFiatBalance + ethFiatBalance + bchFiatBalance + xlmFiatBalance
+            totalBalance = try btcFiatBalance + ethFiatBalance + bchFiatBalance + xlmFiatBalance + paxFiatBalance
         } catch {
             totalBalance = FiatValue.create(amount: 0, currencyCode: btcFiatBalance.currencyCode)
         }

@@ -6,6 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import BigInt
 import PlatformKit
 import EthereumKit
 
@@ -23,6 +24,13 @@ extension ERC20Token {
         return assetType.rawValue
     }
     
+    public static func cryptoValueFrom(minor minorUnits: String) -> CryptoValue? {
+        guard let minorBigInt = BigInt(minorUnits) else {
+            return nil
+        }
+        return Self.cryptoValueFrom(minorValue: minorBigInt)
+    }
+    
     public static func cryptoValue(from majorValue: String) -> CryptoValue? {
         guard let decimalValue = Decimal(string: majorValue) else {
             return nil
@@ -33,56 +41,26 @@ extension ERC20Token {
     public static func cryptoValue(from majorValue: Decimal) -> CryptoValue {
         return CryptoValue.createFromMajorValue(majorValue, assetType: assetType)
     }
-}
-
-public struct ERC20TransferResponse<Token: ERC20Token>: Decodable {
-    let logIndex: String
-    let tokenHash: String
-    let accountFrom: String
-    let accountTo: String
-    let value: String
-    let decimals: Int
-    let blockHash: String
-    let transactionHash: String
-    let blockNumber: String
-    let idxFrom: String
-    let idxTo: String
-    let accountIdxFrom: String
-    let accountIdxTo: String
+    
+    public static func cryptoValueFrom(minorValue: BigInt) -> CryptoValue {
+        return CryptoValue.createFromMinorValue(minorValue, assetType: assetType)
+    }
 }
 
 public struct ERC20AccountResponse<Token: ERC20Token>: Decodable {
     let accountHash: String
     let tokenHash: String
     let balance: String
-    let totalSent: String
-    let totalReceived: String
     let decimals: Int
-    let transferCount: String
-    let transfers: [ERC20TransferResponse<Token>]
-    let page: String
-    let size: Int
     
-    init(
+    public init(
         accountHash: String,
         tokenHash: String,
         balance: String,
-        totalSent: String,
-        totalReceived: String,
-        decimals: Int,
-        transferCount: String,
-        transfers: [ERC20TransferResponse<Token>],
-        page: String,
-        size: Int) {
+        decimals: Int) {
         self.accountHash = accountHash
         self.tokenHash = tokenHash
         self.balance = balance
-        self.totalSent = totalSent
-        self.totalReceived = totalReceived
         self.decimals = decimals
-        self.transferCount = transferCount
-        self.transfers = transfers
-        self.page = page
-        self.size = size
     }
 }

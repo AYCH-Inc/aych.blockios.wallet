@@ -12,17 +12,13 @@ import EthereumKit
 @testable import ERC20Kit
 
 class ERC20AccountAPIClientMock: ERC20AccountAPIClientAPI {
+    typealias Token = PaxToken
+    
     static let a = ERC20AccountResponse<PaxToken>(
         accountHash: "",
         tokenHash: "",
         balance: "1.0",
-        totalSent: "",
-        totalReceived: "",
-        decimals: 0,
-        transferCount: "",
-        transfers: [],
-        page: "",
-        size: 0
+        decimals: 0
     )
     
     var fetchWalletAccountResponse: Single<ERC20AccountResponse<PaxToken>> =

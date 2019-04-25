@@ -816,8 +816,13 @@
 {
     [self changeAssetSelectorAsset:LegacyAssetTypeStellar];
     [self showTransactionsAnimated:YES];
-    // TODO: reload transactions
     [_transactionsStellarViewController reload];
+}
+
+-(void)showTransactionsPax
+{
+    [self changeAssetSelectorAsset:LegacyAssetTypePax];
+    [self showTransactionsAnimated:YES];
 }
 
 - (void)changeAssetSelectorAsset:(LegacyAssetType)assetType

@@ -13814,6 +13814,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6BBA022C2755FC8E2232946E /* Pods-ERC20Kit.debug production.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -13895,6 +13896,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F790F7C27EDD54ED9D7CE19E /* Pods-ERC20Kit.debug staging.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -13976,6 +13978,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BF80D70D9919A531B45A970B /* Pods-ERC20Kit.debug dev.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -14057,6 +14060,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D7C718F3AD0495A15FA2A9DC /* Pods-ERC20Kit.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -14104,6 +14108,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C1AC8231983E490D9F0EC7D2 /* Pods-ERC20Kit.release staging.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

@@ -109,7 +109,7 @@ extension AnnouncementCardViewModel {
             title: LocalizationConstants.Stellar.yourXLMIsOnItsWay,
             message: LocalizationConstants.Stellar.yourXLMIsOnItsWayDescription,
             actionButtonTitle: nil,
-            image: #imageLiteral(resourceName: "symbol-xlm"),
+            image: #imageLiteral(resourceName: "symbol-xlm-large"),
             imageTint: #colorLiteral(red: 0.06274509804, green: 0.6784313725, blue: 0.8941176471, alpha: 1),
             action: action,
             onClose: onClose

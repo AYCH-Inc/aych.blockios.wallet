@@ -499,14 +499,14 @@ workflows:
             - install_deps
             - build_openssl
             - install_pods
-      - archive_and_export_staging_app_store:
-          filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
-          requires:
-            - install_deps
-            - build_openssl
-            - install_pods
+#      - archive_and_export_staging_app_store:
+#          filters:
+#            tags:
+#              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
+#          requires:
+#            - install_deps
+#            - build_openssl
+#            - install_pods
       - archive_and_export_staging_ad_hoc:
           filters:
             tags:
@@ -515,13 +515,13 @@ workflows:
             - install_deps
             - build_openssl
             - install_pods
-      - upload_app_store:
-          filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
-          requires:
-            - run_tests
-            - archive_and_export_staging_app_store
+#      - upload_app_store:
+#          filters:
+#            tags:
+#              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
+#          requires:
+#            - run_tests
+#            - archive_and_export_staging_app_store
       - upload_app_center_staging:
           filters:
             tags:

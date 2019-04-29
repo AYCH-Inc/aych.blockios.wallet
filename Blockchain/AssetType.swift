@@ -45,7 +45,7 @@ extension AssetType {
     }
 
     init?(stringValue: String) {
-        if let value = CryptoCurrency(rawValue: stringValue) {
+        if let value = CryptoCurrency(rawValue: stringValue.uppercased()) {
             self = value.assetType
         } else {
             return nil

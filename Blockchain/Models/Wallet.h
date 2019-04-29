@@ -274,7 +274,9 @@
 - (void)changeBtcCurrency:(NSString *)btcCode;
 - (uint64_t)conversionForBitcoinAssetType:(LegacyAssetType)assetType;
 
-- (void)parsePairingCode:(NSString *)code;
+- (void)parsePairingCode:(NSString *)code
+                 success:(void (^ _Nonnull)(NSDictionary * _Nonnull))success
+                   error:(void (^ _Nonnull)(NSString * _Nullable))error;
 - (void)makePairingCode;
 - (void)resendTwoFactorSMS;
 

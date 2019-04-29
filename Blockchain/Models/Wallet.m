@@ -453,14 +453,6 @@ NSString * const kLockboxInvitation = @"lockbox";
         [weakSelf on_create_new_account:_guid sharedKey:_sharedKey password:_password];
     };
 
-    self.context[@"objc_didParsePairingCode"] = ^(NSDictionary *pairingCode) {
-        [weakSelf didParsePairingCode:pairingCode];
-    };
-
-    self.context[@"objc_errorParsingPairingCode"] = ^(NSString *error) {
-        [weakSelf errorParsingPairingCode:error];
-    };
-
     self.context[@"objc_didMakePairingCode"] = ^(NSString *pairingCode) {
         [weakSelf didMakePairingCode:pairingCode];
     };
@@ -1570,38 +1562,23 @@ NSString * const kLockboxInvitation = @"lockbox";
     }
 }
 
-- (void)parsePairingCode:(NSString*)code
+- (void)parsePairingCode:(NSString *)code
+                 success:(void (^ _Nonnull)(NSDictionary * _Nonnull))success
+                   error:(void (^ _Nonnull)(NSString * _Nullable))error
 {
     [self useDebugSettingsIfSet];
-
+    
     BlockchainSettings.sharedOnboardingInstance.hasSeenAllCards = YES;
-
-    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.parsePairingCode(\"%@\");", [code escapedForJS]]];
+    
+    [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull value) {
+        NSDictionary *pairingCodeDict = [value toDictionary];
+        success(pairingCodeDict);
+    } forJsFunctionName:@"objc_on_didParsePairingCodeAsync"];
+    [self.context invokeOnceWithStringFunctionBlock:error forJsFunctionName:@"objc_on_errorParsingPairingCodeAsync"];
+    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.parsePairingCodeAsync(\"%@\");", [code escapedForJS]]];
 }
 
 // Pairing code JS callbacks
-
-- (void)didParsePairingCode:(NSDictionary *)dict
-{
-    DLog(@"didParsePairingCode:");
-
-    if ([delegate respondsToSelector:@selector(didParsePairingCode:)]) {
-        [delegate didParsePairingCode:dict];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector didParsePairingCode:!", [delegate class]);
-    }
-}
-
-- (void)errorParsingPairingCode:(NSString *)message
-{
-    DLog(@"errorParsingPairingCode:");
-
-    if ([delegate respondsToSelector:@selector(errorParsingPairingCode:)]) {
-        [delegate errorParsingPairingCode:message];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector errorParsingPairingCode:!", [delegate class]);
-    }
-}
 
 - (void)makePairingCode
 {

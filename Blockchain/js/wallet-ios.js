@@ -1048,13 +1048,13 @@ MyWalletPhone.newAccount = function(password, email, firstAccountName) {
     MyWallet.createNewWallet(email, password, firstAccountName, null, null, success, error);
 };
 
-MyWalletPhone.parsePairingCode = function (raw_code) {
+MyWalletPhone.parsePairingCodeAsync = function (raw_code) {
     var success = function (pairing_code) {
-        objc_didParsePairingCode(pairing_code);
+        objc_on_didParsePairingCodeAsync(pairing_code);
     };
 
     var error = function (e) {
-        objc_errorParsingPairingCode(e);
+        objc_on_errorParsingPairingCodeAsync(e);
     };
 
     MyWallet.parsePairingCode(raw_code).then(success, error);

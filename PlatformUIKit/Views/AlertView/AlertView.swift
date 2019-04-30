@@ -150,6 +150,9 @@ public class AlertView: UIView {
             imageViewHeightConstraint.constant = image.size.height
             imageViewWidthConstraint.constant = image.size.width
         }
+        if let imageTintColor = model.imageTintColor {
+            imageView.tintColor = imageTintColor
+        }
         
         confirmButton.isHidden = model.actions.first(where: { $0.style == .confirm($0.title ?? "") }) == nil
         

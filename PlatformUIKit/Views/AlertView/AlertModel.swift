@@ -10,6 +10,7 @@ import UIKit
 
 public struct AlertModel {
     public let image: UIImage?
+    public let imageTintColor: UIColor?
     public let headline: String?
     public let body: String?
     public let actions: [AlertAction]
@@ -21,6 +22,7 @@ public struct AlertModel {
         body: String?,
         actions: [AlertAction] = [.defaultDismissal],
         image: UIImage? = nil,
+        imageTintColor: UIColor? = nil,
         dismissable: Bool = true,
         style: AlertViewStyle = .default
     ) {
@@ -28,6 +30,7 @@ public struct AlertModel {
         self.body = body
         self.actions = actions
         self.image = image
+        self.imageTintColor = imageTintColor
         self.dismissable = dismissable
         self.style = style
     }

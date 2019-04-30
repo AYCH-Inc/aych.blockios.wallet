@@ -77,7 +77,7 @@ extension AnnouncementCardViewModel {
             message: LocalizationConstants.Stellar.weNowSupportStellarDescription,
             actionButtonTitle: LocalizationConstants.Stellar.claimYourFreeXLMNow,
             image: #imageLiteral(resourceName: "symbol-xlm"),
-            imageTint: #colorLiteral(red: 0.06274509804, green: 0.6784313725, blue: 0.8941176471, alpha: 1),
+            imageTint: AssetType.stellar.brandColor,
             action: action,
             onClose: onClose
         )
@@ -167,7 +167,7 @@ extension AnnouncementCardViewModel {
             title: LocalizationConstants.AnnouncementCards.cardCompleteProfileTitle,
             message: LocalizationConstants.AnnouncementCards.cardCompleteProfileDescription,
             actionButtonTitle: LocalizationConstants.AnnouncementCards.cardCompleteProfileAction,
-            image: #imageLiteral(resourceName: "symbol-xlm-color"),
+            image: #imageLiteral(resourceName: "symbol-xlm"),
             imageTint: nil,
             action: action,
             onClose: onClose

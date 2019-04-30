@@ -197,7 +197,8 @@ extension CardsViewController {
             headline: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoDescription,
             actions: [updateNow, learnMore],
-            image: UIImage(named: "symbol-xlm-color"),
+            image: UIImage(named: "symbol-xlm"),
+            imageTintColor: AssetType.stellar.brandColor,
             dismissable: true,
             style: .sheet
         )
@@ -231,7 +232,8 @@ extension CardsViewController {
             headline: LocalizationConstants.AnnouncementCards.bottomSheetPromptForKycTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetPromptForKycDescription,
             actions: [getFreeXlm],
-            image: UIImage(named: "symbol-xlm-color"),
+            image: UIImage(named: "symbol-xlm"),
+            imageTintColor: AssetType.stellar.brandColor,
             dismissable: true,
             style: .sheet
         )
@@ -255,7 +257,8 @@ extension CardsViewController {
             headline: LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationDescription,
             actions: [getFreeXlm, dismiss],
-            image: UIImage(named: "symbol-xlm-color"),
+            image: UIImage(named: "symbol-xlm"),
+            imageTintColor: AssetType.stellar.brandColor,
             dismissable: true,
             style: .sheet
         )

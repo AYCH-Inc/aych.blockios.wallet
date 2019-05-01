@@ -176,6 +176,8 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             Logger.shared.error("Updating input with no model")
             return
         }
+        
+        status = .unknown
         model.volume = inputs.activeInputValue
 
         // Update interface to reflect what has been typed
@@ -205,7 +207,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         
         repository.accounts(for: type).asObservable()
             .subscribeOn(MainScheduler.asyncInstance)
-            .flatMap { [weak self] accounts -> Observable<(Decimal, Decimal)> in
+            .flatMapLatest { [weak self] accounts -> Observable<(Decimal, Decimal)> in
                 guard let self = self else { return Observable.empty() }
                 guard let account = accounts.filter({ $0.address.address == address }).first else { return Observable.empty() }
                 let observable = self.markets.fiatBalance(

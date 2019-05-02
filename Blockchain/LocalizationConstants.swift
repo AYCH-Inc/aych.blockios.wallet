@@ -1283,9 +1283,9 @@ struct LocalizationConstants {
             comment: "Title shown to use when transferring funds from legacy addresses to their new wallet"
         )
         
-        static let paxComingSoonTitle = NSLocalizedString("USD Pax Coming Soon!", comment: "")
-        static let paxComingSoonMessage = NSLocalizedString("We’re bringing USD Pax to iOS. While you wait, Send, Receive & Exchange USD Pax on the web.", comment: "")
-        static let paxComingSoonLinkText = NSLocalizedString("What is USD Pax?", comment: "")
+        static let paxComingSoonTitle = NSLocalizedString("USD PAX Coming Soon!", comment: "")
+        static let paxComingSoonMessage = NSLocalizedString("We’re bringing USD PAX to iOS. While you wait, Send, Receive & Exchange USD PAX on the web.", comment: "")
+        static let paxComingSoonLinkText = NSLocalizedString("What is USD PAX?", comment: "")
     }
 
     struct SendEther {

@@ -34,7 +34,7 @@ public extension CryptoCurrency {
         case .stellar:
             return "Stellar"
         case .pax:
-            return "USD Pax"
+            return "USD PAX"
         }
     }
     

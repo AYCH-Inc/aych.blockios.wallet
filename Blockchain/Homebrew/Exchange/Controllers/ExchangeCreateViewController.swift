@@ -99,6 +99,7 @@ class ExchangeCreateViewController: UIViewController {
                 self.delegate?.onViewDidLoad()
             })
         disposables.insertWithDiscardableResult(disposable)
+        exchangeButton.isExclusiveTouch = true
     }
 
     override func viewWillAppear(_ animated: Bool) {

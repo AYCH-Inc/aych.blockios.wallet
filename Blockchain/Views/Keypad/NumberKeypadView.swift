@@ -31,6 +31,7 @@ class NumberKeypadView: NibBasedView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        keypadButtons.forEach({ $0.isExclusiveTouch = true })
         guard let delimiter = keypadButtons.first(where: { $0.titleLabel?.text == "." }) else { return }
         delimiter.setTitle(Locale.current.decimalSeparator ?? ".", for: .normal)
     }

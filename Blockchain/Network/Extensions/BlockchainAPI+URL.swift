@@ -55,6 +55,11 @@ extension BlockchainAPI {
     var etherExplorerUrl: String {
         return "\(explorerUrl)/eth"
     }
+    
+    var coinifyEndpoint: String {
+        let host = Bundle.main.infoDictionary!["COINIFY_URL"] as! String
+        return "https://\(host)"
+    }
 
     var stellarchainUrl: String {
         return "https://\(PartnerHosts.stellarchain.rawValue)"

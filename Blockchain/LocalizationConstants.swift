@@ -560,6 +560,7 @@ struct LocalizationConstants {
     static let verified = NSLocalizedString("Verified", comment: "")
     static let unverified = NSLocalizedString("Unverified", comment: "")
     static let verify = NSLocalizedString ("Verify", comment: "")
+    static let beginNow = NSLocalizedString("Begin Now", comment: "")
     static let enterCode = NSLocalizedString ("Enter Verification Code", comment: "")
     static let tos = NSLocalizedString ("Terms of Service", comment: "")
     static let touchId = NSLocalizedString ("Touch ID", comment: "")
@@ -939,6 +940,7 @@ struct LocalizationConstants {
         )
         static let buySellCardTitle = NSLocalizedString("The wait is over", comment: "The title of the card.")
         static let continueKYCCardTitle = NSLocalizedString("Verify Your Identity", comment: "The title of the card.")
+        static let verifyAndGetCrypto = NSLocalizedString("Verify & Get Free Crypto", comment: "Alert that is shown when a user taps Buy/Sell")
         static let buySellCardDescription = NSLocalizedString(
             "Buy and sell bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab.",
             comment: "The description displayed on the card."
@@ -1009,6 +1011,10 @@ struct LocalizationConstants {
         static let tradeCompletedDetailArg = NSLocalizedString("The trade you created on %@ has been completed!", comment: "")
         static let viewDetails = NSLocalizedString("View details", comment: "")
         static let errorTryAgain = NSLocalizedString("Something went wrong, please try reopening Buy & Sell Bitcoin again.", comment: "")
+        static let buySellAgreement = NSLocalizedString(
+            "By tapping Begin Now, you agree to Coinify's Terms of Service & Privacy Policy",
+            comment: "Disclaimer shown when starting KYC from Buy-Sell"
+        )
     }
 
     struct Exchange {

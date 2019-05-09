@@ -12,13 +12,16 @@ class KYCPager: KYCPagerAPI {
 
     private let dataRepository: BlockchainDataRepository
     private(set) var tier: KYCTier
+    private(set) var tiersResponse: KYCUserTiersResponse
 
     init(
         dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
-        tier: KYCTier
+        tier: KYCTier,
+        tiersResponse: KYCUserTiersResponse
     ) {
         self.dataRepository = dataRepository
         self.tier = tier
+        self.tiersResponse = tiersResponse
     }
 
     func nextPage(from page: KYCPageType, payload: KYCPagePayload?) -> Maybe<KYCPageType> {
@@ -30,7 +33,8 @@ class KYCPager: KYCPagerAPI {
             case .countrySelected(let country):
                 kycCountry = country
             case .phoneNumberUpdated,
-                 .emailPendingVerification:
+                 .emailPendingVerification,
+                 .accountStatus:
                 // Not handled here
                 break
             }
@@ -40,7 +44,12 @@ class KYCPager: KYCPagerAPI {
             guard let strongSelf = self else {
                 return Maybe.empty()
             }
-            guard let nextPage = page.nextPage(forTier: strongSelf.tier, user: user, country: kycCountry) else {
+            guard let nextPage = page.nextPage(
+                forTier: strongSelf.tier,
+                user: user,
+                country: kycCountry,
+                tiersResponse: strongSelf.tiersResponse
+                ) else {
                 return strongSelf.nextPageFromNextTierMaybe()
             }
             return Maybe.just(nextPage)
@@ -85,7 +94,7 @@ class KYCPager: KYCPagerAPI {
 
 extension KYCPageType {
 
-    static func startingPage(forUser user: NabuUser) -> KYCPageType {
+    static func startingPage(forUser user: NabuUser, tiersResponse: KYCUserTiersResponse) -> KYCPageType {
         if !user.email.verified {
             return .enterEmail
         }
@@ -95,7 +104,11 @@ extension KYCPageType {
         }
 
         if let mobile = user.mobile, mobile.verified {
-            return user.needsDocumentResubmission == nil ? .verifyIdentity : .resubmitIdentity
+            if tiersResponse.canCompleteTier2 {
+                return user.needsDocumentResubmission == nil ? .verifyIdentity : .resubmitIdentity
+            } else {
+                return .accountStatus
+            }
         }
 
         return .enterPhone
@@ -122,21 +135,26 @@ extension KYCPageType {
         }
     }
 
-    func nextPage(forTier tier: KYCTier, user: NabuUser?, country: KYCCountry?) -> KYCPageType? {
+    func nextPage(
+        forTier tier: KYCTier,
+        user: NabuUser?,
+        country: KYCCountry?,
+        tiersResponse: KYCUserTiersResponse
+        ) -> KYCPageType? {
         switch tier {
         case .tier0,
              .tier1:
-            return nextPageTier1(user: user, country: country)
+            return nextPageTier1(user: user, country: country, tiersResponse: tiersResponse)
         case .tier2:
-            return nextPageTier2(user: user, country: country)
+            return nextPageTier2(user: user, country: country, tiersResponse: tiersResponse)
         }
     }
 
-    private func nextPageTier1(user: NabuUser?, country: KYCCountry?) -> KYCPageType? {
+    private func nextPageTier1(user: NabuUser?, country: KYCCountry?, tiersResponse: KYCUserTiersResponse) -> KYCPageType? {
         switch self {
         case .welcome:
             if let user = user {
-                return KYCPageType.startingPage(forUser: user)
+                return KYCPageType.startingPage(forUser: user, tiersResponse: tiersResponse)
             }
             return .enterEmail
         case .enterEmail:
@@ -170,13 +188,16 @@ extension KYCPageType {
         }
     }
 
-    private func nextPageTier2(user: NabuUser?, country: KYCCountry?) -> KYCPageType? {
+    private func nextPageTier2(user: NabuUser?, country: KYCCountry?, tiersResponse: KYCUserTiersResponse) -> KYCPageType? {
         switch self {
         case .address,
              .tier1ForcedTier2:
             // Skip the enter phone step if the user already has verified their phone number
             if let user = user, let mobile = user.mobile, mobile.verified {
-                return user.needsDocumentResubmission == nil ? .verifyIdentity : .resubmitIdentity
+                if tiersResponse.canCompleteTier2 {
+                    return user.needsDocumentResubmission == nil ? .verifyIdentity : .resubmitIdentity
+                }
+                return .accountStatus
             }
             return .enterPhone
         case .enterPhone:
@@ -185,19 +206,19 @@ extension KYCPageType {
             return user?.needsDocumentResubmission == nil ? .verifyIdentity : .resubmitIdentity
         case .verifyIdentity,
              .resubmitIdentity:
-            // End
-            return nil
+            return .accountStatus
         case .applicationComplete:
             // Not used
+            return nil
+        case .accountStatus:
             return nil
         case .welcome,
              .enterEmail,
              .confirmEmail,
              .country,
              .states,
-             .profile,
-             .accountStatus:
-            return nextPageTier1(user: user, country: country)
+             .profile:
+            return nextPageTier1(user: user, country: country, tiersResponse: tiersResponse)
         }
     }
 }

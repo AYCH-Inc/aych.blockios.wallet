@@ -28,11 +28,6 @@ final class KYCApplicationCompleteController: KYCBaseViewController, Progressabl
     override func viewDidLoad() {
         super.viewDidLoad()
         setupProgressView()
-    }
-
-    // MARK: - IBActions
-
-    @IBAction private func primaryButtonTapped(_ sender: Any) {
-        coordinator.presentAccountStatusView(for: .pending, in: self)
+        navigationItem.hidesBackButton = true
     }
 }

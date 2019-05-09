@@ -69,7 +69,14 @@ class KYCPageViewFactory {
             return KYCResubmitIdentityController.make(with: coordinator)
         case .accountStatus:
             AnalyticsService.shared.trackEvent(title: "kyc_account_status")
-            return KYCInformationController.make(with: coordinator)
+            let controller = KYCInformationController.make(with: coordinator)
+            if let payload = payload, case let .accountStatus(status: status, isReceivingAirdrop: airdrop) = payload {
+                let model = KYCInformationViewModel.create(for: status)
+                let config = KYCInformationViewConfig.create(for: status, isReceivingAirdrop: airdrop)
+                controller.viewConfig = config
+                controller.viewModel = model
+            }
+            return controller
         case .applicationComplete:
             return KYCApplicationCompleteController.make(with: coordinator)
         }

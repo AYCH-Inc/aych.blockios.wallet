@@ -58,7 +58,7 @@ class StellarAirdropRouterTests: XCTestCase {
             mobile: nil,
             status: KYCAccountStatus.none,
             state: NabuUser.UserState.none,
-            tags: Tags(sunriver: nil),
+            tags: Tags(),
             tiers: nil,
             needsDocumentResubmission: nil
         )

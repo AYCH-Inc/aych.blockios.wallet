@@ -12,11 +12,18 @@ class KYCPagerTests: XCTestCase {
 
     private var pager: KYCPagerAPI!
     private var dataRepository: MockBlockchainDataRepository!
+    
+    private let response = KYCUserTiersResponse(
+        tiers: [
+            KYCUserTier(tier: .tier1, state: .verified),
+            KYCUserTier(tier: .tier2, state: .pending)
+        ]
+    )
 
     override func setUp() {
         super.setUp()
         dataRepository = MockBlockchainDataRepository()
-        pager = KYCPager(dataRepository: dataRepository, tier: .tier1)
+        pager = KYCPager(dataRepository: dataRepository, tier: .tier1, tiersResponse: response)
     }
 
     /// Tests that next page is not null if the backend has decided that the user

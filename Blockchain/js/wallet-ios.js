@@ -3226,6 +3226,33 @@ MyWalletPhone.getHistoryForAllAssets = function() {
     return Promise.all([getBitcoinHistory, getEtherHistory, getBitcoinCashHistory]);
 }
 
+MyWalletPhone.coinify = {
+    saveCoinifyID: function(identifier, token) {
+        MyWallet.wallet.external.toJSON = function () {
+            return {
+                "coinify": {
+                    "user": identifier,
+                    "offline_token": token,
+                    "trades": []
+                },
+            }
+        }
+        MyWallet.wallet.external.save()
+        .then(objc_saveCoinifyMetadata_success).catch(function(e) {
+               objc_saveCoinifyMetadata_error(JSON.stringify(e))
+        });
+    },
+    
+    getCoinifyID: function() {
+        return MyWallet.wallet.external.coinify.user;
+    },
+    
+    getOfflineToken: function() {
+        var coinify = MyWallet.wallet.external.coinify
+        return coinify._offlineToken;
+    }
+}
+
 MyWalletPhone.tradeExecution = {
     bitcoin: {
         createPayment: function(from, to, amount, feePerByte, gas) {

@@ -74,3 +74,21 @@ extension Wallet: StellarWalletBridgeAPI {
         return xlmAccountsRaw.castJsonObjects(type: StellarWalletAccount.self)
     }
 }
+
+extension Wallet: CoinifyWalletBridgeAPI {
+    func save(coinifyID: Int, token: String, completion: @escaping CoinifyWalletBridgeAPI.CoinifyAccountIDCompletion) {
+        self.saveCoinifyID(coinifyID, token: token, success: {
+            completion(nil)
+        }) { message in
+            completion(message)
+        }
+    }
+    
+    func coinifyAccountID() -> Int? {
+        return self.coinifyID()?.intValue
+    }
+    
+    func offlineToken() -> String? {
+        return self.coinifyOfflineToken()
+    }
+}

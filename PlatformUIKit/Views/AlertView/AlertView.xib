@@ -10,6 +10,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Montserrat-Medium.ttf">
+            <string>Montserrat-Medium</string>
+        </array>
         <array key="Montserrat-SemiBold.ttf">
             <string>Montserrat-SemiBold</string>
         </array>
@@ -30,7 +33,7 @@
                     </constraints>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Tub-Tv-IPM">
-                    <rect key="frame" x="20" y="40" width="335" height="80"/>
+                    <rect key="frame" x="20" y="40" width="335" height="108.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Need some help?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMH-3h-xM5">
                             <rect key="frame" x="81" y="0.0" width="173" height="24.5"/>
@@ -41,6 +44,12 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Our Blockchain Support Team has written Help Guides explaining why we need to verify your identity." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TS2-x6-RO5">
                             <rect key="frame" x="0.0" y="28.5" width="335" height="51.5"/>
                             <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
+                            <color key="textColor" red="0.35999999999999999" green="0.35999999999999999" blue="0.35999999999999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="By tapping Begin Now, you agree to Coinify's Terms of Service &amp; Privacy Policy" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O9u-i4-qKQ">
+                            <rect key="frame" x="8.5" y="84" width="318" height="24.5"/>
+                            <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
                             <color key="textColor" red="0.35999999999999999" green="0.35999999999999999" blue="0.35999999999999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -59,7 +68,7 @@
                     </connections>
                 </button>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="vXl-SB-GNz">
-                    <rect key="frame" x="20" y="144" width="335" height="132"/>
+                    <rect key="frame" x="20" y="172.5" width="335" height="132"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHT-0b-NgS">
                             <rect key="frame" x="0.0" y="0.0" width="335" height="56"/>
@@ -126,6 +135,7 @@
                 <outlet property="imageViewWidthConstraint" destination="iB7-i6-wqH" id="Ua4-26-O2x"/>
                 <outlet property="message" destination="TS2-x6-RO5" id="gfk-hm-y78"/>
                 <outlet property="notch" destination="T0n-w3-J1V" id="rVN-gW-ehh"/>
+                <outlet property="note" destination="O9u-i4-qKQ" id="KCk-8T-rtA"/>
                 <outlet property="okayButtonHeightConstraint" destination="WVf-p4-yau" id="CoP-RZ-qW2"/>
             </connections>
             <point key="canvasLocation" x="288.80000000000001" y="-164.6176911544228"/>

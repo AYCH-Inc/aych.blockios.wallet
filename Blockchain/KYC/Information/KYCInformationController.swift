@@ -56,7 +56,11 @@ final class KYCInformationController: KYCBaseViewController {
         if viewModel == nil {
             assertionFailure("viewModel is not defined")
         }
-
+        navigationItem.hidesBackButton = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         applyViewModel()
         applyViewConfig()
     }
@@ -82,5 +86,13 @@ final class KYCInformationController: KYCBaseViewController {
         if let tint = viewConfig.imageTintColor {
             imageView.tintColor = tint
         }
+    }
+    
+    override func navControllerCTAType() -> NavigationCTA {
+        return .dismiss
+    }
+    
+    override func navControllerRightBarButtonTapped(_ navController: KYCOnboardingNavigationController) {
+        coordinator.handle(event: .nextPageFromPageType(pageType, nil))
     }
 }

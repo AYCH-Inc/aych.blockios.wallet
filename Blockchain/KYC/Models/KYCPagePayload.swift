@@ -13,4 +13,5 @@ enum KYCPagePayload {
     case countrySelected(country: KYCCountry)
     case phoneNumberUpdated(phoneNumber: String)
     case emailPendingVerification(email: EmailAddress)
+    case accountStatus(status: KYCAccountStatus, isReceivingAirdrop: Bool)
 }

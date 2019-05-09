@@ -10,7 +10,7 @@ import Foundation
 import SafariServices
 import PlatformUIKit
 
-class KYCBaseViewController: UIViewController, KYCCoordinatorDelegate {
+class KYCBaseViewController: UIViewController, KYCCoordinatorDelegate, KYCOnboardingNavigationControllerDelegate {
 
     var coordinator: KYCCoordinator!
     var pageType: KYCPageType = .welcome
@@ -89,9 +89,7 @@ class KYCBaseViewController: UIViewController, KYCCoordinatorDelegate {
         }
         alert.show()
     }
-}
-
-extension KYCBaseViewController: KYCOnboardingNavigationControllerDelegate {
+    
     func navControllerCTAType() -> NavigationCTA {
         guard let navController = navigationController as? KYCOnboardingNavigationController else { return .none }
         return navController.viewControllers.count == 1 ? .dismiss : .help

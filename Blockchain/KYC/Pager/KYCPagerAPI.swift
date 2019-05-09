@@ -12,6 +12,11 @@ import RxSwift
 protocol KYCPagerAPI {
 
     var tier: KYCTier { get }
+    /// We need a `tiersResponse` as it is this model that determines
+    /// whether or not a user is tier1 or tier2 approved. We can
+    /// derive their status and present a `KYCInformationController` which
+    /// is of `KYCPageType.accountStatus`
+    var tiersResponse: KYCUserTiersResponse { get }
 
     /// Returns the next page from the provided KYCPageType. This method also takes into account
     /// sanctioned checks such that if the rules engine determines that a user should be put

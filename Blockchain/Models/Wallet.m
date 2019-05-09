@@ -2751,6 +2751,54 @@ NSString * const kLockboxInvitation = @"lockbox";
     [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.tradeExecution.%@.send(\"%@\")", tradeExecutionType, [secondPassword escapedForJS]]];
 }
 
+#pragma mark - Coinify API
+
+- (NSNumber *_Nullable)coinifyID
+{
+    if ([self isInitialized]) {
+        JSValue *output = [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.coinify.getCoinifyID()"]];
+        if ([output isUndefined]) {
+            return nil;
+        }
+        NSNumber *result = [output toNumber];
+        return result;
+    } else {
+        DLog(@"Wallet not initialized");
+    }
+    // TODO:
+    return nil;
+}
+
+- (NSString *_Nullable)coinifyOfflineToken
+{
+    if ([self isInitialized]) {
+        JSValue *output = [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.coinify.getOfflineToken()"]];
+        if ([output isUndefined]) {
+            return nil;
+        }
+        
+        NSString *result = [output toString];
+        return result;
+    } else {
+        DLog(@"Wallet not initialized");
+    }
+    // TODO:
+    return nil;
+}
+
+- (void)saveCoinifyID:(NSInteger)coinifyID token:(NSString *)token success:(void (^)(void))success error:(void (^)(NSString * _Nonnull))error
+{
+    if ([self isInitialized]) {
+        [self.context invokeOnceWithFunctionBlock:success forJsFunctionName:@"objc_saveCoinifyMetadata_success"];
+        [self.context invokeOnceWithStringFunctionBlock:error forJsFunctionName:@"objc_saveCoinifyMetadata_error"];
+        NSString *formatted = [NSString stringWithFormat:@"MyWalletPhone.coinify.saveCoinifyID(%ld, \"%@\")", coinifyID, token];
+        [self.context evaluateScript:formatted];
+    } else {
+        DLog(@"Wallet not initialized");
+        error(@"Wallet not initialized");
+    }
+}
+
 # pragma mark - Ethereum
 
 - (void)createEthAccountForExchange:(NSString *)secondPassword

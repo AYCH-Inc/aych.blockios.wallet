@@ -21,6 +21,7 @@ protocol CoinifyWalletBridgeAPI {
 protocol CoinifyAccountRepositoryAPI {
     func save(accountID: Int, token: String) -> Completable
     func coinifyMetadata() -> Maybe<CoinifyMetadata>
+    func hasCoinifyAccount() -> Bool
 }
 
 class CoinifyAccountRepository: CoinifyAccountRepositoryAPI {
@@ -48,6 +49,10 @@ class CoinifyAccountRepository: CoinifyAccountRepositoryAPI {
             })
             return Disposables.create()
         })
+    }
+    
+    func hasCoinifyAccount() -> Bool {
+        return (bridge.coinifyAccountID() != nil && bridge.offlineToken() != nil)
     }
     
     func coinifyMetadata() -> Maybe<CoinifyMetadata> {

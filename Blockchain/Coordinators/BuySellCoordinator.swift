@@ -84,7 +84,13 @@ import RxSwift
             .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
             .subscribe(onSuccess: { [weak self] state, sfox in
                 guard let self = self else { return }
-                if sfox {
+                
+                /// If the user is in a location that supports SFOX but
+                /// they have a coinify account, they should be using their Coinify account.
+                /// If they do not have a coinify account and SFOX isn't supported, one should
+                /// be created. If SFOX is supported and they do not have a coinify account,
+                /// we should fall back to SFOX. 
+                if sfox && self.coinifyAccountRepository.hasCoinifyAccount() == false {
                     self.routeToBuyBitcoinViewController()
                     return
                 }

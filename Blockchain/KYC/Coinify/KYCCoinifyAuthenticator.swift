@@ -74,7 +74,7 @@ class KYCCoinifyAuthenticator {
                 ).map {
                     return CoinifyMetadata(
                         identifier: $0.traderIdentifier,
-                        token: token
+                        token: $0.offlineToken
                     )
             }
         }
@@ -166,6 +166,7 @@ class KYCCoinifyAuthenticator {
             email: email,
             defaultCurrency: currencyCode,
             partnerId: partnerID,
+            generateOfflineToken: true,
             profile: .init(countryCode: countryCode)
         )
         

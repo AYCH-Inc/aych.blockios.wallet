@@ -10,6 +10,7 @@ import Foundation
 
 struct KYCCoinifyTraderResponse: Decodable {
     let trader: KYCCoinifyTrader
+    let offlineToken: String
 }
 
 extension KYCCoinifyTraderResponse {

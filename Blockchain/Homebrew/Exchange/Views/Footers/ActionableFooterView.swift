@@ -32,6 +32,7 @@ class ActionableFooterView: UICollectionReusableView {
     override func awakeFromNib() {
         super.awakeFromNib()
         action.layer.cornerRadius = 4.0
+        action.accessibilityIdentifier = AccessibilityIdentifiers.ExchangeScreen.confirmButton
     }
     
     // MARK: Public Functions

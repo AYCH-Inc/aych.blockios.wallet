@@ -20,6 +20,7 @@ class ExchangeLockedHeaderView: ExchangeHeaderView {
     
     // MARK: - Private IBOutlets
     
+    @IBOutlet fileprivate var dismissButton: UIButton!
     @IBOutlet fileprivate var title: UILabel!
     
     // MARK: Public
@@ -27,6 +28,7 @@ class ExchangeLockedHeaderView: ExchangeHeaderView {
     override func configure(with model: ExchangeHeader) {
         guard case let .locked(payload) = model else { return }
         title.text = payload.title
+        dismissButton.accessibilityIdentifier = AccessibilityIdentifiers.ExchangeScreen.dismissButton
     }
     
     override class func heightForProposedWidth(_ width: CGFloat, model: ExchangeHeader) -> CGFloat {

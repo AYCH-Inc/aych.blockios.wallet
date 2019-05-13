@@ -32,8 +32,16 @@ class NumberKeypadView: NibBasedView {
     override func layoutSubviews() {
         super.layoutSubviews()
         keypadButtons.forEach({ $0.isExclusiveTouch = true })
+        keypadButtons.forEach {
+            if let title = $0.titleLabel?.text {
+                $0.accessibilityIdentifier = AccessibilityIdentifiers.NumberKeypadView.numberButton + "." + title
+            } else {
+                $0.accessibilityIdentifier = AccessibilityIdentifiers.NumberKeypadView.backspace
+            }
+        }
         guard let delimiter = keypadButtons.first(where: { $0.titleLabel?.text == "." }) else { return }
         delimiter.setTitle(Locale.current.decimalSeparator ?? ".", for: .normal)
+        delimiter.accessibilityIdentifier = AccessibilityIdentifiers.NumberKeypadView.decimalButton
     }
     
     func updateKeypadVisibility(_ visibility: Visibility, animated: Bool = true, completion: (() -> Void)? = nil) {

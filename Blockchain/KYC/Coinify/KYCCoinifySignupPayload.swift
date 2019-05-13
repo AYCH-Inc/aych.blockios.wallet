@@ -13,6 +13,7 @@ struct KYCCoinifySignupPayload: Encodable {
     let email: String
     let defaultCurrency: String
     let partnerId: Int
+    let generateOfflineToken: Bool
     let profile: KYCCoinifyProfile
 }
 

@@ -115,8 +115,17 @@ protocol KYCCoordinatorDelegate: class {
                     return
                 }
                 strongSelf.userTiersResponse = tiersResponse
-                strongSelf.kycSettings.isCompletingKyc = true
                 strongSelf.user = user
+                
+                let startingPage = user.isSunriverAirdropRegistered == true ?
+                    KYCPageType.welcome :
+                    KYCPageType.startingPage(forUser: user, tiersResponse: tiersResponse)
+                if startingPage != .accountStatus {
+                    /// If the starting page is accountStatus, they do not have any additional
+                    /// pages to view, so we don't want to set `isCompletingKyc` to `true`.
+                    strongSelf.kycSettings.isCompletingKyc = true
+                }
+                
                 strongSelf.initializeNavigationStack(viewController, user: user, tier: tier)
                 strongSelf.restoreToMostRecentPageIfNeeded(tier: tier)
             }, onError: { error in

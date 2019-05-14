@@ -470,62 +470,52 @@ workflows:
       - setup_repo:
           filters:
             branches:
-              ignore: /.*/
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
+              only:
+                - dev
       - install_deps:
           filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
+            branches:
+              only:
+                - dev
           requires:
             - setup_repo
       - build_openssl:
           filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
+            branches:
+              only:
+                - dev
           requires:
             - install_deps
       - install_pods:
           filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
+            branches:
+              only:
+                - dev
           requires:
             - setup_repo
       - run_tests:
           filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
+            branches:
+              only:
+                - dev
           requires:
             - install_deps
             - build_openssl
             - install_pods
-#      - archive_and_export_staging_app_store:
-#          filters:
-#            tags:
-#              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
-#          requires:
-#            - install_deps
-#            - build_openssl
-#            - install_pods
       - archive_and_export_staging_ad_hoc:
           filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
+            branches:
+              only:
+                - dev
           requires:
             - install_deps
             - build_openssl
             - install_pods
-#      - upload_app_store:
-#          filters:
-#            tags:
-#              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
-#          requires:
-#            - run_tests
-#            - archive_and_export_staging_app_store
       - upload_app_center_staging:
           filters:
-            tags:
-              only: /v\d+\.\d+\.\d+\(\d+\)staging$/
+            branches:
+              only:
+                - dev
           requires:
             - run_tests
             - archive_and_export_staging_ad_hoc

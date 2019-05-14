@@ -13,9 +13,9 @@
 #
 #  What It Does
 #  ------------
-#  Running this script will pull all the latest changes from a release branch, create a "version bump" commit, then tag that commit.
-#  These changes are done for staging and production and are pushed to the remote `origin` repository which subsequently kicks
-#  off workflows defined in CircleCI which ultimately uploads staging and production builds to the app store.
+#  Running this script will pull all the latest changes from the current branch, create a "version bump" commit, then tag that commit.
+#  These changes are done for production and are pushed to the remote `origin` repository which subsequently kicks off workflows defined 
+#  in CircleCI which ultimately uploads a production builds to the app store.
 #
 
 set -eu
@@ -53,28 +53,16 @@ if ! [[ $project_version_number =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]; then
   exit 1
 fi
 
-read -p "‣ Next, enter the new value for the project build for staging (e.g. 5), followed by [ENTER]: " project_build_number_staging
-
-if ! [[ $project_build_number_staging =~ ^[0-9]+ ]]; then
-  printf '\n\e[1;31m%-6s\e[m\n' "You have entered an invalid build number."
-  exit 1
-fi
-
-read -p "‣ Next, enter the new value for the project build for production (e.g. 6), followed by [ENTER]: " project_build_number_prod
+read -p "‣ Enter the new value for the project build for production (e.g. 0), followed by [ENTER]: " project_build_number_prod
 
 if ! [[ $project_build_number_prod =~ ^[0-9]+ ]]; then
   printf '\n\e[1;31m%-6s\e[m\n' "You have entered an invalid build number."
   exit 1
 fi
 
-if ! [[ $project_build_number_staging -lt $project_build_number_prod ]]; then
-  printf '\n\e[1;31m%-6s\e[m\n' "Staging build number should be less than the Production build number."
-  exit 1
-fi
-git_tag_staging="v${project_version_number}(${project_build_number_staging})staging"
 git_tag_prod="v${project_version_number}(${project_build_number_prod})"
 
-if [ $(git tag -l "$git_tag_staging") ] || [ $(git tag -l "$git_tag_prod") ]; then
+if [ $(git tag -l "$git_tag_prod") ]; then
   printf '\n\e[1;31m%-6s\e[m\n' "The version you entered already exists!"
   exit 1
 fi
@@ -90,11 +78,8 @@ printf "Please review the information about your build below:\n"
 printf "#####################################################\n"
 printf "Xcode project version to use (CFBundleShortVersionString): ${project_version_number}\n\n"
 
-printf "Xcode project build number to use for staging (CFBundleVersion): ${project_build_number_staging}\n"
-printf "Git tag to use for staging: ${git_tag_staging}\n\n"
-
 printf "Xcode project build number to use for production (CFBundleVersion): ${project_build_number_prod}\n"
-printf "Git tag to use for staging: ${git_tag_prod}\n\n"
+printf "Git tag to use for production: ${git_tag_prod}\n\n"
 
 read -p "‣ Would you like to proceed? [y/N]: " answer
 if printf "$answer" | grep -iq "^n" ; then
@@ -103,32 +88,6 @@ if printf "$answer" | grep -iq "^n" ; then
 fi
 
 #
-# Run merge commands for staging
-#
-
-latestTagCommit=$(git show-ref -s $latestTag)
-
-printf "Pulling in changes into $user_branch...\n"
-git pull origin $user_branch > /dev/null 2>&1
-
-printf "Creating staging version in Info.plist file...\n"
-agvtool new-marketing-version $project_version_number > /dev/null 2>&1
-agvtool new-version -all $project_build_number_staging > /dev/null 2>&1
-git add Blockchain/Blockchain-Info.plist
-git add BlockchainTests/Info.plist
-git checkout .
-
-printf "Committing staging version bump: ${git_tag_staging}...\n"
-git commit -m "version bump: ${git_tag_staging}" > /dev/null 2>&1
-
-printf "Creating and pushing staging tag...\n"
-git tag -s $git_tag_staging -m "Release ${project_version_number} (staging build)" > /dev/null 2>&1
-git push origin $git_tag_staging > /dev/null 2>&1
-git push origin $user_branch > /dev/null 2>&1
-
-#
-printf "Giving staging a 5 minute headstart on building to ensure that it is submitted before production.\nPlease do not make any changes in this directory until the script is finished.\n"
-sleep 300
 # Run merge commands for production
 #
 

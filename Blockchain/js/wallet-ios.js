@@ -3228,15 +3228,8 @@ MyWalletPhone.getHistoryForAllAssets = function() {
 
 MyWalletPhone.coinify = {
     saveCoinifyID: function(identifier, token) {
-        MyWallet.wallet.external.toJSON = function () {
-            return {
-                "coinify": {
-                    "user": identifier,
-                    "offline_token": token,
-                    "trades": []
-                },
-            }
-        }
+        MyWallet.wallet.external.coinify.user = identifier
+        MyWallet.wallet.external.coinify.offlineToken = token
         MyWallet.wallet.external.save()
         .then(objc_saveCoinifyMetadata_success).catch(function(e) {
                objc_saveCoinifyMetadata_error(JSON.stringify(e))
@@ -3244,7 +3237,7 @@ MyWalletPhone.coinify = {
     },
     
     getCoinifyID: function() {
-        return MyWallet.wallet.external.coinify.user;
+        return MyWallet.wallet.external.coinify._user;
     },
     
     getOfflineToken: function() {

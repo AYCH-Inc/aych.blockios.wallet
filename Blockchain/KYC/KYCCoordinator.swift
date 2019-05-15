@@ -193,11 +193,14 @@ protocol KYCCoordinatorDelegate: class {
     }
 
     func presentInformationController(_ controller: KYCInformationController) {
-        /// Refresh the user's tiers to get their status
+        /// Refresh the user's tiers to get their status.
+        /// Sometimes we receive an `INTERNAL_SERVER_ERROR` if we refresh this
+        /// immediately after submitting all KYC data. So, we apply a delay here.
         LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
         let disposable = BlockchainDataRepository.shared.tiers
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
+            .delay(3.0, scheduler: MainScheduler.instance)
             .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
             .subscribe(onNext: { [weak self] response in
                 guard let self = self else { return }

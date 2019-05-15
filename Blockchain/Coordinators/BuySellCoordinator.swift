@@ -268,6 +268,7 @@ import RxSwift
     }
     
     fileprivate func routeToBuyBitcoinViewController() {
+        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
         guard let buyBitcoinViewController = buyBitcoinViewController else {
             Logger.shared.warning("buyBitcoinViewController not yet initialized")
             return
@@ -296,23 +297,30 @@ import RxSwift
             return
         }
         
-        buyBitcoinViewController.login(
-            withJson: walletJson,
-            externalJson: externalJson,
-            magicHash: magicHash,
-            password: walletManager.wallet.password
-        )
-        buyBitcoinViewController.delegate = walletManager.wallet // TODO fix this
-        
-        let navigationController = BuyBitcoinNavigationController(
-            rootViewController: buyBitcoinViewController,
-            title: LocalizationConstants.SideMenu.buySellBitcoin
-        )
-        
-        UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
-            navigationController,
-            animated: true
-        )
+        /// This isn't great but, `frontendInitialized` actually takes a few seconds to
+        /// occur. When you present this screen, dismiss it, and the re-present it, `frontendInitialized`
+        /// may not have happened just yet and `teardown` may still be in flight.
+        /// This is to mitigate an issue where an `unauthorized` error occurs. 
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
+            guard let self = self else { return }
+            LoadingViewPresenter.shared.hideBusyView()
+            buyBitcoinViewController.login(
+                withJson: walletJson,
+                externalJson: externalJson,
+                magicHash: magicHash,
+                password: self.walletManager.wallet.password
+            )
+            buyBitcoinViewController.delegate = self.walletManager.wallet // TODO fix this
+            
+            let navigationController = BuyBitcoinNavigationController(
+                rootViewController: buyBitcoinViewController,
+                title: LocalizationConstants.SideMenu.buySellBitcoin
+            )
+            UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
+                navigationController,
+                animated: true
+            )
+        }
     }
 }
 

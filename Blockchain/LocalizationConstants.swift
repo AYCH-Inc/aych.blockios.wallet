@@ -894,7 +894,7 @@ struct LocalizationConstants {
             comment: "Description of an alert that notifies the user that airdrop registration has succeded"
         )
         static let bottomSheetCoinifyInfoTitle = NSLocalizedString("More Info Needed", comment: "Title of an alert informing a user that personal information needs to be updated.")
-        static let bottomSheetCoinifyInfoDescription = NSLocalizedString("To keep using Buy & Sell, we'll need you to update your profile. We'll airdrop up to $50 of XLM as a thank you when you do!", comment: "Description of an alert informing a user that personal information needs to be updated.")
+        static let bottomSheetCoinifyInfoDescription = NSLocalizedString("To keep using Buy & Sell, we'll need you to update your profile. We'll airdrop at least $25 of XLM as a thank you when you do!", comment: "Description of an alert informing a user that personal information needs to be updated.")
         static let bottomSheetCoinifyInfoAction = NSLocalizedString("Get Free XLM", comment: "Action button title of an alert informing a user that personal information needs to be updated.")
         static let updateNow = NSLocalizedString("Update Now", comment: "Title of a button that a user can tap on to update their information")
         static let learnMore = NSLocalizedString("Learn More", comment: "Title of a button that a user can tap on to learn more about an announcement")

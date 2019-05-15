@@ -209,6 +209,10 @@ import RxSwift
     
     fileprivate func showVerificationAlert() {
         guard let tosURL = URL(string: "https://coinify.com/legal/") else { return }
+        guard BlockchainSettings.sharedAppInstance().didAcceptCoinifyTOS == false else {
+            KYCCoordinator.shared.startFrom(.tier2)
+            return
+        }
         let beginNow = AlertAction(style: .confirm(LocalizationConstants.beginNow))
         let termsOfService = AlertAction(
             style: .default(LocalizationConstants.tos),
@@ -225,6 +229,7 @@ import RxSwift
         let alertView = AlertView.make(with: alert) { action in
             switch action.style {
             case .confirm:
+                BlockchainSettings.sharedAppInstance().didAcceptCoinifyTOS = true
                 KYCCoordinator.shared.startFrom(.tier2)
             case .default:
                 guard case let .url(value)? = action.metadata else { return }

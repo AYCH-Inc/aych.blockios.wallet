@@ -451,6 +451,18 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.documentResubmissionLinkReason.rawValue)
             }
         }
+        
+        /// Determines whether we show a modal prompt telling users that they are about to
+        /// have a Coinify account created on their behalf and buy continuing to Buy-Sell
+        /// they agree to Coinify's TOS
+        var didAcceptCoinifyTOS: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didAcceptCoinifyTOS.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didAcceptCoinifyTOS.rawValue)
+            }
+        }
 
         override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
@@ -482,6 +494,7 @@ final class BlockchainSettings: NSObject {
             didSeeAirdropPending = false
             didAttemptToRouteForAirdrop = false
             didTapOnKycDeepLink = false
+            didAcceptCoinifyTOS = false
 
             KYCSettings.shared.reset()
 

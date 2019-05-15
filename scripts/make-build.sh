@@ -87,6 +87,8 @@ if printf "$answer" | grep -iq "^n" ; then
   exit 6
 fi
 
+latestTagCommit=$(git show-ref -s $latestTag)
+
 #
 # Run merge commands for production
 #

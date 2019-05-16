@@ -38,3 +38,31 @@ public extension Single where E: OptionalType {
         return asObservable().onNil(error: error).asSingle()
     }
 }
+
+extension Single {
+    public static func from<T, U: Error>(block: @escaping (@escaping (NewResult<T, U>) -> Void) -> Void) -> Single<T> {
+        return Single.create(subscribe: { observer -> Disposable in
+            block { result in
+                switch result {
+                case .success(let value):
+                    observer(.success(value))
+                case .failure(let error):
+                    observer(.error(error))
+                }
+            }
+            return Disposables.create()
+        })
+    }
+}
+
+extension Single {
+    public func flatMap<A: AnyObject, R>(weak object: A, _ selector: @escaping (A, ElementType) throws -> Single<R>) -> Single<R> {
+        return asObservable()
+            .flatMap(weak: object) { object, value in
+                try selector(object, value).asObservable()
+            }
+            .asSingle()
+    }
+}
+
+

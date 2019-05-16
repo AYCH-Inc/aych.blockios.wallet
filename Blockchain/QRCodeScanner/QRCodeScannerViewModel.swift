@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 
 protocol QRCodeScannerTextViewModel {
     var loadingText: String? { get }

@@ -7,11 +7,17 @@
 //
 
 import RxSwift
+import BigInt
 import PlatformKit
 import EthereumKit
 @testable import ERC20Kit
 
-class EthereumWalletBridgeMock: EthereumWalletBridgeAPI {
+class ERC20EthereumWalletBridgeMock: EthereumWalletBridgeAPI {
+    
+    var fetchBalanceValue = Single.just(CryptoValue.paxFromMajor(decimal: Decimal(1.0)))
+    var fetchBalance: Single<CryptoValue> {
+        return fetchBalanceValue
+    }
     
     var balanceValue: Single<CryptoValue> = Single.just(CryptoValue.paxFromMajor(decimal: Decimal(1.0)))
     var balance: Single<CryptoValue> {
@@ -28,8 +34,8 @@ class EthereumWalletBridgeMock: EthereumWalletBridgeAPI {
         return addressValue
     }
     
-    var transactionsValue: Single<[EthereumTransaction]> = Single.just([])
-    var transactions: Single<[EthereumTransaction]> {
+    var transactionsValue: Single<[EthereumHistoricalTransaction]> = Single.just([])
+    var transactions: Single<[EthereumHistoricalTransaction]> {
         return transactionsValue
     }
     
@@ -37,5 +43,20 @@ class EthereumWalletBridgeMock: EthereumWalletBridgeAPI {
     var accountValue: Single<EthereumAssetAccount> = Single.just(assetAccount)
     var account: Single<EthereumAssetAccount> {
         return accountValue
+    }
+    
+    var nonceValue = Single.just(BigUInt(1))
+    var nonce: Single<BigUInt> {
+        return nonceValue
+    }
+    
+    var isWaitingOnEtherTransactionValue = Single.just(true)
+    var isWaitingOnEtherTransaction: Single<Bool> {
+        return isWaitingOnEtherTransactionValue
+    }
+    
+    var recordLastTransactionValue = Single<EthereumTransactionPublished>.error(EthereumKitError.unknown)
+    func recordLast(transaction: EthereumTransactionPublished) -> Single<EthereumTransactionPublished> {
+        return recordLastTransactionValue
     }
 }

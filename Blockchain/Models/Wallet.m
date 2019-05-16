@@ -85,7 +85,7 @@ NSString * const kLockboxInvitation = @"lockbox";
 
     if (self) {
         _transactionProgressListeners = [NSMutableDictionary dictionary];
-        _ethereum = [[EthereumWallet alloc] initWithWallet:self];
+        _ethereum = [[EthereumWallet alloc] initWithLegacyWallet:self];
     }
 
     return self;
@@ -773,7 +773,7 @@ NSString * const kLockboxInvitation = @"lockbox";
     self.context[@"objc_did_get_ether_address_with_second_password"] = ^() {
         [weakSelf did_get_ether_address_with_second_password];
     };
-
+    
 #pragma mark Bitcoin Cash
 
     self.context[@"objc_on_fetch_bch_history_success"] = ^() {
@@ -2420,15 +2420,6 @@ NSString * const kLockboxInvitation = @"lockbox";
     return [self.context evaluateScript:command];
 }
 
-- (BOOL)isWaitingOnEtherTransaction
-{
-    if ([self isInitialized]) {
-        return [[self.context evaluateScript:@"MyWalletPhone.isWaitingOnTransaction()"] toBool];
-    }
-
-    return NO;
-}
-
 - (NSString *)getMobileMessage
 {
     if ([self isInitialized]) {
@@ -2656,7 +2647,7 @@ NSString * const kLockboxInvitation = @"lockbox";
     return nil;
 }
 
-- (void)fetchEthereumBalance:(void (^)(NSString * _Nonnull))completion error:(void (^)(NSString * _Nonnull))error
+- (void)fetchEthereumBalance:(void (^ _Nonnull)(NSString *_Nonnull balance))completion error:(void (^ _Nonnull)(NSString *_Nonnull))error
 {
     [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull response) {
         completion(response);
@@ -2871,6 +2862,95 @@ NSString * const kLockboxInvitation = @"lockbox";
 {
     if ([self isInitialized]) {
         [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.sendEtherPaymentWithNote(\"%@\")", note ? [note escapedForJS] : @""]];
+    }
+}
+
+- (void)recordLastEtherTransactionWith:(NSString * _Nonnull)transactionHash
+{
+    if ([self isInitialized]) {
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.recordLastTransaction(\"%@\")", transactionHash ? [transactionHash escapedForJS] : @""]];
+    }
+}
+
+- (void)recordLastEtherTransactionWith:(NSString * _Nonnull)transactionHash
+                               success:(void (^)())success
+                                 error:(void (^)(NSString * _Nullable))error
+{
+    if ([self isInitialized]) {
+        [self.context invokeOnceWithFunctionBlock:success forJsFunctionName:@"objc_on_recordLastTransactionAsync_success"];
+        [self.context invokeOnceWithStringFunctionBlock:error forJsFunctionName:@"objc_on_recordLastTransactionAsync_error"];
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.recordLastTransactionAsync(\"%@\")", transactionHash ? [transactionHash escapedForJS] : @""]];
+    } else {
+        error(@"Wallet not initialised");
+    }
+}
+
+- (BOOL)isWaitingOnEtherTransaction
+{
+    if ([self isInitialized]) {
+        return [[self.context evaluateScript:@"MyWalletPhone.isWaitingOnTransaction()"] toBool];
+    }
+    
+    return NO;
+}
+
+- (void)isWaitingOnEtherTransaction:(void (^)(BOOL))success error:(void (^)(NSString * _Nullable))error
+{
+    if ([self isInitialized]) {
+        BOOL isWaitingOnTransaction = [[self.context evaluateScript:@"MyWalletPhone.isWaitingOnTransaction()"] toBool];
+        success(isWaitingOnTransaction);
+    } else {
+        error(@"Wallet not initialised");
+    }
+}
+
+- (void)getEtherPendingTx:(void (^)(NSDictionary * _Nonnull))success error:(void (^)(NSString * _Nullable))error
+{
+    [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull value) {
+        DLog(@"value: %@", value);
+        NSDictionary *d = [value toDictionary];
+        success(d);
+    } forJsFunctionName:@"objc_on_get_ether_pending_tx_success_dict"];
+    [self.context invokeOnceWithStringFunctionBlock:error forJsFunctionName:@"objc_on_get_ether_pending_tx_error"];
+    [self.context evaluateScript:@"MyWalletPhone.getEtherPendingTxAsync()"];
+}
+
+- (void)getEtherPrivateKeyWithSuccess:(void (^)(NSString * _Nonnull))success error:(void (^)(NSString * _Nullable))error
+{
+    if ([self isInitialized]) {
+        [self getEtherPrivateKeyWithSuccessValue:^(JSValue * _Nonnull value) {
+            DLog(@"value: %@", value);
+            NSDictionary *d = [value toDictionary];
+            NSString *s = [NSString stringWithFormat:@"pkd: %@", d];
+            success(s);
+        } error:^(NSString * _Nullable e) {
+            error(e);
+        }];
+    } else {
+        error(@"Wallet not initialized");
+    }
+}
+
+- (void)getEtherPrivateKeyWithSuccessValue:(void (^)(JSValue * _Nonnull))success error:(void (^)(NSString * _Nullable))error
+{
+    NSString *setupHelperText = [LocalizationConstantsObjcBridge etherSecondPasswordPrompt];
+    [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull value) {
+        DLog(@"value: %@", value);
+        success(value);
+    } forJsFunctionName:@"objc_on_get_ether_private_key_success_dict"];
+    [self.context invokeOnceWithStringFunctionBlock:error forJsFunctionName:@"objc_on_get_ether_private_key_error"];
+    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getEtherPrivateKeyAsync(\"%@\")", [setupHelperText escapedForJS]]];
+}
+
+- (void)getEtherTransactionNonceWithSuccess:(void (^ _Nonnull)(NSString * _Nonnull))success
+                                      error:(void (^ _Nonnull)(NSString * _Nullable))error
+{
+    if ([self isInitialized]) {
+        [self.context invokeOnceWithStringFunctionBlock:success forJsFunctionName:@"objc_on_didGetEtherTransactionNonceAsync"];
+        [self.context invokeOnceWithStringFunctionBlock:error forJsFunctionName:@"objc_on_error_gettingEtherTransactionNonceAsync"];
+        [self.context evaluateScript:@"MyWalletPhone.getEtherTransactionNonceAsync();"];
+    } else {
+        error(@"Wallet not initialised");
     }
 }
 

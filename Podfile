@@ -42,6 +42,18 @@ target 'EthereumKit' do
   pod 'RxSwift', '~> 4.0'
   pod 'RxCocoa', '~> 4.0'
   pod 'BigInt', '~> 3.1'
+  pod 'web3swift.pod', '~> 2.1.10'
+
+  target 'EthereumKitTests' do
+    inherit! :search_paths
+    # Pods for testing
+    pod 'RxSwift', '~> 4.0'
+    pod 'RxCocoa', '~> 4.0'
+    pod 'RxBlocking', '~> 4.0'
+    pod 'RxTest', '~> 4.0'
+    pod 'BigInt', '~> 3.1'
+    pod 'web3swift.pod', '~> 2.1.10'
+  end
 end
 
 target 'ERC20Kit' do
@@ -53,9 +65,9 @@ target 'ERC20Kit' do
     inherit! :search_paths
     # Pods for testing
     pod 'RxSwift', '~> 4.0'
-    pod 'BigInt', '~> 3.1'
     pod 'RxBlocking', '~> 4.0'
     pod 'RxTest', '~> 4.0'
+    pod 'BigInt', '~> 3.1'
   end
 end
 

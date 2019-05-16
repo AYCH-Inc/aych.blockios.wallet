@@ -10,9 +10,13 @@ import Foundation
 
 @objc
 extension BlockchainAPI {
+    
+    var apiHost: String {
+        return Bundle.main.infoDictionary!["API_URL"] as! String
+    }
+    
     var apiUrl: String {
-        let host = Bundle.main.infoDictionary!["API_URL"] as! String
-        return "https://\(host)"
+        return "https://\(apiHost)"
     }
 
     var walletUrl: String {

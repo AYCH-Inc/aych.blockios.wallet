@@ -9,7 +9,7 @@
 import Foundation
 import PlatformKit
 
-public struct EthereumAssetAccountDetails: AssetAccountDetails {
+public struct EthereumAssetAccountDetails: AssetAccountDetails, Equatable {
     public typealias Account = EthereumAssetAccount
     
     public var account: Account

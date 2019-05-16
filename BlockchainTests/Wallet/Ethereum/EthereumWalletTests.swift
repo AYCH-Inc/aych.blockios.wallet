@@ -7,11 +7,11 @@
 //
 
 import XCTest
+import RxSwift
 @testable import PlatformKit
 @testable import EthereumKit
 @testable import PlatformUIKit
 @testable import Blockchain
-import RxSwift
 
 class EthereumWalletTests: XCTestCase {
     
@@ -71,11 +71,11 @@ class EthereumWalletTests: XCTestCase {
 
         _ = subject.transactions
             .subscribe(onSuccess: { transactions in
-                let expectedTransactions: [EthereumTransaction] = [
-                    EthereumTransaction(
+                let expectedTransactions: [EthereumHistoricalTransaction] = [
+                    EthereumHistoricalTransaction(
                         identifier: "identifier",
-                        fromAddress: EthereumTransaction.Address(publicKey: "fromAddress.publicKey"),
-                        toAddress: EthereumTransaction.Address(publicKey: "toAddress.publicKey"),
+                        fromAddress: EthereumHistoricalTransaction.Address(publicKey: "fromAddress.publicKey"),
+                        toAddress: EthereumHistoricalTransaction.Address(publicKey: "toAddress.publicKey"),
                         direction: .credit,
                         amount: "amount",
                         transactionHash: "transactionHash",

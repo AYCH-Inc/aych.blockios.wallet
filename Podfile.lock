@@ -71,6 +71,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (5.3.7):
     - GoogleUtilities/Logger
+  - keccak.c (0.1.3)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -82,6 +83,15 @@ PODS:
   - PhoneNumberKit/PhoneNumberKitCore (2.6.0)
   - PhoneNumberKit/UIKit (2.6.0):
     - PhoneNumberKit/PhoneNumberKitCore
+  - PromiseKit (6.8.3):
+    - PromiseKit/CorePromise (= 6.8.3)
+    - PromiseKit/Foundation (= 6.8.3)
+    - PromiseKit/UIKit (= 6.8.3)
+  - PromiseKit/CorePromise (6.8.3)
+  - PromiseKit/Foundation (6.8.3):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.8.3):
+    - PromiseKit/CorePromise
   - Protobuf (3.6.1)
   - RxAtomic (4.4.1)
   - RxBlocking (4.4.1):
@@ -94,11 +104,19 @@ PODS:
   - RxTest (4.4.1):
     - RxAtomic (~> 4.4)
     - RxSwift (~> 4.0)
+  - scrypt.c (0.1.1)
+  - secp256k1.c (0.1.2)
   - SipHash (1.2.2)
   - Starscream (3.0.6)
   - stellar-ios-mac-sdk (1.6.0)
   - SwiftLint (0.30.1)
   - VeriffSDK (2.0.4)
+  - web3swift.pod (2.1.10):
+    - BigInt (~> 3.1)
+    - keccak.c (~> 0.1)
+    - PromiseKit (~> 6.4)
+    - scrypt.c (~> 0.1)
+    - secp256k1.c (~> 0.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
@@ -116,6 +134,7 @@ DEPENDENCIES:
   - "stellar-ios-mac-sdk (from `git@github.com:jackpooleybc/stellar-ios-mac-sdk.git`, commit `4a86886656b0e89895d9fe89e004f5903359f333`)"
   - SwiftLint
   - VeriffSDK (~> 2.0.4)
+  - web3swift.pod (~> 2.1.10)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -132,18 +151,23 @@ SPEC REPOS:
     - FirebaseRemoteConfig
     - GoogleAppMeasurement
     - GoogleUtilities
+    - keccak.c
     - nanopb
     - PhoneNumberKit
+    - PromiseKit
     - Protobuf
     - RxAtomic
     - RxBlocking
     - RxCocoa
     - RxSwift
     - RxTest
+    - scrypt.c
+    - secp256k1.c
     - SipHash
     - Starscream
     - SwiftLint
     - VeriffSDK
+    - web3swift.pod
 
 EXTERNAL SOURCES:
   stellar-ios-mac-sdk:
@@ -169,20 +193,25 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfig: 7e11c65f0769c09bff6947997c209515058c5318
   GoogleAppMeasurement: 008e04ecd8efedd97a693aea8634aefe220bd26e
   GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
+  keccak.c: 859583afdaccb4e4fcc0f0096064d101580313f4
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   PhoneNumberKit: 167ee1f0bbb6efce7c62559e620eae745595532f
+  PromiseKit: 94c6e781838c5bf4717677d0d882b0e7250c80fc
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   RxAtomic: f8d6adc1ccb87a767811269e4875887bc74dbf19
   RxBlocking: 5508e90d36ca2304632dc9378ece4e9b5d4bf656
   RxCocoa: 2f35a76bf8887872e28a1914112395b11b8e0e64
   RxSwift: 92fcf68dfef21f3e2ab1965363d9e7b3d787597e
   RxTest: f8e548755ca3c7502dc41c7d3b28802c90115a38
+  scrypt.c: b42ae06183251329d2b2c620c226fb541a4a3592
+  secp256k1.c: db47b726585d80f027423682eb369729e61b3b20
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   stellar-ios-mac-sdk: da6e4623e6574e54b2755e2ff14a317385062f8a
   SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
   VeriffSDK: c9fe64b14ebab9a85aa9d78048146b7f079f6969
+  web3swift.pod: e3bd1c18a84e9fc1c4bfab8ebc0754b0806a7bcd
 
-PODFILE CHECKSUM: e09ce20e76fa63e379e498980c86c704bb4cde8e
+PODFILE CHECKSUM: 02740e27c69066dd94e464f5d69a93133a7a82ce
 
 COCOAPODS: 1.5.3

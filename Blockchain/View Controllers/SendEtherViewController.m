@@ -44,6 +44,10 @@
 @property (nonatomic) BCConfirmPaymentView *confirmPaymentView;
 @property (nonatomic) BOOL shouldKeepCurrentPayment;
 
+#ifdef DEBUG
+@property (nonatomic) SendEthereumService *sendEthereumService;
+#endif
+
 @end
 
 #define ROW_HEIGHT_SEND_SMALL 45
@@ -54,6 +58,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    #ifdef DEBUG
+        self.sendEthereumService = [SendEthereumService sharedInstance];
+    #endif
 
     self.view.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:YES assetSelector:YES];
     
@@ -372,6 +380,12 @@
         
         [self.confirmPaymentView.reallyDoPaymentButton addTarget:self action:@selector(reallyDoPayment) forControlEvents:UIControlEventTouchUpInside];
         [[ModalPresenter sharedInstance] showModalWithContent:self.confirmPaymentView closeType:ModalCloseTypeBack showHeader:true headerText:BC_STRING_CONFIRM_PAYMENT onDismiss:nil onResume:nil];
+        
+#ifdef DEBUG
+        [self.sendEthereumService changePaymentTo:self.toAddress];
+        [self.sendEthereumService setWithAmount:self.ethAmount];
+#endif
+        
     }];
 }
 
@@ -422,7 +436,12 @@
     
     [[ModalPresenter sharedInstance] showModalWithContent:sendView closeType:ModalCloseTypeNone showHeader:true headerText:BC_STRING_SENDING_TRANSACTION onDismiss:nil onResume:nil];
 
+#ifdef DEBUG
+    [self.sendEthereumService send];
+#else
     [WalletManager.sharedInstance.wallet sendEtherPaymentWithNote:self.noteToSet];
+#endif
+    
 }
 
 #pragma mark - Text Field Delegate

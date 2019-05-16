@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PlatformKit
 
 final class QRCodeScannerViewController: UIViewController {
     

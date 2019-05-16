@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 
 // TODO: Refactor class to support other asset types (currently assumed to be Bitcoin)
 @objc class KeyImportCoordinator: NSObject, Coordinator {

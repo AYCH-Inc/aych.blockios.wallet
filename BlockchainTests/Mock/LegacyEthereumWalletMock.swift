@@ -7,15 +7,31 @@
 //
 
 import Foundation
+import RxSwift
 @testable import PlatformKit
 @testable import EthereumKit
 @testable import PlatformUIKit
 @testable import Blockchain
 
-class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol {
+class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI {
+
     enum MockLegacyEthereumWalletError: Error {
         case notInitialized
+        case unknown
     }
+    
+    var password: String? = "password"
+    
+    var getEtherTransactionNonceCompletion: NewResult<String, MockLegacyEthereumWalletError> = .success("1")
+    func getEtherTransactionNonce(success: @escaping (String) -> Void, error: @escaping (String?) -> Void) {
+        switch getEtherTransactionNonceCompletion {
+        case .success(let value):
+            success(value)
+        case .failure(let e):
+            error("\(e.localizedDescription)")
+        }
+    }
+    
     
     var getEtherAddressCompletion: NewResult<String, MockLegacyEthereumWalletError> = .success("address")
     func getEtherAddress(success: @escaping (String) -> Void, error: @escaping (String?) -> Void) {
@@ -38,10 +54,10 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol {
     }
     
     var ethTransactions: [EtherTransaction]? = [
-        EthereumTransaction(
+        EthereumHistoricalTransaction(
             identifier: "identifier",
-            fromAddress: EthereumTransaction.Address(publicKey: "fromAddress.publicKey"),
-            toAddress: EthereumTransaction.Address(publicKey: "toAddress.publicKey"),
+            fromAddress: EthereumHistoricalTransaction.Address(publicKey: "fromAddress.publicKey"),
+            toAddress: EthereumHistoricalTransaction.Address(publicKey: "toAddress.publicKey"),
             direction: .credit,
             amount: "amount",
             transactionHash: "transactionHash",
@@ -54,4 +70,57 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol {
     func getEthTransactions() -> [EtherTransaction]? {
         return ethTransactions
     }
+    
+    var isWaitingOnEtherTransactionValue: Bool = false
+    func isWaitingOnEtherTransaction() -> Bool {
+        return isWaitingOnEtherTransactionValue
+    }
+    
+    var lastRecordedEtherTransactionHash: String?
+    func recordLastEtherTransaction(with transactionHash: String) {
+        lastRecordedEtherTransactionHash = transactionHash
+    }
+    
+    var lastRecordedEtherTransactionHashAsync: String?
+    var recordLastEtherTransactionAsyncCompletion: NewResult<Void, MockLegacyEthereumWalletError> = .success(())
+    func recordLastEtherTransaction(with transactionHash: String, success: @escaping () -> Void, error: @escaping (String?) -> Void) {
+        lastRecordedEtherTransactionHashAsync = transactionHash
+        switch recordLastEtherTransactionAsyncCompletion {
+        case .success:
+            success()
+        case .failure(let e):
+            error("\(e.localizedDescription)")
+        }
+    }
+    
+    var fetchEthereumBalanceCalled: Bool = false
+    var fetchEthereumBalancecCompletion: NewResult<String, MockLegacyEthereumWalletError> = .success("")
+    func fetchEthereumBalance(_ completion: ((String) -> Void)!, error: @escaping (String) -> Void) {
+        fetchEthereumBalanceCalled = true
+        switch fetchEthereumBalancecCompletion {
+        case .success(let value):
+            completion(value)
+        case .failure(let e):
+            error("\(e.localizedDescription)")
+        }
+    }
+    
+    // MARK: - MnemonicAccessAPI
+    
+    var mnemonicMaybe = Maybe.just("")
+    var mnemonic: Maybe<String> {
+        return mnemonicMaybe
+    }
+    
+    var mnemonicForcePromptMaybe = Maybe.just("")
+    var mnemonicForcePrompt: Maybe<String> {
+        return mnemonicForcePromptMaybe
+    }
+    
+    var mnemonicPromptingIfNeededMaybe = Maybe.just("")
+    var mnemonicPromptingIfNeeded: Maybe<String> {
+        return mnemonicPromptingIfNeededMaybe
+    }
 }
+
+

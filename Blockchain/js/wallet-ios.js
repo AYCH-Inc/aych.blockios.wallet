@@ -2561,6 +2561,30 @@ MyWalletPhone.getEtherAddress = function(helperText) {
     }
 }
 
+MyWalletPhone.getEtherTransactionNonceAsync = function () {
+    var success = function (nonce) {
+        objc_on_didGetEtherTransactionNonceAsync(nonce);
+    };
+
+    var error = function (e) {
+        objc_on_error_gettingEtherTransactionNonceAsync(e);
+    };
+
+    var fetchNonce = function () {
+        var eth = MyWallet.wallet.eth;
+        if (!eth && !eth.defaultAccount) {
+            return Promise.reject('No defaultAccount');
+        }
+        var nonce = eth.defaultAccount.nonce;
+        if (nonce == null || nonce.length == 0) {
+            return Promise.reject('Invalid nonce');
+        }
+        return Promise.resolve(eth.defaultAccount.nonce);
+    }
+
+    fetchNonce().then(success, error);
+};
+
 MyWalletPhone.getEtherAddressAsync = function(helperText) {
 
     var eth = MyWallet.wallet.eth;
@@ -2582,6 +2606,55 @@ MyWalletPhone.getEtherAddressAsync = function(helperText) {
     }
 }
 
+MyWalletPhone.getEtherPendingTxAsync = function () {
+    var success = function (nonce) {
+        objc_on_get_ether_pending_tx_success_dict(nonce);
+    };
+
+    var error = function (e) {
+        objc_on_get_ether_pending_tx_error(e);
+    };
+
+    var getPendingTx = function () {
+        var pending = currentEtherPayment;
+
+        if (pending == null) {
+            return Promise.reject('Invalid pending tx');
+        }
+
+        var eth = MyWallet.wallet.eth;
+        var privateKey = eth.getPrivateKeyForAccount(eth.defaultAccount);
+        pending.sign(privateKey);
+
+        var p = {
+            raw: pending.toRaw(),
+            json: pending.toJSON()
+        }
+
+        return Promise.resolve(p);
+    }
+
+    getPendingTx().then(success, error);
+};
+
+MyWalletPhone.getEtherPrivateKeyAsync = function(helperText) {
+    var eth = MyWallet.wallet.eth;
+    if (eth && eth.defaultAccount) {
+        var secondPassword = null;
+        var privateKey = eth.getPrivateKeyForAccount(eth.defaultAccount, secondPassword);
+        var defaultAccountJSON = eth.defaultAccount.toJSON();
+        var pkd = {
+            defaultAccountJSON: defaultAccountJSON,
+            hex: privateKey.toString('hex'),
+            base64: privateKey.toString('base64'),
+            utf8: privateKey.toString('utf8'),
+        }
+        objc_on_get_ether_private_key_success_dict(pkd);
+    } else {
+        objc_on_get_ether_private_key_error('Failed to fetch private key');
+    }
+}
+
 MyWalletPhone.sweepEtherPayment = function() {
     currentEtherPayment.setSweep();
     MyWalletPhone.updateEtherPayment(true);
@@ -2589,6 +2662,22 @@ MyWalletPhone.sweepEtherPayment = function() {
 
 MyWalletPhone.recordLastTransaction = function(hash) {
     MyWallet.wallet.eth.setLastTx(hash);
+}
+
+MyWalletPhone.recordLastTransactionAsync = function(txHash) {
+    var success = function () {
+        objc_on_recordLastTransactionAsync();
+    };
+
+    var error = function (e) {
+        objc_on_recordLastTransactionAsync_error(e);
+    };
+
+    var setLastTx = function (hash) {
+        return MyWallet.wallet.eth.setLastTxPromise(hash);
+    }
+
+    setLastTx(txHash).then(success, error);
 }
 
 MyWalletPhone.isWaitingOnTransaction = function() {

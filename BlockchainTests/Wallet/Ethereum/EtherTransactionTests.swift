@@ -13,10 +13,10 @@ import XCTest
 
 class EtherTransactionTests: XCTestCase {
     func test_conversion() {
-        let transaction = EthereumTransaction(
+        let transaction = EthereumHistoricalTransaction(
             identifier: "transactionHash",
-            fromAddress: EthereumTransaction.Address(publicKey: "fromAddress.publicKey"),
-            toAddress: EthereumTransaction.Address(publicKey: "toAddress.publicKey"),
+            fromAddress: EthereumHistoricalTransaction.Address(publicKey: "fromAddress.publicKey"),
+            toAddress: EthereumHistoricalTransaction.Address(publicKey: "toAddress.publicKey"),
             direction: .credit,
             amount: "0.09888244",
             transactionHash: "transactionHash",

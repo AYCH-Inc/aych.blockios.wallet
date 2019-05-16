@@ -10,14 +10,14 @@ import XCTest
 import RxTest
 import RxSwift
 import PlatformKit
-import EthereumKit
+@testable import EthereumKit
 @testable import ERC20Kit
 
 class ERC20AssetAccountDetailsServiceTests: XCTestCase {
     
     var subject: ERC20AssetAccountDetailsService<PaxToken>!
     var scheduler: TestScheduler!
-    var bridge: EthereumWalletBridgeMock!
+    var bridge: ERC20EthereumWalletBridgeMock!
     var accountClient: ERC20AccountAPIClientMock!
     var disposeBag: DisposeBag!
 
@@ -26,7 +26,7 @@ class ERC20AssetAccountDetailsServiceTests: XCTestCase {
         
         scheduler = TestScheduler(initialClock: 0)
         disposeBag = DisposeBag()
-        bridge = EthereumWalletBridgeMock()
+        bridge = ERC20EthereumWalletBridgeMock()
         accountClient = ERC20AccountAPIClientMock()
         subject = ERC20AssetAccountDetailsService<PaxToken>(
             with: bridge,
@@ -46,8 +46,6 @@ class ERC20AssetAccountDetailsServiceTests: XCTestCase {
 
     func test_fetch_asset_account_details() {
         // Arrange
-        let accountDetailsObserver = scheduler.createObserver(ERC20AssetAccountDetails.self)
-        
         let accountDetailsObservable = subject
             .accountDetails(for: "")
             .asObservable()

@@ -10,10 +10,22 @@ import Foundation
 import EthereumKit
 import PlatformKit
 import RxSwift
+import BigInt
 
 @objc public protocol LegacyEthereumWalletProtocol {
+    var password: String? { get }
+    
+    func isWaitingOnEtherTransaction() -> Bool
+    
+    @available(*, deprecated, message: "use recordLastEtherTransaction(with:success:error:) instead")
+    func recordLastEtherTransaction(with transactionHash: String)
+    func recordLastEtherTransaction(with transactionHash: String, success: @escaping () -> Void, error: @escaping (String?) -> Void)
+    
+    func getEtherTransactionNonce(success: @escaping (String) -> Void, error: @escaping (String?) -> Void)
     func getEtherAddress(success: @escaping (String) -> Void, error: @escaping (String?) -> Void)
     func getLabelForAccount(_ account: Int32, assetType: LegacyAssetType) -> String!
+    
+    func fetchEthereumBalance(_ completion: @escaping (String) -> Void, error: @escaping (String) -> Void)
     func getEthBalanceTruncatedNumber() -> NSNumber?
     func getEthTransactions() -> [EtherTransaction]?
 }
@@ -52,7 +64,7 @@ extension EtherTransaction {
         }
     }
     
-    convenience init(transaction: EthereumTransaction?) {
+    convenience init(transaction: EthereumHistoricalTransaction?) {
         self.init()
         
         guard let transaction = transaction else { return }
@@ -72,11 +84,11 @@ extension EtherTransaction {
         self.fiatAmountsAtTime = [:]
     }
     
-    public var transaction: EthereumTransaction? {
+    public var transaction: EthereumHistoricalTransaction? {
         return EtherTransaction.mapToTransaction(self)
     }
     
-    public static func mapToTransaction(_ legacyTransaction: EtherTransaction) -> EthereumTransaction? {
+    public static func mapToTransaction(_ legacyTransaction: EtherTransaction) -> EthereumHistoricalTransaction? {
         guard let from = legacyTransaction.from,
             let to = legacyTransaction.to,
             let amount = legacyTransaction.amount,
@@ -113,7 +125,7 @@ extension EtherTransaction {
             )
             .intValue
         
-        return EthereumTransaction(
+        return EthereumHistoricalTransaction(
             identifier: myHash,
             fromAddress: fromAddress,
             toAddress: toAddress,
@@ -128,13 +140,50 @@ extension EtherTransaction {
     }
 }
 
-extension EthereumTransaction {
+extension EthereumHistoricalTransaction {
     var legacyTransaction: EtherTransaction? {
         return EtherTransaction(transaction: self)
     }
 }
 
-public class EthereumWallet: NSObject & EthereumWalletBridgeAPI {
+public class EthereumWallet: NSObject {
+    typealias WalletAPI = LegacyEthereumWalletProtocol & MnemonicAccessAPI
+    
+    private weak var wallet: WalletAPI?
+    
+    @objc convenience public init(legacyWallet: Wallet) {
+        self.init(wallet: legacyWallet)
+    }
+    
+    init(wallet: WalletAPI) {
+        self.wallet = wallet
+    }
+}
+
+extension EthereumWallet: EthereumWalletBridgeAPI {
+    
+    public var fetchBalance: Single<CryptoValue> {
+        return Single<String>.create(subscribe: { observer -> Disposable in
+            self.wallet?.fetchEthereumBalance({ balance in
+                observer(.success(balance))
+            }, error: { errorString in
+                observer(.error(WalletError.unknown))
+            })
+            return Disposables.create()
+        })
+        .flatMap(weak: self) { (self, balance) -> Single<CryptoValue> in
+            guard let balance = Decimal(string: balance) else {
+                return self.balance
+            }
+            return Single.just(
+                CryptoValue.createFromMajorValue(
+                    balance,
+                    assetType: .ethereum
+                )
+            )
+        }
+    }
+    
     public var balance: Single<CryptoValue> {
         return Single.just(wallet?.getEthBalanceTruncatedNumber())
             .onNil(error: WalletError.notInitialized)
@@ -165,13 +214,13 @@ public class EthereumWallet: NSObject & EthereumWalletBridgeAPI {
         })
     }
     
-    public var transactions: Single<[EthereumTransaction]> {
+    public var transactions: Single<[EthereumHistoricalTransaction]> {
         return Single.create(subscribe: { [weak self] observer -> Disposable in
             guard let legacyTransactions = self?.wallet?.getEthTransactions() else {
                 observer(.error(WalletError.notInitialized))
                 return Disposables.create()
             }
-            let transactions: [EthereumTransaction] = legacyTransactions
+            let transactions: [EthereumHistoricalTransaction] = legacyTransactions
                 .map { $0.transaction }
                 .compactMap { $0 }
             observer(.success(transactions))
@@ -191,9 +240,79 @@ public class EthereumWallet: NSObject & EthereumWalletBridgeAPI {
             }
     }
     
-    private weak var wallet: LegacyEthereumWalletProtocol?
+    public var nonce: Single<BigUInt> {
+        return Single<String>
+            .create(subscribe: { observer -> Disposable in
+                self.wallet?.getEtherTransactionNonce(success: { nonceString in
+                    observer(.success(nonceString))
+                }, error: { errorMessage in
+                    observer(.error(WalletError.unknown))
+                })
+                return Disposables.create()
+            })
+            .flatMap { nonceString -> Single<BigUInt> in
+                guard let value = BigUInt(nonceString, decimals: 0) else {
+                    return Single.error(WalletError.unknown)
+                }
+                return Single.just(value)
+            }
+    }
     
-    @objc public init(wallet: LegacyEthereumWalletProtocol) {
-        self.wallet = wallet
+    public var isWaitingOnEtherTransaction: Single<Bool> {
+        let isWaiting = wallet?.isWaitingOnEtherTransaction() ?? true
+        return Single.just(isWaiting)
+    }
+    
+    public func recordLast(transaction: EthereumTransactionPublished) -> Single<EthereumTransactionPublished> {
+        // TODO:
+        // * Move to async method once My-Wallet-V3 is updated to be done as part of:
+        //   https://blockchain.atlassian.net/browse/IOS-2193
+        wallet?.recordLastEtherTransaction(with: transaction.transactionHash)
+        return Single.just(transaction).delay(0.1, scheduler: MainScheduler.asyncInstance)
+    }
+}
+
+extension EthereumWallet: MnemonicAccessAPI {
+    public var mnemonic: Maybe<String> {
+        guard let wallet = wallet else {
+            return Maybe.empty()
+        }
+        return wallet.mnemonic
+    }
+    
+    public var mnemonicForcePrompt: Maybe<String> {
+        guard let wallet = wallet else {
+            return Maybe.empty()
+        }
+        return wallet.mnemonicForcePrompt
+    }
+    
+    public var mnemonicPromptingIfNeeded: Maybe<String> {
+        guard let wallet = wallet else {
+            return Maybe.empty()
+        }
+        return wallet.mnemonicPromptingIfNeeded
+    }
+}
+
+extension EthereumWallet: PasswordAccessAPI {
+    public var password: Maybe<String> {
+        guard let password = wallet?.password else {
+            return Maybe.empty()
+        }
+        return Maybe.just(password)
+    }
+}
+
+extension EthereumWallet: EthereumWalletAccountBridgeAPI {
+    
+    // TODO:
+    // * Implement `EthereumWalletAccountBridgeAPI`
+    public func save(keyPair: EthereumKeyPair, label: String) -> Single<String> {
+        fatalError("Not yet implemented")
+    }
+
+    public var ethereumWallets: Single<[EthereumWalletAccount]> {
+        fatalError("Not yet implemented")
     }
 }

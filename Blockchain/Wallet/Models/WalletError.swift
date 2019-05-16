@@ -10,4 +10,5 @@ import Foundation
 
 enum WalletError: Error, Equatable {
     case notInitialized
+    case unknown
 }

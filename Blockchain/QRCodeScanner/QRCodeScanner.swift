@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 
 enum QRScannerError: Error {
     case unknown

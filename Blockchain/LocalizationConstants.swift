@@ -1784,6 +1784,22 @@ struct LocalizationConstants {
             "Please allow your Blockchain App access your camera to upload your ID and take a Selfie.",
             comment: "Description as to why the user should permit camera access"
         )
+        static let isCountrySupportedHeader = NSLocalizedString(
+            "Is my country supported?",
+            comment: "Header for text notifying the user that maybe not all countries are supported for airdrop."
+        )
+        static let isCountrySupportedDescription1 = NSLocalizedString(
+            "Not all countries are supported at this time. Check our up to date",
+            comment: "Description for text notifying the user that maybe not all countries are supported for airdrop."
+        )
+        static let isCountrySupportedDescription2 = NSLocalizedString(
+            "list of countries",
+            comment: "Description for text notifying the user that maybe not all countries are supported for airdrop."
+        )
+        static let isCountrySupportedDescription3 = NSLocalizedString(
+            "before proceeding.",
+            comment: "Description for text notifying the user that maybe not all countries are supported for airdrop."
+        )
         static let allowCameraAccess = NSLocalizedString(
             "Allow camera access?",
             comment: "Headline in alert asking the user to allow camera access."

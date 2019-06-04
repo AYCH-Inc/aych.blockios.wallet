@@ -64,6 +64,7 @@
 - (void)showTransactionsEther;
 - (void)showTransactionsBitcoinCash;
 - (void)showTransactionsStellar;
+- (void)showTransactionsPax;
 
 // Send Bitcoin View Controller
 - (BOOL)isSending;

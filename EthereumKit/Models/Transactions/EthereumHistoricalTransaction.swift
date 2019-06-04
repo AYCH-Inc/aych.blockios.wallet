@@ -8,7 +8,7 @@
 
 import PlatformKit
 
-public struct EthereumTransaction: HistoricalTransaction, Mineable {
+public struct EthereumHistoricalTransaction: HistoricalTransaction, Mineable {
 
     public typealias Address = EthereumAssetAddress
 
@@ -59,5 +59,18 @@ public struct EthereumTransaction: HistoricalTransaction, Mineable {
         self.fee = fee
         self.memo = memo
         self.confirmations = confirmations
+        
+        print("\n\n\n")
+        print("\n      identifier: \(self.identifier)")
+        print("\n     fromAddress: \(self.fromAddress)")
+        print("\n       toAddress: \(self.toAddress)")
+        print("\n       direction: \(self.direction)")
+        print("\n          amount: \(self.amount)")
+        print("\n transactionHash: \(self.transactionHash)")
+        print("\n       createdAt: \(self.createdAt)")
+        print("\n             fee: \(self.fee)")
+        print("\n            memo: \(self.memo)")
+        print("\n   confirmations: \(self.confirmations)")
+        print("\n\n\n")
     }
 }

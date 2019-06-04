@@ -53,6 +53,11 @@
         safeAreaInsetBottom = window.rootViewController.view.safeAreaInsets.bottom;
     }
     _tabBarBottomConstraint.constant = safeAreaInsetBottom;
+    self.requestTabBarItem.accessibilityIdentifier = [AccessibilityIdentifiers_TabViewContainerScreen request];
+    self.activityTabBarItem.accessibilityIdentifier = [AccessibilityIdentifiers_TabViewContainerScreen activity];
+    self.swapTabBarItem.accessibilityIdentifier = [AccessibilityIdentifiers_TabViewContainerScreen swap];
+    self.homeTabBarItem.accessibilityIdentifier = [AccessibilityIdentifiers_TabViewContainerScreen home];
+    self.sendTabBarItem.accessibilityIdentifier = [AccessibilityIdentifiers_TabViewContainerScreen send];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

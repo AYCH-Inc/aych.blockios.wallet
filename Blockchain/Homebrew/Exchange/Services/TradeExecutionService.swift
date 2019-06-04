@@ -310,7 +310,7 @@ class TradeExecutionService: TradeExecutionAPI {
                     case .ethereum:
                         orderTransactionLegacy.fees = ethereumFee.priorityGweiValue
                         orderTransactionLegacy.gasLimit = String(ethereumFee.gasLimit)
-                    case .stellar:
+                    case .stellar, .pax:
                         break
                     }
                     
@@ -360,7 +360,7 @@ class TradeExecutionService: TradeExecutionAPI {
         assetType: AssetType,
         transactionID: String?,
         secondPassword: String?,
-        keyPair: KeyPair?,
+        keyPair: StellarKeyPair?,
         success: @escaping (() -> Void),
         error: @escaping ((ErrorMessage, TransactionID?, NabuNetworkError?) -> Void)
     ) {
@@ -552,7 +552,7 @@ fileprivate extension TradeExecutionService {
                 case .ethereum:
                     orderTransactionLegacy.fees = ethereumFee.priorityGweiValue
                     orderTransactionLegacy.gasLimit = String(ethereumFee.gasLimit)
-                case .stellar:
+                case .stellar, .pax:
                     break
                 }
                 
@@ -585,7 +585,7 @@ extension TradeExecutionService {
         /// This is not great but, `TradeExecutionService` is likely to be broken
         /// up and refactored in the future. The `String` is the secondary password.
         /// Not all users have one. The `KeyPair` is, at the moment, for XLM only.
-        let processAndBuild: ((String?, KeyPair?) -> ()) = { [weak self] secondPassword, pair in
+        let processAndBuild: ((String?, StellarKeyPair?) -> ()) = { [weak self] secondPassword, pair in
             guard let this = self else { return }
             if secondPassword != nil && pair != nil {
                 Logger.shared.warning("You shouldn't need to provide a secondary password if you have the keyPair.")

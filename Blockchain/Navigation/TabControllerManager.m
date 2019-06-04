@@ -20,6 +20,10 @@
 @property (strong, nonatomic) TransactionsXlmViewController *transactionsStellarViewController;
 @property (strong, nonatomic) ExchangeContainerViewController *exchangeContainerViewController;
 
+@property (strong, nonatomic) PaxComingSoonViewController *activityPaxComingSoonViewController;
+@property (strong, nonatomic) PaxComingSoonViewController *sendPaxComingSoonViewController;
+@property (strong, nonatomic) PaxComingSoonViewController *receivePaxComingSoonViewController;
+
 @end
 @implementation TabControllerManager
 
@@ -213,32 +217,48 @@
 - (void)showSendCoinsAnimated:(BOOL)animated
 {
     int tabIndex = (int)[ConstantsObjcBridge tabSend];
-
-    if (self.assetType == LegacyAssetTypeBitcoin) {
-        if (!_sendBitcoinViewController) {
-            _sendBitcoinViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
+    
+    switch (self.assetType) {
+        case LegacyAssetTypeBitcoin: {
+            if (!_sendBitcoinViewController) {
+                _sendBitcoinViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
+            }
+            
+            [_tabViewController setActiveViewController:_sendBitcoinViewController animated:animated index:tabIndex];
+            break;
         }
-
-        [_tabViewController setActiveViewController:_sendBitcoinViewController animated:animated index:tabIndex];
-    } else if (self.assetType == LegacyAssetTypeEther) {
-        if (!_sendEtherViewController) {
-            _sendEtherViewController = [[SendEtherViewController alloc] init];
+        case LegacyAssetTypeEther: {
+            if (!_sendEtherViewController) {
+                _sendEtherViewController = [[SendEtherViewController alloc] init];
+            }
+            
+            [_tabViewController setActiveViewController:_sendEtherViewController animated:animated index:tabIndex];
+            break;
         }
-
-        [_tabViewController setActiveViewController:_sendEtherViewController animated:animated index:tabIndex];
-    } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
-        if (!_sendBitcoinCashViewController) {
-            _sendBitcoinCashViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
-            _sendBitcoinCashViewController.assetType = LegacyAssetTypeBitcoinCash;
+        case LegacyAssetTypeBitcoinCash: {
+            if (!_sendBitcoinCashViewController) {
+                _sendBitcoinCashViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
+                _sendBitcoinCashViewController.assetType = LegacyAssetTypeBitcoinCash;
+            }
+            
+            [_tabViewController setActiveViewController:_sendBitcoinCashViewController animated:animated index:tabIndex];
+            break;
         }
-
-        [_tabViewController setActiveViewController:_sendBitcoinCashViewController animated:animated index:tabIndex];
-    } else if (self.assetType == LegacyAssetTypeStellar) {
-        if (!_sendLumensViewController) {
-            _sendLumensViewController = [SendLumensViewController makeWith:XLMServiceProvider.sharedInstance];
+        case LegacyAssetTypeStellar: {
+            if (!_sendLumensViewController) {
+                _sendLumensViewController = [SendLumensViewController makeWith:XLMServiceProvider.sharedInstance];
+            }
+            
+            [_tabViewController setActiveViewController:_sendLumensViewController animated:animated index:tabIndex];
+            break;
         }
-
-        [_tabViewController setActiveViewController:_sendLumensViewController animated:animated index:tabIndex];
+        case LegacyAssetTypePax: {
+            if (!_sendPaxComingSoonViewController) {
+                _sendPaxComingSoonViewController = [[PaxComingSoonViewController alloc] init];
+            }
+            [_tabViewController setActiveViewController:_sendPaxComingSoonViewController animated:animated index:tabIndex];
+            break;
+        }
     }
 }
 
@@ -463,31 +483,47 @@
 - (void)showReceiveAnimated:(BOOL)animated
 {
     int tabIndex = (int)[ConstantsObjcBridge tabReceive];
-
-    if (self.assetType == LegacyAssetTypeBitcoin) {
-        if (!_receiveBitcoinViewController) {
-            _receiveBitcoinViewController = [[ReceiveBitcoinViewController alloc] initWithNibName:NIB_NAME_RECEIVE_COINS bundle:[NSBundle mainBundle]];
+    
+    switch (self.assetType) {
+        case LegacyAssetTypeBitcoin: {
+            if (!_receiveBitcoinViewController) {
+                _receiveBitcoinViewController = [[ReceiveBitcoinViewController alloc] initWithNibName:NIB_NAME_RECEIVE_COINS bundle:[NSBundle mainBundle]];
+            }
+            
+            [_tabViewController setActiveViewController:_receiveBitcoinViewController animated:animated index:tabIndex];
+            break;
         }
-
-        [_tabViewController setActiveViewController:_receiveBitcoinViewController animated:animated index:tabIndex];
-    } else if (self.assetType == LegacyAssetTypeEther) {
-        if (!_receiveEtherViewController) {
-            _receiveEtherViewController = [[ReceiveEtherViewController alloc] init];
+        case LegacyAssetTypeEther: {
+            if (!_receiveEtherViewController) {
+                _receiveEtherViewController = [[ReceiveEtherViewController alloc] init];
+            }
+            
+            [_tabViewController setActiveViewController:_receiveEtherViewController animated:animated index:tabIndex];
+            [_receiveEtherViewController showEtherAddress];
+            break;
         }
-
-        [_tabViewController setActiveViewController:_receiveEtherViewController animated:animated index:tabIndex];
-        [_receiveEtherViewController showEtherAddress];
-    } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
-        if (!_receiveBitcoinCashViewController) {
-            _receiveBitcoinCashViewController = [[ReceiveBitcoinViewController alloc] initWithNibName:NIB_NAME_RECEIVE_COINS bundle:[NSBundle mainBundle]];
-            _receiveBitcoinCashViewController.assetType = LegacyAssetTypeBitcoinCash;
+        case LegacyAssetTypeBitcoinCash: {
+            if (!_receiveBitcoinCashViewController) {
+                _receiveBitcoinCashViewController = [[ReceiveBitcoinViewController alloc] initWithNibName:NIB_NAME_RECEIVE_COINS bundle:[NSBundle mainBundle]];
+                _receiveBitcoinCashViewController.assetType = LegacyAssetTypeBitcoinCash;
+            }
+            
+            [_tabViewController setActiveViewController:_receiveBitcoinCashViewController animated:animated index:tabIndex];
+            break;
         }
-
-        [_tabViewController setActiveViewController:_receiveBitcoinCashViewController animated:animated index:tabIndex];
-    } else if (self.assetType == LegacyAssetTypeStellar) {
-        if (![_tabViewController.activeViewController isKindOfClass:[ReceiveXlmViewController class]]) {
-            ReceiveXlmViewController *receiveXlmViewController = [ReceiveXlmViewController newInstance];
-            [_tabViewController setActiveViewController:receiveXlmViewController animated:animated index:tabIndex];
+        case LegacyAssetTypeStellar: {
+            if (![_tabViewController.activeViewController isKindOfClass:[ReceiveXlmViewController class]]) {
+                ReceiveXlmViewController *receiveXlmViewController = [ReceiveXlmViewController newInstance];
+                [_tabViewController setActiveViewController:receiveXlmViewController animated:animated index:tabIndex];
+            }
+            break;
+        }
+        case LegacyAssetTypePax: {
+            if (!_receivePaxComingSoonViewController) {
+                _receivePaxComingSoonViewController = [[PaxComingSoonViewController alloc] init];
+            }
+            [_tabViewController setActiveViewController:_receivePaxComingSoonViewController animated:animated index:tabIndex];
+            break;
         }
     }
 }
@@ -533,31 +569,47 @@
 - (void)showTransactionsAnimated:(BOOL)animated
 {
     int tabIndex = (int)[ConstantsObjcBridge tabTransactions];
-
-    if (self.assetType == LegacyAssetTypeBitcoin) {
-        if (!_transactionsBitcoinViewController) {
-            _transactionsBitcoinViewController = [[[NSBundle mainBundle] loadNibNamed:NIB_NAME_TRANSACTIONS owner:self options:nil] firstObject];
+    
+    switch (self.assetType) {
+        case LegacyAssetTypeBitcoin: {
+            if (!_transactionsBitcoinViewController) {
+                _transactionsBitcoinViewController = [[[NSBundle mainBundle] loadNibNamed:NIB_NAME_TRANSACTIONS owner:self options:nil] firstObject];
+            }
+            
+            [_tabViewController setActiveViewController:_transactionsBitcoinViewController animated:animated index:tabIndex];
+            break;
         }
-
-        [_tabViewController setActiveViewController:_transactionsBitcoinViewController animated:animated index:tabIndex];
-    } else if (self.assetType == LegacyAssetTypeEther) {
-        if (!_transactionsEtherViewController) {
-            _transactionsEtherViewController = [[TransactionsEthereumViewController alloc] init];
+        case LegacyAssetTypeEther: {
+            if (!_transactionsEtherViewController) {
+                _transactionsEtherViewController = [[TransactionsEthereumViewController alloc] init];
+            }
+            
+            [_tabViewController setActiveViewController:_transactionsEtherViewController animated:animated index:tabIndex];
+            break;
         }
-
-        [_tabViewController setActiveViewController:_transactionsEtherViewController animated:animated index:tabIndex];
-    } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
-        if (!_transactionsBitcoinCashViewController) {
-            _transactionsBitcoinCashViewController = [[TransactionsBitcoinCashViewController alloc] init];
+        case LegacyAssetTypeBitcoinCash: {
+            if (!_transactionsBitcoinCashViewController) {
+                _transactionsBitcoinCashViewController = [[TransactionsBitcoinCashViewController alloc] init];
+            }
+            
+            [_tabViewController setActiveViewController:_transactionsBitcoinCashViewController animated:animated index:tabIndex];
+            break;
         }
-
-        [_tabViewController setActiveViewController:_transactionsBitcoinCashViewController animated:animated index:tabIndex];
-    } else if (self.assetType == LegacyAssetTypeStellar) {
-        if (!_transactionsStellarViewController) {
-            _transactionsStellarViewController = [TransactionsXlmViewController makeWith:XLMServiceProvider.sharedInstance];
+        case LegacyAssetTypeStellar: {
+            if (!_transactionsStellarViewController) {
+                _transactionsStellarViewController = [TransactionsXlmViewController makeWith:XLMServiceProvider.sharedInstance];
+            }
+            [_transactionsStellarViewController reload];
+            [_tabViewController setActiveViewController:_transactionsStellarViewController animated:animated index:tabIndex];
+            break;
         }
-        [_transactionsStellarViewController reload];
-        [_tabViewController setActiveViewController:_transactionsStellarViewController animated:animated index:tabIndex];
+        case LegacyAssetTypePax: {
+            if (!_activityPaxComingSoonViewController) {
+                _activityPaxComingSoonViewController = [[PaxComingSoonViewController alloc] init];
+            }
+            [_tabViewController setActiveViewController:_activityPaxComingSoonViewController animated:animated index:tabIndex];
+            break;
+        }
     }
 }
 
@@ -764,8 +816,13 @@
 {
     [self changeAssetSelectorAsset:LegacyAssetTypeStellar];
     [self showTransactionsAnimated:YES];
-    // TODO: reload transactions
     [_transactionsStellarViewController reload];
+}
+
+-(void)showTransactionsPax
+{
+    [self changeAssetSelectorAsset:LegacyAssetTypePax];
+    [self showTransactionsAnimated:YES];
 }
 
 - (void)changeAssetSelectorAsset:(LegacyAssetType)assetType
@@ -823,7 +880,7 @@
         [_receiveBitcoinViewController hideKeyboard];
     }
 
-    UIViewController *viewControllerToPresent;
+    UIViewController * _Nullable viewControllerToPresent;
     switch (self.assetType) {
         case LegacyAssetTypeBitcoin: {
             if (!_sendBitcoinViewController) {
@@ -859,8 +916,14 @@
             viewControllerToPresent = _sendLumensViewController;
             break;
         }
+        case LegacyAssetTypePax: {
+            // TODO 
+            break;
+        }
     }
-    [_tabViewController setActiveViewController:viewControllerToPresent animated:NO index:[ConstantsObjcBridge tabSend]];
+    if (viewControllerToPresent != nil) {
+        [_tabViewController setActiveViewController:viewControllerToPresent animated:NO index:[ConstantsObjcBridge tabSend]];
+    }
 }
 
 /// This callback happens when an Eth account is created. This happens when a user goes to

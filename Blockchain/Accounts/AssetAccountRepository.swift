@@ -45,6 +45,11 @@ class AssetAccountRepository {
             return Maybe.empty()
         }
         
+        if assetType == .pax {
+            Logger.shared.info(".pax currently not supported.")
+            return Maybe.empty()
+        }
+        
         if fromCache {
             return accounts.asMaybe().flatMap { result -> Maybe<[AssetAccount]> in
                 let cached = result.filter({ $0.address.assetType == assetType })
@@ -92,7 +97,9 @@ class AssetAccountRepository {
     func fetchAccounts() -> Single<[AssetAccount]> {
         var observables: [Observable<[AssetAccount]>] = []
         AssetType.all.forEach {
-            let observable = accounts(for: $0, fromCache: false).asObservable()
+            let observable = accounts(for: $0, fromCache: false)
+                .ifEmpty(default: [])
+                .asObservable()
             observables.append(observable)
         }
         return Single.create { observer -> Disposable in

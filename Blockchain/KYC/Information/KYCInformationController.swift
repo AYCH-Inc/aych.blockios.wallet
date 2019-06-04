@@ -26,7 +26,7 @@ final class KYCInformationController: KYCBaseViewController {
     var primaryButtonAction: PrimaryButtonAction?
 
     /// The view model
-    var viewModel: KYCInformationViewModel!
+    var viewModel: KYCInformationViewModel?
 
     /// The view configuration for this view
     var viewConfig: KYCInformationViewConfig = KYCInformationViewConfig.defaultConfig
@@ -52,16 +52,34 @@ final class KYCInformationController: KYCBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if viewModel == nil {
-            assertionFailure("viewModel is not defined")
-        }
-
+        navigationItem.hidesBackButton = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         applyViewModel()
         applyViewConfig()
     }
 
     private func applyViewModel() {
+        guard let viewModel = viewModel else {
+            imageView.image = nil
+            labelTitle.text = ""
+            labelSubtitle.superview?.removeFromSuperview()
+            labelDescription.text = ""
+            buttonPrimaryContainer.title = ""
+            var parameters = [String: String]()
+            if let presentingViewController = presentingViewController {
+                parameters["presenting_view_controller"] = NSStringFromClass(
+                    presentingViewController.classForCoder
+                ).components(separatedBy: ".").last ?? ""
+            }
+            AnalyticsService.shared.trackEvent(
+                title: "kyc_information_controller_view_model_nil_error",
+                parameters: parameters
+            )
+            return
+        }
         imageView.image = viewModel.image
         labelTitle.text = viewModel.title
         if let subtitle = viewModel.subtitle {
@@ -82,5 +100,13 @@ final class KYCInformationController: KYCBaseViewController {
         if let tint = viewConfig.imageTintColor {
             imageView.tintColor = tint
         }
+    }
+    
+    override func navControllerCTAType() -> NavigationCTA {
+        return .dismiss
+    }
+    
+    override func navControllerRightBarButtonTapped(_ navController: KYCOnboardingNavigationController) {
+        coordinator.handle(event: .nextPageFromPageType(pageType, nil))
     }
 }

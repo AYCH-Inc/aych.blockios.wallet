@@ -176,6 +176,8 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             Logger.shared.error("Updating input with no model")
             return
         }
+        
+        status = .unknown
         model.volume = inputs.activeInputValue
 
         // Update interface to reflect what has been typed
@@ -205,7 +207,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         
         repository.accounts(for: type).asObservable()
             .subscribeOn(MainScheduler.asyncInstance)
-            .flatMap { [weak self] accounts -> Observable<(Decimal, Decimal)> in
+            .flatMapLatest { [weak self] accounts -> Observable<(Decimal, Decimal)> in
                 guard let self = self else { return Observable.empty() }
                 guard let account = accounts.filter({ $0.address.address == address }).first else { return Observable.empty() }
                 let observable = self.markets.fiatBalance(
@@ -220,7 +222,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 guard let self = self else { return }
                 guard type == self.model?.marketPair.pair.from else { return }
                 let fiatValue = FiatValue.create(amount: fiatBalance, currencyCode: model.fiatCurrencyCode)
-                let cryptoValue = CryptoValue.createFromMajorValue(cryptoBalance, assetType: type.toCryptoCurrency())
+                let cryptoValue = CryptoValue.createFromMajorValue(cryptoBalance, assetType: type.cryptoCurrency)
                 self.output?.updateBalance(
                     cryptoValue: cryptoValue,
                     fiatValue: fiatValue
@@ -340,15 +342,19 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
     // swiftlint:disable:next cyclomatic_complexity
     func validateInput() {
         guard status != .inflight else { return }
-        status = .inflight
         guard let model = model else { return }
         guard let output = output else { return }
         guard let conversion = model.lastConversion else {
             Logger.shared.error("No conversion stored")
             return
         }
+        /// If we are still waiting on a conversion for the user's latest input
+        /// than we don't want to validate yet.
+        guard waitingOnConversion(conversion) == false else { return }
         guard let volume = Decimal(string: conversion.quote.currencyRatio.base.crypto.value) else { return }
         guard let candidate = Decimal(string: conversion.baseFiatValue) else { return }
+        
+        status = .inflight
         guard tradeExecution.canTradeAssetType(model.pair.from) else {
             if let _ = errorMessage(for: model.pair.from) {
                 status = .error(.waitingOnEthereumPayment)
@@ -405,7 +411,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 if account.balance < volume {
                     let cryptoValue = CryptoValue.createFromMajorValue(
                         account.balance,
-                        assetType: fromAssetType.toCryptoCurrency()
+                        assetType: fromAssetType.cryptoCurrency
                     )
                     strongSelf.status = .error(.insufficientFunds(cryptoValue))
                     return
@@ -501,7 +507,14 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 return
             }
             
-            guard model.lastConversion != conversion else { return }
+            if let last = model.lastConversion, last == conversion {
+                if this.waitingOnConversion(last) {
+                    /// We set the status to `unknown` as until the conversion that matches
+                    /// the candidates volume arrives, the user's current input hasn't been
+                    /// validated.
+                    this.status = .unknown
+                }
+            }
 
             // Store conversion
             model.lastConversion = conversion
@@ -584,6 +597,21 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
 
         disposables.insertWithDiscardableResult(conversionsDisposable)
         disposables.insertWithDiscardableResult(errorDisposable)
+    }
+    
+    /// If the user's volume is not equivalent to the `receivedConversion`
+    /// than we are waiting on a new `Conversion` from the markets socket.
+    private func waitingOnConversion(_ receivedConversion: Conversion) -> Bool {
+        guard let model = model else { return true }
+        guard let latest = Decimal(string: receivedConversion.quote.volume) else { return true }
+        guard let candidate = Decimal(string: model.volume) else { return true }
+        let result = candidate != latest
+        if result {
+            Logger.shared.info("MarkestModel.volume is: \(candidate)")
+            Logger.shared.info("Conversion.quote.volume is: \(latest)")
+            Logger.shared.info("Waiting on new Conversion.")
+        }
+        return result
     }
 
     private func applyValue(stringValue: String) {

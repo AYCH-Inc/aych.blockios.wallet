@@ -372,7 +372,7 @@ class ExchangeDetailCoordinator: NSObject {
             .subscribe(onSuccess: { account in
                 let balance = CryptoValue.createFromMajorValue(
                     account.balance,
-                    assetType: account.address.assetType.toCryptoCurrency()
+                    assetType: account.address.assetType.cryptoCurrency
                 )
                 AnalyticsService.shared.trackEvent(
                     title: "swap_failure",
@@ -392,7 +392,7 @@ class ExchangeDetailCoordinator: NSObject {
     fileprivate func logTransactionLocked(_ orderTransaction: OrderTransaction) {
         let balance = CryptoValue.createFromMajorValue(
             orderTransaction.from.balance,
-            assetType: orderTransaction.from.address.assetType.toCryptoCurrency()
+            assetType: orderTransaction.from.address.assetType.cryptoCurrency
         )
         AnalyticsService.shared.trackEvent(
             title: "swap_locked",

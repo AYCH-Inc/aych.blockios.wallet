@@ -8,7 +8,7 @@
 
 import PlatformKit
 
-public struct EthereumAssetAddress: AssetAddress {
+public struct EthereumAssetAddress: AssetAddress, Equatable, Hashable {
     public let publicKey: String
     
     public init(publicKey: String) {

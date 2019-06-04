@@ -154,7 +154,7 @@
 
 @property(nonatomic, strong) NSString *_Nullable guid;
 @property(nonatomic, strong) NSString *sharedKey;
-@property(nonatomic, strong) NSString *password;
+@property(nonatomic, strong) NSString * _Nullable password;
 
 @property(nonatomic, strong) NSString *sessionToken;
 
@@ -274,7 +274,9 @@
 - (void)changeBtcCurrency:(NSString *)btcCode;
 - (uint64_t)conversionForBitcoinAssetType:(LegacyAssetType)assetType;
 
-- (void)parsePairingCode:(NSString *)code;
+- (void)parsePairingCode:(NSString *)code
+                 success:(void (^ _Nonnull)(NSDictionary * _Nonnull))success
+                   error:(void (^ _Nonnull)(NSString * _Nullable))error;
 - (void)makePairingCode;
 - (void)resendTwoFactorSMS;
 
@@ -432,20 +434,33 @@
 - (void)getEthHistory;
 - (void)getEthExchangeRate;
 
-- (void)fetchEthereumBalance:(void (^)(NSString *_Nonnull balance))completion error:(void (^ _Nonnull)(NSString *_Nonnull))error;
+- (void)fetchEthereumBalance:(void (^ _Nonnull)(NSString *_Nonnull balance))completion error:(void (^ _Nonnull)(NSString *_Nonnull))error;
 
 // Ether send
 - (void)sendEtherPaymentWithNote:(NSString *)note;
 
-// TODO: deprecate in favor of async method
-// getEtherAddressWithSuccess:error:
-- (NSString *_Nullable)getEtherAddress;
-- (void)getEtherAddressWithSuccess:(void (^ _Nonnull)(NSString *_Nonnull))success error: (void (^ _Nonnull)(NSString *_Nullable))error;
+- (void)getEtherTransactionNonceWithSuccess:(void (^ _Nonnull)(NSString * _Nonnull))success
+                                      error:(void (^ _Nonnull)(NSString * _Nullable))error;
+
+- (NSString * _Nullable)getEtherAddress __deprecated_msg("Use `getEtherAddressWithSuccess:error` instead.");
+- (void)getEtherAddressWithSuccess:(void (^ _Nonnull)(NSString * _Nonnull))success error: (void (^ _Nonnull)(NSString * _Nullable))error;
+
+- (void)getEtherPrivateKeyWithSuccess:(void (^)(NSString * _Nonnull))success error:(void (^)(NSString * _Nullable))error;
+
+- (void)recordLastEtherTransactionWith:(NSString * _Nonnull)transactionHash __deprecated_msg("Use `recordLastEtherTransactionWith:error` instead.");
+- (void)recordLastEtherTransactionWith:(NSString * _Nonnull)transactionHash
+                               success:(void (^ _Nonnull)())success
+                                 error:(void (^ _Nonnull)(NSString * _Nullable))error;
+
+- (BOOL)isWaitingOnEtherTransaction;
+- (void)isWaitingOnEtherTransaction:(void (^)(BOOL))success error:(void (^)(NSString * _Nullable))error;
+
+- (void)getEtherPendingTx:(void (^)(NSDictionary * _Nonnull))success error:(void (^)(NSString * _Nullable))error;
 
 - (void)isEtherContractAddress:(NSString *)address completion:(void (^ __nullable)(NSData *data, NSURLResponse *response, NSError *error))completion;
 - (void)sweepEtherPayment;
 - (BOOL)hasEthAccount;
-- (BOOL)isWaitingOnEtherTransaction;
+
 
 // Bitcoin Cash
 - (NSString *)fromBitcoinCash:(NSString *)address;
@@ -490,6 +505,11 @@
 // XLM
 - (NSArray *_Nullable)getXlmAccounts;
 - (void)saveXlmAccount:(NSString *_Nonnull)publicKey label:(NSString *_Nullable)label sucess:(void (^ _Nonnull)(void))success error:(void (^)(NSString *_Nonnull))error;
+
+// Coinify
+- (NSNumber *_Nullable)coinifyID;
+- (NSString *_Nullable)coinifyOfflineToken;
+- (void)saveCoinifyID:(NSInteger)coinifyID token:(NSString *_Nonnull)token success:(void (^ _Nonnull)(void))success error:(void (^)(NSString *_Nonnull))error;
 
 /// Call this method to build an Exchange order.
 /// It constructs and stores a payment object with a given AssetType, to, from, and amount (properties of OrderTransactionLegacy).

@@ -30,6 +30,7 @@ public class AlertView: UIView {
     @IBOutlet fileprivate var imageView: UIImageView!
     @IBOutlet fileprivate var headline: UILabel!
     @IBOutlet fileprivate var message: UILabel!
+    @IBOutlet fileprivate var note: UILabel!
     @IBOutlet fileprivate var confirmButton: UIButton!
     @IBOutlet fileprivate var defaultButton: UIButton!
     @IBOutlet fileprivate var closeButton: UIButton!
@@ -69,6 +70,7 @@ public class AlertView: UIView {
         let imageViewHeight: CGFloat = model.image?.size.height ?? 0
         var headlineHeight: CGFloat = 0.0
         var messageHeight: CGFloat = 0.0
+        var noteHeight: CGFloat = 0.0
         var interItemPadding: CGFloat = 0.0
         var actionsHeight: CGFloat = 0.0
 
@@ -87,7 +89,17 @@ public class AlertView: UIView {
             )
             messageHeight = attributed.heightForWidth(width: adjustedWidth)
         }
+        if let value = model.note {
+            let attributed = NSAttributedString(
+                string: value,
+                attributes: [.font: noteFont()]
+            )
+            noteHeight = attributed.heightForWidth(width: adjustedWidth)
+        }
         if model.headline != nil && model.body != nil {
+            interItemPadding += headlineToMessagePadding
+        }
+        if model.note != nil {
             interItemPadding += headlineToMessagePadding
         }
         if model.actions.count > 1 {
@@ -104,6 +116,7 @@ public class AlertView: UIView {
             imageViewHeight +
             headlineHeight +
             messageHeight +
+            noteHeight +
         interItemPadding
         return result
     }
@@ -115,6 +128,11 @@ public class AlertView: UIView {
     
     public class func messageFont() -> UIFont {
         let font = Font(.branded(.montserratSemiBold), size: .custom(14.0))
+        return font.result
+    }
+    
+    public class func noteFont() -> UIFont {
+        let font = Font(.branded(.montserratMedium), size: .custom(10.0))
         return font.result
     }
     
@@ -143,12 +161,17 @@ public class AlertView: UIView {
         notch.layer.cornerRadius = 4
         headline.isHidden = model.headline == nil
         message.isHidden = model.body == nil
+        note.isHidden = model.note == nil
         headline.text = model.headline
         message.text = model.body
+        note.text = model.note
         if let image = model.image {
             imageView.image = image
             imageViewHeightConstraint.constant = image.size.height
             imageViewWidthConstraint.constant = image.size.width
+        }
+        if let imageTintColor = model.imageTintColor {
+            imageView.tintColor = imageTintColor
         }
         
         confirmButton.isHidden = model.actions.first(where: { $0.style == .confirm($0.title ?? "") }) == nil

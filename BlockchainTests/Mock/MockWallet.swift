@@ -26,3 +26,20 @@ class MockWallet: Wallet {
         return password
     }
 }
+
+/// Note: This is in `MockWallet` because `Wallet+Extensions` isn't
+/// in the test target. Without this, the test target won't compile.
+/// That said, currently no tests use this.
+extension Wallet: CoinifyWalletBridgeAPI {
+    func save(coinifyID: Int, token: String, completion: @escaping CoinifyWalletBridgeAPI.CoinifyAccountIDCompletion) {
+        completion(nil)
+    }
+    
+    func coinifyAccountID() -> Int? {
+        return nil
+    }
+    
+    func offlineToken() -> String? {
+        return nil
+    }
+}

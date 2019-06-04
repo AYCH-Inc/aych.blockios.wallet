@@ -9,9 +9,9 @@
 import Alamofire
 import Foundation
 
-public enum HttpMethod {
-    case get
-    case post
-    case put
-    case patch
+public enum HttpMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case put = "PUT"
+    case patch = "PATCH"
 }

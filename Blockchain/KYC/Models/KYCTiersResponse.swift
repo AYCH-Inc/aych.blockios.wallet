@@ -21,6 +21,35 @@ struct KYCUserTiersResponse: Codable {
 }
 
 extension KYCUserTiersResponse {
+    
+    var tier2AccountStatus: KYCAccountStatus {
+        guard let tier2 = userTiers.first(where: { $0.tier == .tier2 }) else { return .none }
+        switch tier2.state {
+        case .none:
+            return .none
+        case .rejected:
+            return .failed
+        case .pending:
+            return .pending
+        case .verified:
+            return .approved
+        }
+    }
+    
+    var tier1AccountStatus: KYCAccountStatus {
+        guard let tier1 = userTiers.first(where: { $0.tier == .tier1 }) else { return .none }
+        switch tier1.state {
+        case .none:
+            return .none
+        case .rejected:
+            return .failed
+        case .pending:
+            return .pending
+        case .verified:
+            return .approved
+        }
+    }
+    
     var canCompleteTier2: Bool {
         return userTiers.contains(where: {
             return $0.tier == .tier2 &&

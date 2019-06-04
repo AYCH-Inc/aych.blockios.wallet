@@ -73,6 +73,7 @@ extension UserDefaults {
         case didTapOnKycDeepLink
         case didTapOnDocumentResubmissionDeepLink
         case documentResubmissionLinkReason
+        case didAcceptCoinifyTOS
     }
 
     func migrateLegacyKeysIfNeeded() {

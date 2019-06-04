@@ -911,15 +911,15 @@ struct LocalizationConstants {
             comment: "Action button title of a bottom sheet alert prompting the user to complete KYC"
         )
         static let bottomSheetPromptForAirdropRegistrationTitle = NSLocalizedString(
-            "Claim Your Free Crypto",
-            comment: "Title of a bottom sheet alert prompting the user to complete KYC"
+            "Airdrop Program",
+            comment: "Title of a bottom sheet alert prompting the user to opt-in for airdrop upon finishing KYC"
         )
         static let bottomSheetPromptForAirdropRegistrationDescription = NSLocalizedString(
-            "Tap the button to automatically receive free Stellar (XLM) once Gold level is unlocked.",
-            comment: "Description of a bottom sheet alert prompting the user to complete KYC"
+            "You’re eligible for future airdrops.",
+            comment: "Description of a bottom sheet alert prompting the user to opt-in for airdrop upon finishing KYC"
         )
         static let bottomSheetPromptForAirdropRegistrationAction = NSLocalizedString(
-            "Claim Your XLM",
+            "Opt-in Now",
             comment: "Action button title of a bottom sheet alert prompting the user to complete KYC"
         )
         static let bottomSheetPromptForAirdropRegistrationCancel = NSLocalizedString(
@@ -2020,8 +2020,8 @@ struct LocalizationConstants {
             "XLM is a token that enables quick, low cost global transactions. Send, receive, and trade XLM in the wallet today.",
             comment: "Description displayed in the onboarding card showing that we support Stellar."
         )
-        static let claimYourFreeXLMNow = NSLocalizedString(
-            "Claim Your Free XLM Now",
+        static let getStellarNow = NSLocalizedString(
+            "Get Stellar Now",
             comment: "CTA prompting the user to join the XLM waitlist."
         )
         static let claimYourStellarDescription = NSLocalizedString(

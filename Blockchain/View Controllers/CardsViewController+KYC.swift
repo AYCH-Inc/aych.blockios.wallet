@@ -116,8 +116,7 @@ extension CardsViewController {
         let shouldShowStellarModalPromptForAirdropRegistration =
             nabuUser.isSunriverAirdropRegistered == false &&
             (tiersResponse.isTier2Pending || tiersResponse.isTier2Verified) &&
-            hasSeenStellarRegistrationAlert == false &&
-            stellarPopupConfig.isEnabled
+            hasSeenStellarRegistrationAlert == false
 
         if shouldShowCoinifyKycModal {
             showCoinifyKycModal()
@@ -272,8 +271,7 @@ extension CardsViewController {
             headline: LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetPromptForAirdropRegistrationDescription,
             actions: [getFreeXlm, dismiss],
-            image: UIImage(named: "symbol-xlm"),
-            imageTintColor: AssetType.stellar.brandColor,
+            image: UIImage(named: "Icon-Verified"),
             dismissable: true,
             style: .sheet
         )

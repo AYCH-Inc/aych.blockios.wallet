@@ -13,8 +13,13 @@ import Foundation
     case biometry
     case swipeToReceive
     case transferFundsFromImportedAddress
+
+    // Sunriver
     case stellar
     case stellarAirdrop
+    case stellarAirdropPopup
+
+    // Coinify
     case notifyCoinifyUserToKyc
 }
 
@@ -26,6 +31,8 @@ extension AppFeature {
             return "ios_sunriver_airdrop_enabled"
         case .notifyCoinifyUserToKyc:
             return "ios_notify_coinify_users_to_kyc"
+        case .stellarAirdropPopup:
+            return "get_free_xlm_popup"
         default:
             return nil
         }

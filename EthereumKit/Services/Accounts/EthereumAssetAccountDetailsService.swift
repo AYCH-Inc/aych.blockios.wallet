@@ -21,6 +21,19 @@ public class EthereumAssetAccountDetailsService: AssetAccountDetailsAPI {
     }
     
     public func accountDetails(for accountID: AccountID) -> Maybe<AccountDetails> {
+        #if DEBUG
+            return getAccountDetailsPlatform(for: accountID)
+        #else
+            return getAccountDetailsLegacy(for: accountID)
+        #endif
+    }
+    
+    private func getAccountDetailsPlatform(for accountID: AccountID) -> Maybe<AccountDetails> {
+        // TODO: get account natively
+        return getAccountDetailsLegacy(for: accountID)
+    }
+    
+    private func getAccountDetailsLegacy(for accountID: AccountID) -> Maybe<AccountDetails> {
         // FIXME: account id unused
         return Single.zip(bridge.account, bridge.balance)
             .flatMap { account, balance -> Single<EthereumAssetAccountDetails> in

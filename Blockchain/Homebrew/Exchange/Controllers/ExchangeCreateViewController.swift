@@ -90,6 +90,7 @@ class ExchangeCreateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = LocalizationConstants.Swap.swap
+        exchangeButton.accessibilityIdentifier = AccessibilityIdentifiers.ExchangeScreen.exchangeButton
         let disposable = dependenciesSetup()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
@@ -99,6 +100,7 @@ class ExchangeCreateViewController: UIViewController {
                 self.delegate?.onViewDidLoad()
             })
         disposables.insertWithDiscardableResult(disposable)
+        exchangeButton.isExclusiveTouch = true
     }
 
     override func viewWillAppear(_ animated: Bool) {

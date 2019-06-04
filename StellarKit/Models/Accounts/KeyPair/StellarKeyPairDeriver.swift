@@ -9,15 +9,23 @@
 import Foundation
 import PlatformKit
 import stellarsdk
+import RxSwift
 
 public class StellarKeyPairDeriver: KeyPairDeriverAPI {
     public typealias StellarWallet = stellarsdk.Wallet
-    public typealias Pair = StellarKeyPair
     
-    public func derive(mnemonic: String, passphrase: String?, index: Int) -> Pair {
-        //swiftlint:disable next force_try
-        let keypair = try! StellarWallet.createKeyPair(mnemonic: mnemonic, passphrase: passphrase, index: index)
-        return keypair.toStellarKeyPair()
+    public func derive(input: StellarKeyDerivationInput) -> Maybe<StellarKeyPair> {
+        let keyPair: stellarsdk.KeyPair
+        do {
+            keyPair = try StellarWallet.createKeyPair(
+                mnemonic: input.mnemonic,
+                passphrase: input.passphrase,
+                index: input.index
+            )
+        } catch {
+            return Maybe.empty()
+        }
+        return Maybe.just(keyPair.toStellarKeyPair())
     }
 }
 

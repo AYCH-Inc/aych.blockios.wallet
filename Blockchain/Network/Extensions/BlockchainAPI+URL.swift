@@ -10,9 +10,13 @@ import Foundation
 
 @objc
 extension BlockchainAPI {
+    
+    var apiHost: String {
+        return Bundle.main.infoDictionary!["API_URL"] as! String
+    }
+    
     var apiUrl: String {
-        let host = Bundle.main.infoDictionary!["API_URL"] as! String
-        return "https://\(host)"
+        return "https://\(apiHost)"
     }
 
     var walletUrl: String {
@@ -54,6 +58,11 @@ extension BlockchainAPI {
 
     var etherExplorerUrl: String {
         return "\(explorerUrl)/eth"
+    }
+    
+    var coinifyEndpoint: String {
+        let host = Bundle.main.infoDictionary!["COINIFY_URL"] as! String
+        return "https://\(host)"
     }
 
     var stellarchainUrl: String {

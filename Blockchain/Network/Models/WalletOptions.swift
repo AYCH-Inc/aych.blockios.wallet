@@ -9,6 +9,10 @@
 import Foundation
 
 private struct Keys {
+    static let partners = "partners"
+    static let coinify = "coinify"
+    static let partnerId = "partnerId"
+    static let countries = "countries"
     static let mobile = "mobile"
     static let walletRoot = "walletRoot"
     static let maintenance = "maintenance"
@@ -40,6 +44,11 @@ struct WalletOptions {
         let showShapeshift: Bool
     }
     
+    struct Coinify {
+        let partnerId: Int
+        let countries: [String]
+    }
+    
     struct XLMMetadata {
         let operationFee: Int
         let sendTimeOutSeconds: Int
@@ -57,7 +66,23 @@ struct WalletOptions {
 
     let iosConfig: IosConfig?
     
+    let coinifyMetadata: Coinify?
+    
     let xlmMetadata: XLMMetadata?
+}
+
+extension WalletOptions.Coinify {
+    init?(json: JSON) {
+        if let partners = json[Keys.partners] as? [String: [String: Any]] {
+            guard let coinify = partners[Keys.coinify] else { return nil }
+            guard let identifier = coinify[Keys.partnerId] as? Int else { return nil }
+            guard let countries = coinify[Keys.countries] as? [String] else { return nil }
+            self.partnerId = identifier
+            self.countries = countries
+        } else {
+            return nil
+        }
+    }
 }
 
 extension WalletOptions.XLMMetadata {
@@ -125,6 +150,7 @@ extension WalletOptions {
         self.mobileInfo = WalletOptions.MobileInfo(json: json)
         self.shapeshift = WalletOptions.Shapeshift(json: json)
         self.iosConfig = WalletOptions.IosConfig(json: json)
+        self.coinifyMetadata = WalletOptions.Coinify(json: json)
         self.xlmMetadata = WalletOptions.XLMMetadata(json: json)
     }
 }

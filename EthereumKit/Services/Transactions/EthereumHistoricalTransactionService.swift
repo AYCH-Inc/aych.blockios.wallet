@@ -24,7 +24,7 @@ public final class EthereumHistoricalTransactionService: HistoricalTransactionAP
         self.bridge = bridge
     }
     
-    public func fetchTransactions(for accountID: AccountID) -> Single<[EthereumTransaction]> {
+    public func fetchTransactions(for accountID: AccountID) -> Single<[EthereumHistoricalTransaction]> {
         return bridge.transactions
     }
 }

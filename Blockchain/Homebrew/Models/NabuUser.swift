@@ -145,9 +145,16 @@ struct Mobile: Decodable {
 
 struct Tags: Decodable {
     let sunriver: Sunriver?
+    let coinify: Bool?
 
     enum CodingKeys: String, CodingKey {
         case sunriver = "SUNRIVER"
+        case coinify = "COINIFY"
+    }
+    
+    init(sunriver: Sunriver? = nil, coinify: Bool = false) {
+        self.sunriver = sunriver
+        self.coinify = coinify
     }
 }
 

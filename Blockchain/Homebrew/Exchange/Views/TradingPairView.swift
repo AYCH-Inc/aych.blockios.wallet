@@ -143,6 +143,10 @@ class TradingPairView: NibBasedView {
         case .titles(left: let leftTitle, right: let rightTitle):
             leftButton.setTitle(leftTitle, for: .normal)
             rightButton.setTitle(rightTitle, for: .normal)
+            let leftIdentifier = "." + leftTitle
+            let rightIdentifier = "." + rightTitle
+            leftButton.accessibilityIdentifier = AccessibilityIdentifiers.TradingPairView.fromLabel + leftIdentifier
+            rightButton.accessibilityIdentifier = AccessibilityIdentifiers.TradingPairView.toLabel + rightIdentifier
         }
     }
 

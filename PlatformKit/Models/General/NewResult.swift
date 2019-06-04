@@ -150,3 +150,22 @@ public enum NewResult<Success, Failure: Error> {
 extension NewResult: Equatable where Success: Equatable, Failure: Equatable { }
 
 extension NewResult: Hashable where Success: Hashable, Failure: Hashable { }
+
+extension NewResult {
+    /// Creates a new result by evaluating a throwing closure, capturing the
+    /// returned value as a success, or any thrown error as a failure.
+    ///
+    /// - Parameter body: A throwing closure to evaluate.
+    /// - Parameter mapError: A closure mapping Error to Failure.
+    @_transparent
+    public init?(catching body: () throws -> Success, mapError: (Error) -> Failure? = { $0 as? Failure }) {
+        do {
+            self = .success(try body())
+        } catch {
+            guard let e = mapError(error) else {
+                return nil
+            }
+            self = .failure(e)
+        }
+    }
+}

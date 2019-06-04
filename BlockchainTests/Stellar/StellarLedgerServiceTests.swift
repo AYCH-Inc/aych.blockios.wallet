@@ -10,6 +10,7 @@ import XCTest
 import RxBlocking
 import RxSwift
 import stellarsdk
+import PlatformKit
 import StellarKit
 @testable import Blockchain
 

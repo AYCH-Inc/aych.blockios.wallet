@@ -7,18 +7,32 @@
 //
 
 import Foundation
+import RxSwift
 
 public protocol KeyPairDeriverAPI {
     associatedtype Pair: KeyPair
+    associatedtype Input: KeyDerivationInput
     
-    /// Derives a `KeyPair` given a mnemonic phrase.
-    /// This action is deterministic (i.e. the same mnemonic + passphrase combination will create the
+    /// Derives a `KeyPair` given specific inputs (e.g. mnemonic + password)
+    /// This action is deterministic (i.e. the same mnemonic + password combination will create the
     /// same key pair).
     ///
-    /// - Parameters:
-    ///   - mnemonic: the mnemonic phrase used to derive the key pair for the new account
-    ///   - passphrase: an optional passphrase for deriving the key pair
-    ///   - index: the index of the wallet to create
-    /// - Returns: the created `KeyPair`
-    func derive(mnemonic: String, passphrase: String?, index: Int) -> Pair
+    /// - Parameter input: The specific inputs used to derive the key pair
+    /// - Returns: A `Maybe` for the created `KeyPair`
+    func derive(input: Input) -> Maybe<Pair>
+}
+
+public final class AnyKeyPairDeriver<P: KeyPair, I: KeyDerivationInput>: KeyPairDeriverAPI {
+    
+    public typealias Deriver = (I) -> Maybe<P>
+    
+    private let derivingClosure: Deriver
+    
+    public init<D: KeyPairDeriverAPI>(deriver: D) where D.Pair == P, D.Input == I {
+        self.derivingClosure = deriver.derive
+    }
+    
+    public func derive(input: I) -> Maybe<P> {
+        return derivingClosure(input)
+    }
 }

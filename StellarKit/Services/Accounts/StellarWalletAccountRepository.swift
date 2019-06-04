@@ -39,8 +39,8 @@ open class StellarWalletAccountRepository: WalletAccountRepositoryAPI, WalletAcc
     
     public func loadKeyPair() -> Maybe<Pair> {
         return bridge.mnemonicPromptingIfNeeded
-            .map { [unowned self] mnemonic -> Pair in
-                return self.deriver.derive(mnemonic: mnemonic, passphrase: nil, index: 0)
+            .flatMap { [unowned self] mnemonic -> Maybe<Pair> in
+                return self.deriver.derive(input: StellarKeyDerivationInput(mnemonic: mnemonic))
             }
     }
     
@@ -57,18 +57,16 @@ open class StellarWalletAccountRepository: WalletAccountRepositoryAPI, WalletAcc
         return loadKeyPair().do(onNext: { [unowned self] stellarKeyPair in
             self.save(keyPair: stellarKeyPair)
         })
-            .map { keyPair -> Account in
-                // TODO: Need to localize this
-                return Account(
-                    index: 0,
-                    publicKey: keyPair.accountID,
-                    label: "My Stellar Wallet",
-                    archived: false
-                )
+        .map { keyPair -> Account in
+            // TODO: Need to localize this
+            return Account(
+                index: 0,
+                publicKey: keyPair.accountID,
+                label: "My Stellar Wallet",
+                archived: false
+            )
         }
     }
-    
-    // MARK: - Private
     
     private func save(keyPair: Pair) {
         // TODO: Need to localize this

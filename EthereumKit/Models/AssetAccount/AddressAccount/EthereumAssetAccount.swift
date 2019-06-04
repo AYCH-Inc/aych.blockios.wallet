@@ -8,7 +8,7 @@
 
 import PlatformKit
 
-public struct EthereumAssetAccount: AssetAccount {
+public struct EthereumAssetAccount: AssetAccount, Equatable {
     public var walletIndex: Int
     public let accountAddress: String
     public var name: String

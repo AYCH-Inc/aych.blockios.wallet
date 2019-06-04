@@ -10,11 +10,15 @@ import Foundation
 import PlatformKit
 
 public struct StellarKeyPair: KeyPair {
+    public var secret: String {
+        return privateKey.secret
+    }
+    
     public var accountID: String
-    public var secret: String
+    public var privateKey: StellarPrivateKey
     
     public init(accountID: String, secret: String) {
         self.accountID = accountID
-        self.secret = secret
+        self.privateKey = StellarPrivateKey(secret: secret)
     }
 }

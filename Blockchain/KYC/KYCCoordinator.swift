@@ -51,7 +51,7 @@ protocol KYCCoordinatorDelegate: class {
 
     private weak var rootViewController: UIViewController?
 
-    fileprivate var navController: KYCOnboardingNavigationController!
+    private var navController: KYCOnboardingNavigationController!
 
     private let disposables = CompositeDisposable()
 
@@ -60,6 +60,7 @@ protocol KYCCoordinatorDelegate: class {
     private let appSettings: BlockchainSettings.App
     private let authenticationService: NabuAuthenticationService
 
+    private var userTiersResponse: KYCUserTiersResponse?
     private var kycSettings: KYCSettingsAPI
 
     init(
@@ -96,7 +97,6 @@ protocol KYCCoordinatorDelegate: class {
     }
 
     func start(from viewController: UIViewController, tier: KYCTier = .tier1) {
-        pager = KYCPager(tier: tier)
         rootViewController = viewController
         AnalyticsService.shared.trackEvent(title: tier.startAnalyticsKey)
         
@@ -108,13 +108,24 @@ protocol KYCCoordinatorDelegate: class {
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
-            .subscribe(onNext: { [weak self] (user, _) in
+            .subscribe(onNext: { [weak self] (user, tiersResponse) in
+                self?.pager = KYCPager(tier: tier, tiersResponse: tiersResponse)
                 Logger.shared.debug("Got user with ID: \(user.personalDetails?.identifier ?? "")")
                 guard let strongSelf = self else {
                     return
                 }
-                strongSelf.kycSettings.isCompletingKyc = true
+                strongSelf.userTiersResponse = tiersResponse
                 strongSelf.user = user
+                
+                let startingPage = user.isSunriverAirdropRegistered == true ?
+                    KYCPageType.welcome :
+                    KYCPageType.startingPage(forUser: user, tiersResponse: tiersResponse)
+                if startingPage != .accountStatus {
+                    /// If the starting page is accountStatus, they do not have any additional
+                    /// pages to view, so we don't want to set `isCompletingKyc` to `true`.
+                    strongSelf.kycSettings.isCompletingKyc = true
+                }
+                
                 strongSelf.initializeNavigationStack(viewController, user: user, tier: tier)
                 strongSelf.restoreToMostRecentPageIfNeeded(tier: tier)
             }, onError: { error in
@@ -154,25 +165,18 @@ protocol KYCCoordinatorDelegate: class {
                     guard let strongSelf = self else {
                         return
                     }
+                    
                     let controller = strongSelf.pageFactory.createFrom(
                         pageType: nextPage,
                         in: strongSelf,
                         payload: payload
                     )
-                    controller.navigationItem.hidesBackButton = (nextPage == .applicationComplete)
                     
-                    /// Tracking KYC completion is contextual based on what tier
-                    /// the user is applying to.
-                    if nextPage == .applicationComplete {
-                        switch strongSelf.pager.tier {
-                        case .tier0:
-                            break
-                        case .tier1:
-                            AnalyticsService.shared.trackEvent(title: "kyc_tier1_complete")
-                        case .tier2:
-                            AnalyticsService.shared.trackEvent(title: "kyc_tier2_complete")
-                        }
+                    if let informationController = controller as? KYCInformationController, nextPage == .accountStatus {
+                        self?.presentInformationController(informationController)
+                        return
                     }
+                    
                     strongSelf.navController.pushViewController(controller, animated: true)
                 }, onError: { error in
                     Logger.shared.error("Error getting next page: \(error.localizedDescription)")
@@ -182,51 +186,52 @@ protocol KYCCoordinatorDelegate: class {
                         return
                     }
                     strongSelf.kycSettings.isCompletingKyc = false
-                    if strongSelf.user?.isSunriverAirdropRegistered == true && strongSelf.pager.tier == .tier2 {
-                        strongSelf.presentAccountStatusView(
-                            for: .pending,
-                            in: strongSelf.navController
-                        )
-                        return
-                    }
                     strongSelf.finish()
                 })
             disposables.insertWithDiscardableResult(disposable)
         }
     }
 
-    func presentAccountStatusView(
-        for status: KYCAccountStatus,
-        in viewController: UIViewController
-    ) {
-        let accountStatusViewController = KYCInformationController.make(with: self)
-        let isReceivingAirdrop = user?.isSunriverAirdropRegistered == true
-        accountStatusViewController.viewModel = KYCInformationViewModel.create(
-            for: status,
-            isReceivingAirdrop: isReceivingAirdrop
-        )
-        accountStatusViewController.viewConfig = KYCInformationViewConfig.create(
-            for: status,
-            isReceivingAirdrop: isReceivingAirdrop
-        )
-        accountStatusViewController.primaryButtonAction = { viewController in
-            switch status {
-            case .approved:
-                viewController.dismiss(animated: true) {
-                    guard let viewController = self.rootViewController else {
-                        Logger.shared.error("View controller to present on is nil.")
-                        return
+    func presentInformationController(_ controller: KYCInformationController) {
+        /// Refresh the user's tiers to get their status.
+        /// Sometimes we receive an `INTERNAL_SERVER_ERROR` if we refresh this
+        /// immediately after submitting all KYC data. So, we apply a delay here.
+        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
+        let disposable = BlockchainDataRepository.shared.tiers
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .delay(3.0, scheduler: MainScheduler.instance)
+            .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
+            .subscribe(onNext: { [weak self] response in
+                guard let self = self else { return }
+                let status = response.tier2AccountStatus
+                
+                let isReceivingAirdrop = self.user?.isSunriverAirdropRegistered == true
+                controller.viewModel = KYCInformationViewModel.create(
+                    for: status,
+                    isReceivingAirdrop: isReceivingAirdrop
+                )
+                controller.viewConfig = KYCInformationViewConfig.create(
+                    for: status,
+                    isReceivingAirdrop: isReceivingAirdrop
+                )
+                controller.primaryButtonAction = { viewController in
+                    switch status {
+                    case .approved:
+                        self.finish()
+                    case .pending:
+                        PushNotificationManager.shared.requestAuthorization()
+                    case .failed, .expired:
+                        URL(string: Constants.Url.blockchainSupport)?.launch()
+                    case .none, .underReview: return
                     }
-                    ExchangeCoordinator.shared.start(rootViewController: viewController)
                 }
-            case .pending:
-                PushNotificationManager.shared.requestAuthorization()
-            case .failed, .expired:
-                URL(string: Constants.Url.blockchainSupport)?.launch()
-            case .none, .underReview: return
-            }
-        }
-        presentInNavigationController(accountStatusViewController, in: viewController)
+                
+                self.navController.pushViewController(controller, animated: true)
+                }, onError: ({ error in
+                    Logger.shared.error("Error refreshing tiers status: \(error.localizedDescription)")
+                }))
+        disposables.insertWithDiscardableResult(disposable)
     }
 
     // MARK: View Restoration
@@ -236,9 +241,17 @@ protocol KYCCoordinatorDelegate: class {
         guard let currentUser = user else {
             return
         }
+        guard let response = userTiersResponse else { return }
+        
         let latestPage = kycSettings.latestKycPage
 
-        let startingPage = KYCPageType.startingPage(forUser: currentUser)
+        let startingPage = KYCPageType.startingPage(forUser: currentUser, tiersResponse: response)
+        
+        if startingPage == .accountStatus {
+            /// The `tier` on KYCPager cannot be `tier1` if the user's `startingPage` is `.accountStatus`.
+            /// If their `startingPage` is `.accountStatus`, they're done.
+            pager = KYCPager(tier: .tier2, tiersResponse: response)
+        }
 
         guard let endPageForLastUsedTier = KYCPageType.pageType(for: currentUser, latestPage: latestPage) else {
             return
@@ -249,7 +262,12 @@ protocol KYCCoordinatorDelegate: class {
 
         var currentPage = startingPage
         while currentPage != endPage {
-            guard let nextPage = currentPage.nextPage(forTier: tier, user: user, country: country) else { return }
+            guard let nextPage = currentPage.nextPage(
+                forTier: tier,
+                user: user,
+                country: country,
+                tiersResponse: response
+                ) else { return }
 
             currentPage = nextPage
 
@@ -286,14 +304,28 @@ protocol KYCCoordinatorDelegate: class {
     }
 
     private func initializeNavigationStack(_ viewController: UIViewController, user: NabuUser, tier: KYCTier) {
+        guard let response = userTiersResponse else { return }
         let startingPage = user.isSunriverAirdropRegistered == true ?
             KYCPageType.welcome :
-            KYCPageType.startingPage(forUser: user)
-        let startingViewController = pageFactory.createFrom(
-            pageType: startingPage,
-            in: self
-        )
-        navController = presentInNavigationController(startingViewController, in: viewController)
+            KYCPageType.startingPage(forUser: user, tiersResponse: response)
+        var controller: KYCBaseViewController
+        if startingPage == .accountStatus {
+            controller = pageFactory.createFrom(
+                pageType: startingPage,
+                in: self,
+                payload: .accountStatus(
+                    status: response.tier2AccountStatus,
+                    isReceivingAirdrop: user.isSunriverAirdropRegistered == true
+                )
+            )
+        } else {
+            controller = pageFactory.createFrom(
+                pageType: startingPage,
+                in: self
+            )
+        }
+        
+        navController = presentInNavigationController(controller, in: viewController)
     }
 
     // MARK: Private Methods
@@ -304,7 +336,8 @@ protocol KYCCoordinatorDelegate: class {
         case .countrySelected(let country):
             self.country = country
         case .phoneNumberUpdated,
-             .emailPendingVerification:
+             .emailPendingVerification,
+             .accountStatus:
             // Not handled here
             return
         }

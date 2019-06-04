@@ -9,6 +9,7 @@
 import UIKit
 import Charts
 import PlatformKit
+import ERC20Kit
 import RxSwift
 
 @objc
@@ -31,17 +32,20 @@ final class DashboardController: UIViewController {
     private let wallet: Wallet
     private let tabControllerManager: TabControllerManager
     private let stellarAccountService: StellarAccountAPI
+    private let paxAccountRepository: ERC20AssetAccountRepository<PaxToken>
     private var lastBtcExchangeRate: FiatValue
     private var lastBchExchangeRate: FiatValue
     private var lastEthExchangeRate: FiatValue
     private var lastXlmExchangeRate: FiatValue
+    private var lastPaxExchangeRate: FiatValue
     private var defaultContentHeight: CGFloat = 0
     private var disposable: Disposable?
     private var priceChartContainerView: UIView?
     private var bitcoinPricePreviewView,
                 etherPricePreviewView,
                 bitcoinCashPricePreviewView,
-                stellarPricePreviewView: PricePreviewView?
+                stellarPricePreviewView,
+                paxPricePreviewView: PricePreviewView?
 
     // TICKET: IOS-1512 - Move formatters to a global formatter pool
 
@@ -74,7 +78,7 @@ final class DashboardController: UIViewController {
             x: horizontalPadding,
             y: 16,
             width: view.frame.size.width - (horizontalPadding * 2),
-            height: 425
+            height: 521
         )
         let balancesChartView = BCBalancesChartView(frame: balancesChartViewFrame)
         balancesChartView.delegate = self
@@ -107,7 +111,9 @@ final class DashboardController: UIViewController {
         lastBchExchangeRate = FiatValue.create(amount: 0, currencyCode: currencyCode)
         lastEthExchangeRate = FiatValue.create(amount: 0, currencyCode: currencyCode)
         lastXlmExchangeRate = FiatValue.create(amount: 0, currencyCode: currencyCode)
+        lastPaxExchangeRate = FiatValue.create(amount: 0, currencyCode: currencyCode)
         stellarAccountService = XLMServiceProvider.shared.services.accounts
+        paxAccountRepository = PAXServiceProvider.shared.services.assetAccountRepository
         super.init(coder: aDecoder)
     }
 
@@ -193,6 +199,11 @@ final class DashboardController: UIViewController {
             dx: 0,
             dy: pricePreviewViewHeight + pricePreviewViewSpacing
         )
+        
+        let paxPricePreviewViewFrame = stellarPricePreviewViewFrame.offsetBy(
+            dx: 0,
+            dy: pricePreviewViewHeight + pricePreviewViewSpacing
+        )
 
         priceChartContainerView = UIView(frame: priceChartContainerViewFrame)
 
@@ -216,17 +227,23 @@ final class DashboardController: UIViewController {
         stellarPricePreviewView = PricePreviewViewFactory.create(for: .stellar, buttonTapped: {
             self.showChartContainerViewController(for: .stellar)
         })
+        
+        paxPricePreviewView = PricePreviewViewFactory.create(for: .pax, buttonTapped: {
+            // No op for now
+        })
 
         bitcoinPricePreviewView!.frame = bitcoinPricePreviewViewFrame
         etherPricePreviewView!.frame = etherPricePreviewViewFrame
         bitcoinCashPricePreviewView!.frame = bitcoinCashPricePreviewViewFrame
         stellarPricePreviewView!.frame = stellarPricePreviewViewFrame
+        paxPricePreviewView!.frame = paxPricePreviewViewFrame
 
         priceChartContainerView!.addSubview(priceChartsLabel)
         priceChartContainerView!.addSubview(bitcoinPricePreviewView!)
         priceChartContainerView!.addSubview(etherPricePreviewView!)
         priceChartContainerView!.addSubview(bitcoinCashPricePreviewView!)
         priceChartContainerView!.addSubview(stellarPricePreviewView!)
+        priceChartContainerView!.addSubview(paxPricePreviewView!)
         contentView.addSubview(priceChartContainerView!)
     }
 
@@ -246,6 +263,9 @@ final class DashboardController: UIViewController {
         case .stellar:
             pricePreviewChartPosition = 3
             legacyAssetType = .stellar
+        case .pax:
+            pricePreviewChartPosition = 4
+            legacyAssetType = .pax
         }
 
         let priceChartViewFrame = CGRect(
@@ -315,10 +335,13 @@ final class DashboardController: UIViewController {
 
         let xlmBalance = balances?[.stellar] ?? CryptoValue.lumensFromMajor(decimal: 0)
         let xlmFiatBalance = xlmBalance.convertToFiatValue(exchangeRate: lastXlmExchangeRate)
+        
+        let paxBalance = balances?[.pax] ?? CryptoValue.paxFromMajor(decimal: 0)
+        let paxFiatBalance = paxBalance.convertToFiatValue(exchangeRate: lastPaxExchangeRate)
 
         let totalBalance: FiatValue
         do {
-            totalBalance = try btcFiatBalance + ethFiatBalance + bchFiatBalance + xlmFiatBalance
+            totalBalance = try btcFiatBalance + ethFiatBalance + bchFiatBalance + xlmFiatBalance + paxFiatBalance
         } catch {
             totalBalance = FiatValue.create(amount: 0, currencyCode: btcFiatBalance.currencyCode)
         }
@@ -336,6 +359,9 @@ final class DashboardController: UIViewController {
 
         balancesChartView.updateStellarBalance(xlmBalance.toDisplayString(includeSymbol: false))
         balancesChartView.updateStellarFiatBalance(xlmFiatBalance.amount.doubleValue)
+        
+        balancesChartView.updatePaxBalance(paxBalance.toDisplayString(includeSymbol: false))
+        balancesChartView.updatePaxFiatBalance(paxFiatBalance.amount.doubleValue)
 
         balancesChartView.updateTotalFiatBalance(totalBalance.toDisplayString(includeSymbol: true))
 
@@ -396,25 +422,37 @@ final class DashboardController: UIViewController {
                     case .stellar:
                         self.lastXlmExchangeRate = price
                         self.stellarPricePreviewView?.price = formattedPrice
+                    case .pax:
+                        self.lastPaxExchangeRate = price
+                        self.paxPricePreviewView?.price = formattedPrice
                     }
                 }
-                let account = self.stellarAccountService.currentStellarAccount(fromCache: false)
-                _ = account
+                let stellerBalance = self.stellarAccountService
+                    .currentStellarAccount(fromCache: false)
+                    .map { CryptoValue.lumensFromMajor(decimal: $0.assetAccount.balance) }
+                
+                let paxBalance = self.paxAccountRepository
+                    .currentAssetAccountDetails(fromCache: false)
+                    .map { $0.balance }
+                
+                _ = Maybe.zip(stellerBalance, paxBalance)
                     .subscribeOn(MainScheduler.asyncInstance)
                     .observeOn(MainScheduler.instance)
-                    .subscribe(onSuccess: { account in
+                    .subscribe(onSuccess: { stellar, pax in
                         self.reloadBalances([
                             AssetType.bitcoin: self.getBtcBalance(),
                             AssetType.ethereum: self.getEthBalance(),
                             AssetType.bitcoinCash: self.getBchBalance(),
-                            AssetType.stellar: CryptoValue.lumensFromMajor(decimal: account.assetAccount.balance)
+                            AssetType.stellar: stellar,
+                            AssetType.pax: pax
                         ])
                     }, onError: { _ in
                         self.reloadBalances([
                             AssetType.bitcoin: self.getBtcBalance(),
                             AssetType.ethereum: self.getEthBalance(),
                             AssetType.bitcoinCash: self.getBchBalance(),
-                            AssetType.stellar: CryptoValue.lumensFromMajor(int: 0)
+                            AssetType.stellar: CryptoValue.lumensFromMajor(int: 0),
+                            AssetType.pax: CryptoValue.paxFromMajor(decimal: Decimal(0))
                         ])
                     })
             }, onError: { error in
@@ -455,6 +493,9 @@ final class DashboardController: UIViewController {
         case .stellar:
             base = AssetType.stellar.symbol.lowercased()
             entryDate = timeFrame.startDateStellar()
+        case .pax:
+            base = AssetType.pax.symbol.lowercased()
+            entryDate = timeFrame.startDatePax()
         }
 
         startDate = timeFrame.timeFrame == TimeFrameAll || timeFrame.startDate < entryDate ? entryDate : timeFrame.startDate
@@ -545,6 +586,10 @@ extension DashboardController: BCBalancesChartViewDelegate {
 
     func stellarLegendTapped() {
         tabControllerManager.showTransactionsStellar()
+    }
+    
+    func paxLegendTapped() {
+        tabControllerManager.showTransactionsPax()
     }
 
     func watchOnlyViewTapped() {

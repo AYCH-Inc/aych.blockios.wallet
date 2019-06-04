@@ -68,4 +68,32 @@ class AccessibilityIdentifiers: NSObject {
         static let countrySupportedHeaderText = "KYCVerifyIdentityScreen.countrySupportedHeaderText"
         static let countrySupportedSubheaderText = "KYCVerifyIdentityScreen.countrySupportedSubheaderText"
     }
+    
+    @objc(AccessibilityIdentifiers_TabViewContainerScreen) class TabViewContainerScreen: NSObject {
+        @objc static let activity = "TabViewContainerScreen.activity"
+        @objc static let swap = "TabViewContainerScreen.swap"
+        @objc static let home = "TabViewContainerScreen.home"
+        @objc static let send = "TabViewContainerScreen.send"
+        @objc static let request = "TabViewContainerScreen.request"
+    }
+    
+    // MARK: Swap
+    
+    class ExchangeScreen {
+        static let exchangeButton = "ExchangeScreen.exchangeButton"
+        static let confirmButton = "ExchangeScreen.confirmButton"
+        static let backButton = "ExchangeScreen.backButton"
+        static let dismissButton = "ExchangeScreen.dismissButton"
+    }
+    
+    class TradingPairView {
+        static let fromLabel = "TradingPairView.from.titleLabel"
+        static let toLabel = "TradingPairView.to.titleLabel"
+    }
+    
+    class NumberKeypadView {
+        static let numberButton = "NumberKeypadView.numberButton"
+        static let decimalButton = "NumberKeypadView.decimalButton"
+        static let backspace = "NumberKeypadView.backspace"
+    }
 }

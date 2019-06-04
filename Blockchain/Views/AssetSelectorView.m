@@ -55,6 +55,7 @@
         if ([AppFeatureConfigurator.sharedInstance configurationFor:AppFeatureStellar].isEnabled) {
             [allAssets addObject:[NSNumber numberWithInteger:LegacyAssetTypeStellar]];
         }
+        [allAssets addObject:[NSNumber numberWithInteger:LegacyAssetTypePax]];
         self.assets = [allAssets copy];
         
         self.clipsToBounds = YES;

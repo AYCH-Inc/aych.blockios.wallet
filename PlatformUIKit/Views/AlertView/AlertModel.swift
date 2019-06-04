@@ -10,8 +10,10 @@ import UIKit
 
 public struct AlertModel {
     public let image: UIImage?
+    public let imageTintColor: UIColor?
     public let headline: String?
     public let body: String?
+    public let note: String?
     public let actions: [AlertAction]
     public let dismissable: Bool
     public let style: AlertViewStyle
@@ -19,15 +21,19 @@ public struct AlertModel {
     public init(
         headline: String?,
         body: String?,
+        note: String? = nil,
         actions: [AlertAction] = [.defaultDismissal],
         image: UIImage? = nil,
+        imageTintColor: UIColor? = nil,
         dismissable: Bool = true,
         style: AlertViewStyle = .default
     ) {
         self.headline = headline
         self.body = body
+        self.note = note
         self.actions = actions
         self.image = image
+        self.imageTintColor = imageTintColor
         self.dismissable = dismissable
         self.style = style
     }

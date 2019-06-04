@@ -113,6 +113,22 @@ class StellarFeeService: StellarFeeServiceAPI {
     }
 }
 
+class EthereumFeeService: EthereumFeeServiceAPI {
+    static let shared: EthereumFeeService = EthereumFeeService()
+    
+    // MARK: Public Properties
+    
+    var fees: Single<EthereumTransactionFee> {
+        return cryptoFeeService.fees
+    }
+    
+    private let cryptoFeeService: CryptoFeeService<EthereumTransactionFee>
+    
+    init(cryptoFeeService: CryptoFeeService<EthereumTransactionFee> = CryptoFeeService<EthereumTransactionFee>.shared) {
+        self.cryptoFeeService = cryptoFeeService
+    }
+}
+
 extension CryptoFeeService where T == StellarTransactionFee {
     static let shared: CryptoFeeService<T> = CryptoFeeService<T>()
 }

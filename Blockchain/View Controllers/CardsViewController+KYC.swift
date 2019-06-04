@@ -18,9 +18,22 @@ extension CardsViewController {
     @objc func registerForNotifications() {
         NotificationCenter.when(Constants.NotificationKeys.walletSetupViewControllerDismissed) { [weak self] _ in
             guard let self = self else { return }
-            let hasSeenXLMModel = BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal
+
+            let hasSeenXLMModal = BlockchainSettings.Onboarding.shared.hasSeenGetFreeXlmModal
+            guard !hasSeenXLMModal else {
+                return
+            }
+
             let didDeepLink = BlockchainSettings.App.shared.didTapOnAirdropDeepLink
-            guard hasSeenXLMModel == false, didDeepLink == false else { return }
+            guard !didDeepLink else {
+                return
+            }
+
+            let isPopUpEnabled = AppFeatureConfigurator.shared.configuration(for: .stellarAirdropPopup).isEnabled
+            guard isPopUpEnabled else {
+                return
+            }
+
             self.showStellarModalPromptForKyc()
         }
     }
@@ -79,6 +92,7 @@ extension CardsViewController {
         guard appSettings.isPinSet == true else { return false }
 
         let airdropConfig = AppFeatureConfigurator.shared.configuration(for: .stellarAirdrop)
+        let stellarPopupConfig = AppFeatureConfigurator.shared.configuration(for: .stellarAirdropPopup)
         let coinifyConfig = AppFeatureConfigurator.shared.configuration(for: .notifyCoinifyUserToKyc)
         let kycSettings = KYCSettings.shared
         let onboardingSettings = BlockchainSettings.Onboarding.shared
@@ -102,7 +116,8 @@ extension CardsViewController {
         let shouldShowStellarModalPromptForAirdropRegistration =
             nabuUser.isSunriverAirdropRegistered == false &&
             (tiersResponse.isTier2Pending || tiersResponse.isTier2Verified) &&
-            hasSeenStellarRegistrationAlert == false
+            hasSeenStellarRegistrationAlert == false &&
+            stellarPopupConfig.isEnabled
 
         if shouldShowCoinifyKycModal {
             showCoinifyKycModal()

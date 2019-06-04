@@ -893,7 +893,7 @@ struct LocalizationConstants {
             comment: "Description of an alert that notifies the user that airdrop registration has succeded"
         )
         static let bottomSheetCoinifyInfoTitle = NSLocalizedString("More Info Needed", comment: "Title of an alert informing a user that personal information needs to be updated.")
-        static let bottomSheetCoinifyInfoDescription = NSLocalizedString("To keep using Buy & Sell, we'll need you to update your profile. We'll airdrop $50 of XLM as a thank you when you do!", comment: "Description of an alert informing a user that personal information needs to be updated.")
+        static let bottomSheetCoinifyInfoDescription = NSLocalizedString("To keep using Buy & Sell, you'll need to update your profile. Once completed, you'll also unlock higher trading limits in Swap. ", comment: "Description of an alert informing a user that personal information needs to be updated.")
         static let bottomSheetCoinifyInfoAction = NSLocalizedString("Get Free XLM", comment: "Action button title of an alert informing a user that personal information needs to be updated.")
         static let updateNow = NSLocalizedString("Update Now", comment: "Title of a button that a user can tap on to update their information")
         static let learnMore = NSLocalizedString("Learn More", comment: "Title of a button that a user can tap on to learn more about an announcement")
@@ -902,7 +902,7 @@ struct LocalizationConstants {
             comment: "Title of a bottom sheet alert prompting the user to complete KYC"
         )
         static let bottomSheetPromptForKycDescription = NSLocalizedString(
-            "Complete your profile today and we will airdrop free Stellar (XLM) in your Wallet.",
+            "Complete your profile to start instantly trading crypto from the security of your wallet. Pro tip: Gold level gets you higher limits and future airdrops. ",
             comment: "Description of a bottom sheet alert prompting the user to complete KYC"
         )
         static let bottomSheetPromptForKycAction = NSLocalizedString(

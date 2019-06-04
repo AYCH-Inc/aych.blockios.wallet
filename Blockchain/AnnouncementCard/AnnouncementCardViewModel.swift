@@ -75,7 +75,7 @@ extension AnnouncementCardViewModel {
         return AnnouncementCardViewModel(
             title: LocalizationConstants.Stellar.weNowSupportStellar,
             message: LocalizationConstants.Stellar.weNowSupportStellarDescription,
-            actionButtonTitle: LocalizationConstants.Stellar.claimYourFreeXLMNow,
+            actionButtonTitle: LocalizationConstants.Stellar.getStellarNow,
             image: #imageLiteral(resourceName: "symbol-xlm"),
             imageTint: AssetType.stellar.brandColor,
             action: action,

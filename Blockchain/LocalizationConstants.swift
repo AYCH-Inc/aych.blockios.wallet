@@ -940,7 +940,6 @@ struct LocalizationConstants {
         )
         static let buySellCardTitle = NSLocalizedString("The wait is over", comment: "The title of the card.")
         static let continueKYCCardTitle = NSLocalizedString("Verify Your Identity", comment: "The title of the card.")
-        static let verifyAndGetCrypto = NSLocalizedString("Verify & Get Free Crypto", comment: "Alert that is shown when a user taps Buy/Sell")
         static let buySellCardDescription = NSLocalizedString(
             "Buy and sell bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab.",
             comment: "The description displayed on the card."

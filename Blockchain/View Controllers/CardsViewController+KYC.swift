@@ -99,7 +99,8 @@ extension CardsViewController {
 
         let shouldShowStellarAirdropCard = airdropConfig.isEnabled &&
             !onboardingSettings.hasSeenAirdropJoinWaitlistCard &&
-            !appSettings.didTapOnAirdropDeepLink
+            !appSettings.didTapOnAirdropDeepLink &&
+            stellarPopupConfig.isEnabled
         let shouldShowContinueKYCAnnouncementCard = kycSettings.isCompletingKyc
         let shouldShowStellarView = airdropConfig.isEnabled &&
             !appSettings.didTapOnAirdropDeepLink &&
@@ -261,14 +262,13 @@ extension CardsViewController {
             style: .sheet
         )
         let alert = AlertView.make(with: alertModel) { action in
+            BlockchainSettings.Onboarding.shared.hasSeenStellarAirdropRegistrationAlert = true
             switch action.style {
             case .confirm:
-                BlockchainSettings.Onboarding.shared.hasSeenStellarAirdropRegistrationAlert = true
                 self.stellarModalPromptForAirdropRegistrationActionTapped()
-            case .default:
+            case .default,
+                 .dismiss:
                 break
-            case .dismiss:
-                BlockchainSettings.Onboarding.shared.hasSeenStellarAirdropRegistrationAlert = true
             }
         }
         alert.show()

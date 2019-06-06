@@ -101,10 +101,6 @@ extension CardsViewController {
             !onboardingSettings.hasSeenAirdropJoinWaitlistCard &&
             !appSettings.didTapOnAirdropDeepLink
         let shouldShowContinueKYCAnnouncementCard = kycSettings.isCompletingKyc
-        let shouldShowAirdropPending = airdropConfig.isEnabled &&
-            nabuUser.isSunriverAirdropRegistered &&
-            nabuUser.status == .approved &&
-            !appSettings.didSeeAirdropPending
         let shouldShowStellarView = airdropConfig.isEnabled &&
             !appSettings.didTapOnAirdropDeepLink &&
             tiersResponse.canCompleteTier2
@@ -120,9 +116,6 @@ extension CardsViewController {
 
         if shouldShowCoinifyKycModal {
             showCoinifyKycModal()
-            return true
-        } else if shouldShowAirdropPending {
-            showAirdropPending()
             return true
         } else if nabuUser.needsDocumentResubmission != nil {
             showUploadDocumentsCard()
@@ -145,14 +138,6 @@ extension CardsViewController {
             return true
         }
         return false
-    }
-
-    private func showAirdropPending() {
-        let model = AnnouncementCardViewModel.airdropOnItsWay(action: {}, onClose: { [weak self] in
-            BlockchainSettings.App.shared.didSeeAirdropPending = true
-            self?.animateHideCards()
-        })
-        showSingleCard(with: model)
     }
 
     private func showStellarAirdropCard() {

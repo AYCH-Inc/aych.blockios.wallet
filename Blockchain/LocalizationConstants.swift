@@ -1470,7 +1470,7 @@ struct LocalizationConstants {
             comment: "Text displayed when user is starting KYC"
         )
         static let welcomeMainTextSunRiverCampaign = NSLocalizedString(
-            "Verify your identity to claim your XLM. It only takes a few minutes. Once verified, you'll be able to use our next generation trading product.",
+            "Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program.",
             comment: "Text displayed when user is starting KYC coming from the airdrop link"
         )
         static let invalidPhoneNumber = NSLocalizedString(

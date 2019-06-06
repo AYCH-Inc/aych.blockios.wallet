@@ -1493,7 +1493,7 @@ struct LocalizationConstants {
             comment: "Description for when KYC verification is in progress."
         )
         static let verificationInProgressDescriptionAirdrop = NSLocalizedString(
-            "Your information is being reviewed. The review should complete in 5 minutes. Once you're successfully verified, we'll send your XLM within one week.",
+            "Your information is being reviewed. The review should complete in 5 minutes. Please be aware there is a large waiting list for Stellar airdrops and unfortunately not all applications for free XLM will be successful.",
             comment: "Description for when KYC verification is in progress and the user is waiting for a Stellar airdrop."
         )
         static let accountApproved = NSLocalizedString(

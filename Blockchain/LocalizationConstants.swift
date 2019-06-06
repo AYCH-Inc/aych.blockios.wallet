@@ -2007,9 +2007,13 @@ struct LocalizationConstants {
             "Minimum of 1.0 XLM needed for new accounts",
             comment: "This is the error shown when too little XLM is sent to a primary key that does not yet have an XLM account"
         )
-        static let claimYourStellarXLM = NSLocalizedString(
-            "Claim Your Stellar (XLM)",
+        static let kycAirdropTitle = NSLocalizedString(
+            "Go for Gold",
             comment: "Title displayed in the onboarding card prompting the user to join the waitlist to receive Stellar."
+        )
+        static let kycAirdropDescription = NSLocalizedString(
+            "Complete your profile to start instantly trading crypto from the security of your wallet.",
+            comment: "Description displayed on the onboarding card prompting the user to complete KYC to receive their airdrop."
         )
         static let weNowSupportStellar = NSLocalizedString(
             "We Now Support Stellar",
@@ -2022,10 +2026,6 @@ struct LocalizationConstants {
         static let getStellarNow = NSLocalizedString(
             "Get Stellar Now",
             comment: "CTA prompting the user to join the XLM waitlist."
-        )
-        static let claimYourStellarDescription = NSLocalizedString(
-            "Looks like you've started verifying your identity but didn't finish. Pick up where you left off.",
-            comment: "Description displayed on the onboarding card prompting the user to complete KYC to receive their airdrop."
         )
         static let yourXLMIsOnItsWay = NSLocalizedString(
             "Your XLM is on its way",

@@ -191,14 +191,13 @@ extension CardsViewController {
     private func showCoinifyKycModal() {
         didShowCoinifyKycModal = true
 
-        let updateNow = AlertAction(style: .confirm(LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoAction))
+        let updateNow = AlertAction(style: .confirm(LocalizationConstants.beginNow))
         let learnMore = AlertAction(style: .default(LocalizationConstants.AnnouncementCards.learnMore))
         let alertModel = AlertModel(
             headline: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoTitle,
             body: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoDescription,
             actions: [updateNow, learnMore],
-            image: UIImage(named: "symbol-xlm"),
-            imageTintColor: AssetType.stellar.brandColor,
+            image: UIImage(named: "Icon-Information"),
             dismissable: true,
             style: .sheet
         )

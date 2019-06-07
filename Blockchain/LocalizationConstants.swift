@@ -895,7 +895,6 @@ struct LocalizationConstants {
         )
         static let bottomSheetCoinifyInfoTitle = NSLocalizedString("More Info Needed", comment: "Title of an alert informing a user that personal information needs to be updated.")
         static let bottomSheetCoinifyInfoDescription = NSLocalizedString("To keep using Buy & Sell, you'll need to update your profile. Once completed, you'll also unlock higher trading limits in Swap. ", comment: "Description of an alert informing a user that personal information needs to be updated.")
-        static let bottomSheetCoinifyInfoAction = NSLocalizedString("Get Free XLM", comment: "Action button title of an alert informing a user that personal information needs to be updated.")
         static let updateNow = NSLocalizedString("Update Now", comment: "Title of a button that a user can tap on to update their information")
         static let learnMore = NSLocalizedString("Learn More", comment: "Title of a button that a user can tap on to learn more about an announcement")
         static let bottomSheetPromptForKycTitle = NSLocalizedString(

@@ -202,6 +202,7 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
         serviceProvider.services.walletService.fetchHistoryIfNeeded
             .subscribe()
             .disposed(by: bag)
+        calculator.handle(event: .resume)
         
         let fiatCurrencyCode = BlockchainSettings.App.shared.fiatCurrencyCode
         interface.apply(updates: [.fiatCurrencyLabel(fiatCurrencyCode)])

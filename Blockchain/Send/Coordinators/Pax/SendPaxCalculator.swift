@@ -16,6 +16,9 @@ import ERC20Kit
 
 enum SendMoniesEventPublic {
     case start
+    /// The PAX screen is now in the forefront and the
+    /// model needs to be re-evaluated.
+    case resume
     /// The user altered the address entry field.
     case addressEntryEvent(String)
     /// The user altered the PAX send amount
@@ -78,6 +81,8 @@ class SendPaxCalculator {
         switch event {
         case .start:
             model = SendPaxViewModel(input: .empty)
+            validate(input: model.input)
+        case .resume:
             validate(input: model.input)
         case .fiatValueEntryEvent(let value):
             updateFiatValue(value)

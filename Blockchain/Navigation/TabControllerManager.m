@@ -201,6 +201,7 @@
     self.receiveBitcoinCashViewController = nil;
     self.transactionsStellarViewController = nil;
     self.sendLumensViewController = nil;
+    self.sendPaxViewController = nil;
     self.exchangeContainerViewController = nil;
     [_transactionsBitcoinViewController setData:nil];
 }

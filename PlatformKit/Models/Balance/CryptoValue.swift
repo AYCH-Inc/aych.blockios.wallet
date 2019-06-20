@@ -173,8 +173,8 @@ public extension CryptoValue {
         return CryptoValue(currencyType: assetType, amount: value)
     }
 
-    public static func createFromMajorValue(string value: String, assetType: CryptoCurrency) -> CryptoValue? {
-        guard let valueDecimal = Decimal(string: value) else {
+    public static func createFromMajorValue(string value: String, assetType: CryptoCurrency, locale: Locale = Locale.current) -> CryptoValue? {
+        guard let valueDecimal = Decimal(string: value, locale: locale) else {
             return nil
         }
         let minorDecimal = valueDecimal * pow(10, assetType.maxDecimalPlaces)

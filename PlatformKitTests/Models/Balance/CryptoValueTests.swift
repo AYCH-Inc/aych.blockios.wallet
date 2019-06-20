@@ -75,6 +75,13 @@ class CryptoValueTests: XCTestCase {
         )
     }
 
+    func testCreateWithAnotherLocale() {
+        XCTAssertEqual(
+            123000000,
+            CryptoValue.createFromMajorValue(string: "1,23", assetType: .bitcoin, locale: Locale.France)!.amount
+        )
+    }
+
     func testCreateFromMajorEth() {
         let decimalPlaces = CryptoCurrency.ethereum.maxDecimalPlaces
         XCTAssertEqual(

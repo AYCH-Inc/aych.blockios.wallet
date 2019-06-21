@@ -52,8 +52,6 @@ extension SideMenuItem {
     
     var isNew: Bool {
         switch self {
-        case .lockbox:
-            return true
         case .accountsAndAddresses,
              .backup,
              .buyBitcoin,
@@ -61,6 +59,7 @@ extension SideMenuItem {
              .settings,
              .support,
              .upgrade,
+             .lockbox,
              .webLogin:
             return false
         }

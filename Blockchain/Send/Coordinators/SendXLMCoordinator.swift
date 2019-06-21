@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import PlatformKit
+import StellarKit
 
 class SendXLMCoordinator {
     fileprivate let serviceProvider: XLMServiceProvider

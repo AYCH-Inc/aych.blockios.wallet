@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import PlatformKit
 import EthereumKit
+import StellarKit
 import ERC20Kit
 
 /// A repository for `AssetAccount` objects
@@ -83,7 +84,18 @@ class AssetAccountRepository {
         
         if assetType == .stellar {
             if fromCache == false {
-                return stellarAccountService.currentStellarAccount(fromCache: false).map({ return [$0.assetAccount] })
+                return stellarAccountService.currentStellarAccount(fromCache: false)
+                    .catchError { error -> Maybe<StellarAccount> in
+                        /// Should Horizon go down or should we have an error when
+                        /// retrieving the user's account details, we just want to return
+                        /// a `Maybe.empty()`. If we return an error, the user will not be able
+                        /// to see any of their available accounts in `Swap`. 
+                        guard error is StellarServiceError else {
+                            return Maybe.error(error)
+                        }
+                        return Maybe.empty()
+                    }
+                    .map({ return [$0.assetAccount] })
             }
             if let stellarAccount = defaultStellarAccount() {
                 return Maybe.just([stellarAccount])

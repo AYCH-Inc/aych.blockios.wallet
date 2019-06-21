@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import stellarsdk
+import StellarKit
 
 class StellarTransactionServiceAPI: SimpleListServiceAPI {
     

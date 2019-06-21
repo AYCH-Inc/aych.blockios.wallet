@@ -24,6 +24,36 @@ public enum StellarServiceError: Error, Equatable {
 }
 
 public extension StellarServiceError {
+    /// Enums can't conform to `String` if they have an associated value.
+    var message: String {
+        switch self {
+        case .badRequest(message: let value):
+            return value
+        case .insufficientFundsForNewAccount:
+            return "insufficientFundsForNewAccount"
+        case .noDefaultAccount:
+            return "noDefaultAccount"
+        case .noXLMAccount:
+            return "noXLMAccount"
+        case .rateLimitExceeded:
+            return "rateLimitExceeded"
+        case .internalError:
+            return "internalError"
+        case .parsingError:
+            return "parsingError"
+        case .unauthorized:
+            return "unauthorized"
+        case .forbidden:
+            return "forbidden"
+        case .amountTooLow:
+            return "amountTooLow"
+        case .unknown:
+            return "unknown"
+        }
+    }
+}
+
+public extension StellarServiceError {
     public static func ==(lhs: StellarServiceError, rhs: StellarServiceError) -> Bool {
         switch (lhs, rhs) {
         case (.insufficientFundsForNewAccount, .insufficientFundsForNewAccount),

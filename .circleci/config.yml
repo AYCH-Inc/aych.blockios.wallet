@@ -358,6 +358,17 @@ jobs:
             appcenter telemetry off --disable-telemetry
             appcenter login --token $APP_CENTER_API_TOKEN --quiet
             appcenter distribute release -f ./output_ad_hoc/Blockchain.ipa -g Testers --app $APP_CENTER_PRODUCTION_APP --release-notes-file ./output_ad_hoc/ReleaseNotes.txt --quiet
+  upload_dsyms:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /Users/distiller/project
+      - run:
+          name: Zip .dSYM file
+          command: zip -r Blockchain.app.dSYM.zip ./output/Blockchain.xcarchive/dSYMs/Blockchain.app.dSYM/*
+      - run:
+          name: Upload dSYMs to Firebase
+          command: bundle exec fastlane upload_dsyms
   upload_app_store:
     <<: *defaults
     steps:
@@ -448,6 +459,13 @@ workflows:
             - install_deps
             - build_openssl
             - install_pods
+      - upload_dsyms:
+          filters:
+            tags:
+              only: /v\d+\.\d+\.\d+\(\d+\)$/
+          requires:
+            - run_tests
+            - archive_and_export_production_app_store
       - upload_app_store:
           filters:
             tags:
@@ -511,6 +529,15 @@ workflows:
             - install_deps
             - build_openssl
             - install_pods
+      - upload_dsyms:
+          filters:
+            branches:
+              only:
+                - dev
+                - chris/IOS-1684/upload_dsyms
+          requires:
+            - run_tests
+            - archive_and_export_staging_ad_hoc
       - upload_app_center_staging:
           filters:
             branches:

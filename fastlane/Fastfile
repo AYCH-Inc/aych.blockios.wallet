@@ -67,4 +67,11 @@ platform :ios do
       skip_waiting_for_build_processing: true
     )
   end
+  desc "Download dSYM file from iTunes and uploads it to Crashlytics"
+  lane :upload_dsyms do
+    upload_symbols_to_crashlytics(
+      dsym_path: "./Blockchain.app.dSYM.zip",
+      gsp_path: "./Blockchain/Firebase/Prod/GoogleService-Info.plist"
+    )
+  end
 end

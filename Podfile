@@ -12,6 +12,7 @@ target 'Blockchain' do
   pod 'Alamofire', '~> 4.7'
   pod 'BigInt', '~> 3.1'
   pod 'Charts', '~> 3.2.1'
+  pod 'Fabric', '~> 1.10.1'
   pod 'Firebase/Core', '~> 5.17.0'
   pod 'Firebase/DynamicLinks', '~> 5.17.0'
   pod 'Firebase/RemoteConfig', '~> 5.17.0'

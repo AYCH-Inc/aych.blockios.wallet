@@ -12,10 +12,16 @@ import Foundation
     typealias AlertConfirmHandler = ((UIAlertAction) -> Void)
 
     static let shared = AlertViewPresenter()
-
     @objc class func sharedInstance() -> AlertViewPresenter { return shared }
 
-    private override init() {
+    // MARK: - Services
+    
+    private let recorder: Recording
+    
+    // MARK: - Setup
+    
+    private init(recorder: Recording = CrashlyticsRecorder()) {
+        self.recorder = recorder
         super.init()
     }
 
@@ -135,6 +141,7 @@ import Foundation
     }
 
     private func standardNotify(alert: UIAlertController, in viewController: UIViewController? = nil) {
+        record()
         DispatchQueue.main.async {
             let window = UIApplication.shared.keyWindow
             let rootController = window?.rootViewController
@@ -144,9 +151,16 @@ import Foundation
     }
 
     private func present(alert: UIAlertController) {
+        record()
         UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
             alert,
             animated: true
         )
+    }
+    
+    /// Records information about the presented context
+    private func record() {
+        recorder.record()
+        recorder.recordIllegalUIOperationIfNeeded()
     }
 }

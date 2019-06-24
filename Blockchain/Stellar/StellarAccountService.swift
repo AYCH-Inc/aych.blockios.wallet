@@ -208,8 +208,8 @@ extension AccountResponse {
         return StellarAccount(
             identifier: accountId,
             assetAccount: assetAccount,
-            sequence: Int(sequenceNumber),
-            subentryCount: Int(subentryCount)
+            sequence: sequenceNumber,
+            subentryCount: subentryCount
         )
     }
 }

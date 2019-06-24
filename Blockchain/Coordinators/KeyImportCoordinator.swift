@@ -75,8 +75,10 @@ import PlatformKit
             )
             .with(loadingViewPresenter: LoadingViewPresenter.shared)
             .build()
+        
+        guard let qrCodeScannerViewController = qrCodeScannerViewController else { return }
 
-        viewController.present(qrCodeScannerViewController!, animated: true, completion: nil)
+        viewController.present(qrCodeScannerViewController, animated: true, completion: nil)
     }
     
     // TODO: remove once LegacyPrivateKeyDelegate is deprecated
@@ -104,8 +106,10 @@ import PlatformKit
             )
             .with(loadingViewPresenter: LoadingViewPresenter.shared)
             .build()
+        
+        guard let qrCodeScannerViewController = qrCodeScannerViewController else { return }
 
-        viewController.present(qrCodeScannerViewController!, animated: true, completion: nil)
+        viewController.present(qrCodeScannerViewController, animated: true, completion: nil)
     }
     
     private func handlePrivateKeyScan(result: NewResult<PrivateKeyQRCodeParser.PrivateKey, PrivateKeyQRCodeParser.PrivateKeyQRCodeParserError>, delegate: PrivateKeyReaderDelegate) {

@@ -3366,7 +3366,6 @@ NSString * const kLockboxInvitation = @"lockbox";
 
     NSRange updateSMSErrorStringRange = [message rangeOfString:@"sms-error" options:NSCaseInsensitiveSearch range:NSMakeRange(0, message.length) locale:[NSLocale currentLocale]];
     if (updateSMSErrorStringRange.location != NSNotFound) {
-        [self performSelector:@selector(on_change_mobile_number_error) withObject:nil afterDelay:0.1f];
         return;
     }
 

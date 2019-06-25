@@ -14,8 +14,13 @@ typealias OnModalDismissed = () -> Void
 typealias OnModalResumed = () -> Void
 
 @objc class ModalPresenter: NSObject {
+    
     static let shared = ModalPresenter()
-
+    // class function declared so that the ModalPresenter singleton can be accessed from obj-C
+    @objc class func sharedInstance() -> ModalPresenter {
+        return ModalPresenter.shared
+    }
+    
     @objc private(set) var modalView: BCModalView?
 
     private var modalChain: [BCModalView] = []
@@ -23,23 +28,23 @@ typealias OnModalResumed = () -> Void
     private var topMostView: UIView? {
         return UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.view
     }
+    
+    private let recorder: UIOperationRecording
 
-    // class function declared so that the ModalPresenter singleton can be accessed from obj-C
-    @objc class func sharedInstance() -> ModalPresenter {
-        return ModalPresenter.shared
-    }
-
-    private override init() {
+    private init(recorder: UIOperationRecording = CrashlyticsRecorder()) {
+        self.recorder = recorder
         super.init()
     }
 
     @objc func closeAllModals() {
+        recorder.recordIllegalUIOperationIfNeeded()
+
         LoadingViewPresenter.shared.hideBusyView()
 
         WalletManager.shared.wallet.isSyncing = false
 
         guard let modalView = modalView else { return }
-
+        
         modalView.endEditing(true)
         modalView.removeFromSuperview()
 
@@ -65,11 +70,13 @@ typealias OnModalResumed = () -> Void
     }
 
     @objc func closeModal(withTransition transition: String) {
+        recorder.recordIllegalUIOperationIfNeeded()
+
         guard let modalView = modalView else {
             Logger.shared.warning("Cannot close modal. modalView is nil.")
             return
         }
-
+        
         NotificationCenter.default.post(name: Constants.NotificationKeys.modalViewDismissed, object: nil)
 
         modalView.removeFromSuperview()
@@ -114,6 +121,7 @@ typealias OnModalResumed = () -> Void
         onDismiss: OnModalDismissed? = nil,
         onResume: OnModalResumed? = nil
     ) {
+        recorder.recordIllegalUIOperationIfNeeded()
 
         // Remove the modal if we have one
         if let modalView = modalView {

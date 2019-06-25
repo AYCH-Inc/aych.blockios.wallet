@@ -13,6 +13,10 @@ import PlatformKit
 @objc class LoadingViewPresenter: NSObject {
 
     static let shared = LoadingViewPresenter()
+    
+    /// sharedInstance function declared so that the LoadingViewPresenter singleton can be accessed
+    /// from Obj-C. Should deprecate this once all Obj-c references have been removed.
+    @objc class func sharedInstance() -> LoadingViewPresenter { return shared }
 
     @objc private lazy var busyView: BCFadeView = {
         let busyView = BCFadeView.instanceFromNib()
@@ -24,17 +28,18 @@ import PlatformKit
     @objc var isLoadingShown: Bool {
         return busyView.superview != nil && busyView.alpha == 1.0
     }
+    
+    // MARK: - Services
 
-    /// sharedInstance function declared so that the LoadingViewPresenter singleton can be accessed
-    /// from Obj-C. Should deprecate this once all Obj-c references have been removed.
-    @objc class func sharedInstance() -> LoadingViewPresenter { return shared }
-
-    private override init() {
+    private let recorder: UIOperationRecording
+    
+    private init(recorder: UIOperationRecording = CrashlyticsRecorder()) {
+        self.recorder = recorder
         super.init()
     }
 
     @objc func hideBusyView() {
-
+        recorder.recordIllegalUIOperationIfNeeded()
         guard self.isLoadingShown else {
             Logger.shared.info("Cannot hide busy view, already not shown.")
             return
@@ -49,7 +54,7 @@ import PlatformKit
     }
 
     @objc func showBusyView(withLoadingText text: String) {
-
+        recorder.recordIllegalUIOperationIfNeeded()
         if AppCoordinator.shared.tabControllerManager.isSending() && ModalPresenter.shared.modalView != nil {
             Logger.shared.info("Send progress modal is presented - will not show busy view")
             return
@@ -68,6 +73,7 @@ import PlatformKit
     }
 
     @objc func updateBusyViewLoadingText(text: String) {
+        recorder.recordIllegalUIOperationIfNeeded()
         let topMostViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController
 
         if let topViewController = topMostViewController as? TopViewController {

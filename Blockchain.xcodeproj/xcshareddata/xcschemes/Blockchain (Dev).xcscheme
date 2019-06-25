@@ -27,7 +27,59 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "9FB3637014B60128004BEA02"
+            BuildableName = "Blockchain.app"
+            BlueprintName = "Blockchain"
+            ReferencedContainer = "container:Blockchain.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "3A4E488021BF3070001A799D"
+            BuildableName = "BitcoinKit.framework"
+            BlueprintName = "BitcoinKit"
+            ReferencedContainer = "container:Blockchain.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "34EDB8262261065D009521D9"
+            BuildableName = "ERC20Kit.framework"
+            BlueprintName = "ERC20Kit"
+            ReferencedContainer = "container:Blockchain.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "3A6A1A1621B9A64D00D97C74"
+            BuildableName = "EthereumKit.framework"
+            BlueprintName = "EthereumKit"
+            ReferencedContainer = "container:Blockchain.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "3A68655C219A0BBA0009FF29"
+            BuildableName = "PlatformKit.framework"
+            BlueprintName = "PlatformKit"
+            ReferencedContainer = "container:Blockchain.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "3A6865AA219A11650009FF29"
+            BuildableName = "PlatformUIKit.framework"
+            BlueprintName = "PlatformUIKit"
+            ReferencedContainer = "container:Blockchain.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "3A6865DC219A26A30009FF29"
+            BuildableName = "StellarKit.framework"
+            BlueprintName = "StellarKit"
+            ReferencedContainer = "container:Blockchain.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
          <TestableReference
             skipped = "NO">

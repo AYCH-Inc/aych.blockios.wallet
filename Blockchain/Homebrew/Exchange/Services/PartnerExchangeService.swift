@@ -57,11 +57,17 @@ extension PartnerExchangeService: WalletPartnerExchangeDelegate {
             return
         }
         guard let input = trades as? [ExchangeTrade] else { return }
-        let models: [ExchangeTradeModel] = input.map({
-            let partnerTrade = PartnerTrade(with: $0)
+        let models: [ExchangeTradeModel] = input.compactMap {
+            let partnerTrade: PartnerTrade
+            do {
+                partnerTrade = try PartnerTrade(with: $0)
+            } catch {
+                Logger.shared.error(error)
+                return nil
+            }
             let value: ExchangeTradeModel = .partner(partnerTrade)
             return value
-        })
+        }
         if let block = completionBlock {
             block(.success(models))
         }

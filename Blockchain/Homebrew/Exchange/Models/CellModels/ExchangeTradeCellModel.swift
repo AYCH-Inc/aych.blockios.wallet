@@ -239,6 +239,16 @@ extension ExchangeTradeModel {
 
 struct PartnerTrade {
     
+    enum InitError: Error {
+        case invalidMinerFee
+        case invalidPair
+        case invalidAmountReceivedCrypto
+        case invalidAmountReceivedFiat
+        case amountDepositedCrypto
+        case amountDepositedFiat
+        case invalidAssetType
+    }
+    
     typealias TradeStatus = ExchangeTradeModel.TradeStatus
     
     let identifier: String
@@ -254,54 +264,47 @@ struct PartnerTrade {
     let amountDepositedCryptoValue: String
     let amountDepositedFiatValue: String
     
-    init(with trade: ExchangeTrade) {
+    init(with trade: ExchangeTrade) throws {
         identifier = trade.orderID
         status = TradeStatus(shapeshift: trade.status)
         transactionDate = trade.date
         destination = trade.withdrawal
         deposit = trade.deposit
         
-        if let value = trade.minerFeeCryptoAmount() {
-            minerFee = value
-        } else {
-            fatalError("Failed to map minerFee")
+        guard let value = trade.minerFeeCryptoAmount() else {
+            throw InitError.invalidMinerFee
         }
+        minerFee = value
         
-        if let pairType = TradingPair(string: trade.pair) {
-            pair = pairType
-        } else {
-            fatalError("Failed to map pair")
+        guard let pairType = TradingPair(string: trade.pair) else {
+            throw InitError.invalidPair
         }
+        pair = pairType
         
-        if let value = trade.inboundCryptoAmount() {
-            amountReceivedCryptoValue = value
-        } else {
-            fatalError("Failed to map amountReceivedCryptoValue)")
+        guard let amountReceivedCrypto = trade.inboundCryptoAmount() else {
+            throw InitError.invalidAmountReceivedCrypto
         }
+        amountReceivedCryptoValue = amountReceivedCrypto
         
-        if let value = trade.inboundFiatAmount() {
-            amountReceivedFiatValue = value
-        } else {
-            fatalError("Failed to map amountReceivedFiatValue)")
+        guard let amountReceivedFiat = trade.inboundFiatAmount() else {
+            throw InitError.invalidAmountReceivedFiat
         }
+        amountReceivedFiatValue = amountReceivedFiat
         
-        if let value = trade.outboundCryptoAmount() {
-            amountDepositedCryptoValue = value
-        } else {
-            fatalError("Failed to map amountDepositedCryptoValue)")
+        guard let amountDepositedCrypto = trade.outboundCryptoAmount() else {
+            throw InitError.amountDepositedCrypto
         }
+        amountDepositedCryptoValue = amountDepositedCrypto
         
-        if let value = trade.outboundFiatAmount() {
-            amountDepositedFiatValue = value
-        } else {
-            fatalError("Failed to map amountDepositedFiatValue)")
+        guard let amountDepositedFiat = trade.outboundFiatAmount() else {
+            throw InitError.invalidAmountReceivedFiat
         }
+        amountDepositedFiatValue = amountDepositedFiat
         
-        if let asset = AssetType(stringValue: trade.withdrawalCurrency()) {
-            assetType = asset
-        } else {
-            fatalError("Failed to map assetType")
+        guard let asset = AssetType(stringValue: trade.withdrawalCurrency()) else {
+            throw InitError.invalidAssetType
         }
+        assetType = asset
     }
 }
 

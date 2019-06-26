@@ -156,12 +156,12 @@ extension EthereumJSInteropDispatcher: EthereumJSInteropDelegateAPI {
     }
     
     public func didGetTransactions(_ transactions: JSValue) {
-        guard let transactionsDictionaries = transactions.toArray() as? [[String: Any]] else {
+        guard let transactionsDictionaries = transactions.toArray() as? [[String: AnyObject]] else {
             getTransactions.sendFailure(.unknown)
             return
         }
-        let convertedTransactions = transactionsDictionaries.compactMap { dict in
-            return EtherTransaction.fromJSONDict(dict)
+        let convertedTransactions = transactionsDictionaries.map { dict in
+            return EtherTransaction.fromJSON(dict: dict)
         }
         getTransactions.sendSuccess(with: convertedTransactions)
     }

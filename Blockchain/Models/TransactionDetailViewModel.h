@@ -27,7 +27,7 @@
 @property (nonatomic) uint64_t time;
 @property (nonatomic) NSString *detailButtonTitle;
 @property (nonatomic) NSString *detailButtonLink;
-@property (nonatomic) NSMutableDictionary *fiatAmountsAtTime;
+@property (nonatomic) NSMutableDictionary<NSString *, id> * _Nullable fiatAmountsAtTime;
 @property (nonatomic) BOOL doubleSpend;
 @property (nonatomic) BOOL replaceByFee;
 @property (nonatomic) NSString *confirmationsString;

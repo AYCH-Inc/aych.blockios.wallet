@@ -7,7 +7,6 @@
 //
 
 import Foundation
-
 import EthereumKit
 import PlatformKit
 
@@ -35,7 +34,7 @@ extension EtherTransaction {
         guard let transaction = transaction else { return }
         
         self.amount = transaction.amount
-        self.amountTruncated = EtherTransaction.truncatedAmount(transaction.amount)
+        self.amountTruncated = EtherTransaction.truncated(amount: transaction.amount)
         let transactionFee = transaction.fee ?? CryptoValue.etherFromGwei(string: "0")
         self.fee = transactionFee?.toDisplayString(includeSymbol: false)
         self.from = transaction.fromAddress.publicKey
@@ -71,7 +70,7 @@ extension EtherTransaction {
         
         guard let direction = TxType(rawValue: txType)?.platformDirection,
             let f = legacyTransaction.fee else {
-                return nil
+            return nil
         }
         
         // Convert from Ether to GWei

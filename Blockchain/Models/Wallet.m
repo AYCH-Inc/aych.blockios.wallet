@@ -9,7 +9,6 @@
 
 #import "Wallet.h"
 #import "Transaction.h"
-#import "EtherTransaction.h"
 #import "MultiAddressResponse.h"
 #import "UncaughtExceptionHandler.h"
 #import "NSString+JSONParser_NSString.h"

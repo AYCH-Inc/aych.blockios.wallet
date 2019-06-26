@@ -8,7 +8,6 @@
 
 #import <ERC20Kit/ERC20Kit.h>
 #import "TransactionEtherTableViewCell.h"
-#import "EtherTransaction.h"
 #import "NSDateFormatter+TimeAgoString.h"
 #import "TransactionDetailViewController.h"
 #import "TransactionDetailNavigationController.h"

@@ -8,7 +8,6 @@
 
 #import "TransactionDetailViewModel.h"
 #import "Transaction.h"
-#import "EtherTransaction.h"
 #import "NSNumberFormatter+Currencies.h"
 #import "NSDateFormatter+VerboseString.h"
 #import "Blockchain-Swift.h"
@@ -90,7 +89,7 @@
         self.confirmationsString = [NSString stringWithFormat:@"%lu/%u", (unsigned long)etherTransaction.confirmations, kConfirmationEtherThreshold];
         self.confirmations = etherTransaction.confirmations;
         self.confirmed = etherTransaction.confirmations >= kConfirmationEtherThreshold;
-        self.fiatAmountsAtTime = etherTransaction.fiatAmountsAtTime;
+        self.fiatAmountsAtTime = [etherTransaction.fiatAmountsAtTime mutableCopy];
     }
     return self;
 }

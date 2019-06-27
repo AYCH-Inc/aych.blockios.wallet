@@ -14,4 +14,9 @@ public struct EthereumAssetAccountDetails: AssetAccountDetails, Equatable {
     
     public var account: Account
     public var balance: CryptoValue
+    
+    public init(account: Account, balance: CryptoValue) {
+        self.account = account
+        self.balance = balance
+    }
 }

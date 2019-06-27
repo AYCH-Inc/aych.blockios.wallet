@@ -16,19 +16,17 @@ public protocol EthereumTransactionBuildingServiceAPI {
 }
 
 public class EthereumTransactionBuildingService: EthereumTransactionBuildingServiceAPI {
-    
-    public typealias Bridge = EthereumWalletBridgeAPI
-    
-    private let bridge: Bridge
     private let feeService: EthereumFeeServiceAPI
+    private let repository: EthereumAssetAccountRepository
     
-    public init(with bridge: Bridge, feeService: EthereumFeeServiceAPI) {
-        self.bridge = bridge
+    public init(with feeService: EthereumFeeServiceAPI,
+                repository: EthereumAssetAccountRepository) {
         self.feeService = feeService
+        self.repository = repository
     }
     
     public func buildTransaction(with amount: EthereumValue, to: EthereumAddress) -> Single<EthereumTransactionCandidate> {
-        return Single.zip(feeService.fees, bridge.balance)
+        return Single.zip(feeService.fees, balance)
             .flatMap { tuple -> Single<EthereumTransactionCandidate> in
                 let (fee, balanceSigned) = tuple
                 let value: BigUInt = BigUInt(amount.amount)
@@ -56,5 +54,11 @@ public class EthereumTransactionBuildingService: EthereumTransactionBuildingServ
                 )
                 return Single.just(transaction)
         }
+    }
+    
+    private var balance: Single<CryptoValue> {
+        return repository.currentAssetAccountDetails(fromCache: false).flatMap(weak: self, { (self, details) -> Single<CryptoValue> in
+            return Single.just(details.balance)
+        })
     }
 }

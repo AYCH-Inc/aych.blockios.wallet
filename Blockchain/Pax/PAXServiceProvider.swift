@@ -39,7 +39,8 @@ struct PAXServices: PAXDependencies {
         self.historicalTransactionService = AnyERC20HistoricalTransactionService<PaxToken>(bridge: wallet.ethereum)
         let ethereumAssetAccountRepository: EthereumAssetAccountRepository = EthereumAssetAccountRepository(
             service: EthereumAssetAccountDetailsService(
-                with: wallet.ethereum
+                with: wallet.ethereum,
+                client: EthereumAPIClient.shared
             )
         )
         self.paxService = ERC20Service<PaxToken>(
@@ -92,7 +93,7 @@ extension EthereumTransactionSendingService {
 
 extension EthereumTransactionBuildingService {
     static let shared = EthereumTransactionBuildingService(
-        with: WalletManager.shared.wallet.ethereum,
-        feeService: EthereumFeeService.shared
+        with: EthereumFeeService.shared, 
+        repository: ETHServiceProvider.shared.assetAccountRepository
     )
 }

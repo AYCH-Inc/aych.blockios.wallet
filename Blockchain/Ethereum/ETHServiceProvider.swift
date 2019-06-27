@@ -27,7 +27,8 @@ struct ETHServices: ETHDependencies {
         self.repository = EthereumWalletAccountRepository(with: wallet.ethereum)
         self.assetAccountRepository = EthereumAssetAccountRepository(
             service: EthereumAssetAccountDetailsService(
-                with: wallet.ethereum
+                with: wallet.ethereum,
+                client: EthereumAPIClient.shared
             )
         )
         self.transactionService = EthereumHistoricalTransactionService(

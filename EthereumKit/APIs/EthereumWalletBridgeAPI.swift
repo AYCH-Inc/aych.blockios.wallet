@@ -23,7 +23,6 @@ public protocol EthereumWalletAccountBridgeAPI: class {
 
 public protocol EthereumWalletBridgeAPI: class {
     var fetchBalance: Single<CryptoValue> { get }
-    var balance: Single<CryptoValue> { get }
     var name: Single<String> { get }
     var address: Single<String> { get }
     var account: Single<EthereumAssetAccount> { get }

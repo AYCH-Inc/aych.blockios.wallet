@@ -21,6 +21,7 @@ final class EthereumAssetAccountService: EthereumAssetAccountServiceAPI {
         self.client = client
     }
     
+    // TODO: Possibly retrofit or deprecate
     public func fatchBalance(account: EthereumAssetAccount) -> Single<EthereumAssetAccountDetails> {
         
         // TODO: Fetch balance from

@@ -66,10 +66,50 @@ class EthereumAPIClient: EthereumAPIClientAPI {
         return communicator.perform(request: networkRequest)
     }
     
+    func fetchBalance(from address: String) -> Single<CryptoValue> {
+        guard let apiURL = URL(string: BlockchainAPI.shared.apiUrl) else {
+            return Single.error(EthereumAPIClientError.unknown)
+        }
+        let components = ["eth", "account", address, "balance"]
+        guard let endpoint = URL.endpoint(apiURL, pathComponents: components) else {
+                return Single.error(EthereumAPIClientError.unknown)
+        }
+        
+        let networkRequest = NetworkRequest(endpoint: endpoint, method: .get)
+        return communicator.perform(request: networkRequest).flatMap { (payload: [String: BalanceDetails]) -> Single<CryptoValue> in
+            Single.just(payload[address]?.cryptoValue ?? CryptoValue.zero(assetType: .ethereum))
+        }
+    }
+    
     private func buildURL(path: String, parameters: [URLQueryItem] = []) -> URL? {
         var components = defaultComponents
         components.path = "/" + path
         components.queryItems = parameters
         return components.url
+    }
+}
+
+/// TODO: `BalanceDetails` can likely be re-used for other asset types for native
+/// balance fetching.
+private struct BalanceDetails: Decodable {
+    let balance: String
+    let nonce: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case address
+        case balance
+        case nonce
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        balance = try values.decode(String.self, forKey: .balance)
+        nonce = try values.decode(Int.self, forKey: .nonce)
+    }
+}
+
+private extension BalanceDetails {
+    var cryptoValue: CryptoValue {
+        return CryptoValue.createFromMinorValue(BigInt(balance) ?? BigInt(0), assetType: .ethereum)
     }
 }

@@ -18,17 +18,20 @@ class EthereumAssetAccountDetailsServiceTests: XCTestCase {
     var disposeBag: DisposeBag!
     
     var bridge: EthereumWalletBridgeMock!
+    var ethereumAPIClient: EthereumAPIClientMock!
     var subject: EthereumAssetAccountDetailsService!
     
     override func setUp() {
         super.setUp()
         
+        ethereumAPIClient = EthereumAPIClientMock()
         scheduler = TestScheduler(initialClock: 0)
         disposeBag = DisposeBag()
 
         bridge = EthereumWalletBridgeMock()
         subject = EthereumAssetAccountDetailsService(
-            with: bridge
+            with: bridge,
+            client: ethereumAPIClient
         )
     }
 

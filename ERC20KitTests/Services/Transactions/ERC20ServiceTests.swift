@@ -26,6 +26,7 @@ class ERC20ServiceTests: XCTestCase {
     
     var erc20Bridge: ERC20BridgeMock!
     
+    var ethereumAPIAccountClient: EthereumAPIClientMock!
     var accountAPIClient: ERC20AccountAPIClientMock!
     var ethereumWalletBridge: ERC20EthereumWalletBridgeMock!
     var assetAccountDetailsService: ERC20AssetAccountDetailsService<PaxToken>!
@@ -45,6 +46,7 @@ class ERC20ServiceTests: XCTestCase {
         
         erc20Bridge = ERC20BridgeMock()
         
+        ethereumAPIAccountClient = EthereumAPIClientMock()
         accountAPIClient = ERC20AccountAPIClientMock()
         ethereumWalletBridge = ERC20EthereumWalletBridgeMock()
         assetAccountDetailsService = ERC20AssetAccountDetailsService(
@@ -56,7 +58,8 @@ class ERC20ServiceTests: XCTestCase {
         )
         
         ethereumAssetAccountDetailsService = EthereumAssetAccountDetailsService(
-            with: ethereumWalletBridge
+            with: ethereumWalletBridge,
+            client: ethereumAPIAccountClient
         )
         ethereumAssetAccountRepository = EthereumAssetAccountRepository(
             service: ethereumAssetAccountDetailsService
@@ -170,7 +173,7 @@ class ERC20ServiceTests: XCTestCase {
             gasLimitContract: Int(MockEthereumWalletTestData.Transaction.gasLimitContract)
         )
         feeService.feesValue = Single.just(fee)
-        ethereumWalletBridge.balanceValue = Single.just(CryptoValue.etherFromMajor(decimal: Decimal(0.01)))
+        ethereumAPIAccountClient.accountBalanceValue = Single.just(CryptoValue.etherFromMajor(decimal: Decimal(0.01)))
         
         let transferObservable = subject.transfer(to: to, amount: amount).asObservable()
         
@@ -194,7 +197,7 @@ class ERC20ServiceTests: XCTestCase {
             rawValue: MockEthereumWalletTestData.Transaction.to
         )!
 
-        ethereumWalletBridge.balanceValue = Single.error(ERC20ServiceMockError.mockError)
+        ethereumAPIAccountClient.accountBalanceValue = Single.error(ERC20ServiceMockError.mockError)
 
         let transferObservable = subject.transfer(to: to, amount: amount).asObservable()
         

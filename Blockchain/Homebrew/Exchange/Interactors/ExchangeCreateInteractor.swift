@@ -39,8 +39,8 @@ class ExchangeCreateInteractor {
         }
     }
 
-    private let disposables = CompositeDisposable()
-    private var accountDisposeBag: DisposeBag = DisposeBag()
+    private var disposables = CompositeDisposable()
+    private var accountBalanceDiposableKey: CompositeDisposable.DisposeKey?
     private var tradingLimitDisposable: Disposable?
     private var repository: AssetAccountRepository = {
        return AssetAccountRepository.shared
@@ -137,7 +137,6 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         
         updatedInput()
         markets.setup()
-        subscribeToVolumeChanges()
 
         NotificationCenter.when(Constants.NotificationKeys.transactionReceived) { [weak self] _ in
             self?.refreshAccounts()
@@ -150,6 +149,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
     
     func resume() {
         // Authenticate, then listen for conversions
+        disposables = CompositeDisposable()
         guard let model = model else { return }
         if tradeExecution.canTradeAssetType(model.pair.from) == false {
             if let _ = errorMessage(for: model.pair.from) {
@@ -162,11 +162,16 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         updateOutput()
 
         markets.authenticate(completion: { [unowned self] in
+            self.subscribeToVolumeChanges()
             self.tradeLimitService.initialize(withFiatCurrency: model.fiatCurrencyCode)
             self.subscribeToConversions()
             self.updateMarketsConversion()
             self.subscribeToBestRates()
         })
+    }
+    
+    func pause() {
+        disposables.dispose()
     }
 
     func updateMarketsConversion() {
@@ -229,8 +234,10 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         
         let address = model.marketPair.fromAccount.address.address
         let type = model.marketPair.pair.from
-        
-        repository.accounts(for: type)
+        if let key = accountBalanceDiposableKey {
+            disposables.remove(for: key)
+        }
+        let disposable = repository.accounts(for: type, fromCache: false)
             .asObservable()
             .subscribeOn(MainScheduler.asyncInstance)
             .flatMapLatest { [weak self] accounts -> Observable<(Decimal, Decimal)> in
@@ -243,18 +250,26 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 )
                 return Observable.combineLatest(observable, Observable.just(account.balance))
             }
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] fiatBalance, cryptoBalance in
-                guard let self = self else { return }
-                guard type == self.model?.marketPair.pair.from else { return }
+            .map { (fiatBalance, cryptoBalance) -> (FiatValue, CryptoValue) in
+                let type = model.marketPair.pair.from
                 let fiatValue = FiatValue.create(amount: fiatBalance, currencyCode: model.fiatCurrencyCode)
                 let cryptoValue = CryptoValue.createFromMajorValue(cryptoBalance, assetType: type.cryptoCurrency)
-                self.output?.updateBalance(
-                    cryptoValue: cryptoValue,
-                    fiatValue: fiatValue
-                )
-            })
-            .disposed(by: accountDisposeBag)
+                return (fiatValue, cryptoValue)
+            }
+            .distinctUntilChanged { return $0 == $1 }
+            .observeOn(MainScheduler.instance)
+            .subscribe(
+                onNext: { [weak self] fiatBalance, cryptoBalance in
+                    self?.output?.updateBalance(
+                        cryptoValue: cryptoBalance,
+                        fiatValue: fiatBalance
+                    )
+                }, onError: { error in
+                    Logger.shared.error(error)
+                }
+        )
+        guard let key = disposables.insert(disposable) else { return }
+        accountBalanceDiposableKey = key
     }
 
     func updateTradingValues(left: String, right: String) {
@@ -324,7 +339,9 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         /// creating a new `DisposeBag`. This ensures that we show the user's correct balance
         /// every time they change their wallet selection. Typically this
         /// is when the user has mulitple HD accounts.
-        accountDisposeBag = DisposeBag()
+        if let key = accountBalanceDiposableKey {
+            disposables.remove(for: key)
+        }
         updatedInput(forcesUpdate: true)
         output?.updateTradingPair(pair: model.pair, fix: model.fix)
     }
@@ -539,6 +556,9 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 /// make sure that the status is not currently `.inflight`.
                 /// So we need to set the status to `.unknown` here.
                 self.status = .unknown
+                if let key = self.accountBalanceDiposableKey {
+                    self.disposables.remove(for: key)
+                }
                 self.updatedInput()
                 self.validateInput()
             })

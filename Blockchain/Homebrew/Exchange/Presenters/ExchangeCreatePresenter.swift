@@ -130,6 +130,7 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
     
     func onViewDidDisappear() {
         cancelRatesTimer()
+        interactor.pause()
     }
     
     func onDisplayRatesTapped() {

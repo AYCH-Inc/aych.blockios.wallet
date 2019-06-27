@@ -21,6 +21,7 @@ public struct EthereumPushTxResponse: Decodable, Equatable {
 
 public protocol EthereumAPIClientAPI {
     func push(transaction: EthereumTransactionFinalised) -> Single<EthereumPushTxResponse>
+    func fetchBalance(from address: String) -> Single<CryptoValue>
 }
 
 public protocol EthereumFeeServiceAPI {

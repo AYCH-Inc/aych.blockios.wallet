@@ -53,8 +53,14 @@ class EthereumAPIClientMock: EthereumAPIClientAPI {
         lastPushedTransaction = transaction
         return pushTransactionValue
     }
+    
+    var accountBalanceValue = Single.just(CryptoValue.createFromMajorValue(string: "2.0", assetType: .ethereum)!)
+    var address: String = ""
+    func fetchBalance(from address: String) -> Single<CryptoValue> {
+        self.address = address
+        return accountBalanceValue
+    }
 }
-
 
 class EthereumFeeServiceMock: EthereumFeeServiceAPI {
     

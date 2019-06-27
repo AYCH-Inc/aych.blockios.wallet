@@ -24,6 +24,7 @@ class AssetAccountRepository {
     private let wallet: Wallet
     private let xlmServiceProvider: XLMServiceProvider
     private let paxAccountRepository: ERC20AssetAccountRepository<PaxToken>
+    private let ethereumAccountRepository: EthereumAssetAccountRepository
     private let ethereumWalletService: EthereumWalletServiceAPI
     private let stellarAccountService: StellarAccountAPI
     private var cachedAccounts = BehaviorRelay<[AssetAccount]?>(value: nil)
@@ -32,13 +33,15 @@ class AssetAccountRepository {
     init(
         wallet: Wallet = WalletManager.shared.wallet,
         xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared,
-        paxServiceProvider: PAXServiceProvider = PAXServiceProvider.shared
+        paxServiceProvider: PAXServiceProvider = PAXServiceProvider.shared,
+        ethereumServiceProvider: ETHServiceProvider = ETHServiceProvider.shared
     ) {
         self.wallet = wallet
         self.paxAccountRepository = paxServiceProvider.services.assetAccountRepository
         self.ethereumWalletService = paxServiceProvider.services.walletService
         self.xlmServiceProvider = xlmServiceProvider
         self.stellarAccountService = xlmServiceProvider.services.accounts
+        self.ethereumAccountRepository = ethereumServiceProvider.services.assetAccountRepository
     }
 
     deinit {
@@ -55,17 +58,36 @@ class AssetAccountRepository {
         }
         
         if assetType == .pax {
-            return paxAccountRepository.assetAccountDetails.flatMap {
-                let account = AssetAccount(
-                    index: 0,
-                    address: AssetAddressFactory.create(
-                        fromAddressString: $0.account.accountAddress,
-                        assetType: .pax
-                    ),
-                    balance: $0.balance.majorValue,
-                    name: $0.account.name
-                )
-                return Maybe.just([account])
+            if fromCache {
+                return paxAccountRepository.assetAccountDetails.flatMap {
+                    let balance = $0.balance.majorValue
+                    Logger.shared.info("Balance for PAX: \(balance)")
+                    let account = AssetAccount(
+                        index: 0,
+                        address: AssetAddressFactory.create(
+                            fromAddressString: $0.account.accountAddress,
+                            assetType: .pax
+                        ),
+                        balance: $0.balance.majorValue,
+                        name: $0.account.name
+                    )
+                    return Maybe.just([account])
+                }
+            } else {
+                return paxAccountRepository.currentAssetAccountDetails(fromCache: false).flatMap {
+                    let balance = $0.balance.majorValue
+                    Logger.shared.info("Balance for PAX: \(balance)")
+                    let account = AssetAccount(
+                        index: 0,
+                        address: AssetAddressFactory.create(
+                            fromAddressString: $0.account.accountAddress,
+                            assetType: .pax
+                        ),
+                        balance: $0.balance.majorValue,
+                        name: $0.account.name
+                    )
+                    return Maybe.just([account])
+                }
             }
         }
         
@@ -170,38 +192,34 @@ class AssetAccountRepository {
     }
 
     func defaultEthereumAccount() -> Maybe<AssetAccount> {
-        return Maybe.create(subscribe: { [weak self] observer -> Disposable in
-            guard let self = self else {
-                observer(.completed)
-                return Disposables.create()
-            }
-            
-            guard let ethereumAddress = self.wallet.getEtherAddress(), self.wallet.hasEthAccount() else {
-                Logger.shared.debug("This wallet has no ethereum address.")
-                observer(.completed)
-                return Disposables.create()
-            }
-            
-            self.wallet.fetchEthereumBalance(with: nil, success: { balance in
+        guard let ethereumAddress = self.wallet.getEtherAddress(), self.wallet.hasEthAccount() else {
+            Logger.shared.debug("This wallet has no ethereum address.")
+            return Maybe.empty()
+        }
+        
+        let fallback = EthereumAssetAccount(
+            walletIndex: 0,
+            accountAddress: ethereumAddress,
+            name: LocalizationConstants.myEtherWallet
+        )
+        let details = EthereumAssetAccountDetails(
+            account: fallback,
+            balance: CryptoValue.zero(assetType: .ethereum)
+        )
+        
+        return ethereumAccountRepository.assetAccountDetails
+            .catchErrorJustReturn(details)
+            .flatMap({ details -> Maybe<AssetAccount> in
                 let account = AssetAccount(
                     index: 0,
-                    address: AssetAddressFactory.create(fromAddressString: ethereumAddress, assetType: .ethereum),
-                    balance: Decimal(string: balance) ?? 0,
+                    address: AssetAddressFactory.create(
+                        fromAddressString: details.account.accountAddress,
+                        assetType: .ethereum
+                    ),
+                    balance: details.balance.majorValue,
                     name: LocalizationConstants.myEtherWallet
                 )
-                observer(.success(account))
-            }, error: { error in
-                Logger.shared.error(error)
-                let account = AssetAccount(
-                    index: 0,
-                    address: AssetAddressFactory.create(fromAddressString: ethereumAddress, assetType: .ethereum),
-                    balance: 0,
-                    name: LocalizationConstants.myEtherWallet
-                )
-                observer(.success(account))
-            })
-            
-            return Disposables.create()
+                return Maybe.just(account)
         })
     }
 

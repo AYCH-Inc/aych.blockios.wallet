@@ -10,7 +10,7 @@
 #
 
 clean(true)
-include_bitcode(false)
+include_bitcode(true)
 include_symbols(true)
 skip_profile_detection(true)
 export_options(

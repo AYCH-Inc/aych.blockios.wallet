@@ -22,7 +22,7 @@ platform :ios do
     build_app(
       clean: true,
       export_method: "app-store",
-      include_bitcode: false,
+      include_bitcode: true,
       include_symbols: true,
       scheme: "Blockchain (Dev)",
       workspace: "Blockchain.xcworkspace"
@@ -36,7 +36,7 @@ platform :ios do
   lane :staging do
     build_app(
       clean: true,
-      include_bitcode: false,
+      include_bitcode: true,
       include_symbols: true,
       scheme: "Blockchain (Staging)",
       workspace: "Blockchain.xcworkspace"

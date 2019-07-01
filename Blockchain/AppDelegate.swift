@@ -11,6 +11,7 @@ import Fabric
 import Crashlytics
 import Firebase
 import PlatformKit
+import FirebaseDynamicLinks
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -60,9 +61,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Lifecycle Methods
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        Fabric.with([Crashlytics.self])
-        FirebaseApp.configure()
 
+        FirebaseApp.configure() 
+        Fabric.with([Crashlytics.self])
+        
         BlockchainSettings.App.shared.appBecameActiveCount += 1
         // MARK: - Global Appearance
         //: Status Bar

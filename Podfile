@@ -12,18 +12,19 @@ target 'Blockchain' do
   pod 'Alamofire', '~> 4.7'
   pod 'BigInt', '~> 3.1'
   pod 'Charts', '~> 3.2.1'
-  pod 'Fabric', '~> 1.10.1'
+  pod 'Fabric'
+  pod 'Crashlytics'
   pod 'Firebase/Core', '~> 5.17.0'
   pod 'Firebase/DynamicLinks', '~> 5.17.0'
   pod 'Firebase/RemoteConfig', '~> 5.17.0'
   pod 'PhoneNumberKit', '~> 2.1'
-  pod 'RxCocoa', '~> 4.0'
-  pod 'RxSwift', '~> 4.0'
+  pod 'RxCocoa', '4.4.1'
+  pod 'RxSwift', '4.4.1'
   pod 'Starscream', '~> 3.0.2'
-  pod 'SwiftLint'
+  pod 'SwiftLint', '0.30.1'
   pod 'stellar-ios-mac-sdk', git: 'git@github.com:bchrisarriola/stellar-ios-mac-sdk.git', commit: 'fe5cfb8eda5d62f57f634b75023c6b854d87e128'
 
-  pod 'VeriffSDK', '~> 2.0.4'
+  pod 'VeriffSDK', '2.0.4'
 
   target 'BlockchainTests' do
     inherit! :search_paths

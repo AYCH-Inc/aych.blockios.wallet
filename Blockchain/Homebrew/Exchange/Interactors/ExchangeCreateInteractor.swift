@@ -462,7 +462,9 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                     return
                 }
                 guard let output = strongSelf.output else { return }
-                guard let candidate = Decimal(string: conversion.baseFiatValue) else { return }
+                guard let candidate = Decimal(string: conversion.baseFiatValue, locale: Locale.current) else {
+                    return
+                }
 
                 // TICKET: IOS-2243
                 // Description: Input validation should be broken up into its own component and this interactor
@@ -538,7 +540,9 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
 
         let volume = conversion.quote.currencyRatio.base.crypto.value
         let fromAssetType = model.marketPair.pair.from
-        guard let cryptoVolume = CryptoValue.createFromMajorValue(string: volume, assetType: fromAssetType.cryptoCurrency) else { return }
+        guard let cryptoVolume = CryptoValue.createFromMajorValue(string: volume, assetType: fromAssetType.cryptoCurrency, locale: Locale(identifier: "en_US")) else {
+            return
+        }
 
         volumeSubject.accept(cryptoVolume)
     }
@@ -563,12 +567,6 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 self.validateInput()
             })
         disposables.insertWithDiscardableResult(disposable)
-    }
-    
-    private func formatLimit(fiatCurrencySymbol: String, value: Decimal) -> String {
-        let value = NumberFormatter.localCurrencyFormatter.string(for: value) ?? ""
-        let limit = fiatCurrencySymbol + value
-        return limit
     }
 
     private func subscribeToBestRates() {
@@ -701,10 +699,12 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
     private func waitingOnConversion(_ receivedConversion: Conversion) -> Bool {
         guard let model = model else { return true }
         guard let latest = Decimal(string: receivedConversion.quote.volume) else { return true }
-        guard let candidate = Decimal(string: model.volume) else { return true }
+        guard let candidate = Decimal(string: model.volume, locale: Locale.current) else {
+            return true
+        }
         let result = candidate != latest
         if result {
-            Logger.shared.info("MarkestModel.volume is: \(candidate)")
+            Logger.shared.info("MarketModel.volume is: \(candidate)")
             Logger.shared.info("Conversion.quote.volume is: \(latest)")
             Logger.shared.info("Waiting on new Conversion.")
         }

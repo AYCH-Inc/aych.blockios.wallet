@@ -7,6 +7,8 @@
 //
 
 import RxSwift
+import BigInt
+import PlatformKit
 
 class StellarTradeLimitsService: StellarTradeLimitsAPI {
 
@@ -18,7 +20,7 @@ class StellarTradeLimitsService: StellarTradeLimitsAPI {
         self.accountsService = accountsService
     }
 
-    func maxSpendableAmount(for accountId: AccountID) -> Single<Decimal> {
+    func maxSpendableAmount(for accountId: AccountID) -> Single<CryptoValue> {
         let ledgerObservable = ledgerService.current.take(1)
         let accountDetailsObservable = accountsService.accountDetails(for: accountId).asObservable()
         let minRequiredObservable = minRequiredRemainingAmount(for: accountId).asObservable()
@@ -27,29 +29,32 @@ class StellarTradeLimitsService: StellarTradeLimitsAPI {
             .subscribeOn(MainScheduler.asyncInstance)
             .take(1)
             .asSingle()
-            .map { ledger, accountDetails, minRequired -> Decimal in
+            .map { ledger, accountDetails, minRequired -> CryptoValue in
                 let balanceInXlm = accountDetails.assetAccount.balance
-                let fees = ledger.baseFeeInXlm ?? 0
-                let maxSpendable = balanceInXlm - fees - minRequired
-                return maxSpendable > 0 ? maxSpendable : 0
+                let fees = ledger.baseFeeInXlm ?? CryptoValue.lumensZero
+                let maxSpendable = (try? balanceInXlm - fees - minRequired) ?? CryptoValue.lumensZero
+                return maxSpendable.amount > CryptoValue.lumensZero.amount ? maxSpendable : CryptoValue.lumensZero
             }
     }
 
-    func minRequiredRemainingAmount(for accountId: AccountID) -> Single<Decimal> {
+    func minRequiredRemainingAmount(for accountId: AccountID) -> Single<CryptoValue> {
         let ledgerObservable = ledgerService.current.take(1)
         let accountResponseObservable = accountsService.accountResponse(for: accountId).asObservable()
         return Observable.combineLatest(ledgerObservable, accountResponseObservable)
             .subscribeOn(MainScheduler.asyncInstance)
             .take(1)
             .asSingle()
-            .map { ledger, accountResponse -> Decimal in
-                return Decimal(2 + accountResponse.subentryCount) * (ledger.baseReserveInXlm ?? 0)
+            .map { ledger, accountResponse -> CryptoValue in
+                let multiplier = BigInt(UInt(UInt(2) + accountResponse.subentryCount))
+                let value: BigInt = multiplier * (ledger.baseReserveInXlm ?? CryptoValue.lumensZero).amount
+                return CryptoValue.createFromMinorValue(value, assetType: .stellar)
             }
     }
 
-    func isSpendable(amount: Decimal, for accountId: AccountID) -> Single<Bool> {
-        return maxSpendableAmount(for: accountId).map { maxSpendableAmount -> Bool in
-            return amount <= maxSpendableAmount && amount > 0
-        }
+    func isSpendable(amount: CryptoValue, for accountId: AccountID) -> Single<Bool> {
+        return maxSpendableAmount(for: accountId)
+            .map { maxSpendableAmount -> Bool in
+                amount.amount <= maxSpendableAmount.amount && amount.amount > 0
+            }
     }
 }

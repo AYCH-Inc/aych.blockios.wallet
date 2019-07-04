@@ -51,7 +51,7 @@ class EthereumAssetAccountDetailsServiceTests: XCTestCase {
             accountAddress: MockEthereumWalletTestData.account,
             name: "My Ether Wallet"
         )
-        let balance = CryptoValue.etherFromMajor(decimal: Decimal(2.0))
+        let balance = CryptoValue.etherFromMajor(string: "2.0")!
         let expectedAccountDetails = EthereumAssetAccountDetails(
             account: account,
             balance: balance

@@ -127,26 +127,51 @@ extension CryptoValue: Hashable, Equatable {
         }
     }
     
-    public static func +(lhs: CryptoValue, rhs: CryptoValue) throws -> CryptoValue {
+    public static func + (lhs: CryptoValue, rhs: CryptoValue) throws -> CryptoValue {
         try ensureComparable(value: lhs, other: rhs)
         return CryptoValue(currencyType: lhs.currencyType, amount: lhs.amount + rhs.amount)
     }
     
-    public static func -(lhs: CryptoValue, rhs: CryptoValue) throws -> CryptoValue {
+    public static func - (lhs: CryptoValue, rhs: CryptoValue) throws -> CryptoValue {
         try ensureComparable(value: lhs, other: rhs)
         return CryptoValue(currencyType: lhs.currencyType, amount: lhs.amount - rhs.amount)
     }
     
-    public static func *(lhs: CryptoValue, rhs: CryptoValue) throws -> CryptoValue {
+    public static func * (lhs: CryptoValue, rhs: CryptoValue) throws -> CryptoValue {
         try ensureComparable(value: lhs, other: rhs)
         return CryptoValue(currencyType: lhs.currencyType, amount: lhs.amount * rhs.amount)
     }
     
-    public static func +=(lhs: inout CryptoValue, rhs: CryptoValue) throws {
+    public static func / (lhs: CryptoValue, rhs: CryptoValue) throws -> CryptoValue {
+        try ensureComparable(value: lhs, other: rhs)
+        return CryptoValue(currencyType: lhs.currencyType, amount: lhs.amount / rhs.amount)
+    }
+    
+    public static func > (lhs: CryptoValue, rhs: CryptoValue) throws -> Bool {
+        try ensureComparable(value: lhs, other: rhs)
+        return lhs.amount > rhs.amount
+    }
+    
+    public static func < (lhs: CryptoValue, rhs: CryptoValue) throws -> Bool {
+        try ensureComparable(value: lhs, other: rhs)
+        return lhs.amount < rhs.amount
+    }
+    
+    public static func >= (lhs: CryptoValue, rhs: CryptoValue) throws -> Bool {
+        try ensureComparable(value: lhs, other: rhs)
+        return lhs.amount >= rhs.amount
+    }
+    
+    public static func <= (lhs: CryptoValue, rhs: CryptoValue) throws -> Bool {
+        try ensureComparable(value: lhs, other: rhs)
+        return lhs.amount <= rhs.amount
+    }
+    
+    public static func += (lhs: inout CryptoValue, rhs: CryptoValue) throws {
         lhs = try lhs + rhs
     }
     
-    public static func -=(lhs: inout CryptoValue, rhs: CryptoValue) throws {
+    public static func -= (lhs: inout CryptoValue, rhs: CryptoValue) throws {
         lhs = try lhs - rhs
     }
     
@@ -182,7 +207,7 @@ public extension CryptoValue {
     }
 
     @available(*, deprecated, message: "This method can create precision errors. Use `createFromMajorValue(string:assetType:)` instead.")
-    public static func createFromMajorValue(_ value: Decimal, assetType: CryptoCurrency) -> CryptoValue {
+    public static func createFromMajorValue(decimal value: Decimal, assetType: CryptoCurrency) -> CryptoValue {
         let decimalNumberValue = NSDecimalNumber(decimal: value)
         let doubleValue = Double(truncating: decimalNumberValue)
         let decimalValue = doubleValue.truncatingRemainder(dividingBy: 1) * pow(10.0, Double(assetType.maxDecimalPlaces))
@@ -200,6 +225,10 @@ public extension CryptoValue {
 // MARK: - Bitcoin
 
 public extension CryptoValue {
+    public static var bitcoinZero: CryptoValue {
+        return zero(assetType: .bitcoin)
+    }
+    
     public static func bitcoinFromSatoshis(string satoshis: String) -> CryptoValue? {
         guard let satoshiInBigInt = BigInt(satoshis) else {
             return nil
@@ -215,8 +244,9 @@ public extension CryptoValue {
         return createFromMajorValue(string: "\(bitcoin)", assetType: .bitcoin)!
     }
     
+    @available(*, deprecated, message: "This method can create precision errors. Use `bitcoinFromMajor(string:)` instead.")
     public static func bitcoinFromMajor(decimal bitcoin: Decimal) -> CryptoValue {
-        return createFromMajorValue(bitcoin, assetType: .bitcoin)
+        return createFromMajorValue(decimal: bitcoin, assetType: .bitcoin)
     }
 
     public static func bitcoinFromMajor(string bitcoin: String) -> CryptoValue? {
@@ -227,6 +257,10 @@ public extension CryptoValue {
 // MARK: - Ethereum
 
 public extension CryptoValue {
+    public static var etherZero: CryptoValue {
+        return zero(assetType: .ethereum)
+    }
+    
     public static func etherFromWei(string wei: String) -> CryptoValue? {
         guard let weiInBigInt = BigInt(wei) else {
             return nil
@@ -242,10 +276,6 @@ public extension CryptoValue {
         
         return CryptoValue(currencyType: .ethereum, amount: weiInBigInt)
     }
-    
-    public static func etherFromMajor(decimal ether: Decimal) -> CryptoValue {
-        return createFromMajorValue(ether, assetType: .ethereum)
-    }
 
     public static func etherFromMajor(string ether: String) -> CryptoValue? {
         return createFromMajorValue(string: ether, assetType: .ethereum)
@@ -255,6 +285,10 @@ public extension CryptoValue {
 // MARK: - Bitcoin Cash
 
 public extension CryptoValue {
+    public static var bitcoinCashZero: CryptoValue {
+        return zero(assetType: .bitcoinCash)
+    }
+    
     public static func bitcoinCashFromSatoshis(string satoshis: String) -> CryptoValue? {
         guard let satoshiInBigInt = BigInt(satoshis) else {
             return nil
@@ -270,8 +304,9 @@ public extension CryptoValue {
         return createFromMajorValue(string: "\(bitcoinCash)", assetType: .bitcoinCash)!
     }
     
+    @available(*, deprecated, message: "This method can create precision errors. Use `bitcoinCashFromMajor(string:)` instead.")
     public static func bitcoinCashFromMajor(decimal bitcoinCash: Decimal) -> CryptoValue {
-        return createFromMajorValue(bitcoinCash, assetType: .bitcoinCash)
+        return createFromMajorValue(decimal: bitcoinCash, assetType: .bitcoinCash)
     }
 
     public static func bitcoinCashFromMajor(string bitcoinCash: String) -> CryptoValue? {
@@ -282,6 +317,10 @@ public extension CryptoValue {
 // MARK: - Stellar
 
 public extension CryptoValue {
+    public static var lumensZero: CryptoValue {
+        return zero(assetType: .stellar)
+    }
+    
     public static func lumensFromStroops(int stroops: Int) -> CryptoValue {
         return CryptoValue(currencyType: .stellar, amount: BigInt(stroops))
     }
@@ -297,8 +336,9 @@ public extension CryptoValue {
         return createFromMajorValue(string: "\(lumens)", assetType: .stellar)!
     }
     
+    @available(*, deprecated, message: "This method can create precision errors. Use `lumensFromMajor(string:)` instead.")
     public static func lumensFromMajor(decimal lumens: Decimal) -> CryptoValue {
-        return createFromMajorValue(lumens, assetType: .stellar)
+        return createFromMajorValue(decimal: lumens, assetType: .stellar)
     }
 
     public static func lumensFromMajor(string lumens: String) -> CryptoValue? {
@@ -309,8 +349,8 @@ public extension CryptoValue {
 // MARK: - PAX
 
 public extension CryptoValue {
-    public static func paxFromMajor(decimal ether: Decimal) -> CryptoValue {
-        return createFromMajorValue(ether, assetType: .pax)
+    public static var paxZero: CryptoValue {
+        return zero(assetType: .pax)
     }
     
     public static func paxFromMajor(string pax: String) -> CryptoValue? {
@@ -329,19 +369,7 @@ extension BigInt {
 
 extension Decimal {
     public var doubleValue: Double {
-        return NSDecimalNumber(decimal:self).doubleValue
-    }
-
-    static func preciseConvert(string: String) -> Decimal? {
-        guard let decimal = Decimal(string: string) else {
-            return nil
-        }
-        guard let peroidIndex = string.firstIndex(of: ".") else {
-            return decimal
-        }
-
-        let places = String(string[string.index(after: peroidIndex)..<string.endIndex]).count
-        return decimal.roundTo(places: places)
+        return NSDecimalNumber(decimal: self).doubleValue
     }
 
     func roundTo(places: Int) -> Decimal {

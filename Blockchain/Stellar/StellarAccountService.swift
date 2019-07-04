@@ -10,6 +10,7 @@ import Foundation
 import stellarsdk
 import RxSwift
 import RxCocoa
+import PlatformKit
 import StellarKit
 
 class StellarAccountService: StellarAccountAPI {
@@ -114,7 +115,10 @@ class StellarAccountService: StellarAccountAPI {
                 guard let baseReserveInXlm = ledger.baseReserveInXlm else {
                     return Completable.empty()
                 }
-                guard amount >= baseReserveInXlm * 2 else {
+                guard let amountCrypto = CryptoValue.lumensFromMajor(string: (amount as NSDecimalNumber).description(withLocale: Locale.current) ) else {
+                    return Completable.empty()
+                }
+                guard amountCrypto.amount >= baseReserveInXlm.amount * 2 else {
                     return Completable.error(StellarServiceError.insufficientFundsForNewAccount)
                 }
                 return strongSelf.accountResponse(for: sourceKeyPair.accountID)
@@ -194,7 +198,8 @@ class StellarAccountService: StellarAccountAPI {
 
 extension AccountResponse {
     func toStellarAccount() -> StellarAccount {
-        let totalBalance = balances.reduce(Decimal(0)) { $0 + (Decimal(string: $1.balance) ?? 0) }
+        let totalBalanceDecimal = balances.reduce(Decimal(0)) { $0 + (Decimal(string: $1.balance) ?? 0) }
+        let totalBalance = CryptoValue.lumensFromMajor(string: (totalBalanceDecimal as NSDecimalNumber).description(withLocale: Locale.current)) ?? CryptoValue.lumensZero
         let assetAddress = AssetAddressFactory.create(
             fromAddressString: accountId,
             assetType: .stellar

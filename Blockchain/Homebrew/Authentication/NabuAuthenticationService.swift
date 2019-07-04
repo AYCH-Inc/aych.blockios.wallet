@@ -10,8 +10,14 @@ import RxCocoa
 import RxSwift
 import PlatformKit
 
+protocol NabuAuthenticationServiceAPI {
+    func getSessionToken(requestNewToken: Bool) -> Single<NabuSessionTokenResponse>
+    func getSessionToken() -> Single<NabuSessionTokenResponse>
+    func updateWalletInfo() -> Completable
+}
+
 /// Component in charge of authenticating the Nabu user.
-final class NabuAuthenticationService {
+final class NabuAuthenticationService: NabuAuthenticationServiceAPI {
 
     static let shared = NabuAuthenticationService()
 
@@ -30,6 +36,10 @@ final class NabuAuthenticationService {
     }
 
     // MARK: - Public Methods
+    
+    func getSessionToken() -> Single<NabuSessionTokenResponse> {
+        return getSessionToken(requestNewToken: false)
+    }
 
     /// Returns a NabuSessionTokenResponse which is to be used for all KYC endpoints that
     /// require an authenticated KYC user. This function will handle creating a KYC user
@@ -46,7 +56,7 @@ final class NabuAuthenticationService {
     /// - Parameter requestNewToken: if a new token should be requested. Defaults to false so that a
     ///       session token is only requested if the cached token is expired.
     /// - Returns: a Single returning the sesion token
-    func getSessionToken(requestNewToken: Bool = false) -> Single<NabuSessionTokenResponse> {
+    func getSessionToken(requestNewToken: Bool) -> Single<NabuSessionTokenResponse> {
 
         // The wallet must be initialized first before retrieving a session token because this service
         // requires access to the wallet GUID and email (i.e. when creating a NabuUser) which is only

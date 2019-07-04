@@ -15,7 +15,7 @@ import EthereumKit
 class ERC20AccountAPIClientMock: ERC20AccountAPIClientAPI {
     typealias Token = PaxToken
     
-    static let balance = CryptoValue.paxFromMajor(decimal: Decimal(2.0)).amount
+    static let balance = CryptoValue.paxFromMajor(string: "2.0")!.amount
         .string(unitDecimals: 0)
     static let accountResponse = ERC20AccountResponse<PaxToken>(
         accountHash: "",

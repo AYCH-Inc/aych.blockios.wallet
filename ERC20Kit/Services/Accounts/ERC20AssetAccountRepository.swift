@@ -10,6 +10,26 @@ import PlatformKit
 import RxSwift
 import RxCocoa
 
+public class AnyERC20AssetAccountRepository<Token: ERC20Token>: AssetAccountRepositoryAPI {
+    public typealias Details = ERC20AssetAccountDetails
+    
+    private let assetAccountDetailsValue: Maybe<Details>
+    private let currentAssetAccountDetailsClosure: (Bool) -> Maybe<ERC20AssetAccountDetails>
+    
+    public init<R: AssetAccountRepositoryAPI>(_ repository: R) where R.Details == Details {
+        self.assetAccountDetailsValue = repository.assetAccountDetails
+        self.currentAssetAccountDetailsClosure = repository.currentAssetAccountDetails
+    }
+    
+    public var assetAccountDetails: Maybe<Details> {
+        return assetAccountDetailsValue
+    }
+    
+    public func currentAssetAccountDetails(fromCache: Bool) -> Maybe<Details> {
+        return currentAssetAccountDetailsClosure(fromCache)
+    }
+}
+
 open class ERC20AssetAccountRepository<Token: ERC20Token>: AssetAccountRepositoryAPI {
     public typealias Details = ERC20AssetAccountDetails
     

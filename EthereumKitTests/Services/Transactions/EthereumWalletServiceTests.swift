@@ -179,13 +179,13 @@ class EthereumWalletServiceTests: XCTestCase {
     
     func test_building_amount_over_balance() throws {
         // Arrange
-        let cryptoValue = CryptoValue.etherFromMajor(decimal: Decimal(1.0))
+        let cryptoValue = CryptoValue.etherFromMajor(string: "1.0")!
         let ethereumValue = try EthereumValue(crypto: cryptoValue)
         let toAddress = EthereumAddress(
             rawValue: MockEthereumWalletTestData.Transaction.to
         )!
         
-        ethereumAPIClient.accountBalanceValue = Single.just(CryptoValue.etherFromMajor(decimal: Decimal(0.1)))
+        ethereumAPIClient.accountBalanceValue = Single.just(CryptoValue.etherFromMajor(string: "0.1")!)
 
         let buildObservable: Observable<EthereumTransactionCandidate> = subject
             .buildTransaction(with: ethereumValue, to: toAddress)
@@ -205,7 +205,7 @@ class EthereumWalletServiceTests: XCTestCase {
     
     func test_sending_fees_over_balance() throws {
         // Arrange
-        let cryptoValue = CryptoValue.etherFromMajor(decimal: Decimal(0.01))
+        let cryptoValue = CryptoValue.etherFromMajor(string: "0.01")!
         let ethereumValue = try EthereumValue(crypto: cryptoValue)
         let toAddress = EthereumAddress(
             rawValue: MockEthereumWalletTestData.Transaction.to
@@ -223,7 +223,7 @@ class EthereumWalletServiceTests: XCTestCase {
             gasLimitContract: Int(MockEthereumWalletTestData.Transaction.gasLimitContract)
         )
         feeService.feesValue = Single.just(fee)
-        ethereumAPIClient.accountBalanceValue = Single.just(CryptoValue.etherFromMajor(decimal: Decimal(0.02)))
+        ethereumAPIClient.accountBalanceValue = Single.just(CryptoValue.etherFromMajor(string: "0.02")!)
 
         let buildObservable: Observable<EthereumTransactionCandidate> = subject
             .buildTransaction(with: ethereumValue, to: toAddress)
@@ -360,7 +360,7 @@ class EthereumWalletServiceTests: XCTestCase {
     
     func test_failed_to_fetch_balance() throws {
         // Arrange
-        let cryptoValue = CryptoValue.etherFromMajor(decimal: Decimal(1.0))
+        let cryptoValue = CryptoValue.etherFromMajor(string: "1.0")!
         let ethereumValue = try EthereumValue(crypto: cryptoValue)
         let toAddress = EthereumAddress(
             rawValue: MockEthereumWalletTestData.Transaction.to

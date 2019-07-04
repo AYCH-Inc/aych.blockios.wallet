@@ -30,6 +30,6 @@ class SocketMessageTests: XCTestCase {
 
         let usdBtcPair = exchangeRates!.rates.first(where: { $0.pair == "USD-BTC" })
         XCTAssertNotNil(usdBtcPair, "USD-BTC pair not found")
-        XCTAssertEqual(Decimal(string: "0.00015351")!, usdBtcPair!.price)
+        XCTAssertEqual("0.00015351", usdBtcPair!.price)
     }
 }

@@ -49,7 +49,8 @@ extension FiatValue {
     public func convertToCryptoValue(exchangeRate: FiatValue, cryptoCurrency: CryptoCurrency) -> CryptoValue {
         let exchangeRate = exchangeRate.amount
         let cryptoMajorValue = amount / exchangeRate
-        return CryptoValue.createFromMajorValue(cryptoMajorValue, assetType: cryptoCurrency)
+        let cryptoMajorValueString = (cryptoMajorValue as NSDecimalNumber).description(withLocale: Locale.current)
+        return CryptoValue.createFromMajorValue(string: cryptoMajorValueString, assetType: cryptoCurrency)!
     }
 }
 

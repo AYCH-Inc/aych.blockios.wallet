@@ -10,7 +10,13 @@ import Foundation
 import RxSwift
 import PlatformKit
 
-open class StellarWalletAccountRepository: WalletAccountRepositoryAPI, WalletAccountInitializer, KeyPairProviderAPI {
+public protocol StellarWalletAccountRepositoryAPI {
+    var defaultAccount: StellarWalletAccount? { get }
+    
+    func loadKeyPair() -> Maybe<StellarKeyPair>
+}
+
+open class StellarWalletAccountRepository: StellarWalletAccountRepositoryAPI, WalletAccountRepositoryAPI, WalletAccountInitializer, KeyPairProviderAPI {
     public typealias Pair = StellarKeyPair
     public typealias WalletAccount = StellarWalletAccount
     public typealias Bridge = StellarWalletBridgeAPI & MnemonicAccessAPI

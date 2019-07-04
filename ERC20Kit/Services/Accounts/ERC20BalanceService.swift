@@ -44,6 +44,6 @@ public class AnyERC20BalanceService<Token: ERC20Token>: ERC20BalanceServiceAPI {
     
     public func balance(for address: EthereumAddress) -> Single<ERC20TokenValue<Token>> {
         return accountClient.fetchWalletAccount(ethereumAddress: address.rawValue)
-            .map { Token.cryptoValueFrom(minorValue: $0.balance) ?? Token.cryptoValueFrom(majorValue: Decimal(0))! }
+            .map { Token.cryptoValueFrom(minorValue: $0.balance) ?? Token.zeroValue }
     }
 }

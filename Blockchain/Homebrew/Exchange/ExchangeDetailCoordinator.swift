@@ -370,10 +370,7 @@ class ExchangeDetailCoordinator: NSObject {
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { account in
-                let balance = CryptoValue.createFromMajorValue(
-                    account.balance,
-                    assetType: account.address.assetType.cryptoCurrency
-                )
+                let balance = account.balance
                 AnalyticsService.shared.trackEvent(
                     title: "swap_failure",
                     parameters: [
@@ -390,10 +387,7 @@ class ExchangeDetailCoordinator: NSObject {
     }
     
     fileprivate func logTransactionLocked(_ orderTransaction: OrderTransaction) {
-        let balance = CryptoValue.createFromMajorValue(
-            orderTransaction.from.balance,
-            assetType: orderTransaction.from.address.assetType.cryptoCurrency
-        )
+        let balance = orderTransaction.from.balance
         AnalyticsService.shared.trackEvent(
             title: "swap_locked",
             parameters: [

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 
 /// Describes a Blockchain account for a specific `AssetType`
 struct AssetAccount {
@@ -18,7 +19,7 @@ struct AssetAccount {
     let address: AssetAddress
 
     /// The balance in this account
-    let balance: Decimal
+    let balance: CryptoValue
 
     /// The name of this account
     let name: String

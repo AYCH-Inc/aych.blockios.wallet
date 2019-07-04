@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 
 // The `baseFeeInStroops` the network charges per operation in a transaction.
 // This field is in stroops, which are 1/10,000,000th of a lumen.
@@ -32,18 +33,14 @@ extension StellarLedger: Equatable {
 }
 
 extension StellarLedger {
-    var baseFeeInXlm: Decimal? {
-        guard let feeInStroops = baseFeeInStroops else {
-            return nil
-        }
-        return Decimal(feeInStroops) / Decimal(Constants.Conversions.stroopsInXlm)
+    var baseFeeInXlm: CryptoValue? {
+        guard let baseFeeInStroops = baseFeeInStroops else { return nil }
+        return CryptoValue.lumensFromStroops(int: baseFeeInStroops)
     }
-
-    var baseReserveInXlm: Decimal? {
-        guard let reserveInStroops = baseReserveInStroops else {
-            return nil
-        }
-        return Decimal(reserveInStroops) / Decimal(Constants.Conversions.stroopsInXlm)
+    
+    var baseReserveInXlm: CryptoValue? {
+        guard let baseReserveInStroops = baseReserveInStroops else { return nil }
+        return CryptoValue.lumensFromStroops(int: baseReserveInStroops)
     }
 }
 

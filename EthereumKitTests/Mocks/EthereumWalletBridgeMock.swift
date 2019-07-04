@@ -28,12 +28,12 @@ class EthereumWalletBridgeMock: EthereumWalletBridgeAPI, EthereumWalletAccountBr
         return fetchHistoryIfNeededValue
     }
     
-    var fetchBalanceValue: Single<CryptoValue> = Single.just(CryptoValue.etherFromMajor(decimal: Decimal(2.0)))
+    var fetchBalanceValue: Single<CryptoValue> = Single.just(CryptoValue.etherFromMajor(string: "2.0")!)
     var fetchBalance: Single<CryptoValue> {
         return fetchBalanceValue
     }
     
-    var balanceValue: Single<CryptoValue> = Single.just(CryptoValue.etherFromMajor(decimal: Decimal(2.0)))
+    var balanceValue: Single<CryptoValue> = Single.just(CryptoValue.etherFromMajor(string: "2.0")!)
     var balance: Single<CryptoValue> {
         return balanceValue
     }

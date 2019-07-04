@@ -13,11 +13,17 @@ import PlatformKit
 import EthereumKit
 import StellarKit
 import ERC20Kit
+import BigInt
+
+protocol AssetAccountRepositoryAPI {
+    func accounts(for assetType: AssetType, fromCache: Bool) -> Maybe<[AssetAccount]>
+    func defaultStellarAccount() -> AssetAccount?
+}
 
 /// A repository for `AssetAccount` objects
 // TICKET: [IOS-2087] - Integrate PlatformKit Account Repositories
 // and Deprecate AssetAccountRepository
-class AssetAccountRepository {
+class AssetAccountRepository: AssetAccountRepositoryAPI {
 
     static let shared = AssetAccountRepository()
 
@@ -68,7 +74,7 @@ class AssetAccountRepository {
                             fromAddressString: $0.account.accountAddress,
                             assetType: .pax
                         ),
-                        balance: $0.balance.majorValue,
+                        balance: $0.balance,
                         name: $0.account.name
                     )
                     return Maybe.just([account])
@@ -83,7 +89,7 @@ class AssetAccountRepository {
                             fromAddressString: $0.account.accountAddress,
                             assetType: .pax
                         ),
-                        balance: $0.balance.majorValue,
+                        balance: $0.balance,
                         name: $0.account.name
                     )
                     return Maybe.just([account])
@@ -216,7 +222,7 @@ class AssetAccountRepository {
                         fromAddressString: details.account.accountAddress,
                         assetType: .ethereum
                     ),
-                    balance: details.balance.majorValue,
+                    balance: details.balance,
                     name: LocalizationConstants.myEtherWallet
                 )
                 return Maybe.just(account)
@@ -241,13 +247,17 @@ extension AssetAccount {
         }
         let name = wallet.getLabelForAccount(index, assetType: assetType.legacy)
         let balanceFromWalletObject = wallet.getBalanceForAccount(index, assetType: assetType.legacy)
-        let balance: Decimal
+        let balance: CryptoValue
         if assetType == .bitcoin || assetType == .bitcoinCash {
             let balanceLong = balanceFromWalletObject as? CUnsignedLongLong ?? 0
-            balance = Decimal(balanceLong) / Decimal(Constants.Conversions.satoshi)
+            let balanceDecimal = Decimal(balanceLong) / Decimal(Constants.Conversions.satoshi)
+            let balanceString = (balanceDecimal as NSDecimalNumber).description(withLocale: Locale.current)
+            let balanceBigUInt = BigUInt(balanceString, decimals: assetType.cryptoCurrency.maxDecimalPlaces) ?? 0
+            let balanceBigInt = BigInt(balanceBigUInt)
+            balance = CryptoValue.createFromMinorValue(balanceBigInt, assetType: assetType.cryptoCurrency)
         } else {
             let balanceString = balanceFromWalletObject as? String ?? "0"
-            balance = NSDecimalNumber(string: balanceString).decimalValue
+            balance = CryptoValue.createFromMajorValue(string: balanceString, assetType: assetType.cryptoCurrency) ?? CryptoValue.zero(assetType: assetType.cryptoCurrency)
         }
         return AssetAccount(
             index: index,

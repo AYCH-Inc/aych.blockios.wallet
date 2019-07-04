@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 
 struct StellarAccount {
     /// The account ID
@@ -32,7 +33,7 @@ extension StellarAccount {
         let assetAccount = AssetAccount(
             index: 0,
             address: assetAddress,
-            balance: 0,
+            balance: CryptoValue.lumensZero,
             name: LocalizationConstants.Stellar.defaultLabelName
         )
         return StellarAccount(

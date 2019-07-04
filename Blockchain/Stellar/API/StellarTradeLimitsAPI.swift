@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import PlatformKit
 
 protocol StellarTradeLimitsAPI {
 
@@ -18,13 +19,13 @@ protocol StellarTradeLimitsAPI {
     ///
     /// - Parameter accountId: the account ID
     /// - Returns: a Single returning the maximum spendable amount in XLM
-    func maxSpendableAmount(for accountId: AccountID) -> Single<Decimal>
+    func maxSpendableAmount(for accountId: AccountID) -> Single<CryptoValue>
 
     /// The minimum amount required in the user's account.
     ///
     /// - Parameter accountId: the account ID
     /// - Returns: a Single returning the minimum required amount
-    func minRequiredRemainingAmount(for accountId: AccountID) -> Single<Decimal>
+    func minRequiredRemainingAmount(for accountId: AccountID) -> Single<CryptoValue>
 
     /// Returns a Single<Bool> emitting whether or not the amount can be spent. This takes
     /// into account the max spendable amount.
@@ -33,5 +34,5 @@ protocol StellarTradeLimitsAPI {
     ///   - amount: the amount to send in XLM
     ///   - accountId: the account ID
     /// - Returns: a Single<Bool>
-    func isSpendable(amount: Decimal, for accountId: AccountID) -> Single<Bool>
+    func isSpendable(amount: CryptoValue, for accountId: AccountID) -> Single<Bool>
 }

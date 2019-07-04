@@ -42,7 +42,7 @@ class EthereumWalletTests: XCTestCase {
     
     func test_wallet_balance() {
         // Arrange
-        let expectedBalance: CryptoValue = CryptoValue.etherFromMajor(decimal: Decimal(1337.0))
+        let expectedBalance: CryptoValue = CryptoValue.etherFromMajor(string: "1337.0")!
         let balanceObservable: Observable<CryptoValue> = subject
             .balance
             .asObservable()

@@ -117,14 +117,14 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                 /// Begin observing operations and updating the user account.
                 /// If the user does not have a balance, it means the `StellarAccount`
                 /// does not exist (it hasn't been funded).
-                guard account.assetAccount.balance > 0 else {
+                guard account.assetAccount.balance.amount > 0 else {
                     throw StellarServiceError.noDefaultAccount
                 }
                 return true
             }
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] account in
-                if account.assetAccount.balance == 0 {
+                if account.assetAccount.balance.amount == 0 {
                     self?.handle(internalEvent: .noStellarAccount)
                 }
                 self?.observeOperations()
@@ -173,7 +173,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                 
                 let feeInXlm: Decimal = fee.regular.majorValue
                 
-                self.modelInterface.updateBaseReserve(ledger.baseReserveInXlm)
+                self.modelInterface.updateBaseReserve(ledger.baseReserveInXlm?.majorValue)
                 self.modelInterface.updateFee(feeInXlm)
                 self.modelInterface.updatePrice(price.priceInFiat.amount)
                 self.interface.apply(updates: [.feeAmountLabelText()])
@@ -305,9 +305,18 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             ])
             return
         }
-
+        
+        let amountString = (amount as NSDecimalNumber).description(withLocale: Locale.current)
+        guard let amountCrypto = CryptoValue.lumensFromMajor(string: amountString) else {
+            interface.apply(updates: [
+                .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
+                .errorLabelVisibility(.visible)
+            ])
+            return
+        }
+        
         let disposable = Single.zip(
-            services.limits.isSpendable(amount: amount, for: sourceAccount.publicKey),
+            services.limits.isSpendable(amount: amountCrypto, for: sourceAccount.publicKey),
             services.accounts.validate(accountID: toAddress)
         ).subscribeOn(MainScheduler.asyncInstance)
         .observeOn(MainScheduler.instance)
@@ -364,9 +373,9 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             guard let this = self else { return }
             this.showMinimumBalanceView(
                 latestPrice: price.priceInFiat.amount,
-                fee: ledger.baseFeeInXlm ?? this.services.ledger.fallbackBaseFee,
-                balance: account.assetAccount.balance,
-                baseReserve: ledger.baseReserveInXlm ?? this.services.ledger.fallbackBaseReserve
+                fee: ledger.baseFeeInXlm?.majorValue ?? this.services.ledger.fallbackBaseFee,
+                balance: account.assetAccount.balance.majorValue,
+                baseReserve: ledger.baseReserveInXlm?.majorValue ?? this.services.ledger.fallbackBaseReserve
             )
         }, onError: { [weak self] _ in
             guard let this = self else { return }
@@ -451,7 +460,7 @@ extension StellarAccount {
         let assetAccount = AssetAccount(
             index: 0,
             address: StellarAddress(string: ""),
-            balance: 0,
+            balance: CryptoValue.lumensZero,
             name: ""
         )
         return StellarAccount(

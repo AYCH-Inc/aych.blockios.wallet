@@ -44,6 +44,10 @@ target 'StellarKit' do
   pod 'RxSwift', '~> 4.0'
   pod 'RxCocoa', '~> 4.0'
   pod 'stellar-ios-mac-sdk', git: 'git@github.com:bchrisarriola/stellar-ios-mac-sdk.git', commit: 'fe5cfb8eda5d62f57f634b75023c6b854d87e128'
+
+  target 'StellarKitTests' do
+    inherit! :search_paths
+  end
 end
 
 target 'EthereumKit' do

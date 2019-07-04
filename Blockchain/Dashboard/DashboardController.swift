@@ -304,10 +304,10 @@ final class DashboardController: UIViewController {
 
     private func getEthBalance() -> CryptoValue {
         guard let ethBalance = wallet.getEthBalance() else {
-            return CryptoValue.etherFromMajor(decimal: 0)
+            return CryptoValue.etherZero
         }
         let localized = NumberFormatter.localFormattedString(ethBalance) ?? ethBalance
-        return CryptoValue.etherFromMajor(string: localized) ?? CryptoValue.etherFromMajor(decimal: 0)
+        return CryptoValue.etherFromMajor(string: localized) ?? CryptoValue.etherZero
     }
 
     private func getBchBalance() -> CryptoValue {
@@ -328,7 +328,7 @@ final class DashboardController: UIViewController {
         let btcBalance = balances?[.bitcoin] ?? CryptoValue.bitcoinFromMajor(int: 0)
         let btcFiatBalance = btcBalance.convertToFiatValue(exchangeRate: lastBtcExchangeRate)
 
-        let ethBalance = balances?[.ethereum] ?? CryptoValue.etherFromMajor(decimal: 0)
+        let ethBalance = balances?[.ethereum] ?? CryptoValue.etherZero
         let ethFiatBalance = ethBalance.convertToFiatValue(exchangeRate: lastEthExchangeRate)
 
         let bchBalance = balances?[.bitcoinCash] ?? CryptoValue.bitcoinCashFromMajor(int: 0)
@@ -337,7 +337,7 @@ final class DashboardController: UIViewController {
         let xlmBalance = balances?[.stellar] ?? CryptoValue.lumensFromMajor(decimal: 0)
         let xlmFiatBalance = xlmBalance.convertToFiatValue(exchangeRate: lastXlmExchangeRate)
         
-        let paxBalance = balances?[.pax] ?? CryptoValue.paxFromMajor(decimal: 0)
+        let paxBalance = balances?[.pax] ?? CryptoValue.paxZero
         let paxFiatBalance = paxBalance.convertToFiatValue(exchangeRate: lastPaxExchangeRate)
 
         let totalBalance: FiatValue
@@ -430,13 +430,13 @@ final class DashboardController: UIViewController {
                 }
                 let stellerBalance = self.stellarAccountService
                     .currentStellarAccount(fromCache: false)
-                    .map { CryptoValue.lumensFromMajor(decimal: $0.assetAccount.balance) }
+                    .map { $0.assetAccount.balance }
                     .catchError { _ in Maybe.just(CryptoValue.lumensFromMajor(int: 0)) }
                 
                 let paxBalance = self.paxAccountRepository
                     .currentAssetAccountDetails(fromCache: false)
                     .map { $0.balance }
-                    .catchError { _ in Maybe.just(CryptoValue.paxFromMajor(decimal: Decimal(0))) }
+                    .catchError { _ in Maybe.just(CryptoValue.paxZero) }
                 
                 _ = Maybe.zip(stellerBalance, paxBalance)
                     .subscribeOn(MainScheduler.asyncInstance)
@@ -456,7 +456,7 @@ final class DashboardController: UIViewController {
                             AssetType.ethereum: self.getEthBalance(),
                             AssetType.bitcoinCash: self.getBchBalance(),
                             AssetType.stellar: CryptoValue.lumensFromMajor(int: 0),
-                            AssetType.pax: CryptoValue.paxFromMajor(decimal: Decimal(0))
+                            AssetType.pax: CryptoValue.paxZero
                         ])
                     })
             }, onError: { error in

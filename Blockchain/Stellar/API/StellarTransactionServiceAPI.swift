@@ -70,7 +70,7 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
             /// `Transactions` screen prior to ever receiving XLM. We want to catch
             /// this error in this case as we know the user has an XLM account.
             .filter { account -> Bool in
-                guard account.assetAccount.balance > 0 else {
+                guard account.assetAccount.balance.amount > 0 else {
                     throw StellarServiceError.noDefaultAccount
                 }
                 return true

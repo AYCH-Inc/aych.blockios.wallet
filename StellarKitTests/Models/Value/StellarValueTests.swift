@@ -12,7 +12,7 @@ import PlatformKit
 
 class StellarValueTests: XCTestCase {
     func test_initialisation() {
-        let cryptoValue = CryptoValue.etherFromMajor(decimal: Decimal(1000))
+        let cryptoValue = CryptoValue.etherFromMajor(string: "1000.0")!
         XCTAssertThrowsError(try StellarValue(value: cryptoValue)) { error in
             XCTAssertEqual(error as! StellarValueError, StellarValueError.notAStellarValue)
         }

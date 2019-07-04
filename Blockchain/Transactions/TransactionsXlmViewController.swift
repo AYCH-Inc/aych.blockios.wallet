@@ -81,7 +81,7 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { account in
-                let decimalNumber = NSDecimalNumber(decimal: account.assetAccount.balance)
+                let decimalNumber = NSDecimalNumber(decimal: account.assetAccount.balance.majorValue)
                 let truncatedBalance = NumberFormatter.stellarFormatter.string(from: decimalNumber) ?? ""
                 let formattedBalance = truncatedBalance.appendAssetSymbol(for: .stellar)
                 self.title = formattedBalance

@@ -17,9 +17,9 @@ public protocol ERC20Token {
     static var metadataKey: String { get }
     static var contractAddress: EthereumContractAddress { get }
     static var smallestSpendableValue: ERC20TokenValue<Self> { get }
+    static var zeroValue: ERC20TokenValue<Self> { get }
     
     static func cryptoValueFrom(majorValue: String) -> ERC20TokenValue<Self>?
-    static func cryptoValueFrom(majorValue: Decimal) -> ERC20TokenValue<Self>?
     
     static func cryptoValueFrom(minorValue: String) -> ERC20TokenValue<Self>?
     static func cryptoValueFrom(minorValue: BigInt) -> ERC20TokenValue<Self>?
@@ -32,6 +32,11 @@ extension ERC20Token {
     
     public static var metadataKey: String {
         return assetType.rawValue.lowercased()
+    }
+    
+    public static var zeroValue: ERC20TokenValue<Self> {
+        // swiftlint:disable:next force_try
+        return try! ERC20TokenValue<Self>(crypto: CryptoValue.zero(assetType: assetType))
     }
 }
 

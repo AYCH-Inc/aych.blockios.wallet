@@ -64,7 +64,7 @@ class ERC20AssetAccountDetailsServiceTests: XCTestCase {
                         accountAddress: "",
                         name: "My \(CryptoCurrency.pax.description) Wallet"
                     ),
-                    balance: CryptoValue.paxFromMajor(decimal: Decimal(2.0))
+                    balance: CryptoValue.paxFromMajor(string: "2.0")!
                 )
             ),
             .completed(200)

@@ -228,7 +228,7 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
     func onPaxEntry(_ value: CryptoValue?) {
         // TODO: Build transaction
         // swiftlint:disable force_try
-        let tokenValue = try! ERC20TokenValue<PaxToken>.init(crypto: value ?? .zero(assetType: .pax))
+        let tokenValue = try! ERC20TokenValue<PaxToken>.init(crypto: value ?? .paxZero)
         calculator.handle(event: .paxValueEntryEvent(tokenValue))
     }
     

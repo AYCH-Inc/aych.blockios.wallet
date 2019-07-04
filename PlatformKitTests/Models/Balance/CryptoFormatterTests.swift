@@ -147,11 +147,11 @@ class CryptoFormatterTests: XCTestCase {
         )
         XCTAssertEqual(
             "1.213333",
-            ethFormatter.format(value: CryptoValue.etherFromMajor(decimal: 1.213333))
+            ethFormatter.format(value: CryptoValue.etherFromMajor(string: "1.213333")!)
         )
         XCTAssertEqual(
             "1.12345678",
-            ethFormatter.format(value: CryptoValue.etherFromMajor(decimal: 1.123456789))
+            ethFormatter.format(value: CryptoValue.etherFromMajor(string: "1.123456789")!)
         )
     }
 
@@ -170,11 +170,11 @@ class CryptoFormatterTests: XCTestCase {
         )
         XCTAssertEqual(
             "1.213333 ETH",
-            ethFormatter.format(value: CryptoValue.etherFromMajor(decimal: 1.213333), withPrecision: .short, includeSymbol: true)
+            ethFormatter.format(value: CryptoValue.etherFromMajor(string: "1.213333")!, withPrecision: .short, includeSymbol: true)
         )
         XCTAssertEqual(
             "1.12345678 ETH",
-            ethFormatter.format(value: CryptoValue.etherFromMajor(decimal: 1.123456789), withPrecision: .short, includeSymbol: true)
+            ethFormatter.format(value: CryptoValue.etherFromMajor(string: "1.123456789")!, withPrecision: .short, includeSymbol: true)
         )
         XCTAssertEqual(
             "1.12345678 ETH",

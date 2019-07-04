@@ -22,6 +22,32 @@ public enum ERC20ServiceError: Error {
     case invalidEthereumAddress
 }
 
+public protocol ERC20ServiceAPI {
+    associatedtype Token: ERC20Token
+    
+    func evaluate(amount cryptoValue: ERC20TokenValue<Token>) -> Single<ERC20TransactionProposal<Token>>
+    func transfer(to: EthereumKit.EthereumAddress, amount cryptoValue: ERC20TokenValue<Token>) -> Single<EthereumTransactionCandidate>
+}
+
+public class AnyERC20Service<Token: ERC20Token>: ERC20ServiceAPI {
+    
+    private let evaluateAmount: (ERC20TokenValue<Token>) -> Single<ERC20TransactionProposal<Token>>
+    private let transfer: (EthereumKit.EthereumAddress, ERC20TokenValue<Token>) -> Single<EthereumTransactionCandidate>
+    
+    public init<S: ERC20ServiceAPI>(_ service: S) where S.Token == Token {
+        self.evaluateAmount = service.evaluate
+        self.transfer = service.transfer
+    }
+    
+    public func evaluate(amount cryptoValue: ERC20TokenValue<Token>) -> Single<ERC20TransactionProposal<Token>> {
+        return evaluateAmount(cryptoValue)
+    }
+    
+    public func transfer(to: EthereumKit.EthereumAddress, amount cryptoValue: ERC20TokenValue<Token>) -> Single<EthereumTransactionCandidate> {
+        return transfer(to, cryptoValue)
+    }
+}
+
 public class ERC20Service<Token: ERC20Token>: ERC20API, ERC20TransactionEvaluationAPI {
     
     enum ERC20ContractMethod: String {
@@ -264,3 +290,4 @@ extension ERC20Service: ERC20TransactionMemoAPI {
     }
 }
 
+extension ERC20Service: ERC20ServiceAPI {}

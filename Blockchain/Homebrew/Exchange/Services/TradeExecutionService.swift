@@ -14,15 +14,32 @@ import EthereumKit
 import BitcoinKit
 import ERC20Kit
 
+protocol XLMDependenciesAPI {
+    var accounts: StellarAccountAPI { get }
+    var transactionAPI: StellarTransactionAPI { get }
+    var ledgerAPI: StellarLedgerAPI { get }
+    var repository: StellarWalletAccountRepositoryAPI { get }
+    var limits: StellarTradeLimitsAPI { get }
+}
+
+protocol TradeExecutionServiceDependenciesAPI {
+    var assetAccountRepository: AssetAccountRepositoryAPI { get }
+    var feeService: FeeServiceAPI { get }
+    var xlm: XLMDependenciesAPI { get }
+    var erc20Service: AnyERC20Service<PaxToken> { get }
+    var erc20AccountRepository: AnyERC20AssetAccountRepository<PaxToken> { get }
+    var ethereumWalletService: EthereumWalletServiceAPI { get }
+}
+
 class TradeExecutionService: TradeExecutionAPI {
     
     // MARK: Models
     
-    struct XLMDependencies {
+    struct XLMDependencies: XLMDependenciesAPI {
         let accounts: StellarAccountAPI
         let transactionAPI: StellarTransactionAPI
         let ledgerAPI: StellarLedgerAPI
-        let repository: StellarWalletAccountRepository
+        let repository: StellarWalletAccountRepositoryAPI
         let limits: StellarTradeLimitsAPI
         
         init(xlm: XLMServiceProvider = XLMServiceProvider.shared) {
@@ -34,18 +51,18 @@ class TradeExecutionService: TradeExecutionAPI {
         }
     }
     
-    struct Dependencies {
-        let assetAccountRepository: AssetAccountRepository
+    struct Dependencies: TradeExecutionServiceDependenciesAPI {
+        let assetAccountRepository: AssetAccountRepositoryAPI
         let feeService: FeeServiceAPI
-        let xlm: XLMDependencies
+        let xlm: XLMDependenciesAPI
         private let paxServiceProvider: PAXServiceProvider
         
-        var erc20Service: ERC20Service<PaxToken> {
-            return paxServiceProvider.services.paxService
+        var erc20Service: AnyERC20Service<PaxToken> {
+            return AnyERC20Service<PaxToken>(paxServiceProvider.services.paxService)
         }
         
-        var erc20AccountRepository: ERC20AssetAccountRepository<PaxToken> {
-            return paxServiceProvider.services.assetAccountRepository
+        var erc20AccountRepository: AnyERC20AssetAccountRepository<PaxToken> {
+            return AnyERC20AssetAccountRepository<PaxToken>(paxServiceProvider.services.assetAccountRepository)
         }
         
         var ethereumWalletService: EthereumWalletServiceAPI {
@@ -53,7 +70,7 @@ class TradeExecutionService: TradeExecutionAPI {
         }
         
         init(
-            repository: AssetAccountRepository = AssetAccountRepository.shared,
+            repository: AssetAccountRepositoryAPI = AssetAccountRepository.shared,
             cryptoFeeService: FeeServiceAPI = FeeService.shared,
             xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared,
             serviceProvider: PAXServiceProvider = PAXServiceProvider.shared
@@ -73,12 +90,16 @@ class TradeExecutionService: TradeExecutionAPI {
         )
     }
     
+    // MARK: Public Properties
+    
+    var isExecuting: Bool = false
+    
     // MARK: Private Properties
     
-    private let authentication: NabuAuthenticationService
-    private let wallet: Wallet
-    private let assetAccountRepository: AssetAccountRepository
-    private let dependencies: Dependencies
+    private let authentication: NabuAuthenticationServiceAPI
+    private let wallet: LegacyWalletAPI
+    private let assetAccountRepository: AssetAccountRepositoryAPI
+    private let dependencies: TradeExecutionServiceDependenciesAPI
     private let disposables = CompositeDisposable()
     private let bag: DisposeBag = DisposeBag()
     private var pendingXlmPaymentOperation: StellarPaymentOperation?
@@ -96,10 +117,25 @@ class TradeExecutionService: TradeExecutionAPI {
         return dependencies.feeService.stellar
     }
     
+    // MARK: Init
+    
+    init(
+        service: NabuAuthenticationServiceAPI = NabuAuthenticationService.shared,
+        wallet: LegacyWalletAPI = WalletManager.shared.wallet,
+        dependencies: TradeExecutionServiceDependenciesAPI
+        ) {
+        self.authentication = service
+        self.wallet = wallet
+        self.dependencies = dependencies
+        self.assetAccountRepository = dependencies.assetAccountRepository
+    }
+    
+    deinit {
+        disposables.dispose()
+    }
+    
     // MARK: TradeExecutionAPI
     
-    var isExecuting: Bool = false
-
     func canTradeAssetType(_ assetType: AssetType) -> Bool {
         switch assetType {
         case .ethereum, .pax:
@@ -109,7 +145,7 @@ class TradeExecutionService: TradeExecutionAPI {
         }
     }
     
-    func validateVolume(_ volume: Decimal, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
+    func validateVolume(_ volume: CryptoValue, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
         let assetType = assetAccount.address.assetType
         switch assetType {
         case .stellar:
@@ -121,65 +157,6 @@ class TradeExecutionService: TradeExecutionAPI {
              .ethereum:
             return Single.just(nil)
         }
-    }
-    
-    private func validatePax(volume: Decimal, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
-        let value = CryptoValue.createFromMajorValue(volume, assetType: .pax)
-        do {
-            let tokenValue = try ERC20TokenValue<PaxToken>(crypto: value)
-            return dependencies.erc20Service.evaluate(amount: tokenValue)
-                .flatMap { _ -> Single<TradeExecutionAPIError?> in
-                    Single.just(nil)
-                }
-                .catchError { error -> Single<TradeExecutionAPIError?> in
-                    if let error = error as? ERC20ServiceError {
-                        return Single.just(TradeExecutionAPIError.erc20Error(error))
-                    } else {
-                        throw error
-                    }
-                }
-        } catch {
-            return Single.error(error)
-        }
-    }
-
-    private func validateXlm(volume: Decimal, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
-        let accountId = assetAccount.address.address
-        let isSpendable = dependencies.xlm.limits.isSpendable(amount: volume, for: accountId)
-        let max = dependencies.xlm.limits.maxSpendableAmount(for: accountId)
-        return Single.zip(isSpendable, max)
-            .catchError { error -> Single<(Bool, Decimal)> in
-                if let stellarError = error as? StellarServiceError, stellarError == StellarServiceError.noDefaultAccount {
-                    return Single.just((false, 0))
-                } else {
-                    throw error
-                }
-            }
-            .flatMap { isSpendable, maxSpendable -> Single<TradeExecutionAPIError?> in
-                guard !isSpendable else {
-                    return Single.just(nil)
-                }
-                
-                let crytpo = CryptoValue.createFromMajorValue(maxSpendable, assetType: .stellar)
-                return Single.just(TradeExecutionAPIError.exceededMaxVolume(crytpo))
-            }
-    }
-    
-    // MARK: Init
-    
-    init(
-        service: NabuAuthenticationService = NabuAuthenticationService.shared,
-        wallet: Wallet = WalletManager.shared.wallet,
-        dependencies: Dependencies
-        ) {
-        self.authentication = service
-        self.wallet = wallet
-        self.dependencies = dependencies
-        self.assetAccountRepository = dependencies.assetAccountRepository
-    }
-    
-    deinit {
-        disposables.dispose()
     }
     
     // MARK: - Main Functions
@@ -357,7 +334,7 @@ class TradeExecutionService: TradeExecutionAPI {
                     self.ethereumTransactionCandidate = candidate
                     let feeAmount = candidate.gasLimit * candidate.gasPrice
                     let wei = CryptoValue.etherFromWei(string: "\(feeAmount)")
-                    createOrderPaymentSuccess(wei?.toDisplayString(includeSymbol: false) ?? "1234")
+                    createOrderPaymentSuccess(wei?.toDisplayString(includeSymbol: false) ?? "0")
                 }, onError: { erc20Error in
                     // TODO: Better error messaging
                     if let erc20Error = erc20Error as? ERC20ServiceError {
@@ -515,6 +492,47 @@ class TradeExecutionService: TradeExecutionAPI {
             )
         }
     }
+    
+    private func validatePax(volume: CryptoValue, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
+        do {
+            let tokenValue = try ERC20TokenValue<PaxToken>(crypto: volume)
+            return dependencies.erc20Service.evaluate(amount: tokenValue)
+                .flatMap { _ -> Single<TradeExecutionAPIError?> in
+                    Single.just(nil)
+                }
+                .catchError { error -> Single<TradeExecutionAPIError?> in
+                    if let error = error as? ERC20ServiceError {
+                        return Single.just(TradeExecutionAPIError.erc20Error(error))
+                    } else {
+                        throw error
+                    }
+            }
+        } catch {
+            return Single.error(error)
+        }
+    }
+    
+    private func validateXlm(volume: CryptoValue, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
+        let accountId = assetAccount.address.address
+        let isSpendable = dependencies.xlm.limits.isSpendable(amount: volume, for: accountId)
+        let max = dependencies.xlm.limits.maxSpendableAmount(for: accountId)
+        return Single.zip(isSpendable, max)
+            .catchError { error -> Single<(Bool, CryptoValue)> in
+                if let stellarError = error as? StellarServiceError, stellarError == StellarServiceError.noDefaultAccount {
+                    return Single.just((false, CryptoValue.lumensZero))
+                } else {
+                    throw error
+                }
+            }
+            .flatMap { isSpendable, maxSpendable -> Single<TradeExecutionAPIError?> in
+                guard !isSpendable else {
+                    return Single.just(nil)
+                }
+                
+                return Single.just(TradeExecutionAPIError.exceededMaxVolume(maxSpendable))
+            }
+    }
+    
 }
 
 // Private Helper methods
@@ -767,6 +785,9 @@ private extension TradeExecutionService {
                 return Maybe.just(details.account.accountAddress)
             }
         }
-        return Maybe.just(wallet.getReceiveAddress(forAccount: account, assetType: assetType.legacy))
+        guard let receiveAddress = wallet.getReceiveAddress(forAccount: account, assetType: assetType.legacy) else {
+            return Maybe.empty()
+        }
+        return Maybe.just(receiveAddress)
     }
 }

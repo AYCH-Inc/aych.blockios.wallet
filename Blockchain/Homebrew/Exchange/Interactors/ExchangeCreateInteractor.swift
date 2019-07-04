@@ -240,7 +240,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         let disposable = repository.accounts(for: type, fromCache: false)
             .asObservable()
             .subscribeOn(MainScheduler.asyncInstance)
-            .flatMapLatest { [weak self] accounts -> Observable<(Decimal, Decimal)> in
+            .flatMapLatest { [weak self] accounts -> Observable<(FiatValue, CryptoValue)> in
                 guard let self = self else { return Observable.empty() }
                 guard let account = accounts.filter({ $0.address.address == address }).first else { return Observable.empty() }
                 let observable = self.markets.fiatBalance(
@@ -249,12 +249,6 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                     model.fiatCurrencyCode
                 )
                 return Observable.combineLatest(observable, Observable.just(account.balance))
-            }
-            .map { (fiatBalance, cryptoBalance) -> (FiatValue, CryptoValue) in
-                let type = model.marketPair.pair.from
-                let fiatValue = FiatValue.create(amount: fiatBalance, currencyCode: model.fiatCurrencyCode)
-                let cryptoValue = CryptoValue.createFromMajorValue(cryptoBalance, assetType: type.cryptoCurrency)
-                return (fiatValue, cryptoValue)
             }
             .distinctUntilChanged { return $0 == $1 }
             .observeOn(MainScheduler.instance)
@@ -392,7 +386,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 self.status = .inflight
                 guard let model = self.model else { return Observable.empty() }
                 let validateVolumeObservable = self.tradeExecution
-                    .validateVolume(distinctVolume.majorValue, for: model.marketPair.fromAccount)
+                    .validateVolume(distinctVolume, for: model.marketPair.fromAccount)
                     .asObservable()
                 return Observable.zip(
                     Observable.just(model),
@@ -492,12 +486,8 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 let address = model.marketPair.fromAccount.address.address
 
                 guard let account = accounts.first(where: { $0.address.address == address }) else { return }
-                if account.balance < volume.majorValue {
-                    let cryptoValue = CryptoValue.createFromMajorValue(
-                        account.balance,
-                        assetType: fromAssetType.cryptoCurrency
-                    )
-                    strongSelf.status = .error(.insufficientFunds(cryptoValue))
+                if account.balance.amount < volume.amount {
+                    strongSelf.status = .error(.insufficientFunds(account.balance))
                     return
                 }
 

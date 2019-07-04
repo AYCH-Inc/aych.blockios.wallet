@@ -1,0 +1,2 @@
+
+{"channel":"conversion","seqnum":2,"event":"updated","type":"currencyRatio","quote":{"pair":"PAX-ETH","fiatCurrency":"CAD","fix":"baseInFiat","volume":"9.0","currencyRatio":{"base":{"fiat":{"symbol":"CAD","value":"9.00"},"crypto":{"symbol":"PAX","value":"6.87022901"}},"counter":{"fiat":{"symbol":"CAD","value":"8.86"},"crypto":{"symbol":"ETH","value":"0.02340873"}},"baseToFiatRate":"1.31","baseToCounterRate":"0.00340727","counterToBaseRate":"293.49009618","counterToFiatRate":"378.57"},"time":"2019-07-02T18:22:12.951Z"}}

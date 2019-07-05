@@ -973,6 +973,34 @@ struct LocalizationConstants {
             comment: "CTA of the announcement card shown when introducing PAX"
         )
     }
+    
+    struct PIT {
+        struct ConnectionPage {
+            struct Descriptors {
+                static let description = NSLocalizedString("The only Exchange that connects to your Wallet.", comment: "Description of the pit.")
+                static let lightningFast = NSLocalizedString("Lightning Fast Trades", comment: "")
+                static let lowFees = NSLocalizedString("Low Fees", comment: "")
+                static let builtByBlockchain = NSLocalizedString("Built by Blockchain.com", comment: "")
+                static let reliable = NSLocalizedString("Liquid & Reliable", comment: "")
+            }
+            
+            struct Features {
+                static let pitWillBeAbleTo = NSLocalizedString("The PIT will be able to:", comment: "")
+                static let shareStatus = NSLocalizedString("Share your Gold or Silver Level status", comment: "")
+                static let exchangeAddresses = NSLocalizedString("Exchange crypto addresses so you don't have to copy and paste", comment: "")
+                static let lowFees = NSLocalizedString("Low Fees", comment: "")
+                static let builtByBlockchain = NSLocalizedString("Built by Blockchain.com", comment: "")
+                
+                static let pitWillNotBeAbleTo = NSLocalizedString("The PIT will not be able to:", comment: "")
+                static let viewYourPassword = NSLocalizedString("View your wallet password", comment: "")
+            }
+            
+            struct Actions {
+                static let learnMore = NSLocalizedString("Learn More", comment: "")
+                static let connectNow = NSLocalizedString("Connect Now", comment: "")
+            }
+        }
+    }
 
     struct SideMenu {
         static let loginToWebWallet = NSLocalizedString("Pair Web Wallet", comment: "")

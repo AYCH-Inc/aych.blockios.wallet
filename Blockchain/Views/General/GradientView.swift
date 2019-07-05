@@ -104,7 +104,7 @@ class GradientView: UIView {
         gradientLayer.shouldRasterize = true
         
         if gradientLayer.superlayer == nil {
-            layer.addSublayer(gradientLayer)
+            layer.insertSublayer(gradientLayer, at: 0)
             gradientLayer.frame = layer.bounds
         }
         

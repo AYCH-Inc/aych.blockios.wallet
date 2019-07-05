@@ -459,6 +459,8 @@
 		3A686613219A2D900009FF29 /* StellarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A686612219A2D900009FF29 /* StellarConfiguration.swift */; };
 		3A686617219A2DBB0009FF29 /* StellarOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A686616219A2DBB0009FF29 /* StellarOperation.swift */; };
 		3A686619219A2DEE0009FF29 /* StellarServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A686618219A2DEE0009FF29 /* StellarServiceError.swift */; };
+		3A68A33022CA617D00EB1287 /* PitConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A68A32F22CA617D00EB1287 /* PitConnectViewController.swift */; };
+		3A68A33222CA618A00EB1287 /* PitConnectViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A68A33122CA618A00EB1287 /* PitConnectViewController.storyboard */; };
 		3A69705B221C9A6D005FBAC2 /* ExchangeContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A69705A221C9A6D005FBAC2 /* ExchangeContainerViewController.swift */; };
 		3A69705C221C9A6E005FBAC2 /* ExchangeContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A69705A221C9A6D005FBAC2 /* ExchangeContainerViewController.swift */; };
 		3A697067221C9B89005FBAC2 /* ExchangeContainerViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A697066221C9B89005FBAC2 /* ExchangeContainerViewController.storyboard */; };
@@ -2289,6 +2291,8 @@
 		3A686612219A2D900009FF29 /* StellarConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarConfiguration.swift; sourceTree = "<group>"; };
 		3A686616219A2DBB0009FF29 /* StellarOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarOperation.swift; sourceTree = "<group>"; };
 		3A686618219A2DEE0009FF29 /* StellarServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarServiceError.swift; sourceTree = "<group>"; };
+		3A68A32F22CA617D00EB1287 /* PitConnectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitConnectViewController.swift; sourceTree = "<group>"; };
+		3A68A33122CA618A00EB1287 /* PitConnectViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PitConnectViewController.storyboard; sourceTree = "<group>"; };
 		3A69705A221C9A6D005FBAC2 /* ExchangeContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeContainerViewController.swift; sourceTree = "<group>"; };
 		3A697066221C9B89005FBAC2 /* ExchangeContainerViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ExchangeContainerViewController.storyboard; sourceTree = "<group>"; };
 		3A69706C221CB527005FBAC2 /* ExchangeServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeServices.swift; sourceTree = "<group>"; };
@@ -6344,6 +6348,23 @@
 			path = Transactions;
 			sourceTree = "<group>";
 		};
+		3A68A32422CA60C300EB1287 /* PIT */ = {
+			isa = PBXGroup;
+			children = (
+				3A68A32E22CA616200EB1287 /* Screens */,
+			);
+			path = PIT;
+			sourceTree = "<group>";
+		};
+		3A68A32E22CA616200EB1287 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				3A68A32F22CA617D00EB1287 /* PitConnectViewController.swift */,
+				3A68A33122CA618A00EB1287 /* PitConnectViewController.storyboard */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
 		3A6A19DB21B895D200D97C74 /* Balance */ = {
 			isa = PBXGroup;
 			children = (
@@ -9426,6 +9447,7 @@
 				3A019119212DE54C00AED2BF /* Operations */,
 				34615BC2225F808700CEC8C4 /* Pax */,
 				AACE317E2092793300B7B806 /* Pin */,
+				3A68A32422CA60C300EB1287 /* PIT */,
 				51042C8820B1FDA600B022DE /* PrivateKeyReader */,
 				C732DF6A2201194700F3687A /* Protocols */,
 				3460ED9922149C2800614F52 /* QRCodeScanner */,
@@ -11693,6 +11715,7 @@
 				5152AC312142E4BE00E769CE /* AnnouncementCardView.xib in Resources */,
 				ECD244F119A8AC45004B1F40 /* PEKeyboard-4-dot.png in Resources */,
 				C9BE917E1945D8F600FD516D /* PEViewController.xib in Resources */,
+				3A68A33222CA618A00EB1287 /* PitConnectViewController.storyboard in Resources */,
 				515EFAE8210282B4002350B6 /* ReceiveCoins.xib in Resources */,
 				602B9CD72118E15300BD3D60 /* KYCInformationController.storyboard in Resources */,
 				602B9CF12118E15300BD3D60 /* LocationSuggestionCell.xib in Resources */,
@@ -13351,6 +13374,7 @@
 				C71859541F4B647100745A87 /* SendEtherViewController.m in Sources */,
 				51DC2F6020B7312600E03AF2 /* EthereumAddress.swift in Sources */,
 				84B601CA197AD03800DA1829 /* BCModalView.m in Sources */,
+				3A68A33022CA617D00EB1287 /* PitConnectViewController.swift in Sources */,
 				AA755EBA2187B26C00FC4894 /* StellarAirdropRouter.swift in Sources */,
 				51C2ADD620BDECE700D66108 /* String+EscapeJS.swift in Sources */,
 				9F0CBAAA151351F400CD945D /* Wallet.m in Sources */,

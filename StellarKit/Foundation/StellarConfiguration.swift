@@ -19,7 +19,7 @@ public struct StellarConfiguration {
     public let network: Network
 }
 
-public extension StellarConfiguration {
+extension StellarConfiguration {
     public static let production = StellarConfiguration(
         sdk: StellarSDK(withHorizonUrl: HorizonServer.production),
         network: Network.public

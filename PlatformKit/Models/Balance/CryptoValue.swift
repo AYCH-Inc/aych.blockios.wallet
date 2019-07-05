@@ -22,7 +22,7 @@ public protocol Crypto: Money {
     var value: CryptoValue { get }
 }
 
-public extension Crypto {
+extension Crypto {
     public var currencyCode: String {
         return value.currencyCode
     }
@@ -182,7 +182,7 @@ extension CryptoValue: Hashable, Equatable {
 
 // MARK: - Shared
 
-public extension CryptoValue {
+extension CryptoValue {
     /// The major value of the crypto (e.g. BTC, ETH, etc.)
     public var majorValue: Decimal {
         let divisor = BigInt(10).power(currencyType.maxDecimalPlaces)
@@ -224,7 +224,7 @@ public extension CryptoValue {
 
 // MARK: - Bitcoin
 
-public extension CryptoValue {
+extension CryptoValue {
     public static var bitcoinZero: CryptoValue {
         return zero(assetType: .bitcoin)
     }
@@ -256,7 +256,7 @@ public extension CryptoValue {
 
 // MARK: - Ethereum
 
-public extension CryptoValue {
+extension CryptoValue {
     public static var etherZero: CryptoValue {
         return zero(assetType: .ethereum)
     }
@@ -284,7 +284,7 @@ public extension CryptoValue {
 
 // MARK: - Bitcoin Cash
 
-public extension CryptoValue {
+extension CryptoValue {
     public static var bitcoinCashZero: CryptoValue {
         return zero(assetType: .bitcoinCash)
     }
@@ -316,7 +316,7 @@ public extension CryptoValue {
 
 // MARK: - Stellar
 
-public extension CryptoValue {
+extension CryptoValue {
     public static var lumensZero: CryptoValue {
         return zero(assetType: .stellar)
     }
@@ -348,7 +348,7 @@ public extension CryptoValue {
 
 // MARK: - PAX
 
-public extension CryptoValue {
+extension CryptoValue {
     public static var paxZero: CryptoValue {
         return zero(assetType: .pax)
     }

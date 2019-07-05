@@ -428,7 +428,7 @@ class TradeExecutionService: TradeExecutionAPI {
                 Logger.shared.error("No pending payment operation found")
                 return
             }
-            guard let pair = keyPair as? StellarKeyPair else {
+            guard let pair = keyPair else {
                 Logger.shared.error("No KeyPair provided")
                 return
             }

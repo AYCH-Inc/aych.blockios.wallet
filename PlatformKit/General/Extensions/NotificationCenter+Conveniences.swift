@@ -9,7 +9,7 @@
 import Foundation
 
 public extension NotificationCenter {
-    @discardableResult public static func when(_ name: NSNotification.Name, action: @escaping (Notification) -> Void) -> NSObjectProtocol {
+    @discardableResult static func when(_ name: NSNotification.Name, action: @escaping (Notification) -> Void) -> NSObjectProtocol {
         return NotificationCenter.default.addObserver(
             forName: name,
             object: nil,

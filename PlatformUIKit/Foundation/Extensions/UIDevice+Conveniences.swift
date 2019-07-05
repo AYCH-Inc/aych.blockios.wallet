@@ -8,7 +8,7 @@
 
 import Foundation
 
-public extension UIDevice {
+extension UIDevice {
     
     public var type: DeviceType {
         switch UIDevice.current.userInterfaceIdiom {

@@ -53,7 +53,7 @@ public extension StellarServiceError {
     }
 }
 
-public extension StellarServiceError {
+extension StellarServiceError {
     public static func ==(lhs: StellarServiceError, rhs: StellarServiceError) -> Bool {
         switch (lhs, rhs) {
         case (.insufficientFundsForNewAccount, .insufficientFundsForNewAccount),

@@ -15,16 +15,16 @@ extension CompositeDisposable {
 }
 
 extension ObservableType {
-    func optional() -> Observable<E?> {
-        return self.asObservable().map { e -> E? in
+    func optional() -> Observable<Element?> {
+        return self.asObservable().map { e -> Element? in
             return e
         }
     }
 }
 
-extension PrimitiveSequenceType where TraitType == SingleTrait {
-    func optional() -> Single<ElementType?> {
-        return self.map { e -> ElementType? in
+extension PrimitiveSequenceType where Trait == SingleTrait {
+    func optional() -> Single<Element?> {
+        return self.map { e -> Element? in
             return e
         }
     }

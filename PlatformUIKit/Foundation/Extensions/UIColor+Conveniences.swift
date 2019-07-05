@@ -8,7 +8,7 @@
 
 import Foundation
 
-public extension UIColor {
+extension UIColor {
     
     // MARK: - Brand-specific Colors
     

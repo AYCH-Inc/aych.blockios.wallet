@@ -469,7 +469,7 @@ extension ExchangeTradeModel.TradeStatus {
     }
 }
 
-fileprivate extension ExchangeTrade {
+extension ExchangeTrade {
     
     fileprivate func minerFeeCryptoAmount() -> String? {
         guard let assetType = AssetType(stringValue: minerCurrency()) else { return nil }

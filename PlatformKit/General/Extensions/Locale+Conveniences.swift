@@ -8,7 +8,7 @@
 
 import Foundation
 
-public extension Locale {
+extension Locale {
     public static let US = Locale(identifier: "en_US")
     public static let Canada = Locale(identifier: "en_CA")
     public static let France = Locale(identifier: "fr_FR")

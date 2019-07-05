@@ -31,7 +31,7 @@ extension StellarLedger: Equatable {
     }
 }
 
-public extension StellarLedger {
+extension StellarLedger {
     public var baseFeeInXlm: Decimal? {
         guard let feeInStroops = baseFeeInStroops else {
             return nil

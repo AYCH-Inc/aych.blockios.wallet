@@ -8,7 +8,7 @@
 
 import Foundation
 
-public extension ContainerModel {
+extension ContainerModel {
     
     public func reuseIdentifier() -> String {
         switch self {

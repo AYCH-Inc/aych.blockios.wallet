@@ -33,7 +33,7 @@ public struct TransactionDetail: Equatable {
     }
 }
 
-public extension TransactionDetail {
+extension TransactionDetail {
     public static func ==(lhs: TransactionDetail, rhs: TransactionDetail) -> Bool {
         return lhs.description == rhs.description &&
         lhs.value == rhs.value &&
@@ -44,7 +44,7 @@ public extension TransactionDetail {
     }
 }
 
-public extension TransactionDetail {
+extension TransactionDetail {
     
     public static let demo1: TransactionDetail = TransactionDetail(
         description: "This is a demo description",

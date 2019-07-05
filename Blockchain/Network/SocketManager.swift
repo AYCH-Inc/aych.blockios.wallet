@@ -134,7 +134,7 @@ extension SocketManager: WebSocketAdvancedDelegate {
             return
         }
 
-        guard let json = try? JSONSerialization.jsonObject(with: data) as! [String: AnyObject] else {
+        guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: AnyObject] else {
             onError("Couldn't create JSON object from data")
             return
         }

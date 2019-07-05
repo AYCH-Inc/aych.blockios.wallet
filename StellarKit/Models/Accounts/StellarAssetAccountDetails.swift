@@ -41,7 +41,7 @@ public extension StellarAssetAccountDetails {
 
 public extension AccountResponse {
     
-    public func toAssetAccountDetails() -> StellarAssetAccountDetails {
+    func toAssetAccountDetails() -> StellarAssetAccountDetails {
         let totalBalance = balances.reduce(Decimal(0)) { $0 + (Decimal(string: $1.balance) ?? 0) }
         
         // TODO: LocalizationConstants.Stellar.defaultLabelName

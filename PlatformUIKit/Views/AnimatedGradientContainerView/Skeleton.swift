@@ -32,7 +32,7 @@ public struct Skeleton {
     }
 }
 
-public extension Skeleton {
+extension Skeleton {
     /// This is for demonstration purposes.
     /// Though it's important that when this is adopted we
     /// agree to one type of model that is used consistantly

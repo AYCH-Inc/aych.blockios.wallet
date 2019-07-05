@@ -37,7 +37,7 @@ extension ValidationFormView where Self: UIViewController {
                 guard let this = self else { return }
 
                 // Scroll so that the next field is also visible
-                guard let currentIndex = this.validationFields.index(of: validationField) else { return }
+                guard let currentIndex = this.validationFields.firstIndex(of: validationField) else { return }
 
                 guard let nextField = this.validationFields[safe: currentIndex + 1] else { return }
 

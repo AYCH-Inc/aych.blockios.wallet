@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-public extension UIDevice {
+extension UIDevice {
     
-    var type: DeviceType {
+    public var type: DeviceType {
         switch UIDevice.current.userInterfaceIdiom {
         case .tv,
              .pad,

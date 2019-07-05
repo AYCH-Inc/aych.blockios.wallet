@@ -66,7 +66,7 @@ public class BottomSheetView: UIView {
     
     @objc func selectionTapped(_ sender: UIButton) {
         guard let model = model else { return }
-        if let index = stackView.arrangedSubviews.index(of: sender) {
+        if let index = stackView.arrangedSubviews.firstIndex(of: sender) {
             let action = model.actions[index]
             teardown(with: action)
         }

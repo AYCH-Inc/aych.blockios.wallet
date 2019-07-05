@@ -20,7 +20,7 @@ public struct ActionableTrigger: Equatable {
     }
 }
 
-public extension ActionableTrigger {
+extension ActionableTrigger {
     public static func == (lhs: ActionableTrigger, rhs: ActionableTrigger) -> Bool {
         return lhs.primaryString == rhs.primaryString &&
             lhs.secondaryString == rhs.secondaryString &&

@@ -9,7 +9,7 @@
 import UIKit
 import PlatformKit
 
-@objc public extension NSMutableAttributedString {
+@objc extension NSMutableAttributedString {
 
     /// Sets the foreground color of the substring `text` to the provided `color`
     /// if `text` is within this attributed string's range.
@@ -30,13 +30,13 @@ import PlatformKit
     }
 }
 
-public extension NSAttributedString {
+extension NSAttributedString {
 
-    var height: CGFloat {
+    public var height: CGFloat {
         return heightForWidth(width: CGFloat.greatestFiniteMagnitude)
     }
 
-    var width: CGFloat {
+    public var width: CGFloat {
         let size = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
         let rect = boundingRect(with: size, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
         return ceil(rect.size.width)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public extension UIStackView {
+extension UIStackView {
     public func addBackgroundColor(_ color: UIColor) {
         let subview = UIView(frame: bounds)
         subview.backgroundColor = color

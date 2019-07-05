@@ -52,11 +52,11 @@ public struct AlertAction {
     }
 }
 
-public extension AlertAction {
+extension AlertAction {
     
     public static let defaultDismissal = AlertAction(style: .dismiss)
     
-    var title: String? {
+    public var title: String? {
         switch style {
         case .confirm(let title):
             return title
@@ -81,7 +81,7 @@ public enum AlertActionStyle: Equatable {
     case dismiss
 }
 
-public extension AlertActionStyle {
+extension AlertActionStyle {
     public static func ==(lhs: AlertActionStyle, rhs: AlertActionStyle) -> Bool {
         switch (lhs, rhs) {
         case (.confirm(let left), .confirm(let right)):

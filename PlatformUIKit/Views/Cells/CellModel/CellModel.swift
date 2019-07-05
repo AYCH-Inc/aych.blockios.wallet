@@ -19,7 +19,7 @@ public extension CellModel {
     }
 }
 
-public extension CellModel {
+extension CellModel {
     public static func ==(lhs: CellModel, rhs: CellModel) -> Bool {
         switch (lhs, rhs) {
         case (.transactionDetail(let left), .transactionDetail(let right)):

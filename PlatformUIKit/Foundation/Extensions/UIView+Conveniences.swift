@@ -8,7 +8,7 @@
 
 import Foundation
 
-public extension UIView {
+extension UIView {
     public func constrain(to view: UIView) {
         leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         topAnchor.constraint(equalTo: view.topAnchor).isActive = true

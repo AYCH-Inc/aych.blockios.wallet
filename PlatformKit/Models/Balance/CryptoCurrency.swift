@@ -22,8 +22,8 @@ public enum CryptoCurrency: String {
     case pax = "PAX"
 }
 
-public extension CryptoCurrency {
-    var description: String {
+extension CryptoCurrency {
+    public var description: String {
         switch self {
         case .bitcoin:
             return "Bitcoin"
@@ -38,11 +38,11 @@ public extension CryptoCurrency {
         }
     }
     
-    var symbol: String {
+    public var symbol: String {
         return rawValue
     }
     
-    var maxDecimalPlaces: Int {
+    public var maxDecimalPlaces: Int {
         switch self {
         case .bitcoin:
             return 8
@@ -57,7 +57,7 @@ public extension CryptoCurrency {
         }
     }
     
-    var maxDisplayableDecimalPlaces: Int {
+    public var maxDisplayableDecimalPlaces: Int {
         switch self {
         case .bitcoin:
             return 8

@@ -13,7 +13,7 @@ public enum ContainerModel: Equatable {
     case paginated(PaginatedContainerModel)
 }
 
-public extension ContainerModel {
+extension ContainerModel {
     public static func ==(lhs: ContainerModel, rhs: ContainerModel) -> Bool {
         switch (lhs, rhs) {
         case (standard(let left), .standard(let right)):

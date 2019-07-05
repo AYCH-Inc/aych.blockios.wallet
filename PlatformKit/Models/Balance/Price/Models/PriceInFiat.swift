@@ -29,13 +29,13 @@ public struct PriceInFiatValue: Codable, Equatable {
     }
 }
 
-public extension PriceInFiatValue {
+extension PriceInFiatValue {
     public var priceInFiat: FiatValue {
         return FiatValue.create(amount: base.price, currencyCode: currencyCode)
     }
 }
 
-public extension PriceInFiat {
+extension PriceInFiat {
     public static let empty: PriceInFiat = PriceInFiat(timestamp: nil, price: 0, volume24h: nil)
 
     public func toPriceInFiatValue(currencyCode: String) -> PriceInFiatValue {

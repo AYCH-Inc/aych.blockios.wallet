@@ -21,19 +21,19 @@ extension Optional: OptionalType {
     }
 }
 
-extension ObservableType where E: OptionalType {
-    func onNil(error: Error) -> Observable<E.Wrapped> {
-        return flatMap { element -> Observable<E.Wrapped> in
+extension ObservableType where Element: OptionalType {
+    func onNil(error: Error) -> Observable<Element.Wrapped> {
+        return flatMap { element -> Observable<Element.Wrapped> in
             guard let value = element.value else {
-                return Observable<E.Wrapped>.error(error)
+                return Observable<Element.Wrapped>.error(error)
             }
-            return Observable<E.Wrapped>.just(value)
+            return Observable<Element.Wrapped>.just(value)
         }
     }
 }
 
-public extension Single where E: OptionalType {
-    public func onNil(error: Error) -> Single<E.Wrapped> {
+public extension Single where Element: OptionalType {
+    func onNil(error: Error) -> Single<Element.Wrapped> {
         // TODO: figure out how to implement this the right way
         return asObservable().onNil(error: error).asSingle()
     }
@@ -56,7 +56,7 @@ extension Single {
 }
 
 extension Single {
-    public func flatMap<A: AnyObject, R>(weak object: A, _ selector: @escaping (A, ElementType) throws -> Single<R>) -> Single<R> {
+    public func flatMap<A: AnyObject, R>(weak object: A, _ selector: @escaping (A, Element) throws -> Single<R>) -> Single<R> {
         return asObservable()
             .flatMap(weak: object) { object, value in
                 try selector(object, value).asObservable()
@@ -65,8 +65,8 @@ extension Single {
     }
 }
 
-extension PrimitiveSequence where TraitType == SingleTrait {
-    public func flatMapCompletable<A: AnyObject>(weak object: A, _ selector: @escaping (A, ElementType) throws -> Completable)
+extension PrimitiveSequence where Trait == SingleTrait {
+    public func flatMapCompletable<A: AnyObject>(weak object: A, _ selector: @escaping (A, Element) throws -> Completable)
         -> Completable {
         return asObservable()
             .flatMap(weak: object) { object, value in

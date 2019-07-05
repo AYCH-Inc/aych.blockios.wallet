@@ -33,7 +33,7 @@ public struct PaginatedContainerModel: Equatable {
     }
 }
 
-public extension PaginatedContainerModel {
+extension PaginatedContainerModel {
     
     public var layout: ContainerLayout {
         return ContainerLayout(type: .horizontal, columns: 1.0)
@@ -46,7 +46,7 @@ public extension PaginatedContainerModel {
     }
 }
 
-public extension PaginatedContainerModel {
+extension PaginatedContainerModel {
     public static let demo1: PaginatedContainerModel = PaginatedContainerModel(
         cells: [.transactionDetail(.demo1),
                 .transactionDetail(.demo2)],

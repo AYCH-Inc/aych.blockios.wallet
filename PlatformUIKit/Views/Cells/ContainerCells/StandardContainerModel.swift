@@ -27,7 +27,7 @@ public struct StandardContainerModel: Equatable {
     }
 }
 
-public extension StandardContainerModel {
+extension StandardContainerModel {
     public static func ==(lhs: StandardContainerModel, rhs: StandardContainerModel) -> Bool {
         return lhs.layout == rhs.layout &&
         lhs.cells == rhs.cells &&
@@ -36,7 +36,7 @@ public extension StandardContainerModel {
     }
 }
 
-public extension StandardContainerModel {
+extension StandardContainerModel {
     public static let demo1: StandardContainerModel = StandardContainerModel(
         layout: ContainerLayout(type: .vertical, columns: 1.0),
         cells: [.transactionDetail(.demo1),

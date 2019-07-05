@@ -197,7 +197,7 @@ class ExchangeCreateViewController: UIViewController {
                         dependencies: self.dependencies,
                         model: MarketsModel(
                             marketPair: MarketPair(fromAccount: self.fromAccount, toAccount: self.toAccount),
-                            fiatCurrencyCode: BlockchainSettings.sharedAppInstance().fiatCurrencyCode ?? "USD",
+                            fiatCurrencyCode: BlockchainSettings.sharedAppInstance().fiatCurrencyCode,
                             fiatCurrencySymbol: BlockchainSettings.App.shared.fiatCurrencySymbol,
                             fix: .baseInFiat,
                             volume: "0"
@@ -403,7 +403,7 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
             secondaryAmountLabel.wiggle()
         case .wigglePrimaryLabel:
             primaryAmountLabel.wiggle()
-        case .actionableErrorLabelTrigger(let trigger):
+        case .actionableErrorLabelTrigger:
             break
         }
     }

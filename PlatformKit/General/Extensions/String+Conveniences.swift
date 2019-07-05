@@ -11,7 +11,7 @@ import Foundation
 public extension String {
     
     /// Returns query arguments from a string in URL format
-    public var queryArgs: [String: String] {
+    var queryArgs: [String: String] {
         var queryArgs = [String: String]()
         let components = self.components(separatedBy: "&")
         components.forEach {

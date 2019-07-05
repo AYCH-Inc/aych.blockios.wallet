@@ -23,7 +23,7 @@ public struct ContainerLayout: Equatable {
     }
 }
 
-public extension ContainerLayout {
+extension ContainerLayout {
     public static func ==(lhs: ContainerLayout, rhs: ContainerLayout) -> Bool {
         return lhs.type == rhs.type &&
         lhs.columns == rhs.columns

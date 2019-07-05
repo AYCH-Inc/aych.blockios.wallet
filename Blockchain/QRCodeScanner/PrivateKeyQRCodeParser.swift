@@ -45,7 +45,7 @@ final class PrivateKeyQRCodeParser: QRCodeScannerParsing {
         self.assetAddress = assetAddress
     }
     
-    func parse(scanResult: NewResult<String, QRScannerError>, completion: ((NewResult<PrivateKey, PrivateKeyQRCodeParserError>) -> Void)?) {
+    func parse(scanResult: Result<String, QRScannerError>, completion: ((Result<PrivateKey, PrivateKeyQRCodeParserError>) -> Void)?) {
         switch scanResult {
         case .success(let privateKey):
             handleSuccess(privateKey: privateKey, completion: completion)
@@ -54,7 +54,7 @@ final class PrivateKeyQRCodeParser: QRCodeScannerParsing {
         }
     }
     
-    private func handleSuccess(privateKey stringValue: String, completion: ((NewResult<PrivateKey, PrivateKeyQRCodeParserError>) -> Void)?) {
+    private func handleSuccess(privateKey stringValue: String, completion: ((Result<PrivateKey, PrivateKeyQRCodeParserError>) -> Void)?) {
         let scheme = "\(Constants.Schemes.bitcoin):"
         var scannedKey = stringValue
         //: strip scheme if applicable

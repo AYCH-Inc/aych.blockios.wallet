@@ -16,7 +16,7 @@ class QRCodeScannerViewModelTests: XCTestCase {
     var parser: MockParser!
     var textViewModel: MockScannerTextViewModel!
     var scanner: MockScanner!
-    var completion: ((NewResult<MockParser.T, MockParser.U>) -> Void)!
+    var completion: ((Result<MockParser.T, MockParser.U>) -> Void)!
 
     override func setUp() {
         parser = MockParser()

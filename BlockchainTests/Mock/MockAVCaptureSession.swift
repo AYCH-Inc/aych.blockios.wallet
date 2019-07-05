@@ -46,9 +46,9 @@ class DeviceInputMock: CaptureInputProtocol {
 }
 
 class QRCodeScannerDelegateMock: QRCodeScannerDelegate {
-    var scanCompleteCalled: (NewResult<String, QRScannerError>) -> Void = { _ in }
-    var scanCompleteResults: [NewResult<String, QRScannerError>] = []
-    func scanComplete(with result: NewResult<String, QRScannerError>) {
+    var scanCompleteCalled: (Result<String, QRScannerError>) -> Void = { _ in }
+    var scanCompleteResults: [Result<String, QRScannerError>] = []
+    func scanComplete(with result: Result<String, QRScannerError>) {
         scanCompleteResults.append(result)
         scanCompleteCalled(result)
     }

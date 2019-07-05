@@ -91,7 +91,7 @@ final class QRCodeScannerViewController: UIViewController {
         viewModel.closeButtonPressed()
     }
     
-    private func handleScanComplete(with result: NewResult<String, QRScannerError>) {
+    private func handleScanComplete(with result: Result<String, QRScannerError>) {
         if let loadingText = viewModel.loadingText {
             loadingViewPresenter.showBusyView(withLoadingText: loadingText)
         }

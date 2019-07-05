@@ -19,7 +19,7 @@ class MockParser: QRCodeScannerParsing {
         let value: String
     }
     
-    var _parse: (NewResult<String, QRScannerError>) -> NewResult<Model, MockParserError> = {
+    var _parse: (Result<String, QRScannerError>) -> Result<Model, MockParserError> = {
         result in
         
         guard case .success(let scannedString) = result else {
@@ -27,7 +27,7 @@ class MockParser: QRCodeScannerParsing {
         }
         return .success(Model(value: scannedString))
     }
-    func parse(scanResult: NewResult<String, QRScannerError>, completion: ((NewResult<Model, MockParserError>) -> Void)?) {
+    func parse(scanResult: Result<String, QRScannerError>, completion: ((Result<Model, MockParserError>) -> Void)?) {
         completion?(_parse(scanResult))
     }
 }

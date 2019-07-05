@@ -11,9 +11,9 @@ import StellarKit
 
 protocol StellarTransactionAPI {
     
-    typealias CompletionHandler = ((Result<Bool>) -> Void)
+    typealias CompletionHandler = ((Result<Bool, Error>) -> Void)
     typealias AccountID = String
 
     func send(_ paymentOperation: StellarPaymentOperation, sourceKeyPair: StellarKit.StellarKeyPair) -> Completable
-    func get(transaction transactionHash: String, completion: @escaping ((Result<StellarTransactionResponse>) -> Void))
+    func get(transaction transactionHash: String, completion: @escaping ((Result<StellarTransactionResponse, Error>) -> Void))
 }

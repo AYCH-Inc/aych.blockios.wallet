@@ -44,7 +44,7 @@ protocol LedgersServiceAPI {
         cursor: String?,
         order: stellarsdk.Order?,
         limit: Int?,
-        response: @escaping (NewResult<PageResponseProtocol, StellarLedgerServiceError>) -> Void
+        response: @escaping (Result<PageResponseProtocol, StellarLedgerServiceError>) -> Void
     )
 }
 
@@ -62,7 +62,7 @@ extension StellarSDKLedgersServiceAPI {
         cursor: String?,
         order: stellarsdk.Order?,
         limit: Int?,
-        response: @escaping (NewResult<PageResponseProtocol, StellarLedgerServiceError>) -> Void)
+        response: @escaping (Result<PageResponseProtocol, StellarLedgerServiceError>) -> Void)
     {
         getLedgers(cursor: cursor, order: order, limit: limit) { result in
             switch result {

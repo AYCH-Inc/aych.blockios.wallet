@@ -38,7 +38,7 @@ class StellarTransactionService: StellarTransactionAPI {
         self.walletService = walletService
     }
     
-    func get(transaction transactionHash: String, completion: @escaping ((Result<StellarTransactionResponse>) -> Void)) {
+    func get(transaction transactionHash: String, completion: @escaping ((Result<StellarTransactionResponse, Error>) -> Void)) {
         service.getTransactionDetails(transactionHash: transactionHash) { response -> Void in
             switch response {
             case .success(let details):
@@ -70,7 +70,7 @@ class StellarTransactionService: StellarTransactionAPI {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    completion(.error(error))
+                    completion(.failure(error))
                 }
             }
         }

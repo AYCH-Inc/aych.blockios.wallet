@@ -41,7 +41,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
         "addr": legacyAccount.addr,
         "label": legacyAccount.label
     ]]
-    var ethereumAccountsCompletion: NewResult<[[String : Any]], MockLegacyEthereumWalletError> = .success(ethereumAccounts)
+    var ethereumAccountsCompletion: Result<[[String : Any]], MockLegacyEthereumWalletError> = .success(ethereumAccounts)
     func ethereumAccounts(with secondPassword: String?, success: @escaping ([[String : Any]]) -> Void, error: @escaping (String) -> Void) {
         switch ethereumAccountsCompletion {
         case .success(let value):
@@ -52,7 +52,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
     }
     
     static let labelForAccount: String = "My ETH Wallet"
-    var getLabelForEthereumAccountCompletion: NewResult<String, MockLegacyEthereumWalletError> = .success(labelForAccount)
+    var getLabelForEthereumAccountCompletion: Result<String, MockLegacyEthereumWalletError> = .success(labelForAccount)
     func getLabelForEthereumAccount(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void) {
         switch getLabelForEthereumAccountCompletion {
         case .success(let value):
@@ -62,7 +62,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
         }
     }
     
-    var saveEthereumAccountCompletion: NewResult<Void, MockLegacyEthereumWalletError> = .success(())
+    var saveEthereumAccountCompletion: Result<Void, MockLegacyEthereumWalletError> = .success(())
     func saveEthereumAccount(with privateKey: String, label: String?, success: @escaping () -> Void, error: @escaping (String) -> Void) {
         switch saveEthereumAccountCompletion {
         case .success:
@@ -72,7 +72,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
         }
     }
     
-    var getEtherAddressCompletion: NewResult<String, MockLegacyEthereumWalletError> = .success("address")
+    var getEtherAddressCompletion: Result<String, MockLegacyEthereumWalletError> = .success("address")
     func getEthereumAddress(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void) {
         switch getEtherAddressCompletion {
         case .success(let value):
@@ -84,7 +84,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
     
     static let ethBalanceValue: String = "1337"
     var fetchEthereumBalanceCalled: Bool = false
-    var fetchEthereumBalancecCompletion: NewResult<String, MockLegacyEthereumWalletError> = .success(ethBalanceValue)
+    var fetchEthereumBalancecCompletion: Result<String, MockLegacyEthereumWalletError> = .success(ethBalanceValue)
     func fetchEthereumBalance(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void) {
         switch fetchEthereumBalancecCompletion {
         case .success(let value):
@@ -95,7 +95,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
     }
     
     var ethereumBalanceCalled: Bool = false
-    var ethereumBalancecCompletion: NewResult<String, MockLegacyEthereumWalletError> = .success(ethBalanceValue)
+    var ethereumBalancecCompletion: Result<String, MockLegacyEthereumWalletError> = .success(ethBalanceValue)
     func ethereumBalance(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void) {
         ethereumBalanceCalled = true
         switch ethereumBalancecCompletion {
@@ -120,7 +120,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
             confirmations: 12
             ).legacyTransaction
         ].compactMap { $0 }
-    var getEthereumTransactionsCompletion: NewResult<[EtherTransaction], MockLegacyEthereumWalletError> = .success(ethTransactions)
+    var getEthereumTransactionsCompletion: Result<[EtherTransaction], MockLegacyEthereumWalletError> = .success(ethTransactions)
     func getEthereumTransactions(with secondPassword: String?, success: @escaping ([EtherTransaction]) -> Void, error: @escaping (String) -> Void) {
         switch getEthereumTransactionsCompletion {
         case .success(let value):
@@ -130,7 +130,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
         }
     }
     
-    var fetchHistoryCompletion: NewResult<Void, MockLegacyEthereumWalletError> = .success(())
+    var fetchHistoryCompletion: Result<Void, MockLegacyEthereumWalletError> = .success(())
     func fetchHistory(with secondPassword: String?, success: @escaping () -> Void, error: @escaping (String) -> Void) {
         switch fetchHistoryCompletion {
         case .success:
@@ -141,7 +141,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
     }
     
     static let isWaitingOnEtherTransactionValue: Bool = false
-    var isWaitingOnEthereumTransactionCompletion: NewResult<Bool, MockLegacyEthereumWalletError> = .success(isWaitingOnEtherTransactionValue)
+    var isWaitingOnEthereumTransactionCompletion: Result<Bool, MockLegacyEthereumWalletError> = .success(isWaitingOnEtherTransactionValue)
     func isWaitingOnEthereumTransaction(with secondPassword: String?, success: @escaping (Bool) -> Void, error: @escaping (String) -> Void) {
         switch isWaitingOnEthereumTransactionCompletion {
         case .success(let value):
@@ -152,7 +152,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
     }
     
     var lastRecordedEtherTransactionHashAsync: String?
-    var recordLastEthereumTransactionCompletion: NewResult<Void, MockLegacyEthereumWalletError> = .success(())
+    var recordLastEthereumTransactionCompletion: Result<Void, MockLegacyEthereumWalletError> = .success(())
     func recordLastEthereumTransaction(with secondPassword: String?, transactionHash: String, success: @escaping () -> Void, error: @escaping (String) -> Void) {
         lastRecordedEtherTransactionHashAsync = transactionHash
         switch recordLastEthereumTransactionCompletion {
@@ -163,7 +163,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
         }
     }
     
-    var getEtherTransactionNonceCompletion: NewResult<String, MockLegacyEthereumWalletError> = .success("1")
+    var getEtherTransactionNonceCompletion: Result<String, MockLegacyEthereumWalletError> = .success("1")
     func getEthereumTransactionNonce(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void) {
         switch getEtherTransactionNonceCompletion {
         case .success(let value):
@@ -183,7 +183,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
             ]
         ]
     ]
-    var erc20TokensCompletion: NewResult<[String: [String: Any]], MockLegacyEthereumWalletError> = .success(tokenAccounts)
+    var erc20TokensCompletion: Result<[String: [String: Any]], MockLegacyEthereumWalletError> = .success(tokenAccounts)
     func erc20Tokens(with secondPassword: String?, success: @escaping ([String : [String : Any]]) -> Void, error: @escaping (String) -> Void) {
         switch erc20TokensCompletion {
         case .success(let value):
@@ -194,7 +194,7 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
     }
     
     var lastSavedTokensJSONString: String?
-    var saveERC20TokensCompletion: NewResult<Void, MockLegacyEthereumWalletError> = .success(())
+    var saveERC20TokensCompletion: Result<Void, MockLegacyEthereumWalletError> = .success(())
     func saveERC20Tokens(with secondPassword: String?, tokensJSONString: String, success: @escaping () -> Void, error: @escaping (String) -> Void) {
         lastSavedTokensJSONString = tokensJSONString
         switch erc20TokensCompletion {

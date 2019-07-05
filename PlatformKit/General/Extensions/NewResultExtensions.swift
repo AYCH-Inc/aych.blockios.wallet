@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-extension NewResult {
+extension Result {
     public var single: Single<Success> {
         switch self {
         case .success(let value):

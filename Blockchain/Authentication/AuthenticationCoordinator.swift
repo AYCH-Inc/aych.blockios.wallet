@@ -324,7 +324,7 @@ import PlatformUIKit
         }
     }
     
-    private func handlePairingCodeResult(result: NewResult<PairingCodeQRCodeParser.PairingCode, PairingCodeQRCodeParser.PairingCodeParsingError>) {
+    private func handlePairingCodeResult(result: Result<PairingCodeQRCodeParser.PairingCode, PairingCodeQRCodeParser.PairingCodeParsingError>) {
         switch result {
         case .success(let pairingCode):
             AuthenticationManager.shared.authenticate(using: pairingCode.passcodePayload, andReply: authHandler)

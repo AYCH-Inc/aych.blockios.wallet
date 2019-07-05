@@ -49,7 +49,7 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI {
     private func execute<ResponseType: Decodable>(
         request: URLRequest,
         expecting: ResponseType.Type,
-        completion: @escaping (NewResult<ResponseType, NetworkCommunicatorError>) -> Void) {
+        completion: @escaping (Result<ResponseType, NetworkCommunicatorError>) -> Void) {
         
         let task = session.dataTask(with: request) { payload, response, error in
             

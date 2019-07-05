@@ -41,7 +41,7 @@ class HomebrewExchangeService: HomebrewExchangeAPI {
                 let result: [ExchangeTradeModel] = payload.filter { return $0.pair != nil }.map({ return .homebrew($0) })
                 completion(.success(result))
             }, onError: { error in
-                completion(.error(error))
+                completion(.failure(error))
             })
     }
     

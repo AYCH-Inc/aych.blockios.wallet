@@ -228,7 +228,7 @@ extension EthereumJSInteropDispatcher: EthereumJSInteropDelegateAPI {
 }
 
 final class Dispatcher<Value> {
-    typealias ObserverType = (NewResult<Value, EthereumJSInteropDispatcherError>) -> Void
+    typealias ObserverType = (Result<Value, EthereumJSInteropDispatcherError>) -> Void
     
     private var observers: [ObserverType] = []
     

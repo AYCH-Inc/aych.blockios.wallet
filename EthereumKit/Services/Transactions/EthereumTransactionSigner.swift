@@ -20,13 +20,13 @@ public enum EthereumTransactionSignerError: Error {
 }
 
 public protocol EthereumTransactionSignerAPI {
-    func sign(transaction: EthereumTransactionCandidateCosted, nonce: BigUInt, keyPair: EthereumKeyPair) -> NewResult<EthereumTransactionCandidateSigned, EthereumTransactionSignerError>
+    func sign(transaction: EthereumTransactionCandidateCosted, nonce: BigUInt, keyPair: EthereumKeyPair) -> Result<EthereumTransactionCandidateSigned, EthereumTransactionSignerError>
 }
 
 public class EthereumTransactionSigner: EthereumTransactionSignerAPI {
     public static let shared = EthereumTransactionSigner()
     
-    public func sign(transaction: EthereumTransactionCandidateCosted, nonce: BigUInt, keyPair: EthereumKeyPair) -> NewResult<EthereumTransactionCandidateSigned, EthereumTransactionSignerError> {
+    public func sign(transaction: EthereumTransactionCandidateCosted, nonce: BigUInt, keyPair: EthereumKeyPair) -> Result<EthereumTransactionCandidateSigned, EthereumTransactionSignerError> {
         
         let mnemonics: Mnemonics
         do {

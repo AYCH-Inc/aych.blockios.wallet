@@ -24,7 +24,7 @@ class ExchangeListInteractor: ExchangeListInput {
             switch result {
             case .success(let models):
                 self?.output?.loadedTrades(models)
-            case .error(let error):
+            case .failure(let error):
                 self?.output?.tradeFetchFailed(error: error)
             }
         }
@@ -36,7 +36,7 @@ class ExchangeListInteractor: ExchangeListInput {
             switch result {
             case .success(let models):
                 self?.output?.refreshedTrades(models)
-            case .error(let error):
+            case .failure(let error):
                 self?.output?.tradeFetchFailed(error: error)
             }
         }
@@ -58,7 +58,7 @@ class ExchangeListInteractor: ExchangeListInput {
             switch result {
             case .success(let models):
                 self?.output?.appendTrades(models)
-            case .error(let error):
+            case .failure(let error):
                 self?.output?.tradeFetchFailed(error: error)
             }
         }

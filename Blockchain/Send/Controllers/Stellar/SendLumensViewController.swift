@@ -166,7 +166,7 @@ protocol SendXLMViewControllerDelegate: class {
         }
     }
     
-    private func handleAddressScan(result: NewResult<AddressQRCodeParser.Address, AddressQRCodeParser.AddressQRCodeParserError>) {
+    private func handleAddressScan(result: Result<AddressQRCodeParser.Address, AddressQRCodeParser.AddressQRCodeParserError>) {
         if case .success(let address) = result {
             stellarAddressField.text = address.payload.address
             stellarAmountField.text = address.payload.amount

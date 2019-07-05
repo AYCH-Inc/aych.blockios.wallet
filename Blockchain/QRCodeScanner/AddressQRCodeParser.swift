@@ -26,7 +26,7 @@ final class AddressQRCodeParser: QRCodeScannerParsing {
         self.assetType = assetType
     }
     
-    func parse(scanResult: NewResult<String, QRScannerError>, completion: ((NewResult<Address, AddressQRCodeParserError>) -> Void)?) {
+    func parse(scanResult: Result<String, QRScannerError>, completion: ((Result<Address, AddressQRCodeParserError>) -> Void)?) {
         switch scanResult {
         case .success(let address):
             handleSuccess(address: address, completion: completion)
@@ -35,7 +35,7 @@ final class AddressQRCodeParser: QRCodeScannerParsing {
         }
     }
     
-    private func handleSuccess(address: String, completion: ((NewResult<Address, AddressQRCodeParserError>) -> Void)?) {
+    private func handleSuccess(address: String, completion: ((Result<Address, AddressQRCodeParserError>) -> Void)?) {
         guard let payload = AssetURLPayloadFactory.create(fromString: address, assetType: assetType) else {
             Logger.shared.error("Could not create payload from scanned string: \(address)")
             completion?(.failure(.unableToCreatePayload))

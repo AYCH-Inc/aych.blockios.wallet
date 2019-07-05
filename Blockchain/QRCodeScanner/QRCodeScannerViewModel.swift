@@ -38,7 +38,7 @@ protocol QRCodeScannerViewModelProtocol: class {
     var scanningStarted: (() -> Void)? { get set }
     var scanningStopped: (() -> Void)? { get set }
     var closeButtonTapped: (() -> Void)? { get set }
-    var scanComplete: ((NewResult<String, QRScannerError>) -> Void)? { get set }
+    var scanComplete: ((Result<String, QRScannerError>) -> Void)? { get set }
     
     var videoPreviewLayer: CALayer? { get }
     var loadingText: String? { get }
@@ -46,7 +46,7 @@ protocol QRCodeScannerViewModelProtocol: class {
     
     func closeButtonPressed()
     func startReadingQRCode()
-    func handleDismissCompleted(with scanResult: NewResult<String, QRScannerError>)
+    func handleDismissCompleted(with scanResult: Result<String, QRScannerError>)
 }
 
 final class QRCodeScannerViewModel<P: QRCodeScannerParsing>: QRCodeScannerViewModelProtocol {
@@ -54,7 +54,7 @@ final class QRCodeScannerViewModel<P: QRCodeScannerParsing>: QRCodeScannerViewMo
     var scanningStarted: (() -> Void)?
     var scanningStopped: (() -> Void)?
     var closeButtonTapped: (() -> Void)?
-    var scanComplete: ((NewResult<String, QRScannerError>) -> Void)?
+    var scanComplete: ((Result<String, QRScannerError>) -> Void)?
     
     var videoPreviewLayer: CALayer? {
         return scanner.videoPreviewLayer
@@ -71,9 +71,9 @@ final class QRCodeScannerViewModel<P: QRCodeScannerParsing>: QRCodeScannerViewMo
     private let parser: AnyQRCodeScannerParsing<P.T, P.U>
     private let textViewModel: QRCodeScannerTextViewModel
     private let scanner: QRCodeScannerProtocol
-    private let completed: ((NewResult<P.T, P.U>) -> Void)
+    private let completed: ((Result<P.T, P.U>) -> Void)
     
-    init?(parser: P, textViewModel: QRCodeScannerTextViewModel, scanner: QRCodeScannerProtocol, completed: ((NewResult<P.T, P.U>) -> Void)?) {
+    init?(parser: P, textViewModel: QRCodeScannerTextViewModel, scanner: QRCodeScannerProtocol, completed: ((Result<P.T, P.U>) -> Void)?) {
         guard let completed = completed else { return nil }
         
         self.parser = AnyQRCodeScannerParsing(parser: parser)
@@ -92,13 +92,13 @@ final class QRCodeScannerViewModel<P: QRCodeScannerParsing>: QRCodeScannerViewMo
         scanner.startReadingQRCode()
     }
     
-    func handleDismissCompleted(with scanResult: NewResult<String, QRScannerError>) {
+    func handleDismissCompleted(with scanResult: Result<String, QRScannerError>) {
         parser.parse(scanResult: scanResult, completion: completed)
     }
 }
 
 extension QRCodeScannerViewModel: QRCodeScannerDelegate {
-    func scanComplete(with result: NewResult<String, QRScannerError>) {
+    func scanComplete(with result: Result<String, QRScannerError>) {
         scanComplete?(result)
     }
     

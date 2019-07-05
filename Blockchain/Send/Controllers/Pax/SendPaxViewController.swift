@@ -396,7 +396,7 @@ extension SendPaxViewController {
         }
     }
     
-    private func handleAddressScan(result: NewResult<AddressQRCodeParser.Address, AddressQRCodeParser.AddressQRCodeParserError>) {
+    private func handleAddressScan(result: Result<AddressQRCodeParser.Address, AddressQRCodeParser.AddressQRCodeParserError>) {
         if case .success(let assetURL) = result {
             delegate?.onAddressEntry(assetURL.payload.address)
             

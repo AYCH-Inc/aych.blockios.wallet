@@ -57,14 +57,14 @@ class TradeLimitsService: TradeLimitsAPI {
         _ = disposables.insert(disposable)
     }
 
-    func getTradeLimits(withFiatCurrency currency: String, withCompletion: @escaping ((Result<TradeLimits>) -> Void)) {
+    func getTradeLimits(withFiatCurrency currency: String, withCompletion: @escaping ((Result<TradeLimits, Error>) -> Void)) {
         let disposable = getTradeLimits(withFiatCurrency: currency, ignoringCache: false)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { (payload) in
                 withCompletion(.success(payload))
             }, onError: { error in
-                withCompletion(.error(error))
+                withCompletion(.failure(error))
             })
         _ = disposables.insert(disposable)
     }

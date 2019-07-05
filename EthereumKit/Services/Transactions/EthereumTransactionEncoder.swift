@@ -17,13 +17,13 @@ public enum EthereumTransactionEncoderError: Error {
 }
 
 public protocol EthereumTransactionEncoderAPI {
-    func encode(signed: EthereumTransactionCandidateSigned) -> NewResult<EthereumTransactionFinalised, EthereumTransactionEncoderError>
+    func encode(signed: EthereumTransactionCandidateSigned) -> Result<EthereumTransactionFinalised, EthereumTransactionEncoderError>
 }
 
 public class EthereumTransactionEncoder: EthereumTransactionEncoderAPI {
     public static let shared = EthereumTransactionEncoder()
     
-    public func encode(signed: EthereumTransactionCandidateSigned) -> NewResult<EthereumTransactionFinalised, EthereumTransactionEncoderError> {
+    public func encode(signed: EthereumTransactionCandidateSigned) -> Result<EthereumTransactionFinalised, EthereumTransactionEncoderError> {
         let transaction = signed.transaction
         
         guard let encodedData = transaction.encode() else {

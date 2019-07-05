@@ -122,7 +122,7 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
                         output?.didApplyUpdate()
                         output?.showItemDetails(value)
                     }
-                case .error(let error):
+                case .failure(let error):
                     DispatchQueue.main.async {
                         output?.didApplyUpdate()
                         output?.itemFetchFailed(error: error)

@@ -19,14 +19,14 @@ public enum EthereumTransactionBuilderError: Error {
 
 public protocol EthereumTransactionBuilderAPI {
     func build(transaction: EthereumTransactionCandidate
-        ) -> NewResult<EthereumTransactionCandidateCosted, EthereumTransactionBuilderError>
+        ) -> Result<EthereumTransactionCandidateCosted, EthereumTransactionBuilderError>
 }
 
 public class EthereumTransactionBuilder: EthereumTransactionBuilderAPI {
     public static let shared = EthereumTransactionBuilder()
     
     public func build(transaction: EthereumTransactionCandidate
-        ) -> NewResult<EthereumTransactionCandidateCosted, EthereumTransactionBuilderError> {
+        ) -> Result<EthereumTransactionCandidateCosted, EthereumTransactionBuilderError> {
         print("transaction.value: \(transaction.value)")
         
         let value = transaction.value

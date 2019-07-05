@@ -14,8 +14,8 @@ import StellarKit
 protocol StellarAccountAPI {
     
     typealias AccountID = String
-    typealias CompletionHandler = ((Result<Bool>) -> Void)
-    typealias AccountDetailsCompletion = ((Result<StellarAccount>) -> Void)
+    typealias CompletionHandler = ((Result<Bool, Error>) -> Void)
+    typealias AccountDetailsCompletion = ((Result<StellarAccount, Error>) -> Void)
     
     var currentAccount: StellarAccount? { get }
     

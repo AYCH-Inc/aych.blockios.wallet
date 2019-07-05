@@ -112,7 +112,7 @@ import PlatformKit
         viewController.present(qrCodeScannerViewController, animated: true, completion: nil)
     }
     
-    private func handlePrivateKeyScan(result: NewResult<PrivateKeyQRCodeParser.PrivateKey, PrivateKeyQRCodeParser.PrivateKeyQRCodeParserError>, delegate: PrivateKeyReaderDelegate) {
+    private func handlePrivateKeyScan(result: Result<PrivateKeyQRCodeParser.PrivateKey, PrivateKeyQRCodeParser.PrivateKeyQRCodeParserError>, delegate: PrivateKeyReaderDelegate) {
         handlePrivateKeyScanFinished()
         switch result {
         case .success(let privateKey):
@@ -124,7 +124,7 @@ import PlatformKit
     }
     
     // TODO: remove once LegacyPrivateKeyDelegate is deprecated
-    private func handlePrivateKeyScan(result: NewResult<PrivateKeyQRCodeParser.PrivateKey, PrivateKeyQRCodeParser.PrivateKeyQRCodeParserError>, legacyDelegate: LegacyPrivateKeyDelegate) {
+    private func handlePrivateKeyScan(result: Result<PrivateKeyQRCodeParser.PrivateKey, PrivateKeyQRCodeParser.PrivateKeyQRCodeParserError>, legacyDelegate: LegacyPrivateKeyDelegate) {
         handlePrivateKeyScanFinished()
         switch result {
         case .success(let privateKey):

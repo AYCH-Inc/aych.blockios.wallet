@@ -37,8 +37,8 @@ class LedgerPageResponseMock: PageResponseProtocol {
 }
 
 class LedgersServiceMock: LedgersServiceAPI {
-    var result: NewResult<PageResponseProtocol, StellarLedgerServiceError> = NewResult.success(LedgerPageResponseMock())
-    func ledgers(cursor: String?, order: stellarsdk.Order?, limit: Int?, response: @escaping (NewResult<PageResponseProtocol, StellarLedgerServiceError>) -> Void) {
+    var result: Result<PageResponseProtocol, StellarLedgerServiceError> = Result.success(LedgerPageResponseMock())
+    func ledgers(cursor: String?, order: stellarsdk.Order?, limit: Int?, response: @escaping (Result<PageResponseProtocol, StellarLedgerServiceError>) -> Void) {
         response(result)
     }
 }

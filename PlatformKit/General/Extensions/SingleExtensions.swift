@@ -40,7 +40,7 @@ public extension Single where E: OptionalType {
 }
 
 extension Single {
-    public static func from<T, U: Error>(block: @escaping (@escaping (NewResult<T, U>) -> Void) -> Void) -> Single<T> {
+    public static func from<T, U: Error>(block: @escaping (@escaping (Swift.Result<T, U>) -> Void) -> Void) -> Single<T> {
         return Single.create(subscribe: { observer -> Disposable in
             block { result in
                 switch result {

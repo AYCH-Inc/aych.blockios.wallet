@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-typealias CompletionHandler = ((Result<[ExchangeTradeModel]>) -> Void)
+typealias CompletionHandler = ((Result<[ExchangeTradeModel], Error>) -> Void)
 
 protocol ExchangeHistoryAPI {
     var tradeModels: [ExchangeTradeModel] { get set }
@@ -30,7 +30,7 @@ class ExchangeService: NSObject {
     /// cannot have stored properties. 
     static let shared = ExchangeService()
     
-    typealias CompletionHandler = ((Result<[ExchangeTradeModel]>) -> Void)
+    typealias CompletionHandler = ((Result<[ExchangeTradeModel], Error>) -> Void)
 
     var tradeModels: [ExchangeTradeModel] = []
     var canPage: Bool = false
@@ -62,7 +62,7 @@ extension ExchangeService: ExchangeHistoryAPI {
                 case .success(let models):
                     let hasExecuted = models.count > 0
                     event(.success(hasExecuted))
-                case .error:
+                case .failure:
                     event(.success(false))
                 }
             })
@@ -76,7 +76,7 @@ extension ExchangeService: ExchangeHistoryAPI {
             guard op.isExecuting == false else { return }
         }
         
-        var result: Result<[ExchangeTradeModel]> = .error(nil)
+        var result: Result<[ExchangeTradeModel], Error> = .failure(NSError())
         homebrewOperation = AsyncBlockOperation(executionBlock: { [weak self] complete in
             guard let this = self else { return }
             this.homebrewAPI.nextPage(fromTimestamp: date, completion: { payload in
@@ -85,7 +85,7 @@ extension ExchangeService: ExchangeHistoryAPI {
                 case .success(let value):
                     this.canPage = value.count >= 50
                     this.tradeModels.append(contentsOf: value)
-                case .error:
+                case .failure:
                     this.canPage = false
                 }
                 complete()
@@ -114,8 +114,8 @@ extension ExchangeService: ExchangeHistoryAPI {
                 switch result {
                 case .success(let payload):
                     this.tradeModels.append(contentsOf: payload)
-                case .error(let error):
-                    completion(.error(error))
+                case .failure(let error):
+                    completion(.failure(error))
                 }
                 complete()
             })
@@ -128,9 +128,9 @@ extension ExchangeService: ExchangeHistoryAPI {
                 case .success(let value):
                     this.canPage = value.count >= 50
                     this.tradeModels.append(contentsOf: value)
-                case .error(let error):
+                case .failure(let error):
                     this.canPage = false
-                    completion(.error(error))
+                    completion(.failure(error))
                 }
                 complete()
             })

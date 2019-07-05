@@ -35,23 +35,23 @@ class StellarLedgerMock: StellarLedgerAPI {
 }
 
 class StellarTransactionMock: StellarTransactionAPI {
-    typealias CompletionHandler = ((Result<Bool>) -> Void)
+    typealias CompletionHandler = ((Result<Bool, Error>) -> Void)
     typealias AccountID = String
 
     func send(_ paymentOperation: StellarPaymentOperation, sourceKeyPair: StellarKit.StellarKeyPair) -> Completable {
         return Completable.empty()
     }
 
-    func get(transaction transactionHash: String, completion: @escaping ((Result<StellarTransactionResponse>) -> Void)) {
-        completion(.error(NSError()))
+    func get(transaction transactionHash: String, completion: @escaping ((Result<StellarTransactionResponse, Error>) -> Void)) {
+        completion(.failure(NSError()))
     }
 }
 
 class StellarAccountMock: StellarAccountAPI {
 
     typealias AccountID = String
-    typealias CompletionHandler = ((Result<Bool>) -> Void)
-    typealias AccountDetailsCompletion = ((Result<StellarAccount>) -> Void)
+    typealias CompletionHandler = ((Result<Bool, Error>) -> Void)
+    typealias AccountDetailsCompletion = ((Result<StellarAccount, Error>) -> Void)
 
     var currentAccount: StellarAccount?
 

@@ -31,7 +31,7 @@ final class PairingCodeQRCodeParser: QRCodeScannerParsing {
         self.loadingViewPresenter = loadingViewPresenter
     }
     
-    func parse(scanResult: NewResult<String, QRScannerError>, completion: ((NewResult<PairingCode, PairingCodeParsingError>) -> Void)?) {
+    func parse(scanResult: Result<String, QRScannerError>, completion: ((Result<PairingCode, PairingCodeParsingError>) -> Void)?) {
         switch scanResult {
         case .success(let pairingCode):
             handleSuccess(pairingCode: pairingCode, completion: completion)
@@ -40,7 +40,7 @@ final class PairingCodeQRCodeParser: QRCodeScannerParsing {
         }
     }
     
-    private func handleSuccess(pairingCode: String, completion: ((NewResult<PairingCode, PairingCodeParsingError>) -> Void)?) {
+    private func handleSuccess(pairingCode: String, completion: ((Result<PairingCode, PairingCodeParsingError>) -> Void)?) {
         walletManager.wallet.loadBlankWallet()
         walletManager.wallet.parsePairingCode(pairingCode, success: { [weak self] pairingCodeDict in
             self?.didParsePairingCode(pairingCodeDict, completion: completion)
@@ -49,12 +49,12 @@ final class PairingCodeQRCodeParser: QRCodeScannerParsing {
         })
     }
     
-    private func didParsePairingCode(_ dict: [AnyHashable : Any]!, completion: ((NewResult<PairingCode, PairingCodeParsingError>) -> Void)?) {
+    private func didParsePairingCode(_ dict: [AnyHashable : Any]!, completion: ((Result<PairingCode, PairingCodeParsingError>) -> Void)?) {
         walletManager.wallet.didPairAutomatically = true
         completion?(.success(PairingCodeQRCodeParser.PairingCode(passcodePayload: PasscodePayload(dictionary: dict))))
     }
     
-    private func errorParsingPairingCode(_ message: String!, completion: ((NewResult<PairingCode, PairingCodeParsingError>) -> Void)?) {
+    private func errorParsingPairingCode(_ message: String!, completion: ((Result<PairingCode, PairingCodeParsingError>) -> Void)?) {
         loadingViewPresenter.hideBusyView()
         
         switch message {

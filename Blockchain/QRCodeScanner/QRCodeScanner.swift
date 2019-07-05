@@ -16,7 +16,7 @@ enum QRScannerError: Error {
 }
 
 protocol QRCodeScannerDelegate: class {
-    func scanComplete(with result: NewResult<String, QRScannerError>)
+    func scanComplete(with result: Result<String, QRScannerError>)
     func didStartScanning()
     func didStopScanning()
 }
@@ -175,7 +175,7 @@ extension AVCaptureMetadataOutput: CaptureMetadataOutputProtocol {}
         }
     }
     
-    private static func deviceInput() -> NewResult<AVCaptureDeviceInput, QRScannerError> {
+    private static func deviceInput() -> Result<AVCaptureDeviceInput, QRScannerError> {
         do {
             let input = try AVCaptureDeviceInput.deviceInputForQRScanner()
             return .success(input)

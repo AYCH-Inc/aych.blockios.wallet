@@ -23,7 +23,7 @@ protocol TradeLimitsAPI {
     /// - Parameters:
     ///   - currency: the currency to return the limits in
     ///   - withCompletion: the completion handler invoked when the trading limits are provided.
-    func getTradeLimits(withFiatCurrency currency: String, withCompletion: @escaping ((Result<TradeLimits>) -> Void))
+    func getTradeLimits(withFiatCurrency currency: String, withCompletion: @escaping ((Result<TradeLimits, Error>) -> Void))
 
     // MARK: - Rx
 

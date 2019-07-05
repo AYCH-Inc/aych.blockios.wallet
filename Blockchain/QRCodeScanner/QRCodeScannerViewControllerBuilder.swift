@@ -22,7 +22,7 @@ final class QRCodeScannerViewControllerBuilder<P: QRCodeScannerParsing> {
         case dependencies(Dependencies<P>)
     }
     
-    typealias CompletionHandler = ((NewResult<P.T, P.U>) -> Void)
+    typealias CompletionHandler = ((Result<P.T, P.U>) -> Void)
     
     private var scanner: QRCodeScanner? = QRCodeScanner()
     private var loadingViewPresenter: LoadingViewPresenter = LoadingViewPresenter.shared

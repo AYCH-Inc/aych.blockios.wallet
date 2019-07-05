@@ -28,6 +28,7 @@ public class AlertView: UIView {
 
     @IBOutlet fileprivate var notch: UIView!
     @IBOutlet fileprivate var imageView: UIImageView!
+    @IBOutlet fileprivate var topNote: UILabel!
     @IBOutlet fileprivate var headline: UILabel!
     @IBOutlet fileprivate var message: UILabel!
     @IBOutlet fileprivate var note: UILabel!
@@ -71,6 +72,7 @@ public class AlertView: UIView {
         var headlineHeight: CGFloat = 0.0
         var messageHeight: CGFloat = 0.0
         var noteHeight: CGFloat = 0.0
+        var topNoteHeight: CGFloat = 0.0
         var interItemPadding: CGFloat = 0.0
         var actionsHeight: CGFloat = 0.0
 
@@ -96,6 +98,14 @@ public class AlertView: UIView {
             )
             noteHeight = attributed.heightForWidth(width: adjustedWidth)
         }
+        if let value = model.topNote {
+            let attributed = NSAttributedString(
+                string: value,
+                attributes: [.font: topNoteFont()]
+            )
+            topNoteHeight = attributed.heightForWidth(width: adjustedWidth)
+        }
+        
         if model.headline != nil && model.body != nil {
             interItemPadding += headlineToMessagePadding
         }
@@ -117,7 +127,8 @@ public class AlertView: UIView {
             headlineHeight +
             messageHeight +
             noteHeight +
-        interItemPadding
+            topNoteHeight +
+            interItemPadding
         return result
     }
     
@@ -133,6 +144,11 @@ public class AlertView: UIView {
     
     public class func noteFont() -> UIFont {
         let font = Font(.branded(.montserratMedium), size: .custom(10.0))
+        return font.result
+    }
+    
+    public class func topNoteFont() -> UIFont {
+        let font = Font(.branded(.montserratRegular), size: .custom(14))
         return font.result
     }
     
@@ -162,9 +178,11 @@ public class AlertView: UIView {
         headline.isHidden = model.headline == nil
         message.isHidden = model.body == nil
         note.isHidden = model.note == nil
+        topNote.isHidden = model.topNote == nil
         headline.text = model.headline
         message.text = model.body
         note.text = model.note
+        topNote.text = model.topNote
         if let image = model.image {
             imageView.image = image
             imageViewHeightConstraint.constant = image.size.height

@@ -11,7 +11,7 @@ import RxSwift
 import PlatformKit
 import PlatformUIKit
 
-@objc class AuthenticationCoordinator: NSObject, Coordinator {
+@objc class AuthenticationCoordinator: NSObject, Coordinator, VersionUpdateAlertDisplaying {
 
     @objc static let shared = AuthenticationCoordinator()
 
@@ -202,11 +202,12 @@ import PlatformUIKit
             disposable = walletService.walletOptions
                 .subscribeOn(MainScheduler.asyncInstance)
                 .observeOn(MainScheduler.instance)
-                .subscribe(onSuccess: { walletOptions in
+                .subscribe(onSuccess: { [weak self] walletOptions in
                     guard !walletOptions.downForMaintenance else {
                         AlertViewPresenter.shared.showMaintenanceError(from: walletOptions)
                         return
                     }
+                    self?.displayVersionUpdateAlertIfNeeded(for: walletOptions.updateType)
                 }, onError: { _ in
                     AlertViewPresenter.shared.standardError(message: LocalizationConstants.Errors.requestFailedCheckConnection)
                 })

@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 /// Coordinator for the onboarding flow.
-class OnboardingCoordinator: Coordinator {
+class OnboardingCoordinator: Coordinator, VersionUpdateAlertDisplaying {
     static let shared = OnboardingCoordinator()
 
     private var createWallet: BCCreateWalletView?
@@ -34,11 +34,12 @@ class OnboardingCoordinator: Coordinator {
         disposable = walletService.walletOptions
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { walletOptions in
+            .subscribe(onSuccess: { [weak self] walletOptions in
                 guard !walletOptions.downForMaintenance else {
                     AlertViewPresenter.shared.showMaintenanceError(from: walletOptions)
                     return
                 }
+                self?.displayVersionUpdateAlertIfNeeded(for: walletOptions.updateType)
             })
         self.showWelcomeScreen()
         AlertViewPresenter.shared.checkAndWarnOnJailbrokenPhones()

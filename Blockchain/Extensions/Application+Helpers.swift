@@ -43,7 +43,7 @@ extension UIApplication {
         open(mailURL)
     }
 
-    // MARK: - Rate Application
+    // MARK: - Open the AppStore at the app's page
 
     @objc func openAppStore() {
         let url = URL(string: "\(Constants.Url.appStoreLinkPrefix)\(Constants.AppStore.AppID)")!

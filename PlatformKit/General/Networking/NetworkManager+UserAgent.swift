@@ -23,6 +23,7 @@ extension NetworkManager {
     }
 }
 
+// TODO: Add `AppVersion` getter to Bundle for a more convenient access as it is used in several other placed, causing duplication of identical code
 @objc
 extension Bundle {
     /// The application version. Equivalent to CFBundleShortVersionString.

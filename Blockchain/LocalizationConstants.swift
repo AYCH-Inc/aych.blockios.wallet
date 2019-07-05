@@ -881,7 +881,30 @@ struct LocalizationConstants {
         static let request = NSLocalizedString("Request", comment: "request tab item")
     }
 
+    struct VersionUpdate {
+        static let version = NSLocalizedString(
+            "v %@",
+            comment: "Version top note for a `recommended` update alert"
+        )
+        
+        static let title = NSLocalizedString(
+            "Update Available",
+            comment: "Title for a `recommended` update alert"
+        )
+        
+        static let description = NSLocalizedString(
+            "Ready for the the best Blockchain App yet? Download our latest build and get more out of your Crypto.",
+            comment: "Description for a `recommended` update alert"
+        )
+        
+        static let updateNowButton = NSLocalizedString(
+            "Update Now",
+            comment: "`Update` button for an alert that notifies the user that a new app version is available on the store"
+        )
+    }
+    
     struct AnnouncementCards {
+        
         static let registerAirdropSuccessTitle = NSLocalizedString(
             "Success!",
             comment: "Title of an alert that notifies the user that airdrop registration has succeded"

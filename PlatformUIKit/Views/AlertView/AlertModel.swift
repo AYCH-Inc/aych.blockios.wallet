@@ -11,6 +11,7 @@ import UIKit
 public struct AlertModel {
     public var image: UIImage?
     public var imageTintColor: UIColor?
+    public var topNote: String?
     public var headline: String?
     public var body: String?
     public var note: String?
@@ -22,6 +23,7 @@ public struct AlertModel {
         headline: String?,
         body: String?,
         note: String? = nil,
+        topNote: String? = nil,
         actions: [AlertAction] = [.defaultDismissal],
         image: UIImage? = nil,
         imageTintColor: UIColor? = nil,
@@ -31,6 +33,7 @@ public struct AlertModel {
         self.headline = headline
         self.body = body
         self.note = note
+        self.topNote = topNote
         self.actions = actions
         self.image = image
         self.imageTintColor = imageTintColor

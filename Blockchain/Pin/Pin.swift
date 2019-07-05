@@ -59,7 +59,7 @@ extension Pin {
         return self.pinCode == (object as? Pin)?.pinCode
     }
 
-    override var hashValue: Int {
+    override var hash: Int {
         return Int(pinCode)
     }
 }

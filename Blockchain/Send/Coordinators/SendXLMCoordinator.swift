@@ -79,7 +79,7 @@ class SendXLMCoordinator {
                                       .fiatFieldTextColor(.error),
                                       .xlmFieldTextColor(.error),
                                       .errorLabelVisibility(.hidden),
-                                      .feeAmountLabelText()])
+                                      .feeAmountLabelText])
         case .insufficientFundsForNewAccount:
             interface.apply(updates: [.errorLabelVisibility(.visible),
                                       .errorLabelText(LocalizationConstants.Stellar.minimumForNewAccountsError)])
@@ -176,7 +176,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                 self.modelInterface.updateBaseReserve(ledger.baseReserveInXlm?.majorValue)
                 self.modelInterface.updateFee(feeInXlm)
                 self.modelInterface.updatePrice(price.priceInFiat.amount)
-                self.interface.apply(updates: [.feeAmountLabelText()])
+                self.interface.apply(updates: [.feeAmountLabelText])
             }, onError: { [unowned self] error in
                 Logger.shared.error(error.localizedDescription)
                 self.interface.apply(updates: [

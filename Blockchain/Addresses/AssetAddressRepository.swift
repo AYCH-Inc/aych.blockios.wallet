@@ -181,7 +181,7 @@ extension AssetAddressRepository {
                 return
             }
             guard let json = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: AnyObject],
-                let transactions = json!["txs"] as? [NSDictionary] else {
+                let transactions = json["txs"] as? [NSDictionary] else {
                     // TODO: call error handler
                     return
             }

@@ -80,7 +80,7 @@ class StellarOperationService: StellarOperationsAPI {
     /// All the `StellarOperations` will have been fetched when
     /// the `Observable` is `completed`.
     func allOperations(from accountID: String, token: String?) -> Observable<StellarPageReponse<StellarOperation>> {
-        let observable = operations(from: accountID, token: token).takeWhile { [weak self] output -> Bool in
+        let observable = operations(from: accountID, token: token).asObservable().takeWhile { [weak self] output -> Bool in
             if let first = output.items.first?.token {
                 self?.stream(cursor: first)
             }
@@ -161,10 +161,10 @@ class StellarOperationService: StellarOperationsAPI {
         }
     }
     
-    private func operations(from accountID: AccountID, token: PageToken?) -> Observable<StellarPageReponse<StellarOperation>> {
+    private func operations(from accountID: AccountID, token: PageToken?) -> Single<StellarPageReponse<StellarOperation>> {
         return fetchOperations(from: accountID, token: token)
             .flatMapLatest { response -> Observable<(OperationResponse, Bool)> in
-                return Observable.from(response.items.map { ($0, response.hasNextPage) })
+                return Observable<(OperationResponse, Bool)>.from(response.items.map { ($0, response.hasNextPage) })
             }
             .concatMap { value -> Observable<(StellarOperation, Bool)> in
                 let (item, hasNextPage) = value
@@ -174,17 +174,14 @@ class StellarOperationService: StellarOperationsAPI {
                     }
             }
             .toArray()
-            .flatMapLatest { items -> Observable<StellarPageReponse<StellarOperation>> in
-                guard let firstItem = items.first else {
-                    return Observable.empty()
-                }
-                let hasNextPage = firstItem.1
+            .flatMap(weak: self, { (self, items) -> Single<StellarPageReponse<StellarOperation>> in
+                let hasNextPage = items.first?.1 ?? false
                 let operations = items.map { $0.0 }
-                return Observable.just(StellarPageReponse<StellarOperation>(
+                return Single.just(StellarPageReponse<StellarOperation>(
                     hasNextPage: hasNextPage,
                     items: operations
                 ))
-            }
+            })
     }
     
     private func getTransactionDetails(for operation: OperationResponse, accountID: AccountID) -> Observable<StellarOperation> {
@@ -257,7 +254,7 @@ class StellarOperationService: StellarOperationsAPI {
                         return this.getTransactionDetails(for: operationResponse, accountID: accountID)
                     }
                     .toArray()
-                    .subscribe(onNext: { result in
+                    .subscribe(onSuccess: { result in
                         this.privateReplayedOperations.onNext(result)
                     })
                 this.disposables.insertWithDiscardableResult(disposable)

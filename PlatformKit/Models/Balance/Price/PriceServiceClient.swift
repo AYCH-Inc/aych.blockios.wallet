@@ -70,7 +70,7 @@ public class PriceServiceClient: PriceServiceAPI {
                 return (currency, priceInFiat)
             }
         }
-        return Single.zip(fiatPrices, { results -> CryptoCurrencyToPrices in
+        return Single.zip(fiatPrices, resultSelector: { (results) -> CryptoCurrencyToPrices in
             var currencyToPrices: [CryptoCurrency: PriceInFiatValue] = [:]
             results.forEach { currency, priceInFiat in
                 currencyToPrices[currency] = priceInFiat

@@ -35,7 +35,7 @@ extension NetworkManager {
                     return
             }
             guard let json = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: AnyObject],
-                let success = json!["success"] as? Bool, success == true else {
+                let success = json["success"] as? Bool, success == true else {
                     return
             }
         })

@@ -1,13 +1,12 @@
 PODS:
   - Alamofire (4.8.2)
-  - BigInt (3.1.0):
-    - SipHash (~> 1.2)
+  - BigInt (4.0.0)
   - Charts (3.2.2):
     - Charts/Core (= 3.2.2)
   - Charts/Core (3.2.2)
-  - Crashlytics (3.13.1):
-    - Fabric (~> 1.10.1)
-  - Fabric (1.10.1)
+  - Crashlytics (3.13.2):
+    - Fabric (~> 1.10.2)
+  - Fabric (1.10.2)
   - Firebase/Core (5.17.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.6.0)
@@ -86,36 +85,34 @@ PODS:
   - PhoneNumberKit/PhoneNumberKitCore (2.6.0)
   - PhoneNumberKit/UIKit (2.6.0):
     - PhoneNumberKit/PhoneNumberKitCore
-  - PromiseKit (6.8.4):
-    - PromiseKit/CorePromise (= 6.8.4)
-    - PromiseKit/Foundation (= 6.8.4)
-    - PromiseKit/UIKit (= 6.8.4)
-  - PromiseKit/CorePromise (6.8.4)
-  - PromiseKit/Foundation (6.8.4):
+  - PromiseKit (6.10.0):
+    - PromiseKit/CorePromise (= 6.10.0)
+    - PromiseKit/Foundation (= 6.10.0)
+    - PromiseKit/UIKit (= 6.10.0)
+  - PromiseKit/CorePromise (6.10.0)
+  - PromiseKit/Foundation (6.10.0):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (6.8.4):
+  - PromiseKit/UIKit (6.10.0):
     - PromiseKit/CorePromise
   - Protobuf (3.8.0)
-  - RxAtomic (4.4.2)
-  - RxBlocking (4.4.1):
-    - RxAtomic (~> 4.4)
-    - RxSwift (~> 4.0)
-  - RxCocoa (4.4.1):
-    - RxSwift (~> 4.0)
-  - RxSwift (4.4.1):
-    - RxAtomic (~> 4.4)
-  - RxTest (4.4.1):
-    - RxAtomic (~> 4.4)
-    - RxSwift (~> 4.0)
+  - RxBlocking (5.0.0):
+    - RxSwift (~> 5)
+  - RxCocoa (5.0.0):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.0.0):
+    - RxSwift (~> 5)
+  - RxSwift (5.0.0)
+  - RxTest (5.0.0):
+    - RxSwift (~> 5)
   - scrypt.c (0.1.1)
   - secp256k1.c (0.1.2)
-  - SipHash (1.2.2)
   - Starscream (3.0.6)
   - stellar-ios-mac-sdk (1.6.6)
   - SwiftLint (0.30.1)
-  - VeriffSDK (2.0.4)
+  - VeriffSDK (2.0.5)
   - web3swift.pod (2.1.10):
-    - BigInt (~> 3.1)
+    - BigInt (~> 4.0)
     - keccak.c (~> 0.1)
     - PromiseKit (~> 6.4)
     - scrypt.c (~> 0.1)
@@ -123,7 +120,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
-  - BigInt (~> 3.1)
+  - BigInt (~> 4.0)
   - Charts (~> 3.2.1)
   - Crashlytics
   - Fabric
@@ -131,17 +128,15 @@ DEPENDENCIES:
   - Firebase/DynamicLinks (~> 5.17.0)
   - Firebase/RemoteConfig (~> 5.17.0)
   - PhoneNumberKit (~> 2.1)
-  - RxBlocking (~> 4.0)
-  - RxCocoa (= 4.4.1)
-  - RxCocoa (~> 4.0)
-  - RxSwift (= 4.4.1)
-  - RxSwift (~> 4.0)
-  - RxTest (~> 4.0)
+  - RxBlocking (~> 5.0)
+  - RxCocoa (= 5.0)
+  - RxSwift (= 5.0)
+  - RxTest (~> 5.0)
   - Starscream (~> 3.0.2)
-  - "stellar-ios-mac-sdk (from `git@github.com:bchrisarriola/stellar-ios-mac-sdk.git`, commit `fe5cfb8eda5d62f57f634b75023c6b854d87e128`)"
+  - "stellar-ios-mac-sdk (from `git@github.com:thisisalexmcgregor/stellar-ios-mac-sdk.git`, commit `03aefcdc14a43a16c46b483ffaea90ce9c210071`)"
   - SwiftLint (= 0.30.1)
-  - VeriffSDK (= 2.0.4)
-  - web3swift.pod (~> 2.1.10)
+  - VeriffSDK (= 2.0.5)
+  - "web3swift.pod (from `git@github.com:thisisalexmcgregor/web3swift.git`, commit `6a1d31397fe470e7b46007ccd0ab4c6cc22f9048`)"
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -165,35 +160,39 @@ SPEC REPOS:
     - PhoneNumberKit
     - PromiseKit
     - Protobuf
-    - RxAtomic
     - RxBlocking
     - RxCocoa
+    - RxRelay
     - RxSwift
     - RxTest
     - scrypt.c
     - secp256k1.c
-    - SipHash
     - Starscream
     - SwiftLint
     - VeriffSDK
-    - web3swift.pod
 
 EXTERNAL SOURCES:
   stellar-ios-mac-sdk:
-    :commit: fe5cfb8eda5d62f57f634b75023c6b854d87e128
-    :git: "git@github.com:bchrisarriola/stellar-ios-mac-sdk.git"
+    :commit: 03aefcdc14a43a16c46b483ffaea90ce9c210071
+    :git: "git@github.com:thisisalexmcgregor/stellar-ios-mac-sdk.git"
+  web3swift.pod:
+    :commit: 6a1d31397fe470e7b46007ccd0ab4c6cc22f9048
+    :git: "git@github.com:thisisalexmcgregor/web3swift.git"
 
 CHECKOUT OPTIONS:
   stellar-ios-mac-sdk:
-    :commit: fe5cfb8eda5d62f57f634b75023c6b854d87e128
-    :git: "git@github.com:bchrisarriola/stellar-ios-mac-sdk.git"
+    :commit: 03aefcdc14a43a16c46b483ffaea90ce9c210071
+    :git: "git@github.com:thisisalexmcgregor/stellar-ios-mac-sdk.git"
+  web3swift.pod:
+    :commit: 6a1d31397fe470e7b46007ccd0ab4c6cc22f9048
+    :git: "git@github.com:thisisalexmcgregor/web3swift.git"
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
-  BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
+  BigInt: 2aad1a9942dc932ec8b84290d2c564a3d76f97ab
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
-  Crashlytics: 5aa8e90dcbf2f34898b4f5a0037787531246cca0
-  Fabric: f6f21452846788bb44595d73e9909d79d328e617
+  Crashlytics: 611738c7847f8291a1a51084e35987b86ba6b3ee
+  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   Firebase: 59d557e064217fab6a03ff00baa73c06e73832e6
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: 75e4bbc6417d190cc98ec1f17c41a4fad4c2c976
@@ -207,22 +206,21 @@ SPEC CHECKSUMS:
   keccak.c: 859583afdaccb4e4fcc0f0096064d101580313f4
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   PhoneNumberKit: 167ee1f0bbb6efce7c62559e620eae745595532f
-  PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
+  PromiseKit: 1fdaeb6c0a94a5114fcb814ff3d772b86886ad4e
   Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
-  RxAtomic: d00e97c10db88c6f08540e0bf2752fc5a2404167
-  RxBlocking: 5508e90d36ca2304632dc9378ece4e9b5d4bf656
-  RxCocoa: 2f35a76bf8887872e28a1914112395b11b8e0e64
-  RxSwift: 92fcf68dfef21f3e2ab1965363d9e7b3d787597e
-  RxTest: f8e548755ca3c7502dc41c7d3b28802c90115a38
+  RxBlocking: c67185d26498ea3cbe3e121917c3c16739e43123
+  RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
+  RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
+  RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
+  RxTest: 4349afe98f564e0a9bc19063368904622d17d49a
   scrypt.c: b42ae06183251329d2b2c620c226fb541a4a3592
   secp256k1.c: db47b726585d80f027423682eb369729e61b3b20
-  SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
-  stellar-ios-mac-sdk: fa4cffe71666226af2404ca37359ce51dcdb74c3
+  stellar-ios-mac-sdk: ed1d2a48774d3c703e8743bdde2bd03ac196b2df
   SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
-  VeriffSDK: c9fe64b14ebab9a85aa9d78048146b7f079f6969
-  web3swift.pod: e3bd1c18a84e9fc1c4bfab8ebc0754b0806a7bcd
+  VeriffSDK: 267342aa5a224ab5799ef0cef5eacc7de094d643
+  web3swift.pod: 98e8653f39e1bcd7b45f46dd982ec49cdfc6c46a
 
-PODFILE CHECKSUM: e9974c0326c0f9b1cbd99e91551d25900eb7ae3a
+PODFILE CHECKSUM: 67e45118eca876ef48aecc9566799a8fa2cdd035
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.7.3

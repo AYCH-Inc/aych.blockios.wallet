@@ -122,7 +122,7 @@ protocol SendXLMViewControllerDelegate: class {
         case memoTextFieldShouldBeginEditing
         case memoIDFieldShouldBeginEditing
         case errorLabelText(String)
-        case feeAmountLabelText()
+        case feeAmountLabelText
         case stellarAddressText(String)
         case stellarAddressTextColor(UIColor)
         case xlmFieldTextColor(UIColor)

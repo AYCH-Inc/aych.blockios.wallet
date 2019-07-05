@@ -31,7 +31,7 @@ class MockWallet: Wallet {
 /// in the test target. Without this, the test target won't compile.
 /// That said, currently no tests use this.
 extension Wallet: CoinifyWalletBridgeAPI {
-    func save(coinifyID: Int, token: String, completion: @escaping CoinifyWalletBridgeAPI.CoinifyAccountIDCompletion) {
+    func save(coinifyID: Int, token: String, completion: @escaping CoinifyAccountIDCompletion) {
         completion(nil)
     }
     

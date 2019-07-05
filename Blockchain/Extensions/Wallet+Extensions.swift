@@ -76,7 +76,7 @@ extension Wallet: StellarWalletBridgeAPI {
 }
 
 extension Wallet: CoinifyWalletBridgeAPI {
-    func save(coinifyID: Int, token: String, completion: @escaping CoinifyWalletBridgeAPI.CoinifyAccountIDCompletion) {
+    func save(coinifyID: Int, token: String, completion: @escaping CoinifyAccountIDCompletion) {
         self.saveCoinifyID(coinifyID, token: token, success: {
             completion(nil)
         }) { message in

@@ -151,9 +151,9 @@ open class NetworkManager: NSObject, URLSessionDelegate {
 
     // TODO: find place to put UIApplication.shared.isNetworkActivityIndicatorVisible
 
-    func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {}
+    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {}
 
-    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping AuthChallengeHandler) {
+    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping AuthChallengeHandler) {
         let host = challenge.protectionSpace.host
         Logger.shared.info("Received challenge from \(host)")
 
@@ -168,7 +168,7 @@ open class NetworkManager: NSObject, URLSessionDelegate {
         #endif
     }
 
-    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {}
+    public func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {}
 
     // MARK: - Private Functions
 

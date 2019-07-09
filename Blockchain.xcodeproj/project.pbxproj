@@ -142,7 +142,6 @@
 		34998C42228F7061005B5CDD /* EthereumTransactionSendingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34998C41228F7061005B5CDD /* EthereumTransactionSendingService.swift */; };
 		34998C4F228F97D7005B5CDD /* ERC20BalanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34998C4E228F97D7005B5CDD /* ERC20BalanceService.swift */; };
 		34998C7E2290754E005B5CDD /* EthereumWalletAccountRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BE8B202285ED830097F535 /* EthereumWalletAccountRepositoryMock.swift */; };
-		349BA27B22CFA47200DC85BE /* KeyPairDeriverAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8473C5219B5D2D00F22FA6 /* KeyPairDeriverAPI.swift */; };
 		349C4B99221887A500332BFF /* QRCodeScannerParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349C4B98221887A500332BFF /* QRCodeScannerParsing.swift */; };
 		34A0BBEA2225597400F349CD /* Importable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A0BBE92225597400F349CD /* Importable.swift */; };
 		34A0BC02222585BE00F349CD /* LegacyEthereumWalletMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A0BC01222585BE00F349CD /* LegacyEthereumWalletMock.swift */; };
@@ -1990,10 +1989,6 @@
 		23FDEFA81D6E43DE00FC80D6 /* TransactionDetailTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransactionDetailTableCell.m; sourceTree = "<group>"; };
 		23FDEFAA1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+SendSynchronousRequest.h"; sourceTree = "<group>"; };
 		23FDEFAB1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+SendSynchronousRequest.m"; sourceTree = "<group>"; };
-		2B767CFDC37F16BE28F5F3AA /* Pods-PlatformUIKit.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformUIKit.debug production.xcconfig"; path = "Pods/Target Support Files/Pods-PlatformUIKit/Pods-PlatformUIKit.debug production.xcconfig"; sourceTree = "<group>"; };
-		2BC0397088C7193C5F0D95E6 /* Pods-EthereumKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EthereumKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EthereumKitTests/Pods-EthereumKitTests.release.xcconfig"; sourceTree = "<group>"; };
-		2D108A231ACAABFA2ACA5904 /* Pods-ERC20KitTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20KitTests.release staging.xcconfig"; path = "Pods/Target Support Files/Pods-ERC20KitTests/Pods-ERC20KitTests.release staging.xcconfig"; sourceTree = "<group>"; };
-		3034746944ADEE6644F7F40C /* Pods_ERC20Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ERC20Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B8CD8FDE7A46EBA4B5BB5B8 /* Pods-StellarKitTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StellarKitTests.release staging.xcconfig"; path = "Target Support Files/Pods-StellarKitTests/Pods-StellarKitTests.release staging.xcconfig"; sourceTree = "<group>"; };
 		341E5A602284354B007BE6A6 /* MockEthereumWalletTestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEthereumWalletTestData.swift; sourceTree = "<group>"; };
 		341E5A6D2284365F007BE6A6 /* EthereumWalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumWalletService.swift; sourceTree = "<group>"; };
@@ -5017,7 +5012,6 @@
 				AD0C5C4C0E9B9F580B55D018 /* Pods-StellarKitTests.release.xcconfig */,
 				2B8CD8FDE7A46EBA4B5BB5B8 /* Pods-StellarKitTests.release staging.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -12030,7 +12024,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -ue\nINFO_PLIST=\"$BUILT_PRODUCTS_DIR/$INFOPLIST_PATH\"\nif [ -f \"$BUILT_PRODUCTS_DIR/$INFOPLIST_PATH\" ] ; then\nopensslURL=`/usr/libexec/PlistBuddy -c \"Print :WALLET_SERVER\" \"$INFO_PLIST\"`\nif [ ! -d ${SRCROOT}/Cert ]; then\nmkdir ${SRCROOT}/Cert\nfi\ncd ${SRCROOT}/Cert\nopenssl s_client -connect $opensslURL:443 -showcerts -CApath etc/ssl/certs/ | openssl x509 -outform DER > blockchain.der\nelse\necho \"Error: Could not find info.plist. Exiting\"\nexit 1\nfi\n\n";
+			shellScript = "set -ue\nsleep 3\nINFO_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\nif [ -f \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\" ] ; then\necho \"Found Info.plist\"\nopensslURL=`/usr/libexec/PlistBuddy -c \"Print :WALLET_SERVER\" \"$INFO_PLIST\"`\nif [ ! -d ${SRCROOT}/Cert ]; then\nmkdir ${SRCROOT}/Cert\nfi\ncd ${SRCROOT}/Cert\nopenssl s_client -connect $opensslURL:443 -showcerts -CApath etc/ssl/certs/ | openssl x509 -outform DER > blockchain.der\nelse\necho \"Error: Could not find info.plist. Exiting\"\nexit 1\nfi\n\n";
 		};
 		5AC08758F5C5BD85C835B77B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -4,10 +4,10 @@ ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 # Uncomment the next line to define a global platform for your project
 platform :ios, '10.0'
 use_frameworks!
+inhibit_all_warnings!
 
 target 'Blockchain' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-  inhibit_all_warnings!
   # Pods for Blockchain
   pod 'Alamofire', '~> 4.7'
   pod 'BigInt', '~> 4.0'
@@ -29,14 +29,13 @@ target 'Blockchain' do
   target 'BlockchainTests' do
     inherit! :search_paths
     # Pods for testing
-    pod 'web3swift.pod', git: 'git@github.com:thisisalexmcgregor/web3swift.git', commit: '6a1d31397fe470e7b46007ccd0ab4c6cc22f9048'
+    pod 'web3swift.pod', git: 'git@github.com:thisisalexmcgregor/web3swift.git', commit: '39abb613bef9f63f7bff5633172b3b474e54c165'
     pod 'RxBlocking', '~> 5.0'
     pod 'RxTest', '~> 5.0'
   end
 end
 
 target 'PlatformUIKit' do
-  inhibit_all_warnings!
   pod 'RxSwift', '5.0'
   pod 'RxCocoa', '5.0'
 end
@@ -55,7 +54,7 @@ target 'EthereumKit' do
   pod 'RxSwift', '5.0'
   pod 'RxCocoa', '5.0'
   pod 'BigInt', '~> 4.0'
-  pod 'web3swift.pod', git: 'git@github.com:thisisalexmcgregor/web3swift.git', commit: '6a1d31397fe470e7b46007ccd0ab4c6cc22f9048'
+  pod 'web3swift.pod', git: 'git@github.com:thisisalexmcgregor/web3swift.git', commit: '39abb613bef9f63f7bff5633172b3b474e54c165'
 
   target 'EthereumKitTests' do
     inherit! :search_paths
@@ -65,7 +64,7 @@ target 'EthereumKit' do
     pod 'RxBlocking', '~> 5.0'
     pod 'RxTest', '~> 5.0'
     pod 'BigInt', '~> 4.0'
-    pod 'web3swift.pod', git: 'git@github.com:thisisalexmcgregor/web3swift.git', commit: '6a1d31397fe470e7b46007ccd0ab4c6cc22f9048'
+    pod 'web3swift.pod', git: 'git@github.com:thisisalexmcgregor/web3swift.git', commit: '39abb613bef9f63f7bff5633172b3b474e54c165'
   end
 end
 
@@ -73,7 +72,7 @@ target 'ERC20Kit' do
   pod 'RxSwift', '5.0'
   pod 'RxCocoa', '5.0'
   pod 'BigInt', '~> 4.0'
-  pod 'web3swift.pod', git: 'git@github.com:thisisalexmcgregor/web3swift.git', commit: '6a1d31397fe470e7b46007ccd0ab4c6cc22f9048'
+  pod 'web3swift.pod', git: 'git@github.com:thisisalexmcgregor/web3swift.git', commit: '39abb613bef9f63f7bff5633172b3b474e54c165'
 
   target 'ERC20KitTests' do
     inherit! :search_paths
@@ -82,12 +81,11 @@ target 'ERC20Kit' do
     pod 'RxBlocking', '~> 5.0'
     pod 'RxTest', '~> 5.0'
   pod 'BigInt', '~> 4.0'
-    pod 'web3swift.pod', git: 'git@github.com:thisisalexmcgregor/web3swift.git', commit: '6a1d31397fe470e7b46007ccd0ab4c6cc22f9048'
+    pod 'web3swift.pod', git: 'git@github.com:thisisalexmcgregor/web3swift.git', commit: '39abb613bef9f63f7bff5633172b3b474e54c165'
   end
 end
 
 target 'PlatformKit' do
-  inhibit_all_warnings!
   pod 'Alamofire', '~> 4.7'
   pod 'RxSwift', '5.0'
   pod 'BigInt', '~> 4.0'

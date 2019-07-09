@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -23,11 +23,15 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="221"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="biW-v7-wjT">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="221"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xZb-b3-QcR">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="221"/>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="6uE-Li-RVw">
-                    <rect key="frame" x="16" y="24" width="170" height="66"/>
+                    <rect key="frame" x="16" y="24" width="240" height="132"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XOD-co-FrI">
                             <rect key="frame" x="0.0" y="0.0" width="47" height="29"/>
@@ -48,8 +52,11 @@
                                 <constraint firstAttribute="height" constant="29" id="uat-B5-4P7"/>
                             </constraints>
                         </view>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IOQ-Mz-Nzg">
+                            <rect key="frame" x="0.0" y="45" width="240" height="50"/>
+                        </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UPPERCASED TITLE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2K1-wR-9yV" userLabel="Card Title">
-                            <rect key="frame" x="0.0" y="45" width="170" height="21"/>
+                            <rect key="frame" x="0.0" y="111" width="170" height="21"/>
                             <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="17"/>
                             <color key="textColor" red="0.0039215686274509803" green="0.29019607843137252" blue="0.48627450980392156" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -57,7 +64,7 @@
                     </subviews>
                 </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Lorem Ipsum is Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is Lorem Ipsum is" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="O5O-L1-1fi" userLabel="Card Message">
-                    <rect key="frame" x="16" y="106" width="253" height="72"/>
+                    <rect key="frame" x="16" y="172" width="253" height="6"/>
                     <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                     <color key="textColor" red="0.37254999999999999" green="0.37254999999999999" blue="0.37254999999999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -98,13 +105,17 @@
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="4eX-Ib-LhG" secondAttribute="bottom" constant="8" id="3Q8-i4-lgR"/>
                 <constraint firstItem="O5O-L1-1fi" firstAttribute="top" secondItem="6uE-Li-RVw" secondAttribute="bottom" constant="16" id="4bf-jG-LtL"/>
+                <constraint firstAttribute="trailing" secondItem="biW-v7-wjT" secondAttribute="trailing" id="6PN-pN-HM1"/>
                 <constraint firstAttribute="bottom" secondItem="xZb-b3-QcR" secondAttribute="bottom" id="71h-wg-Etm"/>
+                <constraint firstItem="biW-v7-wjT" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="7Qb-o9-Rdq"/>
                 <constraint firstItem="xZb-b3-QcR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="HjI-aG-J5E"/>
+                <constraint firstAttribute="bottom" secondItem="biW-v7-wjT" secondAttribute="bottom" id="Lde-Ku-faA"/>
                 <constraint firstItem="4eX-Ib-LhG" firstAttribute="top" secondItem="O5O-L1-1fi" secondAttribute="bottom" constant="5" id="MXU-9A-RY0"/>
                 <constraint firstItem="luy-A8-JmJ" firstAttribute="leading" secondItem="O5O-L1-1fi" secondAttribute="trailing" constant="16" id="VAc-4w-4Hm"/>
                 <constraint firstItem="luy-A8-JmJ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="ZZ8-Zy-GSe"/>
                 <constraint firstItem="6uE-Li-RVw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="bAQ-m3-OKI"/>
                 <constraint firstAttribute="trailing" secondItem="luy-A8-JmJ" secondAttribute="trailing" constant="16" id="bqJ-bC-ulh"/>
+                <constraint firstItem="biW-v7-wjT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="dhk-bA-ouC"/>
                 <constraint firstItem="O5O-L1-1fi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="fxB-MI-sRu"/>
                 <constraint firstAttribute="trailing" secondItem="pO5-lR-lcl" secondAttribute="trailing" constant="16" id="lTa-96-JEl"/>
                 <constraint firstItem="6uE-Li-RVw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="meD-ah-qlz"/>
@@ -121,8 +132,10 @@
                 <outlet property="backgroundImageView" destination="xZb-b3-QcR" id="v4B-nO-0kH"/>
                 <outlet property="bodyLabel" destination="O5O-L1-1fi" id="k6A-Rh-9Ax"/>
                 <outlet property="closeButton" destination="pO5-lR-lcl" id="ZuJ-jj-x91"/>
+                <outlet property="headlineImageView" destination="IOQ-Mz-Nzg" id="H5O-0L-MRI"/>
                 <outlet property="imageView" destination="luy-A8-JmJ" id="eBE-5S-RiH"/>
                 <outlet property="newContainerView" destination="XOD-co-FrI" id="WMu-TR-7VT"/>
+                <outlet property="shadowView" destination="biW-v7-wjT" id="Wtp-jn-f5O"/>
                 <outlet property="titleLabel" destination="2K1-wR-9yV" id="qnJ-gR-B0n"/>
             </connections>
             <point key="canvasLocation" x="-70.3125" y="-162.14788732394365"/>

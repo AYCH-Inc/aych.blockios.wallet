@@ -406,6 +406,23 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.shouldHideSwapCard.rawValue)
             }
         }
+        
+        /**
+         Determines if the user has dismissed the `PIT Linking` card. Users that have not linked
+        their wallet to the PIT will see this card until they either link their wallet or dismiss
+         the card.
+         
+         - Important:
+         This setting **MUST** be set to `false` upon logging the user out of the application.
+         */
+        @objc var shouldHidePITLinkingCard: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.shouldHidePITLinkingCard.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.shouldHidePITLinkingCard.rawValue)
+            }
+        }
 
         /// Determines if the app already tried to route the user for the airdrop flow as a result
         /// of tapping on a deep link
@@ -494,6 +511,7 @@ final class BlockchainSettings: NSObject {
             didAttemptToRouteForAirdrop = false
             didTapOnKycDeepLink = false
             didAcceptCoinifyTOS = false
+            shouldHidePITLinkingCard = false
 
             KYCSettings.shared.reset()
 

@@ -19,11 +19,13 @@ class AnnouncementCardView: UIView {
 
     // MARK: - IBOutlets
 
+    @IBOutlet private var shadowView: UIView!
     @IBOutlet private var backgroundImageView: UIImageView!
     @IBOutlet private var newContainerView: UIView!
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var bodyLabel: UILabel!
     @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private var headlineImageView: UIImageView!
     @IBOutlet private var actionButton: UIButton!
     @IBOutlet private var closeButton: UIButton!
 
@@ -31,16 +33,20 @@ class AnnouncementCardView: UIView {
 
     @objc class func create(withModel model: AnnouncementCardViewModel) -> AnnouncementCardView {
         let cardView = AnnouncementCardView.makeFromNib()
+        cardView.headlineImageView.isHidden = model.palette.headlineImage == nil
+        cardView.headlineImageView.image = model.palette.headlineImage
         cardView.backgroundImageView.isHidden = model.palette.backgroundImage == nil
         cardView.backgroundImageView.image = model.palette.backgroundImage
         cardView.backgroundImageView.contentMode = model.palette.contentMode
         cardView.backgroundImageView.clipsToBounds = true
+        cardView.backgroundImageView.layer.cornerRadius = 8.0
         cardView.newContainerView.isHidden = model.palette.isNew == false
         cardView.newContainerView.layer.cornerRadius = 4.0
+        cardView.titleLabel.isHidden = model.title == nil
         cardView.titleLabel.textColor = model.palette.titleTextColor
         cardView.bodyLabel.textColor = model.palette.messageTextColor
         cardView.actionButton.setTitleColor(model.palette.actionTextColor, for: .normal)
-        cardView.backgroundColor = model.palette.backgroundColor
+        cardView.shadowView.backgroundColor = model.palette.backgroundColor
         cardView.titleLabel.text = model.title
         cardView.bodyLabel.text = model.message
         cardView.imageView.image = model.image
@@ -58,15 +64,18 @@ class AnnouncementCardView: UIView {
         super.awakeFromNib()
         translatesAutoresizingMaskIntoConstraints = false
         closeButton.tintColor = .gray4
+        closeButton.accessibilityIdentifier = AccessibilityIdentifiers.AnnouncementCard.dismissButton
+        actionButton.accessibilityIdentifier = AccessibilityIdentifiers.AnnouncementCard.actionButton
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        layer.masksToBounds = false
-        layer.shadowOffset = CGSize(width: 0, height: 2)
-        layer.shadowRadius = 2
-        layer.shadowOpacity = 0.15
-        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        
+        shadowView.layer.shadowColor = #colorLiteral(red: 0.87, green: 0.87, blue: 0.87, alpha: 1).cgColor
+        shadowView.layer.shadowRadius = 4.0
+        shadowView.layer.shadowOffset = .init(width: 0, height: 2.0)
+        shadowView.layer.shadowOpacity = 1.0
+        shadowView.layer.cornerRadius = 8.0
     }
 
     // MARK: - IBActions

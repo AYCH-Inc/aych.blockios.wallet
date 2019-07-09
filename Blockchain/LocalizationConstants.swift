@@ -998,6 +998,13 @@ struct LocalizationConstants {
     }
     
     struct PIT {
+        struct AnnouncementCard {
+            static let body = NSLocalizedString(
+                "It's time to Level Up to a better crypto exchange. First 100,000 traders to sign up will trade free for 30 days.",
+                comment: ""
+            )
+            static let CTA = NSLocalizedString("Check it out!", comment: "")
+        }
         struct ConnectionPage {
             struct Descriptors {
                 static let description = NSLocalizedString("The only Exchange that connects to your Wallet.", comment: "Description of the pit.")

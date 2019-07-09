@@ -109,6 +109,17 @@ extension CardsViewController {
     }
 
     // MARK: - Swap
+    
+    private func showWalletLinkingCardIfNeeded() -> Bool {
+        let model = AnnouncementCardViewModel.walletPitLinking(action: {
+            // TODO: Start wallet PIT linking
+        }, onClose: { [weak self] in
+            BlockchainSettings.App.shared.shouldHidePITLinkingCard = true
+            self?.animateHideCards()
+        })
+        showSingleCard(with: model)
+        return true
+    }
 
     private func showSwapCardIfNeeded(hasTrades: Bool, nabuUser: NabuUser) -> Bool {
         let canShowSwapCTA = nabuUser.swapApproved()

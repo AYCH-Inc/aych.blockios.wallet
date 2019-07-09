@@ -104,4 +104,11 @@ class AccessibilityIdentifiers: NSObject {
         static let decimalButton = "NumberKeypadView.decimalButton"
         static let backspace = "NumberKeypadView.backspace"
     }
+    
+    // MARK: Dashboard
+    
+    class AnnouncementCard {
+        static let dismissButton = "AnnouncementCard.dismissButton"
+        static let actionButton = "AnnouncementCard.actionButton"
+    }
 }

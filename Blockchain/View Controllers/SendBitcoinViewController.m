@@ -10,7 +10,6 @@
 #import "Wallet.h"
 #import "BCAddressSelectionView.h"
 #import "TabViewController.h"
-#import "UncaughtExceptionHandler.h"
 #import "UITextField+Blocks.h"
 #import "UIViewController+AutoDismiss.h"
 #import "LocalizationConstants.h"

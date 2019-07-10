@@ -10,7 +10,6 @@
 #import "Wallet.h"
 #import "Transaction.h"
 #import "MultiAddressResponse.h"
-#import "UncaughtExceptionHandler.h"
 #import "NSString+JSONParser_NSString.h"
 #import "crypto_scrypt.h"
 #import "NSData+Hex.h"
@@ -4725,14 +4724,6 @@ NSString * const kLockboxInvitation = @"lockbox";
 {
 
     NSString * decription = [NSString stringWithFormat:@"Javscript Exception: %@ File: %@ lineNumber: %@", message, url, lineNumber];
-
-#ifndef DEBUG
-    NSException * exception = [[NSException alloc] initWithName:@"Uncaught Exception" reason:decription userInfo:nil];
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
-        [UncaughtExceptionHandler logException:exception walletIsLoaded:YES walletIsInitialized:[self isInitialized]];
-    });
-#endif
 
     [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:decription title:BC_STRING_ERROR in:nil handler:nil];
 }

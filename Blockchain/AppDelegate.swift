@@ -96,9 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let simulateSurgeKey = UserDefaults.DebugKeys.simulateSurge.rawValue
         UserDefaults.standard.set(false, forKey: simulateSurgeKey)
-
-        // Send email when exceptions are caught
-        NSSetUncaughtExceptionHandler(HandleException)
+        
         #endif
 
         // TODO: prevent any other data tasks from executing until cert is pinned

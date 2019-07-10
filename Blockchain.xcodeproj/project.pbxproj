@@ -960,7 +960,6 @@
 		9F1831EB1516AE3500FB3D52 /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1831EA1516ADDB00FB3D52 /* NSString+URLEncode.m */; };
 		9F1831EE151744EB00FB3D52 /* ReceiveTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1831ED151744EB00FB3D52 /* ReceiveTableCell.m */; };
 		9F1831F0151744FC00FB3D52 /* ReceiveCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F1831EF151744FC00FB3D52 /* ReceiveCell.xib */; };
-		9F2780B715343A7D0015F83F /* UncaughtExceptionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F2780B615343A7D0015F83F /* UncaughtExceptionHandler.m */; };
 		9F2D934E14C0792D0053F0FF /* TransactionTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F2D934D14C0792D0053F0FF /* TransactionTableCell.xib */; };
 		9F45F82C1514E53C00018AED /* UIButtonPressAndHold.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F45F81D1514D81700018AED /* UIButtonPressAndHold.m */; };
 		9F4A5092152F585E00F9ED9D /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4A5091152F585E00F9ED9D /* UIDevice+Hardware.m */; };
@@ -4184,8 +4183,6 @@
 		9F1831EC151744EA00FB3D52 /* ReceiveTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiveTableCell.h; sourceTree = "<group>"; };
 		9F1831ED151744EB00FB3D52 /* ReceiveTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReceiveTableCell.m; sourceTree = "<group>"; };
 		9F1831EF151744FC00FB3D52 /* ReceiveCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReceiveCell.xib; sourceTree = "<group>"; };
-		9F2780B515343A7D0015F83F /* UncaughtExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UncaughtExceptionHandler.h; sourceTree = "<group>"; };
-		9F2780B615343A7D0015F83F /* UncaughtExceptionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UncaughtExceptionHandler.m; sourceTree = "<group>"; };
 		9F2D934D14C0792D0053F0FF /* TransactionTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransactionTableCell.xib; sourceTree = "<group>"; };
 		9F45F81C1514D81700018AED /* UIButtonPressAndHold.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIButtonPressAndHold.h; sourceTree = "<group>"; };
 		9F45F81D1514D81700018AED /* UIButtonPressAndHold.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIButtonPressAndHold.m; sourceTree = "<group>"; };
@@ -10853,8 +10850,6 @@
 		C9D4B2AE193E020D00EDA9EA /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
-				9F2780B515343A7D0015F83F /* UncaughtExceptionHandler.h */,
-				9F2780B615343A7D0015F83F /* UncaughtExceptionHandler.m */,
 				606399A92110FC2D005B6DF5 /* SocketRocket */,
 				23444F7B1DCD210B00573C8C /* CoreBitcoin */,
 				670595A11AB0F59D00D2D6D9 /* KeychainItemWrapper */,
@@ -13690,7 +13685,6 @@
 				9F4A5092152F585E00F9ED9D /* UIDevice+Hardware.m in Sources */,
 				3AAEF95D2141CEE9005852D1 /* ExchangeDetailHeaderView.swift in Sources */,
 				6780DB921A40BDA70048EED2 /* AddressInOut.m in Sources */,
-				9F2780B715343A7D0015F83F /* UncaughtExceptionHandler.m in Sources */,
 				C76D731720B24B5400040B57 /* WalletTransferAllDelegate.swift in Sources */,
 				C7559CAF1F55E874005B2375 /* BCConfirmPaymentViewModel.m in Sources */,
 				AA126CE5212C99FF005886A3 /* KYCPageViewFactory.swift in Sources */,

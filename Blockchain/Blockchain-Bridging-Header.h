@@ -43,7 +43,6 @@
 #import "UIApplication+Suspend.h"
 #import "UIDevice+Hardware.h"
 #import "UIViewController+AutoDismiss.h"
-#import "UncaughtExceptionHandler.h"
 #import "Wallet.h"
 #import "TransactionEtherTableViewCell.h"
 #import "WalletSetupViewController.h"

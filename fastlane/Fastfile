@@ -70,7 +70,7 @@ platform :ios do
   desc "Download dSYM file from iTunes and uploads it to Crashlytics"
   lane :upload_dsyms do
     upload_symbols_to_crashlytics(
-      dsym_path: "./Blockchain.app.dSYM.zip",
+      dsym_path: "./output/Blockchain.app.dSYM.zip",
       gsp_path: "./Blockchain/Firebase/Prod/GoogleService-Info.plist"
     )
   end

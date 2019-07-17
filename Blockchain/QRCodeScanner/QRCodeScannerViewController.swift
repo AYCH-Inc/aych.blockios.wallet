@@ -8,6 +8,7 @@
 
 import UIKit
 import PlatformKit
+import PlatformUIKit
 
 final class QRCodeScannerViewController: UIViewController {
     
@@ -23,10 +24,12 @@ final class QRCodeScannerViewController: UIViewController {
     private var scannerView: QRCodeScannerView?
     
     private let viewModel: QRCodeScannerViewModelProtocol
-    private let loadingViewPresenter: LoadingViewPresenter
+    private let loadingViewPresenter: LoadingViewPresenting
     private let dismissAnimated: Bool
     
-    init(viewModel: QRCodeScannerViewModelProtocol, loadingViewPresenter: LoadingViewPresenter = LoadingViewPresenter.shared, dismissAnimated: Bool = true) {
+    init(viewModel: QRCodeScannerViewModelProtocol,
+         loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared,
+         dismissAnimated: Bool = true) {
         self.viewModel = viewModel
         self.loadingViewPresenter = loadingViewPresenter
         self.dismissAnimated = dismissAnimated
@@ -93,7 +96,7 @@ final class QRCodeScannerViewController: UIViewController {
     
     private func handleScanComplete(with result: Result<String, QRScannerError>) {
         if let loadingText = viewModel.loadingText {
-            loadingViewPresenter.showBusyView(withLoadingText: loadingText)
+            loadingViewPresenter.show(with: loadingText)
         }
         dismiss(animated: dismissAnimated) { [weak self] in
             self?.viewModel.handleDismissCompleted(with: result)

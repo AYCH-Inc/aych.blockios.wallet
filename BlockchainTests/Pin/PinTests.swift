@@ -20,15 +20,4 @@ class PinTests: XCTestCase {
         let pin = Pin(code: 6309)
         XCTAssertTrue(pin.isValid)
     }
-
-    func testCommonPins() {
-        let pin1 = Pin(code: 1111)
-        XCTAssertTrue(pin1.isCommon)
-
-        let pin2 = Pin(code: 1234)
-        XCTAssertTrue(pin2.isCommon)
-
-        let pin3 = Pin(code: 5923)
-        XCTAssertFalse(pin3.isCommon)
-    }
 }

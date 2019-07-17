@@ -9,12 +9,15 @@
 import Foundation
 import JavaScriptCore
 import PlatformKit
+import RxSwift
+import RxCocoa
 
 /**
  Manager object for operations to the Blockchain Wallet.
  */
 @objc
-class WalletManager: NSObject {
+class WalletManager: NSObject, TransactionObserving {
+    
     static let shared = WalletManager()
 
     @objc class func sharedInstance() -> WalletManager {
@@ -51,6 +54,12 @@ class WalletManager: NSObject {
     weak var keyImportDelegate: WalletKeyImportDelegate?
     weak var secondPasswordDelegate: WalletSecondPasswordDelegate?
 
+    /// Once a payment is recieved any subscriber is able to get an update
+    private let paymentReceivedRelay = PublishRelay<ReceivedPaymentDetails>()
+    var paymentReceived: Observable<ReceivedPaymentDetails> {
+        return paymentReceivedRelay.asObservable()
+    }
+    
     init(wallet: Wallet = Wallet()!) {
         self.wallet = wallet
         super.init()
@@ -536,10 +545,13 @@ extension WalletManager: WalletDelegate {
         }
     }
 
-    func paymentReceived(onPINScreen amount: String!, assetType: LegacyAssetType) {
-        DispatchQueue.main.async { [unowned self] in
-            self.transactionDelegate?.onPaymentReceived(amount: amount, assetType: AssetType.from(legacyAssetType: assetType))
-        }
+    func paymentReceived(onPINScreen amount: String!,
+                         assetType: LegacyAssetType,
+                         address: String!) {
+        let details = ReceivedPaymentDetails(amount: amount,
+                                             asset: .from(legacyAssetType: assetType),
+                                             address: address)
+        paymentReceivedRelay.accept(details)
     }
 
     func updateLoadedAllTransactions(_ loadedAll: Bool) {

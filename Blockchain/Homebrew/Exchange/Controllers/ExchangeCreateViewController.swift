@@ -83,6 +83,8 @@ class ExchangeCreateViewController: UIViewController {
     private let disposables = CompositeDisposable()
     private let bag: DisposeBag = DisposeBag()
 
+    private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
+    
     // MARK: Lifecycle
     
     deinit {
@@ -388,11 +390,9 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
         case .loadingIndicator(let visibility):
             switch visibility {
             case .visible:
-                LoadingViewPresenter.shared.showBusyView(
-                    withLoadingText: LocalizationConstants.Exchange.confirming
-                )
+                loadingViewPresenter.show(with: LocalizationConstants.Exchange.confirming)
             case .hidden:
-                LoadingViewPresenter.shared.hideBusyView()
+                loadingViewPresenter.hide()
             }
         case .updatePrimaryLabel(let value):
             primaryAmountLabel.attributedText = value

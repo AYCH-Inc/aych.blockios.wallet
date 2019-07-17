@@ -174,7 +174,7 @@
         return;
     }
     
-    [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge confirming]];
+    [[LoadingViewPresenter sharedInstance] showWith:[LocalizationConstantsObjcBridge confirming]];
     
     [self performSelector:@selector(shiftPayment) withObject:nil afterDelay:ANIMATION_DURATION];
 }

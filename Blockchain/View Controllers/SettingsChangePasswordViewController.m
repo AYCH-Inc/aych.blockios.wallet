@@ -6,7 +6,6 @@
 //  Copyright © 2015 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-#import "BCFadeView.h"
 #import "SettingsChangePasswordViewController.h"
 #import "Blockchain-Swift.h"
 
@@ -114,8 +113,7 @@
         [self.newerPasswordTextField resignFirstResponder];
         [self.confirmNewPasswordTextField resignFirstResponder];
         
-        SettingsNavigationController *navigationController = (SettingsNavigationController *)self.navigationController;
-        [navigationController.busyView fadeIn];
+        [LoadingViewPresenter.sharedInstance showWith: LocalizationConstantsObjcBridge.syncingWallet];
         [WalletManager.sharedInstance.wallet changePassword:self.newerPasswordTextField.text];
     }
 }
@@ -138,8 +136,7 @@
 
 - (void)changePasswordError
 {
-    SettingsNavigationController *navigationController = (SettingsNavigationController *)self.navigationController;
-    [navigationController.busyView fadeOut];
+    [LoadingViewPresenter.sharedInstance hide];
     [self removeObserversForChangingPassword];
 }
 

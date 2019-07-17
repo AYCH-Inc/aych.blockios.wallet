@@ -23,6 +23,7 @@ public typealias URLParameters = [String: Any]
  - Copyright: Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
  */
 
+
 @objc
 open class NetworkManager: NSObject, URLSessionDelegate {
 
@@ -60,8 +61,104 @@ open class NetworkManager: NSObject, URLSessionDelegate {
         persistServerSessionIDForNewUIWebViews()
     }
 
-    // MARK: - Rx
-
+    // MARK: - Post
+    
+    /// Post that accepts an encodable as parameter
+    public func post<T: Decodable>(_ relativeUrl: String,
+                                   data: Encodable,
+                                   decodeTo decodableType: T.Type,
+                                   onErrorJustReturn: Bool = false) -> Single<T> {
+        return post(relativeUrl,
+                    parameters: data.dictionary,
+                    decodeTo: decodableType,
+                    onErrorJustReturn: onErrorJustReturn)
+    }
+    
+    /// Post that accepts a dictionary as parameter
+    public func post<T: Decodable>(_ relativeUrl: String,
+                                   parameters: [String: Any] = [:],
+                                   decodeTo decodableType: T.Type,
+                                   onErrorJustReturn: Bool = false) -> Single<T> {
+        return request(.post,
+                       relativeUrl: relativeUrl,
+                       parameters: parameters,
+                       decodeTo: decodableType,
+                       onErrorJustReturn: onErrorJustReturn)
+    }
+    
+    // MARK: - Get
+    
+    public func get<T: Decodable>(_ relativeUrl: String,
+                                  decodeTo decodableType: T.Type,
+                                  onErrorJustReturn: Bool = false) -> Single<T> {
+        return request(.get,
+                       relativeUrl: relativeUrl,
+                       decodeTo: decodableType,
+                       onErrorJustReturn: onErrorJustReturn)
+    }
+    
+    // MARK: - Put
+    
+    public func put<T: Decodable>(_ relativeUrl: String,
+                                  data: Encodable,
+                                  decodeTo decodableType: T.Type,
+                                  onErrorJustReturn: Bool = false) -> Single<T> {
+        return put(relativeUrl,
+                   parameters: data.dictionary,
+                   decodeTo: decodableType,
+                   onErrorJustReturn: onErrorJustReturn)
+    }
+    
+    public func put<T: Decodable>(_ relativeUrl: String,
+                                  parameters: [String: Any] = [:],
+                                  decodeTo decodableType: T.Type,
+                                  onErrorJustReturn: Bool = false) -> Single<T> {
+        return request(.put,
+                       relativeUrl: relativeUrl,
+                       parameters: parameters,
+                       decodeTo: decodableType,
+                       onErrorJustReturn: onErrorJustReturn)
+    }
+    
+    // MARK: - Delete
+    
+    public func delete<T: Decodable>(_ relativeUrl: String,
+                                     decodeTo decodableType: T.Type,
+                                     onErrorJustReturn: Bool = false) -> Single<T> {
+        return request(.delete,
+                       relativeUrl: relativeUrl,
+                       decodeTo: decodableType,
+                       onErrorJustReturn: onErrorJustReturn)
+    }
+    
+    // MARK: - Generic Request
+    
+    private func request<T: Decodable>(_ method: HTTPMethod,
+                                       relativeUrl: String,
+                                       parameters: [String: Any]? = nil,
+                                       decodeTo decodableType: T.Type,
+                                       onErrorJustReturn: Bool = false) -> Single<T> {
+        return Single<DataRequest>.create { single -> Disposable in
+            let request = SessionManager.default.request(
+                relativeUrl,
+                method: method,
+                parameters: parameters,
+                encoding: URLEncoding.default,
+                headers: nil)
+            single(.success(request))
+            return Disposables.create()
+        }
+        .flatMap { request -> Single<(HTTPURLResponse, Data)> in
+            return request.responseData()
+        }
+        .map { (response, data) -> T in
+            guard onErrorJustReturn || (200...299).contains(response.statusCode) else {
+                throw NetworkError.badStatusCode
+            }
+            return try data.decode(to: decodableType)
+        }
+    }
+    
     public func request<ResponseType: Decodable>(
         _ request: URLRequest,
         responseType: ResponseType.Type
@@ -255,3 +352,26 @@ extension HttpMethod {
         }
     }
 }
+
+extension Data {
+    func decode<T: Decodable>(to type: T.Type) throws -> T {
+        let decoder = JSONDecoder()
+        do {
+            try decoder.decode(type, from: self)
+        } catch {
+            print(error)
+        }
+        let decodable = try decoder.decode(type, from: self)
+        return decodable
+    }
+}
+
+extension Encodable {
+    var dictionary: [String: Any] {
+        guard let data = try? JSONEncoder().encode(self) else {
+            return [:]
+        }
+        return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String: Any] ?? [:]
+    }
+}
+

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DigitPadButtonView" customModule="Blockchain" customModuleProvider="target">
+            <connections>
+                <outlet property="backgroundView" destination="GaX-R1-dkD" id="Rid-Mb-hzz"/>
+                <outlet property="button" destination="2aK-2n-Kg4" id="MGR-eU-r3X"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="131" height="61"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GaX-R1-dkD">
+                    <rect key="frame" x="5" y="5" width="121" height="51"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2aK-2n-Kg4">
+                    <rect key="frame" x="0.0" y="0.0" width="131" height="61"/>
+                    <accessibility key="accessibilityConfiguration">
+                        <bool key="isElement" value="NO"/>
+                    </accessibility>
+                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <connections>
+                        <action selector="touchDown" destination="-1" eventType="touchDown" id="LpY-X2-Ucj"/>
+                        <action selector="touchUp" destination="-1" eventType="touchUpInside" id="1dU-eL-Zfe"/>
+                        <action selector="touchUp" destination="-1" eventType="touchCancel" id="6fN-we-Lpf"/>
+                        <action selector="touchUp" destination="-1" eventType="touchUpOutside" id="uCL-oG-x96"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="2aK-2n-Kg4" firstAttribute="trailing" secondItem="GaX-R1-dkD" secondAttribute="trailing" constant="5" id="3sa-9l-V1Y"/>
+                <constraint firstItem="2aK-2n-Kg4" firstAttribute="bottom" secondItem="GaX-R1-dkD" secondAttribute="bottom" constant="5" id="Asf-ua-pJ6"/>
+                <constraint firstItem="2aK-2n-Kg4" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="LPJ-QZ-tgU"/>
+                <constraint firstItem="GaX-R1-dkD" firstAttribute="leading" secondItem="2aK-2n-Kg4" secondAttribute="leading" constant="5" id="NHo-pf-hUh"/>
+                <constraint firstItem="GaX-R1-dkD" firstAttribute="top" secondItem="2aK-2n-Kg4" secondAttribute="top" constant="5" id="UqL-W8-zav"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="2aK-2n-Kg4" secondAttribute="trailing" id="j6b-Ii-L9f"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="2aK-2n-Kg4" secondAttribute="bottom" id="nj3-FC-oZJ"/>
+                <constraint firstItem="2aK-2n-Kg4" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="tOF-Gt-1Xo"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-56.799999999999997" y="411.544227886057"/>
+        </view>
+    </objects>
+</document>

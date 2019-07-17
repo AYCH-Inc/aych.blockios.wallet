@@ -8,6 +8,7 @@
 
 import Foundation
 import PlatformKit
+import PlatformUIKit
 
 final class PrivateKeyQRCodeParser: QRCodeScannerParsing {
     
@@ -34,11 +35,14 @@ final class PrivateKeyQRCodeParser: QRCodeScannerParsing {
     }
     
     private let walletManager: WalletManager
-    private let loadingViewPresenter: LoadingViewPresenter
+    private let loadingViewPresenter: LoadingViewPresenting
     private let acceptPublicKeys: Bool
     private let assetAddress: AssetAddress?
     
-    init(walletManager: WalletManager = WalletManager.shared, loadingViewPresenter: LoadingViewPresenter = LoadingViewPresenter.shared, acceptPublicKeys: Bool, assetAddress: AssetAddress?) {
+    init(walletManager: WalletManager = .shared,
+         loadingViewPresenter: LoadingViewPresenting,
+         acceptPublicKeys: Bool,
+         assetAddress: AssetAddress?) {
         self.walletManager = walletManager
         self.loadingViewPresenter = loadingViewPresenter
         self.acceptPublicKeys = acceptPublicKeys
@@ -65,7 +69,7 @@ final class PrivateKeyQRCodeParser: QRCodeScannerParsing {
         }
         //: Check if the scanned key is a private key, otherwise try public key if accepted
         guard let format = walletManager.wallet.detectPrivateKeyFormat(scannedKey), format.count > 0 else {
-            loadingViewPresenter.hideBusyView()
+            loadingViewPresenter.hide()
             if acceptPublicKeys {
                 let address = BitcoinAddress(string: scannedKey)
                 let validator = AddressValidator(context: WalletManager.shared.wallet.context)

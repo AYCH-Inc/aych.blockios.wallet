@@ -38,7 +38,7 @@
         return;
     }
 
-    [LoadingViewPresenter.sharedInstance showBusyViewWithLoadingText:BC_STRING_LOADING_CREATING_V3_WALLET];
+    [LoadingViewPresenter.sharedInstance showWith:BC_STRING_LOADING_CREATING_V3_WALLET];
 
     [WalletManager.sharedInstance.wallet upgradeToV3Wallet];
 }

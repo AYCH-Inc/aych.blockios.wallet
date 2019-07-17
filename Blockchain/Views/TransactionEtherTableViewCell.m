@@ -92,7 +92,6 @@
     TransactionDetailNavigationController *navigationController = [[TransactionDetailNavigationController alloc] initWithRootViewController:detailViewController];
     navigationController.transactionHash = model.myHash;
     
-    detailViewController.busyViewDelegate = navigationController;
     navigationController.onDismiss = ^() {
         tabControllerManager.transactionsEtherViewController.detailViewController = nil;
     };

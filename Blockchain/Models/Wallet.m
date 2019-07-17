@@ -1144,18 +1144,18 @@ NSString * const kLockboxInvitation = @"lockbox";
                 if ([[output objectForKey:DICTIONARY_KEY_ADDRESS_OUTPUT] isEqualToString:address]) amountReceived = amountReceived + [[output objectForKey:DICTIONARY_KEY_VALUE] longLongValue];
             };
 
-            self.bchSwipeAddressToSubscribe = nil;
-
             if (amountReceived > 0) {
-                if ([delegate respondsToSelector:@selector(paymentReceivedOnPINScreen:assetType:)]) {
+                if ([delegate respondsToSelector:@selector(paymentReceivedOnPINScreen:assetType:address:)]) {
                     if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
                         NSString *amountString = [NSNumberFormatter formatBchWithSymbol:amountReceived localCurrency:NO];
-                        [delegate paymentReceivedOnPINScreen:amountString assetType:LegacyAssetTypeBitcoinCash];
+                        [delegate paymentReceivedOnPINScreen:amountString assetType:LegacyAssetTypeBitcoinCash address: self.bchSwipeAddressToSubscribe];
                     }
                 } else {
                     DLog(@"Error: delegate of class %@ does not respond to selector paymentReceivedOnPINScreen:!", [delegate class]);
                 }
             }
+
+            self.bchSwipeAddressToSubscribe = nil;
 
             [webSocket closeWithCode:WEBSOCKET_CODE_RECEIVED_TO_SWIPE_ADDRESS reason:WEBSOCKET_CLOSE_REASON_RECEIVED_TO_SWIPE_ADDRESS];
         }
@@ -1179,17 +1179,18 @@ NSString * const kLockboxInvitation = @"lockbox";
         uint64_t amountReceived = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] longLongValue];
 
         NSString *amountString = [NSNumberFormatter formatMoney:amountReceived localCurrency:NO];
-        self.btcSwipeAddressToSubscribe = nil;
 
         if (amountReceived > 0) {
-            if ([self->delegate respondsToSelector:@selector(paymentReceivedOnPINScreen:assetType:)]) {
+            if ([self->delegate respondsToSelector:@selector(paymentReceivedOnPINScreen:assetType:address:)]) {
                 if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
-                    [self->delegate paymentReceivedOnPINScreen:amountString assetType:LegacyAssetTypeBitcoin];
+                    [self->delegate paymentReceivedOnPINScreen:amountString assetType:LegacyAssetTypeBitcoin address: self.btcSwipeAddressToSubscribe];
                 }
             } else {
                 DLog(@"Error: delegate of class %@ does not respond to selector paymentReceivedOnPINScreen:!", [self->delegate class]);
             }
         }
+        
+        self.btcSwipeAddressToSubscribe = nil;
 
         [webSocket closeWithCode:WEBSOCKET_CODE_RECEIVED_TO_SWIPE_ADDRESS reason:WEBSOCKET_CLOSE_REASON_RECEIVED_TO_SWIPE_ADDRESS];
     }];
@@ -2399,9 +2400,7 @@ NSString * const kLockboxInvitation = @"lockbox";
 - (void)watchPendingTrades:(BOOL)shouldSync
 {
     if (shouldSync) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge syncingWallet]];
-        });
+        [[LoadingViewPresenter sharedInstance] showWith:[LocalizationConstantsObjcBridge syncingWallet]];
     }
 
     [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getPendingTrades(%d)", shouldSync]];
@@ -3076,86 +3075,68 @@ NSString * const kLockboxInvitation = @"lockbox";
 
 - (void)loading_start_download_wallet
 {
-    [[LoadingViewPresenter sharedInstance] updateBusyViewLoadingTextWithText:LocalizationConstantsObjcBridge.downloadingWallet];
+    [[LoadingViewPresenter sharedInstance] showCircularWith:LocalizationConstantsObjcBridge.loadingWallet];
 }
 
 - (void)loading_start_decrypt_wallet
 {
-    [[LoadingViewPresenter sharedInstance] updateBusyViewLoadingTextWithText:BC_STRING_LOADING_DECRYPTING_WALLET];
+    [[LoadingViewPresenter sharedInstance] showCircularWith:LocalizationConstantsObjcBridge.loadingWallet];
 }
 
 - (void)loading_start_build_wallet
 {
-    [[LoadingViewPresenter sharedInstance] updateBusyViewLoadingTextWithText:BC_STRING_LOADING_LOADING_BUILD_HD_WALLET];
+    [[LoadingViewPresenter sharedInstance] showCircularWith:LocalizationConstantsObjcBridge.loadingWallet];
 }
 
 - (void)loading_start_multiaddr
 {
-    [[LoadingViewPresenter sharedInstance] updateBusyViewLoadingTextWithText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
+    [[LoadingViewPresenter sharedInstance] showCircularWith:LocalizationConstantsObjcBridge.loadingWallet];
 }
 
 - (void)loading_start_get_history
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
-    });
+    [[LoadingViewPresenter sharedInstance] showWith:BC_STRING_LOADING_LOADING_TRANSACTIONS];
 }
 
 - (void)loading_start_get_wallet_and_history
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_CHECKING_WALLET_UPDATES];
-    });
+    [[LoadingViewPresenter sharedInstance] showWith:BC_STRING_LOADING_CHECKING_WALLET_UPDATES];
 }
 
 - (void)loading_start_create_account
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_CREATING];
-    });
+    [[LoadingViewPresenter sharedInstance] showWith:BC_STRING_LOADING_CREATING];
 }
 
 - (void)loading_start_new_account
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_CREATING_WALLET];
-    });
+    [[LoadingViewPresenter sharedInstance] showCircularWith:LocalizationConstantsObjcBridge.loadingWallet];
 }
 
 - (void)loading_start_create_new_address
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_CREATING_NEW_ADDRESS];
-    });
+    [[LoadingViewPresenter sharedInstance] showWith:BC_STRING_LOADING_CREATING_NEW_ADDRESS];
 }
 
 - (void)loading_start_generate_uuids
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] updateBusyViewLoadingTextWithText:BC_STRING_LOADING_RECOVERY_CREATING_WALLET];
-    });
+    [[LoadingViewPresenter sharedInstance] showCircularWith:LocalizationConstantsObjcBridge.loadingWallet];
 }
 
 - (void)loading_start_recover_wallet
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_RECOVERING_WALLET];
-    });
+    [[LoadingViewPresenter sharedInstance] showWith:BC_STRING_LOADING_RECOVERING_WALLET];
 }
 
 - (void)loading_start_transfer_all:(NSNumber *)addressIndex totalAddresses:(NSNumber *)totalAddresses
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:[NSString stringWithFormat:BC_STRING_TRANSFER_ALL_CALCULATING_AMOUNTS_AND_FEES_ARGUMENT_OF_ARGUMENT, addressIndex, totalAddresses]];
-    });
+    [[LoadingViewPresenter sharedInstance] showWith:[NSString stringWithFormat:BC_STRING_TRANSFER_ALL_CALCULATING_AMOUNTS_AND_FEES_ARGUMENT_OF_ARGUMENT, addressIndex, totalAddresses]];
 }
 
 - (void)loading_stop
 {
     DLog(@"Stop loading");
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] hideBusyView];
-    });
+    [[LoadingViewPresenter sharedInstance] hide];
 }
 
 - (void)upgrade_success
@@ -3797,7 +3778,7 @@ NSString * const kLockboxInvitation = @"lockbox";
     [self subscribeToXPub:[self getXpubForAccount:[self getActiveAccountsCount:LegacyAssetTypeBitcoin] - 1 assetType:LegacyAssetTypeBitcoin] assetType:LegacyAssetTypeBitcoin];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge syncingWallet]];
+        [[LoadingViewPresenter sharedInstance] showWith:[LocalizationConstantsObjcBridge syncingWallet]];
     });
 }
 
@@ -3853,11 +3834,11 @@ NSString * const kLockboxInvitation = @"lockbox";
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([totalReceived longLongValue] == 0) {
             self.emptyAccountIndex++;
-            [[LoadingViewPresenter sharedInstance] updateBusyViewLoadingTextWithText:[NSString stringWithFormat:BC_STRING_LOADING_RECOVERING_WALLET_CHECKING_ARGUMENT_OF_ARGUMENT, self.emptyAccountIndex, self.emptyAccountIndex > RECOVERY_ACCOUNT_DEFAULT_NUMBER ? self.emptyAccountIndex : RECOVERY_ACCOUNT_DEFAULT_NUMBER]];
+            [[LoadingViewPresenter sharedInstance] showWith:[NSString stringWithFormat:BC_STRING_LOADING_RECOVERING_WALLET_CHECKING_ARGUMENT_OF_ARGUMENT, self.emptyAccountIndex, self.emptyAccountIndex > RECOVERY_ACCOUNT_DEFAULT_NUMBER ? self.emptyAccountIndex : RECOVERY_ACCOUNT_DEFAULT_NUMBER]];
         } else {
             self.emptyAccountIndex = 0;
             self.recoveredAccountIndex++;
-            [[LoadingViewPresenter sharedInstance] updateBusyViewLoadingTextWithText:[NSString stringWithFormat:BC_STRING_LOADING_RECOVERING_WALLET_ARGUMENT_FUNDS_ARGUMENT, self.recoveredAccountIndex, [NSNumberFormatter formatMoney:fundsInAccount]]];
+            [[LoadingViewPresenter sharedInstance] showWith:[NSString stringWithFormat:BC_STRING_LOADING_RECOVERING_WALLET_ARGUMENT_FUNDS_ARGUMENT, self.recoveredAccountIndex, [NSNumberFormatter formatMoney:fundsInAccount]]];
         }
     });
 }
@@ -4249,7 +4230,7 @@ NSString * const kLockboxInvitation = @"lockbox";
 - (void)on_shift_payment_error:(NSDictionary *)result
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] hideBusyView];
+        [[LoadingViewPresenter sharedInstance] hide];
 
         NSString *errorMessage = [result objectForKey:DICTIONARY_KEY_MESSAGE];
         [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:errorMessage title:BC_STRING_ERROR in:nil handler:nil];
@@ -4645,7 +4626,7 @@ NSString * const kLockboxInvitation = @"lockbox";
 - (void)crypto_scrypt:(id)_password salt:(id)salt n:(NSNumber*)N r:(NSNumber*)r p:(NSNumber*)p dkLen:(NSNumber*)derivedKeyLen success:(JSValue *)_success error:(JSValue *)_error
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_DECRYPTING_PRIVATE_KEY];
+        [[LoadingViewPresenter sharedInstance] showWith:BC_STRING_DECRYPTING_PRIVATE_KEY];
     });
 
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -4655,7 +4636,7 @@ NSString * const kLockboxInvitation = @"lockbox";
             if (data) {
                 [_success callWithArguments:@[[data hexadecimalString]]];
             } else {
-                [[LoadingViewPresenter sharedInstance] hideBusyView];
+                [[LoadingViewPresenter sharedInstance] hide];
                 [_error callWithArguments:@[@"Scrypt Error"]];
             }
         });

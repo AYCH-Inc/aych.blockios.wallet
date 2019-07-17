@@ -11,6 +11,7 @@ import LocalAuthentication
 import CoreFoundation
 import RxSwift
 import PlatformKit
+import PlatformUIKit
 
 @IBDesignable @objc class SettingsTableViewController: UITableViewController,
 AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDelegate {
@@ -64,6 +65,8 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     
     @IBOutlet var touchIDAsPin: SettingsToggleTableViewCell!
     @IBOutlet var swipeToReceive: SettingsToggleTableViewCell!
+    
+    private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -228,23 +231,25 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
             }
         })
     }
+    
     func toggleBiometry(_ sender: UISwitch) {
         let biometryEnabled = BlockchainSettings.sharedAppInstance().biometryEnabled
-        if !(biometryEnabled == true) {
+        if !biometryEnabled {
             let biometryWarning = String(format: LocalizationConstantsObjcBridge.biometryWarning(), biometryTypeDescription()!)
             let alertForTogglingBiometry = UIAlertController(title: biometryTypeDescription(), message: biometryWarning, preferredStyle: .alert)
             alertForTogglingBiometry.addAction(UIAlertAction(title: LocalizationConstants.cancel, style: .cancel, handler: { _ in
                 sender.isOn = false
             }))
             alertForTogglingBiometry.addAction(UIAlertAction(title: LocalizationConstants.continueString, style: .default, handler: { _ in
-                AuthenticationCoordinator.sharedInstance().validatePin()
+                AuthenticationCoordinator.shared.enableBiometrics()
             }))
             present(alertForTogglingBiometry, animated: true)
         } else {
             BlockchainSettings.sharedAppInstance().pin = nil
-            BlockchainSettings.sharedAppInstance().biometryEnabled = !biometryEnabled
+            BlockchainSettings.sharedAppInstance().biometryEnabled = false
         }
     }
+    
     // MARK: - Change notifications
     func emailNotificationsEnabled() -> Bool {
         return walletManager.wallet.emailNotificationsEnabled()
@@ -289,8 +294,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     }
     @objc func changeNotificationsSuccess() {
         removeObserversForChangingNotifications()
-        let navigationController = self.navigationController as? SettingsNavigationController
-        navigationController?.busyView.fadeIn()
+        loadingViewPresenter.show(with: LocalizationConstantsObjcBridge.syncingWallet())
         let changeEmailNotificationsCell: UITableViewCell? = tableView.cellForRow(at: IndexPath(
             row: preferencesEmailNotifications,
             section: sectionPreferences))
@@ -442,8 +446,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
         }
     }
     func disableNotificationsThenChangeEmail(_ newEmail: String?) {
-        let navigationController = self.navigationController as? SettingsNavigationController
-        navigationController?.busyView.fadeIn()
+        loadingViewPresenter.show(with: LocalizationConstantsObjcBridge.syncingWallet())
         walletManager.wallet.disableEmailNotifications()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.changeEmailAfterDisablingNotifications),

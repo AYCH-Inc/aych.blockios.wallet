@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformUIKit
 
 protocol SimpleListDelegate: class {
     func onLoaded()
@@ -35,6 +36,7 @@ class SimpleListViewController: UIViewController, SimpleListInterface {
 
     fileprivate var dataProvider: SimpleListDataProvider?
     fileprivate var presenter: SimpleListPresenter?
+    private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
 
     // MARK: Factory
 
@@ -87,9 +89,9 @@ class SimpleListViewController: UIViewController, SimpleListInterface {
     func loadingIndicatorVisibility(_ visibility: Visibility) {
         switch visibility {
         case .visible:
-            LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
+            loadingViewPresenter.show(with: LocalizationConstants.loading)
         case .hidden:
-            LoadingViewPresenter.shared.hideBusyView()
+            loadingViewPresenter.hide()
         }
     }
     

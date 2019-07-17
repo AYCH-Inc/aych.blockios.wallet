@@ -8,6 +8,7 @@
 
 import RxSwift
 import PlatformKit
+import PlatformUIKit
 
 protocol KYCVerifyIdentityInput: class {
     func submitVerification(
@@ -27,7 +28,8 @@ protocol KYCVerifyIdentityInput: class {
 
 class KYCVerifyIdentityInteractor {
     private let authentication: NabuAuthenticationService
-
+    private let loadingViewPresenter: LoadingViewPresenting
+    
     private var cache = [String: [KYCDocumentType]]()
 
     private let veriffService = VeriffService()
@@ -36,7 +38,9 @@ class KYCVerifyIdentityInteractor {
 
     private var disposable: Disposable?
 
-    init(authentication: NabuAuthenticationService = NabuAuthenticationService.shared) {
+    init(authentication: NabuAuthenticationService = NabuAuthenticationService.shared,
+         loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared) {
+        self.loadingViewPresenter = loadingViewPresenter
         self.authentication = authentication
     }
 
@@ -77,7 +81,9 @@ extension KYCVerifyIdentityInteractor: KYCVerifyIdentityInput {
     ) {
         guard let credentials = veriffCredentials else { return }
         disposable = veriffService.submitVerification(applicantId: credentials.applicantId)
-            .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
+            .do(onDispose: { [weak self] in
+                self?.loadingViewPresenter.hide()
+            })
             .subscribe(
                 onCompleted: onCompleted,
                 onError: onError

@@ -47,10 +47,6 @@ struct Constants {
         static let DefaultTabBarHeight: CGFloat = 49.0
         static let AssetSelectorHeight: CGFloat = 36.0
         static let BackupButtonCornerRadius: CGFloat = 4.0
-        static let BusyViewLabelWidth: CGFloat = 230.0
-        static let BusyViewLabelHeight: CGFloat = 30.0
-        static let BusyViewLabelAlpha: CGFloat = 0.75
-        static let BusyViewLabelFontSystemSize: CGFloat = 14.0
 
         static let ScreenHeightIphone4S: CGFloat = 480.0
         static let ScreenHeightIphone5S: CGFloat = 568.0
@@ -93,6 +89,7 @@ struct Constants {
         static let NumberOfRecoveryPhraseWords = 12
     }
     struct Booleans {
+        static let isUsingScreenSizeEqualIphone5S = UIScreen.main.bounds.size.height == Measurements.ScreenHeightIphone5S
         static let IsUsingScreenSizeLargerThan5s = UIScreen.main.bounds.size.height > Measurements.ScreenHeightIphone5S
     }
     struct NotificationKeys {

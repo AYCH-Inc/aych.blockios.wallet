@@ -8,6 +8,7 @@
 
 import Foundation
 import PlatformKit
+import PlatformUIKit
 
 typealias OnModalDismissed = () -> Void
 
@@ -30,17 +31,20 @@ typealias OnModalResumed = () -> Void
     }
     
     private let recorder: UIOperationRecording
+    private let loadingViewPresenter: LoadingViewPresenting
 
-    private init(recorder: UIOperationRecording = CrashlyticsRecorder()) {
+    private init(recorder: UIOperationRecording = CrashlyticsRecorder(),
+                 loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared) {
         self.recorder = recorder
+        self.loadingViewPresenter = loadingViewPresenter
         super.init()
     }
 
     @objc func closeAllModals() {
         recorder.recordIllegalUIOperationIfNeeded()
 
-        LoadingViewPresenter.shared.hideBusyView()
-
+        loadingViewPresenter.hide()
+        
         WalletManager.shared.wallet.isSyncing = false
 
         guard let modalView = modalView else { return }

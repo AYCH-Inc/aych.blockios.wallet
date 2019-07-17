@@ -20,7 +20,7 @@ import PlatformKit
     private let walletManager: WalletManager
 
     private let walletService: WalletService
-    
+    private let loadingViewPresenter: LoadingViewPresenting
     private let coinifyAuthenticator = KYCCoinifyAuthenticator()
     private let coinifyAccountRepository: CoinifyAccountRepositoryAPI
     private var kycObserver: NSObjectProtocol?
@@ -44,10 +44,12 @@ import PlatformKit
     private init(
         walletManager: WalletManager = WalletManager.shared,
         walletService: WalletService = WalletService.shared,
+        loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared,
         repository: CoinifyAccountRepositoryAPI = CoinifyAccountRepository(bridge: WalletManager.shared.wallet)
     ) {
         self.walletManager = walletManager
         self.walletService = walletService
+        self.loadingViewPresenter = loadingViewPresenter
         self.coinifyAccountRepository = CoinifyAccountRepository(bridge: walletManager.wallet)
         super.init()
         self.walletManager.buySellDelegate = self
@@ -78,11 +80,13 @@ import PlatformKit
         // If Tier Two pending, show the status page.
         // If they're verified but we haven't created a coinify user,
         // we have to create that and update Nabu and metadata.
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
+        loadingViewPresenter.show(with: LocalizationConstants.loading)
         let disposable = Single.zip(tierTwoTierState(), sfoxSupported())
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
+            .do(onDispose: { [weak self] in
+                self?.loadingViewPresenter.hide()
+            })
             .subscribe(onSuccess: { [weak self] state, sfox in
                 guard let self = self else { return }
                 
@@ -142,13 +146,13 @@ import PlatformKit
             .flatMapCompletable {
                 return self.syncCoinifyMetadataWithNabuIfNeeded($0)
             }
-            .subscribe(onCompleted: {
+            .subscribe(onCompleted: { [weak self] in
+                self?.loadingViewPresenter.hide()
                 DispatchQueue.main.async {
-                    LoadingViewPresenter.shared.hideBusyView()
-                    self.routeToBuyBitcoinViewController()
+                    self?.routeToBuyBitcoinViewController()
                 }
-            }, onError: { error in
-                LoadingViewPresenter.shared.hideBusyView()
+            }, onError: { [weak self] error in
+                self?.loadingViewPresenter.hide()
             })
         self.disposables.insertWithDiscardableResult(disposable)
     }
@@ -274,7 +278,7 @@ import PlatformKit
     }
     
     fileprivate func routeToBuyBitcoinViewController() {
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
+        loadingViewPresenter.show(with: LocalizationConstants.loading)
         guard let buyBitcoinViewController = buyBitcoinViewController else {
             Logger.shared.warning("buyBitcoinViewController not yet initialized")
             return
@@ -309,7 +313,7 @@ import PlatformKit
         /// This is to mitigate an issue where an `unauthorized` error occurs. 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
             guard let self = self else { return }
-            LoadingViewPresenter.shared.hideBusyView()
+            self.loadingViewPresenter.hide()
             buyBitcoinViewController.login(
                 withJson: walletJson,
                 externalJson: externalJson,

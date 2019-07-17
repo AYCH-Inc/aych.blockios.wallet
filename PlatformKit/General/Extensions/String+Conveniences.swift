@@ -26,4 +26,23 @@ public extension String {
         
         return queryArgs
     }
+    
+    /// Removes last char safely
+    mutating func removeLastSafely() {
+        guard !isEmpty else { return }
+        removeLast()
+    }
+    
+    /// Removes prefix
+    mutating func remove(prefix: String) {
+        guard hasPrefix(prefix) else { return }
+        self = String(suffix(count - prefix.count))
+    }
+    
+    func stringByRemoving(prefix: String) -> String {
+        guard hasPrefix(prefix) else { return self }
+        var this = self
+        this.remove(prefix: prefix)
+        return this
+    }
 }

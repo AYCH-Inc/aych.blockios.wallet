@@ -88,12 +88,6 @@ typedef enum {
 
 #pragma mark - UI Helpers
 
-- (void)showBusyViewWithLoadingText:(NSString *)text;
-{
-    AccountsAndAddressesNavigationController *navigationController = (AccountsAndAddressesNavigationController *)self.navigationController;
-    [navigationController showBusyViewWithLoadingText:text];
-}
-
 - (void)alertToShowAccountXPub
 {
     UIAlertController *alertToShowXPub = [UIAlertController alertControllerWithTitle:BC_STRING_WARNING_TITLE message:BC_STRING_EXTENDED_PUBLIC_KEY_WARNING preferredStyle:UIAlertControllerStyleAlert];
@@ -177,7 +171,8 @@ typedef enum {
 
 - (void)setDefaultAccount:(int)account
 {
-    if (self.assetType == LegacyAssetTypeBitcoin) [self showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge syncingWallet]];
+    if (self.assetType == LegacyAssetTypeBitcoin)
+        [LoadingViewPresenter.sharedInstance showWith:[LocalizationConstantsObjcBridge syncingWallet]];
     [WalletManager.sharedInstance.wallet setDefaultAccount:account assetType:self.assetType];
 }
 
@@ -190,11 +185,12 @@ typedef enum {
         if (![WalletManager.sharedInstance.wallet didUpgradeToHd] && [activeLegacyAddresses count] == 1 && [[activeLegacyAddresses firstObject] isEqualToString:self.address]) {
             [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_AT_LEAST_ONE_ADDRESS_REQUIRED title:BC_STRING_ERROR in:self handler: nil];
         } else {
-            [self showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge syncingWallet]];
+            [LoadingViewPresenter.sharedInstance showWith:[LocalizationConstantsObjcBridge syncingWallet]];
             [self performSelector:@selector(toggleArchiveLegacyAddress) withObject:nil afterDelay:ANIMATION_DURATION];
         }
     } else {
-        if (self.assetType == LegacyAssetTypeBitcoin) [self showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge syncingWallet]];
+        if (self.assetType == LegacyAssetTypeBitcoin)
+            [LoadingViewPresenter.sharedInstance showWith:[LocalizationConstantsObjcBridge syncingWallet]];
         [self performSelector:@selector(toggleArchiveAccount) withObject:nil afterDelay:ANIMATION_DURATION];
     }
 }

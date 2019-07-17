@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivityIndicatorLoadingContainerView" customModule="PlatformUIKit" customModuleProvider="target">
+            <connections>
+                <outlet property="containerView" destination="cy7-wH-YZt" id="UML-Q2-nCk"/>
+                <outlet property="messageLabel" destination="QiN-Y2-a40" id="0NW-ZF-wWY"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="XgF-0F-YEp">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cy7-wH-YZt">
+                    <rect key="frame" x="82" y="398" width="250" height="110"/>
+                    <subviews>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="YFA-Ml-W0d">
+                            <rect key="frame" x="115" y="27" width="20" height="34"/>
+                        </activityIndicatorView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.75" contentMode="left" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="loading" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="QiN-Y2-a40">
+                            <rect key="frame" x="6" y="67" width="238" height="17"/>
+                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.95564913750000002" green="0.95562052730000002" blue="0.95563679930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="QiN-Y2-a40" secondAttribute="bottom" constant="26" id="6vR-uM-dQv"/>
+                        <constraint firstItem="QiN-Y2-a40" firstAttribute="leading" secondItem="cy7-wH-YZt" secondAttribute="leading" constant="6" id="9PU-mK-PCE"/>
+                        <constraint firstItem="YFA-Ml-W0d" firstAttribute="top" secondItem="cy7-wH-YZt" secondAttribute="top" constant="27" id="HXo-gF-D7u"/>
+                        <constraint firstAttribute="height" constant="110" id="LIc-tX-pew"/>
+                        <constraint firstItem="QiN-Y2-a40" firstAttribute="top" secondItem="YFA-Ml-W0d" secondAttribute="bottom" constant="6" id="bS1-cU-L95"/>
+                        <constraint firstItem="YFA-Ml-W0d" firstAttribute="centerX" secondItem="cy7-wH-YZt" secondAttribute="centerX" id="eEt-oF-GDA"/>
+                        <constraint firstAttribute="trailing" secondItem="QiN-Y2-a40" secondAttribute="trailing" constant="6" id="l5O-EF-hYR"/>
+                        <constraint firstAttribute="width" constant="250" id="m1I-tU-Oir"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="cy7-wH-YZt" firstAttribute="centerX" secondItem="nay-hl-AaO" secondAttribute="centerX" id="PBa-4G-Hcq"/>
+                <constraint firstItem="cy7-wH-YZt" firstAttribute="centerY" secondItem="nay-hl-AaO" secondAttribute="centerY" id="Wcg-nh-U2J"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <viewLayoutGuide key="safeArea" id="nay-hl-AaO"/>
+            <point key="canvasLocation" x="747.82608695652175" y="162.05357142857142"/>
+        </view>
+    </objects>
+</document>

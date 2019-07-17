@@ -547,7 +547,6 @@ final class DashboardController: UIViewController {
 
     private func showError(message: String) {
         guard BlockchainSettings.App.shared.isPinSet,
-            AuthenticationCoordinator.shared.pinEntryViewController == nil,
             wallet.isInitialized(),
             tabControllerManager.tabViewController.selectedIndex() == Int32(Constants.Navigation.tabDashboard),
             ModalPresenter.shared.modalView == nil else {

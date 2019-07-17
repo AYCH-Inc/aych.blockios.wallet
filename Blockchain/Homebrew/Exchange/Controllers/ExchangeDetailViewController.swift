@@ -46,6 +46,7 @@ class ExchangeDetailViewController: UIViewController {
     fileprivate var coordinator: ExchangeDetailCoordinator!
     fileprivate var presenter: ExchangeDetailPresenter!
     fileprivate var dependencies: ExchangeDependencies!
+    private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
 
     // MARK: Lifecycle
 
@@ -360,9 +361,9 @@ extension ExchangeDetailViewController: ExchangeDetailInterface {
 
     func loadingVisibility(_ visibility: Visibility) {
         if visibility == .hidden {
-            LoadingViewPresenter.shared.hideBusyView()
+            loadingViewPresenter.hide()
         } else {
-            LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.Exchange.sendingOrder)
+            loadingViewPresenter.show(with: LocalizationConstants.Exchange.sendingOrder)
         }
     }
 }

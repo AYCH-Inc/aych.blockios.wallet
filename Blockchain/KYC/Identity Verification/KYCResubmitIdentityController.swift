@@ -48,7 +48,8 @@ final class KYCResubmitIdentityController: KYCBaseViewController {
     private var countryCode: String?
 
     private var presenter: KYCVerifyIdentityPresenter!
-
+    private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
+    
     // MARK: - KYCCoordinatorDelegate
 
     override func apply(model: KYCPageModel) {
@@ -118,7 +119,7 @@ extension KYCResubmitIdentityController: LoadingView {
 
 extension KYCResubmitIdentityController: VeriffController {
     func onVeriffSubmissionCompleted() {
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.KYC.submittingInformation)
+        loadingViewPresenter.show(with: LocalizationConstants.KYC.submittingInformation)
         delegate?.submitVerification(onCompleted: { [unowned self] in
             self.dismiss(animated: true, completion: {
                 self.coordinator.handle(event: .nextPageFromPageType(self.pageType, nil))
@@ -136,7 +137,7 @@ extension KYCResubmitIdentityController: VeriffController {
     }
 
     func onVeriffCancelled() {
-        LoadingViewPresenter.shared.hideBusyView()
+        loadingViewPresenter.hide()
         dismiss(animated: true, completion: { [weak self] in
             guard let this = self else { return }
             this.coordinator.handle(event: .nextPageFromPageType(this.pageType, nil))

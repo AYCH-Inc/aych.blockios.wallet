@@ -8,13 +8,18 @@
 
 import Foundation
 import PlatformKit
+import PlatformUIKit
 import RxSwift
 import ERC20Kit
 
 class PaxActivityServiceAPI: SimpleListServiceAPI {
     
+    // MARK: - Services
+    
     private let cache: ERC20HistoricalTransactionCaching<PaxToken>
     private let transactionService: AnyERC20HistoricalTransactionService<PaxToken>
+    private let loadingViewPresenter: LoadingViewPresenting
+    
     private var disposable: Disposable?
     private var internalModel: InternalModel?
     
@@ -22,9 +27,11 @@ class PaxActivityServiceAPI: SimpleListServiceAPI {
         let responses: [PageResult<ERC20HistoricalTransaction<PaxToken>>]
     }
     
-    init(provider: PAXServiceProvider = PAXServiceProvider.shared) {
+    init(provider: PAXServiceProvider = PAXServiceProvider.shared,
+         loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared) {
         self.transactionService = provider.services.historicalTransactionService
         self.cache = ERC20HistoricalTransactionCaching<PaxToken>()
+        self.loadingViewPresenter = loadingViewPresenter
     }
     
     func fetchAllItems(output: SimpleListOutput?) {
@@ -50,7 +57,7 @@ class PaxActivityServiceAPI: SimpleListServiceAPI {
     func fetchDetails(for item: Identifiable, output: SimpleListOutput?) {
         guard let model = item as? ERC20HistoricalTransaction<PaxToken> else { return }
         
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
+        loadingViewPresenter.show(with: LocalizationConstants.loading)
         
         let code = BlockchainSettings.App.shared.fiatCurrencyCode
         disposable = cache.item(with: model.transactionHash).ifEmpty(
@@ -59,8 +66,9 @@ class PaxActivityServiceAPI: SimpleListServiceAPI {
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .do(onDispose: { [weak self] in
-                LoadingViewPresenter.shared.hideBusyView()
-                self?.disposable = nil
+                guard let self = self else { return }
+                self.loadingViewPresenter.hide()
+                self.disposable = nil
             })
             .subscribe(onSuccess: { newModel in
                 self.cache.save(newModel, key: newModel.transactionHash)

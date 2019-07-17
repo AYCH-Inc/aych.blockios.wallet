@@ -8,6 +8,7 @@
 
 import RxSwift
 import PlatformKit
+import PlatformUIKit
 
 enum KYCEvent {
 
@@ -60,18 +61,21 @@ protocol KYCCoordinatorDelegate: class {
 
     private let appSettings: BlockchainSettings.App
     private let authenticationService: NabuAuthenticationService
-
+    private let loadingViewPresenter: LoadingViewPresenting
+    
     private var userTiersResponse: KYCUserTiersResponse?
     private var kycSettings: KYCSettingsAPI
 
     init(
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
         kycSettings: KYCSettingsAPI = KYCSettings.shared,
-        authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared
+        authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
+        loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
     ) {
         self.appSettings = appSettings
         self.kycSettings = kycSettings
         self.authenticationService = authenticationService
+        self.loadingViewPresenter = loadingViewPresenter
     }
 
     deinit {
@@ -101,14 +105,14 @@ protocol KYCCoordinatorDelegate: class {
         rootViewController = viewController
         AnalyticsService.shared.trackEvent(title: tier.startAnalyticsKey)
         
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
+        loadingViewPresenter.show(with: LocalizationConstants.loading)
         let postTierObservable = post(tier: tier).asObservable()
         let userObservable = BlockchainDataRepository.shared.fetchNabuUser().asObservable()
         
         let disposable = Observable.zip(userObservable, postTierObservable)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
+            .hideLoaderOnDisposal(loader: loadingViewPresenter)
             .subscribe(onNext: { [weak self] (user, tiersResponse) in
                 self?.pager = KYCPager(tier: tier, tiersResponse: tiersResponse)
                 Logger.shared.debug("Got user with ID: \(user.personalDetails?.identifier ?? "")")
@@ -197,12 +201,12 @@ protocol KYCCoordinatorDelegate: class {
         /// Refresh the user's tiers to get their status.
         /// Sometimes we receive an `INTERNAL_SERVER_ERROR` if we refresh this
         /// immediately after submitting all KYC data. So, we apply a delay here.
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
+        loadingViewPresenter.show(with: LocalizationConstants.loading)
         let disposable = BlockchainDataRepository.shared.tiers
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .delay(3.0, scheduler: MainScheduler.instance)
-            .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
+            .hideLoaderOnDisposal(loader: loadingViewPresenter)
             .subscribe(onNext: { [weak self] response in
                 guard let self = self else { return }
                 let status = response.tier2AccountStatus

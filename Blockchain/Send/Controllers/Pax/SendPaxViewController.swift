@@ -62,9 +62,9 @@ class SendPaxViewController: UIViewController {
     // MARK: Private Properties
     
     private var coordinator: SendPaxCoordinator!
-
+    private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
     private var qrScannerViewModel: QRCodeScannerViewModel<AddressQRCodeParser>?
-
+    
     private var maxAvailableTrigger: ActionableTrigger? {
         didSet {
             guard let trigger = maxAvailableTrigger else {
@@ -149,9 +149,9 @@ class SendPaxViewController: UIViewController {
         case .loadingIndicatorVisibility(let visibility):
             switch visibility {
             case .hidden:
-                LoadingViewPresenter.shared.hideBusyView()
+                loadingViewPresenter.hide()
             case .visible:
-                LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
+                loadingViewPresenter.show(with: LocalizationConstants.loading)
             }
         case .sendButtonEnabled(let enabled):
             sendNowButton.isEnabled = enabled

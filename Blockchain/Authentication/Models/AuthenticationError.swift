@@ -13,7 +13,7 @@ import Foundation
 
  Set **description** to `nil` to indicate that the error should be handled silently.
  */
-internal struct AuthenticationError {
+struct AuthenticationError {
     enum ErrorCode: Int {
         case noInternet = 300
         case noPassword

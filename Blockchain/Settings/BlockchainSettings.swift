@@ -29,7 +29,7 @@ final class BlockchainSettings: NSObject {
     // MARK: - App
 
     @objc
-    class App: NSObject {
+    class App: NSObject, AppSettingsAuthenticating, SwipeToReceiveConfiguring {
         static let shared = App()
 
         private lazy var defaults: UserDefaults = {
@@ -529,7 +529,6 @@ final class BlockchainSettings: NSObject {
             encryptedPinPassword = nil
             pinKey = nil
             passwordPartHash = nil
-            AuthenticationCoordinator.shared.lastEnteredPIN = Pin.Invalid
         }
 
         /// Migrates pin and password from NSUserDefaults to the Keychain
@@ -542,7 +541,7 @@ final class BlockchainSettings: NSObject {
 
             WalletManager.shared.wallet.password = password
 
-            Pin(code: pinUInt).saveToKeychain()
+            Pin(code: pinUInt).save(using: self)
 
             defaults.removeObject(forKey: UserDefaults.Keys.password.rawValue)
             defaults.removeObject(forKey: UserDefaults.Keys.pin.rawValue)
@@ -561,7 +560,7 @@ final class BlockchainSettings: NSObject {
         static let shared: Onboarding = Onboarding()
 
         private lazy var defaults: UserDefaults = {
-            return UserDefaults.standard
+            return .standard
         }()
 
         /// Property indicating if setting up biometric authentication failed

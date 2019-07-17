@@ -13,18 +13,15 @@
 @interface WalletSetupViewController ()
 @property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) UILabel *emailLabel;
-@property (nonatomic) UIWindow *window;
-@property (nonatomic) BiometricType *biometricType;
+@property (nonatomic, weak) UIWindow *window;
 @end
 
 @implementation WalletSetupViewController
 
-- (id)initWithSetupDelegate:(UIViewController<SetupDelegate>*)delegate
+- (id)init
 {
     if (self = [super init]) {
-        self.delegate = delegate;
         _window = [UIApplication sharedApplication].keyWindow;
-        _biometricType = UIDevice.currentDevice.supportedBiometricType;
     }
     return self;
 }
@@ -47,70 +44,13 @@
     
     NSInteger numberOfPages = 2;
     
-    if (_biometricType) {
-        [scrollView addSubview:[self setupBiometricView]];
-    } else {
-        self.emailOnly = YES;
-    }
     [scrollView addSubview:[self setupEmailView]];
     
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width * numberOfPages, scrollView.frame.size.height);
     [self.view addSubview:scrollView];
     
     self.scrollView = scrollView;
-    
-    if (self.emailOnly) {
-        [self goToSecondPage];
-    }
-}
-
-#pragma mark - Biometrics
-
-- (UIView *)setupBiometricView
-{
-    UIView *biometricView = [[UIView alloc] initWithFrame:self.view.frame];
-    UIView *bannerView = [self setupBannerViewWithImageName:_biometricType.asset];
-
-    [biometricView addSubview:bannerView];
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, bannerView.frame.size.height + 32, biometricView.frame.size.width - 50, 50)];
-    titleLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_EXTRA_LARGE];
-    titleLabel.textColor = UIColor.gray5;
-    titleLabel.text = _biometricType.title;
-    titleLabel.center = CGPointMake(biometricView.center.x, titleLabel.center.y);
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    [biometricView addSubview:titleLabel];
-    
-    UITextView *body = [[UITextView alloc] initWithFrame:CGRectMake(0, titleLabel.frame.origin.y + titleLabel.frame.size.height + 8, biometricView.frame.size.width - 50, 100)];
-    NSString *biometricInstructions = [NSString stringWithFormat:[LocalizationConstantsObjcBridge biometricInstructions], _biometricType.title];
-    body.selectable = NO;
-    body.editable = NO;
-    body.scrollEnabled = NO;
-    body.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL_MEDIUM];
-    body.textColor = UIColor.gray5;
-    body.text = biometricInstructions;
-    body.center = CGPointMake(biometricView.center.x, body.center.y);
-    body.textAlignment = NSTextAlignmentCenter;
-    [biometricView addSubview:body];
-    
-    UIButton *enableBiometricButton = [self setupActionButton];
-    NSString *buttonTitle = [NSString stringWithFormat:[LocalizationConstantsObjcBridge enableBiometrics], _biometricType.title];
-    [enableBiometricButton setTitle:[buttonTitle uppercaseString] forState:UIControlStateNormal];
-    [enableBiometricButton addTarget:self action:@selector(enableBiometrics:) forControlEvents:UIControlEventTouchUpInside];
-    enableBiometricButton.layer.cornerRadius = CORNER_RADIUS_BUTTON;
-    [biometricView addSubview:enableBiometricButton];
-    
-    UIButton *doneButton = [self setupDoneButton];
-    doneButton.layer.cornerRadius = CORNER_RADIUS_BUTTON;
-    [doneButton addTarget:self action:@selector(goToSecondPage) forControlEvents:UIControlEventTouchUpInside];
-    [biometricView addSubview:doneButton];
-    
-    titleLabel.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.biometricTitleLabel;
-    body.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.biometricBodyTextView;
-    enableBiometricButton.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.biometricEnableButton;
-    doneButton.accessibilityIdentifier = AccessibilityIdentifiers_WalletSetupScreen.biometricDoneButton;
-    
-    return biometricView;
+    [self goToSecondPage];
 }
 
 - (UIView *)setupEmailView
@@ -228,18 +168,6 @@
 - (void)openMail
 {
     [UIApplication.sharedApplication openMailApplication];
-}
-
-- (void)enableBiometrics:(UIButton *)sender
-{
-    [self.delegate enableTouchIDClicked:^(BOOL success) {
-        if (success) {
-            [sender setTitle:[BC_STRING_ENABLED_EXCLAMATION uppercaseString] forState:UIControlStateNormal];
-            sender.backgroundColor = UIColor.green;
-
-            [self performSelector:@selector(goToSecondPage) withObject:nil afterDelay:0.3f];
-        }
-    }];
 }
 
 @end

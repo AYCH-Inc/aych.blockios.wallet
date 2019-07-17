@@ -22,12 +22,9 @@ class ExchangeContainerViewController: BaseNavigationController {
     private let wallet: Wallet = WalletManager.shared.wallet
     private let accountsRepository: AssetAccountRepository = AssetAccountRepository.shared
     private var tiersViewController: KYCTiersViewController?
-    
+    private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
+
     // MARK: Lifecycle
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +47,7 @@ class ExchangeContainerViewController: BaseNavigationController {
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] _ in
                 guard let self = self else { return }
-                LoadingViewPresenter.shared.hideBusyView()
+                self.loadingViewPresenter.hide()
                 guard self.viewControllers.filter({ $0 is ExchangeCreateViewController == true }).count == 0 else { return }
                 self.viewControllers.removeAll()
                 let storyboard = UIStoryboard(
@@ -70,7 +67,7 @@ class ExchangeContainerViewController: BaseNavigationController {
         let disposable = KYCTiersViewController.tiersMetadata()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .do(onDispose: { LoadingViewPresenter.shared.hideBusyView() })
+            .hideLoaderOnDisposal(loader: loadingViewPresenter)
             .subscribe(onNext: { [weak self] model in
                 guard let self = self else { return }
                 self.setupTiersController(model)
@@ -89,7 +86,7 @@ class ExchangeContainerViewController: BaseNavigationController {
     }
     
     fileprivate func setupExchangeIfPermitted() {
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.loading)
+        loadingViewPresenter.show(with: LocalizationConstants.loading)
         let disposable = coordinator.canSwap()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)

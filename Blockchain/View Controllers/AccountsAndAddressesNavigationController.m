@@ -48,9 +48,7 @@
                               initWithFrame:selectorFrame
                               assets:@[[NSNumber numberWithInteger:LegacyAssetTypeBitcoin], [NSNumber numberWithInteger:LegacyAssetTypeBitcoinCash]]];
     self.assetSelectorView.delegate = self;
-    [self.view addSubview:self.assetSelectorView];
-    
-    [self setupBusyView];
+    [self.view addSubview:self.assetSelectorView];    
 }
 
 - (void)viewDidLayoutSubviews
@@ -72,69 +70,6 @@
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_KEY_RELOAD_ACCOUNTS_AND_ADDRESSES object:nil];
-}
-
-#pragma mark - Busy view
-
-- (void)showBusyViewWithLoadingText:(NSString *)text
-{
-    self.busyLabel.text = text;
-    [self.view bringSubviewToFront:self.busyView];
-    if (self.busyView.alpha < 1.0) {
-        [self.busyView fadeIn];
-    }
-}
-
-- (void)updateBusyViewLoadingText:(NSString *)text
-{
-    if (self.busyView.alpha == 1.0) {
-        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-            [self.busyLabel setText:text];
-        }];
-    }
-}
-
-- (void)hideBusyView
-{
-    if (self.busyView.alpha == 1.0) {
-        [self.busyView fadeOut];
-    }
-}
-
-#pragma mark - UI helpers
-
-- (void)setupBusyView
-{
-    BCFadeView *busyView = [[BCFadeView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.rootViewController.view.frame];
-    busyView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
-    UIView *textWithSpinnerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 250, 110)];
-    textWithSpinnerView.backgroundColor = [UIColor whiteColor];
-    [busyView addSubview:textWithSpinnerView];
-    textWithSpinnerView.center = busyView.center;
-    
-    self.busyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 230, 30)];
-    self.busyLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL_MEDIUM];
-    self.busyLabel.alpha = 0.75;
-    self.busyLabel.textAlignment = NSTextAlignmentCenter;
-    self.busyLabel.adjustsFontSizeToFitWidth = YES;
-    self.busyLabel.text = [LocalizationConstantsObjcBridge syncingWallet];
-    self.busyLabel.center = CGPointMake(textWithSpinnerView.bounds.origin.x + textWithSpinnerView.bounds.size.width/2, textWithSpinnerView.bounds.origin.y + textWithSpinnerView.bounds.size.height/2 + 15);
-    [textWithSpinnerView addSubview:self.busyLabel];
-    
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = CGPointMake(textWithSpinnerView.bounds.origin.x + textWithSpinnerView.bounds.size.width/2, textWithSpinnerView.bounds.origin.y + textWithSpinnerView.bounds.size.height/2 - 15);
-    [textWithSpinnerView addSubview:spinner];
-    [textWithSpinnerView bringSubviewToFront:spinner];
-    [spinner startAnimating];
-    
-    busyView.containerView = textWithSpinnerView;
-    [busyView fadeOut];
-    
-    [self.view addSubview:busyView];
-    
-    [self.view bringSubviewToFront:busyView];
-    
-    self.busyView = busyView;
 }
 
 - (void)alertUserToTransferAllFunds:(BOOL)userClicked

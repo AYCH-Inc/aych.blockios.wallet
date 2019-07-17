@@ -433,7 +433,7 @@
         }
     }
 #else
-    [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
+    [[LoadingViewPresenter sharedInstance] showWith:BC_STRING_LOADING_LOADING_TRANSACTIONS];
 
     [WalletManager.sharedInstance.wallet performSelector:@selector(getHistory) withObject:nil afterDelay:0.1f];
 #endif
@@ -484,7 +484,6 @@
 
     TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
 
-    detailViewController.busyViewDelegate = navigationController;
     navigationController.onDismiss = ^() {
         tabControllerManager.transactionsBitcoinViewController.detailViewController = nil;
     };

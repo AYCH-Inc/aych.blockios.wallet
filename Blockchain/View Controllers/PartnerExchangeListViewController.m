@@ -53,10 +53,10 @@
     NSString *countryCode = (self.countryCode != nil) ? self.countryCode : wallet.countryCodeGuess;
     NSArray *availableStates = wallet.availableUSStates;
     if ([countryCode  isEqual: @"US"] && availableStates.count > 0) {
-        [[LoadingViewPresenter sharedInstance] hideBusyView];
+        [[LoadingViewPresenter sharedInstance] hide];
         [self showStates:availableStates];
     } else {
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge loadingExchange]];
+        [[LoadingViewPresenter sharedInstance] showWith:[LocalizationConstantsObjcBridge loadingExchange]];
         [wallet performSelector:@selector(getExchangeTrades) withObject:nil afterDelay:ANIMATION_DURATION];
     }
 }
@@ -74,7 +74,7 @@
     [super viewDidAppear:animated];
     
     if (self.didFinishShift) {
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge loadingTransactions]];
+        [[LoadingViewPresenter sharedInstance] showWith:[LocalizationConstantsObjcBridge loadingTransactions]];
         [WalletManager.sharedInstance.wallet performSelector:@selector(getExchangeTrades) withObject:nil afterDelay:ANIMATION_DURATION];
     }
 }
@@ -168,7 +168,7 @@
 
 - (void)getHistory
 {
-    [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge loadingTransactions]];
+    [[LoadingViewPresenter sharedInstance] showWith:[LocalizationConstantsObjcBridge loadingTransactions]];
     [WalletManager.sharedInstance.wallet performSelector:@selector(getExchangeTrades) withObject:nil afterDelay:ANIMATION_DURATION];
 }
 
@@ -196,10 +196,8 @@
 
 - (void)didGetExchangeTradesWithTrades:(NSArray * _Nonnull)trades
 {
-    [[LoadingViewPresenter sharedInstance] hideBusyView];
+    [[LoadingViewPresenter sharedInstance] hide];
     
-    BCNavigationController *navigationController = (BCNavigationController *)self.navigationController;
-    [navigationController hideBusyView];
     [self.refreshControl endRefreshing];
     
     if (self.didFinishShift) {
@@ -240,7 +238,7 @@
 
 - (void)didShiftPayment
 {
-    [[LoadingViewPresenter sharedInstance] hideBusyView];
+    [[LoadingViewPresenter sharedInstance] hide];
     
     ExchangeModalView *exchangeModalView = [[ExchangeModalView alloc] initWithFrame:self.view.frame description:BC_STRING_EXCHANGE_DESCRIPTION_SENDING_FUNDS imageName:@"exchange_sending" bottomText:[NSString stringWithFormat:BC_STRING_STEP_ARGUMENT_OF_ARGUMENT, 1, 3] closeButtonText:BC_STRING_CLOSE];
     exchangeModalView.delegate = self;

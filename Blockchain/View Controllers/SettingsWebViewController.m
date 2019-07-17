@@ -59,7 +59,7 @@
 {
     if (longPress.state == UIGestureRecognizerStateBegan) {
         DebugTableViewController *debugViewController = [[DebugTableViewController alloc] init];
-        debugViewController.presenter = DEBUG_PRESENTER_SETTINGS_ABOUT;
+        debugViewController.presenter = settings;
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:debugViewController];
         [self presentViewController:navigationController animated:YES completion:nil];
     }

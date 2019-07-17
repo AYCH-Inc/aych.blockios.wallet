@@ -49,7 +49,6 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
         guard let model = item as? StellarOperation else { return }
         let detailViewController = TransactionDetailViewController()
         let navigation = TransactionDetailNavigationController(rootViewController: detailViewController)
-        detailViewController.busyViewDelegate = navigation
         detailViewController.modalTransitionStyle = .coverVertical
         
         if case let .payment(payment) = model {

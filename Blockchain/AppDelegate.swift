@@ -69,15 +69,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK: - Global Appearance
         //: Status Bar
         UIApplication.shared.statusBarStyle = .default
-
+        
         //: Navigation Bar
         let navigationBarAppearance = UINavigationBar.appearance()
         navigationBarAppearance.shadowImage = UIImage()
         navigationBarAppearance.isTranslucent = false
+        navigationBarAppearance.titleTextAttributes = UINavigationBar.standardTitleTextAttributes
         navigationBarAppearance.barTintColor = .brandPrimary
         navigationBarAppearance.tintColor = .white
-        navigationBarAppearance.titleTextAttributes = UINavigationBar.standardTitleTextAttributes
-
+    
         #if DEBUG
         let envKey = UserDefaults.Keys.environment.rawValue
         let environment = Environment.production.rawValue
@@ -117,10 +117,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.showBlurCurtain()
             }
         }
-
-        if let pinEntryViewController = AuthenticationCoordinator.shared.pinEntryViewController, pinEntryViewController.verifyOnly {
-            pinEntryViewController.reset()
-        }
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -150,6 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WalletManager.shared.close()
         }
 
+        // TODO: Remove - Now we don't need it as we offer biometry as part of the PIN creation
         let onboardingSettings = BlockchainSettings.Onboarding.shared
         if onboardingSettings.didFailBiometrySetup && !appSettings.biometryEnabled {
             onboardingSettings.shouldShowBiometrySetup = true
@@ -165,13 +162,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppCoordinator.shared.cleanupOnAppBackgrounded()
         AuthenticationCoordinator.shared.cleanupOnAppBackgrounded()
 
-        // Show pin modal before we close the app so the PIN verify modal gets shown in the list of running apps and immediately after we restart
-        if appSettings.isPinSet {
-            AuthenticationCoordinator.shared.showPinEntryView()
-        }
-        if !AuthenticationCoordinator.shared.isPromptingForBiometricAuthentication {
-            showPrivacyScreen()
-        }
+        showPrivacyScreen()
+        
         NetworkManager.shared.session.reset {
             Logger.shared.debug("URLSession reset completed.")
         }

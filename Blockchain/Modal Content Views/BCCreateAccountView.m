@@ -77,7 +77,7 @@
 
     if (![WalletManager.sharedInstance.wallet isAccountNameValid:label]) {
         [[AlertViewPresenter sharedInstance] standardErrorWithMessage:[LocalizationConstantsObjcBridge nameAlreadyInUse] title:[LocalizationConstantsObjcBridge error] in:nil handler:nil];
-        [LoadingViewPresenter.sharedInstance hideBusyView];
+        [LoadingViewPresenter.sharedInstance hide];
         return;
     }
 

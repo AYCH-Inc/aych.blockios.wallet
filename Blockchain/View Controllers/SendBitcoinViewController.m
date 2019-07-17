@@ -459,7 +459,7 @@ BOOL displayingLocalSymbolSend;
 
 - (void)getInfoForTransferAllFundsToDefaultAccount
 {
-    [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_TRANSFER_ALL_PREPARING_TRANSFER];
+    [[LoadingViewPresenter sharedInstance] showWith:BC_STRING_TRANSFER_ALL_PREPARING_TRANSFER];
     
     [WalletManager.sharedInstance.wallet getInfoForTransferAllFundsToAccount];
 }
@@ -619,13 +619,19 @@ BOOL displayingLocalSymbolSend;
             strongSelf->sendProgressModalText.text = [NSString stringWithFormat:BC_STRING_TRANSFER_ALL_FROM_ADDRESS_ARGUMENT_ARGUMENT, weakSelf.transferAllPaymentBuilder.transferAllAddressesInitialCount - [weakSelf.transferAllPaymentBuilder.transferAllAddressesToTransfer count] + 1, weakSelf.transferAllPaymentBuilder.transferAllAddressesInitialCount];
         }
 
-        [[ModalPresenter sharedInstance] showModalWithContent:strongSelf->sendProgressModal closeType:ModalCloseTypeNone showHeader:true headerText:BC_STRING_SENDING_TRANSACTION onDismiss:nil onResume:nil];
+        [[ModalPresenter sharedInstance] showModalWithContent:strongSelf->sendProgressModal closeType:ModalCloseTypeNone showHeader:true headerText:BC_STRING_SENDING_TRANSACTION onDismiss:^{
+            [LoadingViewPresenter.sharedInstance setIsEnabled:TRUE];
+        } onResume:^{
+            [LoadingViewPresenter.sharedInstance setIsEnabled:TRUE];
+        }];
         
         [UIView animateWithDuration:0.3f animations:^{
             UIButton *cancelButton = strongSelf->sendProgressCancelButton;
             strongSelf->sendProgressCancelButton.frame = CGRectMake(0, self.view.frame.size.height + DEFAULT_FOOTER_HEIGHT - cancelButton.frame.size.height, cancelButton.frame.size.width, cancelButton.frame.size.height);
         }];
         
+        // Once the modal
+        [LoadingViewPresenter.sharedInstance setIsEnabled:FALSE];
         weakSelf.isSending = YES;
     };
     
@@ -1074,7 +1080,7 @@ BOOL displayingLocalSymbolSend;
     if ([addressesUsed count] == 0) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * ANIMATION_DURATION * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self showErrorBeforeSending:BC_STRING_NO_ADDRESSES_WITH_SPENDABLE_BALANCE_ABOVE_OR_EQUAL_TO_DUST];
-            [[LoadingViewPresenter sharedInstance] hideBusyView];
+            [[LoadingViewPresenter sharedInstance] hide];
         });
         return;
     }
@@ -1082,7 +1088,7 @@ BOOL displayingLocalSymbolSend;
     if ([amount longLongValue] + [fee longLongValue] > [WalletManager.sharedInstance.wallet getTotalBalanceForSpendableActiveLegacyAddresses]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * ANIMATION_DURATION * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SOME_FUNDS_CANNOT_BE_TRANSFERRED_AUTOMATICALLY title:BC_STRING_WARNING_TITLE in:self handler:nil];
-            [[LoadingViewPresenter sharedInstance] hideBusyView];
+            [[LoadingViewPresenter sharedInstance] hide];
         });
     }
     
@@ -1104,7 +1110,7 @@ BOOL displayingLocalSymbolSend;
 
 - (void)showSummaryForTransferAll
 {
-    [[LoadingViewPresenter sharedInstance] hideBusyView];
+    [[LoadingViewPresenter sharedInstance] hide];
     
     [self showSummaryForTransferAllWithCustomFromLabel:selectAddressTextField.text];
     
@@ -1868,7 +1874,7 @@ BOOL displayingLocalSymbolSend;
 
 - (void)archiveTransferredAddresses
 {
-    [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:[NSString stringWithFormat:BC_STRING_ARCHIVING_ADDRESSES]];
+    [[LoadingViewPresenter sharedInstance] showWith:[NSString stringWithFormat:BC_STRING_ARCHIVING_ADDRESSES]];
                                       
     [WalletManager.sharedInstance.wallet archiveTransferredAddresses:self.transferAllPaymentBuilder.transferAllAddressesTransferred];
     

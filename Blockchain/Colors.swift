@@ -40,8 +40,12 @@ extension UIColor {
 
     static let gray5 = #colorLiteral(red: 0.3294117647, green: 0.3294117647, blue: 0.337254902, alpha: 1)
 
+    static let darkGray = #colorLiteral(red: 0.26, green: 0.26, blue: 0.26, alpha: 1)
+    
     static let gray6 = #colorLiteral(red: 0.2196078431, green: 0.2196078431, blue: 0.2196078431, alpha: 1)
 
+    static let transientBlack = UIColor(red: 1, green: 1, blue: 1, alpha: 0.08)
+    
     static let grayBlue = #colorLiteral(red: 0.4745098039, green: 0.6196078431, blue: 0.6980392157, alpha: 1)
 
     static let green = #colorLiteral(red: 0, green: 0.6549019608, blue: 0.4352941176, alpha: 1)

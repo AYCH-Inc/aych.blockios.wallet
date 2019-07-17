@@ -31,6 +31,7 @@ class KYCTiersViewController: UIViewController {
     fileprivate static let limitsAPI: TradeLimitsAPI = ExchangeServices().tradeLimits
     fileprivate var layoutAttributes: LayoutAttributes = .tiersOverview
     fileprivate var coordinator: KYCTiersCoordinator!
+    private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
     fileprivate var disposable: Disposable?
 
     // MARK: Public Properties
@@ -283,11 +284,9 @@ extension KYCTiersViewController: KYCTiersInterface {
     func loadingIndicator(_ visibility: Visibility) {
         switch visibility {
         case .visible:
-            LoadingViewPresenter.shared.showBusyView(
-                withLoadingText: LocalizationConstants.loading
-            )
+            loadingViewPresenter.show(with: LocalizationConstants.loading)
         case .hidden:
-            LoadingViewPresenter.shared.hideBusyView()
+            loadingViewPresenter.hide()
         }
     }
 }

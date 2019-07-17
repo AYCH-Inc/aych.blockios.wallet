@@ -9,7 +9,7 @@
 import Foundation
 
 /// Represents a passcode payload used for authenticating the user.
-internal struct PasscodePayload {
+struct PasscodePayload {
     let guid: String
     let password: String
     let sharedKey: String

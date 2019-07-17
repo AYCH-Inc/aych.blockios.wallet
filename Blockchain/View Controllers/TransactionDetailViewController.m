@@ -145,7 +145,7 @@ const CGFloat rowHeightValueReceived = 80;
     self.textView.editable = NO;
 
     if (self.transactionModel.assetType == LegacyAssetTypeBitcoin) {
-        [self.busyViewDelegate showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge syncingWallet]];
+        [LoadingViewPresenter.sharedInstance showWith:[LocalizationConstantsObjcBridge syncingWallet]];
         [WalletManager.sharedInstance.wallet saveNote:self.textView.text forTransaction:self.transactionModel.myHash];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHistoryAfterSavingNote) name:[ConstantsObjcBridge notificationKeyBackupSuccess] object:nil];
     } else if (self.transactionModel.assetType == LegacyAssetTypeEther) {
@@ -174,7 +174,7 @@ const CGFloat rowHeightValueReceived = 80;
 
 - (void)reloadDataWithTransactionDetails:(NSMutableDictionary * _Nullable)details
 {
-    [self.busyViewDelegate hideBusyView];
+    [LoadingViewPresenter.sharedInstance hide];
 
     NSArray *newTransactions;
     if (self.transactionModel.assetType == LegacyAssetTypeBitcoin) {
@@ -203,7 +203,7 @@ const CGFloat rowHeightValueReceived = 80;
 
 - (void)reloadEtherData
 {
-    [self.busyViewDelegate hideBusyView];
+    [LoadingViewPresenter.sharedInstance hide];
 
     [self.tableView reloadData];
 
@@ -384,7 +384,7 @@ const CGFloat rowHeightValueReceived = 80;
 
 - (void)refreshControlActivated
 {
-    [self.busyViewDelegate showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
+    [LoadingViewPresenter.sharedInstance showWith:BC_STRING_LOADING_LOADING_TRANSACTIONS];
     [WalletManager.sharedInstance.wallet performSelector:@selector(getHistory) withObject:nil afterDelay:0.1f];
 }
 

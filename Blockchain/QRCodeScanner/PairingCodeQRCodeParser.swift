@@ -8,6 +8,7 @@
 
 import Foundation
 import PlatformKit
+import PlatformUIKit
 
 final class PairingCodeQRCodeParser: QRCodeScannerParsing {
     
@@ -26,7 +27,8 @@ final class PairingCodeQRCodeParser: QRCodeScannerParsing {
     private let walletManager: WalletManager
     private let loadingViewPresenter: LoadingViewPresenter
     
-    init(walletManager: WalletManager = WalletManager.sharedInstance(), loadingViewPresenter: LoadingViewPresenter = LoadingViewPresenter.shared) {
+    init(walletManager: WalletManager = .shared,
+         loadingViewPresenter: LoadingViewPresenter = .shared) {
         self.walletManager = walletManager
         self.loadingViewPresenter = loadingViewPresenter
     }
@@ -50,12 +52,11 @@ final class PairingCodeQRCodeParser: QRCodeScannerParsing {
     }
     
     private func didParsePairingCode(_ dict: [AnyHashable : Any]!, completion: ((Result<PairingCode, PairingCodeParsingError>) -> Void)?) {
-        walletManager.wallet.didPairAutomatically = true
         completion?(.success(PairingCodeQRCodeParser.PairingCode(passcodePayload: PasscodePayload(dictionary: dict))))
     }
     
     private func errorParsingPairingCode(_ message: String!, completion: ((Result<PairingCode, PairingCodeParsingError>) -> Void)?) {
-        loadingViewPresenter.hideBusyView()
+        loadingViewPresenter.hide()
         
         switch message {
         case "Invalid Pairing Version Code":

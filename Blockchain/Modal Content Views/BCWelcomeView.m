@@ -118,7 +118,7 @@ Boolean shouldShowAnimation;
 - (void)handleLongPress:(UILongPressGestureRecognizer *)longPress
 {
     if (longPress.state == UIGestureRecognizerStateBegan) {
-        [[AppCoordinator sharedInstance] showDebugViewWithPresenter: DEBUG_PRESENTER_WELCOME_VIEW];
+        [[AppCoordinator sharedInstance] showDebugViewFrom: welcome];
     }
 }
 

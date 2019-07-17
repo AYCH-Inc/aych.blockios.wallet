@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import PlatformUIKit
 
 @objc class BackupNavigationViewController: UINavigationController {
 
     @objc var wallet: Wallet?
     var topBar: UIView!
     var closeButton: UIButton!
+    
+    private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
+    
     // TODO: Backup: Use native back button
     var isTransitioning: Bool = false {
         didSet {
@@ -26,7 +30,6 @@ import UIKit
             }
         }
     }
-    var busyView: BCFadeView!
     var headerLabel: UILabel!
     var isVerifying = false
 
@@ -37,7 +40,7 @@ import UIKit
     @objc internal func reload() {
         if !isVerifying {
             self.popToRootViewController(animated: true)
-            busyView.fadeOut()
+            loadingViewPresenter.hide()
         }
     }
 
@@ -63,30 +66,6 @@ import UIKit
 
         let backupViewController = self.viewControllers.first as! BackupViewController
         backupViewController.wallet = self.wallet
-
-        busyView = BCFadeView(frame: view.frame)
-        busyView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
-        let textWithSpinnerView = UIView(frame: CGRect(x: 0, y: 0, width: 250, height: 110))
-        textWithSpinnerView.backgroundColor = .white
-        busyView!.addSubview(textWithSpinnerView)
-        textWithSpinnerView.center = busyView!.center
-
-        let busyLabel = setUpBusyLabel(with: textWithSpinnerView.bounds)
-        textWithSpinnerView.addSubview(busyLabel)
-
-        let spinner = UIActivityIndicatorView(style: .gray)
-        let posX = textWithSpinnerView.bounds.origin.x + textWithSpinnerView.bounds.size.width / 2
-        let posY = textWithSpinnerView.bounds.origin.y + textWithSpinnerView.bounds.size.height/2 - 15
-        spinner.center = CGPoint(x: posX, y: posY)
-        textWithSpinnerView.addSubview(spinner)
-        textWithSpinnerView.bringSubviewToFront(spinner)
-        spinner.startAnimating()
-
-        busyView!.containerView = textWithSpinnerView
-        busyView!.fadeOut()
-
-        view.addSubview(busyView!)
-        view.bringSubviewToFront(busyView!)
 
         NotificationCenter.default.addObserver(
         self, selector: #selector(didSucceedSync),
@@ -138,29 +117,14 @@ import UIKit
         topBar.addSubview(closeButton)
     }
 
-    func setUpBusyLabel(with bounds: CGRect) -> UILabel {
-        let labelWidth = Constants.Measurements.BusyViewLabelWidth
-        let labelHeight = Constants.Measurements.BusyViewLabelHeight
-        let busyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: labelWidth, height: labelHeight))
-        busyLabel.font = UIFont(name: "Montserrat-Regular", size: Constants.FontSizes.SmallMedium)
-        busyLabel.alpha = Constants.Measurements.BusyViewLabelAlpha
-        busyLabel.adjustsFontSizeToFitWidth = true
-        busyLabel.textAlignment = .center
-        busyLabel.text = LocalizationConstants.syncingWallet
-        let originX = bounds.origin.x + bounds.size.width / 2
-        let originY = bounds.origin.y + bounds.size.height / 2 + 15
-        busyLabel.center = CGPoint(x: originX, y: originY)
-        return busyLabel
-    }
-
     @objc func didSucceedSync() {
         self.popToRootViewController(animated: true)
-        busyView.fadeOut()
+        loadingViewPresenter.hide()
         isVerifying = false
     }
 
     @objc func didFailSync() {
-        busyView.fadeOut()
+        loadingViewPresenter.hide()
         isVerifying = false
     }
 

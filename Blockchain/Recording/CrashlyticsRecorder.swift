@@ -14,7 +14,7 @@ final class CrashlyticsRecorder: Recording {
 
     // MARK: - Properties
     
-    private let application: UIApplication
+    private unowned let application: UIApplication
     private let crashlytics: Crashlytics
     
     // MARK: - Setup

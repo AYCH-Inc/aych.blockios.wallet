@@ -121,6 +121,8 @@ extension NavigatableView where Self: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
+        // TODO: This is not efficient as `viewWillLayoutSubviews` can get called unexpectedly on on view changes
         setupNavigationController()
     }
     

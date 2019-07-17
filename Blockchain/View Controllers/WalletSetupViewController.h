@@ -8,12 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol SetupDelegate
-- (void)enableTouchIDClicked:(void (^_Nonnull)(BOOL success))completion;
-@end
-
 @interface WalletSetupViewController : UIViewController
-@property (nonatomic) id<SetupDelegate> delegate;
-@property (nonatomic) BOOL emailOnly;
-- (id)initWithSetupDelegate:(id<SetupDelegate>)delegate;
+- (id)init;
 @end

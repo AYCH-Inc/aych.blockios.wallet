@@ -52,43 +52,6 @@
     self.backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self.backButton setTitle:@"" forState:UIControlStateNormal];
     [topBar addSubview:self.backButton];
-    
-    [self setupBusyView];
-}
-
-- (void)setupBusyView
-{
-    BCFadeView *busyView = [[BCFadeView alloc] initWithFrame:self.view.frame];
-    busyView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
-    UIView *textWithSpinnerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 250, 110)];
-    textWithSpinnerView.backgroundColor = [UIColor whiteColor];
-    [busyView addSubview:textWithSpinnerView];
-    textWithSpinnerView.center = busyView.center;
-    
-    UILabel *busyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, BUSY_VIEW_LABEL_WIDTH, BUSY_VIEW_LABEL_HEIGHT)];
-    busyLabel.adjustsFontSizeToFitWidth = YES;
-    busyLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:BUSY_VIEW_LABEL_FONT_SYSTEM_SIZE];
-    busyLabel.alpha = BUSY_VIEW_LABEL_ALPHA;
-    busyLabel.textAlignment = NSTextAlignmentCenter;
-    busyLabel.text = [LocalizationConstantsObjcBridge syncingWallet];
-    busyLabel.center = CGPointMake(textWithSpinnerView.bounds.origin.x + textWithSpinnerView.bounds.size.width/2, textWithSpinnerView.bounds.origin.y + textWithSpinnerView.bounds.size.height/2 + 15);
-    [textWithSpinnerView addSubview:busyLabel];
-    self.busyLabel = busyLabel;
-    
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = CGPointMake(textWithSpinnerView.bounds.origin.x + textWithSpinnerView.bounds.size.width/2, textWithSpinnerView.bounds.origin.y + textWithSpinnerView.bounds.size.height/2 - 15);
-    [textWithSpinnerView addSubview:spinner];
-    [textWithSpinnerView bringSubviewToFront:spinner];
-    [spinner startAnimating];
-    
-    busyView.containerView = textWithSpinnerView;
-    [busyView fadeOut];
-    
-    [self.view addSubview:busyView];
-    
-    [self.view bringSubviewToFront:busyView];
-    
-    self.busyView = busyView;
 }
 
 - (void)viewDidLayoutSubviews
@@ -131,24 +94,6 @@
     [self dismissViewControllerAnimated:YES completion:^{
         if (self.onDismiss) self.onDismiss();
     }];
-}
-
-#pragma mark - Busy View Delegate
-
-- (void)showBusyViewWithLoadingText:(NSString *)text
-{
-    [self.busyLabel setText:text];
-        
-    if (self.busyView.alpha < 1.0) {
-        [self.busyView fadeIn];
-    }
-}
-
-- (void)hideBusyView
-{
-    if (self.busyView.alpha == 1.0) {
-        [self.busyView fadeOut];
-    }
 }
 
 #pragma mark - Actions

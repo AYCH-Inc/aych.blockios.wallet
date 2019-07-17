@@ -52,13 +52,27 @@
     if (!swipeAddresses) swipeAddresses = [NSMutableArray new];
     [swipeAddresses addObject:swipeAddress];
     
+    [KeychainItemWrapper saveSwipeAddresses: swipeAddresses assetType: assetType];
+}
+
++ (void)removeSwipeAddress:(NSString *)swipeAddress assetType:(LegacyAssetType)assetType {
+    
+    NSMutableArray *swipeAddresses = [KeychainItemWrapper getMutableSwipeAddressesForAssetType:assetType];
+    if (!swipeAddresses) {
+        return;
+    }
+    [swipeAddresses removeObject:swipeAddress];
+    [KeychainItemWrapper saveSwipeAddresses:swipeAddresses assetType:assetType];
+}
+
++ (void)saveSwipeAddresses:(NSArray *)addresses assetType:(LegacyAssetType)assetType {
     NSString *keychainKey = [KeychainItemWrapper keychainKeyForAssetType:assetType];
     
     KeychainItemWrapper *keychain = [[KeychainItemWrapper alloc] initWithIdentifier:keychainKey accessGroup:nil];
     [keychain setObject:(__bridge id)kSecAttrAccessibleWhenUnlockedThisDeviceOnly forKey:(__bridge id)kSecAttrAccessible];
     
     [keychain setObject:keychainKey forKey:(__bridge id)kSecAttrAccount];
-    [keychain setObject:[NSKeyedArchiver archivedDataWithRootObject:swipeAddresses] forKey:(__bridge id)kSecValueData];
+    [keychain setObject:[NSKeyedArchiver archivedDataWithRootObject:addresses] forKey:(__bridge id)kSecValueData];
 }
 
 + (void)removeFirstSwipeAddressForAssetType:(LegacyAssetType)assetType

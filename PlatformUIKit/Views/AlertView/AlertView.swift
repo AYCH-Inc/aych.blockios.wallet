@@ -260,12 +260,13 @@ public class AlertView: UIView {
                 }
             })
         }, completion: { [weak self] _ in
-            guard let this = self else { return }
-            this.dimmingView.removeFromSuperview()
-            this.removeFromSuperview()
+            guard let self = self else { return }
+            self.dimmingView.removeFromSuperview()
+            self.removeFromSuperview()
             if let action = selectedAction {
-                this.completion?(action)
+                self.completion?(action)
             }
+            self.observer?.invalidate()
         })
     }
     
@@ -300,28 +301,6 @@ public class AlertView: UIView {
         animator.addBehavior(gravityBehavior)
         animator.addBehavior(pushBehavior)
         isUserInteractionEnabled = false
-        
-        observer = observe(\.center, options: [.new]) { [weak self] (object, change) in
-            guard let self = self else { return }
-            guard let point = change.newValue else { return }
-            guard UIScreen.main.bounds.contains(point) == false else { return }
-            guard let superview = self.superview else { return }
-            guard superview.subviews.contains(self.dimmingView) else { return }
-            UIView.animate(withDuration: 0.5, animations: { [weak self] in
-                guard let self = self else { return }
-                self.alpha = 0.0
-                self.dimmingView.alpha = 0.0
-            }) { [weak self] _ in
-                guard let self = self else { return }
-                if let dismiss = self.model.actions.filter({ $0.style == .dismiss }).first {
-                    self.completion?(dismiss)
-                } else {
-                    self.completion?(.defaultDismissal)
-                }
-                self.dimmingView.removeFromSuperview()
-                self.removeFromSuperview()
-            }
-        }
     }
     
     fileprivate func setupDynamicBehavior() {
@@ -341,6 +320,48 @@ public class AlertView: UIView {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(pannedView(panGestureRecognizer:)))
         isUserInteractionEnabled = true
         addGestureRecognizer(panGesture)
+    }
+    
+    public override func didMoveToWindow() {
+        super.didMoveToWindow()
+        if window != nil {
+            observeCenter()
+        } else {
+            observer?.invalidate()
+        }
+    }
+    
+    private func observeCenter() {
+        guard observer == nil else {
+            return
+        }
+        observer?.invalidate()
+        observer = observe(\.center, options: [.new]) { [weak self] (object, change) in
+            guard let self = self else { return }
+            guard let point = change.newValue else { return }
+            guard UIScreen.main.bounds.contains(point) == false else { return }
+            guard let superview = self.superview else { return }
+            guard superview.subviews.contains(self.dimmingView) else { return }
+            UIView.animate(withDuration: 0.5, animations: { [weak self] in
+                guard let self = self else { return }
+                self.alpha = 0.0
+                self.dimmingView.alpha = 0.0
+            }) { [weak self] _ in
+                guard let self = self else { return }
+                guard let observer = self.observer else {
+                    return
+                }
+                observer.invalidate()
+                if let dismiss = self.model.actions.filter({ $0.style == .dismiss }).first {
+                    self.completion?(dismiss)
+                } else {
+                    self.completion?(.defaultDismissal)
+                }
+                self.dimmingView.removeFromSuperview()
+                self.removeFromSuperview()
+                self.observer = nil
+            }
+        }
     }
     
     @objc func dismiss() {
@@ -487,6 +508,6 @@ fileprivate extension CGPoint {
 
 fileprivate extension CGPoint {
     var magnitude: CGFloat {
-        return  sqrt(pow(x, 2) + pow(y, 2))
+        return sqrt(pow(x, 2) + pow(y, 2))
     }
 }

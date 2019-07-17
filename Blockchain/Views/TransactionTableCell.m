@@ -118,7 +118,6 @@
 
     TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
 
-    detailViewController.busyViewDelegate = navigationController;
     navigationController.onDismiss = ^() {
         tabControllerManager.transactionsBitcoinViewController.detailViewController = nil;
     };
@@ -139,7 +138,6 @@
 
     TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
 
-    detailViewController.busyViewDelegate = navigationController;
     navigationController.onDismiss = ^() {
         tabControllerManager.transactionsBitcoinCashViewController.detailViewController = nil;
     };

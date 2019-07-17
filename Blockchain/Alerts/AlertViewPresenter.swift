@@ -6,7 +6,7 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformUIKit
 
 @objc class AlertViewPresenter: NSObject {
     typealias AlertConfirmHandler = ((UIAlertAction) -> Void)
@@ -17,11 +17,14 @@ import Foundation
     // MARK: - Services
     
     private let recorder: Recording
-    
+    private let loadingViewPresenter: LoadingViewPresenting
+
     // MARK: - Setup
     
-    private init(recorder: Recording = CrashlyticsRecorder()) {
+    private init(recorder: Recording = CrashlyticsRecorder(),
+                 loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared) {
         self.recorder = recorder
+        self.loadingViewPresenter = loadingViewPresenter
         super.init()
     }
 
@@ -86,16 +89,19 @@ import Foundation
             title: LocalizationConstants.Errors.unsafeDeviceWarningMessage
         )
     }
-
+    
     @objc func showNoInternetConnectionAlert() {
+        showNoInternetConnectionAlert(completion: nil)
+    }
+
+    @objc func showNoInternetConnectionAlert(in viewController: UIViewController? = nil, completion: (() -> Void)? = nil) {
         standardNotify(
             message: LocalizationConstants.Errors.noInternetConnection,
-            title: LocalizationConstants.Errors.error
-        ) { _ in
-            LoadingViewPresenter.shared.hideBusyView()
-            // TODO: this should not be in here. Figure out all areas where pin
-            // should be reset and explicitly reset pin entry there
-            // [self.pinEntryViewController reset];
+            title: LocalizationConstants.Errors.error,
+            in: viewController
+        ) { [weak self] _ in
+            self?.loadingViewPresenter.hide()
+            completion?()
         }
     }
 

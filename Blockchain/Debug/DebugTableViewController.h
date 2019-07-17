@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, DebugViewPresenter) {
+    welcome = 0,
+    pin = 2,
+    settings = 3
+};
+
 @interface DebugTableViewController : UITableViewController
-@property (nonatomic) int presenter;
+@property (nonatomic, assign) DebugViewPresenter presenter;
 @end

@@ -8,6 +8,7 @@
 
 import Foundation
 import PlatformKit
+import PlatformUIKit
 
 final class QRCodeScannerViewControllerBuilder<P: QRCodeScannerParsing> {
     
@@ -25,7 +26,7 @@ final class QRCodeScannerViewControllerBuilder<P: QRCodeScannerParsing> {
     typealias CompletionHandler = ((Result<P.T, P.U>) -> Void)
     
     private var scanner: QRCodeScanner? = QRCodeScanner()
-    private var loadingViewPresenter: LoadingViewPresenter = LoadingViewPresenter.shared
+    private var loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
     private var dismissAnimated: Bool = true
     
     private let setupType: SetupType<P>
@@ -50,7 +51,7 @@ final class QRCodeScannerViewControllerBuilder<P: QRCodeScannerParsing> {
         return self
     }
     
-    func with(loadingViewPresenter: LoadingViewPresenter) -> QRCodeScannerViewControllerBuilder {
+    func with(loadingViewPresenter: LoadingViewPresenting) -> QRCodeScannerViewControllerBuilder {
         self.loadingViewPresenter = loadingViewPresenter
         return self
     }

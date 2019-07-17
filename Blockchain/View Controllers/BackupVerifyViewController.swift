@@ -8,6 +8,7 @@
 // swiftlint:disable line_length
 
 import UIKit
+import PlatformUIKit
 
 class BackupVerifyViewController: UIViewController, UITextFieldDelegate, SecondPasswordDelegate {
     var wallet: Wallet?
@@ -34,6 +35,8 @@ class BackupVerifyViewController: UIViewController, UITextFieldDelegate, SecondP
     @IBOutlet weak var word2: UITextField!
     @IBOutlet weak var word3: UITextField!
 
+    private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if UIScreen.main.bounds.size.height > Constants.Measurements.ScreenHeightIphone4S {
@@ -137,8 +140,8 @@ class BackupVerifyViewController: UIViewController, UITextFieldDelegate, SecondP
             }
             if valid {
                 let backupNavigation = self.navigationController as? BackupNavigationViewController
-                backupNavigation?.busyView?.fadeIn()
                 backupNavigation?.markIsVerifying()
+                loadingViewPresenter.show(with: LocalizationConstants.syncingWallet)
                 word1.resignFirstResponder()
                 word2.resignFirstResponder()
                 word3.resignFirstResponder()

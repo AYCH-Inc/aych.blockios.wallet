@@ -296,8 +296,7 @@ typedef enum {
         }
     }
 
-    UIViewController *topViewController = UIApplication.sharedApplication.keyWindow.rootViewController.topMostViewController;
-    if (shouldCloseModal && ![topViewController conformsToProtocol:@protocol(TopViewController)]) {
+    if (shouldCloseModal) {
         [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFromLeft];
     }
 }

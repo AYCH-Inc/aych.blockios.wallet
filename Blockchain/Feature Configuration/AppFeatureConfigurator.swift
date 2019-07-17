@@ -8,7 +8,7 @@
 
 import Firebase
 
-@objc class AppFeatureConfigurator: NSObject {
+@objc class AppFeatureConfigurator: NSObject, FeatureConfiguring {
     static let shared = AppFeatureConfigurator()
 
     /// Class function to retrieve the AppFeatureConfigurator shared instance for obj-c compatibility.

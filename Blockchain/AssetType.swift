@@ -11,10 +11,38 @@ import PlatformKit
 
 /// The asset type is used to distinguish between different types of digital assets.
 @objc public enum AssetType: Int {
-    case bitcoin, bitcoinCash, ethereum, stellar, pax
+    case bitcoin
+    case bitcoinCash
+    case ethereum
+    case stellar
+    case pax
+    
+    /// Returns `true` if an asset's addresses can be reused
+    var shouldAddressesBeReused: Bool {
+        return Set<AssetType>([.ethereum, .stellar, .pax]).contains(self)
+    }
 }
 
 extension AssetType {
+    
+    /// Returns `true` for a bitcoin cash asset
+    var isBitcoinCash: Bool {
+        if case .bitcoinCash = self {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    /// Returns `true` for any ERC20 based asset
+    var isERC20: Bool {
+        switch self {
+        case .pax:
+            return true
+        case .bitcoin, .bitcoinCash, .ethereum, .stellar:
+            return false
+        }
+    }
     
     static let all: [AssetType] = {
         var allAssets: [AssetType] = [.bitcoin, .ethereum, .bitcoinCash]
@@ -91,35 +119,47 @@ extension AssetType {
     var maxDisplayableDecimalPlaces: Int {
         return CryptoCurrency(assetType: self).maxDisplayableDecimalPlaces
     }
-
-    var filledImageSmall: UIImage {
+    
+    // MARK: Filled small image
+    
+    var filledImageSmallName: String {
         switch self {
         case .bitcoin:
-            return #imageLiteral(resourceName: "filled_btc_small")
+            return "filled_btc_small"
         case .bitcoinCash:
-            return #imageLiteral(resourceName: "filled_bch_small")
+            return "filled_bch_small"
         case .ethereum:
-            return #imageLiteral(resourceName: "filled_eth_small")
+            return "filled_eth_small"
         case .stellar:
-            return #imageLiteral(resourceName: "filled_xlm_small")
+            return "filled_xlm_small"
         case .pax:
-            return #imageLiteral(resourceName: "filled_pax_small")
+            return "filled_pax_small"
         }
     }
 
-    var filledImageLarge: UIImage {
+    var filledImageSmall: UIImage {
+        return UIImage(named: filledImageSmallName)!
+    }
+    
+    // MARK: Filled large image
+    
+    var filledImageLargeName: String {
         switch self {
         case .bitcoin:
-            return #imageLiteral(resourceName: "filled_btc_large")
+            return "filled_btc_large"
         case .bitcoinCash:
-            return #imageLiteral(resourceName: "filled_bch_large")
+            return "filled_bch_large"
         case .ethereum:
-            return #imageLiteral(resourceName: "filled_eth_large")
+            return "filled_eth_large"
         case .stellar:
-            return #imageLiteral(resourceName: "filled_xlm_large")
+            return "filled_xlm_large"
         case .pax:
-            return #imageLiteral(resourceName: "filled_pax_large")
+            return "filled_pax_large"
         }
+    }
+    
+    var filledImageLarge: UIImage {
+        return UIImage(named: filledImageLargeName)!
     }
 
     var whiteImageSmall: UIImage {

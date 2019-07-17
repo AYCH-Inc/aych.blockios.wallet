@@ -91,8 +91,7 @@ import PlatformKit
 
         appSettings.hasSeenEmailReminder = true
 
-        let setupViewController = WalletSetupViewController(setupDelegate: AuthenticationCoordinator.shared)!
-        setupViewController.emailOnly = !onboardingSettings.shouldShowBiometrySetup
+        let setupViewController = WalletSetupViewController()!
         setupViewController.modalTransitionStyle = .crossDissolve
 
         onboardingSettings.shouldShowBiometrySetup = false

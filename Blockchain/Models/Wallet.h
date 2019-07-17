@@ -96,7 +96,7 @@
 - (void)didErrorDuringTransferAll:(NSString *)error secondPassword:(NSString *_Nullable)secondPassword;
 - (void)updateLoadedAllTransactions:(BOOL)loadedAll;
 - (void)receivedTransactionMessage;
-- (void)paymentReceivedOnPINScreen:(NSString *)amount assetType:(LegacyAssetType)assetType;
+- (void)paymentReceivedOnPINScreen:(NSString *)amount assetType:(LegacyAssetType)assetType address:(NSString *)address;
 - (void)didReceivePaymentNotice:(NSString *_Nullable)notice;
 - (void)didGetFiatAtTime:(NSNumber *)fiatAmount currencyCode:(NSString *)currencyCode assetType:(LegacyAssetType)assetType;
 - (void)didErrorWhenGettingFiatAtTime:(NSString *_Nullable)error;
@@ -180,7 +180,6 @@
 @property int emptyAccountIndex;
 @property int recoveredAccountIndex;
 
-@property BOOL didPairAutomatically;
 @property BOOL isFilteringTransactions;
 @property BOOL isFetchingTransactions;
 @property BOOL isFetchingExchangeTrades;

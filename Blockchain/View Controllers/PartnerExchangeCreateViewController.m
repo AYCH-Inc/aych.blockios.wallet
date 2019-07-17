@@ -288,7 +288,7 @@
 
 - (void)didBuildExchangeTrade:(NSDictionary *)tradeInfo
 {
-    [[LoadingViewPresenter sharedInstance] hideBusyView];
+    [[LoadingViewPresenter sharedInstance] hide];
     
     ExchangeTrade *trade = [ExchangeTrade builtTradeFromJSONDict:tradeInfo];
     // pair is not returned from API call - need to manually set
@@ -1007,7 +1007,7 @@
 {
     [self.exchangeView hideKeyboard];
     
-    [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge gettingQuote]];
+    [[LoadingViewPresenter sharedInstance] showWith:[LocalizationConstantsObjcBridge gettingQuote]];
     
     [self performSelector:@selector(buildTrade) withObject:nil afterDelay:DELAY_KEYBOARD_DISMISSAL];
 }

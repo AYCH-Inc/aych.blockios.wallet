@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -16,37 +16,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIApplication"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="260" userLabel="Busy View" customClass="BCFadeView">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <view contentMode="scaleToFill" id="5i0-zZ-Y4H">
-                    <rect key="frame" x="35" y="185" width="250" height="110"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="gray" id="262">
-                            <rect key="frame" x="115" y="27" width="20" height="20"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                        </activityIndicatorView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.75" contentMode="left" text="loading" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="263">
-                            <rect key="frame" x="6" y="53" width="238" height="31"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" red="0.95564913749694824" green="0.95562052726745605" blue="0.95563679933547974" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                </view>
-            </subviews>
-            <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
-            <nil key="simulatedStatusBarMetrics"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="containerView" destination="5i0-zZ-Y4H" id="Tlp-St-X3z"/>
-                <outlet property="labelBusy" destination="263" id="pet-ay-CbR"/>
-            </connections>
-            <point key="canvasLocation" x="516" y="242"/>
-        </view>
         <view contentMode="scaleToFill" id="351" userLabel="Device Pairing" customClass="PairingInstructionsView" customModule="Blockchain" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -65,7 +34,7 @@
                     <color key="textColor" red="0.094117647060000004" green="0.61176470589999998" blue="0.86666666670000003" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="368">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="368">
                     <rect key="frame" x="24" y="167" width="20" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -103,7 +72,7 @@
                         <action selector="manualPairClicked:" destination="351" eventType="touchUpInside" id="E7j-s5-XBq"/>
                     </connections>
                 </button>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" editable="NO" text="Log in" selectable="NO" id="361">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Log in" selectable="NO" id="361">
                     <rect key="frame" x="40" y="27" width="255" height="74"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -119,7 +88,7 @@
                     <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="15"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" editable="NO" text="Click on" selectable="NO" id="369">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Click on" selectable="NO" id="369">
                     <rect key="frame" x="36" y="161" width="259" height="103"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -138,7 +107,7 @@
                 <outlet property="textViewStepThree" destination="369" id="Ebi-VW-iB4"/>
                 <outlet property="textViewStepTwo" destination="1RS-t6-JqX" id="Jxq-9D-0AF"/>
             </connections>
-            <point key="canvasLocation" x="-244" y="-869"/>
+            <point key="canvasLocation" x="-353.62318840579712" y="-581.91964285714278"/>
         </view>
         <view contentMode="scaleToFill" id="355" customClass="BCCreateWalletView">
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
@@ -165,7 +134,7 @@
                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                 </textField>
-                <label hidden="YES" autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="6" id="N1I-Aa-7Pp">
+                <label hidden="YES" autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="6" id="N1I-Aa-7Pp">
                     <rect key="frame" x="15" y="141" width="305" height="15"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <attributedString key="attributedText">
@@ -213,7 +182,7 @@
                 <outlet property="passwordTextField" destination="395" id="451"/>
                 <outlet property="recoveryPhraseView" destination="0Sz-Ta-Xdw" id="xpu-3L-4fd"/>
             </connections>
-            <point key="canvasLocation" x="133" y="-869"/>
+            <point key="canvasLocation" x="192.75362318840581" y="-581.91964285714278"/>
         </view>
         <view contentMode="scaleToFill" id="585" userLabel="Manual Pair" customClass="BCManualPairView">
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
@@ -241,7 +210,7 @@
                 <outlet property="passwordTextField" destination="592" id="V9f-lP-d6P"/>
                 <outlet property="walletIdentifierTextField" destination="587" id="gUm-Cp-DPi"/>
             </connections>
-            <point key="canvasLocation" x="516" y="-869"/>
+            <point key="canvasLocation" x="747.82608695652175" y="-581.91964285714278"/>
         </view>
         <view contentMode="scaleToFill" id="623" userLabel="Please Login" customClass="PasswordRequiredView" customModule="Blockchain" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
@@ -281,7 +250,7 @@
                         <action selector="onContinueTapped:" destination="623" eventType="touchUpInside" id="iVZ-vm-q6Y"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5gL-FG-Zcc">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5gL-FG-Zcc">
                     <rect key="frame" x="84" y="279" width="150" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.92549019607843142" green="0.33333333333333331" blue="0.27450980392156865" alpha="1" colorSpace="calibratedRGB"/>
@@ -301,14 +270,14 @@
                         <action selector="onForgetWalletTapped:" destination="623" eventType="touchUpInside" id="iv6-jI-Y0a"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="If you would like to forget this wallet and start over, press 'Forget Wallet'." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" id="C0R-wB-wF1">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="If you would like to forget this wallet and start over, press 'Forget Wallet'." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" id="C0R-wB-wF1">
                     <rect key="frame" x="15" y="229" width="290" height="42"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="14"/>
                     <color key="textColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kgi-aY-D6k">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kgi-aY-D6k">
                     <rect key="frame" x="85" y="181" width="150" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
@@ -339,7 +308,7 @@
                 <outlet property="labelHeader" destination="624" id="pHN-Dy-Tzk"/>
                 <outlet property="textFieldPassword" destination="626" id="9iA-em-B11"/>
             </connections>
-            <point key="canvasLocation" x="-236" y="242"/>
+            <point key="canvasLocation" x="-342.02898550724638" y="162.05357142857142"/>
         </view>
         <view contentMode="scaleToFill" id="0Sz-Ta-Xdw" userLabel="Recovery Phrase" customClass="BCRecoveryView">
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
@@ -368,7 +337,7 @@
                 <outlet property="instructionsLabel" destination="pEh-08-oZW" id="RiN-Ga-ecW"/>
                 <outlet property="recoveryPassphraseTextField" destination="L1x-Mw-4H5" id="2wQ-GI-647"/>
             </connections>
-            <point key="canvasLocation" x="500" y="-869"/>
+            <point key="canvasLocation" x="724.63768115942037" y="-581.91964285714278"/>
         </view>
     </objects>
 </document>

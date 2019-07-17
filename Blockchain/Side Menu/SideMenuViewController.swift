@@ -71,7 +71,7 @@ class SideMenuViewController: UIViewController {
     // MARK: - Public Methods
 
     func reload() {
-        tableView.reloadData()
+        tableView?.reloadData()
     }
 
     // MARK: - Private Methods

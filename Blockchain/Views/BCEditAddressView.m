@@ -76,7 +76,7 @@
     [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
     
     if (WalletManager.sharedInstance.wallet.isSyncing) {
-        [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:[LocalizationConstantsObjcBridge syncingWallet]];
+        [[LoadingViewPresenter sharedInstance] showWith:[LocalizationConstantsObjcBridge syncingWallet]];
     }
 }
 

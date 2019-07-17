@@ -40,7 +40,6 @@ class PaxActivityViewController: SimpleTransactionsViewController {
         guard let model = item as? ERC20HistoricalTransaction<PaxToken> else { return }
         let detailViewController = TransactionDetailViewController()
         let navigation = TransactionDetailNavigationController(rootViewController: detailViewController)
-        detailViewController.busyViewDelegate = navigation
         detailViewController.modalTransitionStyle = .coverVertical
         
         let viewModel: TransactionDetailViewModel = TransactionDetailViewModel(transaction: model)

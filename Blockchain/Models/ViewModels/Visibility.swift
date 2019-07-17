@@ -18,6 +18,11 @@ enum Visibility: Int {
         case .visible: return 1
         }
     }
+    
+    /// Returns the inverted alpha for visibility value
+    var invertedAlpha: CGFloat {
+        return 1 - defaultAlpha
+    }
 
     var isHidden: Bool {
         return self == .hidden ? true : false

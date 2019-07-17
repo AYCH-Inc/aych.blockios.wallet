@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformUIKit
 
 /// Coordinator for the transfer all flow.
 @objc class TransferAllCoordinator: NSObject, Coordinator {
@@ -16,8 +17,11 @@ import Foundation
     @objc class func sharedInstance() -> TransferAllCoordinator {
         return TransferAllCoordinator.shared
     }
+    
+    private let loadingViewPresenter: LoadingViewPresenting
 
-    private override init() {
+    private init(loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared) {
+        self.loadingViewPresenter = loadingViewPresenter
         super.init()
         WalletManager.shared.transferAllDelegate = self
     }
@@ -57,7 +61,7 @@ extension TransferAllCoordinator: WalletTransferAllDelegate {
     func showSummaryForTransferAll() {
         if transferAllController != nil {
             transferAllController?.showSummaryForTransferAll()
-            LoadingViewPresenter.shared.hideBusyView()
+            loadingViewPresenter.hide()
         } else {
             AppCoordinator.shared.tabControllerManager.showSummaryForTransferAll()
         }

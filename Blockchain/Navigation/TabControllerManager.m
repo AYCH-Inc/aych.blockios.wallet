@@ -95,16 +95,6 @@
 
 #pragma mark - Wallet Transaction Delegate
 
-
-- (void)onPaymentReceivedWithAmount:(NSString * _Nonnull)amount assetType:(enum AssetType)assetType
-{
-    [AlertViewPresenter.sharedInstance standardNotifyWithMessage:amount title:BC_STRING_PAYMENT_RECEIVED in:nil handler:nil];
-
-    LegacyAssetType legacyType = [AssetTypeLegacyHelper convertToLegacy: assetType];
-
-    [AuthenticationCoordinator.sharedInstance.pinEntryViewController paymentReceived:legacyType];
-}
-
 - (void)onTransactionReceived
 {
     [SoundManager.sharedInstance playBeep];
@@ -389,7 +379,11 @@
 
 - (void)didReceivePaymentNoticeWithNotice:(NSString *_Nullable)notice
 {
-    if (notice && self.tabViewController.selectedIndex == [ConstantsObjcBridge tabSend] && !LoadingViewPresenter.sharedInstance.isLoadingShown && !AuthenticationCoordinator.shared.pinEntryViewController && !self.tabViewController.presentedViewController) {
+    if (notice &&
+        self.tabViewController.selectedIndex == [ConstantsObjcBridge tabSend] &&
+        !LoadingViewPresenter.sharedInstance.isVisible &&
+        AuthenticationCoordinator.shared.isDisplayingLoginAuthenticationFlow &&
+        !self.tabViewController.presentedViewController) {
         [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:notice title:[LocalizationConstantsObjcBridge information] in:self handler: nil];
     }
 }

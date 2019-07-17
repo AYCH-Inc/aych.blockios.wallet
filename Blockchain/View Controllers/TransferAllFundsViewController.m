@@ -44,11 +44,7 @@
         navigationController.shouldHideBusyView = NO;
         NSString *text = [NSString stringWithFormat:BC_STRING_TRANSFER_ALL_FROM_ADDRESS_ARGUMENT_ARGUMENT, weakSelf.transferPaymentBuilder.transferAllAddressesInitialCount - [weakSelf.transferPaymentBuilder.transferAllAddressesToTransfer count] + 1, weakSelf.transferPaymentBuilder.transferAllAddressesInitialCount];
         LoadingViewPresenter *loadingViewPresenter = [LoadingViewPresenter sharedInstance];
-        if ([loadingViewPresenter isLoadingShown]) {
-            [loadingViewPresenter updateBusyViewLoadingTextWithText:text];
-        } else {
-            [loadingViewPresenter showBusyViewWithLoadingText:text];
-        }
+        [loadingViewPresenter showWith:text];
     };
     self.transferPaymentBuilder.delegate = self;
 }

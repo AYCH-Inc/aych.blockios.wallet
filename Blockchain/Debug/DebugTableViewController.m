@@ -66,12 +66,13 @@ typedef enum {
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:BC_STRING_DONE style:UIBarButtonItemStyleDone target:self action:@selector(dismiss)];
     self.navigationController.navigationBar.barTintColor = UIColor.brandPrimary;
     NSString *presenter;
-    if (self.presenter == DEBUG_PRESENTER_SETTINGS_ABOUT) {
-        presenter = BC_STRING_SETTINGS_ABOUT;
-    } else if (self.presenter == DEBUG_PRESENTER_PIN_VERIFY) {
-        presenter = BC_STRING_SETTINGS_VERIFY;
-    } else if (self.presenter == DEBUG_PRESENTER_WELCOME_VIEW)  {
-        presenter = DEBUG_STRING_WELCOME;
+    switch (self.presenter) {
+        case welcome:
+            presenter = DEBUG_STRING_WELCOME;
+        case pin:
+            presenter = BC_STRING_SETTINGS_VERIFY;
+        case settings:
+            presenter = BC_STRING_SETTINGS_ABOUT;
     }
     self.navigationItem.title = [NSString stringWithFormat:@"%@ %@ %@", DEBUG_STRING_DEBUG, DEBUG_STRING_FROM_LOWERCASE, presenter];
 }

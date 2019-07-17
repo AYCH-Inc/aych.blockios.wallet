@@ -8,6 +8,7 @@
 // swiftlint:disable line_length
 
 import UIKit
+import PlatformUIKit
 
 @objc class BackupViewController: UIViewController, TransferAllPromptDelegate {
     @IBOutlet weak var summaryLabel: UILabel!
@@ -18,6 +19,8 @@ import UIKit
     @objc var wallet: Wallet?
     var transferredAll = false
     private var finalHeight: CGFloat?
+
+    private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,7 +130,6 @@ import UIKit
     }
 
     func showSyncingView() {
-        let backupNavigation = self.navigationController as? BackupNavigationViewController
-        backupNavigation?.busyView?.fadeIn()
+        loadingViewPresenter.show(with: LocalizationConstants.syncingWallet)
     }
 }

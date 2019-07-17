@@ -199,7 +199,7 @@
         NSString *trimmedRecoveryPhrase = [recoveryPhrase stringByTrimmingCharactersInSet:
                                    [NSCharacterSet whitespaceCharacterSet]];
         
-        [LoadingViewPresenter.sharedInstance showBusyViewWithLoadingText:BC_STRING_LOADING_RECOVERING_WALLET];
+        [LoadingViewPresenter.sharedInstance showWith:BC_STRING_LOADING_RECOVERING_WALLET];
         [self.recoveryPhraseView.recoveryPassphraseTextField resignFirstResponder];
 
         [WalletManager.sharedInstance.wallet recoverWithEmail:emailTextField.text password:passwordTextField.text passphrase:trimmedRecoveryPhrase];
@@ -222,7 +222,7 @@
     // Continue in walletJSReady callback
     WalletManager.sharedInstance.wallet.delegate = self;
 
-    [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_CREATING_WALLET];
+    [[LoadingViewPresenter sharedInstance] showCircularWith:LocalizationConstantsObjcBridge.loadingWallet];
  
     // Load the JS without a wallet
     [WalletManager.sharedInstance.wallet performSelector:@selector(loadBlankWallet) withObject:nil afterDelay:DELAY_KEYBOARD_DISMISSAL];

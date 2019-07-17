@@ -7,13 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BCFadeView.h"
 
-@interface SettingsNavigationController : UINavigationController <TopViewController>
+@interface SettingsNavigationController : UINavigationController
 
 @property (nonatomic) UILabel *headerLabel;
 @property (nonatomic) UIButton *backButton;
-@property (nonatomic) BCFadeView *busyView;
 @property(nonatomic, copy) void (^onDismissViewController)(void);
 
 - (void)reload;

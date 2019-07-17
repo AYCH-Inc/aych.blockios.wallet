@@ -7,13 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BCFadeView.h"
 #import "AssetSelectorView.h"
 
-@interface AccountsAndAddressesNavigationController : UINavigationController <TopViewController>
+@interface AccountsAndAddressesNavigationController : UINavigationController
 @property (nonatomic) UIBarButtonItem *warningButton;
-@property (nonatomic) BCFadeView *busyView;
-@property (nonatomic) UILabel *busyLabel;
 @property (nonatomic, readonly) AssetSelectorView *assetSelectorView;
 
 - (void)didGenerateNewAddress;

@@ -8,6 +8,7 @@
 
 import Foundation
 import PlatformKit
+import PlatformUIKit
 
 // TODO: Refactor class to support other asset types (currently assumed to be Bitcoin)
 @objc class KeyImportCoordinator: NSObject, Coordinator {
@@ -24,6 +25,8 @@ import PlatformKit
         case privateKeyOfAnotherNonWatchOnlyAddress
     }
 
+    static let shared = KeyImportCoordinator()
+    
     //: Nil if device input is unavailable
     private var qrCodeScannerViewController: UIViewController?
 
@@ -31,16 +34,17 @@ import PlatformKit
     private let backupKey = Constants.NotificationKeys.backupSuccess
 
     private let walletManager: WalletManager
-
-    static let shared = KeyImportCoordinator()
-
+    private let loadingViewPresenter: LoadingViewPresenting
+    
     @objc class func sharedInstance() -> KeyImportCoordinator {
         return KeyImportCoordinator.shared
     }
 
     // TODO: Refactor class to support other asset types (currently assumed to be Bitcoin)
-    private init(walletManager: WalletManager = WalletManager.shared) {
+    private init(walletManager: WalletManager = WalletManager.shared,
+                 loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared) {
         self.walletManager = walletManager
+        self.loadingViewPresenter = loadingViewPresenter
         super.init()
         initialize()
     }
@@ -60,7 +64,7 @@ import PlatformKit
         
         let privateKeyQRCodeParser = PrivateKeyQRCodeParser(
             walletManager: walletManager,
-            loadingViewPresenter: LoadingViewPresenter.shared,
+            loadingViewPresenter: loadingViewPresenter,
             acceptPublicKeys: acceptPublicKeys,
             assetAddress: assetAddress
         )
@@ -73,7 +77,7 @@ import PlatformKit
                     self?.handlePrivateKeyScan(result: result, delegate: delegate)
                 }
             )
-            .with(loadingViewPresenter: LoadingViewPresenter.shared)
+            .with(loadingViewPresenter: loadingViewPresenter)
             .build()
         
         guard let qrCodeScannerViewController = qrCodeScannerViewController else { return }
@@ -91,7 +95,7 @@ import PlatformKit
         
         let privateKeyQRCodeParser = PrivateKeyQRCodeParser(
             walletManager: walletManager,
-            loadingViewPresenter: LoadingViewPresenter.shared,
+            loadingViewPresenter: loadingViewPresenter,
             acceptPublicKeys: acceptPublicKeys,
             assetAddress: assetAddress
         )
@@ -136,7 +140,7 @@ import PlatformKit
     }
     
     private func handlePrivateKeyScanFinished() {
-        LoadingViewPresenter.shared.hideBusyView()
+        loadingViewPresenter.hide()
         qrCodeScannerViewController = nil
     }
     
@@ -155,7 +159,7 @@ import PlatformKit
 
     @objc func on_add_private_key_start() {
         walletManager.wallet.isSyncing = true
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.AddressAndKeyImport.loadingImportKey)
+        loadingViewPresenter.show(with: LocalizationConstants.AddressAndKeyImport.loadingImportKey)
     }
 
     @objc func on_add_key(address: String) {
@@ -238,13 +242,13 @@ extension KeyImportCoordinator: WalletKeyImportDelegate {
     }
 
     func didImportIncorrectPrivateKey() {
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.syncingWallet)
+        loadingViewPresenter.show(with: LocalizationConstants.syncingWallet)
         NotificationCenter.default.addObserver(self, selector: #selector(alertUserOfImportedIncorrectPrivateKey), name: backupKey, object: nil)
     }
 
     func failedToImportPrivateKey(errorDescription: String) {
         NotificationCenter.default.removeObserver(self, name: backupKey, object: nil)
-        LoadingViewPresenter.shared.hideBusyView()
+        loadingViewPresenter.hide()
         walletManager.wallet.isSyncing = false
 
         // TODO: improve JS error handling to avoid string comparison
@@ -273,7 +277,7 @@ extension KeyImportCoordinator: WalletKeyImportDelegate {
     }
 
     func failedToImportPrivateKeyForWatchOnlyAddress(errorDescription: String) {
-        LoadingViewPresenter.shared.hideBusyView()
+        loadingViewPresenter.hide()
         walletManager.wallet.isSyncing = false
 
         // TODO: improve JS error handling to avoid string comparisons
@@ -304,14 +308,14 @@ extension KeyImportCoordinator: WalletKeyImportDelegate {
             walletManager.wallet.subscribe(toAddress: address.description, assetType: .bitcoin)
         }
 
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.syncingWallet)
+        loadingViewPresenter.show(with: LocalizationConstants.syncingWallet)
         walletManager.wallet.lastImportedAddress = address.description
 
         NotificationCenter.default.addObserver(self, selector: #selector(alertUserOfImportedKey), name: backupKey, object: nil)
     }
 
     func importedPrivateKeyToLegacyAddress() {
-        LoadingViewPresenter.shared.showBusyView(withLoadingText: LocalizationConstants.syncingWallet)
+        loadingViewPresenter.show(with: LocalizationConstants.syncingWallet)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(alertUserOfImportedPrivateKeyIntoLegacyAddress),
                                                name: backupKey,

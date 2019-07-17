@@ -124,7 +124,7 @@
 
 - (void)getHistoryAndRates
 {
-    [[LoadingViewPresenter sharedInstance] showBusyViewWithLoadingText:BC_STRING_LOADING_LOADING_TRANSACTIONS];
+    [[LoadingViewPresenter sharedInstance] showWith:BC_STRING_LOADING_LOADING_TRANSACTIONS];
 
     [WalletManager.sharedInstance.wallet performSelector:@selector(getBitcoinCashHistoryAndRates) withObject:nil afterDelay:0.1f];
 }

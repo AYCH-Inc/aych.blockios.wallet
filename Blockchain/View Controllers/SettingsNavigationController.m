@@ -53,37 +53,6 @@
     [backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [topBar addSubview:backButton];
     self.backButton = backButton;
-    
-    BCFadeView *busyView = [[BCFadeView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.rootViewController.view.frame];
-    busyView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
-    UIView *textWithSpinnerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 250, 110)];
-    textWithSpinnerView.backgroundColor = [UIColor whiteColor];
-    [busyView addSubview:textWithSpinnerView];
-    textWithSpinnerView.center = busyView.center;
-    
-    UILabel *busyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, BUSY_VIEW_LABEL_WIDTH, BUSY_VIEW_LABEL_HEIGHT)];
-    busyLabel.adjustsFontSizeToFitWidth = YES;
-    busyLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:BUSY_VIEW_LABEL_FONT_SYSTEM_SIZE];
-    busyLabel.alpha = BUSY_VIEW_LABEL_ALPHA;
-    busyLabel.textAlignment = NSTextAlignmentCenter;
-    busyLabel.text = [LocalizationConstantsObjcBridge syncingWallet];
-    busyLabel.center = CGPointMake(textWithSpinnerView.bounds.origin.x + textWithSpinnerView.bounds.size.width/2, textWithSpinnerView.bounds.origin.y + textWithSpinnerView.bounds.size.height/2 + 15);
-    [textWithSpinnerView addSubview:busyLabel];
-    
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = CGPointMake(textWithSpinnerView.bounds.origin.x + textWithSpinnerView.bounds.size.width/2, textWithSpinnerView.bounds.origin.y + textWithSpinnerView.bounds.size.height/2 - 15);
-    [textWithSpinnerView addSubview:spinner];
-    [textWithSpinnerView bringSubviewToFront:spinner];
-    [spinner startAnimating];
-
-    busyView.containerView = textWithSpinnerView;
-    [busyView fadeOut];
-    
-    [self.view addSubview:busyView];
-    
-    [self.view bringSubviewToFront:busyView];
-    
-    self.busyView = busyView;
 }
 
 - (void)viewDidLayoutSubviews
@@ -116,14 +85,14 @@
 
 - (void)reload
 {
-    [self.busyView fadeOut];
+    [LoadingViewPresenter.sharedInstance hide];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_KEY_RELOAD_SETTINGS object:nil];
 }
 
 - (void)reloadAfterMultiAddressResponse
 {
-    [self.busyView fadeOut];
+    [LoadingViewPresenter.sharedInstance hide];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_KEY_RELOAD_SETTINGS_AFTER_MULTIADDRESS object:nil];
 }
@@ -151,26 +120,6 @@
     } else {
         DLog(@"Error: Settings Navigation Controller's visible view controller is not a SettingsTableViewController!");
     }
-}
-
-#pragma mark Top View Controller Delegate
-
-- (void)showBusyViewWithLoadingText:(NSString *)text
-{
-    //TODO: use this delegate method instead of handling busy views manually from view controllers
-    return;
-}
-
-- (void)updateBusyViewLoadingText:(NSString *)text
-{
-    //TODO: use this delegate method instead of handling busy views manually from view controllers
-    return;
-}
-
-- (void)hideBusyView
-{
-    //TODO: use this delegate method instead of handling busy views manually from view controllers
-    return;
 }
 
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion

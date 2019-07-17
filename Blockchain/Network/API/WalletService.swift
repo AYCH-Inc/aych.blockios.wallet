@@ -60,7 +60,7 @@ import PlatformKit
             return Single.just(cachedValue)
         }
     }
-
+    
     /// Returns true if the provided country code is in the homebrew region
     ///
     /// - Parameter countryCode: the country code
@@ -107,49 +107,21 @@ import PlatformKit
             }
         }
     }
+}
 
-    /// Creates a new pin in the remote pin store
-    ///
-    /// - Parameter pinPayload: the PinPayload
-    /// - Returns: a Single returning the response
-    func createPin(_ pinPayload: PinPayload) -> Single<PinStoreResponse> {
-        return pinStore(pinPayload: pinPayload, method: "put")
-    }
+// MARK: - MaintenanceServicing
 
-    /// Validates if the provided pin payload (i.e. pin code and pin key combination) is correct.
-    ///
-    /// - Parameter pinPayload: the PinPayload
-    /// - Returns: an Single returning the response
-    func validatePin(_ pinPayload: PinPayload) -> Single<PinStoreResponse> {
-        return pinStore(pinPayload: pinPayload, method: "get")
-    }
-
-    // MARK: - Private
-
-    private func pinStore(
-        pinPayload: PinPayload,
-        method: String
-    ) -> Single<PinStoreResponse> {
-        var parameters = [
-            "format": "json",
-            "method": method,
-            "pin": pinPayload.pinCode,
-            "key": pinPayload.pinKey,
-            "api_code": BlockchainAPI.Parameters.apiCode
-        ]
-        if let value = pinPayload.pinValue {
-            parameters["value"] = value
-        }
-        return networkManager.requestJsonOrString(
-            BlockchainAPI.shared.pinStore,
-            method: .post,
-            parameters: parameters
-        ).map {
-            guard let responseJson = $1 as? JSON else {
-                let errorMessage = $1 as? String
-                throw NetworkError.generic(message: errorMessage)
+extension WalletService: MaintenanceServicing {
+    /// Returns message for maintenance in case the server is down because of maintenance reasons
+    var serverUnderMaintenanceMessage: Single<String?> {
+        return walletOptions.map { options in
+            if options.downForMaintenance {
+                return options.mobileInfo?.message ?? LocalizationConstants.Errors.siteMaintenanceError
+            } else {
+                return nil
             }
-            return PinStoreResponse(response: responseJson)
         }
+        .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
     }
 }
+

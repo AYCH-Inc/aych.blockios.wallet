@@ -6,7 +6,7 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformUIKit
 
 /**
  Application coordinator.
@@ -15,19 +15,25 @@ import Foundation
  presented when the app first launches.
 */
 @objc class AppCoordinator: NSObject, Coordinator {
+    
+    // MARK: - Properties
+
     static let shared = AppCoordinator()
 
+    
     // class function declared so that the AppCoordinator singleton can be accessed from obj-C
     @objc class func sharedInstance() -> AppCoordinator {
         return AppCoordinator.shared
     }
 
-    // MARK: - Properties
-
+    // MARK: - Services
+    
     private(set) var window: UIWindow
 
     private let walletManager: WalletManager
-
+    private let paymentPresenter: PaymentPresenter
+    private let loadingViewPresenter: LoadingViewPresenting
+    
     // MARK: - UIViewController Properties
 
     @objc lazy var slidingViewController: ECSlidingViewController = { [unowned self] in
@@ -61,8 +67,12 @@ import Foundation
 
     // MARK: NSObject
 
-    private init(walletManager: WalletManager = WalletManager.shared) {
+    private init(walletManager: WalletManager = WalletManager.shared,
+                 paymentPresenter: PaymentPresenter = PaymentPresenter(),
+                 loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter()) {
         self.walletManager = walletManager
+        self.paymentPresenter = paymentPresenter
+        self.loadingViewPresenter = loadingViewPresenter
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window.backgroundColor = .white
         super.init()
@@ -120,13 +130,6 @@ import Foundation
         
         // TODO remove app reference and use wallet singleton.isFe
         walletManager.wallet.isFetchingTransactions = false
-    }
-
-    @objc func showDebugView(presenter: Int32) {
-        let debugViewController = DebugTableViewController()
-        debugViewController.presenter = presenter
-        let navigationController = UINavigationController(rootViewController: debugViewController)
-        UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(navigationController, animated: true)
     }
 
     @objc func showBackupView() {
@@ -339,7 +342,7 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
 
 extension AppCoordinator: WalletAccountInfoAndExchangeRatesDelegate {
     func didGetAccountInfoAndExchangeRates() {
-        LoadingViewPresenter.shared.hideBusyView()
+        loadingViewPresenter.hide()
         reloadAfterMultiAddressResponse()
     }
 }
@@ -365,12 +368,23 @@ extension AppCoordinator: WalletHistoryDelegate {
     }
 
     func didFetchEthHistory() {
-        LoadingViewPresenter.shared.hideBusyView()
+        loadingViewPresenter.hide()
         reload()
     }
 
     func didFetchBitcoinCashHistory() {
-        LoadingViewPresenter.shared.hideBusyView()
+        loadingViewPresenter.hide()
         reload()
+    }
+}
+
+// MARK: - DevSupporting
+
+extension AppCoordinator: DevSupporting {
+    @objc func showDebugView(from presenter: DebugViewPresenter) {
+        let debugViewController = DebugTableViewController()
+        debugViewController.presenter = presenter
+        let navigationController = UINavigationController(rootViewController: debugViewController)
+        UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(navigationController, animated: true)
     }
 }

@@ -192,14 +192,10 @@
 
 #define BC_STRING_ADDRESS_BOOK NSLocalizedString(@"Address book", nil)
 
-#define BC_STRING_LOADING_VERIFYING NSLocalizedString (@"Verifying", nil)
-#define BC_STRING_LOADING_DECRYPTING_WALLET NSLocalizedString(@"Decrypting Wallet", nil)
 #define BC_STRING_LOADING_LOADING_TRANSACTIONS NSLocalizedString(@"Loading transactions", nil)
-#define BC_STRING_LOADING_LOADING_BUILD_HD_WALLET NSLocalizedString(@"Initializing Wallet", nil)
 #define BC_STRING_LOADING_CHECKING_WALLET_UPDATES NSLocalizedString(@"Checking for Wallet updates", nil)
 #define BC_STRING_LOADING_CREATING_V3_WALLET NSLocalizedString(@"Creating V3 Wallet", nil)
 #define BC_STRING_LOADING_CREATING NSLocalizedString(@"Creating", nil)
-#define BC_STRING_LOADING_CREATING_WALLET NSLocalizedString(@"Creating new Wallet", nil)
 #define BC_STRING_LOADING_CREATING_NEW_ADDRESS NSLocalizedString(@"Creating new address", nil)
 #define BC_STRING_LOADING_CREATING_REQUEST NSLocalizedString(@"Creating request", nil)
 #define BC_STRING_LOADING_CREATING_INVITATION NSLocalizedString(@"Creating invitation", nil)
@@ -358,7 +354,6 @@
 #define BC_STRING_LOADING_RECOVERING_WALLET NSLocalizedString(@"Recovering Funds", nil)
 #define BC_STRING_LOADING_RECOVERING_WALLET_CHECKING_ARGUMENT_OF_ARGUMENT NSLocalizedString(@"Checking for more: Step %d of %d", nil)
 #define BC_STRING_LOADING_RECOVERING_WALLET_ARGUMENT_FUNDS_ARGUMENT NSLocalizedString(@"Found %d, with %@", nil)
-#define BC_STRING_LOADING_RECOVERY_CREATING_WALLET NSLocalizedString(@"Creating Wallet", nil)
 #define BC_STRING_INVALID_RECOVERY_PHRASE NSLocalizedString(@"Invalid recovery phrase. Please try again", nil)
 
 #define BC_STRING_SEND_ERROR_NO_INTERNET_CONNECTION NSLocalizedString(@"No internet connection available. Please check your network settings.", nil)

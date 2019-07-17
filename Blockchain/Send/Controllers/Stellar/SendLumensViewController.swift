@@ -24,7 +24,6 @@ protocol SendXLMViewControllerDelegate: class {
 
 @objc class SendLumensViewController: UIViewController, BottomButtonContainerView {
     
-    
     fileprivate static let topToStackView: CGFloat = 12.0
     fileprivate static let maximumMemoTextLength: Int = 28
     

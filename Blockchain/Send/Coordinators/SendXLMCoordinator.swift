@@ -432,15 +432,19 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         ).subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] price, maxSpendableAmount in
-                let maxString = NumberFormatter.stellarFormatter.string(for: maxSpendableAmount) ?? "0"
+                let stellarMaxString = maxSpendableAmount.toDisplayString(includeSymbol: false)
+                let fiatMaxString = maxSpendableAmount
+                    .convertToFiatValue(exchangeRate: price.priceInFiat)
+                    .toDisplayString(includeSymbol: false)
                 let trigger = ActionableTrigger(
                     text: LocalizationConstants.Stellar.useSpendableBalanceX,
-                    CTA: "\(maxString) \(AssetType.stellar.symbol)",
+                    CTA: "\(stellarMaxString) \(AssetType.stellar.symbol)",
                     executionBlock: {
                         self?.interface.apply(updates: [
-                            .stellarAmountText(maxString)
+                            .stellarAmountText(stellarMaxString),
+                            .fiatAmountText(fiatMaxString)
                         ])
-                        self?.onXLMEntry("\(maxSpendableAmount)", latestPrice: price.priceInFiat.amount)
+                        self?.onXLMEntry(stellarMaxString, latestPrice: price.priceInFiat.amount)
                     }
                 )
                 self?.interface.apply(updates: [

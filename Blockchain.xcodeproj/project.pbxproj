@@ -933,6 +933,8 @@
 		650999C722E60D050092BFB9 /* PITAccountRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AECA26322CFE1AA004ED7B7 /* PITAccountRepository.swift */; };
 		650999C922E60E180092BFB9 /* PitConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A68A32F22CA617D00EB1287 /* PitConnectViewController.swift */; };
 		650999CA22E60E210092BFB9 /* PitEmailVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A19E25222D3B246000A2A99 /* PitEmailVerificationViewController.swift */; };
+		6509994A22E094EA0092BFB9 /* UIColor+Creative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6509994922E094EA0092BFB9 /* UIColor+Creative.swift */; };
+		6509995522E0A6820092BFB9 /* UIColor+Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6509995422E0A6820092BFB9 /* UIColor+Application.swift */; };
 		650CE41922CBD54600FA282E /* MockWalletData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650CE41822CBD54600FA282E /* MockWalletData.swift */; };
 		650CE41B22CBD55400FA282E /* MockPinInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650CE41A22CBD55300FA282E /* MockPinInteractor.swift */; };
 		650CE41E22CBDDB000FA282E /* Wallet+WalletProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650CE41D22CBDDB000FA282E /* Wallet+WalletProtocol.swift */; };
@@ -4229,6 +4231,8 @@
 		650999B722E5C44F0092BFB9 /* PitAddressFetching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitAddressFetching.swift; sourceTree = "<group>"; };
 		650999BA22E5C4730092BFB9 /* MockPitAddressFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPitAddressFetcher.swift; sourceTree = "<group>"; };
 		650999BE22E5CBB20092BFB9 /* BridgeAddressFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeAddressFetcher.swift; sourceTree = "<group>"; };
+		6509994922E094EA0092BFB9 /* UIColor+Creative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Creative.swift"; sourceTree = "<group>"; };
+		6509995422E0A6820092BFB9 /* UIColor+Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Application.swift"; sourceTree = "<group>"; };
 		650CE41822CBD54600FA282E /* MockWalletData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockWalletData.swift; path = Blockchain/Authentication/PinFlow/Tests/Mocks/MockWalletData.swift; sourceTree = SOURCE_ROOT; };
 		650CE41A22CBD55300FA282E /* MockPinInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockPinInteractor.swift; path = Blockchain/Authentication/PinFlow/Tests/Mocks/MockPinInteractor.swift; sourceTree = SOURCE_ROOT; };
 		650CE41D22CBDDB000FA282E /* Wallet+WalletProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Wallet+WalletProtocol.swift"; sourceTree = "<group>"; };
@@ -6517,10 +6521,10 @@
 		3A6865BD219A11B50009FF29 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				653F29B422E0947E009078C9 /* Colors */,
 				3A6865CA219A12DC0009FF29 /* NSAttributedString+Conveniences.swift */,
 				65550E3C22BE671E00522656 /* Rx+UIViewUtils.swift */,
 				3A07814B21E54DB200760BF9 /* UICollectionViewCell+Conveniences.swift */,
-				3A6865D1219A143A0009FF29 /* UIColor+Conveniences.swift */,
 				3A6865D4219A1A510009FF29 /* UIDevice+Conveniences.swift */,
 				6567FDF422C9FEA70035CB16 /* UIImage+Color.swift */,
 				3A943C432280B6C400F18362 /* UIStackView+Conveniences.swift */,
@@ -9457,6 +9461,16 @@
 				652D579D22DE299A00A87AAB /* ActivityIndicatorLoadingContainerView.xib */,
 			);
 			path = ActivityIndicatorLoaderView;
+			sourceTree = "<group>";
+		};
+		653F29B422E0947E009078C9 /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				3A6865D1219A143A0009FF29 /* UIColor+Conveniences.swift */,
+				6509994922E094EA0092BFB9 /* UIColor+Creative.swift */,
+				6509995422E0A6820092BFB9 /* UIColor+Application.swift */,
+			);
+			path = Colors;
 			sourceTree = "<group>";
 		};
 		6541551322C5530100E78814 /* QRAddressView */ = {
@@ -12909,8 +12923,10 @@
 				3A3F3B9021E3FE89003BFDFC /* ContainerModel.swift in Sources */,
 				3A7E382622E1486C00E289C4 /* GradientView.swift in Sources */,
 				3A07814C21E54DB200760BF9 /* UICollectionViewCell+Conveniences.swift in Sources */,
+				6509995522E0A6820092BFB9 /* UIColor+Application.swift in Sources */,
 				3A3F3B9621E40538003BFDFC /* HorizontalContainerCell.swift in Sources */,
 				3A8473BB219B369E00F22FA6 /* TransactionDetail.swift in Sources */,
+				6509994A22E094EA0092BFB9 /* UIColor+Creative.swift in Sources */,
 				652D57A122DE319600A87AAB /* LoadingViewProtocol.swift in Sources */,
 				654193F522D7354800B3E6ED /* MainQueueExecution.swift in Sources */,
 				3A6865D2219A143A0009FF29 /* UIColor+Conveniences.swift in Sources */,

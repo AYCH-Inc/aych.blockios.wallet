@@ -8,6 +8,7 @@
 
 import Foundation
 
+// TODO: Delete when transition to IA design has completed
 extension UIColor {
     
     // MARK: - Brand-specific Colors

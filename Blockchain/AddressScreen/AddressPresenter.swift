@@ -193,7 +193,7 @@ final class AddressPresenter {
     }
     
     private func setupShareViewModel() {
-        let theme = SideImageButtonViewModel.Theme(backgroundColor: .brandSecondary,
+        let theme = SideImageButtonViewModel.Theme(backgroundColor: .secondary,
                                                    contentColor: .white,
                                                    imageName: "share_icon",
                                                    text: LocalizationConstants.Address.shareButton)
@@ -201,14 +201,14 @@ final class AddressPresenter {
     }
     
     private func setCopyViewModelToCopiedState() {
-        let theme = SideImageButtonViewModel.Theme(backgroundColor: .green,
+        let theme = SideImageButtonViewModel.Theme(backgroundColor: .successButton,
                                                    contentColor: .white,
                                                    text: LocalizationConstants.Address.copiedButton)
         copyViewModel.animate(theme: theme)
     }
     
     private func setupCopyViewModel() {
-        let theme = SideImageButtonViewModel.Theme(backgroundColor: .brandSecondary,
+        let theme = SideImageButtonViewModel.Theme(backgroundColor: .secondary,
                                                     contentColor: .white,
                                                     imageName: "copy_icon",
                                                     text: LocalizationConstants.Address.copyButton)

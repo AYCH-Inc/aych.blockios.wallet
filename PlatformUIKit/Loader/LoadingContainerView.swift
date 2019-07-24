@@ -8,7 +8,6 @@
 
 import UIKit
 
-// TICKET: IOS-2315 - new colors
 final class LoadingContainerView: UIView {
 
     // MARK: - Properties
@@ -46,7 +45,7 @@ final class LoadingContainerView: UIView {
     
     init() {
         super.init(frame: UIScreen.main.bounds)
-        backgroundColor = UIColor(red: 0.07, green: 0.11, blue: 0.2, alpha: 0.8)
+        backgroundColor = .greyFade800
         isUserInteractionEnabled = true
         
         for view in [loadingBackgroundView, loadingView] {

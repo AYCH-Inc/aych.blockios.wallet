@@ -80,9 +80,8 @@ class LoginContainerViewController: UIViewController {
         collectionView.register(UINib(nibName: LoginContainerCollectionViewCell.className,
                                       bundle: nil),
                                 forCellWithReuseIdentifier: LoginContainerCollectionViewCell.className)
-        // TICKET: IOS-2315 - new colors
-        pageControl.pageIndicatorTintColor = UIColor(red: 0.85, green: 0.95, blue: 0.98, alpha: 1)
-        pageControl.currentPageIndicatorTintColor = .brandSecondary
+        pageControl.pageIndicatorTintColor = .addressPageIndicator
+        pageControl.currentPageIndicatorTintColor = .tertiary
         pageControl.currentPage = 0
         pageControl.numberOfPages = inputs.count - 1
         pageControl.alpha = 0

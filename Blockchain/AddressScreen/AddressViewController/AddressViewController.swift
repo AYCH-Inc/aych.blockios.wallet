@@ -50,8 +50,7 @@ final class AddressViewController: UIViewController {
         
         assetNameLabel.accessibility = presenter.titleAccessibility
         assetNameLabel.text = presenter.assetName
-        // TICKET: IOS-2315 - new colors
-        assetNameLabel.textColor = UIColor(red: 0.21, green: 0.25, blue: 0.32, alpha: 1)
+        assetNameLabel.textColor = .titleText
         
         copyButtonView.viewModel = presenter.copyViewModel
         shareButtonView.viewModel = presenter.shareViewModel

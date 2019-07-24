@@ -48,13 +48,12 @@ final class PinScreenPresenter {
         }
     }
     
-    // TICKET: IOS-2315 - new colors
     var barStyle: Screen.Style.Bar {
         switch flow {
         case .authenticate(from: .background, logoutRouting: _):
             return .lightContent(ignoresStatusBar: true, background: .clear)
         case .change(logoutRouting: _):
-            return .lightContent(ignoresStatusBar: false, background: .brandPrimary)
+            return .lightContent(ignoresStatusBar: false, background: .primary)
         default:
             return .lightContent(ignoresStatusBar: false, background: .clear)
         }
@@ -122,18 +121,17 @@ final class PinScreenPresenter {
         self.backwardRouting = backwardRouting
         self.forwardRouting = forwardRouting
 
-        // TICKET: IOS-2315 - new colors
         let emptyPinColor: UIColor
         let buttonHighlightColor: UIColor
         switch flow {
         case .change:
-            contentColor = .brandPrimary
+            contentColor = .primary
             backgroundColor = .white
-            emptyPinColor = UIColor(red: 0.02, green: 0.09, blue: 0.24, alpha: 0.4)
+            emptyPinColor = .securePinGrey
             buttonHighlightColor = UIColor.black.withAlphaComponent(0.08)
         case .authenticate, .create, .enableBiometrics:
             contentColor = .white
-            backgroundColor = .brandPrimary
+            backgroundColor = .primary
             emptyPinColor = UIColor.white.withAlphaComponent(0.12)
             buttonHighlightColor = UIColor.white.withAlphaComponent(0.08)
         }

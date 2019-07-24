@@ -62,14 +62,13 @@ final class QRAddressView: UIView {
     
     private func setup() {
         fromNib()
-        // TICKET: IOS-2315 - new colors
-        let borderColor = UIColor(red: 0.87, green: 0.89, blue: 0.92, alpha: 1)
+        let borderColor = UIColor.mediumBorder
         layer.borderWidth = 1
         layer.borderColor = borderColor.cgColor
         layer.cornerRadius = 4
         separatorView.backgroundColor = borderColor
-        activityIndicatorView.color = .brandPrimary
-        statusLabel.textColor = .brandPrimary
+        activityIndicatorView.color = .primary
+        statusLabel.textColor = .primary
     }
     
     // Setups the UI according to a given display status

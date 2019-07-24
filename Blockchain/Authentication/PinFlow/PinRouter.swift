@@ -233,7 +233,8 @@ extension PinRouter {
         // Dismiss the pin flow
         switch flow.origin {
         case .foreground:
-            navigationController.dismiss(animated: animated, completion: cleanup)
+            guard let controller = navigationController else { return }
+            controller.dismiss(animated: animated, completion: cleanup)
         case .background:
             UIApplication.shared.keyWindow!.rootViewController = previousRootViewController
             cleanup()

@@ -164,7 +164,9 @@ class PitCoordinator {
     }
     
     private func syncAddressAndLinkWalletToPit() {
-        guard let pitURL = URL(string: BlockchainAPI.shared.pitURL) else { return }
+        /// Users that have linked their PIT account should be sent to the `/trade`
+        /// page and not the PIT landing page. 
+        guard let pitURL = URL(string: BlockchainAPI.shared.pitURL + "/trade") else { return }
         repository.syncDepositAddresses()
             .andThen(hasLinkedPITAccount())
             .flatMap(weak: self, { (self, hasLinkedPitAccount) -> Single<URL> in

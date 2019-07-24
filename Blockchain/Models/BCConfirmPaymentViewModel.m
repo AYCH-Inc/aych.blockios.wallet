@@ -15,17 +15,19 @@
 @implementation BCConfirmPaymentViewModel
 
 - (instancetype)initWithFrom:(NSString *)from
-                To:(NSString *)to
-            amount:(uint64_t)amount
-               fee:(uint64_t)fee
-             total:(uint64_t)total
-             surge:(BOOL)surgePresent
+   destinationDisplayAddress:(NSString *_Nonnull)destinationDisplayAddress
+       destinationRawAddress:(NSString *_Nonnull)destinationRawAddress
+                      amount:(uint64_t)amount
+                         fee:(uint64_t)fee
+                       total:(uint64_t)total
+                       surge:(BOOL)surgePresent
 {
     self = [super init];
     
     if (self) {
         self.from = from;
-        self.to = to;
+        self.destinationDisplayAddress = destinationDisplayAddress;
+        self.destinationRawAddress = destinationRawAddress;
         self.surgeIsOccurring = surgePresent;
         self.buttonTitle = BC_STRING_SEND;
         self.fiatTotalAmountText = [NSNumberFormatter formatMoney:total localCurrency:YES];
@@ -38,17 +40,19 @@
     return self;
 }
 
-- (instancetype)initWithTo:(NSString *)to
-       ethAmount:(NSString *)ethAmount
-          ethFee:(NSString *)ethFee
-        ethTotal:(NSString *)ethTotal
-      fiatAmount:(NSString *)fiatAmount
-         fiatFee:(NSString *)fiatFee
-       fiatTotal:(NSString *)fiatTotal
+- (instancetype)initWithTo:(NSString *)destinationDisplayAddress
+     destinationRawAddress:(NSString *)destinationRawAddress
+                 ethAmount:(NSString *)ethAmount
+                    ethFee:(NSString *)ethFee
+                  ethTotal:(NSString *)ethTotal
+                fiatAmount:(NSString *)fiatAmount
+                   fiatFee:(NSString *)fiatFee
+                 fiatTotal:(NSString *)fiatTotal
 {
     if (self == [super init]) {
         self.from = [LocalizationConstantsObjcBridge myEtherWallet];
-        self.to = to;
+        self.destinationDisplayAddress = destinationDisplayAddress;
+        self.destinationRawAddress = destinationRawAddress;
         self.fiatTotalAmountText = fiatTotal;
         self.totalAmountText = ethTotal;
         self.cryptoWithFiatAmountText = [NSString stringWithFormat:@"%@ (%@)", ethAmount, fiatAmount];
@@ -60,19 +64,20 @@
 }
 
 - (instancetype)initWithFrom:(NSString *)from
-                To:(NSString *)to
-            bchAmount:(uint64_t)amount
-               fee:(uint64_t)fee
-             total:(uint64_t)total
-             surge:(BOOL)surgePresent
+   destinationDisplayAddress:(NSString *_Nonnull)destinationDisplayAddress
+       destinationRawAddress:(NSString *_Nonnull)destinationRawAddress
+                   bchAmount:(uint64_t)amount
+                         fee:(uint64_t)fee
+                       total:(uint64_t)total
+                       surge:(BOOL)surgePresent
 {
     self = [super init];
     
     if (self) {
         self.from = from;
-        self.to = to;
+        self.destinationDisplayAddress = destinationDisplayAddress;
+        self.destinationRawAddress = destinationRawAddress;
         self.surgeIsOccurring = surgePresent;
-        
         self.fiatTotalAmountText = [NSNumberFormatter formatBchWithSymbol:total localCurrency:YES];
         self.totalAmountText = [NSNumberFormatter formatBCH:total];
         self.cryptoWithFiatAmountText = [self formatAmountInBCHAndFiat:amount];
@@ -80,7 +85,7 @@
         self.showDescription = YES;
         self.showsFeeInformationButton = YES;
         
-        if ([WalletManager.sharedInstance.wallet isValidAddress:self.to assetType:LegacyAssetTypeBitcoin]) {
+        if ([WalletManager.sharedInstance.wallet isValidAddress:self.destinationRawAddress assetType:LegacyAssetTypeBitcoin]) {
             CGFloat fontSize = FONT_SIZE_EXTRA_SMALL;
             NSMutableAttributedString *warning = [[NSMutableAttributedString alloc] initWithString:BC_STRING_BITCOIN_CASH_WARNING_CONFIRM_VALID_ADDRESS_ONE];
             [warning addAttribute:NSFontAttributeName value:[UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:fontSize] range:NSMakeRange(0, [warning length])];
@@ -99,7 +104,8 @@
 }
 
 - (instancetype)initWithFrom:(NSString *_Nonnull)from
-                          to:(NSString *_Nonnull)to
+   destinationDisplayAddress:(NSString *_Nonnull)destinationDisplayAddress
+       destinationRawAddress:(NSString *_Nonnull)destinationRawAddress
              totalAmountText:(NSString *_Nonnull)totalAmountText
          fiatTotalAmountText:(NSString *_Nonnull)fiatTotalAmountText
     cryptoWithFiatAmountText:(NSString *_Nonnull)cryptoWithFiatAmountText
@@ -115,7 +121,8 @@
     self = [super init];
     if (self) {
         self.from = from;
-        self.to = to;
+        self.destinationDisplayAddress = destinationDisplayAddress;
+        self.destinationRawAddress = destinationRawAddress;
         self.totalAmountText = totalAmountText;
         self.fiatTotalAmountText = fiatTotalAmountText;
         self.cryptoWithFiatAmountText = cryptoWithFiatAmountText;

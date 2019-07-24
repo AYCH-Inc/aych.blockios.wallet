@@ -23,7 +23,6 @@ public extension PrimitiveSequence where Trait == SingleTrait {
         return self.do(onDispose: {
             loader.hide()
         })
-        
     }
 }
 

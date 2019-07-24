@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Vh5-KK-icm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Vh5-KK-icm">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -57,7 +57,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a Stellar address" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="QyP-0z-OPb">
-                                <rect key="frame" x="70" y="101.5" width="328" height="19"/>
+                                <rect key="frame" x="70" y="101.5" width="284" height="19"/>
                                 <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartInsertDeleteType="no" smartQuotesType="no"/>
@@ -65,6 +65,16 @@
                                     <outlet property="delegate" destination="Vh5-KK-icm" id="EKJ-Gf-tAU"/>
                                 </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKB-eR-FNF">
+                                <rect key="frame" x="354" y="88" width="60" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="aNw-53-0Ic"/>
+                                </constraints>
+                                <state key="normal" image="pit_icon_small"/>
+                                <connections>
+                                    <action selector="pitAddressButtonPressed" destination="Vh5-KK-icm" eventType="touchUpInside" id="5Nh-Xi-RC9"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FPN-1W-rC1">
                                 <rect key="frame" x="16" y="133" width="398" height="1"/>
                                 <color key="backgroundColor" red="0.80400000000000005" green="0.80400000000000005" blue="0.80400000000000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -230,7 +240,7 @@
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="e7p-NS-YlT">
-                                        <rect key="frame" x="0.0" y="77" width="382" height="27"/>
+                                        <rect key="frame" x="0.0" y="77" width="338" height="27"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                         <state key="normal" title="Learn about Stellar's minimum balance requirement">
                                             <color key="titleColor" red="0.059999999999999998" green="0.68000000000000005" blue="0.89000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -265,17 +275,27 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Readable Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QHj-hr-oen">
+                                <rect key="frame" x="70" y="101" width="141.5" height="20"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="16"/>
+                                <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="FPN-1W-rC1" firstAttribute="leading" secondItem="GtF-xh-Upa" secondAttribute="leading" id="1Ld-Gs-fNX"/>
                             <constraint firstItem="e7p-NS-YlT" firstAttribute="trailing" secondItem="QyP-0z-OPb" secondAttribute="trailing" id="1Ul-kl-tSL"/>
                             <constraint firstAttribute="trailing" secondItem="FPN-1W-rC1" secondAttribute="trailing" id="7n6-vG-DAU"/>
+                            <constraint firstItem="a4K-NR-VXn" firstAttribute="trailing" secondItem="rKB-eR-FNF" secondAttribute="trailing" id="7rZ-Jz-him"/>
+                            <constraint firstItem="QHj-hr-oen" firstAttribute="leading" secondItem="zuZ-H8-xwn" secondAttribute="leading" id="8m5-mr-PEV"/>
                             <constraint firstAttribute="trailing" secondItem="Egb-08-LKE" secondAttribute="trailing" id="BLf-Dq-Qry"/>
                             <constraint firstItem="GtF-xh-Upa" firstAttribute="leading" secondItem="0NP-Xq-DCS" secondAttribute="leading" id="CAG-u4-dXh"/>
+                            <constraint firstItem="QHj-hr-oen" firstAttribute="centerY" secondItem="QyP-0z-OPb" secondAttribute="centerY" id="GG3-3O-r7R"/>
                             <constraint firstItem="a4K-NR-VXn" firstAttribute="trailing" secondItem="T6x-qT-fE8" secondAttribute="trailing" id="JuG-9x-Tit"/>
-                            <constraint firstItem="a4K-NR-VXn" firstAttribute="trailing" secondItem="QyP-0z-OPb" secondAttribute="trailing" constant="16" id="NNm-VP-8mq"/>
+                            <constraint firstItem="rKB-eR-FNF" firstAttribute="bottom" secondItem="FPN-1W-rC1" secondAttribute="bottom" id="K6I-sH-NPW"/>
                             <constraint firstItem="n1a-Tz-btJ" firstAttribute="top" secondItem="Egb-08-LKE" secondAttribute="bottom" id="T26-ye-r3P"/>
+                            <constraint firstItem="QyP-0z-OPb" firstAttribute="trailing" secondItem="rKB-eR-FNF" secondAttribute="leading" id="T6o-7u-zXg"/>
                             <constraint firstItem="pUz-IB-qem" firstAttribute="leading" secondItem="a4K-NR-VXn" secondAttribute="leading" constant="16" id="THN-En-3Ds"/>
                             <constraint firstItem="T6x-qT-fE8" firstAttribute="leading" secondItem="pUz-IB-qem" secondAttribute="leading" id="TuT-ky-Ngo"/>
                             <constraint firstItem="GtF-xh-Upa" firstAttribute="top" secondItem="T6x-qT-fE8" secondAttribute="bottom" constant="12" id="Zd4-Bv-IyB"/>
@@ -287,6 +307,7 @@
                             <constraint firstItem="a4K-NR-VXn" firstAttribute="trailing" secondItem="4ye-dY-fMv" secondAttribute="trailing" constant="20" id="hj4-L7-XJF"/>
                             <constraint firstItem="Sgf-Us-8Ec" firstAttribute="top" secondItem="n1a-Tz-btJ" secondAttribute="bottom" constant="12" id="iRA-OX-Ynh"/>
                             <constraint firstItem="e7p-NS-YlT" firstAttribute="leading" secondItem="0NP-Xq-DCS" secondAttribute="leading" id="ie4-xj-F4D"/>
+                            <constraint firstItem="rKB-eR-FNF" firstAttribute="top" secondItem="T6x-qT-fE8" secondAttribute="top" id="ii2-vo-KUE"/>
                             <constraint firstItem="Egb-08-LKE" firstAttribute="width" secondItem="T6x-qT-fE8" secondAttribute="width" id="mrD-K8-Vhw"/>
                             <constraint firstItem="Sgf-Us-8Ec" firstAttribute="trailing" secondItem="a4K-NR-VXn" secondAttribute="trailing" id="nMO-Tw-Rfu"/>
                             <constraint firstItem="pUz-IB-qem" firstAttribute="top" secondItem="a4K-NR-VXn" secondAttribute="top" constant="12" id="oa4-1c-81Y"/>
@@ -302,6 +323,7 @@
                     </view>
                     <connections>
                         <outlet property="bottomStackView" destination="Sgf-Us-8Ec" id="S4C-e5-5ZK"/>
+                        <outlet property="destinationAddressIndicatorLabel" destination="QHj-hr-oen" id="VhG-Kl-vso"/>
                         <outlet property="errorLabel" destination="unt-E8-9Kk" id="EoO-rX-cMH"/>
                         <outlet property="feeAmountLabel" destination="jkR-1H-6zC" id="eBJ-Ea-DAW"/>
                         <outlet property="feeLabel" destination="uVk-OU-UAi" id="TWw-W9-c40"/>
@@ -314,6 +336,7 @@
                         <outlet property="memoLabel" destination="knE-dP-0Qh" id="D8J-3G-Tr2"/>
                         <outlet property="memoSelectionTypeButton" destination="A7b-gl-0ig" id="5J8-Rm-j07"/>
                         <outlet property="memoTextField" destination="v8k-n0-YlF" id="Axy-ld-p4c"/>
+                        <outlet property="pitAddressButton" destination="rKB-eR-FNF" id="FFX-Ke-mqz"/>
                         <outlet property="primaryButtonContainer" destination="4ye-dY-fMv" id="RB1-sC-pFn"/>
                         <outlet property="stellarAddressField" destination="QyP-0z-OPb" id="Okb-c2-kK5"/>
                         <outlet property="stellarAmountField" destination="3Gh-Nc-nUi" id="6so-Jk-61b"/>
@@ -326,7 +349,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XBU-jL-HkQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52.5" y="41.25"/>
+            <point key="canvasLocation" x="52.173913043478265" y="40.848214285714285"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="pit_icon_small" width="24" height="24"/>
+    </resources>
 </document>

@@ -23,10 +23,29 @@ public typealias URLParameters = [String: Any]
  - Copyright: Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
  */
 
-
 @objc
 open class NetworkManager: NSObject, URLSessionDelegate {
 
+    /// Parameter encoding for networking
+    public enum Encoding {
+        
+        /// JSON encoding
+        case json
+        
+        /// URL encoding
+        case url
+        
+        /// Returns the Alamofire value
+        var value: ParameterEncoding {
+            switch self {
+            case .json:
+                return JSONEncoding.default
+            case .url:
+                return URLEncoding.default
+            }
+        }
+    }
+        
     // MARK: - Properties
 
     /// The instance variable used to access functions of the `NetworkManager` class.
@@ -35,7 +54,7 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     /// Default unknown network error
     static let unknownNetworkError = NSError(domain: "NetworkManagerDomain", code: -1, userInfo: nil)
 
-    // TODO: remove once migration is complete
+    // TODO: remove once Swift migration is complete
     /// Objective-C compatible class function
     @objc public class func sharedInstance() -> NetworkManager {
         return NetworkManager.shared
@@ -67,10 +86,12 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     public func post<T: Decodable>(_ relativeUrl: String,
                                    data: Encodable,
                                    decodeTo decodableType: T.Type,
+                                   encoding: Encoding = .url,
                                    onErrorJustReturn: Bool = false) -> Single<T> {
         return post(relativeUrl,
                     parameters: data.dictionary,
                     decodeTo: decodableType,
+                    encoding: encoding,
                     onErrorJustReturn: onErrorJustReturn)
     }
     
@@ -78,11 +99,13 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     public func post<T: Decodable>(_ relativeUrl: String,
                                    parameters: [String: Any] = [:],
                                    decodeTo decodableType: T.Type,
+                                   encoding: Encoding = .url,
                                    onErrorJustReturn: Bool = false) -> Single<T> {
         return request(.post,
                        relativeUrl: relativeUrl,
                        parameters: parameters,
                        decodeTo: decodableType,
+                       encoding: encoding,
                        onErrorJustReturn: onErrorJustReturn)
     }
     
@@ -90,10 +113,12 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     
     public func get<T: Decodable>(_ relativeUrl: String,
                                   decodeTo decodableType: T.Type,
+                                  encoding: Encoding = .url,
                                   onErrorJustReturn: Bool = false) -> Single<T> {
         return request(.get,
                        relativeUrl: relativeUrl,
                        decodeTo: decodableType,
+                       encoding: encoding,
                        onErrorJustReturn: onErrorJustReturn)
     }
     
@@ -101,22 +126,30 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     
     public func put<T: Decodable>(_ relativeUrl: String,
                                   data: Encodable,
+                                  headers: [String: String]? = nil,
                                   decodeTo decodableType: T.Type,
+                                  encoding: Encoding = .url,
                                   onErrorJustReturn: Bool = false) -> Single<T> {
         return put(relativeUrl,
                    parameters: data.dictionary,
+                   headers: headers,
                    decodeTo: decodableType,
+                   encoding: encoding,
                    onErrorJustReturn: onErrorJustReturn)
     }
     
     public func put<T: Decodable>(_ relativeUrl: String,
                                   parameters: [String: Any] = [:],
+                                  headers: [String: String]? = nil,
                                   decodeTo decodableType: T.Type,
+                                  encoding: Encoding = .url,
                                   onErrorJustReturn: Bool = false) -> Single<T> {
         return request(.put,
                        relativeUrl: relativeUrl,
+                       headers: headers,
                        parameters: parameters,
                        decodeTo: decodableType,
+                       encoding: encoding,
                        onErrorJustReturn: onErrorJustReturn)
     }
     
@@ -124,10 +157,12 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     
     public func delete<T: Decodable>(_ relativeUrl: String,
                                      decodeTo decodableType: T.Type,
+                                     encoding: Encoding = .url,
                                      onErrorJustReturn: Bool = false) -> Single<T> {
         return request(.delete,
                        relativeUrl: relativeUrl,
                        decodeTo: decodableType,
+                       encoding: encoding,
                        onErrorJustReturn: onErrorJustReturn)
     }
     
@@ -135,16 +170,18 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     
     private func request<T: Decodable>(_ method: HTTPMethod,
                                        relativeUrl: String,
+                                       headers: [String: String]? = nil,
                                        parameters: [String: Any]? = nil,
                                        decodeTo decodableType: T.Type,
+                                       encoding: Encoding,
                                        onErrorJustReturn: Bool = false) -> Single<T> {
         return Single<DataRequest>.create { single -> Disposable in
             let request = SessionManager.default.request(
                 relativeUrl,
                 method: method,
                 parameters: parameters,
-                encoding: URLEncoding.default,
-                headers: nil)
+                encoding: encoding.value,
+                headers: headers)
             single(.success(request))
             return Disposables.create()
         }
@@ -158,6 +195,8 @@ open class NetworkManager: NSObject, URLSessionDelegate {
             return try data.decode(to: decodableType)
         }
     }
+    
+    // MARK: - Old networking
     
     public func request<ResponseType: Decodable>(
         _ request: URLRequest,

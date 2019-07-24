@@ -24,6 +24,7 @@ protocol SendPaxViewControllerDelegate: class {
     func onFiatEntry(_ value: FiatValue)
     func onAddressEntry(_ value: String?)
     func onErrorBarButtonItemTapped()
+    func onPitAddressButtonTapped()
     func onQRBarButtonItemTapped()
     
     var rightNavigationCTAType: NavigationCTAType { get }
@@ -45,11 +46,13 @@ class SendPaxViewController: UIViewController {
     @IBOutlet private var currencyLabel: UILabel!
     @IBOutlet private var maxAvailableLabel: ActionableLabel!
 
+    @IBOutlet private var destinationAddressIndicatorLabel: UILabel!
     @IBOutlet private var paxAddressTextField: UITextField!
     @IBOutlet private var paxTextField: UITextField!
     @IBOutlet private var fiatTextField: UITextField!
     
     @IBOutlet private var sendNowButton: UIButton!
+    @IBOutlet private var pitAddressButton: UIButton!
     
     private var fields: [UITextField] {
         return [
@@ -60,7 +63,7 @@ class SendPaxViewController: UIViewController {
     }
     
     // MARK: Private Properties
-    
+        
     private var coordinator: SendPaxCoordinator!
     private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
     private var qrScannerViewModel: QRCodeScannerViewModel<AddressQRCodeParser>?
@@ -187,6 +190,20 @@ class SendPaxViewController: UIViewController {
             }
         case .fiatCurrencyLabel(let fiatCurrency):
             currencyLabel.text = fiatCurrency
+        case .pitAddressButtonVisibility(let isVisible):
+            pitAddressButton.isHidden = !isVisible
+        case .usePitAddress(let address):
+            paxAddressTextField.text = address
+            if address == nil {
+                pitAddressButton.setImage(UIImage(named: "pit_icon_small"), for: .normal)
+                paxAddressTextField.isHidden = false
+                destinationAddressIndicatorLabel.text = nil
+            } else {
+                pitAddressButton.setImage(UIImage(named: "cancel_icon"), for: .normal)
+                paxAddressTextField.isHidden = true
+                destinationAddressIndicatorLabel.text = String(format: LocalizationConstants.PIT.Send.destination,
+                                                               AssetType.pax.symbol)
+            }
         }
     }
     
@@ -243,8 +260,12 @@ class SendPaxViewController: UIViewController {
     
     // MARK: Actions
     
-    @IBAction func sendNowTapped(_ sender: UIButton) {
+    @IBAction private func sendNowTapped(_ sender: UIButton) {
         delegate?.onSendProposed()
+    }
+    
+    @IBAction private func pitAddressButtonPressed() {
+        delegate?.onPitAddressButtonTapped()
     }
 }
 
@@ -271,6 +292,7 @@ extension SendPaxViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
+        
         let replacementInput = (text as NSString).replacingCharacters(in: range, with: string)
         
         if textField == paxAddressTextField {

@@ -1147,6 +1147,13 @@ struct LocalizationConstants {
                 )
             }
         }
+        
+        struct Send {
+            static let destination = NSLocalizedString(
+                "My PIT %@ Wallet",
+                comment: "PIT address for a wallet"
+            )
+        }
     }
 
     struct SideMenu {
@@ -2325,6 +2332,8 @@ struct LocalizationConstants {
     @objc class func privacyPolicy() -> String {
         return LocalizationConstants.privacyPolicy
     }
+    
+    @objc class func sendAssetPitDestination() -> String { return LocalizationConstants.PIT.Send.destination }
 
     @objc class func tapToCopyThisAddress() -> String { return LocalizationConstants.Receive.tapToCopyThisAddress }
 

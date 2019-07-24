@@ -107,7 +107,7 @@
 {
     self.rows = [NSMutableArray new];
     if (self.viewModel.from) [self.rows addObject:@[BC_STRING_FROM, self.viewModel.from]];
-    if (self.viewModel.to) [self.rows addObject:@[BC_STRING_TO, self.viewModel.to]];
+    if (self.viewModel.destinationDisplayAddress) [self.rows addObject:@[BC_STRING_TO, self.viewModel.destinationDisplayAddress]];
     if (self.viewModel.showDescription) [self.rows addObject:@[BC_STRING_DESCRIPTION, self.viewModel.noteText ? : @""]];
     if (self.viewModel.cryptoWithFiatAmountText) [self.rows addObject:@[BC_STRING_AMOUNT, self.viewModel.cryptoWithFiatAmountText]];
     if (self.viewModel.amountWithFiatFeeText) [self.rows addObject:@[BC_STRING_FEE, self.viewModel.amountWithFiatFeeText]];

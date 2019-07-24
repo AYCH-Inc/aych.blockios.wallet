@@ -19,15 +19,28 @@ class SendXLMCoordinator {
     fileprivate var services: XLMServices {
         return serviceProvider.services
     }
+    
+    // Fetcher for PIT address
+    private let pitAddressFetcher: PitAddressFetching
+    
+    /// The source of the address
+    private var addressSource = SendAssetAddressSource.standard
+    
+    /// The pit address
+    private var pitAddress: String!
 
+    private let bag = DisposeBag()
+    
     init(
         serviceProvider: XLMServiceProvider,
         interface: SendXLMInterface,
-        modelInterface: SendXLMModelInterface
+        modelInterface: SendXLMModelInterface,
+        pitAddressFetcher: PitAddressFetching = PitAddressFetcher()
     ) {
         self.serviceProvider = serviceProvider
         self.interface = interface
         self.modelInterface = modelInterface
+        self.pitAddressFetcher = pitAddressFetcher
         if let controller = interface as? SendLumensViewController {
             controller.delegate = self
         }
@@ -53,7 +66,8 @@ class SendXLMCoordinator {
     }
     
     fileprivate func observeOperations() {
-        let disposable = Observable.combineLatest(accountDetailsTrigger(), services.ledger.current)
+        let disposable = Observable
+            .combineLatest(accountDetailsTrigger(), services.ledger.current)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (account, ledger) in
@@ -107,6 +121,21 @@ class SendXLMCoordinator {
 
 extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     func onLoad() {
+        interface.apply(updates: [.pitAddressButtonVisibility(false),
+                                  .usePitAddress(nil)])
+        
+        // Fetch the PIT address for asset and apply changes to the interface
+        pitAddressFetcher.fetchAddress(for: .stellar)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] address in
+                guard let self = self else { return }
+                self.pitAddress = address
+                self.interface.apply(updates: [.pitAddressButtonVisibility(true)])
+            }, onError: { [weak self] error in
+                self?.interface.apply(updates: [.pitAddressButtonVisibility(false)])
+            })
+            .disposed(by: bag)
+        
         initializeActionableLabel()
         // TODO: Users may have a `defaultAccount` but that doesn't mean
         // that they have an `StellarAccount` as it must be funded.
@@ -321,8 +350,9 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         ).subscribeOn(MainScheduler.asyncInstance)
         .observeOn(MainScheduler.instance)
         .subscribe(onSuccess: { [weak self] isSpendable, isValidDestination in
+            guard let self = self else { return }
             guard isSpendable else {
-                self?.interface.apply(updates: [
+                self.interface.apply(updates: [
                     .errorLabelText(LocalizationConstants.Stellar.notEnoughXLM),
                     .errorLabelVisibility(.visible),
                     .fiatFieldTextColor(.error),
@@ -331,21 +361,32 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                 return
             }
             guard isValidDestination else {
-                self?.interface.apply(updates: [
+                self.interface.apply(updates: [
                     .errorLabelText(LocalizationConstants.Stellar.invalidDestinationAddress),
                     .errorLabelVisibility(.visible),
                     .stellarAddressTextColor(.error)
                 ])
                 return
             }
+            
+            let displayAddress: String
+            switch self.addressSource {
+            case .pit:
+                displayAddress = String(format: LocalizationConstants.PIT.Send.destination,
+                                        AssetType.stellar.symbol)
+            case .standard:
+                displayAddress = toAddress
+            }
+            
             let operation = StellarPaymentOperation(
+                destinationAccountDisplayName: displayAddress,
                 destinationAccountId: toAddress,
                 amountInXlm: amount,
                 sourceAccount: sourceAccount,
                 feeInXlm: feeInXlm,
                 memo: memo
             )
-            self?.interface.apply(updates: [
+            self.interface.apply(updates: [
                 .showPaymentConfirmation(operation),
                 .errorLabelVisibility(.hidden),
                 .stellarAddressTextColor(.gray6)
@@ -389,6 +430,17 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         disposables.insertWithDiscardableResult(disposable)
     }
 
+    func onPitAddressButtonTapped() {
+        switch addressSource {
+        case .pit:
+            addressSource = .standard
+            interface.apply(updates: [.usePitAddress(nil)])
+        case .standard:
+            addressSource = .pit
+            interface.apply(updates: [.usePitAddress(pitAddress)])
+        }
+    }
+    
     // MARK: - Private
 
     private func showMinimumBalanceView(

@@ -16,10 +16,14 @@
 @property (nonatomic) UITextField *toField;
 @property (nonatomic) BCAmountInputView *amountInputView;
 @property (nonatomic) NSString *toAddress;
+@property (nonatomic) UIButton *pitAddressButton;
+@property (nonatomic) UILabel *destinationAddressIndicatorLabel;
 @property (nonatomic) NSDecimalNumber *ethAmount;
 @property (nonatomic) NSDecimalNumber *ethAvailable;
 @property (nonatomic) BOOL displayingLocalSymbolSend;
 @property (nonatomic, readwrite) DestinationAddressSource addressSource;
+@property (nonatomic, copy) NSString *pitAddress;
+
 @end
 
 @implementation EtherAmountInputViewController

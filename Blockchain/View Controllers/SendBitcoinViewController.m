@@ -22,6 +22,8 @@
 #import "Blockchain-Swift.h"
 #import "NSNumberFormatter+Currencies.h"
 
+@class BridgeAddressFetcher;
+
 typedef enum {
     SendTransactionTypeRegular = 100,
     SendTransactionTypeSweep = 200,
@@ -62,6 +64,7 @@ typedef enum {
 @property (nonatomic) UILabel *feeDescriptionLabel;
 @property (nonatomic) UILabel *feeAmountLabel;
 @property (nonatomic) UILabel *feeWarningLabel;
+@property (nonatomic) UIButton *pitAddressButton;
 @property (nonatomic) NSDictionary *fees;
 
 @property (nonatomic) NSString *noteToSet;
@@ -77,6 +80,9 @@ typedef enum {
 @property (nonatomic) TransferAllFundsBuilder *transferAllPaymentBuilder;
 
 @property (nonatomic) BCNavigationController *contactRequestNavigationController;
+
+@property (nonatomic) BridgeAddressFetcher *addressFetcher;
+@property (nonatomic, copy) NSString *pitAddress;
 
 @end
 
@@ -130,6 +136,8 @@ BOOL displayingLocalSymbolSend;
 {
     [super viewDidLoad];
 
+    self.addressFetcher = [[BridgeAddressFetcher alloc] init];
+    
     self.view.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:YES assetSelector:YES];
 
     [containerView changeWidth:self.view.frame.size.width];
@@ -137,9 +145,26 @@ BOOL displayingLocalSymbolSend;
     [selectAddressTextField changeWidth:self.view.frame.size.width - fromLabel.frame.size.width - 15 - 13 - selectFromButton.frame.size.width];
     [selectFromButton changeXPosition:self.view.frame.size.width - selectFromButton.frame.size.width];
 
-    [toField changeWidth:self.view.frame.size.width - toLabel.frame.size.width - 15 - 13 - addressBookButton.frame.size.width];
     [addressBookButton changeXPosition:self.view.frame.size.width - addressBookButton.frame.size.width];
 
+    CGFloat pitAddressButtonWidth = 50.0f;
+    UIButton *pitAddressButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - addressBookButton.bounds.size.width - pitAddressButtonWidth, addressBookButton.frame.origin.y, pitAddressButtonWidth, addressBookButton.bounds.size.height)];
+    [pitAddressButton setImage:[UIImage imageNamed:@"pit_icon_small"] forState:UIControlStateNormal];
+    [pitAddressButton addTarget:self action:@selector(pitAddressButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    pitAddressButton.hidden = true;
+    [self.view addSubview:pitAddressButton];
+    self.pitAddressButton = pitAddressButton;
+    [self.pitAddressButton changeXPosition:self.view.bounds.size.width - addressBookButton.frame.size.width - self.pitAddressButton.bounds.size.width];
+
+    [toField changeWidth:self.view.frame.size.width - toLabel.frame.size.width - addressBookButton.frame.size.width - self.pitAddressButton.bounds.size.width - 16];
+    
+    destinationAddressIndicatorLabel = [[UILabel alloc] initWithFrame:toField.frame];
+    destinationAddressIndicatorLabel.font = selectAddressTextField.font;
+    destinationAddressIndicatorLabel.textColor = selectAddressTextField.textColor;
+    destinationAddressIndicatorLabel.text = [[NSString alloc] initWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], self.assetType == LegacyAssetTypeBitcoin ? @"BTC" : @"BCH"];
+    destinationAddressIndicatorLabel.hidden = true;
+    [self.view addSubview:destinationAddressIndicatorLabel];
+    
     CGFloat amountFieldWidth = (self.view.frame.size.width - btcLabel.frame.origin.x - btcLabel.frame.size.width - fiatLabel.frame.size.width - 15 - 13 - 8 - 13)/2;
     btcAmountField.frame = CGRectMake(btcAmountField.frame.origin.x, btcAmountField.frame.origin.y, amountFieldWidth, btcAmountField.frame.size.height);
     fiatLabel.frame = CGRectMake(btcAmountField.frame.origin.x + btcAmountField.frame.size.width + 8, fiatLabel.frame.origin.y, fiatLabel.frame.size.width, fiatLabel.frame.size.height);
@@ -152,6 +177,7 @@ BOOL displayingLocalSymbolSend;
     
     fromLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL];
     selectAddressTextField.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_SMALL];
+    destinationAddressIndicatorLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_SMALL];
     toLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL];
     toField.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_SMALL];
     btcLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL];
@@ -321,6 +347,17 @@ BOOL displayingLocalSymbolSend;
     self.isReloading = NO;
     
     self.noteToSet = nil;
+    
+    __weak SendBitcoinViewController *weakSelf = self;
+    [self.addressFetcher fetchAddressFor:self.assetType completion:^(NSString * _Nullable address) {
+        [weakSelf updatePitButtonVisibilityWith:address];
+    }];
+}
+
+/// Update pit button visibility
+- (void)updatePitButtonVisibilityWith:(NSString * _Nullable)address {
+    self.pitAddress = address;
+    self.pitAddressButton.hidden = self.pitAddress == nil;
 }
 
 - (void)reloadAfterMultiAddressResponse
@@ -356,11 +393,8 @@ BOOL displayingLocalSymbolSend;
 
 - (void)hideSelectFromAndToButtonsIfAppropriate
 {
-    // If we only have one account and no legacy addresses -> can't change from address
     if ([WalletManager.sharedInstance.wallet getActiveAccountsCount:self.assetType] + [[WalletManager.sharedInstance.wallet activeLegacyAddresses:self.assetType] count] == 1) {
-        
         [selectFromButton setHidden:YES];
-        
         if ([WalletManager.sharedInstance.wallet addressBook].count == 0) {
             [addressBookButton setHidden:YES];
         } else {
@@ -443,6 +477,27 @@ BOOL displayingLocalSymbolSend;
     } else if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc) {
         displayingLocalSymbol = FALSE;
         displayingLocalSymbolSend = FALSE;
+    }
+}
+
+#pragma mark - Pit address button
+
+- (void)pitAddressButtonPressed {
+    switch (self.addressSource) {
+        case DestinationAddressSourcePit:
+            [self.pitAddressButton setImage:[UIImage imageNamed:@"pit_icon_small"] forState:UIControlStateNormal];
+            self.addressSource = DestinationAddressSourcePaste;
+            toField.hidden = false;
+            toField.text = nil;
+            destinationAddressIndicatorLabel.hidden = true;
+            break;
+        default: // Any other state (doesn't matter which)
+            [self.pitAddressButton setImage:[UIImage imageNamed:@"cancel_icon"] forState:UIControlStateNormal];
+            self.addressSource = DestinationAddressSourcePit;
+            toField.hidden = true;
+            toField.text = self.pitAddress;
+            destinationAddressIndicatorLabel.hidden = false;
+            break;
     }
 }
 
@@ -768,16 +823,29 @@ BOOL displayingLocalSymbolSend;
         
         BCConfirmPaymentViewModel *confirmPaymentViewModel;
         
+        NSString *displayDestinationAddress;
+        NSString *symbol;
+        switch (self.addressSource) {
+            case DestinationAddressSourcePit:
+                symbol = [LegacyAssetTypeUtils symbolBy: self.assetType];
+                displayDestinationAddress = [[NSString alloc] initWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], symbol];
+                break;
+            default:
+                displayDestinationAddress = to;
+        }
+        
         if (self.assetType == LegacyAssetTypeBitcoinCash) {
             confirmPaymentViewModel = [[BCConfirmPaymentViewModel alloc] initWithFrom:from
-                                                                                   To:to
+                                                            destinationDisplayAddress:displayDestinationAddress
+                                                                destinationRawAddress:to
                                                                             bchAmount:amountInSatoshi
                                                                                   fee:feeTotal
                                                                                 total:amountTotal
                                                                                 surge:surgePresent];
         } else {
             confirmPaymentViewModel = [[BCConfirmPaymentViewModel alloc] initWithFrom:from
-                                                                                   To:to
+                                                            destinationDisplayAddress:displayDestinationAddress
+                                                                destinationRawAddress:to
                                                                                amount:amountInSatoshi
                                                                                   fee:feeTotal
                                                                                 total:amountTotal
@@ -1611,23 +1679,28 @@ BOOL displayingLocalSymbolSend;
     [self selectFromAddress:address];
 }
 
-- (void)didSelectToAddress:(NSString *)address
-{
-    [self selectToAddress:address];
-    
-    self.addressSource = DestinationAddressSourceDropDown;
-}
-
 - (void)didSelectFromAccount:(int)account assetType:(LegacyAssetType)asset
 {
     [self selectFromAccount:account];
 }
 
+- (void)didSelectToAddress:(NSString *)address
+{
+    [self selectToAddress:address];
+    [self setDropdownAddressSource];
+}
+
 - (void)didSelectToAccount:(int)account assetType:(LegacyAssetType)asset
 {
     [self selectToAccount:account];
-    
+    [self setDropdownAddressSource];
+}
+
+- (void)setDropdownAddressSource {
     self.addressSource = DestinationAddressSourceDropDown;
+    [self.pitAddressButton setImage:[UIImage imageNamed:@"pit_icon_small"] forState:UIControlStateNormal];
+    toField.hidden = false;
+    destinationAddressIndicatorLabel.hidden = true;
 }
 
 #pragma mark - Transaction Description Delegate
@@ -1905,6 +1978,8 @@ BOOL displayingLocalSymbolSend;
         return;
     }
     
+    // TODO: IOS-2269: Display address dropdown
+
     BCAddressSelectionView *addressSelectionView = [[BCAddressSelectionView alloc] initWithWallet:WalletManager.sharedInstance.wallet selectMode:SelectModeSendTo delegate:self];
     [[ModalPresenter sharedInstance] showModalWithContent:addressSelectionView closeType:ModalCloseTypeBack showHeader:true headerText:BC_STRING_SEND_TO onDismiss:nil onResume:nil];
 }

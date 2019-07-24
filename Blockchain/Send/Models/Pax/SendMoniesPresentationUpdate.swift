@@ -24,4 +24,6 @@ enum SendMoniesPresentationUpdate: Hashable {
     case loadingIndicatorVisibility(Visibility)
     case maxAvailable(CryptoValue?)
     case fiatCurrencyLabel(String?)
+    case pitAddressButtonVisibility(Bool)
+    case usePitAddress(String?)
 }

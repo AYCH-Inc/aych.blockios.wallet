@@ -31,6 +31,7 @@ extension StellarMemoType {
 }
 
 struct StellarPaymentOperation {
+    let destinationAccountDisplayName: String
     let destinationAccountId: String
     let amountInXlm: Decimal
     let sourceAccount: StellarWalletAccount
@@ -38,12 +39,14 @@ struct StellarPaymentOperation {
     let memo: StellarMemoType?
     
     init(
+        destinationAccountDisplayName: String = "",
         destinationAccountId: String,
         amountInXlm: Decimal,
         sourceAccount: StellarWalletAccount,
         feeInXlm: Decimal,
         memo: StellarMemoType? = nil
         ) {
+        self.destinationAccountDisplayName = destinationAccountDisplayName
         self.destinationAccountId = destinationAccountId
         self.amountInXlm = amountInXlm
         self.sourceAccount = sourceAccount

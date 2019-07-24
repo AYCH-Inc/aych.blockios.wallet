@@ -39,6 +39,7 @@
     
     IBOutlet UILabel *toLabel;
     IBOutlet UITextField *toField;
+    UILabel *destinationAddressIndicatorLabel;
     IBOutlet UIButton *addressBookButton;
 
     IBOutlet UILabel *btcLabel;

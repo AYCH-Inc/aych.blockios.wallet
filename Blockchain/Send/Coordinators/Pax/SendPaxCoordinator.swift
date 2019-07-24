@@ -28,7 +28,14 @@ class SendPaxCoordinator {
     fileprivate let priceAPI: PriceServiceAPI
     fileprivate var isExecuting: Bool = false
     fileprivate var output: SendPaxOutput?
+    private let pitAddressFetcher: PitAddressFetching
     
+    /// The source of the address
+    private var addressSource = SendAssetAddressSource.standard
+    
+    /// The pit address
+    private var pitAddress: String!
+
     private var fees: Single<EthereumTransactionFee> {
         return services.feeService.fees
     }
@@ -36,12 +43,14 @@ class SendPaxCoordinator {
     init(
         interface: SendPAXInterface,
         serviceProvider: PAXServiceProvider = PAXServiceProvider.shared,
-        priceService: PriceServiceAPI = PriceServiceClient()
+        priceService: PriceServiceAPI = PriceServiceClient(),
+        pitAddressFetcher: PitAddressFetching = PitAddressFetcher()
     ) {
         self.interface = interface
         self.calculator = SendPaxCalculator(erc20Service: serviceProvider.services.paxService)
         self.serviceProvider = serviceProvider
         self.priceAPI = priceService
+        self.pitAddressFetcher = pitAddressFetcher
         if let controller = interface as? SendPaxViewController {
             controller.delegate = self
         }
@@ -169,8 +178,22 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
     }
     
     func onLoad() {
-        interface.apply(updates: [.maxAvailable(nil)])
+        interface.apply(updates: [.maxAvailable(nil),
+                                  .pitAddressButtonVisibility(false),
+                                  .usePitAddress(nil)])
 
+        // Fetch the PIT address for PAX asset and apply changes to the interface
+        pitAddressFetcher.fetchAddress(for: .pax)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] address in
+                guard let self = self else { return }
+                self.pitAddress = address
+                self.interface.apply(updates: [.pitAddressButtonVisibility(true)])
+            }, onError: { [weak self] error in
+                self?.interface.apply(updates: [.pitAddressButtonVisibility(false)])
+            })
+            .disposed(by: bag)
+        
         // Load any pending send metadata and prefill
         calculator.status
             .subscribeOn(MainScheduler.instance)
@@ -199,6 +222,7 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
     }
     
     func onAppear() {
+        
         serviceProvider.services.walletService.fetchHistoryIfNeeded
             .subscribe()
             .disposed(by: bag)
@@ -251,11 +275,21 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
         }
         interface.apply(updates: [.loadingIndicatorVisibility(.visible)])
         
+        let displayAddress: String
+        switch addressSource {
+        case .pit:
+            displayAddress = String(format: LocalizationConstants.PIT.Send.destination,
+                                    AssetType.pax.symbol)
+        case .standard:
+            displayAddress = address.rawValue
+        }
+        
         displayData
             .map { data -> BCConfirmPaymentViewModel in
                 let model = BCConfirmPaymentViewModel(
                     from: LocalizationConstants.SendAsset.myPaxWallet,
-                    to: address.rawValue,
+                    destinationDisplayAddress: displayAddress,
+                    destinationRawAddress: address.rawValue,
                     totalAmountText: data?.totalCryptoIncludingFee ?? "",
                     fiatTotalAmountText: data?.totalFiatIncludingFee ?? "",
                     cryptoWithFiatAmountText: data?.totalAmount ?? "",
@@ -317,5 +351,17 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
     
     func onQRBarButtonItemTapped() {
         interface.displayQRCodeScanner()
+    }
+    
+    func onPitAddressButtonTapped() {
+        switch addressSource {
+        case .pit:
+            addressSource = .standard
+            interface.apply(updates: [.usePitAddress(nil)])
+        case .standard:
+            addressSource = .pit
+            onAddressEntry(pitAddress)
+            interface.apply(updates: [.usePitAddress(pitAddress)])
+        }
     }
 }

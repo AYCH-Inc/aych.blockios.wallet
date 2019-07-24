@@ -21,6 +21,9 @@ protocol SendXLMViewControllerDelegate: class {
     func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: StellarMemoType?)
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation)
     func onMinimumBalanceInfoTapped()
+    
+    /// Invoked upon tapping the pit address button
+    func onPitAddressButtonTapped()
 }
 
 @objc class SendLumensViewController: UIViewController, BottomButtonContainerView {
@@ -43,8 +46,6 @@ protocol SendXLMViewControllerDelegate: class {
     var optionalOffset: CGFloat = -50
     @IBOutlet var layoutConstraintBottomButton: NSLayoutConstraint!
     
-    // MARK: Private IBOutlets (UILabel)
-    
     @IBOutlet fileprivate var fromLabel: UILabel!
     @IBOutlet fileprivate var toLabel: UILabel!
     @IBOutlet fileprivate var walletNameLabel: UILabel!
@@ -54,15 +55,15 @@ protocol SendXLMViewControllerDelegate: class {
     @IBOutlet fileprivate var stellarSymbolLabel: UILabel!
     @IBOutlet fileprivate var fiatSymbolLabel: UILabel!
     @IBOutlet fileprivate var memoLabel: UILabel!
-    
-    // MARK: Private IBOutlets (UITextField)
+    @IBOutlet private var destinationAddressIndicatorLabel: UILabel!
+    @IBOutlet fileprivate var pitAddressButton: UIButton!
     
     @IBOutlet fileprivate var stellarAddressField: UITextField!
     @IBOutlet fileprivate var stellarAmountField: UITextField!
     @IBOutlet fileprivate var fiatAmountField: UITextField!
     @IBOutlet fileprivate var memoTextField: UITextField!
     @IBOutlet fileprivate var memoIDTextField: UITextField!
-    
+
     fileprivate var inputFields: [UITextField] {
         return [
             stellarAddressField,
@@ -135,6 +136,8 @@ protocol SendXLMViewControllerDelegate: class {
         case stellarAmountText(String?)
         case fiatAmountText(String?)
         case fiatSymbolLabel(String?)
+        case pitAddressButtonVisibility(Bool)
+        case usePitAddress(String?)
     }
 
     // MARK: Public Methods
@@ -334,6 +337,20 @@ protocol SendXLMViewControllerDelegate: class {
             fiatAmountField.text = text
         case .fiatSymbolLabel(let text):
             fiatSymbolLabel.text = text
+        case .pitAddressButtonVisibility(let isVisible):
+            pitAddressButton.isHidden = !isVisible
+        case .usePitAddress(let address):
+            stellarAddressField.text = address
+            if address == nil {
+                pitAddressButton.setImage(UIImage(named: "pit_icon_small"), for: .normal)
+                stellarAddressField.isHidden = false
+                destinationAddressIndicatorLabel.text = nil
+            } else {
+                pitAddressButton.setImage(UIImage(named: "cancel_icon"), for: .normal)
+                stellarAddressField.isHidden = true
+                destinationAddressIndicatorLabel.text = String(format: LocalizationConstants.PIT.Send.destination,
+                                                               AssetType.stellar.symbol)
+            }
         }
     }
 
@@ -362,6 +379,8 @@ protocol SendXLMViewControllerDelegate: class {
             headerText: LocalizationConstants.SendAsset.confirmPayment
         )
     }
+    
+    // MARK: - User Actions
     
     @IBAction private func learnAboutStellarButtonTapped(_ sender: Any) {
         delegate?.onMinimumBalanceInfoTapped()
@@ -392,6 +411,10 @@ protocol SendXLMViewControllerDelegate: class {
         }
         controller.addAction(cancel)
         present(controller, animated: true, completion: nil)
+    }
+    
+    @IBAction private func pitAddressButtonPressed() {
+        delegate?.onPitAddressButtonTapped()
     }
 }
 
@@ -476,10 +499,11 @@ extension BCConfirmPaymentViewModel {
             cryptoWithFiatAmountText = amountXlmStringWithSymbol
             amountWithFiatFeeText = feeXlmStringWithSymbol
         }
-
+        
         return BCConfirmPaymentViewModel(
             from: paymentOperation.sourceAccount.label ?? "",
-            to: paymentOperation.destinationAccountId,
+            destinationDisplayAddress: paymentOperation.destinationAccountDisplayName,
+            destinationRawAddress: paymentOperation.destinationAccountId,
             totalAmountText: totalXlmStringWithSymbol,
             fiatTotalAmountText: fiatTotalAmountText,
             cryptoWithFiatAmountText: cryptoWithFiatAmountText,

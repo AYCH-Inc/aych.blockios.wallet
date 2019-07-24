@@ -17,6 +17,8 @@
 #import "Blockchain-Swift.h"
 #import "NSNumberFormatter+Currencies.h"
 
+@class BridgeAddressFetcher;
+
 @interface QRCodeScannerSendViewController ()
 - (void)stopReadingQRCode;
 @end
@@ -26,10 +28,13 @@
 @property (nonatomic) NSDecimalNumber *latestExchangeRate;
 @property (nonatomic) BCAmountInputView *amountInputView;
 @property (nonatomic) UITextField *toField;
+@property (nonatomic) UIButton *pitAddressButton;
+@property (nonatomic) UILabel *destinationAddressIndicatorLabel;
 @property (nonatomic) NSDecimalNumber *ethAmount;
 @property (nonatomic) NSDecimalNumber *ethAvailable;
 @property (nonatomic) BOOL displayingLocalSymbolSend;
 @property (nonatomic, readwrite) DestinationAddressSource addressSource;
+@property (nonatomic, copy) NSString *pitAddress;
 
 - (void)doCurrencyConversion;
 @end
@@ -44,6 +49,9 @@
 @property (nonatomic) BCConfirmPaymentView *confirmPaymentView;
 @property (nonatomic) BOOL shouldKeepCurrentPayment;
 
+/// Address fetcher for PIT address
+@property (nonatomic) BridgeAddressFetcher *addressFetcher;
+
 @end
 
 #define ROW_HEIGHT_SEND_SMALL 45
@@ -55,6 +63,8 @@
 {
     [super viewDidLoad];
 
+    self.addressFetcher = [[BridgeAddressFetcher alloc] init];
+    
     self.view.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:YES assetSelector:YES];
     
     UILabel *fromLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 12, 40, 21)];
@@ -80,8 +90,10 @@
     toLabel.text = BC_STRING_TO;
     [self.view addSubview:toLabel];
     
+    CGFloat pitAddressButtonWidth = 50.0f;
+    
     CGFloat toFieldOriginX = toLabel.frame.origin.x + toLabel.frame.size.width + 13;
-    BCSecureTextField *toField = [[BCSecureTextField alloc] initWithFrame:CGRectMake(toFieldOriginX, ROW_HEIGHT_SEND_SMALL + 12, self.view.frame.size.width - 8 - toFieldOriginX, 30)];
+    BCSecureTextField *toField = [[BCSecureTextField alloc] initWithFrame:CGRectMake(toFieldOriginX, ROW_HEIGHT_SEND_SMALL + 12, self.view.bounds.size.width - pitAddressButtonWidth - toFieldOriginX, 30)];
     toField.font = [UIFont fontWithName:FONT_MONTSERRAT_LIGHT size:FONT_SIZE_SMALL];
     toField.placeholder = BC_STRING_ENTER_ETHER_ADDRESS;
     toField.delegate = self;
@@ -89,6 +101,21 @@
     toField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [self.view addSubview:toField];
     self.toField = toField;
+    
+    UILabel *destinationAddressIndicatorLabel = [[UILabel alloc] initWithFrame:toField.frame];
+    destinationAddressIndicatorLabel.font = fromPlaceholderLabel.font;
+    destinationAddressIndicatorLabel.textColor = fromPlaceholderLabel.textColor;
+    destinationAddressIndicatorLabel.text = [[NSString alloc] initWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], @"ETH"];
+    destinationAddressIndicatorLabel.hidden = true;
+    [self.view addSubview:destinationAddressIndicatorLabel];
+    self.destinationAddressIndicatorLabel = destinationAddressIndicatorLabel;
+    
+    UIButton *pitAddressButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - pitAddressButtonWidth, toField.frame.origin.y, pitAddressButtonWidth, toField.bounds.size.height)];
+    [pitAddressButton setImage:[UIImage imageNamed:@"pit_icon_small"] forState:UIControlStateNormal];
+    [pitAddressButton addTarget:self action:@selector(pitAddressButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    pitAddressButton.hidden = YES;
+    [self.view addSubview:pitAddressButton];
+    self.pitAddressButton = pitAddressButton;
     
     BCLine *lineBelowToField = [self offsetLineWithYPosition:ROW_HEIGHT_SEND_SMALL + ROW_HEIGHT_SEND_LARGE];
     [self.view addSubview:lineBelowToField];
@@ -202,6 +229,17 @@
     [self.amountInputView clearFields];
     
     [WalletManager.sharedInstance.wallet getEthExchangeRate];
+    
+    __weak SendEtherViewController *weakSelf = self;
+    [self.addressFetcher fetchAddressFor:LegacyAssetTypeEther completion:^(NSString * _Nullable address) {
+        [weakSelf updatePitButtonVisibilityWith:address];
+    }];
+}
+
+/// Update pit button visibility
+- (void)updatePitButtonVisibilityWith:(NSString * _Nullable)address {
+    self.pitAddress = address;
+    self.pitAddressButton.hidden = self.pitAddress == nil;
 }
 
 - (void)reloadAfterMultiAddressResponse
@@ -333,6 +371,27 @@
     return line;
 }
 
+#pragma mark - Address Selection
+
+- (void)pitAddressButtonPressed {
+    switch (self.addressSource) {
+        case DestinationAddressSourcePit:
+            [self.pitAddressButton setImage:[UIImage imageNamed:@"pit_icon_small"] forState:UIControlStateNormal];
+            self.addressSource = DestinationAddressSourcePaste;
+            self.toField.hidden = false;
+            self.toField.text = nil;
+            self.destinationAddressIndicatorLabel.hidden = true;
+            break;
+        default: // Any other state (doesn't matter which)
+            [self.pitAddressButton setImage:[UIImage imageNamed:@"cancel_icon"] forState:UIControlStateNormal];
+            self.addressSource = DestinationAddressSourcePit;
+            self.toField.hidden = true;
+            self.toField.text = self.pitAddress;
+            self.destinationAddressIndicatorLabel.hidden = false;
+            break;
+    }
+}
+
 #pragma mark - Continue Button Accessory View Delegate
 
 - (void)continueButtonTapped
@@ -358,8 +417,20 @@
 
         NSDecimalNumber *totalDecimalNumber = [self.ethAmount decimalNumberByAdding:self.ethFee];
         
+        NSString *displayDestinationAddress;
+        NSString *symbol;
+        switch (self.addressSource) {
+            case DestinationAddressSourcePit:
+                symbol = [LegacyAssetTypeUtils symbolBy:LegacyAssetTypeEther];
+                displayDestinationAddress = [[NSString alloc] initWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], symbol];
+                break;
+            default:
+                displayDestinationAddress = self.toAddress;
+        }
+        
         BCConfirmPaymentViewModel *confirmPaymentViewModel = [[BCConfirmPaymentViewModel alloc]
-                                                              initWithTo:self.toAddress
+                                                              initWithTo:displayDestinationAddress
+                                                              destinationRawAddress:self.toAddress
                                                               ethAmount:[NSNumberFormatter formatEth:self.ethAmount]
                                                               ethFee:[NSNumberFormatter formatEth:self.ethFee]
                                                               ethTotal:[NSNumberFormatter formatEth:[NSNumberFormatter truncatedEthAmount:totalDecimalNumber locale:nil]]
@@ -428,10 +499,8 @@
 
 #pragma mark - Text Field Delegate
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
     [super textFieldDidBeginEditing:textField];
-    
     [self updateFundsAvailable];
 }
 

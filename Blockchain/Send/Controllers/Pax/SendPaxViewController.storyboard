@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2ci-FG-PKl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2ci-FG-PKl">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -69,20 +69,40 @@
                                                                 <color key="textColor" red="0.23100000000000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Readable Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gHZ-vF-oTl">
+                                                                <rect key="frame" x="94.5" y="18" width="141.5" height="20"/>
+                                                                <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="16"/>
+                                                                <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a PAX Address" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="XTk-Wu-bK5">
-                                                                <rect key="frame" x="94.5" y="18.5" width="291.5" height="19"/>
+                                                                <rect key="frame" x="94.5" y="18.5" width="259.5" height="19"/>
                                                                 <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                             </textField>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oU2-ca-ctl">
+                                                                <rect key="frame" x="354" y="0.0" width="60" height="56"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="60" id="grt-7L-JjQ"/>
+                                                                </constraints>
+                                                                <state key="normal" image="pit_icon_small"/>
+                                                                <connections>
+                                                                    <action selector="pitAddressButtonPressed" destination="2ci-FG-PKl" eventType="touchUpInside" id="NEu-kb-V4d"/>
+                                                                </connections>
+                                                            </button>
                                                         </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
+                                                            <constraint firstItem="oU2-ca-ctl" firstAttribute="top" secondItem="4Do-2V-qd5" secondAttribute="top" id="BSO-uU-7Zg"/>
+                                                            <constraint firstAttribute="bottom" secondItem="oU2-ca-ctl" secondAttribute="bottom" id="OKC-cn-OtD"/>
                                                             <constraint firstItem="ImH-Fj-RtI" firstAttribute="leading" secondItem="4Do-2V-qd5" secondAttribute="leading" constant="16" id="OQa-BK-nwL"/>
                                                             <constraint firstItem="ImH-Fj-RtI" firstAttribute="centerY" secondItem="4Do-2V-qd5" secondAttribute="centerY" id="Rfs-mS-22t"/>
-                                                            <constraint firstAttribute="trailing" secondItem="XTk-Wu-bK5" secondAttribute="trailing" constant="28" id="WP6-io-fnY"/>
+                                                            <constraint firstItem="XTk-Wu-bK5" firstAttribute="trailing" secondItem="oU2-ca-ctl" secondAttribute="leading" id="b9s-Pd-K9t"/>
+                                                            <constraint firstAttribute="trailing" secondItem="oU2-ca-ctl" secondAttribute="trailing" id="fRf-1L-Dcz"/>
                                                             <constraint firstAttribute="height" constant="56" id="h2s-i4-ckU"/>
                                                             <constraint firstItem="XTk-Wu-bK5" firstAttribute="centerY" secondItem="4Do-2V-qd5" secondAttribute="centerY" id="nTL-NB-H35"/>
+                                                            <constraint firstItem="gHZ-vF-oTl" firstAttribute="centerY" secondItem="4Do-2V-qd5" secondAttribute="centerY" id="qYn-p1-VRt"/>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tVO-4z-8ja">
@@ -110,7 +130,7 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.000" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zSU-MG-L1W">
-                                                                        <rect key="frame" x="277.5" y="19.5" width="108.5" height="16"/>
+                                                                        <rect key="frame" x="277.5" y="19.5" width="76.5" height="16"/>
                                                                         <color key="textColor" red="0.23100000000000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
                                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad"/>
@@ -187,6 +207,7 @@
                                                     <constraint firstItem="vb9-rq-Q2N" firstAttribute="leading" secondItem="i7r-Uu-5Bo" secondAttribute="leading" id="cs0-hj-LqW"/>
                                                     <constraint firstItem="D07-bQ-GDU" firstAttribute="leading" secondItem="2Kv-r2-37Q" secondAttribute="leading" id="fyK-Nw-FuG"/>
                                                     <constraint firstAttribute="trailing" secondItem="D07-bQ-GDU" secondAttribute="trailing" id="h48-VN-IR4"/>
+                                                    <constraint firstItem="gHZ-vF-oTl" firstAttribute="leading" secondItem="i7r-Uu-5Bo" secondAttribute="leading" id="wAh-pX-wm8"/>
                                                     <constraint firstItem="4Do-2V-qd5" firstAttribute="trailing" secondItem="D07-bQ-GDU" secondAttribute="trailing" id="zl6-Ea-UyE"/>
                                                 </constraints>
                                             </stackView>
@@ -235,6 +256,7 @@
                     </view>
                     <connections>
                         <outlet property="currencyLabel" destination="uPD-20-AEg" id="st4-hx-UCz"/>
+                        <outlet property="destinationAddressIndicatorLabel" destination="gHZ-vF-oTl" id="MgP-vh-YfO"/>
                         <outlet property="fiatTextField" destination="zSU-MG-L1W" id="tXC-i2-IgS"/>
                         <outlet property="maxAvailableLabel" destination="V33-nL-iXX" id="iCb-vg-crG"/>
                         <outlet property="networkFeesLabel" destination="vb9-rq-Q2N" id="g3q-kh-wWd"/>
@@ -242,6 +264,7 @@
                         <outlet property="paxAddressTextField" destination="XTk-Wu-bK5" id="EWG-Ja-O56"/>
                         <outlet property="paxTextField" destination="aob-e1-5lc" id="XJE-oY-uDZ"/>
                         <outlet property="paxWalletLabel" destination="i7r-Uu-5Bo" id="wFT-tz-NUc"/>
+                        <outlet property="pitAddressButton" destination="oU2-ca-ctl" id="1D4-MQ-Wpx"/>
                         <outlet property="sendNowButton" destination="f01-Ud-XPc" id="Rxi-UZ-S4U"/>
                         <outlet property="topGravityStackView" destination="2Kv-r2-37Q" id="CCe-6X-BKP"/>
                     </connections>
@@ -251,4 +274,7 @@
             <point key="canvasLocation" x="-144.92753623188406" y="60.267857142857139"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="pit_icon_small" width="24" height="24"/>
+    </resources>
 </document>

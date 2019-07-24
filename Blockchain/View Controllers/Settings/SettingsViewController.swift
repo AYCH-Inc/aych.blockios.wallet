@@ -13,12 +13,31 @@ import RxSwift
 import PlatformKit
 import PlatformUIKit
 
+// TODO: Refactor this screen to VIPER
+// - Cells are held strongly without using tableview queue mechanism.
+// - Constant number of cells instead of dynamic.
+// - Everything is hardcoded in storyboard
 @IBDesignable @objc class SettingsTableViewController: UITableViewController,
 AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDelegate {
+    
+    /// TODO: Dynamically aggregate visual info about sections and cells.
+    struct Sections {
+        let profile = 0
+        let preferences = 1
+        let pit = 2
+        let security = 3
+        let about = 4
+        
+        let includesPitLinking: Bool
+        
+        init(pitConfig: AppFeatureConfiguration = AppFeatureConfigurator.shared.configuration(for: .pitLinking)) {
+            includesPitLinking = pitConfig.isEnabled
+        }
+    }
+    
     // Row References
     
     //Profile
-    let sectionProfile = 0
     let identityVerification = 0
     let profileWalletIdentifier = 1
     let profileEmail = 2
@@ -26,16 +45,12 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     let profileWebLogin = 4
     
     //Preferenes
-    let sectionPreferences = 1
     let preferencesEmailNotifications = 0
     let preferencesLocalCurrency = 1
-    let sectionSecurity = 3
-    let sectionPIT = 2
     let securityTwoStep = 0
     let securityPasswordChange = 1
     let securityWalletRecoveryPhrase = 2
     let PINChangePIN = 3
-    let aboutSection = 4
     let aboutUs = 0
     let aboutTermsOfService = 1
     let aboutPrivacyPolicy = 2
@@ -43,6 +58,8 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     let pinBiometry = 4
     let pinSwipeToReceive = 5
     let pitIndex = 0
+    
+    let sections = Sections()
     
     var settingsController: SettingsTableViewController?
     var availableCurrenciesDictionary: [AnyHashable: Any] = [:]
@@ -66,8 +83,8 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     }()
     
     let bag: DisposeBag = DisposeBag()
-    internal var tiers: KYCUserTiersResponse?
-    internal var didFetchTiers = false
+    var tiers: KYCUserTiersResponse?
+    var didFetchTiers = false
     
     @IBOutlet var touchIDAsPin: SettingsToggleTableViewCell!
     @IBOutlet var swipeToReceive: SettingsToggleTableViewCell!
@@ -260,7 +277,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
         return walletManager.wallet.emailNotificationsEnabled()
     }
     @objc func toggleEmailNotifications(_ sender: UISwitch) {
-        let indexPath = IndexPath(row: preferencesEmailNotifications, section: sectionPreferences)
+        let indexPath = IndexPath(row: preferencesEmailNotifications, section: sections.preferences)
         if Reachability.hasInternetConnection() {
             if emailNotificationsEnabled() {
                 walletManager.wallet.disableEmailNotifications()
@@ -302,12 +319,12 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
         loadingViewPresenter.show(with: LocalizationConstantsObjcBridge.syncingWallet())
         let changeEmailNotificationsCell: UITableViewCell? = tableView.cellForRow(at: IndexPath(
             row: preferencesEmailNotifications,
-            section: sectionPreferences))
+            section: sections.preferences))
         changeEmailNotificationsCell?.isUserInteractionEnabled = true
     }
     @objc func changeNotificationsError() {
         removeObserversForChangingNotifications()
-        let indexPath = IndexPath(row: preferencesEmailNotifications, section: sectionPreferences)
+        let indexPath = IndexPath(row: preferencesEmailNotifications, section: sections.preferences)
         let changeEmailNotificationsCell: UITableViewCell? = tableView.cellForRow(at: indexPath)
         changeEmailNotificationsCell?.isUserInteractionEnabled = true
         tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -401,7 +418,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
         let alertForChangingEmail = UIAlertController(title: alertViewTitle, message: LocalizationConstants.Errors.noEmail, preferredStyle: .alert)
         alertForChangingEmail.addAction(UIAlertAction(title: LocalizationConstants.cancel, style: .cancel, handler: { _ in
             // If the user cancels right after adding a legitimate email address, update accountInfo
-            let emailCell: UITableViewCell? = self.tableView.cellForRow(at: IndexPath(row: self.profileEmail, section: self.sectionProfile))
+            let emailCell: UITableViewCell? = self.tableView.cellForRow(at: IndexPath(row: self.profileEmail, section: self.sections.profile))
             if ((emailCell?.detailTextLabel?.text == LocalizationConstants.unverified) &&
                 (alertForChangingEmail.title == LocalizationConstants.changeEmail)) ||
                 !(self.getUserEmail() == self.emailString) {
@@ -619,7 +636,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         switch (indexPath.section, indexPath.row) {
-        case (sectionSecurity, pinBiometry):
+        case (sections.security, pinBiometry):
             if !(biometryTypeDescription() != nil) {
                 touchIDAsPin.isHidden = true
                 return 0
@@ -627,7 +644,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
                 touchIDAsPin.isHidden = false
                 return 56
             }
-        case (sectionSecurity, pinSwipeToReceive):
+        case (sections.security, pinSwipeToReceive):
             if !AppFeatureConfigurator.sharedInstance().configuration(for: .swipeToReceive).isEnabled {
                 swipeToReceive?.isHidden = true
                 return 0
@@ -635,6 +652,8 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
                 swipeToReceive?.isHidden = false
                 return 56
             }
+        case (sections.pit, _):
+            return sections.includesPitLinking ? 56 : 0
         default:
             break
         }

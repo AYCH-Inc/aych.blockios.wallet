@@ -111,6 +111,10 @@ extension CardsViewController {
     // MARK: - Swap
     
     private func showWalletLinkingCardIfNeeded() -> Bool {
+        // TICKET: IOS-2297 - refactor in progress | injection
+        guard AppFeatureConfigurator.shared.configuration(for: .pitAnnouncement).isEnabled else {
+            return false
+        }
         let model = AnnouncementCardViewModel.walletPitLinking(action: {
             PitCoordinator.shared.start()
         }, onClose: { [weak self] in

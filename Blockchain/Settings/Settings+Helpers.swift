@@ -84,7 +84,7 @@ extension SettingsTableViewController {
     }
 
     func prepareForForChangingTwoStep() {
-        let enableTwoStepCell: UITableViewCell? = tableView.cellForRow(at: IndexPath(row: securityTwoStep, section: sectionSecurity))
+        let enableTwoStepCell: UITableViewCell? = tableView.cellForRow(at: IndexPath(row: securityTwoStep, section: sections.security))
         enableTwoStepCell?.isUserInteractionEnabled = false
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.changeTwoStepSuccess),
@@ -96,7 +96,7 @@ extension SettingsTableViewController {
                                                object: nil)
     }
     func doneChangingTwoStep() {
-        let enableTwoStepCell: UITableViewCell? = tableView.cellForRow(at: IndexPath(row: securityTwoStep, section: sectionSecurity))
+        let enableTwoStepCell: UITableViewCell? = tableView.cellForRow(at: IndexPath(row: securityTwoStep, section: sections.security))
         enableTwoStepCell?.isUserInteractionEnabled = true
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "ChangeTwoStep"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "ChangeTwoStepError"), object: nil)

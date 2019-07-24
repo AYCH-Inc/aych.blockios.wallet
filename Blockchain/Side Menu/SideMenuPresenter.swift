@@ -20,19 +20,25 @@ protocol SideMenuView: class {
 class SideMenuPresenter {
 
     private weak var view: SideMenuView?
+    
+    // MARK: - Services
+    
     private let wallet: Wallet
     private let walletService: WalletService
-
+    private let pitConfiguration: AppFeatureConfiguration
+    
     private var disposable: Disposable?
 
     init(
         view: SideMenuView,
         wallet: Wallet = WalletManager.shared.wallet,
-        walletService: WalletService = WalletService.shared
+        walletService: WalletService = WalletService.shared,
+        pitConfiguration: AppFeatureConfiguration = AppFeatureConfigurator.shared.configuration(for: .pitLinking)
     ) {
         self.view = view
         self.wallet = wallet
         self.walletService = walletService
+        self.pitConfiguration = pitConfiguration
     }
 
     deinit {
@@ -61,12 +67,12 @@ class SideMenuPresenter {
             items.append(.buyBitcoin)
         }
         
-        items.append(contentsOf: [
-            .support,
-            .settings,
-            .pit
-            ]
-        )
+        items += [.support, .settings]
+        
+        if pitConfiguration.isEnabled {
+            items.append(.pit)
+        }
+        
         view?.setMenu(items: items)
     }
 }

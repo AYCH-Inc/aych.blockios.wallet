@@ -11,6 +11,7 @@ import PlatformKit
 import RxSwift
 import Alamofire
 
+/// PIT address fetcher, should be used to fetch the address of the PIT linked account
 final class PitAddressFetcher: PitAddressFetching {
     
     // MARK: - Types
@@ -94,17 +95,20 @@ final class PitAddressFetcher: PitAddressFetching {
     
     // MARK: - Properties
     
+    private let featureConfigurator: FeatureConfiguring
     private let authentication: NabuAuthenticationService
     private let network: NetworkManager
     private let urlPrefix: String
         
     // MARK: - Setup
     
-    init(authentication: NabuAuthenticationService = .shared,
+    init(featureConfigurator: FeatureConfiguring = AppFeatureConfigurator.shared,
+         authentication: NabuAuthenticationService = .shared,
          network: NetworkManager = NetworkManager.shared,
          urlPrefix: String = BlockchainAPI.shared.retailCoreUrl) {
         self.authentication = authentication
         self.network = network
+        self.featureConfigurator = featureConfigurator
         self.urlPrefix = urlPrefix
     }
 
@@ -112,6 +116,11 @@ final class PitAddressFetcher: PitAddressFetching {
     
     /// Fetches the PIT address for a given asset type
     func fetchAddress(for asset: AssetType) -> Single<String> {
+        
+        /// Make sure that the config for PIT is enabled before moving on to fetch the address
+        guard featureConfigurator.configuration(for: .pitLinking).isEnabled else {
+            return Single.error(AppFeatureConfiguration.ConfigError.disabled)
+        }
         let url = "\(urlPrefix)/payments/accounts/linked"
         let data = PitAddressRequestBody(currency: asset.symbol)
         

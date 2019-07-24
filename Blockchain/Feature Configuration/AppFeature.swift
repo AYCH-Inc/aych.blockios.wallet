@@ -14,14 +14,20 @@ import Foundation
     case swipeToReceive
     case transferFundsFromImportedAddress
 
-    // Sunriver
+    /// Sunriver
     case stellar
     case stellarAirdrop
     case stellarAirdropPopup
     case stellarLargeBacklog
 
-    // Coinify
+    /// Coinify
     case notifyCoinifyUserToKyc
+    
+    /// Pit linking enabled
+    case pitLinking
+    
+    /// Pit announcement visibility
+    case pitAnnouncement
 }
 
 extension AppFeature {
@@ -36,6 +42,10 @@ extension AppFeature {
             return "get_free_xlm_popup"
         case .stellarLargeBacklog:
             return "sunriver_has_large_backlog"
+        case .pitLinking:
+            return "pit_linking_enabled"
+        case .pitAnnouncement:
+            return "pit_show_announcement"
         default:
             return nil
         }

@@ -216,33 +216,43 @@ extension SettingsTableViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         prepareRow(cell, .base)
         switch (indexPath.section, indexPath.row) {
-        case (sectionProfile, identityVerification): self.prepareRow(cell, .identity)
-        case (sectionProfile, profileWalletIdentifier): prepareRow(cell, .wallet)
-        case (sectionProfile, profileEmail): prepareRow(cell, .email)
-        case (sectionProfile, profileMobileNumber): prepareRow(cell, .phoneNumber)
-        case (sectionPreferences, preferencesEmailNotifications): prepareRow(cell, .emailNotifications)
-        case (sectionPreferences, preferencesLocalCurrency): prepareRow(cell, .currency)
-        case (sectionSecurity, securityTwoStep): prepareRow(cell, .twoFA)
-        case (sectionSecurity, securityWalletRecoveryPhrase): prepareRow(cell, .recovery)
-        case (sectionSecurity, pinBiometry): prepareRow(cell, .biometry)
-        case (sectionSecurity, pinSwipeToReceive): prepareRow(cell, .swipeReceive)
-        case (sectionPIT, pitIndex): prepareRow(cell, .pit)
+        case (sections.profile, identityVerification): self.prepareRow(cell, .identity)
+        case (sections.profile, profileWalletIdentifier): prepareRow(cell, .wallet)
+        case (sections.profile, profileEmail): prepareRow(cell, .email)
+        case (sections.profile, profileMobileNumber): prepareRow(cell, .phoneNumber)
+        case (sections.preferences, preferencesEmailNotifications): prepareRow(cell, .emailNotifications)
+        case (sections.preferences, preferencesLocalCurrency): prepareRow(cell, .currency)
+        case (sections.security, securityTwoStep): prepareRow(cell, .twoFA)
+        case (sections.security, securityWalletRecoveryPhrase): prepareRow(cell, .recovery)
+        case (sections.security, pinBiometry): prepareRow(cell, .biometry)
+        case (sections.security, pinSwipeToReceive): prepareRow(cell, .swipeReceive)
+        case (sections.pit, pitIndex): prepareRow(cell, .pit)
         default: break
         }
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let sectionHeaderView = SettingsTableSectionHeader.fromNib() as SettingsTableSectionHeader
-        sectionHeaderView.label.text = self.tableView(self.tableView, titleForHeaderInSection: section)
-        return sectionHeaderView
+        switch section {
+        case sections.pit where !sections.includesPitLinking:
+            return UIView()
+        default:
+            let sectionHeaderView = SettingsTableSectionHeader.fromNib() as SettingsTableSectionHeader
+            sectionHeaderView.label.text = self.tableView(self.tableView, titleForHeaderInSection: section)
+            return sectionHeaderView
+        }
     }
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        switch section {
+        case sections.pit where !sections.includesPitLinking:
+            return 1 // Because 0 is disregarded
+        default:
+            return 50
+        }
     }
 
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if indexPath.section == sectionProfile && indexPath.row == profileWalletIdentifier {
+        if indexPath.section == sections.profile && indexPath.row == profileWalletIdentifier {
             return indexPath
         }
         let hasLoadedAccountInfoDictionary = walletManager.wallet.hasLoadedAccountInfo ? true : false
@@ -257,7 +267,7 @@ extension SettingsTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         switch indexPath.section {
-        case sectionProfile:
+        case sections.profile:
             switch indexPath.row {
             case identityVerification:
                 swapTapped()
@@ -272,7 +282,7 @@ extension SettingsTableViewController {
             default:
                 return
             }
-        case sectionPIT:
+        case sections.pit:
             switch indexPath.row {
             case pitIndex:
                 guard let supportURL = URL(string: Constants.Url.blockchainSupport) else { return }
@@ -316,14 +326,14 @@ extension SettingsTableViewController {
             default:
                 return
             }
-        case sectionPreferences:
+        case sections.preferences:
             switch indexPath.row {
             case preferencesLocalCurrency:
                 performSingleSegue(withIdentifier: "currency", sender: nil)
             default:
                 return
             }
-        case sectionSecurity:
+        case sections.security:
             if indexPath.row == securityTwoStep {
                 showTwoStep()
             } else if indexPath.row == securityPasswordChange {
@@ -333,7 +343,7 @@ extension SettingsTableViewController {
             } else if indexPath.row == PINChangePIN {
                 AuthenticationCoordinator.shared.changePin()
             }
-        case aboutSection:
+        case sections.about:
             switch indexPath.row {
             case aboutUs:
                 aboutUsClicked()

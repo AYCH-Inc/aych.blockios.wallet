@@ -8,10 +8,14 @@
 
 import PlatformUIKit
 
-final class SwipeInstructionView: UIView, ShimmeringViewing {
+final class SwipeInstructionView: UIView {
+    
+    // MARK: - Properties
     
     private let backView = ContentView()
     private let frontView = ContentView()
+    
+    // MARK: - Setup
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,7 +31,6 @@ final class SwipeInstructionView: UIView, ShimmeringViewing {
         for view in [backView, frontView] {
             addSubview(view)
             view.fillSuperview()
-            view.setup()
         }
         accessibility = Accessibility(id: .value(AccessibilityIdentifiers.PinScreen.swipeLabel),
                                       hint: .value(LocalizationConstants.Pin.Accessibility.swipeHint))
@@ -52,6 +55,8 @@ extension SwipeInstructionView {
         private let imageView = UIImageView()
         private let label = UILabel()
         
+        let shimmerDirection = ShimmerDirection.rightToLeft
+
         // MARK: - Setup
         
         override init(frame: CGRect) {
@@ -69,7 +74,7 @@ extension SwipeInstructionView {
             layoutShimmeringFrameIfNeeded()
         }
         
-        func setup() {
+        private func setup() {
             addSubview(label)
             label.layoutToSuperview(.vertical)
             label.setContentHuggingPriority(.required, for: .vertical)
@@ -77,7 +82,6 @@ extension SwipeInstructionView {
             label.setContentCompressionResistancePriority(.required, for: .vertical)
             
             imageView.image = UIImage(named: "back_icon")!.withRenderingMode(.alwaysTemplate)
-            imageView.transform = CGAffineTransform(rotationAngle: .pi)
             addSubview(imageView)
             imageView.layoutToSuperview(.vertical)
             

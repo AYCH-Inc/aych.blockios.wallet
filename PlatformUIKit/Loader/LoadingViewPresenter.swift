@@ -74,7 +74,7 @@ import UIKit
         }
     }
     
-    // Should be privately used by exposed `isEnabled` only.
+    // Privately used by exposed `isEnabled` only.
     private var _isEnabled = true
     
     // The container of the loader. Allocated on demand, when done spinning it should be deallocated.

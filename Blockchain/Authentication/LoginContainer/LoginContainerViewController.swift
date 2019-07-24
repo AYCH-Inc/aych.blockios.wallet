@@ -84,11 +84,11 @@ class LoginContainerViewController: UIViewController {
         pageControl.pageIndicatorTintColor = UIColor(red: 0.85, green: 0.95, blue: 0.98, alpha: 1)
         pageControl.currentPageIndicatorTintColor = .brandSecondary
         pageControl.currentPage = 0
-        pageControl.numberOfPages = inputs.count
+        pageControl.numberOfPages = inputs.count - 1
         pageControl.alpha = 0
         pageControl.accessibilityIdentifier = AccessibilityIdentifiers.Address.pageControl
         
-        // TODO: Remove availability when upgrading to iOS 11
+        // TODO: Remove availability check when upgrading to iOS 11
         if #available(iOS 11, *) {
             translationAnimator.pausesOnCompletion = true
         }
@@ -104,10 +104,24 @@ class LoginContainerViewController: UIViewController {
     }
     
     private func didFinishScrolling() {
-        let isNavigationEnabled = offset == 0
+        let isNavigationEnabled = collectionView.contentOffset.x == 0
         navigationItem.leftBarButtonItem?.isEnabled = isNavigationEnabled
         navigationItem.rightBarButtonItem?.isEnabled = isNavigationEnabled
         isPageControlCurrentlyInteracted = false
+    }
+    
+    private func setStatusBarStateIfNeeded() {
+        let current = UIApplication.shared.statusBarStyle
+        let next: UIStatusBarStyle = currentItemIndex == 0 ? .lightContent : .default
+        guard next != current else { return }
+        UIApplication.shared.statusBarStyle = next
+    }
+    
+    /// Returns the currently displayed item index
+    private var currentItemIndex: Int {
+        let offset = collectionView.contentOffset.x + collectionView.bounds.width * 0.5
+        let index = Int(offset / collectionView.contentSize.width * CGFloat(inputs.count))
+        return index
     }
 }
 
@@ -133,23 +147,11 @@ extension LoginContainerViewController: UICollectionViewDelegate, UICollectionVi
         cell.input = input
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        willDisplay cell: UICollectionViewCell,
-                        forItemAt indexPath: IndexPath) {
-        UIApplication.shared.statusBarStyle = indexPath.row == 0 ? .lightContent : .default
-    }
 }
 
 // MARK: - UIScrollViewDelegate
 
 extension LoginContainerViewController {
-    
-    /// The current offset of the collectnio view needs to be calculated
-    /// as the collection view semantics is RTL (see xib).
-    private var offset: CGFloat {
-        return collectionView.contentSize.width - collectionView.contentOffset.x - collectionView.bounds.width
-    }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         var firstTouch = true
@@ -178,7 +180,7 @@ extension LoginContainerViewController {
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         let visibleRect = scrollView.bounds
-        let expectedRect = CGRect(x: CGFloat(pageControl.currentPage) * offset,
+        let expectedRect = CGRect(x: CGFloat(pageControl.currentPage + 1) * scrollView.contentOffset.x,
                                   y: scrollView.bounds.minY,
                                   width: scrollView.bounds.width,
                                   height: scrollView.bounds.height)
@@ -188,19 +190,21 @@ extension LoginContainerViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let maxOffset = scrollView.bounds.width
-        let normalizedOffset = max(min(offset, maxOffset), 0)
+        let normalizedOffset = max(min(scrollView.contentOffset.x, maxOffset), 0)
         
-        // TODO: This is a trick the meant to prevent the animator to complete, thus reaching `inactive` state.
-        // Once we upgrade to iOS 11, we will be able to replace `0.99` with `1`,
-        // and add `translationAnimator.pausesOnCompletion = true` after instantiation.
+        // TODO: This is a trick, meant to prevent the animator to complete, thus reaching `inactive` state.
+        // Once we upgrade to iOS 11, we will be able to remove this `min` check
+        // as the animator's `pausesOnCompletion` equals `true`.
         let fraction = min(normalizedOffset / maxOffset, 0.99)
         translationAnimator.fractionComplete = fraction
         
         if !isPageControlCurrentlyInteracted && scrollView.contentSize.width > 0 {
-            let offset = self.offset + scrollView.bounds.width * 0.5
+            let offset = scrollView.contentOffset.x - scrollView.bounds.width * 0.5
             let page = Int(offset / scrollView.contentSize.width * CGFloat(inputs.count))
-            pageControl.currentPage = page
+            pageControl.currentPage = max(page, 0)
         }
+        
+        setStatusBarStateIfNeeded()
     }
 }
 
@@ -209,7 +213,7 @@ extension LoginContainerViewController {
 extension LoginContainerViewController {
     @IBAction private func didSelectPage(pageControl: UIPageControl) {
         isPageControlCurrentlyInteracted = true
-        let indexPath = IndexPath(item: pageControl.currentPage, section: 0)
+        let indexPath = IndexPath(item: pageControl.currentPage + 1, section: 0)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 }

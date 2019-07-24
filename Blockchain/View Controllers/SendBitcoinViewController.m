@@ -827,7 +827,7 @@ BOOL displayingLocalSymbolSend;
         NSString *symbol;
         switch (self.addressSource) {
             case DestinationAddressSourcePit:
-                symbol = [LegacyAssetTypeUtils symbolBy: self.assetType];
+                symbol = [AssetTypeLegacyHelper symbolFor: self.assetType];
                 displayDestinationAddress = [[NSString alloc] initWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], symbol];
                 break;
             default:

@@ -29,11 +29,17 @@ class FakeAddress {
 
 class MockPitAddressFetcher: PitAddressFetching {
     
+    // MARK: - Properties
+    
     private let expectedState: PitAddressFetcher.PitAddressResponseBody.State
+    
+    // MARK: - Setup
     
     init(expectedState: PitAddressFetcher.PitAddressResponseBody.State) {
         self.expectedState = expectedState
     }
+    
+    // MARK: - PitAddressFetching
     
     func fetchAddress(for asset: AssetType) -> Single<String> {
         let data = Data(

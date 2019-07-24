@@ -25,7 +25,7 @@ class PitAddressFetchingTests: XCTestCase {
         }
     }
     
-    func testFetchingAddressForAllAssetsForPendingState() {
+    func testFetchingAddressForAllAssetsForInactiveState() {
         for asset in AssetType.all {
             for state in [PitAddressFetcher.PitAddressResponseBody.State.pending,
                           PitAddressFetcher.PitAddressResponseBody.State.blocked] {

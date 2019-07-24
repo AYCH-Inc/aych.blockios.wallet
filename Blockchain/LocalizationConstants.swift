@@ -21,8 +21,8 @@ struct LocalizationConstants {
         static let  BC_STRING_ARGUMENT_ADDRESS = NSLocalizedString("%d address", comment: "")
         static let  BC_STRING_NO_ADDRESSES_WITH_SPENDABLE_BALANCE_ABOVE_OR_EQUAL_TO_DUST = NSLocalizedString("You have no addresses with a spendable balance greater than or equal to the required dust threshold.", comment: "")
         static let  BC_STRING_SOME_FUNDS_CANNOT_BE_TRANSFERRED_AUTOMATICALLY = NSLocalizedString("Some funds cannot be transferred automatically.", comment: "")
-        static let  BC_STRING_ENTER_BITCOIN_ADDRESS_OR_SELECT = NSLocalizedString("Enter Bitcoin address or select", comment: "")
-        static let  BC_STRING_ENTER_ETHER_ADDRESS = NSLocalizedString("Enter Ether address", comment: "")
+        static let  BC_STRING_ENTER_BITCOIN_ADDRESS_OR_SELECT = NSLocalizedString("Enter btc address or select", comment: "")
+        static let  BC_STRING_ENTER_ETHER_ADDRESS = NSLocalizedString("Enter eth address", comment: "")
         static let  BC_STRING_YOU_MUST_ENTER_DESTINATION_ADDRESS = NSLocalizedString("You must enter a destination address", comment: "")
         static let  BC_STRING_INVALID_TO_BITCOIN_ADDRESS = NSLocalizedString("Invalid to bitcoin address", comment: "")
         static let  BC_STRING_FROM_TO_DIFFERENT = NSLocalizedString("From and destination have to be different", comment: "")
@@ -543,7 +543,7 @@ struct LocalizationConstants {
         static let  BC_STRING_FAILED_TO_LOAD_EXCHANGE_DATA = NSLocalizedString("Failed to load exchange data", comment: "")
         static let  BC_STRING_PRICE = NSLocalizedString("Price", comment: "")
         static let  BC_STRING_SEE_CHARTS = NSLocalizedString("See charts", comment: "")
-        static let  BC_STRING_ENTER_BITCOIN_CASH_ADDRESS_OR_SELECT = NSLocalizedString("Enter Bitcoin Cash address or select", comment: "")
+        static let  BC_STRING_ENTER_BITCOIN_CASH_ADDRESS_OR_SELECT = NSLocalizedString("Enter bch address or select", comment: "")
         static let  BC_STRING_BITCOIN_CASH_WARNING_CONFIRM_VALID_ADDRESS_ONE = NSLocalizedString("Are you sure this is a bitcoin cash address?", comment: "")
         static let  BC_STRING_BITCOIN_CASH_WARNING_CONFIRM_VALID_ADDRESS_TWO = NSLocalizedString("Sending funds to a bitcoin address by accident will result in loss of funds.", comment: "")
         static let  BC_STRING_COPY_WARNING_TEXT = NSLocalizedString("Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information.", comment: "")
@@ -2232,10 +2232,6 @@ struct LocalizationConstants {
         static let defaultLabelName = NSLocalizedString(
             "My Stellar Wallet",
             comment: "The default label of the XLM wallet."
-        )
-        static let enterStellarAddress = NSLocalizedString(
-            "Enter a Stellar address or select",
-            comment: "Placeholder text for the Lumens send screen."
         )
         static let viewOnArgument = NSLocalizedString(
             "View on %@",

@@ -56,7 +56,7 @@ protocol SendXLMViewControllerDelegate: class {
     @IBOutlet fileprivate var fiatSymbolLabel: UILabel!
     @IBOutlet fileprivate var memoLabel: UILabel!
     @IBOutlet private var destinationAddressIndicatorLabel: UILabel!
-    @IBOutlet fileprivate var pitAddressButton: UIButton!
+    @IBOutlet private var pitAddressButton: UIButton!
     
     @IBOutlet fileprivate var stellarAddressField: UITextField!
     @IBOutlet fileprivate var stellarAmountField: UITextField!

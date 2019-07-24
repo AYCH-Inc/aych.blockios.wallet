@@ -16,8 +16,8 @@
 #define BC_STRING_NO_ADDRESSES_WITH_SPENDABLE_BALANCE_ABOVE_OR_EQUAL_TO_DUST NSLocalizedString(@"You have no addresses with a spendable balance greater than or equal to the required dust threshold.", nil)
 #define BC_STRING_SOME_FUNDS_CANNOT_BE_TRANSFERRED_AUTOMATICALLY NSLocalizedString(@"Some funds cannot be transferred automatically.", nil)
 
-#define BC_STRING_ENTER_BITCOIN_ADDRESS_OR_SELECT NSLocalizedString(@"Enter Bitcoin address or select", nil)
-#define BC_STRING_ENTER_ETHER_ADDRESS NSLocalizedString(@"Enter Ether address", nil)
+#define BC_STRING_ENTER_BITCOIN_ADDRESS_OR_SELECT NSLocalizedString(@"Enter btc address or select", nil)
+#define BC_STRING_ENTER_ETHER_ADDRESS NSLocalizedString(@"Enter eth address", nil)
 #define BC_STRING_YOU_MUST_ENTER_DESTINATION_ADDRESS NSLocalizedString(@"You must enter a destination address", nil)
 #define BC_STRING_INVALID_TO_BITCOIN_ADDRESS NSLocalizedString(@"Invalid to bitcoin address", nil)
 #define BC_STRING_FROM_TO_DIFFERENT NSLocalizedString(@"From and destination have to be different", nil)
@@ -617,7 +617,7 @@
 #define BC_STRING_PRICE NSLocalizedString(@"Price", nil)
 #define BC_STRING_SEE_CHARTS NSLocalizedString(@"See charts", nil)
 
-#define BC_STRING_ENTER_BITCOIN_CASH_ADDRESS_OR_SELECT NSLocalizedString(@"Enter Bitcoin Cash address or select", nil)
+#define BC_STRING_ENTER_BITCOIN_CASH_ADDRESS_OR_SELECT NSLocalizedString(@"Enter bch address or select", nil)
 #define BC_STRING_BUY_SELL_CARD_ACTION_TITLE BC_STRING_GET_STARTED
 
 #define BC_STRING_BITCOIN_CASH_WARNING_CONFIRM_VALID_ADDRESS_ONE NSLocalizedString(@"Are you sure this is a bitcoin cash address?", nil)

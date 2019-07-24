@@ -36,7 +36,7 @@ class BridgeAddressFetcher: NSObject {
     @objc func fetchAddress(for asset: LegacyAssetType,
                             completion: @escaping (String?) -> Void) {
         pitAddressFetcher.fetchAddress(for: AssetType(from: asset))
-            .subscribeOn(MainScheduler.instance)
+            .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { address in
                 completion(address)
             }, onError: { _ in

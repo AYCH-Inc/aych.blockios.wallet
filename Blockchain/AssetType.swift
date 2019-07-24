@@ -301,25 +301,3 @@ extension CryptoCurrency {
     }
 }
 
-// MARK: - Utils for `LegacyAssetType`
-
-@objc
-class LegacyAssetTypeUtils: NSObject {
-    @objc
-    static func symbol(by asset: LegacyAssetType) -> String {
-        switch asset {
-        case .bitcoin:
-            return "BTC"
-        case .bitcoinCash:
-            return "BCH"
-        case .ether:
-            return "ETH"
-        case .stellar:
-            return "XLM"
-        case .pax:
-            return "PAX"
-        @unknown default:
-            return ""
-        }
-    }
-}

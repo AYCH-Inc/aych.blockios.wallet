@@ -122,12 +122,11 @@ final class PitAddressFetcher: PitAddressFetching {
             }
             .flatMap(weak: self) { (self, headers) -> Single<PitAddressResponseBody> in
                 return self.network.put(url,
-                                        data: data,
                                         headers: headers,
+                                        data: data,
                                         decodeTo: PitAddressResponseBody.self,
                                         encoding: .json)
             }
             .map { $0.address }
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
     }
 }

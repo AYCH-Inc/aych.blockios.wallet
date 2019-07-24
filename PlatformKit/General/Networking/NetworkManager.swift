@@ -81,103 +81,195 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     }
 
     // MARK: - Post
-    
-    /// Post that accepts an encodable as parameter
-    public func post<T: Decodable>(_ relativeUrl: String,
+
+    /// Performs a POST API call.
+    /// Using `Encodable` as data.
+    /// It performs the request and decode it in background.
+    /// It's the caller's responsibility to observe the result on whichever queue is needed.
+    /// - Parameters:
+    ///   - url: The full url for the endpoint
+    ///   - headers: Headers to be sent in form of key-value. default value: `nil`
+    ///   - data: An encodable data object
+    ///   - decodableType: The expected type of the response
+    ///   - encoding: The expected type of the parameter encoding, e.g JSON, URL
+    ///   - scheduler: The scheduler type. default value: concurrent background
+    ///   - onErrorJustReturn: In case we still want to return regularly for an error
+    /// - Returns: The response wrapped in a Single
+    public func post<T: Decodable>(_ url: String,
+                                   headers: [String: String]? = nil,
                                    data: Encodable,
                                    decodeTo decodableType: T.Type,
                                    encoding: Encoding = .url,
+                                   scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                    onErrorJustReturn: Bool = false) -> Single<T> {
-        return post(relativeUrl,
+        return post(url,
+                    headers: headers,
                     parameters: data.dictionary,
                     decodeTo: decodableType,
                     encoding: encoding,
+                    scheduler: scheduler,
                     onErrorJustReturn: onErrorJustReturn)
     }
     
-    /// Post that accepts a dictionary as parameter
-    public func post<T: Decodable>(_ relativeUrl: String,
+    /// Performs a POST API call.
+    /// Using a dictionary as data.
+    /// It performs the request and decode it in background.
+    /// It's the caller's responsibility to observe the result on whichever queue is needed.
+    /// - Parameters:
+    ///   - url: The full url for the endpoint
+    ///   - headers: Headers to be sent in form of key-value. default value: `nil`
+    ///   - parameters: The dictionary parameters. default value: `[:]`
+    ///   - decodableType: The expected type of the response
+    ///   - encoding: The expected type of the parameter encoding, e.g JSON, URL
+    ///   - scheduler: The scheduler type. default value: concurrent background
+    ///   - onErrorJustReturn: In case we still want to return regularly for an error
+    /// - Returns: The response wrapped in a Single
+    public func post<T: Decodable>(_ url: String,
+                                   headers: [String: String]? = nil,
                                    parameters: [String: Any] = [:],
                                    decodeTo decodableType: T.Type,
                                    encoding: Encoding = .url,
+                                   scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                    onErrorJustReturn: Bool = false) -> Single<T> {
         return request(.post,
-                       relativeUrl: relativeUrl,
+                       url: url,
+                       headers: headers,
                        parameters: parameters,
                        decodeTo: decodableType,
                        encoding: encoding,
+                       scheduler: scheduler,
                        onErrorJustReturn: onErrorJustReturn)
     }
     
     // MARK: - Get
     
-    public func get<T: Decodable>(_ relativeUrl: String,
+    /// Performs a GET API call.
+    /// It performs the request and decode it in background.
+    /// It's the caller's responsibility to observe the result on whichever queue is needed.
+    /// - Parameters:
+    ///   - url: The full url for the endpoint
+    ///   - headers: Headers to be sent in form of key-value. default value: `nil`
+    ///   - decodableType: The expected type of the response
+    ///   - encoding: The expected type of the parameter encoding, e.g JSON, URL
+    ///   - scheduler: The scheduler type. default value: concurrent background
+    ///   - onErrorJustReturn: In case we still want to return regularly for an error
+    /// - Returns: The response wrapped in a Single
+    public func get<T: Decodable>(_ url: String,
+                                  headers: [String: String]? = nil,
                                   decodeTo decodableType: T.Type,
                                   encoding: Encoding = .url,
+                                  scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                   onErrorJustReturn: Bool = false) -> Single<T> {
         return request(.get,
-                       relativeUrl: relativeUrl,
+                       url: url,
+                       headers: headers,
                        decodeTo: decodableType,
                        encoding: encoding,
+                       scheduler: scheduler,
                        onErrorJustReturn: onErrorJustReturn)
     }
     
     // MARK: - Put
     
-    public func put<T: Decodable>(_ relativeUrl: String,
-                                  data: Encodable,
+    /// Performs a PUT API call.
+    /// Using `Encodable` as data.
+    /// It performs the request and decode it in background.
+    /// It's the caller's responsibility to observe the result on whichever queue is needed.
+    /// - Parameters:
+    ///   - url: The full url for the endpoint
+    ///   - headers: Headers to be sent in form of key-value. default value: `nil`
+    ///   - data: An encodable data object
+    ///   - decodableType: The expected type of the response
+    ///   - encoding: The expected type of the parameter encoding, e.g JSON, URL
+    ///   - scheduler: The scheduler type. default value: concurrent background
+    ///   - onErrorJustReturn: In case we still want to return regularly for an error
+    /// - Returns: The response wrapped in a Single
+    public func put<T: Decodable>(_ url: String,
                                   headers: [String: String]? = nil,
+                                  data: Encodable,
                                   decodeTo decodableType: T.Type,
                                   encoding: Encoding = .url,
+                                  scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                   onErrorJustReturn: Bool = false) -> Single<T> {
-        return put(relativeUrl,
-                   parameters: data.dictionary,
+        return put(url,
                    headers: headers,
+                   parameters: data.dictionary,
                    decodeTo: decodableType,
                    encoding: encoding,
+                   scheduler: scheduler,
                    onErrorJustReturn: onErrorJustReturn)
     }
     
-    public func put<T: Decodable>(_ relativeUrl: String,
-                                  parameters: [String: Any] = [:],
+    /// Performs a PUT API call.
+    /// Using dictionary as data.
+    /// It performs the request and decode it in background.
+    /// It's the caller's responsibility to observe the result on whichever queue is needed.
+    /// - Parameters:
+    ///   - url: The full url for the endpoint
+    ///   - headers: Headers to be sent in form of key-value. default value: `nil`
+    ///   - parameters: The dictionary parameters. default value: `[:]`.
+    ///   - decodableType: The expected type of the response
+    ///   - encoding: The expected type of the parameter encoding, e.g JSON, URL
+    ///   - scheduler: The scheduler type. default value: concurrent background
+    ///   - onErrorJustReturn: In case we still want to return regularly for an error
+    public func put<T: Decodable>(_ url: String,
                                   headers: [String: String]? = nil,
+                                  parameters: [String: Any] = [:],
                                   decodeTo decodableType: T.Type,
                                   encoding: Encoding = .url,
+                                  scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                   onErrorJustReturn: Bool = false) -> Single<T> {
         return request(.put,
-                       relativeUrl: relativeUrl,
+                       url: url,
                        headers: headers,
                        parameters: parameters,
                        decodeTo: decodableType,
                        encoding: encoding,
+                       scheduler: scheduler,
                        onErrorJustReturn: onErrorJustReturn)
     }
     
     // MARK: - Delete
     
-    public func delete<T: Decodable>(_ relativeUrl: String,
+    /// Performs a DELETE API call.
+    /// It performs the request and decode it in background.
+    /// It's the caller's responsibility to observe the result on whichever queue is needed.
+    /// - Parameters:
+    ///   - url: The full url for the endpoint
+    ///   - headers: Headers to be sent in form of key-value. default value: `nil`
+    ///   - decodableType: The expected type of the response
+    ///   - encoding: The expected type of the parameter encoding, e.g JSON, URL
+    ///   - scheduler: The scheduler type. default value: concurrent background
+    ///   - onErrorJustReturn: In case we still want to return regularly for an error
+    public func delete<T: Decodable>(_ url: String,
+                                     headers: [String: String]? = nil,
                                      decodeTo decodableType: T.Type,
                                      encoding: Encoding = .url,
+                                     scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                      onErrorJustReturn: Bool = false) -> Single<T> {
         return request(.delete,
-                       relativeUrl: relativeUrl,
+                       url: url,
+                       headers: headers,
                        decodeTo: decodableType,
                        encoding: encoding,
+                       scheduler: scheduler,
                        onErrorJustReturn: onErrorJustReturn)
     }
     
     // MARK: - Generic Request
     
+    /// Privately used to perform any kind of REST network request logic.
     private func request<T: Decodable>(_ method: HTTPMethod,
-                                       relativeUrl: String,
+                                       url: String,
                                        headers: [String: String]? = nil,
                                        parameters: [String: Any]? = nil,
                                        decodeTo decodableType: T.Type,
                                        encoding: Encoding,
+                                       scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                        onErrorJustReturn: Bool = false) -> Single<T> {
         return Single<DataRequest>.create { single -> Disposable in
             let request = SessionManager.default.request(
-                relativeUrl,
+                url,
                 method: method,
                 parameters: parameters,
                 encoding: encoding.value,
@@ -185,6 +277,8 @@ open class NetworkManager: NSObject, URLSessionDelegate {
             single(.success(request))
             return Disposables.create()
         }
+        .subscribeOn(scheduler)
+        .observeOn(scheduler)
         .flatMap { request -> Single<(HTTPURLResponse, Data)> in
             return request.responseData()
         }

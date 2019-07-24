@@ -75,6 +75,8 @@ extension UserDefaults {
         case documentResubmissionLinkReason
         case didAcceptCoinifyTOS
         case hasSeenPAXCard
+        case pitLinkIdentifier
+        case didTapOnPitDeepLink
     }
 
     func migrateLegacyKeysIfNeeded() {

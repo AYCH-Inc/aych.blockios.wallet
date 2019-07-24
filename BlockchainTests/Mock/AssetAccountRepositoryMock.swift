@@ -17,4 +17,8 @@ class AssetAccountRepositoryMock: AssetAccountRepositoryAPI {
     func defaultStellarAccount() -> AssetAccount? {
         return nil
     }
+    
+    var accounts: Observable<[AssetAccount]> {
+        return Observable.empty()
+    }
 }

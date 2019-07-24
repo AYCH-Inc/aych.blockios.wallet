@@ -8,7 +8,21 @@
 
 import Foundation
 
-enum Radius: Int {
+public struct Gradient {
+    let startColor: UIColor
+    let endColor: UIColor
+    
+    init(start: UIColor, end: UIColor) {
+        self.startColor = start
+        self.endColor = end
+    }
+}
+
+public extension Gradient {
+    static let pit: Gradient = .init(start: #colorLiteral(red: 0.3, green: 0.09, blue: 0.73, alpha: 1), end: #colorLiteral(red: 0.05, green: 0.09, blue: 0.09, alpha: 1))
+}
+
+public enum Radius: Int {
     case none
     case roundedRect
     case roundedTop
@@ -18,7 +32,7 @@ enum Radius: Int {
 
 /// This is just a view that shows a gradient. Use this wherever you want to show a gradient
 /// and set its properties in Interface Builder. 
-class GradientView: UIView {
+public class GradientView: UIView {
     
     enum Direction: Int {
         case up
@@ -59,7 +73,7 @@ class GradientView: UIView {
     
     var gradientLayer = CAGradientLayer()
     
-    override var bounds: CGRect {
+    override public var bounds: CGRect {
         didSet {
             gradientLayer.frame = layer.bounds
         }
@@ -83,12 +97,12 @@ class GradientView: UIView {
     
     // MARK: Superclass
     
-    override func prepareForInterfaceBuilder() {
+    override public func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         updateGradientLayer()
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         updateGradientLayer()
     }
@@ -117,7 +131,7 @@ class GradientView: UIView {
         case .none:
             layer.cornerRadius = 0.0
         case .roundedRect:
-            layer.cornerRadius = 4.0
+            layer.cornerRadius = 8.0
         case .roundedTop:
             let path = UIBezierPath(
                 roundedRect: bounds,

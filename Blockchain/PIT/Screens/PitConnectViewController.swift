@@ -8,8 +8,19 @@
 
 import Foundation
 import PlatformUIKit
+import RxSwift
+import RxCocoa
 
-class PitConnectViewController: UIViewController {
+class PitConnectViewController: UIViewController, NavigatableView {
+    
+    // MARK: Public (Rx)
+    
+    var connectRelay: PublishRelay<Void> = PublishRelay()
+    var learnMoreRelay: PublishRelay<Void> = PublishRelay()
+    
+    // MARK: Private Properties
+    
+    private let bag: DisposeBag = DisposeBag()
     
     // MARK: Private IBOutlets
     
@@ -37,6 +48,7 @@ class PitConnectViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = LocalizationConstants.PIT.title
         outerContainerView.layer.cornerRadius = 8.0
         outerContainerView.clipsToBounds = true
         
@@ -83,6 +95,18 @@ class PitConnectViewController: UIViewController {
         
         learnMoreButton.setTitle(LocalizationConstants.PIT.ConnectionPage.Actions.learnMore, for: .normal)
         connectNowButton.setTitle(LocalizationConstants.PIT.ConnectionPage.Actions.connectNow, for: .normal)
+        
+        connectNowButton.rx.tap
+            .subscribe(onNext: { _ in
+                self.connectRelay.accept(())
+            })
+            .disposed(by: bag)
+        
+        learnMoreButton.rx.tap
+            .subscribe(onNext: { _ in
+                self.learnMoreRelay.accept(())
+            })
+            .disposed(by: bag)
     }
     
     private func copyFont() -> UIFont {
@@ -97,5 +121,23 @@ class PitConnectViewController: UIViewController {
     
     @IBAction private func connectNowTapped(_ sender: UIButton) {
         // TODO:
+    }
+}
+
+extension PitConnectViewController {
+    func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func navControllerLeftBarButtonTapped(_ navController: UINavigationController) {
+        // no-op
+    }
+    
+    var rightNavControllerCTAType: NavigationCTAType {
+        return .dismiss
+    }
+    
+    var leftNavControllerCTAType: NavigationCTAType {
+        return .none
     }
 }

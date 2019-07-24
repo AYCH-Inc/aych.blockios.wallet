@@ -29,18 +29,20 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     let sectionPreferences = 1
     let preferencesEmailNotifications = 0
     let preferencesLocalCurrency = 1
-    let sectionSecurity = 2
+    let sectionSecurity = 3
+    let sectionPIT = 2
     let securityTwoStep = 0
     let securityPasswordChange = 1
     let securityWalletRecoveryPhrase = 2
     let PINChangePIN = 3
-    let aboutSection = 3
+    let aboutSection = 4
     let aboutUs = 0
     let aboutTermsOfService = 1
     let aboutPrivacyPolicy = 2
     let aboutCookiePolicy = 3
     let pinBiometry = 4
     let pinSwipeToReceive = 5
+    let pitIndex = 0
     
     var settingsController: SettingsTableViewController?
     var availableCurrenciesDictionary: [AnyHashable: Any] = [:]
@@ -59,7 +61,11 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     let walletManager: WalletManager
     let authenticationService: NabuAuthenticationService
     
-    var disposable: Disposable?
+    lazy var repositoryAPI: PITAccountRepository = {
+        return PITAccountRepository()
+    }()
+    
+    let bag: DisposeBag = DisposeBag()
     internal var tiers: KYCUserTiersResponse?
     internal var didFetchTiers = false
     
@@ -70,7 +76,6 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-        disposable?.dispose()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -134,9 +139,9 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     }
     
     func swapTapped() {
-        disposable = KYCTiersViewController.routeToTiers(
+        KYCTiersViewController.routeToTiers(
             fromViewController: self
-        )
+        ).disposed(by: bag)
     }
     
     func convertFloat(toString floatNumber: Float, forDisplay isForDisplay: Bool) -> String? {
@@ -583,9 +588,11 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
             guard let strongSelf = self else { return }
             strongSelf.updateAccountInfo()
         }
-        disposable = syncNabuWithWallet(successHandler: accountInfoUpdate, errorHandler: { _ in
+        syncNabuWithWallet(successHandler: accountInfoUpdate, errorHandler: { _ in
             accountInfoUpdate()
         })
+        .disposed(by: bag)
+        
     }
 
     func getAccountInfo() {

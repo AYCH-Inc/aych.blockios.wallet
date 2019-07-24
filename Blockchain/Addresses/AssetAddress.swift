@@ -20,3 +20,13 @@ public protocol AssetAddress {
 
     init(string: String)
 }
+
+extension AssetAddress {
+    var depositAddress: DepositAddress {
+        var addy = address
+        if assetType == .bitcoinCash {
+            addy.remove(prefix: "\(Constants.Schemes.bitcoinCash):")
+        }
+        return DepositAddress(type: assetType, address: addy)
+    }
+}

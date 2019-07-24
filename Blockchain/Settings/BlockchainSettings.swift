@@ -480,6 +480,26 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.didAcceptCoinifyTOS.rawValue)
             }
         }
+        
+        /// Users that are linking their PIT account to their blockchain wallet will deep-link
+        /// from the PIT into the mobile app.
+        var pitLinkIdentifier: String? {
+            get {
+                return defaults.string(forKey: UserDefaults.Keys.pitLinkIdentifier.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.pitLinkIdentifier.rawValue)
+            }
+        }
+        
+        var didTapOnPitDeepLink: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didTapOnPitDeepLink.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didTapOnPitDeepLink.rawValue)
+            }
+        }
 
         override init() {
             // Private initializer so that `shared` and `sharedInstance` are the only ways to
@@ -508,10 +528,12 @@ final class BlockchainSettings: NSObject {
             clearPin()
             appBecameActiveCount = 0
             didTapOnAirdropDeepLink = false
+            didTapOnPitDeepLink = false
             didAttemptToRouteForAirdrop = false
             didTapOnKycDeepLink = false
             didAcceptCoinifyTOS = false
             shouldHidePITLinkingCard = false
+            pitLinkIdentifier = nil
 
             KYCSettings.shared.reset()
 

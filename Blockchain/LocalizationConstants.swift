@@ -1077,12 +1077,43 @@ struct LocalizationConstants {
     }
     
     struct PIT {
+        static let title = NSLocalizedString("The PIT", comment: "The PIT")
+        static let connect = NSLocalizedString("Connect", comment: "Connect")
+        static let connected = NSLocalizedString("Connected", comment: "Connected")
+        struct Alerts {
+            static let connectingYou = NSLocalizedString("Connecting You To The PIT", comment: "Connecting You To The PIT")
+            static let newWindow = NSLocalizedString("A new window should open within 10 seconds.", comment: "A new window should open within 10 seconds.")
+            static let success = NSLocalizedString("Success!", comment: "Success!")
+            static let successDescription = NSLocalizedString("You have connected your Blockchain Wallet to The PIT.", comment: "You have connected your Blockchain Wallet to The PIT.")
+            static let error = NSLocalizedString("Connection Error", comment: "Connection Error")
+            static let errorDescription = NSLocalizedString("We could not connect your Wallet to The PIT. Please try again", comment: "We could not connect your Wallet to The PIT. Please try again")
+        }
         struct AnnouncementCard {
             static let body = NSLocalizedString(
                 "It's time to Level Up to a better crypto exchange. First 100,000 traders to sign up will trade free for 30 days.",
                 comment: ""
             )
             static let CTA = NSLocalizedString("Check it out!", comment: "")
+        }
+        struct EmailVerification {
+            static let title = NSLocalizedString("Verify Your Email", comment: "")
+            static let description = NSLocalizedString(
+                "We just sent you a verification email. Your email address needs to be verified before you can connect to The PIT.",
+                comment: ""
+            )
+            static let didNotGetEmail = NSLocalizedString("Didn't get the email?", comment: "")
+            static let sendAgain = NSLocalizedString("Send Again", comment: "")
+            static let openMail = NSLocalizedString("Open Mail", comment: "")
+            static let justAMoment = NSLocalizedString("Just a moment.", comment: "")
+            static let verified = NSLocalizedString("Email Verified", comment: "")
+            static let verifiedDescription = NSLocalizedString(
+                "You’re all set to connect your Blockchain Wallet to The PIT.",
+                comment: ""
+            )
+        }
+        struct Launch {
+            static let launchPIT = NSLocalizedString("Launch The PIT", comment: "")
+            static let contactSupport = NSLocalizedString("Contact Support", comment: "")
         }
         struct ConnectionPage {
             struct Descriptors {
@@ -1107,6 +1138,13 @@ struct LocalizationConstants {
             struct Actions {
                 static let learnMore = NSLocalizedString("Learn More", comment: "")
                 static let connectNow = NSLocalizedString("Connect Now", comment: "")
+            }
+            
+            struct Send {
+                static let destination = NSLocalizedString(
+                    "My PIT %@ Wallet",
+                    comment: "PIT address as per asset type"
+                )
             }
         }
     }
@@ -1148,6 +1186,7 @@ struct LocalizationConstants {
             "Lockbox",
             comment: "Lockbox menu item title."
         )
+        static let pit = NSLocalizedString("The PIT", comment: "The PIT")
     }
 
     struct BuySell {

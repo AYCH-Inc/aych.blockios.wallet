@@ -239,6 +239,8 @@
 		3A019124212DF24700AED2BF /* ExchangeCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF9A212B3742003A8A08 /* ExchangeCreateView.swift */; };
 		3A01914A212E17E500AED2BF /* ExchangeCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF98212B36F1003A8A08 /* ExchangeCreateViewController.swift */; };
 		3A01914E212E180500AED2BF /* FromToButtonDelegateIntermediate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A26AF92212B36B2003A8A08 /* FromToButtonDelegateIntermediate.swift */; };
+		3A01989522E7939C00EBDB78 /* PitDeepLinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A01989422E7939C00EBDB78 /* PitDeepLinkRouter.swift */; };
+		3A01989622E7939C00EBDB78 /* PitDeepLinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A01989422E7939C00EBDB78 /* PitDeepLinkRouter.swift */; };
 		3A07814C21E54DB200760BF9 /* UICollectionViewCell+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A07814B21E54DB200760BF9 /* UICollectionViewCell+Conveniences.swift */; };
 		3A0E301A21C8276700E64BE0 /* KYCUserTierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0E301921C8276700E64BE0 /* KYCUserTierTests.swift */; };
 		3A12A71821ACFD5800C616F6 /* Wallet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A12A71721ACFD5800C616F6 /* Wallet+Extensions.swift */; };
@@ -252,6 +254,8 @@
 		3A1552EE2136EAF000683CEB /* TradeLimits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552EC2136EAF000683CEB /* TradeLimits.swift */; };
 		3A1552F02136FFE200683CEB /* TradeExecutionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552EF2136FFE200683CEB /* TradeExecutionAPI.swift */; };
 		3A1552F12136FFE200683CEB /* TradeExecutionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552EF2136FFE200683CEB /* TradeExecutionAPI.swift */; };
+		3A19E25322D3B246000A2A99 /* PitEmailVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A19E25222D3B246000A2A99 /* PitEmailVerificationViewController.swift */; };
+		3A19E25E22D3B257000A2A99 /* PitEmailVerificationViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A19E25D22D3B257000A2A99 /* PitEmailVerificationViewController.storyboard */; };
 		3A1C7F9E2178FA7A001AC6D3 /* StellarOperationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */; };
 		3A1C7FA821790A49001AC6D3 /* StellarOperationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */; };
 		3A1C7FA921790AB3001AC6D3 /* StellarOperationsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A02602177F10200E2848E /* StellarOperationsAPI.swift */; };
@@ -261,6 +265,7 @@
 		3A1D3C45223AF16B006F0D22 /* InputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1D3C43223AF16B006F0D22 /* InputType.swift */; };
 		3A1D3C48223C36C5006F0D22 /* ExchangeInputTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1D3C47223C36C5006F0D22 /* ExchangeInputTests.swift */; };
 		3A1FD14C224049CE00E613E8 /* NotificationCenter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1FD14B224049CE00E613E8 /* NotificationCenter+Conveniences.swift */; };
+		3A204AF122DCF8EA008FCD0B /* PitAccountAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A204AF022DCF8EA008FCD0B /* PitAccountAuthenticator.swift */; };
 		3A25517821E68CF6005D4E66 /* VeriffService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25517721E68CF6005D4E66 /* VeriffService.swift */; };
 		3A25517921E68CF6005D4E66 /* VeriffService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25517721E68CF6005D4E66 /* VeriffService.swift */; };
 		3A25519521E6E286005D4E66 /* VeriffCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25519421E6E286005D4E66 /* VeriffCredentials.swift */; };
@@ -314,6 +319,7 @@
 		3A34280A22249DFB000D8032 /* SideMenuFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A34280822249DFB000D8032 /* SideMenuFooterView.swift */; };
 		3A34280C22249E7F000D8032 /* SideMenuFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A34280B22249E7F000D8032 /* SideMenuFooterView.xib */; };
 		3A34280D22249E7F000D8032 /* SideMenuFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A34280B22249E7F000D8032 /* SideMenuFooterView.xib */; };
+		3A35D7E822E23150000BC5FA /* Rx+BottomAlertSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A35D7E722E23150000BC5FA /* Rx+BottomAlertSheet.swift */; };
 		3A36ABDA22A1DFC200A43DE8 /* SendMoniesInternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A55854822A04FD40046168C /* SendMoniesInternalError.swift */; };
 		3A373C452188CBCE00DDFAFD /* StellarTransactionCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A373C442188CBCE00DDFAFD /* StellarTransactionCaching.swift */; };
 		3A373C462188CBCE00DDFAFD /* StellarTransactionCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A373C442188CBCE00DDFAFD /* StellarTransactionCaching.swift */; };
@@ -426,6 +432,9 @@
 		3A56AEB721766A0000044302 /* StellarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB521766A0000044302 /* StellarConfiguration.swift */; };
 		3A56AEB921766D4800044302 /* StellarAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB821766D4800044302 /* StellarAccount.swift */; };
 		3A56AEBA21766D4800044302 /* StellarAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB821766D4800044302 /* StellarAccount.swift */; };
+		3A5AF01122D52865007C5717 /* EmailVerifierAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5AF01022D52865007C5717 /* EmailVerifierAPI.swift */; };
+		3A5AF01222D53472007C5717 /* EmailVerifierAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5AF01022D52865007C5717 /* EmailVerifierAPI.swift */; };
+		3A5AF01422D5354F007C5717 /* PitCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5AF01322D5354E007C5717 /* PitCoordinator.swift */; };
 		3A5C3C63225D4916003C99C9 /* KYCCoinifySignedToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C3C62225D4916003C99C9 /* KYCCoinifySignedToken.swift */; };
 		3A5C3C64225D4916003C99C9 /* KYCCoinifySignedToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C3C62225D4916003C99C9 /* KYCCoinifySignedToken.swift */; };
 		3A64A51E21B9C150002D6851 /* PlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A68655D219A0BBA0009FF29 /* PlatformKit.framework */; };
@@ -488,6 +497,8 @@
 		3A76F8F72119EDE0002F7946 /* ValidationDateField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A76F8F62119EDE0002F7946 /* ValidationDateField.xib */; };
 		3A76F8FE211A067A002F7946 /* ValidationFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76F8FD211A067A002F7946 /* ValidationFormView.swift */; };
 		3A76F902211A3BA5002F7946 /* DateFormatter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76F901211A3BA5002F7946 /* DateFormatter+Conveniences.swift */; };
+		3A7E382622E1486C00E289C4 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3B21C0217000246A9C /* GradientView.swift */; };
+		3A7E382922E21F7000E289C4 /* CGRect+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7E382822E21F7000E289C4 /* CGRect+Conveniences.swift */; };
 		3A7EB144222078F900C7E455 /* ExchangeServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EB143222078F900C7E455 /* ExchangeServices.swift */; };
 		3A7EB145222078F900C7E455 /* ExchangeServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EB143222078F900C7E455 /* ExchangeServices.swift */; };
 		3A7EB14722209E6E00C7E455 /* KYCOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EB14622209E6E00C7E455 /* KYCOnboardingViewController.swift */; };
@@ -602,6 +613,11 @@
 		3AC4F97A2123493A003AA207 /* NabuUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B229C211E2A960091E706 /* NabuUser.swift */; };
 		3AC4F97B21234940003AA207 /* KYCPageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B2291211E228C0091E706 /* KYCPageType.swift */; };
 		3AC4F97D21234966003AA207 /* KYCPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD18AE21221D95007145EA /* KYCPageModel.swift */; };
+		3AC7C2B822E6A8380021C841 /* PitCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5AF01322D5354E007C5717 /* PitCoordinator.swift */; };
+		3AC7C2C222E6A8410021C841 /* PITAccountRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AECA26322CFE1AA004ED7B7 /* PITAccountRepository.swift */; };
+		3AC7C2C322E6A8460021C841 /* PitAccountAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A204AF022DCF8EA008FCD0B /* PitAccountAuthenticator.swift */; };
+		3AC7C2C422E6A8D20021C841 /* PitConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A68A32F22CA617D00EB1287 /* PitConnectViewController.swift */; };
+		3AC7C2C522E6A8D90021C841 /* PitEmailVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A19E25222D3B246000A2A99 /* PitEmailVerificationViewController.swift */; };
 		3AC82E782295E7B400578CFE /* PriceServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAECF765217E8853008B8832 /* PriceServiceClient.swift */; };
 		3AC82E792295E7CD00578CFE /* PriceInFiat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAECF769217E89B8008B8832 /* PriceInFiat.swift */; };
 		3AC90D0221F78C96006DD565 /* PaginatedContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC90D0121F78C96006DD565 /* PaginatedContainerCell.swift */; };
@@ -614,6 +630,8 @@
 		3AD7EEA221126578006B924F /* NibBasedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7EEA121126578006B924F /* NibBasedView.swift */; };
 		3AD8816B2138E57F0047B66E /* TransitionPresentationUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD8816A2138E57F0047B66E /* TransitionPresentationUpdate.swift */; };
 		3AD8816C2138E57F0047B66E /* TransitionPresentationUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD8816A2138E57F0047B66E /* TransitionPresentationUpdate.swift */; };
+		3ADD8E4322DD17B500942ED0 /* BottomAlertSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3ADD8E4222DD17B500942ED0 /* BottomAlertSheet.xib */; };
+		3ADD8E4E22DD299A00942ED0 /* BottomAlertSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD8E4D22DD299A00942ED0 /* BottomAlertSheet.swift */; };
 		3ADFE6ED214862E000E7E2D5 /* ExchangeInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADFE6EC214862E000E7E2D5 /* ExchangeInputComponent.swift */; };
 		3ADFE6EE214862E000E7E2D5 /* ExchangeInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADFE6EC214862E000E7E2D5 /* ExchangeInputComponent.swift */; };
 		3ADFE6F9214AE0E300E7E2D5 /* InputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADFE6F8214AE0E300E7E2D5 /* InputComponent.swift */; };
@@ -654,14 +672,12 @@
 		3AE6B00022947D3400BF8F56 /* ERC20HistoricalTransactionCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6AFFF22947D3400BF8F56 /* ERC20HistoricalTransactionCaching.swift */; };
 		3AE74B3521C00B6600246A9C /* KYCTierCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3421C00B6600246A9C /* KYCTierCell.swift */; };
 		3AE74B3821C01E8700246A9C /* KYCTierCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AE74B3721C01E8700246A9C /* KYCTierCell.xib */; };
-		3AE74B3C21C0217000246A9C /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3B21C0217000246A9C /* GradientView.swift */; };
 		3AE74B3E21C043ED00246A9C /* KYCTiersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3D21C043ED00246A9C /* KYCTiersViewController.swift */; };
 		3AE74B4121C04B0800246A9C /* KYCTiersHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B4021C04B0800246A9C /* KYCTiersHeaderView.swift */; };
 		3AE74B4621C04C4B00246A9C /* KYCTiersPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B4521C04C4B00246A9C /* KYCTiersPageModel.swift */; };
 		3AE74B4721C04C5600246A9C /* KYCTiersPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B4521C04C4B00246A9C /* KYCTiersPageModel.swift */; };
 		3AE74B4821C04C5800246A9C /* KYCTiersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3D21C043ED00246A9C /* KYCTiersViewController.swift */; };
 		3AE74B4A21C04C6800246A9C /* KYCTierCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3421C00B6600246A9C /* KYCTierCell.swift */; };
-		3AE74B4B21C04C7000246A9C /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3B21C0217000246A9C /* GradientView.swift */; };
 		3AE74B4D21C04D9C00246A9C /* KYCTiersViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AE74B4C21C04D9C00246A9C /* KYCTiersViewController.storyboard */; };
 		3AE74B4F21C04E9400246A9C /* KYCTiersHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B4E21C04E9400246A9C /* KYCTiersHeaderViewModel.swift */; };
 		3AE74B5021C04E9400246A9C /* KYCTiersHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B4E21C04E9400246A9C /* KYCTiersHeaderViewModel.swift */; };
@@ -676,6 +692,7 @@
 		3AE92BDB2110DB3C008D7BDC /* KeyboardPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */; };
 		3AEA402121FBA9DC00952587 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEA402021FBA9DC00952587 /* AlertView.swift */; };
 		3AEA402321FBAAEF00952587 /* AlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AEA402221FBAAEF00952587 /* AlertView.xib */; };
+		3AECA26422CFE1AA004ED7B7 /* PITAccountRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AECA26322CFE1AA004ED7B7 /* PITAccountRepository.swift */; };
 		3AEE9690221DDE7700F8B5D5 /* DashboardContainerViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AEE968F221DDE7700F8B5D5 /* DashboardContainerViewController.storyboard */; };
 		3AEE969B221DDFD700F8B5D5 /* DashboardContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE969A221DDFD700F8B5D5 /* DashboardContainerViewController.swift */; };
 		3AEE969D221DF95600F8B5D5 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE969C221DF95600F8B5D5 /* BaseNavigationController.swift */; };
@@ -1258,8 +1275,8 @@
 		AA6336B021BC5A430073ED4A /* KYCEnterEmailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6336AE21BC5A430073ED4A /* KYCEnterEmailController.swift */; };
 		AA6336B221BC5A630073ED4A /* KYCConfirmEmailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6336B121BC5A630073ED4A /* KYCConfirmEmailController.swift */; };
 		AA6336B321BC5A630073ED4A /* KYCConfirmEmailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6336B121BC5A630073ED4A /* KYCConfirmEmailController.swift */; };
-		AA6336B521BC5A710073ED4A /* KYCVerifyEmailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6336B421BC5A710073ED4A /* KYCVerifyEmailPresenter.swift */; };
-		AA6336B621BC5A710073ED4A /* KYCVerifyEmailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6336B421BC5A710073ED4A /* KYCVerifyEmailPresenter.swift */; };
+		AA6336B521BC5A710073ED4A /* VerifyEmailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6336B421BC5A710073ED4A /* VerifyEmailPresenter.swift */; };
+		AA6336B621BC5A710073ED4A /* VerifyEmailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6336B421BC5A710073ED4A /* VerifyEmailPresenter.swift */; };
 		AA63F84B20A12AE9002B719B /* URLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F84A20A12AE9002B719B /* URLs.swift */; };
 		AA63F84C20A12AE9002B719B /* URLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F84A20A12AE9002B719B /* URLs.swift */; };
 		AA63F85020A12DA6002B719B /* BitcoinURLPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F84F20A12DA6002B719B /* BitcoinURLPayload.swift */; };
@@ -1463,8 +1480,8 @@
 		AAF2AEE52123863200687E30 /* BlockchainDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD158DD2123740C0058B3C8 /* BlockchainDataRepository.swift */; };
 		AAF2AF062123952500687E30 /* KYCInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF2AF052123952500687E30 /* KYCInformationViewModel.swift */; };
 		AAF2AF072123952500687E30 /* KYCInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF2AF052123952500687E30 /* KYCInformationViewModel.swift */; };
-		AAF3E7CD21BC5B3D00912B13 /* KYCVerifyEmailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF3E7CC21BC5B3D00912B13 /* KYCVerifyEmailInteractor.swift */; };
-		AAF3E7D721BC5B4200912B13 /* KYCVerifyEmailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF3E7CC21BC5B3D00912B13 /* KYCVerifyEmailInteractor.swift */; };
+		AAF3E7CD21BC5B3D00912B13 /* EmailVerificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF3E7CC21BC5B3D00912B13 /* EmailVerificationService.swift */; };
+		AAF3E7D721BC5B4200912B13 /* EmailVerificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF3E7CC21BC5B3D00912B13 /* EmailVerificationService.swift */; };
 		AAF3E7D921BC5F2F00912B13 /* KYCEnterEmailController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAF3E7D821BC5F2F00912B13 /* KYCEnterEmailController.storyboard */; };
 		AAFA97AE2115110000D19ED3 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FBE083211258F300AD514A /* SettingsCell.swift */; };
 		AAFA97AF2115110000D19ED3 /* SettingsTwoStepVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FBE084211258F300AD514A /* SettingsTwoStepVC.swift */; };
@@ -2227,6 +2244,7 @@
 		3A01911A212DE57A00AED2BF /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		3A01911C212DEF8000AED2BF /* AsyncBlockOperaiton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncBlockOperaiton.swift; sourceTree = "<group>"; };
 		3A019121212DF0EB00AED2BF /* AsyncBlockOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncBlockOperationTests.swift; sourceTree = "<group>"; };
+		3A01989422E7939C00EBDB78 /* PitDeepLinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitDeepLinkRouter.swift; sourceTree = "<group>"; };
 		3A07814B21E54DB200760BF9 /* UICollectionViewCell+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Conveniences.swift"; sourceTree = "<group>"; };
 		3A0E301921C8276700E64BE0 /* KYCUserTierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCUserTierTests.swift; sourceTree = "<group>"; };
 		3A12A71721ACFD5800C616F6 /* Wallet+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Wallet+Extensions.swift"; sourceTree = "<group>"; };
@@ -2235,11 +2253,14 @@
 		3A1552E92136EA8D00683CEB /* TradeExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeExecutionService.swift; sourceTree = "<group>"; };
 		3A1552EC2136EAF000683CEB /* TradeLimits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeLimits.swift; sourceTree = "<group>"; };
 		3A1552EF2136FFE200683CEB /* TradeExecutionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeExecutionAPI.swift; sourceTree = "<group>"; };
+		3A19E25222D3B246000A2A99 /* PitEmailVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitEmailVerificationViewController.swift; sourceTree = "<group>"; };
+		3A19E25D22D3B257000A2A99 /* PitEmailVerificationViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PitEmailVerificationViewController.storyboard; sourceTree = "<group>"; };
 		3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarOperationService.swift; sourceTree = "<group>"; };
 		3A1D3C3D223965D5006F0D22 /* InputComponentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputComponentType.swift; sourceTree = "<group>"; };
 		3A1D3C43223AF16B006F0D22 /* InputType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputType.swift; sourceTree = "<group>"; };
 		3A1D3C47223C36C5006F0D22 /* ExchangeInputTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeInputTests.swift; sourceTree = "<group>"; };
 		3A1FD14B224049CE00E613E8 /* NotificationCenter+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Conveniences.swift"; sourceTree = "<group>"; };
+		3A204AF022DCF8EA008FCD0B /* PitAccountAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitAccountAuthenticator.swift; sourceTree = "<group>"; };
 		3A25517721E68CF6005D4E66 /* VeriffService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VeriffService.swift; sourceTree = "<group>"; };
 		3A25519421E6E286005D4E66 /* VeriffCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VeriffCredentials.swift; sourceTree = "<group>"; };
 		3A258C0C210A486F00C023F5 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
@@ -2277,6 +2298,7 @@
 		3A34280622246A15000D8032 /* BaseUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUIButton.swift; sourceTree = "<group>"; };
 		3A34280822249DFB000D8032 /* SideMenuFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuFooterView.swift; sourceTree = "<group>"; };
 		3A34280B22249E7F000D8032 /* SideMenuFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SideMenuFooterView.xib; sourceTree = "<group>"; };
+		3A35D7E722E23150000BC5FA /* Rx+BottomAlertSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+BottomAlertSheet.swift"; sourceTree = "<group>"; };
 		3A373C442188CBCE00DDFAFD /* StellarTransactionCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTransactionCaching.swift; sourceTree = "<group>"; };
 		3A390747217E52AB00D2DA01 /* StellarLedgerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarLedgerService.swift; sourceTree = "<group>"; };
 		3A39074F217E7D5A00D2DA01 /* XLMServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLMServiceProvider.swift; sourceTree = "<group>"; };
@@ -2356,6 +2378,8 @@
 		3A56AEB12176637D00044302 /* StellarAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAccountService.swift; sourceTree = "<group>"; };
 		3A56AEB521766A0000044302 /* StellarConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarConfiguration.swift; sourceTree = "<group>"; };
 		3A56AEB821766D4800044302 /* StellarAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAccount.swift; sourceTree = "<group>"; };
+		3A5AF01022D52865007C5717 /* EmailVerifierAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerifierAPI.swift; sourceTree = "<group>"; };
+		3A5AF01322D5354E007C5717 /* PitCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitCoordinator.swift; sourceTree = "<group>"; };
 		3A5C3C62225D4916003C99C9 /* KYCCoinifySignedToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCCoinifySignedToken.swift; sourceTree = "<group>"; };
 		3A68655D219A0BBA0009FF29 /* PlatformKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlatformKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A68655F219A0BBB0009FF29 /* PlatformKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlatformKit.h; sourceTree = "<group>"; };
@@ -2410,6 +2434,7 @@
 		3A76F8F62119EDE0002F7946 /* ValidationDateField.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ValidationDateField.xib; sourceTree = "<group>"; };
 		3A76F8FD211A067A002F7946 /* ValidationFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationFormView.swift; sourceTree = "<group>"; };
 		3A76F901211A3BA5002F7946 /* DateFormatter+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Conveniences.swift"; sourceTree = "<group>"; };
+		3A7E382822E21F7000E289C4 /* CGRect+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Conveniences.swift"; sourceTree = "<group>"; };
 		3A7EB143222078F900C7E455 /* ExchangeServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeServices.swift; sourceTree = "<group>"; };
 		3A7EB14622209E6E00C7E455 /* KYCOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCOnboardingViewController.swift; sourceTree = "<group>"; };
 		3A7EB14A22209EAF00C7E455 /* KYCOnboardingViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = KYCOnboardingViewController.storyboard; sourceTree = "<group>"; };
@@ -2499,6 +2524,8 @@
 		3AD7EE9F21125156006B924F /* ValidationTextField.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ValidationTextField.xib; sourceTree = "<group>"; };
 		3AD7EEA121126578006B924F /* NibBasedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibBasedView.swift; sourceTree = "<group>"; };
 		3AD8816A2138E57F0047B66E /* TransitionPresentationUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionPresentationUpdate.swift; sourceTree = "<group>"; };
+		3ADD8E4222DD17B500942ED0 /* BottomAlertSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BottomAlertSheet.xib; sourceTree = "<group>"; };
+		3ADD8E4D22DD299A00942ED0 /* BottomAlertSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomAlertSheet.swift; sourceTree = "<group>"; };
 		3ADFE6EC214862E000E7E2D5 /* ExchangeInputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeInputComponent.swift; sourceTree = "<group>"; };
 		3ADFE6F8214AE0E300E7E2D5 /* InputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputComponent.swift; sourceTree = "<group>"; };
 		3ADFE6FB214AE17600E7E2D5 /* ExchangeInputsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeInputsService.swift; sourceTree = "<group>"; };
@@ -2546,6 +2573,7 @@
 		3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPayload.swift; sourceTree = "<group>"; };
 		3AEA402021FBA9DC00952587 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		3AEA402221FBAAEF00952587 /* AlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertView.xib; sourceTree = "<group>"; };
+		3AECA26322CFE1AA004ED7B7 /* PITAccountRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PITAccountRepository.swift; sourceTree = "<group>"; };
 		3AEE968F221DDE7700F8B5D5 /* DashboardContainerViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DashboardContainerViewController.storyboard; sourceTree = "<group>"; };
 		3AEE969A221DDFD700F8B5D5 /* DashboardContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardContainerViewController.swift; sourceTree = "<group>"; };
 		3AEE969C221DF95600F8B5D5 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
@@ -4529,7 +4557,7 @@
 		AA5D848D228E2A4600992810 /* ReceiveCryptoViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReceiveCryptoViewController.storyboard; sourceTree = "<group>"; };
 		AA6336AE21BC5A430073ED4A /* KYCEnterEmailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCEnterEmailController.swift; sourceTree = "<group>"; };
 		AA6336B121BC5A630073ED4A /* KYCConfirmEmailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCConfirmEmailController.swift; sourceTree = "<group>"; };
-		AA6336B421BC5A710073ED4A /* KYCVerifyEmailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCVerifyEmailPresenter.swift; sourceTree = "<group>"; };
+		AA6336B421BC5A710073ED4A /* VerifyEmailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailPresenter.swift; sourceTree = "<group>"; };
 		AA63F84A20A12AE9002B719B /* URLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLs.swift; sourceTree = "<group>"; };
 		AA63F84F20A12DA6002B719B /* BitcoinURLPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinURLPayload.swift; sourceTree = "<group>"; };
 		AA63F85320A12FC8002B719B /* BitcoinURLPayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinURLPayloadTests.swift; sourceTree = "<group>"; };
@@ -4643,7 +4671,7 @@
 		AAECF765217E8853008B8832 /* PriceServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceServiceClient.swift; sourceTree = "<group>"; };
 		AAECF769217E89B8008B8832 /* PriceInFiat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceInFiat.swift; sourceTree = "<group>"; };
 		AAF2AF052123952500687E30 /* KYCInformationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCInformationViewModel.swift; sourceTree = "<group>"; };
-		AAF3E7CC21BC5B3D00912B13 /* KYCVerifyEmailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCVerifyEmailInteractor.swift; sourceTree = "<group>"; };
+		AAF3E7CC21BC5B3D00912B13 /* EmailVerificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationService.swift; sourceTree = "<group>"; };
 		AAF3E7D821BC5F2F00912B13 /* KYCEnterEmailController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = KYCEnterEmailController.storyboard; sourceTree = "<group>"; };
 		AAFA97B3211511D000D19ED3 /* Settings+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Settings+Helpers.swift"; sourceTree = "<group>"; };
 		AAFA97B4211511D000D19ED3 /* Settings+Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Settings+Table.swift"; sourceTree = "<group>"; };
@@ -5710,6 +5738,14 @@
 			path = Operations;
 			sourceTree = "<group>";
 		};
+		3A01988A22E7938400EBDB78 /* DeepLinking */ = {
+			isa = PBXGroup;
+			children = (
+				3A01989422E7939C00EBDB78 /* PitDeepLinkRouter.swift */,
+			);
+			path = DeepLinking;
+			sourceTree = "<group>";
+		};
 		3A1D3C332239656E006F0D22 /* Input */ = {
 			isa = PBXGroup;
 			children = (
@@ -5950,6 +5986,14 @@
 				3A34280622246A15000D8032 /* BaseUIButton.swift */,
 			);
 			path = Buttons;
+			sourceTree = "<group>";
+		};
+		3A35D7DD22E23132000BC5FA /* Rx */ = {
+			isa = PBXGroup;
+			children = (
+				3A35D7E722E23150000BC5FA /* Rx+BottomAlertSheet.swift */,
+			);
+			path = Rx;
 			sourceTree = "<group>";
 		};
 		3A39074D217E559700D2DA01 /* Ledger */ = {
@@ -6326,6 +6370,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		3A5AF00622D52811007C5717 /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				3A5AF01022D52865007C5717 /* EmailVerifierAPI.swift */,
+			);
+			path = APIs;
+			sourceTree = "<group>";
+		};
 		3A68655E219A0BBB0009FF29 /* PlatformKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -6454,6 +6506,7 @@
 				65550E3F22BE671E00522656 /* UIView+Nib.swift */,
 				6567FDB522C798BE0035CB16 /* UIViewController+Child.swift */,
 				654193F422D7354800B3E6ED /* MainQueueExecution.swift */,
+				3A7E382822E21F7000E289C4 /* CGRect+Conveniences.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -6461,6 +6514,7 @@
 		3A6865C2219A12530009FF29 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3A7E382722E1489800E289C4 /* Gradient */,
 				3A3428032220BD4D000D8032 /* Buttons */,
 				3A3427F22220B54E000D8032 /* BottomSheetView */,
 				3A8994CC2203F80700CCA8FF /* AnimatedGradientContainerView */,
@@ -6575,7 +6629,12 @@
 		3A68A32422CA60C300EB1287 /* PIT */ = {
 			isa = PBXGroup;
 			children = (
+				3A01988A22E7938400EBDB78 /* DeepLinking */,
+				3AECA26322CFE1AA004ED7B7 /* PITAccountRepository.swift */,
+				3A5AF01322D5354E007C5717 /* PitCoordinator.swift */,
+				3A5AF00622D52811007C5717 /* APIs */,
 				3A68A32E22CA616200EB1287 /* Screens */,
+				3A204AF022DCF8EA008FCD0B /* PitAccountAuthenticator.swift */,
 			);
 			path = PIT;
 			sourceTree = "<group>";
@@ -6585,6 +6644,8 @@
 			children = (
 				3A68A32F22CA617D00EB1287 /* PitConnectViewController.swift */,
 				3A68A33122CA618A00EB1287 /* PitConnectViewController.storyboard */,
+				3A19E25222D3B246000A2A99 /* PitEmailVerificationViewController.swift */,
+				3A19E25D22D3B257000A2A99 /* PitEmailVerificationViewController.storyboard */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -6665,6 +6726,14 @@
 				3A76F8FD211A067A002F7946 /* ValidationFormView.swift */,
 			);
 			path = ValidationForm;
+			sourceTree = "<group>";
+		};
+		3A7E382722E1489800E289C4 /* Gradient */ = {
+			isa = PBXGroup;
+			children = (
+				3AE74B3B21C0217000246A9C /* GradientView.swift */,
+			);
+			path = Gradient;
 			sourceTree = "<group>";
 		};
 		3A7EB1392220784400C7E455 /* Recovered References */ = {
@@ -7029,7 +7098,6 @@
 		3AE74B3A21C0216400246A9C /* General */ = {
 			isa = PBXGroup;
 			children = (
-				3AE74B3B21C0217000246A9C /* GradientView.swift */,
 				3A47825E2297451600DE5039 /* TextFieldAccessoryButtonView.swift */,
 				3A4782692297452D00DE5039 /* TextFieldAccessoryButtonView.xib */,
 			);
@@ -7093,9 +7161,12 @@
 		3AEA401621FBA9D000952587 /* AlertView */ = {
 			isa = PBXGroup;
 			children = (
+				3A35D7DD22E23132000BC5FA /* Rx */,
 				3A33F8F821FA6285001F96FC /* AlertModel.swift */,
 				3AEA402021FBA9DC00952587 /* AlertView.swift */,
 				3AEA402221FBAAEF00952587 /* AlertView.xib */,
+				3ADD8E4222DD17B500942ED0 /* BottomAlertSheet.xib */,
+				3ADD8E4D22DD299A00942ED0 /* BottomAlertSheet.swift */,
 			);
 			path = AlertView;
 			sourceTree = "<group>";
@@ -10346,8 +10417,8 @@
 				C7B463CE221B572300ADDC22 /* KYCDeepLinkRouter.swift */,
 				AA6336B121BC5A630073ED4A /* KYCConfirmEmailController.swift */,
 				AA6336AE21BC5A430073ED4A /* KYCEnterEmailController.swift */,
-				AAF3E7CC21BC5B3D00912B13 /* KYCVerifyEmailInteractor.swift */,
-				AA6336B421BC5A710073ED4A /* KYCVerifyEmailPresenter.swift */,
+				AAF3E7CC21BC5B3D00912B13 /* EmailVerificationService.swift */,
+				AA6336B421BC5A710073ED4A /* VerifyEmailPresenter.swift */,
 			);
 			path = Email;
 			sourceTree = "<group>";
@@ -11908,6 +11979,7 @@
 				AA5D848E228E2A4600992810 /* ReceiveCryptoViewController.storyboard in Resources */,
 				3AC90D0421F78CF2006DD565 /* PaginatedContainerCell.xib in Resources */,
 				3A6865C1219A12290009FF29 /* PlatformUIKitAssets.xcassets in Resources */,
+				3ADD8E4322DD17B500942ED0 /* BottomAlertSheet.xib in Resources */,
 				652D579E22DE299A00A87AAB /* ActivityIndicatorLoadingContainerView.xib in Resources */,
 				3A6865CD219A136C0009FF29 /* TransactionDetailCell.xib in Resources */,
 				3A45608B21F270C5006C2568 /* BaseViewController.storyboard in Resources */,
@@ -12018,6 +12090,7 @@
 				51B767B02106369A003CCD46 /* Montserrat-ExtraLightItalic.ttf in Resources */,
 				51B767B12106369A003CCD46 /* Montserrat-Italic.ttf in Resources */,
 				3AE6AF6C228F304D00BF8F56 /* PaxActivityViewController.storyboard in Resources */,
+				3A19E25E22D3B257000A2A99 /* PitEmailVerificationViewController.storyboard in Resources */,
 				51B767B22106369A003CCD46 /* Montserrat-Light.ttf in Resources */,
 				51B767B32106369A003CCD46 /* Montserrat-LightItalic.ttf in Resources */,
 				51B767B42106369A003CCD46 /* Montserrat-Medium.ttf in Resources */,
@@ -12787,9 +12860,11 @@
 				3A34280722246A15000D8032 /* BaseUIButton.swift in Sources */,
 				650CE42222CBDF0F00FA282E /* SideImageButtonViewModel.swift in Sources */,
 				654193E322D4A91B00B3E6ED /* BaseScreenViewController+Style.swift in Sources */,
+				3A35D7E822E23150000BC5FA /* Rx+BottomAlertSheet.swift in Sources */,
 				3A3F3B9E21E4073A003BFDFC /* BaseCell.swift in Sources */,
 				6541940A22D786E100B3E6ED /* LoadingCircleView.swift in Sources */,
 				3A3F3B9021E3FE89003BFDFC /* ContainerModel.swift in Sources */,
+				3A7E382622E1486C00E289C4 /* GradientView.swift in Sources */,
 				3A07814C21E54DB200760BF9 /* UICollectionViewCell+Conveniences.swift in Sources */,
 				3A3F3B9621E40538003BFDFC /* HorizontalContainerCell.swift in Sources */,
 				3A8473BB219B369E00F22FA6 /* TransactionDetail.swift in Sources */,
@@ -12820,6 +12895,7 @@
 				AA5D8483228E2A2B00992810 /* ReceiveCryptoViewController.swift in Sources */,
 				654193E622D4A93500B3E6ED /* NavigationTransitionAnimating.swift in Sources */,
 				3A3F3B9421E400DE003BFDFC /* LayoutAttributes.swift in Sources */,
+				3ADD8E4E22DD299A00942ED0 /* BottomAlertSheet.swift in Sources */,
 				3AB692FF21FB8A840069CB90 /* UIView+Conveniences.swift in Sources */,
 				3A342805222465D1000D8032 /* ActionMetadata.swift in Sources */,
 				3A3F3BA721E41171003BFDFC /* ContainerLayout.swift in Sources */,
@@ -12832,6 +12908,7 @@
 				3A3F3BA021E40807003BFDFC /* Container.swift in Sources */,
 				3A3427FF2220B588000D8032 /* BottomSheetView.swift in Sources */,
 				3A8994D02203F87900CCA8FF /* AnimatedGradientView.swift in Sources */,
+				3A7E382922E21F7000E289C4 /* CGRect+Conveniences.swift in Sources */,
 				3A3F3BA521E410BF003BFDFC /* ContainerModel+Conveniences.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -12974,7 +13051,7 @@
 				650CE41B22CBD55400FA282E /* MockPinInteractor.swift in Sources */,
 				34BE77C82253D9EC0034A6BE /* StellarLedgerServiceTests.swift in Sources */,
 				C7B463D9221B572800ADDC22 /* KYCDeepLinkRouter.swift in Sources */,
-				AAF3E7D721BC5B4200912B13 /* KYCVerifyEmailInteractor.swift in Sources */,
+				AAF3E7D721BC5B4200912B13 /* EmailVerificationService.swift in Sources */,
 				6564E55922C13F3E0057108B /* FeatureConfigurating.swift in Sources */,
 				AACE31D42092A99B00B7B806 /* AppCoordinator.swift in Sources */,
 				3ABB80BC213F0CD300AD57BE /* Limit.swift in Sources */,
@@ -12982,6 +13059,7 @@
 				AA0A414C214B152100807163 /* AssetAccount.swift in Sources */,
 				3A331E5D22147C8500ECA937 /* ExchangeDetailPageModel.swift in Sources */,
 				3A1552D92135FFDB00683CEB /* ExchangeTradingPairs.swift in Sources */,
+				3A5AF01222D53472007C5717 /* EmailVerifierAPI.swift in Sources */,
 				3AE74B4A21C04C6800246A9C /* KYCTierCell.swift in Sources */,
 				AA46ECC1219A2ED50077B351 /* KYCVerifyIdentityPresenter.swift in Sources */,
 				602B9D0E2118E23A00BD3D60 /* KYCVerifyIdentityController.swift in Sources */,
@@ -13068,6 +13146,7 @@
 				3AAEF94E21417547005852D1 /* ExchangeLockedHeaderView.swift in Sources */,
 				602B9D1C2118E26300BD3D60 /* PostalAddress.swift in Sources */,
 				65550E8022BE671F00522656 /* DigitPadView.swift in Sources */,
+				3AC7C2C422E6A8D20021C841 /* PitConnectViewController.swift in Sources */,
 				AA755EEE2188ED6800FC4894 /* StellarTradeLimitsAPI.swift in Sources */,
 				C7CE25B72135E3D300DCC43B /* ExchangeCreatePresenter.swift in Sources */,
 				AAD92FBB2202658B005DA575 /* NavigationCTA.swift in Sources */,
@@ -13156,6 +13235,7 @@
 				AAFA97AF2115110000D19ED3 /* SettingsTwoStepVC.swift in Sources */,
 				C7343C2221516A6F001B1EC9 /* ExchangeDetailInteractor.swift in Sources */,
 				3A4FF223221DC26E00AA18AF /* TabContainer.swift in Sources */,
+				3AC7C2C222E6A8410021C841 /* PITAccountRepository.swift in Sources */,
 				3A4EABA52140826800081531 /* PlainCell.swift in Sources */,
 				AAA6648B2123426A009C1C64 /* PrimaryButtonContainer.swift in Sources */,
 				51DC2F5D20B72F4900E03AF2 /* AddressValidator.swift in Sources */,
@@ -13218,17 +13298,19 @@
 				AAB75A022189641900A0AD11 /* MockXlmWallet.swift in Sources */,
 				AABE35EF21939C620001AE4A /* NabuAuthenticationServiceTests.swift in Sources */,
 				AAE94F4420C736E9005A3595 /* AssetURLPayloadFactoryTests.swift in Sources */,
+				3AC7C2B822E6A8380021C841 /* PitCoordinator.swift in Sources */,
 				3AC25E6922443DA40033FB9D /* ExchangeInteractorStatus.swift in Sources */,
 				602B9D172118E25A00BD3D60 /* LocationSuggestionInterface.swift in Sources */,
 				3A56AEB02176620400044302 /* StellarTransactionService.swift in Sources */,
 				347B6A0C22CCD4A5002C80E9 /* LegacyWalletMock.swift in Sources */,
-				AA6336B621BC5A710073ED4A /* KYCVerifyEmailPresenter.swift in Sources */,
+				AA6336B621BC5A710073ED4A /* VerifyEmailPresenter.swift in Sources */,
 				AA54E4FC216D5CC4005061F9 /* MockKYCStateSelectionView.swift in Sources */,
 				3A562BB4220CDC87002CFFAF /* TransactionFailure.swift in Sources */,
 				C7CE25BA2135E41900DCC43B /* ExchangeCreateInteractor.swift in Sources */,
 				3A7293E2225BB5BF00F17646 /* KYCCoinifySignupPayload.swift in Sources */,
 				AA56423820DDBDAA0092A022 /* PinTests.swift in Sources */,
 				6567FECD22CBA3860035CB16 /* AddressSubscribing.swift in Sources */,
+				3A01989622E7939C00EBDB78 /* PitDeepLinkRouter.swift in Sources */,
 				3A91F7972137067400CDC3FD /* Order.swift in Sources */,
 				C711352421C19D7A00F70AF0 /* KYCTierState.swift in Sources */,
 				AA1E523E2097E6AC0099BD10 /* PinStoreResponse.swift in Sources */,
@@ -13481,6 +13563,7 @@
 				602B9D0D2118E23800BD3D60 /* KYCOnboardingNavigationController.swift in Sources */,
 				AA0A4158214B3A3700807163 /* AssetAccountRepository.swift in Sources */,
 				34EFC7D12220815C00273640 /* EthereumWalletTests.swift in Sources */,
+				3AC7C2C322E6A8460021C841 /* PitAccountAuthenticator.swift in Sources */,
 				65D179C722CBC908001D3544 /* AddressSubscriber.swift in Sources */,
 				3A53B950213466580020ECAD /* ExchangeListHeaderView.swift in Sources */,
 				C7343C1821516A64001B1EC9 /* ExchangeDetailPresenter.swift in Sources */,
@@ -13492,9 +13575,9 @@
 				AA126CE6212C99FF005886A3 /* KYCPageViewFactory.swift in Sources */,
 				3AB4D91B21309BCC004F0160 /* ExchangeListDataProvider.swift in Sources */,
 				AAB759FF21895CD200A0AD11 /* MockBlockchainSettings.swift in Sources */,
-				3AE74B4B21C04C7000246A9C /* GradientView.swift in Sources */,
 				6567FDE422C8B0750035CB16 /* ShimmeringViewing.swift in Sources */,
 				6541550222C549E700E78814 /* AddressFetchingError.swift in Sources */,
+				3AC7C2C522E6A8D90021C841 /* PitEmailVerificationViewController.swift in Sources */,
 				AA126CE0212C9735005886A3 /* KYCPageError.swift in Sources */,
 				3ADFE6FA214AE0E300E7E2D5 /* InputComponent.swift in Sources */,
 				AA6336B021BC5A430073ED4A /* KYCEnterEmailController.swift in Sources */,
@@ -13543,6 +13626,7 @@
 				C7CE25B62135E3D300DCC43B /* ExchangeCreatePresenter.swift in Sources */,
 				3A3D5DB6211B96FA00E6C241 /* LocationUpdateAPI.swift in Sources */,
 				C7A85927217A294000502935 /* Identifiable.swift in Sources */,
+				3A01989522E7939C00EBDB78 /* PitDeepLinkRouter.swift in Sources */,
 				AA8F21E421C719B700F45C42 /* WalletNabuSynchronizerService.swift in Sources */,
 				34D88F62221A96C300AE9DE5 /* AddressQRCodeParser.swift in Sources */,
 				65F5E70722C3843C00D00F50 /* AddressPresenter.swift in Sources */,
@@ -13578,8 +13662,9 @@
 				3AC25E6822443DA40033FB9D /* ExchangeInteractorStatus.swift in Sources */,
 				AA126CE2212C9753005886A3 /* KYCPagePayload.swift in Sources */,
 				C764372920ED199500CA7CA4 /* BalanceChartModel.swift in Sources */,
+				AA6336B521BC5A710073ED4A /* VerifyEmailPresenter.swift in Sources */,
 				650CE41E22CBDDB000FA282E /* Wallet+WalletProtocol.swift in Sources */,
-				AA6336B521BC5A710073ED4A /* KYCVerifyEmailPresenter.swift in Sources */,
+				AA6336B521BC5A710073ED4A /* VerifyEmailPresenter.swift in Sources */,
 				23FB5C101D9ABB730008C6AB /* TransactionDetailDateCell.m in Sources */,
 				606399EC2110FC2D005B6DF5 /* SRMutex.m in Sources */,
 				670595A41AB0F59D00D2D6D9 /* KeychainItemWrapper.m in Sources */,
@@ -13644,8 +13729,10 @@
 				C7A0E90E1FA796EC004F4267 /* BCChartMarkerView.swift in Sources */,
 				3A53B94F213466580020ECAD /* ExchangeListHeaderView.swift in Sources */,
 				676250821A2DDF360052B63F /* AccountTableCell.m in Sources */,
+				3A204AF122DCF8EA008FCD0B /* PitAccountAuthenticator.swift in Sources */,
 				6564E56522C13FF00057108B /* MaintenanceServicing.swift in Sources */,
 				67EE1DCF19E3325900DBBFC9 /* UIViewController+ECSlidingViewController.m in Sources */,
+				3A5AF01422D5354F007C5717 /* PitCoordinator.swift in Sources */,
 				AACE314C209152D800B7B806 /* Application+Helpers.swift in Sources */,
 				65283F1722A7D69800255A30 /* VersionUpdateAlertDisplaying.swift in Sources */,
 				AA63F86720A27AC6002B719B /* PostAuthenticationRoute.swift in Sources */,
@@ -13727,7 +13814,7 @@
 				65E4B52022CE39F600EAC3CD /* QRAddressViewModel.swift in Sources */,
 				3A56AEB921766D4800044302 /* StellarAccount.swift in Sources */,
 				3AAEF94D21417547005852D1 /* ExchangeLockedHeaderView.swift in Sources */,
-				AAF3E7CD21BC5B3D00912B13 /* KYCVerifyEmailInteractor.swift in Sources */,
+				AAF3E7CD21BC5B3D00912B13 /* EmailVerificationService.swift in Sources */,
 				AA0A414B214B152100807163 /* AssetAccount.swift in Sources */,
 				3AB4D91421308640004F0160 /* ListPresentationUpdate.swift in Sources */,
 				AAD279E0209A99DA00C0EAFC /* AVCaptureDeviceInput.swift in Sources */,
@@ -13735,6 +13822,7 @@
 				3AE74B6621C07AA900246A9C /* KYCTiersFooterView.swift in Sources */,
 				23B731D31E01AC1100129770 /* ReminderModalViewController.m in Sources */,
 				23444F9F1DCD221A00573C8C /* BTCProtocolSerialization.m in Sources */,
+				3A19E25322D3B246000A2A99 /* PitEmailVerificationViewController.swift in Sources */,
 				3AB4D910212FA61E004F0160 /* ExchangeListInteractor.swift in Sources */,
 				60639A022110FC2D005B6DF5 /* NSURLRequest+SRWebSocket.m in Sources */,
 				AA1E522F2097CC010099BD10 /* WalletAuthDelegate.swift in Sources */,
@@ -13743,6 +13831,7 @@
 				3AB4D902212F4A0E004F0160 /* ExchangeListContracts.swift in Sources */,
 				3A53DAFA2266180800CBCB6E /* CoinifyAccountRepository.swift in Sources */,
 				84FC02FA1981452D00B97D5B /* NSString+JSONParser_NSString.m in Sources */,
+				3A5AF01122D52865007C5717 /* EmailVerifierAPI.swift in Sources */,
 				9F765F3D14BC7C4F00048EFB /* Transaction.m in Sources */,
 				6541550122C549E700E78814 /* AddressFetchingError.swift in Sources */,
 				3A1552E7213600B400683CEB /* TradingPairConfiguration.swift in Sources */,
@@ -14154,9 +14243,9 @@
 				34615BC4225F809D00CEC8C4 /* ERC20AccountAPIClient.swift in Sources */,
 				3A390748217E52AB00D2DA01 /* StellarLedgerService.swift in Sources */,
 				34BA9FC922B13B5E00A5698F /* PaxEmptyStateView.swift in Sources */,
+				3AECA26422CFE1AA004ED7B7 /* PITAccountRepository.swift in Sources */,
 				3A4EABA42140826800081531 /* PlainCell.swift in Sources */,
 				34BA9FD522B13C3E00A5698F /* PaxEmptyStateContentView.swift in Sources */,
-				3AE74B3C21C0217000246A9C /* GradientView.swift in Sources */,
 				AABB74C820D44B0600C0F7C5 /* AboutUsViewController.swift in Sources */,
 				606399F82110FC2D005B6DF5 /* SRRandom.m in Sources */,
 				606399E62110FC2D005B6DF5 /* SRRunLoopThread.m in Sources */,

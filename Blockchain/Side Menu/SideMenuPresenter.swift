@@ -63,7 +63,8 @@ class SideMenuPresenter {
         
         items.append(contentsOf: [
             .support,
-            .settings
+            .settings,
+            .pit
             ]
         )
         view?.setMenu(items: items)

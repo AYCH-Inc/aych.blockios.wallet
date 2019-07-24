@@ -1,5 +1,5 @@
 //
-//  KYCVerifyEmailPresenter.swift
+//  VerifyEmailPresenter.swift
 //  Blockchain
 //
 //  Created by Chris Arriola on 12/8/18.
@@ -11,31 +11,21 @@ import PlatformKit
 
 typealias EmailAddress = String
 
-protocol KYCVerifyEmailView: class {
-    func showLoadingView()
-
-    func sendEmailVerificationSuccess()
-
-    func showError(message: String)
-
-    func hideLoadingView()
-}
-
-protocol KYCConfirmEmailView: KYCVerifyEmailView {
+protocol EmailConfirmationInterface: EmailVerificationInterface {
     func emailVerifiedSuccess()
 }
 
-class KYCVerifyEmailPresenter {
+class VerifyEmailPresenter {
 
-    private weak var view: KYCVerifyEmailView?
-    private let interactor: KYCVerifyEmailInteractor
+    private weak var view: EmailVerificationInterface?
+    private let interactor: EmailVerificationService
     private let disposables = CompositeDisposable()
 
     deinit {
         disposables.dispose()
     }
 
-    init(view: KYCVerifyEmailView, interactor: KYCVerifyEmailInteractor = KYCVerifyEmailInteractor()) {
+    init(view: EmailVerificationInterface, interactor: EmailVerificationService = EmailVerificationService()) {
         self.view = view
         self.interactor = interactor
     }
@@ -52,20 +42,24 @@ class KYCVerifyEmailPresenter {
                     Logger.shared.debug("Email not verified")
                     return
                 }
-                guard let confirmView = strongSelf.view as? KYCConfirmEmailView else {
+                guard let confirmView = strongSelf.view as? EmailConfirmationInterface else {
                     return
                 }
                 confirmView.emailVerifiedSuccess()
             })
     }
+    
+    var userEmail: Single<Email> {
+        return interactor.userEmail
+    }
 
-    func sendVerificationEmail(to email: EmailAddress) {
-        view?.showLoadingView()
-        let disposable = interactor.sendVerificationEmail(to: email)
+    func sendVerificationEmail(to email: EmailAddress, contextParameter: ContextParameter? = nil) {
+        view?.updateLoadingViewVisibility(.visible)
+        let disposable = interactor.sendVerificationEmail(to: email, contextParameter: contextParameter)
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .do(onDispose: { [weak self] in
-                self?.view?.hideLoadingView()
+                self?.view?.updateLoadingViewVisibility(.hidden)
             })
             .subscribe(onCompleted: { [weak self] in
                 guard let strongSelf = self else {

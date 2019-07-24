@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3Ee-mU-4kA">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Medium.ttf">
+            <string>Montserrat-Medium</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Pit Email Verification View Controller-->
+        <scene sceneID="Z9u-Cy-lYF">
+            <objects>
+                <viewController id="3Ee-mU-4kA" customClass="PitEmailVerificationViewController" customModule="Blockchain" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2eP-IO-5TY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We just sent you a verification email. Your email address needs to be verified before you can connect to The PIT." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lOl-z1-69o">
+                                <rect key="frame" x="32" y="44" width="311" height="51.5"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                <color key="textColor" red="0.20999999999999999" green="0.25" blue="0.32000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uoh-49-ech">
+                                <rect key="frame" x="0.0" y="95.5" width="375" height="442"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kVM-Ly-CH6">
+                                        <rect key="frame" x="32" y="208.5" width="311" height="25"/>
+                                        <color key="textColor" red="0.029999999999999999" green="0.28999999999999998" blue="0.47999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" textContentType="email"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="kVM-Ly-CH6" firstAttribute="centerY" secondItem="Uoh-49-ech" secondAttribute="centerY" id="WMb-Q7-bG8"/>
+                                    <constraint firstItem="kVM-Ly-CH6" firstAttribute="centerX" secondItem="Uoh-49-ech" secondAttribute="centerX" id="j9h-UO-StH"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="5MS-rs-eAu">
+                                <rect key="frame" x="32" y="537.5" width="311" height="97.5"/>
+                                <subviews>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email sent!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8wn-LL-Uch">
+                                        <rect key="frame" x="117" y="0.0" width="77.5" height="0.0"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Just a moment." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXe-2J-G2a">
+                                        <rect key="frame" x="101.5" y="0.0" width="108.5" height="0.0"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Didn't see the email? Send Again" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mff-Bv-xHb" customClass="ActionableLabel" customModule="Blockchain" customModuleProvider="target">
+                                        <rect key="frame" x="41" y="0.0" width="229.5" height="17.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7eY-kn-gHa" customClass="PrimaryButtonContainer" customModule="Blockchain" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="49.5" width="311" height="48"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="64v-S6-Mek"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="buttonBackgroundColor">
+                                                <color key="value" red="0.050000000000000003" green="0.41999999999999998" blue="0.94999999999999996" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="buttonTitleColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="disabledButtonBackgroundColor">
+                                                <color key="value" red="0.050000000000000003" green="0.41999999999999998" blue="0.94999999999999996" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="title" value="Open Mail"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="7eY-kn-gHa" firstAttribute="leading" secondItem="5MS-rs-eAu" secondAttribute="leading" id="M06-7s-nbd"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Uoh-49-ech" firstAttribute="top" secondItem="lOl-z1-69o" secondAttribute="bottom" id="0rm-4f-glC"/>
+                            <constraint firstAttribute="trailing" secondItem="lOl-z1-69o" secondAttribute="trailing" constant="32" id="6en-4R-D2A"/>
+                            <constraint firstItem="kVM-Ly-CH6" firstAttribute="trailing" secondItem="lOl-z1-69o" secondAttribute="trailing" id="7l6-cD-dZZ"/>
+                            <constraint firstItem="hUY-NH-aY8" firstAttribute="trailing" secondItem="Uoh-49-ech" secondAttribute="trailing" id="BZU-K8-GrA"/>
+                            <constraint firstItem="5MS-rs-eAu" firstAttribute="top" secondItem="Uoh-49-ech" secondAttribute="bottom" id="Bio-D8-LuQ"/>
+                            <constraint firstItem="5MS-rs-eAu" firstAttribute="centerX" secondItem="hUY-NH-aY8" secondAttribute="centerX" id="Iew-uO-fhd"/>
+                            <constraint firstItem="Uoh-49-ech" firstAttribute="leading" secondItem="hUY-NH-aY8" secondAttribute="leading" id="TP0-uu-4hv"/>
+                            <constraint firstItem="lOl-z1-69o" firstAttribute="centerX" secondItem="hUY-NH-aY8" secondAttribute="centerX" id="V6U-es-XY5"/>
+                            <constraint firstItem="kVM-Ly-CH6" firstAttribute="leading" secondItem="lOl-z1-69o" secondAttribute="leading" id="ZTA-bc-5lX"/>
+                            <constraint firstItem="lOl-z1-69o" firstAttribute="top" secondItem="hUY-NH-aY8" secondAttribute="top" constant="24" id="cJC-5H-JE2"/>
+                            <constraint firstItem="lOl-z1-69o" firstAttribute="leading" secondItem="2eP-IO-5TY" secondAttribute="leading" constant="32" id="sbM-9t-ODt"/>
+                            <constraint firstItem="hUY-NH-aY8" firstAttribute="trailing" secondItem="5MS-rs-eAu" secondAttribute="trailing" constant="32" id="vxI-g6-ZXC"/>
+                            <constraint firstItem="5MS-rs-eAu" firstAttribute="leading" secondItem="hUY-NH-aY8" secondAttribute="leading" constant="32" id="wBp-Lh-PIr"/>
+                            <constraint firstItem="hUY-NH-aY8" firstAttribute="bottom" secondItem="5MS-rs-eAu" secondAttribute="bottom" constant="32" id="xLD-ob-QCr"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hUY-NH-aY8"/>
+                    </view>
+                    <connections>
+                        <outlet property="emailSentLabel" destination="8wn-LL-Uch" id="y1c-Wh-Gpw"/>
+                        <outlet property="emailTextField" destination="kVM-Ly-CH6" id="p3C-A5-v9c"/>
+                        <outlet property="emailVerificationDescriptionLabel" destination="lOl-z1-69o" id="MX4-Nc-ftl"/>
+                        <outlet property="layoutConstraintBottomButton" destination="xLD-ob-QCr" id="BhE-6B-9dF"/>
+                        <outlet property="openMailButtonContainer" destination="7eY-kn-gHa" id="Pod-SA-aS4"/>
+                        <outlet property="resendEmailActionableLabel" destination="Mff-Bv-xHb" id="vG3-gY-Aq4"/>
+                        <outlet property="waitingLabel" destination="GXe-2J-G2a" id="iOx-te-TMW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lyo-e7-ltr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="88" y="98"/>
+        </scene>
+    </scenes>
+</document>

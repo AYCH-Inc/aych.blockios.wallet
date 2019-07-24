@@ -21,6 +21,7 @@ struct WalletSettingsRequest: Codable {
     let payload: String?
     let length: String?
     let format: String?
+    let context: String?
 
     init(
         method: String,
@@ -29,7 +30,8 @@ struct WalletSettingsRequest: Codable {
         apiCode: String,
         payload: String? = nil,
         length: String? = nil,
-        format: String? = nil
+        format: String? = nil,
+        context: String? = nil
     ) {
         self.method = method
         self.guid = guid
@@ -38,6 +40,7 @@ struct WalletSettingsRequest: Codable {
         self.payload = payload
         self.length = length
         self.format = format
+        self.context = context
     }
 
     enum CodingKeys: String, CodingKey {
@@ -48,5 +51,6 @@ struct WalletSettingsRequest: Codable {
         case payload
         case length
         case format
+        case context
     }
 }

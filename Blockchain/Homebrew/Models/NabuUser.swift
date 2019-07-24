@@ -16,7 +16,7 @@ struct NabuUser: Decodable {
         case active = "ACTIVE"
         case blocked = "BLOCKED"
     }
-
+    
     let personalDetails: PersonalDetails?
     let address: UserAddress?
     let email: Email
@@ -26,6 +26,8 @@ struct NabuUser: Decodable {
     let tiers: NabuUserTiers?
     let tags: Tags?
     let needsDocumentResubmission: DocumentResubmission?
+    let pitUserName: String?
+    let depositAddresses: [DepositAddress]?
 
     // MARK: - Decodable
 
@@ -44,9 +46,12 @@ struct NabuUser: Decodable {
         case tags = "tags"
         case tiers = "tiers"
         case needsDocumentResubmission = "resubmission"
+        case userName
+        case walletAddresses
     }
 
     init(
+        hasLinkedPITAccount: Bool = false,
         personalDetails: PersonalDetails?,
         address: UserAddress?,
         email: Email,
@@ -55,7 +60,9 @@ struct NabuUser: Decodable {
         state: UserState,
         tags: Tags?,
         tiers: NabuUserTiers?,
-        needsDocumentResubmission: DocumentResubmission?
+        needsDocumentResubmission: DocumentResubmission?,
+        pitUserName: String? = nil,
+        depositAddresses: [DepositAddress]? = nil
     ) {
         self.personalDetails = personalDetails
         self.address = address
@@ -66,6 +73,8 @@ struct NabuUser: Decodable {
         self.tags = tags
         self.tiers = tiers
         self.needsDocumentResubmission = needsDocumentResubmission
+        self.pitUserName = pitUserName
+        self.depositAddresses = depositAddresses
     }
 
     init(from decoder: Decoder) throws {
@@ -82,6 +91,17 @@ struct NabuUser: Decodable {
         address = try values.decodeIfPresent(UserAddress.self, forKey: .address)
         tiers = try values.decodeIfPresent(NabuUserTiers.self, forKey: .tiers)
         let birthdayValue = try values.decodeIfPresent(String.self, forKey: .dob)
+        pitUserName = try values.decodeIfPresent(String.self, forKey: .userName)
+        let depositAddresses = try values.decodeIfPresent([String: String].self, forKey: .walletAddresses)
+        
+        if let addresses = depositAddresses {
+            self.depositAddresses = addresses.compactMap { (key, value) -> DepositAddress? in
+                return DepositAddress(stringValue: key, address: value)
+            }
+        } else {
+            self.depositAddresses = nil
+        }
+        
         var birthday: Date?
         if let value = birthdayValue {
             birthday = DateFormatter.birthday.date(from: value)
@@ -118,6 +138,11 @@ struct NabuUser: Decodable {
 }
 
 extension NabuUser {
+    
+    var hasLinkedPITAccount: Bool {
+        return pitUserName != nil
+    }
+    
     var isSunriverAirdropRegistered: Bool {
         return tags?.sunriver != nil
     }
@@ -189,5 +214,28 @@ struct DocumentResubmission: Decodable {
 
     enum CodingKeys: String, CodingKey {
         case reason
+    }
+}
+
+struct DepositAddress {
+    
+    let type: AssetType
+    let address: String
+    
+    init?(stringValue: String, address: String) {
+        guard let type = AssetType(stringValue: stringValue) else { return nil }
+        self.type = type
+        self.address = address
+    }
+    
+    init(type: AssetType, address: String) {
+        self.type = type
+        self.address = address
+    }
+}
+
+extension DepositAddress {
+    var dictionaryRepresentation: [String: String] {
+        return [type.symbol: address]
     }
 }

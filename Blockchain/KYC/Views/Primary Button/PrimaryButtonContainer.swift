@@ -85,6 +85,7 @@ class PrimaryButtonContainer: NibBasedView {
     @IBInspectable var isLoading: Bool = false {
         didSet {
             isLoading == true ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+            isLoading == true ? primaryButton.setTitle(nil, for: .normal) : primaryButton.setTitle(title, for: .normal)
         }
     }
 

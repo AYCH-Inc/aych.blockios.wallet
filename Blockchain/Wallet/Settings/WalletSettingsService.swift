@@ -32,7 +32,7 @@ class WalletSettingsService: WalletSettingsAPI {
         return NetworkRequest.POST(url: url, body: data, type: WalletSettings.self, contentType: .formUrlEncoded)
     }
 
-    func updateSettings(method: WalletSettingsApiMethod, guid: String, sharedKey: String, payload: String) -> Completable {
+    func updateSettings(method: WalletSettingsApiMethod, guid: String, sharedKey: String, payload: String, context: ContextParameter?) -> Completable {
         guard let url = URL(string: BlockchainAPI.shared.walletSettingsUrl) else {
             return Completable.error(NetworkError.generic(message: "Cannot retrieve wallet settings URL."))
         }
@@ -44,7 +44,8 @@ class WalletSettingsService: WalletSettingsAPI {
             apiCode: apiCode,
             payload: payload,
             length: "\(payload.count)",
-            format: WalletSettingsRequest.Formats.plain
+            format: WalletSettingsRequest.Formats.plain,
+            context: context?.rawValue ?? nil
         )
         let data = try? JSONEncoder().encode(request)
         return NetworkRequest.POST(url: url, body: data, contentType: .formUrlEncoded)
@@ -52,10 +53,10 @@ class WalletSettingsService: WalletSettingsAPI {
 
     func updateLastTxTimeToCurrentTime(guid: String, sharedKey: String) -> Completable {
         let currentTime = "\(Int(Date().timeIntervalSince1970))"
-        return updateSettings(method: .updateLastTxTime, guid: guid, sharedKey: sharedKey, payload: currentTime)
+        return updateSettings(method: .updateLastTxTime, guid: guid, sharedKey: sharedKey, payload: currentTime, context: nil)
     }
 
-    func updateEmail(email: String, guid: String, sharedKey: String) -> Completable {
-        return updateSettings(method: .updateEmail, guid: guid, sharedKey: sharedKey, payload: email)
+    func updateEmail(email: String, guid: String, sharedKey: String, context: ContextParameter?) -> Completable {
+        return updateSettings(method: .updateEmail, guid: guid, sharedKey: sharedKey, payload: email, context: context)
     }
 }

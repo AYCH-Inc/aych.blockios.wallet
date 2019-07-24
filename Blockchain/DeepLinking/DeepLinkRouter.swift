@@ -15,7 +15,8 @@ class DeepLinkRouter {
     init(routers: [DeepLinkRouting] = [
         StellarAirdropRouter(),
         KYCDeepLinkRouter(),
-        KYCResubmitIdentityRouter()
+        KYCResubmitIdentityRouter(),
+        PitDeepLinkRouter()
     ]) {
         self.routers = routers
     }

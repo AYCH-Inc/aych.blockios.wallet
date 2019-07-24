@@ -13,7 +13,6 @@ import PlatformKit
 // Protocol for syncing Nabu with the wallet state by sending a JWT token to Nabu.
 // Conform to this protocol if your class needs to update Nabu with the wallet state (e.g. Settings/Wallet Account Info)
 protocol WalletNabuSyncable {
-    var disposable: Disposable? { get set }
     var authenticationService: NabuAuthenticationService { get }
     func syncNabuWithWallet(
         successHandler: WalletNabuSyncCompletion?,

@@ -33,8 +33,8 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
 
     // MARK: Private Properties
 
-    private lazy var presenter: KYCVerifyEmailPresenter = {
-        return KYCVerifyEmailPresenter(view: self)
+    private lazy var presenter: VerifyEmailPresenter = {
+        return VerifyEmailPresenter(view: self)
     }()
 
     internal var disposable: Disposable?
@@ -111,9 +111,9 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
     }
 }
 
-extension KYCConfirmEmailController: KYCConfirmEmailView {
-    func showLoadingView() {
-        buttonDidntGetEmail.isLoading = true
+extension KYCConfirmEmailController: EmailConfirmationInterface {
+    func updateLoadingViewVisibility(_ visibility: Visibility) {
+        buttonDidntGetEmail.isLoading = visibility.isHidden == false
     }
 
     func sendEmailVerificationSuccess() {

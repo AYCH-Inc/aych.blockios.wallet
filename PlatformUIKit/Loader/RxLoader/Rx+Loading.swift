@@ -8,6 +8,26 @@
 
 import RxSwift
 
+public extension PrimitiveSequence where Trait == SingleTrait {
+    
+    /// Show the loader and returns `Element`
+    func showOnSubscription(loader: LoadingViewPresenting,
+              text: String? = nil) -> Single<Element> {
+        return self.do(onSubscribe: {
+            loader.show(with: text)
+        })
+    }
+    
+    /// Hides the loader and returns `Element`
+    func hideOnDisposal(loader: LoadingViewPresenting) -> Single<Element> {
+        return self.do(onDispose: {
+            loader.hide()
+        })
+        
+    }
+}
+
+
 /// Extension for `ObservableType` that enables the loader to take part in a chain of observables
 public extension ObservableType {
     

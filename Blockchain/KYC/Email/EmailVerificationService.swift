@@ -1,5 +1,5 @@
 //
-//  KYCVerifyEmailInteractor.swift
+//  EmailVerificationService.swift
 //  Blockchain
 //
 //  Created by Chris Arriola on 12/8/18.
@@ -13,20 +13,23 @@ enum VerifyEmailError: Error {
     case invalidWalletState
 }
 
-class KYCVerifyEmailInteractor {
+class EmailVerificationService: EmailVerifierAPI {
 
     private let appSettings: BlockchainSettings.App
     private let authenticationService: NabuAuthenticationService
     private let walletSettings: WalletSettingsAPI
+    private let repository: BlockchainDataRepository
 
     init(
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
         authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
-        walletSettings: WalletSettingsAPI = WalletSettingsService()
+        walletSettings: WalletSettingsAPI = WalletSettingsService(),
+        repository: BlockchainDataRepository = BlockchainDataRepository.shared
     ) {
         self.appSettings = appSettings
         self.authenticationService = authenticationService
         self.walletSettings = walletSettings
+        self.repository = repository
     }
 
     /// Waits until the email is verified by the user. Once the email is verified, the Completable sequence will complete
@@ -51,7 +54,7 @@ class KYCVerifyEmailInteractor {
             }
     }
 
-    func sendVerificationEmail(to email: EmailAddress) -> Completable {
+    func sendVerificationEmail(to email: EmailAddress, contextParameter: ContextParameter?) -> Completable {
         guard let guid = appSettings.guid else {
             Logger.shared.warning("Cannot update last-tx-time, guid is nil.")
             return Completable.error(VerifyEmailError.invalidWalletState)
@@ -61,14 +64,20 @@ class KYCVerifyEmailInteractor {
             return Completable.error(VerifyEmailError.invalidWalletState)
         }
         
-        return walletSettings.updateEmail(email: email, guid: guid, sharedKey: sharedKey).andThen(
+        return walletSettings.updateEmail(email: email, guid: guid, sharedKey: sharedKey, context: contextParameter).andThen(
             authenticationService.updateWalletInfo()
         )
+    }
+    
+    var userEmail: Single<Email> {
+        return repository.nabuUser.take(1).asSingle().flatMap {
+            return Single.just($0.email)
+        }
     }
 
     // MARK: Private Methods
 
-    private func pollWalletSettings() -> Observable<WalletSettings> {
+    func pollWalletSettings() -> Observable<WalletSettings> {
         return Observable<Int>.interval(
             1,
             scheduler: MainScheduler.asyncInstance

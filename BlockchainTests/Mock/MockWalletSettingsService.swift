@@ -24,7 +24,8 @@ class MockWalletSettingsService: WalletSettingsAPI {
         method: WalletSettingsApiMethod,
         guid: String,
         sharedKey: String,
-        payload: String
+        payload: String,
+        context: ContextParameter?
     ) -> Completable {
         didCallUpdateSettings?.fulfill()
         return Completable.empty()
@@ -38,7 +39,7 @@ class MockWalletSettingsService: WalletSettingsAPI {
         return Completable.empty()
     }
 
-    func updateEmail(email: String, guid: String, sharedKey: String) -> Completable {
+    func updateEmail(email: String, guid: String, sharedKey: String, context: ContextParameter?) -> Completable {
         return Completable.empty()
     }
 }

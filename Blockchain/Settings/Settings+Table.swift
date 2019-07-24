@@ -9,11 +9,13 @@
 import Foundation
 import RxSwift
 import PlatformKit
+import PlatformUIKit
+import SafariServices
 
 extension SettingsTableViewController {
 
     enum SettingsCell {
-        case base, identity, wallet, email, phoneNumber, currency, recovery, emailNotifications, twoFA, biometry, swipeReceive
+        case base, identity, wallet, pit, email, phoneNumber, currency, recovery, emailNotifications, twoFA, biometry, swipeReceive
     }
 
     func reloadTableView() {
@@ -25,6 +27,15 @@ extension SettingsTableViewController {
         cell.detailTextLabel?.font = UIFont(name: Constants.FontNames.montserratLight, size: Constants.FontSizes.Small)
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         cell.detailTextLabel?.adjustsFontSizeToFitWidth = true
+    }
+    
+    func preparePITLinkingCell(_ cell: UITableViewCell) {
+        getPITLinkingStatus { [weak self] linked in
+            guard let self = self else { return }
+            cell.textLabel?.text = LocalizationConstants.PIT.title
+            cell.detailTextLabel?.text = linked ? LocalizationConstants.PIT.connected.uppercased() : LocalizationConstants.PIT.connect.uppercased()
+            self.createBadge(cell, color: .brandSecondary)
+        }
     }
 
     func prepareBiometryCell(_ cell: UITableViewCell) {
@@ -125,8 +136,21 @@ extension SettingsTableViewController {
         cell.accessoryView = switchForEmailNotifications
     }
 
+    func getPITLinkingStatus(handler: @escaping (Bool) -> Void) {
+        repositoryAPI.hasLinkedPITAccount
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { value in
+                handler(value)
+            }, onError: { error in
+                handler(false)
+                Logger.shared.error(error)
+            })
+            .disposed(by: bag)
+    }
+    
     func getTiersStatus(handler: @escaping (KYCUserTiersResponse?) -> Void) {
-        disposable = BlockchainDataRepository.shared.tiers
+        BlockchainDataRepository.shared.tiers
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { response in
@@ -134,6 +158,7 @@ extension SettingsTableViewController {
             }, onError: { error in
                 handler(nil)
             })
+        .disposed(by: bag)
     }
 
     func prepareIdentityCell(_ cell: UITableViewCell) {
@@ -172,6 +197,7 @@ extension SettingsTableViewController {
         switch format {
         case .identity: prepareIdentityCell(cell)
         case .base: prepareBaseCell(cell)
+        case .pit: preparePITLinkingCell(cell)
         case .biometry: prepareBiometryCell(cell)
         case .wallet: prepareWalletCell(cell)
         case .email: prepareEmailCell(cell)
@@ -200,6 +226,7 @@ extension SettingsTableViewController {
         case (sectionSecurity, securityWalletRecoveryPhrase): prepareRow(cell, .recovery)
         case (sectionSecurity, pinBiometry): prepareRow(cell, .biometry)
         case (sectionSecurity, pinSwipeToReceive): prepareRow(cell, .swipeReceive)
+        case (sectionPIT, pitIndex): prepareRow(cell, .pit)
         default: break
         }
     }
@@ -242,6 +269,50 @@ extension SettingsTableViewController {
                 mobileNumberClicked()
             case profileWebLogin:
                 webLoginClicked()
+            default:
+                return
+            }
+        case sectionPIT:
+            switch indexPath.row {
+            case pitIndex:
+                guard let supportURL = URL(string: Constants.Url.blockchainSupport) else { return }
+                let startPITCoordinator = { [weak self] in
+                    guard let self = self else { return }
+                    PitCoordinator.shared.start(from: self)
+                }
+                let launchPIT = AlertAction(
+                    style: .confirm(LocalizationConstants.PIT.Launch.launchPIT),
+                    metadata: .block(startPITCoordinator)
+                )
+                let contactSupport = AlertAction(
+                    style: .default(LocalizationConstants.PIT.Launch.contactSupport),
+                    metadata: .url(supportURL)
+                )
+                let model = AlertModel(
+                    headline: LocalizationConstants.PIT.title,
+                    body: nil,
+                    actions: [launchPIT, contactSupport],
+                    image: #imageLiteral(resourceName: "pit-icon"),
+                    dismissable: true,
+                    style: .sheet
+                )
+                let alert = AlertView.make(with: model) { [weak self] action in
+                    guard let self = self else { return }
+                    guard let metadata = action.metadata else { return }
+                    switch metadata {
+                    case .block(let block):
+                        block()
+                    case .url(let support):
+                        let controller = SFSafariViewController(url: support)
+                        controller.modalPresentationStyle = .overFullScreen
+                        self.present(controller, animated: true, completion: nil)
+                    case .dismiss,
+                         .pop,
+                         .payload:
+                        break
+                    }
+                }
+                alert.show()
             default:
                 return
             }

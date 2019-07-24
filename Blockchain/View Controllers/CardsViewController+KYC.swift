@@ -112,7 +112,7 @@ extension CardsViewController {
     
     private func showWalletLinkingCardIfNeeded() -> Bool {
         let model = AnnouncementCardViewModel.walletPitLinking(action: {
-            // TODO: Start wallet PIT linking
+            PitCoordinator.shared.start()
         }, onClose: { [weak self] in
             BlockchainSettings.App.shared.shouldHidePITLinkingCard = true
             self?.animateHideCards()

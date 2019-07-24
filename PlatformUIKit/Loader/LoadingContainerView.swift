@@ -13,11 +13,24 @@ final class LoadingContainerView: UIView {
 
     // MARK: - Properties
     
-    private let diameter: CGFloat = 85
-    private lazy var loadingBackgroundView = LoadingCircleView(diameter: diameter,
-                                                               strokeColor: UIColor(white: 0.24, alpha: 1))
-    private lazy var loadingView = LoadingAnimatingView(diameter: diameter,
-                                                        strokeColor: .white)
+    private let max: CGRect = .init(origin: .zero, size: .init(width: 85.0, height: 85.0))
+    
+    private lazy var loadingBackgroundView: LoadingCircleView = {
+        let circle = LoadingCircleView(
+            diameter: self.frame.min(max).width,
+            strokeColor: .init(white: 0.24, alpha: 1.0)
+        )
+        return circle
+    }()
+    
+    private lazy var loadingView: LoadingAnimatingView = {
+        let loading = LoadingAnimatingView(
+            diameter: self.frame.min(max).width,
+            strokeColor: .white
+        )
+        return loading
+    }()
+    
     private lazy var statusLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -39,7 +52,7 @@ final class LoadingContainerView: UIView {
         for view in [loadingBackgroundView, loadingView] {
             self.addSubview(view)
             view.layoutToSuperview(.center)
-            view.layoutSize(to: CGSize(width: diameter, height: diameter))
+            view.layoutSize(to: CGSize(width: frame.min(max).width, height: frame.min(max).height))
         }
         
         addSubview(statusLabel)

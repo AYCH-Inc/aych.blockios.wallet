@@ -18,4 +18,6 @@ public enum NetworkError: Error {
 
     /// An error when the response status code is not in the 200s
     case badStatusCode
+    
+    case `default`
 }

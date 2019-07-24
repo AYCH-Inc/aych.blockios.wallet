@@ -500,13 +500,13 @@ public class AlertView: UIView {
     
 }
 
-fileprivate extension CGPoint {
+extension CGPoint {
     var vector: CGVector {
         return CGVector(dx: x, dy: y)
     }
 }
 
-fileprivate extension CGPoint {
+extension CGPoint {
     var magnitude: CGFloat {
         return sqrt(pow(x, 2) + pow(y, 2))
     }

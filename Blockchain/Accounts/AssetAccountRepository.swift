@@ -18,6 +18,7 @@ import BigInt
 protocol AssetAccountRepositoryAPI {
     func accounts(for assetType: AssetType, fromCache: Bool) -> Maybe<[AssetAccount]>
     func defaultStellarAccount() -> AssetAccount?
+    var accounts: Observable<[AssetAccount]> { get }
 }
 
 /// A repository for `AssetAccount` objects

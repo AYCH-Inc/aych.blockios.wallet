@@ -8,6 +8,7 @@
 
 import Foundation
 import PlatformKit
+import PlatformUIKit
 
 protocol SendXLMViewControllerDelegate: class {
     func onLoad()

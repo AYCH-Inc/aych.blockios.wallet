@@ -8,6 +8,12 @@
 
 import RxSwift
 
+public enum ContextParameter: String {
+    case pitSignup = "PIT_SIGNUP"
+    case kyc = "KYC"
+    case settings = "SETTINGS"
+}
+
 /// Protocol definition for interacting with the `WalletSettings` object.
 public protocol WalletSettingsAPI {
 
@@ -17,7 +23,8 @@ public protocol WalletSettingsAPI {
         method: WalletSettingsApiMethod,
         guid: String,
         sharedKey: String,
-        payload: String
+        payload: String,
+        context: ContextParameter?
     ) -> Completable
 
     /// Updates the last transaction time performed by this wallet. This method should be invoked when:
@@ -26,5 +33,5 @@ public protocol WalletSettingsAPI {
     func updateLastTxTimeToCurrentTime(guid: String, sharedKey: String) -> Completable
 
     /// Updates the users email address in this wallet.
-    func updateEmail(email: String, guid: String, sharedKey: String) -> Completable
+    func updateEmail(email: String, guid: String, sharedKey: String, context: ContextParameter?) -> Completable
 }

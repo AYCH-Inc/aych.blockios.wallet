@@ -19,6 +19,7 @@ enum SideMenuItem: String {
     case upgrade = "upgrade"
     case webLogin = "web_login"
     case lockbox = "lockbox"
+    case pit = "pit"
 }
 
 extension SideMenuItem {
@@ -33,6 +34,7 @@ extension SideMenuItem {
         case .upgrade: return LocalizationConstants.LegacyUpgrade.upgrade
         case .webLogin: return LocalizationConstants.SideMenu.loginToWebWallet
         case .lockbox: return LocalizationConstants.SideMenu.lockbox
+        case .pit: return LocalizationConstants.SideMenu.pit
         }
     }
 
@@ -47,6 +49,7 @@ extension SideMenuItem {
         case .upgrade: return #imageLiteral(resourceName: "icon_upgrade")
         case .webLogin: return #imageLiteral(resourceName: "Icon-Web")
         case .lockbox: return #imageLiteral(resourceName: "icon_lbx")
+        case .pit: return #imageLiteral(resourceName: "pit-menu-logo")
         }
     }
     
@@ -62,6 +65,8 @@ extension SideMenuItem {
              .lockbox,
              .webLogin:
             return false
+        case .pit:
+            return true
         }
     }
 }

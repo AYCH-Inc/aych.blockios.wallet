@@ -32,8 +32,8 @@ class KYCEnterEmailController: KYCBaseViewController, BottomButtonContainerView,
 
     // MARK: Private Properties
 
-    private lazy var presenter: KYCVerifyEmailPresenter = {
-        return KYCVerifyEmailPresenter(view: self)
+    private lazy var presenter: VerifyEmailPresenter = {
+        return VerifyEmailPresenter(view: self)
     }()
 
     // MARK: KYCBaseViewController
@@ -103,9 +103,10 @@ class KYCEnterEmailController: KYCBaseViewController, BottomButtonContainerView,
     }
 }
 
-extension KYCEnterEmailController: KYCVerifyEmailView {
-    func showLoadingView() {
-        primaryButton.isLoading = true
+extension KYCEnterEmailController: EmailVerificationInterface {
+    
+    func updateLoadingViewVisibility(_ visibility: Visibility) {
+        primaryButton.isLoading = visibility.isHidden == false
     }
 
     func sendEmailVerificationSuccess() {
@@ -120,9 +121,5 @@ extension KYCEnterEmailController: KYCVerifyEmailView {
 
     func showError(message: String) {
         AlertViewPresenter.shared.standardError(message: message, in: self)
-    }
-    
-    func hideLoadingView() {
-        primaryButton.isLoading = false
     }
 }

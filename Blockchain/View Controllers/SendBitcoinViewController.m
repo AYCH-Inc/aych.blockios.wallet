@@ -487,6 +487,7 @@ BOOL displayingLocalSymbolSend;
         case DestinationAddressSourcePit:
             [self.pitAddressButton setImage:[UIImage imageNamed:@"pit_icon_small"] forState:UIControlStateNormal];
             self.addressSource = DestinationAddressSourcePaste;
+            self.toAddress = nil;
             toField.hidden = false;
             toField.text = nil;
             destinationAddressIndicatorLabel.hidden = true;
@@ -495,7 +496,7 @@ BOOL displayingLocalSymbolSend;
             [self.pitAddressButton setImage:[UIImage imageNamed:@"cancel_icon"] forState:UIControlStateNormal];
             self.addressSource = DestinationAddressSourcePit;
             toField.hidden = true;
-            toField.text = self.pitAddress;
+            [self selectToAddress:self.pitAddress];
             destinationAddressIndicatorLabel.hidden = false;
             break;
     }

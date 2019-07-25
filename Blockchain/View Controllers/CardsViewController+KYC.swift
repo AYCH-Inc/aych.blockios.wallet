@@ -70,11 +70,17 @@ extension CardsViewController {
 
     private func presentCards(nabuUser: NabuUser, tiers: KYCUserTiersResponse, hasTrades: Bool) {
         // Priority of cards
-        // 1. PAX
-        // 2. Swap
-        // 3. Coinify
-        // 4. Airdrop + KYC cards
-        // 5. Welcome cards
+        // 1. PIT
+        // 2. PAX
+        // 3. Swap
+        // 4. Coinify
+        // 5. Airdrop + KYC cards
+        // 6. Welcome cards
+        let didShowPitCard = showWalletLinkingCardIfNeeded()
+        if didShowPitCard {
+            return
+        }
+        
         let didShowPaxCard = showPaxCardIfNeeded()
         if didShowPaxCard {
             return
@@ -115,6 +121,7 @@ extension CardsViewController {
         guard AppFeatureConfigurator.shared.configuration(for: .pitAnnouncement).isEnabled else {
             return false
         }
+        guard BlockchainSettings.App.shared.shouldHidePITLinkingCard == false else { return false }
         let model = AnnouncementCardViewModel.walletPitLinking(action: {
             PitCoordinator.shared.start()
         }, onClose: { [weak self] in

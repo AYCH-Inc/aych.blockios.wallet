@@ -136,7 +136,7 @@ protocol SendXLMViewControllerDelegate: class {
         case stellarAmountText(String?)
         case fiatAmountText(String?)
         case fiatSymbolLabel(String?)
-        case pitAddressButtonVisibility(Bool)
+        case pitAddressButtonVisibility(Visibility)
         case usePitAddress(String?)
     }
 
@@ -337,8 +337,8 @@ protocol SendXLMViewControllerDelegate: class {
             fiatAmountField.text = text
         case .fiatSymbolLabel(let text):
             fiatSymbolLabel.text = text
-        case .pitAddressButtonVisibility(let isVisible):
-            pitAddressButton.isHidden = !isVisible
+        case .pitAddressButtonVisibility(let visibility):
+            pitAddressButton.isHidden = visibility.isHidden
         case .usePitAddress(let address):
             stellarAddressField.text = address
             if address == nil {

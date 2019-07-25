@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import PlatformKit
 
 // TODO: Remove this layer once the send screens are migrated to Swift
 /// Bridging layer for Swift-ObjC, since ObjC isn't compatible with RxSwift
@@ -39,7 +40,8 @@ class BridgeAddressFetcher: NSObject {
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { address in
                 completion(address)
-            }, onError: { _ in
+            }, onError: { error in
+                Logger.shared.error(error)
                 completion(nil)
             })
             .disposed(by: disposeBag)

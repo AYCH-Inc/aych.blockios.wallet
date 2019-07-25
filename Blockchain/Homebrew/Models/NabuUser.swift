@@ -28,6 +28,7 @@ struct NabuUser: Decodable {
     let needsDocumentResubmission: DocumentResubmission?
     let pitUserName: String?
     let depositAddresses: [DepositAddress]?
+    let settings: NabuUserSettings?
 
     // MARK: - Decodable
 
@@ -48,6 +49,7 @@ struct NabuUser: Decodable {
         case needsDocumentResubmission = "resubmission"
         case userName
         case walletAddresses
+        case settings
     }
 
     init(
@@ -62,7 +64,8 @@ struct NabuUser: Decodable {
         tiers: NabuUserTiers?,
         needsDocumentResubmission: DocumentResubmission?,
         pitUserName: String? = nil,
-        depositAddresses: [DepositAddress]? = nil
+        depositAddresses: [DepositAddress]? = nil,
+        settings: NabuUserSettings? = nil
     ) {
         self.personalDetails = personalDetails
         self.address = address
@@ -75,6 +78,7 @@ struct NabuUser: Decodable {
         self.needsDocumentResubmission = needsDocumentResubmission
         self.pitUserName = pitUserName
         self.depositAddresses = depositAddresses
+        self.settings = settings
     }
 
     init(from decoder: Decoder) throws {
@@ -92,6 +96,7 @@ struct NabuUser: Decodable {
         tiers = try values.decodeIfPresent(NabuUserTiers.self, forKey: .tiers)
         let birthdayValue = try values.decodeIfPresent(String.self, forKey: .dob)
         pitUserName = try values.decodeIfPresent(String.self, forKey: .userName)
+        settings = try values.decodeIfPresent(NabuUserSettings.self, forKey: .settings)
         let depositAddresses = try values.decodeIfPresent([String: String].self, forKey: .walletAddresses)
         
         if let addresses = depositAddresses {
@@ -140,7 +145,7 @@ struct NabuUser: Decodable {
 extension NabuUser {
     
     var hasLinkedPITAccount: Bool {
-        return pitUserName != nil
+        return settings != nil
     }
     
     var isSunriverAirdropRegistered: Bool {
@@ -231,6 +236,14 @@ struct DepositAddress {
     init(type: AssetType, address: String) {
         self.type = type
         self.address = address
+    }
+}
+
+struct NabuUserSettings: Decodable {
+    let mercuryEmailVerified: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case mercuryEmailVerified = "MERCURY_EMAIL_VERIFIED"
     }
 }
 

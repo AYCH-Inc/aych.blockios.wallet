@@ -121,7 +121,7 @@ class SendXLMCoordinator {
 
 extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     func onLoad() {
-        interface.apply(updates: [.pitAddressButtonVisibility(false),
+        interface.apply(updates: [.pitAddressButtonVisibility(.hidden),
                                   .usePitAddress(nil)])
         
         // Fetch the PIT address for asset and apply changes to the interface
@@ -130,9 +130,9 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             .subscribe(onSuccess: { [weak self] address in
                 guard let self = self else { return }
                 self.pitAddress = address
-                self.interface.apply(updates: [.pitAddressButtonVisibility(true)])
+                self.interface.apply(updates: [.pitAddressButtonVisibility(.visible)])
             }, onError: { [weak self] error in
-                self?.interface.apply(updates: [.pitAddressButtonVisibility(false)])
+                self?.interface.apply(updates: [.pitAddressButtonVisibility(.hidden)])
             })
             .disposed(by: bag)
         

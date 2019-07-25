@@ -14,15 +14,12 @@ final class CrashlyticsRecorder: Recording {
 
     // MARK: - Properties
     
-    private unowned let application: UIApplication
     private let crashlytics: Crashlytics
     
     // MARK: - Setup
     
-    init(crashlytics: Crashlytics = .sharedInstance(),
-         application: UIApplication = .shared) {
+    init(crashlytics: Crashlytics = .sharedInstance()) {
         self.crashlytics = crashlytics
-        self.application = application
     }
     
     // MARK: - ErrorRecording
@@ -58,7 +55,7 @@ final class CrashlyticsRecorder: Recording {
     /// Should be called if there is a suspicion that a UI action is performed on a background thread.
     /// In such case, a non-fatal error will be recorded.
     func recordIllegalUIOperationIfNeeded() {
-        guard application.applicationState == .background else {
+        guard Thread.isMainThread else {
             return
         }
         error(RecordingError.changingUIOnBackgroundThread)

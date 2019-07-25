@@ -10,6 +10,12 @@ import Foundation
 
 struct PinRouting {
     
+    /// Any possible routing error along displaying / dismissing the PIN flow
+    enum FlowError: Error {
+        /// Navigation controller is not initialized for some reason
+        case navigationControllerIsNotInitialized
+    }
+    
     /// The flow of the pin
     enum Flow {
         

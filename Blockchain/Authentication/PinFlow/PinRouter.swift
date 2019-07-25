@@ -10,7 +10,7 @@ import PlatformUIKit
 
 /// PIN creation / changing / authentication. Responsible for routing screens during flow.
 final class PinRouter: NSObject {
-            
+    
     // MARK: - Injected Services
     
     /// Wrap up the current flow and move to the next
@@ -29,6 +29,9 @@ final class PinRouter: NSObject {
     /// The origin of the pin flow
     let flow: PinRouting.Flow
     
+    /// A recorder for errors
+    private let recorder: Recording
+    
     /// Swipe to receive configuration
     private let swipeToReceiveConfig: SwipeToReceiveConfiguring
     
@@ -42,10 +45,12 @@ final class PinRouter: NSObject {
     init(flow: PinRouting.Flow,
          swipeToReceiveConfig: SwipeToReceiveConfiguring = BlockchainSettings.App.shared,
          parentViewController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!.topMostViewController!,
+         recorder: Recording = CrashlyticsRecorder(),
          completion: PinRouting.RoutingType.Forward? = nil) {
         self.flow = flow
         self.swipeToReceiveConfig = swipeToReceiveConfig
         self.parentViewController = parentViewController
+        self.recorder = recorder
         self.completion = completion
         super.init()
     }
@@ -233,7 +238,11 @@ extension PinRouter {
         // Dismiss the pin flow
         switch flow.origin {
         case .foreground:
-            guard let controller = navigationController else { return }
+            guard let controller = navigationController else {
+                // The contorller MUST be allocated at that point. report non-fatal in case something goes wrong
+                recorder.error(PinRouting.FlowError.navigationControllerIsNotInitialized)
+                return
+            }
             controller.dismiss(animated: animated, completion: cleanup)
         case .background:
             UIApplication.shared.keyWindow!.rootViewController = previousRootViewController

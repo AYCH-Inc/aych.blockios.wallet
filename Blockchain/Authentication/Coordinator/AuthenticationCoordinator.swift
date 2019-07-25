@@ -61,7 +61,7 @@ import PlatformUIKit
             }
             return
         }
-
+        
         ModalPresenter.shared.closeAllModals()
 
         let tabControllerManager = AppCoordinator.shared.tabControllerManager
@@ -79,6 +79,8 @@ import PlatformUIKit
             if self.walletManager.wallet.isNew {
                 self.startNewWalletSetUp()
             } else {
+                // PATCH: Removing potential displayed pairing alert (we need to refactor this method)
+                UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.dismiss(animated: true, completion: nil)
                 self.showPinEntryView()
             }
             return

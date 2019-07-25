@@ -126,7 +126,7 @@ class PitConnectViewController: UIViewController, NavigatableView {
 
 extension PitConnectViewController {
     func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
-        dismiss(animated: true, completion: nil)
+        PitCoordinator.shared.stop()
     }
     
     func navControllerLeftBarButtonTapped(_ navController: UINavigationController) {

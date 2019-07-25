@@ -144,6 +144,7 @@ extension AppSettingsController {
     }
 
     func createBadge(_ cell: UITableViewCell, color: UIColor? = nil, detailText: String? = nil) {
+        guard cell.detailTextLabel?.text != detailText else { return }
         cell.detailTextLabel?.isHidden = false
         cell.detailTextLabel?.layer.cornerRadius = 4
         cell.detailTextLabel?.layer.masksToBounds = true

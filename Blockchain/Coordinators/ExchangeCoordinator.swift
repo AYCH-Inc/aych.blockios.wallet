@@ -154,7 +154,7 @@ protocol ExchangeCoordinatorAPI {
     // TICKET: IOS-1168 - Complete error handling TODOs throughout the KYC
     private func errorMessage(for error: Error) -> String {
         guard let serverError = error as? HTTPRequestServerError,
-            case let .badStatusCode(_, badStatusCodeError) = serverError,
+            case let .badStatusCode(_, badStatusCodeError, _) = serverError,
             let nabuError = badStatusCodeError as? NabuNetworkError else {
                 return error.localizedDescription
         }

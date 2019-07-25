@@ -52,7 +52,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Unverified" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uKc-pD-0Gk" customClass="EdgeInsetBadge" customModule="Blockchain" customModuleProvider="target">
-                                                    <rect key="frame" x="295.66666666666669" y="17.666666666666664" width="39.333333333333336" height="20.333333333333332"/>
+                                                    <rect key="frame" x="282.33333333333331" y="24" width="57.666666666666664" height="13.666666666666666"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -90,7 +90,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XIU-k7-f2g">
-                                                    <rect key="frame" x="319.66666666666669" y="18" width="39.333333333333336" height="20.333333333333332"/>
+                                                    <rect key="frame" x="319" y="18" width="40" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -132,7 +132,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tw2-fH-0Wp" customClass="EdgeInsetBadge" customModule="Blockchain" customModuleProvider="target">
-                                                    <rect key="frame" x="295.66666666666669" y="17.666666666666664" width="39.333333333333336" height="20.333333333333332"/>
+                                                    <rect key="frame" x="298.66666666666669" y="19" width="41.333333333333336" height="19.666666666666668"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -178,7 +178,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vjr-DM-VSG" customClass="EdgeInsetLabel" customModule="Blockchain" customModuleProvider="target">
-                                                    <rect key="frame" x="295.66666666666669" y="17.666666666666664" width="39.333333333333336" height="20.333333333333332"/>
+                                                    <rect key="frame" x="296" y="18" width="44" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -209,7 +209,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Log in to Web Wallet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="clI-g2-eMI">
-                                                    <rect key="frame" x="16" y="18" width="156.66666666666666" height="20.333333333333332"/>
+                                                    <rect key="frame" x="16" y="0.0" width="343" height="55.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -249,7 +249,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IyD-hN-HxN">
-                                                    <rect key="frame" x="300.66666666666669" y="18" width="39.333333333333336" height="20.333333333333332"/>
+                                                    <rect key="frame" x="298.66666666666669" y="19" width="41.333333333333336" height="19.666666666666668"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -284,8 +284,8 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="CONNECT" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ghm-ms-gAq" customClass="EdgeInsetBadge" customModule="Blockchain" customModuleProvider="target">
-                                                    <rect key="frame" x="295.66666666666669" y="17.666666666666664" width="39.333333333333336" height="20.333333333333332"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ghm-ms-gAq" customClass="EdgeInsetBadge" customModule="Blockchain" customModuleProvider="target">
+                                                    <rect key="frame" x="306.66666666666669" y="24" width="33.333333333333336" height="13.666666666666666"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -335,7 +335,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Disabled" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BN7-0Q-fUZ" customClass="EdgeInsetBadge" customModule="Blockchain" customModuleProvider="target">
-                                                    <rect key="frame" x="295.66666666666669" y="17.666666666666664" width="39.333333333333336" height="20.333333333333332"/>
+                                                    <rect key="frame" x="273.33333333333331" y="18" width="66.666666666666671" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -366,7 +366,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Change Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8X3-ef-zoe">
-                                                    <rect key="frame" x="16" y="18" width="137.66666666666666" height="20.333333333333332"/>
+                                                    <rect key="frame" x="16" y="0.0" width="324" height="55.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -379,11 +379,11 @@
                                         <rect key="frame" x="0.0" y="732.33333333333337" width="375" height="56"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CNP-CU-0iZ" id="Hw2-jb-4Kz">
-                                            <rect key="frame" x="0.0" y="0.0" width="341" height="55.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="349" height="55.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Recovery Phrase" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sZ9-93-MJf" customClass="EdgeInsetLabel" customModule="Blockchain" customModuleProvider="target">
-                                                    <rect key="frame" x="16" y="18" width="128.66666666666666" height="20.333333333333332"/>
+                                                    <rect key="frame" x="15" y="18" width="128.66666666666666" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -398,7 +398,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Unconfirmed" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="q7A-2K-VRu" customClass="EdgeInsetBadge" customModule="Blockchain" customModuleProvider="target">
-                                                    <rect key="frame" x="295.66666666666669" y="17.666666666666664" width="39.333333333333336" height="20.333333333333332"/>
+                                                    <rect key="frame" x="240.33333333333329" y="18" width="99.666666666666671" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -489,7 +489,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Terms of Service" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4K4-LK-KWj">
-                                                    <rect key="frame" x="15" y="18" width="128.66666666666666" height="20.333333333333332"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="55.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -506,7 +506,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Privacy Policy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uax-tr-3ko">
-                                                    <rect key="frame" x="15.000000000000007" y="18" width="105.66666666666667" height="20.333333333333332"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="55.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -523,7 +523,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Cookies Policy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fOm-2p-jlx">
-                                                    <rect key="frame" x="15.000000000000007" y="18" width="111.66666666666667" height="20.333333333333332"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="55.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>

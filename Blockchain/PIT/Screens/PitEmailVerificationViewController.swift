@@ -67,7 +67,7 @@ class PitEmailVerificationViewController: UIViewController, BottomButtonContaine
     
     // MARK: Private Properties
     
-    private let bag: DisposeBag = DisposeBag()
+    private var bag: DisposeBag = DisposeBag()
     private var verificationRelay: PublishRelay<Void> = PublishRelay()
     private var email: EmailAddress = "" {
         didSet {
@@ -146,12 +146,16 @@ class PitEmailVerificationViewController: UIViewController, BottomButtonContaine
         emailTextField.becomeFirstResponder()
         presenter.waitForEmailConfirmation().disposed(by: bag)
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        bag = DisposeBag()
+    }
 }
     
 extension PitEmailVerificationViewController: EmailConfirmationInterface {
     func updateLoadingViewVisibility(_ visibility: Visibility) {
         openMailButtonContainer.isLoading = visibility.isHidden == false
-        openMailButtonContainer.isEnabled = visibility.isHidden == false
         waitingLabel.isHidden = visibility.isHidden
         guard visibility == .visible else { return }
         resendEmailActionableLabel.isHidden = visibility.isHidden == false

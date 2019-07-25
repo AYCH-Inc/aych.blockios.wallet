@@ -110,6 +110,12 @@ import PlatformUIKit
             )
         }
         
+        /// If the user has linked to the PIT, we sync their addresses on authentication.
+        self.pitRepository.syncDepositAddressesIfLinked()
+            .subscribe()
+            .disposed(by: self.bag)
+        
+        
         if let topViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController,
             self.appSettings.isPinSet,
             !(topViewController is SettingsNavigationController) {
@@ -135,13 +141,14 @@ import PlatformUIKit
 
     let dataRepository: BlockchainDataRepository
     let xlmServiceProvider: XLMServiceProvider
-
+    
     let walletManager: WalletManager
     private let walletService: WalletService
 
     var pinRouter: PinRouter!
     private let deepLinkRouter: DeepLinkRouter
-    
+    private let pitRepository: PITAccountRepositoryAPI
+    private let bag: DisposeBag = DisposeBag()
     private var pairingCodeParserViewController: UIViewController?
 
     private var disposable: Disposable?
@@ -154,7 +161,8 @@ import PlatformUIKit
          dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
          xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared,
          deepLinkRouter: DeepLinkRouter = DeepLinkRouter(),
-         recorder: ErrorRecording = CrashlyticsRecorder()) {
+         recorder: ErrorRecording = CrashlyticsRecorder(),
+         pitRepository: PITAccountRepositoryAPI = PITAccountRepository()) {
         self.walletManager = walletManager
         self.walletService = walletService
         self.dataRepository = dataRepository
@@ -162,6 +170,7 @@ import PlatformUIKit
         self.deepLinkRouter = deepLinkRouter
         self.recorder = recorder
         self.loadingViewPresenter = loadingViewPresenter
+        self.pitRepository = pitRepository
         super.init()
         self.walletManager.secondPasswordDelegate = self
         registerForNotifications()

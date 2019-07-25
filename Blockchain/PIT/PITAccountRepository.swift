@@ -13,6 +13,7 @@ import PlatformKit
 protocol PITAccountRepositoryAPI {
     var hasLinkedPITAccount: Single<Bool> { get }
     func syncDepositAddresses() -> Completable
+    func syncDepositAddressesIfLinked() -> Completable
 }
 
 protocol PITClientAPI {
@@ -55,6 +56,16 @@ class PITAccountRepository: PITAccountRepositoryAPI {
         })
     }
     
+    func syncDepositAddressesIfLinked() -> Completable {
+        return hasLinkedPITAccount.flatMapCompletable(weak: self, { (self, linked) -> Completable in
+            if linked {
+                return self.syncDepositAddresses()
+            } else {
+                return Completable.empty()
+            }
+        })
+    }
+    
     func syncDepositAddresses() -> Completable {
         return Single.zip(
             authenticationService.getSessionToken(),
@@ -78,7 +89,7 @@ class PITClient: PITClientAPI {
     }
     
     func syncDepositAddress(authenticationToken: String, _ accounts: [AssetAddress]) -> Completable {
-        let depositAddresses = Dictionary(accounts.map { ($0.depositAddress.type.symbol, $0.address) }) { _, last in last }
+        let depositAddresses = Dictionary(accounts.map { ($0.depositAddress.type.symbol, $0.depositAddress.address) }) { _, last in last }
         let payload = ["addresses" : depositAddresses ]
         guard let apiURL = URL(string: BlockchainAPI.shared.retailCoreUrl) else {
             return Completable.error(NetworkError.default)

@@ -68,6 +68,13 @@ class PitCoordinator {
         appSettings.didTapOnPitDeepLink = false
     }
     
+    // Called when the KYC process is completed or stopped before completing.
+    func stop() {
+        if navController == nil { return }
+        navController.dismiss(animated: true)
+        navController = nil
+    }
+    
     private func showPitConnectScreen() {
         guard let root = rootViewController else { return }
         let connect = PitConnectViewController.makeFromStoryboard()
@@ -172,7 +179,6 @@ class PitCoordinator {
             .flatMap(weak: self, { (self, hasLinkedPitAccount) -> Single<URL> in
                 return hasLinkedPitAccount ? Single.just(pitURL) : self.authenticator.pitURL
             })
-            .delay(.seconds(2), scheduler: MainScheduler.instance)
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
             .showSheetOnSubscription(bottomAlertSheet: syncingBottomAlertSheet)
@@ -192,16 +198,14 @@ class PitCoordinator {
                 return self.authenticator.linkToExistingPitUser(linkID: linkID)
             }
             .andThen(repository.syncDepositAddresses())
-            .flatMap(weak: self) { (self, _) -> Single<Bool> in
-                return self.hasLinkedPITAccount()
-            }
-            .delay(.seconds(2), scheduler: MainScheduler.instance)
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
             .showSheetOnSubscription(bottomAlertSheet: syncingBottomAlertSheet)
-            .showSheetAfterSuccess(bottomAlertSheet: successfulLinkingBottomSheet)
+            .hideBottomSheetOnCompletionOrError(bottomAlertSheet: syncingBottomAlertSheet)
+            .showSheetAfterCompletion(bottomAlertSheet: successfulLinkingBottomSheet)
             .showSheetAfterFailure(bottomAlertSheet: failureLinkingBottomSheet)
-            .subscribe(onSuccess: { _ in
+            .dismissNavControllerOnSubscription(navController: navController)
+            .subscribe(onCompleted: {
                 // Do nothing, the user's account should now be linked.
                 self.appSettings.pitLinkIdentifier = nil
             }, onError: { error in
@@ -261,3 +265,24 @@ fileprivate extension ObservableType {
     }
     
 }
+
+private extension PrimitiveSequenceType where Trait == CompletableTrait, Element == Never {
+    
+    func dismissNavControllerOnDisposal(navController: BaseNavigationController?) -> Completable {
+        return self.do(onDispose: {
+            navController?.popToRootViewController(animated: true)
+            navController?.dismiss(animated: true, completion: nil)
+            AppCoordinator.shared.closeSideMenu()
+        })
+    }
+    
+    func dismissNavControllerOnSubscription(navController: BaseNavigationController?) -> Completable {
+        return self.do(onSubscribed: {
+            navController?.popToRootViewController(animated: true)
+            navController?.dismiss(animated: true, completion: nil)
+            AppCoordinator.shared.closeSideMenu()
+        })
+    }
+    
+}
+

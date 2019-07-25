@@ -67,10 +67,14 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI {
                 completion(.failure(.payloadError(.emptyData)))
                 return
             }
-            
+            if let responseValue = String(data: responseData, encoding: .utf8) {
+                Logger.shared.info(responseValue)
+            }
+            let message = String(data: responseData, encoding: .utf8) ?? ""
+            Logger.shared.info(message)
             guard (200...299).contains(httpResponse.statusCode) else {
                 let errorPayload = try? JSONDecoder().decode(NabuNetworkError.self, from: responseData)
-                let errorStatusCode = HTTPRequestServerError.badStatusCode(code: httpResponse.statusCode, error: errorPayload)
+                let errorStatusCode = HTTPRequestServerError.badStatusCode(code: httpResponse.statusCode, error: errorPayload, message: message)
                 completion(.failure(.serverError(errorStatusCode)))
                 return
             }

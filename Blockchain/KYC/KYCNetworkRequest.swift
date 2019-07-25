@@ -229,14 +229,12 @@ final class KYCNetworkRequest {
                     taskFailure(HTTPRequestPayloadError.emptyData); return
                 }
 
-                // Debugging
-//                if let responseString = String(data: responseData, encoding: .utf8) {
-//                    Logger.shared.debug("Response received: \(responseString)")
-//                }
+                let message = String(data: responseData, encoding: .utf8) ?? ""
+                Logger.shared.info(message)
 
                 guard (200...299).contains(httpResponse.statusCode) else {
                     let errorPayload = try? JSONDecoder().decode(NabuNetworkError.self, from: responseData)
-                    taskFailure(HTTPRequestServerError.badStatusCode(code: httpResponse.statusCode, error: errorPayload)); return
+                    taskFailure(HTTPRequestServerError.badStatusCode(code: httpResponse.statusCode, error: errorPayload, message: message)); return
                 }
                 if let mimeType = httpResponse.mimeType {
                     guard mimeType == HttpHeaderValue.json else {

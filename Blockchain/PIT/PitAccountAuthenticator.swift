@@ -40,7 +40,7 @@ class PitAccountAuthenticator: PitAccountAuthenticatorAPI {
     }
     
     var pitURL: Single<URL> {
-        return Single.zip(blockchainRepository.nabuUser.take(1).asSingle(), pitLinkID)
+        return Single.zip(blockchainRepository.fetchNabuUser(), pitLinkID)
             .flatMap(weak: self, { (self, payload) -> Single<URL> in
                 let user = payload.0
                 let linkID = payload.1

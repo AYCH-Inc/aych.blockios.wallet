@@ -79,7 +79,7 @@ class StellarAirdropRouter: DeepLinkRouting {
             Logger.shared.error("Failed to register for campaign: \(error.localizedDescription)")
 
             guard let httpError = error as? HTTPRequestServerError else { return }
-            guard case let .badStatusCode(_, payload) = httpError else { return }
+            guard case let .badStatusCode(_, payload, _) = httpError else { return }
             guard let value = payload as? NabuNetworkError else {
                 AlertViewPresenter.shared.standardNotify(
                     message: LocalizationConstants.Errors.genericError,
@@ -123,7 +123,7 @@ class StellarAirdropRouter: DeepLinkRouting {
                     nabuUser: nabuUser
                 ).catchError { error -> Observable<NabuUser> in
                     guard let httpError = error as? HTTPRequestServerError else { throw error }
-                    guard case let .badStatusCode(_, payload) = httpError else { throw error }
+                    guard case let .badStatusCode(_, payload, _) = httpError else { throw error }
                     guard let value = payload as? NabuNetworkError else { throw error }
                     if value.code == .campaignUserAlreadyRegistered {
                         return Observable.just(nabuUser)

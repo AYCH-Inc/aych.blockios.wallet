@@ -23,11 +23,11 @@ public enum HTTPRequestClientError: HTTPRequestError {
     }
 }
 public enum HTTPRequestServerError: HTTPRequestError {
-    case badResponse, badStatusCode(code: Int, error: Error?)
+    case badResponse, badStatusCode(code: Int, error: Error?, message: String?)
     public var debugDescription: String {
         switch self {
         case .badResponse: return "Bad response."
-        case .badStatusCode(let code, _): return "The server returned a bad response: \(code)."
+        case .badStatusCode(let code, _, let message): return "The server returned a bad response: \(code). Message: \(message ?? "")"
         }
     }
 }

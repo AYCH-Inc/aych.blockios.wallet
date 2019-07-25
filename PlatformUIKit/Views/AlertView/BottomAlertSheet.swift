@@ -136,13 +136,6 @@ public class BottomAlertSheet: UIView {
     }
     
     public func show() {
-        guard let window = UIApplication.shared.keyWindow else { return }
-        
-        /// You can only present one `AlertView` at a time
-        guard window.subviews.contains(where: { $0 is BottomAlertSheet }) == false else {
-            print("You can only present one `AlertView` at a time.")
-            return
-        }
         presentSheetView()
         registerForNotifications()
     }

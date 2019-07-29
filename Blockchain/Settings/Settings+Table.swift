@@ -285,7 +285,7 @@ extension SettingsTableViewController {
         case sections.pit:
             switch indexPath.row {
             case pitIndex:
-                guard let supportURL = URL(string: Constants.Url.blockchainSupport) else { return }
+                guard let supportURL = URL(string: Constants.Url.pitSupport) else { return }
                 let startPITCoordinator = { [weak self] in
                     guard let self = self else { return }
                     PitCoordinator.shared.start(from: self)

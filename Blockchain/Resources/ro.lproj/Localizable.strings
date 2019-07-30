@@ -46,7 +46,6 @@
 "Please enter your PIN" = "Vă rugăm să introduceţi PIN-ul";
 "Please enter a new PIN" = "Vă rugăm să introduceţi un PIN nou";
 "Confirm your PIN" = "Confirma codul PIN";
-"Incorrect PIN. Please retry." = "PIN incorect. Vă rugăm să încercaţi din nou.";
 "Manually" = "Manual";
 "No" = "nu";
 "Sending Transaction" = "Trimiterea de tranzacţii";
@@ -58,8 +57,6 @@
 "Passwords do not match" = "Parolele nu se potrivesc";
 "Payment Sent!" = "Trimis de plată!";
 "PIN Response Object key or value length 0" = "PIN răspuns obiect cheie sau o valoare lungime 0";
-"PIN Response Object success length 0" = "PIN răspuns obiect succes lungime 0";
-"PIN Validation cannot be completed. Please enter your wallet password manually." = "Imposibil de finalizat PIN validarea. Vă rugăm să introduceţi parola de portofel manual.";
 "PIN Validation Error" = "Eroare de validare cod PIN";
 "Please choose another PIN" = "Vă rugăm să alegeţi un alt PIN";
 "Please enter your 36 character wallet identifier correctly. It can be found in the welcome email on startup." = "Vă rugăm să introduceţi identificatorul dvs portofel de 36 caractere corect. Se pot fi găsite în e-mail bine ai venit pe startup.";
@@ -72,7 +69,6 @@
 "Unconfirmed" = "Neconfirmate";
 "Unsupported Private Key Format" = "Neacceptat Format de cheie privată";
 "User Declined" = "Utilizatorul a refuzat";
-"Wallet Paired Successfully." = "Portofel asociat cu succes.";
 "You must have two-factor authentication disabled to pair manually." = "Trebuie să aveţi două-factor de autentificare cu handicap să pereche manual.";
 "Warning!!!" = "Avertisment!";
 "Would you like to add the bitcoin address %@ to your address book?" = "Doriţi să adăugaţi bitcoin adresa %@ în agendă?";
@@ -83,7 +79,6 @@
 "You must enter a label" = "Introduceţi o etichetă";
 "Label must contain letters and numbers only" = "Eticheta trebuie să conţină litere şi numere numai";
 "Label must have less than 18 characters" = "Eticheta trebuie să fie mai mică de 18 de caractere";
-"Your wallet was successfully created." = "Portofelul dumneavoastră a fost creat cu succes.";
 "Weak" = "Slab";
 "Regular" = "Regulate";
 "Normal" = "Normal";
@@ -98,12 +93,8 @@
 "Imported Addresses (Archived)" = "Adrese importate de (arhivat)";
 "Address book" = "Agendă";
 "Please add an email address" = "Vă rugăm să adăugaţi o adresă de e-mail";
-"Downloading Wallet" = "Descărcare portofel";
-"Decrypting Wallet" = "Decriptarea portofel";
 "Loading transactions" = "Operațiunile de încărcare";
-"Initializing Wallet" = "Iniţializarea portofel";
 "Checking for Wallet updates" = "Verificarea pentru portofel actualizări";
-"Creating new Wallet" = "Crearea de noi portofel";
 "Importing key" = "Importul cheie";
 "Support" = "Suport";
 "Terms of Service" = "Conditii de utilizare";
@@ -194,9 +185,7 @@
 "Invalid verification code. Please try again." = "Cod de verificare nevalidă. Vă rugăm să încercaţi din nou.";
 "No internet connection available. Please check your network settings." = "Nici o conexiune la internet disponibil. Vă rugăm să verificaţi setările de reţea.";
 "You do not have an account set up for Mail. Please contact %@" = "Nu aveţi un cont configurat pentru Mail. Vă rugăm să contactaţi %@";
-"The PIN you have selected is extremely common and may be easily guessed by someone with access to your phone within 3 tries. Would you like to use this PIN anyway?" = "PIN-ul le-aţi selectat este extrem de comună şi poate fi uşor de ghicit de cineva cu acces la telefon în 3 incearca. Doriţi să utilizaţi acest PIN oricum?";
 "Try again" = "încearcă din nou";
-"Creating Wallet" = "Crearea de portofel";
 "Recovering Funds" = "Recuperarea fondurilor";
 "Syncing Wallet" = "Sincronizarea portofel";
 "Recover Funds" = "Recupera fondurile";
@@ -334,7 +323,6 @@
 "Enable this option to reveal a receive address when you swipe left on the PIN screen, making receiving bitcoin even faster. Only one address will be loaded, logging in is required to show a new address." = "Activaţi această opţiune pentru a dezvălui o adresa de primire, atunci când vă deplasați stânga pe ecranul de PIN, a face primirea bitcoin chiar mai repede. Doar o singură adresă vor fi încărcate, logarea este obligat să demonstreze o nouă adresă.";
 "Enjoying the Blockchain Wallet? Please take a moment to leave a review in the App Store and let others know about it." = "Bucurându-se de portofel Blockchain? Vă rugăm să luaţi un moment să părăsească o revizuire în App Store şi lăsaţi pe alţii ştiu despre el.";
 "Enter %@ amount" = "Introdu suma %@";
-"Enter Bitcoin address or select" = "Introduceţi adresa de Bitcoin sau selectaţi";
 "Failed to validate server certificate" = "Nu a reuşit să validaţi certificatul de server";
 "From" = "La";
 "Increase fee" = "Taxa de creştere";
@@ -347,10 +335,8 @@
 "Logout and forget wallet" = "Deconectare şi să uitaţi de portofel";
 "Lower fee" = "Taxă redusă";
 "Needs BIP38 Password" = "Are nevoie de BIP38 parola";
-"New PIN must be different" = "PIN nou trebuie să fie diferite";
 "Open %@?" = "%@ deschis?";
 "Open Mail App" = "Deschide Mail App";
-"PINs do not match" = "Ace nu se potrivesc";
 "Password must be different from your email" = "Parola trebuie să fie diferită de adresa de email";
 "Password must be less than or equal to 255 characters" = "Parola trebuie să fie mai mică sau egală cu 255 de caractere";
 "Payments Sent" = "Plăţi trimis";
@@ -525,7 +511,6 @@
 "You asked, we listened. We’re excited to announce that your Blockchain wallet will now allow you to seamlessly send and receive ether!" = "Ați întrebat, am ascultat. Suntem încântați să anunțăm că Blockchain portofel va permite să perfect trimite și primi eter!";
 "Get Started with Ether" = "Începeți cu Eter";
 "To use this service, we require you to enter your second password. You should only need to enter this once to set up your Ether wallet." = "Pentru a utiliza acest serviciu, aveți nevoie pentru a introduce a doua parola. Tu ar trebui să trebuie doar să introduceți această dată pentru a configura Eter portofel.";
-"Enter Ether address" = "Introduceți adresa Eter";
 "Day" = "Zi";
 "All" = "Toate";
 "My Ether Wallet" = "Eterul Meu Portofel";
@@ -598,7 +583,6 @@
 "See charts" = "Vezi diagrame";
 "Price charts" = "Grafice de preț";
 "Bitcoin Cash Price" = "Bitcoin Prețului În Numerar";
-"Enter Bitcoin Cash address or select" = "Introduceți Bitcoin Numerar adresă sau selectați";
 "Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Copia asta a primi adresa în clipboard? Dacă este așa, să fie informat că alte aplicații ar putea fi capabil să se uite la aceste informații.";
 "Please send BCH to the Bitcoin Cash address\n%@" = "Vă rugăm să trimiteți-BCH la Bitcoin Numerar adresa\
 %@";
@@ -670,7 +654,6 @@
 "Available to Send" = "Disponibil pentru trimitere";
 "Balances Coming Soon" = "Balanțele vin în curând";
 "Be your own bank" = "Fii banca ta";
-"Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Înainte de a vă accesa portofelul, vă rugăm să alegeți un număr de PIN pentru a vă debloca portofelul. Este important să vă amintiți acest PIN, deoarece nu poate fi resetat sau modificat fără a debloca mai întâi aplicația.";
 "Below trading limit" = "Sub limita de tranzacționare";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Serverele lui Blockchain sunt în prezent în întreținere. Vă rugăm să încercați din nou mai târziu";
 "By creating a wallet you agree to Blockchain’s" = "Prin crearea unui portofel sunteți de acord cu blocarea lui Blockchain";
@@ -694,7 +677,6 @@
 "Driver's License" = "Permis de conducere";
 "Easy one time wallet backup keeps you in control of your funds." = "O copie de siguranță rapidă a portofelului vă permite să vă controlați fondurile.";
 "Enabled!" = "Activat!";
-"Enter a Stellar address or select" = "Introduceți o adresă stelar sau selectați";
 "Enter Your Second Password" = "Introduceți cea de-a doua parolă";
 "Estimated fees" = "Taxele estimate";
 "Every country has different rules on how to buy and sell cryptocurrencies. Keep your eyes peeled, we’ll let you know as soon as we launch in %@!" = "Fiecare țară are reguli diferite privind cum să cumpere și să vândă criptocuritate. Țineți ochii descuși, vă vom anunța de îndată ce lansăm în %@ !";
@@ -747,7 +729,6 @@
 "Overview" = "Prezentare generală";
 "Password" = "Parola";
 "Payment sent" = "Plată trimisă";
-"PIN Code Incorrect. Unknown Error Message." = "Codul PIN incorect. Mesaj de eroare necunoscut.";
 "Please send %@ to bitcoin address.\n%@" = "Trimiteți %1$@ la adresa Bitcoin. \
  %2$@";
 "Profile" = "Profil";
@@ -811,7 +792,9 @@
 "We are unable to display your Lockbox balance at this time. Don’t worry, your funds are safe. We’ll be adding this feature soon. While you wait, you can check your balance on the web." = "În prezent, nu putem afișa balanța Lockbox. Nu vă faceți griji, fondurile dvs. sunt în siguranță. Vom adăuga această caracteristică în curând. În timp ce așteptați, puteți verifica soldul dvs. pe web.";
 "We can't check whether this address has been used. Show anyway?" = "Nu putem verifica dacă această adresă a fost utilizată. Arată oricum?";
 "We had some trouble verifying your account with the documents provided. Our support team will contact you shortly to resolve this." = "Am avut probleme cu verificarea contului dvs. cu documentele furnizate. Echipa noastră de asistență vă va contacta în curând pentru a rezolva această problemă.";
-"We have successfully verified your identity." = "Am verificat cu succes identitatea ta.";
+"We have successfully verified your identity." = "Am verificat cu succes \
+ identitatea ta. \
+";
 "We Now Support Stellar" = "Acum suportăm Stellar";
 "We'll keep you up-to-date here with recommendations and new features." = "Vă vom ține la curent cu recomandările și funcțiile noi.";
 "Welcome to Blockchain" = "Blocuri cel mai recent minat în lantul de bloc bitcoin";
@@ -1006,3 +989,65 @@
 "Swap for USD PAX Now" = "Ia USD PAX Acum";
 "USD PAX" = "USD PAX";
 "Your USD PAX transactions will show up here once you make your first transaction." = "Tranzacțiile dvs. USD PAX se vor afișa aici odată ce efectuați prima dvs. tranzacție.";
+"%@ Received" = "%@ Primit";
+"%@ Wallet Address" = "%@ Adresa Wallet";
+"A new window should open within 10 seconds." = "O fereastră nouă trebuie deschisă în 10 secunde.";
+"An error occured. Please try again" = "A aparut o eroare. Vă rugăm să încercați din nou";
+"Backspace button" = "Butonul Backspace";
+"Built by Blockchain.com" = "Construit de Blockchain.com";
+"Confirm Your PIN" = "Confirmați codul PIN";
+"Connect" = "Conectați";
+"Connect Now" = "Conectați acum";
+"Connected" = "Conectat";
+"Connecting You To The PIT" = "Conectarea la PIT";
+"Connection Error" = "Eroare de conexiune";
+"Copied!" = "Copiată!";
+"Copy" = "Copie";
+"Create Your PIN" = "Creați codul PIN";
+"Creating a new address" = "Crearea unei noi adrese";
+"Enable Face ID" = "Activați ID-ul feței";
+"Enable Touch ID" = "Activați ID-ul tactil";
+"Enter bch address or select" = "Introduceți adresa bch sau selectați";
+"Enter btc address or select" = "Introduceți adresa btc sau selectați";
+"Enter eth address" = "Introduceți adresa eth";
+"Enter Your PIN" = "Introduceți codul PIN";
+"Exchange crypto addresses so you don't have to copy and paste" = "Schimbați adresele de criptare, pentru a nu fi necesară copierea și lipirea";
+"Face id authentication" = "Id autentificare id";
+"Incorrect PIN" = "Cod PIN incorect";
+"It's time to Level Up to a better crypto exchange. First 100,000 traders to sign up will trade free for 30 days." = "Este timpul să ridicăm nivelul la un schimb de cripte mai bun. Primii 100.000 de comercianți care se vor înscrie vor tranzacționa gratuit timp de 30 de zile.";
+"Just a moment." = "Doar un moment.";
+"Launch The PIT" = "Lansați PIT";
+"Lightning Fast Trades" = "Comerț rapid";
+"Liquid & Reliable" = "Lichid și fiabil";
+"Loading Your Wallet" = "Încărcarea portofelului";
+"Log in to refresh addresses" = "Conectați-vă pentru a actualiza adresele";
+"Log Out" = "Deconectați-vă";
+"Low Fees" = "Taxe reduse";
+"My PIT %@ Wallet" = "Portofelul meu %@ P %@";
+"PIN response Object success length 0" = "Răspunsul la codul PIN Obiectivul lungimii succesului 0";
+"PINs don't match" = "Codurile PIN nu se potrivesc";
+"Please enter your wallet password." = "Introduceți parola portofelului.";
+"Quickly sign into your wallet instead of using your PIN." = "Conectați-vă rapid la portofel în loc să utilizați codul PIN.";
+"Ready for the the best Blockchain App yet? Download our latest build and get more out of your Crypto." = "Gata pentru cel mai bun App Blockchain încă? Descărcați ultima noastră versiune și obțineți mai mult din Crypto.";
+"Send Again" = "Trimite din nou";
+"Share" = "Acțiune";
+"Share your Gold or Silver Level status" = "Distribuiți-vă statutul de nivel de aur sau de argint";
+"Swipe right to see your addresses" = "Glisați spre dreapta pentru a vedea adresele";
+"The only Exchange that connects to your Wallet." = "Singurul schimb care se conectează la Wallet.";
+"The PIT" = "PIT";
+"The PIT will be able to:" = "PIT va putea:";
+"The PIT will not be able to:" = "PIT nu va putea:";
+"This is your address" = "Aceasta este adresa ta";
+"This is your address QR code" = "Acesta este adresa dvs. QR";
+"Too Many PIN Attempts" = "Prea multe încercări PIN";
+"Touch id authentication" = "Autentificare autentificare id";
+"Update Available" = "Actualizare disponibila";
+"v %@" = "v %@";
+"Verify Your Email" = "Verifica-ți email-ul";
+"View your wallet password" = "Vizualizați parola portofelului";
+"We could not connect your Wallet to The PIT. Please try again" = "Nu am putut conecta Wallet la The PIT. Vă rugăm să încercați din nou";
+"We just sent you a verification email. Your email address needs to be verified before you can connect to The PIT." = "Tocmai v-am trimis un e-mail de verificare. Adresa dvs. de e-mail trebuie verificată înainte de a vă putea conecta la The PIT.";
+"You have connected your Blockchain Wallet to The PIT." = "Ați conectat portofelul Blockchain la The PIT.";
+"Your New PIN is Ready" = "Codul dvs. PIN nou este pregătit";
+"Your new PIN must be different" = "Noul PIN trebuie să fie diferit";
+"You’re all set to connect your Blockchain Wallet to The PIT." = "Sunteți pregătit să vă conectați la Wallet-ul Blockchain la PIT.";

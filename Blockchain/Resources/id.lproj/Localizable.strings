@@ -46,7 +46,6 @@
 "Please enter your PIN" = "Silakan masukkan PIN Anda";
 "Please enter a new PIN" = "Silakan masukkan PIN baru";
 "Confirm your PIN" = "Konfirmasi PIN Anda";
-"Incorrect PIN. Please retry." = "PIN Salah. Silakan mencoba lagi.";
 "Manually" = "Secara Manual";
 "No" = "Tidak";
 "Sending Transaction" = "Mengirimkan Transaksi";
@@ -58,8 +57,6 @@
 "Passwords do not match" = "Kata sandi tidak cocok";
 "Payment Sent!" = "Pembayaran Terkirim!";
 "PIN Response Object key or value length 0" = "Kunci Objek Respons PIN atau panjang nilai 0";
-"PIN Response Object success length 0" = "Kunci Objek Respon PIN panjang sukses 0";
-"PIN Validation cannot be completed. Please enter your wallet password manually." = "Validasi PIN tidak dapat diselesaikan. Silakan masukkan kata sandi dompet Anda secara manual.";
 "PIN Validation Error" = "Validasi PIN Salah";
 "Please choose another PIN" = "Silakan pilih PIN lain";
 "Please enter your 36 character wallet identifier correctly. It can be found in the welcome email on startup." = "Silakan masukkan 36 karakter pengenal dompet Anda dengan benar. Ini dapat ditemukan di surel selamat datang pada saat pengaktifan.";
@@ -72,7 +69,6 @@
 "Unconfirmed" = "Belum Dikonfirmasi";
 "Unsupported Private Key Format" = "Format Kunci Pribadi Tidak Didukung";
 "User Declined" = "Pengguna Ditolak";
-"Wallet Paired Successfully." = "Pemasangan Dompet Berhasil.";
 "You must have two-factor authentication disabled to pair manually." = "Anda harus menonaktifkan otentikasi dua faktor untuk pemasangan secara manual.";
 "Warning!!!" = "Peringatan!!!";
 "Would you like to add the bitcoin address %@ to your address book?" = "Apakah Anda ingin menambahkan alamat bitcoin %@ ke buku alamat Anda?";
@@ -83,7 +79,6 @@
 "You must enter a label" = "Anda harus memasukkan label";
 "Label must contain letters and numbers only" = "Label harus berisi hanya huruf dan angka";
 "Label must have less than 18 characters" = "Label harus kurang dari 18 huruf";
-"Your wallet was successfully created." = "Dompet Anda berhasil dibuat.";
 "Weak" = "Lemah";
 "Regular" = "Reguler";
 "Normal" = "Normal";
@@ -98,12 +93,8 @@
 "Imported Addresses (Archived)" = "Alamat yang Diimpor (Diarsipkan)";
 "Address book" = "Buku alamat";
 "Please add an email address" = "Silakan tambah alamat surel";
-"Downloading Wallet" = "Mengunduh Dompet";
-"Decrypting Wallet" = "Mendekripsi Dompet";
 "Loading transactions" = "Pemuatan Transaksi";
-"Initializing Wallet" = "Inisialisasi Dompet";
 "Checking for Wallet updates" = "Memeriksa pembaruan untuk Dompet";
-"Creating new Wallet" = "Membuat Dompet baru";
 "Importing key" = "Mengimpor kunci";
 "Support" = "Dukungan";
 "Terms of Service" = "Ketentuan Layanan";
@@ -194,9 +185,7 @@
 "Invalid verification code. Please try again." = "Kode verifikasi tidak valid. Silakan coba lagi.";
 "No internet connection available. Please check your network settings." = "Tidak tersedia koneksi internet. Mohon periksa setelan jaringan Anda";
 "You do not have an account set up for Mail. Please contact %@" = "Anda tidak memiliki akun untuk pengaturan Surat Silakan hubungi %@";
-"The PIN you have selected is extremely common and may be easily guessed by someone with access to your phone within 3 tries. Would you like to use this PIN anyway?" = "PIN yang Anda pilih sangat umum dan dapat mudah ditebak oleh seseorang dengan akses ke ponsel Anda dalam 3 kali mencoba. Anda tetap ingin menggunakan PIN ini?";
 "Try again" = "Coba lagi";
-"Creating Wallet" = "Membuat Dompet";
 "Recovering Funds" = "Memulihkan Dana";
 "Syncing Wallet" = "Menyinkronkan Dompet";
 "Recover Funds" = "Pulihkan Dana";
@@ -334,7 +323,6 @@
 "Enable this option to reveal a receive address when you swipe left on the PIN screen, making receiving bitcoin even faster. Only one address will be loaded, logging in is required to show a new address." = "Aktifkan opsi ini untuk mengungkapkan alamat penerima bila Anda mengusap layar PIN ke kiri, yang membuat penerimaan bitcoin menjadi lebih cepat. Hanya satu alamat yang akan dimuat, login diperlukan untuk menampilkan alamat baru.";
 "Enjoying the Blockchain Wallet? Please take a moment to leave a review in the App Store and let others know about it." = "Menikmati Dompet Blockchain? Silakan luangkan waktu untuk meninggalkan ulasan di App Store dan biarkan orang lain tahu tentang hal itu.";
 "Enter %@ amount" = "Masukkan jumlah %@";
-"Enter Bitcoin address or select" = "Masukkan alamat Bitcoin atau pilih";
 "Failed to validate server certificate" = "Gagal memvalidasi sertifikat server";
 "From" = "Dari";
 "Increase fee" = "Tingkatkan biaya";
@@ -347,10 +335,8 @@
 "Logout and forget wallet" = "Keluar dan lupakan dompet";
 "Lower fee" = "Turunkan biaya";
 "Needs BIP38 Password" = "Memerlukan Kata Sandi BIP38";
-"New PIN must be different" = "PIN baru harus berbeda";
 "Open %@?" = "Buka %@?";
 "Open Mail App" = "Buka Aplikasi Surat";
-"PINs do not match" = "PIN tidak cocok";
 "Password must be different from your email" = "Kata sandi harus berbeda dari surel Anda";
 "Password must be less than or equal to 255 characters" = "Kata sandi harus kurang dari atau sama dengan 255 karakter";
 "Payments Sent" = "Pembayaran Terkirim";
@@ -525,7 +511,6 @@
 "You asked, we listened. We’re excited to announce that your Blockchain wallet will now allow you to seamlessly send and receive ether!" = "Anda bertanya, kami mendengarkan. Dengan gembira kami mengumumkan bahwa dompet Blockchain Anda sekarang memungkinkan Anda untuk mengirim dan menerima ether dengan mulus!";
 "Get Started with Ether" = "Mulai dengan Ether";
 "To use this service, we require you to enter your second password. You should only need to enter this once to set up your Ether wallet." = "Untuk menggunakan layanan ini, kami meminta Anda untuk memasukkan kata sandi kedua Anda. Anda hanya perlu memasukkan ini sekali untuk mengatur dompet Ether Anda.";
-"Enter Ether address" = "Masukkan alamat Ether";
 "Day" = "Hari";
 "All" = "Semua";
 "My Ether Wallet" = "Wallet Ether Saya";
@@ -598,7 +583,6 @@
 "See charts" = "Lihat grafik";
 "Price charts" = "Grafik harga";
 "Bitcoin Cash Price" = "Bitcoin Cash Harga";
-"Enter Bitcoin Cash address or select" = "Masukkan Bitcoin Cash atau pilih alamat";
 "Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Copy ini menerima alamat ke clipboard? Jika demikian, disarankan agar aplikasi lain dapat melihat informasi ini.";
 "Please send BCH to the Bitcoin Cash address\n%@" = "Silakan kirim BCH untuk Bitcoin Cash alamat\
 %@";
@@ -670,7 +654,6 @@
 "Available to Send" = "Tersedia untuk Kirim";
 "Balances Coming Soon" = "Saldo Segera Hadir";
 "Be your own bank" = "Jadilah bank Anda sendiri";
-"Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Sebelum mengakses dompet Anda, silakan pilih nomor pin yang akan digunakan untuk membuka kunci dompet Anda. Sangat penting Anda mengingat pin ini karena tidak dapat disetel ulang atau diubah tanpa membuka aplikasi terlebih dahulu.";
 "Below trading limit" = "Di bawah batas perdagangan";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Server Blockchain saat ini sedang dalam pemeliharaan. Silakan coba lagi nanti";
 "By creating a wallet you agree to Blockchain’s" = "Dengan membuat dompet, Anda setuju dengan Blockchain";
@@ -694,7 +677,6 @@
 "Driver's License" = "Surat izin Mengemudi";
 "Easy one time wallet backup keeps you in control of your funds." = "Mudah satu kali cadangan dompet membuat Anda mengendalikan dana Anda.";
 "Enabled!" = "Diaktifkan!";
-"Enter a Stellar address or select" = "Masukkan alamat Stellar atau pilih";
 "Enter Your Second Password" = "Masukkan Kata Sandi Kedua Anda";
 "Estimated fees" = "Taksiran biaya";
 "Every country has different rules on how to buy and sell cryptocurrencies. Keep your eyes peeled, we’ll let you know as soon as we launch in %@!" = "Setiap negara memiliki aturan berbeda tentang cara membeli dan menjual cryptocurrency. Biarkan mata Anda terkelupas, kami akan memberi tahu Anda segera setelah kami meluncurkan di %@ !";
@@ -747,7 +729,6 @@
 "Overview" = "Ikhtisar";
 "Password" = "Kata sandi";
 "Payment sent" = "Pembayaran terkirim";
-"PIN Code Incorrect. Unknown Error Message." = "Kode PIN salah. Pesan Kesalahan Tidak Dikenal.";
 "Please send %@ to bitcoin address.\n%@" = "Silakan kirim %1$@ ke alamat bitcoin. \
  %2$@";
 "Profile" = "Profil";
@@ -811,7 +792,9 @@
 "We are unable to display your Lockbox balance at this time. Don’t worry, your funds are safe. We’ll be adding this feature soon. While you wait, you can check your balance on the web." = "Kami tidak dapat menampilkan saldo Lockbox Anda saat ini. Jangan khawatir, dana Anda aman. Kami akan segera menambahkan fitur ini. Sambil menunggu, Anda dapat memeriksa saldo Anda di web.";
 "We can't check whether this address has been used. Show anyway?" = "Kami tidak dapat memeriksa apakah alamat ini telah digunakan. Tampilkan saja?";
 "We had some trouble verifying your account with the documents provided. Our support team will contact you shortly to resolve this." = "Kami mengalami beberapa masalah saat memverifikasi akun Anda dengan dokumen yang diberikan. Tim dukungan kami akan segera menghubungi Anda untuk menyelesaikan masalah ini.";
-"We have successfully verified your identity." = "Kami telah berhasil memverifikasi identitas Anda.";
+"We have successfully verified your identity." = "Kami telah berhasil memverifikasi \
+ identitas anda. \
+";
 "We Now Support Stellar" = "Kami Sekarang Mendukung Stellar";
 "We'll keep you up-to-date here with recommendations and new features." = "Kami akan terus mengabari Anda di sini dengan rekomendasi dan fitur baru.";
 "Welcome to Blockchain" = "Selamat Datang di Blockchain";
@@ -1006,3 +989,65 @@
 "Swap for USD PAX Now" = "Dapatkan USD PAX Sekarang";
 "USD PAX" = "PAX USD";
 "Your USD PAX transactions will show up here once you make your first transaction." = "Transaksi USD PAX Anda akan muncul di sini setelah Anda melakukan transaksi pertama.";
+"%@ Received" = "%@ Diterima";
+"%@ Wallet Address" = "%@ Alamat Dompet";
+"A new window should open within 10 seconds." = "Jendela baru akan terbuka dalam 10 detik.";
+"An error occured. Please try again" = "Kesalahan terjadi. Silakan coba lagi";
+"Backspace button" = "Tombol backspace";
+"Built by Blockchain.com" = "Dibangun oleh Blockchain.com";
+"Confirm Your PIN" = "Konfirmasikan PIN Anda";
+"Connect" = "Menghubungkan";
+"Connect Now" = "Hubungkan Sekarang";
+"Connected" = "Terhubung";
+"Connecting You To The PIT" = "Menghubungkan Anda ke PIT";
+"Connection Error" = "Koneksi error";
+"Copied!" = "Disalin!";
+"Copy" = "Salinan";
+"Create Your PIN" = "Buat PIN Anda";
+"Creating a new address" = "Membuat alamat baru";
+"Enable Face ID" = "Aktifkan ID Wajah";
+"Enable Touch ID" = "Aktifkan Touch ID";
+"Enter bch address or select" = "Masukkan alamat bch atau pilih";
+"Enter btc address or select" = "Masukkan alamat btc atau pilih";
+"Enter eth address" = "Masukkan alamat eth";
+"Enter Your PIN" = "Masukkan PIN Anda";
+"Exchange crypto addresses so you don't have to copy and paste" = "Tukar alamat crypto sehingga Anda tidak perlu menyalin dan menempel";
+"Face id authentication" = "Otentikasi id wajah";
+"Incorrect PIN" = "PIN salah";
+"It's time to Level Up to a better crypto exchange. First 100,000 traders to sign up will trade free for 30 days." = "Saatnya Naik Level ke pertukaran kripto yang lebih baik. 100.000 trader pertama yang mendaftar akan berdagang gratis selama 30 hari.";
+"Just a moment." = "Sebentar.";
+"Launch The PIT" = "Luncurkan PIT";
+"Lightning Fast Trades" = "Perdagangan Cepat Kilat";
+"Liquid & Reliable" = "Cairan & Andal";
+"Loading Your Wallet" = "Memuat Dompet Anda";
+"Log in to refresh addresses" = "Masuk untuk menyegarkan alamat";
+"Log Out" = "Keluar";
+"Low Fees" = "Biaya rendah";
+"My PIT %@ Wallet" = "PIT Saya %@ Dompet";
+"PIN response Object success length 0" = "Respons PIN Panjang keberhasilan objek 0";
+"PINs don't match" = "PIN tidak cocok";
+"Please enter your wallet password." = "Silakan masukkan kata sandi dompet Anda.";
+"Quickly sign into your wallet instead of using your PIN." = "Masuk dengan cepat ke dompet Anda alih-alih menggunakan PIN Anda.";
+"Ready for the the best Blockchain App yet? Download our latest build and get more out of your Crypto." = "Sudah siap untuk Aplikasi Blockchain terbaik? Unduh build terbaru kami dan dapatkan lebih banyak dari Crypto Anda.";
+"Send Again" = "Kirim lagi";
+"Share" = "Bagikan";
+"Share your Gold or Silver Level status" = "Bagikan status Tingkat Emas atau Perak Anda";
+"Swipe right to see your addresses" = "Geser ke kanan untuk melihat alamat Anda";
+"The only Exchange that connects to your Wallet." = "Satu-satunya Exchange yang terhubung ke Dompet Anda.";
+"The PIT" = "PIT";
+"The PIT will be able to:" = "PIT akan dapat:";
+"The PIT will not be able to:" = "PIT tidak akan dapat:";
+"This is your address" = "Ini alamat Anda";
+"This is your address QR code" = "Ini adalah kode QR alamat Anda";
+"Too Many PIN Attempts" = "Terlalu Banyak Upaya PIN";
+"Touch id authentication" = "Sentuh otentikasi id";
+"Update Available" = "Pembaruan tersedia";
+"v %@" = "v %@";
+"Verify Your Email" = "Verifikasi Email Anda";
+"View your wallet password" = "Lihat kata sandi dompet Anda";
+"We could not connect your Wallet to The PIT. Please try again" = "Kami tidak dapat menghubungkan Dompet Anda ke PIT. Silakan coba lagi";
+"We just sent you a verification email. Your email address needs to be verified before you can connect to The PIT." = "Kami baru saja mengirimi Anda email verifikasi. Alamat email Anda perlu diverifikasi sebelum Anda dapat terhubung ke The PIT.";
+"You have connected your Blockchain Wallet to The PIT." = "Anda telah menghubungkan Dompet Blockchain Anda ke PIT.";
+"Your New PIN is Ready" = "PIN Baru Anda Siap";
+"Your new PIN must be different" = "PIN baru Anda harus berbeda";
+"You’re all set to connect your Blockchain Wallet to The PIT." = "Anda siap untuk menghubungkan Dompet Blockchain Anda ke PIT.";

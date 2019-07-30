@@ -46,7 +46,6 @@
 "Please enter your PIN" = "Voer uw pincode in";
 "Please enter a new PIN" = "Voer een nieuwe pincode in";
 "Confirm your PIN" = "Bevestig uw pincode";
-"Incorrect PIN. Please retry." = "Onjuiste pincode. Probeer het opnieuw.";
 "Manually" = "Handmatg";
 "No" = "Geen";
 "Sending Transaction" = "Transactie aan het verzenden";
@@ -58,8 +57,6 @@
 "Passwords do not match" = "Wachtwoorden komen niet overeen";
 "Payment Sent!" = "Betaling verzonden!";
 "PIN Response Object key or value length 0" = "Lengte pinrespons objectsleutel of waarde 0";
-"PIN Response Object success length 0" = "Lengte pinrespons objectsucces 0";
-"PIN Validation cannot be completed. Please enter your wallet password manually." = "Pinvalidatie kan niet worden voltooid. Voer het wachtwoord van uw portemonnee handmatig in.";
 "PIN Validation Error" = "Validatiefout pincode";
 "Please choose another PIN" = "Kies een andere pincode";
 "Please enter your 36 character wallet identifier correctly. It can be found in the welcome email on startup." = "Voer uw uit 36 tekens bestaande portemonnee-identifier correct in. Deze kunt u vinden in de welkomste-mail bij het opstarten.";
@@ -72,7 +69,6 @@
 "Unconfirmed" = "Onbevestigd";
 "Unsupported Private Key Format" = "Niet-ondersteund privésleutelformaat";
 "User Declined" = "Gebruiker afgewezen";
-"Wallet Paired Successfully." = "Portemonnee met succes gekoppeld.";
 "You must have two-factor authentication disabled to pair manually." = "U dient de tweeledige verificatiemethode uit te schakelen om handmatig te kunnen koppelen.";
 "Warning!!!" = "Waarschuwing!!!";
 "Would you like to add the bitcoin address %@ to your address book?" = "Wilt u Bitcoin-adres %@ toevoegen aan uw adresboek?";
@@ -83,7 +79,6 @@
 "You must enter a label" = "U moet een label invoeren";
 "Label must contain letters and numbers only" = "Label kan alleen letters en cijfers bevatten";
 "Label must have less than 18 characters" = "Label moet minder dan 18 tekens bevatten";
-"Your wallet was successfully created." = "Uw portemonnee is met succes aangemaakt.";
 "Weak" = "Zwak";
 "Regular" = "Regulier";
 "Normal" = "Normaal";
@@ -98,12 +93,8 @@
 "Imported Addresses (Archived)" = "Geïmporteerde adressen (Gearchiveerd)";
 "Address book" = "Adresboek";
 "Please add an email address" = "Voeg een e-mailadres toe";
-"Downloading Wallet" = "Portemonnee aan het downloaden";
-"Decrypting Wallet" = "Portemonnee aan het decoderen";
 "Loading transactions" = "Transacties aan het laden";
-"Initializing Wallet" = "Portemonnee initialiseren";
 "Checking for Wallet updates" = "Controleren op Portemonnee-updates";
-"Creating new Wallet" = "Nieuwe portemonnee aan het aanmaken";
 "Importing key" = "Geïmporteerde sleutel";
 "Support" = "Ondersteuning";
 "Terms of Service" = "Servicevoorwaarden";
@@ -194,9 +185,7 @@
 "Invalid verification code. Please try again." = "Ongeldige verificatiecode. Probeer het opnieuw.";
 "No internet connection available. Please check your network settings." = "Geen internetverbinding beschikbaar. Controleer uw netwerkinstellingen.";
 "You do not have an account set up for Mail. Please contact %@" = "U heeft geen account opgezet voor e-mail. Neem contact op met %@";
-"The PIN you have selected is extremely common and may be easily guessed by someone with access to your phone within 3 tries. Would you like to use this PIN anyway?" = "De door u geselecteerde pincode komt zeer vaak voor en kan gemakkelijk binnen 3 pogingen worden geraden door iemand met toegang tot uw telefoon. Wilt u deze pincode toch gebruiken?";
 "Try again" = "Probeer opnieuw";
-"Creating Wallet" = "Portemonnee aan het aanmaken";
 "Recovering Funds" = "Tegoeden aan het herstellen";
 "Syncing Wallet" = "Portemonnee aan het synchroniseren";
 "Recover Funds" = "Tegoeden herstellen";
@@ -334,7 +323,6 @@
 "Enable this option to reveal a receive address when you swipe left on the PIN screen, making receiving bitcoin even faster. Only one address will be loaded, logging in is required to show a new address." = "Schakel deze optie in om een ontvangadres te onthullen wanneer u naar links veegt op het pinscherm, waardoor u nog sneller Bitcoins kunt ontvangen. Er zal slechts één adres wordt geladen, inloggen is nodig om een nieuw adres tonen.";
 "Enjoying the Blockchain Wallet? Please take a moment to leave a review in the App Store and let others know about it." = "Geniet u van de Blockchain Portemonnee? Neem even de tijd om een recensie te schrijven in de App Store en vertel het anderen.";
 "Enter %@ amount" = "Voer het bedrag van %@ in";
-"Enter Bitcoin address or select" = "Voer Bitcoin-adres in of selecteer";
 "Failed to validate server certificate" = "Kon servercertificaat niet valideren";
 "From" = "Van";
 "Increase fee" = "Tarief verhogen";
@@ -347,10 +335,8 @@
 "Logout and forget wallet" = "Afmelden en portemonnee vergeten";
 "Lower fee" = "Tarief verlagen";
 "Needs BIP38 Password" = "Heeft BIP38-wachtwoord nodig";
-"New PIN must be different" = "De nieuwe pincode moet verschillen";
 "Open %@?" = "%@ openen?";
 "Open Mail App" = "Mail-app openen";
-"PINs do not match" = "Pincodes komen niet overeen";
 "Password must be different from your email" = "Wachtwoord moet anders zijn dan uw e-mailadres";
 "Password must be less than or equal to 255 characters" = "Wachtwoord moet kleiner dan of gelijk aan 255 tekens zijn";
 "Payments Sent" = "Betalingen verzonden";
@@ -525,7 +511,6 @@
 "You asked, we listened. We’re excited to announce that your Blockchain wallet will now allow you to seamlessly send and receive ether!" = "U vroeg, wij luisterden. Wij zijn zeer verheugd u te kunnen aankondigen dat u nu naadloos ether kunt verzenden en ontvangen met uw blockchain-portefeuille!";
 "Get Started with Ether" = "Ga aan de slag met ether";
 "To use this service, we require you to enter your second password. You should only need to enter this once to set up your Ether wallet." = "Het is vereist om een tweede wachtwoord in te voeren om gebruik te kunnen maken van deze dienst. U dient dit slechts eenmaal in te voeren om uw ether-portefeuille in te stellen.";
-"Enter Ether address" = "Voer Ether adres";
 "Day" = "Dag";
 "All" = "Alle";
 "My Ether Wallet" = "Mijn Ether Portemonnee";
@@ -598,7 +583,6 @@
 "See charts" = "Zie grafieken";
 "Price charts" = "Prijs grafieken";
 "Bitcoin Cash Price" = "Bitcoin-Koers";
-"Enter Bitcoin Cash address or select" = "Voer Bitcoin Cash adres of selecteer";
 "Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Kopieer deze ontvangen mailadres naar het klembord te kopiëren? Als dat zo is, worden geadviseerd dat andere programma ' s kunnen kijken op deze informatie.";
 "Please send BCH to the Bitcoin Cash address\n%@" = "Stuur BCH naar de Bitcoin Cash adres\
 %@";
@@ -670,7 +654,6 @@
 "Available to Send" = "Beschikbaar om te verzenden";
 "Balances Coming Soon" = "Saldi komen binnenkort";
 "Be your own bank" = "Wees je eigen bank";
-"Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Kies voordat je je portemonnee opent een pincode om te gebruiken om je portemonnee te ontgrendelen. Het is belangrijk dat u deze pen onthoudt omdat deze niet kan worden gereset of gewijzigd zonder eerst de app te ontgrendelen.";
 "Below trading limit" = "Onder handelsgrens";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "De servers van Blockchain zijn momenteel in onderhoud. Probeer het later opnieuw";
 "By creating a wallet you agree to Blockchain’s" = "Door een portemonnee te maken, ga je akkoord met Blockchain's";
@@ -694,7 +677,6 @@
 "Driver's License" = "Rijbewijs";
 "Easy one time wallet backup keeps you in control of your funds." = "Dankzij de eenvoudige back-up van een eenmalige portefeuille behoudt u de controle over uw geld.";
 "Enabled!" = "Ingeschakeld!";
-"Enter a Stellar address or select" = "Voer een sterrenadres in of selecteer";
 "Enter Your Second Password" = "Voer je tweede wachtwoord in";
 "Estimated fees" = "Geschatte vergoedingen";
 "Every country has different rules on how to buy and sell cryptocurrencies. Keep your eyes peeled, we’ll let you know as soon as we launch in %@!" = "Elk land heeft andere regels voor het kopen en verkopen van cryptocurrencies. Houd je ogen open, we zullen je laten weten zodra we starten in %@ !";
@@ -747,7 +729,6 @@
 "Overview" = "Overzicht";
 "Password" = "Wachtwoord";
 "Payment sent" = "Betaling verzonden";
-"PIN Code Incorrect. Unknown Error Message." = "PIN-code onjuist. Onbekend foutbericht.";
 "Please send %@ to bitcoin address.\n%@" = "Stuur alstublieft %1$@ naar bitcoin-adres. \
  %2$@";
 "Profile" = "Profiel";
@@ -811,7 +792,9 @@
 "We are unable to display your Lockbox balance at this time. Don’t worry, your funds are safe. We’ll be adding this feature soon. While you wait, you can check your balance on the web." = "We kunnen je Lockbox-saldo momenteel niet weergeven. Maak je geen zorgen, je geld is veilig. We zullen deze functie binnenkort toevoegen. Terwijl u wacht, kunt u uw saldo op internet controleren.";
 "We can't check whether this address has been used. Show anyway?" = "We kunnen niet controleren of dit adres is gebruikt. Hoe dan ook?";
 "We had some trouble verifying your account with the documents provided. Our support team will contact you shortly to resolve this." = "We hebben problemen ondervonden bij het verifiëren van uw account met de geleverde documenten. Ons supportteam neemt binnenkort contact met u op om dit op te lossen.";
-"We have successfully verified your identity." = "We hebben uw identiteit geverifieerd.";
+"We have successfully verified your identity." = "We hebben met succes geverifieerd \
+ uw identiteit. \
+";
 "We Now Support Stellar" = "We ondersteunen nu Stellar";
 "We'll keep you up-to-date here with recommendations and new features." = "We houden u hier op de hoogte met aanbevelingen en nieuwe functies.";
 "Welcome to Blockchain" = "Welkom bij Blockchain";
@@ -830,7 +813,7 @@
 "Your Max is" = "Je Max is";
 "Your Min is" = "Je Min is";
 "Your spendable balance is" = "Je besteedbare saldo is";
-"Your XLM is on its way" = "Je XLM is onderweg";
+"Your XLM is on its way" = "Uw XLM is onderweg";
 "You’ve successfully imported a private key." = "U heeft met succes een privésleutel geïmporteerd.";
 "NSCameraUsageDescription" = "Dit is nodig zodat de app QR-codes kan scannen.";
 "NSMicrophoneUsageDescription" = "Vereist voor video-opname.";
@@ -1006,3 +989,65 @@
 "Swap for USD PAX Now" = "Koop nu USD PAX";
 "USD PAX" = "USD PAX";
 "Your USD PAX transactions will show up here once you make your first transaction." = "Uw USD PAX-transacties worden hier weergegeven zodra u uw eerste transactie uitvoert.";
+"%@ Received" = "%@ Ontvangen";
+"%@ Wallet Address" = "%@ Wallet-adres";
+"A new window should open within 10 seconds." = "Een nieuw venster zou binnen 10 seconden moeten openen.";
+"An error occured. Please try again" = "Er is een fout opgetreden. Probeer het opnieuw";
+"Backspace button" = "Backspace-knop";
+"Built by Blockchain.com" = "Gebouwd door Blockchain.com";
+"Confirm Your PIN" = "Bevestig uw pincode";
+"Connect" = "Aansluiten";
+"Connect Now" = "Verbind nu";
+"Connected" = "Verbonden";
+"Connecting You To The PIT" = "Je verbinden met de PIT";
+"Connection Error" = "Verbindingsfout";
+"Copied!" = "Gekopieerde!";
+"Copy" = "Kopiëren";
+"Create Your PIN" = "Maak uw pincode";
+"Creating a new address" = "Een nieuw adres maken";
+"Enable Face ID" = "Face ID inschakelen";
+"Enable Touch ID" = "Schakel Touch ID in";
+"Enter bch address or select" = "Voer het bch-adres in of selecteer";
+"Enter btc address or select" = "Voer het btc-adres in of selecteer";
+"Enter eth address" = "Voer eth adres in";
+"Enter Your PIN" = "Voer uw pincode in";
+"Exchange crypto addresses so you don't have to copy and paste" = "Wissel crypto-adressen uit, zodat u niet hoeft te kopiëren en plakken";
+"Face id authentication" = "Face ID authenticatie";
+"Incorrect PIN" = "Onjuiste pincode";
+"It's time to Level Up to a better crypto exchange. First 100,000 traders to sign up will trade free for 30 days." = "Het is tijd om een level omhoog te gaan naar een betere crypto-uitwisseling. De eerste 100.000 handelaren die zich aanmelden, zullen 30 dagen gratis handelen.";
+"Just a moment." = "Een momentje.";
+"Launch The PIT" = "Start de PIT";
+"Lightning Fast Trades" = "Bliksemsnelle transacties";
+"Liquid & Reliable" = "Vloeibaar en betrouwbaar";
+"Loading Your Wallet" = "Uw portemonnee laden";
+"Log in to refresh addresses" = "Log in om adressen te vernieuwen";
+"Log Out" = "Uitloggen";
+"Low Fees" = "Lage tarieven";
+"My PIT %@ Wallet" = "Mijn PIT %@ Wallet";
+"PIN response Object success length 0" = "PIN-reactie Object succes lengte 0";
+"PINs don't match" = "Pincodes komen niet overeen";
+"Please enter your wallet password." = "Voer je portemonnee-wachtwoord in.";
+"Quickly sign into your wallet instead of using your PIN." = "Meld u snel aan bij uw portemonnee in plaats van uw pincode te gebruiken.";
+"Ready for the the best Blockchain App yet? Download our latest build and get more out of your Crypto." = "Klaar voor de beste Blockchain-app ooit? Download onze nieuwste build en haal meer uit uw Crypto.";
+"Send Again" = "Opnieuw versturen";
+"Share" = "Delen";
+"Share your Gold or Silver Level status" = "Deel uw Gold of Silver Level-status";
+"Swipe right to see your addresses" = "Veeg naar rechts om uw adressen te zien";
+"The only Exchange that connects to your Wallet." = "De enige Exchange die verbinding maakt met uw Wallet.";
+"The PIT" = "De PIT";
+"The PIT will be able to:" = "De PIT zal in staat zijn om:";
+"The PIT will not be able to:" = "De PIT zal niet in staat zijn om:";
+"This is your address" = "Dit is jouw adres";
+"This is your address QR code" = "Dit is de QR-code van uw adres";
+"Too Many PIN Attempts" = "Te veel pincodepogingen";
+"Touch id authentication" = "Touch id authenticatie";
+"Update Available" = "Update beschikbaar";
+"v %@" = "v %@";
+"Verify Your Email" = "Controleer je email";
+"View your wallet password" = "Bekijk uw portefeuillewachtwoord";
+"We could not connect your Wallet to The PIT. Please try again" = "We konden uw Wallet niet verbinden met The PIT. Probeer het opnieuw";
+"We just sent you a verification email. Your email address needs to be verified before you can connect to The PIT." = "We hebben u zojuist een verificatie-e-mail gestuurd. Uw e-mailadres moet worden geverifieerd voordat u verbinding kunt maken met The PIT.";
+"You have connected your Blockchain Wallet to The PIT." = "Je hebt je Blockchain-portemonnee verbonden met The PIT.";
+"Your New PIN is Ready" = "Uw nieuwe pincode is gereed";
+"Your new PIN must be different" = "Uw nieuwe pincode moet anders zijn";
+"You’re all set to connect your Blockchain Wallet to The PIT." = "Je bent helemaal klaar om je Blockchain-portemonnee te verbinden met The PIT.";

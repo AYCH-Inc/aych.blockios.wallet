@@ -46,7 +46,6 @@
 "Please enter your PIN" = "Zadejte prosím PIN";
 "Please enter a new PIN" = "Zadejte prosím nový PIN";
 "Confirm your PIN" = "Potvrďte svůj PIN";
-"Incorrect PIN. Please retry." = "Nesprávný PIN. Opakujte akci.";
 "Manually" = "Ručně";
 "No" = "Ne";
 "Sending Transaction" = "Odesílání transakce";
@@ -58,8 +57,6 @@
 "Passwords do not match" = "Hesla se neshodují";
 "Payment Sent!" = "Platba odeslána!";
 "PIN Response Object key or value length 0" = "Délka hodnoty nebo klíče objektu odezvy PINu 0";
-"PIN Response Object success length 0" = "Délka úspěšného objektu odezvy PINu 0";
-"PIN Validation cannot be completed. Please enter your wallet password manually." = "Ověření PINu se nepodařilo dokončit. Zadejte prosím heslo peněženky ručně.";
 "PIN Validation Error" = "Chyba ověření PINu";
 "Please choose another PIN" = "Vyberte prosím jiný PIN";
 "Please enter your 36 character wallet identifier correctly. It can be found in the welcome email on startup." = "Zadejte správně identifikátor peněženky s 36 znaky. Najdete ho v úvodním e-mailu při spuštění.";
@@ -72,7 +69,6 @@
 "Unconfirmed" = "Nepotvrzeno";
 "Unsupported Private Key Format" = "Nepodporovaný privátního klíč formátu";
 "User Declined" = "Uživatel zamítnut";
-"Wallet Paired Successfully." = "Peněženka byla spárována.";
 "You must have two-factor authentication disabled to pair manually." = "Pro ruční spárování musíte povolit dvoufaktorovou autentizaci.";
 "Warning!!!" = "Varování!!!";
 "Would you like to add the bitcoin address %@ to your address book?" = "Chcete přidat bitcoinovou adresu %@ do Vašeho adresáře?";
@@ -83,7 +79,6 @@
 "You must enter a label" = "Musíte zadat označení";
 "Label must contain letters and numbers only" = "Označení musí obsahovat pouze písmena a číslice";
 "Label must have less than 18 characters" = "Označení musí mít méně než 18 znaků";
-"Your wallet was successfully created." = "Vaše peněženka byla úspěšně vytvořena.";
 "Weak" = "Slabé";
 "Regular" = "Běžné";
 "Normal" = "Normální";
@@ -98,12 +93,8 @@
 "Imported Addresses (Archived)" = "Importované adresy (Archivované)";
 "Address book" = "Adresář";
 "Please add an email address" = "Přidejte prosím e-mailovou adresu";
-"Downloading Wallet" = "Stahování peněženky";
-"Decrypting Wallet" = "Dešifrování peněženky";
 "Loading transactions" = "Načítání transakcí";
-"Initializing Wallet" = "Inicializace peněženky";
 "Checking for Wallet updates" = "Ověřování aktualizací peněženky";
-"Creating new Wallet" = "Vytváření nové peněženky";
 "Importing key" = "Importování klíče";
 "Support" = "Podpora";
 "Terms of Service" = "Podmínky služby";
@@ -194,9 +185,7 @@
 "Invalid verification code. Please try again." = "Neplatný ověřovací kód. Zkuste to prosím znovu.";
 "No internet connection available. Please check your network settings." = "Bez připojení k Internetu. Ověřte nastavení sítě.";
 "You do not have an account set up for Mail. Please contact %@" = "Nemáte nastavený účet pro e-maily. Kontaktujte prosím %@";
-"The PIN you have selected is extremely common and may be easily guessed by someone with access to your phone within 3 tries. Would you like to use this PIN anyway?" = "Vybraný PIN je příliš běžný a mohl by ho v rámci 3 pokusů uhodnout každý, kdo má přístup k Vašemu telefonu. Chcete tento PIN i přesto použít?";
 "Try again" = "Zkusit znovu";
-"Creating Wallet" = "Vytváření peněženky";
 "Recovering Funds" = "Obnovování prostředků";
 "Syncing Wallet" = "Synchronizace peněženky";
 "Recover Funds" = "Obnovit prostředky";
@@ -334,7 +323,6 @@
 "Enable this option to reveal a receive address when you swipe left on the PIN screen, making receiving bitcoin even faster. Only one address will be loaded, logging in is required to show a new address." = "Povolením této možnosti zjistíte přijímací adresu, pokud přejedete prstem doleva na obrazovce PINu. Díky tomu budete přijímat bitcoin ještě rychleji. Načte se pouze jedna adresa, pro zobrazení nové adresy bude vyžadováno přihlášení.";
 "Enjoying the Blockchain Wallet? Please take a moment to leave a review in the App Store and let others know about it." = "Líbí se Vám peněženka Blockchain? Napište nám recenzi na webu App Store a podělte se s ostatními.";
 "Enter %@ amount" = "Zadat částku %@";
-"Enter Bitcoin address or select" = "Zadejte bitcoinovou adresu nebo vyberte";
 "Failed to validate server certificate" = "Nepodařilo se ověřit certifikát serveru";
 "From" = "Od";
 "Increase fee" = "Zvýšit poplatek";
@@ -347,10 +335,8 @@
 "Logout and forget wallet" = "Odhlásit a zapomenout peněženku";
 "Lower fee" = "Nižší poplatek";
 "Needs BIP38 Password" = "Vyžaduje heslo BIP38";
-"New PIN must be different" = "Nový PIN se musí lišit";
 "Open %@?" = "Otevřít %@?";
 "Open Mail App" = "Otevřít e-mailovou aplikaci";
-"PINs do not match" = "PIN kódy se neshodují";
 "Password must be different from your email" = "Heslo se musí lišit od e-mailu";
 "Password must be less than or equal to 255 characters" = "Heslo musí mít 255 znaků nebo méně";
 "Payments Sent" = "Platby odeslány";
@@ -525,7 +511,6 @@
 "You asked, we listened. We’re excited to announce that your Blockchain wallet will now allow you to seamlessly send and receive ether!" = "Ptali jste se, my jsme naslouchali. S radostí oznamujeme, že vaše peněženka Blockchain nyní umožňuje bezproblémově odesílat a přijímat Ether!";
 "Get Started with Ether" = "Začněte s Ether";
 "To use this service, we require you to enter your second password. You should only need to enter this once to set up your Ether wallet." = "Chcete-li používat tuto službu, vyžadujeme, abyste zadali druhé heslo. Toto budete muset zadat pouze jednou, když nastavíte svou peněženku Ether.";
-"Enter Ether address" = "Zadejte Ether adresu";
 "Day" = "Den";
 "All" = "Všechny";
 "My Ether Wallet" = "Můj Éter Peněženku";
@@ -598,7 +583,6 @@
 "See charts" = "Viz grafy";
 "Price charts" = "Cenové grafy";
 "Bitcoin Cash Price" = "Bitcoin Cena V Hotovosti";
-"Enter Bitcoin Cash address or select" = "Zadejte Bitcoin adresu nebo vyberte Hotovosti";
 "Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Zkopírujte tento obdrží adresu do schránky? Pokud ano, na vědomí, že další aplikace mohou být schopni podívat se na tyto informace.";
 "Please send BCH to the Bitcoin Cash address\n%@" = "Prosím, pošlete BCH na Bitcoin adresu Hotovosti\
 %@";
@@ -670,7 +654,6 @@
 "Available to Send" = "K dispozici pro odeslání";
 "Balances Coming Soon" = "Váhy se blíží brzy";
 "Be your own bank" = "Buď svou vlastní bankou";
-"Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Než se dostanete do peněženky, vyberte číslo PIN, které chcete použít k odemknutí peněženky. Je důležité, abyste si tento pin pamatovali, protože jej nelze resetovat ani měnit bez nejprve odemčení aplikace.";
 "Below trading limit" = "Pod obchodním limitem";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Servery Blockchain jsou v současné době v údržbě. Prosím zkuste to znovu později";
 "By creating a wallet you agree to Blockchain’s" = "Vytvořením peněženky souhlasíte s blokádou";
@@ -694,7 +677,6 @@
 "Driver's License" = "Řidičský průkaz";
 "Easy one time wallet backup keeps you in control of your funds." = "Jednoduchá jednorázová záloha na peněženku vám udrží kontrolu nad finančními prostředky.";
 "Enabled!" = "Povoleno!";
-"Enter a Stellar address or select" = "Zadejte hvězdnou adresu nebo vyberte";
 "Enter Your Second Password" = "Zadejte druhé heslo";
 "Estimated fees" = "Odhadované poplatky";
 "Every country has different rules on how to buy and sell cryptocurrencies. Keep your eyes peeled, we’ll let you know as soon as we launch in %@!" = "Každá země má různá pravidla, jak nakupovat a prodávat kryptocity. Držte oči loupané, my vám oznamujeme, jakmile spustíme v %@ !";
@@ -747,7 +729,6 @@
 "Overview" = "Přehled";
 "Password" = "Heslo";
 "Payment sent" = "Platba byla odeslána";
-"PIN Code Incorrect. Unknown Error Message." = "Kód PIN nesprávný. Neznámá chybová zpráva.";
 "Please send %@ to bitcoin address.\n%@" = "Pošlete adresu %1$@ do adresy bitcoin. \
  %2$@";
 "Profile" = "Profil";
@@ -811,7 +792,9 @@
 "We are unable to display your Lockbox balance at this time. Don’t worry, your funds are safe. We’ll be adding this feature soon. While you wait, you can check your balance on the web." = "Momentálně nemůžeme zobrazit zůstatek Lockboxu. Nebojte se, vaše prostředky jsou v bezpečí. Tuto funkci přidáme brzy. Během čekání můžete zkontrolovat zůstatek na webu.";
 "We can't check whether this address has been used. Show anyway?" = "Nemůžeme zkontrolovat, zda byla tato adresa použita. Ukázat tak?";
 "We had some trouble verifying your account with the documents provided. Our support team will contact you shortly to resolve this." = "Při poskytnutých dokumentech jsme měli potíže s ověřením vašeho účtu. Náš tým podpory vás bude brzy kontaktovat, abyste to vyřešili.";
-"We have successfully verified your identity." = "Úspěšně jsme ověřili vaši identitu.";
+"We have successfully verified your identity." = "Úspěšně jsme ověřili \
+ vaši identitu. \
+";
 "We Now Support Stellar" = "Nyní podporujeme hvězdné";
 "We'll keep you up-to-date here with recommendations and new features." = "Budeme vás informovat s doporučeními a novými funkcemi.";
 "Welcome to Blockchain" = "Vítejte v Blockchainu";
@@ -1006,3 +989,65 @@
 "Swap for USD PAX Now" = "Získejte USD PAX nyní";
 "USD PAX" = "USD PAX";
 "Your USD PAX transactions will show up here once you make your first transaction." = "Po provedení první transakce se zde zobrazí vaše transakce PAX USD.";
+"%@ Received" = "%@ Přijato";
+"%@ Wallet Address" = "%@ Adresa peněženky";
+"A new window should open within 10 seconds." = "Nové okno by se mělo otevřít do 10 sekund.";
+"An error occured. Please try again" = "Nastala chyba. Prosím zkuste to znovu";
+"Backspace button" = "Tlačítko backspace";
+"Built by Blockchain.com" = "Vytvořil Blockchain.com";
+"Confirm Your PIN" = "Potvrďte svůj PIN";
+"Connect" = "Připojit";
+"Connect Now" = "Připojte se nyní";
+"Connected" = "Připojeno";
+"Connecting You To The PIT" = "Připojení vás k PIT";
+"Connection Error" = "Chyba připojení";
+"Copied!" = "Zkopírováno!";
+"Copy" = "kopírovat";
+"Create Your PIN" = "Vytvořte si svůj PIN";
+"Creating a new address" = "Vytvoření nové adresy";
+"Enable Face ID" = "Povolit ID obličeje";
+"Enable Touch ID" = "Povolit dotykové ID";
+"Enter bch address or select" = "Zadejte bch adresu nebo vyberte";
+"Enter btc address or select" = "Zadejte adresu BTC nebo vyberte";
+"Enter eth address" = "Zadejte adresu et";
+"Enter Your PIN" = "Zadejte svůj PIN";
+"Exchange crypto addresses so you don't have to copy and paste" = "Vyměňujte krypto adresy, abyste nemuseli kopírovat a vkládat";
+"Face id authentication" = "Ověření totožnosti obličeje";
+"Incorrect PIN" = "Nesprávný PIN";
+"It's time to Level Up to a better crypto exchange. First 100,000 traders to sign up will trade free for 30 days." = "Je čas na Level Up pro lepší kryptoměnu. Prvních 100 000 obchodníků, kteří se zaregistrují, bude obchodovat zdarma po dobu 30 dnů.";
+"Just a moment." = "Jenom chvilku.";
+"Launch The PIT" = "Spusťte PIT";
+"Lightning Fast Trades" = "Bleskové rychlé obchody";
+"Liquid & Reliable" = "Tekuté a spolehlivé";
+"Loading Your Wallet" = "Načítání vaší peněženky";
+"Log in to refresh addresses" = "Chcete-li obnovit adresy, přihlaste se";
+"Log Out" = "Odhlásit se";
+"Low Fees" = "Nízké poplatky";
+"My PIT %@ Wallet" = "Moje PIT %@ Peněženka";
+"PIN response Object success length 0" = "Odezva PIN Délka úspěchu objektu 0";
+"PINs don't match" = "PIN se neshodují";
+"Please enter your wallet password." = "Zadejte své heslo k peněžence.";
+"Quickly sign into your wallet instead of using your PIN." = "Rychle se přihlaste do své peněženky místo použití kódu PIN.";
+"Ready for the the best Blockchain App yet? Download our latest build and get more out of your Crypto." = "Jste připraveni na nejlepší Blockchain App? Stáhněte si naši nejnovější verzi a získejte více ze svého šifrování.";
+"Send Again" = "Poslat znovu";
+"Share" = "Podíl";
+"Share your Gold or Silver Level status" = "Sdílejte svůj stav na zlaté nebo stříbrné úrovni";
+"Swipe right to see your addresses" = "Přejetím prstem doprava zobrazíte své adresy";
+"The only Exchange that connects to your Wallet." = "Jediná burza, která se připojuje k vaší Peněžence.";
+"The PIT" = "Jáma";
+"The PIT will be able to:" = "PIT bude schopen:";
+"The PIT will not be able to:" = "PIT nebude schopen:";
+"This is your address" = "Toto je vaše adresa";
+"This is your address QR code" = "Toto je vaše QR kód";
+"Too Many PIN Attempts" = "Příliš mnoho pokusů o PIN";
+"Touch id authentication" = "Klepněte na ověření totožnosti";
+"Update Available" = "K dispozici aktualizace";
+"v %@" = "v %@";
+"Verify Your Email" = "Ověřte svůj email";
+"View your wallet password" = "Zobrazte své heslo k peněžence";
+"We could not connect your Wallet to The PIT. Please try again" = "Vaši Peněženku jsme nemohli připojit k PIT. Prosím zkuste to znovu";
+"We just sent you a verification email. Your email address needs to be verified before you can connect to The PIT." = "Právě jsme vám poslali ověřovací e-mail. Než se budete moci připojit k PIT, musí být ověřena vaše e-mailová adresa.";
+"You have connected your Blockchain Wallet to The PIT." = "Svou peněženku Blockchain jste připojili k PIT.";
+"Your New PIN is Ready" = "Váš nový PIN je připraven";
+"Your new PIN must be different" = "Váš nový PIN musí být jiný";
+"You’re all set to connect your Blockchain Wallet to The PIT." = "Všichni jste připraveni připojit vaši peněženku Blockchain k PIT.";

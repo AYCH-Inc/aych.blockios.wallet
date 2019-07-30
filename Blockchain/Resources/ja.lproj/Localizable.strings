@@ -46,7 +46,6 @@
 "Please enter your PIN" = "PINを入力してください";
 "Please enter a new PIN" = "新規PINを入力してください";
 "Confirm your PIN" = "PINを確認";
-"Incorrect PIN. Please retry." = "間違ったPINです。 再試行してください。";
 "Manually" = "手動で";
 "No" = "なし";
 "Sending Transaction" = "取引を送信中";
@@ -58,8 +57,6 @@
 "Passwords do not match" = "パスワードが一致しません";
 "Payment Sent!" = "支払いを送信しました！";
 "PIN Response Object key or value length 0" = "PIN応答オブジェクトキーもしくは値の長さ0";
-"PIN Response Object success length 0" = "PIN応答オブジェクト成功の長さ0";
-"PIN Validation cannot be completed. Please enter your wallet password manually." = "PIN検証が完了できません 手動でウォレットのパスワードを入力してください。";
 "PIN Validation Error" = "PIN検証エラー";
 "Please choose another PIN" = "別のPINを選択してください";
 "Please enter your 36 character wallet identifier correctly. It can be found in the welcome email on startup." = "36文字のウォレット識別子を正しく入力してください。 開始時のようこそメールに記載されています。";
@@ -72,7 +69,6 @@
 "Unconfirmed" = "未確認";
 "Unsupported Private Key Format" = "未対応の秘密鍵形式";
 "User Declined" = "ユーザーが拒否されました";
-"Wallet Paired Successfully." = "ウォレットのペアリングが完了しました。";
 "You must have two-factor authentication disabled to pair manually." = "手動ペアリングに2段階認証が無効になっているようです。";
 "Warning!!!" = "警告!!!";
 "Would you like to add the bitcoin address %@ to your address book?" = "ビットコインアドレス%@をアドレスブックに追加しますか？";
@@ -83,7 +79,6 @@
 "You must enter a label" = "ラベルを入力する必要があります";
 "Label must contain letters and numbers only" = "ラベルには英数字のみ使用できます";
 "Label must have less than 18 characters" = "ラベルは18文字以下である必要があります";
-"Your wallet was successfully created." = "ウォレットの作成が完了しました。";
 "Weak" = "弱い";
 "Regular" = "通常";
 "Normal" = "標準";
@@ -98,12 +93,8 @@
 "Imported Addresses (Archived)" = "インポートされたアドレス (アーカイブ済み)";
 "Address book" = "アドレスブック";
 "Please add an email address" = "メールアドレスを追加してください";
-"Downloading Wallet" = "ウォレットをダウンロード中";
-"Decrypting Wallet" = "ウォレットを複合中";
 "Loading transactions" = "取引をロード中";
-"Initializing Wallet" = "ウォレットを初期化中";
 "Checking for Wallet updates" = "ウォレットのアップデートを確認中";
-"Creating new Wallet" = "新規ウォレットを作成中";
 "Importing key" = "鍵をインポート中";
 "Support" = "サポート";
 "Terms of Service" = "サービス規約";
@@ -194,9 +185,7 @@
 "Invalid verification code. Please try again." = "無効な認証コードです。 再試行してください。";
 "No internet connection available. Please check your network settings." = "インターネット接続が利用できません。 ネットワーク設定を確認してください。";
 "You do not have an account set up for Mail. Please contact %@" = "このメールにアカウントが設定されていません。 %@に連絡してください";
-"The PIN you have selected is extremely common and may be easily guessed by someone with access to your phone within 3 tries. Would you like to use this PIN anyway?" = "選択したPINは非常に一般的なものであり、あなたの携帯電話にアクセスがある人物に3回の試行で推測されてしまう可能性があります。 それでもこのPINを使用しますか？";
 "Try again" = "再試行してください";
-"Creating Wallet" = "ウォレットを作成中";
 "Recovering Funds" = "資金を復元中";
 "Syncing Wallet" = "ウォレットを同期中";
 "Recover Funds" = "資金を復元";
@@ -334,7 +323,6 @@
 "Enable this option to reveal a receive address when you swipe left on the PIN screen, making receiving bitcoin even faster. Only one address will be loaded, logging in is required to show a new address." = "このオプションを有効にするとPIN画面で左にスワイプするだけで受信アドレスが表示され、ビットコインの受信がさらに高速になります。 1つのアドレスのみがロードされ、その後新規アドレスを表示するにはログインが必要となります。";
 "Enjoying the Blockchain Wallet? Please take a moment to leave a review in the App Store and let others know about it." = "ブロックチェーンウォレットをお楽しみいただいていますか？ さらに多くの人びとに知ってもらうため、App Storeでレビューを書いていただくようお願いします。";
 "Enter %@ amount" = "%@金額を入力";
-"Enter Bitcoin address or select" = "ビットコインアドレスを入力するか選択";
 "Failed to validate server certificate" = "サーバー証明書の認証に失敗しました";
 "From" = "送信者";
 "Increase fee" = "手数料を増やす";
@@ -347,10 +335,8 @@
 "Logout and forget wallet" = "ログアウトしてウォレットを忘れる";
 "Lower fee" = "手数料を下げる";
 "Needs BIP38 Password" = "BIP38パスワードが必要です";
-"New PIN must be different" = "新規PINは異なったものである必要があります";
 "Open %@?" = "%@を開きますか？";
 "Open Mail App" = "メールアプリを開く";
-"PINs do not match" = "PINが一致しません";
 "Password must be different from your email" = "パスワードにメールアドレスを使用しないでください";
 "Password must be less than or equal to 255 characters" = "パスワードは255文字以下である必要があります";
 "Payments Sent" = "支払いを送信しました";
@@ -525,7 +511,6 @@
 "You asked, we listened. We’re excited to announce that your Blockchain wallet will now allow you to seamlessly send and receive ether!" = "皆さまの声にお応えしました。ブロックチェーンウォレットでスムーズなイーサの送受信が可能になりました！";
 "Get Started with Ether" = "イーサ取引を開始";
 "To use this service, we require you to enter your second password. You should only need to enter this once to set up your Ether wallet." = "このサービスを利用するには、2つ目のパスワードを入力する必要があります。イーサウォレットの設定の際に入力が一度のみ必要です。";
-"Enter Ether address" = "Etherアドレスを入力";
 "Day" = "日";
 "All" = "すべて";
 "My Ether Wallet" = "マイEtherウォレット";
@@ -598,7 +583,6 @@
 "See charts" = "参照図";
 "Price charts" = "価格表";
 "Bitcoin Cash Price" = "ビットコインのキャッシュ価格";
-"Enter Bitcoin Cash address or select" = "入力ビットコインのキャッシュアドレスを選択し";
 "Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "コピーこの受信アドレスのクリップボードか。 その場合、することがありますのでご了承他のアプリケーションを眺めることができこれらの情報です。";
 "Please send BCH to the Bitcoin Cash address\n%@" = "ご送付くださいBCHのビットコインのキャッシュアドレス\
 %@";
@@ -670,7 +654,6 @@
 "Available to Send" = "送信可能";
 "Balances Coming Soon" = "残っている残高";
 "Be your own bank" = "自分の銀行にしてください";
-"Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "ウォレットにアクセスする前に、ウォレットのロック解除に使用するピン番号を選択してください。このピンは、最初にアプリのロックを解除しなければリセットや変更ができないため、覚えておくことが重要です。";
 "Below trading limit" = "取引限度未満";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Blockchainのサーバは現在メンテナンス中です。後でもう一度お試しください";
 "By creating a wallet you agree to Blockchain’s" = "ウォレットを作成することで、ブロックチェーンの";
@@ -694,7 +677,6 @@
 "Driver's License" = "運転免許証";
 "Easy one time wallet backup keeps you in control of your funds." = "一度の簡単なウォレットバックアップにより、資金を管理できます。";
 "Enabled!" = "Enabled！";
-"Enter a Stellar address or select" = "星のアドレスを入力するか、選択してください";
 "Enter Your Second Password" = "2番目のパスワードを入力してください";
 "Estimated fees" = "見積もり手数料";
 "Every country has different rules on how to buy and sell cryptocurrencies. Keep your eyes peeled, we’ll let you know as soon as we launch in %@!" = "すべての国は、クリプトカルトを売買する方法に関して異なる規則を持っています。あなたの目を剥がしてください、 %@起動するとすぐにお知らせします！";
@@ -747,7 +729,6 @@
 "Overview" = "概要";
 "Password" = "パスワード";
 "Payment sent" = "お支払いの送信";
-"PIN Code Incorrect. Unknown Error Message." = "PINコードが正しくありません。不明なエラーメッセージ。";
 "Please send %@ to bitcoin address.\n%@" = "%1$@をビットコインアドレスに送信してください。 \
  %2$@";
 "Profile" = "プロフィール";
@@ -811,7 +792,9 @@
 "We are unable to display your Lockbox balance at this time. Don’t worry, your funds are safe. We’ll be adding this feature soon. While you wait, you can check your balance on the web." = "現時点ではロックボックスの残高は表示されません。あなたの資金は安全です、心配しないでください。すぐにこの機能を追加します。あなたが待っている間、ウェブ上の残高を確認することができます。";
 "We can't check whether this address has been used. Show anyway?" = "このアドレスが使用されているかどうかは確認できません。とにかく表示？";
 "We had some trouble verifying your account with the documents provided. Our support team will contact you shortly to resolve this." = "アカウントの確認に問題がありました。間もなく、サポートチームからご連絡させていただきます。";
-"We have successfully verified your identity." = "あなたの身元を確認しました。";
+"We have successfully verified your identity." = "確認しました\
+あなたのアイデンティティ\
+";
 "We Now Support Stellar" = "私たちは今、ステラをサポートしています";
 "We'll keep you up-to-date here with recommendations and new features." = "ここでは、推奨事項や新機能をご紹介します。";
 "Welcome to Blockchain" = "ビットコインブロックチェーンの中で最も最近に採掘されたブロック";
@@ -1006,3 +989,65 @@
 "Swap for USD PAX Now" = "今USD PAXを入手";
 "USD PAX" = "USD PAX";
 "Your USD PAX transactions will show up here once you make your first transaction." = "あなたの最初の取引をするとあなたのUSD PAX取引がここに現れます。";
+"%@ Received" = "受信した%@";
+"%@ Wallet Address" = "%@ウォレットアドレス";
+"A new window should open within 10 seconds." = "新しいウィンドウが10秒以内に開きます。";
+"An error occured. Please try again" = "エラーが発生した。もう一度やり直してください";
+"Backspace button" = "バックスペースボタン";
+"Built by Blockchain.com" = "Blockchain.comによって構築された";
+"Confirm Your PIN" = "PINを確認してください";
+"Connect" = "接続する";
+"Connect Now" = "今すぐ接続";
+"Connected" = "接続済み";
+"Connecting You To The PIT" = "PITにあなたを接続する";
+"Connection Error" = "接続エラー";
+"Copied!" = "コピーしました！";
+"Copy" = "コピーする";
+"Create Your PIN" = "あなたのPINを作成";
+"Creating a new address" = "新しい住所を作成する";
+"Enable Face ID" = "顔IDを有効にする";
+"Enable Touch ID" = "タッチIDを有効にする";
+"Enter bch address or select" = "bchアドレスを入力するかを選択してください";
+"Enter btc address or select" = "BTCアドレスを入力するか、を選択します。";
+"Enter eth address" = "ethアドレスを入力してください";
+"Enter Your PIN" = "PINを入力してください";
+"Exchange crypto addresses so you don't have to copy and paste" = "暗号化アドレスを交換するので、コピーして貼り付ける必要はありません。";
+"Face id authentication" = "フェイスID認証";
+"Incorrect PIN" = "間違ったPIN";
+"It's time to Level Up to a better crypto exchange. First 100,000 traders to sign up will trade free for 30 days." = "レベルアップして、より良い暗号交換を行いましょう。最初にサインアップした10万人のトレーダーが30日間無料でトレードします。";
+"Just a moment." = "ちょっとまってください。";
+"Launch The PIT" = "PITを起動する";
+"Lightning Fast Trades" = "超高速トレード";
+"Liquid & Reliable" = "リキッド＆信頼性";
+"Loading Your Wallet" = "あなたの財布をロードする";
+"Log in to refresh addresses" = "アドレスを更新するにはログインしてください";
+"Log Out" = "ログアウト";
+"Low Fees" = "低料金";
+"My PIT %@ Wallet" = "私のPIT %@財布";
+"PIN response Object success length 0" = "PIN応答オブジェクト成功長0";
+"PINs don't match" = "PINが一致しません";
+"Please enter your wallet password." = "ウォレットのパスワードを入力してください。";
+"Quickly sign into your wallet instead of using your PIN." = "PINを使用する代わりに、財布にすばやくサインインしてください。";
+"Ready for the the best Blockchain App yet? Download our latest build and get more out of your Crypto." = "まだ最高のブロックチェーンアプリの準備はできましたか？私たちの最新のビルドをダウンロードして、あなたのCryptoをもっと活用してください。";
+"Send Again" = "もう一度送信";
+"Share" = "シェア";
+"Share your Gold or Silver Level status" = "ゴールドまたはシルバーレベルのステータスを共有する";
+"Swipe right to see your addresses" = "あなたの住所を見るために右にスワイプ";
+"The only Exchange that connects to your Wallet." = "あなたの財布に接続する唯一の取引所。";
+"The PIT" = "ピット";
+"The PIT will be able to:" = "PITは以下のことができるようになります。";
+"The PIT will not be able to:" = "PITは次のことができなくなります。";
+"This is your address" = "これはあなたの住所です";
+"This is your address QR code" = "これはあなたの住所のQRコードです";
+"Too Many PIN Attempts" = "PINの試行回数が多すぎます";
+"Touch id authentication" = "タッチID認証";
+"Update Available" = "利用可能なアップデート";
+"v %@" = "v %@";
+"Verify Your Email" = "あなたの電子メールを確認します";
+"View your wallet password" = "ウォレットのパスワードを表示する";
+"We could not connect your Wallet to The PIT. Please try again" = "あなたの財布をThe PITに接続することはできませんでした。もう一度やり直してください";
+"We just sent you a verification email. Your email address needs to be verified before you can connect to The PIT." = "確認メールを送信しました。 PITに接続する前に、あなたのEメールアドレスを確認する必要があります。";
+"You have connected your Blockchain Wallet to The PIT." = "ブロックチェーンウォレットをPITに接続しました。";
+"Your New PIN is Ready" = "新しいPINが準備できました";
+"Your new PIN must be different" = "新しいPINは異なる必要があります";
+"You’re all set to connect your Blockchain Wallet to The PIT." = "Blockchain WalletをThe PITに接続する準備が整いました。";

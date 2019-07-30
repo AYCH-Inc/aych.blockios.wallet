@@ -46,7 +46,6 @@
 "Please enter your PIN" = "โปรดกรอก PIN ของคุณ";
 "Please enter a new PIN" = "โปรดกรอก PIN ใหม่";
 "Confirm your PIN" = "ยืนยัน PIN ของคุณ";
-"Incorrect PIN. Please retry." = "PIN ไม่ถูกต้อง โปรดลองอีกครั้ง";
 "Manually" = "ด้วยตนเอง";
 "No" = "ไม่ใช่";
 "Sending Transaction" = "กำลังส่งธุรกรรม";
@@ -58,8 +57,6 @@
 "Passwords do not match" = "รหัสผ่านไม่ตรงกัน";
 "Payment Sent!" = "ส่งการชำระเงินแล้ว!";
 "PIN Response Object key or value length 0" = "วัตถุการตอบสนอง PIN คีย์หรือความยาวมีค่าเป็น 0";
-"PIN Response Object success length 0" = "วัตถุการตอบสนอง PIN สำเร็จ ความยาวเป็น 0";
-"PIN Validation cannot be completed. Please enter your wallet password manually." = "ไม่สามารถทำการตรวจสอบความสมบูรณ์ของ PIN ให้เสร็จสิ้นได้ โปรดกรอกรหัสผ่านกระเป๋าเงินของคุณด้วยตัวเอง";
 "PIN Validation Error" = "ข้อผิดพลาดในการตรวจสอบความสมบูรณ์ของ PIN";
 "Please choose another PIN" = "โปรดเลือก PIN อื่น";
 "Please enter your 36 character wallet identifier correctly. It can be found in the welcome email on startup." = "โปรดกรอกตัวระบุกระเป๋าเงินความยาว 36 ตัวอักษรของคุณให้ถูกต้อง สามารถค้นหามันได้ในอีเมลต้อนรับเมื่อตอนเริ่มต้น";
@@ -72,7 +69,6 @@
 "Unconfirmed" = "ไม่ได้ยืนยัน";
 "Unsupported Private Key Format" = "รูปแบบคีย์ส่วนตัวที่ไม่รองรับ";
 "User Declined" = "ผู้ใช้ถูกปฏิเสธ";
-"Wallet Paired Successfully." = "จับคู่กระเป๋าเงินสำเร็จแล้ว";
 "You must have two-factor authentication disabled to pair manually." = "คุณต้องปิดการใช้งานการยืนยัน 2 ขั้นตอนเพื่อจับคู่ด้วยตนเอง";
 "Warning!!!" = "คำเตือน!!!";
 "Would you like to add the bitcoin address %@ to your address book?" = "คุณต้องการเพิ่มที่อยู่ bitcoin %@ ไปยังสมุดที่อยู่หรือไม่?";
@@ -83,7 +79,6 @@
 "You must enter a label" = "คุณต้องกรอกป้ายชื่อ";
 "Label must contain letters and numbers only" = "ป้ายชื่อต้องประกอบไปด้วยตัวอักษรและตัวเลขเท่านั้น";
 "Label must have less than 18 characters" = "ป้ายชื่อต้องมีตัวอักษรน้อยกว่า 18 ตัว";
-"Your wallet was successfully created." = "ได้สร้างกระเป๋าเงินของคุณเรียบร้อยแล้ว";
 "Weak" = "แย่";
 "Regular" = "ปกติ";
 "Normal" = "ธรรมดา";
@@ -98,12 +93,8 @@
 "Imported Addresses (Archived)" = "ที่อยู่ที่นำเข้า (เก็บเข้าคลังแล้ว)";
 "Address book" = "สมุดที่อยู่";
 "Please add an email address" = "โปรดเพิ่มที่อยู่อีเมล";
-"Downloading Wallet" = "กำลังดาวน์โหลดกระเป๋าเงิน";
-"Decrypting Wallet" = "กำลังถอดรหัสกระเป๋าเงิน";
 "Loading transactions" = "กำลังโหลดธุรกรรม";
-"Initializing Wallet" = "กำลังเริ่มใช้งานกระเป๋าเงิน";
 "Checking for Wallet updates" = "กำลังตรวจสอบการอัปเดตกระเป๋าเงิน";
-"Creating new Wallet" = "กำลังสร้างกระเป๋าเงินใหม่";
 "Importing key" = "กำลังนำเข้าคีย์";
 "Support" = "สนับสนุน";
 "Terms of Service" = "ข้อตกลงการให้บริการ";
@@ -194,9 +185,7 @@
 "Invalid verification code. Please try again." = "รหัสการยืนยันไม่ถูกต้อง โปรดลองอีกครั้ง";
 "No internet connection available. Please check your network settings." = "ไม่มีการเชื่อมต่ออินเทอร์เน็ตให้ใช้งาน โปรดตรวจสอบการตั้งค่าเครือข่ายของคุณ";
 "You do not have an account set up for Mail. Please contact %@" = "คุณไม่ได้ตั้งค่าบัญชีสำหรับ Mail โปรดติดต่อ %@";
-"The PIN you have selected is extremely common and may be easily guessed by someone with access to your phone within 3 tries. Would you like to use this PIN anyway?" = "PIN ที่คุณเลือกนั้นเป็น PIN ที่ธรรมดาเป็นอย่างยิ่งและใครก็ตามซึ่งสามารถเข้าถึงโทรศัพท์ของคุณอาจจะสามารถคาดเดาได้ง่ายโดยลองเพียงแค่ 3 ครั้ง คุณต้องการใช้ PIN นี้จริง ๆ หรือ?";
 "Try again" = "ลองอีกครั้ง";
-"Creating Wallet" = "กำลังสร้างกระเป๋าเงิน";
 "Recovering Funds" = "กู้คืนเงิน";
 "Syncing Wallet" = "กำลังซิงค์กระเป๋าเงิน";
 "Recover Funds" = "กู้คืนเงินทุน";
@@ -334,7 +323,6 @@
 "Enable this option to reveal a receive address when you swipe left on the PIN screen, making receiving bitcoin even faster. Only one address will be loaded, logging in is required to show a new address." = "เปิดการใช้งานตัวเลือกนี้เพื่อเปิดเผยที่อยู่สำหรับที่อยู่สำหรับการรับเมื่อคุณปัดนิ้วไปทางซ้ายบนหน้าจอ PIN ทำให้การรับ bitcoin รวดเร็วยิ่งขึ้น จะมีการโหลดเพียงหนึ่งที่อยู่เท่านั้น จำเป็นต้องล็อกอินเพื่อแสดงที่อยู่ใหม่";
 "Enjoying the Blockchain Wallet? Please take a moment to leave a review in the App Store and let others know about it." = "สนุกกับการใช้งานกระเป๋าเงิน Blockchain? โปรดใช้เวลาสักเล็กน้อยในการเขียนรีวิวใน App Store เพื่อให้ผู้อื่นได้รู้จักมัน";
 "Enter %@ amount" = "กรอกจำนวน %@";
-"Enter Bitcoin address or select" = "กรอกที่อยู่ Bitcoin หรือเลือก";
 "Failed to validate server certificate" = "การตรวจสอบความสมบูรณ์ของใบอนุญาตเซิร์ฟเวอร์ล้มเหลว";
 "From" = "จาก";
 "Increase fee" = "เพิ่มค่าธรรมเนียม";
@@ -347,10 +335,8 @@
 "Logout and forget wallet" = "ออกจากระบบและลืมกระเป๋าเงิน";
 "Lower fee" = "ค่าธรรมเนียมที่ต่ำลง";
 "Needs BIP38 Password" = "ต้องการรหัสผ่าน BIP38";
-"New PIN must be different" = "PIN ใหม่จำเป็นต้องแตกต่าง";
 "Open %@?" = "เปิด %@?";
 "Open Mail App" = "เปิดแอปเมล";
-"PINs do not match" = "PIN ไม่ตรงกัน";
 "Password must be different from your email" = "รหัสผ่านจำเป็นต้องแตกต่างจากอีเมลของคุณ";
 "Password must be less than or equal to 255 characters" = "รหัสผ่านจำเป็นต้องสั้นกว่าหรือเท่ากับ 255 ตัวอักษร";
 "Payments Sent" = "ส่งการชำระเงินแล้ว";
@@ -525,7 +511,6 @@
 "You asked, we listened. We’re excited to announce that your Blockchain wallet will now allow you to seamlessly send and receive ether!" = "คุณขอ เรารับฟัง เราตื่นเต้นที่จะประกาศว่ากระเป๋าเงิน Blockchain ของคุณจะอนุญาตให้คุณส่งและรับ ether ได้อย่างราบรื่นแล้วในตอนนี้!";
 "Get Started with Ether" = "เริ่มต้นกับ Ether";
 "To use this service, we require you to enter your second password. You should only need to enter this once to set up your Ether wallet." = "ในการใช้บริการนี้ คุณจำเป็นต้องกรอกรหัสผ่านที่สองของคุณ คุณควรจะต้องกรอกรหัสนี้เพียงครั้งเดียวเพื่อตั้งค่ากระเป๋าเงิน Ether ของคุณ";
-"Enter Ether address" = "กรอกที่อยู่ Ether";
 "Day" = "วัน";
 "All" = "ทั้งหมด";
 "My Ether Wallet" = "กระเป๋าเงิน Ether ของฉัน";
@@ -598,7 +583,6 @@
 "See charts" = "เห็นชาร์ท";
 "Price charts" = "คาชาร์ท";
 "Bitcoin Cash Price" = "Bitcoin เงินราคา";
-"Enter Bitcoin Cash address or select" = "ป้อน Bitcoin เงินที่อยู่หรือเลือก";
 "Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "คัดลอกมันได้รับที่อยู่ไปยังคลิปบอร์ด? ถ้าอย่างนั้นจะได้รับคำแนะนำอีกคนโปรแกรมอาจจะสามารถดูข้อมูลนี้นะ";
 "Please send BCH to the Bitcoin Cash address\n%@" = "โปรดส่ง BCH ที่ Bitcoin เงินสดที่อยู่\
 %@";
@@ -670,7 +654,6 @@
 "Available to Send" = "มีให้ส่ง";
 "Balances Coming Soon" = "ยอดคงเหลือเร็ว ๆ นี้";
 "Be your own bank" = "เป็นธนาคารของคุณเอง";
-"Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "ก่อนที่จะเข้าถึงกระเป๋าสตางค์ของคุณโปรดเลือกหมายเลขพินที่จะใช้เพื่อปลดล็อกกระเป๋าเงินของคุณ เป็นสิ่งสำคัญที่คุณจำ PIN นี้เพราะไม่สามารถรีเซ็ตหรือเปลี่ยนแปลงได้โดยไม่ต้องเปิดใช้งานแอปครั้งแรก";
 "Below trading limit" = "ต่ำกว่าขีด จำกัด การซื้อขาย";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "ขณะนี้เซิร์ฟเวอร์ของ Blockchain อยู่ระหว่างการบำรุงรักษา กรุณาลองใหม่อีกครั้งในภายหลัง";
 "By creating a wallet you agree to Blockchain’s" = "โดยการสร้างกระเป๋าเงินที่คุณเห็นด้วยกับ Blockchain's";
@@ -694,7 +677,6 @@
 "Driver's License" = "ใบขับขี่";
 "Easy one time wallet backup keeps you in control of your funds." = "การสำรองข้อมูลกระเป๋าสตางค์ครั้งเดียวช่วยให้คุณสามารถควบคุมเงินทุนได้ง่าย";
 "Enabled!" = "เปิดใช้งาน!";
-"Enter a Stellar address or select" = "ป้อนที่อยู่ของดาวฤกษ์หรือเลือก";
 "Enter Your Second Password" = "ใส่รหัสผ่านที่สองของคุณ";
 "Estimated fees" = "ค่าธรรมเนียมโดยประมาณ";
 "Every country has different rules on how to buy and sell cryptocurrencies. Keep your eyes peeled, we’ll let you know as soon as we launch in %@!" = "ทุกประเทศมีกฎที่ต่างกันในการซื้อและขาย cryptocurrencies เก็บตาของคุณปอกเปลือกเราจะแจ้งให้คุณทราบทันทีที่เราเปิดตัวใน %@ !";
@@ -747,7 +729,6 @@
 "Overview" = "ภาพรวม";
 "Password" = "รหัสผ่าน";
 "Payment sent" = "ส่งการชำระเงินแล้ว";
-"PIN Code Incorrect. Unknown Error Message." = "รหัส PIN ไม่ถูกต้อง ข้อความแสดงข้อผิดพลาดที่ไม่รู้จัก";
 "Please send %@ to bitcoin address.\n%@" = "โปรดส่ง %1$@ ไปที่ที่อยู่ bitcoin \
  %2$@";
 "Profile" = "โปรไฟล์";
@@ -811,7 +792,9 @@
 "We are unable to display your Lockbox balance at this time. Don’t worry, your funds are safe. We’ll be adding this feature soon. While you wait, you can check your balance on the web." = "เราไม่สามารถแสดงยอดเงินคงเหลือในตู้จดหมายได้ในขณะนี้ ไม่ต้องกังวลเงินของคุณปลอดภัย เราจะเพิ่มคุณลักษณะนี้เร็ว ๆ นี้ ขณะที่รอคุณสามารถตรวจสอบความสมดุลของคุณทางเว็บ";
 "We can't check whether this address has been used. Show anyway?" = "เราไม่สามารถตรวจสอบได้ว่ามีการใช้ที่อยู่นี้หรือไม่ แสดงหรือไม่?";
 "We had some trouble verifying your account with the documents provided. Our support team will contact you shortly to resolve this." = "เราพบปัญหาในการตรวจสอบบัญชีของคุณด้วยเอกสารที่ระบุไว้ ทีมสนับสนุนของเราจะติดต่อคุณในไม่ช้าเพื่อแก้ปัญหานี้";
-"We have successfully verified your identity." = "เรายืนยันตัวตนของคุณเรียบร้อยแล้ว";
+"We have successfully verified your identity." = "เราได้ตรวจสอบเรียบร้อยแล้ว \
+ ตัวตนของคุณ \
+";
 "We Now Support Stellar" = "ตอนนี้เราสนับสนุนดาวฤกษ์";
 "We'll keep you up-to-date here with recommendations and new features." = "เราจะคอยติดตามคุณด้วยคำแนะนำและคุณลักษณะใหม่ ๆ";
 "Welcome to Blockchain" = "ยินดีต้อนรับสู่ Blockchain";
@@ -830,7 +813,7 @@
 "Your Max is" = "สูงสุดของคุณคือ";
 "Your Min is" = "นาทีของคุณคือ";
 "Your spendable balance is" = "ยอดเงินที่สามารถใช้จ่ายได้คือ";
-"Your XLM is on its way" = "XLM ของคุณกำลังจะมาถึงแล้ว";
+"Your XLM is on its way" = "XLM ของคุณกำลังจะมา";
 "You’ve successfully imported a private key." = "คุณนำเข้าคีย์ส่วนตัวเรียบร้อยแล้ว";
 "NSCameraUsageDescription" = "มันจำเป็นสำหรับแอปเพื่อสแกนรหัส QR";
 "NSMicrophoneUsageDescription" = "จำเป็นสำหรับการจับภาพวิดีโอ";
@@ -1006,3 +989,65 @@
 "Swap for USD PAX Now" = "รับ USD PAX ทันที";
 "USD PAX" = "เหรียญสหรัฐ";
 "Your USD PAX transactions will show up here once you make your first transaction." = "ธุรกรรม USD PAX ของคุณจะปรากฏที่นี่เมื่อคุณทำธุรกรรมครั้งแรกของคุณ";
+"%@ Received" = "ได้รับ %@";
+"%@ Wallet Address" = "%@ ที่อยู่ Wallet";
+"A new window should open within 10 seconds." = "หน้าต่างใหม่ควรเปิดภายใน 10 วินาที";
+"An error occured. Please try again" = "เกิดข้อผิดพลาด. กรุณาลองอีกครั้ง";
+"Backspace button" = "ปุ่ม Backspace";
+"Built by Blockchain.com" = "สร้างโดย Blockchain.com";
+"Confirm Your PIN" = "ยืนยัน PIN ของคุณ";
+"Connect" = "ต่อ";
+"Connect Now" = "เชื่อมต่อเลย";
+"Connected" = "เกี่ยวข้อง";
+"Connecting You To The PIT" = "เชื่อมต่อคุณกับ PIT";
+"Connection Error" = "การเชื่อมต่อล้มเหลว";
+"Copied!" = "คัดลอก!";
+"Copy" = "สำเนา";
+"Create Your PIN" = "สร้าง PIN ของคุณ";
+"Creating a new address" = "สร้างที่อยู่ใหม่";
+"Enable Face ID" = "เปิดใช้งาน Face ID";
+"Enable Touch ID" = "เปิดใช้งาน Touch ID";
+"Enter bch address or select" = "ป้อนที่อยู่ bch หรือเลือก";
+"Enter btc address or select" = "ป้อนที่อยู่ btc หรือเลือก";
+"Enter eth address" = "ป้อนที่อยู่ eth";
+"Enter Your PIN" = "ป้อน PIN ของคุณ";
+"Exchange crypto addresses so you don't have to copy and paste" = "แลกเปลี่ยนที่อยู่ crypto เพื่อให้คุณไม่ต้องคัดลอกและวาง";
+"Face id authentication" = "ตรวจสอบ ID ใบหน้า";
+"Incorrect PIN" = "PIN ไม่ถูกต้อง";
+"It's time to Level Up to a better crypto exchange. First 100,000 traders to sign up will trade free for 30 days." = "ถึงเวลาที่จะยกระดับการแลกเปลี่ยน crypto ที่ดีขึ้น ผู้ค้า 100,000 รายแรกที่ลงทะเบียนจะทำการซื้อขายฟรีเป็นเวลา 30 วัน";
+"Just a moment." = "รอสักครู่.";
+"Launch The PIT" = "เปิดตัว PIT";
+"Lightning Fast Trades" = "การซื้อขายที่รวดเร็วของ Lightning";
+"Liquid & Reliable" = "ของเหลวและเชื่อถือได้";
+"Loading Your Wallet" = "กำลังโหลดกระเป๋าเงินของคุณ";
+"Log in to refresh addresses" = "เข้าสู่ระบบเพื่อรีเฟรชที่อยู่";
+"Log Out" = "ออกจากระบบ";
+"Low Fees" = "ค่าธรรมเนียมต่ำ";
+"My PIT %@ Wallet" = "My PIT %@ Wallet";
+"PIN response Object success length 0" = "การตอบกลับด้วย PIN ความสำเร็จของวัตถุความยาว 0";
+"PINs don't match" = "PIN ไม่ตรงกัน";
+"Please enter your wallet password." = "กรุณาใส่รหัสผ่านกระเป๋าเงินของคุณ";
+"Quickly sign into your wallet instead of using your PIN." = "ลงชื่อเข้าใช้กระเป๋าเงินของคุณอย่างรวดเร็วแทนที่จะใช้ PIN";
+"Ready for the the best Blockchain App yet? Download our latest build and get more out of your Crypto." = "พร้อมสำหรับแอป Blockchain ที่ดีที่สุดหรือยัง ดาวน์โหลดงานสร้างล่าสุดของเราและรับประโยชน์เพิ่มเติมจาก Crypto ของคุณ";
+"Send Again" = "ส่งอีกครั้ง";
+"Share" = "หุ้น";
+"Share your Gold or Silver Level status" = "แบ่งปันสถานะระดับทองหรือสีเงินของคุณ";
+"Swipe right to see your addresses" = "ปัดไปทางขวาเพื่อดูที่อยู่ของคุณ";
+"The only Exchange that connects to your Wallet." = "แลกเปลี่ยนเดียวที่เชื่อมต่อกับกระเป๋าเงินของคุณ";
+"The PIT" = "The PIT";
+"The PIT will be able to:" = "PIT จะสามารถ:";
+"The PIT will not be able to:" = "PIT จะไม่สามารถ:";
+"This is your address" = "นี่คือที่อยู่ของคุณ";
+"This is your address QR code" = "นี่คือรหัส QR ที่อยู่ของคุณ";
+"Too Many PIN Attempts" = "มีการพยายามใช้ PIN มากเกินไป";
+"Touch id authentication" = "แตะการรับรองความถูกต้องของ id";
+"Update Available" = "อัปเดตพร้อมใช้งาน";
+"v %@" = "v %@";
+"Verify Your Email" = "ยืนยันอีเมลของคุณ";
+"View your wallet password" = "ดูรหัสผ่านกระเป๋าเงินของคุณ";
+"We could not connect your Wallet to The PIT. Please try again" = "เราไม่สามารถเชื่อมต่อ Wallet ของคุณกับ The PIT กรุณาลองอีกครั้ง";
+"We just sent you a verification email. Your email address needs to be verified before you can connect to The PIT." = "เราเพิ่งส่งอีเมลยืนยันถึงคุณ ที่อยู่อีเมลของคุณจะต้องได้รับการยืนยันก่อนจึงจะสามารถเชื่อมต่อกับ PIT";
+"You have connected your Blockchain Wallet to The PIT." = "คุณได้เชื่อมต่อ Blockchain Wallet ของคุณกับ The PIT";
+"Your New PIN is Ready" = "PIN ใหม่ของคุณพร้อมแล้ว";
+"Your new PIN must be different" = "PIN ใหม่ของคุณจะต้องแตกต่างกัน";
+"You’re all set to connect your Blockchain Wallet to The PIT." = "คุณพร้อมที่จะเชื่อมต่อ Blockchain Wallet กับ The PIT แล้ว";

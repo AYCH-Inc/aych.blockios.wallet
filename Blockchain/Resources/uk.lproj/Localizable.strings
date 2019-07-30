@@ -46,7 +46,6 @@
 "Please enter your PIN" = "Будь ласка, введіть свій PIN-код";
 "Please enter a new PIN" = "Будь ласка, введіть новий PIN-код";
 "Confirm your PIN" = "Підтвердити PIN-код";
-"Incorrect PIN. Please retry." = "Невірний PIN. Будь ласка, повторіть.";
 "Manually" = "Вручну";
 "No" = "Ні";
 "Sending Transaction" = "Відправка транзакції";
@@ -58,8 +57,6 @@
 "Passwords do not match" = "Паролі не співпадають";
 "Payment Sent!" = "Платіж відправлено!";
 "PIN Response Object key or value length 0" = "Ключ об'єкта відгуку PIN або значення довжини рівне нулю";
-"PIN Response Object success length 0" = "Нульова довжина ключа об\'єкта відгуку PIN";
-"PIN Validation cannot be completed. Please enter your wallet password manually." = "Неможливо завершити підтвердження PIN. Будь ласка, введіть пароль до вашого гаманця вручну.";
 "PIN Validation Error" = "Помилка підтвердження PIN";
 "Please choose another PIN" = "Будь ласка, виберіть інший PIN";
 "Please enter your 36 character wallet identifier correctly. It can be found in the welcome email on startup." = "Будь ласка, введіть коректно ідентифікатор свого гаманця, який складається із 36 знаків. Його можна знайти в привітальному електронному листі при відкритті.";
@@ -72,7 +69,6 @@
 "Unconfirmed" = "Не підтверджено";
 "Unsupported Private Key Format" = "Непідтримуваний формат особистого ключа";
 "User Declined" = "Користувача відхилено";
-"Wallet Paired Successfully." = "Гаманець успішно спаровано.";
 "You must have two-factor authentication disabled to pair manually." = "Для утворення пари вручну необхідно вимкнути двофакторну автентифікацію.";
 "Warning!!!" = "Попередження!!";
 "Would you like to add the bitcoin address %@ to your address book?" = "Хочете додати bitcoin-адресу %@ в адресну книгу?";
@@ -83,7 +79,6 @@
 "You must enter a label" = "Треба ввести мітку";
 "Label must contain letters and numbers only" = "Мітка повинна складатись лише з літер та цифр.";
 "Label must have less than 18 characters" = "Мітка повинна мати не більше 18 знаків.";
-"Your wallet was successfully created." = "Ваш гаманець успішно створено.";
 "Weak" = "Слабкий";
 "Regular" = "Регулярні";
 "Normal" = "Звичайно";
@@ -98,12 +93,8 @@
 "Imported Addresses (Archived)" = "Імпортовані адреси (архівні)";
 "Address book" = "Адресна книга";
 "Please add an email address" = "Додайте, будь ласка, електрону адресу";
-"Downloading Wallet" = "Завантаження гаманця";
-"Decrypting Wallet" = "Дешифрування гаманця";
 "Loading transactions" = "Завантаження транзакцій";
-"Initializing Wallet" = "Ініціалізація гаманця";
 "Checking for Wallet updates" = "Перевірка оновлень для гаманця";
-"Creating new Wallet" = "Створення нового гаманця";
 "Importing key" = "Імпортування ключа";
 "Support" = "Служба підтримки";
 "Terms of Service" = "Умови надання послуг";
@@ -194,9 +185,7 @@
 "Invalid verification code. Please try again." = "Контрольний код невірний Будь ласка, спробуйте ще раз.";
 "No internet connection available. Please check your network settings." = "Інтернет-з'єднання відсутнє. Будь ласка, перевірте інтернет-налаштування.";
 "You do not have an account set up for Mail. Please contact %@" = "Ви не маєте встановленого акаунту для пошти Будь ласка, зв\'яжіться %@";
-"The PIN you have selected is extremely common and may be easily guessed by someone with access to your phone within 3 tries. Would you like to use this PIN anyway?" = "Обраний вами PIN-код надзвичайно поширений, його може легко вгадати і ввести за 3 спроби у ваш телефон будь-хто. Хочете використовувати цей PIN-код в будь-якому випадку?";
 "Try again" = "Спробувати ще раз";
-"Creating Wallet" = "Створення гаманця";
 "Recovering Funds" = "Відновлення коштів";
 "Syncing Wallet" = "Синхронізація гаманця";
 "Recover Funds" = "Відновити кошти";
@@ -334,7 +323,6 @@
 "Enable this option to reveal a receive address when you swipe left on the PIN screen, making receiving bitcoin even faster. Only one address will be loaded, logging in is required to show a new address." = "Увімкніть цю опцію, щоб показати адресу, коли ви проведете пальцем вліво на екрані PIN, що пришвидшить отримання bitcoin. Лише одну адресу буде завантажено, після входу в систему потрібно буде показати нову адресу.";
 "Enjoying the Blockchain Wallet? Please take a moment to leave a review in the App Store and let others know about it." = "Подобається користуватись гаманцем Blockchain? Будь ласка, залиште свій відгук про наш гаманець на App Store, нехай інші також про нього дізнаються.";
 "Enter %@ amount" = "Ввести %@ суму";
-"Enter Bitcoin address or select" = "Введіть Bitcoin-адресу або виберіть";
 "Failed to validate server certificate" = "Збій підтвердження сертифікату із сервера";
 "From" = "З";
 "Increase fee" = "Збільшити комісію";
@@ -347,10 +335,8 @@
 "Logout and forget wallet" = "Вийти і забути гаманець";
 "Lower fee" = "Нижча комісія";
 "Needs BIP38 Password" = "Потребує пароль BIP38";
-"New PIN must be different" = "Новий ПІН має бути іншим";
 "Open %@?" = "Відкрити %@?";
 "Open Mail App" = "Відкрити поштову програму";
-"PINs do not match" = "PIN-коди не співпадають";
 "Password must be different from your email" = "Пароль повинен відрізнятися від вашої електронної пошти";
 "Password must be less than or equal to 255 characters" = "Пароль має бути коротшим або складатись із 255 символів";
 "Payments Sent" = "Платежі відправлено";
@@ -525,7 +511,6 @@
 "You asked, we listened. We’re excited to announce that your Blockchain wallet will now allow you to seamlessly send and receive ether!" = "Ви попросили, ми виконали. З радістю повідомляємо, що відтепер Ваш гаманець Blockchain дозволяє без проблем відправляти та отримувати ether!";
 "Get Started with Ether" = "Починайте роботу з Ether";
 "To use this service, we require you to enter your second password. You should only need to enter this once to set up your Ether wallet." = "Щоб скористатися цією послугою, будь ласка, введіть свій другий пароль. Щоб налаштувати свій Ether-гаманець, Вам треба буде ввести його лише один раз.";
-"Enter Ether address" = "Введіть Ether адресу";
 "Day" = "День";
 "All" = "Все";
 "My Ether Wallet" = "Мій гаманець Ether";
@@ -598,7 +583,6 @@
 "See charts" = "Дивіться графіки";
 "Price charts" = "Цінові графіки";
 "Bitcoin Cash Price" = "Ціна Bitcoin Готівки";
-"Enter Bitcoin Cash address or select" = "Введіть Биткоин готівку адреси або вибору";
 "Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Копія цього отримаєте адресу в буфер обміну? Якщо це так, що інші програми можуть подивитися цю інформацію.";
 "Please send BCH to the Bitcoin Cash address\n%@" = "Будь ласка, відправте ВСН на Биткоин готівки адреси\
 %@";
@@ -670,7 +654,6 @@
 "Available to Send" = "Доступно для відправлення";
 "Balances Coming Soon" = "Баланси незабаром";
 "Be your own bank" = "Будьте своїм власним банком";
-"Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Перш ніж отримати доступ до свого кошика, виберіть PIN-код, який потрібно використовувати для розблокування кошика. Важливо пам'ятати цей контакт, оскільки його неможливо скинути чи змінити, перш ніж розблокувати програму.";
 "Below trading limit" = "Нижче торгівельного ліміту";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Сервери Blockchain наразі знаходяться під технічним обслуговуванням. Будь-ласка спробуйте пізніше";
 "By creating a wallet you agree to Blockchain’s" = "Створивши кошик, ви погоджуєтеся з Blockchain";
@@ -694,7 +677,6 @@
 "Driver's License" = "Водійські права";
 "Easy one time wallet backup keeps you in control of your funds." = "Легкий резервний копіювання одного разу дозволяє вам контролювати свої кошти.";
 "Enabled!" = "Увімкнено!";
-"Enter a Stellar address or select" = "Введіть Stellar адресу або виберіть";
 "Enter Your Second Password" = "Введіть свій другий пароль";
 "Estimated fees" = "Орієнтовні збори";
 "Every country has different rules on how to buy and sell cryptocurrencies. Keep your eyes peeled, we’ll let you know as soon as we launch in %@!" = "Кожна країна має різні правила щодо купівлі та продажу криптовалют. Зберігайте очі очищеними, ми повідомимо вас, як тільки ми запустимо в %@ !";
@@ -747,7 +729,6 @@
 "Overview" = "Огляд";
 "Password" = "Пароль";
 "Payment sent" = "Оплата відправлена";
-"PIN Code Incorrect. Unknown Error Message." = "PIN-код невірний. Невідоме повідомлення про помилку.";
 "Please send %@ to bitcoin address.\n%@" = "Будь ласка, надішліть %1$@ на адресу біткойну. \
  %2$@";
 "Profile" = "Профіль";
@@ -811,7 +792,9 @@
 "We are unable to display your Lockbox balance at this time. Don’t worry, your funds are safe. We’ll be adding this feature soon. While you wait, you can check your balance on the web." = "Наразі неможливо відображати ваш баланс Lockbox. Не хвилюйтеся, ваші кошти є безпечними. Ми додамо цю функцію незабаром. Під час очікування ви можете перевірити свій баланс в Інтернеті.";
 "We can't check whether this address has been used. Show anyway?" = "Ми не можемо перевірити, чи була ця адреса використана. Показати в будь-якому випадку?";
 "We had some trouble verifying your account with the documents provided. Our support team will contact you shortly to resolve this." = "У нас виникли проблеми під час перевірки вашого облікового запису з наданими документами. Наша команда підтримки зв'яжеться з вами незабаром, щоб вирішити це питання.";
-"We have successfully verified your identity." = "Ми успішно підтвердили вашу особу.";
+"We have successfully verified your identity." = "Ми успішно перевірили \
+ вашу особистість. \
+";
 "We Now Support Stellar" = "Ми зараз підтримуємо Stellar";
 "We'll keep you up-to-date here with recommendations and new features." = "Ми будемо в курсі вас тут з рекомендаціями та новими функціями.";
 "Welcome to Blockchain" = "Ласкаво просимо до Blockchain";
@@ -830,7 +813,7 @@
 "Your Max is" = "Ваш Макс є";
 "Your Min is" = "Ваш мін є";
 "Your spendable balance is" = "Ваш витратний баланс є";
-"Your XLM is on its way" = "Ваш XLM знаходиться на своєму шляху";
+"Your XLM is on its way" = "Ваш XLM на своєму шляху";
 "You’ve successfully imported a private key." = "Ви успішно імпортували приватний ключ.";
 "NSCameraUsageDescription" = "Це треба для програми, щоб відсканувати QR коди.";
 "NSMicrophoneUsageDescription" = "Обов'язково для захоплення відео.";
@@ -1006,3 +989,65 @@
 "Swap for USD PAX Now" = "Отримати USD PAX зараз";
 "USD PAX" = "USD PAX";
 "Your USD PAX transactions will show up here once you make your first transaction." = "Ваші транзакції PAX USD з'являться тут, як тільки ви зробите першу транзакцію.";
+"%@ Received" = "%@ Отримано";
+"%@ Wallet Address" = "%@ Адреса гаманця";
+"A new window should open within 10 seconds." = "Нове вікно має відкритися протягом 10 секунд.";
+"An error occured. Please try again" = "Сталася помилка. Будь ласка спробуйте ще раз";
+"Backspace button" = "Кнопка Backspace";
+"Built by Blockchain.com" = "Створений компанією Blockchain.com";
+"Confirm Your PIN" = "Підтвердьте свій PIN-код";
+"Connect" = "Підключення";
+"Connect Now" = "Підключіться зараз";
+"Connected" = "Підключено";
+"Connecting You To The PIT" = "Підключення до ПДФО";
+"Connection Error" = "Помилка з'єднання";
+"Copied!" = "Скопійовано!";
+"Copy" = "Копіювати";
+"Create Your PIN" = "Створіть свій PIN-код";
+"Creating a new address" = "Створення нової адреси";
+"Enable Face ID" = "Увімкнути ідентифікатор обличчя";
+"Enable Touch ID" = "Увімкнути сенсорний ідентифікатор";
+"Enter bch address or select" = "Введіть адресу bch або виберіть";
+"Enter btc address or select" = "Введіть адресу btc або виберіть";
+"Enter eth address" = "Введіть адресу eth";
+"Enter Your PIN" = "Введіть свій PIN-код";
+"Exchange crypto addresses so you don't have to copy and paste" = "Обмінюйтеся крипто-адресами, щоб не потрібно копіювати та вставляти";
+"Face id authentication" = "Аутентифікація ідентифікатора обличчя";
+"Incorrect PIN" = "Неправильний PIN-код";
+"It's time to Level Up to a better crypto exchange. First 100,000 traders to sign up will trade free for 30 days." = "Пора піднятися до кращого криптообміну. Перші 100 000 трейдерів, які зареєструються, продаватимуться безкоштовно протягом 30 днів.";
+"Just a moment." = "Хвилинку.";
+"Launch The PIT" = "Запуск ПДФО";
+"Lightning Fast Trades" = "Швидка торгівля блискавками";
+"Liquid & Reliable" = "Рідкі та надійні";
+"Loading Your Wallet" = "Завантаження гаманця";
+"Log in to refresh addresses" = "Увійдіть, щоб оновити адреси";
+"Log Out" = "Вийти";
+"Low Fees" = "Низькі збори";
+"My PIT %@ Wallet" = "Мій ПІТ %@ Гаманець";
+"PIN response Object success length 0" = "Відповідь на PIN-код Довжина успіху об'єкта 0";
+"PINs don't match" = "PIN-коди не збігаються";
+"Please enter your wallet password." = "Введіть пароль гаманця.";
+"Quickly sign into your wallet instead of using your PIN." = "Замість того, щоб використовувати PIN-код, швидко ввійдіть у свій гаманець.";
+"Ready for the the best Blockchain App yet? Download our latest build and get more out of your Crypto." = "Готові до кращого App Blockchain? Завантажте нашу останню версію та отримайте більше з вашого Crypto.";
+"Send Again" = "Надіслати ще раз";
+"Share" = "Частка";
+"Share your Gold or Silver Level status" = "Поділіться статусом золотого або срібного рівня";
+"Swipe right to see your addresses" = "Проведіть пальцем вправо, щоб побачити свої адреси";
+"The only Exchange that connects to your Wallet." = "Єдина біржа, яка підключається до Вашого гаманця.";
+"The PIT" = "ПДФО";
+"The PIT will be able to:" = "ПДФО зможе:";
+"The PIT will not be able to:" = "ПДФО не зможе:";
+"This is your address" = "Це ваша адреса";
+"This is your address QR code" = "Це ваш QR-код адреси";
+"Too Many PIN Attempts" = "Забагато PIN-коду";
+"Touch id authentication" = "Аутентифікація ідентифікатора дотику";
+"Update Available" = "Доступно оновлення";
+"v %@" = "v %@";
+"Verify Your Email" = "Підтвердьте свою електронну пошту";
+"View your wallet password" = "Перегляд пароля гаманця";
+"We could not connect your Wallet to The PIT. Please try again" = "Не вдалося підключити Ваш гаманець до ПДФО. Будь ласка спробуйте ще раз";
+"We just sent you a verification email. Your email address needs to be verified before you can connect to The PIT." = "Ми щойно надіслали вам електронний лист із підтвердженням. Вашу електронну адресу потрібно перевірити, перш ніж можна підключитися до ПДФО.";
+"You have connected your Blockchain Wallet to The PIT." = "Ви підключили свій гаманець Blockchain до ПДФО.";
+"Your New PIN is Ready" = "Ваш новий PIN-код готовий";
+"Your new PIN must be different" = "Ваш новий PIN-код має бути іншим";
+"You’re all set to connect your Blockchain Wallet to The PIT." = "Ви все готові підключити Ваш гаманець Blockchain до PIT.";

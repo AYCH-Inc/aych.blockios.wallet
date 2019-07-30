@@ -46,7 +46,6 @@
 "Please enter your PIN" = "Skriv in din PIN-kod";
 "Please enter a new PIN" = "Ange en ny PIN-kod";
 "Confirm your PIN" = "Bekräfta din PIN-kod";
-"Incorrect PIN. Please retry." = "Felaktig PIN-kod. Försök igen.";
 "Manually" = "Manuellt";
 "No" = "Nej";
 "Sending Transaction" = "Skicka transaktionen";
@@ -58,8 +57,6 @@
 "Passwords do not match" = "Lösenorden matchar inte";
 "Payment Sent!" = "Betalning skickas!";
 "PIN Response Object key or value length 0" = "PIN svar objekt nyckel eller värde längden 0";
-"PIN Response Object success length 0" = "PIN svar objekt framgång längden 0";
-"PIN Validation cannot be completed. Please enter your wallet password manually." = "PIN validering kan inte slutföras. Vänligen ange din plånbok lösenord manuellt.";
 "PIN Validation Error" = "PIN-kod fel";
 "Please choose another PIN" = "Välj en annan PIN";
 "Please enter your 36 character wallet identifier correctly. It can be found in the welcome email on startup." = "Skriv in din plånbok ID 36 tecken korrekt. Det finns i välkomstmeddelande vid start.";
@@ -72,7 +69,6 @@
 "Unconfirmed" = "Obekräftade";
 "Unsupported Private Key Format" = "Privat nyckel Format som inte stöds";
 "User Declined" = "Användaren minskade";
-"Wallet Paired Successfully." = "Plånbok Parade framgångsrikt.";
 "You must have two-factor authentication disabled to pair manually." = "Du måste ha två-faktorn authentication inaktiverat par manuellt.";
 "Warning!!!" = "Varning!";
 "Would you like to add the bitcoin address %@ to your address book?" = "Vill du lägga till bitcoin adressen %@ i din adressbok?";
@@ -83,7 +79,6 @@
 "You must enter a label" = "Du måste ange en etikett";
 "Label must contain letters and numbers only" = "Etiketten måste innehålla bokstäver och siffror endast";
 "Label must have less than 18 characters" = "Etiketten måste ha mindre än 18 tecken";
-"Your wallet was successfully created." = "Plånboken har skapats.";
 "Weak" = "Svag";
 "Regular" = "Regelbundna";
 "Normal" = "Normal";
@@ -98,12 +93,8 @@
 "Imported Addresses (Archived)" = "Importerade adresser (arkiveras)";
 "Address book" = "Adressbok";
 "Please add an email address" = "Lägg till en e-postadress";
-"Downloading Wallet" = "Ladda ner plånbok";
-"Decrypting Wallet" = "Dekryptera plånbok";
 "Loading transactions" = "Läser in transaktioner";
-"Initializing Wallet" = "Initierar plånbok";
 "Checking for Wallet updates" = "Plånbok uppdateringar";
-"Creating new Wallet" = "Skapa ny plånbok";
 "Importing key" = "Importera nyckel";
 "Support" = "Stöd";
 "Terms of Service" = "Villkor för tjänsten";
@@ -194,9 +185,7 @@
 "Invalid verification code. Please try again." = "Ogiltig verifieringskod. Försök igen.";
 "No internet connection available. Please check your network settings." = "Ingen internet-anslutning är tillgänglig. Vänligen kontrollera dina nätverksinställningar.";
 "You do not have an account set up for Mail. Please contact %@" = "Du har inte ett konto för Mail. Vänligen kontakta %@";
-"The PIN you have selected is extremely common and may be easily guessed by someone with access to your phone within 3 tries. Would you like to use this PIN anyway?" = "PIN-koden du har valt är mycket vanligt och lätt kan gissas av någon med tillgång till telefonen inom 3 försök. Vill du använda detta stift ändå?";
 "Try again" = "Försök igen";
-"Creating Wallet" = "Att skapa plånbok";
 "Recovering Funds" = "Återvinna medel";
 "Syncing Wallet" = "Synkronisera plånbok";
 "Recover Funds" = "Återkräva medel";
@@ -334,7 +323,6 @@
 "Enable this option to reveal a receive address when you swipe left on the PIN screen, making receiving bitcoin even faster. Only one address will be loaded, logging in is required to show a new address." = "Aktivera alternativet för att avslöja en ta emot-adress när du svep åt höger på skärmen PIN att göra mottagande bitcoin ännu snabbare. Endast en adress kommer att laddas, inloggning krävs för att visa en ny adress.";
 "Enjoying the Blockchain Wallet? Please take a moment to leave a review in the App Store and let others know about it." = "Njuter av Blockchain plånboken? Ta en stund att lämna en recension i App Store och låta andra veta om det.";
 "Enter %@ amount" = "Ange %@ belopp";
-"Enter Bitcoin address or select" = "Ange Bitcoin adress eller Välj";
 "Failed to validate server certificate" = "Det gick inte att validera servercertifikat";
 "From" = "Från";
 "Increase fee" = "Öka avgift";
@@ -347,10 +335,8 @@
 "Logout and forget wallet" = "Logga ut och glöm plånboken";
 "Lower fee" = "Lägre avgift";
 "Needs BIP38 Password" = "Behöver BIP38 lösenord";
-"New PIN must be different" = "Ny PIN-kod måste vara olika";
 "Open %@?" = "Öppna %@?";
 "Open Mail App" = "Öppna Mail App";
-"PINs do not match" = "PINs matchar inte";
 "Password must be different from your email" = "Lösenordet måste vara olika från din e-post";
 "Password must be less than or equal to 255 characters" = "Lösenordet måste vara mindre än eller lika med 255 tecken";
 "Payments Sent" = "Betalningar skickas";
@@ -525,7 +511,6 @@
 "You asked, we listened. We’re excited to announce that your Blockchain wallet will now allow you to seamlessly send and receive ether!" = "Du frågat, vi har lyssnat. Vi är glada att meddela att din Blockchain plånbok nu kan du smidigt kan skicka och ta emot etern!";
 "Get Started with Ether" = "Komma Igång med Eter";
 "To use this service, we require you to enter your second password. You should only need to enter this once to set up your Ether wallet." = "För att använda denna tjänst kräver vi att du anger dina andra lösenord. Du bör endast behöver ange denna gång för att ställa in din Ether plånbok.";
-"Enter Ether address" = "Ange Eter adress";
 "Day" = "Dag";
 "All" = "Alla";
 "My Ether Wallet" = "Min Eter Plånbok";
@@ -598,7 +583,6 @@
 "See charts" = "Se diagram";
 "Price charts" = "Pris diagram";
 "Bitcoin Cash Price" = "Bitcoin Kontanter Pris";
-"Enter Bitcoin Cash address or select" = "Ange Bitcoin Cash adress eller välja";
 "Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Kopiera detta få adress till urklipp? Om så är fallet, vara medveten om att andra program kan vara att titta på denna information.";
 "Please send BCH to the Bitcoin Cash address\n%@" = "Vänligen skicka BCH att Bitcoin Cash adress\
 %@";
@@ -670,7 +654,6 @@
 "Available to Send" = "Tillgänglig för Skicka";
 "Balances Coming Soon" = "Saldon kommer snart";
 "Be your own bank" = "Var din egen bank";
-"Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Innan du får tillgång till din plånbok, välj ett pinnummer som ska användas för att låsa upp din plånbok. Det är viktigt att du kommer ihåg den här PIN-koden eftersom den inte kan återställas eller ändras utan att först låsa upp appen.";
 "Below trading limit" = "Under handelsgränsen";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "Blockchains servrar är för närvarande under underhåll. Vänligen försök igen senare";
 "By creating a wallet you agree to Blockchain’s" = "Genom att skapa en plånbok accepterar du Blockchains";
@@ -694,7 +677,6 @@
 "Driver's License" = "Körkort";
 "Easy one time wallet backup keeps you in control of your funds." = "Enkelt en gångs plånbokssäkerhet håller dig i kontroll över dina pengar.";
 "Enabled!" = "Aktiverad!";
-"Enter a Stellar address or select" = "Ange en Stellar-adress eller välj";
 "Enter Your Second Password" = "Ange ditt andra lösenord";
 "Estimated fees" = "Uppskattade avgifter";
 "Every country has different rules on how to buy and sell cryptocurrencies. Keep your eyes peeled, we’ll let you know as soon as we launch in %@!" = "Varje land har olika regler om hur man köper och säljer kryptokurvor. Håll ögonen avskalade, vi meddelar dig så snart vi lanserar i %@ !";
@@ -747,7 +729,6 @@
 "Overview" = "Översikt";
 "Password" = "Lösenord";
 "Payment sent" = "Betalning skickad";
-"PIN Code Incorrect. Unknown Error Message." = "PIN-kod Felaktig. Okänd felmeddelande.";
 "Please send %@ to bitcoin address.\n%@" = "Vänligen skicka %1$@ till bitcoin-adress. \
  %2$@";
 "Profile" = "Profil";
@@ -811,7 +792,9 @@
 "We are unable to display your Lockbox balance at this time. Don’t worry, your funds are safe. We’ll be adding this feature soon. While you wait, you can check your balance on the web." = "Vi kan inte visa ditt Lockbox-balans för tillfället. Oroa dig inte, dina pengar är säkra. Vi lägger snart till den här funktionen. Medan du väntar kan du kontrollera din balans på webben.";
 "We can't check whether this address has been used. Show anyway?" = "Vi kan inte kontrollera om den här adressen har använts. Visa ändå?";
 "We had some trouble verifying your account with the documents provided. Our support team will contact you shortly to resolve this." = "Vi hade problem med att verifiera ditt konto med de angivna dokumenten. Vårt supportteam kontaktar dig inom kort för att lösa detta.";
-"We have successfully verified your identity." = "Vi har verifierat din identitet.";
+"We have successfully verified your identity." = "Vi har verifierat \
+ din identitet. \
+";
 "We Now Support Stellar" = "Vi stöder nu Stellar";
 "We'll keep you up-to-date here with recommendations and new features." = "Vi håller dig uppdaterad här med rekommendationer och nya funktioner.";
 "Welcome to Blockchain" = "Senast hittade block i blockkedjan";
@@ -1006,3 +989,65 @@
 "Swap for USD PAX Now" = "Få USD PAX nu";
 "USD PAX" = "USD PAX";
 "Your USD PAX transactions will show up here once you make your first transaction." = "Dina USD PAX transaktioner kommer att dyka upp här när du gör din första transaktion.";
+"%@ Received" = "%@ Mottaget";
+"%@ Wallet Address" = "%@ Plånbokadress";
+"A new window should open within 10 seconds." = "Ett nytt fönster bör öppnas inom 10 sekunder.";
+"An error occured. Please try again" = "Ett fel inträffade. Var god försök igen";
+"Backspace button" = "Backspace-knapp";
+"Built by Blockchain.com" = "Byggt av Blockchain.com";
+"Confirm Your PIN" = "Bekräfta din PIN-kod";
+"Connect" = "Ansluta";
+"Connect Now" = "Anslut nu";
+"Connected" = "Ansluten";
+"Connecting You To The PIT" = "Ansluter dig till PIT";
+"Connection Error" = "Anslutningsfel";
+"Copied!" = "Kopieras!";
+"Copy" = "Kopia";
+"Create Your PIN" = "Skapa din PIN-kod";
+"Creating a new address" = "Skapa en ny adress";
+"Enable Face ID" = "Aktivera Face ID";
+"Enable Touch ID" = "Aktivera Touch ID";
+"Enter bch address or select" = "Ange bch-adress eller välj";
+"Enter btc address or select" = "Ange btc-adress eller välj";
+"Enter eth address" = "Ange et-adress";
+"Enter Your PIN" = "Ange din PIN-kod";
+"Exchange crypto addresses so you don't have to copy and paste" = "Byt krypto-adresser så att du inte behöver kopiera och klistra in";
+"Face id authentication" = "Ansiktsidentifiering";
+"Incorrect PIN" = "Felaktig PIN-kod";
+"It's time to Level Up to a better crypto exchange. First 100,000 traders to sign up will trade free for 30 days." = "Det är dags att nivå upp till ett bättre krypto-utbyte. De första 100 000 handlare som registrerar sig kommer att handla gratis i 30 dagar.";
+"Just a moment." = "Ett ögonblick.";
+"Launch The PIT" = "Starta PIT";
+"Lightning Fast Trades" = "Lightning Fast Trades";
+"Liquid & Reliable" = "Flytande och pålitlig";
+"Loading Your Wallet" = "Laddar din plånbok";
+"Log in to refresh addresses" = "Logga in för att uppdatera adresser";
+"Log Out" = "Logga ut";
+"Low Fees" = "Låga avgifter";
+"My PIT %@ Wallet" = "Min PIT %@ plånbok";
+"PIN response Object success length 0" = "PIN-svar Objektets framgångslängd 0";
+"PINs don't match" = "PIN-koderna stämmer inte";
+"Please enter your wallet password." = "Ange ditt lösenord för plånbok.";
+"Quickly sign into your wallet instead of using your PIN." = "Logga in snabbt i din plånbok istället för att använda din PIN-kod.";
+"Ready for the the best Blockchain App yet? Download our latest build and get more out of your Crypto." = "Är du redo för den bästa Blockchain-appen ännu? Ladda ner vår senaste build och få mer ut av din Crypto.";
+"Send Again" = "Skicka igen";
+"Share" = "Dela med sig";
+"Share your Gold or Silver Level status" = "Dela din guld- eller silvernivåstatus";
+"Swipe right to see your addresses" = "Svep åt höger för att se dina adresser";
+"The only Exchange that connects to your Wallet." = "Den enda Exchange som ansluts till din plånbok.";
+"The PIT" = "Gropen";
+"The PIT will be able to:" = "PIT kan:";
+"The PIT will not be able to:" = "PIT kan inte:";
+"This is your address" = "Det här är din adress";
+"This is your address QR code" = "Detta är din adress QR-kod";
+"Too Many PIN Attempts" = "För många PIN-försök";
+"Touch id authentication" = "Tryck på autentisering";
+"Update Available" = "Uppdatering tillgänglig";
+"v %@" = "v %@";
+"Verify Your Email" = "Verifiera din epost";
+"View your wallet password" = "Visa ditt plånbokslösenord";
+"We could not connect your Wallet to The PIT. Please try again" = "Vi kunde inte ansluta din plånbok till The PIT. Var god försök igen";
+"We just sent you a verification email. Your email address needs to be verified before you can connect to The PIT." = "Vi har precis skickat ett verifieringsmeddelande. Din e-postadress måste verifieras innan du kan ansluta till The PIT.";
+"You have connected your Blockchain Wallet to The PIT." = "Du har anslutit din Blockchain-plånbok till PIT.";
+"Your New PIN is Ready" = "Din nya PIN-kod är klar";
+"Your new PIN must be different" = "Din nya PIN-kod måste vara annorlunda";
+"You’re all set to connect your Blockchain Wallet to The PIT." = "Du är redo att ansluta din Blockchain-plånbok till PIT.";

@@ -46,7 +46,6 @@
 "Please enter your PIN" = "Inserisci il tuo PIN";
 "Please enter a new PIN" = "Inserisci un nuovo PIN";
 "Confirm your PIN" = "Conferma il tuo PIN";
-"Incorrect PIN. Please retry." = "PIN non corretto. Per favore riprova.";
 "Manually" = "Manualmente";
 "No" = "No";
 "Sending Transaction" = "Sto inviando una transazione";
@@ -58,8 +57,6 @@
 "Passwords do not match" = "Le password non corrispondono";
 "Payment Sent!" = "Pagamento inviato!";
 "PIN Response Object key or value length 0" = "La chiave dell'oggetto di risposta al PIN o la lunghezza del valore è 0";
-"PIN Response Object success length 0" = "Oggetto di risposta al PIN ha con successo lunghezza 0";
-"PIN Validation cannot be completed. Please enter your wallet password manually." = "La convalida del PIN non può essere completata. Inserisci manualmente la password del tuo portafoglio.";
 "PIN Validation Error" = "Errore di convalida PIN";
 "Please choose another PIN" = "Scegli un altro PIN";
 "Please enter your 36 character wallet identifier correctly. It can be found in the welcome email on startup." = "Inserisci il tuo identificatore di portafoglio da 36 caratteri in maniera corretta. Può essere trovato nell'email di benvenuto alla partenza.";
@@ -72,7 +69,6 @@
 "Unconfirmed" = "Non confermato";
 "Unsupported Private Key Format" = "Formato chiave privata non supportato";
 "User Declined" = "L'utente ha rifiutato";
-"Wallet Paired Successfully." = "Portafoglio associato con successo.";
 "You must have two-factor authentication disabled to pair manually." = "Devi avere l'autenticazione a due fattori disabilitata per effettuare l'associazione manualmente.";
 "Warning!!!" = "Avviso!!!";
 "Would you like to add the bitcoin address %@ to your address book?" = "Vuoi aggiungere l'indirizzo bitcoin %@ alla tua rubrica?";
@@ -83,7 +79,6 @@
 "You must enter a label" = "Devi inserire un'etichetta";
 "Label must contain letters and numbers only" = "L'etichtta deve contenere solo lettere e numeri";
 "Label must have less than 18 characters" = "L'etichetta deve avere meno di 18 caratteri";
-"Your wallet was successfully created." = "Il tuo portafoglio è stato creato con successo.";
 "Weak" = "Debole";
 "Regular" = "Regolare";
 "Normal" = "Normale";
@@ -98,12 +93,8 @@
 "Imported Addresses (Archived)" = "Indirizzi importati (archiviato)";
 "Address book" = "Rubrica";
 "Please add an email address" = "Aggiungi un indirizzo email";
-"Downloading Wallet" = "Sto scaricando il portafoglio";
-"Decrypting Wallet" = "Sto decriptando il portafoglio";
 "Loading transactions" = "Sto caricando le transazioni";
-"Initializing Wallet" = "Sto inizializzando il portafoglio";
 "Checking for Wallet updates" = "Controllo degli aggiornamenti del wallet";
-"Creating new Wallet" = "Sto creando un nuovo Portafoglio";
 "Importing key" = "Sto importando la chiave";
 "Support" = "Assistenza";
 "Terms of Service" = "Termini di servizio";
@@ -194,9 +185,7 @@
 "Invalid verification code. Please try again." = "Codice di verifica non valido. Per favore, riprova.";
 "No internet connection available. Please check your network settings." = "Nessuna connessione internet disponibile. Controlla le tue impostazioni di rete.";
 "You do not have an account set up for Mail. Please contact %@" = "Non hai un account impostato per la Posta. Contatta %@";
-"The PIN you have selected is extremely common and may be easily guessed by someone with access to your phone within 3 tries. Would you like to use this PIN anyway?" = "Il PIN che hai selezionato è molto comune e può essere facilmente indovinato da qualcuno con accesso al tuo telefono entro 3 tentativi. Vuoi usare questo PIN comunque?";
 "Try again" = "Prova di nuovo";
-"Creating Wallet" = "Sto creando un Portafoglio";
 "Recovering Funds" = "Sto recuperando i fondi";
 "Syncing Wallet" = "Sto sincronizzando il portafoglio";
 "Recover Funds" = "Recupera i fondi";
@@ -334,7 +323,6 @@
 "Enable this option to reveal a receive address when you swipe left on the PIN screen, making receiving bitcoin even faster. Only one address will be loaded, logging in is required to show a new address." = "Abilita questa opzione per rivelare un indirizzo di ricezione quando scorri verso sinistra nella schermata del PIN; così, potrai ricevere i bitcoin ancora più velocemente. Verrà caricato un solo indirizzo e sarà richiesto l'accesso per mostrare un nuovo indirizzo.";
 "Enjoying the Blockchain Wallet? Please take a moment to leave a review in the App Store and let others know about it." = "Ti piace il Portafoglio Blockchain? Prenditi un momento per lasciare una recensione sull'App Store e far sapere ad altri di questo.";
 "Enter %@ amount" = "Inserisci l'ammontare %@";
-"Enter Bitcoin address or select" = "Inserisci l'indirizzo Bitcoin o seleziona";
 "Failed to validate server certificate" = "Impossibile convalidare il certificato del server";
 "From" = "Da";
 "Increase fee" = "Aumenta commissione";
@@ -347,10 +335,8 @@
 "Logout and forget wallet" = "Esci e dimentica il portafoglio";
 "Lower fee" = "Abbassa la commissione";
 "Needs BIP38 Password" = "Password BIP38 necessaria";
-"New PIN must be different" = "Il nuovo PIN dev'essere diverso";
 "Open %@?" = "Apri %@?";
 "Open Mail App" = "Apri l'app della Mail";
-"PINs do not match" = "I PIN non corrispondono";
 "Password must be different from your email" = "La password deve essere diverso dalla tua email";
 "Password must be less than or equal to 255 characters" = "La password deve essere minore o uguale a 255 caratteri";
 "Payments Sent" = "Pagamenti inviati";
@@ -525,7 +511,6 @@
 "You asked, we listened. We’re excited to announce that your Blockchain wallet will now allow you to seamlessly send and receive ether!" = "Avete chiesto, vi abbiamo ascoltato. Siamo lieti di annunciare che il tuo wallet Blockchain ti permetterà d'ora in poi, di inviare e ricevere ether senza problemi!";
 "Get Started with Ether" = "Inizia a fare operazioni con Ether";
 "To use this service, we require you to enter your second password. You should only need to enter this once to set up your Ether wallet." = "Per usare questo servizio, ti chiediamo di inserire la seconda password. Devi inserirla solo una volta per configurare il tuo wallet Ether.";
-"Enter Ether address" = "Inserisci indirizzo Ether";
 "Day" = "Giorno";
 "All" = "Tutto";
 "My Ether Wallet" = "Il mio portafoglio Ether";
@@ -598,7 +583,6 @@
 "See charts" = "Vedere grafici";
 "Price charts" = "Grafici di prezzo";
 "Bitcoin Cash Price" = "Bitcoin Prezzo In Contanti";
-"Enter Bitcoin Cash address or select" = "Inserisci il Bitcoin Contanti indirizzo o selezionare";
 "Copy this receive address to the clipboard? If so, be advised that other applications may be able to look at this information." = "Copia questo indirizzo di ricezione per gli appunti? Se è così, essere informati che le altre applicazioni possono essere in grado di guardare a questo tipo di informazioni.";
 "Please send BCH to the Bitcoin Cash address\n%@" = "Si prega di inviare BCH per il Bitcoin Contanti indirizzo\
 %@";
@@ -670,7 +654,6 @@
 "Available to Send" = "Disponibile per l'invio";
 "Balances Coming Soon" = "Saldi in arrivo";
 "Be your own bank" = "Sii la tua banca";
-"Before accessing your wallet, please choose a pin number to use to unlock your wallet. It’s important you remember this pin as it cannot be reset or changed without first unlocking the app." = "Prima di accedere al tuo portafoglio, scegli un numero pin da utilizzare per sbloccare il tuo portafoglio. È importante ricordare questo pin perché non può essere ripristinato o modificato senza prima sbloccare l'app.";
 "Below trading limit" = "Sotto il limite di trading";
 "Blockchain’s servers are currently under maintenance. Please try again later" = "I server di Blockchain sono attualmente in manutenzione. Per favore riprova più tardi";
 "By creating a wallet you agree to Blockchain’s" = "Creando un portafoglio accetti di Blockchain";
@@ -694,7 +677,6 @@
 "Driver's License" = "Patente di guida";
 "Easy one time wallet backup keeps you in control of your funds." = "Un facile backup di un solo portafoglio ti tiene in controllo dei tuoi fondi.";
 "Enabled!" = "Abilitato!";
-"Enter a Stellar address or select" = "Inserisci un indirizzo stellare o seleziona";
 "Enter Your Second Password" = "Inserisci la tua seconda password";
 "Estimated fees" = "Tasse stimate";
 "Every country has different rules on how to buy and sell cryptocurrencies. Keep your eyes peeled, we’ll let you know as soon as we launch in %@!" = "Ogni paese ha regole diverse su come acquistare e vendere criptovalute. Tieni gli occhi aperti, ti faremo sapere non appena l'avremo lanciato in %@ !";
@@ -747,7 +729,6 @@
 "Overview" = "Panoramica";
 "Password" = "Password";
 "Payment sent" = "Pagamento inviato";
-"PIN Code Incorrect. Unknown Error Message." = "Codice PIN errato. Messaggio di errore sconosciuto.";
 "Please send %@ to bitcoin address.\n%@" = "Si prega di inviare %1$@ all'indirizzo bitcoin. \
  %2$@";
 "Profile" = "Profilo";
@@ -811,7 +792,9 @@
 "We are unable to display your Lockbox balance at this time. Don’t worry, your funds are safe. We’ll be adding this feature soon. While you wait, you can check your balance on the web." = "Al momento non siamo in grado di visualizzare il saldo del tuo Lockbox. Non preoccuparti, i tuoi fondi sono al sicuro. A breve aggiungeremo questa funzionalità. Mentre aspetti, puoi controllare il tuo saldo sul web.";
 "We can't check whether this address has been used. Show anyway?" = "Non possiamo controllare se questo indirizzo è stato utilizzato. Mostra comunque?";
 "We had some trouble verifying your account with the documents provided. Our support team will contact you shortly to resolve this." = "Abbiamo avuto alcuni problemi a verificare il tuo account con i documenti forniti. Il nostro team di supporto ti contatterà a breve per risolvere il problema.";
-"We have successfully verified your identity." = "Abbiamo verificato con successo la tua identità.";
+"We have successfully verified your identity." = "Abbiamo verificato con successo \
+ la tua identità. \
+";
 "We Now Support Stellar" = "Ora sosteniamo Stellar";
 "We'll keep you up-to-date here with recommendations and new features." = "Vi terremo aggiornati qui con raccomandazioni e nuove funzionalità.";
 "Welcome to Blockchain" = "I blocchi prodotti più recenti nella catena di blocchi di Bitcoin";
@@ -830,7 +813,7 @@
 "Your Max is" = "Il tuo massimo è";
 "Your Min is" = "Il tuo Min è";
 "Your spendable balance is" = "Il tuo equilibrio spendibile è";
-"Your XLM is on its way" = "Il tuo XLM è in arrivo";
+"Your XLM is on its way" = "XLM è in arrivo";
 "You’ve successfully imported a private key." = "Hai importato con successo una chiave privata.";
 "NSCameraUsageDescription" = "Questo è richiesto affinché l'app scansioni i codici QR.";
 "NSMicrophoneUsageDescription" = "Richiesto per l'acquisizione video.";
@@ -1006,3 +989,65 @@
 "Swap for USD PAX Now" = "Ottieni USD PAX ora";
 "USD PAX" = "USD PAX";
 "Your USD PAX transactions will show up here once you make your first transaction." = "Le transazioni USD PAX verranno visualizzate qui una volta effettuata la prima transazione.";
+"%@ Received" = "%@ Ricevuto";
+"%@ Wallet Address" = "%@ Wallet Address";
+"A new window should open within 10 seconds." = "Una nuova finestra dovrebbe aprirsi entro 10 secondi.";
+"An error occured. Please try again" = "Si è verificato un errore. Per favore, riprova";
+"Backspace button" = "Pulsante backspace";
+"Built by Blockchain.com" = "Costruito da Blockchain.com";
+"Confirm Your PIN" = "Conferma il tuo PIN";
+"Connect" = "Collegare";
+"Connect Now" = "Connetti ora";
+"Connected" = "Collegato";
+"Connecting You To The PIT" = "Connessione al PIT";
+"Connection Error" = "Errore di connessione";
+"Copied!" = "Copiato!";
+"Copy" = "copia";
+"Create Your PIN" = "Crea il tuo PIN";
+"Creating a new address" = "Creare un nuovo indirizzo";
+"Enable Face ID" = "Abilita Face ID";
+"Enable Touch ID" = "Abilita Touch ID";
+"Enter bch address or select" = "Immettere l'indirizzo bch o selezionare";
+"Enter btc address or select" = "Inserisci l'indirizzo btc o seleziona";
+"Enter eth address" = "Inserisci l'indirizzo eth";
+"Enter Your PIN" = "Inserisci il tuo PIN";
+"Exchange crypto addresses so you don't have to copy and paste" = "Scambia gli indirizzi crittografici in modo da non dover copiare e incollare";
+"Face id authentication" = "Autenticazione Face ID";
+"Incorrect PIN" = "PIN errato";
+"It's time to Level Up to a better crypto exchange. First 100,000 traders to sign up will trade free for 30 days." = "È tempo di salire di livello per un migliore scambio di criptovalute. I primi 100.000 trader a registrarsi verranno scambiati gratuitamente per 30 giorni.";
+"Just a moment." = "Solo un momento.";
+"Launch The PIT" = "Avvia The PIT";
+"Lightning Fast Trades" = "Commerci fulminei";
+"Liquid & Reliable" = "Liquido e affidabile";
+"Loading Your Wallet" = "Caricamento del tuo portafoglio";
+"Log in to refresh addresses" = "Accedi per aggiornare gli indirizzi";
+"Log Out" = "Disconnettersi";
+"Low Fees" = "Commissioni basse";
+"My PIT %@ Wallet" = "Il mio PIT %@ Wallet";
+"PIN response Object success length 0" = "Risposta PIN Lunghezza successo oggetto 0";
+"PINs don't match" = "I PIN non corrispondono";
+"Please enter your wallet password." = "Inserisci la password del tuo portafoglio.";
+"Quickly sign into your wallet instead of using your PIN." = "Accedi rapidamente al tuo portafoglio invece di utilizzare il PIN.";
+"Ready for the the best Blockchain App yet? Download our latest build and get more out of your Crypto." = "Pronto per la migliore app Blockchain di sempre? Scarica la nostra ultima build e ottieni di più dal tuo Crypto.";
+"Send Again" = "Invia di nuovo";
+"Share" = "Condividere";
+"Share your Gold or Silver Level status" = "Condividi il tuo stato di livello Oro o Argento";
+"Swipe right to see your addresses" = "Scorri verso destra per vedere i tuoi indirizzi";
+"The only Exchange that connects to your Wallet." = "L'unico scambio che si collega al tuo portafoglio.";
+"The PIT" = "Fossa";
+"The PIT will be able to:" = "Il PIT sarà in grado di:";
+"The PIT will not be able to:" = "Il PIT non sarà in grado di:";
+"This is your address" = "Questo è il tuo indirizzo";
+"This is your address QR code" = "Questo è il tuo codice QR";
+"Too Many PIN Attempts" = "Troppi tentativi PIN";
+"Touch id authentication" = "Tocca autenticazione ID";
+"Update Available" = "Aggiornamento disponibile";
+"v %@" = "v %@";
+"Verify Your Email" = "Verifica la tua email";
+"View your wallet password" = "Visualizza la password del tuo portafoglio";
+"We could not connect your Wallet to The PIT. Please try again" = "Non è stato possibile connettere il tuo portafoglio a The PIT. Per favore, riprova";
+"We just sent you a verification email. Your email address needs to be verified before you can connect to The PIT." = "Ti abbiamo appena inviato un'email di verifica. Il tuo indirizzo email deve essere verificato prima di poterti connettere a The PIT.";
+"You have connected your Blockchain Wallet to The PIT." = "Hai collegato il tuo Portafoglio Blockchain a The PIT.";
+"Your New PIN is Ready" = "Il tuo nuovo PIN è pronto";
+"Your new PIN must be different" = "Il tuo nuovo PIN deve essere diverso";
+"You’re all set to connect your Blockchain Wallet to The PIT." = "Sei pronto per connettere il tuo Blockchain Wallet a The PIT.";

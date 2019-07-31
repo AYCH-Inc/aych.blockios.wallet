@@ -60,7 +60,7 @@ final class CrashlyticsRecorder: Recording {
     /// Should be called if there is a suspicion that a UI action is performed on a background thread.
     /// In such case, a non-fatal error will be recorded.
     func recordIllegalUIOperationIfNeeded() {
-        guard Thread.isMainThread else {
+        guard !Thread.isMainThread else {
             return
         }
         error(RecordingError.changingUIOnBackgroundThread)

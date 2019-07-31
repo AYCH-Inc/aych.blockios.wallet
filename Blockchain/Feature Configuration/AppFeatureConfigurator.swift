@@ -43,7 +43,7 @@ import Firebase
     }
 
     private func fetchRemoteConfig() {
-        let expiration = TimeInterval(6 * 60 * 60) // 6 hours
+        let expiration = TimeInterval(4 * 60 * 60) // 4 hours
         remoteConfig.fetch(withExpirationDuration: expiration) { [weak self] status, error in
             guard let strongSelf = self else { return }
             guard status == .success && error == nil else {

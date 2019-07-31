@@ -16,6 +16,12 @@ final class PitAddressFetcher: PitAddressFetching {
     
     // MARK: - Types
     
+    enum FetchingError: Error {
+        
+        /// An error thrown when the user doesn't have a pit account to fetch his PIT address from
+        case missingPitAccount
+    }
+    
     struct PitAddressResponseBody: Decodable {
         
         // MARK: - Types
@@ -98,16 +104,19 @@ final class PitAddressFetcher: PitAddressFetching {
     private let featureConfigurator: FeatureConfiguring
     private let authentication: NabuAuthenticationService
     private let network: NetworkManager
+    private let repository: PITAccountRepositoryAPI
     private let urlPrefix: String
         
     // MARK: - Setup
     
     init(featureConfigurator: FeatureConfiguring = AppFeatureConfigurator.shared,
+         repository: PITAccountRepositoryAPI = PITAccountRepository(),
          authentication: NabuAuthenticationService = .shared,
          network: NetworkManager = NetworkManager.shared,
          urlPrefix: String = BlockchainAPI.shared.retailCoreUrl) {
         self.authentication = authentication
         self.network = network
+        self.repository = repository
         self.featureConfigurator = featureConfigurator
         self.urlPrefix = urlPrefix
     }
@@ -125,7 +134,13 @@ final class PitAddressFetcher: PitAddressFetching {
         let data = PitAddressRequestBody(currency: asset.symbol)
         
         // TODO: Move `NabuAuthenticationService` inside PlatformKit and `getSessionToken` to network layer
-        return authentication.getSessionToken()
+        return repository.hasLinkedPITAccount
+            .do(onSuccess: { hasLinkedAccount in
+                guard hasLinkedAccount else { throw FetchingError.missingPitAccount }
+            })
+            .flatMap(weak: self) { (self, _) -> Single<NabuSessionTokenResponse> in
+                return self.authentication.getSessionToken()
+            }
             .map { token -> [String: String] in
                 return [HttpHeaderField.authorization: token.token]
             }

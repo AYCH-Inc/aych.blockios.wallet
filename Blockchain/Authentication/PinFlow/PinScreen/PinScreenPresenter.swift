@@ -85,6 +85,7 @@ final class PinScreenPresenter {
     // MARK: Services
     
     private let interactor: PinInteracting
+    private let recorder: Recording
     private let appSettings: AppSettingsAuthenticating & SwipeToReceiveConfiguring
     private let authenticationManager: AuthenticationManagerProtocol
     
@@ -111,11 +112,13 @@ final class PinScreenPresenter {
          interactor: PinInteracting = PinInteractor(),
          authenticationManager: AuthenticationManagerProtocol = AuthenticationManager.shared,
          appSettings: AppSettingsAuthenticating & SwipeToReceiveConfiguring = BlockchainSettings.App.shared,
+         recorder: Recording = CrashlyticsRecorder(),
          backwardRouting: PinRouting.RoutingType.Backward? = nil,
          forwardRouting: @escaping PinRouting.RoutingType.Forward) {
         self.useCase = useCase
         self.flow = flow
         self.interactor = interactor
+        self.recorder = recorder
         self.appSettings = appSettings
         self.authenticationManager = authenticationManager
         self.backwardRouting = backwardRouting
@@ -243,6 +246,15 @@ extension PinScreenPresenter {
         guard authenticationManager.biometricsConfigurationStatus.isConfigured else {
             return
         }
+        
+        /*
+         At this point, the PIN is assumed to have been kept on
+         keychain so it MUST have value, otherwise, report a non-fatal
+         */
+        guard let pin = appSettings.pin else {
+            recorder.error("Expected a valid pin value. Got `nil` instead!. flow: \(flow.debugDescription)")
+            return
+        }
 
         authenticationManager.authenticateUsingBiometrics { [weak self] authenticated, error in
             guard let self = self else { return }
@@ -252,12 +264,9 @@ extension PinScreenPresenter {
                 return
             }
             
-            /*
-             At this point, the PIN is assumed to have been kept on keychain settings so it MUST have value.
-             Therefore, we reset the pin to the value kept by the app settings.
-             That causes a chain reaction as if the user has filled the pin himself.
-            */
-            self.digitPadViewModel.reset(to: self.appSettings.pin!)
+            // We reset the pin to the value kept by the app settings.
+            // That causes a chain reaction as if the user has filled the pin himself.
+            self.digitPadViewModel.reset(to: pin)
         }
     }
     

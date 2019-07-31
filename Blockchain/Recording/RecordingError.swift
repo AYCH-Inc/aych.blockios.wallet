@@ -16,4 +16,7 @@ enum RecordingError: Error {
     
     /// Changing the UI on a background thread
     case changingUIOnBackgroundThread
+    
+    /// Custom error message
+    case message(String)
 }

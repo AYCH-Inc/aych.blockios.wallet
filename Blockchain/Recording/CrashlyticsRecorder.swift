@@ -35,6 +35,11 @@ final class CrashlyticsRecorder: Recording {
     func error() {
         error(RecordingError.breadcrumb)
     }
+    
+    /// Record a custom error message
+    func error(_ errorMessage: String) {
+        error(RecordingError.message(errorMessage))
+    }
 
     // MARK: - MessageRecording
     

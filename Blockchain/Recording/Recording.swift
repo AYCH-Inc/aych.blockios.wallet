@@ -20,6 +20,7 @@ protocol MessageRecording {
 /// Can be used to record any `Error` message
 protocol ErrorRecording {
     func error(_ error: Error)
+    func error(_ errorMessage: String)
     func error()
 }
 

@@ -126,3 +126,25 @@ struct PinRouting {
         }
     }
 }
+
+// MARK: CustomDebugStringConvertible
+
+extension PinRouting.Flow: CustomDebugStringConvertible {
+    var debugDescription: String {
+        switch self {
+        case .authenticate(from: let origin, logoutRouting: _):
+            switch origin {
+            case .foreground:
+                return "authentication from foreground"
+            case .background:
+                return "authentication from background"
+            }
+        case .change:
+            return "change pin"
+        case .enableBiometrics:
+            return "enable biometrics"
+        case .create:
+            return "create a new pin"
+        }
+    }
+}

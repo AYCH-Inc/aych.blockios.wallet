@@ -106,6 +106,10 @@ class AccessibilityIdentifiers: NSObject {
     
     // MARK: Swap
     
+    class SwapIntroduction {
+        static let startNow = "SwapIntroductionScreen.StartNowButton"
+    }
+    
     class ExchangeScreen {
         static let exchangeButton = "ExchangeScreen.exchangeButton"
         static let confirmButton = "ExchangeScreen.confirmButton"

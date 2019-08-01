@@ -2143,6 +2143,29 @@ struct LocalizationConstants {
         static let swapInfo = NSLocalizedString("Swap Info", comment: "Swap Info")
         static let close = NSLocalizedString("Close", comment: "Close")
         static let orderHistory = NSLocalizedString("Order History", comment: "Order History")
+        
+        struct Tutorial {
+            struct PageOne {
+                static let title = NSLocalizedString("Welcome to Swap!", comment: "")
+                static let subtitle = NSLocalizedString("The easiest way to exchange one crypto for another without leaving your wallet.", comment: "")
+            }
+            struct PageTwo {
+                static let title = NSLocalizedString("Real-time Exchange Rates", comment: "")
+                static let subtitle = NSLocalizedString("Access competitive crypto prices right at your fingertips.", comment: "")
+            }
+            struct PageThree {
+                static let title = NSLocalizedString("100% On-Chain", comment: "")
+                static let subtitle = NSLocalizedString("All Swap trades are confirmed and settled directly on-chain.", comment: "")
+            }
+            struct PageFour {
+                static let title = NSLocalizedString("You Control Your Key", comment: "")
+                static let subtitle = NSLocalizedString("With Swap your crypto is safe, secure, and your keys are always intact.", comment: "")
+            }
+            struct PageFive {
+                static let title = NSLocalizedString("Manage Risk Better", comment: "")
+                static let subtitle = NSLocalizedString("Introducing Digital Dollars (USDp) to de-risk your crypto investment or lock-in gains.", comment: "")
+            }
+        }
     }
 
     struct Lockbox {

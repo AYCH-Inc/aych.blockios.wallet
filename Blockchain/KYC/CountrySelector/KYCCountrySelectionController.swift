@@ -143,21 +143,6 @@ extension KYCCountrySelectionController: KYCCountrySelectionView {
         let payload = KYCPagePayload.countrySelected(country: country)
         coordinator.handle(event: .nextPageFromPageType(pageType, payload))
     }
-
-    func startPartnerExchangeFlow(country: KYCCountry) {
-        guard let navController = self.navigationController else {
-            ExchangeCoordinator.shared.handle(
-                event: .createPartnerExchange(country: country, animated: true)
-            )
-            return
-        }
-        navController.dismiss(animated: true, completion: {
-            ExchangeCoordinator.shared.handle(
-                event: .createPartnerExchange(country: country, animated: true)
-            )
-        })
-    }
-
     func showExchangeNotAvailable(country: KYCCountry) {
         coordinator.handle(event: .failurePageForPageType(pageType, .countryNotSupported(country)))
     }

@@ -11,11 +11,11 @@ import Foundation
 protocol ExchangeListInterface: class {
     func paginationActivityIndicatorVisibility(_ visibility: Visibility)
     func refreshControlVisibility(_ visibility: Visibility)
-    func display(results: [ExchangeTradeModel])
-    func append(results: [ExchangeTradeModel])
+    func display(results: [ExchangeTradeCellModel])
+    func append(results: [ExchangeTradeCellModel])
     func enablePullToRefresh()
     func showNewExchange(animated: Bool)
-    func showTradeDetails(trade: ExchangeTradeModel)
+    func showTradeDetails(trade: ExchangeTradeCellModel)
     func showError(message: String)
 }
 
@@ -24,16 +24,16 @@ protocol ExchangeListInput: class {
     func fetchAllTrades()
     func refresh()
     func cancel()
-    func tradeSelectedWith(identifier: String) -> ExchangeTradeModel?
+    func tradeSelectedWith(identifier: String) -> ExchangeTradeCellModel?
     func nextPageBefore(identifier: String)
 }
 
 protocol ExchangeListOutput: class {
     func willApplyUpdate()
     func didApplyUpdate()
-    func loadedTrades(_ trades: [ExchangeTradeModel])
-    func appendTrades(_ trades: [ExchangeTradeModel])
-    func refreshedTrades(_ trades: [ExchangeTradeModel])
-    func tradeWithIdentifier(_ identifier: String) -> ExchangeTradeModel?
+    func loadedTrades(_ trades: [ExchangeTradeCellModel])
+    func appendTrades(_ trades: [ExchangeTradeCellModel])
+    func refreshedTrades(_ trades: [ExchangeTradeCellModel])
+    func tradeWithIdentifier(_ identifier: String) -> ExchangeTradeCellModel?
     func tradeFetchFailed(error: Error?)
 }

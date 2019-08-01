@@ -43,7 +43,6 @@ class WalletManager: NSObject, TransactionObserving {
     @objc weak var backupDelegate: WalletBackupDelegate?
     @objc weak var sendBitcoinDelegate: WalletSendBitcoinDelegate?
     @objc weak var sendEtherDelegate: WalletSendEtherDelegate?
-    @objc weak var partnerExchangeDelegate: WalletPartnerExchangeDelegate?
     @objc weak var partnerExchangeIntermediateDelegate: WalletExchangeIntermediateDelegate?
     @objc weak var fiatAtTimeDelegate: WalletFiatAtTimeDelegate?
     @objc weak var transactionDelegate: WalletTransactionDelegate?
@@ -456,48 +455,6 @@ extension WalletManager: WalletDelegate {
     }
 
     // MARK: - Exchange
-
-    func didGetExchangeTrades(_ trades: [Any]!) {
-        DispatchQueue.main.async { [unowned self] in
-            self.partnerExchangeDelegate?.didGetExchangeTrades(trades: trades as NSArray)
-        }
-    }
-
-    func didFail(toGetExchangeTrades errorDescription: String!) {
-        DispatchQueue.main.async { [unowned self] in
-            self.partnerExchangeDelegate?.didFailToGetExchangeTrades(errorDescription: errorDescription)
-        }
-    }
-
-    func didGet(_ rate: ExchangeRate!) {
-        DispatchQueue.main.async { [unowned self] in
-            self.partnerExchangeDelegate?.didGetExchangeRate(rate: rate)
-        }
-    }
-
-    func didGetAvailableBtcBalance(_ result: [AnyHashable: Any]?) {
-        DispatchQueue.main.async { [unowned self] in
-            self.partnerExchangeDelegate?.didGetAvailableBtcBalance(result: result as NSDictionary?)
-        }
-    }
-
-    func didGetAvailableEthBalance(_ result: [AnyHashable: Any]!) {
-        DispatchQueue.main.async { [unowned self] in
-            self.partnerExchangeDelegate?.didGetAvailableEthBalance(result: result as NSDictionary)
-        }
-    }
-
-    func didBuildExchangeTrade(_ tradeInfo: [AnyHashable: Any]!) {
-        DispatchQueue.main.async { [unowned self] in
-            self.partnerExchangeDelegate?.didBuildExchangeTrade(tradeInfo: tradeInfo as NSDictionary)
-        }
-    }
-
-    func didShiftPayment() {
-        DispatchQueue.main.async { [unowned self] in
-            self.partnerExchangeDelegate?.didShiftPayment()
-        }
-    }
 
     func didCreateEthAccountForExchange() {
         DispatchQueue.main.async {

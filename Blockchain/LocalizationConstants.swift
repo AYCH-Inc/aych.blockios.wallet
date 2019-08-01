@@ -509,7 +509,6 @@ struct LocalizationConstants {
         static let  BC_STRING_TRANSACTION_FEE = NSLocalizedString("Transaction Fee", comment: "")
         static let  BC_STRING_NETWORK_TRANSACTION_FEE = NSLocalizedString("Network Transaction Fee", comment: "")
         static let  BC_STRING_SHAPESHIFT_WITHDRAWAL_FEE = NSLocalizedString("ShapeShift Withdrawal Fee", comment: "")
-        static let  BC_STRING_AGREE_TO_SHAPESHIFT = NSLocalizedString("Agree to ShapeShift", comment: "")
         static let  BC_STRING_TERMS_AND_CONDITIONS = NSLocalizedString("terms and conditions", comment: "")
         static let  BC_STRING_EXCHANGE_IN_PROGRESS = NSLocalizedString("Exchange In Progress", comment: "")
         static let  BC_STRING_EXCHANGE_COMPLETED = NSLocalizedString("Exchange Completed", comment: "")

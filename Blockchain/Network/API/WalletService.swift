@@ -72,41 +72,7 @@ import PlatformKit
             return kycCountries.contains(where: { $0.code == countryCode })
         }
     }
-
-    ///  Returns true if the provided country code and state is in the homebrew region
-    ///
-    /// - Parameters:
-    ///   - countryCode: the country code
-    ///   - state: the state code if applicable
-    /// - Returns: a Single returning a boolean indicating whether or not the provided country code
-    ///            and state is supported by a partner
-    func isInPartnerRegionForExchange(countryCode: String, state: String?) -> Single<Bool> {
-        return walletOptions.map { walletOptions in
-            guard let shapeshift = walletOptions.shapeshift else {
-                return false
-            }
-
-            guard let blacklistedCountries = shapeshift.countriesBlacklist else {
-                Logger.shared.warning("Shapeshift countriesBlacklist is nil")
-                return false
-            }
-
-            guard walletOptions.iosConfig?.showShapeshift ?? false else {
-                Logger.shared.warning("Shapeshift is disabled in WalletOptions")
-                return false
-            }
-
-            let isCountrySupported = !blacklistedCountries.contains(countryCode)
-
-            if let state = state {
-                let whitelistedStates = shapeshift.statesWhitelist ?? []
-                let isStateSupported = whitelistedStates.contains(state)
-                return isCountrySupported && isStateSupported
-            } else {
-                return isCountrySupported
-            }
-        }
-    }
+    
 }
 
 // MARK: - MaintenanceServicing

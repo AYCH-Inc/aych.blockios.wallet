@@ -15,11 +15,6 @@ protocol KYCCountrySelectionView: class {
     /// Method invoked once the user selects a native KYC-supported country
     func continueKycFlow(country: KYCCountry)
 
-    /// Method invoked when the user selects a country that isn't supported by
-    /// Blockchain's native KYC. Instead, the user falls back to exchanging
-    /// crypto-to-crypto using a partner (i.e. shapeshift)
-    func startPartnerExchangeFlow(country: KYCCountry)
-
     /// Method invoked when the user selects a country that is not supported
     /// for exchanging crypto-to-crypto
     func showExchangeNotAvailable(country: KYCCountry)
@@ -69,22 +64,7 @@ class KYCCountrySelectionPresenter {
             view?.continueKycFlow(country: country)
             return
         }
-
-        let stateCodeGuess = wallet.stateCodeGuess()
-        let disposable = walletService.isInPartnerRegionForExchange(countryCode: country.code, state: stateCodeGuess)
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] in
-                if $0 {
-                    // 2. if the country is supported by shapeshift, use shapeshift
-                    Logger.shared.info("Selected country can use shapeshift.")
-                    self?.view?.startPartnerExchangeFlow(country: country)
-                } else {
-                    // 3. otherwise, tell the user crypto-crypto exchange is not available yet
-                    Logger.shared.info("Country cannot perform crypto-crypto exchange.")
-                    self?.view?.showExchangeNotAvailable(country: country)
-                }
-            })
-        _ = disposables.insert(disposable)
+        
+        view?.showExchangeNotAvailable(country: country)
     }
 }

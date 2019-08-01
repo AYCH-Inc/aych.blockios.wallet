@@ -10,7 +10,7 @@ import Foundation
 
 protocol ExchangeListDataProviderDelegate: class {
     func dataProvider(_ dataProvider: ExchangeListDataProvider, nextPageBefore identifier: String)
-    func dataProvider(_ dataProvider: ExchangeListDataProvider, didSelect trade: ExchangeTradeModel)
+    func dataProvider(_ dataProvider: ExchangeListDataProvider, didSelect trade: ExchangeTradeCellModel)
     func refreshControlTriggered(_ dataProvider: ExchangeListDataProvider)
 }
 
@@ -59,7 +59,7 @@ class ExchangeListDataProvider: NSObject {
 
     fileprivate weak var tableView: UITableView?
     fileprivate var refreshControl: UIRefreshControl!
-    fileprivate var models: [ExchangeTradeModel]?
+    fileprivate var models: [ExchangeTradeCellModel]?
 
     init(table: UITableView) {
         tableView = table
@@ -89,12 +89,12 @@ class ExchangeListDataProvider: NSObject {
         tableView?.refreshControl = refreshControl
     }
 
-    func set(tradeModels: [ExchangeTradeModel]) {
+    func set(tradeModels: [ExchangeTradeCellModel]) {
         models = tradeModels
         tableView?.reloadData()
     }
 
-    func append(tradeModels: [ExchangeTradeModel]) {
+    func append(tradeModels: [ExchangeTradeCellModel]) {
         if var current = models {
             current.append(contentsOf: tradeModels)
             models = current

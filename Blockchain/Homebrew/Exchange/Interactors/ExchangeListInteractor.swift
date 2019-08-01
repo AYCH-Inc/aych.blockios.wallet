@@ -46,7 +46,7 @@ class ExchangeListInteractor: ExchangeListInput {
         return service.canPage
     }
     
-    func tradeSelectedWith(identifier: String) -> ExchangeTradeModel? {
+    func tradeSelectedWith(identifier: String) -> ExchangeTradeCellModel? {
         let model = service.tradeModels.filter({ $0.identifier == identifier }).first
         return model
     }

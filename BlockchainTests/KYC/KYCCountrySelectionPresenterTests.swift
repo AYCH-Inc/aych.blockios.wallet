@@ -29,25 +29,6 @@ class KYCCountrySelectionPresenterTests: XCTestCase {
         waitForExpectations(timeout: 0.1)
     }
 
-    func testSelectedPartnerSupportedCountry() {
-        view.didCallStartPartnerExchangeFlow = expectation(
-            description: "Partner exchange flow starts when user selects country not supported by homebrew."
-        )
-        walletService.mockWalletOptions = WalletOptions(
-            json: [
-                "shapeshift": [
-                    "countriesBlacklist": ["US"]
-                ],
-                "ios": [
-                    "showShapeshift": true
-                ]
-            ]
-        )
-        let country = KYCCountry(code: "TEST", name: "Test Country", regions: [], scopes: [], states: [])
-        presenter.selected(country: country)
-        waitForExpectations(timeout: 0.1)
-    }
-
     func testSelectedCountryWithStates() {
         view.didCallContinueKycFlow = expectation(
             description: """

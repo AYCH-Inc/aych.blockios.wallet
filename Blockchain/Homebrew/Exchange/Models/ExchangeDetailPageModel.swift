@@ -48,7 +48,7 @@ struct ExchangeDetailPageModel {
     enum PageType {
         case confirm(OrderTransaction, Conversion)
         case locked(OrderTransaction, Conversion)
-        case overview(ExchangeTradeModel)
+        case overview(ExchangeTradeCellModel)
     }
     
     let pageType: PageType

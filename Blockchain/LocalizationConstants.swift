@@ -2166,7 +2166,7 @@ struct LocalizationConstants {
             }
             struct PageFive {
                 static let title = NSLocalizedString("Manage Risk Better", comment: "")
-                static let subtitle = NSLocalizedString("Introducing Digital Dollars (USDp) to de-risk your crypto investment or lock-in gains.", comment: "")
+                static let subtitle = NSLocalizedString("Introducing Digital US Dollars (USD PAX) to de-risk your crypto investment or lock-in gains.", comment: "")
             }
         }
     }

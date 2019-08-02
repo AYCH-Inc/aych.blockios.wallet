@@ -2093,6 +2093,9 @@ struct LocalizationConstants {
     }
 
     struct Swap {
+        static let available = NSLocalizedString("Available", comment: "")
+        static let your = NSLocalizedString("Your", comment: "")
+        static let balance = NSLocalizedString("Balance", comment: "")
         static let successfulExchangeDescription = NSLocalizedString("Success! Your Exchange has been started!", comment: "A successful swap alert")
         static let viewOrderDetails = NSLocalizedString("View Order Details", comment: "View Order Details")
         static let exchangeStarted = NSLocalizedString("Your Exchange has been started!", comment: "Your exchange has been started")

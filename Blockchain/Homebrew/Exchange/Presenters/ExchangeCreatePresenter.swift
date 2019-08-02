@@ -186,6 +186,16 @@ extension ExchangeCreatePresenter: ExchangeCreateDelegate {
 }
 
 extension ExchangeCreatePresenter: ExchangeCreateOutput {
+    
+    func updateBalanceMetadata(_ balanceMetadata: BalanceMetadata) {
+        interface?.apply(
+            transitionPresentation: ExchangeCreateInterface.AnimatedTransitionUpdate(
+                transitions: [.updateBalanceMetadata(balanceMetadata)],
+                transition: .crossFade(duration: 0.5)
+            )
+        )
+    }
+    
     func tradeValidationInFlight() {
         disableExchangeButton()
         interface?.exchangeStatusUpdated()
@@ -236,33 +246,6 @@ extension ExchangeCreatePresenter: ExchangeCreateOutput {
     func updateRateMetadata(_ metadata: ExchangeRateMetadata) {
         self.ratesMetadata = metadata
         setRatesRecycleTimer(duration: 4.5)
-    }
-    
-    func updateBalance(cryptoValue: CryptoValue, fiatValue: FiatValue) {
-        let font = Font(.branded(.montserratSemiBold), size: .custom(12.0)).result
-        let first = NSAttributedString(
-            string: "Your \(cryptoValue.currencyType.symbol) Balance",
-            attributes: [.font: font,
-                         .foregroundColor: UIColor.brandPrimary]
-        )
-        let fiat = NSAttributedString(
-            string: fiatValue.toDisplayString(includeSymbol: true, locale: .current),
-            attributes: [.font: font,
-                         .foregroundColor: UIColor.green]
-        )
-        let asset = NSAttributedString(
-            string: cryptoValue.toDisplayString(includeSymbol: true, locale: .current),
-            attributes: [.font: font,
-                         .foregroundColor: UIColor.darkGray]
-        )
-        let second = [fiat, asset].join(withSeparator: .space())
-        let result = [first, second].join(withSeparator: .lineBreak())
-        interface?.apply(
-            transitionPresentation: ExchangeCreateInterface.AnimatedTransitionUpdate(
-                transitions: [.updateBalanceLabel(result)],
-                transition: .crossFade(duration: 0.5)
-            )
-        )
     }
     
     func updateTradingPairValues(left: String, right: String) {

@@ -25,11 +25,11 @@ class TradeExecutionServiceDependenciesMock: TradeExecutionServiceDependenciesAP
     var ethereumWalletService: EthereumWalletServiceAPI = EthereumWalletServiceMock()
 }
 
-
 class FeeServiceMock: FeeServiceAPI {
     var bitcoin: Single<BitcoinTransactionFee> = Single.error(NSError())
     var ethereum: Single<EthereumTransactionFee> = Single.error(NSError())
     var stellar: Single<StellarTransactionFee> = Single.error(NSError())
+    var bitcoinCash: Single<BitcoinCashTransactionFee> = Single.error(NSError())
 }
 
 class XLMDependenciesMock: XLMDependenciesAPI {

@@ -107,6 +107,26 @@ extension FiatValue: Hashable, Equatable {
             throw FiatComparisonError(currencyCode1: value.currencyCode, currencyCode2: other.currencyCode)
         }
     }
+    
+    public static func max(_ x: FiatValue, _ y: FiatValue) throws -> FiatValue {
+        try ensureComparable(value: x, other: y)
+        return try x > y ? x : y
+    }
+    
+    public static func min(_ x: FiatValue, _ y: FiatValue) throws -> FiatValue {
+        try ensureComparable(value: x, other: y)
+        return try x < y ? x : y
+    }
+    
+    public static func > (lhs: FiatValue, rhs: FiatValue) throws -> Bool {
+        try ensureComparable(value: lhs, other: rhs)
+        return lhs.amount > rhs.amount
+    }
+    
+    public static func < (lhs: FiatValue, rhs: FiatValue) throws -> Bool {
+        try ensureComparable(value: lhs, other: rhs)
+        return lhs.amount < rhs.amount
+    }
 
     public static func +(lhs: FiatValue, rhs: FiatValue) throws -> FiatValue {
         try ensureComparable(value: lhs, other: rhs)

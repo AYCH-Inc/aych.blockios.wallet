@@ -56,10 +56,11 @@ protocol ExchangeCreateInput: NumberKeypadViewDelegate {
 }
 
 protocol ExchangeCreateOutput: class {
+    
     func entryRejected()
     func updatedInput(primary: NSAttributedString?, secondary: String?)
     func updateRateMetadata(_ metadata: ExchangeRateMetadata)
-    func updateBalance(cryptoValue: CryptoValue, fiatValue: FiatValue)
+    func updateBalanceMetadata(_ balanceMetadata: BalanceMetadata)
     func updateTradingPairValues(left: String, right: String)
     func updateTradingPair(pair: TradingPair, fix: Fix)
     func errorReceived()

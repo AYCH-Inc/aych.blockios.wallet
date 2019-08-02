@@ -109,6 +109,10 @@ class TradeExecutionService: TradeExecutionAPI {
         return dependencies.feeService.bitcoin
     }
     
+    private var bitcoinCashTransactionFee: Single<BitcoinCashTransactionFee> {
+        return dependencies.feeService.bitcoinCash
+    }
+    
     private var ethereumTransactionFee: Single<EthereumTransactionFee> {
         return dependencies.feeService.ethereum
     }
@@ -349,19 +353,21 @@ class TradeExecutionService: TradeExecutionAPI {
         } else {
             let disposable = Observable.zip(
                     bitcoinTransactionFee.asObservable(),
+                    bitcoinCashTransactionFee.asObservable(),
                     ethereumTransactionFee.asObservable()
                 )
                 /// Should either transaction fee fetches fail, we fall back to
                 /// default fee models.
-                .catchErrorJustReturn((.default, .default))
+                .catchErrorJustReturn((.default, .default, .default))
                 .subscribeOn(MainScheduler.asyncInstance)
                 .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { [weak self] (bitcoinFee, ethereumFee) in
+                .subscribe(onNext: { [weak self] (bitcoinFee, bitcoinCashFee, ethereumFee) in
                     guard let self = self else { return }
                     switch assetType {
-                    case .bitcoin,
-                         .bitcoinCash:
+                    case .bitcoin:
                         orderTransactionLegacy.fees = bitcoinFee.priority.toDisplayString(includeSymbol: false)
+                    case .bitcoinCash:
+                        orderTransactionLegacy.fees = bitcoinCashFee.priority.toDisplayString(includeSymbol: false)
                     case .ethereum:
                         orderTransactionLegacy.fees = ethereumFee.priorityGweiValue
                         orderTransactionLegacy.gasLimit = String(ethereumFee.gasLimit)

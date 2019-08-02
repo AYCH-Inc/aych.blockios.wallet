@@ -557,6 +557,7 @@
 		3A9F72C4228604D500BF367A /* SendPAXInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9F72C3228604D500BF367A /* SendPAXInterface.swift */; };
 		3A9F72E32286868200BF367A /* SendPaxCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9F72E22286868200BF367A /* SendPaxCoordinator.swift */; };
 		3AA5DF392225A72100E2A3FA /* DashboardContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE969A221DDFD700F8B5D5 /* DashboardContainerViewController.swift */; };
+		3AA90DD622F395F9000C0CC4 /* BitcoinCashTransactionFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA90DD522F395F8000C0CC4 /* BitcoinCashTransactionFee.swift */; };
 		3AA94DE922418D800083210B /* ExchangeRateMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA94DE822418D800083210B /* ExchangeRateMetadata.swift */; };
 		3AA94DEA22418D800083210B /* ExchangeRateMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA94DE822418D800083210B /* ExchangeRateMetadata.swift */; };
 		3AAAAD8B22F09E7E00989320 /* SwapIntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAAAD8A22F09E7E00989320 /* SwapIntroductionViewController.swift */; };
@@ -2499,6 +2500,7 @@
 		3A9B285321A4CD2200DB46C7 /* KeyPairProviderAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPairProviderAPI.swift; sourceTree = "<group>"; };
 		3A9F72C3228604D500BF367A /* SendPAXInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPAXInterface.swift; sourceTree = "<group>"; };
 		3A9F72E22286868200BF367A /* SendPaxCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPaxCoordinator.swift; sourceTree = "<group>"; };
+		3AA90DD522F395F8000C0CC4 /* BitcoinCashTransactionFee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinCashTransactionFee.swift; sourceTree = "<group>"; };
 		3AA94DE822418D800083210B /* ExchangeRateMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateMetadata.swift; sourceTree = "<group>"; };
 		3AAAAD8A22F09E7E00989320 /* SwapIntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapIntroductionViewController.swift; sourceTree = "<group>"; };
 		3AAAAD9622F09F4200989320 /* SwapIntroductionViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SwapIntroductionViewController.storyboard; sourceTree = "<group>"; };
@@ -11148,6 +11150,7 @@
 			children = (
 				C76E4D0C220B4A0B00B21B82 /* BitcoinTransaction.swift */,
 				3AE17ADE2229CECA0061AC86 /* BitcoinTransactionFee.swift */,
+				3AA90DD522F395F8000C0CC4 /* BitcoinCashTransactionFee.swift */,
 			);
 			path = Transactions;
 			sourceTree = "<group>";
@@ -12782,6 +12785,7 @@
 				3AE17ADF2229CECA0061AC86 /* BitcoinTransactionFee.swift in Sources */,
 				C7B4EB62220A68BA001C1795 /* BitcoinWalletBridgeAPI.swift in Sources */,
 				C7B4EB44220A3BBA001C1795 /* BitcoinHDAssetAccount.swift in Sources */,
+				3AA90DD622F395F9000C0CC4 /* BitcoinCashTransactionFee.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

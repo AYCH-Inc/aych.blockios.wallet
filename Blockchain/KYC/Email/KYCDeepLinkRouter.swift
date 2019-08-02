@@ -25,21 +25,22 @@ class KYCDeepLinkRouter: DeepLinkRouting {
         self.kycCoordinator = kycCoordinator
     }
 
-    func routeIfNeeded() {
+    func routeIfNeeded() -> Bool {
         // Only route if the user actually tapped on the verify email link
         guard appSettings.didTapOnKycDeepLink else {
-            return
+            return false
         }
         appSettings.didTapOnKycDeepLink = false
 
         // Only route if the user was completing kyc
         guard kycSettings.isCompletingKyc else {
-            return
+            return false
         }
 
         guard let viewController = UIApplication.shared.keyWindow?.rootViewController else {
-            return
+            return false
         }
         kycCoordinator.start(from: viewController)
+        return true
     }
 }

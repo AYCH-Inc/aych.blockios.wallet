@@ -52,6 +52,8 @@
 /// Address fetcher for PIT address
 @property (nonatomic) BridgeAddressFetcher *addressFetcher;
 
+@property (nonatomic, strong) BridgeDeepLinkQRCodeRouter *deepLinkQRCodeRouter;
+
 @end
 
 #define ROW_HEIGHT_SEND_SMALL 45
@@ -63,6 +65,7 @@
 {
     [super viewDidLoad];
 
+    self.deepLinkQRCodeRouter = [[BridgeDeepLinkQRCodeRouter alloc] init];
     self.addressFetcher = [[BridgeAddressFetcher alloc] init];
     
     self.view.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:YES assetSelector:YES];
@@ -527,13 +530,15 @@
             
             // do something useful with results
             dispatch_sync(dispatch_get_main_queue(), ^{
-
-                NSString *address = [metadataObj stringValue];
+                NSString *value = [metadataObj stringValue];
+                if ([self.deepLinkQRCodeRouter handleWithDeepLink:value]) {
+                    return;
+                }
                 
-                if ([address hasPrefix:[ConstantsObjcBridge ethereumUriPrefix]]) address = [address stringByReplacingOccurrencesOfString:[ConstantsObjcBridge ethereumUriPrefix] withString:@""];
+                if ([value hasPrefix:[ConstantsObjcBridge ethereumUriPrefix]]) value = [value stringByReplacingOccurrencesOfString:[ConstantsObjcBridge ethereumUriPrefix] withString:@""];
                 
-                [self selectToAddress:address];
-                DLog(@"toAddress: %@", address);
+                [self selectToAddress:value];
+                DLog(@"toAddress: %@", value);
                 
                 self.addressSource = DestinationAddressSourceQR;
             });

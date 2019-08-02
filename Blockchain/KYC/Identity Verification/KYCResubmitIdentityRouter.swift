@@ -22,15 +22,16 @@ class KYCResubmitIdentityRouter: DeepLinkRouting {
         self.kycCoordinator = kycCoordinator
     }
 
-    func routeIfNeeded() {
+    func routeIfNeeded() -> Bool {
         // Only route if the user actually tapped on the resubmission link
         guard appSettings.didTapOnDocumentResubmissionDeepLink else {
-            return
+            return false
         }
 
         guard let viewController = UIApplication.shared.keyWindow?.rootViewController else {
-            return
+            return false
         }
         kycCoordinator.start(from: viewController, tier: .tier2)
+        return true
     }
 }

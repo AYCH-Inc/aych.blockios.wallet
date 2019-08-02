@@ -957,6 +957,12 @@
 		652D579E22DE299A00A87AAB /* ActivityIndicatorLoadingContainerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 652D579D22DE299A00A87AAB /* ActivityIndicatorLoadingContainerView.xib */; };
 		652D57A122DE319600A87AAB /* LoadingViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652D57A022DE319600A87AAB /* LoadingViewProtocol.swift */; };
 		652D57C022DE56C000A87AAB /* AddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA54277B20D88DD900D5FEEE /* AddressViewController.xib */; };
+		653159F822F4959D0018ED32 /* DeepLinkQRCodeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653159EE22F4959D0018ED32 /* DeepLinkQRCodeRouter.swift */; };
+		653159F922F4959D0018ED32 /* DeepLinkQRCodeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653159EE22F4959D0018ED32 /* DeepLinkQRCodeRouter.swift */; };
+		653159FB22F4A9A40018ED32 /* DeepLinkConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653159FA22F4A9A40018ED32 /* DeepLinkConstant.swift */; };
+		653159FC22F4A9A40018ED32 /* DeepLinkConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653159FA22F4A9A40018ED32 /* DeepLinkConstant.swift */; };
+		653159FE22F4B6220018ED32 /* BridgeDeepLinkQRCodeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653159FD22F4B6220018ED32 /* BridgeDeepLinkQRCodeRouter.swift */; };
+		653159FF22F4B6220018ED32 /* BridgeDeepLinkQRCodeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653159FD22F4B6220018ED32 /* BridgeDeepLinkQRCodeRouter.swift */; };
 		654154F522C4F0CA00E78814 /* DisplayAddressStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654154F422C4F0CA00E78814 /* DisplayAddressStatus.swift */; };
 		654154F622C4F0CA00E78814 /* DisplayAddressStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654154F422C4F0CA00E78814 /* DisplayAddressStatus.swift */; };
 		6541550122C549E700E78814 /* AddressFetchingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6541550022C549E700E78814 /* AddressFetchingError.swift */; };
@@ -4247,6 +4253,9 @@
 		652D579B22DE297B00A87AAB /* ActivityIndicatorLoadingContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorLoadingContainerView.swift; sourceTree = "<group>"; };
 		652D579D22DE299A00A87AAB /* ActivityIndicatorLoadingContainerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActivityIndicatorLoadingContainerView.xib; sourceTree = "<group>"; };
 		652D57A022DE319600A87AAB /* LoadingViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewProtocol.swift; sourceTree = "<group>"; };
+		653159EE22F4959D0018ED32 /* DeepLinkQRCodeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkQRCodeRouter.swift; sourceTree = "<group>"; };
+		653159FA22F4A9A40018ED32 /* DeepLinkConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkConstant.swift; sourceTree = "<group>"; };
+		653159FD22F4B6220018ED32 /* BridgeDeepLinkQRCodeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeDeepLinkQRCodeRouter.swift; sourceTree = "<group>"; };
 		654154F422C4F0CA00E78814 /* DisplayAddressStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayAddressStatus.swift; sourceTree = "<group>"; };
 		6541550022C549E700E78814 /* AddressFetchingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFetchingError.swift; sourceTree = "<group>"; };
 		6541550D22C54A0800E78814 /* WalletAddressContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAddressContent.swift; sourceTree = "<group>"; };
@@ -5367,10 +5376,12 @@
 		3460ED9922149C2800614F52 /* QRCodeScanner */ = {
 			isa = PBXGroup;
 			children = (
+				653159FD22F4B6220018ED32 /* BridgeDeepLinkQRCodeRouter.swift */,
 				3460EDA322149C5C00614F52 /* QRCodeScanner.swift */,
 				34C0AFF422196B6500D46361 /* PairingCodeQRCodeParser.swift */,
 				34C0AFE922196B3E00D46361 /* PrivateKeyQRCodeParser.swift */,
 				34D88F61221A96C300AE9DE5 /* AddressQRCodeParser.swift */,
+				653159EE22F4959D0018ED32 /* DeepLinkQRCodeRouter.swift */,
 				349C4B98221887A500332BFF /* QRCodeScannerParsing.swift */,
 				3460EDB42217156600614F52 /* QRCodeScannerViewModel.swift */,
 				34D88F83221AC56200AE9DE5 /* QRCodeScannerViewControllerBuilder.swift */,
@@ -10581,6 +10592,7 @@
 				AA787A062187A86100E2D4CF /* DeepLinkRoute.swift */,
 				C732DF102200BA8500F3687A /* DeepLinkRouter.swift */,
 				F7B8C83721A5E607005CAA0D /* DeepLinkPayload.swift */,
+				653159FA22F4A9A40018ED32 /* DeepLinkConstant.swift */,
 			);
 			path = DeepLinking;
 			sourceTree = "<group>";
@@ -13283,6 +13295,7 @@
 				C7C0DC28212F67E1000EFE71 /* PartnerExchangeService.swift in Sources */,
 				AAE9113220A51C900093A431 /* ReminderType.swift in Sources */,
 				3A9A02702178E19400E2848E /* StellarOperation.swift in Sources */,
+				653159FC22F4A9A40018ED32 /* DeepLinkConstant.swift in Sources */,
 				C7FF10EB2141AAB300CBA3CB /* MarketsModel.swift in Sources */,
 				AA126DBD212F4DA5005886A3 /* SignedRetailTokenResponse.swift in Sources */,
 				C79DD06F20B3B74A00DF3684 /* WalletWatchOnlyDelegate.swift in Sources */,
@@ -13467,6 +13480,7 @@
 				C7C572BE21FA54DA008B174D /* KYCResubmitIdentityRouter.swift in Sources */,
 				AACE31C72092A99B00B7B806 /* LocalizationConstants.swift in Sources */,
 				AADF6B3521C07AE600F8CA43 /* NabuUserTiers.swift in Sources */,
+				653159F922F4959D0018ED32 /* DeepLinkQRCodeRouter.swift in Sources */,
 				AA15345E21A45FBF0099BA9D /* WalletSettingsService.swift in Sources */,
 				650999CA22E60E210092BFB9 /* PitEmailVerificationViewController.swift in Sources */,
 				AA8F21E221C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift in Sources */,
@@ -13548,6 +13562,7 @@
 				AA08439A215C0E210007BFD1 /* SocketMessageTests.swift in Sources */,
 				AA93227521AC72CD000DB69B /* AppVersionTests.swift in Sources */,
 				511356BF209B7F6E00056D65 /* BlockchainAPI+Payload.swift in Sources */,
+				653159FF22F4B6220018ED32 /* BridgeDeepLinkQRCodeRouter.swift in Sources */,
 				602B9D272118E28E00BD3D60 /* ValidationTextField.swift in Sources */,
 				3A26D527214055E600D79BDD /* TradingPairCell.swift in Sources */,
 				602B9D282118E2A700BD3D60 /* NibBasedView.swift in Sources */,
@@ -13712,6 +13727,7 @@
 				6564E55822C13F3E0057108B /* FeatureConfigurating.swift in Sources */,
 				23444F811DCD214800573C8C /* BTCBigNumber.m in Sources */,
 				51A862D920921E7600B338E0 /* BitcoinAddress.swift in Sources */,
+				653159F822F4959D0018ED32 /* DeepLinkQRCodeRouter.swift in Sources */,
 				3A3C7D2F217F9D610067F442 /* StellarLedgerAPI.swift in Sources */,
 				23BD046D1D79F1EC00DB69E6 /* TransactionDetailNavigationController.m in Sources */,
 				C7FA9B59212F499D00B98EBF /* MarketsService.swift in Sources */,
@@ -14173,6 +14189,7 @@
 				67EE1DCE19E3325900DBBFC9 /* ECSlidingViewController.m in Sources */,
 				51578AEE20B44AD400B0080A /* KeyImportCoordinator.swift in Sources */,
 				FCB33B721FC36EA200317E6B /* ExchangeProgressViewController.m in Sources */,
+				653159FB22F4A9A40018ED32 /* DeepLinkConstant.swift in Sources */,
 				C74E836421C1643B00DCB34C /* KYCTiersResponse.swift in Sources */,
 				3AE6AFF122947C7600BF8F56 /* PaxActivityPresenter.swift in Sources */,
 				C75757452176501400CE7814 /* AssetTypeCell.swift in Sources */,
@@ -14291,6 +14308,7 @@
 				3A34280922249DFB000D8032 /* SideMenuFooterView.swift in Sources */,
 				3A91F7E121387A5300CDC3FD /* AnimatablePresentationUpdate.swift in Sources */,
 				3AFD18AF21221D95007145EA /* KYCPageModel.swift in Sources */,
+				653159FE22F4B6220018ED32 /* BridgeDeepLinkQRCodeRouter.swift in Sources */,
 				AAC9FCEE20AE456400E28B7A /* WalletTransactionDelegate.swift in Sources */,
 				65550E7B22BE671F00522656 /* SecurePinView.swift in Sources */,
 				6567FDF822CA0BFE0035CB16 /* PaymentPresenter.swift in Sources */,

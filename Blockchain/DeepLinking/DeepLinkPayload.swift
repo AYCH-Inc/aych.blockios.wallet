@@ -14,13 +14,13 @@ struct DeepLinkPayload {
 }
 
 extension DeepLinkPayload {
-    static func create(from url: URL) -> DeepLinkPayload? {
-        guard let route = DeepLinkRoute.route(from: url) else { return nil }
+    static func create(from url: String, supportedRoutes: [DeepLinkRoute]) -> DeepLinkPayload? {
+        guard let route = DeepLinkRoute.route(from: url, supportedRoutes: supportedRoutes) else { return nil }
         return DeepLinkPayload(route: route, params: extractParams(from: url))
     }
 
-    private static func extractParams(from url: URL) -> [String: String] {
-        guard let lastPathWithProperties = url.absoluteString.components(separatedBy: "/").last else {
+    private static func extractParams(from url: String) -> [String: String] {
+        guard let lastPathWithProperties = url.components(separatedBy: "/").last else {
             return [:]
         }
 

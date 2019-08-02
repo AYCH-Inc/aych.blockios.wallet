@@ -51,6 +51,15 @@ protocol QRCodeScannerViewModelProtocol: class {
 
 final class QRCodeScannerViewModel<P: QRCodeScannerParsing>: QRCodeScannerViewModelProtocol {
     
+    enum ParsingOptions {
+        
+        /// Strict approach, only act on the link using the given parser
+        case strict
+        
+        /// Lax parsing, allow acting on other routes at well
+        case lax(routes: [DeepLinkRoute])
+    }
+    
     var scanningStarted: (() -> Void)?
     var scanningStopped: (() -> Void)?
     var closeButtonTapped: (() -> Void)?
@@ -72,10 +81,23 @@ final class QRCodeScannerViewModel<P: QRCodeScannerParsing>: QRCodeScannerViewMo
     private let textViewModel: QRCodeScannerTextViewModel
     private let scanner: QRCodeScannerProtocol
     private let completed: ((Result<P.T, P.U>) -> Void)
+    private let deepLinkQRCodeRouter: DeepLinkQRCodeRouter
     
-    init?(parser: P, textViewModel: QRCodeScannerTextViewModel, scanner: QRCodeScannerProtocol, completed: ((Result<P.T, P.U>) -> Void)?) {
+    init?(parser: P,
+          additionalParsingOptions: ParsingOptions = .strict,
+          textViewModel: QRCodeScannerTextViewModel,
+          scanner: QRCodeScannerProtocol,
+          completed: ((Result<P.T, P.U>) -> Void)?) {
         guard let completed = completed else { return nil }
         
+        let additionalLinkRoutes: [DeepLinkRoute]
+        switch additionalParsingOptions {
+        case .lax(routes: let routes):
+            additionalLinkRoutes = routes
+        case .strict:
+            additionalLinkRoutes = []
+        }
+        self.deepLinkQRCodeRouter = DeepLinkQRCodeRouter(supportedRoutes: additionalLinkRoutes)
         self.parser = AnyQRCodeScannerParsing(parser: parser)
         self.textViewModel = textViewModel
         self.scanner = scanner
@@ -94,6 +116,7 @@ final class QRCodeScannerViewModel<P: QRCodeScannerParsing>: QRCodeScannerViewMo
     
     func handleDismissCompleted(with scanResult: Result<String, QRScannerError>) {
         parser.parse(scanResult: scanResult, completion: completed)
+        deepLinkQRCodeRouter.routeIfNeeded(using: scanResult)
     }
 }
 

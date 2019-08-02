@@ -11,14 +11,18 @@ import Foundation
 class PitDeepLinkRouter: DeepLinkRouting {
     
     private let appSettings: BlockchainSettings.App
-    
-    init(appSettings: BlockchainSettings.App = BlockchainSettings.App.shared) {
+    private let coordinator: PitCoordinator
+    init(appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
+         coordinator: PitCoordinator = .shared) {
         self.appSettings = appSettings
+        self.coordinator = coordinator
     }
     
-    func routeIfNeeded() {
-        if appSettings.didTapOnPitDeepLink {
-            PitCoordinator.shared.start()
+    func routeIfNeeded() -> Bool {
+        guard appSettings.didTapOnPitDeepLink else {
+            return false
         }
+        PitCoordinator.shared.start()
+        return true
     }
 }

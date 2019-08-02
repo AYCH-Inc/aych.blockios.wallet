@@ -84,6 +84,8 @@ typedef enum {
 @property (nonatomic) BridgeAddressFetcher *addressFetcher;
 @property (nonatomic, copy) NSString *pitAddress;
 
+@property (nonatomic, strong) BridgeDeepLinkQRCodeRouter *deepLinkQRCodeRouter;
+
 @end
 
 
@@ -136,6 +138,7 @@ BOOL displayingLocalSymbolSend;
 {
     [super viewDidLoad];
 
+    self.deepLinkQRCodeRouter = [[BridgeDeepLinkQRCodeRouter alloc] init];
     self.addressFetcher = [[BridgeAddressFetcher alloc] init];
     
     self.view.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:YES assetSelector:YES];
@@ -1995,6 +1998,10 @@ BOOL displayingLocalSymbolSend;
             
             // do something useful with results
             dispatch_sync(dispatch_get_main_queue(), ^{
+                if ([self.deepLinkQRCodeRouter handleWithDeepLink:[metadataObj stringValue]]) {
+                    return;
+                }
+
                 AssetType type = [AssetTypeLegacyHelper convertFromLegacy:self.assetType];
                 id<AssetURLPayload> payload = [AssetURLPayloadFactory createFromString:[metadataObj stringValue] assetType:type];
 

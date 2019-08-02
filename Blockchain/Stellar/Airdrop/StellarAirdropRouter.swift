@@ -45,15 +45,15 @@ class StellarAirdropRouter: DeepLinkRouting {
     ///
     /// The user will be prompted to complete the KYC flow if they have not yet already done so.
     /// This function will also register the user to the Stellar campaign.
-    func routeIfNeeded() {
+    func routeIfNeeded() -> Bool {
         // Only route if the user actually tapped on the airdrop link
         guard appSettings.didTapOnAirdropDeepLink else {
-            return
+            return false
         }
 
         // Only route if we did try to route already
         guard !appSettings.didAttemptToRouteForAirdrop else {
-            return
+            return false
         }
 
         registerForCampaign(success: { [weak self] user in
@@ -107,6 +107,7 @@ class StellarAirdropRouter: DeepLinkRouting {
                 title: LocalizationConstants.Errors.error
             )
         })
+        return true
     }
 
     func registerForCampaign(success: @escaping ((NabuUser) -> Void), error: @escaping ((Swift.Error) -> Void)) {

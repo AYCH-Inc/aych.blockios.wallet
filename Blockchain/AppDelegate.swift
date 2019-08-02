@@ -292,7 +292,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             Logger.shared.info("Deeplink: \(deepLinkUrl.absoluteString)")
-            self?.deepLinkHandler.handle(deepLink: deepLinkUrl)
+            self?.deepLinkHandler.handle(deepLink: deepLinkUrl.absoluteString)
         }
         return handled
     }

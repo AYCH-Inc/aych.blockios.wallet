@@ -30,16 +30,7 @@ final class LoadingContainerView: UIView {
         return loading
     }()
     
-    private lazy var statusLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.font = Font(.branded(.montserratRegular), size: .custom(15)).result
-        label.accessibility = Accessibility(id: .value(Accessibility.Identifier.LoadingView.statusLabel),
-                                            traits: .value(.updatesFrequently))
-        return label
-    }()
+    private var statusLabel: UILabel!
     
     // MARK: - Setup
     
@@ -54,10 +45,6 @@ final class LoadingContainerView: UIView {
             view.layoutSize(to: CGSize(width: frame.min(max).width, height: frame.min(max).height))
         }
         
-        addSubview(statusLabel)
-        statusLabel.layoutToSuperview(.horizontal, offset: 50)
-        statusLabel.topAnchor.constraint(equalTo: loadingView.bottomAnchor, constant: 32).isActive = true
-        
         alpha = Visibility.hidden.defaultAlpha
         let scale = CGAffineTransform(scaleX: 0, y: 0)
         loadingBackgroundView.transform = scale
@@ -67,17 +54,43 @@ final class LoadingContainerView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private func setupStatusLabelIfNeeded() {
+        guard statusLabel == nil else {
+            return
+        }
+        statusLabel = UILabel()
+        statusLabel.textColor = .white
+        statusLabel.textAlignment = .center
+        statusLabel.numberOfLines = 0
+        statusLabel.font = Font(.branded(.montserratRegular), size: .custom(15)).result
+        statusLabel.accessibility = Accessibility(
+            id: .value(Accessibility.Identifier.LoadingView.statusLabel),
+            traits: .value(.updatesFrequently)
+        )
+        addSubview(statusLabel)
+        statusLabel.layoutToSuperview(.horizontal, offset: 50)
+        statusLabel.topAnchor.constraint(equalTo: loadingView.bottomAnchor, constant: 32).isActive = true
+    }
 }
 
 // MARK: - LoadingViewProtocol
 
 extension LoadingContainerView: LoadingViewProtocol {
     func animate(from oldState: LoadingViewPresenter.State, text: String?) {
-        UIView.transition(with: statusLabel, duration: 0.25,
-                          options: [.beginFromCurrentState, .curveEaseOut, .transitionCrossDissolve],
-                          animations: {
-                            self.statusLabel.text = text
-        }, completion: nil)
+        if text != nil {
+            setupStatusLabelIfNeeded()
+        }
+        
+        // Animate status label text transition if needed
+        if let statusLabel = statusLabel {
+            UIView.transition(with: statusLabel, duration: 0.25,
+                              options: [.beginFromCurrentState, .curveEaseOut, .transitionCrossDissolve],
+                              animations: {
+                                self.statusLabel.text = text
+            }, completion: nil)
+        }
+
         if !oldState.isAnimating {
             layoutIfNeeded()
             let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut)

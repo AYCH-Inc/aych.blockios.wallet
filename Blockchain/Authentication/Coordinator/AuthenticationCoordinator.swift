@@ -186,7 +186,7 @@ import PlatformUIKit
     /// Starts the authentication flow. If the user has a pin set, it will trigger
     /// present the pin entry screen, otherwise, it will show the password screen.
     @objc func start() {
-        if self.appSettings.isPinSet {
+        if appSettings.isPinSet {
             authenticatePin()
         } else {
             disposable = walletService.walletOptions

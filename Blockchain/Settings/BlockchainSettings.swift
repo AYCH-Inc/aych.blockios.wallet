@@ -126,7 +126,7 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenEmailReminder.rawValue)
             }
         }
-
+        
         @objc var pin: String? {
             get {
                 return KeychainItemWrapper.pinFromKeychain()

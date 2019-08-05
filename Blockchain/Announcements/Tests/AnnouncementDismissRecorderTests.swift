@@ -17,12 +17,12 @@ class AnnouncementDismissRecorderTests: XCTestCase {
     override func setUp() {
         super.setUp()
         userDefaults = MockUserDefaults()
-        dismissRecorder = AnnouncementDismissRecorder(userDefaults: userDefaults)
+        dismissRecorder = AnnouncementDismissRecorder(cache: userDefaults)
     }
 
     func testEntryMarkedAsDismissInUserDefaults() {
         let entry = dismissRecorder["test_key"]
-        entry.isDismissed = true
+        entry.markDismissed()
         XCTAssertTrue(userDefaults.bool(forKey: "test_key"))
     }
 

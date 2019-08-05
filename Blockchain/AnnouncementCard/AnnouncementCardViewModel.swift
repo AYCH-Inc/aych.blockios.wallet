@@ -75,7 +75,8 @@ import Foundation
 }
 
 extension AnnouncementCardViewModel {
-    static func paxIntro(action: @escaping Action, onClose: @escaping Action) -> AnnouncementCardViewModel {
+    static func paxIntro(action: @escaping Action,
+                         onClose: @escaping Action) -> AnnouncementCardViewModel {
         let palette = AnnouncementCardPallete(
             isNew: true,
             backgroundImage: #imageLiteral(resourceName: "announcement_pax_background"),
@@ -93,7 +94,8 @@ extension AnnouncementCardViewModel {
         )
     }
     
-    @objc class func walletPitLinking(action: @escaping Action, onClose: @escaping Action) -> AnnouncementCardViewModel {
+    @objc class func walletPitLinking(action: @escaping Action,
+                                      onClose: @escaping Action) -> AnnouncementCardViewModel {
         let palette = AnnouncementCardPallete(
             backgroundImage: #imageLiteral(resourceName: "pit-card-background"),
             headlineImage: #imageLiteral(resourceName: "pit-logo"),
@@ -113,7 +115,8 @@ extension AnnouncementCardViewModel {
         return model
     }
 
-    @objc class func joinAirdropWaitlist(action: @escaping Action, onClose: @escaping Action) -> AnnouncementCardViewModel {
+    @objc class func joinAirdropWaitlist(action: @escaping Action,
+                                         onClose: @escaping Action) -> AnnouncementCardViewModel {
         return AnnouncementCardViewModel(
             title: LocalizationConstants.Stellar.weNowSupportStellar,
             message: LocalizationConstants.Stellar.weNowSupportStellarDescription,
@@ -125,7 +128,8 @@ extension AnnouncementCardViewModel {
         )
     }
     
-    @objc class func swapCTA(action: @escaping Action, onClose: @escaping Action) -> AnnouncementCardViewModel {
+    @objc class func swapCTA(action: @escaping Action,
+                             onClose: @escaping Action) -> AnnouncementCardViewModel {
         let palette = AnnouncementCardPallete(
             isNew: true,
             backgroundImage: #imageLiteral(resourceName: "swap_promo_bg"),

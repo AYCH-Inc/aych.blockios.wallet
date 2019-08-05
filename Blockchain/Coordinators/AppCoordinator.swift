@@ -384,6 +384,14 @@ extension AppCoordinator: WalletHistoryDelegate {
     }
 }
 
+// MARK: - TabSwapping
+
+extension AppCoordinator: TabSwapping {
+    func switchTabToSwap() {
+        tabControllerManager.swapTapped(nil)
+    }
+}
+
 // MARK: - DevSupporting
 
 extension AppCoordinator: DevSupporting {

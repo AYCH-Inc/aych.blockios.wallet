@@ -28,8 +28,6 @@
 @property (nonatomic) UIButton *startOverButton;
 @property (nonatomic) UIButton *closeCardsViewButton;
 @property (nonatomic) UIButton *skipAllButton;
-
-@property (nonatomic) AnnouncementCardActionHandler *actionHandler;
 @end
 
 @implementation CardsViewController
@@ -41,9 +39,7 @@
 
 - (id)init
 {
-    if (self = [super init]) {
-        [self registerForNotifications];
-    }
+    self = [super init];
     return self;
 }
 
@@ -52,25 +48,9 @@
     [self tearDownNotifications];
 }
 
-- (AnnouncementCardActionHandler *)actionHandler
-{
-    if (!_actionHandler) _actionHandler = [AnnouncementCardActionHandler new];
-    return _actionHandler;
-}
-
-- (void)stellarAirdropCardActionTapped
-{
-    [self.actionHandler stellarAirdropCardActionTapped];
-}
-
-- (void)stellarModalPromptForAirdropRegistrationActionTapped
-{
-    [self.actionHandler stellarModalPromptForAirdropRegistrationActionTapped];
-}
-
-- (void)coinifyKycActionTapped
-{
-    [self.actionHandler coinifyKycActionTapped];
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setupAnnouncements];
 }
 
 - (void)reloadWelcomeCards

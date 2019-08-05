@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol NabuUserSunriverAirdropRegistering {
+    var isSunriverAirdropRegistered: Bool { get }
+}
+
 struct NabuUser: Decodable {
 
     enum UserState: String {
@@ -143,11 +147,12 @@ struct NabuUser: Decodable {
 }
 
 extension NabuUser {
-    
     var hasLinkedPITAccount: Bool {
         return settings != nil
     }
-    
+}
+
+extension NabuUser: NabuUserSunriverAirdropRegistering {
     var isSunriverAirdropRegistered: Bool {
         return tags?.sunriver != nil
     }

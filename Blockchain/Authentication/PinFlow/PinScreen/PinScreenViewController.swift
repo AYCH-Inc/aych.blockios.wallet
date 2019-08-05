@@ -37,7 +37,7 @@ final class PinScreenViewController: BaseScreenViewController {
         self.presenter = presenter
         self.alertViewPresenter = alertViewPresenter
         self.devSupport = devSupport
-        super.init(nibName: PinScreenViewController.className, bundle: nil)
+        super.init(nibName: String(describing: PinScreenViewController.self), bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {

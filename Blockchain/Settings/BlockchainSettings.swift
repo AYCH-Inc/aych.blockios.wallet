@@ -70,6 +70,15 @@ final class BlockchainSettings: NSObject {
             }
         }
         
+        @objc var didRequestMicrophonePermissions: Bool {
+            get {
+                return defaults.bool(forKey: UserDefaults.Keys.didRequestMicrophonePermissions.rawValue)
+            }
+            set {
+                defaults.set(newValue, forKey: UserDefaults.Keys.didRequestMicrophonePermissions.rawValue)
+            }
+        }
+        
         @objc var didRequestNotificationPermissions: Bool {
             get {
                 return defaults.bool(forKey: UserDefaults.Keys.didRequestNotificationPermissions.rawValue)

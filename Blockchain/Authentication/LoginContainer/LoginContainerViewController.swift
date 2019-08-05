@@ -66,7 +66,7 @@ class LoginContainerViewController: UIViewController {
     
     init(using inputs: [Input]) {
         self.inputs = inputs
-        super.init(nibName: LoginContainerViewController.className, bundle: nil)
+        super.init(nibName: String(describing: LoginContainerViewController.self), bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -77,9 +77,9 @@ class LoginContainerViewController: UIViewController {
         super.viewDidLoad()
         collectionView.collectionViewLayout = collectionViewFlowLayout
         collectionView.delegate = self
-        collectionView.register(UINib(nibName: LoginContainerCollectionViewCell.className,
+        collectionView.register(UINib(nibName: String(describing: LoginContainerCollectionViewCell.self),
                                       bundle: nil),
-                                forCellWithReuseIdentifier: LoginContainerCollectionViewCell.className)
+                                forCellWithReuseIdentifier: String(describing: LoginContainerCollectionViewCell.self))
         pageControl.pageIndicatorTintColor = .addressPageIndicator
         pageControl.currentPageIndicatorTintColor = .tertiary
         pageControl.currentPage = 0
@@ -135,7 +135,7 @@ extension LoginContainerViewController: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LoginContainerCollectionViewCell.className,
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: LoginContainerCollectionViewCell.self),
                                                       for: indexPath) as! LoginContainerCollectionViewCell
         
         let input = inputs[indexPath.row]

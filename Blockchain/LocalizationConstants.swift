@@ -634,6 +634,7 @@ struct LocalizationConstants {
         static let errorLoadingWalletIdentifierFromKeychain = NSLocalizedString("An error was encountered retrieving your wallet identifier from the keychain. Please close the application and try again.", comment: "")
         static let cameraAccessDenied = NSLocalizedString("Camera Access Denied", comment: "")
         static let cameraAccessDeniedMessage = NSLocalizedString("Blockchain does not have access to the camera. To enable access, go to your device Settings.", comment: "")
+        static let microphoneAccessDeniedMessage = NSLocalizedString("Blockchain does not have access to the microphone. To enable access, go to your device Settings.", comment: "")
         static let nameAlreadyInUse = NSLocalizedString("This name is already in use. Please choose a different name.", comment: "")
         static let failedToRetrieveDevice = NSLocalizedString("Unable to retrieve the input device.", comment: "AVCaptureDeviceError: failedToRetrieveDevice")
         static let inputError = NSLocalizedString("There was an error with the device input.", comment: "AVCaptureDeviceError: inputError")
@@ -2057,6 +2058,10 @@ struct LocalizationConstants {
             "Please allow your Blockchain App access your camera to upload your ID and take a Selfie.",
             comment: "Description as to why the user should permit camera access"
         )
+        static let enableMicrophoneDescription = NSLocalizedString(
+            "Please allow your Blockchain app access to your microphone. This is an optional request designed to enhance user security while performing ID verification",
+            comment: "Description as to why the user should permit microphone access"
+        )
         static let isCountrySupportedHeader = NSLocalizedString(
             "Is my country supported?",
             comment: "Header for text notifying the user that maybe not all countries are supported for airdrop."
@@ -2076,6 +2081,10 @@ struct LocalizationConstants {
         static let allowCameraAccess = NSLocalizedString(
             "Allow camera access?",
             comment: "Headline in alert asking the user to allow camera access."
+        )
+        static let allowMicrophoneAccess = NSLocalizedString(
+            "Allow microphone access?",
+            comment: "Headline in alert asking the user to allow microphone access."
         )
         static let streetLine = NSLocalizedString("Street line", comment: "Street line")
         static let addressLine = NSLocalizedString("Address line", comment: "Address line")

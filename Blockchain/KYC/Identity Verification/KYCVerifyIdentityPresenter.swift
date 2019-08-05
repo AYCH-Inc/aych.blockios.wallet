@@ -56,14 +56,17 @@ class KYCVerifyIdentityPresenter {
         )
     }
 
-    // MARK: - CameraPrompting
+    // MARK: - CameraPrompting & MicrophonePrompting
 
-    weak var delegate: CameraPromptingDelegate?
+    weak var cameraPromptingDelegate: CameraPromptingDelegate?
+    weak var microphonePromptingDelegate: MicrophonePromptingDelegate?
 
     internal lazy var permissionsRequestor: PermissionsRequestor = {
         return PermissionsRequestor()
     }()
 }
+
+extension KYCVerifyIdentityPresenter: MicrophonePrompting { }
 
 extension KYCVerifyIdentityPresenter: CameraPrompting { }
 

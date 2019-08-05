@@ -69,6 +69,7 @@ extension UserDefaults {
         case didRegisterForAirdropCampaignSucceed
         case kycLatestPage
         case didRequestCameraPermissions
+        case didRequestMicrophonePermissions
         case didRequestNotificationPermissions
         case didTapOnKycDeepLink
         case didTapOnDocumentResubmissionDeepLink

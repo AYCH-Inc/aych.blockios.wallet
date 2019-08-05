@@ -13,6 +13,7 @@ import PlatformKit
 public protocol StellarWalletAccountRepositoryAPI {
     var defaultAccount: StellarWalletAccount? { get }
     
+    func initializeMetadataMaybe() -> Maybe<StellarWalletAccount>
     func loadKeyPair() -> Maybe<StellarKeyPair>
 }
 

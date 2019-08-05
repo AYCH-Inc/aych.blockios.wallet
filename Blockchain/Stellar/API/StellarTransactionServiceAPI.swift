@@ -16,13 +16,13 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
     fileprivate var blockOperation: AsyncBlockOperation?
     
     fileprivate let cache: StellarTransactionCache
-    fileprivate let provider: XLMServiceProvider
+    fileprivate let provider: StellarServiceProvider
     fileprivate let operationService: StellarOperationsAPI
     fileprivate let transactionService: StellarTransactionAPI
     fileprivate let disposables = CompositeDisposable()
     fileprivate var operations: [StellarOperation]?
     
-    init(provider: XLMServiceProvider = XLMServiceProvider.shared) {
+    init(provider: StellarServiceProvider = StellarServiceProvider.shared) {
         self.provider = provider
         self.operationService = provider.services.operation
         self.transactionService = provider.services.transaction

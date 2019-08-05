@@ -105,7 +105,7 @@ protocol ExchangeCoordinatorAPI {
     /// and this screen needs to be able to create XLM accounts and/or Ethereum accounts should
     /// the user not have one.
     func initXlmAccountIfNeeded(completion: @escaping (() -> ())) {
-        disposable = xlmAccountRepository.initializeMetadataMaybe()
+        disposable = stellarAccountRepository.initializeMetadataMaybe()
             .flatMap({ [unowned self] _ in
                 return self.stellarAccountService.currentStellarAccount(fromCache: true)
             })
@@ -244,19 +244,19 @@ protocol ExchangeCoordinatorAPI {
     // MARK: - Services
     private let exchangeService: ExchangeService
     private let stellarAccountService: StellarAccountAPI
-    private let xlmAccountRepository: StellarWalletAccountRepository
+    private let stellarAccountRepository: StellarWalletAccountRepositoryAPI
 
     // MARK: - Lifecycle
     private init(
         walletManager: WalletManager = WalletManager.shared,
         exchangeService: ExchangeService = ExchangeService(),
-        stellarAccountService: StellarAccountAPI = XLMServiceProvider.shared.services.accounts,
-        xlmAccountRepository: StellarWalletAccountRepository = XLMServiceProvider.shared.services.repository
+        stellarAccountService: StellarAccountAPI = StellarServiceProvider.shared.services.accounts,
+        stellarAccountRepository: StellarWalletAccountRepositoryAPI = StellarServiceProvider.shared.services.repository
     ) {
         self.walletManager = walletManager
         self.exchangeService = exchangeService
         self.stellarAccountService = stellarAccountService
-        self.xlmAccountRepository = xlmAccountRepository
+        self.stellarAccountRepository = stellarAccountRepository
         super.init()
     }
 

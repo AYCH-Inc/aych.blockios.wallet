@@ -100,7 +100,7 @@ protocol SendXLMViewControllerDelegate: class {
     
     // MARK: Factory
     
-    @objc class func make(with provider: XLMServiceProvider) -> SendLumensViewController {
+    @objc class func make(with provider: StellarServiceProvider) -> SendLumensViewController {
         let controller = SendLumensViewController.makeFromStoryboard()
         controller.coordinator = SendXLMCoordinator(
             serviceProvider: provider,

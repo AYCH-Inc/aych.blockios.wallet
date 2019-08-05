@@ -17,21 +17,30 @@ class StellarAccountService: StellarAccountAPI {
 
     typealias StellarTransaction = stellarsdk.Transaction
 
-    fileprivate let configuration: StellarConfiguration
-    fileprivate let ledgerService: StellarLedgerAPI
-    fileprivate let repository: StellarWalletAccountRepository
-    fileprivate lazy var service: AccountService = {
-       configuration.sdk.accounts
-    }()
-
     private var disposable: Disposable?
+    
+    private var service: Single<AccountService> {
+        return sdk.map { $0.accounts }
+    }
+
+    private var sdk: Single<stellarsdk.StellarSDK> {
+        return configuration.map { $0.sdk }
+    }
+    
+    private var configuration: Single<StellarConfiguration> {
+        return configurationService.configuration
+    }
+    
+    private let configurationService: StellarConfigurationAPI
+    private let ledgerService: StellarLedgerAPI
+    private let repository: StellarWalletAccountRepositoryAPI
 
     init(
-        configuration: StellarConfiguration = .production,
+        configurationService: StellarConfigurationAPI ,//= StellarConfigurationService.shared,
         ledgerService: StellarLedgerAPI,
-        repository: StellarWalletAccountRepository
+        repository: StellarWalletAccountRepositoryAPI
     ) {
-        self.configuration = configuration
+        self.configurationService = configurationService
         self.ledgerService = ledgerService
         self.repository = repository
     }
@@ -44,6 +53,7 @@ class StellarAccountService: StellarAccountAPI {
     var currentAccount: StellarAccount? {
         return privateAccount.value
     }
+    
     fileprivate var privateAccount = BehaviorRelay<StellarAccount?>(value: nil)
     
     // MARK: Private Functions
@@ -75,16 +85,18 @@ class StellarAccountService: StellarAccountAPI {
     }
 
     func accountResponse(for accountID: AccountID) -> Single<AccountResponse> {
-        return Single<AccountResponse>.create { [weak self] event -> Disposable in
-            self?.service.getAccountDetails(accountId: accountID, response: { response -> (Void) in
-                switch response {
-                case .success(details: let details):
-                    event(.success(details))
-                case .failure(error: let error):
-                    event(.error(error.toStellarServiceError()))
-                }
-            })
-            return Disposables.create()
+        return service.flatMap(weak: self) { (self, service) -> Single<AccountResponse> in
+            return Single<AccountResponse>.create { event -> Disposable in
+                service.getAccountDetails(accountId: accountID, response: { response -> (Void) in
+                    switch response {
+                    case .success(details: let details):
+                        event(.success(details))
+                    case .failure(error: let error):
+                        event(.error(error.toStellarServiceError()))
+                    }
+                })
+                return Disposables.create()
+            }
         }
     }
     
@@ -142,47 +154,46 @@ class StellarAccountService: StellarAccountAPI {
         sourceAccountResponse: AccountResponse,
         sourceKeyPair: StellarKit.StellarKeyPair
     ) -> Completable {
-        return Completable.create(subscribe: { [weak self] event -> Disposable in
-            guard let strongSelf = self else {
+        return configuration.flatMap(weak: self) { (self, configuration) -> Single<Void> in
+            return Single.create(subscribe: { event -> Disposable in
+                do {
+                    // Build operation
+                    let source = try KeyPair(secretSeed: sourceKeyPair.secret)
+                    let destination = try KeyPair(accountId: accountID)
+                    let createAccount = CreateAccountOperation(
+                        sourceAccount: nil,
+                        destination: destination,
+                        startBalance: amount
+                    )
+
+                    // Build the transaction
+                    let transaction = try StellarTransaction(
+                        sourceAccount: sourceAccountResponse,
+                        operations: [createAccount],
+                        memo: Memo.none,
+                        timeBounds: nil
+                    )
+
+                    // Sign the transaction
+                    try transaction.sign(keyPair: source, network: configuration.network)
+    
+                    // Submit the transaction
+                    try configuration.sdk.transactions
+                        .submitTransaction(transaction: transaction, response: { response -> (Void) in
+                            switch response {
+                            case .success(details: _):
+                                event(.success(()))
+                            case .failure(let error):
+                                event(.error(error))
+                            }
+                        })
+                } catch {
+                    event(.error(error))
+                }
                 return Disposables.create()
-            }
-
-            do {
-                // Build operation
-                let source = try KeyPair(secretSeed: sourceKeyPair.secret)
-                let destination = try KeyPair(accountId: accountID)
-                let createAccount = CreateAccountOperation(
-                    sourceAccount: nil,
-                    destination: destination,
-                    startBalance: amount
-                )
-
-                // Build the transaction
-                let transaction = try StellarTransaction(
-                    sourceAccount: sourceAccountResponse,
-                    operations: [createAccount],
-                    memo: Memo.none,
-                    timeBounds: nil
-                )
-
-                // Sign the transaction
-                try transaction.sign(keyPair: source, network: strongSelf.configuration.network)
-
-                // Submit the transaction
-                try strongSelf.configuration.sdk.transactions
-                    .submitTransaction(transaction: transaction, response: { response -> (Void) in
-                        switch response {
-                        case .success(details: _):
-                            event(.completed)
-                        case .failure(let error):
-                            event(.error(error))
-                        }
-                    })
-            } catch {
-                event(.error(error))
-            }
-            return Disposables.create()
-        })
+            })
+        }
+        .asCompletable()
     }
 
     func validate(accountID: AccountID) -> Single<Bool> {

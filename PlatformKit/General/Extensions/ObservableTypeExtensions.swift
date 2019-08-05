@@ -6,8 +6,30 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
 import RxSwift
+
+public protocol OptionalType {
+    associatedtype Wrapped
+    
+    var value: Wrapped? { get }
+}
+
+extension Optional: OptionalType {
+    public var value: Wrapped? {
+        return self
+    }
+}
+
+extension ObservableType where Element: OptionalType {
+    func onNil(error: Error) -> Observable<Element.Wrapped> {
+        return flatMap { element -> Observable<Element.Wrapped> in
+            guard let value = element.value else {
+                return Observable<Element.Wrapped>.error(error)
+            }
+            return Observable<Element.Wrapped>.just(value)
+        }
+    }
+}
 
 extension ObservableType {
     public func flatMap<A: AnyObject, R>(weak object: A, selector: @escaping (A, Self.Element) throws -> Observable<R>) -> Observable<R> {

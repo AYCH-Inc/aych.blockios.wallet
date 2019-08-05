@@ -12,11 +12,11 @@ import PlatformKit
 import StellarKit
 
 class SendXLMCoordinator {
-    fileprivate let serviceProvider: XLMServiceProvider
+    fileprivate let serviceProvider: StellarServiceProvider
     fileprivate let interface: SendXLMInterface
     fileprivate let modelInterface: SendXLMModelInterface
     fileprivate let disposables = CompositeDisposable()
-    fileprivate var services: XLMServices {
+    fileprivate var services: StellarServices {
         return serviceProvider.services
     }
     
@@ -32,7 +32,7 @@ class SendXLMCoordinator {
     private let bag = DisposeBag()
     
     init(
-        serviceProvider: XLMServiceProvider,
+        serviceProvider: StellarServiceProvider,
         interface: SendXLMInterface,
         modelInterface: SendXLMModelInterface,
         pitAddressFetcher: PitAddressFetching = PitAddressFetcher()

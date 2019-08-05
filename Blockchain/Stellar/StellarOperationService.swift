@@ -32,16 +32,8 @@ class StellarOperationService: StellarOperationsAPI {
     
     fileprivate let disposables = CompositeDisposable()
     fileprivate var stream: OperationsStreamItem?
-    fileprivate let configuration: StellarConfiguration
-    fileprivate let repository: StellarWalletAccountRepository
     
-    lazy var operationsService: stellarsdk.OperationsService = {
-        configuration.sdk.operations
-    }()
-    
-    lazy var transactionsService: stellarsdk.TransactionsService = {
-        configuration.sdk.transactions
-    }()
+    fileprivate let repository: StellarWalletAccountRepositoryAPI
     
     var operations: Observable<[StellarOperation]> {
         /// We aren't streaming until we have a StellarAccountID.
@@ -66,11 +58,31 @@ class StellarOperationService: StellarOperationsAPI {
     
     private var privateReplayedOperations: ReplaySubject<[StellarOperation]> = ReplaySubject<[StellarOperation]>.createUnbounded()
 
+    private let configurationService: StellarConfigurationAPI
+    
+    private var configuration: Single<StellarConfiguration> {
+        return configurationService.configuration
+    }
+    
+    var sdk: Single<stellarsdk.StellarSDK> {
+        return configuration.map { $0.sdk }
+    }
+    
+    var operationsService: Single<stellarsdk.OperationsService> {
+        return sdk.map { $0.operations }
+    }
+    
+    var transactionsService: Single<stellarsdk.TransactionsService> {
+        return sdk.map { $0.transactions }
+    }
+    
+    private let bag = DisposeBag()
+    
     init(
-        configuration: StellarConfiguration = .production,
-        repository: StellarWalletAccountRepository
+        configurationService: StellarConfigurationAPI = StellarConfigurationService.shared,
+        repository: StellarWalletAccountRepositoryAPI
     ) {
-        self.configuration = configuration
+        self.configurationService = configurationService
         self.repository = repository
     }
     
@@ -184,9 +196,9 @@ class StellarOperationService: StellarOperationsAPI {
             })
     }
     
-    private func getTransactionDetails(for operation: OperationResponse, accountID: AccountID) -> Observable<StellarOperation> {
+    private func getTransactionDetails(for operation: OperationResponse, accountID: AccountID, transactionsService: stellarsdk.TransactionsService) -> Observable<StellarOperation> {
         return Observable<TransactionResponse>.create { observer -> Disposable in
-            self.transactionsService.getTransactionDetails(transactionHash: operation.transactionHash, response: { response in
+            transactionsService.getTransactionDetails(transactionHash: operation.transactionHash, response: { response in
                 switch response {
                 case .success(let payload):
                     observer.onNext(payload)
@@ -203,16 +215,23 @@ class StellarOperationService: StellarOperationsAPI {
         }
     }
     
-    private func fetchOperations(from accountID: AccountID, token: PageToken?) -> Observable<StellarPageReponse<OperationResponse>> {
+    private func getTransactionDetails(for operation: OperationResponse, accountID: AccountID) -> Observable<StellarOperation> {
+        return transactionsService
+            .flatMap(weak: self) { (self, transactionsService) -> Single<StellarOperation> in
+                return self.getTransactionDetails(for: operation, accountID: accountID, transactionsService: transactionsService).asSingle()
+            }
+            .asObservable()
+    }
+    
+    private func fetchOperations(from accountID: AccountID, token: PageToken?, operationsService: stellarsdk.OperationsService) -> Observable<StellarPageReponse<OperationResponse>> {
         return Observable<StellarPageReponse<OperationResponse>>.create { [weak self] observer -> Disposable in
-            guard let this = self else { return Disposables.create() }
-            
-            this.operationsService.getOperations(forAccount: accountID, from: token, order: .descending, limit: 200, response: { response in
+            guard let self = self else { return Disposables.create() }
+            operationsService.getOperations(forAccount: accountID, from: token, order: .descending, limit: 200, response: { response in
                 switch response {
                 case .success(let payload):
                     let hasNextPage = (payload.hasNextPage() && payload.records.count > 0)
-                    
-                    let filtered = this.filter(operations: payload.records)
+
+                    let filtered = self.filter(operations: payload.records)
                     let response = StellarPageReponse<OperationResponse>(
                         hasNextPage: hasNextPage,
                         items: filtered
@@ -227,6 +246,14 @@ class StellarOperationService: StellarOperationsAPI {
         }
     }
     
+    private func fetchOperations(from accountID: AccountID, token: PageToken?) -> Observable<StellarPageReponse<OperationResponse>> {
+        return operationsService
+            .flatMap(weak: self) { (self, operationsService) -> Single<StellarPageReponse<OperationResponse>> in
+                return self.fetchOperations(from: accountID, token: token, operationsService: operationsService).asSingle()
+            }
+            .asObservable()
+    }
+    
     private func stream(cursor: String? = nil) {
         guard let account = repository.defaultAccount else {
             privateReplayedOperations.onError(StellarServiceError.noXLMAccount)
@@ -236,33 +263,41 @@ class StellarOperationService: StellarOperationsAPI {
         
         let accountID = account.publicKey
         
-        stream = operationsService.stream(
-            for: .operationsForAccount(
-                account: accountID,
-                cursor: cursor
-            )
-        )
-        stream?.onReceive(response: { [weak self] response in
-            guard let this = self else { return }
-            switch response {
-            case .open:
-                break
-            case .response(_, let payload):
-                let filtered = this.filter(operations: [payload])
-                let disposable = Observable.from(filtered)
-                    .flatMapLatest { operationResponse -> Observable<StellarOperation> in
-                        return this.getTransactionDetails(for: operationResponse, accountID: accountID)
-                    }
-                    .toArray()
-                    .subscribe(onSuccess: { result in
-                        this.privateReplayedOperations.onNext(result)
-                    })
-                this.disposables.insertWithDiscardableResult(disposable)
-            case .error(let error):
-                Logger.shared.error(
-                    "Horizon Error: \(String(describing: error?.localizedDescription))"
+        operationsService
+            .subscribe(onSuccess: { [weak self] operationsService in
+                self?.stream = operationsService.stream(
+                    for: .operationsForAccount(
+                        account: accountID,
+                        cursor: cursor
+                    )
                 )
-            }
-        })
+                self?.stream?.onReceive(response: { [weak self] response in
+                    guard let this = self else { return }
+                    switch response {
+                    case .open:
+                        break
+                    case .response(_, let payload):
+                        let filtered = this.filter(operations: [payload])
+                        let disposable = Observable.from(filtered)
+                            .flatMapLatest { operationResponse -> Observable<StellarOperation> in
+                                return this.getTransactionDetails(for: operationResponse, accountID: accountID)
+                            }
+                            .toArray()
+                            .subscribe(onSuccess: { result in
+                                this.privateReplayedOperations.onNext(result)
+                            })
+                        this.disposables.insertWithDiscardableResult(disposable)
+                    case .error(let error):
+                        Logger.shared.error(
+                            "Horizon Error: \(String(describing: error?.localizedDescription))"
+                        )
+                    }
+                })
+            }, onError: { error in
+                Logger.shared.error(
+                    "Error: \(String(describing: error.localizedDescription))"
+                )
+            })
+            .disposed(by: bag)
     }
 }

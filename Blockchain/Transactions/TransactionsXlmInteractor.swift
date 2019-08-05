@@ -10,7 +10,7 @@ import Foundation
 
 class TransactionsXlmInteractor: SimpleListInteractor {
 
-    init(with provider: XLMServiceProvider = XLMServiceProvider.shared) {
+    init(with provider: StellarServiceProvider = StellarServiceProvider.shared) {
         super.init()
         service = StellarTransactionServiceAPI(provider: provider)
     }

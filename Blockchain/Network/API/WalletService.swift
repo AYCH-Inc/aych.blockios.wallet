@@ -29,7 +29,7 @@ import PlatformKit
 
     // MARK: - Private Properties
 
-    private var cachedWalletOptions = Variable<WalletOptions?>(nil)
+    private(set) var cachedWalletOptions = Variable<WalletOptions?>(nil)
 
     private var networkFetchedWalletOptions: Single<WalletOptions> {
         return networkManager.requestJsonOrString(

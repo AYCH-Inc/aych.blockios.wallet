@@ -29,7 +29,7 @@ class AssetAccountRepository: AssetAccountRepositoryAPI {
     static let shared = AssetAccountRepository()
 
     private let wallet: Wallet
-    private let xlmServiceProvider: XLMServiceProvider
+    private let stellarServiceProvider: StellarServiceProvider
     private let paxAccountRepository: ERC20AssetAccountRepository<PaxToken>
     private let ethereumAccountRepository: EthereumAssetAccountRepository
     private let ethereumWalletService: EthereumWalletServiceAPI
@@ -39,15 +39,15 @@ class AssetAccountRepository: AssetAccountRepositoryAPI {
 
     init(
         wallet: Wallet = WalletManager.shared.wallet,
-        xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared,
+        stellarServiceProvider: StellarServiceProvider = StellarServiceProvider.shared,
         paxServiceProvider: PAXServiceProvider = PAXServiceProvider.shared,
         ethereumServiceProvider: ETHServiceProvider = ETHServiceProvider.shared
     ) {
         self.wallet = wallet
         self.paxAccountRepository = paxServiceProvider.services.assetAccountRepository
         self.ethereumWalletService = paxServiceProvider.services.walletService
-        self.xlmServiceProvider = xlmServiceProvider
-        self.stellarAccountService = xlmServiceProvider.services.accounts
+        self.stellarServiceProvider = stellarServiceProvider
+        self.stellarAccountService = stellarServiceProvider.services.accounts
         self.ethereumAccountRepository = ethereumServiceProvider.services.assetAccountRepository
     }
 

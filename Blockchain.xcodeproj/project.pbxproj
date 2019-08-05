@@ -65,11 +65,14 @@
 		23FDEF9A1D6CBC7000FC80D6 /* TransactionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEF991D6CBC7000FC80D6 /* TransactionDetailViewController.m */; };
 		23FDEFA91D6E43DE00FC80D6 /* TransactionDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEFA81D6E43DE00FC80D6 /* TransactionDetailTableCell.m */; };
 		23FDEFAC1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEFAB1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m */; };
+		34147CBD22BD15CB006B7C5B /* StellarConfigurationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34147CBC22BD15CB006B7C5B /* StellarConfigurationService.swift */; };
 		341E5A612284354B007BE6A6 /* MockEthereumWalletTestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341E5A602284354B007BE6A6 /* MockEthereumWalletTestData.swift */; };
 		341E5A6E2284365F007BE6A6 /* EthereumWalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341E5A6D2284365F007BE6A6 /* EthereumWalletService.swift */; };
 		341E5A702284A58E007BE6A6 /* PlatformKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341E5A6F2284A58E007BE6A6 /* PlatformKitError.swift */; };
 		341E5A722284A707007BE6A6 /* ObservableTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341E5A712284A707007BE6A6 /* ObservableTypeExtensions.swift */; };
 		341E5A752284BCB8007BE6A6 /* EthereumKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341E5A742284BCB8007BE6A6 /* EthereumKitError.swift */; };
+		34219CE022F211B400F0AB71 /* StellarConfigurationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34147CBC22BD15CB006B7C5B /* StellarConfigurationService.swift */; };
+		34219CFA22F32ADD00F0AB71 /* MaybeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34219CF922F32ADD00F0AB71 /* MaybeExtensions.swift */; };
 		3422FF86226F4B8B005FBB2E /* EthereumTransactionSignerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3422FF85226F4B8A005FBB2E /* EthereumTransactionSignerTests.swift */; };
 		3422FF91226F6A50005FBB2E /* EthereumTransactionSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3422FF90226F6A50005FBB2E /* EthereumTransactionSigner.swift */; };
 		3426B15722551D42001831CF /* EthereumKeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426B15622551D42001831CF /* EthereumKeyPair.swift */; };
@@ -324,7 +327,7 @@
 		3A373C8F218BB56200DDFAFD /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511646E1208523E300C43522 /* UIDevice.swift */; };
 		3A390748217E52AB00D2DA01 /* StellarLedgerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A390747217E52AB00D2DA01 /* StellarLedgerService.swift */; };
 		3A390749217E52AB00D2DA01 /* StellarLedgerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A390747217E52AB00D2DA01 /* StellarLedgerService.swift */; };
-		3A390750217E7D5A00D2DA01 /* XLMServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A39074F217E7D5A00D2DA01 /* XLMServiceProvider.swift */; };
+		3A390750217E7D5A00D2DA01 /* StellarServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A39074F217E7D5A00D2DA01 /* StellarServiceProvider.swift */; };
 		3A390754217E7F6E00D2DA01 /* SendXLMInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A390753217E7F6E00D2DA01 /* SendXLMInterface.swift */; };
 		3A390755217E7F6E00D2DA01 /* SendXLMInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A390753217E7F6E00D2DA01 /* SendXLMInterface.swift */; };
 		3A3C7D2F217F9D610067F442 /* StellarLedgerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3C7D2E217F9D610067F442 /* StellarLedgerAPI.swift */; };
@@ -334,7 +337,7 @@
 		3A3C7D532180E5D50067F442 /* SendXLMCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3C7D522180E5D50067F442 /* SendXLMCoordinator.swift */; };
 		3A3C7D542180E5D50067F442 /* SendXLMCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3C7D522180E5D50067F442 /* SendXLMCoordinator.swift */; };
 		3A3C7D622180F6920067F442 /* StellarAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB12176637D00044302 /* StellarAccountService.swift */; };
-		3A3C7D632180F6980067F442 /* XLMServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A39074F217E7D5A00D2DA01 /* XLMServiceProvider.swift */; };
+		3A3C7D632180F6980067F442 /* StellarServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A39074F217E7D5A00D2DA01 /* StellarServiceProvider.swift */; };
 		3A3C7D75218126F40067F442 /* ActionableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3C7D74218126F40067F442 /* ActionableLabel.swift */; };
 		3A3C7D76218126F40067F442 /* ActionableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3C7D74218126F40067F442 /* ActionableLabel.swift */; };
 		3A3C7D7821812A6B0067F442 /* ActionableTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3C7D7721812A6B0067F442 /* ActionableTrigger.swift */; };
@@ -426,8 +429,6 @@
 		3A56AEAF2176620400044302 /* StellarTransactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEAE2176620400044302 /* StellarTransactionService.swift */; };
 		3A56AEB02176620400044302 /* StellarTransactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEAE2176620400044302 /* StellarTransactionService.swift */; };
 		3A56AEB22176637D00044302 /* StellarAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB12176637D00044302 /* StellarAccountService.swift */; };
-		3A56AEB621766A0000044302 /* StellarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB521766A0000044302 /* StellarConfiguration.swift */; };
-		3A56AEB721766A0000044302 /* StellarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB521766A0000044302 /* StellarConfiguration.swift */; };
 		3A56AEB921766D4800044302 /* StellarAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB821766D4800044302 /* StellarAccount.swift */; };
 		3A56AEBA21766D4800044302 /* StellarAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A56AEB821766D4800044302 /* StellarAccount.swift */; };
 		3A5AF01122D52865007C5717 /* EmailVerifierAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5AF01022D52865007C5717 /* EmailVerifierAPI.swift */; };
@@ -716,6 +717,7 @@
 		3AFD18AF21221D95007145EA /* KYCPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD18AE21221D95007145EA /* KYCPageModel.swift */; };
 		3AFDD8B32200D64300CA7A21 /* PermissionsRequestor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFDD8B22200D64300CA7A21 /* PermissionsRequestor.swift */; };
 		3AFDD8B42200D64300CA7A21 /* PermissionsRequestor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFDD8B22200D64300CA7A21 /* PermissionsRequestor.swift */; };
+		3F0FA41B2B94827133C543D1 /* Pods_Blockchain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5910C715A41F228484588504 /* Pods_Blockchain.framework */; };
 		51058EFE212F327E00AD8719 /* KYCApplicationCompleteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51058EFD212F327E00AD8719 /* KYCApplicationCompleteController.swift */; };
 		51058EFF212F327E00AD8719 /* KYCApplicationCompleteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51058EFD212F327E00AD8719 /* KYCApplicationCompleteController.swift */; };
 		51058F0B212F50C400AD8719 /* KYCApplicationCompleteController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51058F0D212F50C400AD8719 /* KYCApplicationCompleteController.storyboard */; };
@@ -844,7 +846,8 @@
 		51FC1B0921270DBC007BEB18 /* SettingsTableSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FC1B0821270DBC007BEB18 /* SettingsTableSectionHeader.swift */; };
 		51FC1B0A21270DBC007BEB18 /* SettingsTableSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FC1B0821270DBC007BEB18 /* SettingsTableSectionHeader.swift */; };
 		51FC1B112127473D007BEB18 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055D371210F692D000B8E95 /* UIView.swift */; };
-		598A586189E8E753E4E4B7AB /* Pods_Blockchain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB385995FFE5FC056997CA7 /* Pods_Blockchain.framework */; };
+		53C6743CBA54BF4B99CE5001 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		56DDA46D9DDFE3CF3AB8AB9C /* Pods_EthereumKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B284CB639C8F1CCA324774DD /* Pods_EthereumKit.framework */; };
 		600E18BB2118D46B003C1846 /* KeyboardPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */; };
 		602B9CD72118E15300BD3D60 /* KYCInformationController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 602B9CA82118E15200BD3D60 /* KYCInformationController.storyboard */; };
 		602B9CD82118E15300BD3D60 /* KYCOnboardingNavigationController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 602B9CA92118E15200BD3D60 /* KYCOnboardingNavigationController.storyboard */; };
@@ -1155,6 +1158,7 @@
 		6710DA0E1A8E82D80089DDED /* BCLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6710DA0D1A8E82D80089DDED /* BCLine.m */; };
 		674709EC19D1D14300757D46 /* BCWelcomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 674709EB19D1D14300757D46 /* BCWelcomeView.m */; };
 		67470A0819D43AFE00757D46 /* BCManualPairView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67470A0719D43AFE00757D46 /* BCManualPairView.m */; };
+		675CDEEDE70A0D8408EDE7C3 /* Pods_PlatformUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80F301F7D295AE3E8B0093A9 /* Pods_PlatformUIKit.framework */; };
 		6762507D1A2CC5800052B63F /* BCEditAccountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6762507C1A2CC5800052B63F /* BCEditAccountView.m */; };
 		676250821A2DDF360052B63F /* AccountTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 676250811A2DDF360052B63F /* AccountTableCell.m */; };
 		6775569919E752A00054699B /* BCWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6775569819E752A00054699B /* BCWebViewController.m */; };
@@ -1808,7 +1812,6 @@
 		FA6323391A433B1C00EB3974 /* Foundation-Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6323381A433B1C00EB3974 /* Foundation-Utility.m */; };
 		FCB33B6F1FC369D700317E6B /* ExchangeDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB33B6E1FC369D700317E6B /* ExchangeDetailView.m */; };
 		FCB33B721FC36EA200317E6B /* ExchangeProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB33B711FC36EA200317E6B /* ExchangeProgressViewController.m */; };
-		FF44B1AF68A6DC2C40DB0A48 /* Pods_ERC20Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B111A4FD9935AF8C7514A9D4 /* Pods_ERC20Kit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2034,7 +2037,11 @@
 
 /* Begin PBXFileReference section */
 		05AC5D810B1036DBD8BCEEAC /* Pods-ERC20Kit.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20Kit.debug dev.xcconfig"; path = "Target Support Files/Pods-ERC20Kit/Pods-ERC20Kit.debug dev.xcconfig"; sourceTree = "<group>"; };
+		05CB250570596D6B5AE7499D /* Pods_StellarKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StellarKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0AB4E223F6BB3C2F3D95DC16 /* Pods_ERC20Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ERC20Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E4CAD4333246F70B2F73518 /* Pods-PlatformKit.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformKit.release staging.xcconfig"; path = "Target Support Files/Pods-PlatformKit/Pods-PlatformKit.release staging.xcconfig"; sourceTree = "<group>"; };
+		0F35C5278EAAD50879EEC46C /* Pods_PlatformKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlatformKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F8E65B90505B4284D15CCD7 /* Pods_EthereumKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EthereumKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1095348367F4634026696CA7 /* Pods_EthereumKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EthereumKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13F87267D05D5B8AC0CCC961 /* Pods-PlatformKit.debug testnet.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformKit.debug testnet.xcconfig"; path = "Target Support Files/Pods-PlatformKit/Pods-PlatformKit.debug testnet.xcconfig"; sourceTree = "<group>"; };
 		15A79CDB7BCA04E4FD85D090 /* Pods-ERC20Kit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20Kit.release.xcconfig"; path = "Target Support Files/Pods-ERC20Kit/Pods-ERC20Kit.release.xcconfig"; sourceTree = "<group>"; };
@@ -2156,11 +2163,13 @@
 		23FDEFAA1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+SendSynchronousRequest.h"; sourceTree = "<group>"; };
 		23FDEFAB1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+SendSynchronousRequest.m"; sourceTree = "<group>"; };
 		2B8CD8FDE7A46EBA4B5BB5B8 /* Pods-StellarKitTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StellarKitTests.release staging.xcconfig"; path = "Target Support Files/Pods-StellarKitTests/Pods-StellarKitTests.release staging.xcconfig"; sourceTree = "<group>"; };
+		34147CBC22BD15CB006B7C5B /* StellarConfigurationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarConfigurationService.swift; sourceTree = "<group>"; };
 		341E5A602284354B007BE6A6 /* MockEthereumWalletTestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEthereumWalletTestData.swift; sourceTree = "<group>"; };
 		341E5A6D2284365F007BE6A6 /* EthereumWalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumWalletService.swift; sourceTree = "<group>"; };
 		341E5A6F2284A58E007BE6A6 /* PlatformKitError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformKitError.swift; sourceTree = "<group>"; };
 		341E5A712284A707007BE6A6 /* ObservableTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTypeExtensions.swift; sourceTree = "<group>"; };
 		341E5A742284BCB8007BE6A6 /* EthereumKitError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumKitError.swift; sourceTree = "<group>"; };
+		34219CF922F32ADD00F0AB71 /* MaybeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaybeExtensions.swift; sourceTree = "<group>"; };
 		3422FF85226F4B8A005FBB2E /* EthereumTransactionSignerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionSignerTests.swift; sourceTree = "<group>"; };
 		3422FF90226F6A50005FBB2E /* EthereumTransactionSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionSigner.swift; sourceTree = "<group>"; };
 		3422FFA0226F8063005FBB2E /* PaxComingSoonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaxComingSoonViewController.swift; sourceTree = "<group>"; };
@@ -2353,7 +2362,7 @@
 		3A35D7E722E23150000BC5FA /* Rx+BottomAlertSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+BottomAlertSheet.swift"; sourceTree = "<group>"; };
 		3A373C442188CBCE00DDFAFD /* StellarTransactionCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTransactionCaching.swift; sourceTree = "<group>"; };
 		3A390747217E52AB00D2DA01 /* StellarLedgerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarLedgerService.swift; sourceTree = "<group>"; };
-		3A39074F217E7D5A00D2DA01 /* XLMServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLMServiceProvider.swift; sourceTree = "<group>"; };
+		3A39074F217E7D5A00D2DA01 /* StellarServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarServiceProvider.swift; sourceTree = "<group>"; };
 		3A390753217E7F6E00D2DA01 /* SendXLMInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendXLMInterface.swift; sourceTree = "<group>"; };
 		3A3ADC927D5F15996BF05437 /* Pods-ERC20KitTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20KitTests.release staging.xcconfig"; path = "Target Support Files/Pods-ERC20KitTests/Pods-ERC20KitTests.release staging.xcconfig"; sourceTree = "<group>"; };
 		3A3C7D2E217F9D610067F442 /* StellarLedgerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarLedgerAPI.swift; sourceTree = "<group>"; };
@@ -2428,7 +2437,6 @@
 		3A56AEA921765C2100044302 /* StellarAccountAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAccountAPI.swift; sourceTree = "<group>"; };
 		3A56AEAE2176620400044302 /* StellarTransactionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTransactionService.swift; sourceTree = "<group>"; };
 		3A56AEB12176637D00044302 /* StellarAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAccountService.swift; sourceTree = "<group>"; };
-		3A56AEB521766A0000044302 /* StellarConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarConfiguration.swift; sourceTree = "<group>"; };
 		3A56AEB821766D4800044302 /* StellarAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAccount.swift; sourceTree = "<group>"; };
 		3A5AF01022D52865007C5717 /* EmailVerifierAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerifierAPI.swift; sourceTree = "<group>"; };
 		3A5AF01322D5354E007C5717 /* PitCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitCoordinator.swift; sourceTree = "<group>"; };
@@ -3391,6 +3399,8 @@
 		51FE911E213867FD00F49B12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/KYCAddressController.storyboard; sourceTree = "<group>"; };
 		557A5A806D65EED6F350911C /* Pods-ERC20Kit.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20Kit.debug production.xcconfig"; path = "Target Support Files/Pods-ERC20Kit/Pods-ERC20Kit.debug production.xcconfig"; sourceTree = "<group>"; };
 		588A6FF8F600C38427E67613 /* Pods-PlatformKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformKit.release.xcconfig"; path = "Target Support Files/Pods-PlatformKit/Pods-PlatformKit.release.xcconfig"; sourceTree = "<group>"; };
+		5910C715A41F228484588504 /* Pods_Blockchain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Blockchain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C040E5F5E50419EFB399643 /* Pods_BlockchainTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlockchainTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FA40257E482B850D8061476 /* Pods_StellarKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StellarKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		602B9CA82118E15200BD3D60 /* KYCInformationController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = KYCInformationController.storyboard; sourceTree = "<group>"; };
 		602B9CA92118E15200BD3D60 /* KYCOnboardingNavigationController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = KYCOnboardingNavigationController.storyboard; sourceTree = "<group>"; };
@@ -4452,6 +4462,7 @@
 		7A4E882D218B595C00CB798C /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		7ADD19D621874C220013A525 /* Firebase */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Firebase; sourceTree = "<group>"; };
 		7F28F0F2B25EE3B5D19EE6C4 /* Pods-PlatformUIKit.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformUIKit.debug dev.xcconfig"; path = "Target Support Files/Pods-PlatformUIKit/Pods-PlatformUIKit.debug dev.xcconfig"; sourceTree = "<group>"; };
+		80F301F7D295AE3E8B0093A9 /* Pods_PlatformUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlatformUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83BB77E7D58EED3024B6F9B4 /* Pods-StellarKit.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StellarKit.debug dev.xcconfig"; path = "Target Support Files/Pods-StellarKit/Pods-StellarKit.debug dev.xcconfig"; sourceTree = "<group>"; };
 		84B601C5197ACD6300DA1829 /* UITextField+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Blocks.h"; sourceTree = "<group>"; };
 		84B601C6197ACD6300DA1829 /* UITextField+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Blocks.m"; sourceTree = "<group>"; };
@@ -4692,6 +4703,7 @@
 		AAA3333C208813040019AD55 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		AAA3333E2088131D0019AD55 /* ModalPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalPresenter.swift; sourceTree = "<group>"; };
 		AAA341D72182448800E09561 /* StellarPaymentOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarPaymentOperation.swift; sourceTree = "<group>"; };
+		AAA3CBB5754F4764E1BF44E8 /* Pods_StellarKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StellarKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB43A882162C19C0015C863 /* Rx+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+Helpers.swift"; sourceTree = "<group>"; };
 		AAB759F72189586500A0AD11 /* StellarAirdropRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAirdropRegistrationService.swift; sourceTree = "<group>"; };
 		AAB759FA21895C6C00A0AD11 /* StellarAirdropRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAirdropRouterTests.swift; sourceTree = "<group>"; };
@@ -4764,13 +4776,14 @@
 		AD0C5C4C0E9B9F580B55D018 /* Pods-StellarKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StellarKitTests.release.xcconfig"; path = "Target Support Files/Pods-StellarKitTests/Pods-StellarKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		AF53BF6F6C5095CCBDC35189 /* Pods-ERC20KitTests.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20KitTests.debug dev.xcconfig"; path = "Target Support Files/Pods-ERC20KitTests/Pods-ERC20KitTests.debug dev.xcconfig"; sourceTree = "<group>"; };
 		AFB7B2A724E7F576C98A0EB0 /* Pods-BlockchainTests.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockchainTests.debug production.xcconfig"; path = "Target Support Files/Pods-BlockchainTests/Pods-BlockchainTests.debug production.xcconfig"; sourceTree = "<group>"; };
-		B111A4FD9935AF8C7514A9D4 /* Pods_ERC20Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ERC20Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B284CB639C8F1CCA324774DD /* Pods_EthereumKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EthereumKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C41FD31225FF2961FD6408 /* Pods_PlatformKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlatformKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69D8690389B20ECDC84116C /* Pods-Blockchain.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blockchain.release staging.xcconfig"; path = "Target Support Files/Pods-Blockchain/Pods-Blockchain.release staging.xcconfig"; sourceTree = "<group>"; };
 		BCD535DFE35CBE2109750F00 /* Pods-EthereumKitTests.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EthereumKitTests.debug staging.xcconfig"; path = "Target Support Files/Pods-EthereumKitTests/Pods-EthereumKitTests.debug staging.xcconfig"; sourceTree = "<group>"; };
 		BD6C86BC818E0ACEA2858A3E /* Pods_BlockchainTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlockchainTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE45DC6AE057880DAF609A36 /* Pods-ERC20KitTests.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20KitTests.debug staging.xcconfig"; path = "Target Support Files/Pods-ERC20KitTests/Pods-ERC20KitTests.debug staging.xcconfig"; sourceTree = "<group>"; };
 		C3930BFF0C2DDA02EC90C8FB /* Pods-EthereumKit.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EthereumKit.debug dev.xcconfig"; path = "Target Support Files/Pods-EthereumKit/Pods-EthereumKit.debug dev.xcconfig"; sourceTree = "<group>"; };
+		C573FC60F605FE363E8AEA7A /* Pods_PlatformKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlatformKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C702A7D9217E9BD200A8DED1 /* TransactionTableCell+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TransactionTableCell+ViewModel.swift"; sourceTree = "<group>"; };
 		C702A7E5217E9D0400A8DED1 /* TransactionDetailViewModel+XLM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TransactionDetailViewModel+XLM.swift"; sourceTree = "<group>"; };
 		C70576B1212CFFFC0027C6AA /* Nibable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nibable.swift; sourceTree = "<group>"; };
@@ -5028,12 +5041,12 @@
 		C7FF10DE2141A89500CBA3CB /* Fix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fix.swift; sourceTree = "<group>"; };
 		C7FF10E92141AAB300CBA3CB /* MarketsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsModel.swift; sourceTree = "<group>"; };
 		C9BE918B1945F5FC00FD516D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		CAB385995FFE5FC056997CA7 /* Pods_Blockchain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Blockchain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB8FB0C986C5EECBB08B2963 /* Pods-BlockchainTests.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockchainTests.debug staging.xcconfig"; path = "Target Support Files/Pods-BlockchainTests/Pods-BlockchainTests.debug staging.xcconfig"; sourceTree = "<group>"; };
 		CFA0671E1E65D426008456C1 /* WebLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebLoginViewController.m; sourceTree = "<group>"; };
 		CFA067201E65D49C008456C1 /* WebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebLoginViewController.h; sourceTree = "<group>"; };
 		CFD602B01E64AC2D006F6208 /* wallet-ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "wallet-ios.js"; sourceTree = "<group>"; };
 		D4165F0CFAEDF4699D9EA737 /* Pods-StellarKit.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StellarKit.release staging.xcconfig"; path = "Target Support Files/Pods-StellarKit/Pods-StellarKit.release staging.xcconfig"; sourceTree = "<group>"; };
+		D4EFDA057E12F015695676A3 /* Pods_ERC20KitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ERC20KitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D624C709319C6A2E96EC7CDD /* Pods-PlatformKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformKitTests.release.xcconfig"; path = "Target Support Files/Pods-PlatformKitTests/Pods-PlatformKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		D7779F796486059C19596F79 /* Pods-EthereumKit.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EthereumKit.release staging.xcconfig"; path = "Target Support Files/Pods-EthereumKit/Pods-EthereumKit.release staging.xcconfig"; sourceTree = "<group>"; };
 		D9A13234022A36AD0C87F390 /* Pods-PlatformUIKit.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformUIKit.debug production.xcconfig"; path = "Target Support Files/Pods-PlatformUIKit/Pods-PlatformUIKit.debug production.xcconfig"; sourceTree = "<group>"; };
@@ -5072,7 +5085,7 @@
 			files = (
 				34EDB84B226106BE009521D9 /* EthereumKit.framework in Frameworks */,
 				34EDB84A226106B6009521D9 /* PlatformKit.framework in Frameworks */,
-				FF44B1AF68A6DC2C40DB0A48 /* Pods_ERC20Kit.framework in Frameworks */,
+				53C6743CBA54BF4B99CE5001 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5124,6 +5137,7 @@
 			files = (
 				3A6865BA219A11700009FF29 /* PlatformKit.framework in Frameworks */,
 				D089E710249F9B0D82B91439 /* Pods_PlatformUIKit.framework in Frameworks */,
+				675CDEEDE70A0D8408EDE7C3 /* Pods_PlatformUIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5151,6 +5165,7 @@
 			files = (
 				3A64A51E21B9C150002D6851 /* PlatformKit.framework in Frameworks */,
 				C4DD0761EE5A1675996AC427 /* Pods_EthereumKit.framework in Frameworks */,
+				56DDA46D9DDFE3CF3AB8AB9C /* Pods_EthereumKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5184,7 +5199,7 @@
 				515315F32056C1A0000161DF /* libcrypto.a in Frameworks */,
 				515315F12056C0EE000161DF /* libicucore.tbd in Frameworks */,
 				3A6865B2219A11660009FF29 /* PlatformUIKit.framework in Frameworks */,
-				598A586189E8E753E4E4B7AB /* Pods_Blockchain.framework in Frameworks */,
+				3F0FA41B2B94827133C543D1 /* Pods_Blockchain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6269,6 +6284,7 @@
 				AA7F866B2200CA6900498D3E /* Locale+Conveniences.swift */,
 				3A1FD14B224049CE00E613E8 /* NotificationCenter+Conveniences.swift */,
 				34E1C1E322244A17006E70D3 /* SingleExtensions.swift */,
+				34219CF922F32ADD00F0AB71 /* MaybeExtensions.swift */,
 				341E5A712284A707007BE6A6 /* ObservableTypeExtensions.swift */,
 				34BFDF552271F4FD008160CD /* NewResultExtensions.swift */,
 				3AE6AF9B228F647800BF8F56 /* URL+Conveniences.swift */,
@@ -6411,7 +6427,8 @@
 				3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */,
 				AA755EF82188EDBB00FC4894 /* StellarTradeLimitsService.swift */,
 				3A56AEAE2176620400044302 /* StellarTransactionService.swift */,
-				3A39074F217E7D5A00D2DA01 /* XLMServiceProvider.swift */,
+				34147CBC22BD15CB006B7C5B /* StellarConfigurationService.swift */,
+				3A39074F217E7D5A00D2DA01 /* StellarServiceProvider.swift */,
 				AA755F232189361A00FC4894 /* Airdrop */,
 				3A56AEAD217661ED00044302 /* API */,
 				3A56AEB42176695700044302 /* Models */,
@@ -6438,7 +6455,6 @@
 			isa = PBXGroup;
 			children = (
 				3A56AEB821766D4800044302 /* StellarAccount.swift */,
-				3A56AEB521766A0000044302 /* StellarConfiguration.swift */,
 				3A3C7D3A217F9ED50067F442 /* StellarLedger.swift */,
 				3A9A026E2178E19400E2848E /* StellarOperation.swift */,
 				AAA341D72182448800E09561 /* StellarPaymentOperation.swift */,
@@ -6819,6 +6835,15 @@
 			isa = PBXGroup;
 			children = (
 				3A69706C221CB527005FBAC2 /* ExchangeServices.swift */,
+				BD6C86BC818E0ACEA2858A3E /* Pods_BlockchainTests.framework */,
+				B5C41FD31225FF2961FD6408 /* Pods_PlatformKit.framework */,
+				DB974E96B5F167A651723968 /* Pods_PlatformKitTests.framework */,
+				F503E7D969AA73BF1C296A03 /* Pods_PlatformUIKit.framework */,
+				5FA40257E482B850D8061476 /* Pods_StellarKit.framework */,
+				94B304C0C96EA6B0670B401F /* Pods_StellarKitTests.framework */,
+				1095348367F4634026696CA7 /* Pods_EthereumKit.framework */,
+				E13B8570A1E7BB78B2054842 /* Pods_EthereumKitTests.framework */,
+				9DE77596E6DCCE1FC297FBBF /* Pods_ERC20KitTests.framework */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -10083,17 +10108,17 @@
 				3AEF9E8B21091B71006B1CF9 /* MapKit.framework */,
 				515315F22056C1A0000161DF /* libcrypto.a */,
 				23C543A21D0F4197007A5F58 /* libicucore.tbd */,
-				CAB385995FFE5FC056997CA7 /* Pods_Blockchain.framework */,
-				BD6C86BC818E0ACEA2858A3E /* Pods_BlockchainTests.framework */,
-				B111A4FD9935AF8C7514A9D4 /* Pods_ERC20Kit.framework */,
-				9DE77596E6DCCE1FC297FBBF /* Pods_ERC20KitTests.framework */,
-				1095348367F4634026696CA7 /* Pods_EthereumKit.framework */,
-				E13B8570A1E7BB78B2054842 /* Pods_EthereumKitTests.framework */,
-				B5C41FD31225FF2961FD6408 /* Pods_PlatformKit.framework */,
-				DB974E96B5F167A651723968 /* Pods_PlatformKitTests.framework */,
-				F503E7D969AA73BF1C296A03 /* Pods_PlatformUIKit.framework */,
-				5FA40257E482B850D8061476 /* Pods_StellarKit.framework */,
-				94B304C0C96EA6B0670B401F /* Pods_StellarKitTests.framework */,
+				5910C715A41F228484588504 /* Pods_Blockchain.framework */,
+				5C040E5F5E50419EFB399643 /* Pods_BlockchainTests.framework */,
+				0AB4E223F6BB3C2F3D95DC16 /* Pods_ERC20Kit.framework */,
+				D4EFDA057E12F015695676A3 /* Pods_ERC20KitTests.framework */,
+				B284CB639C8F1CCA324774DD /* Pods_EthereumKit.framework */,
+				0F8E65B90505B4284D15CCD7 /* Pods_EthereumKitTests.framework */,
+				0F35C5278EAAD50879EEC46C /* Pods_PlatformKit.framework */,
+				C573FC60F605FE363E8AEA7A /* Pods_PlatformKitTests.framework */,
+				80F301F7D295AE3E8B0093A9 /* Pods_PlatformUIKit.framework */,
+				AAA3CBB5754F4764E1BF44E8 /* Pods_StellarKit.framework */,
+				05CB250570596D6B5AE7499D /* Pods_StellarKitTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -12974,6 +12999,7 @@
 				3A4E480D21BB37AF001A799D /* String+Conveniences.swift in Sources */,
 				3AE6AF7D228F41D100BF8F56 /* HttpMethod.swift in Sources */,
 				3AE6AF9C228F647800BF8F56 /* URL+Conveniences.swift in Sources */,
+				34219CFA22F32ADD00F0AB71 /* MaybeExtensions.swift in Sources */,
 				3AADB2ED21B0703B00FD2974 /* AssetAccountDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -13484,7 +13510,7 @@
 				3A91F7972137067400CDC3FD /* Order.swift in Sources */,
 				C711352421C19D7A00F70AF0 /* KYCTierState.swift in Sources */,
 				AA1E523E2097E6AC0099BD10 /* PinStoreResponse.swift in Sources */,
-				3A3C7D632180F6980067F442 /* XLMServiceProvider.swift in Sources */,
+				3A3C7D632180F6980067F442 /* StellarServiceProvider.swift in Sources */,
 				AA035C982176A53900731CD5 /* ArraysTests.swift in Sources */,
 				AACE31C92092A99B00B7B806 /* AlertViewPresenter.swift in Sources */,
 				51F504C6216E71C400E1FE0C /* LockboxViewController.swift in Sources */,
@@ -13564,6 +13590,7 @@
 				C74FEA2620979259007CAB5D /* JSContextWithDOMTests.swift in Sources */,
 				6564E5B022C241AB0057108B /* MockAuthenticationManager.swift in Sources */,
 				652ABFB222EB537200D5F846 /* AnnouncementSequenceTests.swift in Sources */,
+				34219CE022F211B400F0AB71 /* StellarConfigurationService.swift in Sources */,
 				AA2F122C2140A92E006B1FC1 /* JSContext+HelpersTests.swift in Sources */,
 				3AE74B4821C04C5800246A9C /* KYCTiersViewController.swift in Sources */,
 				650999B922E5C44F0092BFB9 /* PitAddressFetching.swift in Sources */,
@@ -13679,7 +13706,6 @@
 				3AE74B5021C04E9400246A9C /* KYCTiersHeaderViewModel.swift in Sources */,
 				602B9D1A2118E26300BD3D60 /* LocationSuggestion.swift in Sources */,
 				AA93415021A32D7800248E75 /* WalletActionSubscriber.swift in Sources */,
-				3A56AEB721766A0000044302 /* StellarConfiguration.swift in Sources */,
 				65550E7822BE671F00522656 /* SecurePinViewModel.swift in Sources */,
 				3A331E6022148D5E00ECA937 /* ExchangeHeaderView.swift in Sources */,
 				3A01911F212DF0B700AED2BF /* AsyncOperation.swift in Sources */,
@@ -14050,7 +14076,6 @@
 				FA6323391A433B1C00EB3974 /* Foundation-Utility.m in Sources */,
 				AA9B30D120F6D85000A7F809 /* WalletUpgradeDelegate.swift in Sources */,
 				C7E1A2E8210A45B30072DDA0 /* ExchangeCoordinator.swift in Sources */,
-				3A56AEB621766A0000044302 /* StellarConfiguration.swift in Sources */,
 				23BF73391C454B8C00204503 /* AccountsAndAddressesNavigationController.m in Sources */,
 				AAB759F82189586500A0AD11 /* StellarAirdropRegistrationService.swift in Sources */,
 				51A862D520921A6E00B338E0 /* BlockchainAPI+URLSuffix.swift in Sources */,
@@ -14349,7 +14374,7 @@
 				C7E2750E1F59C2D50054EFA5 /* UILabel+Animations.m in Sources */,
 				65550E7722BE671F00522656 /* SecurePinViewModel.swift in Sources */,
 				3A8B229D211E2A960091E706 /* NabuUser.swift in Sources */,
-				3A390750217E7D5A00D2DA01 /* XLMServiceProvider.swift in Sources */,
+				3A390750217E7D5A00D2DA01 /* StellarServiceProvider.swift in Sources */,
 				C7A85980217A5BAE00502935 /* StellarTransactionServiceAPI.swift in Sources */,
 				C7A8597C217A586900502935 /* SimpleListServiceAPI.swift in Sources */,
 				65F5E71122C3864100D00F50 /* AddressInteracting.swift in Sources */,
@@ -14503,6 +14528,7 @@
 				AAB43A892162C19C0015C863 /* Rx+Helpers.swift in Sources */,
 				3AEE969B221DDFD700F8B5D5 /* DashboardContainerViewController.swift in Sources */,
 				650999BF22E5CBB20092BFB9 /* BridgeAddressFetcher.swift in Sources */,
+				34147CBD22BD15CB006B7C5B /* StellarConfigurationService.swift in Sources */,
 				AAB75A15218A733200A0AD11 /* CardsViewController+KYC.swift in Sources */,
 				65F5E70A22C384E700D00F50 /* AddressInteractor.swift in Sources */,
 			);

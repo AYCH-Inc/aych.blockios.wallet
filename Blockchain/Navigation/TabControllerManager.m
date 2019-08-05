@@ -236,7 +236,7 @@
         }
         case LegacyAssetTypeStellar: {
             if (!_sendLumensViewController) {
-                _sendLumensViewController = [SendLumensViewController makeWith:XLMServiceProvider.sharedInstance];
+                _sendLumensViewController = [SendLumensViewController makeWith:StellarServiceProvider.sharedInstance];
             }
             
             [_tabViewController setActiveViewController:_sendLumensViewController animated:animated index:tabIndex];
@@ -382,7 +382,7 @@
     if (notice &&
         self.tabViewController.selectedIndex == [ConstantsObjcBridge tabSend] &&
         !LoadingViewPresenter.sharedInstance.isVisible &&
-        AuthenticationCoordinator.shared.isDisplayingLoginAuthenticationFlow &&
+        AuthenticationCoordinator.sharedInstance.isDisplayingLoginAuthenticationFlow &&
         !self.tabViewController.presentedViewController) {
         [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:notice title:[LocalizationConstantsObjcBridge information] in:self handler: nil];
     }
@@ -597,7 +597,7 @@
         }
         case LegacyAssetTypeStellar: {
             if (!_transactionsStellarViewController) {
-                _transactionsStellarViewController = [TransactionsXlmViewController makeWith:XLMServiceProvider.sharedInstance];
+                _transactionsStellarViewController = [TransactionsXlmViewController makeWith:StellarServiceProvider.sharedInstance];
             }
             [_transactionsStellarViewController reload];
             [_tabViewController setActiveViewController:_transactionsStellarViewController animated:animated index:tabIndex];
@@ -911,7 +911,7 @@
             // Always creating a new SendLumensViewController for stellar. This is because there is a layout issue
             // when reusing an existing SendLumensViewController wherein after you scan the QR code, the view occupies
             // the full frame, and not the adjusted frame.
-            _sendLumensViewController = [SendLumensViewController makeWith:XLMServiceProvider.sharedInstance];
+            _sendLumensViewController = [SendLumensViewController makeWith:StellarServiceProvider.sharedInstance];
             [_sendLumensViewController scanQrCodeForDestinationAddress];
             viewControllerToPresent = _sendLumensViewController;
             break;

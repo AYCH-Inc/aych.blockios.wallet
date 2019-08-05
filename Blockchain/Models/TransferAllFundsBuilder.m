@@ -133,7 +133,7 @@
         [wallet sendPaymentWithListener:listener secondPassword:_secondPassword];
     } else {
         if (wallet.needsSecondPassword && !_secondPassword) {
-            [AuthenticationCoordinator.shared showPasswordConfirmWithDisplayText:[LocalizationConstantsObjcBridge secondPasswordDefaultDescription] headerText:[LocalizationConstantsObjcBridge secondPasswordRequired] validateSecondPassword:YES confirmHandler:^(NSString * _Nonnull secondPasswordInput) {
+            [AuthenticationCoordinator.sharedInstance showPasswordConfirmWithDisplayText:[LocalizationConstantsObjcBridge secondPasswordDefaultDescription] headerText:[LocalizationConstantsObjcBridge secondPasswordRequired] validateSecondPassword:YES confirmHandler:^(NSString * _Nonnull secondPasswordInput) {
                 if (self.on_before_send) self.on_before_send();
                 [wallet transferFundsBackupWithListener:listener secondPassword:secondPasswordInput];
             } dismissHandler: nil];

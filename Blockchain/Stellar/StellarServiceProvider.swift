@@ -1,5 +1,5 @@
 //
-//  XLMServiceProvider.swift
+//  StellarServiceProvider.swift
 //  Blockchain
 //
 //  Created by Alex McGregor on 10/22/18.
@@ -11,7 +11,7 @@ import RxSwift
 import PlatformKit
 import StellarKit
 
-protocol XLMDependenciesAPI {
+protocol StellarDependenciesAPI {
     var accounts: StellarAccountAPI { get }
     var ledger: StellarLedgerAPI { get }
     var operation: StellarOperationsAPI { get }
@@ -23,7 +23,7 @@ protocol XLMDependenciesAPI {
     var feeService: StellarFeeServiceAPI { get }
 }
 
-struct StellarServices: XLMDependenciesAPI {
+struct StellarServices: StellarDependenciesAPI {
     var repository: StellarWalletAccountRepositoryAPI
     var accounts: StellarAccountAPI
     var ledger: StellarLedgerAPI
@@ -47,6 +47,7 @@ struct StellarServices: XLMDependenciesAPI {
             feeService: xlmFeeService
         )
         accounts = StellarAccountService(
+            configurationService: configurationService,
             ledgerService: ledger,
             repository: repository
         )
@@ -60,7 +61,10 @@ struct StellarServices: XLMDependenciesAPI {
             repository: repository
         )
         prices = PriceServiceClient()
-        limits = StellarTradeLimitsService(ledgerService: ledger, accountsService: accounts)
+        limits = StellarTradeLimitsService(
+            ledgerService: ledger,
+            accountsService: accounts
+        )
         feeService = xlmFeeService
     }
 }

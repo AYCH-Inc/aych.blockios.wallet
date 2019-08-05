@@ -56,6 +56,7 @@ class StellarLedgerServiceTests: XCTestCase {
     var subject: StellarLedgerService!
     var ledgersService: LedgersServiceMock!
     var feeService: StellarFeeServiceMock!
+    var configurationService: StellarConfigurationServiceMock!
     var disposables = CompositeDisposable()
     
     override func setUp() {
@@ -64,7 +65,10 @@ class StellarLedgerServiceTests: XCTestCase {
         disposables = CompositeDisposable()
         feeService = StellarFeeServiceMock()
         ledgersService = LedgersServiceMock()
+        configurationService = StellarConfigurationServiceMock()
+        
         subject = StellarLedgerService(
+            configurationService: configurationService,
             ledgersService: ledgersService,
             feeService: feeService
         )

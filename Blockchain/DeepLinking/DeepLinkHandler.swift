@@ -17,10 +17,11 @@ class DeepLinkHandler {
         self.appSettings = appSettings
     }
 
-    func handle(deepLink: URL) {
-        Logger.shared.debug("Attempting to handle deep link \(deepLink.absoluteString)")
-        guard let route = DeepLinkRoute.route(from: deepLink),
-            let payload = DeepLinkPayload.create(from: deepLink) else {
+    func handle(deepLink: String,
+                supportedRoutes: [DeepLinkRoute] = DeepLinkRoute.allCases) {
+        Logger.shared.debug("Attempting to handle deep link \(deepLink)")
+        guard let route = DeepLinkRoute.route(from: deepLink, supportedRoutes: supportedRoutes),
+            let payload = DeepLinkPayload.create(from: deepLink, supportedRoutes: supportedRoutes) else {
             return
         }
 
@@ -46,12 +47,12 @@ class DeepLinkHandler {
 
     private func handleKycDocumentResubmission(_ params: [String: String]) {
         appSettings.didTapOnDocumentResubmissionDeepLink = true
-        appSettings.documentResubmissionLinkReason = params["resubmission_reason"]
+        appSettings.documentResubmissionLinkReason = params[DeepLinkConstant.documentResubmissionReason]
     }
     
     private func handlePitLinking(_ params: [String: String]) {
         appSettings.didTapOnPitDeepLink = true
-        appSettings.pitLinkIdentifier = params["link_id"]
+        appSettings.pitLinkIdentifier = params[DeepLinkConstant.linkId]
     }
 
     private func handleKyc() {

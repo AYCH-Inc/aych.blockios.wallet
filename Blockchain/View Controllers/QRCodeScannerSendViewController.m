@@ -12,12 +12,15 @@
 @interface QRCodeScannerSendViewController () <AVCaptureMetadataOutputObjectsDelegate>
 @property (nonatomic) AVCaptureSession *captureSession;
 @property (nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
+@property (nonatomic, strong) BridgeDeepLinkQRCodeRouter *deepLinkQRCodeRouter;
 @end
 
 @implementation QRCodeScannerSendViewController
 
 - (IBAction)QRCodebuttonClicked:(id)sender
 {
+    self.deepLinkQRCodeRouter = [[BridgeDeepLinkQRCodeRouter alloc] init];
+    
     if (!_captureSession) {
         [self startReadingQRCode];
     }
@@ -84,7 +87,9 @@
         if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode]) {
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self stopReadingQRCode];
-                [self.delegate qrCodeScannerViewController:self didScanString:[metadataObj stringValue]];
+                NSString *link = [metadataObj stringValue];
+                [self.deepLinkQRCodeRouter handleWithDeepLink:link];
+                [self.delegate qrCodeScannerViewController:self didScanString:link];
             });
         }
     }

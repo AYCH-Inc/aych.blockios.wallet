@@ -68,6 +68,7 @@ final class QRCodeScannerViewControllerBuilder<P: QRCodeScannerParsing> {
             
             let vm = QRCodeScannerViewModel<P>(
                 parser: dependencies.parser,
+                additionalParsingOptions: .lax(routes: [.pitLinking]),
                 textViewModel: dependencies.textViewModel,
                 scanner: scanner,
                 completed: dependencies.completed

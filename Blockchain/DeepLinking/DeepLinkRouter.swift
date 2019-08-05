@@ -21,8 +21,7 @@ class DeepLinkRouter {
         self.routers = routers
     }
 
-    func routeIfNeeded() {
-        // TODO: Is there a better way to do this?
-        routers.forEach { $0.routeIfNeeded() }
+    func routeIfNeeded() -> Bool {
+        return routers.map { $0.routeIfNeeded() }.first { $0 } ?? false
     }
 }

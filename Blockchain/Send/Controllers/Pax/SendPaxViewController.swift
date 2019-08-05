@@ -399,6 +399,7 @@ extension SendPaxViewController {
         
         qrScannerViewModel = QRCodeScannerViewModel(
             parser: parser,
+            additionalParsingOptions: .lax(routes: [.pitLinking]),
             textViewModel: textViewModel,
             scanner: scanner,
             completed: { [weak self] result in

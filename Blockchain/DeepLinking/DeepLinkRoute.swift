@@ -20,8 +20,9 @@ enum DeepLinkRoute: String, CaseIterable {
 
 extension DeepLinkRoute {
 
-    static func route(from url: URL) -> DeepLinkRoute? {
-        guard let lastPathWithProperties = url.absoluteString.components(separatedBy: "/").last else {
+    static func route(from url: String,
+                      supportedRoutes: [DeepLinkRoute] = DeepLinkRoute.allCases) -> DeepLinkRoute? {
+        guard let lastPathWithProperties = url.components(separatedBy: "/").last else {
             return nil
         }
 
@@ -42,11 +43,15 @@ extension DeepLinkRoute {
             parameters[key] = value
         }
 
-        return DeepLinkRoute.route(path: path, parameters: parameters)
+        return DeepLinkRoute.route(path: path,
+                                   parameters: parameters,
+                                   supportedRoutes: supportedRoutes)
     }
 
-    private static func route(path: String, parameters: [String: String]?) -> DeepLinkRoute? {
-        return DeepLinkRoute.allCases.first { route -> Bool in
+    private static func route(path: String,
+                              parameters: [String: String]?,
+                              supportedRoutes: [DeepLinkRoute] = DeepLinkRoute.allCases) -> DeepLinkRoute? {
+        return supportedRoutes.first { route -> Bool in
             if route.supportedPath == path {
                 if let key = route.requiredKeyParam,
                     let value = route.requiredValueParam,

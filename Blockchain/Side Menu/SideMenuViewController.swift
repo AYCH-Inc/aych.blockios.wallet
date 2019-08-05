@@ -36,6 +36,8 @@ class SideMenuViewController: UIViewController {
             tableView.reloadData()
         }
     }
+    
+    private let recorder: ErrorRecording = CrashlyticsRecorder()
 
     // MARK: - View Controller Lifecycle
 
@@ -96,14 +98,19 @@ class SideMenuViewController: UIViewController {
     private func setSideMenuGestures() {
         guard let tabViewController = AppCoordinator.shared.tabControllerManager.tabViewController else { return }
 
+        if let menuSwipeRecognizerView = tabViewController.menuSwipeRecognizerView {
+            menuSwipeRecognizerView.isUserInteractionEnabled = false
+        } else { // Record an error but continue - suspected crash
+            recorder.error("menuSwipeRecognizerView is nil unexpectedly")
+        }
+        
+        // Enable Pan gesture and tap gesture to close sideMenu
+        let slidingViewController = AppCoordinator.shared.slidingViewController
+        
         // Disable all interactions on main view
         tabViewController.activeViewController.view.subviews.forEach {
             $0.isUserInteractionEnabled = false
         }
-        tabViewController.menuSwipeRecognizerView.isUserInteractionEnabled = false
-
-        // Enable Pan gesture and tap gesture to close sideMenu
-        let slidingViewController = AppCoordinator.shared.slidingViewController
         tabViewController.activeViewController.view.isUserInteractionEnabled = true
         tabViewController.activeViewController.view.addGestureRecognizer(slidingViewController.panGesture)
         tabViewController.activeViewController.view.addGestureRecognizer(tapToCloseGestureRecognizerVC)

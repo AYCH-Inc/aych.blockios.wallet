@@ -42,6 +42,11 @@
     tabBar.delegate = self;
 
     selectedIndex = [ConstantsObjcBridge tabDashboard];
+    
+    _menuSwipeRecognizerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, UIScreen.mainScreen.bounds.size.height)];
+    ECSlidingViewController *sideMenu = [AppCoordinator sharedInstance].slidingViewController;
+    [_menuSwipeRecognizerView addGestureRecognizer:sideMenu.panGesture];
+    [self.view addSubview:_menuSwipeRecognizerView];
 }
 
 - (void)viewDidLayoutSubviews
@@ -66,18 +71,6 @@
         BaseNavigationController *controller = (BaseNavigationController *)segue.destinationViewController;
         self.assetSelectorViewController = (AssetSelectorContainerViewController *)[controller viewControllers].firstObject;
         self.assetSelectorViewController.delegate = self;
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    // Add side bar to swipe open the sideMenu
-    if (!_menuSwipeRecognizerView) {
-        _menuSwipeRecognizerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, self.view.frame.size.height)];
-        ECSlidingViewController *sideMenu = [AppCoordinator sharedInstance].slidingViewController;
-        [_menuSwipeRecognizerView addGestureRecognizer:sideMenu.panGesture];
-
-        [self.view addSubview:_menuSwipeRecognizerView];
     }
 }
 

@@ -21,8 +21,13 @@ final class PinScreenPresenter {
         switch flow {
         case .create:
             return .content(Screen.NavigationBarContent(title: "v\(Bundle.applicationVersion ?? "")"))
-        case .authenticate(from: let origin, logoutRouting: _) where origin == .background:
-            return .content(Screen.NavigationBarContent(title: "v\(Bundle.applicationVersion ?? "")"))
+        case .authenticate(from: let origin, logoutRouting: _):
+            switch origin {
+            case .background:
+                return .content(Screen.NavigationBarContent(title: "v\(Bundle.applicationVersion ?? "")"))
+            case .foreground:
+                return .none
+            }
         default:
             return .none
         }
@@ -30,11 +35,16 @@ final class PinScreenPresenter {
     
     var leadingButton: Screen.Style.LeadingButton {
         switch flow {
-        case .authenticate(from: let origin, logoutRouting: _) where origin == .background:
-            return .text(value: LocalizationConstants.Pin.logoutButton)
+        case .authenticate(from: let origin, logoutRouting: _):
+            switch origin {
+            case .background:
+                return .text(value: LocalizationConstants.Pin.logoutButton)
+            case .foreground:
+                return .none
+            }
         case .change, .enableBiometrics:
             return .back
-        case .create, .authenticate:
+        case .create:
             return .none
         }
     }

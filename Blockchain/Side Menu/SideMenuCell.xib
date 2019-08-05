@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -55,11 +55,11 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="08v-LL-JVW" firstAttribute="leading" secondItem="9Ab-1H-AYb" secondAttribute="trailing" constant="16" id="VbP-ie-aJa"/>
+                    <constraint firstItem="08v-LL-JVW" firstAttribute="left" secondItem="9Ab-1H-AYb" secondAttribute="right" constant="16" id="VbP-ie-aJa"/>
                     <constraint firstItem="cz8-FP-woo" firstAttribute="centerY" secondItem="l2Y-YM-5lU" secondAttribute="centerY" id="bxQ-Qc-kto"/>
-                    <constraint firstAttribute="trailing" secondItem="cz8-FP-woo" secondAttribute="trailing" constant="16" id="feQ-8c-vCe"/>
+                    <constraint firstAttribute="right" secondItem="cz8-FP-woo" secondAttribute="right" constant="16" id="feQ-8c-vCe"/>
                     <constraint firstItem="9Ab-1H-AYb" firstAttribute="centerY" secondItem="l2Y-YM-5lU" secondAttribute="centerY" id="qVd-bA-wri"/>
-                    <constraint firstItem="9Ab-1H-AYb" firstAttribute="leading" secondItem="l2Y-YM-5lU" secondAttribute="leading" constant="16" id="vQc-zr-wsv"/>
+                    <constraint firstItem="9Ab-1H-AYb" firstAttribute="left" secondItem="l2Y-YM-5lU" secondAttribute="left" constant="16" id="vQc-zr-wsv"/>
                     <constraint firstItem="08v-LL-JVW" firstAttribute="centerY" secondItem="l2Y-YM-5lU" secondAttribute="centerY" id="yGr-7N-pFR"/>
                 </constraints>
             </tableViewCellContentView>
@@ -70,7 +70,7 @@
                 <outlet property="newLabel" destination="FS3-g5-CiO" id="jzX-7t-X8q"/>
                 <outlet property="title" destination="08v-LL-JVW" id="9jB-Zz-Hm4"/>
             </connections>
-            <point key="canvasLocation" x="-82.5" y="15"/>
+            <point key="canvasLocation" x="-84" y="14.392803598200901"/>
         </tableViewCell>
     </objects>
     <resources>

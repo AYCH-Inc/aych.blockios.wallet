@@ -425,7 +425,7 @@
         switch (self.addressSource) {
             case DestinationAddressSourcePit:
                 symbol = [AssetTypeLegacyHelper symbolFor:LegacyAssetTypeEther];
-                displayDestinationAddress = [[NSString alloc] initWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], symbol];
+                displayDestinationAddress = [NSString stringWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], symbol];
                 break;
             default:
                 displayDestinationAddress = self.toAddress;

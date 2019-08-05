@@ -45,6 +45,9 @@ enum PinError: Error {
     case unretainedSelf
     case nullifiedPinKey
     
+    // A logout was attempted
+    case receivedResponseWhileLoggedOut
+    
     // Error in decryption
     case decryptedPasswordWithZeroLength
     

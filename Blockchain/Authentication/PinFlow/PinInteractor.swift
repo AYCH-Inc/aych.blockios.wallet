@@ -21,6 +21,10 @@ final class PinInteractor: PinInteracting {
     private let appSettings: AppSettingsAuthenticating
     private let recorder: ErrorRecording
     
+    /// In case the user attempted to logout while the pin was being sent to the server
+    /// the app needs to disragard any future response
+    var hasLogoutAttempted = false
+    
     // MARK: - Setup
     
     init(pinService: PinServicing = PinService(),
@@ -67,7 +71,7 @@ final class PinInteractor: PinInteracting {
                 if let message = message { throw PinError.serverMaintenance(message: message) }
                 return self.pinService.validate(pinPayload: payload)
                     .do(onSuccess: { [weak self] response in
-                        self?.updateCacheIfNeeded(response: response, pinPayload: payload)
+                        try self?.updateCacheIfNeeded(response: response, pinPayload: payload)
                     })
                     .map { [weak self] response -> String in
                         guard let self = self else { throw PinError.unretainedSelf }
@@ -90,6 +94,7 @@ final class PinInteractor: PinInteracting {
 
     private func handleCreatePinResponse(response: PinStoreResponse,
                                          payload: PinPayload) throws {
+        
         // Wallet must have password at the stage
         guard let password = wallet.password else {
             let error = PinError.serverError(LocalizationConstants.Pin.cannotSaveInvalidWalletState)
@@ -131,12 +136,17 @@ final class PinInteractor: PinInteracting {
         appSettings.pinKey = payload.pinKey
         appSettings.passwordPartHash = password.passwordPartHash
         
-        updateCacheIfNeeded(response: response, pinPayload: payload)
+        try updateCacheIfNeeded(response: response, pinPayload: payload)
     }
 
     /// Persists the pin if needed or deletes it according to the response code received from the backend
     private func updateCacheIfNeeded(response: PinStoreResponse,
-                                     pinPayload: PinPayload) {
+                                     pinPayload: PinPayload) throws {
+        // Make sure the user has not logout
+        guard !hasLogoutAttempted else {
+            throw PinError.receivedResponseWhileLoggedOut
+        }
+        
         guard let responseCode = response.statusCode else { return }
         switch responseCode {
         case .success where pinPayload.persistsLocally:

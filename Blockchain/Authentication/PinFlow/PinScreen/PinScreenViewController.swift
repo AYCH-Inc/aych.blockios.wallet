@@ -180,6 +180,8 @@ extension PinScreenViewController {
             alertViewPresenter.standardError(message: message, in: self)
         case .serverError(message: let message):
             alertViewPresenter.standardError(message: message, in: self)
+        case .receivedResponseWhileLoggedOut:
+            return
         case .custom(let message):
             alertViewPresenter.standardError(message: message, in: self)
         case .biometricAuthenticationFailed(let message):

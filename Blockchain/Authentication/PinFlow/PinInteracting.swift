@@ -8,7 +8,8 @@
 
 import RxSwift
 
-protocol PinInteracting {
+protocol PinInteracting: class {
+    var hasLogoutAttempted: Bool { get set }
     func create(using payload: PinPayload) -> Completable
     func validate(using payload: PinPayload) -> Single<String>
     func persist(pin: Pin)

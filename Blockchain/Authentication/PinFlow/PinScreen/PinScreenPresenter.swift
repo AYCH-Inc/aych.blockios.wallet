@@ -381,6 +381,7 @@ extension PinScreenPresenter {
     
     /// Opts out the user
     func logout() {
+        interactor.hasLogoutAttempted = true
         flow.logoutRouting?()
     }
     

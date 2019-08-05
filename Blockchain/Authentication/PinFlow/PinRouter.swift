@@ -221,8 +221,7 @@ extension PinRouter {
     /// Cleanup the flow and calls completion handler
     private func finish(animated: Bool = true,
                         completedSuccessfully: Bool = true,
-                        completionInput: PinRouting.RoutingType.Input = .none) {
-        
+                        completionInput: PinRouting.RoutingType.Input = .none) {        
         // Concentrate any cleaup logic here
         let cleanup = { [weak self] in
             guard let self = self else { return }

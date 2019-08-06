@@ -95,10 +95,23 @@ class LoginContainerViewController: UIViewController {
         view.layoutIfNeeded()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Following an issue that occurred only on iPhone 5 + iOS 10, that the PIN gets stretched,
+        // need to refresh the collection view layout when the view appears
+        prepareCollectionViewLayout()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collectionViewFlowLayout.itemSize = CGSize(width: view.bounds.width,
-                                                   height: pageControl.frame.minY - view.layoutMargins.top)
+        prepareCollectionViewLayout()
+    }
+    
+    private func prepareCollectionViewLayout() {
+        collectionViewFlowLayout.itemSize = CGSize(
+            width: view.bounds.width,
+            height: pageControl.frame.minY - view.layoutMargins.top
+        )
         collectionViewFlowLayout.invalidateLayout()
     }
     
@@ -127,7 +140,7 @@ class LoginContainerViewController: UIViewController {
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 
 extension LoginContainerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-        
+    
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         return inputs.count

@@ -72,6 +72,7 @@ extension ScreenTransitioningAnimator: UIViewControllerAnimatedTransitioning {
         switch transition {
         case .pushIn:
             container.addSubview(destinationVC.view)
+            destinationVC.view.frame = container.bounds
         case .pushOut:
             container.insertSubview(destinationVC.view, belowSubview: originVC.view)
         }

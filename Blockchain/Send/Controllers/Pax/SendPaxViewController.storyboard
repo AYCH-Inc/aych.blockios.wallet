@@ -255,17 +255,21 @@
                         <viewLayoutGuide key="safeArea" id="ryk-1h-eqh"/>
                     </view>
                     <connections>
-                        <outlet property="currencyLabel" destination="uPD-20-AEg" id="st4-hx-UCz"/>
+                        <outlet property="cryptoAmountTextField" destination="aob-e1-5lc" id="dEI-3T-Gnq"/>
+                        <outlet property="cryptoTitleLabel" destination="6pg-Pn-3aR" id="bol-c0-fFq"/>
                         <outlet property="destinationAddressIndicatorLabel" destination="gHZ-vF-oTl" id="MgP-vh-YfO"/>
-                        <outlet property="fiatTextField" destination="zSU-MG-L1W" id="tXC-i2-IgS"/>
+                        <outlet property="destinationAddressTextField" destination="XTk-Wu-bK5" id="ofI-sB-WGF"/>
+                        <outlet property="destinationAddressTitleLabel" destination="ImH-Fj-RtI" id="g6u-N3-lsN"/>
+                        <outlet property="feesTitleLabel" destination="rwt-Ev-TVX" id="Zh2-HB-QNN"/>
+                        <outlet property="fiatAmountTextField" destination="zSU-MG-L1W" id="bVr-rx-Zij"/>
+                        <outlet property="fiatTitleLabel" destination="uPD-20-AEg" id="K9P-gK-qHW"/>
                         <outlet property="maxAvailableLabel" destination="V33-nL-iXX" id="iCb-vg-crG"/>
                         <outlet property="networkFeesLabel" destination="vb9-rq-Q2N" id="g3q-kh-wWd"/>
                         <outlet property="outerStackView" destination="NX0-1s-Wg2" id="35l-dy-RYQ"/>
-                        <outlet property="paxAddressTextField" destination="XTk-Wu-bK5" id="EWG-Ja-O56"/>
-                        <outlet property="paxTextField" destination="aob-e1-5lc" id="XJE-oY-uDZ"/>
-                        <outlet property="paxWalletLabel" destination="i7r-Uu-5Bo" id="wFT-tz-NUc"/>
                         <outlet property="pitAddressButton" destination="oU2-ca-ctl" id="1D4-MQ-Wpx"/>
                         <outlet property="sendNowButton" destination="f01-Ud-XPc" id="Rxi-UZ-S4U"/>
+                        <outlet property="sourceAccountTitleLabel" destination="0VH-r5-a5K" id="t9U-aJ-9lB"/>
+                        <outlet property="sourceAccountValueLabel" destination="i7r-Uu-5Bo" id="PXh-Fz-Odf"/>
                         <outlet property="topGravityStackView" destination="2Kv-r2-37Q" id="CCe-6X-BKP"/>
                     </connections>
                 </viewController>

@@ -14,18 +14,10 @@ import EthereumKit
 import BitcoinKit
 import ERC20Kit
 
-protocol XLMDependenciesAPI {
-    var accounts: StellarAccountAPI { get }
-    var transactionAPI: StellarTransactionAPI { get }
-    var ledgerAPI: StellarLedgerAPI { get }
-    var repository: StellarWalletAccountRepositoryAPI { get }
-    var limits: StellarTradeLimitsAPI { get }
-}
-
 protocol TradeExecutionServiceDependenciesAPI {
     var assetAccountRepository: AssetAccountRepositoryAPI { get }
     var feeService: FeeServiceAPI { get }
-    var xlm: XLMDependenciesAPI { get }
+    var stellar: StellarDependenciesAPI { get }
     var erc20Service: AnyERC20Service<PaxToken> { get }
     var erc20AccountRepository: AnyERC20AssetAccountRepository<PaxToken> { get }
     var ethereumWalletService: EthereumWalletServiceAPI { get }
@@ -35,26 +27,10 @@ class TradeExecutionService: TradeExecutionAPI {
     
     // MARK: Models
     
-    struct XLMDependencies: XLMDependenciesAPI {
-        let accounts: StellarAccountAPI
-        let transactionAPI: StellarTransactionAPI
-        let ledgerAPI: StellarLedgerAPI
-        let repository: StellarWalletAccountRepositoryAPI
-        let limits: StellarTradeLimitsAPI
-        
-        init(xlm: XLMServiceProvider = XLMServiceProvider.shared) {
-            transactionAPI = xlm.services.transaction
-            ledgerAPI = xlm.services.ledger
-            repository = xlm.services.repository
-            accounts = xlm.services.accounts
-            limits = xlm.services.limits
-        }
-    }
-    
     struct Dependencies: TradeExecutionServiceDependenciesAPI {
         let assetAccountRepository: AssetAccountRepositoryAPI
         let feeService: FeeServiceAPI
-        let xlm: XLMDependenciesAPI
+        let stellar: StellarDependenciesAPI
         private let paxServiceProvider: PAXServiceProvider
         
         var erc20Service: AnyERC20Service<PaxToken> {
@@ -72,12 +48,12 @@ class TradeExecutionService: TradeExecutionAPI {
         init(
             repository: AssetAccountRepositoryAPI = AssetAccountRepository.shared,
             cryptoFeeService: FeeServiceAPI = FeeService.shared,
-            xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared,
+            xlmServiceProvider: StellarServiceProvider = StellarServiceProvider.shared,
             serviceProvider: PAXServiceProvider = PAXServiceProvider.shared
         ) {
             assetAccountRepository = repository
             feeService = cryptoFeeService
-            xlm = XLMDependencies(xlm: xlmServiceProvider)
+            self.stellar = xlmServiceProvider.services
             self.paxServiceProvider = serviceProvider
         }
     }
@@ -107,6 +83,10 @@ class TradeExecutionService: TradeExecutionAPI {
     
     private var bitcoinTransactionFee: Single<BitcoinTransactionFee> {
         return dependencies.feeService.bitcoin
+    }
+    
+    private var bitcoinCashTransactionFee: Single<BitcoinCashTransactionFee> {
+        return dependencies.feeService.bitcoinCash
     }
     
     private var ethereumTransactionFee: Single<EthereumTransactionFee> {
@@ -293,8 +273,8 @@ class TradeExecutionService: TradeExecutionAPI {
                 .subscribe(onNext: { [weak self] stellarFee in
                     guard let self = self else { return }
                     
-                    guard let sourceAccount = self.dependencies.xlm.repository.defaultAccount,
-                        let ledger = self.dependencies.xlm.ledgerAPI.currentLedger,
+                    guard let sourceAccount = self.dependencies.stellar.repository.defaultAccount,
+                        let ledger = self.dependencies.stellar.ledger.currentLedger,
                         let amount = Decimal(string: orderTransactionLegacy.amount) else { return }
                     
                     var paymentMemo: StellarMemoType?
@@ -349,19 +329,21 @@ class TradeExecutionService: TradeExecutionAPI {
         } else {
             let disposable = Observable.zip(
                     bitcoinTransactionFee.asObservable(),
+                    bitcoinCashTransactionFee.asObservable(),
                     ethereumTransactionFee.asObservable()
                 )
                 /// Should either transaction fee fetches fail, we fall back to
                 /// default fee models.
-                .catchErrorJustReturn((.default, .default))
+                .catchErrorJustReturn((.default, .default, .default))
                 .subscribeOn(MainScheduler.asyncInstance)
                 .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { [weak self] (bitcoinFee, ethereumFee) in
+                .subscribe(onNext: { [weak self] (bitcoinFee, bitcoinCashFee, ethereumFee) in
                     guard let self = self else { return }
                     switch assetType {
-                    case .bitcoin,
-                         .bitcoinCash:
+                    case .bitcoin:
                         orderTransactionLegacy.fees = bitcoinFee.priority.toDisplayString(includeSymbol: false)
+                    case .bitcoinCash:
+                        orderTransactionLegacy.fees = bitcoinCashFee.priority.toDisplayString(includeSymbol: false)
                     case .ethereum:
                         orderTransactionLegacy.fees = ethereumFee.priorityGweiValue
                         orderTransactionLegacy.gasLimit = String(ethereumFee.gasLimit)
@@ -433,7 +415,7 @@ class TradeExecutionService: TradeExecutionAPI {
                 return
             }
             
-            let transaction = dependencies.xlm.transactionAPI
+            let transaction = dependencies.stellar.transaction
             let disposable = Single.just(pair)
                 .asObservable().flatMap { keyPair -> Completable in
                     return transaction.send(paymentOperation, sourceKeyPair: keyPair)
@@ -514,8 +496,8 @@ class TradeExecutionService: TradeExecutionAPI {
     
     private func validateXlm(volume: CryptoValue, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
         let accountId = assetAccount.address.address
-        let isSpendable = dependencies.xlm.limits.isSpendable(amount: volume, for: accountId)
-        let max = dependencies.xlm.limits.maxSpendableAmount(for: accountId)
+        let isSpendable = dependencies.stellar.limits.isSpendable(amount: volume, for: accountId)
+        let max = dependencies.stellar.limits.maxSpendableAmount(for: accountId)
         return Single.zip(isSpendable, max)
             .catchError { error -> Single<(Bool, CryptoValue)> in
                 if let stellarError = error as? StellarServiceError, stellarError == StellarServiceError.noDefaultAccount {
@@ -741,7 +723,7 @@ extension TradeExecutionService {
         let loadXLMKeyPair = {
             /// `loadKeyPair()` will trigger a prompt for the user to enter their
             /// secondary password
-            let disposable = self.dependencies.xlm.repository.loadKeyPair()
+            let disposable = self.dependencies.stellar.repository.loadKeyPair()
                 .subscribeOn(MainScheduler.asyncInstance)
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { keyPair in

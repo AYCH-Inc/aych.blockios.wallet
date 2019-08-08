@@ -579,7 +579,6 @@
 #define BC_STRING_TRANSACTION_FEE NSLocalizedString(@"Transaction Fee", nil)
 #define BC_STRING_NETWORK_TRANSACTION_FEE NSLocalizedString(@"Network Transaction Fee", nil)
 #define BC_STRING_SHAPESHIFT_WITHDRAWAL_FEE NSLocalizedString(@"ShapeShift Withdrawal Fee", nil)
-#define BC_STRING_AGREE_TO_SHAPESHIFT NSLocalizedString(@"Agree to ShapeShift", nil)
 #define BC_STRING_TERMS_AND_CONDITIONS NSLocalizedString(@"terms and conditions", nil)
 #define BC_STRING_EXCHANGE_IN_PROGRESS NSLocalizedString(@"Exchange In Progress", nil)
 #define BC_STRING_EXCHANGE_COMPLETED NSLocalizedString(@"Exchange Completed", nil)

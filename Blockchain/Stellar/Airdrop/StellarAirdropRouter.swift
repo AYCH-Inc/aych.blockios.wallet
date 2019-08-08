@@ -20,7 +20,7 @@ class StellarAirdropRouter: DeepLinkRouting {
 
     private let disposables = CompositeDisposable()
     
-    private let stellarWalletAccountRepository: StellarWalletAccountRepository
+    private let stellarWalletAccountRepository: StellarWalletAccountRepositoryAPI
 
     init(
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,

@@ -12,10 +12,9 @@ import StellarKit
 import PlatformKit
 
 enum ExchangeCoordinatorEvent {
-    case createPartnerExchange(country: KYCCountry, animated: Bool)
     case confirmExchange(orderTransaction: OrderTransaction, conversion: Conversion)
     case sentTransaction(orderTransaction: OrderTransaction, conversion: Conversion)
-    case showTradeDetails(trade: ExchangeTradeModel)
+    case showTradeDetails(trade: ExchangeTradeCellModel)
 }
 
 protocol ExchangeCoordinatorAPI {
@@ -31,11 +30,6 @@ protocol ExchangeCoordinatorAPI {
 
 @objc class ExchangeCoordinator: NSObject, Coordinator, ExchangeCoordinatorAPI {
 
-    private enum ExchangeType {
-        case homebrew
-        case shapeshift
-    }
-
     static let shared = ExchangeCoordinator()
 
     // class function declared so that the ExchangeCoordinator singleton can be accessed from obj-C
@@ -50,7 +44,6 @@ protocol ExchangeCoordinatorAPI {
 
     // MARK: - Navigation
     private var navigationController: ExchangeNavigationController?
-    private var exchangeViewController: PartnerExchangeListViewController?
     private var rootViewController: UIViewController?
 
     // MARK: - Entry Point
@@ -112,7 +105,7 @@ protocol ExchangeCoordinatorAPI {
     /// and this screen needs to be able to create XLM accounts and/or Ethereum accounts should
     /// the user not have one.
     func initXlmAccountIfNeeded(completion: @escaping (() -> ())) {
-        disposable = xlmAccountRepository.initializeMetadataMaybe()
+        disposable = stellarAccountRepository.initializeMetadataMaybe()
             .flatMap({ [unowned self] _ in
                 return self.stellarAccountService.currentStellarAccount(fromCache: true)
             })
@@ -171,57 +164,38 @@ protocol ExchangeCoordinatorAPI {
             if !self.walletManager.wallet.hasEthAccount() {
                 self.createEthAccountForExchange()
             } else {
-                self.showExchange(type: .homebrew)
+                self.showExchange()
             }
         }
     }
 
-    private func showExchange(type: ExchangeType, country: KYCCountry? = nil) {
-        switch type {
-        case .homebrew:
+    private func showExchange(country: KYCCountry? = nil) {
+        guard let viewController = rootViewController else {
+            Logger.shared.error("View controller to present on is nil")
+            return
+        }
+        let listViewController = ExchangeListViewController.make(with: ExchangeServices())
+        navigationController = ExchangeNavigationController(
+            rootViewController: listViewController,
+            title: LocalizationConstants.Swap.swap
+        )
+        viewController.present(navigationController!, animated: true)
+    }
+
+    private func showCreateExchange(animated: Bool, country: KYCCountry? = nil) {
+        let exchangeCreateViewController = ExchangeCreateViewController.makeFromStoryboard()
+        if navigationController == nil {
             guard let viewController = rootViewController else {
                 Logger.shared.error("View controller to present on is nil")
                 return
             }
-            let listViewController = ExchangeListViewController.make(with: ExchangeServices())
             navigationController = ExchangeNavigationController(
-                rootViewController: listViewController,
-                title: LocalizationConstants.Swap.swap
+                rootViewController: exchangeCreateViewController,
+                title: LocalizationConstants.Exchange.navigationTitle
             )
-            viewController.present(navigationController!, animated: true)
-        case .shapeshift:
-            guard let viewController = rootViewController else {
-                Logger.shared.error("View controller to present on is nil")
-                return
-            }
-            exchangeViewController = PartnerExchangeListViewController.create(withCountryCode: country?.code)
-            let partnerNavigationController = ExchangeNavigationController(
-                rootViewController: exchangeViewController,
-                title: LocalizationConstants.Swap.swap
-            )
-            viewController.present(partnerNavigationController, animated: true)
-        }
-    }
-
-    private func showCreateExchange(animated: Bool, type: ExchangeType, country: KYCCountry? = nil) {
-        switch type {
-        case .homebrew:
-            let exchangeCreateViewController = ExchangeCreateViewController.makeFromStoryboard()
-            if navigationController == nil {
-                guard let viewController = rootViewController else {
-                    Logger.shared.error("View controller to present on is nil")
-                    return
-                }
-                navigationController = ExchangeNavigationController(
-                    rootViewController: exchangeCreateViewController,
-                    title: LocalizationConstants.Exchange.navigationTitle
-                )
-                viewController.topMostViewController?.present(navigationController!, animated: animated)
-            } else {
-                navigationController?.pushViewController(exchangeCreateViewController, animated: animated)
-            }
-        case .shapeshift:
-            showExchange(type: .shapeshift, country: country)
+            viewController.topMostViewController?.present(navigationController!, animated: animated)
+        } else {
+            navigationController?.pushViewController(exchangeCreateViewController, animated: animated)
         }
     }
 
@@ -247,7 +221,7 @@ protocol ExchangeCoordinatorAPI {
         root.present(navController, animated: true, completion: nil)
     }
 
-    private func showTradeDetails(trade: ExchangeTradeModel) {
+    private func showTradeDetails(trade: ExchangeTradeCellModel) {
         let model = ExchangeDetailPageModel(type: .overview(trade))
         let detailViewController = ExchangeDetailViewController.make(
             with: model,
@@ -258,8 +232,6 @@ protocol ExchangeCoordinatorAPI {
 
     func handle(event: ExchangeCoordinatorEvent) {
         switch event {
-        case .createPartnerExchange(let country, let animated):
-            showCreateExchange(animated: animated, type: .shapeshift, country: country)
         case .confirmExchange(let orderTransaction, let conversion):
             showConfirmExchange(orderTransaction: orderTransaction, conversion: conversion)
         case .sentTransaction(orderTransaction: let transaction, conversion: let conversion):
@@ -272,19 +244,19 @@ protocol ExchangeCoordinatorAPI {
     // MARK: - Services
     private let exchangeService: ExchangeService
     private let stellarAccountService: StellarAccountAPI
-    private let xlmAccountRepository: StellarWalletAccountRepository
+    private let stellarAccountRepository: StellarWalletAccountRepositoryAPI
 
     // MARK: - Lifecycle
     private init(
         walletManager: WalletManager = WalletManager.shared,
         exchangeService: ExchangeService = ExchangeService(),
-        stellarAccountService: StellarAccountAPI = XLMServiceProvider.shared.services.accounts,
-        xlmAccountRepository: StellarWalletAccountRepository = XLMServiceProvider.shared.services.repository
+        stellarAccountService: StellarAccountAPI = StellarServiceProvider.shared.services.accounts,
+        stellarAccountRepository: StellarWalletAccountRepositoryAPI = StellarServiceProvider.shared.services.repository
     ) {
         self.walletManager = walletManager
         self.exchangeService = exchangeService
         self.stellarAccountService = stellarAccountService
-        self.xlmAccountRepository = xlmAccountRepository
+        self.stellarAccountRepository = stellarAccountRepository
         super.init()
     }
 

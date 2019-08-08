@@ -12,7 +12,7 @@ import RxSwift
 class TransactionsXlmViewController: SimpleTransactionsViewController {
 
     var disposable: Disposable?
-    var accountService: StellarAccountAPI = XLMServiceProvider.shared.services.accounts
+    var accountService: StellarAccountAPI = StellarServiceProvider.shared.services.accounts
 
     deinit {
         disposable?.dispose()
@@ -34,7 +34,7 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
         CTAButton.layer.cornerRadius = 4.0
     }
 
-    @objc class func make(with provider: XLMServiceProvider) -> TransactionsXlmViewController {
+    @objc class func make(with provider: StellarServiceProvider) -> TransactionsXlmViewController {
         let controller = SimpleListViewController.make(
             with: TransactionsXlmViewController.self,
             dataProvider: TransactionsXlmDataProvider.self,

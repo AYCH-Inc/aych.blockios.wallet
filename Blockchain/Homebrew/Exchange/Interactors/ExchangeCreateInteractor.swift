@@ -45,7 +45,9 @@ class ExchangeCreateInteractor {
     private var repository: AssetAccountRepository = {
        return AssetAccountRepository.shared
     }()
-
+    private var feeServiceAPI: FeeServiceAPI = {
+        return FeeService.shared
+    }()
     fileprivate let inputs: ExchangeInputsAPI
     fileprivate let markets: ExchangeMarketsAPI
     fileprivate let conversions: ExchangeConversionAPI
@@ -237,26 +239,32 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         if let key = accountBalanceDiposableKey {
             disposables.remove(for: key)
         }
-        let disposable = repository.accounts(for: type, fromCache: false)
-            .asObservable()
+        
+        /// Get the balance and fees in both crypto and fiat
+        let disposable = Observable.zip(repository.accounts(for: type, fromCache: false).asObservable(), estimatedFeeForCurrency(type.cryptoCurrency))
             .subscribeOn(MainScheduler.asyncInstance)
-            .flatMapLatest { [weak self] accounts -> Observable<(FiatValue, CryptoValue)> in
+            .flatMapLatest { [weak self] accountsAndFees -> Observable<(FiatValue, FiatValue, CryptoValue, CryptoValue)> in
                 guard let self = self else { return Observable.empty() }
+                let accounts = accountsAndFees.0
+                let cryptoFees = accountsAndFees.1
                 guard let account = accounts.filter({ $0.address.address == address }).first else { return Observable.empty() }
-                let observable = self.markets.fiatBalance(
-                    forAssetAccount: account,
-                    fiatCurrencyCode:
-                    model.fiatCurrencyCode
-                )
-                return Observable.combineLatest(observable, Observable.just(account.balance))
+                
+                let fiatBalance = self.markets.fiatBalance(forCryptoValue: account.balance, fiatCurrencyCode: model.fiatCurrencyCode)
+                let fiatFee = self.markets.fiatBalance(forCryptoValue: cryptoFees, fiatCurrencyCode: model.fiatCurrencyCode)
+                
+                return Observable.combineLatest(fiatBalance, fiatFee, Observable.just(account.balance), Observable.just(cryptoFees))
             }
             .distinctUntilChanged { return $0 == $1 }
             .observeOn(MainScheduler.instance)
             .subscribe(
-                onNext: { [weak self] fiatBalance, cryptoBalance in
-                    self?.output?.updateBalance(
-                        cryptoValue: cryptoBalance,
-                        fiatValue: fiatBalance
+                onNext: { [weak self] fiatBalance, fiatFees, cryptoBalance, cryptoFees in
+                    self?.output?.updateBalanceMetadata(
+                        .init(
+                            cryptoBalance: cryptoBalance,
+                            cryptoFees: cryptoFees,
+                            fiatBalance: fiatBalance,
+                            fiatFees: fiatFees
+                        )
                     )
                 }, onError: { error in
                     Logger.shared.error(error)
@@ -375,6 +383,19 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 this.output?.loadingVisibility(.hidden)
             }
         )
+    }
+    
+    private func estimatedFeeForCurrency(_ cryptoCurrency: CryptoCurrency) -> Observable<CryptoValue> {
+        switch cryptoCurrency {
+        case .bitcoin:
+            return feeServiceAPI.bitcoin.asObservable().map { return $0.priority }
+        case .bitcoinCash:
+            return feeServiceAPI.bitcoinCash.asObservable().map { return $0.priority }
+        case .ethereum, .pax:
+            return feeServiceAPI.ethereum.asObservable().map { return $0.priority }
+        case .stellar:
+            return feeServiceAPI.stellar.asObservable().map { return $0.priority }
+        }
     }
 
     private func subscribeToVolumeChanges() {

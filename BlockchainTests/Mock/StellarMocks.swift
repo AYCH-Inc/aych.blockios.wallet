@@ -29,6 +29,10 @@ class StellarTradeLimitsMock: StellarTradeLimitsAPI {
 }
 
 class StellarLedgerMock: StellarLedgerAPI {
+    var fallbackBaseReserve: Decimal = 0
+    
+    var fallbackBaseFee: Decimal = 0
+    
     var current: Observable<StellarLedger> = Observable.empty()
 
     var currentLedger: StellarLedger?

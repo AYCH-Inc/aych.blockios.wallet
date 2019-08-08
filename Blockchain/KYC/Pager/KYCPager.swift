@@ -104,6 +104,9 @@ extension KYCPageType {
         }
 
         if let mobile = user.mobile, mobile.verified {
+            /// If the user can complete tier2 than they
+            /// either need to resubmit their documents
+            /// or submit their documents for the first time.
             if tiersResponse.canCompleteTier2 {
                 return user.needsDocumentResubmission == nil ? .verifyIdentity : .resubmitIdentity
             } else {
@@ -197,6 +200,7 @@ extension KYCPageType {
                 if tiersResponse.canCompleteTier2 {
                     return user.needsDocumentResubmission == nil ? .verifyIdentity : .resubmitIdentity
                 }
+                /// The user can't complete tier2, so they should see their account status.
                 return .accountStatus
             }
             return .enterPhone

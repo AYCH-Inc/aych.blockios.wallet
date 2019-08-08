@@ -165,7 +165,8 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
         let interactor = KYCVerifyIdentityInteractor()
         let identityPresenter = KYCVerifyIdentityPresenter(interactor: interactor, loadingView: self)
         identityPresenter.identityView = self
-        identityPresenter.delegate = self
+        identityPresenter.cameraPromptingDelegate = self
+        identityPresenter.microphonePromptingDelegate = self
         presenter = identityPresenter
         delegate = presenter
     }
@@ -267,8 +268,10 @@ extension KYCVerifyIdentityController: VeriffController {
     }
 }
 
-extension KYCVerifyIdentityController: CameraPromptingDelegate {
-    func proceed() {
+extension KYCVerifyIdentityController: CameraPromptingDelegate { }
+
+extension KYCVerifyIdentityController: MicrophonePromptingDelegate {
+    func onMicrophonePromptingComplete() {
         startVerificationFlow()
     }
 }

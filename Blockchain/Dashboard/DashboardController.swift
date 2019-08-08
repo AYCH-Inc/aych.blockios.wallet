@@ -112,7 +112,7 @@ final class DashboardController: UIViewController {
         lastEthExchangeRate = FiatValue.create(amount: 0, currencyCode: currencyCode)
         lastXlmExchangeRate = FiatValue.create(amount: 0, currencyCode: currencyCode)
         lastPaxExchangeRate = FiatValue.create(amount: 0, currencyCode: currencyCode)
-        stellarAccountService = XLMServiceProvider.shared.services.accounts
+        stellarAccountService = StellarServiceProvider.shared.services.accounts
         paxAccountRepository = PAXServiceProvider.shared.services.assetAccountRepository
         super.init(coder: aDecoder)
     }

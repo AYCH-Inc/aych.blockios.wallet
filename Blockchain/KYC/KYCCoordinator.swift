@@ -258,7 +258,11 @@ protocol KYCCoordinatorDelegate: class {
             pager = KYCPager(tier: .tier2, tiersResponse: response)
         }
 
-        guard let endPageForLastUsedTier = KYCPageType.pageType(for: currentUser, latestPage: latestPage) else {
+        guard let endPageForLastUsedTier = KYCPageType.pageType(
+            for: currentUser,
+            tiersResponse: response,
+            latestPage: latestPage
+            ) else {
             return
         }
 
@@ -292,6 +296,12 @@ protocol KYCCoordinatorDelegate: class {
             return .phoneNumberUpdated(phoneNumber: user.mobile?.phone ?? "")
         case .confirmEmail:
             return .emailPendingVerification(email: user.email.address)
+        case .accountStatus:
+            guard let response = userTiersResponse else { return nil }
+            return .accountStatus(
+                status: response.tier2AccountStatus,
+                isReceivingAirdrop: user.isSunriverAirdropRegistered == true
+            )
         case .enterEmail,
              .welcome,
              .country,
@@ -302,7 +312,6 @@ protocol KYCCoordinatorDelegate: class {
              .enterPhone,
              .verifyIdentity,
              .resubmitIdentity,
-             .accountStatus,
              .applicationComplete:
             return nil
         }
@@ -388,7 +397,11 @@ protocol KYCCoordinatorDelegate: class {
     }
 
     private func handlePageWillAppear(for type: KYCPageType) {
-        kycSettings.latestKycPage = type
+        if type == .accountStatus || type == .applicationComplete {
+            kycSettings.latestKycPage = nil
+        } else {
+            kycSettings.latestKycPage = type
+        }
 
         // Optionally apply page model
         switch type {
@@ -456,7 +469,7 @@ protocol KYCCoordinatorDelegate: class {
 fileprivate extension KYCPageType {
 
     /// The page type the user should be placed in given the information they have provided
-    static func pageType(for user: NabuUser, latestPage: KYCPageType? = nil) -> KYCPageType? {
+    static func pageType(for user: NabuUser, tiersResponse: KYCUserTiersResponse, latestPage: KYCPageType? = nil) -> KYCPageType? {
         // Note: latestPage is only used by tier 2 flow, for tier 1, we need to infer the page,
         // because the user may need to select the country again.
         let tier = user.tiers?.selected ?? .tier1
@@ -466,7 +479,7 @@ fileprivate extension KYCPageType {
         case .tier1:
             return tier1PageType(for: user)
         case .tier2:
-            return tier1PageType(for: user) ?? tier2PageType(for: user, latestPage: latestPage)
+            return tier1PageType(for: user) ?? tier2PageType(for: user, tiersResponse: tiersResponse, latestPage: latestPage)
         }
     }
 
@@ -484,7 +497,7 @@ fileprivate extension KYCPageType {
         return nil
     }
 
-    private static func tier2PageType(for user: NabuUser, latestPage: KYCPageType? = nil) -> KYCPageType? {
+    private static func tier2PageType(for user: NabuUser, tiersResponse: KYCUserTiersResponse, latestPage: KYCPageType? = nil) -> KYCPageType? {
         if let latestPage = latestPage {
             return latestPage
         }
@@ -492,8 +505,17 @@ fileprivate extension KYCPageType {
         guard let mobile = user.mobile else { return .enterPhone }
 
         guard mobile.verified else { return .confirmPhone }
-
-        guard user.status != .none else { return .verifyIdentity }
+        
+        if tiersResponse.canCompleteTier2 {
+            switch tiersResponse.canCompleteTier2 {
+            case true:
+                return user.needsDocumentResubmission == nil ? .verifyIdentity : .resubmitIdentity
+            case false:
+                return nil
+            }
+        }
+        
+        guard tiersResponse.canCompleteTier2 == false else { return .verifyIdentity }
 
         return nil
     }

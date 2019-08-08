@@ -23,7 +23,8 @@ class ExchangeContainerViewController: BaseNavigationController {
     private let accountsRepository: AssetAccountRepository = AssetAccountRepository.shared
     private var tiersViewController: KYCTiersViewController?
     private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
-
+    private let kycSettings: KYCSettingsAPI = KYCSettings.shared
+    
     // MARK: Lifecycle
     
     override func viewDidLoad() {
@@ -64,18 +65,43 @@ class ExchangeContainerViewController: BaseNavigationController {
         if viewControllers.count > 0 {
             viewControllers.removeAll()
         }
-        let disposable = KYCTiersViewController.tiersMetadata()
+        
+        let tiers = KYCTiersViewController.tiersMetadata().asSingle()
+        Single.zip(tiers, hasStartedKYC())
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .hideLoaderOnDisposal(loader: loadingViewPresenter)
-            .subscribe(onNext: { [weak self] model in
+            .hideOnDisposal(loader: loadingViewPresenter)
+            .subscribe(onSuccess: { [weak self] (pageModel, hasStarted) in
                 guard let self = self else { return }
-                self.setupTiersController(model)
-            }, onError: { [weak self] error in
+                if hasStarted {
+                    self.setupTiersController(pageModel)
+                } else {
+                    self.setViewControllers([self.introductionViewController], animated: false)
+                }
+                }, onError: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.setViewControllers([self.onboardingController], animated: false)
+                })
+            .disposed(by: bag)
+    }
+    
+    private func hasStartedKYC() -> Single<Bool> {
+        return Single.just(kycSettings.isCompletingKyc)
+    }
+    
+    private func introductionStartTapped() {
+        KYCTiersViewController.tiersMetadata().asSingle()
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .showOnSubscription(loader: loadingViewPresenter)
+            .hideOnDisposal(loader: loadingViewPresenter)
+            .subscribe(onSuccess: { pageModel in
+                self.setupTiersController(pageModel)
+            }, onError: { [weak self] _ in
                 guard let self = self else { return }
                 self.setViewControllers([self.onboardingController], animated: false)
             })
-        disposables.insertWithDiscardableResult(disposable)
+            .disposed(by: bag)
     }
     
     fileprivate func setupNotifications() {
@@ -124,6 +150,15 @@ class ExchangeContainerViewController: BaseNavigationController {
         let controller = KYCOnboardingViewController.makeFromStoryboard()
         controller.action = {
             KYCCoordinator.shared.start()
+        }
+        return controller
+    }()
+    
+    lazy var introductionViewController: SwapIntroductionViewController = {
+        let controller = SwapIntroductionViewController.makeFromStoryboard()
+        controller.start = { [weak self] in
+            guard let self = self else { return }
+            self.introductionStartTapped()
         }
         return controller
     }()

@@ -104,24 +104,185 @@ class AccessibilityIdentifiers: NSObject {
         @objc static let request = "TabViewContainerScreen.request"
     }
     
-    // MARK: Swap
-    
-    class ExchangeScreen {
-        static let exchangeButton = "ExchangeScreen.exchangeButton"
-        static let confirmButton = "ExchangeScreen.confirmButton"
-        static let backButton = "ExchangeScreen.backButton"
-        static let dismissButton = "ExchangeScreen.dismissButton"
+    class SwapIntroduction {
+        static let startNow = "SwapIntroductionScreen.StartNowButton"
     }
     
-    class TradingPairView {
-        static let fromLabel = "TradingPairView.from.titleLabel"
-        static let toLabel = "TradingPairView.to.titleLabel"
+    // MARK: - Navigation
+    
+    @objc(AccessibilityIdentifiers_Navigation) class Navigation: NSObject {
+        private static let prefix = "NavigationBar."
+        @objc static let backButton = "\(prefix)backButton"
+        @objc static let closeButton = "\(prefix)closeButton"
+        @objc static let warningButton = "\(prefix)warningButton"
+        @objc static let titleLabel = "\(prefix)titleLabel"
+        
+        class Button {
+            private static let prefix = "\(Navigation.prefix)Button."
+            
+            static let qrCode = "\(prefix)qrCode"
+            static let dismiss = "\(prefix)dismiss"
+            static let menu = "\(prefix)menu"
+            static let help = "\(prefix)help"
+            static let back = "\(prefix)back"
+            static let error = "\(prefix)error"
+            static let activityIndicator = "\(prefix)activityIndicator"
+        }
     }
+    
+    // MARK: - Asset Selection
+    
+    struct AssetSelection {
+        private static let prefix = "AssetSelection."
+        
+        static let toggleButton = "\(prefix)toggleButton"
+        static let assetPrefix = "\(prefix)"
+    }
+    
+    // MARK: - Send
+    
+    struct SendScreen {
+        private static let prefix = "SendScreen."
+        
+        static let sourceAccountTitleLabel = "\(prefix)sourceAccountTitleLabel"
+        static let sourceAccountValueLabel = "\(prefix)sourceAccountValueLabel"
+        
+        static let destinationAddressTitleLabel = "\(prefix)destinationAddressTitleLabel"
+        static let destinationAddressTextField = "\(prefix)destinationAddressTextField"
+        static let destinationAddressIndicatorLabel = "\(prefix)destinationAddressIndicatorLabel"
+        
+        static let feesTitleLabel = "\(prefix)feesTitleLabel"
+        static let feesValueLabel = "\(prefix)feesValueLabel"
+        
+        static let cryptoTitleLabel = "\(prefix)cryptoTitleLabel"
+        static let cryptoAmountTextField = "\(prefix)cryptoAmountTextField"
+        
+        static let fiatTitleLabel = "\(prefix)fiatTitleLabel"
+        static let fiatAmountTextField = "\(prefix)fiatAmountTextField"
+        
+        static let maxAvailableLabel = "\(prefix)maxAvailableLabel"
+
+        static let pitAddressButton = "\(prefix)pitAddressButton"
+        static let addressesButton = "\(prefix)addressesButton"
+        
+        static let errorLabel = "\(prefix)errorLabel"
+        
+        static let continueButton = "\(prefix)continueButton"
+        
+        struct Stellar {
+            static let memoLabel = "\(prefix)memoLabel"
+            static let memoSelectionTypeButton = "\(prefix)memoSelectionTypeButton"
+            static let memoTextField = "\(prefix)memoTextField"
+            static let memoIDTextField = "\(prefix)memoIDTextField"
+            static let moreInfoButton = "\(prefix)moreInfoButton"
+        }
+    }
+    
+    // MARK: - Swap / Exchange
+    
+    struct Exchange {
+        private static let prefix = "ExchangeScreen."
+        
+        // MARK: - Create
+        
+        struct Create {
+            private static let prefix = "\(Exchange.prefix)CreateScreen."
+            
+            static let backButton = "\(prefix)backButton"
+            static let dismissButton = "\(prefix)dismissButton"
+            
+            static let primaryAmountLabel = "\(prefix)primaryAmountLabel"
+            static let secondaryAmountLabel = "\(prefix)secondaryAmountLabel"
+            
+            static let walletBalanceLabel = "\(prefix)walletBalanceLabel"
+            static let conversionRateLabel = "\(prefix)conversionRateLabel"
+        }
+        
+        // MARK: - Details
+        
+        struct Details {
+            private static let prefix = "\(Exchange.prefix)DetailsScreen."
+            
+            static let fiatDescriptionLabel = "\(prefix)fiatDescriptionLabel"
+            static let fiatValueLabel = "\(prefix)fiatValueLabel"
+            
+            static let cryptoDescriptionLabel = "\(prefix)cryptoDescriptionLabel"
+            static let cryptoValueLabel = "\(prefix)cryptoValueLabel"
+            
+            static let feesDescriptionLabel = "\(prefix)feesDescriptionLabel"
+            static let feesValueLabel = "\(prefix)feesValueLabel"
+            
+            static let receiveDescriptionLabel = "\(prefix)receiveDescriptionLabel"
+            static let receiveValueLabel = "\(prefix)receiveValueLabel"
+            
+            static let destinationDescriptionLabel = "\(prefix)destinationDescriptionLabel"
+            static let destinationValueLabel = "\(prefix)destinationValueLabel"
+            
+            static let statusDescriptionLabel = "\(prefix)statusDescriptionLabel"
+            static let statusValueLabel = "\(prefix)statusValueLabel"
+            
+            static let orderIdDescriptionLabel = "\(prefix)orderIdDescriptionLabel"
+            static let orderIdValueLabel = "\(prefix)orderIdValueLabel"
+        }
+        
+        // MARK: - Trading Pair 
+    
+        struct TradingPair {
+            static let exchangeLabel = "\(prefix)exchangeLabel"
+            static let exchangeButton = "\(prefix)exchangeButton"
+            static let receiveLabel = "\(prefix)receiveLabel"
+            static let receiveButton = "\(prefix)receiveButton"
+            static let swapButton = "\(prefix)swapButton"
+        }
+    }
+    
+    @objc(AccessibilityIdentifiers_ConfirmSend) class ConfirmSend: NSObject {
+        private static let prefix = "ConfirmSend."
+        
+        @objc static let fiatAmountTitleLabel = "\(prefix)fiatAmountTitleLabel"
+        @objc static let descriptionTextField = "\(prefix)descriptionTextField"
+    }
+    
+    // MARK: - Amount (Fiat / Crypto)
+    
+    @objc(AccessibilityIdentifiers_AmountInput) class AmountInput: NSObject {
+        private static let prefix = "AmountInput."
+        
+        @objc static let cryptoAmountTitleLabel = "\(prefix)cryptoAmountTitleLabel"
+        @objc static let cryptoAmountTextField = "\(prefix)cryptoAmountTextField"
+        
+        @objc static let fiatAmountTitleLabel = "\(prefix)fiatAmountTitleLabel"
+        @objc static let fiatAmountTextField = "\(prefix)fiatAmountTextField"
+    }
+    
+    @objc(AccessibilityIdentifiers_TotalAmount) class TotalAmount: NSObject {
+        private static let prefix = "TotalAmount."
+        
+        @objc static let fiatAmountLabel = "\(prefix)fiatAmountLabel"
+        @objc static let cryptoAmountLabel = "\(prefix)cryptoAmountLabel"
+    }
+    
+    // MARK: - General
+    
+    @objc(AccessibilityIdentifiers_General) class General: NSObject {
+        private static let prefix = "General."
+        @objc static let mainCTAButton = "\(prefix)mainCTAButton"
+    }
+    
+    // MARK: - Number Keypad
     
     class NumberKeypadView {
         static let numberButton = "NumberKeypadView.numberButton"
         static let decimalButton = "NumberKeypadView.decimalButton"
         static let backspace = "NumberKeypadView.backspace"
+    }
+    
+    // MARK: - Password Confirmation
+    
+    struct PasswordConfirm {
+        private static let prefix = "PasswordConfirm."
+        static let passwordTextField = "\(prefix)passwordTextField"
+        static let descriptionLabel = "\(prefix)descriptionLabel"
     }
     
     // MARK: Dashboard

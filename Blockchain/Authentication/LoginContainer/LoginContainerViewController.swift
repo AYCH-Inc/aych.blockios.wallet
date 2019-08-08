@@ -66,7 +66,7 @@ class LoginContainerViewController: UIViewController {
     
     init(using inputs: [Input]) {
         self.inputs = inputs
-        super.init(nibName: LoginContainerViewController.className, bundle: nil)
+        super.init(nibName: String(describing: LoginContainerViewController.self), bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -77,9 +77,9 @@ class LoginContainerViewController: UIViewController {
         super.viewDidLoad()
         collectionView.collectionViewLayout = collectionViewFlowLayout
         collectionView.delegate = self
-        collectionView.register(UINib(nibName: LoginContainerCollectionViewCell.className,
+        collectionView.register(UINib(nibName: String(describing: LoginContainerCollectionViewCell.self),
                                       bundle: nil),
-                                forCellWithReuseIdentifier: LoginContainerCollectionViewCell.className)
+                                forCellWithReuseIdentifier: String(describing: LoginContainerCollectionViewCell.self))
         pageControl.pageIndicatorTintColor = .addressPageIndicator
         pageControl.currentPageIndicatorTintColor = .tertiary
         pageControl.currentPage = 0
@@ -95,10 +95,23 @@ class LoginContainerViewController: UIViewController {
         view.layoutIfNeeded()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Following an issue that occurred only on iPhone 5 + iOS 10, that the PIN gets stretched,
+        // need to refresh the collection view layout when the view appears
+        prepareCollectionViewLayout()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collectionViewFlowLayout.itemSize = CGSize(width: view.bounds.width,
-                                                   height: pageControl.frame.minY - view.layoutMargins.top)
+        prepareCollectionViewLayout()
+    }
+    
+    private func prepareCollectionViewLayout() {
+        collectionViewFlowLayout.itemSize = CGSize(
+            width: view.bounds.width,
+            height: pageControl.frame.minY - view.layoutMargins.top
+        )
         collectionViewFlowLayout.invalidateLayout()
     }
     
@@ -130,7 +143,7 @@ class LoginContainerViewController: UIViewController {
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 
 extension LoginContainerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-        
+    
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         return inputs.count
@@ -138,7 +151,7 @@ extension LoginContainerViewController: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LoginContainerCollectionViewCell.className,
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: LoginContainerCollectionViewCell.self),
                                                       for: indexPath) as! LoginContainerCollectionViewCell
         
         let input = inputs[indexPath.row]

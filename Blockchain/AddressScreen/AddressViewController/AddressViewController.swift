@@ -36,7 +36,7 @@ final class AddressViewController: UIViewController {
     
     init(using presenter: AddressPresenter) {
         self.presenter = presenter
-        super.init(nibName: AddressViewController.className, bundle: nil)
+        super.init(nibName: String(describing: AddressViewController.self), bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {

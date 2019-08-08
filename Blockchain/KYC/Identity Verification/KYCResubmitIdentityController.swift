@@ -80,7 +80,8 @@ final class KYCResubmitIdentityController: KYCBaseViewController {
     private func dependenciesSetup() {
         let interactor = KYCVerifyIdentityInteractor()
         let identityPresenter = KYCVerifyIdentityPresenter(interactor: interactor, loadingView: self)
-        identityPresenter.delegate = self
+        identityPresenter.cameraPromptingDelegate = self
+        identityPresenter.microphonePromptingDelegate = self
         presenter = identityPresenter
         delegate = presenter
     }
@@ -154,8 +155,10 @@ extension KYCResubmitIdentityController: VeriffController {
     }
 }
 
-extension KYCResubmitIdentityController: CameraPromptingDelegate {
-    func proceed() {
+extension KYCResubmitIdentityController: CameraPromptingDelegate { }
+
+extension KYCResubmitIdentityController: MicrophonePromptingDelegate {
+    func onMicrophonePromptingComplete() {
         startVerificationFlow()
     }
 }

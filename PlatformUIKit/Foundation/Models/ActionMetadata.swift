@@ -16,8 +16,18 @@ public protocol ActionPayload { }
 /// need some custom behavior.
 public enum ActionMetadata {
     case url(URL)
-    case block(() -> ())
+    case block(() -> Void)
     case pop
     case dismiss
     case payload(ActionPayload)
+    
+    /// Returns the associated block closure (if any)
+    public var block: (() -> Void)? {
+        switch self {
+        case .block(let block):
+            return block
+        default:
+            return nil
+        }
+    }
 }

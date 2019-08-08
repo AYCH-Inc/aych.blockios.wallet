@@ -69,7 +69,7 @@ import PlatformUIKit
         tabControllerManager.sendBitcoinCashViewController?.reload()
 
         self.dataRepository.prefetchData()
-        self.xlmServiceProvider.services.accounts.prefetch()
+        self.stellarServiceProvider.services.accounts.prefetch()
 
         /// Prompt the user for push notification permission
         PushNotificationManager.shared.requestAuthorization()
@@ -140,7 +140,7 @@ import PlatformUIKit
     }
 
     let dataRepository: BlockchainDataRepository
-    let xlmServiceProvider: XLMServiceProvider
+    let stellarServiceProvider: StellarServiceProvider
     
     let walletManager: WalletManager
     private let walletService: WalletService
@@ -159,14 +159,14 @@ import PlatformUIKit
          loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared,
          walletService: WalletService = WalletService.shared,
          dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
-         xlmServiceProvider: XLMServiceProvider = XLMServiceProvider.shared,
+         stellarServiceProvider: StellarServiceProvider = StellarServiceProvider.shared,
          deepLinkRouter: DeepLinkRouter = DeepLinkRouter(),
          recorder: ErrorRecording = CrashlyticsRecorder(),
          pitRepository: PITAccountRepositoryAPI = PITAccountRepository()) {
         self.walletManager = walletManager
         self.walletService = walletService
         self.dataRepository = dataRepository
-        self.xlmServiceProvider = xlmServiceProvider
+        self.stellarServiceProvider = stellarServiceProvider
         self.deepLinkRouter = deepLinkRouter
         self.recorder = recorder
         self.loadingViewPresenter = loadingViewPresenter
@@ -186,7 +186,7 @@ import PlatformUIKit
     /// Starts the authentication flow. If the user has a pin set, it will trigger
     /// present the pin entry screen, otherwise, it will show the password screen.
     @objc func start() {
-        if self.appSettings.isPinSet {
+        if appSettings.isPinSet {
             authenticatePin()
         } else {
             disposable = walletService.walletOptions
@@ -236,7 +236,7 @@ import PlatformUIKit
         dataRepository.clearCache()
 
         SocketManager.shared.disconnectAll()
-        XLMServiceProvider.shared.tearDown()
+        StellarServiceProvider.shared.tearDown()
         appSettings.reset()
         onboardingSettings.reset()
 

@@ -121,10 +121,21 @@ extension CryptoValue: Money {
 // MARK: - Operators
 
 extension CryptoValue: Hashable, Equatable {
+    
     private static func ensureComparable(value: CryptoValue, other: CryptoValue) throws {
         if value.currencyType != other.currencyType {
             throw CryptoComparisonError(currencyType1: value.currencyType, currencyType2: other.currencyType)
         }
+    }
+    
+    public static func max(_ x: CryptoValue, _ y: CryptoValue) throws -> CryptoValue {
+        try ensureComparable(value: x, other: y)
+        return try x > y ? x : y
+    }
+    
+    public static func min(_ x: CryptoValue, _ y: CryptoValue) throws -> CryptoValue {
+        try ensureComparable(value: x, other: y)
+        return try x < y ? x : y
     }
     
     public static func + (lhs: CryptoValue, rhs: CryptoValue) throws -> CryptoValue {

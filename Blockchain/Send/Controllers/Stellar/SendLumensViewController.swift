@@ -79,7 +79,7 @@ protocol SendXLMViewControllerDelegate: class {
     @IBOutlet fileprivate var topToStackViewConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate var useMaxLabel: ActionableLabel!
     @IBOutlet fileprivate var primaryButtonContainer: PrimaryButtonContainer!
-    @IBOutlet fileprivate var learnAbountStellarButton: UIButton!
+    @IBOutlet fileprivate var learnAboutStellarButton: UIButton!
     @IBOutlet fileprivate var bottomStackView: UIStackView!
     @IBOutlet fileprivate var memoSelectionTypeButton: UIButton!
     
@@ -100,7 +100,7 @@ protocol SendXLMViewControllerDelegate: class {
     
     // MARK: Factory
     
-    @objc class func make(with provider: XLMServiceProvider) -> SendLumensViewController {
+    @objc class func make(with provider: StellarServiceProvider) -> SendLumensViewController {
         let controller = SendLumensViewController.makeFromStoryboard()
         controller.coordinator = SendXLMCoordinator(
             serviceProvider: provider,
@@ -193,7 +193,7 @@ protocol SendXLMViewControllerDelegate: class {
         memoTextField.delegate = self
         stellarAddressField.delegate = self
         primaryButtonContainer.isEnabled = true
-        learnAbountStellarButton.titleLabel?.textAlignment = .center
+        learnAboutStellarButton.titleLabel?.textAlignment = .center
         primaryButtonContainer.actionBlock = { [unowned self] in
             guard let toAddress = self.stellarAddressField.text else { return }
             guard let amount = self.xlmAmount else { return }
@@ -202,11 +202,43 @@ protocol SendXLMViewControllerDelegate: class {
             self.delegate?.onPrimaryTapped(toAddress: toAddress, amount: amount, feeInXlm: fee, memo: self.memo)
         }
         delegate?.onLoad()
+        setupAccessibility()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         delegate?.onAppear()
+    }
+    
+    private func setupAccessibility() {
+        fromLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.sourceAccountTitleLabel
+        walletNameLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.sourceAccountValueLabel
+        
+        toLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.destinationAddressTitleLabel
+        destinationAddressIndicatorLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.destinationAddressIndicatorLabel
+        stellarAddressField.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.destinationAddressTextField
+
+        stellarSymbolLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.cryptoTitleLabel
+        stellarAmountField.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.cryptoAmountTextField
+        
+        fiatSymbolLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.fiatTitleLabel
+        fiatAmountField.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.fiatAmountTextField
+
+        feeLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.feesTitleLabel
+        feeAmountLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.feesValueLabel
+
+        errorLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.errorLabel
+        
+        useMaxLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.maxAvailableLabel
+        
+        pitAddressButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.pitAddressButton
+        
+        memoSelectionTypeButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.Stellar.memoSelectionTypeButton
+        memoIDTextField.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.Stellar.memoIDTextField
+        memoTextField.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.Stellar.memoTextField
+        memoLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.Stellar.memoLabel
+        
+        learnAboutStellarButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.Stellar.moreInfoButton
     }
     
     fileprivate func clearMemoField() {
@@ -273,7 +305,7 @@ protocol SendXLMViewControllerDelegate: class {
         case .errorLabelVisibility(let visibility):
             errorLabel.isHidden = visibility.isHidden
         case .learnAboutStellarButtonVisibility(let visibility):
-            learnAbountStellarButton.isHidden = visibility.isHidden
+            learnAboutStellarButton.isHidden = visibility.isHidden
         case .actionableLabelVisibility(let visibility):
             useMaxLabel.isHidden = visibility.isHidden
         case .memoTextFieldShouldBeginEditing:

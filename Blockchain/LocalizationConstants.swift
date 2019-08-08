@@ -509,7 +509,6 @@ struct LocalizationConstants {
         static let  BC_STRING_TRANSACTION_FEE = NSLocalizedString("Transaction Fee", comment: "")
         static let  BC_STRING_NETWORK_TRANSACTION_FEE = NSLocalizedString("Network Transaction Fee", comment: "")
         static let  BC_STRING_SHAPESHIFT_WITHDRAWAL_FEE = NSLocalizedString("ShapeShift Withdrawal Fee", comment: "")
-        static let  BC_STRING_AGREE_TO_SHAPESHIFT = NSLocalizedString("Agree to ShapeShift", comment: "")
         static let  BC_STRING_TERMS_AND_CONDITIONS = NSLocalizedString("terms and conditions", comment: "")
         static let  BC_STRING_EXCHANGE_IN_PROGRESS = NSLocalizedString("Exchange In Progress", comment: "")
         static let  BC_STRING_EXCHANGE_COMPLETED = NSLocalizedString("Exchange Completed", comment: "")
@@ -635,6 +634,7 @@ struct LocalizationConstants {
         static let errorLoadingWalletIdentifierFromKeychain = NSLocalizedString("An error was encountered retrieving your wallet identifier from the keychain. Please close the application and try again.", comment: "")
         static let cameraAccessDenied = NSLocalizedString("Camera Access Denied", comment: "")
         static let cameraAccessDeniedMessage = NSLocalizedString("Blockchain does not have access to the camera. To enable access, go to your device Settings.", comment: "")
+        static let microphoneAccessDeniedMessage = NSLocalizedString("Blockchain does not have access to the microphone. To enable access, go to your device Settings.", comment: "")
         static let nameAlreadyInUse = NSLocalizedString("This name is already in use. Please choose a different name.", comment: "")
         static let failedToRetrieveDevice = NSLocalizedString("Unable to retrieve the input device.", comment: "AVCaptureDeviceError: failedToRetrieveDevice")
         static let inputError = NSLocalizedString("There was an error with the device input.", comment: "AVCaptureDeviceError: inputError")
@@ -2058,6 +2058,10 @@ struct LocalizationConstants {
             "Please allow your Blockchain App access your camera to upload your ID and take a Selfie.",
             comment: "Description as to why the user should permit camera access"
         )
+        static let enableMicrophoneDescription = NSLocalizedString(
+            "Please allow your Blockchain app access to your microphone. This is an optional request designed to enhance user security while performing ID verification",
+            comment: "Description as to why the user should permit microphone access"
+        )
         static let isCountrySupportedHeader = NSLocalizedString(
             "Is my country supported?",
             comment: "Header for text notifying the user that maybe not all countries are supported for airdrop."
@@ -2078,6 +2082,10 @@ struct LocalizationConstants {
             "Allow camera access?",
             comment: "Headline in alert asking the user to allow camera access."
         )
+        static let allowMicrophoneAccess = NSLocalizedString(
+            "Allow microphone access?",
+            comment: "Headline in alert asking the user to allow microphone access."
+        )
         static let streetLine = NSLocalizedString("Street line", comment: "Street line")
         static let addressLine = NSLocalizedString("Address line", comment: "Address line")
         static let city = NSLocalizedString("City", comment: "city")
@@ -2094,6 +2102,9 @@ struct LocalizationConstants {
     }
 
     struct Swap {
+        static let available = NSLocalizedString("Available", comment: "")
+        static let your = NSLocalizedString("Your", comment: "")
+        static let balance = NSLocalizedString("Balance", comment: "")
         static let successfulExchangeDescription = NSLocalizedString("Success! Your Exchange has been started!", comment: "A successful swap alert")
         static let viewOrderDetails = NSLocalizedString("View Order Details", comment: "View Order Details")
         static let exchangeStarted = NSLocalizedString("Your Exchange has been started!", comment: "Your exchange has been started")
@@ -2144,6 +2155,29 @@ struct LocalizationConstants {
         static let swapInfo = NSLocalizedString("Swap Info", comment: "Swap Info")
         static let close = NSLocalizedString("Close", comment: "Close")
         static let orderHistory = NSLocalizedString("Order History", comment: "Order History")
+        
+        struct Tutorial {
+            struct PageOne {
+                static let title = NSLocalizedString("Welcome to Swap!", comment: "")
+                static let subtitle = NSLocalizedString("The easiest way to exchange one crypto for another without leaving your wallet.", comment: "")
+            }
+            struct PageTwo {
+                static let title = NSLocalizedString("Real-time Exchange Rates", comment: "")
+                static let subtitle = NSLocalizedString("Access competitive crypto prices right at your fingertips.", comment: "")
+            }
+            struct PageThree {
+                static let title = NSLocalizedString("100% On-Chain", comment: "")
+                static let subtitle = NSLocalizedString("All Swap trades are confirmed and settled directly on-chain.", comment: "")
+            }
+            struct PageFour {
+                static let title = NSLocalizedString("You Control Your Key", comment: "")
+                static let subtitle = NSLocalizedString("With Swap your crypto is safe, secure, and your keys are always intact.", comment: "")
+            }
+            struct PageFive {
+                static let title = NSLocalizedString("Manage Risk Better", comment: "")
+                static let subtitle = NSLocalizedString("Introducing Digital US Dollars (USD PAX) to de-risk your crypto investment or lock-in gains.", comment: "")
+            }
+        }
     }
 
     struct Lockbox {

@@ -14,7 +14,7 @@ protocol LoadingViewProtocol {
     var viewRepresentation: UIView { get }
 }
 
-extension LoadingViewProtocol where Self: UIView  {
+extension LoadingViewProtocol where Self: UIView {
     var viewRepresentation: UIView {
         return self as UIView
     }

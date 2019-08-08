@@ -80,7 +80,7 @@
     BOOL showChevron = indexPath.row == 0;
     AssetType asset = [AssetTypeLegacyHelper convertFromLegacy:legacyAsset];
 
-    AssetTypeCell *cell = [tableView dequeueReusableCellWithIdentifier:[AssetTypeCell identifier]];
+    AssetTypeCell *cell = [tableView dequeueReusableCellWithIdentifier:[AssetTypeCell identifier] forIndexPath:indexPath];
     cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, 0.0);
     [cell configureWith:asset showChevronButton:showChevron];
     cell.delegate = self;
@@ -119,15 +119,19 @@
 
 - (void)hide
 {
+    [self.superview layoutIfNeeded];
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
         [self changeHeight:0];
+        [self.superview layoutIfNeeded];
     }];
 }
 
 - (void)show
 {
+    [self.superview layoutIfNeeded];
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
         [self changeHeight:[ConstantsObjcBridge assetTypeCellHeight]];
+        [self.superview layoutIfNeeded];
     }];
 }
 
@@ -135,9 +139,11 @@
 {
     self.isOpen = YES;
 
+    [self.tableView reloadData];
+    [self.superview layoutIfNeeded];
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [self.tableView reloadData];
         [self changeHeight:[ConstantsObjcBridge assetTypeCellHeight] * self.assets.count];
+        [self.superview layoutIfNeeded];
     }];
 }
 
@@ -146,9 +152,11 @@
     if (self.isOpen) {
         self.isOpen = NO;
         
+        [self.tableView reloadData];
+        [self.superview layoutIfNeeded];
         [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-            [self.tableView reloadData];
             [self changeHeight:[ConstantsObjcBridge assetTypeCellHeight]];
+            [self.superview layoutIfNeeded];
         }];
     }
 }

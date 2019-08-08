@@ -20,6 +20,7 @@
         self.btcLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, labelWidth, 21)];
         self.btcLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL];
         self.btcLabel.textColor = UIColor.gray5;
+        self.btcLabel.accessibilityIdentifier = AccessibilityIdentifiers_AmountInput.cryptoAmountTitleLabel;
         [self addSubview:self.btcLabel];
         
         // Field width will be space remaining after subtracting widths of all other subviews and spacing in the row
@@ -29,12 +30,14 @@
         self.btcField.placeholder = [NSString stringWithFormat:BTC_PLACEHOLDER_DECIMAL_SEPARATOR_ARGUMENT, [[NSLocale currentLocale] objectForKey:NSLocaleDecimalSeparator]];
         self.btcField.keyboardType = UIKeyboardTypeDecimalPad;
         self.btcField.textColor = UIColor.gray5;
+        self.btcField.accessibilityIdentifier = AccessibilityIdentifiers_AmountInput.cryptoAmountTextField;
         [self addSubview:self.btcField];
         
         self.fiatLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.btcField.frame.origin.x + self.btcField.frame.size.width + 8, 15, labelWidth, 21)];
         self.fiatLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL];
         self.fiatLabel.textColor = UIColor.gray5;
         self.fiatLabel.text = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code;
+        self.fiatField.accessibilityIdentifier = AccessibilityIdentifiers_AmountInput.fiatAmountTitleLabel;
         [self addSubview:self.fiatLabel];
         
         CGFloat receiveFiatFieldOriginX =  self.fiatLabel.frame.origin.x + self.fiatLabel.frame.size.width + 8;
@@ -43,7 +46,9 @@
         self.fiatField.placeholder = [NSString stringWithFormat:FIAT_PLACEHOLDER_DECIMAL_SEPARATOR_ARGUMENT, [[NSLocale currentLocale] objectForKey:NSLocaleDecimalSeparator]];
         self.fiatField.textColor = UIColor.gray5;
         self.fiatField.keyboardType = UIKeyboardTypeDecimalPad;
+        self.fiatField.accessibilityIdentifier = AccessibilityIdentifiers_AmountInput.fiatAmountTextField;
         [self addSubview:self.fiatField];
+        
     }
     return self;
 }

@@ -110,7 +110,6 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
         initFooter()
         validationFieldsSetup()
         setupNotifications()
-        setUpBottomButtonContainerView()
 
         primaryButtonContainer.title = LocalizationConstants.KYC.submit
         primaryButtonContainer.actionBlock = { [weak self] in
@@ -252,14 +251,6 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
         NotificationCenter.when(UIResponder.keyboardWillHideNotification) { [weak self] _ in
             self?.scrollView.contentInset = .zero
             self?.scrollView.setContentOffset(.zero, animated: true)
-            guard let keyboard = self?.keyboard else { return }
-            self?.keyboardWillHide(with: keyboard)
-            self?.keyboard = nil
-        }
-        NotificationCenter.when(UIResponder.keyboardWillShowNotification) { [weak self] notification in
-            let keyboard = KeyboardPayload(notification: notification)
-            self?.keyboardWillShow(with: keyboard)
-            self?.keyboard = keyboard
         }
     }
 
@@ -366,7 +357,6 @@ extension KYCAddressController: UISearchBarDelegate {
 
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.setShowsCancelButton(false, animated: true)
-        searchDelegate?.onSearchViewCancel()
         return true
     }
 
@@ -391,7 +381,9 @@ extension KYCAddressController: UISearchBarDelegate {
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
         searchDelegate?.onSearchViewCancel()
+        searchBar.text = nil
     }
 }
 

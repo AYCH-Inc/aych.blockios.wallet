@@ -264,7 +264,10 @@ extension KYCTiersViewController: KYCTierCellDelegate {
         if let block = self.selectedTier {
             block(selectedTier)
         } else {
-            KYCCoordinator.shared.start(from: self, tier: selectedTier)
+            KYCCoordinator.shared.start(
+                from: AppCoordinator.shared.tabControllerManager,
+                tier: selectedTier
+            )
         }
     }
 }

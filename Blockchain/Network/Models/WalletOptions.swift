@@ -12,24 +12,6 @@ typealias JSON = [String: Any]
 
 // TODO: Conform to Decodable
 struct WalletOptions {
-
-    struct Keys {
-        static let partners = "partners"
-        static let coinify = "coinify"
-        static let partnerId = "partnerId"
-        static let countries = "countries"
-        static let mobile = "mobile"
-        static let walletRoot = "walletRoot"
-        static let maintenance = "maintenance"
-        static let mobileInfo = "mobileInfo"
-        static let shapeshift = "shapeshift"
-        static let xlm = "xlm"
-        
-        static let ios = "ios"
-        static let update = "update"
-        static let updateType = "updateType"
-        static let latestStoreVersion = "latestStoreVersion"
-    }
     
     // MARK: - Internal Types
     
@@ -65,6 +47,35 @@ struct WalletOptions {
         }
     }
     
+    struct Keys {
+        static let domains = "domains"
+        
+        static let partners = "partners"
+        static let coinify = "coinify"
+        static let partnerId = "partnerId"
+        static let countries = "countries"
+        static let mobile = "mobile"
+        static let walletRoot = "walletRoot"
+        static let maintenance = "maintenance"
+        static let mobileInfo = "mobileInfo"
+        static let shapeshift = "shapeshift"
+        static let xlm = "xlm"
+        
+        static let ios = "ios"
+        static let update = "update"
+        static let updateType = "updateType"
+        static let latestStoreVersion = "latestStoreVersion"
+    }
+    
+    struct Domains {
+        
+        enum Keys: String {
+            case stellarHorizon
+        }
+        
+        let stellarHorizon: String?
+    }
+
     struct Mobile {
         let walletRoot: String?
     }
@@ -93,6 +104,8 @@ struct WalletOptions {
     }
 
     // MARK: - Properties
+    
+    let domains: Domains?
 
     let updateType: UpdateType
     
@@ -109,6 +122,20 @@ struct WalletOptions {
     let coinifyMetadata: Coinify?
     
     let xlmMetadata: XLMMetadata?
+}
+
+extension WalletOptions.Domains {
+    init?(json: JSON) {
+        guard
+            let mobile = json[WalletOptions.Keys.domains] as? [String: String],
+            let stellarHorizonURLString = mobile[Keys.stellarHorizon.rawValue],
+            !stellarHorizonURLString.isEmpty,
+            let stellarHorizonURL = URL(string: stellarHorizonURLString)
+        else {
+            return nil
+        }
+        self.stellarHorizon = stellarHorizonURL.absoluteString
+    }
 }
 
 extension WalletOptions.Coinify {
@@ -219,6 +246,7 @@ extension WalletOptions.UpdateType {
 
 extension WalletOptions {
     init(json: JSON) {
+        self.domains = WalletOptions.Domains(json: json)
         self.downForMaintenance = json[Keys.maintenance] as? Bool ?? false
         self.mobile = WalletOptions.Mobile(json: json)
         self.mobileInfo = WalletOptions.MobileInfo(json: json)

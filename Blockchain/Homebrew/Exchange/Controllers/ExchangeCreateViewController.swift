@@ -22,8 +22,58 @@ protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
     var rightNavigationCTAType: NavigationCTAType { get }
 }
 
+struct BalanceMetadata {
+    let cryptoBalance: CryptoValue
+    let cryptoFees: CryptoValue
+    let fiatBalance: FiatValue
+    let fiatFees: FiatValue
+}
+
+extension BalanceMetadata {
+    func displayValue(includingFees: Bool = true) throws -> NSAttributedString? {
+        let font = Font(.branded(.montserratSemiBold), size: .custom(12.0)).result
+        var cryptoValue: CryptoValue = cryptoBalance
+        var fiatValue: FiatValue = fiatBalance
+        if includingFees {
+            do {
+                /// We do not want to show a negative value when showing your available balance.
+                cryptoValue = try CryptoValue.max(cryptoBalance - cryptoFees, CryptoValue.zero(assetType: cryptoValue.currencyType))
+                fiatValue = try FiatValue.max(fiatBalance - fiatFees, FiatValue.zero(currencyCode: BlockchainSettings.App.shared.fiatCurrencyCode))
+            } catch {
+                return nil
+            }
+        }
+        
+        var description = LocalizationConstants.Swap.your + " \(cryptoValue.currencyType.symbol) " + LocalizationConstants.Swap.balance
+        if includingFees {
+            description = LocalizationConstants.Swap.available + " \(cryptoValue.currencyType.symbol)"
+        }
+        
+        let crypto = NSAttributedString(
+            string: description,
+            attributes: [.font: font,
+                         .foregroundColor: UIColor.brandPrimary]
+        )
+        let fiat = NSAttributedString(
+            string: fiatValue.toDisplayString(includeSymbol: true, locale: .current),
+            attributes: [.font: font,
+                         .foregroundColor: UIColor.green]
+        )
+        let asset = NSAttributedString(
+            string: cryptoValue.toDisplayString(includeSymbol: true, locale: .current),
+            attributes: [.font: font,
+                         .foregroundColor: UIColor.darkGray]
+        )
+        let formattedFiat = [fiat, asset].join(withSeparator: .space())
+        let result = [crypto, formattedFiat].join(withSeparator: .lineBreak())
+        return result
+    }
+}
+
 // swiftlint:disable line_length
 class ExchangeCreateViewController: UIViewController {
+    
+    private typealias AccessibilityIdentifier = AccessibilityIdentifiers.Exchange.Create
     
     // MARK: Private Static Properties
     
@@ -43,6 +93,7 @@ class ExchangeCreateViewController: UIViewController {
 
     // Amount being typed in converted to input crypto or input fiat
     @IBOutlet private var secondaryAmountLabel: UILabel!
+    
     @IBOutlet private var walletBalanceLabel: UILabel!
     @IBOutlet private var conversionRateLabel: UILabel!
     
@@ -64,9 +115,15 @@ class ExchangeCreateViewController: UIViewController {
     }
     
     enum TransitionUpdate: Transition {
+        case updateBalanceMetadata(BalanceMetadata)
         case updateConversionRateLabel(NSAttributedString)
         case updateBalanceLabel(NSAttributedString)
         case primaryLabelTextColor(UIColor)
+    }
+    
+    enum BalanceDisplayType {
+        case total
+        case available
     }
 
     // MARK: Public Properties
@@ -80,6 +137,9 @@ class ExchangeCreateViewController: UIViewController {
     private var assetAccountListPresenter: ExchangeAssetAccountListPresenter!
     private var fromAccount: AssetAccount!
     private var toAccount: AssetAccount!
+    private var balanceDisplayType: BalanceDisplayType = .total
+    private var balanceMetadata: BalanceMetadata?
+    private let feedback: UISelectionFeedbackGenerator = UISelectionFeedbackGenerator()
     private let disposables = CompositeDisposable()
     private let bag: DisposeBag = DisposeBag()
 
@@ -94,7 +154,6 @@ class ExchangeCreateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = LocalizationConstants.Swap.swap
-        exchangeButton.accessibilityIdentifier = AccessibilityIdentifiers.ExchangeScreen.exchangeButton
         let disposable = dependenciesSetup()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
@@ -103,9 +162,11 @@ class ExchangeCreateViewController: UIViewController {
                 self.viewsSetup()
                 self.delegate?.onViewDidLoad()
             })
+        walletBalanceLabel.addGestureRecognizer(balanceTapGesture)
         disposables.insertWithDiscardableResult(disposable)
         exchangeButton.isExclusiveTouch = true
         setupNotifications()
+        setupAccessibility()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -120,6 +181,14 @@ class ExchangeCreateViewController: UIViewController {
 
     // MARK: Private
 
+    private func setupAccessibility() {
+        primaryAmountLabel.accessibilityIdentifier = AccessibilityIdentifier.primaryAmountLabel
+        secondaryAmountLabel.accessibilityIdentifier = AccessibilityIdentifier.secondaryAmountLabel
+        walletBalanceLabel.accessibilityIdentifier = AccessibilityIdentifier.walletBalanceLabel
+        conversionRateLabel.accessibilityIdentifier = AccessibilityIdentifier.conversionRateLabel
+        exchangeButton.accessibilityIdentifier = Accessibility.Identifier.General.mainCTAButton
+    }
+    
     private func viewsSetup() {
         [primaryAmountLabel, secondaryAmountLabel].forEach {
             $0?.textColor = UIColor.brandPrimary
@@ -281,6 +350,21 @@ class ExchangeCreateViewController: UIViewController {
     @IBAction private func exchangeButtonTapped(_ sender: Any) {
         delegate?.onExchangeButtonTapped()
     }
+    
+    @objc func balanceTapped(_ sender: UITapGestureRecognizer) {
+        balanceDisplayType = balanceDisplayType == .available ? .total : .available
+        guard let metadata = balanceMetadata else { return }
+        feedback.prepare()
+        feedback.selectionChanged()
+        walletBalanceLabel.attributedText = try? metadata.displayValue(includingFees: balanceDisplayType == .available)
+    }
+    
+    // MARK: - Lazy Properties
+    
+    private lazy var balanceTapGesture: UITapGestureRecognizer = {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(balanceTapped(_:)))
+        return tap
+    }()
 }
 
 // MARK: - Styling
@@ -369,6 +453,10 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
     
     func apply(transition: TransitionUpdate) {
         switch transition {
+        case .updateBalanceMetadata(let metadata):
+            balanceMetadata = metadata
+            let value = try? metadata.displayValue(includingFees: balanceDisplayType == .available)
+            walletBalanceLabel.attributedText = value
         case .primaryLabelTextColor(let color):
             primaryAmountLabel.textColor = color
         case .updateConversionRateLabel(let attributedString):

@@ -9,10 +9,10 @@
 import Foundation
 import RxSwift
 
-typealias CompletionHandler = ((Result<[ExchangeTradeModel], Error>) -> Void)
+typealias CompletionHandler = ((Result<[ExchangeTradeCellModel], Error>) -> Void)
 
 protocol ExchangeHistoryAPI {
-    var tradeModels: [ExchangeTradeModel] { get set }
+    var tradeModels: [ExchangeTradeCellModel] { get set }
     var canPage: Bool { get set }
     
     func hasExecutedTrades() -> Single<Bool>
@@ -30,15 +30,12 @@ class ExchangeService: NSObject {
     /// cannot have stored properties. 
     static let shared = ExchangeService()
     
-    typealias CompletionHandler = ((Result<[ExchangeTradeModel], Error>) -> Void)
+    typealias CompletionHandler = ((Result<[ExchangeTradeCellModel], Error>) -> Void)
 
-    var tradeModels: [ExchangeTradeModel] = []
+    var tradeModels: [ExchangeTradeCellModel] = []
     var canPage: Bool = false
     
-    fileprivate let partnerAPI: PartnerExchangeAPI = PartnerExchangeService()
     fileprivate let homebrewAPI: HomebrewExchangeAPI = HomebrewExchangeService()
-    
-    fileprivate var partnerOperation: AsyncBlockOperation!
     fileprivate var homebrewOperation: AsyncBlockOperation!
     fileprivate let tradeQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -46,7 +43,7 @@ class ExchangeService: NSObject {
         return queue
     }()
     
-    fileprivate func sort(models: [ExchangeTradeModel]) -> [ExchangeTradeModel] {
+    fileprivate func sort(models: [ExchangeTradeCellModel]) -> [ExchangeTradeCellModel] {
         let sorted = models.sorted(by: { $0.transactionDate.compare($1.transactionDate) == .orderedDescending })
         return sorted
     }
@@ -76,7 +73,7 @@ extension ExchangeService: ExchangeHistoryAPI {
             guard op.isExecuting == false else { return }
         }
         
-        var result: Result<[ExchangeTradeModel], Error> = .failure(NSError())
+        var result: Result<[ExchangeTradeCellModel], Error> = .failure(NSError())
         homebrewOperation = AsyncBlockOperation(executionBlock: { [weak self] complete in
             guard let this = self else { return }
             this.homebrewAPI.nextPage(fromTimestamp: date, completion: { payload in
@@ -108,19 +105,6 @@ extension ExchangeService: ExchangeHistoryAPI {
         guard tradeQueue.operations.count == 0 else { return }
         tradeModels = []
         
-        partnerOperation = AsyncBlockOperation(executionBlock: { [weak self] complete in
-            guard let this = self else { return }
-            this.partnerAPI.fetchTransactions(with: { result in
-                switch result {
-                case .success(let payload):
-                    this.tradeModels.append(contentsOf: payload)
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-                complete()
-            })
-        })
-        
         homebrewOperation = AsyncBlockOperation(executionBlock: { [weak self] complete in
             guard let this = self else { return }
             this.homebrewAPI.nextPage(fromTimestamp: Date(), completion: { result in
@@ -141,9 +125,7 @@ extension ExchangeService: ExchangeHistoryAPI {
             completion(.success(this.tradeModels))
         }
         
-        homebrewOperation.addDependency(partnerOperation)
-        
-        tradeQueue.addOperations([partnerOperation, homebrewOperation], waitUntilFinished: false)
+        tradeQueue.addOperations([homebrewOperation], waitUntilFinished: false)
     }
     
     func isExecuting() -> Bool {

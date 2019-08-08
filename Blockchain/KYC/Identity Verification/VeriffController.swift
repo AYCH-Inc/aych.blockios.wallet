@@ -49,7 +49,7 @@ extension VeriffController where Self: UIViewController {
             guard let modifiedURL = components?.url else { return }
             url = modifiedURL
         }
-        let config = VeriffConfiguration(sessionToken: token, sessionUrl: url.absoluteString)
+        guard let config = VeriffConfiguration(sessionToken: token, sessionUrl: url.absoluteString) else { return }
 
         veriff.set(configuration: config)
 
@@ -77,6 +77,8 @@ extension VeriffController {
             onVeriffSubmissionCompleted()
         case .STATUS_USER_CANCELED:
             onVeriffCancelled()
+        case .UNABLE_TO_ACCESS_MICROPHONE:
+            onVeriffError(message: LocalizationConstants.Errors.microphoneAccessDeniedMessage)
         }
     }
 }

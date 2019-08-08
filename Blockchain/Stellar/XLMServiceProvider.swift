@@ -11,22 +11,22 @@ import RxSwift
 import PlatformKit
 import StellarKit
 
-protocol XLMDependencies {
+protocol XLMDependenciesAPI {
     var accounts: StellarAccountAPI { get }
-    var ledger: StellarLedgerService { get }
+    var ledger: StellarLedgerAPI { get }
     var operation: StellarOperationsAPI { get }
     var transaction: StellarTransactionAPI { get }
     var limits: StellarTradeLimitsAPI { get }
-    var repository: StellarWalletAccountRepository { get }
+    var repository: StellarWalletAccountRepositoryAPI { get }
     var prices: PriceServiceAPI { get }
     var walletActionEventBus: WalletActionEventBus { get }
     var feeService: StellarFeeServiceAPI { get }
 }
 
-struct XLMServices: XLMDependencies {
-    var repository: StellarWalletAccountRepository
+struct StellarServices: XLMDependenciesAPI {
+    var repository: StellarWalletAccountRepositoryAPI
     var accounts: StellarAccountAPI
-    var ledger: StellarLedgerService
+    var ledger: StellarLedgerAPI
     var operation: StellarOperationsAPI
     var transaction: StellarTransactionAPI
     var prices: PriceServiceAPI
@@ -35,71 +35,73 @@ struct XLMServices: XLMDependencies {
     var feeService: StellarFeeServiceAPI
 
     init(
-        configuration: StellarConfiguration,
+        configurationService: StellarConfigurationAPI = StellarConfigurationService.shared,
         wallet: Wallet = WalletManager.shared.wallet,
         eventBus: WalletActionEventBus = WalletActionEventBus.shared,
         xlmFeeService: StellarFeeServiceAPI = StellarFeeService.shared
     ) {
         walletActionEventBus = eventBus
         repository = StellarWalletAccountRepository(with: wallet)
-        ledger = StellarLedgerService(configuration: configuration, feeService: xlmFeeService)
+        ledger = StellarLedgerService(
+            configurationService: configurationService,
+            feeService: xlmFeeService
+        )
         accounts = StellarAccountService(
-            configuration: configuration,
             ledgerService: ledger,
             repository: repository
         )
         transaction = StellarTransactionService(
-            configuration: configuration,
+            configurationService: configurationService,
             accounts: accounts,
             repository: repository
         )
-        operation = StellarOperationService(configuration: configuration, repository: repository)
+        operation = StellarOperationService(
+            configurationService: configurationService,
+            repository: repository
+        )
         prices = PriceServiceClient()
         limits = StellarTradeLimitsService(ledgerService: ledger, accountsService: accounts)
         feeService = xlmFeeService
     }
-    
-    static let test: XLMServices = XLMServices(configuration: .test)
-    static let production: XLMServices = XLMServices(configuration: .production)
 }
 
-class XLMServiceProvider: NSObject {
+class StellarServiceProvider: NSObject {
     
-    let services: XLMServices
+    let services: StellarServices
     
-    fileprivate let disposables = CompositeDisposable()
-    fileprivate var ledger: StellarLedgerService {
+    static let shared = StellarServiceProvider.make()
+    
+    @objc static func sharedInstance() -> StellarServiceProvider {
+        return shared
+    }
+
+    @objc class func make() -> StellarServiceProvider {
+        return StellarServiceProvider(services: StellarServices())
+    }
+    
+    private var ledger: StellarLedgerAPI {
         return services.ledger
     }
-    fileprivate var accounts: StellarAccountAPI {
+    
+    private var accounts: StellarAccountAPI {
         return services.accounts
     }
     
-    static let shared = XLMServiceProvider.make()
+    private let bag = DisposeBag()
     
-    @objc static func sharedInstance() -> XLMServiceProvider {
-        return shared
-    }
-    
-    @objc class func make() -> XLMServiceProvider {
-        return XLMServiceProvider(services: .production)
-    }
-    
-    init(services: XLMServices) {
+    init(services: StellarServices) {
         self.services = services
         super.init()
         setup()
     }
 
-    deinit {
-        disposables.dispose()
-    }
     fileprivate func setup() {
-        let combine = Observable.combineLatest(
-            ledger.current,
-            accounts.currentStellarAccount(fromCache: false).asObservable()
-        ).subscribe()
-        disposables.insertWithDiscardableResult(combine)
+        Observable.combineLatest(
+                ledger.current,
+                accounts.currentStellarAccount(fromCache: false).asObservable()
+            )
+            .subscribe()
+            .disposed(by: bag)
     }
     
     @objc func tearDown() {

@@ -13,7 +13,7 @@ protocol ExchangeListDelegate: class {
     func onLoaded()
     func onDisappear()
     func onNextPageRequest(_ identifier: String)
-    func onTradeCellTapped(_ trade: ExchangeTradeModel)
+    func onTradeCellTapped(_ trade: ExchangeTradeCellModel)
     func onPullToRefresh()
 }
 
@@ -84,7 +84,7 @@ class ExchangeListViewController: UIViewController {
 }
 
 extension ExchangeListViewController: ExchangeListInterface {
-    func showTradeDetails(trade: ExchangeTradeModel) {
+    func showTradeDetails(trade: ExchangeTradeCellModel) {
         let model = ExchangeDetailPageModel(type: .overview(trade))
         let detailViewController = ExchangeDetailViewController.make(
             with: model,
@@ -101,11 +101,11 @@ extension ExchangeListViewController: ExchangeListInterface {
         dataProvider?.isRefreshing = visibility.isHidden == false
     }
     
-    func display(results: [ExchangeTradeModel]) {
+    func display(results: [ExchangeTradeCellModel]) {
         dataProvider?.set(tradeModels: results)
     }
     
-    func append(results: [ExchangeTradeModel]) {
+    func append(results: [ExchangeTradeCellModel]) {
         dataProvider?.append(tradeModels: results)
     }
     
@@ -123,7 +123,7 @@ extension ExchangeListViewController: ExchangeListInterface {
 }
 
 extension ExchangeListViewController: ExchangeListDataProviderDelegate {
-    func dataProvider(_ dataProvider: ExchangeListDataProvider, didSelect trade: ExchangeTradeModel) {
+    func dataProvider(_ dataProvider: ExchangeListDataProvider, didSelect trade: ExchangeTradeCellModel) {
         delegate?.onTradeCellTapped(trade)
     }
     

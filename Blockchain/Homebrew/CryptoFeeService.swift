@@ -17,6 +17,11 @@ public protocol FeeServiceAPI {
     /// current BTC transaction fees. We use this in order to inject a `fee` value
     /// into the JS. Only `Swap` uses priority fees.
     var bitcoin: Single<BitcoinTransactionFee> { get }
+    
+    /// This pulls from a Blockchain.info endpoint that serves up
+    /// current BTC transaction fees. We use this in order to inject a `fee` value
+    /// into the JS. Only `Swap` uses priority fees.
+    var bitcoinCash: Single<BitcoinCashTransactionFee> { get }
 
     /// This pulls from a Blockchain.info endpoint that serves up
     /// current ETH transaction fees. We use this in order to inject a `fee` value
@@ -37,6 +42,10 @@ public final class FeeService: FeeServiceAPI {
     public var bitcoin: Single<BitcoinTransactionFee> {
         return bitcoinFeeService.fees
     }
+    
+    public var bitcoinCash: Single<BitcoinCashTransactionFee> {
+        return bitcoinCashFeeService.fees
+    }
 
     public var ethereum: Single<EthereumTransactionFee> {
         return ethereumFeeService.fees
@@ -49,13 +58,16 @@ public final class FeeService: FeeServiceAPI {
     // MARK: - Private properties
 
     private let bitcoinFeeService: CryptoFeeService<BitcoinTransactionFee>
+    private let bitcoinCashFeeService: CryptoFeeService<BitcoinCashTransactionFee>
     private let ethereumFeeService: CryptoFeeService<EthereumTransactionFee>
     private let stellarFeeService: CryptoFeeService<StellarTransactionFee>
 
     init(bitcoinFeeService: CryptoFeeService<BitcoinTransactionFee> = CryptoFeeService<BitcoinTransactionFee>.shared,
+         bitcoinCashFeeService: CryptoFeeService<BitcoinCashTransactionFee> = CryptoFeeService<BitcoinCashTransactionFee>.shared,
          ethereumFeeService: CryptoFeeService<EthereumTransactionFee> = CryptoFeeService<EthereumTransactionFee>.shared,
          stellarFeeService: CryptoFeeService<StellarTransactionFee> = CryptoFeeService<StellarTransactionFee>.shared) {
         self.bitcoinFeeService = bitcoinFeeService
+        self.bitcoinCashFeeService = bitcoinCashFeeService
         self.ethereumFeeService = ethereumFeeService
         self.stellarFeeService = stellarFeeService
     }
@@ -90,6 +102,10 @@ public final class CryptoFeeService<T: TransactionFee & Decodable>: CryptoFeeSer
 }
 
 extension CryptoFeeService where T == BitcoinTransactionFee {
+    static let shared: CryptoFeeService<T> = CryptoFeeService<T>()
+}
+
+extension CryptoFeeService where T == BitcoinCashTransactionFee {
     static let shared: CryptoFeeService<T> = CryptoFeeService<T>()
 }
 

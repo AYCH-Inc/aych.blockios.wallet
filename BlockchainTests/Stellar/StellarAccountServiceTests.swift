@@ -13,6 +13,10 @@ import XCTest
 @testable import Blockchain
 
 fileprivate class MockLedgerService: StellarLedgerAPI {
+    
+    var fallbackBaseReserve: Decimal = 0
+    var fallbackBaseFee: Decimal = 0
+    
     var currentLedger: StellarLedger?
 
     var current: Observable<StellarLedger> {
@@ -23,6 +27,10 @@ fileprivate class MockLedgerService: StellarLedgerAPI {
     }
 }
 
+class StellarConfigurationServiceMock: StellarConfigurationAPI {
+    var configuration: Single<StellarConfiguration> = Single.just(StellarConfiguration.Stellar.test)
+}
+
 class StellarAccountServiceTests: XCTestCase {
 
     private var ledgerService: MockLedgerService!
@@ -31,8 +39,10 @@ class StellarAccountServiceTests: XCTestCase {
     override func setUp() {
         super.setUp()
         ledgerService = MockLedgerService()
+        
+        
         accountService = StellarAccountService(
-            configuration: .test,
+            configurationService: StellarConfigurationServiceMock(),
             ledgerService: ledgerService,
             repository: StellarWalletAccountRepository(with: MockStellarBridge())
         )

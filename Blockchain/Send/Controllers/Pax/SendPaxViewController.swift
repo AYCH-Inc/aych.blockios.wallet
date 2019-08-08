@@ -41,24 +41,32 @@ class SendPaxViewController: UIViewController {
     @IBOutlet private var outerStackView: UIStackView!
     @IBOutlet private var topGravityStackView: UIStackView!
 
-    @IBOutlet private var paxWalletLabel: UILabel!
+    @IBOutlet private var sourceAccountTitleLabel: UILabel!
+    @IBOutlet private var sourceAccountValueLabel: UILabel!
+    
+    @IBOutlet private var destinationAddressTitleLabel: UILabel!
+    @IBOutlet private var destinationAddressIndicatorLabel: UILabel!
+    @IBOutlet private var destinationAddressTextField: UITextField!
+
+    @IBOutlet private var feesTitleLabel: UILabel!
     @IBOutlet private var networkFeesLabel: UILabel!
-    @IBOutlet private var currencyLabel: UILabel!
+    
     @IBOutlet private var maxAvailableLabel: ActionableLabel!
 
-    @IBOutlet private var destinationAddressIndicatorLabel: UILabel!
-    @IBOutlet private var paxAddressTextField: UITextField!
-    @IBOutlet private var paxTextField: UITextField!
-    @IBOutlet private var fiatTextField: UITextField!
+    @IBOutlet private var cryptoTitleLabel: UILabel!
+    @IBOutlet private var cryptoAmountTextField: UITextField!
+    
+    @IBOutlet private var fiatTitleLabel: UILabel!
+    @IBOutlet private var fiatAmountTextField: UITextField!
     
     @IBOutlet private var sendNowButton: UIButton!
     @IBOutlet private var pitAddressButton: UIButton!
     
     private var fields: [UITextField] {
         return [
-            paxAddressTextField,
-            paxTextField,
-            fiatTextField
+            destinationAddressTextField,
+            cryptoAmountTextField,
+            fiatAmountTextField
         ]
     }
     
@@ -109,11 +117,36 @@ class SendPaxViewController: UIViewController {
         maxAvailableLabel.delegate = self
         delegate?.onLoad()
         setupKeyboard()
+        setupAccessibility()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         delegate?.onAppear()
+    }
+    
+    private func setupAccessibility() {
+        sourceAccountTitleLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.sourceAccountTitleLabel
+        sourceAccountValueLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.sourceAccountValueLabel
+        
+        destinationAddressTitleLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.destinationAddressTitleLabel
+        destinationAddressTextField.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.destinationAddressTextField
+        destinationAddressIndicatorLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.destinationAddressIndicatorLabel
+        
+        feesTitleLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.feesTitleLabel
+        networkFeesLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.feesValueLabel
+        
+        maxAvailableLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.maxAvailableLabel
+        
+        cryptoTitleLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.cryptoTitleLabel
+        cryptoAmountTextField.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.cryptoAmountTextField
+
+        fiatTitleLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.fiatTitleLabel
+        fiatAmountTextField.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.fiatAmountTextField
+        
+        pitAddressButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.pitAddressButton
+        
+        sendNowButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.continueButton
     }
     
     private func setupKeyboard() {
@@ -123,31 +156,31 @@ class SendPaxViewController: UIViewController {
         bar.items = [ flexibleSpace, doneButton ]
         bar.sizeToFit()
         
-        paxAddressTextField.inputAccessoryView = bar
-        fiatTextField.inputAccessoryView = bar
-        paxTextField.inputAccessoryView = bar
+        destinationAddressTextField.inputAccessoryView = bar
+        fiatAmountTextField.inputAccessoryView = bar
+        cryptoAmountTextField.inputAccessoryView = bar
         hideKeyboardWhenTappedAround()
     }
     
     private func apply(_ update: SendMoniesPresentationUpdate) {
         switch update {
         case .cryptoValueTextField(let amount):
-            guard paxTextField.isFirstResponder == false else { return }
+            guard cryptoAmountTextField.isFirstResponder == false else { return }
             if amount?.amount == 0 {
-                paxTextField.text = ""
+                cryptoAmountTextField.text = ""
             } else {
-                paxTextField.text = amount?.toDisplayString(includeSymbol: false)
+                cryptoAmountTextField.text = amount?.toDisplayString(includeSymbol: false)
             }
         case .feeValueLabel(let fee):
             networkFeesLabel.text = fee
         case .toAddressTextField(let address):
-            paxAddressTextField.text = address
+            destinationAddressTextField.text = address
         case .fiatValueTextField(let amount):
-            guard fiatTextField.isFirstResponder == false else { return }
+            guard fiatAmountTextField.isFirstResponder == false else { return }
             if amount?.amount == 0 {
-                fiatTextField.text = ""
+                fiatAmountTextField.text = ""
             } else {
-                fiatTextField.text = amount?.toDisplayString(includeSymbol: false, locale: Locale.current)
+                fiatAmountTextField.text = amount?.toDisplayString(includeSymbol: false, locale: Locale.current)
             }
         case .loadingIndicatorVisibility(let visibility):
             switch visibility {
@@ -179,7 +212,7 @@ class SendPaxViewController: UIViewController {
                 navController.update()
             }
         case .walletLabel(let accountLabel):
-            paxWalletLabel.text = accountLabel
+            sourceAccountValueLabel.text = accountLabel
         case .maxAvailable(let max):
             maxAvailableTrigger = ActionableTrigger(
                 text: LocalizationConstants.SendAsset.useTotalSpendableBalance,
@@ -189,18 +222,18 @@ class SendPaxViewController: UIViewController {
                 self?.delegate?.onPaxEntry(max)
             }
         case .fiatCurrencyLabel(let fiatCurrency):
-            currencyLabel.text = fiatCurrency
+            fiatTitleLabel.text = fiatCurrency
         case .pitAddressButtonVisibility(let isVisible):
             pitAddressButton.isHidden = !isVisible
         case .usePitAddress(let address):
-            paxAddressTextField.text = address
+            destinationAddressTextField.text = address
             if address == nil {
                 pitAddressButton.setImage(UIImage(named: "pit_icon_small"), for: .normal)
-                paxAddressTextField.isHidden = false
+                destinationAddressTextField.isHidden = false
                 destinationAddressIndicatorLabel.text = nil
             } else {
                 pitAddressButton.setImage(UIImage(named: "cancel_icon"), for: .normal)
-                paxAddressTextField.isHidden = true
+                destinationAddressTextField.isHidden = true
                 destinationAddressIndicatorLabel.text = String(format: LocalizationConstants.PIT.Send.destination,
                                                                AssetType.pax.symbol)
             }
@@ -272,11 +305,11 @@ class SendPaxViewController: UIViewController {
 extension SendPaxViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let text = textField.text, !text.isEmpty else { return }
-        if textField == paxTextField {
+        if textField == cryptoAmountTextField {
             let value = CryptoValue.paxFromMajor(string: text)
             delegate?.onPaxEntry(value)
         }
-        if textField == fiatTextField {
+        if textField == fiatAmountTextField {
             let currencyCode = BlockchainSettings.App.shared.fiatCurrencyCode
             let value = FiatValue.create(amountString: text, currencyCode: currencyCode)
             delegate?.onFiatEntry(value)
@@ -284,7 +317,7 @@ extension SendPaxViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        if textField == paxAddressTextField {
+        if textField == destinationAddressTextField {
             delegate?.onAddressEntry("")
         }
         return true
@@ -295,14 +328,14 @@ extension SendPaxViewController: UITextFieldDelegate {
         
         let replacementInput = (text as NSString).replacingCharacters(in: range, with: string)
         
-        if textField == paxAddressTextField {
+        if textField == destinationAddressTextField {
             delegate?.onAddressEntry(replacementInput)
         }
-        if textField == paxTextField {
+        if textField == cryptoAmountTextField {
             let value = CryptoValue.paxFromMajor(string: replacementInput)
             delegate?.onPaxEntry(value)
         }
-        if textField == fiatTextField {
+        if textField == fiatAmountTextField {
             let currencyCode = BlockchainSettings.App.shared.fiatCurrencyCode
             let value = FiatValue.create(amountString: replacementInput, currencyCode: currencyCode)
             delegate?.onFiatEntry(value)

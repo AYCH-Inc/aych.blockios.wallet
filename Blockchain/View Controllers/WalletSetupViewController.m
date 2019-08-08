@@ -158,6 +158,7 @@
 
 - (void)dismiss
 {
+    // TODO: Remove notification center driven operations
     self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self dismissViewControllerAnimated:YES completion:^{
         NSNotification *walletSetupCompleteNotification = [NSNotification notificationWithName:[ConstantsObjcBridge walletSetupDismissedNotification] object:nil];

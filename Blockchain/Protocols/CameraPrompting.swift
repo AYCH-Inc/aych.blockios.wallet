@@ -12,7 +12,7 @@ import PlatformUIKit
 
 protocol CameraPrompting: class {
     var permissionsRequestor: PermissionsRequestor { get set }
-    var delegate: CameraPromptingDelegate? { get set }
+    var cameraPromptingDelegate: CameraPromptingDelegate? { get set }
 
     // Call this when an action requires camera usage
     func willUseCamera()
@@ -20,38 +20,65 @@ protocol CameraPrompting: class {
     func requestCameraPermissions()
 }
 
-extension CameraPrompting {
+extension CameraPrompting where Self: MicrophonePrompting {
     func willUseCamera() {
         if PermissionsRequestor.shouldDisplayCameraPermissionsRequest() {
-            delegate?.promptToAcceptCameraPermissions(confirmHandler: {
+            cameraPromptingDelegate?.promptToAcceptCameraPermissions(confirmHandler: {
                 self.requestCameraPermissions()
             })
             return
         }
         if PermissionsRequestor.cameraRefused() == false {
-            delegate?.proceed()
+            willUseMicrophone()
         } else {
-            delegate?.showCameraPermissionsDenied()
+            cameraPromptingDelegate?.showCameraPermissionsDenied()
         }
     }
 
     func requestCameraPermissions() {
-        permissionsRequestor.requestPermissions(camera: true) { [weak self] in
+        permissionsRequestor.requestPermissions([.camera]) { [weak self] in
             guard let this = self else { return }
             switch PermissionsRequestor.cameraEnabled() {
             case true:
-                this.delegate?.proceed()
+                this.willUseMicrophone()
             case false:
-                this.delegate?.showCameraPermissionsDenied()
+                this.cameraPromptingDelegate?.showCameraPermissionsDenied()
             }
         }
     }
 }
 
 protocol CameraPromptingDelegate: class {
-    func proceed()
     func showCameraPermissionsDenied()
     func promptToAcceptCameraPermissions(confirmHandler: @escaping (() -> Void))
+}
+
+protocol MicrophonePromptingDelegate: class {
+    func onMicrophonePromptingComplete()
+    func promptToAcceptMicrophonePermissions(confirmHandler: @escaping (() -> Void))
+}
+
+extension MicrophonePromptingDelegate {
+    func promptToAcceptMicrophonePermissions(confirmHandler: @escaping (() -> Void)) {
+        let okay = AlertAction(style: .confirm(LocalizationConstants.okString))
+        let notNow = AlertAction(style: .default(LocalizationConstants.KYC.notNow))
+        
+        let model = AlertModel(
+            headline: LocalizationConstants.KYC.allowMicrophoneAccess,
+            body: LocalizationConstants.KYC.enableMicrophoneDescription,
+            actions: [okay, notNow]
+        )
+        let alert = AlertView.make(with: model) { output in
+            switch output.style {
+            case .confirm,
+                 .default:
+                confirmHandler()
+            case .dismiss:
+                break
+            }
+        }
+        alert.show()
+    }
 }
 
 extension CameraPromptingDelegate {

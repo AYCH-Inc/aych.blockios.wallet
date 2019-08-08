@@ -28,6 +28,9 @@ enum ExchangeCellModel {
         let statusTintColor: UIColor
         let bold: Bool
 
+        let descriptionAccessibilityId: String
+        let valueAccessibilityId: String
+        
         var descriptionActionBlock: LabelAction?
 
         init(
@@ -36,7 +39,9 @@ enum ExchangeCellModel {
             backgroundColor: UIColor = .white,
             statusVisibility: Visibility = .hidden,
             bold: Bool = false,
-            statusTintColor: UIColor = .green
+            statusTintColor: UIColor = .green,
+            descriptionAccessibilityId: String,
+            valueAccessibilityId: String
             ) {
             self.description = description
             self.value = value
@@ -44,6 +49,8 @@ enum ExchangeCellModel {
             self.statusVisibility = statusVisibility
             self.bold = bold
             self.statusTintColor = statusTintColor
+            self.descriptionAccessibilityId = descriptionAccessibilityId
+            self.valueAccessibilityId = valueAccessibilityId
         }
     }
     

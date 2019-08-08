@@ -12,6 +12,10 @@ import PlatformKit
 @testable import StellarKit
 
 class StellarWalletAccountRepositoryMock: StellarWalletAccountRepositoryAPI {
+    func initializeMetadataMaybe() -> Maybe<StellarWalletAccount> {
+        return Maybe.empty()
+    }
+    
     var defaultAccount: StellarWalletAccount?
     
     func loadKeyPair() -> Maybe<StellarKeyPair> {

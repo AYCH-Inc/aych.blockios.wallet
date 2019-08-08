@@ -40,7 +40,7 @@ extension ExchangeListPresenter: ExchangeListDelegate {
         interactor.refresh()
     }
 
-    func onTradeCellTapped(_ trade: ExchangeTradeModel) {
+    func onTradeCellTapped(_ trade: ExchangeTradeCellModel) {
         interface?.showTradeDetails(trade: trade)
     }
 }
@@ -54,22 +54,22 @@ extension ExchangeListPresenter: ExchangeListOutput {
         // TODO:
     }
     
-    func loadedTrades(_ trades: [ExchangeTradeModel]) {
+    func loadedTrades(_ trades: [ExchangeTradeCellModel]) {
         interface?.refreshControlVisibility(.hidden)
         interface?.display(results: trades)
     }
     
-    func appendTrades(_ trades: [ExchangeTradeModel]) {
+    func appendTrades(_ trades: [ExchangeTradeCellModel]) {
         interface?.paginationActivityIndicatorVisibility(.hidden)
         interface?.append(results: trades)
     }
     
-    func refreshedTrades(_ trades: [ExchangeTradeModel]) {
+    func refreshedTrades(_ trades: [ExchangeTradeCellModel]) {
         interface?.refreshControlVisibility(.hidden)
         interface?.display(results: trades)
     }
     
-    func tradeWithIdentifier(_ identifier: String) -> ExchangeTradeModel? {
+    func tradeWithIdentifier(_ identifier: String) -> ExchangeTradeCellModel? {
         return interactor.tradeSelectedWith(identifier: identifier)
     }
     

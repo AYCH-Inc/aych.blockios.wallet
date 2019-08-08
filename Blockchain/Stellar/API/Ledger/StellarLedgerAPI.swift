@@ -10,7 +10,9 @@ import Foundation
 import RxSwift
 
 protocol StellarLedgerAPI {
+    var fallbackBaseReserve: Decimal { get }
+    var fallbackBaseFee: Decimal { get }
+    
     var current: Observable<StellarLedger> { get }
     var currentLedger: StellarLedger? { get }
 }
-

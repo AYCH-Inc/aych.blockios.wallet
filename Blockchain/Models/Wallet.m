@@ -2433,15 +2433,6 @@ NSString * const kLockboxInvitation = @"lockbox";
 
 #pragma mark - Exchange
 
-- (BOOL)isExchangeEnabled
-{
-    if ([self isInitialized]) {
-        return [[self.context evaluateScript:@"MyWalletPhone.isExchangeEnabled()"] toBool];
-    }
-
-    return NO;
-}
-
 - (NSArray *)availableUSStates
 {
     if ([self isInitialized]) {
@@ -2452,114 +2443,10 @@ NSString * const kLockboxInvitation = @"lockbox";
     return nil;
 }
 
-- (BOOL)isStateWhitelistedForShapeshift:(NSString *)stateCode
-{
-    if ([self isInitialized]) {
-        return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.isStateWhitelistedForShapeshift(\"%@\")", [stateCode escapedForJS]]] toBool];
-    }
-
-    return NO;
-}
-
-- (void)selectState:(NSString *)name code:(NSString *)code
-{
-    if ([self isInitialized]) {
-        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.setStateForShapeshift(\"%@\", \"%@\")", [name escapedForJS], [code escapedForJS]]];
-    }
-}
-
 - (void)getExchangeTrades
 {
     self.isFetchingExchangeTrades = YES;
      if ([self isInitialized]) [self.context evaluateScript:@"MyWalletPhone.getExchangeTrades()"];
-}
-
-- (void)getRate:(NSString *)coinPair
-{
-    if ([self isInitialized]) [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getRate(\"%@\")", [coinPair escapedForJS]]];
-}
-
-- (NSURLSessionDataTask *)getApproximateQuote:(NSString *)coinPair usingFromField:(BOOL)usingFromField amount:(NSString *)amount completion:(void (^)(NSDictionary *, NSURLResponse *, NSError *))completion
-{
-    if ([self isInitialized]) {
-        DLog(@"Getting approximate quote");
-
-        NSString *convertedAmount = [NSNumberFormatter convertedDecimalString:amount];
-
-        NSURL *URL = [NSURL URLWithString:@"https://shapeshift.io/sendamount"];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-
-        NSString *apiKey = [[self.context evaluateScript:@"MyWalletPhone.getShapeshiftApiKey()"] toString];
-
-        NSString *depositOrWithdrawParameter = usingFromField ? @"depositAmount" : @"withdrawalAmount";
-
-        NSString *postParameters = [NSString stringWithFormat:@"{\"pair\":\"%@\",\"%@\":\"%@\",\"apiKey\":\"%@\"}", [coinPair escapedForJS], [depositOrWithdrawParameter escapedForJS], [convertedAmount escapedForJS], [apiKey escapedForJS]];
-        NSData *postData = [postParameters dataUsingEncoding:NSUTF8StringEncoding];
-
-        [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPMethod:@"POST"];
-        [request setHTTPBody:postData];
-
-        NSURLSessionDataTask *task = [[[NetworkManager sharedInstance] session] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if (error) {
-                DLog(@"Error getting approximate quote: %@", error);
-                NSInteger cancelledErrorCode = -999;
-                if (error.code != cancelledErrorCode) {
-                    [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_ERROR_GETTING_APPROXIMATE_QUOTE_ARGUMENT_MESSAGE, error] title:BC_STRING_ERROR in:nil handler:nil];
-                }
-            } else {
-                NSError *jsonError;
-                NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-                if (result[DICTIONARY_KEY_ERROR] && [result[DICTIONARY_KEY_ERROR] isKindOfClass:[NSDictionary class]]) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_ERROR_GETTING_APPROXIMATE_QUOTE_ARGUMENT_MESSAGE, result[DICTIONARY_KEY_ERROR][DICTIONARY_KEY_MESSAGE]] title:BC_STRING_ERROR in:nil handler:nil];
-                    });
-                } else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        if (completion) completion(result, response, error);
-                    });
-                }
-            }
-        }];
-
-        [task resume];
-
-        return task;
-    }
-
-    return nil;
-}
-
-- (void)getAvailableBtcBalanceForAccount:(int)account
-{
-    if ([self isInitialized]) [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getAvailableBtcBalanceForAccount(\"%d\")", account]];
-}
-
-- (void)getAvailableEthBalance
-{
-    if ([self isInitialized]) [self.context evaluateScript:@"MyWalletPhone.getAvailableEthBalance()"];
-}
-
-- (void)getAvailableBchBalanceForAccount:(int)account
-{
-    if ([self isInitialized]) [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.getAvailableBalanceForAccount(\"%d\")", account]];
-}
-
-- (void)buildExchangeTradeFromAccount:(int)fromAccount toAccount:(int)toAccount coinPair:(NSString *)coinPair amount:(NSString *)amount fee:(NSString *)fee
-{
-    if ([self isInitialized]) {
-
-        NSString *convertedAmount = [NSNumberFormatter convertedDecimalString:amount];
-
-        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.buildExchangeTrade(%d, %d, \"%@\", \"%@\", \"%@\")", fromAccount, toAccount, [[coinPair lowercaseString] escapedForJS], [convertedAmount escapedForJS], [fee escapedForJS]]];
-    }
-}
-
-- (void)shiftPayment
-{
-    if ([self isInitialized]) {
-        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.shiftPayment()"]];
-    }
 }
 
 - (BOOL)isDepositTransaction:(NSString *)txHash

@@ -30,7 +30,9 @@ class PlainCell: ExchangeDetailCell {
         
         layer.cornerRadius = 4.0
         subject.text = payload.description
+        subject.accessibilityIdentifier = payload.descriptionAccessibilityId
         descriptionLabel.text = payload.value
+        descriptionLabel.accessibilityIdentifier = payload.valueAccessibilityId
         subject.font = payload.bold ? PlainCell.mediumFont() : PlainCell.standardFont()
         descriptionLabel.font = payload.bold ? PlainCell.mediumFont() : PlainCell.standardFont()
         backgroundColor = payload.backgroundColor

@@ -8,13 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class BridgedDisposeBag;
 @class AnnouncementCardViewModel;
+@class AnnouncementPresenter;
 
 @interface CardsViewController : UIViewController
-// TICKET: IOS-1249 - Refactor CardsViewController
+
 @property (nonatomic) CGFloat cardsViewHeight;
 @property (nonatomic) UIView *dashboardContentView;
 @property (nonatomic) UIScrollView *dashboardScrollView;
+
+@property (nonatomic, strong) BridgedDisposeBag *disposeBag;
+@property (nonatomic, strong) AnnouncementPresenter *announcementPresenter;
 
 // This should be private or readonly, but it cannot be accessed
 // from an extension.
@@ -24,8 +29,4 @@
 - (void)animateHideCards;
 - (void)showSingleCardWithViewModel:(AnnouncementCardViewModel *)viewModel;
 
-// Actions
-- (void)stellarAirdropCardActionTapped;
-- (void)stellarModalPromptForAirdropRegistrationActionTapped;
-- (void)coinifyKycActionTapped;
 @end

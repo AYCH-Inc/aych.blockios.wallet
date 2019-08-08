@@ -34,11 +34,17 @@ import PlatformKit
     // Used to open and close the AssetSelectorView.
     @IBOutlet var chevronButton: UIButton!
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        chevronButton.accessibilityIdentifier = AccessibilityIdentifiers.AssetSelection.toggleButton
+    }
+    
     @objc func configure(with assetType: AssetType, showChevronButton: Bool) {
         self.assetType = assetType
         assetImageView.image = assetType.whiteImageSmall
         label.text = assetType.description
         chevronButton.isHidden = !showChevronButton
+        accessibilityIdentifier = "\(AccessibilityIdentifiers.AssetSelection.assetPrefix)\(assetType.symbol)"
     }
 
     @IBAction private func chevronButtonTapped(_ sender: UIButton) {

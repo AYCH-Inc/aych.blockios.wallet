@@ -49,47 +49,61 @@ class StellarLedgerService: StellarLedgerAPI {
     }
     
     private var getLedgers: Single<StellarLedger> {
-        return Single<StellarLedger>.create { observer -> Disposable in
-            self.ledgersService.ledgers(cursor: nil, order: .descending, limit: 1) { result in
-                switch result {
-                case .success(let value):
-                    if let input = value.allRecords.first {
-                        let ledger = StellarLedger(
-                            identifier: input.id,
-                            token: input.pagingToken,
-                            sequence: Int(input.sequenceNumber),
-                            transactionCount: input.successfulTransactionCount,
-                            operationCount: input.operationCount,
-                            closedAt: input.closedAt,
-                            totalCoins: input.totalCoins,
-                            baseFeeInStroops: input.baseFeeInStroops,
-                            baseReserveInStroops: input.baseReserveInStroops
-                        )
-                        observer(.success(ledger))
-                    } else {
-                        observer(.error(NSError() as Error))
+        return ledgersService.flatMap(weak: self) { (self, ledgersService) -> Single<StellarLedger> in
+            return Single<StellarLedger>.create { observer -> Disposable in
+                ledgersService.ledgers(cursor: nil, order: .descending, limit: 1) { result in
+                    switch result {
+                    case .success(let value):
+                        if let input = value.allRecords.first {
+                            let ledger = StellarLedger(
+                                identifier: input.id,
+                                token: input.pagingToken,
+                                sequence: Int(input.sequenceNumber),
+                                transactionCount: input.successfulTransactionCount,
+                                operationCount: input.operationCount,
+                                closedAt: input.closedAt,
+                                totalCoins: input.totalCoins,
+                                baseFeeInStroops: input.baseFeeInStroops,
+                                baseReserveInStroops: input.baseReserveInStroops
+                            )
+                            observer(.success(ledger))
+                        } else {
+                            observer(.error(NSError() as Error))
+                        }
+                    case .failure(let error):
+                        observer(.error(error))
                     }
-                case .failure(let error):
-                    observer(.error(error))
                 }
+                return Disposables.create()
             }
-            return Disposables.create()
         }
     }
     
-    private let ledgersService: LedgersServiceAPI
-    private let feeService: StellarFeeServiceAPI
-    
-    init(ledgersService: LedgersServiceAPI, feeService: StellarFeeServiceAPI) {
-        self.ledgersService = ledgersService
-        self.feeService = feeService
+    private var ledgersService: Single<LedgersServiceAPI> {
+        guard let ledgersService = ledgersServiceValue else {
+            return sdk.map { $0.ledgers }
+        }
+        return Single.just(ledgersService)
+    }
+
+    private var sdk: Single<stellarsdk.StellarSDK> {
+        return configuration.map { $0.sdk }
     }
     
-    convenience init(configuration: StellarConfiguration = .production, feeService: StellarFeeServiceAPI) {
-        self.init(
-            ledgersService: { configuration.sdk.ledgers }(),
-            feeService: feeService
-        )
+    private var configuration: Single<StellarConfiguration> {
+        return configurationService.configuration
+    }
+    
+    private let configurationService: StellarConfigurationAPI
+    private let feeService: StellarFeeServiceAPI
+    private let ledgersServiceValue: LedgersServiceAPI?
+    
+    init(configurationService: StellarConfigurationAPI = StellarConfigurationService.shared,
+         ledgersService: LedgersServiceAPI? = nil,
+         feeService: StellarFeeServiceAPI = StellarFeeService.shared) {
+        self.ledgersServiceValue = ledgersService
+        self.configurationService = configurationService
+        self.feeService = feeService
     }
     
     private func fetchLedgerStartingWithCache(

@@ -19,6 +19,8 @@ protocol ExchangeDetailCoordinatorDelegate: class {
 // TICKET: IOS-1918 - Refactor `ExchangeDetailCoordinator` into separate classes
 class ExchangeDetailCoordinator: NSObject {
     
+    private typealias AccessibilityIdentifier = AccessibilityIdentifiers.Exchange.Details
+    
     enum Event {
         case pageLoaded(ExchangeDetailPageModel)
         case confirmExchange(OrderTransaction)
@@ -87,27 +89,38 @@ class ExchangeDetailCoordinator: NSObject {
                         
                         let value = ExchangeCellModel.Plain(
                             description: LocalizationConstants.Exchange.value,
-                            value: self.valueString(for: conversion.quote.currencyRatio.counter.fiat.value, currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol),
-                            backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
+                            value: self.valueString(
+                                for: conversion.quote.currencyRatio.counter.fiat.value,
+                                currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol
+                            ),
+                            backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1),
+                            descriptionAccessibilityId: AccessibilityIdentifier.fiatDescriptionLabel,
+                            valueAccessibilityId: AccessibilityIdentifier.fiatValueLabel
                         )
                         
                         let fees = ExchangeCellModel.Plain(
                             description: LocalizationConstants.Exchange.fees,
                             value: orderTransaction.fees + " " + orderTransaction.from.address.assetType.symbol,
-                            backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
+                            backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1),
+                            descriptionAccessibilityId: AccessibilityIdentifier.feesDescriptionLabel,
+                            valueAccessibilityId: AccessibilityIdentifier.feesValueLabel
                         )
                         
                         let receive = ExchangeCellModel.Plain(
                             description: LocalizationConstants.Exchange.receive,
                             value: orderTransaction.amountToReceive + " " + TradingPair(string: conversion.quote.pair)!.to.symbol,
                             backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1),
-                            bold: true
+                            bold: true,
+                            descriptionAccessibilityId: AccessibilityIdentifier.receiveDescriptionLabel,
+                            valueAccessibilityId: AccessibilityIdentifier.receiveValueLabel
                         )
                         
                         let sendTo = ExchangeCellModel.Plain(
                             description: LocalizationConstants.Exchange.sendTo,
                             value: name,
-                            backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1)
+                            backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1),
+                            descriptionAccessibilityId: AccessibilityIdentifier.destinationDescriptionLabel,
+                            valueAccessibilityId: AccessibilityIdentifier.destinationValueLabel
                         )
                         
                         cellModels.append(contentsOf: [
@@ -156,28 +169,38 @@ class ExchangeDetailCoordinator: NSObject {
                             value: self.valueString(
                                 for: conversion.quote.currencyRatio.counter.fiat.value,
                                 currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol
-                            )
+                                ),
+                            descriptionAccessibilityId: AccessibilityIdentifier.fiatDescriptionLabel,
+                            valueAccessibilityId: AccessibilityIdentifier.fiatValueLabel
                         )
                         
                         let fees = ExchangeCellModel.Plain(
                             description: LocalizationConstants.Exchange.fees,
-                            value: orderTransaction.fees + " " + orderTransaction.from.address.assetType.symbol
+                            value: orderTransaction.fees + " " + orderTransaction.from.address.assetType.symbol,
+                            descriptionAccessibilityId: AccessibilityIdentifier.feesDescriptionLabel,
+                            valueAccessibilityId: AccessibilityIdentifier.feesValueLabel
                         )
                         
                         let receive = ExchangeCellModel.Plain(
                             description: LocalizationConstants.Exchange.receive,
                             value: orderTransaction.amountToReceive + " " + TradingPair(string: conversion.quote.pair)!.to.symbol,
-                            bold: true
+                            bold: true,
+                            descriptionAccessibilityId: AccessibilityIdentifier.receiveDescriptionLabel,
+                            valueAccessibilityId: AccessibilityIdentifier.receiveValueLabel
                         )
                         
                         let sendTo = ExchangeCellModel.Plain(
                             description: LocalizationConstants.Exchange.sendTo,
-                            value: name
+                            value: name,
+                            descriptionAccessibilityId: AccessibilityIdentifier.destinationDescriptionLabel,
+                            valueAccessibilityId: AccessibilityIdentifier.destinationValueLabel
                         )
                         
                         var orderId = ExchangeCellModel.Plain(
                             description: LocalizationConstants.Exchange.orderID,
-                            value: orderTransaction.orderIdentifier ?? ""
+                            value: orderTransaction.orderIdentifier ?? "",
+                            descriptionAccessibilityId: AccessibilityIdentifier.orderIdDescriptionLabel,
+                            valueAccessibilityId: AccessibilityIdentifier.orderIdValueLabel
                         )
                         orderId.descriptionActionBlock = {
                             guard let text = $0.text else { return }
@@ -223,38 +246,50 @@ class ExchangeDetailCoordinator: NSObject {
                     value: trade.status.displayValue,
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
                     statusVisibility: .visible,
-                    statusTintColor: trade.status.tintColor
+                    statusTintColor: trade.status.tintColor,
+                    descriptionAccessibilityId: AccessibilityIdentifier.statusDescriptionLabel,
+                    valueAccessibilityId: AccessibilityIdentifier.statusValueLabel
                 )
 
                 let value = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.value,
                     value: valueString(for: trade.amountFiatValue, currencyCode: trade.amountFiatSymbol),
-                    backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1)
+                    backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
+                    descriptionAccessibilityId: AccessibilityIdentifier.fiatDescriptionLabel,
+                    valueAccessibilityId: AccessibilityIdentifier.fiatValueLabel
                 )
 
                 let exchange = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.exchange,
                     value: trade.amountDepositedCrypto,
-                    backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1)
+                    backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
+                    descriptionAccessibilityId: AccessibilityIdentifier.cryptoDescriptionLabel,
+                    valueAccessibilityId: AccessibilityIdentifier.cryptoValueLabel
                 )
 
                 let receive = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.receive,
                     value: trade.amountReceivedCrypto,
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
-                    bold: true
+                    bold: true,
+                    descriptionAccessibilityId: AccessibilityIdentifier.receiveDescriptionLabel,
+                    valueAccessibilityId: AccessibilityIdentifier.receiveValueLabel
                 )
 
                 let fees = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.fees,
                     value: trade.feeDisplayValue,
-                    backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1)
+                    backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
+                    descriptionAccessibilityId: AccessibilityIdentifier.feesDescriptionLabel,
+                    valueAccessibilityId: AccessibilityIdentifier.feesValueLabel
                 )
 
                 var orderId = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.orderID,
                     value: trade.identifier,
-                    backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1)
+                    backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
+                    descriptionAccessibilityId: AccessibilityIdentifier.orderIdDescriptionLabel,
+                    valueAccessibilityId: AccessibilityIdentifier.orderIdValueLabel
                 )
                 orderId.descriptionActionBlock = {
                     guard let text = $0.text else { return }

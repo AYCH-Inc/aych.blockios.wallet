@@ -98,9 +98,12 @@ class ExchangeDetailCoordinator: NSObject {
                             valueAccessibilityId: AccessibilityIdentifier.fiatValueLabel
                         )
                         
+                        let from = orderTransaction.from.address.assetType
+                        let feeAssetType = from.isERC20 ? .ethereum : from
+                        
                         let fees = ExchangeCellModel.Plain(
                             description: LocalizationConstants.Exchange.fees,
-                            value: orderTransaction.fees + " " + orderTransaction.from.address.assetType.symbol,
+                            value: orderTransaction.fees + " " + feeAssetType.symbol,
                             backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1),
                             descriptionAccessibilityId: AccessibilityIdentifier.feesDescriptionLabel,
                             valueAccessibilityId: AccessibilityIdentifier.feesValueLabel

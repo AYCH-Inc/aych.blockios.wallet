@@ -167,7 +167,7 @@ final class AuthenticationManager: NSObject, AuthenticationManagerProtocol {
     var supportedBiometricsType: BiometricsType {
         let context = LAContext()
         let canEvaluate = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
-        if #available(iOS 11, *) {
+        if #available(iOS 11, *), context.responds(to: #selector(getter: LAContext.biometryType)) {
             return .create(from: context.biometryType)
         } else if canEvaluate {
             return .touchId

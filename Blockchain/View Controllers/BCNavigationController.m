@@ -49,6 +49,7 @@
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
     self.headerLabel.adjustsFontSizeToFitWidth = YES;
     self.headerLabel.text = self.headerTitle;
+    self.headerLabel.accessibilityIdentifier = AccessibilityIdentifiers_Navigation.titleLabel;
     self.headerLabel.center = CGPointMake(self.topBar.center.x, self.headerLabel.center.y);
 
     [self.topBar addSubview:self.headerLabel];
@@ -63,6 +64,7 @@
     self.closeButton.center = CGPointMake(self.closeButton.center.x, self.headerLabel.center.y);
     [self.closeButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     [self.closeButton setTintColor:[UIColor whiteColor]];
+    self.closeButton.accessibilityIdentifier = AccessibilityIdentifiers_Navigation.closeButton;
     [self.topBar addSubview:self.closeButton];
     
     self.backButton = [[UIButton alloc] initWithFrame:CGRectZero];
@@ -74,6 +76,7 @@
     UIImage *backImage = [[UIImage imageNamed:@"back_chevron_icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [self.backButton setImage:backImage forState:UIControlStateNormal];
     [self.backButton addTarget:self action:@selector(popViewController) forControlEvents:UIControlEventTouchUpInside];
+    self.backButton.accessibilityIdentifier = AccessibilityIdentifiers_Navigation.backButton;
     [self.topBar addSubview:self.backButton];    
 }
 

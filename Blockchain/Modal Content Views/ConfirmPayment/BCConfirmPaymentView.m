@@ -99,8 +99,15 @@
             [warning changeHeight:fittedSize.height];
             [warning changeYPosition:self.reallyDoPaymentButton.frame.origin.y - warning.frame.size.height - 12];
         }
+        
+        [self setupAccessibility];
     }
     return self;
+}
+
+- (void)setupAccessibility {
+    self.reallyDoPaymentButton.accessibilityIdentifier = AccessibilityIdentifiers_General.mainCTAButton;
+    self.descriptionField.accessibilityIdentifier = AccessibilityIdentifiers_ConfirmSend.descriptionTextField;
 }
 
 - (void)setupRows
@@ -173,8 +180,13 @@
         NSString *detailTextLabel = [self.rows[indexPath.row] lastObject];
 
         cell.textLabel.text = textLabel;
-        cell.detailTextLabel.text = detailTextLabel;
+        cell.textLabel.isAccessibilityElement = YES;
+        cell.textLabel.accessibilityIdentifier = textLabel;
         
+        cell.detailTextLabel.text = detailTextLabel;
+        cell.detailTextLabel.isAccessibilityElement = YES;
+        cell.detailTextLabel.accessibilityIdentifier = detailTextLabel;
+
         cell.detailTextLabel.adjustsFontSizeToFitWidth = [textLabel isEqualToString:BC_STRING_FROM] || [textLabel isEqualToString:BC_STRING_TO] || [textLabel isEqualToString:BC_STRING_AMOUNT];
         
         if ([textLabel isEqualToString:BC_STRING_FEE]) {

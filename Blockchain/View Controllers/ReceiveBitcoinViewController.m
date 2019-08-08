@@ -95,7 +95,7 @@
     
     self.firstLoading = NO;
     
-    [self updateUI];
+    [self updateUI];    
 }
 
 - (void)viewDidDisappear:(BOOL)animated

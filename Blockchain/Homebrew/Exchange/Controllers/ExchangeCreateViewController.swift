@@ -73,6 +73,8 @@ extension BalanceMetadata {
 // swiftlint:disable line_length
 class ExchangeCreateViewController: UIViewController {
     
+    private typealias AccessibilityIdentifier = AccessibilityIdentifiers.Exchange.Create
+    
     // MARK: Private Static Properties
     
     static let isLargerThan5S: Bool = Constants.Booleans.IsUsingScreenSizeLargerThan5s
@@ -91,6 +93,7 @@ class ExchangeCreateViewController: UIViewController {
 
     // Amount being typed in converted to input crypto or input fiat
     @IBOutlet private var secondaryAmountLabel: UILabel!
+    
     @IBOutlet private var walletBalanceLabel: UILabel!
     @IBOutlet private var conversionRateLabel: UILabel!
     
@@ -151,7 +154,6 @@ class ExchangeCreateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = LocalizationConstants.Swap.swap
-        exchangeButton.accessibilityIdentifier = AccessibilityIdentifiers.ExchangeScreen.exchangeButton
         let disposable = dependenciesSetup()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
@@ -164,6 +166,7 @@ class ExchangeCreateViewController: UIViewController {
         disposables.insertWithDiscardableResult(disposable)
         exchangeButton.isExclusiveTouch = true
         setupNotifications()
+        setupAccessibility()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -178,6 +181,14 @@ class ExchangeCreateViewController: UIViewController {
 
     // MARK: Private
 
+    private func setupAccessibility() {
+        primaryAmountLabel.accessibilityIdentifier = AccessibilityIdentifier.primaryAmountLabel
+        secondaryAmountLabel.accessibilityIdentifier = AccessibilityIdentifier.secondaryAmountLabel
+        walletBalanceLabel.accessibilityIdentifier = AccessibilityIdentifier.walletBalanceLabel
+        conversionRateLabel.accessibilityIdentifier = AccessibilityIdentifier.conversionRateLabel
+        exchangeButton.accessibilityIdentifier = Accessibility.Identifier.General.mainCTAButton
+    }
+    
     private func viewsSetup() {
         [primaryAmountLabel, secondaryAmountLabel].forEach {
             $0?.textColor = UIColor.brandPrimary

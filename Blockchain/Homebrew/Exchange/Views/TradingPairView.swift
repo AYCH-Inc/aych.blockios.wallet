@@ -17,6 +17,8 @@ protocol TradingPairViewDelegate: class {
 
 class TradingPairView: NibBasedView {
     
+    private typealias AccessibilityIdentifier = AccessibilityIdentifiers.Exchange.TradingPair
+    
     static let standardHeight: CGFloat = 62.0
     
     typealias TradingTransitionUpdate = TransitionPresentationUpdate<ViewTransition>
@@ -56,6 +58,7 @@ class TradingPairView: NibBasedView {
     override func awakeFromNib() {
         super.awakeFromNib()
         configureButtons()
+        setupAccessibility()
     }
     
     // MARK: Actions
@@ -122,11 +125,9 @@ class TradingPairView: NibBasedView {
         case .titleColor(let color):
             exchangeLabel.textColor = color
             receiveLabel.textColor = color
-            
         case .backgroundColors(left: let leftColor, right: let rightColor):
             leftButton.backgroundColor = leftColor
             rightButton.backgroundColor = rightColor
-            
         case .swapTintColor(let color):
             swapButton.tintColor = color
         }
@@ -136,19 +137,21 @@ class TradingPairView: NibBasedView {
         switch transition {
         case .swapImage(let image):
             swapButton.setImage(image, for: .normal)
-            
         case .images(left: let leftImage, right: let rightImage):
             rightButton.setImage(rightImage, for: .normal)
             leftButton.setImage(leftImage, for: .normal)
-            
         case .titles(left: let leftTitle, right: let rightTitle):
             leftButton.setTitle(leftTitle, for: .normal)
             rightButton.setTitle(rightTitle, for: .normal)
-            let leftIdentifier = "." + leftTitle
-            let rightIdentifier = "." + rightTitle
-            leftButton.accessibilityIdentifier = AccessibilityIdentifiers.TradingPairView.fromLabel + leftIdentifier
-            rightButton.accessibilityIdentifier = AccessibilityIdentifiers.TradingPairView.toLabel + rightIdentifier
         }
+    }
+    
+    private func setupAccessibility() {
+        swapButton.accessibilityIdentifier = AccessibilityIdentifier.swapButton
+        leftButton.accessibilityIdentifier = AccessibilityIdentifier.exchangeButton
+        rightButton.accessibilityIdentifier = AccessibilityIdentifier.receiveButton
+        exchangeLabel.accessibilityIdentifier = AccessibilityIdentifier.exchangeLabel
+        receiveLabel.accessibilityIdentifier = AccessibilityIdentifier.receiveLabel
     }
 
     func configureButtons() {

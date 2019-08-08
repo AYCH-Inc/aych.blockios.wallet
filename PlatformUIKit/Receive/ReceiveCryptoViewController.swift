@@ -13,6 +13,8 @@ import RxSwift
 /// The view of this class can be configured by providing a `ReceiveCryptoViewModel`
 public class ReceiveCryptoViewController: UIViewController {
 
+    private typealias AccessibilityId = Accessibility.Identifier.ReceiveCrypto
+    
     @IBOutlet private var labelInstructions: UILabel!
     @IBOutlet private var imageQrCode: UIImageView!
     @IBOutlet private var labelPublicKey: UILabel!
@@ -50,6 +52,15 @@ public class ReceiveCryptoViewController: UIViewController {
         super.viewDidLoad()
         initViews()
         initCryptoAccountIfNeeded()
+        setupAccessibility()
+    }
+    
+    private func setupAccessibility() {
+        labelInstructions.accessibilityIdentifier = AccessibilityId.instructionLabel
+        imageQrCode.accessibilityIdentifier = AccessibilityId.qrCodeImageView
+        labelPublicKey.accessibilityIdentifier = AccessibilityId.addressLabel
+        buttonEnterPassword.accessibilityIdentifier = AccessibilityId.enterPasswordButton
+        buttonRequestPayment.accessibilityIdentifier = Accessibility.Identifier.General.mainCTAButton
     }
 
     // MARK: - Actions

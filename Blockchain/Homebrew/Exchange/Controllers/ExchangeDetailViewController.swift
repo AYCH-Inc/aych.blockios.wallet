@@ -109,7 +109,7 @@ class ExchangeDetailViewController: UIViewController {
     
     fileprivate func registerSupplementaryViews() {
         guard let page = model else { return }
-        if let _ = page.footer {
+        if page.footer != nil {
             let footerNib = UINib(nibName: ActionableFooterView.identifier, bundle: nil)
             collectionView.register(
                 footerNib,
@@ -156,11 +156,6 @@ class ExchangeDetailViewController: UIViewController {
 }
 
 extension ExchangeDetailViewController: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let page = model else { return 0 }
         return page.cells?.count ?? 0

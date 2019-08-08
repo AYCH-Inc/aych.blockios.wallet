@@ -5906,10 +5906,10 @@
 			isa = PBXGroup;
 			children = (
 				3A49A8E22151801300760B8C /* ConversionRatesView.swift */,
+				3A49A8EE2151802000760B8C /* ConversionRatesView.xib */,
 				3A26AF9A212B3742003A8A08 /* ExchangeCreateView.swift */,
 				AA10767022011CA9000612A1 /* ExchangeNavigatableView.swift */,
 				3A91F7C0213845F700CDC3FD /* TradingPairView.swift */,
-				3A49A8EE2151802000760B8C /* ConversionRatesView.xib */,
 				3A91F7CC2138460900CDC3FD /* TradingPairView.xib */,
 				3AB4D907212F55F5004F0160 /* Cells */,
 				3AAEF9552141B023005852D1 /* Footers */,
@@ -9812,6 +9812,15 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
+		6573A25522F2F3DC005C4A46 /* ConfirmPayment */ = {
+			isa = PBXGroup;
+			children = (
+				23107F811BBEF0AC00A6A9D4 /* BCConfirmPaymentView.h */,
+				23107F821BBEF0AC00A6A9D4 /* BCConfirmPaymentView.m */,
+			);
+			path = ConfirmPayment;
+			sourceTree = "<group>";
+		};
 		65D179B422CBC57E001D3544 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -9896,10 +9905,9 @@
 		678AD5EC19D4731C00E9A778 /* Modal Content Views */ = {
 			isa = PBXGroup;
 			children = (
+				6573A25522F2F3DC005C4A46 /* ConfirmPayment */,
 				9F61B89C151519EF0083C57A /* BCAddressSelectionView.h */,
 				9F61B89D151519EF0083C57A /* BCAddressSelectionView.m */,
-				23107F811BBEF0AC00A6A9D4 /* BCConfirmPaymentView.h */,
-				23107F821BBEF0AC00A6A9D4 /* BCConfirmPaymentView.m */,
 				678CD7461A2777E600748AA5 /* BCCreateAccountView.h */,
 				678CD7471A2777E600748AA5 /* BCCreateAccountView.m */,
 				9F91B605151666EB00ACB32D /* BCCreateWalletView.h */,

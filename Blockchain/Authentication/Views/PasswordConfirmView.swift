@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformUIKit
 
 /// View presented when the user's password must be provided
 class PasswordConfirmView: BCModalContentView {
@@ -34,8 +35,16 @@ class PasswordConfirmView: BCModalContentView {
         buttonContinue.setTitle(LocalizationConstants.continueString, for: .normal)
 
         textFieldPassword.delegate = self
+        
+        setupAccessibility()
     }
 
+    private func setupAccessibility() {
+        labelDescription.accessibilityIdentifier = AccessibilityIdentifiers.PasswordConfirm.descriptionLabel
+        textFieldPassword.accessibilityIdentifier = AccessibilityIdentifiers.PasswordConfirm.passwordTextField
+        buttonContinue.accessibilityIdentifier = Accessibility.Identifier.General.mainCTAButton
+    }
+    
     @IBAction func didTapContinue(_ sender: Any) {
         confirmPassword()
     }

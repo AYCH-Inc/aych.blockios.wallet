@@ -28,7 +28,7 @@ class ExchangeLockedHeaderView: ExchangeHeaderView {
     override func configure(with model: ExchangeHeader) {
         guard case let .locked(payload) = model else { return }
         title.text = payload.title
-        dismissButton.accessibilityIdentifier = AccessibilityIdentifiers.ExchangeScreen.dismissButton
+        dismissButton.accessibilityIdentifier = AccessibilityIdentifiers.Exchange.Create.dismissButton
     }
     
     override class func heightForProposedWidth(_ width: CGFloat, model: ExchangeHeader) -> CGFloat {

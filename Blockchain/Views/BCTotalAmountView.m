@@ -9,6 +9,7 @@
 #import "BCTotalAmountView.h"
 #import "NSNumberFormatter+Currencies.h"
 #import "UIView+ChangeFrameAttribute.h"
+#import "Blockchain-Swift.h"
 
 @interface BCTotalAmountView ()
 @property (nonatomic) UILabel *totalLabel;
@@ -50,6 +51,9 @@
         fiatAmountLabel.center = CGPointMake(self.center.x, fiatAmountLabel.center.y);
         [self addSubview:fiatAmountLabel];
         self.fiatAmountLabel = fiatAmountLabel;
+                
+        self.fiatAmountLabel.accessibilityIdentifier = AccessibilityIdentifiers_TotalAmount.fiatAmountLabel;
+        self.btcAmountLabel.accessibilityIdentifier = AccessibilityIdentifiers_TotalAmount.cryptoAmountLabel;
     }
     
     return self;

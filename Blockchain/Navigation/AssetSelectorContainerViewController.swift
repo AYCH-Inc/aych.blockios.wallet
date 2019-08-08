@@ -43,11 +43,7 @@ class AssetSelectorContainerViewController: UIViewController {
         assetSelector.delegate = self
         assetSelector.translatesAutoresizingMaskIntoConstraints = false
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
+        
     // MARK: Public
     
     func hideSelector() {

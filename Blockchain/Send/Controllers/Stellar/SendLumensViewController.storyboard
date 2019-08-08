@@ -96,6 +96,7 @@
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.000" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Gh-Nc-nUi">
                                                 <rect key="frame" x="54" y="0.0" width="145" height="20"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="stellar amount"/>
                                                 <color key="textColor" red="0.23100000000000001" green="0.23100000000000001" blue="0.23100000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
@@ -331,7 +332,7 @@
                         <outlet property="fiatSymbolLabel" destination="SL1-yW-mTl" id="5gD-ap-BHG"/>
                         <outlet property="fromLabel" destination="0NP-Xq-DCS" id="txE-W3-k1K"/>
                         <outlet property="layoutConstraintBottomButton" destination="f3m-df-lCb" id="zI0-1j-vhb"/>
-                        <outlet property="learnAbountStellarButton" destination="e7p-NS-YlT" id="fgM-Cd-AHg"/>
+                        <outlet property="learnAboutStellarButton" destination="e7p-NS-YlT" id="pm2-NQ-Pag"/>
                         <outlet property="memoIDTextField" destination="Y7m-1c-SzC" id="Bpg-j0-c6z"/>
                         <outlet property="memoLabel" destination="knE-dP-0Qh" id="D8J-3G-Tr2"/>
                         <outlet property="memoSelectionTypeButton" destination="A7b-gl-0ig" id="5J8-Rm-j07"/>

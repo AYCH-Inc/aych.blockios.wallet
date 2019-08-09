@@ -115,8 +115,18 @@ final class QRCodeScannerViewModel<P: QRCodeScannerParsing>: QRCodeScannerViewMo
     }
     
     func handleDismissCompleted(with scanResult: Result<String, QRScannerError>) {
-        parser.parse(scanResult: scanResult, completion: completed)
-        deepLinkQRCodeRouter.routeIfNeeded(using: scanResult)
+        
+        // In case the designate scan purpose was not fulfilled, try look for supported deeplink.
+        let completion = { [weak self] (result: Result<P.T, P.U>) in
+            guard let self = self else { return }
+            switch result {
+            case .failure:
+                self.deepLinkQRCodeRouter.routeIfNeeded(using: scanResult)
+            case .success:
+                self.completed(result)
+            }
+        }
+        parser.parse(scanResult: scanResult, completion: completion)
     }
 }
 

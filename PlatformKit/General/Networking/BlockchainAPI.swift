@@ -44,7 +44,8 @@ final public class BlockchainAPI: NSObject {
     
     /// Public hosts used for partner API calls.
     public enum PartnerHosts: String, CaseIterable {
-        case coinify = "app-api.coinify.com",
+        case bitpay = "bitpay.com",
+        coinify = "app-api.coinify.com",
         stellarchain = "stellarchain.io",
         googleAnalytics = "www.google-analytics.com",
         iSignThis = "verify.isignthis.com",
@@ -78,6 +79,9 @@ final public class BlockchainAPI: NSObject {
     }
     @objc public func blockchainDotCom() -> String {
         return Hosts.blockchainDotCom.rawValue
+    }
+    @objc public func bitpay() -> String {
+        return PartnerHosts.bitpay.rawValue
     }
     @objc public func coinify() -> String {
         return PartnerHosts.coinify.rawValue
@@ -182,6 +186,10 @@ final public class BlockchainAPI: NSObject {
     
     @objc public var etherExplorerUrl: String {
         return "\(explorerUrl)/eth"
+    }
+    
+    public var bitpayUrl: String {
+        return "https://\(PartnerHosts.bitpay.rawValue)"
     }
     
     public var coinifyEndpoint: String {

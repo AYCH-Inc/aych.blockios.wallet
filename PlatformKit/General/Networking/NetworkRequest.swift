@@ -37,13 +37,18 @@ public struct NetworkRequest {
         )
         
         request.httpMethod = method.rawValue
-        request.addValue(HttpHeaderValue.json, forHTTPHeaderField: HttpHeaderField.accept)
-        request.addValue(contentType.rawValue, forHTTPHeaderField: HttpHeaderField.contentType)
         
         if let headers = headers {
             headers.forEach {
                 request.addValue($1, forHTTPHeaderField: $0)
             }
+        }
+        
+        if request.value(forHTTPHeaderField: HttpHeaderField.accept) == nil {
+            request.addValue(HttpHeaderValue.json, forHTTPHeaderField: HttpHeaderField.accept)
+        }
+        if request.value(forHTTPHeaderField: HttpHeaderField.contentType) == nil {
+            request.addValue(contentType.rawValue, forHTTPHeaderField: HttpHeaderField.contentType)
         }
         
         addHttpBody(to: request)

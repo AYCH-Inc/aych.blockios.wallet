@@ -32,11 +32,14 @@ import PlatformKit
     
     @objc public var amount: String?
     
+    @objc public var paymentRequestUrl: String?
+    
     @objc public var includeScheme: Bool = false
     
-    @objc public required init(address: String, amount: String?) {
+    @objc public required init(address: String, amount: String?, paymentRequestUrl: String?) {
         self.address = address
         self.amount = amount
+        self.paymentRequestUrl = paymentRequestUrl
     }
     
     @objc public required init(address: String, amount: String?, includeScheme: Bool = false) {
@@ -70,11 +73,14 @@ import PlatformKit
     
     @objc public var amount: String?
     
+    @objc public var paymentRequestUrl: String?
+    
     @objc public var includeScheme: Bool = false
     
-    @objc public required init(address: String, amount: String?) {
+    @objc public required init(address: String, amount: String?, paymentRequestUrl: String?) {
         self.address = address
         self.amount = amount
+        self.paymentRequestUrl = paymentRequestUrl
     }
     
     @objc public required init(address: String, amount: String?, includeScheme: Bool = false) {

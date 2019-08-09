@@ -18,6 +18,8 @@ import Foundation
     @objc var address: String { get }
 
     @objc var amount: String? { get }
+    
+    @objc var paymentRequestUrl: String? { get }
 
     /// Same as scheme - mostly here for obj-c compatibility reasons
     @objc var schemeCompat: String { get }

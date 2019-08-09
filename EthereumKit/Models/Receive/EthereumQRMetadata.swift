@@ -11,6 +11,7 @@ import PlatformKit
 public struct EthereumQRMetadata: CryptoAssetQRMetadata {
     public var address: String
     public var amount: String?
+    public var paymentRequestUrl: String?
     public var absoluteString: String {
         // TODO: encode `amount`, too
         return EthereumURLPayload(address: address)!.absoluteString

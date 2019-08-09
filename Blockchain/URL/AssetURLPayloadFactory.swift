@@ -38,9 +38,9 @@ import EthereumKit
         } else {
             switch assetType {
             case .bitcoin:
-                return BitcoinURLPayload(address: string, amount: nil)
+                return BitcoinURLPayload(address: string, amount: nil, paymentRequestUrl: nil)
             case .bitcoinCash:
-                return BitcoinCashURLPayload(address: string, amount: nil)
+                return BitcoinCashURLPayload(address: string, amount: nil, paymentRequestUrl: nil)
             case .stellar:
                 return StellarURLPayload(address: string, amount: nil)
             case .pax:

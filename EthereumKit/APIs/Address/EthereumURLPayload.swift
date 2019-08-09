@@ -38,6 +38,8 @@ public class EthereumURLPayload: EIP67URI, RawRepresentable {
     
     public private(set) var gas: String?
     
+    public private(set) var paymentRequestUrl: String?
+    
     private let components: URLComponents
     
     required public init?(address: String, amount: String? = nil, gas: String? = nil) {

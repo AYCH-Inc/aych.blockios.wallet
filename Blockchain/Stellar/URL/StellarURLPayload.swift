@@ -36,6 +36,8 @@ class StellarURLPayload: SEP7URI {
     var address: String
 
     var amount: String?
+    
+    var paymentRequestUrl: String?
 
     required init(address: String, amount: String? = nil) {
         self.address = address

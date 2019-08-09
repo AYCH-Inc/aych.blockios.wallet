@@ -9,7 +9,6 @@ inhibit_all_warnings!
 target 'Blockchain' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   # Pods for Blockchain
-  pod 'Alamofire', '~> 4.7'
   pod 'BigInt', '~> 4.0'
   pod 'Charts', '~> 3.2.1'
   pod 'Fabric'
@@ -23,7 +22,6 @@ target 'Blockchain' do
   pod 'Starscream', '3.1.0'
   pod 'SwiftLint', '0.30.1'
   pod 'stellar-ios-mac-sdk', git: 'git@github.com:thisisalexmcgregor/stellar-ios-mac-sdk.git', commit: '03aefcdc14a43a16c46b483ffaea90ce9c210071'
-
   pod 'VeriffSDK', '2.4.0'
 
   target 'BlockchainTests' do
@@ -77,24 +75,23 @@ target 'ERC20Kit' do
   target 'ERC20KitTests' do
     inherit! :search_paths
     # Pods for testing
-  pod 'RxSwift', '5.0'
+    pod 'RxSwift', '5.0'
     pod 'RxBlocking', '~> 5.0'
     pod 'RxTest', '~> 5.0'
-  pod 'BigInt', '~> 4.0'
+    pod 'BigInt', '~> 4.0'
     pod 'web3swift.pod', git: 'git@github.com:thisisalexmcgregor/web3swift.git', commit: '39abb613bef9f63f7bff5633172b3b474e54c165'
   end
 end
 
 target 'PlatformKit' do
-  pod 'Alamofire', '~> 4.7'
   pod 'RxSwift', '5.0'
   pod 'BigInt', '~> 4.0'
   
   target 'PlatformKitTests' do
     inherit! :search_paths
     # Pods for testing
-  pod 'RxSwift', '5.0'
-  pod 'BigInt', '~> 4.0'
+    pod 'RxSwift', '5.0'
+    pod 'BigInt', '~> 4.0'
   end
 end
 

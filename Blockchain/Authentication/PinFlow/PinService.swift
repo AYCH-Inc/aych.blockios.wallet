@@ -14,12 +14,12 @@ final class PinService: PinServicing {
     
     // MARK: - Properties
 
-    private let network: NetworkManager
-    private let api = BlockchainAPI.shared.pinStore
+    private let network: NetworkCommunicatorAPI
+    private let apiURL = URL(string: BlockchainAPI.shared.pinStore)!
     
     // MARK: - Setup
     
-    init(network: NetworkManager = .shared) {
+    init(network: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
         self.network = network
     }
     
@@ -28,8 +28,15 @@ final class PinService: PinServicing {
     /// - Parameter pinPayload: the PinPayload
     /// - Returns: a Single returning the response
     func create(pinPayload: PinPayload) -> Single<PinStoreResponse> {
-        let data = StoreRequestData(payload: pinPayload, requestType: .create)
-        return network.post(api, data: data, decodeTo: PinStoreResponse.self, onErrorJustReturn: true)
+        let requestPayload = StoreRequestData(payload: pinPayload, requestType: .create)
+        let data = ParameterEncoder(requestPayload.dictionary).encoded
+        let request = NetworkRequest(
+            endpoint: apiURL,
+            method: .post,
+            body: data,
+            contentType: .formUrlEncoded
+        )
+        return network.perform(request: request)
     }
     
     /// Validates if the provided pin payload (i.e. pin code and pin key combination) is correct.
@@ -37,8 +44,24 @@ final class PinService: PinServicing {
     /// - Parameter pinPayload: the PinPayload
     /// - Returns: an Single returning the response
     func validate(pinPayload: PinPayload) -> Single<PinStoreResponse> {
-        let data = StoreRequestData(payload: pinPayload, requestType: .validate)
-        return network.post(api, data: data, decodeTo: PinStoreResponse.self, onErrorJustReturn: true)
+        let requestPayload = StoreRequestData(payload: pinPayload, requestType: .validate)
+        let data = ParameterEncoder(requestPayload.dictionary).encoded
+        let request = NetworkRequest(
+            endpoint: apiURL,
+            method: .post,
+            body: data,
+            contentType: .formUrlEncoded
+        )
+        return network.perform(request: request)
+    }
+}
+
+extension Encodable {
+    var dictionary: [String: Any] {
+        guard let data = try? JSONEncoder().encode(self) else {
+            return [:]
+        }
+        return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String: Any] ?? [:]
     }
 }
 

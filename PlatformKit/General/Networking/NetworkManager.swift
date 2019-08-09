@@ -6,14 +6,67 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Alamofire
 import RxSwift
+
+public struct Network {
+    public struct Dependencies {
+        let session: URLSession
+        let sessionConfiguration: URLSessionConfiguration
+        let sessionDelegate: SessionDelegateAPI
+        public let communicator: NetworkCommunicatorAPI
+        
+        public static let `default`: Dependencies = {
+            let sessionConfiguration = URLSessionConfiguration.default
+            if let userAgent = NetworkManager.userAgent {
+                sessionConfiguration.httpAdditionalHeaders = [HttpHeaderField.userAgent: userAgent]
+            }
+            if #available(iOS 11.0, *) {
+                sessionConfiguration.waitsForConnectivity = true
+            }
+            
+            let sessionDelegate = SessionDelegate()
+            
+            let session = URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
+            
+            let communicator = NetworkCommunicator(session: session)
+            
+            return Dependencies(
+                session: session,
+                sessionConfiguration: sessionConfiguration,
+                sessionDelegate: sessionDelegate,
+                communicator: communicator
+            )
+        }()
+    }
+}
+
+protocol NetworkManagerDelegateAPI: class {
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping AuthChallengeHandler)
+}
+
+protocol SessionDelegateAPI: class, URLSessionDelegate {
+    var delegate: NetworkManagerDelegateAPI? { get set }
+}
+
+private class SessionDelegate: NSObject, SessionDelegateAPI {
+    public weak var delegate: NetworkManagerDelegateAPI?
+    
+    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {}
+    
+    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping AuthChallengeHandler) {
+        delegate?.urlSession(session, didReceive: challenge, completionHandler: completionHandler)
+    }
+    
+    public func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {}
+}
 
 public typealias AuthChallengeHandler = (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void
 
-typealias JSON = [String: Any]
+public typealias JSON = [String: Any]
 
 public typealias URLParameters = [String: Any]
+
+public typealias URLHeaders = [String: String]
 
 /**
  Manages network related tasks such as requests and sessions.
@@ -23,8 +76,8 @@ public typealias URLParameters = [String: Any]
  - Copyright: Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
  */
 
-@objc
-open class NetworkManager: NSObject, URLSessionDelegate {
+@available(*, deprecated, message: "Don't use this, prefer `NetworkCommunicator`")
+@objc open class NetworkManager: NSObject, NetworkManagerDelegateAPI {
 
     /// Parameter encoding for networking
     public enum Encoding {
@@ -35,13 +88,12 @@ open class NetworkManager: NSObject, URLSessionDelegate {
         /// URL encoding
         case url
         
-        /// Returns the Alamofire value
-        var value: ParameterEncoding {
+        var networkEncoding: NetworkRequest.ContentType {
             switch self {
             case .json:
-                return JSONEncoding.default
+                return NetworkRequest.ContentType.json
             case .url:
-                return URLEncoding.default
+                return NetworkRequest.ContentType.formUrlEncoded
             }
         }
     }
@@ -59,56 +111,29 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     @objc public class func sharedInstance() -> NetworkManager {
         return NetworkManager.shared
     }
-
-    @objc public var session: URLSession!
-
-    fileprivate var sessionConfiguration: URLSessionConfiguration!
-
+    
+    // TODO: Make this private
+    @objc public let session: URLSession
+    
+    private let sessionConfiguration: URLSessionConfiguration
+    private let sessionDelegate: SessionDelegateAPI
+    private let communicator: NetworkCommunicatorAPI
+    
     // MARK: - Initialization
 
-    public override init() {
+    public init(dependencies: Network.Dependencies = Network.Dependencies.default) {
+        
+        self.sessionDelegate = dependencies.sessionDelegate
+        self.sessionConfiguration = dependencies.sessionConfiguration
+        self.session = dependencies.session
+        self.communicator = dependencies.communicator
+        
         super.init()
-        sessionConfiguration = URLSessionConfiguration.default
-        if let userAgent = NetworkManager.userAgent {
-            sessionConfiguration.httpAdditionalHeaders = [HttpHeaderField.userAgent: userAgent]
-        }
-        if #available(iOS 11.0, *) {
-            sessionConfiguration.waitsForConnectivity = true
-        }
-        session = URLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: nil)
+        
+        self.sessionDelegate.delegate = self
+        
         disableUIWebViewCaching()
         persistServerSessionIDForNewUIWebViews()
-    }
-
-    // MARK: - Post
-
-    /// Performs a POST API call.
-    /// Using `Encodable` as data.
-    /// It performs the request and decode it in background.
-    /// It's the caller's responsibility to observe the result on whichever queue is needed.
-    /// - Parameters:
-    ///   - url: The full url for the endpoint
-    ///   - headers: Headers to be sent in form of key-value. default value: `nil`
-    ///   - data: An encodable data object
-    ///   - decodableType: The expected type of the response
-    ///   - encoding: The expected type of the parameter encoding, e.g JSON, URL
-    ///   - scheduler: The scheduler type. default value: concurrent background
-    ///   - onErrorJustReturn: In case we still want to return regularly for an error
-    /// - Returns: The response wrapped in a Single
-    public func post<T: Decodable>(_ url: String,
-                                   headers: [String: String]? = nil,
-                                   data: Encodable,
-                                   decodeTo decodableType: T.Type,
-                                   encoding: Encoding = .url,
-                                   scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
-                                   onErrorJustReturn: Bool = false) -> Single<T> {
-        return post(url,
-                    headers: headers,
-                    parameters: data.dictionary,
-                    decodeTo: decodableType,
-                    encoding: encoding,
-                    scheduler: scheduler,
-                    onErrorJustReturn: onErrorJustReturn)
     }
     
     /// Performs a POST API call.
@@ -121,15 +146,14 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     ///   - parameters: The dictionary parameters. default value: `[:]`
     ///   - decodableType: The expected type of the response
     ///   - encoding: The expected type of the parameter encoding, e.g JSON, URL
-    ///   - scheduler: The scheduler type. default value: concurrent background
     ///   - onErrorJustReturn: In case we still want to return regularly for an error
     /// - Returns: The response wrapped in a Single
+    @available(*, deprecated, message: "Don't use this")
     public func post<T: Decodable>(_ url: String,
-                                   headers: [String: String]? = nil,
-                                   parameters: [String: Any] = [:],
+                                   headers: URLHeaders? = nil,
+                                   parameters: URLParameters = [:],
                                    decodeTo decodableType: T.Type,
                                    encoding: Encoding = .url,
-                                   scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                    onErrorJustReturn: Bool = false) -> Single<T> {
         return request(.post,
                        url: url,
@@ -137,7 +161,6 @@ open class NetworkManager: NSObject, URLSessionDelegate {
                        parameters: parameters,
                        decodeTo: decodableType,
                        encoding: encoding,
-                       scheduler: scheduler,
                        onErrorJustReturn: onErrorJustReturn)
     }
     
@@ -151,21 +174,19 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     ///   - headers: Headers to be sent in form of key-value. default value: `nil`
     ///   - decodableType: The expected type of the response
     ///   - encoding: The expected type of the parameter encoding, e.g JSON, URL
-    ///   - scheduler: The scheduler type. default value: concurrent background
     ///   - onErrorJustReturn: In case we still want to return regularly for an error
     /// - Returns: The response wrapped in a Single
+    @available(*, deprecated, message: "Don't use this")
     public func get<T: Decodable>(_ url: String,
-                                  headers: [String: String]? = nil,
+                                  headers: URLHeaders? = nil,
                                   decodeTo decodableType: T.Type,
                                   encoding: Encoding = .url,
-                                  scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                   onErrorJustReturn: Bool = false) -> Single<T> {
         return request(.get,
                        url: url,
                        headers: headers,
                        decodeTo: decodableType,
                        encoding: encoding,
-                       scheduler: scheduler,
                        onErrorJustReturn: onErrorJustReturn)
     }
     
@@ -181,22 +202,20 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     ///   - data: An encodable data object
     ///   - decodableType: The expected type of the response
     ///   - encoding: The expected type of the parameter encoding, e.g JSON, URL
-    ///   - scheduler: The scheduler type. default value: concurrent background
     ///   - onErrorJustReturn: In case we still want to return regularly for an error
     /// - Returns: The response wrapped in a Single
+    @available(*, deprecated, message: "Don't use this")
     public func put<T: Decodable>(_ url: String,
-                                  headers: [String: String]? = nil,
+                                  headers: URLHeaders? = nil,
                                   data: Encodable,
                                   decodeTo decodableType: T.Type,
                                   encoding: Encoding = .url,
-                                  scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                   onErrorJustReturn: Bool = false) -> Single<T> {
         return put(url,
                    headers: headers,
-                   parameters: data.dictionary,
+                   parameters: data.dictionary as! [String : String],
                    decodeTo: decodableType,
                    encoding: encoding,
-                   scheduler: scheduler,
                    onErrorJustReturn: onErrorJustReturn)
     }
     
@@ -210,14 +229,13 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     ///   - parameters: The dictionary parameters. default value: `[:]`.
     ///   - decodableType: The expected type of the response
     ///   - encoding: The expected type of the parameter encoding, e.g JSON, URL
-    ///   - scheduler: The scheduler type. default value: concurrent background
     ///   - onErrorJustReturn: In case we still want to return regularly for an error
+    @available(*, deprecated, message: "Don't use this")
     public func put<T: Decodable>(_ url: String,
-                                  headers: [String: String]? = nil,
-                                  parameters: [String: Any] = [:],
+                                  headers: URLHeaders? = nil,
+                                  parameters: URLParameters = [:],
                                   decodeTo decodableType: T.Type,
                                   encoding: Encoding = .url,
-                                  scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                   onErrorJustReturn: Bool = false) -> Single<T> {
         return request(.put,
                        url: url,
@@ -225,7 +243,6 @@ open class NetworkManager: NSObject, URLSessionDelegate {
                        parameters: parameters,
                        decodeTo: decodableType,
                        encoding: encoding,
-                       scheduler: scheduler,
                        onErrorJustReturn: onErrorJustReturn)
     }
     
@@ -239,20 +256,18 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     ///   - headers: Headers to be sent in form of key-value. default value: `nil`
     ///   - decodableType: The expected type of the response
     ///   - encoding: The expected type of the parameter encoding, e.g JSON, URL
-    ///   - scheduler: The scheduler type. default value: concurrent background
     ///   - onErrorJustReturn: In case we still want to return regularly for an error
+    @available(*, deprecated, message: "Don't use this")
     public func delete<T: Decodable>(_ url: String,
-                                     headers: [String: String]? = nil,
+                                     headers: URLHeaders? = nil,
                                      decodeTo decodableType: T.Type,
                                      encoding: Encoding = .url,
-                                     scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                      onErrorJustReturn: Bool = false) -> Single<T> {
         return request(.delete,
                        url: url,
                        headers: headers,
                        decodeTo: decodableType,
                        encoding: encoding,
-                       scheduler: scheduler,
                        onErrorJustReturn: onErrorJustReturn)
     }
     
@@ -261,144 +276,85 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     /// Privately used to perform any kind of REST network request logic.
     private func request<T: Decodable>(_ method: HTTPMethod,
                                        url: String,
-                                       headers: [String: String]? = nil,
-                                       parameters: [String: Any]? = nil,
+                                       headers: URLHeaders? = nil,
+                                       parameters: URLParameters? = nil,
                                        decodeTo decodableType: T.Type,
                                        encoding: Encoding,
-                                       scheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: .background),
                                        onErrorJustReturn: Bool = false) -> Single<T> {
-        return Single<DataRequest>.create { single -> Disposable in
-            let request = SessionManager.default.request(
-                url,
-                method: method,
-                parameters: parameters,
-                encoding: encoding.value,
-                headers: headers)
-            single(.success(request))
-            return Disposables.create()
+        guard let url = URL(string: url) else {
+            return Single.error(NSError())
         }
-        .subscribeOn(scheduler)
-        .observeOn(scheduler)
-        .flatMap { request -> Single<(HTTPURLResponse, Data)> in
-            return request.responseData()
-        }
-        .map { (response, data) -> T in
-            guard onErrorJustReturn || (200...299).contains(response.statusCode) else {
-                throw NetworkError.badStatusCode
-            }
-            return try data.decode(to: decodableType)
-        }
+        let body: Data? = encode(parameters, encoding: encoding)
+        let request = NetworkRequest(
+            endpoint: url,
+            method: method.networkRequestMethod,
+            body: body,
+            headers: headers,
+            contentType: encoding.networkEncoding
+        )
+        return communicator.perform(request: request)
     }
     
     // MARK: - Old networking
     
+    @available(*, deprecated, message: "Don't use this")
     public func request<ResponseType: Decodable>(
         _ request: URLRequest,
         responseType: ResponseType.Type
     ) -> Single<ResponseType> {
-        return requestData(request).map { (response, result) in
-            guard (200...299).contains(response.statusCode) else {
-                throw NetworkError.badStatusCode
-            }
-            return try JSONDecoder().decode(responseType.self, from: result)
-        }
+        return communicator.perform(request: request)
     }
-
-    public func requestData(_ request: URLRequest) -> Single<(HTTPURLResponse, Data)> {
-        let dataRequestSingle: Single<DataRequest> = Single.create { observer -> Disposable in
-            let dataRequest = SessionManager.default.request(request)
-            Logger.shared.debug("Sending \(request.httpMethod ?? "") to '\(request.url?.absoluteString ?? "")'")
-            observer(.success(dataRequest))
-            return Disposables.create()
-        }
-        return dataRequestSingle.flatMap { $0.responseData() }
-    }
-
-    /// Performs a network request and returns a Single emitting the HTTPURLResponse along with the
-    /// response decoded as a Data object.
-    ///
-    /// - Parameters:
-    ///   - url: the URL
-    ///   - method: the HTTP method
-    ///   - parameters: optional parameters for the request
-    ///   - headers: optional headers
-    /// - Returns: the Single
-    public func requestData(
-        _ url: String,
-        method: HttpMethod,
-        parameters: URLParameters? = nil,
-        headers: [String: String]? = nil
-    ) -> Single<(HTTPURLResponse, Data)> {
-        let dataRequestSingle: Single<DataRequest> = Single.create { observer -> Disposable in
-            let request = SessionManager.default.request(
-                url,
-                method: method.toAlamofireHTTPMethod,
-                parameters: parameters,
-                encoding: URLEncoding.default,
-                headers: headers
-            )
-            observer(.success(request))
-            return Disposables.create()
-        }
-        return dataRequestSingle.flatMap { $0.responseData() }
-    }
-
+    
     /// Performs a network request and returns an Observable emitting the HTTPURLResponse along with the
-    /// decoded response data. The response data will be attempted to be decoded as a JSON, however if it
-    /// fails, it will be attempted to be decoded as a String. It is up to the observer to check the type.
+    /// decoded response data. The response data will be attempted to be decoded as a JSON
     ///
     /// - Parameters:
     ///   - url: the URL for the request (e.g. "http://blockchain.info/uuid-generator?n=3")
     ///   - method: the HTTP method
     ///   - parameters: the parameters for the request
     /// - Returns: a Single returning the HTTPURLResponse and the decoded response data
-    open func requestJsonOrString(
+    @available(*, deprecated, message: "Don't use this")
+    open func requestJson(
         _ url: String,
-        method: HttpMethod,
+        method: HTTPMethod,
         parameters: URLParameters? = nil,
-        headers: [String: String]? = nil
-    ) -> Single<(HTTPURLResponse, Any)> {
-        let dataRequestSingle: Single<DataRequest> = Single.create { observer -> Disposable in
-            let request = SessionManager.default.request(
-                url,
-                method: method.toAlamofireHTTPMethod,
-                parameters: parameters,
-                encoding: URLEncoding.default,
-                headers: headers
-            )
-            observer(.success(request))
-            return Disposables.create()
+        headers: URLHeaders? = nil
+    ) -> Single<(HTTPURLResponse, JSON)> {
+        guard let url = URL(string: url) else {
+            return Single.error(NSError())
         }
-        return dataRequestSingle.flatMap { request -> Single<(HTTPURLResponse, Any)> in
-            return request.responseJSONSingle()
-                .catchError { _ -> Single<(HTTPURLResponse, Any)> in
-                    return request.responseStringSingle()
-            }
+        var body: Data? = nil
+        if let parameters = parameters {
+            body = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
         }
+        let request = NetworkRequest(
+            endpoint: url,
+            method: method.networkRequestMethod,
+            body: body,
+            headers: headers,
+            contentType: NetworkRequest.ContentType.formUrlEncoded
+        )
+        return communicator.perform(request: request)
     }
 
-    // MARK: - URLSessionDelegate
+    // MARK: - NetworkManagerDelegateAPI
 
     // TODO: find place to put UIApplication.shared.isNetworkActivityIndicatorVisible
 
-    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {}
-
-    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping AuthChallengeHandler) {
+    internal func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping AuthChallengeHandler) {
         let host = challenge.protectionSpace.host
         Logger.shared.info("Received challenge from \(host)")
 
         #if DISABLE_CERT_PINNING
         completionHandler(.performDefaultHandling, nil)
         #else
-        if  BlockchainAPI.PartnerHosts.allCases.contains(where: { $0.rawValue == host }) {
+        if BlockchainAPI.PartnerHosts.allCases.contains(where: { $0.rawValue == host }) {
             completionHandler(.performDefaultHandling, nil)
         } else {
             CertificatePinner.shared.didReceive(challenge, completion: completionHandler)
         }
         #endif
     }
-
-    public func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {}
 
     // MARK: - Private Functions
 
@@ -410,92 +366,47 @@ open class NetworkManager: NSObject, URLSessionDelegate {
     fileprivate func disableUIWebViewCaching() {
         URLCache.shared = URLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
     }
-}
-
-extension DataRequest {
-    public func responseData() -> Single<(HTTPURLResponse, Data)> {
-        return Single.create { [unowned self] observer -> Disposable in
-            self.responseData { dataResponse in
-                if let error = dataResponse.result.error {
-                    observer(.error(error))
-                    return
-                }
-                guard let response = dataResponse.response, let result = dataResponse.result.value else {
-                    observer(.error(NetworkManager.unknownNetworkError))
-                    return
-                }
-                observer(.success((response, result)))
-            }
-            return Disposables.create()
+    
+    private func encode(_ parameters: URLParameters?, encoding: Encoding) -> Data? {
+        guard let parameters = parameters else { return nil }
+        let body: Data?
+        switch encoding {
+        case .json:
+            body = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        case .url:
+            body = ParameterEncoder(parameters).encoded
         }
-    }
-
-    public func responseJSONSingle() -> Single<(HTTPURLResponse, Any)> {
-        return Single.create { [unowned self] observer -> Disposable in
-            self.responseJSON { jsonResponse in
-                if let error = jsonResponse.result.error {
-                    observer(.error(error))
-                    return
-                }
-                guard let response = jsonResponse.response, let result = jsonResponse.result.value else {
-                    observer(.error(NetworkManager.unknownNetworkError))
-                    return
-                }
-                observer(.success((response, result)))
-            }
-            return Disposables.create {
-                self.cancel()
-            }
-        }
-    }
-
-    public func responseStringSingle() -> Single<(HTTPURLResponse, Any)> {
-        return Single.create { [unowned self] observer -> Disposable in
-            self.responseString { stringResponse in
-                if let error = stringResponse.result.error {
-                    observer(.error(error))
-                    return
-                }
-                guard let response = stringResponse.response, let result = stringResponse.result.value else {
-                    observer(.error(NetworkManager.unknownNetworkError))
-                    return
-                }
-                observer(.success((response, result)))
-            }
-            return Disposables.create {
-                self.cancel()
-            }
-        }
+        return body
     }
 }
 
-extension HttpMethod {
-
-    /// Transforms this HttpMethod to an Alamofire.HTTPMethod
-    var toAlamofireHTTPMethod: HTTPMethod {
+extension HTTPMethod {
+    var networkRequestMethod: NetworkRequest.NetworkMethod {
         switch self {
         case .get:
-            return HTTPMethod.get
+            return NetworkRequest.NetworkMethod.get
         case .post:
-            return HTTPMethod.post
+            return NetworkRequest.NetworkMethod.post
         case .put:
-            return HTTPMethod.put
+            return NetworkRequest.NetworkMethod.put
         case .patch:
-            return HTTPMethod.patch
+            return NetworkRequest.NetworkMethod.patch
+        case .delete:
+            return NetworkRequest.NetworkMethod.delete
         }
     }
 }
 
 extension Data {
     func decode<T: Decodable>(to type: T.Type) throws -> T {
-        let decoder = JSONDecoder()
+        let decoded: T
         do {
-            try decoder.decode(type, from: self)
+            decoded = try JSONDecoder().decode(type, from: self)
         } catch {
             print(error)
+            throw error
         }
-        let decodable = try decoder.decode(type, from: self)
-        return decodable
+        return decoded
     }
 }
 
@@ -508,3 +419,125 @@ extension Encodable {
     }
 }
 
+extension NSNumber {
+    fileprivate var isBool: Bool { return CFBooleanGetTypeID() == CFGetTypeID(self) }
+}
+
+extension Bool {
+    var encoded: String {
+        return self ? "true" : "false"
+    }
+}
+
+// TODO:
+// * Remove this, this code is from Alamofire
+
+//  Copyright (c) 2014-2018 Alamofire Software Foundation (http://alamofire.org/)
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
+//
+
+@available(*, deprecated, message: "Don't use this, this will be removed")
+public class ParameterEncoder {
+    
+    public var encoded: Data? {
+        return encode(parameters)
+    }
+    
+    private let parameters: [String: Any]
+    
+    public init(_ parameters: [String: Any]) {
+        self.parameters = parameters
+    }
+    
+    private func encode(_ parameters: [String: Any]) -> Data? {
+        let encodedParameters = query(parameters)
+        return encodedParameters.data(using: .utf8, allowLossyConversion: false)
+    }
+    
+    private func query(_ parameters: [String: Any]) -> String {
+        var components: [(String, String)] = []
+        
+        for key in parameters.keys.sorted(by: <) {
+            let value = parameters[key]!
+            components += queryComponents(fromKey: key, value: value)
+        }
+        return components.map { "\($0)=\($1)" }.joined(separator: "&")
+    }
+    
+    /// Creates percent-escaped, URL encoded query string components from the given key-value pair using recursion.
+    ///
+    /// - parameter key:   The key of the query component.
+    /// - parameter value: The value of the query component.
+    ///
+    /// - returns: The percent-escaped, URL encoded query string components.
+    private func queryComponents(fromKey key: String, value: Any) -> [(String, String)] {
+        var components: [(String, String)] = []
+        
+        if let dictionary = value as? [String: Any] {
+            for (nestedKey, value) in dictionary {
+                components += queryComponents(fromKey: "\(key)[\(nestedKey)]", value: value)
+            }
+        } else if let array = value as? [Any] {
+            for value in array {
+                components += queryComponents(fromKey: key, value: value)
+            }
+        } else if let value = value as? NSNumber {
+            if value.isBool {
+                components.append((escape(key), escape(value.boolValue.encoded) ))
+            } else {
+                components.append((escape(key), escape("\(value)")))
+            }
+        } else if let bool = value as? Bool {
+            components.append((escape(key), escape(bool.encoded)))
+        } else {
+            components.append((escape(key), escape("\(value)")))
+        }
+        
+        return components
+    }
+
+    /// Returns a percent-escaped string following RFC 3986 for a query string key or value.
+    ///
+    /// RFC 3986 states that the following characters are "reserved" characters.
+    ///
+    /// - General Delimiters: ":", "#", "[", "]", "@", "?", "/"
+    /// - Sub-Delimiters: "!", "$", "&", "'", "(", ")", "*", "+", ",", ";", "="
+    ///
+    /// In RFC 3986 - Section 3.4, it states that the "?" and "/" characters should not be escaped to allow
+    /// query strings to include a URL. Therefore, all "reserved" characters with the exception of "?" and "/"
+    /// should be percent-escaped in the query string.
+    ///
+    /// - parameter string: The string to be percent-escaped.
+    ///
+    /// - returns: The percent-escaped string.
+    private func escape(_ string: String) -> String {
+        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
+        let subDelimitersToEncode = "!$&'()*+,;="
+        
+        var allowedCharacterSet = CharacterSet.urlQueryAllowed
+        allowedCharacterSet.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
+        
+        var escaped = ""
+        
+        escaped = string.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet) ?? string
+        
+        return escaped
+    }
+}

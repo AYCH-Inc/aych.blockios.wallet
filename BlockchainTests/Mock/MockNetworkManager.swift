@@ -14,11 +14,11 @@ class MockNetworkManager: NetworkManager {
 
     private static let mockUrlString = "http://testurl.com"
 
-    private var mockResponse: (HTTPURLResponse, Any)?
+    private var mockResponse: (HTTPURLResponse, JSON)?
 
     // MARK: - Test Methods
 
-    func mockRequestJsonOrStringResponse(_ response: (HTTPURLResponse, Any)) {
+    func mockRequestJsonOrStringResponse(_ response: (HTTPURLResponse, JSON)) {
         mockResponse = response
     }
 
@@ -32,15 +32,15 @@ class MockNetworkManager: NetworkManager {
 
     // MARK: - Overriden Methods
 
-    override func requestJsonOrString(
+    override func requestJson(
         _ url: String,
-        method: HttpMethod,
+        method: HTTPMethod,
         parameters: URLParameters? = nil,
-        headers: [String: String]? = nil
-    ) -> Single<(HTTPURLResponse, Any)> {
+        headers: URLHeaders? = nil
+    ) -> Single<(HTTPURLResponse, JSON)> {
         guard let mockResponse = mockResponse else {
             print("No mock response set, performing actual network call")
-            return super.requestJsonOrString(url, method: method, parameters: parameters)
+            return super.requestJson(url, method: method, parameters: parameters)
         }
         return Single.just(mockResponse)
     }

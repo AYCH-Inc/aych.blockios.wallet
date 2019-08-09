@@ -1,5 +1,5 @@
 //
-//  NewResultExtensions.swift
+//  ResultExtensions.swift
 //  PlatformKit
 //
 //  Created by Jack on 25/04/2019.

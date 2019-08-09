@@ -11,7 +11,18 @@ import PlatformUIKit
 /// PIN creation / changing / authentication. Responsible for routing screens during flow.
 final class PinRouter: NSObject {
     
-    // MARK: - Injected Services
+    // MARK: - Properties
+    
+    /// The origin of the pin flow
+    let flow: PinRouting.Flow
+    
+    /// Returns `true` in case login authentication is currently being displayed
+    var isDisplayingLoginAuthentication: Bool {
+        return isBeingDisplayed && flow.isLoginAuthentication
+    }
+    
+    /// Is being displayed right now
+    private(set) var isBeingDisplayed = false
     
     /// Wrap up the current flow and move to the next
     private let completion: PinRouting.RoutingType.Forward?
@@ -22,23 +33,12 @@ final class PinRouter: NSObject {
 
     /// Weakly references the pin navigation controller as we don't want to keep it while it's not currently presented
     private weak var navigationController: UINavigationController!
-
-    /// Is being displayed right now
-    private(set) var isBeingDisplayed = false
-    
-    /// The origin of the pin flow
-    let flow: PinRouting.Flow
     
     /// A recorder for errors
     private let recorder: Recording
     
     /// Swipe to receive configuration
     private let swipeToReceiveConfig: SwipeToReceiveConfiguring
-    
-    /// Returns `true` in case login authentication is currently being displayed
-    var isDisplayingLoginAuthentication: Bool {
-        return isBeingDisplayed && flow.isLoginAuthentication
-    }
     
     // MARK: - Setup
     

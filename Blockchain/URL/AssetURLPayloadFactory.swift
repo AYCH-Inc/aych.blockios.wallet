@@ -8,6 +8,7 @@
 
 import Foundation
 import PlatformKit
+import BitcoinKit
 import EthereumKit
 
 @objc class AssetURLPayloadFactory: NSObject {

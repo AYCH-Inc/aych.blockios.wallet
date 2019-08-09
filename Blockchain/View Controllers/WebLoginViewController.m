@@ -7,7 +7,6 @@
 //
 
 #import "WebLoginViewController.h"
-#import "QRCodeGenerator.h"
 #import "Blockchain-Swift.h"
 
 @interface WebLoginViewController ()

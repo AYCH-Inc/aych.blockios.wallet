@@ -32,17 +32,14 @@ import PlatformKit
     private(set) var cachedWalletOptions = Variable<WalletOptions?>(nil)
 
     private var networkFetchedWalletOptions: Single<WalletOptions> {
-        return networkManager.requestJsonOrString(
+        return networkManager.requestJson(
             BlockchainAPI.shared.walletOptionsUrl,
             method: .get
         ).map {
             guard $0.statusCode == 200 else {
                 throw NetworkError.generic(message: nil)
             }
-            guard let json = $1 as? JSON else {
-                throw NetworkError.jsonParseError
-            }
-            return WalletOptions(json: json)
+            return WalletOptions(json: $1)
         }.do(onSuccess: { [weak self] in
             self?.cachedWalletOptions.value = $0
         })

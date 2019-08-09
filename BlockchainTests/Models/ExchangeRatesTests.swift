@@ -23,7 +23,6 @@ class ExchangeRatesTests: XCTestCase {
 
     func test_convert() {
         let balanceString = "16.64306683"
-        let balanceDecimal = Decimal(string: balanceString)!
         let balanceCrypto = CryptoValue.paxFromMajor(string: balanceString)!
         let toCurrency = "CAD"
         let rates: ExchangeRates = Fixtures.load(name: "rates")!

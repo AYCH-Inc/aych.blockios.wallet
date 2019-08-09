@@ -21,6 +21,7 @@ public struct NetworkRequest {
         case post = "POST"
         case put = "PUT"
         case delete = "DELETE"
+        case patch = "PATCH"
     }
 
     public enum ContentType: String {
@@ -60,9 +61,9 @@ public struct NetworkRequest {
     let body: Data?
 
     private let session: URLSession? = {
-        guard let session = NetworkManager.shared.session else { return nil }
-        return session
+        return NetworkManager.shared.session
     }()
+    
     private var task: URLSessionDataTask?
     
     public init(
@@ -96,14 +97,17 @@ public struct NetworkRequest {
         }
     }
     
+    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
     public static func POST(url: URL, body: Data?) -> NetworkRequest {
         return self.init(endpoint: url, method: .post, body: body)
     }
     
+    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
     public static func PUT(url: URL, body: Data?) -> NetworkRequest {
         return self.init(endpoint: url, method: .put, body: body)
     }
     
+    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
     public static func DELETE(url: URL) -> NetworkRequest {
         return self.init(endpoint: url, method: .delete, body: nil)
     }
@@ -113,6 +117,7 @@ public struct NetworkRequest {
 
 extension NetworkRequest {
     
+    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
     public static func GET<ResponseType: Decodable>(
         url: URL,
         body: Data? = nil,
@@ -123,6 +128,7 @@ extension NetworkRequest {
         return NetworkCommunicator.shared.perform(request: request)
     }
 
+    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
     public static func POST(
         url: URL,
         body: Data?,
@@ -133,6 +139,7 @@ extension NetworkRequest {
         return NetworkCommunicator.shared.perform(request: request, responseType: EmptyNetworkResponse.self)
     }
 
+    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
     public static func POST<ResponseType: Decodable>(
         url: URL,
         body: Data?,
@@ -144,6 +151,7 @@ extension NetworkRequest {
         return NetworkCommunicator.shared.perform(request: request)
     }
     
+    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
     public static func PUT(
         url: URL,
         body: Data?,
@@ -153,6 +161,7 @@ extension NetworkRequest {
         return NetworkCommunicator.shared.perform(request: request, responseType: EmptyNetworkResponse.self)
     }
 
+    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
     public static func PUT<ResponseType: Decodable>(
         url: URL,
         body: Data?,

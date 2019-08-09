@@ -22,13 +22,19 @@ extension AuthenticationCoordinator {
         let logout = { [weak self] () -> Void in
             self?.logout(showPasswordView: true)
         }
-        pinRouter = PinRouter(flow: .change(logoutRouting: logout))
+        let parentViewController = UIApplication.shared.keyWindow!.rootViewController!.topMostViewController!
+        let boxedParent = UnretainedContentBox(parentViewController)
+        let flow = PinRouting.Flow.change(parent: boxedParent, logoutRouting: logout)
+        pinRouter = PinRouter(flow: flow)
         pinRouter.execute()
     }
     
     /// Create a new pin code. Used during onboarding, when the user is required to define a pin code before entering his wallet.
     func createPin() {
-        pinRouter = PinRouter(flow: .create) { [weak self] _ in
+        let parentViewController = UIApplication.shared.keyWindow!.rootViewController!.topMostViewController!
+        let boxedParent = UnretainedContentBox(parentViewController)
+        let flow = PinRouting.Flow.create(parent: boxedParent)
+        pinRouter = PinRouter(flow: flow) { [weak self] _ in
             self?.alertPresenter.showMobileNoticeIfNeeded()
         }
         pinRouter.execute()
@@ -43,7 +49,8 @@ extension AuthenticationCoordinator {
         let logout = { [weak self] () -> Void in
             self?.logout(showPasswordView: true)
         }
-        pinRouter = PinRouter(flow: .authenticate(from: .background, logoutRouting: logout)) { [weak self] input in
+        let flow = PinRouting.Flow.authenticate(from: .background, logoutRouting: logout)
+        pinRouter = PinRouter(flow: flow) { [weak self] input in
             guard let pinDecryptionKey = input.pinDecryptionKey else { return }
             self?.postAuthentication(pinDecryptionKey)
         }
@@ -55,7 +62,10 @@ extension AuthenticationCoordinator {
         let logout = { [weak self] () -> Void in
             self?.logout(showPasswordView: true)
         }
-        pinRouter = PinRouter(flow: .enableBiometrics(logoutRouting: logout)) { [weak self] input in
+        let parentViewController = UIApplication.shared.keyWindow!.rootViewController!.topMostViewController!
+        let boxedParent = UnretainedContentBox(parentViewController)
+        let flow = PinRouting.Flow.enableBiometrics(parent: boxedParent, logoutRouting: logout)
+        pinRouter = PinRouter(flow: flow) { [weak self] input in
             guard let pinDecryptionKey = input.pinDecryptionKey else { return }
             self?.postAuthentication(pinDecryptionKey)
         }

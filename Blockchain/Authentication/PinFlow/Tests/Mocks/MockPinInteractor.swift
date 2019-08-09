@@ -11,6 +11,7 @@ import RxSwift
 
 class MockPinInteractor: PinInteracting {
     
+    var hasLogoutAttempted = false
     let expectedPinDecryptionKey: String
     let expectedError: PinError?
     

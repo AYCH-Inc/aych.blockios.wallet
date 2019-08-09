@@ -79,7 +79,7 @@ class PinScreenPresenterTests: XCTestCase {
     
     // Test first phase of pin entry during creation process
     func testCreationSuccessOnFirstEntry() {
-        let flow = PinRouting.Flow.create
+        let flow = PinRouting.Flow.create(parent: .init(nil))
         let useCase = PinScreenUseCase.select(previousPin: nil)
         let interactor = MockPinInteractor()
         let authManager = MockAuthenticationManager(authenticatesSuccessfully: true,
@@ -107,7 +107,7 @@ class PinScreenPresenterTests: XCTestCase {
     
     // Tests that selection of invalid pin fails when selecting a new pin
     func testFailureOnInvalidPinSelection() {
-        let flow = PinRouting.Flow.create
+        let flow = PinRouting.Flow.create(parent: .init(nil))
         let useCase = PinScreenUseCase.select(previousPin: nil)
         let interactor = MockPinInteractor()
         let authManager = MockAuthenticationManager(authenticatesSuccessfully: true,
@@ -138,7 +138,7 @@ class PinScreenPresenterTests: XCTestCase {
     // Test second phase of pin entry during creation process
     func testCreationSuccessOnSecondEntry() {
         let selectedPin = Pin(string: "5740")!
-        let flow = PinRouting.Flow.create
+        let flow = PinRouting.Flow.create(parent: .init(nil))
         let useCase = PinScreenUseCase.create(firstPin: selectedPin)
         let interactor = MockPinInteractor()
         let authManager = MockAuthenticationManager(authenticatesSuccessfully: true,
@@ -167,7 +167,7 @@ class PinScreenPresenterTests: XCTestCase {
     // Test pin mismatch when the second pin != first pin
     func testCreationPinsMismatchFailure() {
         let pin = Pin(string: "5740")!
-        let flow = PinRouting.Flow.create
+        let flow = PinRouting.Flow.create(parent: .init(nil))
         let useCase = PinScreenUseCase.create(firstPin: pin)
         let interactor = MockPinInteractor()
         let authManager = MockAuthenticationManager(authenticatesSuccessfully: true,
@@ -202,7 +202,7 @@ class PinScreenPresenterTests: XCTestCase {
     
     func testAuthenticationBeforeChanging() {
         let pin = "5740"
-        let flow = PinRouting.Flow.change(logoutRouting: {})
+        let flow = PinRouting.Flow.change(parent: .init(nil), logoutRouting: {})
         let useCase = PinScreenUseCase.authenticateBeforeChanging
         let interactor = MockPinInteractor()
         let authManager = MockAuthenticationManager(authenticatesSuccessfully: true,
@@ -230,7 +230,7 @@ class PinScreenPresenterTests: XCTestCase {
     
     func testChangingPinToPreviousValueFailure() {
         let previousPin = Pin(string: "5475")!
-        let flow = PinRouting.Flow.change(logoutRouting: {})
+        let flow = PinRouting.Flow.change(parent: .init(nil), logoutRouting: {})
         let useCase = PinScreenUseCase.select(previousPin: previousPin)
         let interactor = MockPinInteractor()
         let authManager = MockAuthenticationManager(authenticatesSuccessfully: true,

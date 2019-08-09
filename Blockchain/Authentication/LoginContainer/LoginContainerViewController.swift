@@ -132,8 +132,11 @@ class LoginContainerViewController: UIViewController {
     /// Returns the currently displayed item index
     private var currentItemIndex: Int {
         let offset = collectionView.contentOffset.x + collectionView.bounds.width * 0.5
-        let index = Int(offset / collectionView.contentSize.width * CGFloat(inputs.count))
-        return index
+        let contentWidth = collectionView.contentSize.width * CGFloat(inputs.count)
+        if contentWidth == 0 {
+            return 0
+        }
+        return Int(offset / contentWidth)
     }
 }
 

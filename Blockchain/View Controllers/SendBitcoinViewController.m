@@ -166,7 +166,8 @@ BOOL displayingLocalSymbolSend;
     destinationAddressIndicatorLabel = [[UILabel alloc] initWithFrame:toField.frame];
     destinationAddressIndicatorLabel.font = selectAddressTextField.font;
     destinationAddressIndicatorLabel.textColor = selectAddressTextField.textColor;
-    destinationAddressIndicatorLabel.text = [[NSString alloc] initWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], self.assetType == LegacyAssetTypeBitcoin ? @"BTC" : @"BCH"];
+    NSString *symbol = [AssetTypeLegacyHelper symbolFor:self.assetType];
+    destinationAddressIndicatorLabel.text = [NSString stringWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], symbol];
     destinationAddressIndicatorLabel.hidden = true;
     [self.view addSubview:destinationAddressIndicatorLabel];
     
@@ -834,7 +835,7 @@ BOOL displayingLocalSymbolSend;
         switch (self.addressSource) {
             case DestinationAddressSourcePit:
                 symbol = [AssetTypeLegacyHelper symbolFor: self.assetType];
-                displayDestinationAddress = [[NSString alloc] initWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], symbol];
+                displayDestinationAddress = [NSString stringWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], symbol];
                 break;
             default:
                 displayDestinationAddress = to;

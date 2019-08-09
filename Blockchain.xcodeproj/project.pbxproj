@@ -1140,6 +1140,7 @@
 		6567FECD22CBA3860035CB16 /* AddressSubscribing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6567FECB22CBA3860035CB16 /* AddressSubscribing.swift */; };
 		6567FED822CBA6E30035CB16 /* TransactionObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6567FED722CBA6E30035CB16 /* TransactionObserving.swift */; };
 		6567FED922CBA6E30035CB16 /* TransactionObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6567FED722CBA6E30035CB16 /* TransactionObserving.swift */; };
+		6587FCB522F8384400206575 /* UnretainedContentBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6587FCB422F8384400206575 /* UnretainedContentBox.swift */; };
 		659B2C0622C3E0EF00114B50 /* LoginContainerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659B2C0422C3E0EF00114B50 /* LoginContainerCollectionViewCell.swift */; };
 		659B2C0722C3E0EF00114B50 /* LoginContainerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659B2C0422C3E0EF00114B50 /* LoginContainerCollectionViewCell.swift */; };
 		659B2C0822C3E0EF00114B50 /* LoginContainerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 659B2C0522C3E0EF00114B50 /* LoginContainerCollectionViewCell.xib */; };
@@ -4246,6 +4247,7 @@
 		6567FEAB22CB70990035CB16 /* AssetAddressFetching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetAddressFetching.swift; sourceTree = "<group>"; };
 		6567FECB22CBA3860035CB16 /* AddressSubscribing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressSubscribing.swift; sourceTree = "<group>"; };
 		6567FED722CBA6E30035CB16 /* TransactionObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionObserving.swift; sourceTree = "<group>"; };
+		6587FCB422F8384400206575 /* UnretainedContentBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnretainedContentBox.swift; sourceTree = "<group>"; };
 		659B2C0422C3E0EF00114B50 /* LoginContainerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContainerCollectionViewCell.swift; sourceTree = "<group>"; };
 		659B2C0522C3E0EF00114B50 /* LoginContainerCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginContainerCollectionViewCell.xib; sourceTree = "<group>"; };
 		65C18BA222D38028004CC1E2 /* NavigationBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarButtonItem.swift; sourceTree = "<group>"; };
@@ -6158,6 +6160,7 @@
 				3AE6AF6D228F3DEA00BF8F56 /* Networking */,
 				3AE6AF55228F274D00BF8F56 /* Logging */,
 				3A4E480B21BB379C001A799D /* Extensions */,
+				6587FCB422F8384400206575 /* UnretainedContentBox.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -12833,6 +12836,7 @@
 				3A8473FD219CA2D300F22FA6 /* MultiAccountAssetAPI.swift in Sources */,
 				3A68659A219A0D170009FF29 /* PageResult.swift in Sources */,
 				34E1C1E422244A17006E70D3 /* SingleExtensions.swift in Sources */,
+				6587FCB522F8384400206575 /* UnretainedContentBox.swift in Sources */,
 				3A8473AB219A473A00F22FA6 /* AssetAccount.swift in Sources */,
 				34579859224BC53E00F50F92 /* CryptoFeeServiceAPI.swift in Sources */,
 				3AADB30821B0849300FD2974 /* AssetAccountRepositoryAPI.swift in Sources */,

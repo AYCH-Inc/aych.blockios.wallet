@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 
 struct PinRouting {
     
@@ -23,23 +24,23 @@ struct PinRouting {
         enum Origin {
             
             /// In-app state that requires the user to re-authenticate to enable a feature
-            case foreground
+            case foreground(parent: UnretainedContentBox<UIViewController>)
             
             /// Background app state that requires the user's authentication to access the app
             case background
         }
         
         /// Change old pin code to a new one
-        case change(logoutRouting: RoutingType.Logout)
+        case change(parent: UnretainedContentBox<UIViewController>, logoutRouting: RoutingType.Logout)
         
         /// Creation of a new pin code where none existed before
-        case create
+        case create(parent: UnretainedContentBox<UIViewController>)
         
         /// Authentication flow: upon entering foreground
         case authenticate(from: Origin, logoutRouting: RoutingType.Logout)
         
         /// Enable biometrics
-        case enableBiometrics(logoutRouting: RoutingType.Logout)
+        case enableBiometrics(parent: UnretainedContentBox<UIViewController>, logoutRouting: RoutingType.Logout)
         
         /// Returns `true` if the flow is `create`
         var isCreate: Bool {
@@ -64,20 +65,29 @@ struct PinRouting {
         /// Returns `true` for login authnetication
         var isLoginAuthentication: Bool {
             switch self {
-            case .authenticate(from: let origin, logoutRouting: _) where origin == .background:
-                return true
+            case .authenticate(from: let origin, logoutRouting: _):
+                switch origin {
+                case .background:
+                    return true
+                case .foreground:
+                    return false
+                }
             default:
                 return false
             }
         }
         
-        /// Returns the origin of the pin flow
+        /// Returns the origin of the pin flow. The only possible background origin is for `.authneticate`.
         var origin: Origin {
             switch self {
             case .authenticate(from: let origin, logoutRouting: _):
                 return origin
-            default:
-                return .foreground
+            case .change(parent: let boxedParent, logoutRouting: _):
+                return .foreground(parent: boxedParent)
+            case .create(parent: let boxedParent):
+                return .foreground(parent: boxedParent)
+            case .enableBiometrics(parent: let boxedParent, logoutRouting: _):
+                return .foreground(parent: boxedParent)
             }
         }
         
@@ -86,12 +96,33 @@ struct PinRouting {
             switch self {
             case .authenticate(from: _, logoutRouting: let routing):
                 return routing
-            case .change(logoutRouting: let routing):
+            case .change(parent: _, logoutRouting: let routing):
                 return routing
-            case .enableBiometrics(logoutRouting: let routing):
+            case .enableBiometrics(parent: _, logoutRouting: let routing):
                 return routing
             case .create:
                 return nil
+            }
+        }
+        
+        /// Returns the parent of the login container. The only case that the login
+        /// has no parent is authentication from background. In this case, the login container
+        /// replaces the root view controller of the window.
+        var parent: UIViewController? {
+            switch self {
+            case .authenticate(from: let origin, logoutRouting: _):
+                switch origin {
+                case .foreground(parent: let parent):
+                    return parent.value
+                case .background: // Only case when there is no parent as the login is the root
+                    return nil
+                }
+            case .change(parent: let parent, logoutRouting: _):
+                return parent.value
+            case .enableBiometrics(parent: let parent, logoutRouting: _):
+                return parent.value
+            case .create(parent: let parent):
+                return parent.value
             }
         }
     }

@@ -7,6 +7,7 @@
 //
 
 import PlatformUIKit
+import PlatformKit
 
 /// PIN creation / changing / authentication. Responsible for routing screens during flow.
 final class PinRouter: NSObject {
@@ -29,7 +30,6 @@ final class PinRouter: NSObject {
     
     /// Reference to previous view controller
     private var previousRootViewController: UIViewController!
-    private var parentViewController: UIViewController!
 
     /// Weakly references the pin navigation controller as we don't want to keep it while it's not currently presented
     private weak var navigationController: UINavigationController!
@@ -44,12 +44,10 @@ final class PinRouter: NSObject {
     
     init(flow: PinRouting.Flow,
          swipeToReceiveConfig: SwipeToReceiveConfiguring = BlockchainSettings.App.shared,
-         parentViewController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!.topMostViewController!,
          recorder: Recording = CrashlyticsRecorder(),
          completion: PinRouting.RoutingType.Forward? = nil) {
         self.flow = flow
         self.swipeToReceiveConfig = swipeToReceiveConfig
-        self.parentViewController = parentViewController
         self.recorder = recorder
         self.completion = completion
         super.init()
@@ -68,8 +66,8 @@ final class PinRouter: NSObject {
             change()
         case .authenticate(from: let origin, logoutRouting: _):
             authenticate(from: origin)
-        case .enableBiometrics:
-            authenticate(from: .foreground)
+        case .enableBiometrics: // Here the origin is `.foreground`
+            authenticate(from: flow.origin)
         }
     }
     
@@ -147,7 +145,7 @@ extension PinRouter {
         }
         
         // Add cleanup to logout
-        let flow = PinRouting.Flow.change { [weak self] in
+        let flow = PinRouting.Flow.change(parent: UnretainedContentBox(self.flow.parent)) { [weak self] in
             self?.cleanup()
             self?.flow.logoutRouting?()
         }
@@ -211,8 +209,12 @@ extension PinRouter {
                 let window = UIApplication.shared.keyWindow!
                 previousRootViewController = window.rootViewController!
                 window.rootViewController = navigationController
-            case .foreground:
-                parentViewController.present(navigationController, animated: true)
+            case .foreground(parent: let boxedParent):
+                if let parent = boxedParent.value {
+                    parent.present(navigationController, animated: true)
+                } else {
+                    recorder.error("Parent view controller must not be `nil` for foreground authentication")
+                }
             }
             self.navigationController = navigationController
         }
@@ -221,13 +223,11 @@ extension PinRouter {
     /// Cleanup the flow and calls completion handler
     private func finish(animated: Bool = true,
                         completedSuccessfully: Bool = true,
-                        completionInput: PinRouting.RoutingType.Input = .none) {
-        
+                        completionInput: PinRouting.RoutingType.Input = .none) {        
         // Concentrate any cleaup logic here
         let cleanup = { [weak self] in
             guard let self = self else { return }
             self.navigationController = nil
-            self.parentViewController = nil
             self.previousRootViewController = nil
             self.isBeingDisplayed = false
             if completedSuccessfully {

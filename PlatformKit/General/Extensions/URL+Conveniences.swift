@@ -10,6 +10,15 @@ import Foundation
 
 public extension URL {
     
+    /// Returns the query arguments of this URL as a key-value pair
+    var queryArgs: [String: String] {
+        guard let query = self.query else {
+            return [:]
+        }
+        
+        return query.queryArgs
+    }
+    
     static func endpoint(_ baseURL: URL, pathComponents: [String]?, queryParameters: [String: String]?) -> URL? {
         guard var mutableBaseURL: URL = (baseURL as NSURL).copy() as? URL else { return nil }
         

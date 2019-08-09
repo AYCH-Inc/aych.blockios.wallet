@@ -11,6 +11,7 @@ import Foundation
 /// Protocol definition for a URL payload for an asset. The URL typically contains the address,
 /// as well as other metadata such as an amount, message, etc. The set of supported metadata
 /// can be asset dependent
+@available(*, deprecated, message: "Don't use this, this is superseded by CryptoAssetQRMetadata")
 @objc public protocol AssetURLPayload {
 
     /// The asset's address (e.g. "1Amu4uPJnYbUXX2HhDFMNq7tSneDwWYDyv")

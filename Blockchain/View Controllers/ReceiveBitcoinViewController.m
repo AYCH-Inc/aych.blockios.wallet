@@ -9,7 +9,6 @@
 #import "ReceiveBitcoinViewController.h"
 #import "ReceiveTableCell.h"
 #import "UIViewController+AutoDismiss.h"
-#import "QRCodeGenerator.h"
 #import "BCAddressSelectionView.h"
 #import "BCLine.h"
 #import "Blockchain-Swift.h"
@@ -371,8 +370,12 @@
         
         BOOL isUsing4SScreenSize = IS_USING_SCREEN_SIZE_4S;
         BOOL isUsing5SScreenSize = IS_USING_SCREEN_SIZE_5S;
+        
+        qrCodeMainImageView.image = [self.qrCodeGenerator qrImageFromAddress:self.mainAddress
+                                                                      amount:nil
+                                                                       asset:self.assetType
+                                                               includeScheme:NO];
 
-        qrCodeMainImageView.image = [self.qrCodeGenerator qrImageFromAddress:self.mainAddress];
         
         if (!isUsing4SScreenSize) {
             if (isUsing5SScreenSize) {
@@ -501,7 +504,10 @@
         
     UIImage *image;
     if (self.assetType == LegacyAssetTypeBitcoin) {
-        image = [self.qrCodeGenerator qrImageFromAddress:self.clickedAddress amount:amountAsDouble];
+        image = [self.qrCodeGenerator qrImageFromAddress:self.clickedAddress
+                                                  amount:[NSString stringWithFormat:@"%f", amountAsDouble]
+                                                   asset:self.assetType
+                                           includeScheme:NO];
     } else {
         image = [self.qrCodeGenerator createQRImageFromString:self.clickedAddress];
     }

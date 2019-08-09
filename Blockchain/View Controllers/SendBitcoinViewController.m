@@ -24,6 +24,8 @@
 
 @class BridgeAddressFetcher;
 
+@import BitcoinKit;
+
 typedef enum {
     SendTransactionTypeRegular = 100,
     SendTransactionTypeSweep = 200,

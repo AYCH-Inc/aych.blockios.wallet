@@ -30,7 +30,6 @@
 #import "NSData+Hex.h"
 #import "NSNumberFormatter+Currencies.h"
 #import "NSString+SHA256.h"
-#import "QRCodeGenerator.h"
 #import "Reachability.h"
 #import "ReminderModalViewController.h"
 #import "SettingsNavigationController.h"

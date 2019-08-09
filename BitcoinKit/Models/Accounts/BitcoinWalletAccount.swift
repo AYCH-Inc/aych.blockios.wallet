@@ -2,7 +2,7 @@
 //  BitcoinWalletAccount.swift
 //  BitcoinKit
 //
-//  Created by kevinwu on 2/5/19.
+//  Created by Jack on 05/08/2019.
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
@@ -13,4 +13,14 @@ public struct BitcoinWalletAccount: WalletAccount, Codable {
     public let publicKey: String
     public var label: String?
     public var archived: Bool
+    
+    public init(index: Int,
+                publicKey: String,
+                label: String?,
+                archived: Bool) {
+        self.index = index
+        self.publicKey = publicKey
+        self.label = label
+        self.archived = archived
+    }
 }

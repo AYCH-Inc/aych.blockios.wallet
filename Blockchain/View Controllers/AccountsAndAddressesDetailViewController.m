@@ -241,7 +241,7 @@ typedef enum {
         [segue.destinationViewController.navigationItem setTitle:BC_STRING_NAME];
     } else if (detailType == DetailTypeShowExtendedPublicKey) {
 
-        BCQRCodeView *qrCodeView = [[BCQRCodeView alloc] initWithFrame:self.view.frame qrHeaderText:BC_STRING_EXTENDED_PUBLIC_KEY_DETAIL_HEADER_TITLE addAddressPrefix:YES];
+        BCQRCodeView *qrCodeView = [[BCQRCodeView alloc] initWithFrame:self.view.frame qrHeaderText:BC_STRING_EXTENDED_PUBLIC_KEY_DETAIL_HEADER_TITLE addAddressPrefix:YES assetType:self.assetType];
         qrCodeView.address = [WalletManager.sharedInstance.wallet getXpubForAccount:self.account assetType:self.assetType];
         qrCodeView.doneButton.hidden = YES;
 
@@ -255,6 +255,7 @@ typedef enum {
         BCQRCodeView *qrCodeView = [[BCQRCodeView alloc] initWithFrame:self.view.frame];
         qrCodeView.address = self.address;
         qrCodeView.doneButton.hidden = YES;
+        qrCodeView.assetType = self.assetType;
 
         [self setupModalView:qrCodeView inViewController:segue.destinationViewController];
 

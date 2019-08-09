@@ -7,7 +7,6 @@
 //
 
 #import "BCQRCodeView.h"
-#import "QRCodeGenerator.h"
 #import "Blockchain-Swift.h"
 
 const float imageWidth = 190;
@@ -15,6 +14,7 @@ const float imageWidth = 190;
 @interface BCQRCodeView ()
 @property (nonatomic) QRCodeGenerator *qrCodeGenerator;
 @property (nonatomic) BOOL shouldAddAddressPrefix;
+
 @end
 
 @implementation BCQRCodeView
@@ -24,6 +24,7 @@ const float imageWidth = 190;
     self = [super initWithFrame:frame];
     if (self) {
         [self setupWithQRHeaderText:nil];
+        self.assetType = LegacyAssetTypeBitcoin;
     }
     
     return self;
@@ -36,9 +37,23 @@ const float imageWidth = 190;
     if (self) {
         [self setupWithQRHeaderText:qrHeaderText];
         self.shouldAddAddressPrefix = addPrefix;
+        self.assetType = LegacyAssetTypeBitcoin;
     }
     return self;
 }
+
+- (id)initWithFrame:(CGRect)frame qrHeaderText:(NSString *)qrHeaderText addAddressPrefix:(BOOL)addPrefix assetType:(LegacyAssetType)assetType
+{
+    self = [super initWithFrame:frame];
+    
+    if (self) {
+        [self setupWithQRHeaderText:qrHeaderText];
+        self.shouldAddAddressPrefix = addPrefix;
+        self.assetType = assetType;
+    }
+    return self;
+}
+
 
 - (void)setupWithQRHeaderText:(NSString *)qrHeaderText
 {
@@ -96,7 +111,9 @@ const float imageWidth = 190;
 {
     _address = address;
     
-    self.qrCodeImageView.image = self.shouldAddAddressPrefix ? [self.qrCodeGenerator qrImageFromAddress:address] : [self.qrCodeGenerator createQRImageFromString:address];
+    self.qrCodeImageView.image = self.shouldAddAddressPrefix
+        ? [self.qrCodeGenerator qrImageFromAddress:address amount:nil asset:self.assetType includeScheme:NO]
+        : [self.qrCodeGenerator createQRImageFromString:address];
     self.qrCodeFooterLabel.text = address;
 }
 

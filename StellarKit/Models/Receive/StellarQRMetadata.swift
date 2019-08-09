@@ -20,6 +20,9 @@ public struct StellarQRMetadata: CryptoAssetQRMetadata {
         }
         return URIScheme().getPayOperationURI(accountID: address, amount: value)
     }
+    
+    public var includeScheme: Bool = false
+    
     public static var scheme: String {
         return "web+stellar"
     }

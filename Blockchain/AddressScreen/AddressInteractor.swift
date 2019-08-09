@@ -65,7 +65,7 @@ final class AddressInteractor: AddressInteracting {
                 }
                 
                 // Generate a QR image out of the provided url
-                guard let image = self.qrCodeGenerator.createQRImage(from: qrUrl) else {
+                guard let image = self.qrCodeGenerator.createQRImage(fromString: qrUrl) else {
                     let error = AddressFetchingError.parsing
                     self.recorder.error(error)
                     throw error

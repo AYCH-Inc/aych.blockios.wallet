@@ -13,6 +13,8 @@ public struct BitcoinQRMetadata: CryptoAssetQRMetadata {
     
     public var amount: String?
     
+    public var paymentRequestUrl: String?
+    
     public var absoluteString: String {
         let payload = BitcoinURLPayload(
             address: address,
@@ -45,6 +47,8 @@ public struct BitcoinCashQRMetadata: CryptoAssetQRMetadata {
     public var address: String
     
     public var amount: String?
+    
+    public var paymentRequestUrl: String?
     
     public var absoluteString: String {
         let payload = BitcoinCashURLPayload(

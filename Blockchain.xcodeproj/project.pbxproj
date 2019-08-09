@@ -1830,6 +1830,15 @@
 		C7FF10EA2141AAB300CBA3CB /* MarketsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF10E92141AAB300CBA3CB /* MarketsModel.swift */; };
 		C7FF10EB2141AAB300CBA3CB /* MarketsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF10E92141AAB300CBA3CB /* MarketsModel.swift */; };
 		C7FF10FE2141C07A00CBA3CB /* Fix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF10DE2141A89500CBA3CB /* Fix.swift */; };
+		C854E3F122F3A4AC007EC1D2 /* BitpayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B25F4E22F287C70031D1B2 /* BitpayService.swift */; };
+		C854E3F222F3A4AC007EC1D2 /* BridgeBitpayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B25F5322F29A230031D1B2 /* BridgeBitpayService.swift */; };
+		C854E3F322F3A4AC007EC1D2 /* BitpayServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B25F5522F29AB00031D1B2 /* BitpayServiceProtocol.swift */; };
+		C854E3F622F3A554007EC1D2 /* BitpayServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C854E3EF22F3A3DD007EC1D2 /* BitpayServiceTests.swift */; };
+		C854E3F722F3A554007EC1D2 /* MockBitpayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C854E3ED22F39C77007EC1D2 /* MockBitpayService.swift */; };
+		C854E3FE22FA6DCC007EC1D2 /* BitpayPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C854E3FD22FA6DCC007EC1D2 /* BitpayPaymentRequest.swift */; };
+		C8B25F4F22F287C70031D1B2 /* BitpayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B25F4E22F287C70031D1B2 /* BitpayService.swift */; };
+		C8B25F5422F29A230031D1B2 /* BridgeBitpayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B25F5322F29A230031D1B2 /* BridgeBitpayService.swift */; };
+		C8B25F5622F29AB00031D1B2 /* BitpayServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B25F5522F29AB00031D1B2 /* BitpayServiceProtocol.swift */; };
 		C9BE918C1945F5FC00FD516D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9BE918B1945F5FC00FD516D /* Images.xcassets */; };
 		CD9E7694F1E484946D8CB227 /* Pods_StellarKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CB250570596D6B5AE7499D /* Pods_StellarKitTests.framework */; };
 		CFA0671F1E65D426008456C1 /* WebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA0671E1E65D426008456C1 /* WebLoginViewController.m */; };
@@ -4881,6 +4890,12 @@
 		C7FA9B58212F499D00B98EBF /* MarketsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsService.swift; sourceTree = "<group>"; };
 		C7FF10DE2141A89500CBA3CB /* Fix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fix.swift; sourceTree = "<group>"; };
 		C7FF10E92141AAB300CBA3CB /* MarketsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsModel.swift; sourceTree = "<group>"; };
+		C854E3ED22F39C77007EC1D2 /* MockBitpayService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBitpayService.swift; sourceTree = "<group>"; };
+		C854E3EF22F3A3DD007EC1D2 /* BitpayServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitpayServiceTests.swift; sourceTree = "<group>"; };
+		C854E3FD22FA6DCC007EC1D2 /* BitpayPaymentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitpayPaymentRequest.swift; sourceTree = "<group>"; };
+		C8B25F4E22F287C70031D1B2 /* BitpayService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitpayService.swift; sourceTree = "<group>"; };
+		C8B25F5322F29A230031D1B2 /* BridgeBitpayService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeBitpayService.swift; sourceTree = "<group>"; };
+		C8B25F5522F29AB00031D1B2 /* BitpayServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitpayServiceProtocol.swift; sourceTree = "<group>"; };
 		C9BE918B1945F5FC00FD516D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CB8FB0C986C5EECBB08B2963 /* Pods-BlockchainTests.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockchainTests.debug staging.xcconfig"; path = "Target Support Files/Pods-BlockchainTests/Pods-BlockchainTests.debug staging.xcconfig"; sourceTree = "<group>"; };
 		CFA0671E1E65D426008456C1 /* WebLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebLoginViewController.m; sourceTree = "<group>"; };
@@ -7377,6 +7392,7 @@
 		5194359F208E61F3001EF882 /* BlockchainTests */ = {
 			isa = PBXGroup;
 			children = (
+				C854E3F522F3A511007EC1D2 /* BitPay */,
 				519435A2208E61F3001EF882 /* Info.plist */,
 				51C2ADD320BDD3EA00D66108 /* AddressValidatorTests.swift */,
 				AA035C972176A53900731CD5 /* ArraysTests.swift */,
@@ -9988,6 +10004,7 @@
 		9FB3637B14B60128004BEA02 /* Blockchain */ = {
 			isa = PBXGroup;
 			children = (
+				C8B25F4422F287850031D1B2 /* BitPay */,
 				7ADD19D621874C220013A525 /* Firebase */,
 				C790E0F21E4913F00063D141 /* Blockchain.entitlements */,
 				A2599B9D1B0B5FC700C2EA81 /* Blockchain-Bridging-Header.h */,
@@ -11256,6 +11273,34 @@
 				C7B4EB61220A68BA001C1795 /* BitcoinWalletBridgeAPI.swift */,
 			);
 			path = APIs;
+			sourceTree = "<group>";
+		};
+		C854E3F522F3A511007EC1D2 /* BitPay */ = {
+			isa = PBXGroup;
+			children = (
+				C854E3EF22F3A3DD007EC1D2 /* BitpayServiceTests.swift */,
+				C854E3ED22F39C77007EC1D2 /* MockBitpayService.swift */,
+			);
+			path = BitPay;
+			sourceTree = "<group>";
+		};
+		C854E3FC22FA6DB7007EC1D2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C854E3FD22FA6DCC007EC1D2 /* BitpayPaymentRequest.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C8B25F4422F287850031D1B2 /* BitPay */ = {
+			isa = PBXGroup;
+			children = (
+				C854E3FC22FA6DB7007EC1D2 /* Models */,
+				C8B25F4E22F287C70031D1B2 /* BitpayService.swift */,
+				C8B25F5322F29A230031D1B2 /* BridgeBitpayService.swift */,
+				C8B25F5522F29AB00031D1B2 /* BitpayServiceProtocol.swift */,
+			);
+			path = BitPay;
 			sourceTree = "<group>";
 		};
 		C9B32CF9194F3F5800BDF3A0 /* Cells */ = {
@@ -13225,6 +13270,7 @@
 				602B9D122118E24800BD3D60 /* KYCAddressController.swift in Sources */,
 				51A862E42092686300B338E0 /* CheckForUnusedAddressTests.swift in Sources */,
 				3A3C7D76218126F40067F442 /* ActionableLabel.swift in Sources */,
+				C854E3F122F3A4AC007EC1D2 /* BitpayService.swift in Sources */,
 				AA46ECC4219A2EE10077B351 /* KYCVerifyIdentityInteractor.swift in Sources */,
 				602B9D242118E27100BD3D60 /* KYCConfirmPhoneNumberController.swift in Sources */,
 				347B6A1C22CCD9FE002C80E9 /* StellarMocks.swift in Sources */,
@@ -13434,6 +13480,7 @@
 				C70B582E2182626B0059D6FF /* SendXLMModelInterface.swift in Sources */,
 				AAC8F35820993BC1004B7D33 /* WebSocketCloseCode.swift in Sources */,
 				C7A85971217A56D300502935 /* TransactionsXlmViewController.swift in Sources */,
+				C854E3F222F3A4AC007EC1D2 /* BridgeBitpayService.swift in Sources */,
 				3AB4D91D21309BE7004F0160 /* ExchangeListViewCell.swift in Sources */,
 				AA084410215EEF320007BFD1 /* LockboxDeviceType.swift in Sources */,
 				650999C022E5CBB20092BFB9 /* BridgeAddressFetcher.swift in Sources */,
@@ -13619,6 +13666,8 @@
 				C75817B72146FC5F00AA6A04 /* ExchangeConversionService.swift in Sources */,
 				34615C322260917300CEC8C4 /* PaxAddress.swift in Sources */,
 				347B6A0E22CCD4EE002C80E9 /* NabuAuthenticationServiceMock.swift in Sources */,
+				C854E3F722F3A554007EC1D2 /* MockBitpayService.swift in Sources */,
+				C854E3F322F3A4AC007EC1D2 /* BitpayServiceProtocol.swift in Sources */,
 				AACE31D22092A99B00B7B806 /* UINavigationController+PopToRootWithCompletion.swift in Sources */,
 				513C828720EBF30C00ECDE52 /* UIDevice+Biometrics.swift in Sources */,
 				65D179C122CBC5E0001D3544 /* AddressPreseterTests.swift in Sources */,
@@ -13680,6 +13729,7 @@
 				AA447BDA2127BC1100EC0FA0 /* SideMenuCell.swift in Sources */,
 				C70576B3212CFFFC0027C6AA /* Nibable.swift in Sources */,
 				347B6A0722CCD37D002C80E9 /* PaxERC20ServiceMock.swift in Sources */,
+				C854E3F622F3A554007EC1D2 /* BitpayServiceTests.swift in Sources */,
 				AA126CE3212C9753005886A3 /* KYCPagePayload.swift in Sources */,
 				AA94966420CB613100A9C2DD /* AssetAddressFactoryTests.swift in Sources */,
 				C7387ED621814D6D005D35DA /* AmountTextFieldDelegateTests.swift in Sources */,
@@ -13891,6 +13941,7 @@
 				3A53DB21226E20AD00CBCB6E /* CoinifyMetadata.swift in Sources */,
 				3A26D526214055E600D79BDD /* TradingPairCell.swift in Sources */,
 				511BF4ED20E67B3B00A14072 /* AppReviewPrompt.swift in Sources */,
+				C854E3FE22FA6DCC007EC1D2 /* BitpayPaymentRequest.swift in Sources */,
 				3A12A71821ACFD5800C616F6 /* Wallet+Extensions.swift in Sources */,
 				602B9CF42118E15300BD3D60 /* KYCCoordinator.swift in Sources */,
 				AA126D12212D1B2B005886A3 /* KYCUpdateAddressRequest.swift in Sources */,
@@ -14085,6 +14136,7 @@
 				AA54E492216D28CE005061F9 /* KYCStateSelectionController.swift in Sources */,
 				C7448A9C2034DDF80041947E /* AssetSelectorView.m in Sources */,
 				C7CE34B81F4DCB7E00032806 /* CardsViewController.m in Sources */,
+				C8B25F5422F29A230031D1B2 /* BridgeBitpayService.swift in Sources */,
 				3A91F7C1213845F700CDC3FD /* TradingPairView.swift in Sources */,
 				AA722C1420B4B9F300262A5F /* WalletSwipeAddressDelegate.swift in Sources */,
 				C77C19B820C580E5005CB600 /* WalletSecondPasswordDelegate.swift in Sources */,
@@ -14252,6 +14304,7 @@
 				C7900C832177CEEB00F57A9F /* SimpleListDataProvider.swift in Sources */,
 				65463CAF22DC9AA7005E5BF6 /* AddressViewController.swift in Sources */,
 				239539831B486C7100989667 /* UILabel+MultiLineAutoSize.m in Sources */,
+				C8B25F5622F29AB00031D1B2 /* BitpayServiceProtocol.swift in Sources */,
 				C7343BCF214FF93A001B1EC9 /* ExchangeDetailInteractor.swift in Sources */,
 				3A25517821E68CF6005D4E66 /* VeriffService.swift in Sources */,
 				6567FEAC22CB70990035CB16 /* AssetAddressFetching.swift in Sources */,
@@ -14381,6 +14434,7 @@
 				23FB5C071D9ABB450008C6AB /* TransactionDetailDescriptionCell.m in Sources */,
 				C78238C42131FA08008FCCAD /* NumberKeypadView.swift in Sources */,
 				23BA220E1D6B4AB500D0472B /* KeychainItemWrapper+Credentials.m in Sources */,
+				C8B25F4F22F287C70031D1B2 /* BitpayService.swift in Sources */,
 				23DEF96E1DB11C98004AAAB6 /* TransferAllFundsBuilder.m in Sources */,
 				C74E21C72024E6D700A9FBB1 /* BCPricePreviewView.m in Sources */,
 				6055D370210F689C000B8E95 /* Currency.swift in Sources */,

@@ -13,6 +13,7 @@ import stellarsdk
 public struct StellarQRMetadata: CryptoAssetQRMetadata {
     public var address: String
     public var amount: String?
+    public var paymentRequestUrl: String?
     public var absoluteString: String {
         var value: Decimal?
         if let amount = amount {

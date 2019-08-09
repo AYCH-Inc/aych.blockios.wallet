@@ -23,6 +23,7 @@
 #import "NSNumberFormatter+Currencies.h"
 
 @class BridgeAddressFetcher;
+@class BridgeBitpayService;
 
 @import BitcoinKit;
 
@@ -84,9 +85,21 @@ typedef enum {
 @property (nonatomic) BCNavigationController *contactRequestNavigationController;
 
 @property (nonatomic) BridgeAddressFetcher *addressFetcher;
+@property (nonatomic) BridgeBitpayService *bitpayService;
+
 @property (nonatomic, copy) NSString *pitAddress;
 
 @property (nonatomic, strong) BridgeDeepLinkQRCodeRouter *deepLinkQRCodeRouter;
+
+@property (nonatomic) NSString *bitpayMerchant;
+@property (nonatomic) NSDate *bitpayExpiration;
+@property (nonatomic) NSTimer *bitpayTimer;
+@property (nonatomic) UILabel *bitpayLabel;
+@property (nonatomic) UILabel *bitpayTimeRemainingText;
+@property (nonatomic) UIImageView *bitpayLogo;
+@property (nonatomic) BCLine *lineBelowBitpayLabel;
+
+@property (nonatomic) BOOL isBitpayPayPro;
 
 @end
 
@@ -143,6 +156,8 @@ BOOL displayingLocalSymbolSend;
     self.deepLinkQRCodeRouter = [[BridgeDeepLinkQRCodeRouter alloc] init];
     self.addressFetcher = [[BridgeAddressFetcher alloc] init];
     
+    self.bitpayService = [[BridgeBitpayService alloc] init];
+
     self.view.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:YES assetSelector:YES];
 
     [containerView changeWidth:self.view.frame.size.width];
@@ -161,6 +176,31 @@ BOOL displayingLocalSymbolSend;
     self.pitAddressButton = pitAddressButton;
     [self.pitAddressButton changeXPosition:self.view.bounds.size.width - addressBookButton.frame.size.width - self.pitAddressButton.bounds.size.width];
 
+    self.bitpayLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, lineBelowFeeField.superview.frame.origin.y + lineBelowFeeField.superview.frame.size.height + 2, self.view.frame.size.width, 64)];
+    [self.view addSubview:self.bitpayLabel];
+    self.bitpayLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_SMALL];
+    self.bitpayLabel.adjustsFontSizeToFitWidth = YES;
+    self.bitpayLabel.textColor = UIColor.gray5;
+    self.bitpayLabel.hidden = YES;
+    
+    self.bitpayTimeRemainingText = [[UILabel alloc] initWithFrame:CGRectMake(15, lineBelowFeeField.superview.frame.origin.y + lineBelowFeeField.superview.frame.size.height + 2, self.view.frame.size.width, 21)];
+    [self.view addSubview:self.bitpayTimeRemainingText];
+    self.bitpayTimeRemainingText.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_EXTRA_EXTRA_SMALL];
+    self.bitpayTimeRemainingText.adjustsFontSizeToFitWidth = YES;
+    self.bitpayTimeRemainingText.textColor = UIColor.gray3;
+    self.bitpayTimeRemainingText.hidden = YES;
+    
+    self.bitpayLogo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 83, lineBelowFeeField.superview.frame.origin.y + lineBelowFeeField.superview.frame.size.height + 23, 68, 24)];
+    self.bitpayLogo.image = [UIImage imageNamed:@"bitpay-logo"];
+    [self.view addSubview:self.bitpayLogo];
+    self.bitpayLogo.hidden = YES;
+    
+    self.lineBelowBitpayLabel = [[BCLine alloc] initWithFrame:CGRectMake(16, lineBelowFeeField.superview.frame.origin.y + lineBelowFeeField.superview.frame.size.height + 64, self.view.frame.size.width, 1)];
+    self.lineBelowBitpayLabel.backgroundColor = UIColor.gray1;
+    self.lineBelowBitpayLabel.hidden = YES;
+    [self.view addSubview:self.lineBelowBitpayLabel];
+
+    
     [toField changeWidth:self.view.frame.size.width - toLabel.frame.size.width - addressBookButton.frame.size.width - self.pitAddressButton.bounds.size.width - 16];
     
     destinationAddressIndicatorLabel = [[UILabel alloc] initWithFrame:toField.frame];
@@ -344,6 +384,15 @@ BOOL displayingLocalSymbolSend;
     
     [self setupFees];
     
+    [self enableInputs];
+    
+    [self.bitpayTimer invalidate];
+    
+    self.bitpayLabel.hidden = YES;
+    self.bitpayLogo.hidden = YES;
+    self.bitpayTimeRemainingText.hidden = YES;
+    self.lineBelowBitpayLabel.hidden = YES;
+    
     sendProgressCancelButton.hidden = YES;
     
     [self enableAmountViews];
@@ -351,6 +400,7 @@ BOOL displayingLocalSymbolSend;
     
     self.isSending = NO;
     self.isReloading = NO;
+    self.isBitpayPayPro = NO;
     
     self.noteToSet = nil;
     
@@ -593,6 +643,9 @@ BOOL displayingLocalSymbolSend;
              }
              
              // Close transaction modal, go to transactions view, scroll to top and animate new transaction
+             if(self.isBitpayPayPro) {
+                 [self.bitpayTimer invalidate];
+             }
              [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
              TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
              [tabControllerManager.transactionsBitcoinViewController didReceiveTransactionMessage];
@@ -837,6 +890,9 @@ BOOL displayingLocalSymbolSend;
                 symbol = [AssetTypeLegacyHelper symbolFor: self.assetType];
                 displayDestinationAddress = [NSString stringWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], symbol];
                 break;
+            case DestinationAddressSourceBitPay:
+                displayDestinationAddress = [NSString stringWithFormat: @"BitPay[%@]", self.bitpayMerchant];
+                break;
             default:
                 displayDestinationAddress = to;
         }
@@ -967,6 +1023,87 @@ BOOL displayingLocalSymbolSend;
 {
     btcAmountField.textColor = UIColor.gray5;
     fiatAmountField.textColor = UIColor.gray5;
+}
+
+- (void)handleTimerTick:(NSTimer *)timer
+{
+    NSTimeInterval interval = [self.bitpayExpiration timeIntervalSinceNow];
+    int secondsInAnHour = 3600;
+    int hours = interval / secondsInAnHour;
+    int minutesInAnHour = 60;
+    int minutes = (interval - hours * secondsInAnHour) / minutesInAnHour;
+    int secondsInAMinute = 60;
+    int seconds = interval - hours * secondsInAnHour - minutes * secondsInAMinute;
+    
+    NSString *hoursString = [NSString stringWithFormat:@"%02d", hours];
+    NSString *minutesString = minutes > 9 ? [NSString stringWithFormat:@"%02d", minutes] : [NSString stringWithFormat:@"%d", minutes];
+    NSString *secondsString = [NSString stringWithFormat:@"%02d", seconds];
+    NSString *secondsFormattedString = seconds < 10 ? [[NSNumberFormatter localFormattedString:@"0"] stringByAppendingString:[NSNumberFormatter localFormattedString:secondsString]] : [NSNumberFormatter localFormattedString:secondsString];
+    NSString *timeString = hours > 0 ? [NSString stringWithFormat:@"%@:%@:%@", [NSNumberFormatter localFormattedString:hoursString], [NSNumberFormatter localFormattedString:minutesString], secondsFormattedString] : [NSString stringWithFormat:@"%@:%@", [NSNumberFormatter localFormattedString:minutesString], secondsFormattedString];
+    
+    self.bitpayTimeRemainingText.text = [NSString stringWithFormat:BC_STRING_BITPAY_TIME_REMAINING, timeString];
+    if (hours == 0 && minutes < 1) {
+        self.bitpayTimeRemainingText.textColor = UIColor.error;
+    } else if (hours == 0 && minutes < 5) {
+        self.bitpayTimeRemainingText.textColor = UIColor.orangeColor;
+    }
+    
+    if (hours + minutes <= 0 && seconds <= 2) {
+        [timer invalidate];
+        [self showBitPayExpiredAlert];
+    }
+}
+
+- (void)showBitPayExpiredAlert
+{
+    UIAlertController *expiredAlert = [UIAlertController alertControllerWithTitle:BC_STRING_BITPAY_INVOICE_EXPIRED_TITLE message:BC_STRING_BITPAY_INVOICE_EXPIRED_MESSAGE preferredStyle:UIAlertControllerStyleAlert];
+    [expiredAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }]];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:expiredAlert animated:YES completion:nil];
+    [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
+    [self cleanUpBitPayPayment];
+}
+
+- (void)cleanUpBitPayPayment
+{
+    [self clearToAddressAndAmountFields];
+    [self enableInputs];
+    [self.bitpayTimer invalidate];
+    self.isBitpayPayPro = NO;
+    [self updateFundsAvailable];
+    self.feeType = FeeTypeRegular;
+    [self updateFeeLabels];
+    self.bitpayLabel.hidden = YES;
+    self.bitpayLogo.hidden = YES;
+    self.bitpayTimeRemainingText.hidden = YES;
+    self.lineBelowBitpayLabel.hidden = YES;
+}
+
+- (void)enableInputs
+{
+    btcAmountField.enabled = YES;
+    fiatAmountField.enabled = YES;
+    toField.enabled = YES;
+    feeField.enabled = YES;
+    fundsAvailableButton.enabled = YES;
+    [self->feeTappableView setUserInteractionEnabled:YES];
+    fundsAvailableButton.hidden = NO;
+    addressBookButton.enabled = YES;
+    feeOptionsButton.enabled = YES;
+}
+
+- (void)disableInputs
+{
+    btcAmountField.enabled = NO;
+    fiatAmountField.enabled = NO;
+    toField.enabled = NO;
+    feeField.enabled = NO;
+    fundsAvailableButton.enabled = NO;
+    [self->feeTappableView setUserInteractionEnabled:NO];
+    fundsAvailableButton.hidden = true;
+    addressBookButton.enabled = NO;
+    feeOptionsButton.enabled = NO;
 }
 
 - (void)disablePaymentButtons
@@ -1604,8 +1741,10 @@ BOOL displayingLocalSymbolSend;
     } else {
         [fundsAvailableButton setTitle:[NSString stringWithFormat:BC_STRING_USE_TOTAL_AVAILABLE_MINUS_FEE_ARGUMENT,
                                         [self formatMoney:availableAmount localCurrency:displayingLocalSymbolSend]]
-                              forState:UIControlStateNormal];
+                                forState:UIControlStateNormal];
+        [fundsAvailableButton setTitleColor:UIColor.brandSecondary forState:UIControlStateNormal];
     }
+    
 }
 
 - (void)selectFromAddress:(NSString *)address
@@ -1870,7 +2009,7 @@ BOOL displayingLocalSymbolSend;
                 }
                 self.feeWarningLabel.text = BC_STRING_LOW_FEE_NOT_RECOMMENDED;
             }
-        } else if (typedSatoshiPerByte > [[limits objectForKey:DICTIONARY_KEY_FEE_LIMITS_MAX] longLongValue]) {
+        } else if (typedSatoshiPerByte > [[limits objectForKey:DICTIONARY_KEY_FEE_LIMITS_MAX] longLongValue] && !self.isBitpayPayPro) {
             DLog(@"Fee rate higher than recommended");
             
             CGFloat warningLabelYPosition = [self defaultYPositionForWarningLabel];
@@ -2010,49 +2149,106 @@ BOOL displayingLocalSymbolSend;
 
                 NSString *address = payload.address;
                 NSString *scheme = [AssetURLPayloadFactory schemeForAssetType:type];
-                if (address == nil || ![payload.schemeCompat isEqualToString:scheme] || ![WalletManager.sharedInstance.wallet isValidAddress:address assetType:self.assetType]) {
-                    NSString *assetName = (type == AssetTypeBitcoin) ? @"Bitcoin" : @"Bitcoin Cash";
-                    NSString *errorMessage = [NSString stringWithFormat:LocalizationConstantsObjcBridge.invalidXAddressY, assetName, address];
-                    [AlertViewPresenter.sharedInstance standardErrorWithMessage:errorMessage title:LocalizationConstantsObjcBridge.error in:self handler:nil];
-                    return;
-                }
+                NSString *paymentRequestUrl = payload.paymentRequestUrl;
 
-                self->toField.text = [WalletManager.sharedInstance.wallet labelForLegacyAddress:address assetType:self.assetType];
-                self.toAddress = address;
-                self.sendToAddress = true;
-                DLog(@"toAddress: %@", self.toAddress);
-                [self selectToAddress:self.toAddress];
-                
-                self.addressSource = DestinationAddressSourceQR;
+                if (paymentRequestUrl != nil) {
+                    if ([paymentRequestUrl hasPrefix:@"https://bitpay.com/i/"]) {
+                        NSString *invoiceId = payload.paymentRequestUrl;
+                        invoiceId = [invoiceId stringByReplacingOccurrencesOfString:@"https://bitpay.com/i/" withString:@""];
+                        
+                        [self.bitpayService getRawPaymentRequestWithInvoiceId:invoiceId completion:^(ObjcCompatibleBitpayObject * _Nullable paymentReq) {
+                            self.isBitpayPayPro = YES;
+                            [self disableInputs];
+                            
+                            //set required fee type to priority
+                            self.feeType = FeeTypePriority;
+                            [self updateFeeLabels];
+                            
+                            //Set toField to bitcoinLink url
+                            NSString *bitcoinLink = [NSString stringWithFormat: @"bitcoin:?r=%@", paymentReq.paymentUrl];
+                            self->toField.text = bitcoinLink;
+                            
+                            //Get decimal BTC amount from satoshi amount and set btcAmountField
+                            amountInSatoshi = paymentReq.amount;
+                            double amountInBtc = (double) paymentReq.amount / 100000000;
+                            NSString *amountDecimalNumber = [NSString stringWithFormat:@"%f", amountInBtc];
+                            
+                            self->btcAmountField.text = amountDecimalNumber;
 
-                NSString *amount;
-                if (self.assetType == LegacyAssetTypeBitcoin) {
-                    amount = ((BitcoinURLPayload *) payload).amount;
-                } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
-                    amount = ((BitcoinCashURLPayload *) payload).amount;
-                }
+                            //Set toAddress to required BitPay paymentRequest address and update wallet internal payment address
+                            self.toAddress = paymentReq.address;
+                            self.sendToAddress = true;
+                            [WalletManager.sharedInstance.wallet changePaymentToAddress:paymentReq.address assetType:self.assetType];
+                            self.addressSource = DestinationAddressSourceBitPay;
+                            
+                            //Set merchant name
+                            NSString *merchant = [paymentReq.memo componentsSeparatedByString:@"for merchant "][1];
+                            self.bitpayMerchant = merchant;
+                            self.bitpayLabel.text = merchant;
+                            self.bitpayLabel.hidden = NO;
+                            self.bitpayLogo.hidden = NO;
+                            self.bitpayTimeRemainingText.hidden = NO;
+                            self.lineBelowBitpayLabel.hidden = NO;
 
-                if ([NSNumberFormatter stringHasBitcoinValue:amount]) {
-                    if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc) {
-                        NSDecimalNumber *amountDecimalNumber = [NSDecimalNumber decimalNumberWithString:amount];
-                        amountInSatoshi = [[amountDecimalNumber decimalNumberByMultiplyingBy:(NSDecimalNumber *)[NSDecimalNumber numberWithDouble:SATOSHI]] longLongValue];
+
+                            //Set time remaining string
+                            self.bitpayExpiration = paymentReq.expires;
+                            
+                            self.bitpayTimeRemainingText.textColor = UIColor.gray3;
+
+                            self.bitpayTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target: self selector: @selector(handleTimerTick:) userInfo: nil repeats: YES];
+                            
+                            [self performSelector:@selector(doCurrencyConversion) withObject:nil afterDelay:0.1f];
+                        }];
+                    
+                        return;
                     } else {
-                        amountInSatoshi = 0.0;
+                        return;
                     }
                 } else {
+                    if (address == nil || ![payload.schemeCompat isEqualToString:scheme] || ![WalletManager.sharedInstance.wallet isValidAddress:address assetType:self.assetType]) {
+                        NSString *assetName = (type == AssetTypeBitcoin) ? @"Bitcoin" : @"Bitcoin Cash";
+                        NSString *errorMessage = [NSString stringWithFormat:LocalizationConstantsObjcBridge.invalidXAddressY, assetName, address];
+                        [AlertViewPresenter.sharedInstance standardErrorWithMessage:errorMessage title:LocalizationConstantsObjcBridge.error in:self handler:nil];
+                        return;
+                    }
+
+                    self->toField.text = [WalletManager.sharedInstance.wallet labelForLegacyAddress:address assetType:self.assetType];
+                    self.toAddress = address;
+                    self.sendToAddress = true;
+                    DLog(@"toAddress: %@", self.toAddress);
+                    [self selectToAddress:self.toAddress];
+                    
+                    self.addressSource = DestinationAddressSourceQR;
+
+                    NSString *amount;
+                    if (self.assetType == LegacyAssetTypeBitcoin) {
+                        amount = ((BitcoinURLPayload *) payload).amount;
+                    } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
+                        amount = ((BitcoinCashURLPayload *) payload).amount;
+                    }
+
+                    if ([NSNumberFormatter stringHasBitcoinValue:amount]) {
+                        if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc) {
+                            NSDecimalNumber *amountDecimalNumber = [NSDecimalNumber decimalNumberWithString:amount];
+                            amountInSatoshi = [[amountDecimalNumber decimalNumberByMultiplyingBy:(NSDecimalNumber *)[NSDecimalNumber numberWithDouble:SATOSHI]] longLongValue];
+                        } else {
+                            amountInSatoshi = 0.0;
+                        }
+                    } else {
+                        [self performSelector:@selector(doCurrencyConversion) withObject:nil afterDelay:0.1f];
+                        return;
+                    }
+                    
+                    // If the amount is empty, open the amount field
+                    if (amountInSatoshi == 0) {
+                        self->btcAmountField.text = nil;
+                        self->fiatAmountField.text = nil;
+                        [self->fiatAmountField becomeFirstResponder];
+                    }
+                    
                     [self performSelector:@selector(doCurrencyConversion) withObject:nil afterDelay:0.1f];
-                    return;
                 }
-                
-                // If the amount is empty, open the amount field
-                if (amountInSatoshi == 0) {
-                    self->btcAmountField.text = nil;
-                    self->fiatAmountField.text = nil;
-                    [self->fiatAmountField becomeFirstResponder];
-                }
-                
-                [self performSelector:@selector(doCurrencyConversion) withObject:nil afterDelay:0.1f];
-                
             });
         }
     }

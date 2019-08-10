@@ -1836,6 +1836,7 @@
 		C854E3F622F3A554007EC1D2 /* BitpayServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C854E3EF22F3A3DD007EC1D2 /* BitpayServiceTests.swift */; };
 		C854E3F722F3A554007EC1D2 /* MockBitpayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C854E3ED22F39C77007EC1D2 /* MockBitpayService.swift */; };
 		C854E3FE22FA6DCC007EC1D2 /* BitpayPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C854E3FD22FA6DCC007EC1D2 /* BitpayPaymentRequest.swift */; };
+		C854E43522FE222A007EC1D2 /* BitpayPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C854E3FD22FA6DCC007EC1D2 /* BitpayPaymentRequest.swift */; };
 		C8B25F4F22F287C70031D1B2 /* BitpayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B25F4E22F287C70031D1B2 /* BitpayService.swift */; };
 		C8B25F5422F29A230031D1B2 /* BridgeBitpayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B25F5322F29A230031D1B2 /* BridgeBitpayService.swift */; };
 		C8B25F5622F29AB00031D1B2 /* BitpayServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B25F5522F29AB00031D1B2 /* BitpayServiceProtocol.swift */; };
@@ -5030,7 +5031,6 @@
 				3A6865E6219A26A30009FF29 /* StellarKit.framework in Frameworks */,
 				36D2D5864982293FE2496EE6 /* Pods_StellarKitTests.framework in Frameworks */,
 				CD9E7694F1E484946D8CB227 /* Pods_StellarKitTests.framework in Frameworks */,
-				7094E25CE25B251BF8E89F87 /* Pods_StellarKitTests.framework in Frameworks */,
 				64726023405AA55D3741DA58 /* Pods_StellarKitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -9645,15 +9645,6 @@
 			path = AddressRepository;
 			sourceTree = "<group>";
 		};
-		65D0EE1C22EF05C400A83BB0 /* Mocks */ = {
-			isa = PBXGroup;
-			children = (
-				65D0EE0D22EEFB9000A83BB0 /* MockAnnouncement.swift */,
-				65D0EE1A22EF015300A83BB0 /* MockNabuUserSunriverAirdropRegistered.swift */,
-			);
-			path = Mocks;
-			sourceTree = "<group>";
-		};
 		6573A25522F2F3DC005C4A46 /* ConfirmPayment */ = {
 			isa = PBXGroup;
 			children = (
@@ -9661,6 +9652,15 @@
 				23107F821BBEF0AC00A6A9D4 /* BCConfirmPaymentView.m */,
 			);
 			path = ConfirmPayment;
+			sourceTree = "<group>";
+		};
+		65D0EE1C22EF05C400A83BB0 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				65D0EE0D22EEFB9000A83BB0 /* MockAnnouncement.swift */,
+				65D0EE1A22EF015300A83BB0 /* MockNabuUserSunriverAirdropRegistered.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		65D179B422CBC57E001D3544 /* Tests */ = {
@@ -13437,6 +13437,7 @@
 				AA25F1812146F87C0028C82E /* NabuAuthenticationError.swift in Sources */,
 				3AE74B6721C07AA900246A9C /* KYCTiersFooterView.swift in Sources */,
 				C7C0DC10212F6597000EFE71 /* TradingPair.swift in Sources */,
+				C854E43522FE222A007EC1D2 /* BitpayPaymentRequest.swift in Sources */,
 				AA126DC0212F4E2D005886A3 /* SignedRetailTokenRequest.swift in Sources */,
 				6567FDF922CA0BFE0035CB16 /* PaymentPresenter.swift in Sources */,
 				3AE74B8A21C1AE4C00246A9C /* ModalAnimator.swift in Sources */,

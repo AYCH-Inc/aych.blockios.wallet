@@ -470,6 +470,7 @@ final class DashboardController: UIViewController {
         balancesChartView.updateWatchOnlyViewBalance()
     }
 
+    // TODO: Move this to the service layer
     // swiftlint:disable:next function_body_length
     private func fetchChartDataForAsset(type: AssetType) {
         let timeFrame: GraphTimeFrame

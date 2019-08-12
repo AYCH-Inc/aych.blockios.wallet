@@ -31,21 +31,23 @@ import PlatformUIKit
     /// Displays an alert that the app requires permission to use the camera. The alert will display an
     /// action which then leads the user to their settings so that they can grant this permission.
     @objc func showNeedsCameraPermissionAlert() {
-        let alert = UIAlertController(
-            title: LocalizationConstants.Errors.cameraAccessDenied,
-            message: LocalizationConstants.Errors.cameraAccessDeniedMessage,
-            preferredStyle: .alert
-        )
-        alert.addAction(
-            UIAlertAction(title: LocalizationConstants.goToSettings, style: .default) { _ in
-                guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
-                UIApplication.shared.open(settingsURL)
-            }
-        )
-        alert.addAction(
-            UIAlertAction(title: LocalizationConstants.cancel, style: .cancel)
-        )
-        present(alert: alert)
+        Execution.MainQueue.dispatch {
+            let alert = UIAlertController(
+                title: LocalizationConstants.Errors.cameraAccessDenied,
+                message: LocalizationConstants.Errors.cameraAccessDeniedMessage,
+                preferredStyle: .alert
+            )
+            alert.addAction(
+                UIAlertAction(title: LocalizationConstants.goToSettings, style: .default) { _ in
+                    guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+                    UIApplication.shared.open(settingsURL)
+                }
+            )
+            alert.addAction(
+                UIAlertAction(title: LocalizationConstants.cancel, style: .cancel)
+            )
+            self.present(alert: alert)
+        }
     }
 
     /// Asks permission from the user to use values in the keychain. This is typically invoked
@@ -54,18 +56,20 @@ import PlatformUIKit
     ///
     /// - Parameter handler: the AlertConfirmHandler invoked when the user **does not** grant permission
     func alertUserAskingToUseOldKeychain(handler: @escaping AlertConfirmHandler) {
-        let alert = UIAlertController(
-            title: LocalizationConstants.Onboarding.askToUserOldWalletTitle,
-            message: LocalizationConstants.Onboarding.askToUserOldWalletMessage,
-            preferredStyle: .alert
-        )
-        alert.addAction(
-            UIAlertAction(title: LocalizationConstants.Onboarding.createNewWallet, style: .cancel, handler: handler)
-        )
-        alert.addAction(
-            UIAlertAction(title: LocalizationConstants.Onboarding.loginExistingWallet, style: .default)
-        )
-        present(alert: alert)
+        Execution.MainQueue.dispatch {
+            let alert = UIAlertController(
+                title: LocalizationConstants.Onboarding.askToUserOldWalletTitle,
+                message: LocalizationConstants.Onboarding.askToUserOldWalletMessage,
+                preferredStyle: .alert
+            )
+            alert.addAction(
+                UIAlertAction(title: LocalizationConstants.Onboarding.createNewWallet, style: .cancel, handler: handler)
+            )
+            alert.addAction(
+                UIAlertAction(title: LocalizationConstants.Onboarding.loginExistingWallet, style: .default)
+            )
+            self.present(alert: alert)
+        }
     }
 
     /// Shows the user an alert that the app failed to read values from the keychain.
@@ -127,8 +131,10 @@ import PlatformUIKit
         in viewController: UIViewController? = nil,
         handler: AlertConfirmHandler? = nil
     ) {
-        let standardAction = UIAlertAction(title: LocalizationConstants.okString, style: .cancel, handler: handler)
-        standardNotify(message: message, title: title, actions: [standardAction], in: viewController)
+        Execution.MainQueue.dispatch {
+            let standardAction = UIAlertAction(title: LocalizationConstants.okString, style: .cancel, handler: handler)
+            self.standardNotify(message: message, title: title, actions: [standardAction], in: viewController)
+        }
     }
 
     /// Allows custom actions to be included in the standard alert presentation
@@ -138,17 +144,18 @@ import PlatformUIKit
         actions: [UIAlertAction],
         in viewController: UIViewController? = nil
     ) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        actions.forEach { alert.addAction($0) }
-        if actions.isEmpty {
-            alert.addAction(UIAlertAction(title: LocalizationConstants.okString, style: .cancel, handler: nil))
+        Execution.MainQueue.dispatch {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            actions.forEach { alert.addAction($0) }
+            if actions.isEmpty {
+                alert.addAction(UIAlertAction(title: LocalizationConstants.okString, style: .cancel, handler: nil))
+            }
+            self.standardNotify(alert: alert, in: viewController)
         }
-        standardNotify(alert: alert, in: viewController)
     }
 
     private func standardNotify(alert: UIAlertController, in viewController: UIViewController? = nil) {
-        record()
-        DispatchQueue.main.async {
+        Execution.MainQueue.dispatch {
             let window = UIApplication.shared.keyWindow
             let rootController = window?.rootViewController
             let presentingViewController = viewController ?? rootController?.topMostViewController ?? rootController
@@ -157,16 +164,10 @@ import PlatformUIKit
     }
 
     private func present(alert: UIAlertController) {
-        record()
+        recorder.recordIllegalUIOperationIfNeeded()
         UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
             alert,
             animated: true
         )
-    }
-    
-    /// Records information about the presented context
-    private func record() {
-        recorder.record()
-        recorder.recordIllegalUIOperationIfNeeded()
     }
 }

@@ -38,6 +38,11 @@
     }
 }
 
+- (BOOL)textFieldShouldClear:(UITextField *)textField {
+    self.pitAddressButton.hidden = false;
+    return YES;
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if (textField == self.amountInputView.btcField || textField == self.amountInputView.fiatField) {
@@ -115,6 +120,8 @@
         if (self.toAddress && [self isEtherAddress:self.toAddress]) {
             [self selectToAddress:self.toAddress];
             return NO;
+        } else {
+            self.pitAddressButton.hidden = self.toAddress.length > 0;
         }
         
         DLog(@"toAddress: %@", self.toAddress);

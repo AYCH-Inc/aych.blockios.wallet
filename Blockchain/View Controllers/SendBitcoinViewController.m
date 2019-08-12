@@ -1622,6 +1622,11 @@ BOOL displayingLocalSymbolSend;
     self.transactionType = SendTransactionTypeRegular;
 }
 
+- (BOOL)textFieldShouldClear:(UITextField *)textField {
+    self.pitAddressButton.hidden = NO;
+    return YES;
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if (textField == btcAmountField || textField == fiatAmountField) {
@@ -1719,6 +1724,8 @@ BOOL displayingLocalSymbolSend;
             [self selectToAddress:self.toAddress];
             self.addressSource = DestinationAddressSourcePaste;
             return NO;
+        } else {
+            self.pitAddressButton.hidden = self.toAddress.length > 0;
         }
         
         DLog(@"toAddress: %@", self.toAddress);
@@ -1777,6 +1784,8 @@ BOOL displayingLocalSymbolSend;
     self.toAddress = address;
     DLog(@"toAddress: %@", address);
     
+    self.pitAddressButton.hidden = self.addressSource != DestinationAddressSourcePit;
+    
     [WalletManager.sharedInstance.wallet changePaymentToAddress:address assetType:self.assetType];
     
     [self doCurrencyConversion];
@@ -1805,6 +1814,8 @@ BOOL displayingLocalSymbolSend;
 
     toField.text = [WalletManager.sharedInstance.wallet getLabelForAccount:account assetType:self.assetType];
     self.toAccount = account;
+    self.pitAddressButton.hidden = YES;
+    
     self.toAddress = @"";
     DLog(@"toAccount: %@", [WalletManager.sharedInstance.wallet getLabelForAccount:account assetType:self.assetType]);
     

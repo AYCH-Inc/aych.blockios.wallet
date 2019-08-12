@@ -556,8 +556,11 @@
 - (void)selectToAddress:(NSString *)address
 {
     if (address == nil || ![self isEtherAddress:address]) {
+        self.pitAddressButton.hidden = false;
         [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT, address] title:BC_STRING_ERROR in:self handler:nil];
         return;
+    } else {
+        self.pitAddressButton.hidden = true;
     }
     
     self.toField.text = address;

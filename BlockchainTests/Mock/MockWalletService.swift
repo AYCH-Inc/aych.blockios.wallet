@@ -8,15 +8,26 @@
 
 import Foundation
 import RxSwift
+import PlatformKit
 
-class MockWalletService: WalletService {
+class MockWalletService: WalletOptionsAPI {
+    
+    let message: String?
+    
+    var serverUnderMaintenanceMessage: Single<String?> {
+        return Single.just(message)
+    }
 
     var mockWalletOptions: WalletOptions?
 
-    override var walletOptions: Single<WalletOptions> {
+    var walletOptions: Single<WalletOptions> {
         if let mockWalletOptions = mockWalletOptions {
             return Single.just(mockWalletOptions)
         }
         return Single.just(WalletOptions(json: ["maintenance": false]))
+    }
+    
+    init(message: String? = nil) {
+        self.message = message
     }
 }

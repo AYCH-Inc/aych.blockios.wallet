@@ -10,12 +10,12 @@ import Foundation
 import PlatformKit
 import stellarsdk
 
-enum StellarLedgerServiceError: Error {
+public enum StellarLedgerServiceError: Error {
     case unknown
     case sdkError(Error)
 }
 
-protocol LedgerResponseProtocol: Decodable {
+public protocol LedgerResponseProtocol: Decodable {
     var id: String { get }
     var pagingToken: String { get }
     var sequenceNumber: Int64 { get }
@@ -29,17 +29,17 @@ protocol LedgerResponseProtocol: Decodable {
 
 extension LedgerResponse: LedgerResponseProtocol {}
 
-protocol PageResponseProtocol: Decodable {
+public protocol PageResponseProtocol: Decodable {
     var allRecords: [LedgerResponseProtocol] { get }
 }
 
 extension stellarsdk.PageResponse: PageResponseProtocol where Element: LedgerResponseProtocol {
-    var allRecords: [LedgerResponseProtocol] {
+    public var allRecords: [LedgerResponseProtocol] {
         return records as [LedgerResponseProtocol]
     }
 }
 
-protocol LedgersServiceAPI {
+public protocol LedgersServiceAPI {
     func ledgers(
         cursor: String?,
         order: stellarsdk.Order?,
@@ -48,7 +48,7 @@ protocol LedgersServiceAPI {
     )
 }
 
-protocol StellarSDKLedgersServiceAPI: LedgersServiceAPI {
+public protocol StellarSDKLedgersServiceAPI: LedgersServiceAPI {
     func getLedgers(
         cursor: String?,
         order: stellarsdk.Order?,
@@ -58,7 +58,7 @@ protocol StellarSDKLedgersServiceAPI: LedgersServiceAPI {
 }
 
 extension StellarSDKLedgersServiceAPI {
-    func ledgers(
+    public func ledgers(
         cursor: String?,
         order: stellarsdk.Order?,
         limit: Int?,

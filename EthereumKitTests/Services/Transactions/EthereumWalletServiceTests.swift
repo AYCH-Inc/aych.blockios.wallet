@@ -37,6 +37,8 @@ class EthereumWalletServiceTests: XCTestCase {
     
     var transactionSendingService: EthereumTransactionSendingService!
     
+    var transactionValidationService: EthereumTransactionValidationService!
+    
     var subject: EthereumWalletService!
     
     override func setUp() {
@@ -77,13 +79,19 @@ class EthereumWalletServiceTests: XCTestCase {
             repository: ethereumAssetAccountRepository
         )
         
+        transactionValidationService = EthereumTransactionValidationService(
+            with: feeService,
+            repository: ethereumAssetAccountRepository
+        )
+        
         subject = EthereumWalletService(
             with: bridge,
             ethereumAPIClient: ethereumAPIClient,
             feeService: feeService,
             walletAccountRepository: walletAccountRepository,
             transactionBuildingService: transactionBuildingService,
-            transactionSendingService: transactionSendingService
+            transactionSendingService: transactionSendingService,
+            transactionValidationService: transactionValidationService
         )
     }
     
@@ -171,7 +179,7 @@ class EthereumWalletServiceTests: XCTestCase {
         
         // Assert
         let expectedEvents: [Recorded<Event<EthereumTransactionPublished>>] = Recorded.events(
-            .error(200, EthereumWalletServiceError.waitingOnPendingTransaction)
+            .error(200, EthereumKitValidationError.waitingOnPendingTransaction)
         )
         
         XCTAssertEqual(result.events, expectedEvents)
@@ -197,7 +205,7 @@ class EthereumWalletServiceTests: XCTestCase {
 
         // Assert
         let expectedEvents: [Recorded<Event<EthereumTransactionCandidate>>] = Recorded.events(
-            .error(200, EthereumTransactionBuilderError.insufficientFunds)
+            .error(200, EthereumKitValidationError.insufficientFunds)
         )
 
         XCTAssertEqual(result.events, expectedEvents)
@@ -235,7 +243,7 @@ class EthereumWalletServiceTests: XCTestCase {
 
         // Assert
         let expectedEvents: [Recorded<Event<EthereumTransactionCandidate>>] = Recorded.events(
-            .error(200, EthereumTransactionBuilderError.insufficientFunds)
+            .error(200, EthereumKitValidationError.insufficientFunds)
         )
 
         XCTAssertEqual(result.events, expectedEvents)
@@ -271,7 +279,8 @@ class EthereumWalletServiceTests: XCTestCase {
             feeService: feeService,
             walletAccountRepository: walletAccountRepository,
             transactionBuildingService: transactionBuildingService,
-            transactionSendingService: transactionSendingService
+            transactionSendingService: transactionSendingService,
+            transactionValidationService: transactionValidationService
         )
         
         let sendObservable: Observable<EthereumTransactionPublished> = subject

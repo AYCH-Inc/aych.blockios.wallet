@@ -9,8 +9,10 @@
 import Foundation
 import RxSwift
 import EthereumKit
+import PlatformKit
 
 class EthereumWalletServiceMock: EthereumWalletServiceAPI {
+    
     var fetchHistoryIfNeededValue: Single<Void> = Single.just(())
     var fetchHistoryIfNeeded: Single<Void> {
         return fetchHistoryIfNeededValue
@@ -24,5 +26,9 @@ class EthereumWalletServiceMock: EthereumWalletServiceAPI {
     var sendTransactionValue: Single<EthereumTransactionPublished> = Single.error(NSError())
     func send(transaction: EthereumTransactionCandidate) -> Single<EthereumTransactionPublished> {
         return sendTransactionValue
+    }
+    var transactionValidationResult: Single<TransactionValidationResult> = Single.error(NSError())
+    func evaluate(amount: EthereumValue) -> Single<TransactionValidationResult> {
+        return transactionValidationResult
     }
 }

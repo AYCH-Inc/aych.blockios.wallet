@@ -40,7 +40,7 @@ open class StellarAssetAccountRepository: AssetAccountRepositoryAPI {
             return Maybe.just(cached)
         }
         guard let walletAccount = walletRepository.defaultAccount else {
-            return Maybe.error(StellarServiceError.noXLMAccount)
+            return Maybe.error(StellarAccountError.noXLMAccount)
         }
         let accountID = walletAccount.publicKey
         return fetchAssetAccountDetails(accountID)

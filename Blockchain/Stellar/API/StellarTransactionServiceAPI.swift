@@ -42,7 +42,7 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
                 /// `.noDefaultAccount`. This error occurs when the user goes to the
                 /// `Transactions` screen prior to ever receiving XLM. We want to catch
                 /// this error in this case as we know the user has an XLM account.
-                if let error = error as? StellarServiceError {
+                if let error = error as? StellarAccountError {
                     guard error != .noDefaultAccount else { return Observable.empty() }
                 }
                 throw error
@@ -71,7 +71,7 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
             /// this error in this case as we know the user has an XLM account.
             .filter { account -> Bool in
                 guard account.assetAccount.balance.amount > 0 else {
-                    throw StellarServiceError.noDefaultAccount
+                    throw StellarAccountError.noDefaultAccount
                 }
                 return true
             }

@@ -116,10 +116,6 @@ end
 # - Disable code signing for pods.
 post_install do |installer|
   installer.pods_project.build_configurations.each do |config|
-    if config.name == 'Debug Production' || config.name == 'Debug Dev' || config.name == 'Debug Staging'
-      config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Onone'
-      config.build_settings['SWIFT_COMPILATION_MODE'] = 'singlefile'
-    end
     config.build_settings.delete('CODE_SIGNING_ALLOWED')
     config.build_settings.delete('CODE_SIGNING_REQUIRED')
   end

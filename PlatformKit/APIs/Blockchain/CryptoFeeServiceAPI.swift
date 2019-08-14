@@ -15,4 +15,5 @@ public protocol CryptoFeeServiceAPI {
     /// current <Crypto> transaction fees. We use this in order to inject a `fee` value
     /// into the JS. Only `Swap` uses priority fees.
     var fees: Single<FeeType> { get }
+    var communicator: NetworkCommunicatorAPI { get }
 }

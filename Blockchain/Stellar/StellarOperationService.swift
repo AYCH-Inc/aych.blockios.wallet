@@ -256,7 +256,7 @@ class StellarOperationService: StellarOperationsAPI {
     
     private func stream(cursor: String? = nil) {
         guard let account = repository.defaultAccount else {
-            privateReplayedOperations.onError(StellarServiceError.noXLMAccount)
+            privateReplayedOperations.onError(StellarAccountError.noXLMAccount)
             return
         }
         guard stream == nil else { return }

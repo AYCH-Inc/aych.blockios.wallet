@@ -13,7 +13,7 @@ import EthereumKit
 import ERC20Kit
 
 class PaxERC20ServiceMock: ERC20ServiceAPI {
-    func evaluate(amount cryptoValue: ERC20TokenValue<PaxToken>) -> Single<ERC20TransactionProposal<PaxToken>> {
+    func evaluate(amount cryptoValue: ERC20TokenValue<PaxToken>) -> Single<ERC20TransactionEvaluationResult<PaxToken>> {
         let addressString = MockEthereumWalletTestData.account
         let address = EthereumKit.EthereumAddress(rawValue: addressString)!
         let gasPrice = MockEthereumWalletTestData.Transaction.gasPrice
@@ -26,7 +26,7 @@ class PaxERC20ServiceMock: ERC20ServiceAPI {
             gasLimit: gasLimit,
             value: value
         )
-        return Single.just(proposal)
+        return Single.just(.valid(proposal))
     }
     
     func transfer(to: EthereumKit.EthereumAddress, amount cryptoValue: ERC20TokenValue<PaxToken>) -> Single<EthereumTransactionCandidate> {

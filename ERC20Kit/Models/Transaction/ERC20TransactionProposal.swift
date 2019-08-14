@@ -10,6 +10,11 @@ import Foundation
 import BigInt
 import EthereumKit
 
+public enum ERC20TransactionEvaluationResult<Token: ERC20Token> {
+    case valid(ERC20TransactionProposal<Token>)
+    case invalid(ERC20ValidationError)
+}
+
 public struct ERC20TransactionProposal<Token: ERC20Token> {
     
     public var aboveMinimumSpendable: Bool {

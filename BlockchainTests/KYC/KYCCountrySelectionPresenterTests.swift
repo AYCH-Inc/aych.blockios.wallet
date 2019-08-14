@@ -19,7 +19,7 @@ class KYCCountrySelectionPresenterTests: XCTestCase {
         super.setUp()
         view = MockKYCCountrySelectionView()
         walletService = MockWalletService()
-        presenter = KYCCountrySelectionPresenter(view: view, walletService: walletService)
+        presenter = KYCCountrySelectionPresenter(view: view)
     }
 
     func testSelectedSupportedKycCountry() {
@@ -36,25 +36,6 @@ class KYCCountrySelectionPresenterTests: XCTestCase {
             """
         )
         let country = KYCCountry(code: "TEST", name: "Test Country", regions: [], scopes: [], states: ["CA"])
-        presenter.selected(country: country)
-        waitForExpectations(timeout: 0.1)
-    }
-
-    func testSelectedUnsupportedCountry() {
-        view.didCallShowExchangeNotAvailable = expectation(
-            description: "KYC flow stops when user selects blacklisted country"
-        )
-        walletService.mockWalletOptions = WalletOptions(
-            json: [
-                "shapeshift": [
-                    "countriesBlacklist": ["US"]
-                ],
-                "ios": [
-                    "showShapeshift": true
-                ]
-            ]
-        )
-        let country = KYCCountry(code: "US", name: "Test Country", regions: [], scopes: [], states: [])
         presenter.selected(country: country)
         waitForExpectations(timeout: 0.1)
     }

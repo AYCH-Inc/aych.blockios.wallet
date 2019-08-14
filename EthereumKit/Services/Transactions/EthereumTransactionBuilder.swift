@@ -12,21 +12,16 @@ import web3swift
 import BigInt
 import PlatformKit
 
-public enum EthereumTransactionBuilderError: Error {
-    case insufficientFunds
-    case invalidAmount
-}
-
 public protocol EthereumTransactionBuilderAPI {
     func build(transaction: EthereumTransactionCandidate
-        ) -> Result<EthereumTransactionCandidateCosted, EthereumTransactionBuilderError>
+        ) -> Result<EthereumTransactionCandidateCosted, EthereumKitValidationError>
 }
 
 public class EthereumTransactionBuilder: EthereumTransactionBuilderAPI {
     public static let shared = EthereumTransactionBuilder()
     
     public func build(transaction: EthereumTransactionCandidate
-        ) -> Result<EthereumTransactionCandidateCosted, EthereumTransactionBuilderError> {
+        ) -> Result<EthereumTransactionCandidateCosted, EthereumKitValidationError> {
         print("transaction.value: \(transaction.value)")
         
         let value = transaction.value

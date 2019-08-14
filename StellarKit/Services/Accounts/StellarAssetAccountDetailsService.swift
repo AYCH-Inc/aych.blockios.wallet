@@ -29,7 +29,7 @@ public class StellarAssetAccountDetailsService: AssetAccountDetailsAPI {
             }.catchError { error in
                 // If the network call to Horizon fails due to there not being a default account (i.e. account is not yet
                 // funded), catch that error and return a StellarAccount with 0 balance
-                if let stellarError = error as? StellarServiceError, stellarError == .noDefaultAccount {
+                if let stellarError = error as? StellarAccountError, stellarError == .noDefaultAccount {
                     return Single.just(AccountDetails.unfunded(accountID: accountID))
                 }
                 throw error

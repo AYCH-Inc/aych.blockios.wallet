@@ -18,21 +18,28 @@ enum SendMoniesInternalError: Error {
     case pendingTransaction
     case `default`
     
-    init(erc20error: ERC20ServiceError) {
-        switch erc20error {
-        case .pendingTransaction:
-            self = .pendingTransaction
-        case .insufficientEthereumBalance:
-            self = .insufficientFeeCoverage
-        case .insufficientTokenBalance:
-            self = .insufficientTokenBalance
-        case .invalidEthereumAddress:
-            self = .invalidDestinationAddress
-        case .invalidCryptoValue:
-            self = .default
-        case .cryptoValueBelowMinimumSpendable:
-            self = .default
+    init(erc20error: ERC20EvaluationError) {
+        if let value = erc20error as? ERC20ValidationError {
+            switch value {
+            case .pendingTransaction:
+                self = .pendingTransaction
+            case .insufficientEthereumBalance:
+                self = .insufficientFeeCoverage
+            case .insufficientTokenBalance:
+                self = .insufficientTokenBalance
+            case .invalidCryptoValue:
+                self = .default
+            case .cryptoValueBelowMinimumSpendable:
+                self = .default
+            }
         }
+        if let value = erc20error as? ERC20ServiceError {
+            switch value {
+            case .invalidEthereumAddress:
+                self = .invalidDestinationAddress
+            }
+        }
+        self = .default
     }
 }
 

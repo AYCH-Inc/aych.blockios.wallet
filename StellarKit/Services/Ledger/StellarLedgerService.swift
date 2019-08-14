@@ -8,26 +8,25 @@
 
 import Foundation
 import stellarsdk
-import StellarKit
 import PlatformKit
 import RxSwift
 import RxCocoa
 
 // TODO: This should be moved to `StellarKit`
 
-class StellarLedgerService: StellarLedgerAPI {
+public class StellarLedgerService: StellarLedgerAPI {
 
-    let fallbackBaseReserve: Decimal = 0.5
-    let fallbackBaseFee: Decimal = CryptoValue.lumensFromStroops(int: StellarTransactionFee.defaultLimits.min).majorValue
+    public let fallbackBaseReserve: Decimal = 0.5
+    public let fallbackBaseFee: Decimal = CryptoValue.lumensFromStroops(int: StellarTransactionFee.defaultLimits.min).majorValue
     
-    var current: Observable<StellarLedger> {
+    public var current: Observable<StellarLedger> {
         return fetchLedgerStartingWithCache(
             cachedValue: privateLedger,
             networkValue: fetchLedger
         )
     }
     
-    var currentLedger: StellarLedger? {
+    public var currentLedger: StellarLedger? {
         return privateLedger.value
     }
     
@@ -98,9 +97,10 @@ class StellarLedgerService: StellarLedgerAPI {
     private let feeService: StellarFeeServiceAPI
     private let ledgersServiceValue: LedgersServiceAPI?
     
-    init(configurationService: StellarConfigurationAPI = StellarConfigurationService.shared,
-         ledgersService: LedgersServiceAPI? = nil,
-         feeService: StellarFeeServiceAPI = StellarFeeService.shared) {
+    public init(
+        configurationService: StellarConfigurationAPI = StellarConfigurationService.shared,
+        ledgersService: LedgersServiceAPI? = nil,
+        feeService: StellarFeeServiceAPI = StellarFeeService.shared) {
         self.ledgersServiceValue = ledgersService
         self.configurationService = configurationService
         self.feeService = feeService

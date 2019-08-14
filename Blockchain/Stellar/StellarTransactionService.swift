@@ -121,7 +121,7 @@ class StellarTransactionService: StellarTransactionAPI {
                 guard let strongSelf = self else {
                     throw error
                 }
-                if let stellarError = error as? StellarServiceError, stellarError == .noDefaultAccount {
+                if let stellarError = error as? StellarAccountError, stellarError == .noDefaultAccount {
                     return strongSelf.accounts.fundAccount(
                         paymentOperation.destinationAccountId,
                         amount: paymentOperation.amountInXlm,

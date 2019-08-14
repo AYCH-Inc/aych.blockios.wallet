@@ -73,60 +73,12 @@ public final class FeeService: FeeServiceAPI {
     }
 }
 
-public final class CryptoFeeService<T: TransactionFee & Decodable>: CryptoFeeServiceAPI {
-    public var fees: Single<T> {
-        guard let baseURL = URL(string: apiUrl) else {
-            return .error(TradeExecutionAPIError.generic)
-        }
-        
-        guard let endpoint = URL.endpoint(
-            baseURL,
-            pathComponents: ["mempool", "fees", T.cryptoType.pathComponent],
-            queryParameters: nil
-        ) else {
-            return .error(TradeExecutionAPIError.generic)
-        }
-        return NetworkRequest.GET(url: endpoint, type: T.self)
-            .do(onError: { error in
-                // TODO: this should be logged remotely
-                Logger.shared.error(error)
-            })
-            .catchErrorJustReturn(T.default)
-    }
-    
-    private let apiUrl: String
-    
-    init(apiUrl: String = BlockchainAPI.shared.apiUrl) {
-        self.apiUrl = apiUrl
-    }
-}
-
 extension CryptoFeeService where T == BitcoinTransactionFee {
     static let shared: CryptoFeeService<T> = CryptoFeeService<T>()
 }
 
 extension CryptoFeeService where T == BitcoinCashTransactionFee {
     static let shared: CryptoFeeService<T> = CryptoFeeService<T>()
-}
-
-protocol StellarFeeServiceAPI {
-    var fees: Single<StellarTransactionFee> { get }
-}
-
-class StellarFeeService: StellarFeeServiceAPI {
-    static let shared: StellarFeeService = StellarFeeService()
-    
-    // MARK: Public Properties
-    
-    var fees: Single<StellarTransactionFee> {
-        return cryptoFeeService.fees
-    }
-    
-    private let cryptoFeeService: CryptoFeeService<StellarTransactionFee>
-    
-    init(cryptoFeeService: CryptoFeeService<StellarTransactionFee> = CryptoFeeService<StellarTransactionFee>.shared) {
-        self.cryptoFeeService = cryptoFeeService
-    }
 }
 
 class EthereumFeeService: EthereumFeeServiceAPI {
@@ -143,10 +95,6 @@ class EthereumFeeService: EthereumFeeServiceAPI {
     init(cryptoFeeService: CryptoFeeService<EthereumTransactionFee> = CryptoFeeService<EthereumTransactionFee>.shared) {
         self.cryptoFeeService = cryptoFeeService
     }
-}
-
-extension CryptoFeeService where T == StellarTransactionFee {
-    static let shared: CryptoFeeService<T> = CryptoFeeService<T>()
 }
 
 extension CryptoFeeService where T == EthereumTransactionFee {

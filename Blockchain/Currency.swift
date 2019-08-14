@@ -5,6 +5,7 @@
 //  Created by Justin on 7/13/18.
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
+import PlatformKit
 
 struct FiatCurrency: CustomStringConvertible {
     let name: String

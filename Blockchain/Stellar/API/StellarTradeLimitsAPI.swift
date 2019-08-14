@@ -9,7 +9,7 @@
 import RxSwift
 import PlatformKit
 
-protocol StellarTradeLimitsAPI {
+protocol StellarTradeLimitsAPI: ValidateTransactionAPI {
 
     typealias AccountID = String
 

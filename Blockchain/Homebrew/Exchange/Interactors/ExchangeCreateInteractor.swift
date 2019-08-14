@@ -11,6 +11,8 @@ import Foundation
 import RxSwift
 import PlatformKit
 import RxCocoa
+import StellarKit
+import EthereumKit
 
 class ExchangeCreateInteractor {
 
@@ -403,11 +405,11 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             .distinctUntilChanged()
             .observeOn(MainScheduler.instance)
             .observeOn(MainScheduler.asyncInstance)
-            .flatMapLatest(weak: self, selector: { (self, distinctVolume) -> Observable<(MarketsModel, TradeExecutionAPIError?, CryptoValue)> in
+            .flatMapLatest(weak: self, selector: { (self, distinctVolume) -> Observable<(MarketsModel, TransactionValidationResult, CryptoValue)> in
                 self.status = .inflight
                 guard let model = self.model else { return Observable.empty() }
                 let validateVolumeObservable = self.tradeExecution
-                    .validateVolume(distinctVolume, for: model.marketPair.fromAccount)
+                    .validateVolume(distinctVolume, for: model.marketPair.fromAccount.address.assetType)
                     .asObservable()
                 return Observable.zip(
                     Observable.just(model),
@@ -422,7 +424,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                     Decimal,
                     Decimal?,
                     Decimal?,
-                    TradeExecutionAPIError?,
+                    TransactionValidationResult,
                     CryptoValue
                 )> in
                 
@@ -454,22 +456,46 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             .subscribe(onNext: { [weak self] payload in
                 guard let strongSelf = self else { return }
                 let model = payload.0
+                let accounts = payload.1
+                let address = model.marketPair.fromAccount.address.address
+                let fromAssetType = model.marketPair.pair.from
+                guard let account = accounts.first(where: { $0.address.address == address }) else { return }
                 
-                if let tradingError = payload.6 {
-                    switch tradingError {
-                    case .generic:
-                        strongSelf.status = .error(.default(nil))
-                        return
-                    case .exceededMaxVolume(let value):
-                        strongSelf.status = .error(.aboveMaxVolume(value))
-                        return
-                    case .erc20Error(let erc20Error):
-                        if erc20Error == .insufficientEthereumBalance {
-                            let fromAssetType = model.marketPair.pair.from
-                            strongSelf.status = .error(.insufficientGasForERC20Tx(fromAssetType))
-                            return
+                if case let .invalid(validationError) = payload.6 {
+                    if let value = validationError as? StellarFundsError {
+                        switch value {
+                        case .insufficientFunds,
+                             .insufficientFundsForNewAccount:
+                            strongSelf.status = .error(.insufficientFunds(account.balance))
                         }
                     }
+                    if let value = validationError as? ERC20ValidationError {
+                        switch value {
+                        case .insufficientEthereumBalance:
+                            strongSelf.status = .error(.insufficientGasForERC20Tx(fromAssetType))
+                        case .pendingTransaction:
+                            strongSelf.status = .error(.waitingOnEthereumPayment)
+                        case .cryptoValueBelowMinimumSpendable:
+                            strongSelf.status = .error(.belowTradingLimit(nil, fromAssetType))
+                        case .insufficientTokenBalance:
+                            strongSelf.status = .error(.insufficientFunds(account.balance))
+                        case .invalidCryptoValue:
+                            strongSelf.status = .error(.default(nil))
+                        }
+                    }
+                    if let value = validationError as? EthereumKitValidationError {
+                        switch value {
+                        case .insufficientFeeCoverage:
+                            strongSelf.status = .error(.insufficientFundsForFees(fromAssetType))
+                        case .insufficientFunds:
+                            strongSelf.status = .error(.insufficientFunds(account.balance))
+                        case .invalidAmount:
+                            strongSelf.status = .error(.default(nil))
+                        case .waitingOnPendingTransaction:
+                            strongSelf.status = .error(.waitingOnEthereumPayment)
+                        }
+                    }
+                    return
                 }
                 
                 guard let conversion = model.lastConversion else {
@@ -487,7 +513,6 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                 // user is swapping from. Currently all asset validation is done in one place and this can get
                 // out of hand.
                 let volume = payload.7
-                let fromAssetType = volume.currencyType.assetType
                 guard strongSelf.tradeExecution.canTradeAssetType(model.pair.from) else {
                     if strongSelf.errorMessage(for: fromAssetType) != nil {
                         strongSelf.status = .error(.waitingOnEthereumPayment)
@@ -498,15 +523,12 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                     }
                     return
                 }
-
-                let accounts = payload.1
+                
                 let minValue = payload.2
                 let maxValue = payload.3
                 let daily = payload.4
                 let annual = payload.5
-                let address = model.marketPair.fromAccount.address.address
-
-                guard let account = accounts.first(where: { $0.address.address == address }) else { return }
+                
                 if account.balance.amount < volume.amount {
                     strongSelf.status = .error(.insufficientFunds(account.balance))
                     return

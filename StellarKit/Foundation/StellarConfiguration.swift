@@ -24,7 +24,7 @@ public struct StellarConfiguration {
     public let sdk: StellarSDK
     public let network: Network
     
-    init(sdk: StellarSDK, network: Network) {
+    public init(sdk: StellarSDK, network: Network) {
         self.sdk = sdk
         self.network = network
     }

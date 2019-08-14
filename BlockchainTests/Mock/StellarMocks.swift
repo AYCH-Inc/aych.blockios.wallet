@@ -26,6 +26,10 @@ class StellarTradeLimitsMock: StellarTradeLimitsAPI {
     func isSpendable(amount: CryptoValue, for accountId: AccountID) -> Single<Bool> {
         return Single.just(true)
     }
+    
+    func validateCryptoAmount(amount: Crypto) -> Single<TransactionValidationResult> {
+        return Single.just(.ok)
+    }
 }
 
 class StellarLedgerMock: StellarLedgerAPI {

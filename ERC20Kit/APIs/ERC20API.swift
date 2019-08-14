@@ -25,9 +25,9 @@ public protocol ERC20API {
 public protocol ERC20TransactionEvaluationAPI {
     associatedtype Token: ERC20Token
     
-    func evaluate(amount cryptoValue: ERC20TokenValue<Token>) -> Single<ERC20TransactionProposal<Token>>
+    func evaluate(amount cryptoValue: ERC20TokenValue<Token>) -> Single<ERC20TransactionEvaluationResult<Token>>
     
-    func evaluate(amount cryptoValue: ERC20TokenValue<Token>, fee: EthereumTransactionFee) -> Single<ERC20TransactionProposal<Token>>
+    func evaluate(amount cryptoValue: ERC20TokenValue<Token>, fee: EthereumTransactionFee) -> Single<ERC20TransactionEvaluationResult<Token>>
 }
 
 public protocol ERC20TransactionMemoAPI {

@@ -9,6 +9,7 @@
 import Foundation
 import XCTest
 import RxSwift
+import PlatformKit
 
 @testable import Blockchain
 
@@ -21,7 +22,7 @@ class PinInteractorTests: XCTestCase {
     }
     
     var maintenanceService: MaintenanceServicing {
-        return MockMaintenanceService(message: nil)
+        return MockWalletService()
     }
     
     var wallet: WalletProtocol {
@@ -72,7 +73,7 @@ class PinInteractorTests: XCTestCase {
     // Maintenance error is returned in the relevant case
     private func testMaintenanceError(for opeation: Operation) throws {
         let expectedMessage = "server under maintenance"
-        let maintenanceService = MockMaintenanceService(message: expectedMessage)
+        let maintenanceService = MockWalletService(message: expectedMessage)
         let interactor = PinInteractor(pinService: MockPinService(statusCode: .success),
                                        maintenanceService: maintenanceService,
                                        wallet: wallet,

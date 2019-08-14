@@ -62,8 +62,6 @@ private class SessionDelegate: NSObject, SessionDelegateAPI {
 
 public typealias AuthChallengeHandler = (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void
 
-public typealias JSON = [String: Any]
-
 public typealias URLParameters = [String: Any]
 
 public typealias URLHeaders = [String: String]

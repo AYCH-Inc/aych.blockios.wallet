@@ -77,7 +77,8 @@ extension EthereumWalletService {
         feeService: EthereumFeeService.shared,
         walletAccountRepository: ETHServiceProvider.shared.repository,
         transactionBuildingService: EthereumTransactionBuildingService.shared,
-        transactionSendingService: EthereumTransactionSendingService.shared
+        transactionSendingService: EthereumTransactionSendingService.shared,
+        transactionValidationService: EthereumTransactionValidationService.shared
     )
 }
 
@@ -88,6 +89,13 @@ extension EthereumTransactionSendingService {
         feeService: EthereumFeeService.shared,
         transactionBuilder: EthereumTransactionBuilder.shared,
         transactionSigner: EthereumTransactionSigner.shared
+    )
+}
+
+extension EthereumTransactionValidationService {
+    static let shared = EthereumTransactionValidationService(
+        with: EthereumFeeService.shared,
+        repository: ETHServiceProvider.shared.assetAccountRepository
     )
 }
 

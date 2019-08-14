@@ -8,33 +8,90 @@
 
 import Foundation
 import stellarsdk
+import PlatformKit
 
-public enum StellarServiceError: Error, Equatable {
-    case insufficientFundsForNewAccount
+/// We track error types that occur in Swap. This protocol makes getting the error type
+/// simpler regardless of the type of `StellarServiceError`.
+public protocol StellarServiceError: Error {
+    var message: String { get }
+}
+
+/// `StellarAccountError` is a `TransactionValidationError` as all cases should cause
+/// a transaction to be invalid.
+public enum StellarAccountError: StellarServiceError, TransactionValidationError, Equatable {
     case noDefaultAccount
     case noXLMAccount
+}
+
+extension StellarAccountError {
+    public var message: String {
+        switch self {
+        case .noXLMAccount:
+            return "noXLMAccount"
+        case .noDefaultAccount:
+            return "noDefaultAccount"
+        }
+    }
+}
+
+extension StellarAccountError {
+    public static func ==(lhs: StellarAccountError, rhs: StellarAccountError) -> Bool {
+        switch (lhs, rhs) {
+        case (.noDefaultAccount, .noDefaultAccount),
+             (.noXLMAccount, .noXLMAccount):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+/// `StellarFundsError` is a `TransactionValidationError` as all cases should cause
+/// a transaction to be invalid.
+public enum StellarFundsError: StellarServiceError, TransactionValidationError, Equatable {
+    case insufficientFundsForNewAccount
+    case insufficientFunds
+}
+
+extension StellarFundsError {
+    public var message: String {
+        switch self {
+        case .insufficientFundsForNewAccount:
+            return "insufficientFundsForNewAccount"
+        case .insufficientFunds:
+            return "insufficientFunds"
+        }
+    }
+}
+
+extension StellarFundsError {
+    public static func ==(lhs: StellarFundsError, rhs: StellarFundsError) -> Bool {
+        switch (lhs, rhs) {
+        case (.insufficientFundsForNewAccount, .insufficientFundsForNewAccount),
+             (.insufficientFunds, .insufficientFunds):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+/// `StellarNetworkError` is not a `TransactionValidationError` as these errors would
+/// not involve transaction validation. A transaction would not be able to be validated
+/// should any of these errors occur.
+public enum StellarNetworkError: StellarServiceError, Equatable {
     case rateLimitExceeded
     case internalError
     case parsingError
     case unauthorized
     case forbidden
-    case amountTooLow
     case badRequest(message: String)
     case unknown
 }
 
-public extension StellarServiceError {
-    /// Enums can't conform to `String` if they have an associated value.
-    var message: String {
+extension StellarNetworkError {
+    public var message: String {
         switch self {
-        case .badRequest(message: let value):
-            return value
-        case .insufficientFundsForNewAccount:
-            return "insufficientFundsForNewAccount"
-        case .noDefaultAccount:
-            return "noDefaultAccount"
-        case .noXLMAccount:
-            return "noXLMAccount"
         case .rateLimitExceeded:
             return "rateLimitExceeded"
         case .internalError:
@@ -45,30 +102,24 @@ public extension StellarServiceError {
             return "unauthorized"
         case .forbidden:
             return "forbidden"
-        case .amountTooLow:
-            return "amountTooLow"
+        case .badRequest(let message):
+            return message
         case .unknown:
             return "unknown"
         }
     }
 }
 
-extension StellarServiceError {
-    public static func ==(lhs: StellarServiceError, rhs: StellarServiceError) -> Bool {
+extension StellarNetworkError {
+    public static func ==(lhs: StellarNetworkError, rhs: StellarNetworkError) -> Bool {
         switch (lhs, rhs) {
-        case (.insufficientFundsForNewAccount, .insufficientFundsForNewAccount),
-             (.noDefaultAccount, .noDefaultAccount),
-             (.noXLMAccount, .noXLMAccount),
-             (.rateLimitExceeded, .rateLimitExceeded),
+        case (.rateLimitExceeded, .rateLimitExceeded),
              (.internalError, .internalError),
              (.parsingError, .parsingError),
              (.unauthorized, .unauthorized),
              (.forbidden, .forbidden),
-             (.amountTooLow, .amountTooLow),
              (.unknown, .unknown):
             return true
-        case (.badRequest(message: let left), .badRequest(message: let right)):
-            return left == right
         default:
             return false
         }
@@ -76,27 +127,27 @@ extension StellarServiceError {
 }
 
 extension HorizonRequestError {
-    func toStellarServiceError() -> StellarServiceError {
+    public func toStellarServiceError() -> StellarServiceError {
         switch self {
         case .notFound:
-            return .noDefaultAccount
+            return StellarAccountError.noDefaultAccount
         case .rateLimitExceeded:
-            return .rateLimitExceeded
+            return StellarNetworkError.rateLimitExceeded
         case .internalServerError:
-            return .internalError
+            return StellarNetworkError.internalError
         case .parsingResponseFailed:
-            return .parsingError
+            return StellarNetworkError.parsingError
         case .forbidden:
-            return .forbidden
+            return StellarNetworkError.forbidden
         case .badRequest(message: let message, horizonErrorResponse: let response):
             var value = message
             if let response = response {
                 value += (" " + response.extras.resultCodes.transaction)
                 value += (" " + response.extras.resultCodes.operations.joined(separator: " "))
             }
-            return .badRequest(message: value)
+            return StellarNetworkError.badRequest(message: value)
         default:
-            return .unknown
+            return StellarNetworkError.unknown
         }
     }
 }

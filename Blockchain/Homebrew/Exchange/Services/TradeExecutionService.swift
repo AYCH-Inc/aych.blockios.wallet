@@ -125,17 +125,17 @@ class TradeExecutionService: TradeExecutionAPI {
         }
     }
     
-    func validateVolume(_ volume: CryptoValue, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
-        let assetType = assetAccount.address.assetType
+    func validateVolume(_ volume: CryptoValue, for assetType: AssetType) -> Single<TransactionValidationResult> {
         switch assetType {
         case .stellar:
-            return validateXlm(volume: volume, for: assetAccount)
+            return validateXLM(volume: volume)
         case .pax:
-            return validatePax(volume: volume, for: assetAccount)
+            return validatePax(volume: volume)
+        case .ethereum:
+            return validateEthereum(volume: volume)
         case .bitcoin,
-             .bitcoinCash,
-             .ethereum:
-            return Single.just(nil)
+             .bitcoinCash:
+            return Single.just(.ok)
         }
     }
     
@@ -326,6 +326,28 @@ class TradeExecutionService: TradeExecutionAPI {
                     Logger.shared.error(erc20Error)
                 })
                 .disposed(by: bag)
+        } else if assetType == .ethereum {
+            guard
+                let cryptoValue = CryptoValue.createFromMajorValue(string: orderTransactionLegacy.amount, assetType: .ethereum, locale: Locale.US),
+                let ethereumValue = try? EthereumValue(crypto: cryptoValue),
+                let address = EthereumAccountAddress(rawValue: orderTransactionLegacy.to)?.ethereumAddress
+                else {
+                    return
+            }
+            dependencies.ethereumWalletService.buildTransaction(with: ethereumValue, to: address)
+                .subscribeOn(MainScheduler.instance)
+                .observeOn(MainScheduler.asyncInstance)
+                .subscribe(onSuccess: { [weak self] candidate in
+                    guard let self = self else { return }
+                    self.ethereumTransactionCandidate = candidate
+                    let feeAmount = candidate.gasLimit * candidate.gasPrice
+                    let wei = CryptoValue.etherFromWei(string: "\(feeAmount)")
+                    createOrderPaymentSuccess(wei?.toDisplayString(includeSymbol: false) ?? "0")
+                    }, onError: { ethereumError in
+                        Logger.shared.error(ethereumError)
+                        error(LocalizationConstants.Errors.genericError, nil, nil)
+                })
+            .disposed(by: bag)
         } else {
             let disposable = Observable.zip(
                     bitcoinTransactionFee.asObservable(),
@@ -460,6 +482,28 @@ class TradeExecutionService: TradeExecutionAPI {
                     )
                 })
                 .disposed(by: bag)
+        } else if assetType == .ethereum {
+            guard let candidate = ethereumTransactionCandidate else {
+                Logger.shared.error("No EthereumTransactionCandidate")
+                return
+            }
+            
+            dependencies.ethereumWalletService.send(transaction: candidate)
+                .subscribeOn(MainScheduler.instance)
+                .observeOn(MainScheduler.asyncInstance)
+                .subscribe(onSuccess: { published in
+                    executionDone()
+                    success()
+                }, onError: { ethereumError in
+                    executionDone()
+                    Logger.shared.error("Failed to send Ethereum. Error: \(ethereumError)")
+                    error(
+                        LocalizationConstants.Errors.genericError,
+                        transactionID,
+                        ethereumError as? NabuNetworkError
+                    )
+                })
+                .disposed(by: bag)
         } else {
             isExecuting = true
             wallet.sendOrderTransaction(
@@ -475,46 +519,27 @@ class TradeExecutionService: TradeExecutionAPI {
         }
     }
     
-    private func validatePax(volume: CryptoValue, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
+    private func validateEthereum(volume: CryptoValue) -> Single<TransactionValidationResult> {
         do {
-            let tokenValue = try ERC20TokenValue<PaxToken>(crypto: volume)
-            return dependencies.erc20Service.evaluate(amount: tokenValue)
-                .flatMap { _ -> Single<TradeExecutionAPIError?> in
-                    Single.just(nil)
-                }
-                .catchError { error -> Single<TradeExecutionAPIError?> in
-                    if let error = error as? ERC20ServiceError {
-                        return Single.just(TradeExecutionAPIError.erc20Error(error))
-                    } else {
-                        throw error
-                    }
-            }
+            let ethereumValue = try EthereumValue(crypto: volume)
+            return dependencies.ethereumWalletService.evaluate(amount: ethereumValue)
         } catch {
             return Single.error(error)
         }
     }
     
-    private func validateXlm(volume: CryptoValue, for assetAccount: AssetAccount) -> Single<TradeExecutionAPIError?> {
-        let accountId = assetAccount.address.address
-        let isSpendable = dependencies.stellar.limits.isSpendable(amount: volume, for: accountId)
-        let max = dependencies.stellar.limits.maxSpendableAmount(for: accountId)
-        return Single.zip(isSpendable, max)
-            .catchError { error -> Single<(Bool, CryptoValue)> in
-                if let stellarError = error as? StellarServiceError, stellarError == StellarServiceError.noDefaultAccount {
-                    return Single.just((false, CryptoValue.lumensZero))
-                } else {
-                    throw error
-                }
-            }
-            .flatMap { isSpendable, maxSpendable -> Single<TradeExecutionAPIError?> in
-                guard !isSpendable else {
-                    return Single.just(nil)
-                }
-                
-                return Single.just(TradeExecutionAPIError.exceededMaxVolume(maxSpendable))
-            }
+    private func validatePax(volume: CryptoValue) -> Single<TransactionValidationResult> {
+        do {
+            let tokenValue = try ERC20TokenValue<PaxToken>(crypto: volume)
+            return dependencies.erc20Service.validateCryptoAmount(amount: tokenValue)
+        } catch {
+            return Single.error(error)
+        }
     }
     
+    private func validateXLM(volume: CryptoValue) -> Single<TransactionValidationResult> {
+        return dependencies.stellar.limits.validateCryptoAmount(amount: volume)
+    }
 }
 
 // Private Helper methods

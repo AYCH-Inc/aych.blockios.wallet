@@ -147,7 +147,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                 /// If the user does not have a balance, it means the `StellarAccount`
                 /// does not exist (it hasn't been funded).
                 guard account.assetAccount.balance.amount > 0 else {
-                    throw StellarServiceError.noDefaultAccount
+                    throw StellarAccountError.noDefaultAccount
                 }
                 return true
             }
@@ -159,14 +159,12 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                 self?.observeOperations()
             }, onError: { [weak self] error in
                 guard let this = self else { return }
-                guard let serviceError = error as? StellarServiceError else { return }
+                guard let serviceError = error as? StellarAccountError else { return }
                 switch serviceError {
                 case .noXLMAccount:
                     this.handle(internalEvent: .noXLMAccount)
                 case .noDefaultAccount:
                     this.handle(internalEvent: .noStellarAccount)
-                default:
-                    break
                 }
                 this.handle(internalEvent: .insufficientFunds)
                 Logger.shared.error(error.localizedDescription)
@@ -292,9 +290,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                 if let stellarError = error as? StellarPaymentOperationError, stellarError == .cancelled {
                     // User cancelled transaction when shown second password - do not show an error.
                     return
-                } else if let stellarError = error as? StellarServiceError, stellarError == .amountTooLow {
-                    errorMessage = LocalizationConstants.Stellar.notEnoughXLM
-                } else if let stellarError = error as? StellarServiceError, stellarError == .insufficientFundsForNewAccount {
+                } else if let stellarError = error as? StellarFundsError, stellarError == .insufficientFundsForNewAccount {
                     errorMessage = LocalizationConstants.Stellar.minimumForNewAccountsError
                 } else {
                     errorMessage = LocalizationConstants.Stellar.cannotSendXLMAtThisTime

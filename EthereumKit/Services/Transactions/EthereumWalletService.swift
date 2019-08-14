@@ -11,14 +11,21 @@ import BigInt
 import PlatformKit
 import RxSwift
 
-enum EthereumWalletServiceError: Error {
-    case unknown
+public enum EthereumKitValidationError: TransactionValidationError {
     case waitingOnPendingTransaction
+    case insufficientFeeCoverage
+    case insufficientFunds
+    case invalidAmount
+}
+
+public enum EthereumWalletServiceError: Error {
+    case unknown
 }
 
 public protocol EthereumWalletServiceAPI {
     var fetchHistoryIfNeeded: Single<Void> { get }
     
+    func evaluate(amount: EthereumValue) -> Single<TransactionValidationResult>
     func buildTransaction(with value: EthereumValue, to: EthereumAddress) -> Single<EthereumTransactionCandidate>
     func send(transaction: EthereumTransactionCandidate) -> Single<EthereumTransactionPublished>
 }
@@ -38,7 +45,7 @@ public final class EthereumWalletService: EthereumWalletServiceAPI {
         return bridge.isWaitingOnEtherTransaction
             .flatMap { isWaiting -> Single<Void> in
                 guard !isWaiting else {
-                    throw EthereumWalletServiceError.waitingOnPendingTransaction
+                    throw EthereumKitValidationError.waitingOnPendingTransaction
                 }
                 return Single.just(())
             }
@@ -54,19 +61,26 @@ public final class EthereumWalletService: EthereumWalletServiceAPI {
     private let walletAccountRepository: EthereumWalletAccountRepositoryAPI
     private let transactionBuildingService: EthereumTransactionBuildingServiceAPI
     private let transactionSendingService: EthereumTransactionSendingServiceAPI
+    private let transactionValidationService: ValidateTransactionAPI
     
     public init(with bridge: Bridge,
                 ethereumAPIClient: EthereumAPIClientAPI,
                 feeService: EthereumFeeServiceAPI,
                 walletAccountRepository: EthereumWalletAccountRepositoryAPI,
                 transactionBuildingService: EthereumTransactionBuildingServiceAPI,
-                transactionSendingService: EthereumTransactionSendingServiceAPI) {
+                transactionSendingService: EthereumTransactionSendingServiceAPI,
+                transactionValidationService: ValidateTransactionAPI) {
         self.bridge = bridge
         self.ethereumAPIClient = ethereumAPIClient
         self.feeService = feeService
         self.walletAccountRepository = walletAccountRepository
         self.transactionBuildingService = transactionBuildingService
         self.transactionSendingService = transactionSendingService
+        self.transactionValidationService = transactionValidationService
+    }
+    
+    public func evaluate(amount: EthereumValue) -> Single<TransactionValidationResult> {
+        return transactionValidationService.validateCryptoAmount(amount: amount)
     }
     
     public func buildTransaction(with value: EthereumValue, to: EthereumAddress) -> Single<EthereumTransactionCandidate> {

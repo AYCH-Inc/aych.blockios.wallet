@@ -26,7 +26,6 @@ class KYCCountrySelectionPresenter {
 
     private let interactor: KYCCountrySelectionInteractor
     private let wallet: Wallet
-    private let walletService: WalletService
     private weak var view: KYCCountrySelectionView?
     private let disposables = CompositeDisposable()
 
@@ -35,13 +34,11 @@ class KYCCountrySelectionPresenter {
     init(
         view: KYCCountrySelectionView,
         interactor: KYCCountrySelectionInteractor = KYCCountrySelectionInteractor(),
-        wallet: Wallet = WalletManager.shared.wallet,
-        walletService: WalletService = WalletService.shared
+        wallet: Wallet = WalletManager.shared.wallet
     ) {
         self.view = view
         self.interactor = interactor
         self.wallet = wallet
-        self.walletService = walletService
     }
 
     deinit {

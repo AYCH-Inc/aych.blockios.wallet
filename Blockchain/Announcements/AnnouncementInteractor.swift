@@ -29,8 +29,8 @@ final class AnnouncementInteractor: AnnouncementInteracting {
             .zip(dataRepository.nabuUser,
                  dataRepository.tiers,
                  exchangeService.hasExecutedTrades().asObservable())
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
             .map { (user, tiers, hasTrades) -> AnnouncementPreliminaryData in
                 return AnnouncementPreliminaryData(user: user,
                                                    tiers: tiers,

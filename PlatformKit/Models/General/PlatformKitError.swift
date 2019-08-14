@@ -10,4 +10,5 @@ import Foundation
 
 public enum PlatformKitError: Error {
     case nullReference(AnyObject.Type)
+    case `default`
 }

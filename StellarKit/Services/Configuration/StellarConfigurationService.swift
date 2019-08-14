@@ -10,17 +10,18 @@ import Foundation
 import RxSwift
 import RxCocoa
 import PlatformKit
-import StellarKit
 
-protocol StellarConfigurationAPI {
+public protocol StellarConfigurationAPI {
     var configuration: Single<StellarConfiguration> { get }
 }
 
-final class StellarConfigurationService: StellarConfigurationAPI {
+public protocol StellarWalletOptionsBridgeAPI: class {
+    var stellarConfigurationDomain: Single<String?> { get }
+}
+
+final public class StellarConfigurationService: StellarConfigurationAPI {
     
-    static let shared = StellarConfigurationService()
-    
-    var configuration: Single<StellarConfiguration> {
+    public var configuration: Single<StellarConfiguration> {
         return Single.deferred { [unowned self] in
             guard let cachedValue = self.cachedConfiguration.value, !self.shouldRefresh else {
                 return self.fetchConfiguration
@@ -34,16 +35,12 @@ final class StellarConfigurationService: StellarConfigurationAPI {
     private var cachedConfiguration = BehaviorRelay<StellarConfiguration?>(value: nil)
     
     private var fetchConfiguration: Single<StellarConfiguration> {
-        return walletService.walletOptions
-            .map { walletOptions -> StellarConfiguration in
-                guard
-                    let stellarHorizon = walletOptions.domains?.stellarHorizon
-                else {
+        return bridgeAPI.stellarConfigurationDomain
+            .map { domain -> StellarConfiguration in
+                guard let stellarHorizon = domain else {
                     return StellarConfiguration.Blockchain.production
                 }
-                return StellarConfiguration(
-                    horizonURL: stellarHorizon
-                )
+                return StellarConfiguration(horizonURL: stellarHorizon)
             }
             .do(onSuccess: { [weak self] _ in
                 self?.lastRefresh = Date()
@@ -61,13 +58,23 @@ final class StellarConfigurationService: StellarConfigurationAPI {
     
     private var lastRefresh: Date = Date(timeIntervalSinceNow: -StellarConfigurationService.refreshInterval)
     
-    private let walletService: WalletService
+    private let bridgeAPI: StellarWalletOptionsBridgeAPI
     
     // MARK: Private Static Properties
     
     private static let refreshInterval: TimeInterval = 60.0 * 60.0 // 1h
     
-    init(walletService: WalletService = WalletService.shared) {
-        self.walletService = walletService
+    public static let shared: StellarConfigurationService = StellarConfigurationService(bridge: WalletService.shared)
+    
+    public init(bridge: StellarWalletOptionsBridgeAPI = WalletService.shared) {
+        self.bridgeAPI = bridge
+    }
+}
+
+extension WalletService: StellarWalletOptionsBridgeAPI {
+    public var stellarConfigurationDomain: Single<String?> {
+        return walletOptions.map { value -> String? in
+            return value.domains?.stellarHorizon
+        }
     }
 }

@@ -13,26 +13,38 @@ import PlatformKit
 // This field is in stroops, which are 1/10,000,000th of a lumen.
 // The `baseReserveInStroops` is what the network uses when
 // calculating an account’s minimum balance.
-struct StellarLedger {
-    let identifier: String
-    let token: String
-    let sequence: Int
-    let transactionCount: Int?
-    let operationCount: Int
-    let closedAt: Date
-    let totalCoins: String
-    let baseFeeInStroops: Int?
-    let baseReserveInStroops: Int?
+public struct StellarLedger {
+    public let identifier: String
+    public let token: String
+    public let sequence: Int
+    public let transactionCount: Int?
+    public let operationCount: Int
+    public let closedAt: Date
+    public let totalCoins: String
+    public let baseFeeInStroops: Int?
+    public let baseReserveInStroops: Int?
+    
+    public init(identifier: String, token: String, sequence: Int, transactionCount: Int?, operationCount: Int, closedAt: Date, totalCoins: String, baseFeeInStroops: Int?, baseReserveInStroops: Int?) {
+        self.identifier = identifier
+        self.token = token
+        self.sequence = sequence
+        self.transactionCount = transactionCount
+        self.operationCount = operationCount
+        self.closedAt = closedAt
+        self.totalCoins = totalCoins
+        self.baseFeeInStroops = baseFeeInStroops
+        self.baseReserveInStroops = baseReserveInStroops
+    }
 }
 
 extension StellarLedger: Equatable {
-    static func == (lhs: StellarLedger, rhs: StellarLedger) -> Bool {
+    public static func == (lhs: StellarLedger, rhs: StellarLedger) -> Bool {
         return lhs.baseFeeInStroops == rhs.baseFeeInStroops &&
         lhs.baseReserveInStroops == rhs.baseReserveInStroops
     }
 }
 
-extension StellarLedger {
+public extension StellarLedger {
     var baseFeeInXlm: CryptoValue? {
         guard let baseFeeInStroops = baseFeeInStroops else { return nil }
         return CryptoValue.lumensFromStroops(int: baseFeeInStroops)
@@ -44,7 +56,7 @@ extension StellarLedger {
     }
 }
 
-extension StellarLedger {
+public extension StellarLedger {
     func apply(baseFeeInStroops: Int) -> StellarLedger {
         return StellarLedger(
             identifier: identifier,

@@ -9,6 +9,7 @@
 import RxSwift
 import BigInt
 import PlatformKit
+import StellarKit
 
 class StellarTradeLimitsService: StellarTradeLimitsAPI {
 
@@ -18,6 +19,15 @@ class StellarTradeLimitsService: StellarTradeLimitsAPI {
     init(ledgerService: StellarLedgerAPI, accountsService: StellarAccountAPI) {
         self.ledgerService = ledgerService
         self.accountsService = accountsService
+    }
+    
+    func validateCryptoAmount(amount: Crypto) -> Single<TransactionValidationResult> {
+        return accountsService.currentStellarAccount(fromCache: true).flatMap(weak: self, { (self, account) -> Single<TransactionValidationResult> in
+            return self.maxSpendableAmount(for: account.identifier).map {
+                let spendable = amount.amount <= $0.amount && amount.amount > 0
+                return spendable ? .ok : .invalid(StellarFundsError.insufficientFunds)
+            }
+        })
     }
 
     func maxSpendableAmount(for accountId: AccountID) -> Single<CryptoValue> {

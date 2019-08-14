@@ -207,11 +207,16 @@ class SendPaxCalculator {
         return erc20Service.evaluate(amount: input.paxAmount)
             .subscribeOn(MainScheduler.instance)
             .observeOn(MainScheduler.asyncInstance)
-            .flatMap { proposal -> Single<ERC20TransactionProposal<PaxToken>> in
-                guard case .invalid = input.addressStatus else {
-                    return Single.just(proposal)
+            .flatMap { result -> Single<ERC20TransactionProposal<PaxToken>> in
+                switch result {
+                case .invalid(let error):
+                    throw error
+                case .valid(let proposal):
+                    guard case .invalid = input.addressStatus else {
+                        return Single.just(proposal)
+                    }
+                    throw SendMoniesInternalError.invalidDestinationAddress
                 }
-                throw SendMoniesInternalError.invalidDestinationAddress
             }
             .map { proposal -> Output in
                 

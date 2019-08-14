@@ -40,7 +40,6 @@ class StellarAccountServiceTests: XCTestCase {
         super.setUp()
         ledgerService = MockLedgerService()
         
-        
         accountService = StellarAccountService(
             configurationService: StellarConfigurationServiceMock(),
             ledgerService: ledgerService,
@@ -57,10 +56,7 @@ class StellarAccountServiceTests: XCTestCase {
             amount: 0.01,
             sourceKeyPair: StellarKeyPair(accountID: "account", secret: "secret")
         ).subscribe(onError: { error in
-            if let stellarError = error as? StellarServiceError, stellarError == StellarServiceError.amountTooLow {
-                exp.fulfill()
-            }
-            if let stellarError = error as? StellarServiceError, stellarError == StellarServiceError.insufficientFundsForNewAccount {
+            if let stellarError = error as? StellarFundsError, stellarError == .insufficientFundsForNewAccount {
                 exp.fulfill()
             }
         })

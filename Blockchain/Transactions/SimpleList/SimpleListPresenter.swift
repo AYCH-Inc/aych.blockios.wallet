@@ -84,13 +84,11 @@ extension SimpleListPresenter: SimpleListOutput {
         Logger.shared.error(error?.localizedDescription ?? "Unknown error")
         interface?.refreshControlVisibility(.hidden)
 
-        if let serviceError = error as? StellarServiceError {
+        if let serviceError = error as? StellarAccountError {
             switch serviceError {
             case .noDefaultAccount,
-                     .noXLMAccount:
+                 .noXLMAccount:
                 interface?.emptyStateVisibility(.visible)
-            default:
-                interface?.emptyStateVisibility(.hidden)
             }
         } else {
             interface?.showError(message: LocalizationConstants.Errors.genericError)

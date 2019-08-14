@@ -76,7 +76,7 @@ class StellarAccountService: StellarAccountAPI {
             return Maybe.just(cached)
         }
         guard let XLMAccount = defaultXLMAccount() else {
-            return Maybe.error(StellarServiceError.noXLMAccount)
+            return Maybe.error(StellarAccountError.noXLMAccount)
         }
         let accountID = XLMAccount.publicKey
         return accountDetails(for: accountID).do(onNext: { [weak self] account in
@@ -106,7 +106,7 @@ class StellarAccountService: StellarAccountAPI {
         }.catchError { error in
             // If the network call to Horizon fails due to there not being a default account (i.e. account is not yet
             // funded), catch that error and return a StellarAccount with 0 balance
-            if let stellarError = error as? StellarServiceError, stellarError == .noDefaultAccount {
+            if let stellarError = error as? StellarAccountError, stellarError == .noDefaultAccount {
                 return Single.just(StellarAccount.unfundedAccount(accountId: accountID))
             }
             throw error
@@ -131,7 +131,7 @@ class StellarAccountService: StellarAccountAPI {
                     return Completable.empty()
                 }
                 guard amountCrypto.amount >= baseReserveInXlm.amount * 2 else {
-                    return Completable.error(StellarServiceError.insufficientFundsForNewAccount)
+                    return Completable.error(StellarFundsError.insufficientFundsForNewAccount)
                 }
                 return strongSelf.accountResponse(for: sourceKeyPair.accountID)
                     .flatMapCompletable { [weak self] sourceAccountResponse -> Completable in
@@ -227,31 +227,5 @@ extension AccountResponse {
             sequence: sequenceNumber,
             subentryCount: subentryCount
         )
-    }
-}
-
-extension HorizonRequestError {
-    func toStellarServiceError() -> StellarServiceError {
-        switch self {
-        case .notFound:
-            return .noDefaultAccount
-        case .rateLimitExceeded:
-            return .rateLimitExceeded
-        case .internalServerError:
-            return .internalError
-        case .parsingResponseFailed:
-            return .parsingError
-        case .forbidden:
-            return .forbidden
-        case .badRequest(message: let message, horizonErrorResponse: let response):
-            var value = message
-            if let response = response {
-                value += (" " + response.extras.resultCodes.transaction)
-                value += (" " + response.extras.resultCodes.operations.joined(separator: " "))
-            }
-            return .badRequest(message: value)
-        default:
-            return .unknown
-        }
     }
 }

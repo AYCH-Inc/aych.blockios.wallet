@@ -13,25 +13,30 @@ import web3swift
 import PlatformKit
 import EthereumKit
 
-public enum ERC20ServiceError: Error {
+public protocol ERC20EvaluationError: Error { }
+
+public enum ERC20ValidationError: TransactionValidationError, ERC20EvaluationError {
     case pendingTransaction
     case invalidCryptoValue
     case cryptoValueBelowMinimumSpendable
     case insufficientEthereumBalance
     case insufficientTokenBalance
+}
+
+public enum ERC20ServiceError: ERC20EvaluationError {
     case invalidEthereumAddress
 }
 
 public protocol ERC20ServiceAPI {
     associatedtype Token: ERC20Token
     
-    func evaluate(amount cryptoValue: ERC20TokenValue<Token>) -> Single<ERC20TransactionProposal<Token>>
+    func evaluate(amount cryptoValue: ERC20TokenValue<Token>) -> Single<ERC20TransactionEvaluationResult<Token>>
     func transfer(to: EthereumKit.EthereumAddress, amount cryptoValue: ERC20TokenValue<Token>) -> Single<EthereumTransactionCandidate>
 }
 
-public class AnyERC20Service<Token: ERC20Token>: ERC20ServiceAPI {
+public class AnyERC20Service<Token: ERC20Token>: ERC20ServiceAPI, ValidateTransactionAPI {
     
-    private let evaluateAmount: (ERC20TokenValue<Token>) -> Single<ERC20TransactionProposal<Token>>
+    private let evaluateAmount: (ERC20TokenValue<Token>) -> Single<ERC20TransactionEvaluationResult<Token>>
     private let transfer: (EthereumKit.EthereumAddress, ERC20TokenValue<Token>) -> Single<EthereumTransactionCandidate>
     
     public init<S: ERC20ServiceAPI>(_ service: S) where S.Token == Token {
@@ -39,7 +44,23 @@ public class AnyERC20Service<Token: ERC20Token>: ERC20ServiceAPI {
         self.transfer = service.transfer
     }
     
-    public func evaluate(amount cryptoValue: ERC20TokenValue<Token>) -> Single<ERC20TransactionProposal<Token>> {
+    public func validateCryptoAmount(amount: Crypto) -> Single<TransactionValidationResult> {
+        do {
+            let value = try ERC20TokenValue<Token>(crypto: amount)
+            return evaluate(amount: value)
+                .map { _ in return .ok }
+                .catchError { (error) -> Single<TransactionValidationResult> in
+                    guard let validation = error as? TransactionValidationError else {
+                        throw error
+                    }
+                    return Single.just(.invalid(validation))
+            }
+        } catch {
+            return Single.error(error)
+        }
+    }
+    
+    public func evaluate(amount cryptoValue: ERC20TokenValue<Token>) -> Single<ERC20TransactionEvaluationResult<Token>> {
         return evaluateAmount(cryptoValue)
     }
     
@@ -72,7 +93,7 @@ public class ERC20Service<Token: ERC20Token>: ERC20API, ERC20TransactionEvaluati
         return bridge.isWaitingOnEtherTransaction
             .flatMap { isWaiting -> Single<Void> in
                 guard !isWaiting else {
-                    throw ERC20ServiceError.pendingTransaction
+                    throw ERC20ValidationError.pendingTransaction
                 }
                 return Single.just(())
             }
@@ -115,7 +136,7 @@ public class ERC20Service<Token: ERC20Token>: ERC20API, ERC20TransactionEvaluati
     
     public func transfer(proposal: ERC20TransactionProposal<Token>, to address: EthereumKit.EthereumAddress) -> Single<EthereumTransactionCandidate> {
         guard address.isValid else { return Single.error(ERC20ServiceError.invalidEthereumAddress) }
-        guard proposal.aboveMinimumSpendable else { return Single.error(ERC20ServiceError.cryptoValueBelowMinimumSpendable) }
+        guard proposal.aboveMinimumSpendable else { return Single.error(ERC20ValidationError.cryptoValueBelowMinimumSpendable) }
         return buildTransactionCandidate(to: address, amount: proposal.value, fee: nil)
     }
     
@@ -167,18 +188,29 @@ public class ERC20Service<Token: ERC20Token>: ERC20API, ERC20TransactionEvaluati
     
     // MARK: ERC20TransactionEvaluationAPI
     
-    public func evaluate(amount cryptoValue: ERC20TokenValue<Token>) -> Single<ERC20TransactionProposal<Token>> {
-        return buildProposal(with: cryptoValue)
+    public func evaluate(amount cryptoValue: ERC20TokenValue<Token>) -> Single<ERC20TransactionEvaluationResult<Token>> {
+        return buildProposal(with: cryptoValue).catchError({ (error) -> Single<ERC20TransactionEvaluationResult<Token>> in
+            guard let validation = error as? ERC20ValidationError else {
+                throw error
+            }
+            return Single.just(.invalid(validation))
+        })
     }
     
-    public func evaluate(amount cryptoValue: ERC20TokenValue<Token>, fee: EthereumTransactionFee) -> Single<ERC20TransactionProposal<Token>> {
+    public func evaluate(amount cryptoValue: ERC20TokenValue<Token>, fee: EthereumTransactionFee) -> Single<ERC20TransactionEvaluationResult<Token>> {
         return buildProposal(with: cryptoValue, fee: fee)
+            .catchError { (error) -> Single<ERC20TransactionEvaluationResult<Token>> in
+                guard let validation = error as? ERC20ValidationError else {
+                    throw error
+                }
+                return Single.just(.invalid(validation))
+        }
     }
     
     private func buildProposal(
         with cryptoValue: ERC20TokenValue<Token>,
         fee: EthereumTransactionFee? = nil)
-        -> Single<ERC20TransactionProposal<Token>> {
+        -> Single<ERC20TransactionEvaluationResult<Token>> {
         return handlePendingTransaction
             .flatMap(weak: self) { (self, _) -> Single<(EthereumTransactionFee, ERC20AssetAccountDetails, EthereumAssetAccountDetails)> in
                 return Single.zip(
@@ -198,7 +230,7 @@ public class ERC20Service<Token: ERC20Token>: ERC20API, ERC20TransactionEvaluati
                     )
                 )
             }
-            .flatMap(weak: self) { (self, validatedInputs) -> Single<ERC20TransactionProposal<Token>> in
+            .flatMap(weak: self) { (self, validatedInputs) -> Single<ERC20TransactionEvaluationResult<Token>> in
                 let (fee, ethereumAccount) = (validatedInputs.fee, validatedInputs.ethereumAccountDetails)
                 let transactionProposal = ERC20TransactionProposal(
                     from: EthereumKit.EthereumAddress(stringLiteral: ethereumAccount.account.accountAddress),
@@ -206,7 +238,7 @@ public class ERC20Service<Token: ERC20Token>: ERC20API, ERC20TransactionEvaluati
                     gasLimit: BigUInt(fee.gasLimitContract),
                     value: cryptoValue
                 )
-                return Single.just(transactionProposal)
+                return Single.just(.valid(transactionProposal))
             }
     }
     
@@ -249,11 +281,11 @@ public class ERC20Service<Token: ERC20Token>: ERC20API, ERC20TransactionEvaluati
         let ethereumTransactionFee = gasPrice * gasLimitContract
         
         guard ethereumTransactionFee < ethereumBalance else {
-            return Single.error(ERC20ServiceError.insufficientEthereumBalance)
+            return Single.error(ERC20ValidationError.insufficientEthereumBalance)
         }
         
         guard tokenAmount <= tokenBalance else {
-            return Single.error(ERC20ServiceError.insufficientTokenBalance)
+            return Single.error(ERC20ValidationError.insufficientTokenBalance)
         }
         
         return Single.just(

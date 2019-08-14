@@ -8,6 +8,7 @@
 
 import Foundation
 
+// TODO: Remove in favor of errors defined in `StellarKit`
 enum StellarTransactionError: Int, Error {
     case failed = -1
     case tooEarly = -2

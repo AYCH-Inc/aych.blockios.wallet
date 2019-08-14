@@ -147,7 +147,7 @@ class ERC20ServiceTests: XCTestCase {
         
         // Assert
         let expectedEvents: [Recorded<Event<EthereumTransactionCandidate>>] = Recorded.events(
-            .error(200, ERC20ServiceError.insufficientTokenBalance)
+            .error(200, ERC20ValidationError.insufficientTokenBalance)
         )
         
         XCTAssertEqual(result.events, expectedEvents)
@@ -183,7 +183,7 @@ class ERC20ServiceTests: XCTestCase {
         
         // Assert
         let expectedEvents: [Recorded<Event<EthereumTransactionCandidate>>] = Recorded.events(
-            .error(200, ERC20ServiceError.insufficientEthereumBalance)
+            .error(200, ERC20ValidationError.insufficientEthereumBalance)
         )
         
         XCTAssertEqual(result.events, expectedEvents)

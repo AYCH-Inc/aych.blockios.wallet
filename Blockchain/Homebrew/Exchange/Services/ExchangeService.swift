@@ -102,7 +102,7 @@ extension ExchangeService: ExchangeHistoryAPI {
     
     func getAllTrades(with completion: @escaping CompletionHandler) {
         /// Trades are being fetched, bail early.
-        guard tradeQueue.operations.count == 0 else { return }
+        guard isExecuting() == false else { return }
         tradeModels = []
         
         homebrewOperation = AsyncBlockOperation(executionBlock: { [weak self] complete in

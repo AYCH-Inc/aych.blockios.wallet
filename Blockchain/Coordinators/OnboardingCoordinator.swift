@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import PlatformKit
 
 /// Coordinator for the onboarding flow.
 class OnboardingCoordinator: Coordinator, VersionUpdateAlertDisplaying {

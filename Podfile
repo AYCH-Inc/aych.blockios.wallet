@@ -83,10 +83,27 @@ target 'ERC20Kit' do
   end
 end
 
+target 'BitcoinKit' do
+  pod 'RxSwift', '5.0'
+  pod 'BigInt', '~> 4.0'
+  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+
+  target 'BitcoinKitTests' do
+    inherit! :search_paths
+    # Pods for testing
+    pod 'RxSwift', '5.0'
+    pod 'RxBlocking', '~> 5.0'
+    pod 'RxTest', '~> 5.0'
+    pod 'BigInt', '~> 4.0'
+    pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+  end
+end
+
 target 'PlatformKit' do
   pod 'RxSwift', '5.0'
   pod 'BigInt', '~> 4.0'
-  
+  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+
   target 'PlatformKitTests' do
     inherit! :search_paths
     # Pods for testing

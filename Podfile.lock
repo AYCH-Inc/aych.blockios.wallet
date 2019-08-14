@@ -3,7 +3,7 @@ PODS:
   - Charts (3.2.2):
     - Charts/Core (= 3.2.2)
   - Charts/Core (3.2.2)
-  - Crashlytics (3.13.2):
+  - Crashlytics (3.13.4):
     - Fabric (~> 1.10.2)
   - Fabric (1.10.2)
   - Firebase/Core (5.17.0):
@@ -29,7 +29,7 @@ PODS:
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - FirebaseAnalyticsInterop (1.2.0)
+  - FirebaseAnalyticsInterop (1.3.0)
   - FirebaseCore (5.3.0):
     - GoogleUtilities/Logger (~> 5.2)
   - FirebaseDynamicLinks (3.4.0):
@@ -73,6 +73,7 @@ PODS:
   - GoogleUtilities/UserDefaults (5.8.0):
     - GoogleUtilities/Logger
   - keccak.c (0.1.3)
+  - LibWally (0.0.1)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -94,7 +95,7 @@ PODS:
     - PromiseKit/CorePromise
   - PromiseKit/UIKit (6.10.0):
     - PromiseKit/CorePromise
-  - Protobuf (3.8.0)
+  - Protobuf (3.9.0)
   - ReachabilitySwift (4.3.1)
   - RxBlocking (5.0.0):
     - RxSwift (~> 5)
@@ -134,6 +135,7 @@ DEPENDENCIES:
   - Firebase/Core (~> 5.17.0)
   - Firebase/DynamicLinks (~> 5.17.0)
   - Firebase/RemoteConfig (~> 5.17.0)
+  - "LibWally (from `git@github.com:blockchain/libwally-swift.git`, branch `jack/IOS-2418`)"
   - PhoneNumberKit (~> 2.1)
   - RxBlocking (~> 5.0)
   - RxCocoa (= 5.0)
@@ -182,6 +184,10 @@ SPEC REPOS:
     - VeriffWebRTC
 
 EXTERNAL SOURCES:
+  LibWally:
+    :branch: jack/IOS-2418
+    :git: "git@github.com:blockchain/libwally-swift.git"
+    :submodules: true
   stellar-ios-mac-sdk:
     :commit: 03aefcdc14a43a16c46b483ffaea90ce9c210071
     :git: "git@github.com:thisisalexmcgregor/stellar-ios-mac-sdk.git"
@@ -190,6 +196,10 @@ EXTERNAL SOURCES:
     :git: "git@github.com:thisisalexmcgregor/web3swift.git"
 
 CHECKOUT OPTIONS:
+  LibWally:
+    :commit: a29fe5b2a1e3bc53ba325e5152bd39ff1f2547bd
+    :git: "git@github.com:blockchain/libwally-swift.git"
+    :submodules: true
   stellar-ios-mac-sdk:
     :commit: 03aefcdc14a43a16c46b483ffaea90ce9c210071
     :git: "git@github.com:thisisalexmcgregor/stellar-ios-mac-sdk.git"
@@ -200,12 +210,12 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   BigInt: 2aad1a9942dc932ec8b84290d2c564a3d76f97ab
   Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
-  Crashlytics: 611738c7847f8291a1a51084e35987b86ba6b3ee
+  Crashlytics: 2dfd686bcb918dc10ee0e76f7f853fe42c7bd552
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   Firebase: 59d557e064217fab6a03ff00baa73c06e73832e6
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: 75e4bbc6417d190cc98ec1f17c41a4fad4c2c976
-  FirebaseAnalyticsInterop: efbe45c8385ec626e29f9525e5ebd38520dfb6c1
+  FirebaseAnalyticsInterop: 0f250d71e8741352407a8db351e6de78c5c56d35
   FirebaseCore: c0c4befb82374d6aef64d800e569f47625352edc
   FirebaseDynamicLinks: 83a0071c95ad715bc324fcb8f51028d5b6a58af0
   FirebaseInstanceID: a122b0c258720cf250551bb2bedf48c699f80d90
@@ -213,11 +223,12 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 008e04ecd8efedd97a693aea8634aefe220bd26e
   GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
   keccak.c: 859583afdaccb4e4fcc0f0096064d101580313f4
+  LibWally: 37b7c926e9aa02cc7d4c5a2a2a3a4f8925ea5038
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   PhoneNumberKit: 167ee1f0bbb6efce7c62559e620eae745595532f
   Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
   PromiseKit: 1fdaeb6c0a94a5114fcb814ff3d772b86886ad4e
-  Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
+  Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
   ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
   RxBlocking: c67185d26498ea3cbe3e121917c3c16739e43123
   RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
@@ -234,6 +245,6 @@ SPEC CHECKSUMS:
   VeriffWebRTC: 47806fee639a69ae5f82f2b031d20f0014d4a016
   web3swift.pod: 98e8653f39e1bcd7b45f46dd982ec49cdfc6c46a
 
-PODFILE CHECKSUM: 95da3f0121a82f333b5c50df1cd4d309cb85e31f
+PODFILE CHECKSUM: 71f77d33bc12108ca49c28f9d54c759fc25b0f0e
 
 COCOAPODS: 1.7.3

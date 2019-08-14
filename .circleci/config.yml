@@ -172,6 +172,9 @@ jobs:
           keys:
             - pods-cache-{{ checksum "Podfile.lock" }}
       - run:
+          name: Install brew dependencies
+          command: brew reinstall -s libtool gnu-sed
+      - run:
           name: Install Pods
           command: |
             bundle exec pod install --verbose

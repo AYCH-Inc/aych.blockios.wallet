@@ -6,52 +6,76 @@
 
 # Building
 
+## Install `homebrew`
+
+https://brew.sh/
+
 ## Install Git submodules
 
-    git submodule update --init
+    $ git submodule update --init
 
 ## Install JS Dependencies
 
 Install a node version manager such as [nvm](https://github.com/creationix/nvm) or [n](https://github.com/tj/n).
 
     # use node v7.9.0
-    npm install -g n
-    n v7.9.0
+    $ npm install -g n
+    $ n v7.9.0
 
     # use npm 5.6.0
-    npm install -g npm@5.6.0
+    $ npm install -g npm@5.6.0
 
     # checkout ios branch
-    cd Submodules/My-Wallet-V3
-    git checkout ios
-    cd ../..
+    $ cd Submodules/My-Wallet-V3
+    $ git checkout ios
+    $ cd ../..
 
     # install and build js files
-    sh scripts/install-js.sh && sh scripts/build-js.sh
+    $ sh scripts/install-js.sh && sh scripts/build-js.sh
 
 ## Prepare OpenSSL
 
-    cd ./Submodules/OpenSSL-for-iPhone
-    ./build-libssl.sh
+    $ cd ./Submodules/OpenSSL-for-iPhone
+    $ ./build-libssl.sh
 
-## Install Cocoapods
+## Install LibWallySwift build dependencies
 
-Optionally install a Ruby version manager such as [rbenv](https://github.com/rbenv/rbenv).
+    $ make install
 
-Then install the cocoapods gem. You need to use version 1.5.3:
+## Install Ruby dependencies
 
-`gem install cocoapods --version 1.5.3`
+Install a Ruby version manager such as [rbenv](https://github.com/rbenv/rbenv).
 
-## Install Dependencies
-`pod install`
+    $ brew install rbenv
+    $ rbenv init
+
+Install a recent ruby version:
+
+    $ rbenv install -l
+    2.6.3
+    ...
+    $ rbenv install 2.6.3
+    $ rbenv rehash
+
+Then make that version either the `local` or `global` version, e.g.:
+
+    $ rbenv global 2.6.3 
+
+Then the project ruby dependencies (`cocoapods`, `fastlane`, etc.):
+
+    $ bundle install
+
+## Install Cocoapods Dependencies
+
+    $ bundle exec pod install
 
 ## Add production Config file
 
     #create a directory named Config in the root
-    mkdir Config
+    $ mkdir Config
 
     #create the config file
-    vi Production.xcconfig
+    $ vi Production.xcconfig
 
     #write the following in Production.xcconfig
     APP_NAME = Blockchain
@@ -89,9 +113,10 @@ Create the following directories:
 ```
 
     In each directory, you'll need to copy/paste the environment-specific GoogleService-Info.plist files that are in `wallet-ios-credentials` repository.
+
 ## Open the project in Xcode
 
-    open Blockchain.xcworkspace
+    $ open Blockchain.xcworkspace
 
 ## Build the project
 

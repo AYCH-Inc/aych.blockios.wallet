@@ -264,8 +264,9 @@ extension KYCTiersViewController: KYCTierCellDelegate {
         if let block = self.selectedTier {
             block(selectedTier)
         } else {
+            guard let top = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController else { return }
             KYCCoordinator.shared.start(
-                from: AppCoordinator.shared.tabControllerManager,
+                from: top,
                 tier: selectedTier
             )
         }

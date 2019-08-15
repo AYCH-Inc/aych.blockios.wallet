@@ -17,7 +17,7 @@ protocol SendXLMViewControllerDelegate: class {
     func onMemoIDSelection()
     func onXLMEntry(_ value: String, latestPrice: Decimal)
     func onFiatEntry(_ value: String, latestPrice: Decimal)
-    func onStellarAddressEntry()
+    func onStellarAddressEntry(_ value: String?)
     func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: StellarMemoType?)
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation)
     func onMinimumBalanceInfoTapped()
@@ -55,6 +55,9 @@ protocol SendXLMViewControllerDelegate: class {
     @IBOutlet fileprivate var stellarSymbolLabel: UILabel!
     @IBOutlet fileprivate var fiatSymbolLabel: UILabel!
     @IBOutlet fileprivate var memoLabel: UILabel!
+    @IBOutlet fileprivate var sendingToExchangeLabel: UILabel!
+    @IBOutlet fileprivate var addMemoLabel: UILabel!
+    
     @IBOutlet private var destinationAddressIndicatorLabel: UILabel!
     @IBOutlet private var pitAddressButton: UIButton!
     
@@ -63,7 +66,8 @@ protocol SendXLMViewControllerDelegate: class {
     @IBOutlet fileprivate var fiatAmountField: UITextField!
     @IBOutlet fileprivate var memoTextField: UITextField!
     @IBOutlet fileprivate var memoIDTextField: UITextField!
-
+    @IBOutlet fileprivate var sendingToAnExchangeStackView: UIStackView!
+    
     fileprivate var inputFields: [UITextField] {
         return [
             stellarAddressField,
@@ -120,6 +124,8 @@ protocol SendXLMViewControllerDelegate: class {
         case memoTextFieldVisibility(Visibility)
         case memoIDTextFieldVisibility(Visibility)
         case memoSelectionButtonVisibility(Visibility)
+        case pitAddressButtonVisibility(Visibility)
+        case memoRequiredDisclaimerVisibility(Visibility)
         case memoTextFieldShouldBeginEditing
         case memoIDFieldShouldBeginEditing
         case errorLabelText(String)
@@ -136,7 +142,6 @@ protocol SendXLMViewControllerDelegate: class {
         case stellarAmountText(String?)
         case fiatAmountText(String?)
         case fiatSymbolLabel(String?)
-        case pitAddressButtonVisibility(Visibility)
         case usePitAddress(String?)
     }
 
@@ -172,8 +177,9 @@ protocol SendXLMViewControllerDelegate: class {
     
     private func handleAddressScan(result: Result<AddressQRCodeParser.Address, AddressQRCodeParser.AddressQRCodeParserError>) {
         if case .success(let address) = result {
-            stellarAddressField.text = address.payload.address
-            stellarAmountField.text = address.payload.amount
+            stellarAddressField.insertText(address.payload.address)
+            guard let amount = address.payload.amount else { return }
+            stellarAmountField.insertText(amount)
         }
     }
     
@@ -194,6 +200,8 @@ protocol SendXLMViewControllerDelegate: class {
         stellarAddressField.delegate = self
         primaryButtonContainer.isEnabled = true
         learnAboutStellarButton.titleLabel?.textAlignment = .center
+        sendingToExchangeLabel.text = LocalizationConstants.Stellar.sendingToExchange
+        addMemoLabel.text = LocalizationConstants.Stellar.addAMemo
         primaryButtonContainer.actionBlock = { [unowned self] in
             guard let toAddress = self.stellarAddressField.text else { return }
             guard let amount = self.xlmAmount else { return }
@@ -201,6 +209,8 @@ protocol SendXLMViewControllerDelegate: class {
             self.inputFields.forEach({ $0.resignFirstResponder() })
             self.delegate?.onPrimaryTapped(toAddress: toAddress, amount: amount, feeInXlm: fee, memo: self.memo)
         }
+        memoIDTextField.placeholder = LocalizationConstants.Stellar.memoPlaceholder
+        memoTextField.placeholder = LocalizationConstants.Stellar.memoPlaceholder
         delegate?.onLoad()
         setupAccessibility()
     }
@@ -239,6 +249,9 @@ protocol SendXLMViewControllerDelegate: class {
         memoLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.Stellar.memoLabel
         
         learnAboutStellarButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.Stellar.moreInfoButton
+        
+        sendingToExchangeLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.Stellar.sendingToExchangeLabel
+        addMemoLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.Stellar.addAMemoLabel
     }
     
     fileprivate func clearMemoField() {
@@ -268,7 +281,7 @@ protocol SendXLMViewControllerDelegate: class {
         /// we call `clearMemoField()` to reset the memo state. This allows
         /// users to see the action sheet again to select either `memoID` or
         /// `memoText`
-        guard memoIDTextField.text == nil else { return }
+        guard memoIDTextField.text?.count == 0 else { return }
         clearMemoField()
     }
     
@@ -299,7 +312,12 @@ protocol SendXLMViewControllerDelegate: class {
             guard visibility == .visible else { return }
             memoIDTextField.text = nil
             memoTextField.text = nil
-            
+        case .memoRequiredDisclaimerVisibility(let visibility):
+            let title = visibility.isHidden ? nil : LocalizationConstants.Stellar.required
+            memoSelectionTypeButton.setTitle(title, for: .normal)
+            sendingToAnExchangeStackView.isHidden = visibility.isHidden
+            memoIDTextField.placeholder = visibility.isHidden ? LocalizationConstants.Stellar.memoPlaceholder : nil
+            memoTextField.placeholder = visibility.isHidden ? LocalizationConstants.Stellar.memoPlaceholder : nil
         case .activityIndicatorVisibility(let visibility):
             primaryButtonContainer.isLoading = (visibility == .visible)
         case .errorLabelVisibility(let visibility):
@@ -611,6 +629,12 @@ extension SendLumensViewController: UITextFieldDelegate {
         }
     }
     
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        guard textField == stellarAddressField else { return true }
+        delegate?.onStellarAddressEntry(nil)
+        return true
+    }
+    
     // swiftlint:disable:next cyclomatic_complexity
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if inputFields.contains(textField) {
@@ -699,8 +723,12 @@ extension SendLumensViewController {
     }
 
     func addressField(_ addressField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = addressField.text else { return true }
+        
+        let replacementInput = (text as NSString).replacingCharacters(in: range, with: string)
+        
         if addressField == stellarAddressField {
-            delegate?.onStellarAddressEntry()
+            delegate?.onStellarAddressEntry(replacementInput)
         }
         return true
     }

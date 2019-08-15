@@ -2220,6 +2220,10 @@ struct LocalizationConstants {
     }
 
     struct Stellar {
+        static let required = NSLocalizedString("Required", comment: "Required")
+        static let memoPlaceholder = NSLocalizedString("Used to identify transactions", comment: "Used to identify transactions")
+        static let sendingToExchange = NSLocalizedString("Sending to an Exchange?", comment: "Sending to an Exchange?")
+        static let addAMemo = NSLocalizedString("Add a Memo to avoid losing funds or use Swap to exchange in this wallet.", comment: "Add a Memo to avoid losing funds or use Swap to exchange in this wallet.")
         static let memoTitle = NSLocalizedString("Memo", comment: "Memo title")
         static let memoDescription = NSLocalizedString(
             "Memos are used to communicate optional information to the recipient.",

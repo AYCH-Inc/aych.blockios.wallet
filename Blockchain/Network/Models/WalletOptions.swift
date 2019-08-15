@@ -65,6 +65,9 @@ struct WalletOptions {
         static let update = "update"
         static let updateType = "updateType"
         static let latestStoreVersion = "latestStoreVersion"
+        
+        static let xlmExchange = "xlmExchange"
+        static let xlmExchangeAddresses = "exchangeAddresses"
     }
     
     struct Domains {
@@ -122,6 +125,8 @@ struct WalletOptions {
     let coinifyMetadata: Coinify?
     
     let xlmMetadata: XLMMetadata?
+    
+    let xlmExchangeAddresses: [String]?
 }
 
 extension WalletOptions.Domains {
@@ -255,5 +260,15 @@ extension WalletOptions {
         self.coinifyMetadata = WalletOptions.Coinify(json: json)
         self.xlmMetadata = WalletOptions.XLMMetadata(json: json)
         updateType = WalletOptions.UpdateType(json: json)
+        
+        if let xlmExchangeMetadata = json[WalletOptions.Keys.xlmExchange] as? [String: [String]] {
+            if let addresses = xlmExchangeMetadata[WalletOptions.Keys.xlmExchangeAddresses] {
+                self.xlmExchangeAddresses = addresses
+            } else {
+                self.xlmExchangeAddresses = nil
+            }
+        } else {
+            self.xlmExchangeAddresses = nil
+        }
     }
 }

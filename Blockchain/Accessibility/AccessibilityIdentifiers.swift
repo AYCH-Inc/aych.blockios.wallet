@@ -175,6 +175,8 @@ class AccessibilityIdentifiers: NSObject {
             static let memoTextField = "\(prefix)memoTextField"
             static let memoIDTextField = "\(prefix)memoIDTextField"
             static let moreInfoButton = "\(prefix)moreInfoButton"
+            static let sendingToExchangeLabel = "\(prefix)sendingToAnExchangeLabel"
+            static let addAMemoLabel = "\(prefix)addAMemoLabel"
         }
     }
     

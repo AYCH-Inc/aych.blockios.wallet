@@ -34,15 +34,18 @@ class StellarAccountService: StellarAccountAPI {
     private let configurationService: StellarConfigurationAPI
     private let ledgerService: StellarLedgerAPI
     private let repository: StellarWalletAccountRepositoryAPI
+    private let walletOptionsAPI: WalletService
 
     init(
         configurationService: StellarConfigurationAPI ,//= StellarConfigurationService.shared,
         ledgerService: StellarLedgerAPI,
-        repository: StellarWalletAccountRepositoryAPI
+        repository: StellarWalletAccountRepositoryAPI,
+        walletService: WalletService = WalletService.shared
     ) {
         self.configurationService = configurationService
         self.ledgerService = ledgerService
         self.repository = repository
+        self.walletOptionsAPI = walletService
     }
 
     deinit {
@@ -202,6 +205,13 @@ class StellarAccountService: StellarAccountAPI {
             return Single.just(false)
         }
         return Single.just(true)
+    }
+    
+    func isExchangeAddress(_ address: AccountID) -> Single<Bool> {
+        return walletOptionsAPI.walletOptions.map { walletOptions in
+            let result = walletOptions.xlmExchangeAddresses?.contains(where: { $0.uppercased() == address.uppercased() }) ?? false
+            return result
+        }
     }
 }
 

@@ -1059,6 +1059,7 @@ BOOL displayingLocalSymbolSend;
     UIAlertController *expiredAlert = [UIAlertController alertControllerWithTitle:BC_STRING_BITPAY_INVOICE_EXPIRED_TITLE message:BC_STRING_BITPAY_INVOICE_EXPIRED_MESSAGE preferredStyle:UIAlertControllerStyleAlert];
     [expiredAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [self.navigationController popViewControllerAnimated:YES];
+        [self reload];
     }]];
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:expiredAlert animated:YES completion:nil];
     [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
@@ -2201,6 +2202,8 @@ BOOL displayingLocalSymbolSend;
                             self.bitpayTimeRemainingText.hidden = NO;
                             self.lineBelowBitpayLabel.hidden = NO;
 
+                            // Hide Pit label
+                            self.pitAddressButton.hidden = YES;
 
                             //Set time remaining string
                             self.bitpayExpiration = paymentReq.expires;

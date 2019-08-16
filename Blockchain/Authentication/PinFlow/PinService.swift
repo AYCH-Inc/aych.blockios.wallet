@@ -36,7 +36,19 @@ final class PinService: PinServicing {
             body: data,
             contentType: .formUrlEncoded
         )
-        return network.perform(request: request)
+        return network.perform(
+                request: request,
+                responseType: PinStoreResponse.self,
+                errorResponseType: PinStoreResponse.self
+            )
+            .map { result -> PinStoreResponse in
+                switch result {
+                case .success(let response):
+                    return response
+                case .failure(let response):
+                    return response
+                }
+            }
     }
     
     /// Validates if the provided pin payload (i.e. pin code and pin key combination) is correct.
@@ -52,7 +64,19 @@ final class PinService: PinServicing {
             body: data,
             contentType: .formUrlEncoded
         )
-        return network.perform(request: request)
+        return network.perform(
+                request: request,
+                responseType: PinStoreResponse.self,
+                errorResponseType: PinStoreResponse.self
+            )
+            .map { result -> PinStoreResponse in
+                switch result {
+                case .success(let response):
+                    return response
+                case .failure(let response):
+                    return response
+                }
+            }
     }
 }
 

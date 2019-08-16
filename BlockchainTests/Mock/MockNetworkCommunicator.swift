@@ -17,6 +17,11 @@ enum CommunicatorMockError: Error {
 }
 
 class MockNetworkCommunicator: NetworkCommunicatorAPI {
+    
+    func perform<ResponseType: Decodable, ErrorResponseType: Error & Decodable>(request: NetworkRequest, responseType: ResponseType.Type, errorResponseType: ErrorResponseType.Type) -> Single<Result<ResponseType, ErrorResponseType>> {
+        fatalError("This method is deprecated and will never be implemented")
+    }
+
     func perform(request: NetworkRequest) -> Single<(HTTPURLResponse, Data?)> {
         fatalError("This method is deprecated and will never be implemented")
     }

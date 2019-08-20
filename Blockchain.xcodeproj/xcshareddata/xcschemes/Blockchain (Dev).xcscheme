@@ -170,7 +170,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3455E1B42305DDB0005E69BF"
+               BlueprintIdentifier = "340ABD66230AAF5A0032278D"
                BuildableName = "CommonCryptoKitTests.xctest"
                BlueprintName = "CommonCryptoKitTests"
                ReferencedContainer = "container:Blockchain.xcodeproj">

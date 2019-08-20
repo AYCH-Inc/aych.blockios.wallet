@@ -5230,18 +5230,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				340ABD74230AAF5C0032278D /* CommonCryptoKit.framework in Frameworks */,
+				34C3C98A2305A593008F2154 /* HDWalletKit.framework in Frameworks */,
 				3A686572219A0BBB0009FF29 /* PlatformKit.framework in Frameworks */,
 				3A6865F2219A26A30009FF29 /* StellarKit.framework in Frameworks */,
 				34EDB83C2261065E009521D9 /* ERC20Kit.framework in Frameworks */,
-				34C3C98A2305A593008F2154 /* HDWalletKit.framework in Frameworks */,
 				3A6A1A2C21B9A64D00D97C74 /* EthereumKit.framework in Frameworks */,
-				3AEF9E8C21091B72006B1CF9 /* MapKit.framework in Frameworks */,
 				3A4E489621BF3070001A799D /* BitcoinKit.framework in Frameworks */,
 				515315F32056C1A0000161DF /* libcrypto.a in Frameworks */,
 				515315F12056C0EE000161DF /* libicucore.tbd in Frameworks */,
 				3A6865B2219A11660009FF29 /* PlatformUIKit.framework in Frameworks */,
+				3AEF9E8C21091B72006B1CF9 /* MapKit.framework in Frameworks */,
 				F4F8D1536BB29F53B6985C28 /* Pods_Blockchain.framework in Frameworks */,
-				340ABD74230AAF5C0032278D /* CommonCryptoKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12279,14 +12279,14 @@
 			buildRules = (
 			);
 			dependencies = (
+				340ABD73230AAF5C0032278D /* PBXTargetDependency */,
+				34C3C9892305A593008F2154 /* PBXTargetDependency */,
 				3A686571219A0BBB0009FF29 /* PBXTargetDependency */,
 				3A6865B1219A11660009FF29 /* PBXTargetDependency */,
 				3A6865F1219A26A30009FF29 /* PBXTargetDependency */,
 				3A6A1A2B21B9A64D00D97C74 /* PBXTargetDependency */,
 				3A4E489521BF3070001A799D /* PBXTargetDependency */,
 				34EDB83B2261065E009521D9 /* PBXTargetDependency */,
-				34C3C9892305A593008F2154 /* PBXTargetDependency */,
-				340ABD73230AAF5C0032278D /* PBXTargetDependency */,
 			);
 			name = Blockchain;
 			productName = Blockchain;
@@ -13112,18 +13112,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CommonCryptoKitTests/Pods-CommonCryptoKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/LibWally/LibWally.framework",
-				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
-				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LibWally.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -13564,18 +13558,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-HDWalletKitTests/Pods-HDWalletKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/LibWally/LibWally.framework",
-				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
-				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LibWally.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

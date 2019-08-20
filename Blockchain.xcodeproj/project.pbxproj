@@ -160,6 +160,11 @@
 		347F48182267A6CF006BCDDA /* ERC20AssetAccountDetailsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347F48172267A6CF006BCDDA /* ERC20AssetAccountDetailsServiceTests.swift */; };
 		348B2B67221B0C4500394526 /* AppFeatureConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F87920A3A198002B719B /* AppFeatureConfigurator.swift */; };
 		348DAB7A221C27F80058782B /* MockQRCodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348DAB79221C27F80058782B /* MockQRCodeScanner.swift */; };
+		3491E07D230C47520096AA68 /* CommonCryptoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340ABD5F230AAF580032278D /* CommonCryptoKit.framework */; };
+		3491E07E230C477C0096AA68 /* HDWalletKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C3C9752305A592008F2154 /* HDWalletKit.framework */; };
+		3491E07F230C48120096AA68 /* CommonCryptoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340ABD5F230AAF580032278D /* CommonCryptoKit.framework */; };
+		3491E080230C482A0096AA68 /* HDWalletKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C3C9752305A592008F2154 /* HDWalletKit.framework */; };
+		3491E081230C482F0096AA68 /* CommonCryptoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340ABD5F230AAF580032278D /* CommonCryptoKit.framework */; };
 		349442CF22649DAB00593DEA /* ERC20AssetAccountDetailsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349442C822649AAC00593DEA /* ERC20AssetAccountDetailsService.swift */; };
 		349442D922649DB600593DEA /* ERC20AssetAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349442C4226499E000593DEA /* ERC20AssetAccount.swift */; };
 		349442DA22649DB600593DEA /* ERC20AssetAccountDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349442C622649A3300593DEA /* ERC20AssetAccountDetails.swift */; };
@@ -5120,6 +5125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3491E07D230C47520096AA68 /* CommonCryptoKit.framework in Frameworks */,
 				DD3F6D8AC54A2BF7287D4ED2 /* Pods_HDWalletKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5156,6 +5162,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3491E07F230C48120096AA68 /* CommonCryptoKit.framework in Frameworks */,
+				3491E07E230C477C0096AA68 /* HDWalletKit.framework in Frameworks */,
 				3A4E48AB21BF30B5001A799D /* PlatformKit.framework in Frameworks */,
 				113CA25F6A3E35034F292782 /* Pods_BitcoinKit.framework in Frameworks */,
 			);
@@ -5218,6 +5226,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3491E081230C482F0096AA68 /* CommonCryptoKit.framework in Frameworks */,
+				3491E080230C482A0096AA68 /* HDWalletKit.framework in Frameworks */,
 				3A64A51E21B9C150002D6851 /* PlatformKit.framework in Frameworks */,
 				FF25E0051ED08391F2115815 /* Pods_EthereumKit.framework in Frameworks */,
 			);
@@ -12343,9 +12353,8 @@
 				TargetAttributes = {
 					340ABD5E230AAF580032278D = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = NZ6PH75U7K;
 						LastSwiftMigration = 1020;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					340ABD66230AAF5A0032278D = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -16302,12 +16311,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -16336,6 +16345,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -16382,12 +16392,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -16416,6 +16426,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -16462,12 +16473,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -16496,6 +16507,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -16525,12 +16537,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -16546,6 +16558,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -16572,12 +16585,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -16593,6 +16606,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -11,7 +11,7 @@ import web3swift
 import RxSwift
 
 public protocol EthereumKeyPairDeriverAPI: KeyPairDeriverAPI where Input == EthereumKeyDerivationInput, Pair == EthereumKeyPair {
-    func derive(input: Input) -> Maybe<Pair>
+    func derive(input: Input) -> Result<Pair, Error>
 }
 
 public class AnyEthereumKeyPairDeriver: EthereumKeyPairDeriverAPI {
@@ -21,11 +21,15 @@ public class AnyEthereumKeyPairDeriver: EthereumKeyPairDeriverAPI {
     
     // MARK: - Init
     
+    public convenience init() {
+        self.init(with: EthereumKeyPairDeriver.shared)
+    }
+    
     public init<D: KeyPairDeriverAPI>(with deriver: D) where D.Input == EthereumKeyDerivationInput, D.Pair == EthereumKeyPair {
         self.deriver = AnyKeyPairDeriver<EthereumKeyPair, EthereumKeyDerivationInput>(deriver: deriver)
     }
     
-    public func derive(input: EthereumKeyDerivationInput) -> Maybe<EthereumKeyPair> {
+    public func derive(input: EthereumKeyDerivationInput) -> Result<EthereumKeyPair, Error> {
         return deriver.derive(input: input)
     }
 }

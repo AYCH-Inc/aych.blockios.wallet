@@ -19,3 +19,14 @@ extension Result {
         }
     }
 }
+
+extension Result {
+    public var maybe: Maybe<Success> {
+        switch self {
+        case .success(let value):
+            return Maybe.just(value)
+        case .failure:
+            return Maybe.empty()
+        }
+    }
+}

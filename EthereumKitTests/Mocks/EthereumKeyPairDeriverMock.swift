@@ -14,12 +14,12 @@ import PlatformKit
 @testable import EthereumKit
 
 class EthereumKeyPairDeriverMock: KeyPairDeriverAPI {
-    var deriveResult: Maybe<EthereumKeyPair> = Maybe.just(
+    var deriveResult: Result<EthereumKeyPair, Error> = .success(
         MockEthereumWalletTestData.keyPair
     )
     var lastMnemonic: String?
     var lastPassword: String?
-    func derive(input: EthereumKeyDerivationInput) -> Maybe<EthereumKeyPair> {
+    func derive(input: EthereumKeyDerivationInput) -> Result<EthereumKeyPair, Error> {
         lastMnemonic = input.mnemonic
         lastPassword = input.password
         return deriveResult

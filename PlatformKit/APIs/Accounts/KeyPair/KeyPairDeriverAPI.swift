@@ -18,13 +18,13 @@ public protocol KeyPairDeriverAPI {
     /// same key pair).
     ///
     /// - Parameter input: The specific inputs used to derive the key pair
-    /// - Returns: A `Maybe` for the created `KeyPair`
-    func derive(input: Input) -> Maybe<Pair>
+    /// - Returns: A `Result` for the created `KeyPair`
+    func derive(input: Input) -> Result<Pair, Error>
 }
 
 public final class AnyKeyPairDeriver<P: KeyPair, I: KeyDerivationInput>: KeyPairDeriverAPI {
     
-    public typealias Deriver = (I) -> Maybe<P>
+    public typealias Deriver = (I) -> Result<P, Error>
     
     private let derivingClosure: Deriver
     
@@ -32,7 +32,7 @@ public final class AnyKeyPairDeriver<P: KeyPair, I: KeyDerivationInput>: KeyPair
         self.derivingClosure = deriver.derive
     }
     
-    public func derive(input: I) -> Maybe<P> {
+    public func derive(input: I) -> Result<P, Error> {
         return derivingClosure(input)
     }
 }

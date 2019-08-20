@@ -18,7 +18,7 @@ public final class CryptoFeeService<T: TransactionFee & Decodable>: CryptoFeeSer
     }
     
     private let apiUrl: String
-    public var communicator: NetworkCommunicatorAPI
+    private let communicator: NetworkCommunicatorAPI
     
     public init(apiUrl: String = BlockchainAPI.shared.apiUrl,
                 communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
@@ -35,8 +35,8 @@ public final class CryptoFeeService<T: TransactionFee & Decodable>: CryptoFeeSer
             baseURL,
             pathComponents: ["mempool", "fees", T.cryptoType.pathComponent],
             queryParameters: nil
-            ) else {
-                return .error(PlatformKitError.default)
+        ) else {
+            return .error(PlatformKitError.default)
         }
         let request = NetworkRequest(endpoint: endpoint, method: .get)
         return communicator.perform(request: request)

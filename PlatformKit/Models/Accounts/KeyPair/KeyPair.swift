@@ -11,6 +11,5 @@ import Foundation
 public protocol KeyPair {
     associatedtype PrivateKey
     
-    var accountID: String { get }
     var privateKey: PrivateKey { get }
 }

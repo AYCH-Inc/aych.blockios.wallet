@@ -87,7 +87,7 @@ open class EthereumWalletAccountRepository: EthereumWalletAccountRepositoryAPI, 
         return Maybe.zip(bridge.mnemonicPromptingIfNeeded, bridge.password)
             .flatMap { [weak self] mnemonic, password -> Maybe<KeyPair> in
                 guard let self = self else { return Maybe.empty() }
-                return self.deriver.derive(input: EthereumKeyDerivationInput(mnemonic: mnemonic, password: password))
+                return self.deriver.derive(input: EthereumKeyDerivationInput(mnemonic: mnemonic, password: password)).maybe
             }
     }
 

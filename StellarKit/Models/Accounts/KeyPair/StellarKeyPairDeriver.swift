@@ -14,7 +14,7 @@ import RxSwift
 public class StellarKeyPairDeriver: KeyPairDeriverAPI {
     public typealias StellarWallet = stellarsdk.Wallet
     
-    public func derive(input: StellarKeyDerivationInput) -> Maybe<StellarKeyPair> {
+    public func derive(input: StellarKeyDerivationInput) -> Result<StellarKeyPair, Error> {
         let keyPair: stellarsdk.KeyPair
         do {
             keyPair = try StellarWallet.createKeyPair(
@@ -23,9 +23,9 @@ public class StellarKeyPairDeriver: KeyPairDeriverAPI {
                 index: input.index
             )
         } catch {
-            return Maybe.empty()
+            return .failure(error)
         }
-        return Maybe.just(keyPair.toStellarKeyPair())
+        return .success(keyPair.toStellarKeyPair())
     }
 }
 

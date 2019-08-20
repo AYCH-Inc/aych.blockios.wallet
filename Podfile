@@ -99,10 +99,41 @@ target 'BitcoinKit' do
   end
 end
 
-target 'PlatformKit' do
+target 'HDWalletKit' do
   pod 'RxSwift', '5.0'
   pod 'BigInt', '~> 4.0'
   pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+
+  target 'HDWalletKitTests' do
+    inherit! :search_paths
+    # Pods for testing
+    pod 'RxSwift', '5.0'
+    pod 'RxBlocking', '~> 5.0'
+    pod 'RxTest', '~> 5.0'
+    pod 'BigInt', '~> 4.0'
+    pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+  end
+end
+
+target 'CommonCryptoKit' do
+  pod 'RxSwift', '5.0'
+  pod 'BigInt', '~> 4.0'
+  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+
+  target 'CommonCryptoKitTests' do
+    inherit! :search_paths
+    # Pods for testing
+    pod 'RxSwift', '5.0'
+    pod 'RxBlocking', '~> 5.0'
+    pod 'RxTest', '~> 5.0'
+    pod 'BigInt', '~> 4.0'
+    pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+  end
+end
+
+target 'PlatformKit' do
+  pod 'RxSwift', '5.0'
+  pod 'BigInt', '~> 4.0'
 
   target 'PlatformKitTests' do
     inherit! :search_paths

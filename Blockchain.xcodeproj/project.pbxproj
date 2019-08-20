@@ -66,6 +66,17 @@
 		23FDEF9A1D6CBC7000FC80D6 /* TransactionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEF991D6CBC7000FC80D6 /* TransactionDetailViewController.m */; };
 		23FDEFA91D6E43DE00FC80D6 /* TransactionDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEFA81D6E43DE00FC80D6 /* TransactionDetailTableCell.m */; };
 		23FDEFAC1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FDEFAB1D6F669100FC80D6 /* NSURLSession+SendSynchronousRequest.m */; };
+		340ABD68230AAF5C0032278D /* CommonCryptoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340ABD5F230AAF580032278D /* CommonCryptoKit.framework */; };
+		340ABD6F230AAF5C0032278D /* CommonCryptoKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340ABD6E230AAF5C0032278D /* CommonCryptoKitTests.swift */; };
+		340ABD71230AAF5C0032278D /* CommonCryptoKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 340ABD61230AAF5A0032278D /* CommonCryptoKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		340ABD74230AAF5C0032278D /* CommonCryptoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340ABD5F230AAF580032278D /* CommonCryptoKit.framework */; };
+		340ABD75230AAF5C0032278D /* CommonCryptoKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 340ABD5F230AAF580032278D /* CommonCryptoKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		340ABD85230AAF900032278D /* HexRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340ABD84230AAF900032278D /* HexRepresentable.swift */; };
+		340ABD87230AAFBA0032278D /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340ABD86230AAFBA0032278D /* Data+Extensions.swift */; };
+		340ABD97230ABC970032278D /* EthereumTransactionCandidateMockBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340ABD96230ABC970032278D /* EthereumTransactionCandidateMockBuilder.swift */; };
+		340ABD9E230ACF610032278D /* EthereumTransactionCandidateMockBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340ABD96230ABC970032278D /* EthereumTransactionCandidateMockBuilder.swift */; };
+		340ABDAA230ACFBE0032278D /* EthereumTransactionCandidateMockBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340ABD96230ABC970032278D /* EthereumTransactionCandidateMockBuilder.swift */; };
+		340ABDAB230ACFC30032278D /* MockEthereumWalletTestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341E5A602284354B007BE6A6 /* MockEthereumWalletTestData.swift */; };
 		3416D2D022F8389D00105424 /* BitcoinQRMetadataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3416D2CF22F8389D00105424 /* BitcoinQRMetadataFactory.swift */; };
 		3416D2D222F838D100105424 /* BitcoinQRMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3416D2D122F838D100105424 /* BitcoinQRMetadata.swift */; };
 		3416D2D522F83B2600105424 /* BitcoinWalletAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3416D2D422F83B2600105424 /* BitcoinWalletAccount.swift */; };
@@ -95,6 +106,13 @@
 		344C42EB227C50C500CFAC33 /* EthereumTransactionEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344C42EA227C50C500CFAC33 /* EthereumTransactionEncoder.swift */; };
 		344C42ED227C8F2900CFAC33 /* EthereumTransactionEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344C42EC227C8F2900CFAC33 /* EthereumTransactionEncoderTests.swift */; };
 		344C42FC227CA56100CFAC33 /* EthereumAssetAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344C42FB227CA56100CFAC33 /* EthereumAssetAccountService.swift */; };
+		3455E1F42306CB77005E69BF /* HDPublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3455E1F32306CB77005E69BF /* HDPublicKey.swift */; };
+		3455E1FF2306CC01005E69BF /* Seed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3455E1FE2306CC01005E69BF /* Seed.swift */; };
+		3455E2012306CC82005E69BF /* Entropy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3455E2002306CC82005E69BF /* Entropy.swift */; };
+		3455E2062306F95D005E69BF /* HDKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3455E2052306F95D005E69BF /* HDKey.swift */; };
+		3455E2082306FF56005E69BF /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3455E2072306FF56005E69BF /* Network.swift */; };
+		3455E20D23096FD2005E69BF /* HDKeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3455E20C23096FD1005E69BF /* HDKeyPath.swift */; };
+		3455E2182309732D005E69BF /* HDWalletKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3455E2172309732D005E69BF /* HDWalletKitError.swift */; };
 		34579859224BC53E00F50F92 /* CryptoFeeServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34579858224BC53E00F50F92 /* CryptoFeeServiceAPI.swift */; };
 		34579864224BC65D00F50F92 /* CryptoFeeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34579863224BC65C00F50F92 /* CryptoFeeService.swift */; };
 		345F7DBD22AA8E590049F236 /* ERC20TransactionProposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345F7DBC22AA8E590049F236 /* ERC20TransactionProposal.swift */; };
@@ -173,7 +191,6 @@
 		34BD57E2228A002D00882945 /* EthereumAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AE2AD4224E3E090080C219 /* EthereumAPIClient.swift */; };
 		34BD57E3228A002E00882945 /* EthereumAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AE2AD4224E3E090080C219 /* EthereumAPIClient.swift */; };
 		34BD57E5228A099800882945 /* push_tx_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 34BD57E4228A099800882945 /* push_tx_response.json */; };
-		34BD57E6228A119200882945 /* MockEthereumWalletTestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341E5A602284354B007BE6A6 /* MockEthereumWalletTestData.swift */; };
 		34BD57EF228A386700882945 /* EthereumTransactionSendingServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BD57EE228A386700882945 /* EthereumTransactionSendingServiceMock.swift */; };
 		34BD972C221B122D00D40D4C /* QRCodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3460EDA322149C5C00614F52 /* QRCodeScanner.swift */; };
 		34BD9736221B123000D40D4C /* PairingCodeQRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C0AFF422196B6500D46361 /* PairingCodeQRCodeParser.swift */; };
@@ -198,6 +215,22 @@
 		34BFDF562271F4FE008160CD /* ResultExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BFDF552271F4FD008160CD /* ResultExtensions.swift */; };
 		34C0AFEA22196B3E00D46361 /* PrivateKeyQRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C0AFE922196B3E00D46361 /* PrivateKeyQRCodeParser.swift */; };
 		34C0AFF522196B6500D46361 /* PairingCodeQRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C0AFF422196B6500D46361 /* PairingCodeQRCodeParser.swift */; };
+		34C3C931230570FD008F2154 /* BitcoinKeyPairDeriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3C930230570FD008F2154 /* BitcoinKeyPairDeriver.swift */; };
+		34C3C938230573CA008F2154 /* BitcoinKeyPairDeriverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3C937230573CA008F2154 /* BitcoinKeyPairDeriverTests.swift */; };
+		34C3C94A23059284008F2154 /* TestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C3C94123059284008F2154 /* TestKit.framework */; };
+		34C3C95123059284008F2154 /* TestKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3C95023059284008F2154 /* TestKitTests.swift */; };
+		34C3C95323059284008F2154 /* TestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 34C3C94323059284008F2154 /* TestKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34C3C96F230592D2008F2154 /* MockWalletTestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3C96E230592D2008F2154 /* MockWalletTestData.swift */; };
+		34C3C97E2305A593008F2154 /* HDWalletKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C3C9752305A592008F2154 /* HDWalletKit.framework */; };
+		34C3C9852305A593008F2154 /* HDWalletKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3C9842305A593008F2154 /* HDWalletKitTests.swift */; };
+		34C3C9872305A593008F2154 /* HDWalletKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 34C3C9772305A593008F2154 /* HDWalletKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34C3C98A2305A593008F2154 /* HDWalletKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C3C9752305A592008F2154 /* HDWalletKit.framework */; };
+		34C3C98B2305A593008F2154 /* HDWalletKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 34C3C9752305A592008F2154 /* HDWalletKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		34C3C99A2305A5C3008F2154 /* HDWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3C9992305A5C3008F2154 /* HDWallet.swift */; };
+		34C3C99F2305A81B008F2154 /* Mnemonic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3C99E2305A81B008F2154 /* Mnemonic.swift */; };
+		34C3C9AA2305A835008F2154 /* HDKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3C9A92305A835008F2154 /* HDKeychain.swift */; };
+		34C3C9AC2305A863008F2154 /* HDPrivateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3C9AB2305A863008F2154 /* HDPrivateKey.swift */; };
+		34C3C9AE2305A984008F2154 /* WordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3C9AD2305A983008F2154 /* WordList.swift */; };
 		34C6CF2A22412E85009123E5 /* EthereumAssetAccountRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6CF2922412E85009123E5 /* EthereumAssetAccountRepository.swift */; };
 		34C6CF3C224132B7009123E5 /* EthereumAssetAccountDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6CF3B224132B7009123E5 /* EthereumAssetAccountDetails.swift */; };
 		34C6CF3E22413620009123E5 /* EthereumServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6CF3D22413620009123E5 /* EthereumServiceError.swift */; };
@@ -1563,6 +1596,7 @@
 		AAFA97B6211511D000D19ED3 /* Settings+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFA97B4211511D000D19ED3 /* Settings+Table.swift */; };
 		AD89A823F31817DAF8729CA3 /* Pods_EthereumKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CC133418D211EC16CCDF20E /* Pods_EthereumKitTests.framework */; };
 		BFD77BFC0125C6C55DEFCC2F /* Pods_ERC20KitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B10B3F70A026920C5544CA03 /* Pods_ERC20KitTests.framework */; };
+		C46C1BB12708DC75D44CA554 /* Pods_CommonCryptoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CC8072EFD169FF29E8DC281 /* Pods_CommonCryptoKit.framework */; };
 		C477197351B24DE7F9160A6F /* Pods_ERC20Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 290FD6B390A8C1452C83CB52 /* Pods_ERC20Kit.framework */; };
 		C702A7DA217E9BD200A8DED1 /* TransactionTableCell+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C702A7D9217E9BD200A8DED1 /* TransactionTableCell+ViewModel.swift */; };
 		C702A7DB217E9BD200A8DED1 /* TransactionTableCell+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C702A7D9217E9BD200A8DED1 /* TransactionTableCell+ViewModel.swift */; };
@@ -1818,10 +1852,13 @@
 		CFD602B11E64AC2D006F6208 /* wallet-ios.js in Resources */ = {isa = PBXBuildFile; fileRef = CFD602B01E64AC2D006F6208 /* wallet-ios.js */; };
 		D73E0D06F06E66A6CB9EC794 /* Pods_BitcoinKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD615C0583C8EBDE5241D98C /* Pods_BitcoinKitTests.framework */; };
 		DBE349CB0B0601D669F8FFCA /* Pods_PlatformKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5AA104D0F1B6C898B3EE7C /* Pods_PlatformKitTests.framework */; };
+		DD3F6D8AC54A2BF7287D4ED2 /* Pods_HDWalletKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C094265652984DD059360DB /* Pods_HDWalletKit.framework */; };
 		DFB62239F2B649F5C9641863 /* Pods_PlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC12EC81EFA7F1BAB7FC49A9 /* Pods_PlatformKit.framework */; };
 		E075D32CE721B44C30388072 /* Pods_StellarKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9EA48C6A08E46ED5D477EBB /* Pods_StellarKitTests.framework */; };
+		E3C7B6F9DD54CBE803E552FA /* Pods_CommonCryptoKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81E18788018043CC209E99A9 /* Pods_CommonCryptoKitTests.framework */; };
 		ECD244F719A8B444004B1F40 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD244F619A8B444004B1F40 /* UIImage+Utils.m */; };
 		F4F8D1536BB29F53B6985C28 /* Pods_Blockchain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A1EE56A999A4C56CAE48C5 /* Pods_Blockchain.framework */; };
+		F5AABA78094C16A20866711A /* Pods_HDWalletKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7070522FF7B640DBBDF2940F /* Pods_HDWalletKitTests.framework */; };
 		F7B8C83821A5E607005CAA0D /* DeepLinkPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B8C83721A5E607005CAA0D /* DeepLinkPayload.swift */; };
 		F7B8C84321A5EB81005CAA0D /* DeepLinkPayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B8C84221A5EB81005CAA0D /* DeepLinkPayloadTests.swift */; };
 		FA6323391A433B1C00EB3974 /* Foundation-Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6323381A433B1C00EB3974 /* Foundation-Utility.m */; };
@@ -1831,6 +1868,62 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		340ABD69230AAF5C0032278D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 340ABD5E230AAF580032278D;
+			remoteInfo = CommonCryptoKit;
+		};
+		340ABD6B230AAF5C0032278D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9FB3637014B60128004BEA02;
+			remoteInfo = Blockchain;
+		};
+		340ABD72230AAF5C0032278D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 340ABD5E230AAF580032278D;
+			remoteInfo = CommonCryptoKit;
+		};
+		34C3C94B23059284008F2154 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34C3C94023059284008F2154;
+			remoteInfo = TestKit;
+		};
+		34C3C94D23059284008F2154 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9FB3637014B60128004BEA02;
+			remoteInfo = Blockchain;
+		};
+		34C3C97F2305A593008F2154 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34C3C9742305A592008F2154;
+			remoteInfo = HDWalletKit;
+		};
+		34C3C9812305A593008F2154 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9FB3637014B60128004BEA02;
+			remoteInfo = Blockchain;
+		};
+		34C3C9882305A593008F2154 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34C3C9742305A592008F2154;
+			remoteInfo = HDWalletKit;
+		};
 		34EDB8312261065D009521D9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
@@ -2034,7 +2127,9 @@
 				34EDB83D2261065E009521D9 /* ERC20Kit.framework in Embed Frameworks */,
 				3A6865B3219A11660009FF29 /* PlatformUIKit.framework in Embed Frameworks */,
 				3A6865F3219A26A30009FF29 /* StellarKit.framework in Embed Frameworks */,
+				34C3C98B2305A593008F2154 /* HDWalletKit.framework in Embed Frameworks */,
 				3A686573219A0BBB0009FF29 /* PlatformKit.framework in Embed Frameworks */,
+				340ABD75230AAF5C0032278D /* CommonCryptoKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2053,13 +2148,17 @@
 
 /* Begin PBXFileReference section */
 		01D10183524367B05C336300 /* Pods-Blockchain.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blockchain.debug dev.xcconfig"; path = "Target Support Files/Pods-Blockchain/Pods-Blockchain.debug dev.xcconfig"; sourceTree = "<group>"; };
+		028EFF538851B83124F0FD81 /* Pods-HDWalletKitTests.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HDWalletKitTests.debug dev.xcconfig"; path = "Target Support Files/Pods-HDWalletKitTests/Pods-HDWalletKitTests.debug dev.xcconfig"; sourceTree = "<group>"; };
 		03283C6132B266452AF30C2B /* Pods-ERC20Kit.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20Kit.debug production.xcconfig"; path = "Target Support Files/Pods-ERC20Kit/Pods-ERC20Kit.debug production.xcconfig"; sourceTree = "<group>"; };
 		04547983F601ECC8641BB2AC /* Pods-Blockchain.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blockchain.debug production.xcconfig"; path = "Target Support Files/Pods-Blockchain/Pods-Blockchain.debug production.xcconfig"; sourceTree = "<group>"; };
 		045937D65C0CAB4F154FC710 /* Pods-BlockchainTests.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockchainTests.debug production.xcconfig"; path = "Target Support Files/Pods-BlockchainTests/Pods-BlockchainTests.debug production.xcconfig"; sourceTree = "<group>"; };
+		09056DF59EBBE24E13B12452 /* Pods-HDWalletKit.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HDWalletKit.release staging.xcconfig"; path = "Target Support Files/Pods-HDWalletKit/Pods-HDWalletKit.release staging.xcconfig"; sourceTree = "<group>"; };
 		09636F487CFD1343D93647A2 /* Pods-PlatformUIKit.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformUIKit.debug staging.xcconfig"; path = "Target Support Files/Pods-PlatformUIKit/Pods-PlatformUIKit.debug staging.xcconfig"; sourceTree = "<group>"; };
 		0B568F3EE606BF3D16BFA6D8 /* Pods-PlatformKit.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformKit.debug production.xcconfig"; path = "Target Support Files/Pods-PlatformKit/Pods-PlatformKit.debug production.xcconfig"; sourceTree = "<group>"; };
 		0BE5888185B23D5470CBBCD2 /* Pods-PlatformKit.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformKit.debug dev.xcconfig"; path = "Target Support Files/Pods-PlatformKit/Pods-PlatformKit.debug dev.xcconfig"; sourceTree = "<group>"; };
 		116DA8A95C87EBA23788D860 /* Pods-PlatformUIKit.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformUIKit.debug production.xcconfig"; path = "Target Support Files/Pods-PlatformUIKit/Pods-PlatformUIKit.debug production.xcconfig"; sourceTree = "<group>"; };
+		1BC4DC0915C564B3E690327B /* Pods-CommonCryptoKitTests.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonCryptoKitTests.debug staging.xcconfig"; path = "Target Support Files/Pods-CommonCryptoKitTests/Pods-CommonCryptoKitTests.debug staging.xcconfig"; sourceTree = "<group>"; };
+		1CC8072EFD169FF29E8DC281 /* Pods_CommonCryptoKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CommonCryptoKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		230FD2D11C5BD04000336683 /* BCEditAddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCEditAddressView.h; sourceTree = "<group>"; };
 		230FD2D21C5BD04000336683 /* BCEditAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCEditAddressView.m; sourceTree = "<group>"; };
 		230FD2D71C5BF1A700336683 /* BCQRCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCQRCodeView.h; sourceTree = "<group>"; };
@@ -2175,11 +2274,21 @@
 		24491349C60F6BA5FC6441E9 /* Pods-StellarKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StellarKit.release.xcconfig"; path = "Target Support Files/Pods-StellarKit/Pods-StellarKit.release.xcconfig"; sourceTree = "<group>"; };
 		25C7B0327A0A4059469F4AFE /* Pods-PlatformKitTests.debug testnet.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformKitTests.debug testnet.xcconfig"; path = "Target Support Files/Pods-PlatformKitTests/Pods-PlatformKitTests.debug testnet.xcconfig"; sourceTree = "<group>"; };
 		260586C4143771D20405213D /* Pods-BitcoinKit.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitcoinKit.debug dev.xcconfig"; path = "Target Support Files/Pods-BitcoinKit/Pods-BitcoinKit.debug dev.xcconfig"; sourceTree = "<group>"; };
+		28C05395798A82A84F93295B /* Pods-CommonCryptoKitTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonCryptoKitTests.release staging.xcconfig"; path = "Target Support Files/Pods-CommonCryptoKitTests/Pods-CommonCryptoKitTests.release staging.xcconfig"; sourceTree = "<group>"; };
 		290FD6B390A8C1452C83CB52 /* Pods_ERC20Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ERC20Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F24392BFC89187792156D29 /* Pods-EthereumKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EthereumKit.release.xcconfig"; path = "Target Support Files/Pods-EthereumKit/Pods-EthereumKit.release.xcconfig"; sourceTree = "<group>"; };
 		2F631405EB5CE3683DAA48E5 /* Pods-ERC20Kit.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20Kit.debug dev.xcconfig"; path = "Target Support Files/Pods-ERC20Kit/Pods-ERC20Kit.debug dev.xcconfig"; sourceTree = "<group>"; };
 		2FCF6EACDA1DE0CD83DC8547 /* Pods-PlatformUIKit.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformUIKit.debug dev.xcconfig"; path = "Target Support Files/Pods-PlatformUIKit/Pods-PlatformUIKit.debug dev.xcconfig"; sourceTree = "<group>"; };
 		31D8D37415CB37D739027AE8 /* Pods-PlatformKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformKitTests.release.xcconfig"; path = "Target Support Files/Pods-PlatformKitTests/Pods-PlatformKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		340ABD5F230AAF580032278D /* CommonCryptoKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommonCryptoKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		340ABD61230AAF5A0032278D /* CommonCryptoKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonCryptoKit.h; sourceTree = "<group>"; };
+		340ABD62230AAF5A0032278D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		340ABD67230AAF5A0032278D /* CommonCryptoKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CommonCryptoKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		340ABD6E230AAF5C0032278D /* CommonCryptoKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonCryptoKitTests.swift; sourceTree = "<group>"; };
+		340ABD70230AAF5C0032278D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		340ABD84230AAF900032278D /* HexRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexRepresentable.swift; sourceTree = "<group>"; };
+		340ABD86230AAFBA0032278D /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
+		340ABD96230ABC970032278D /* EthereumTransactionCandidateMockBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionCandidateMockBuilder.swift; sourceTree = "<group>"; };
 		34147CBC22BD15CB006B7C5B /* StellarConfigurationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarConfigurationService.swift; sourceTree = "<group>"; };
 		3416D2CF22F8389D00105424 /* BitcoinQRMetadataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinQRMetadataFactory.swift; sourceTree = "<group>"; };
 		3416D2D122F838D100105424 /* BitcoinQRMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinQRMetadata.swift; sourceTree = "<group>"; };
@@ -2212,6 +2321,13 @@
 		344C42EA227C50C500CFAC33 /* EthereumTransactionEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionEncoder.swift; sourceTree = "<group>"; };
 		344C42EC227C8F2900CFAC33 /* EthereumTransactionEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionEncoderTests.swift; sourceTree = "<group>"; };
 		344C42FB227CA56100CFAC33 /* EthereumAssetAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumAssetAccountService.swift; sourceTree = "<group>"; };
+		3455E1F32306CB77005E69BF /* HDPublicKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDPublicKey.swift; sourceTree = "<group>"; };
+		3455E1FE2306CC01005E69BF /* Seed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seed.swift; sourceTree = "<group>"; };
+		3455E2002306CC82005E69BF /* Entropy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entropy.swift; sourceTree = "<group>"; };
+		3455E2052306F95D005E69BF /* HDKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDKey.swift; sourceTree = "<group>"; };
+		3455E2072306FF56005E69BF /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		3455E20C23096FD1005E69BF /* HDKeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDKeyPath.swift; sourceTree = "<group>"; };
+		3455E2172309732D005E69BF /* HDWalletKitError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDWalletKitError.swift; sourceTree = "<group>"; };
 		34579858224BC53E00F50F92 /* CryptoFeeServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoFeeServiceAPI.swift; sourceTree = "<group>"; };
 		34579863224BC65C00F50F92 /* CryptoFeeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoFeeService.swift; sourceTree = "<group>"; };
 		3459243B3A36C67D27245E67 /* Pods-PlatformKitTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformKitTests.release staging.xcconfig"; path = "Target Support Files/Pods-PlatformKitTests/Pods-PlatformKitTests.release staging.xcconfig"; sourceTree = "<group>"; };
@@ -2293,6 +2409,26 @@
 		34BFDF552271F4FD008160CD /* ResultExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultExtensions.swift; sourceTree = "<group>"; };
 		34C0AFE922196B3E00D46361 /* PrivateKeyQRCodeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeyQRCodeParser.swift; sourceTree = "<group>"; };
 		34C0AFF422196B6500D46361 /* PairingCodeQRCodeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingCodeQRCodeParser.swift; sourceTree = "<group>"; };
+		34C3C930230570FD008F2154 /* BitcoinKeyPairDeriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinKeyPairDeriver.swift; sourceTree = "<group>"; };
+		34C3C937230573CA008F2154 /* BitcoinKeyPairDeriverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinKeyPairDeriverTests.swift; sourceTree = "<group>"; };
+		34C3C94123059284008F2154 /* TestKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TestKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		34C3C94323059284008F2154 /* TestKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestKit.h; sourceTree = "<group>"; };
+		34C3C94423059284008F2154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		34C3C94923059284008F2154 /* TestKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		34C3C95023059284008F2154 /* TestKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestKitTests.swift; sourceTree = "<group>"; };
+		34C3C95223059284008F2154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		34C3C96E230592D2008F2154 /* MockWalletTestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWalletTestData.swift; sourceTree = "<group>"; };
+		34C3C9752305A592008F2154 /* HDWalletKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HDWalletKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		34C3C9772305A593008F2154 /* HDWalletKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDWalletKit.h; sourceTree = "<group>"; };
+		34C3C9782305A593008F2154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		34C3C97D2305A593008F2154 /* HDWalletKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HDWalletKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		34C3C9842305A593008F2154 /* HDWalletKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDWalletKitTests.swift; sourceTree = "<group>"; };
+		34C3C9862305A593008F2154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		34C3C9992305A5C3008F2154 /* HDWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDWallet.swift; sourceTree = "<group>"; };
+		34C3C99E2305A81B008F2154 /* Mnemonic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mnemonic.swift; sourceTree = "<group>"; };
+		34C3C9A92305A835008F2154 /* HDKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDKeychain.swift; sourceTree = "<group>"; };
+		34C3C9AB2305A863008F2154 /* HDPrivateKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDPrivateKey.swift; sourceTree = "<group>"; };
+		34C3C9AD2305A983008F2154 /* WordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordList.swift; sourceTree = "<group>"; };
 		34C6CF2922412E85009123E5 /* EthereumAssetAccountRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumAssetAccountRepository.swift; sourceTree = "<group>"; };
 		34C6CF3B224132B7009123E5 /* EthereumAssetAccountDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumAssetAccountDetails.swift; sourceTree = "<group>"; };
 		34C6CF3D22413620009123E5 /* EthereumServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumServiceError.swift; sourceTree = "<group>"; };
@@ -2314,6 +2450,7 @@
 		34D88F83221AC56200AE9DE5 /* QRCodeScannerViewControllerBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerViewControllerBuilder.swift; sourceTree = "<group>"; };
 		34E1C1E122244972006E70D3 /* EthereumWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumWallet.swift; sourceTree = "<group>"; };
 		34E1C1E322244A17006E70D3 /* SingleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleExtensions.swift; sourceTree = "<group>"; };
+		34E2D97F230BFE2C0043AE53 /* HDWalletKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HDWalletKitPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		34E66633224A6154007667FA /* EthereumTransactionFee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionFee.swift; sourceTree = "<group>"; };
 		34E66647224A68DE007667FA /* StellarTransactionFee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarTransactionFee.swift; sourceTree = "<group>"; };
 		34E7F9492225904400A987CD /* ETHServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETHServiceProvider.swift; sourceTree = "<group>"; };
@@ -2329,6 +2466,7 @@
 		34EFC7D02220815C00273640 /* EthereumWalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumWalletTests.swift; sourceTree = "<group>"; };
 		34F0DADB225CD340004997D3 /* EthereumKeyPairDeriverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumKeyPairDeriverTests.swift; sourceTree = "<group>"; };
 		34F22E0A22FC605700A07337 /* URLRequestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestExtensions.swift; sourceTree = "<group>"; };
+		3576F96699883735EDAD5088 /* Pods-HDWalletKit.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HDWalletKit.debug production.xcconfig"; path = "Target Support Files/Pods-HDWalletKit/Pods-HDWalletKit.debug production.xcconfig"; sourceTree = "<group>"; };
 		3A01911A212DE57A00AED2BF /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		3A01911C212DEF8000AED2BF /* AsyncBlockOperaiton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncBlockOperaiton.swift; sourceTree = "<group>"; };
 		3A019121212DF0EB00AED2BF /* AsyncBlockOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncBlockOperationTests.swift; sourceTree = "<group>"; };
@@ -4311,6 +4449,8 @@
 		6E2D90A01BBEC34800B719EC /* BCRecoveryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCRecoveryView.h; sourceTree = "<group>"; };
 		6E2D90A11BBEC34800B719EC /* BCRecoveryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCRecoveryView.m; sourceTree = "<group>"; };
 		7025B8E4A38148DB65E8AB47 /* Pods-EthereumKit.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EthereumKit.debug dev.xcconfig"; path = "Target Support Files/Pods-EthereumKit/Pods-EthereumKit.debug dev.xcconfig"; sourceTree = "<group>"; };
+		7070522FF7B640DBBDF2940F /* Pods_HDWalletKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HDWalletKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		714404E0547183EC9DF90106 /* Pods-CommonCryptoKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonCryptoKit.release.xcconfig"; path = "Target Support Files/Pods-CommonCryptoKit/Pods-CommonCryptoKit.release.xcconfig"; sourceTree = "<group>"; };
 		72B03EC85C4E09A0C3BD3671 /* Pods-BlockchainTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockchainTests.release staging.xcconfig"; path = "Target Support Files/Pods-BlockchainTests/Pods-BlockchainTests.release staging.xcconfig"; sourceTree = "<group>"; };
 		72FE012874F92C7C80D4E211 /* Pods-BlockchainTests.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockchainTests.debug staging.xcconfig"; path = "Target Support Files/Pods-BlockchainTests/Pods-BlockchainTests.debug staging.xcconfig"; sourceTree = "<group>"; };
 		73A1EE56A999A4C56CAE48C5 /* Pods_Blockchain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Blockchain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4319,8 +4459,11 @@
 		7A902E9BFD43EDB411CF03C2 /* Pods-PlatformKitTests.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformKitTests.debug staging.xcconfig"; path = "Target Support Files/Pods-PlatformKitTests/Pods-PlatformKitTests.debug staging.xcconfig"; sourceTree = "<group>"; };
 		7ADD19D621874C220013A525 /* Firebase */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Firebase; sourceTree = "<group>"; };
 		7B3EEC638DE53DA3847F8490 /* Pods-BitcoinKitTests.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitcoinKitTests.debug dev.xcconfig"; path = "Target Support Files/Pods-BitcoinKitTests/Pods-BitcoinKitTests.debug dev.xcconfig"; sourceTree = "<group>"; };
+		7C094265652984DD059360DB /* Pods_HDWalletKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HDWalletKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C2E57FD5AF2BB44C3D2750A /* Pods-StellarKit.debug testnet.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StellarKit.debug testnet.xcconfig"; path = "Target Support Files/Pods-StellarKit/Pods-StellarKit.debug testnet.xcconfig"; sourceTree = "<group>"; };
 		7F2873E7266052DC70D679EE /* Pods-BitcoinKitTests.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitcoinKitTests.debug production.xcconfig"; path = "Target Support Files/Pods-BitcoinKitTests/Pods-BitcoinKitTests.debug production.xcconfig"; sourceTree = "<group>"; };
+		81E18788018043CC209E99A9 /* Pods_CommonCryptoKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CommonCryptoKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		822507DCB0C05668F66379C9 /* Pods-CommonCryptoKit.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonCryptoKit.release staging.xcconfig"; path = "Target Support Files/Pods-CommonCryptoKit/Pods-CommonCryptoKit.release staging.xcconfig"; sourceTree = "<group>"; };
 		8336BE57001C9E5563074199 /* Pods-ERC20KitTests.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20KitTests.debug staging.xcconfig"; path = "Target Support Files/Pods-ERC20KitTests/Pods-ERC20KitTests.debug staging.xcconfig"; sourceTree = "<group>"; };
 		84B601C5197ACD6300DA1829 /* UITextField+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Blocks.h"; sourceTree = "<group>"; };
 		84B601C6197ACD6300DA1829 /* UITextField+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Blocks.m"; sourceTree = "<group>"; };
@@ -4345,6 +4488,7 @@
 		940BE4BC72E8E4F6F20B7EDA /* Pods-StellarKit.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StellarKit.debug dev.xcconfig"; path = "Target Support Files/Pods-StellarKit/Pods-StellarKit.debug dev.xcconfig"; sourceTree = "<group>"; };
 		97A6B92ADCC101951EC68009 /* Pods-ERC20KitTests.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20KitTests.debug dev.xcconfig"; path = "Target Support Files/Pods-ERC20KitTests/Pods-ERC20KitTests.debug dev.xcconfig"; sourceTree = "<group>"; };
 		980732A6A32FE29988F07527 /* Pods-PlatformKit.debug testnet.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformKit.debug testnet.xcconfig"; path = "Target Support Files/Pods-PlatformKit/Pods-PlatformKit.debug testnet.xcconfig"; sourceTree = "<group>"; };
+		9A51BAD3483B5CF69A24CE42 /* Pods-CommonCryptoKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonCryptoKitTests.release.xcconfig"; path = "Target Support Files/Pods-CommonCryptoKitTests/Pods-CommonCryptoKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		9D77E6768607E4C1D8375F5E /* Pods-BitcoinKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitcoinKitTests.release.xcconfig"; path = "Target Support Files/Pods-BitcoinKitTests/Pods-BitcoinKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		9F0CBAA8151351F400CD945D /* Wallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wallet.h; sourceTree = "<group>"; };
 		9F0CBAA9151351F400CD945D /* Wallet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wallet.m; sourceTree = "<group>"; };
@@ -4390,6 +4534,7 @@
 		A269E92D1B32D51F0052F953 /* SecondPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondPasswordViewController.swift; sourceTree = "<group>"; };
 		A2913FA11B31830000DC6C15 /* BackupNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupNavigationViewController.swift; sourceTree = "<group>"; };
 		A3C9A9679423A7881AE438BD /* Pods-StellarKitTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StellarKitTests.release staging.xcconfig"; path = "Target Support Files/Pods-StellarKitTests/Pods-StellarKitTests.release staging.xcconfig"; sourceTree = "<group>"; };
+		A999C4899F6197F62EB9E15F /* Pods-CommonCryptoKitTests.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonCryptoKitTests.debug dev.xcconfig"; path = "Target Support Files/Pods-CommonCryptoKitTests/Pods-CommonCryptoKitTests.debug dev.xcconfig"; sourceTree = "<group>"; };
 		AA02104A21B8AA3B0083088B /* CryptoFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoFormatter.swift; sourceTree = "<group>"; };
 		AA035C972176A53900731CD5 /* ArraysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArraysTests.swift; sourceTree = "<group>"; };
 		AA084399215C0E210007BFD1 /* SocketMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketMessageTests.swift; sourceTree = "<group>"; };
@@ -4620,9 +4765,13 @@
 		AB3A7C8645E55BDDBF6FB9B8 /* Pods-PlatformUIKit.debug testnet.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformUIKit.debug testnet.xcconfig"; path = "Target Support Files/Pods-PlatformUIKit/Pods-PlatformUIKit.debug testnet.xcconfig"; sourceTree = "<group>"; };
 		AE2CE745E034FA468D57E0B2 /* Pods-BitcoinKit.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitcoinKit.debug production.xcconfig"; path = "Target Support Files/Pods-BitcoinKit/Pods-BitcoinKit.debug production.xcconfig"; sourceTree = "<group>"; };
 		B10B3F70A026920C5544CA03 /* Pods_ERC20KitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ERC20KitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2AA8854CF4A1B1FAE96B0FA /* Pods-HDWalletKit.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HDWalletKit.debug staging.xcconfig"; path = "Target Support Files/Pods-HDWalletKit/Pods-HDWalletKit.debug staging.xcconfig"; sourceTree = "<group>"; };
 		B41D8529D65770196DB61B3D /* Pods-BitcoinKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitcoinKit.release.xcconfig"; path = "Target Support Files/Pods-BitcoinKit/Pods-BitcoinKit.release.xcconfig"; sourceTree = "<group>"; };
 		B43B2BF9AA2C4FDB694C9DC0 /* Pods-PlatformKitTests.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformKitTests.debug dev.xcconfig"; path = "Target Support Files/Pods-PlatformKitTests/Pods-PlatformKitTests.debug dev.xcconfig"; sourceTree = "<group>"; };
 		B581B3737FE4CD039FCAC852 /* Pods_StellarKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StellarKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6F601EFC44797F43AC03468 /* Pods-HDWalletKitTests.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HDWalletKitTests.debug staging.xcconfig"; path = "Target Support Files/Pods-HDWalletKitTests/Pods-HDWalletKitTests.debug staging.xcconfig"; sourceTree = "<group>"; };
+		B889D98042596E7F5FA392BE /* Pods-HDWalletKit.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HDWalletKit.debug dev.xcconfig"; path = "Target Support Files/Pods-HDWalletKit/Pods-HDWalletKit.debug dev.xcconfig"; sourceTree = "<group>"; };
+		BBAA208F3DDDC39E22819247 /* Pods-CommonCryptoKitTests.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonCryptoKitTests.debug production.xcconfig"; path = "Target Support Files/Pods-CommonCryptoKitTests/Pods-CommonCryptoKitTests.debug production.xcconfig"; sourceTree = "<group>"; };
 		BC5AA104D0F1B6C898B3EE7C /* Pods_PlatformKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlatformKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEC5EAB9763F0AE0E0A87BBE /* Pods-EthereumKitTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EthereumKitTests.release staging.xcconfig"; path = "Target Support Files/Pods-EthereumKitTests/Pods-EthereumKitTests.release staging.xcconfig"; sourceTree = "<group>"; };
 		C2B5AE28A0CECA6FF925B31E /* Pods-PlatformUIKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlatformUIKit.release.xcconfig"; path = "Target Support Files/Pods-PlatformUIKit/Pods-PlatformUIKit.release.xcconfig"; sourceTree = "<group>"; };
@@ -4882,6 +5031,7 @@
 		CC5CF13698364EE200746DFC /* Pods-StellarKit.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StellarKit.debug production.xcconfig"; path = "Target Support Files/Pods-StellarKit/Pods-StellarKit.debug production.xcconfig"; sourceTree = "<group>"; };
 		CCDBFCF3EF0FCB85A2DF48C6 /* Pods-EthereumKitTests.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EthereumKitTests.debug dev.xcconfig"; path = "Target Support Files/Pods-EthereumKitTests/Pods-EthereumKitTests.debug dev.xcconfig"; sourceTree = "<group>"; };
 		CE38DA36D15587FE48108BC0 /* Pods-BitcoinKit.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitcoinKit.debug staging.xcconfig"; path = "Target Support Files/Pods-BitcoinKit/Pods-BitcoinKit.debug staging.xcconfig"; sourceTree = "<group>"; };
+		CEAC8E75EB4F07DA55BA1257 /* Pods-HDWalletKitTests.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HDWalletKitTests.debug production.xcconfig"; path = "Target Support Files/Pods-HDWalletKitTests/Pods-HDWalletKitTests.debug production.xcconfig"; sourceTree = "<group>"; };
 		CFA0671E1E65D426008456C1 /* WebLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebLoginViewController.m; sourceTree = "<group>"; };
 		CFA067201E65D49C008456C1 /* WebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebLoginViewController.h; sourceTree = "<group>"; };
 		CFD602B01E64AC2D006F6208 /* wallet-ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "wallet-ios.js"; sourceTree = "<group>"; };
@@ -4898,22 +5048,77 @@
 		E1DD2E90424806E001942277 /* Pods-ERC20Kit.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20Kit.release staging.xcconfig"; path = "Target Support Files/Pods-ERC20Kit/Pods-ERC20Kit.release staging.xcconfig"; sourceTree = "<group>"; };
 		E5BED22114F92416B3BD21F6 /* Pods-ERC20Kit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20Kit.release.xcconfig"; path = "Target Support Files/Pods-ERC20Kit/Pods-ERC20Kit.release.xcconfig"; sourceTree = "<group>"; };
 		EA3E829B5BAC03B9C414FE48 /* Pods-ERC20KitTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ERC20KitTests.release staging.xcconfig"; path = "Target Support Files/Pods-ERC20KitTests/Pods-ERC20KitTests.release staging.xcconfig"; sourceTree = "<group>"; };
+		EAC710E8B26BC6CE485EF6DE /* Pods-HDWalletKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HDWalletKit.release.xcconfig"; path = "Target Support Files/Pods-HDWalletKit/Pods-HDWalletKit.release.xcconfig"; sourceTree = "<group>"; };
 		EB07B7D48EB92EB6A7AB92BA /* Pods_PlatformUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlatformUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB24B2C7EDCB28632EF8A95C /* Pods-StellarKitTests.debug testnet.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StellarKitTests.debug testnet.xcconfig"; path = "Target Support Files/Pods-StellarKitTests/Pods-StellarKitTests.debug testnet.xcconfig"; sourceTree = "<group>"; };
 		ECD244F519A8B444004B1F40 /* UIImage+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Utils.h"; sourceTree = "<group>"; };
 		ECD244F619A8B444004B1F40 /* UIImage+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Utils.m"; sourceTree = "<group>"; };
+		F6A2BF2181A8D9F53F5CA738 /* Pods-CommonCryptoKit.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonCryptoKit.debug production.xcconfig"; path = "Target Support Files/Pods-CommonCryptoKit/Pods-CommonCryptoKit.debug production.xcconfig"; sourceTree = "<group>"; };
+		F6B3FD7E9C2731497D8A1A14 /* Pods-HDWalletKitTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HDWalletKitTests.release staging.xcconfig"; path = "Target Support Files/Pods-HDWalletKitTests/Pods-HDWalletKitTests.release staging.xcconfig"; sourceTree = "<group>"; };
+		F6E5FB2D86BD30CA558E3F42 /* Pods-HDWalletKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HDWalletKitTests.release.xcconfig"; path = "Target Support Files/Pods-HDWalletKitTests/Pods-HDWalletKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		F7B8C83721A5E607005CAA0D /* DeepLinkPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkPayload.swift; sourceTree = "<group>"; };
 		F7B8C84221A5EB81005CAA0D /* DeepLinkPayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkPayloadTests.swift; sourceTree = "<group>"; };
+		F99018580BD76D7403E2E402 /* Pods-CommonCryptoKit.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonCryptoKit.debug staging.xcconfig"; path = "Target Support Files/Pods-CommonCryptoKit/Pods-CommonCryptoKit.debug staging.xcconfig"; sourceTree = "<group>"; };
 		FA6323371A433B1C00EB3974 /* Foundation-Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Foundation-Utility.h"; sourceTree = "<group>"; };
 		FA6323381A433B1C00EB3974 /* Foundation-Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation-Utility.m"; sourceTree = "<group>"; };
 		FCB33B6D1FC369D700317E6B /* ExchangeDetailView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExchangeDetailView.h; sourceTree = "<group>"; };
 		FCB33B6E1FC369D700317E6B /* ExchangeDetailView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExchangeDetailView.m; sourceTree = "<group>"; };
 		FCB33B701FC36EA200317E6B /* ExchangeProgressViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExchangeProgressViewController.h; sourceTree = "<group>"; };
 		FCB33B711FC36EA200317E6B /* ExchangeProgressViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExchangeProgressViewController.m; sourceTree = "<group>"; };
+		FE9D053FB547816937D6B497 /* Pods-CommonCryptoKit.debug dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonCryptoKit.debug dev.xcconfig"; path = "Target Support Files/Pods-CommonCryptoKit/Pods-CommonCryptoKit.debug dev.xcconfig"; sourceTree = "<group>"; };
 		FF07A6B331031DF36CB6E700 /* Pods-Blockchain.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blockchain.release.xcconfig"; path = "Target Support Files/Pods-Blockchain/Pods-Blockchain.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		340ABD5C230AAF580032278D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C46C1BB12708DC75D44CA554 /* Pods_CommonCryptoKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		340ABD64230AAF5A0032278D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				340ABD68230AAF5C0032278D /* CommonCryptoKit.framework in Frameworks */,
+				E3C7B6F9DD54CBE803E552FA /* Pods_CommonCryptoKitTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C93E23059284008F2154 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C94623059284008F2154 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34C3C94A23059284008F2154 /* TestKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C9722305A592008F2154 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD3F6D8AC54A2BF7287D4ED2 /* Pods_HDWalletKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C97A2305A593008F2154 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34C3C97E2305A593008F2154 /* HDWalletKit.framework in Frameworks */,
+				F5AABA78094C16A20866711A /* Pods_HDWalletKitTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		34EDB8242261065D009521D9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -5028,6 +5233,7 @@
 				3A686572219A0BBB0009FF29 /* PlatformKit.framework in Frameworks */,
 				3A6865F2219A26A30009FF29 /* StellarKit.framework in Frameworks */,
 				34EDB83C2261065E009521D9 /* ERC20Kit.framework in Frameworks */,
+				34C3C98A2305A593008F2154 /* HDWalletKit.framework in Frameworks */,
 				3A6A1A2C21B9A64D00D97C74 /* EthereumKit.framework in Frameworks */,
 				3AEF9E8C21091B72006B1CF9 /* MapKit.framework in Frameworks */,
 				3A4E489621BF3070001A799D /* BitcoinKit.framework in Frameworks */,
@@ -5035,6 +5241,7 @@
 				515315F12056C0EE000161DF /* libicucore.tbd in Frameworks */,
 				3A6865B2219A11660009FF29 /* PlatformUIKit.framework in Frameworks */,
 				F4F8D1536BB29F53B6985C28 /* Pods_Blockchain.framework in Frameworks */,
+				340ABD74230AAF5C0032278D /* CommonCryptoKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5114,6 +5321,26 @@
 				EB24B2C7EDCB28632EF8A95C /* Pods-StellarKitTests.debug testnet.xcconfig */,
 				9F550CBCF057868E8C2020FB /* Pods-StellarKitTests.release.xcconfig */,
 				A3C9A9679423A7881AE438BD /* Pods-StellarKitTests.release staging.xcconfig */,
+				3576F96699883735EDAD5088 /* Pods-HDWalletKit.debug production.xcconfig */,
+				B2AA8854CF4A1B1FAE96B0FA /* Pods-HDWalletKit.debug staging.xcconfig */,
+				B889D98042596E7F5FA392BE /* Pods-HDWalletKit.debug dev.xcconfig */,
+				EAC710E8B26BC6CE485EF6DE /* Pods-HDWalletKit.release.xcconfig */,
+				09056DF59EBBE24E13B12452 /* Pods-HDWalletKit.release staging.xcconfig */,
+				CEAC8E75EB4F07DA55BA1257 /* Pods-HDWalletKitTests.debug production.xcconfig */,
+				B6F601EFC44797F43AC03468 /* Pods-HDWalletKitTests.debug staging.xcconfig */,
+				028EFF538851B83124F0FD81 /* Pods-HDWalletKitTests.debug dev.xcconfig */,
+				F6E5FB2D86BD30CA558E3F42 /* Pods-HDWalletKitTests.release.xcconfig */,
+				F6B3FD7E9C2731497D8A1A14 /* Pods-HDWalletKitTests.release staging.xcconfig */,
+				F6A2BF2181A8D9F53F5CA738 /* Pods-CommonCryptoKit.debug production.xcconfig */,
+				F99018580BD76D7403E2E402 /* Pods-CommonCryptoKit.debug staging.xcconfig */,
+				FE9D053FB547816937D6B497 /* Pods-CommonCryptoKit.debug dev.xcconfig */,
+				714404E0547183EC9DF90106 /* Pods-CommonCryptoKit.release.xcconfig */,
+				822507DCB0C05668F66379C9 /* Pods-CommonCryptoKit.release staging.xcconfig */,
+				BBAA208F3DDDC39E22819247 /* Pods-CommonCryptoKitTests.debug production.xcconfig */,
+				1BC4DC0915C564B3E690327B /* Pods-CommonCryptoKitTests.debug staging.xcconfig */,
+				A999C4899F6197F62EB9E15F /* Pods-CommonCryptoKitTests.debug dev.xcconfig */,
+				9A51BAD3483B5CF69A24CE42 /* Pods-CommonCryptoKitTests.release.xcconfig */,
+				28C05395798A82A84F93295B /* Pods-CommonCryptoKitTests.release staging.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -5150,9 +5377,46 @@
 			path = ../Submodules/CoreBitcoin;
 			sourceTree = "<group>";
 		};
+		340ABD60230AAF5A0032278D /* CommonCryptoKit */ = {
+			isa = PBXGroup;
+			children = (
+				340ABD83230AAF7B0032278D /* API */,
+				340ABD82230AAF710032278D /* Extensions */,
+				340ABD61230AAF5A0032278D /* CommonCryptoKit.h */,
+				340ABD62230AAF5A0032278D /* Info.plist */,
+			);
+			path = CommonCryptoKit;
+			sourceTree = "<group>";
+		};
+		340ABD6D230AAF5C0032278D /* CommonCryptoKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				340ABD6E230AAF5C0032278D /* CommonCryptoKitTests.swift */,
+				340ABD70230AAF5C0032278D /* Info.plist */,
+			);
+			path = CommonCryptoKitTests;
+			sourceTree = "<group>";
+		};
+		340ABD82230AAF710032278D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				340ABD86230AAFBA0032278D /* Data+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		340ABD83230AAF7B0032278D /* API */ = {
+			isa = PBXGroup;
+			children = (
+				340ABD84230AAF900032278D /* HexRepresentable.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		3416D2D322F83B0500105424 /* Accounts */ = {
 			isa = PBXGroup;
 			children = (
+				34C3C92F230570CC008F2154 /* KeyPair */,
 				3416D2D422F83B2600105424 /* BitcoinWalletAccount.swift */,
 			);
 			path = Accounts;
@@ -5254,6 +5518,7 @@
 				3430446E224CFB960036345B /* EthereumWalletBridgeMock.swift */,
 				347B6A1122CCD59E002C80E9 /* EthereumWalletServiceMock.swift */,
 				341E5A602284354B007BE6A6 /* MockEthereumWalletTestData.swift */,
+				340ABD96230ABC970032278D /* EthereumTransactionCandidateMockBuilder.swift */,
 				344C42DF227C4D4D00CFAC33 /* EthereumKeyPairDeriverMock.swift */,
 				34BE8B202285ED830097F535 /* EthereumWalletAccountRepositoryMock.swift */,
 				34BD57EE228A386700882945 /* EthereumTransactionSendingServiceMock.swift */,
@@ -5558,6 +5823,104 @@
 				34BE8B5C2289D0D30097F535 /* EthereumAPIClientTests.swift */,
 			);
 			path = Ethereum;
+			sourceTree = "<group>";
+		};
+		34C3C92F230570CC008F2154 /* KeyPair */ = {
+			isa = PBXGroup;
+			children = (
+				34C3C930230570FD008F2154 /* BitcoinKeyPairDeriver.swift */,
+			);
+			path = KeyPair;
+			sourceTree = "<group>";
+		};
+		34C3C9322305737E008F2154 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				34C3C9332305738D008F2154 /* Accounts */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		34C3C9332305738D008F2154 /* Accounts */ = {
+			isa = PBXGroup;
+			children = (
+				34C3C93423057395008F2154 /* KeyPair */,
+			);
+			path = Accounts;
+			sourceTree = "<group>";
+		};
+		34C3C93423057395008F2154 /* KeyPair */ = {
+			isa = PBXGroup;
+			children = (
+				34C3C937230573CA008F2154 /* BitcoinKeyPairDeriverTests.swift */,
+			);
+			path = KeyPair;
+			sourceTree = "<group>";
+		};
+		34C3C94223059284008F2154 /* TestKit */ = {
+			isa = PBXGroup;
+			children = (
+				34C3C96D230592A0008F2154 /* Mocks */,
+				34C3C94323059284008F2154 /* TestKit.h */,
+				34C3C94423059284008F2154 /* Info.plist */,
+			);
+			path = TestKit;
+			sourceTree = "<group>";
+		};
+		34C3C94F23059284008F2154 /* TestKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				34C3C95023059284008F2154 /* TestKitTests.swift */,
+				34C3C95223059284008F2154 /* Info.plist */,
+			);
+			path = TestKitTests;
+			sourceTree = "<group>";
+		};
+		34C3C96D230592A0008F2154 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				34C3C96E230592D2008F2154 /* MockWalletTestData.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		34C3C9762305A593008F2154 /* HDWalletKit */ = {
+			isa = PBXGroup;
+			children = (
+				34E2D97F230BFE2C0043AE53 /* HDWalletKitPlayground.playground */,
+				34C3C9982305A5A2008F2154 /* Models */,
+				34C3C9772305A593008F2154 /* HDWalletKit.h */,
+				34C3C9782305A593008F2154 /* Info.plist */,
+			);
+			path = HDWalletKit;
+			sourceTree = "<group>";
+		};
+		34C3C9832305A593008F2154 /* HDWalletKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				34C3C9842305A593008F2154 /* HDWalletKitTests.swift */,
+				34C3C9862305A593008F2154 /* Info.plist */,
+			);
+			path = HDWalletKitTests;
+			sourceTree = "<group>";
+		};
+		34C3C9982305A5A2008F2154 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				34C3C9992305A5C3008F2154 /* HDWallet.swift */,
+				34C3C9A92305A835008F2154 /* HDKeychain.swift */,
+				34C3C9AB2305A863008F2154 /* HDPrivateKey.swift */,
+				3455E1F32306CB77005E69BF /* HDPublicKey.swift */,
+				3455E2072306FF56005E69BF /* Network.swift */,
+				3455E2052306F95D005E69BF /* HDKey.swift */,
+				3455E20C23096FD1005E69BF /* HDKeyPath.swift */,
+				34C3C99E2305A81B008F2154 /* Mnemonic.swift */,
+				3455E1FE2306CC01005E69BF /* Seed.swift */,
+				3455E2002306CC82005E69BF /* Entropy.swift */,
+				34C3C9AD2305A983008F2154 /* WordList.swift */,
+				3455E2172309732D005E69BF /* HDWalletKitError.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		34C6CF4322417713009123E5 /* Foundation */ = {
@@ -6237,6 +6600,7 @@
 		3A4E488F21BF3070001A799D /* BitcoinKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				34C3C9322305737E008F2154 /* Models */,
 				3A4E489021BF3070001A799D /* BitcoinKitTests.swift */,
 				3A4E489221BF3070001A799D /* Info.plist */,
 			);
@@ -9970,6 +10334,12 @@
 				34EDB8352261065D009521D9 /* ERC20KitTests */,
 				3A4E488221BF3070001A799D /* BitcoinKit */,
 				3A4E488F21BF3070001A799D /* BitcoinKitTests */,
+				34C3C94223059284008F2154 /* TestKit */,
+				34C3C94F23059284008F2154 /* TestKitTests */,
+				34C3C9762305A593008F2154 /* HDWalletKit */,
+				34C3C9832305A593008F2154 /* HDWalletKitTests */,
+				340ABD60230AAF5A0032278D /* CommonCryptoKit */,
+				340ABD6D230AAF5C0032278D /* CommonCryptoKitTests */,
 				9FB3637414B60128004BEA02 /* Frameworks */,
 				9FB3637214B60128004BEA02 /* Products */,
 				C9D4B2AE193E020D00EDA9EA /* Third Party */,
@@ -9994,6 +10364,12 @@
 				3A4E488921BF3070001A799D /* BitcoinKitTests.xctest */,
 				34EDB8272261065D009521D9 /* ERC20Kit.framework */,
 				34EDB82F2261065D009521D9 /* ERC20KitTests.xctest */,
+				34C3C94123059284008F2154 /* TestKit.framework */,
+				34C3C94923059284008F2154 /* TestKitTests.xctest */,
+				34C3C9752305A592008F2154 /* HDWalletKit.framework */,
+				34C3C97D2305A593008F2154 /* HDWalletKitTests.xctest */,
+				340ABD5F230AAF580032278D /* CommonCryptoKit.framework */,
+				340ABD67230AAF5A0032278D /* CommonCryptoKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -10020,6 +10396,10 @@
 				EB07B7D48EB92EB6A7AB92BA /* Pods_PlatformUIKit.framework */,
 				B581B3737FE4CD039FCAC852 /* Pods_StellarKit.framework */,
 				D9EA48C6A08E46ED5D477EBB /* Pods_StellarKitTests.framework */,
+				7C094265652984DD059360DB /* Pods_HDWalletKit.framework */,
+				7070522FF7B640DBBDF2940F /* Pods_HDWalletKitTests.framework */,
+				1CC8072EFD169FF29E8DC281 /* Pods_CommonCryptoKit.framework */,
+				81E18788018043CC209E99A9 /* Pods_CommonCryptoKitTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -11449,6 +11829,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		340ABD5A230AAF580032278D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				340ABD71230AAF5C0032278D /* CommonCryptoKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C93C23059284008F2154 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34C3C95323059284008F2154 /* TestKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C9702305A592008F2154 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34C3C9872305A593008F2154 /* HDWalletKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		34EDB8222261065D009521D9 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -11500,6 +11904,123 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		340ABD5E230AAF580032278D /* CommonCryptoKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 340ABD76230AAF5C0032278D /* Build configuration list for PBXNativeTarget "CommonCryptoKit" */;
+			buildPhases = (
+				358E9D22DAC2C6F853126F50 /* [CP] Check Pods Manifest.lock */,
+				340ABD5A230AAF580032278D /* Headers */,
+				340ABD5B230AAF580032278D /* Sources */,
+				340ABD5C230AAF580032278D /* Frameworks */,
+				340ABD5D230AAF580032278D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CommonCryptoKit;
+			productName = CommonCryptoKit;
+			productReference = 340ABD5F230AAF580032278D /* CommonCryptoKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		340ABD66230AAF5A0032278D /* CommonCryptoKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 340ABD7C230AAF5C0032278D /* Build configuration list for PBXNativeTarget "CommonCryptoKitTests" */;
+			buildPhases = (
+				E5987261D9D045D61B33AC11 /* [CP] Check Pods Manifest.lock */,
+				340ABD63230AAF5A0032278D /* Sources */,
+				340ABD64230AAF5A0032278D /* Frameworks */,
+				340ABD65230AAF5A0032278D /* Resources */,
+				546FF2730F318459FA699AB8 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				340ABD6A230AAF5C0032278D /* PBXTargetDependency */,
+				340ABD6C230AAF5C0032278D /* PBXTargetDependency */,
+			);
+			name = CommonCryptoKitTests;
+			productName = CommonCryptoKitTests;
+			productReference = 340ABD67230AAF5A0032278D /* CommonCryptoKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		34C3C94023059284008F2154 /* TestKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 34C3C96B23059285008F2154 /* Build configuration list for PBXNativeTarget "TestKit" */;
+			buildPhases = (
+				34C3C93C23059284008F2154 /* Headers */,
+				34C3C93D23059284008F2154 /* Sources */,
+				34C3C93E23059284008F2154 /* Frameworks */,
+				34C3C93F23059284008F2154 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestKit;
+			productName = TestKit;
+			productReference = 34C3C94123059284008F2154 /* TestKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		34C3C94823059284008F2154 /* TestKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 34C3C96C23059285008F2154 /* Build configuration list for PBXNativeTarget "TestKitTests" */;
+			buildPhases = (
+				34C3C94523059284008F2154 /* Sources */,
+				34C3C94623059284008F2154 /* Frameworks */,
+				34C3C94723059284008F2154 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				34C3C94C23059284008F2154 /* PBXTargetDependency */,
+				34C3C94E23059284008F2154 /* PBXTargetDependency */,
+			);
+			name = TestKitTests;
+			productName = TestKitTests;
+			productReference = 34C3C94923059284008F2154 /* TestKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		34C3C9742305A592008F2154 /* HDWalletKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 34C3C98C2305A593008F2154 /* Build configuration list for PBXNativeTarget "HDWalletKit" */;
+			buildPhases = (
+				71BF2F8F2847C062585E1D84 /* [CP] Check Pods Manifest.lock */,
+				34C3C9702305A592008F2154 /* Headers */,
+				34C3C9712305A592008F2154 /* Sources */,
+				34C3C9722305A592008F2154 /* Frameworks */,
+				34C3C9732305A592008F2154 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HDWalletKit;
+			productName = HDWalletKit;
+			productReference = 34C3C9752305A592008F2154 /* HDWalletKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		34C3C97C2305A593008F2154 /* HDWalletKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 34C3C9922305A593008F2154 /* Build configuration list for PBXNativeTarget "HDWalletKitTests" */;
+			buildPhases = (
+				B0D20ADEE21544656B88CC69 /* [CP] Check Pods Manifest.lock */,
+				34C3C9792305A593008F2154 /* Sources */,
+				34C3C97A2305A593008F2154 /* Frameworks */,
+				34C3C97B2305A593008F2154 /* Resources */,
+				E905E776A42E560F11EC12C3 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				34C3C9802305A593008F2154 /* PBXTargetDependency */,
+				34C3C9822305A593008F2154 /* PBXTargetDependency */,
+			);
+			name = HDWalletKitTests;
+			productName = HDWalletKitTests;
+			productReference = 34C3C97D2305A593008F2154 /* HDWalletKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		34EDB8262261065D009521D9 /* ERC20Kit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 34EDB83E2261065E009521D9 /* Build configuration list for PBXNativeTarget "ERC20Kit" */;
@@ -11764,6 +12285,8 @@
 				3A6A1A2B21B9A64D00D97C74 /* PBXTargetDependency */,
 				3A4E489521BF3070001A799D /* PBXTargetDependency */,
 				34EDB83B2261065E009521D9 /* PBXTargetDependency */,
+				34C3C9892305A593008F2154 /* PBXTargetDependency */,
+				340ABD73230AAF5C0032278D /* PBXTargetDependency */,
 			);
 			name = Blockchain;
 			productName = Blockchain;
@@ -11777,10 +12300,44 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Blockchain Luxembourg S.A";
 				TargetAttributes = {
+					340ABD5E230AAF580032278D = {
+						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = NZ6PH75U7K;
+						LastSwiftMigration = 1020;
+						ProvisioningStyle = Automatic;
+					};
+					340ABD66230AAF5A0032278D = {
+						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = NZ6PH75U7K;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 9FB3637014B60128004BEA02;
+					};
+					34C3C94023059284008F2154 = {
+						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
+						ProvisioningStyle = Manual;
+					};
+					34C3C94823059284008F2154 = {
+						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = NZ6PH75U7K;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 9FB3637014B60128004BEA02;
+					};
+					34C3C9742305A592008F2154 = {
+						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
+						ProvisioningStyle = Manual;
+					};
+					34C3C97C2305A593008F2154 = {
+						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = NZ6PH75U7K;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 9FB3637014B60128004BEA02;
+					};
 					34EDB8262261065D009521D9 = {
 						CreatedOnToolsVersion = 10.1;
 						ProvisioningStyle = Manual;
@@ -11937,6 +12494,12 @@
 				3A4E488821BF3070001A799D /* BitcoinKitTests */,
 				34EDB8262261065D009521D9 /* ERC20Kit */,
 				34EDB82E2261065D009521D9 /* ERC20KitTests */,
+				34C3C94023059284008F2154 /* TestKit */,
+				34C3C94823059284008F2154 /* TestKitTests */,
+				34C3C9742305A592008F2154 /* HDWalletKit */,
+				34C3C97C2305A593008F2154 /* HDWalletKitTests */,
+				340ABD5E230AAF580032278D /* CommonCryptoKit */,
+				340ABD66230AAF5A0032278D /* CommonCryptoKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -12008,6 +12571,48 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		340ABD5D230AAF580032278D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		340ABD65230AAF5A0032278D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C93F23059284008F2154 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C94723059284008F2154 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C9732305A592008F2154 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C97B2305A593008F2154 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		34EDB8252261065D009521D9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -12397,6 +13002,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		358E9D22DAC2C6F853126F50 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CommonCryptoKit-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		36CF078E24C66DDF15A2D68D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -12477,6 +13104,32 @@
 			shellPath = /bin/sh;
 			shellScript = "set -ue\nsleep 3\nINFO_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\nif [ -f \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\" ] ; then\necho \"Found Info.plist\"\nopensslURL=`/usr/libexec/PlistBuddy -c \"Print :WALLET_SERVER\" \"$INFO_PLIST\"`\nif [ ! -d ${SRCROOT}/Cert ]; then\nmkdir ${SRCROOT}/Cert\nfi\ncd ${SRCROOT}/Cert\nopenssl s_client -connect $opensslURL:443 -showcerts -CApath etc/ssl/certs/ | openssl x509 -outform DER > blockchain.der\nelse\necho \"Error: Could not find info.plist. Exiting\"\nexit 1\nfi\n\n";
 		};
+		546FF2730F318459FA699AB8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CommonCryptoKitTests/Pods-CommonCryptoKitTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/LibWally/LibWally.framework",
+				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
+				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LibWally.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CommonCryptoKitTests/Pods-CommonCryptoKitTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6567FDAE22C6C5F90035CB16 /* Firebase Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -12511,6 +13164,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-PlatformUIKit-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		71BF2F8F2847C062585E1D84 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HDWalletKit-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -12617,7 +13292,6 @@
 				"${BUILT_PRODUCTS_DIR}/web3swift.pod/web3swift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
 				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
-				"${BUILT_PRODUCTS_DIR}/LibWally/LibWally.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -12630,7 +13304,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/web3swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LibWally.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -12695,6 +13368,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Blockchain/Pods-Blockchain-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B0D20ADEE21544656B88CC69 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HDWalletKitTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BF2244099EC5A63EF54321A0 /* [CP] Check Pods Manifest.lock */ = {
@@ -12817,6 +13512,28 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ERC20KitTests/Pods-ERC20KitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E5987261D9D045D61B33AC11 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CommonCryptoKitTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E77DEA0A5C756D65F42192E3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -12839,9 +13556,95 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E905E776A42E560F11EC12C3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HDWalletKitTests/Pods-HDWalletKitTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/LibWally/LibWally.framework",
+				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
+				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LibWally.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HDWalletKitTests/Pods-HDWalletKitTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		340ABD5B230AAF580032278D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				340ABD85230AAF900032278D /* HexRepresentable.swift in Sources */,
+				340ABD87230AAFBA0032278D /* Data+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		340ABD63230AAF5A0032278D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				340ABD6F230AAF5C0032278D /* CommonCryptoKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C93D23059284008F2154 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34C3C96F230592D2008F2154 /* MockWalletTestData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C94523059284008F2154 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34C3C95123059284008F2154 /* TestKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C9712305A592008F2154 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3455E1F42306CB77005E69BF /* HDPublicKey.swift in Sources */,
+				3455E2012306CC82005E69BF /* Entropy.swift in Sources */,
+				3455E2182309732D005E69BF /* HDWalletKitError.swift in Sources */,
+				34C3C99A2305A5C3008F2154 /* HDWallet.swift in Sources */,
+				34C3C9AC2305A863008F2154 /* HDPrivateKey.swift in Sources */,
+				34C3C99F2305A81B008F2154 /* Mnemonic.swift in Sources */,
+				3455E2082306FF56005E69BF /* Network.swift in Sources */,
+				3455E2062306F95D005E69BF /* HDKey.swift in Sources */,
+				3455E20D23096FD2005E69BF /* HDKeyPath.swift in Sources */,
+				3455E1FF2306CC01005E69BF /* Seed.swift in Sources */,
+				34C3C9AA2305A835008F2154 /* HDKeychain.swift in Sources */,
+				34C3C9AE2305A984008F2154 /* WordList.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C3C9792305A593008F2154 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34C3C9852305A593008F2154 /* HDWalletKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		34EDB8232261065D009521D9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -12880,6 +13683,7 @@
 				34C8366122A6A7DD008392E4 /* ERC20BridgeMock.swift in Sources */,
 				347F48182267A6CF006BCDDA /* ERC20AssetAccountDetailsServiceTests.swift in Sources */,
 				34EDB8372261065D009521D9 /* ERC20KitTests.swift in Sources */,
+				340ABD9E230ACF610032278D /* EthereumTransactionCandidateMockBuilder.swift in Sources */,
 				34E90602226F1E0F00550750 /* ERC20AccountAPIClientMock.swift in Sources */,
 				34998C7E2290754E005B5CDD /* EthereumWalletAccountRepositoryMock.swift in Sources */,
 			);
@@ -12893,6 +13697,7 @@
 				C7B4EB47220A3E8F001C1795 /* BitcoinWalletAccountRepository.swift in Sources */,
 				3416D2D222F838D100105424 /* BitcoinQRMetadata.swift in Sources */,
 				C76E4D0D220B4A0B00B21B82 /* BitcoinTransaction.swift in Sources */,
+				34C3C931230570FD008F2154 /* BitcoinKeyPairDeriver.swift in Sources */,
 				3416D2D522F83B2600105424 /* BitcoinWalletAccount.swift in Sources */,
 				3AE17ADF2229CECA0061AC86 /* BitcoinTransactionFee.swift in Sources */,
 				3416D2D022F8389D00105424 /* BitcoinQRMetadataFactory.swift in Sources */,
@@ -12907,6 +13712,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34C3C938230573CA008F2154 /* BitcoinKeyPairDeriverTests.swift in Sources */,
 				3A4E489121BF3070001A799D /* BitcoinKitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -13197,6 +14003,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3422FF86226F4B8B005FBB2E /* EthereumTransactionSignerTests.swift in Sources */,
+				340ABD97230ABC970032278D /* EthereumTransactionCandidateMockBuilder.swift in Sources */,
 				344C42E0227C4D4D00CFAC33 /* EthereumKeyPairDeriverMock.swift in Sources */,
 				34A5CBAD2278C12600F98E1F /* EthereumTransactionSendingServiceTests.swift in Sources */,
 				3430446F224CFB960036345B /* EthereumWalletBridgeMock.swift in Sources */,
@@ -13372,6 +14179,7 @@
 				AA46ECC4219A2EE10077B351 /* KYCVerifyIdentityInteractor.swift in Sources */,
 				602B9D242118E27100BD3D60 /* KYCConfirmPhoneNumberController.swift in Sources */,
 				347B6A1C22CCD9FE002C80E9 /* StellarMocks.swift in Sources */,
+				340ABDAA230ACFBE0032278D /* EthereumTransactionCandidateMockBuilder.swift in Sources */,
 				C74E865320B3043E00F7263D /* WalletHistoryDelegate.swift in Sources */,
 				3AA94DEA22418D800083210B /* ExchangeRateMetadata.swift in Sources */,
 				3AB4D91C21309BD4004F0160 /* ExchangeListPresenter.swift in Sources */,
@@ -13720,7 +14528,6 @@
 				3A3C7D7921812A6B0067F442 /* ActionableTrigger.swift in Sources */,
 				51C2ADD720BDECE700D66108 /* String+EscapeJS.swift in Sources */,
 				AA7133CB21222AFC00CB2AA9 /* MockKYCCountrySelectionView.swift in Sources */,
-				34BD57E6228A119200882945 /* MockEthereumWalletTestData.swift in Sources */,
 				AAF2AEC621237A1F00687E30 /* PersonalDetailsService.swift in Sources */,
 				C702A7DB217E9BD200A8DED1 /* TransactionTableCell+ViewModel.swift in Sources */,
 				AAD27A31209D22FD00C0EAFC /* AVCaptureDeviceInput.swift in Sources */,
@@ -13778,6 +14585,7 @@
 				652ABFA622EB2A0B00D5F846 /* AnnouncementInteracting.swift in Sources */,
 				602B9D0D2118E23800BD3D60 /* KYCOnboardingNavigationController.swift in Sources */,
 				AA0A4158214B3A3700807163 /* AssetAccountRepository.swift in Sources */,
+				340ABDAB230ACFC30032278D /* MockEthereumWalletTestData.swift in Sources */,
 				34EFC7D12220815C00273640 /* EthereumWalletTests.swift in Sources */,
 				3AC7C2C322E6A8460021C841 /* PitAccountAuthenticator.swift in Sources */,
 				6509997B22E1DCBC0092BFB9 /* CoinifyKycAnnouncement.swift in Sources */,
@@ -14537,6 +15345,46 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		340ABD6A230AAF5C0032278D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 340ABD5E230AAF580032278D /* CommonCryptoKit */;
+			targetProxy = 340ABD69230AAF5C0032278D /* PBXContainerItemProxy */;
+		};
+		340ABD6C230AAF5C0032278D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9FB3637014B60128004BEA02 /* Blockchain */;
+			targetProxy = 340ABD6B230AAF5C0032278D /* PBXContainerItemProxy */;
+		};
+		340ABD73230AAF5C0032278D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 340ABD5E230AAF580032278D /* CommonCryptoKit */;
+			targetProxy = 340ABD72230AAF5C0032278D /* PBXContainerItemProxy */;
+		};
+		34C3C94C23059284008F2154 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34C3C94023059284008F2154 /* TestKit */;
+			targetProxy = 34C3C94B23059284008F2154 /* PBXContainerItemProxy */;
+		};
+		34C3C94E23059284008F2154 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9FB3637014B60128004BEA02 /* Blockchain */;
+			targetProxy = 34C3C94D23059284008F2154 /* PBXContainerItemProxy */;
+		};
+		34C3C9802305A593008F2154 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34C3C9742305A592008F2154 /* HDWalletKit */;
+			targetProxy = 34C3C97F2305A593008F2154 /* PBXContainerItemProxy */;
+		};
+		34C3C9822305A593008F2154 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9FB3637014B60128004BEA02 /* Blockchain */;
+			targetProxy = 34C3C9812305A593008F2154 /* PBXContainerItemProxy */;
+		};
+		34C3C9892305A593008F2154 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34C3C9742305A592008F2154 /* HDWalletKit */;
+			targetProxy = 34C3C9882305A593008F2154 /* PBXContainerItemProxy */;
+		};
 		34EDB8322261065D009521D9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 34EDB8262261065D009521D9 /* ERC20Kit */;
@@ -15387,6 +16235,1869 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		340ABD77230AAF5C0032278D /* Debug Production */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F6A2BF2181A8D9F53F5CA738 /* Pods-CommonCryptoKit.debug production.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = CommonCryptoKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Debug Production";
+		};
+		340ABD78230AAF5C0032278D /* Debug Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F99018580BD76D7403E2E402 /* Pods-CommonCryptoKit.debug staging.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = CommonCryptoKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Debug Staging";
+		};
+		340ABD79230AAF5C0032278D /* Debug Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FE9D053FB547816937D6B497 /* Pods-CommonCryptoKit.debug dev.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = CommonCryptoKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Debug Dev";
+		};
+		340ABD7A230AAF5C0032278D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 714404E0547183EC9DF90106 /* Pods-CommonCryptoKit.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = CommonCryptoKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		340ABD7B230AAF5C0032278D /* Release Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 822507DCB0C05668F66379C9 /* Pods-CommonCryptoKit.release staging.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NZ6PH75U7K;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = CommonCryptoKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Release Staging";
+		};
+		340ABD7D230AAF5C0032278D /* Debug Production */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BBAA208F3DDDC39E22819247 /* Pods-CommonCryptoKitTests.debug production.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = CommonCryptoKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Debug Production";
+		};
+		340ABD7E230AAF5C0032278D /* Debug Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BC4DC0915C564B3E690327B /* Pods-CommonCryptoKitTests.debug staging.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = CommonCryptoKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Debug Staging";
+		};
+		340ABD7F230AAF5C0032278D /* Debug Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A999C4899F6197F62EB9E15F /* Pods-CommonCryptoKitTests.debug dev.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = CommonCryptoKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Debug Dev";
+		};
+		340ABD80230AAF5C0032278D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9A51BAD3483B5CF69A24CE42 /* Pods-CommonCryptoKitTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = CommonCryptoKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = Release;
+		};
+		340ABD81230AAF5C0032278D /* Release Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28C05395798A82A84F93295B /* Pods-CommonCryptoKitTests.release staging.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = CommonCryptoKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.CommonCryptoKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Release Staging";
+		};
+		34C3C95823059284008F2154 /* Debug Production */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = TestKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.TestKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Debug Production";
+		};
+		34C3C95923059284008F2154 /* Debug Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = TestKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.TestKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Debug Staging";
+		};
+		34C3C95A23059284008F2154 /* Debug Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = TestKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.TestKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Debug Dev";
+		};
+		34C3C95B23059284008F2154 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = TestKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.TestKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		34C3C95C23059284008F2154 /* Release Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = TestKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.TestKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Release Staging";
+		};
+		34C3C95D23059284008F2154 /* Debug Production */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = TestKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.TestKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Debug Production";
+		};
+		34C3C95E23059284008F2154 /* Debug Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = TestKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.TestKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Debug Staging";
+		};
+		34C3C95F23059284008F2154 /* Debug Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = TestKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.TestKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Debug Dev";
+		};
+		34C3C96023059284008F2154 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = TestKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.TestKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = Release;
+		};
+		34C3C96123059284008F2154 /* Release Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = TestKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.TestKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Release Staging";
+		};
+		34C3C98D2305A593008F2154 /* Debug Production */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3576F96699883735EDAD5088 /* Pods-HDWalletKit.debug production.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = HDWalletKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.HDWalletKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Debug Production";
+		};
+		34C3C98E2305A593008F2154 /* Debug Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2AA8854CF4A1B1FAE96B0FA /* Pods-HDWalletKit.debug staging.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = HDWalletKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.HDWalletKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Debug Staging";
+		};
+		34C3C98F2305A593008F2154 /* Debug Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B889D98042596E7F5FA392BE /* Pods-HDWalletKit.debug dev.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = HDWalletKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.HDWalletKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Debug Dev";
+		};
+		34C3C9902305A593008F2154 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EAC710E8B26BC6CE485EF6DE /* Pods-HDWalletKit.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HDWalletKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.HDWalletKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		34C3C9912305A593008F2154 /* Release Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 09056DF59EBBE24E13B12452 /* Pods-HDWalletKit.release staging.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HDWalletKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.HDWalletKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Release Staging";
+		};
+		34C3C9932305A593008F2154 /* Debug Production */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CEAC8E75EB4F07DA55BA1257 /* Pods-HDWalletKitTests.debug production.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = HDWalletKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.HDWalletKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Debug Production";
+		};
+		34C3C9942305A593008F2154 /* Debug Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B6F601EFC44797F43AC03468 /* Pods-HDWalletKitTests.debug staging.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = HDWalletKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.HDWalletKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Debug Staging";
+		};
+		34C3C9952305A593008F2154 /* Debug Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 028EFF538851B83124F0FD81 /* Pods-HDWalletKitTests.debug dev.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = HDWalletKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.HDWalletKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Debug Dev";
+		};
+		34C3C9962305A593008F2154 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F6E5FB2D86BD30CA558E3F42 /* Pods-HDWalletKitTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HDWalletKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.HDWalletKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = Release;
+		};
+		34C3C9972305A593008F2154 /* Release Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F6B3FD7E9C2731497D8A1A14 /* Pods-HDWalletKitTests.release staging.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HDWalletKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = blockchain.HDWalletKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
+			};
+			name = "Release Staging";
+		};
 		34EDB83F2261065E009521D9 /* Debug Production */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 03283C6132B266452AF30C2B /* Pods-ERC20Kit.debug production.xcconfig */;
@@ -19269,7 +21980,10 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
-				"WARNING_CFLAGS[arch=*]" = "-fdiagnostics-show-option -Wno-nullability-completeness";
+				"WARNING_CFLAGS[arch=*]" = (
+					"-fdiagnostics-show-option",
+					"-Wno-nullability-completeness",
+				);
 			};
 			name = "Debug Production";
 		};
@@ -19342,7 +22056,10 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
-				"WARNING_CFLAGS[arch=*]" = "-fdiagnostics-show-option -Wno-nullability-completeness";
+				"WARNING_CFLAGS[arch=*]" = (
+					"-fdiagnostics-show-option",
+					"-Wno-nullability-completeness",
+				);
 			};
 			name = "Debug Staging";
 		};
@@ -19415,7 +22132,12 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
-				"WARNING_CFLAGS[arch=*]" = "-fdiagnostics-show-option -Wno-nullability-completeness -Wno-incompatible-property-type -Wno-objc-property-synthesis";
+				"WARNING_CFLAGS[arch=*]" = (
+					"-fdiagnostics-show-option",
+					"-Wno-nullability-completeness",
+					"-Wno-incompatible-property-type",
+					"-Wno-objc-property-synthesis",
+				);
 			};
 			name = "Debug Dev";
 		};
@@ -20099,6 +22821,78 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		340ABD76230AAF5C0032278D /* Build configuration list for PBXNativeTarget "CommonCryptoKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				340ABD77230AAF5C0032278D /* Debug Production */,
+				340ABD78230AAF5C0032278D /* Debug Staging */,
+				340ABD79230AAF5C0032278D /* Debug Dev */,
+				340ABD7A230AAF5C0032278D /* Release */,
+				340ABD7B230AAF5C0032278D /* Release Staging */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		340ABD7C230AAF5C0032278D /* Build configuration list for PBXNativeTarget "CommonCryptoKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				340ABD7D230AAF5C0032278D /* Debug Production */,
+				340ABD7E230AAF5C0032278D /* Debug Staging */,
+				340ABD7F230AAF5C0032278D /* Debug Dev */,
+				340ABD80230AAF5C0032278D /* Release */,
+				340ABD81230AAF5C0032278D /* Release Staging */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		34C3C96B23059285008F2154 /* Build configuration list for PBXNativeTarget "TestKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				34C3C95823059284008F2154 /* Debug Production */,
+				34C3C95923059284008F2154 /* Debug Staging */,
+				34C3C95A23059284008F2154 /* Debug Dev */,
+				34C3C95B23059284008F2154 /* Release */,
+				34C3C95C23059284008F2154 /* Release Staging */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		34C3C96C23059285008F2154 /* Build configuration list for PBXNativeTarget "TestKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				34C3C95D23059284008F2154 /* Debug Production */,
+				34C3C95E23059284008F2154 /* Debug Staging */,
+				34C3C95F23059284008F2154 /* Debug Dev */,
+				34C3C96023059284008F2154 /* Release */,
+				34C3C96123059284008F2154 /* Release Staging */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		34C3C98C2305A593008F2154 /* Build configuration list for PBXNativeTarget "HDWalletKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				34C3C98D2305A593008F2154 /* Debug Production */,
+				34C3C98E2305A593008F2154 /* Debug Staging */,
+				34C3C98F2305A593008F2154 /* Debug Dev */,
+				34C3C9902305A593008F2154 /* Release */,
+				34C3C9912305A593008F2154 /* Release Staging */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		34C3C9922305A593008F2154 /* Build configuration list for PBXNativeTarget "HDWalletKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				34C3C9932305A593008F2154 /* Debug Production */,
+				34C3C9942305A593008F2154 /* Debug Staging */,
+				34C3C9952305A593008F2154 /* Debug Dev */,
+				34C3C9962305A593008F2154 /* Release */,
+				34C3C9972305A593008F2154 /* Release Staging */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		34EDB83E2261065E009521D9 /* Build configuration list for PBXNativeTarget "ERC20Kit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

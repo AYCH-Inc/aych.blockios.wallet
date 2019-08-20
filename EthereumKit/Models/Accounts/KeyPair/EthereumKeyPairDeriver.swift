@@ -11,37 +11,32 @@ import PlatformKit
 import web3swift
 import RxSwift
 
-extension AnyEthereumKeyPairDeriver {
-    public convenience init() {
-        self.init(with: EthereumKeyPairDeriver.shared)
-    }
-}
-
 public class EthereumKeyPairDeriver: EthereumKeyPairDeriverAPI {
     static let shared = EthereumKeyPairDeriver()
     
-    public func derive(input: EthereumKeyDerivationInput) -> Maybe<EthereumKeyPair> {
+    public func derive(input: EthereumKeyDerivationInput) -> Result<EthereumKeyPair, Error> {
         let mnemonic = input.mnemonic
         let password = input.password
-        guard
-            let mnemonics = try? Mnemonics(mnemonic),
-            let keystore = try? BIP32Keystore(
+        let mnemonics: Mnemonics
+        let keystore: BIP32Keystore
+        let privateKey: Data
+        let publicKey: Data
+        let accountAddress: String
+        do {
+            mnemonics = try Mnemonics(mnemonic)
+            keystore = try BIP32Keystore(
                 mnemonics: mnemonics,
                 password: password,
                 prefixPath: HDNode.defaultPathMetamaskPrefix
             )
-        else {
-            return Maybe.empty()
+            let address = keystore.addresses[0]
+            privateKey = try keystore.UNSAFE_getPrivateKeyData(password: password, account: address)
+            publicKey = try Web3Utils.privateToPublic(privateKey, compressed: true)
+            accountAddress = try Web3Utils.publicToAddressString(publicKey)
+        } catch {
+            return .failure(error)
         }
-        let address = keystore.addresses[0]
-        guard
-            let privateKey = try? keystore.UNSAFE_getPrivateKeyData(password: password, account: address),
-            let publicKey = try? Web3Utils.privateToPublic(privateKey, compressed: true),
-            let accountAddress = try? Web3Utils.publicToAddressString(publicKey)
-        else {
-            return Maybe.empty()
-        }
-        return Maybe.just(
+        return .success(
             EthereumKeyPair(
                 accountID: accountAddress,
                 privateKey: EthereumPrivateKey(

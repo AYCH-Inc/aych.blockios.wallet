@@ -47,7 +47,7 @@ open class StellarWalletAccountRepository: StellarWalletAccountRepositoryAPI, Wa
     public func loadKeyPair() -> Maybe<Pair> {
         return bridge.mnemonicPromptingIfNeeded
             .flatMap { [unowned self] mnemonic -> Maybe<Pair> in
-                return self.deriver.derive(input: StellarKeyDerivationInput(mnemonic: mnemonic))
+                return self.deriver.derive(input: StellarKeyDerivationInput(mnemonic: mnemonic)).maybe
             }
     }
     

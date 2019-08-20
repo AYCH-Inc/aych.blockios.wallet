@@ -53,8 +53,6 @@ class EthereumKeyPairDeriverTests: XCTestCase {
         let key = try keyStore.UNSAFE_getPrivateKeyData(password: password, account: account)
         let keyHex = key.hex
         let keyBase64 = key.base64EncodedString()
-        print("   keyHex: \(keyHex)")
-        print("keyBase64: \(keyBase64)")
         XCTAssertEqual(key.hex, expectedPrivateKeyHex)
         XCTAssertEqual(key.base64EncodedString(), expectedPrivateKeyBase64)
     }
@@ -79,6 +77,7 @@ class EthereumKeyPairDeriverTests: XCTestCase {
         
         let deriveObservable = subject
             .derive(input: keyDerivationInput)
+            .single
             .asObservable()
         
         // Act

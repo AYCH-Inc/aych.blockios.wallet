@@ -305,6 +305,12 @@
 		3A1B291D22FB679800CFCF87 /* WalletOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B291C22FB679800CFCF87 /* WalletOptions.swift */; };
 		3A1B292022FB6B6A00CFCF87 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93227021AC7076000DB69B /* AppVersion.swift */; };
 		3A1B292222FB6D7E00CFCF87 /* WalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B292122FB6D7E00CFCF87 /* WalletService.swift */; };
+		3A1BB2CF230711AD00761EF5 /* BottomSheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1BB2CE230711AD00761EF5 /* BottomSheetPresenter.swift */; };
+		3A1BB2DB2307257900761EF5 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1BB2DA2307257900761EF5 /* BottomSheetViewController.swift */; };
+		3A1BB2DD2307258A00761EF5 /* BottomSheetViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A1BB2DC2307258A00761EF5 /* BottomSheetViewController.storyboard */; };
+		3A1BB2EC230730D100761EF5 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A1BB2E52307289B00761EF5 /* Inter-Medium.ttf */; };
+		3A1BB2EE230730DB00761EF5 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A1BB2E32307288D00761EF5 /* Inter-Regular.ttf */; };
+		3A1BB2EF230730DB00761EF5 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A1BB2E12307286E00761EF5 /* Inter-SemiBold.ttf */; };
 		3A1C7F9E2178FA7A001AC6D3 /* StellarOperationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */; };
 		3A1C7FA821790A49001AC6D3 /* StellarOperationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */; };
 		3A1C7FA921790AB3001AC6D3 /* StellarOperationsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A02602177F10200E2848E /* StellarOperationsAPI.swift */; };
@@ -748,6 +754,7 @@
 		3AE74B6A21C08E8400246A9C /* KYCTiersHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B4021C04B0800246A9C /* KYCTiersHeaderView.swift */; };
 		3AE74B8921C1AE4C00246A9C /* ModalAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B8821C1AE4C00246A9C /* ModalAnimator.swift */; };
 		3AE74B8A21C1AE4C00246A9C /* ModalAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B8821C1AE4C00246A9C /* ModalAnimator.swift */; };
+		3AE8F4392307357E0099E6BE /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A1BB2DF2307286200761EF5 /* Inter-Bold.ttf */; };
 		3AE92BDB2110DB3C008D7BDC /* KeyboardPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE92BDA2110DB3C008D7BDC /* KeyboardPayload.swift */; };
 		3AEA402121FBA9DC00952587 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEA402021FBA9DC00952587 /* AlertView.swift */; };
 		3AEA402321FBAAEF00952587 /* AlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AEA402221FBAAEF00952587 /* AlertView.xib */; };
@@ -2486,6 +2493,13 @@
 		3A1B291822FB668500CFCF87 /* WalletOptionsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletOptionsAPI.swift; sourceTree = "<group>"; };
 		3A1B291C22FB679800CFCF87 /* WalletOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletOptions.swift; sourceTree = "<group>"; };
 		3A1B292122FB6D7E00CFCF87 /* WalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletService.swift; sourceTree = "<group>"; };
+		3A1BB2CE230711AD00761EF5 /* BottomSheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPresenter.swift; sourceTree = "<group>"; };
+		3A1BB2DA2307257900761EF5 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		3A1BB2DC2307258A00761EF5 /* BottomSheetViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = BottomSheetViewController.storyboard; sourceTree = "<group>"; };
+		3A1BB2DF2307286200761EF5 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
+		3A1BB2E12307286E00761EF5 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		3A1BB2E32307288D00761EF5 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		3A1BB2E52307289B00761EF5 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
 		3A1C7F9D2178FA7A001AC6D3 /* StellarOperationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarOperationService.swift; sourceTree = "<group>"; };
 		3A1D3C3D223965D5006F0D22 /* InputComponentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputComponentType.swift; sourceTree = "<group>"; };
 		3A1D3C43223AF16B006F0D22 /* InputType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputType.swift; sourceTree = "<group>"; };
@@ -6116,6 +6130,26 @@
 			path = Options;
 			sourceTree = "<group>";
 		};
+		3A1BB2D92307256800761EF5 /* BottomSheetViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3A1BB2DA2307257900761EF5 /* BottomSheetViewController.swift */,
+				3A1BB2DC2307258A00761EF5 /* BottomSheetViewController.storyboard */,
+			);
+			path = BottomSheetViewController;
+			sourceTree = "<group>";
+		};
+		3A1BB2EB230730C000761EF5 /* Inter */ = {
+			isa = PBXGroup;
+			children = (
+				3A1BB2E52307289B00761EF5 /* Inter-Medium.ttf */,
+				3A1BB2E32307288D00761EF5 /* Inter-Regular.ttf */,
+				3A1BB2E12307286E00761EF5 /* Inter-SemiBold.ttf */,
+				3A1BB2DF2307286200761EF5 /* Inter-Bold.ttf */,
+			);
+			path = Inter;
+			sourceTree = "<group>";
+		};
 		3A1D3C332239656E006F0D22 /* Input */ = {
 			isa = PBXGroup;
 			children = (
@@ -6883,6 +6917,7 @@
 		3A6865C2219A12530009FF29 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3A1BB2D92307256800761EF5 /* BottomSheetViewController */,
 				3A7E382722E1489800E289C4 /* Gradient */,
 				3A3428032220BD4D000D8032 /* Buttons */,
 				3A3427F22220B54E000D8032 /* BottomSheetView */,
@@ -9968,6 +10003,7 @@
 			children = (
 				65550E5F22BE671E00522656 /* ScreenTransitioningAnimator.swift */,
 				65550E6022BE671E00522656 /* NavigationTransitionAnimating.swift */,
+				3A1BB2CE230711AD00761EF5 /* BottomSheetPresenter.swift */,
 			);
 			path = ScreenTransitioning;
 			sourceTree = "<group>";
@@ -11580,6 +11616,7 @@
 		C790E0F91E5205620063D141 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				3A1BB2EB230730C000761EF5 /* Inter */,
 				C790E0FA1E52056A0063D141 /* Montserrat */,
 			);
 			path = Fonts;
@@ -12667,6 +12704,7 @@
 				AA5D848E228E2A4600992810 /* ReceiveCryptoViewController.storyboard in Resources */,
 				3AC90D0421F78CF2006DD565 /* PaginatedContainerCell.xib in Resources */,
 				3A6865C1219A12290009FF29 /* PlatformUIKitAssets.xcassets in Resources */,
+				3A1BB2DD2307258A00761EF5 /* BottomSheetViewController.storyboard in Resources */,
 				3ADD8E4322DD17B500942ED0 /* BottomAlertSheet.xib in Resources */,
 				652D579E22DE299A00A87AAB /* ActivityIndicatorLoadingContainerView.xib in Resources */,
 				3A6865CD219A136C0009FF29 /* TransactionDetailCell.xib in Resources */,
@@ -12803,6 +12841,7 @@
 				515EFAE5210282B4002350B6 /* SendCoins.xib in Resources */,
 				515EFAE4210282B4002350B6 /* BCAddressSelectionView.xib in Resources */,
 				3AAEF95A2141B05A005852D1 /* ActionableFooterView.xib in Resources */,
+				3A1BB2EF230730DB00761EF5 /* Inter-SemiBold.ttf in Resources */,
 				3A49B2C52130B56C0068F443 /* NewOrderTableViewCell.xib in Resources */,
 				3AE74B4D21C04D9C00246A9C /* KYCTiersViewController.storyboard in Resources */,
 				5152AC312142E4BE00E769CE /* AnnouncementCardView.xib in Resources */,
@@ -12817,6 +12856,7 @@
 				515EFAE9210282B4002350B6 /* AccountsAndAddresses.storyboard in Resources */,
 				AA8F21F221C82C8900F45C42 /* KYCAddressController.storyboard in Resources */,
 				C7773312217A764D00899930 /* TransactionsXlmViewController.storyboard in Resources */,
+				3AE8F4392307357E0099E6BE /* Inter-Bold.ttf in Resources */,
 				60A08C632118F733006DB9E8 /* Settings.storyboard in Resources */,
 				3A49A8EF2151802000760B8C /* ConversionRatesView.xib in Resources */,
 				3AAAADA522F0F18E00989320 /* SwapIntroductionCollectionViewCell.xib in Resources */,
@@ -12826,6 +12866,7 @@
 				C9BE918C1945F5FC00FD516D /* Images.xcassets in Resources */,
 				3A4EAB98214080D700081531 /* TextCell.xib in Resources */,
 				65550E8122BE671F00522656 /* DigitPadView.xib in Resources */,
+				3A1BB2EE230730DB00761EF5 /* Inter-Regular.ttf in Resources */,
 				3AAEF95321417563005852D1 /* ExchangeLockedHeaderView.xib in Resources */,
 				3A53DB66226FA70600CBCB6E /* SendPaxViewController.storyboard in Resources */,
 				7ADD19D721874C220013A525 /* Firebase in Resources */,
@@ -12847,6 +12888,7 @@
 				3A26D529214055FE00D79BDD /* TradingPairCell.xib in Resources */,
 				603582A620EBFB110077AFFB /* ToggleCell.xib in Resources */,
 				3A9511DA21769DB500F26631 /* SendLumensViewController.storyboard in Resources */,
+				3A1BB2EC230730D100761EF5 /* Inter-Medium.ttf in Resources */,
 				3AEE9690221DDE7700F8B5D5 /* DashboardContainerViewController.storyboard in Resources */,
 				C71859591F4B791600745A87 /* TabController.xib in Resources */,
 				659B2C0822C3E0EF00114B50 /* LoginContainerCollectionViewCell.xib in Resources */,
@@ -13870,6 +13912,7 @@
 				65E4B54722CF46F900EAC3CD /* Accessibility.swift in Sources */,
 				650CE42322CBDF1300FA282E /* SideImageButtonView.swift in Sources */,
 				3A3428012220B7A3000D8032 /* BottomSheet.swift in Sources */,
+				3A1BB2DB2307257900761EF5 /* BottomSheetViewController.swift in Sources */,
 				3A45608921F270B7006C2568 /* BaseViewController.swift in Sources */,
 				3A8994CE2203F83100CCA8FF /* AnimatedGradientContainerView.swift in Sources */,
 				3AAAADA822F1F1EB00989320 /* FadeInOutFlowLayout.swift in Sources */,
@@ -13886,6 +13929,7 @@
 				3A8994C422039B6500CCA8FF /* PricePreview.swift in Sources */,
 				6541940822D7688F00B3E6ED /* LoadingViewPresenter.swift in Sources */,
 				652AA90622D8C14F00B22360 /* Rx+Loading.swift in Sources */,
+				3A1BB2CF230711AD00761EF5 /* BottomSheetPresenter.swift in Sources */,
 				3A6865CB219A12DC0009FF29 /* NSAttributedString+Conveniences.swift in Sources */,
 				3A3F3B9921E40556003BFDFC /* VerticalContainerCell.swift in Sources */,
 				3A3F3BA021E40807003BFDFC /* Container.swift in Sources */,

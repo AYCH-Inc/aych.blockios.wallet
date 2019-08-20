@@ -67,6 +67,10 @@
 	<string>$(RETAIL_CORE_URL)</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Inter-Bold.ttf</string>
+		<string>Inter-SemiBold.ttf</string>
+		<string>Inter-Regular.ttf</string>
+		<string>Inter-Medium.ttf</string>
 		<string>Montserrat-ExtraLight.ttf</string>
 		<string>Montserrat-Light.ttf</string>
 		<string>Montserrat-Regular.ttf</string>

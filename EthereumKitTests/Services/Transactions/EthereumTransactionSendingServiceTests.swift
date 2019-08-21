@@ -53,7 +53,14 @@ class EthereumTransactionSendingServiceTests: XCTestCase {
     }
     
     override func tearDown() {
-        
+        scheduler = nil
+        disposeBag = nil
+        bridge = nil
+        ethereumAPIClient = nil
+        feeService = nil
+        transactionBuilder = nil
+        transactionSigner = nil
+        transactionEncoder = nil
         subject = nil
         
         super.tearDown()

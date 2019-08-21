@@ -37,6 +37,9 @@ class EthereumAssetAccountDetailsServiceTests: XCTestCase {
 
     override func tearDown() {
         
+        ethereumAPIClient = nil
+        scheduler = nil
+        disposeBag = nil
         bridge = nil
         subject = nil
         

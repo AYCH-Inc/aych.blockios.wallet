@@ -90,7 +90,6 @@ public final class EthereumTransactionSendingService: EthereumTransactionSending
 
     private func publish(transaction: EthereumTransactionFinalised) -> Single<EthereumTransactionPublished> {
         return ethereumAPIClient.push(transaction: transaction)
-            .observeOn(MainScheduler.instance)
             .flatMap { response in
                 let publishedTransaction = try EthereumTransactionPublished(
                     finalisedTransaction: transaction,

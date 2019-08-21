@@ -75,7 +75,10 @@ class ERC20ServiceTests: XCTestCase {
     }
     
     override func tearDown() {
+        scheduler = nil
+        disposeBag = nil
         erc20Bridge = nil
+        ethereumAPIAccountClient = nil
         accountAPIClient = nil
         ethereumWalletBridge = nil
         assetAccountDetailsService = nil

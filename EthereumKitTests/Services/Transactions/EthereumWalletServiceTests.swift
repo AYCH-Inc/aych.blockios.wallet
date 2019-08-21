@@ -63,7 +63,9 @@ class EthereumWalletServiceTests: XCTestCase {
             client: ethereumAPIClient
         )
         
-        ethereumAssetAccountRepository = EthereumAssetAccountRepository(service: assetAccountDetailsService)
+        ethereumAssetAccountRepository = EthereumAssetAccountRepository(
+            service: assetAccountDetailsService
+        )
         
         transactionSendingService = EthereumTransactionSendingService(
             with: bridge,
@@ -96,22 +98,20 @@ class EthereumWalletServiceTests: XCTestCase {
     }
     
     override func tearDown() {
-        
         scheduler = nil
         disposeBag = nil
-        
         bridge = nil
         ethereumAPIClient = nil
         feeService = nil
-        
         transactionBuilder = nil
         transactionSigner = nil
         transactionEncoder = nil
-        
         walletAccountRepository = nil
-        
+        assetAccountDetailsService = nil
+        ethereumAssetAccountRepository = nil
         transactionSendingService = nil
-        
+        transactionBuildingService = nil
+        transactionValidationService = nil
         subject = nil
         
         super.tearDown()
@@ -255,9 +255,6 @@ class EthereumWalletServiceTests: XCTestCase {
             .with(value: BigUInt(0.01))
             .build()!
         let expectedCandidateCosted = EthereumTransactionCandidateCostedBuilder()
-            .with(candidate: candidate)
-            .build()!
-        let expectedPublished = EthereumTransactionPublishedBuilder()
             .with(candidate: candidate)
             .build()!
 

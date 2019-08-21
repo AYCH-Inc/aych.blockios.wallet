@@ -43,6 +43,7 @@ class EthereumWalletAccountRepositoryTests: XCTestCase {
         disposeBag = nil
         
         bridge = nil
+        ethereumDeriver = nil
         deriver = nil
         subject = nil
         

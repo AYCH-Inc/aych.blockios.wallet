@@ -28,4 +28,8 @@ extension PrimitiveSequenceType where Trait == SingleTrait {
             return e
         }
     }
+    
+    func mapToVoid() -> Single<Void> {
+        return map { _ in return () }
+    }
 }

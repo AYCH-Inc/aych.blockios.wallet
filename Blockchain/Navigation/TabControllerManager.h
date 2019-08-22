@@ -12,7 +12,6 @@
 #import "TransactionsBitcoinViewController.h"
 #import "SendBitcoinViewController.h"
 #import "ReceiveBitcoinViewController.h"
-#import "SendEtherViewController.h"
 #import "TransactionsBitcoinCashViewController.h"
 
 @class TransactionsEthereumViewController;
@@ -29,8 +28,6 @@
 @property (strong, nonatomic) ReceiveBitcoinViewController *receiveBitcoinCashViewController;
 @property (strong, nonatomic) SendBitcoinViewController *sendBitcoinViewController;
 @property (strong, nonatomic) SendBitcoinViewController *sendBitcoinCashViewController;
-
-@property (strong, nonatomic) SendEtherViewController *sendEtherViewController;
 
 @property (strong, nonatomic) TransactionsEthereumViewController *transactionsEtherViewController;
 

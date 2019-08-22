@@ -8,6 +8,8 @@
 
 import Foundation
 import PlatformKit
+import RxRelay
+import RxSwift
 
 /**
  Settings for the current user.
@@ -29,7 +31,15 @@ final class BlockchainSettings: NSObject {
     // MARK: - App
 
     @objc
-    class App: NSObject, AppSettingsAuthenticating, SwipeToReceiveConfiguring {
+    class App: NSObject, AppSettingsAuthenticating, SwipeToReceiveConfiguring, FiatCurrencyTypeProviding {
+        
+        struct FiatCurrency: Equatable {
+            let symbol: String
+            let code: String
+            
+            static let `default` = FiatCurrency(symbol: "$", code: "USD")
+        }
+        
         static let shared = App()
 
         private lazy var defaults: UserDefaults = {
@@ -180,9 +190,19 @@ final class BlockchainSettings: NSObject {
                 }
             }
         }
+        
+        /// Current fiat currency supported by the app
+        let fiatCurrencyRelay = BehaviorRelay<FiatCurrency>(value: .default)
+        
+        /// Streams the fiat currency once the value gets changed
+        var fiatCurrency: Observable<FiatCurrency> {
+            return fiatCurrencyRelay
+                .asObservable()
+                .distinctUntilChanged()
+        }
 
         @objc var fiatCurrencySymbol: String {
-            let defaultValue = "$"
+            let defaultValue = FiatCurrency.default.symbol
             guard let addressResponse = WalletManager.shared.latestMultiAddressResponse else { return defaultValue }
             guard let symbol = addressResponse.symbol_local else { return defaultValue }
             guard let value = symbol.symbol else { return defaultValue }
@@ -190,7 +210,7 @@ final class BlockchainSettings: NSObject {
         }
 
         @objc var fiatCurrencyCode: String {
-            let defaultValue = "USD"
+            let defaultValue = FiatCurrency.default.code
             guard let addressResponse = WalletManager.shared.latestMultiAddressResponse else { return defaultValue }
             guard let symbol = addressResponse.symbol_local else { return defaultValue }
             guard let code = symbol.code else { return defaultValue }

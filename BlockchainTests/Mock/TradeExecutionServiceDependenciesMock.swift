@@ -32,13 +32,22 @@ class StellarOperationMock: StellarOperationsAPI {
     }
 }
 
-class PriceServiceMock: PriceServiceAPI {
+final class PriceServiceMock: PriceServiceAPI {
+    
+    private let expectedResult: PriceInFiatValue
+    
+    init(expectedResult: PriceInFiatValue) {
+        self.expectedResult = expectedResult
+    }
+    
     func fiatPrice(forCurrency cryptoCurrency: CryptoCurrency, fiatSymbol: String) -> Single<PriceInFiatValue> {
         return Single.error(NSError())
+        return .just(expectedResult)
     }
     
     func fiatPrice(forCurrency cryptoCurrency: CryptoCurrency, fiatSymbol: String, timestamp: Date) -> Single<PriceInFiatValue> {
         return Single.error(NSError())
+        return .just(expectedResult)
     }
 }
 
@@ -65,7 +74,7 @@ class StellarDependenciesMock: StellarDependenciesAPI {
     var transaction: StellarTransactionAPI = StellarTransactionMock()
     var limits: StellarTradeLimitsAPI = StellarTradeLimitsMock()
     var repository: StellarWalletAccountRepositoryAPI = StellarWalletAccountRepositoryMock()
-    var prices: PriceServiceAPI = PriceServiceMock()
+    var prices: PriceServiceAPI = PriceServiceMock(expectedResult: PriceInFiat.empty.toPriceInFiatValue(currencyCode: "USD"))
     var walletActionEventBus: WalletActionEventBus = WalletActionEventBus()
     var feeService: StellarFeeServiceAPI = StellarFeeServiceMock()
 }

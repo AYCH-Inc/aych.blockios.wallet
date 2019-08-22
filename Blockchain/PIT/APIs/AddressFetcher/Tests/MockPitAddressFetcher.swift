@@ -27,21 +27,28 @@ class FakeAddress {
     }
 }
 
-class MockPitAddressFetcher: PitAddressFetching {
+final class MockPitAddressFetcher: PitAddressFetching {
     
     // MARK: - Properties
     
-    private let expectedState: PitAddressFetcher.PitAddressResponseBody.State
+    private let expectedResult: Result<PitAddressFetcher.PitAddressResponseBody.State, PitAddressFetcher.FetchingError>
     
     // MARK: - Setup
     
-    init(expectedState: PitAddressFetcher.PitAddressResponseBody.State) {
-        self.expectedState = expectedState
+    init(expectedResult: Result<PitAddressFetcher.PitAddressResponseBody.State, PitAddressFetcher.FetchingError>) {
+        self.expectedResult = expectedResult
     }
     
     // MARK: - PitAddressFetching
     
     func fetchAddress(for asset: AssetType) -> Single<String> {
+        let expectedState: PitAddressFetcher.PitAddressResponseBody.State
+        switch expectedResult {
+        case .success(let state):
+            expectedState = state
+        case .failure(let error):
+            return .error(error)
+        }
         let data = Data(
             """
                 {
@@ -49,10 +56,10 @@ class MockPitAddressFetcher: PitAddressFetching {
                 "currency": "\(asset.symbol)",
                 "state": "\(expectedState.rawValue)"
                 }
-            """.utf8)
+                """.utf8
+        )
         do {
-            let result = try JSONDecoder().decode(PitAddressFetcher.PitAddressResponseBody.self,
-                                                  from: data)
+            let result = try JSONDecoder().decode(PitAddressFetcher.PitAddressResponseBody.self, from: data)
             return .just(result.address)
         } catch {
             return .error(error)

@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import RxSwift
+import RxRelay
+import RxCocoa
 
 @IBDesignable
 class PrimaryButtonContainer: NibBasedView {
@@ -48,9 +51,19 @@ class PrimaryButtonContainer: NibBasedView {
     /// `primaryButton` is tapped.
     var actionBlock: (() -> Void)?
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    private func setup() {
         primaryButton.layer.cornerRadius = 4.0
+        primaryButton.accessibilityIdentifier = AccessibilityIdentifiers.General.mainCTAButton
     }
 
     var activityIndicatorStyle: UIActivityIndicatorView.Style = .whiteLarge {
@@ -100,7 +113,7 @@ class PrimaryButtonContainer: NibBasedView {
             primaryButton.setAttributedTitle(attributedTitle, for: .normal)
         }
     }
-
+    
     @IBInspectable var isEnabled: Bool = true {
         didSet {
             primaryButton.isEnabled = isEnabled
@@ -137,5 +150,19 @@ public class PrimaryButton: UIButton {
     override public func setTitle(_ title: String?, for state: UIControl.State) {
         super.setTitle(title, for: state)
         titleLabel?.text = title
+    }
+}
+
+extension Reactive where Base: PrimaryButtonContainer {
+    var isEnabled: Binder<Bool> {
+        return Binder(base) { container, isEnabled in
+            container.isEnabled = isEnabled
+        }
+    }
+}
+
+extension Reactive where Base: PrimaryButtonContainer {
+    var tap: ControlEvent<Void> {
+        return base.primaryButton.rx.tap
     }
 }

@@ -25,13 +25,17 @@
 
 @property (strong, nonatomic) SendPaxViewController *sendPaxViewController;
 
+// TODO: Reuse the same screen for all transfer flows
+@property (strong, nonatomic) SendViewController *transferEtherViewController;
+@property (strong, nonatomic) SendRouter *sendRouter;
+
 @end
 @implementation TabControllerManager
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     self.tabViewController.assetDelegate = self;
 
     NSInteger assetType = [[[NSUserDefaults standardUserDefaults] objectForKey:USER_DEFAULTS_KEY_ASSET_TYPE] integerValue];
@@ -88,7 +92,6 @@
 - (void)didChangeLocalCurrency
 {
     [self.sendBitcoinViewController reloadFeeAmountLabel];
-    [self.sendEtherViewController keepCurrentPayment];
     [self.receiveBitcoinViewController doCurrencyConversion];
     [self.transactionsEtherViewController reload];
 }
@@ -148,7 +151,6 @@
 {
     [self.dashboardContainer.dashboard reload];
     [_sendBitcoinViewController reload];
-    [_sendEtherViewController reload];
     [_sendBitcoinCashViewController reload];
     [_transactionsBitcoinViewController reload];
     [_transactionsEtherViewController reload];
@@ -161,7 +163,6 @@
 {
     [self.dashboardContainer.dashboard reload];
     [_sendBitcoinViewController reloadAfterMultiAddressResponse];
-    [_sendEtherViewController reloadAfterMultiAddressResponse];
     [_sendBitcoinCashViewController reloadAfterMultiAddressResponse];
     [_transactionsBitcoinViewController reload];
     [_receiveBitcoinViewController reload];
@@ -178,7 +179,6 @@
 - (void)logout
 {
     [self updateTransactionsViewControllerData:nil];
-    [self.sendEtherViewController clearFundsAvailable];
     [_receiveBitcoinViewController clearAmounts];
     [self.exchangeContainerViewController showWelcome];
 
@@ -191,6 +191,8 @@
     self.receiveBitcoinCashViewController = nil;
     self.transactionsStellarViewController = nil;
     self.sendLumensViewController = nil;
+    self.transferEtherViewController = nil;
+    self.sendRouter = nil;
     self.sendPaxViewController = nil;
     self.paxActivityViewController = nil;
     self.exchangeContainerViewController = nil;
@@ -218,11 +220,13 @@
             break;
         }
         case LegacyAssetTypeEther: {
-            if (!_sendEtherViewController) {
-                _sendEtherViewController = [[SendEtherViewController alloc] init];
+            if (!_sendRouter) {
+                _sendRouter = [[SendRouter alloc] initUsing:_tabViewController appCoordinator: AppCoordinator.sharedInstance];
             }
-            
-            [_tabViewController setActiveViewController:_sendEtherViewController animated:animated index:tabIndex];
+            if (!_transferEtherViewController) {
+                _transferEtherViewController = [_sendRouter sendViewControllerBy:LegacyAssetTypeEther];
+            }
+            [_tabViewController setActiveViewController:_transferEtherViewController animated:animated index:tabIndex];
             break;
         }
         case LegacyAssetTypeBitcoinCash: {
@@ -270,9 +274,6 @@
 
 - (DestinationAddressSource)getSendAddressSource
 {
-    if (self.assetType == AssetTypeEthereum) {
-        return self.sendEtherViewController.addressSource;
-    }
     return self.sendBitcoinViewController.addressSource;
 }
 
@@ -283,8 +284,6 @@
     if (self.assetType == LegacyAssetTypeBitcoin) {
         self.sendBitcoinViewController.addressFromURLHandler = address;
         [self.sendBitcoinViewController reload];
-    } else if (self.assetType == LegacyAssetTypeEther) {
-        self.sendEtherViewController.addressToSet = address;
     } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
         self.sendBitcoinCashViewController.addressFromURLHandler = address;
         [self.sendBitcoinCashViewController reload];
@@ -400,7 +399,6 @@
     self.latestEthExchangeRate = [NSDecimalNumber decimalNumberWithDecimal:[rate decimalValue]];
 
     [self.tabViewController didFetchEthExchangeRate];
-    [_sendEtherViewController updateExchangeRate:self.latestEthExchangeRate];
 }
 
 #pragma mark - Wallet Send Ether Delegate
@@ -408,7 +406,6 @@
 - (void)didSendEther
 {
     [WalletActionEventBus.sharedInstance publishObjWithAction:WalletActionSendCrypto extras:nil];
-    [self.sendEtherViewController reload];
 
     [[ModalPresenter sharedInstance] closeAllModals];
 
@@ -432,9 +429,7 @@
 }
 
 - (void)didUpdateEthPaymentWithPayment:(NSDictionary * _Nonnull)payment
-{
-    [_sendEtherViewController didUpdatePayment:payment];
-}
+{}
 
 #pragma mark - Fiat at Time
 
@@ -891,11 +886,12 @@
             break;
         }
         case LegacyAssetTypeEther: {
-            if (!_sendEtherViewController) {
-                _sendEtherViewController = [[SendEtherViewController alloc] init];
+            if (!_sendRouter) {
+                _sendRouter = [[SendRouter alloc] initUsing:_tabViewController appCoordinator: AppCoordinator.sharedInstance];
             }
-            [_sendEtherViewController QRCodebuttonClicked:nil];
-            viewControllerToPresent = _sendEtherViewController;
+            _transferEtherViewController = [_sendRouter sendViewControllerBy:LegacyAssetTypeEther];
+            
+            viewControllerToPresent = _transferEtherViewController;
             break;
         }
         case LegacyAssetTypeBitcoinCash: {
@@ -925,6 +921,11 @@
     }
     if (viewControllerToPresent != nil) {
         [_tabViewController setActiveViewController:viewControllerToPresent animated:NO index:[ConstantsObjcBridge tabSend]];
+    }
+    
+    // Display QR only AFTER setting active view controller (previous logic is risky and should be changed)
+    if (self.assetType == LegacyAssetTypeEther && _sendRouter) {
+        [_sendRouter presentQRCodeScanUsing:self.assetType];
     }
 }
 

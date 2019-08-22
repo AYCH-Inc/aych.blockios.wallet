@@ -10,9 +10,25 @@ import RxSwift
 
 public extension PrimitiveSequence where Trait == SingleTrait {
     
+    /// Shows the loader
+    func show(loader: LoadingViewPresenting,
+              text: String? = nil) -> Single<Element> {
+        return self.do(onSuccess: { _ in
+            loader.show(with: text)
+        })
+    }
+    
+    /// Hides the loader
+    func hide(loader: LoadingViewPresenting,
+              text: String? = nil) -> Single<Element> {
+        return self.do(onSuccess: { _ in
+            loader.hide()
+        })
+    }
+    
     /// Show the loader and returns `Element`
     func showOnSubscription(loader: LoadingViewPresenting,
-              text: String? = nil) -> Single<Element> {
+                            text: String? = nil) -> Single<Element> {
         return self.do(onSubscribe: {
             loader.show(with: text)
         })
@@ -21,6 +37,16 @@ public extension PrimitiveSequence where Trait == SingleTrait {
     /// Hides the loader and returns `Element`
     func hideOnDisposal(loader: LoadingViewPresenting) -> Single<Element> {
         return self.do(onDispose: {
+            loader.hide()
+        })
+    }
+    
+    /// Shows and hides the loader
+    func handleLoaderForLifecycle(loader: LoadingViewPresenting,
+                                  text: String? = nil) -> Single<Element> {
+        return self.do(onSubscribe: {
+            loader.show(with: text)
+        }, onDispose: {
             loader.hide()
         })
     }
@@ -46,6 +72,16 @@ public extension ObservableType {
 
 /// Extension for `ObservableType` that enables the loader to take part in a chain of observables
 public extension ObservableType {
+    
+    /// Shows and hides the loader
+    func handleLoaderForLifecycle(loader: LoadingViewPresenting,
+                                  text: String? = nil) -> Observable<Element> {
+        return self.do(onSubscribe: {
+            loader.show(with: text)
+        }, onDispose: {
+            loader.hide()
+        })
+    }
     
     /// Shows the loader upon subscription
     func showLoaderOnSubscription(loader: LoadingViewPresenting,

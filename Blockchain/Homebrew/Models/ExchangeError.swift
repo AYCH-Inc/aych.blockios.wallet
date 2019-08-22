@@ -167,20 +167,3 @@ extension ExchangeError {
         }
     }
 }
-
-private extension AssetType {
-    var errorImage: UIImage {
-        switch self {
-        case .bitcoin:
-            return #imageLiteral(resourceName: "btc_bad.pdf")
-        case .bitcoinCash:
-            return #imageLiteral(resourceName: "bch_bad.pdf")
-        case .ethereum:
-            return #imageLiteral(resourceName: "eth_bad.pdf")
-        case .stellar:
-            return #imageLiteral(resourceName: "xlm_bad.pdf")
-        case .pax:
-            return #imageLiteral(resourceName: "eth_bad.pdf")
-        }
-    }
-}

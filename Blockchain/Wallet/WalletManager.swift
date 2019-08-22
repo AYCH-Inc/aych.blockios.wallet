@@ -26,9 +26,27 @@ class WalletManager: NSObject, TransactionObserving {
 
     // TODO: Replace this with asset-specific wallet architecture
     @objc let wallet: Wallet
-
+    private let appSettings: BlockchainSettings.App
+    
     // TODO: make this private(set) once other methods in RootService have been migrated in here
-    @objc var latestMultiAddressResponse: MultiAddressResponse?
+    @objc var latestMultiAddressResponse: MultiAddressResponse? {
+        didSet {
+            var currency = BlockchainSettings.App.FiatCurrency.default
+            defer {
+                appSettings.fiatCurrencyRelay.accept(currency)
+            }
+            
+            guard let response = latestMultiAddressResponse else {
+                currency = .default
+                return
+            }
+            guard let symbol = response.symbol_local?.symbol, let code = response.symbol_local?.code else {
+                currency = .default
+                return
+            }
+            currency = .init(symbol: symbol, code: code)
+        }
+    }
 
     @objc var didChangePassword: Bool = false
 
@@ -59,8 +77,9 @@ class WalletManager: NSObject, TransactionObserving {
         return paymentReceivedRelay.asObservable()
     }
     
-    init(wallet: Wallet = Wallet()!) {
+    init(wallet: Wallet = Wallet()!, appSettings: BlockchainSettings.App = .shared) {
         self.wallet = wallet
+        self.appSettings = appSettings
         super.init()
         self.wallet.delegate = self
         self.wallet.loadJS()

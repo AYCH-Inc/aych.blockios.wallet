@@ -43,7 +43,7 @@ import EthereumKit
                 return BitcoinCashURLPayload(address: string, amount: nil, paymentRequestUrl: nil)
             case .stellar:
                 return StellarURLPayload(address: string, amount: nil)
-            case .pax:
+            case .pax, .ethereum:
                 return EthereumURLPayload(address: string, amount: nil)
             default:
                 return nil

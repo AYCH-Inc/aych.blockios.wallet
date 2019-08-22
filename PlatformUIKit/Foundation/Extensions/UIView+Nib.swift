@@ -14,7 +14,7 @@ import PlatformKit
 extension UIView {
     @discardableResult
     public func fromNib<T: UIView>() -> T? {
-        guard let contentView = Bundle(for: type(of: self)).loadNibNamed(type(of: self).className,
+        guard let contentView = Bundle(for: type(of: self)).loadNibNamed(type(of: self).objectName,
                                                                          owner: self,
                                                                          options: nil)?.first as? T else {
             return nil

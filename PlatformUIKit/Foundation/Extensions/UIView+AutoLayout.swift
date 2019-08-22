@@ -15,6 +15,11 @@ public enum LayoutForm {
     case size
 }
 
+public extension UILayoutPriority {
+    /// Offers a `999` value, one prior to the highest that can still be changed
+    static let penultimate = UILayoutPriority(rawValue: 999)
+}
+
 extension UIView {
     
     public func layoutToSuperview(_ layoutForms: LayoutForm..., offset: CGFloat = 0) {

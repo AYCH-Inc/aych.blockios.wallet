@@ -48,7 +48,6 @@ struct LocalizationConstants {
         static let  BC_STRING_PAYMENT_SENT = NSLocalizedString("Payment Sent!", comment: "")
         static let  BC_STRING_PAYMENT_SENT_ETHER = NSLocalizedString("Payment Sent! Your balance and transactions will update soon.", comment: "")
         static let  BC_STRING_WAITING_FOR_ETHER_PAYMENT_TO_FINISH_TITLE = NSLocalizedString("Waiting for payment", comment: "")
-        static let  BC_STRING_WAITING_FOR_ETHER_PAYMENT_TO_FINISH_MESSAGE = NSLocalizedString("Please wait until your last ether transaction confirms.", comment: "")
         static let  BC_STRING_PAYMENTS_SENT = NSLocalizedString("Payments Sent", comment: "")
         static let  BC_STRING_PAYMENT_TRANSFERRED_FROM_ARGUMENT_ARGUMENT = NSLocalizedString("Transferred funds from %d %@", comment: "")
         static let  BC_STRING_PAYMENT_TRANSFERRED_FROM_ARGUMENT_ARGUMENT_OUTPUTS_ARGUMENT_ARGUMENT_TOO_SMALL = NSLocalizedString("Transferred funds from %d %@. Outputs for %d %@ were too small.", comment: "")
@@ -199,7 +198,6 @@ struct LocalizationConstants {
         static let  BC_STRING_SURVEY_ALERT_TITLE = NSLocalizedString("Would you like to tell us about your experience with Blockchain?", comment: "")
         static let  BC_STRING_SURVEY_ALERT_MESSAGE = NSLocalizedString("You will be leaving the app.", comment: "")
         static let  BC_STRING_INVALID_BITCOIN_ADDRESS_ARGUMENT = NSLocalizedString("Invalid Bitcoin address: %@", comment: "")
-        static let  BC_STRING_INVALID_ETHER_ADDRESS_ARGUMENT = NSLocalizedString("Invalid Ether address: %@", comment: "")
         static let  BC_STRING_UPDATE = NSLocalizedString("Update", comment: "")
         static let  BC_STRING_DISABLED = NSLocalizedString("Disabled", comment: "")
         static let  BC_STRING_REMINDER_CHECK_EMAIL_TITLE = NSLocalizedString("Check Your Inbox", comment: "")
@@ -1153,6 +1151,92 @@ struct LocalizationConstants {
                 "My PIT %@ Wallet",
                 comment: "PIT address for a wallet"
             )
+        }
+    }
+    
+    // MARK: - Transfer Screen
+    
+    struct Send {
+        struct Source {
+            static let subject = NSLocalizedString(
+                "From",
+                comment: "Transfer screen: source address / account subject"
+            )
+        }
+        
+        struct Destination {
+            static let subject = NSLocalizedString(
+                "To",
+                comment: "Transfer screen: destination address / account subject"
+            )
+            static let placeholder = NSLocalizedString(
+                "Enter %@ address",
+                comment: "Transfer screen: destination address / account placeholder"
+            )
+            static let pitCover = NSLocalizedString(
+                "My PIT %@ Wallet",
+                comment: "PIT address for a wallet"
+            )
+        }
+        
+        struct Fees {
+            static let subject = NSLocalizedString(
+                "Fees",
+                comment: "Transfer screen: fees subject"
+            )
+        }
+        
+        struct SpendableBalance {
+            static let prefix = NSLocalizedString(
+                "Use total spendable balance: ",
+                comment: "String displayed to the user when they want to send their full balance to an address."
+            )
+        }
+        
+        static let primaryButton = NSLocalizedString(
+            "Continue",
+            comment: "Transfer screen: primary CTA button"
+        )
+        
+        struct Error {
+            struct Balance {
+                static let title = NSLocalizedString(
+                    "Not Enough %@",
+                    comment: "Prefix for alert title when there is not enough balance"
+                )
+                static let description = NSLocalizedString(
+                    "You will need %@ to send the transaction",
+                    comment: "Prefix for alert description when there is not enough balance"
+                )
+                static let descriptionERC20 = NSLocalizedString(
+                    "You will need ETH to send your ERC20 Token",
+                    comment: "Prefix for alert description when there is not enough balance"
+                )
+            }
+            struct DestinationAddress {
+                static let title = NSLocalizedString(
+                    "Invalid %@ Address",
+                    comment: "Prefix for alert title when the destination address is invalid"
+                )
+                static let description = NSLocalizedString(
+                    "You must enter a valid %@ address to send the transaction",
+                    comment: "Prefix for alert description when the destination address is invalid"
+                )
+                static let descriptionERC20 = NSLocalizedString(
+                    "You must enter a valid %@ address to send your ERC20 Token",
+                    comment: "Prefix for alert description when the destination address is invalid"
+                )
+            }
+            struct PendingTransaction {
+                static let title = NSLocalizedString(
+                    "Waiting for Payment",
+                    comment: "Alert title when transaction cannot be sent because there is another in progress"
+                )
+                static let description = NSLocalizedString(
+                    "Please wait until your last ETH transaction confirms",
+                    comment: "Alert description when transaction cannot be sent because there is another in progress"
+                )
+            }
         }
     }
 

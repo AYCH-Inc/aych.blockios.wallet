@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SendViewController" customModule="Blockchain" customModuleProvider="target">
+            <connections>
+                <outlet property="continueButton" destination="jsa-6C-13i" id="eeb-K9-fJ8"/>
+                <outlet property="tableView" destination="3wj-s2-p7G" id="vXY-om-6Li"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3wj-s2-p7G">
+                    <rect key="frame" x="0.0" y="44" width="414" height="730"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="SyZ-PW-UMz"/>
+                        <outlet property="delegate" destination="-1" id="tCw-2c-OCw"/>
+                    </connections>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jsa-6C-13i" customClass="PrimaryButtonContainer" customModule="Blockchain" customModuleProvider="target">
+                    <rect key="frame" x="16" y="790" width="382" height="56"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="56" id="DN7-b2-emU"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="jsa-6C-13i" firstAttribute="top" secondItem="3wj-s2-p7G" secondAttribute="bottom" constant="16" id="EMg-JE-HFV"/>
+                <constraint firstItem="3wj-s2-p7G" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="cFF-fu-WJ7"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="jsa-6C-13i" secondAttribute="trailing" constant="16" id="olx-Tv-lYr"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="jsa-6C-13i" secondAttribute="bottom" constant="16" id="qqo-RR-3Qh"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="3wj-s2-p7G" secondAttribute="trailing" id="tOM-TN-lEI"/>
+                <constraint firstItem="3wj-s2-p7G" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="xqa-fg-rqj"/>
+                <constraint firstItem="jsa-6C-13i" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="yOa-gv-Q2u"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="47.826086956521742" y="37.5"/>
+        </view>
+    </objects>
+</document>

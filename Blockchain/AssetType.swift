@@ -192,6 +192,36 @@ extension AssetType {
         }
     }
     
+    var errorImage: UIImage {
+        switch self {
+        case .bitcoin:
+            return #imageLiteral(resourceName: "btc_bad.pdf")
+        case .bitcoinCash:
+            return #imageLiteral(resourceName: "bch_bad.pdf")
+        case .ethereum:
+            return #imageLiteral(resourceName: "eth_bad.pdf")
+        case .stellar:
+            return #imageLiteral(resourceName: "xlm_bad.pdf")
+        case .pax:
+            return #imageLiteral(resourceName: "eth_bad.pdf")
+        }
+    }
+    
+    var successImage: UIImage {
+        switch self {
+        case .bitcoin:
+            return #imageLiteral(resourceName: "btc_good.pdf")
+        case .bitcoinCash:
+            return #imageLiteral(resourceName: "bch_good.pdf")
+        case .ethereum:
+            return #imageLiteral(resourceName: "eth_good.pdf")
+        case .stellar:
+            return #imageLiteral(resourceName: "xlm_good.pdf")
+        case .pax:
+            return #imageLiteral(resourceName: "eth_good.pdf")
+        }
+    }
+
     var brandColor: UIColor {
         switch self {
         case .bitcoin:
@@ -300,4 +330,3 @@ extension CryptoCurrency {
         }
     }
 }
-

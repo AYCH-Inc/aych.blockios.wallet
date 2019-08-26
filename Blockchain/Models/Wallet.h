@@ -28,7 +28,7 @@
 @property(nonatomic, copy) void (^ _Nullable on_begin_signing)(NSString*);
 @property(nonatomic, copy) void (^ _Nullable on_sign_progress)(int input);
 @property(nonatomic, copy) void (^ _Nullable on_finish_signing)(NSString*);
-@property(nonatomic, copy) void (^ _Nullable on_success)(NSString* _Nullable secondPassword, NSString* _Nullable transactionHash);
+@property(nonatomic, copy) void (^ _Nullable on_success)(NSString* _Nullable secondPassword, NSString* _Nullable transactionHash, NSString* _Nullable transactionHex);
 @property(nonatomic, copy) void (^ _Nonnull on_error)(NSString* _Nullable error, NSString* _Nullable secondPassword);
 @end
 
@@ -227,6 +227,8 @@
 - (void)toggleArchiveAccount:(int)account assetType:(LegacyAssetType)assetType;
 - (void)archiveTransferredAddresses:(NSArray *)transferredAddresses;
 
+- (void)signBitcoinPaymentWithSecondPassword:(NSString *_Nullable)secondPassword successBlock:(void (^)(NSString *_Nonnull))transactionHex error:(void (^ _Nonnull)(NSString *_Nonnull))error;
+- (void)signBitcoinCashPaymentWithSecondPassword:(NSString *_Nullable)secondPassword successBlock:(void (^)(NSString *_Nonnull))transactionHex error:(void (^ _Nonnull)(NSString *_Nonnull))error;
 - (void)sendPaymentWithListener:(transactionProgressListeners*)listener secondPassword:(NSString *)secondPassword;
 - (void)sendFromWatchOnlyAddress:(NSString *)watchOnlyAddress privateKey:(NSString *)privateKeyString;
 

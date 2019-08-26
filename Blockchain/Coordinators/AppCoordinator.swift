@@ -69,7 +69,7 @@ import PlatformUIKit
 
     private init(walletManager: WalletManager = WalletManager.shared,
                  paymentPresenter: PaymentPresenter = PaymentPresenter(),
-                 loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter()) {
+                 loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared) {
         self.walletManager = walletManager
         self.paymentPresenter = paymentPresenter
         self.loadingViewPresenter = loadingViewPresenter

@@ -956,7 +956,7 @@ MyWalletPhone.quickSend = function(id, onSendScreen, secondPassword, assetType) 
     console.log('quickSend');
 
     var success = function(tx) {
-        objc_tx_on_success_secondPassword_hash(id, secondPassword, tx.txid);
+        objc_tx_on_success_secondPassword_hash(id, secondPassword, tx.txid, tx.transaction.toHex());
     };
 
     var error = function(response) {
@@ -1001,6 +1001,28 @@ MyWalletPhone.quickSend = function(id, onSendScreen, secondPassword, assetType) 
     MyWalletPhone.sendBitcoinPayment(payment, secondPassword, success, error);
 
     return id;
+};
+
+MyWalletPhone.signBitcoinPayment = function(secondPassword) {
+    currentPayment
+    .build()
+    .sign()
+    .transactionHexAndSize()
+    .then(function(value) {
+          objc_on_btc_tx_signed(value)
+    })
+};
+
+MyWalletPhone.signBitcoinCashPayment = function(secondPassword) {
+    var payment = currentBitcoinCashPayment;
+    payment
+    .sign()
+    .signedTransactionHex()
+    .then(function(value) {
+          objc_on_bch_tx_signed(value);
+    }).catch(function(e) {
+        objc_on_bch_tx_signed_error(JSON.stringify(e))
+    })
 };
 
 MyWalletPhone.sendBitcoinPayment = function(payment, secondPassword, success, error, dismiss) {

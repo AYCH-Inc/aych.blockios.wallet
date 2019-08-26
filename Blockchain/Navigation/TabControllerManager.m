@@ -212,6 +212,7 @@
         case LegacyAssetTypeBitcoin: {
             if (!_sendBitcoinViewController) {
                 _sendBitcoinViewController = [[SendBitcoinViewController alloc] initWithNibName:NIB_NAME_SEND_COINS bundle:[NSBundle mainBundle]];
+                _sendBitcoinViewController.assetType = LegacyAssetTypeBitcoin;
             }
             
             [_tabViewController setActiveViewController:_sendBitcoinViewController animated:animated index:tabIndex];

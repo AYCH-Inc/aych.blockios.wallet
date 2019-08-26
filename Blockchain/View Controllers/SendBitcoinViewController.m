@@ -279,6 +279,16 @@ BOOL displayingLocalSymbolSend;
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.isReloading) {
+        return;
+    }
+    
+    availableAmount = [[WalletManager.sharedInstance.wallet getBalanceForAccount:self.fromAccount assetType:self.assetType] longLongValue];
+}
+
 - (void)setupFeeLabels
 {
     self.feeDescriptionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -562,11 +572,125 @@ BOOL displayingLocalSymbolSend;
 
 - (IBAction)reallyDoPayment:(id)sender
 {
+    if (self.isBitpayPayPro) {
+        
+        NSString *bitpayInvoiceID = @"";
+        NSString *entry = toField.text;
+        NSURL *bitpayURLCandidate = [NSURL URLWithString:entry];
+        if (bitpayURLCandidate != nil) {
+            if ([self isBitpayURL:bitpayURLCandidate])
+            {
+                bitpayInvoiceID = [self invoiceIDFromBitPayURL:bitpayURLCandidate];
+            }
+        }
+        
+        if (bitpayInvoiceID.length == 0) {
+            DLog(@"Expected an invoiceID.");
+            [self handleSigningPaymentError:BC_STRING_ERROR];
+            return;
+        }
+        
+        __weak typeof(self) weakSelf = self;
+        if (self.assetType == LegacyAssetTypeBitcoinCash) {
+            [WalletManager.sharedInstance.wallet signBitcoinCashPaymentWithSecondPassword:nil successBlock:^(NSString * _Nonnull transactionHex) {
+                NSArray *hexAndWeight = [transactionHex componentsSeparatedByString:@","];
+                NSString *hex = [hexAndWeight firstObject];
+                NSString *weight = [hexAndWeight lastObject];
+                [weakSelf verifyAndPostBitpayWithInvoiceID:bitpayInvoiceID transactionHex:hex transactionSize:weight];
+            } error:^(NSString * _Nonnull errorMessage) {
+                [weakSelf handleSigningPaymentError:errorMessage];
+            }];
+        }
+        if (self.assetType == LegacyAssetTypeBitcoin) {
+            [WalletManager.sharedInstance.wallet signBitcoinPaymentWithSecondPassword:nil successBlock:^(NSString * _Nonnull transactionHex) {
+                NSArray *hexAndWeight = [transactionHex componentsSeparatedByString:@","];
+                NSString *hex = [hexAndWeight firstObject];
+                NSString *weight = [hexAndWeight lastObject];
+                [weakSelf verifyAndPostBitpayWithInvoiceID:bitpayInvoiceID transactionHex:hex transactionSize:weight];
+            } error:^(NSString * _Nonnull errorMessage) {
+                [weakSelf handleSigningPaymentError:errorMessage];
+            }];
+        }
+        return;
+    }
     if (self.sendFromAddress && [WalletManager.sharedInstance.wallet isWatchOnlyLegacyAddress:self.fromAddress]) {
         [self alertUserForSpendingFromWatchOnlyAddress];
         return;
     }
     [self sendPaymentWithListener];
+}
+
+- (void)handleSigningPaymentError:(NSString *)errorMessage
+{
+    DLog(@"Send error: %@", errorMessage);
+    [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:errorMessage title:BC_STRING_ERROR in:self handler: nil];
+    
+    [self->sendProgressActivityIndicator stopAnimating];
+    
+    [self enablePaymentButtons];
+    
+    [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
+    
+    [self reload];
+    
+    [WalletManager.sharedInstance.wallet getHistory];
+}
+
+- (void)verifyAndPostBitpayWithInvoiceID:(NSString *)invoiceID transactionHex:(NSString *)transactionHex transactionSize:(NSString *)size
+{
+    [self.bitpayService verifyAndPostSignedTransactionWithInvoiceID:invoiceID assetType:self.assetType transactionHex:transactionHex transactionSize:size completion:^(NSString * _Nullable memo, NSError * _Nullable error) {
+        /// The transaction was successful
+        if (memo != nil) {
+            [WalletActionEventBus.sharedInstance publishObjWithAction:WalletActionSendCrypto extras:nil];
+            UIAlertController *paymentSentAlert = [UIAlertController alertControllerWithTitle:[LocalizationConstantsObjcBridge success] message:BC_STRING_PAYMENT_SENT preferredStyle:UIAlertControllerStyleAlert];
+            [paymentSentAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                [[AppReviewPrompt sharedInstance] showIfNeeded];
+            }]];
+            
+            [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:paymentSentAlert animated:YES completion:nil];
+            
+            [self->sendProgressActivityIndicator stopAnimating];
+            
+            [self enablePaymentButtons];
+            
+            // Fields are automatically reset by reload, called by MyWallet.wallet.getHistory() after a utx websocket message is received. However, we cannot rely on the websocket 100% of the time.
+            if (self.assetType == LegacyAssetTypeBitcoin) {
+                [WalletManager.sharedInstance.wallet performSelector:@selector(getHistoryIfNoTransactionMessage) withObject:nil afterDelay:DELAY_GET_HISTORY_BACKUP];
+            } else {
+                [WalletManager.sharedInstance.wallet performSelector:@selector(getBitcoinCashHistoryIfNoTransactionMessage) withObject:nil afterDelay:DELAY_GET_HISTORY_BACKUP];
+            }
+            
+            // Close transaction modal, go to transactions view, scroll to top and animate new transaction
+            [self.bitpayTimer invalidate];
+            
+            [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
+            TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
+            [tabControllerManager.transactionsBitcoinViewController didReceiveTransactionMessage];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ANIMATION_DURATION * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [tabControllerManager transactionsClicked:nil];
+            });
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * ANIMATION_DURATION * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [tabControllerManager.transactionsBitcoinViewController.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+            });
+            
+            [self reload];
+        }
+        /// The transaction was not successful
+        if (error != nil) {
+            DLog(@"Send error: %@", error);
+            [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error.localizedDescription title:BC_STRING_ERROR in:self handler: nil];
+            
+            [self->sendProgressActivityIndicator stopAnimating];
+            
+            [self enablePaymentButtons];
+            
+            [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
+            
+            [self reload];
+            
+            [WalletManager.sharedInstance.wallet getHistory];
+        }
+    }];
 }
 
 - (void)getInfoForTransferAllFundsToDefaultAccount
@@ -620,7 +744,7 @@ BOOL displayingLocalSymbolSend;
              self->sendProgressModalText.text = BC_STRING_FINISHED_SIGNING_INPUTS;
          };
          
-         listener.on_success = ^(NSString*secondPassword, NSString *transactionHash) {
+         listener.on_success = ^(NSString*secondPassword, NSString *transactionHash, NSString *transactionHex) {
              DLog(@"SendViewController: on_success");
              [WalletActionEventBus.sharedInstance publishObjWithAction:WalletActionSendCrypto extras:nil];
 
@@ -1027,6 +1151,11 @@ BOOL displayingLocalSymbolSend;
 
 - (void)handleTimerTick:(NSTimer *)timer
 {
+    if (self.bitpayExpiration == nil) {
+        [timer invalidate];
+        [self cleanUpBitPayPayment];
+        return;
+    }
     NSTimeInterval interval = [self.bitpayExpiration timeIntervalSinceNow];
     int secondsInAnHour = 3600;
     int hours = interval / secondsInAnHour;
@@ -1060,8 +1189,7 @@ BOOL displayingLocalSymbolSend;
     [expiredAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [self.navigationController popViewControllerAnimated:YES];
     }]];
-    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:expiredAlert animated:YES completion:nil];
-    [[ModalPresenter sharedInstance] closeModalWithTransition:kCATransitionFade];
+    [self presentViewController:expiredAlert animated:YES completion:nil];
     [self cleanUpBitPayPayment];
 }
 
@@ -1718,6 +1846,16 @@ BOOL displayingLocalSymbolSend;
         
         return YES;
     } else if (textField == toField) {
+        NSString *entry = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        NSURL *bitpayURLCandidate = [NSURL URLWithString:entry];
+        if (bitpayURLCandidate != nil) {
+            if ([self isBitpayURL:bitpayURLCandidate] && self.assetType == LegacyAssetTypeBitcoin)
+            {
+                NSString *bitpayInvoiceID = [self invoiceIDFromBitPayURL:bitpayURLCandidate];
+                [self handleBitpayInvoiceID:bitpayInvoiceID];
+                return YES;
+            }
+        }
         self.sendToAddress = true;
         self.toAddress = [textField.text stringByReplacingCharactersInRange:range withString:string];
         if (self.toAddress && [WalletManager.sharedInstance.wallet isValidAddress:self.toAddress assetType:self.assetType]) {
@@ -2141,6 +2279,83 @@ BOOL displayingLocalSymbolSend;
     [[ModalPresenter sharedInstance] showModalWithContent:addressSelectionView closeType:ModalCloseTypeBack showHeader:true headerText:BC_STRING_SEND_TO onDismiss:nil onResume:nil];
 }
 
+- (BOOL)isBitpayURL:(NSURL *)URL
+{
+    return [URL.absoluteString containsString:@"https://bitpay.com/"];
+}
+
+- (NSString * _Nullable)invoiceIDFromBitPayURL:(NSURL *)URL
+{
+    NSString *BTCPrefix = @"bitcoin:?r=";
+    NSString *BCHPrefix = @"bitcoincash:?r=";
+    NSString *bitpayPayload = URL.absoluteString;
+    if ([bitpayPayload containsString:BTCPrefix]) {
+        bitpayPayload = [bitpayPayload stringByReplacingOccurrencesOfString:BTCPrefix withString:@""];
+    }
+    if ([bitpayPayload containsString:BCHPrefix]) {
+        bitpayPayload = [bitpayPayload stringByReplacingOccurrencesOfString:BCHPrefix withString:@""];
+    }
+    NSURL *modifiedURL = [NSURL URLWithString:bitpayPayload];
+    if (modifiedURL == nil) {
+        return nil;
+    } else {
+        NSString *invoiceID = [modifiedURL lastPathComponent];
+        return invoiceID;
+    }
+}
+
+- (void)handleBitpayInvoiceID:(NSString *)invoiceID
+{
+    [self.bitpayService bitpayPaymentRequestWithInvoiceID:invoiceID assetType:self.assetType completion:^(ObjcCompatibleBitpayObject * _Nullable paymentReq, NSError * _Nullable error) {
+        if (error != nil) {
+            DLog(@"Error when creating bitpay request: %@", error);
+            return;
+        }
+        self.isBitpayPayPro = YES;
+        [self disableInputs];
+        
+        //set required fee type to priority
+        self.feeType = FeeTypePriority;
+        [self updateFeeLabels];
+        
+        //Set toField to bitcoinLink url
+        NSString *bitcoinLink = [NSString stringWithFormat: @"bitcoin:?r=%@", paymentReq.paymentUrl];
+        self->toField.text = bitcoinLink;
+        
+        //Get decimal BTC amount from satoshi amount and set btcAmountField
+        amountInSatoshi = paymentReq.amount;
+        double amountInBtc = (double) paymentReq.amount / 100000000;
+        NSString *amountDecimalNumber = [NSString stringWithFormat:@"%f", amountInBtc];
+        
+        self->btcAmountField.text = amountDecimalNumber;
+        
+        //Set toAddress to required BitPay paymentRequest address and update wallet internal payment address
+        self.toAddress = paymentReq.address;
+        self.sendToAddress = true;
+        [WalletManager.sharedInstance.wallet changePaymentToAddress:paymentReq.address assetType:self.assetType];
+        self.addressSource = DestinationAddressSourceBitPay;
+        
+        //Set merchant name
+        NSString *merchant = [paymentReq.memo componentsSeparatedByString:@"for merchant "][1];
+        self.bitpayMerchant = merchant;
+        self.bitpayLabel.text = merchant;
+        self.bitpayLabel.hidden = NO;
+        self.bitpayLogo.hidden = NO;
+        self.bitpayTimeRemainingText.hidden = NO;
+        self.lineBelowBitpayLabel.hidden = NO;
+        
+        
+        //Set time remaining string
+        self.bitpayExpiration = paymentReq.expires;
+        
+        self.bitpayTimeRemainingText.textColor = UIColor.gray3;
+        
+        self.bitpayTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target: self selector: @selector(handleTimerTick:) userInfo: nil repeats: YES];
+        
+        [self performSelector:@selector(doCurrencyConversion) withObject:nil afterDelay:0.1f];
+    }];
+}
+
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
     if (metadataObjects != nil && [metadataObjects count] > 0) {
@@ -2163,55 +2378,10 @@ BOOL displayingLocalSymbolSend;
                 NSString *paymentRequestUrl = payload.paymentRequestUrl;
 
                 if (paymentRequestUrl != nil) {
-                    if ([paymentRequestUrl hasPrefix:@"https://bitpay.com/i/"]) {
+                    if ([paymentRequestUrl hasPrefix:@"https://bitpay.com/i/"] && self.assetType == LegacyAssetTypeBitcoin) {
                         NSString *invoiceId = payload.paymentRequestUrl;
                         invoiceId = [invoiceId stringByReplacingOccurrencesOfString:@"https://bitpay.com/i/" withString:@""];
-                        
-                        [self.bitpayService getRawPaymentRequestWithInvoiceId:invoiceId completion:^(ObjcCompatibleBitpayObject * _Nullable paymentReq) {
-                            self.isBitpayPayPro = YES;
-                            [self disableInputs];
-                            
-                            //set required fee type to priority
-                            self.feeType = FeeTypePriority;
-                            [self updateFeeLabels];
-                            
-                            //Set toField to bitcoinLink url
-                            NSString *bitcoinLink = [NSString stringWithFormat: @"bitcoin:?r=%@", paymentReq.paymentUrl];
-                            self->toField.text = bitcoinLink;
-                            
-                            //Get decimal BTC amount from satoshi amount and set btcAmountField
-                            amountInSatoshi = paymentReq.amount;
-                            double amountInBtc = (double) paymentReq.amount / 100000000;
-                            NSString *amountDecimalNumber = [NSString stringWithFormat:@"%f", amountInBtc];
-                            
-                            self->btcAmountField.text = amountDecimalNumber;
-
-                            //Set toAddress to required BitPay paymentRequest address and update wallet internal payment address
-                            self.toAddress = paymentReq.address;
-                            self.sendToAddress = true;
-                            [WalletManager.sharedInstance.wallet changePaymentToAddress:paymentReq.address assetType:self.assetType];
-                            self.addressSource = DestinationAddressSourceBitPay;
-                            
-                            //Set merchant name
-                            NSString *merchant = [paymentReq.memo componentsSeparatedByString:@"for merchant "][1];
-                            self.bitpayMerchant = merchant;
-                            self.bitpayLabel.text = merchant;
-                            self.bitpayLabel.hidden = NO;
-                            self.bitpayLogo.hidden = NO;
-                            self.bitpayTimeRemainingText.hidden = NO;
-                            self.lineBelowBitpayLabel.hidden = NO;
-
-
-                            //Set time remaining string
-                            self.bitpayExpiration = paymentReq.expires;
-                            
-                            self.bitpayTimeRemainingText.textColor = UIColor.gray3;
-
-                            self.bitpayTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target: self selector: @selector(handleTimerTick:) userInfo: nil repeats: YES];
-                            
-                            [self performSelector:@selector(doCurrencyConversion) withObject:nil afterDelay:0.1f];
-                        }];
-                    
+                        [self handleBitpayInvoiceID:invoiceId];
                         return;
                     } else {
                         return;

@@ -7,21 +7,31 @@
 //
 
 import Foundation
+import PlatformKit
 import RxSwift
 
 class MockBitpayService: BitpayServiceProtocol {
+    
+    func verifySignedTransaction(invoiceID: String, currency: CryptoCurrency, transactionHex: String, transactionSize: Int) -> Single<BitPayMemo> {
+        return Single.just(BitPayMemo(memo: "Test"))
+    }
+    
+    func postPayment(invoiceID: String, currency: CryptoCurrency, transactionHex: String, transactionSize: Int) -> Single<BitPayMemo> {
+        return Single.just(BitPayMemo(memo: "Test"))
+    }
 
-    func getRawPaymentRequest(for invoiceId: String) -> Single<ObjcCompatibleBitpayObject> {
-        let memo = "Payment request for BitPay invoice " + "\(invoiceId)" + " for merchant Will"
-        let paymentUrl = "https://bitpay.com/i/" + "\(invoiceId)"
+    func bitpayPaymentRequest(invoiceID: String, currency: CryptoCurrency) -> Single<ObjcCompatibleBitpayObject> {
+        let memo = "Payment request for BitPay invoice " + "\(invoiceID)" + " for merchant Will"
+        let paymentUrl = "https://bitpay.com/i/" + "\(invoiceID)"
         let data = Data(
             """
                 {
                 "memo": "\(memo)",
                 "requiredFeeRate": 22.2,
                 "expires": "2008-09-15T15:53:00.123Z",
+                "paymentId": "PfCwZLxWctSrdgYcnJM8G8",
                 "paymentUrl": "\(paymentUrl)",
-                "outputs": [{"amount":2, "address":"3PRRj3H8WPgZLBaYQNrT5Bdw2Z7n12EXKs"}]
+                "instructions" : [{"outputs": [{"amount":2, "address":"3PRRj3H8WPgZLBaYQNrT5Bdw2Z7n12EXKs"}]}]
                 }
                 """.utf8)
         do {

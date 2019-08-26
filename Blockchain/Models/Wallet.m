@@ -405,8 +405,8 @@ NSString * const kLockboxInvitation = @"lockbox";
         [weakSelf did_get_fee:fee dust:dust txSize:txSize];
     };
 
-    self.context[@"objc_tx_on_success_secondPassword_hash"] = ^(NSString *success, NSString *secondPassword, NSString *txHash) {
-        [weakSelf tx_on_success:success secondPassword:secondPassword transactionHash:txHash];
+    self.context[@"objc_tx_on_success_secondPassword_hash"] = ^(NSString *success, NSString *secondPassword, NSString *txHash, NSString* txHex) {
+        [weakSelf tx_on_success:success secondPassword:secondPassword transactionHash:txHash transactionHex:txHex];
     };
 
     self.context[@"objc_tx_on_start"] = ^(NSString *transactionId) {
@@ -1512,6 +1512,40 @@ NSString * const kLockboxInvitation = @"lockbox";
     }
 
     return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.isCorrectMainPassword(\"%@\")", [inputedPassword escapedForJS]]] toBool];
+}
+
+- (void)signBitcoinPaymentWithSecondPassword:(NSString *_Nullable)secondPassword successBlock:(void (^)(NSString *_Nonnull))transactionHex error:(void (^ _Nonnull)(NSString *_Nonnull))error
+{
+    [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull hex) {
+        transactionHex(hex);
+    } forJsFunctionName:@"objc_on_btc_tx_signed"];
+    
+    [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull errorMessage) {
+        error(errorMessage);
+    } forJsFunctionName:@"objc_on_btc_tx_signed_error"];
+    
+    if (secondPassword) {
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.signBitcoinPayment(\"%@\")", [secondPassword escapedForJS]]];
+    } else {
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.signBitcoinPayment()"]];
+    }
+}
+
+- (void)signBitcoinCashPaymentWithSecondPassword:(NSString *_Nullable)secondPassword successBlock:(void (^)(NSString *_Nonnull))transactionHex error:(void (^ _Nonnull)(NSString *_Nonnull))error
+{
+    [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull hex) {
+        transactionHex(hex);
+    } forJsFunctionName:@"objc_on_bch_tx_signed"];
+    
+    [self.context invokeOnceWithStringFunctionBlock:^(NSString * _Nonnull errorMessage) {
+        error(errorMessage);
+    } forJsFunctionName:@"objc_on_bch_tx_signed_error"];
+    
+    if (secondPassword) {
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.signBitcoinCashPayment(\"%@\")", [secondPassword escapedForJS]]];
+    } else {
+        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.signBitcoinCashPayment()"]];
+    }
 }
 
 - (void)sendPaymentWithListener:(transactionProgressListeners*)listener secondPassword:(NSString *)secondPassword
@@ -2930,13 +2964,13 @@ NSString * const kLockboxInvitation = @"lockbox";
     }
 }
 
-- (void)tx_on_success:(NSString*)txProgressID secondPassword:(NSString *)secondPassword transactionHash:(NSString *)hash
+- (void)tx_on_success:(NSString*)txProgressID secondPassword:(NSString *)secondPassword transactionHash:(NSString *)hash transactionHex:(NSString *)txHex
 {
     transactionProgressListeners *listener = [self.transactionProgressListeners objectForKey:txProgressID];
 
     if (listener) {
         if (listener.on_success) {
-            listener.on_success(secondPassword, hash);
+            listener.on_success(secondPassword, hash, txHex);
         }
     }
 

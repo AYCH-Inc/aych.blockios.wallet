@@ -87,7 +87,7 @@
     
     listener.on_finish_signing = self.on_finish_signing;
     
-    listener.on_success = ^(NSString*secondPassword, NSString *transactionHash) {
+    listener.on_success = ^(NSString*secondPassword, NSString *transactionHash, NSString *transactionHex) {
         
         DLog(@"SendViewController: on_success_transfer_all for address %@", [self.transferAllAddressesToTransfer firstObject]);
         

@@ -547,6 +547,8 @@
 		3A76F8F72119EDE0002F7946 /* ValidationDateField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A76F8F62119EDE0002F7946 /* ValidationDateField.xib */; };
 		3A76F8FE211A067A002F7946 /* ValidationFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76F8FD211A067A002F7946 /* ValidationFormView.swift */; };
 		3A76F902211A3BA5002F7946 /* DateFormatter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76F901211A3BA5002F7946 /* DateFormatter+Conveniences.swift */; };
+		3A78F284230C9EAC005398DC /* BitPayMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A78F283230C9EAB005398DC /* BitPayMemo.swift */; };
+		3A78F28E230CADAB005398DC /* BitPayMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A78F283230C9EAB005398DC /* BitPayMemo.swift */; };
 		3A7E382622E1486C00E289C4 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE74B3B21C0217000246A9C /* GradientView.swift */; };
 		3A7E382922E21F7000E289C4 /* CGRect+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7E382822E21F7000E289C4 /* CGRect+Conveniences.swift */; };
 		3A7EB144222078F900C7E455 /* ExchangeServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EB143222078F900C7E455 /* ExchangeServices.swift */; };
@@ -2766,6 +2768,7 @@
 		3A76F8F62119EDE0002F7946 /* ValidationDateField.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ValidationDateField.xib; sourceTree = "<group>"; };
 		3A76F8FD211A067A002F7946 /* ValidationFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationFormView.swift; sourceTree = "<group>"; };
 		3A76F901211A3BA5002F7946 /* DateFormatter+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Conveniences.swift"; sourceTree = "<group>"; };
+		3A78F283230C9EAB005398DC /* BitPayMemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitPayMemo.swift; sourceTree = "<group>"; };
 		3A7E382822E21F7000E289C4 /* CGRect+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Conveniences.swift"; sourceTree = "<group>"; };
 		3A7EB143222078F900C7E455 /* ExchangeServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeServices.swift; sourceTree = "<group>"; };
 		3A7EB14622209E6E00C7E455 /* KYCOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -11996,6 +11999,7 @@
 			isa = PBXGroup;
 			children = (
 				C854E3FD22FA6DCC007EC1D2 /* BitpayPaymentRequest.swift */,
+				3A78F283230C9EAB005398DC /* BitPayMemo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -14814,6 +14818,7 @@
 				C7F1263E21C49BDC008D8F2A /* KYCSettings.swift in Sources */,
 				65D179BF22CBC595001D3544 /* AddressInteractorTests.swift in Sources */,
 				AACE31D12092A99B00B7B806 /* PasscodePayload.swift in Sources */,
+				3A78F28E230CADAB005398DC /* BitPayMemo.swift in Sources */,
 				5159C3212109156400955BD6 /* KYCCountrySelectionControllerTests.swift in Sources */,
 				65B77D4722F99D69009AE141 /* SendDestinationAccountInteractor.swift in Sources */,
 				C78238C52131FA08008FCCAD /* NumberKeypadView.swift in Sources */,
@@ -15388,6 +15393,7 @@
 				3AD7EE7621124F0C006B924F /* ValidationTextField.swift in Sources */,
 				65550E8722BE671F00522656 /* DigitPadViewModel.swift in Sources */,
 				3AE74B6121C0768500246A9C /* KYCTierCellModel.swift in Sources */,
+				3A78F284230C9EAC005398DC /* BitPayMemo.swift in Sources */,
 				23FB5C131D9ABB8B0008C6AB /* TransactionDetailStatusCell.m in Sources */,
 				CFA0671F1E65D426008456C1 /* WebLoginViewController.m in Sources */,
 				AA722C1920B4BBA900262A5F /* AssetAddressRepository.swift in Sources */,

@@ -90,4 +90,8 @@ class StellarAccountMock: StellarAccountAPI {
     func validate(accountID: AccountID) -> Single<Bool> {
         return Single.just(false)
     }
+    
+    func isExchangeAddress(_ address: AccountID) -> Single<Bool> {
+        return Single.just(false)
+    }
 }

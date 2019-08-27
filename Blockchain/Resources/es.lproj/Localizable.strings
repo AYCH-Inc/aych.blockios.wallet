@@ -73,7 +73,7 @@
 "Warning!!!" = "¡¡¡Advertencia!!!";
 "Would you like to add the bitcoin address %@ to your address book?" = "¿Quieres añadir la dirección Bitcoin %@ a tu libreta de direcciones?";
 "Yes" = "Sí";
-"Send" = "[%key:send_bitcoin%]";
+"Send" = "Enviar";
 "Receive" = "Recibir";
 "You must enter a destination address" = "Debes introducir una dirección de destino";
 "You must enter a label" = "Debes introducir una etiqueta";

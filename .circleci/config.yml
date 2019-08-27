@@ -513,13 +513,13 @@ workflows:
             branches:
               only:
                 - dev
-                - /hotfix\/\d+\.\d+\.\d+$/
+                - /release\/\d+\.\d+\.\d+$/
       - install_deps:
           filters:
             branches:
               only:
                 - dev
-                - /hotfix\/\d+\.\d+\.\d+$/
+                - /release\/\d+\.\d+\.\d+$/
           requires:
             - setup_repo
       - build_openssl:
@@ -527,7 +527,7 @@ workflows:
             branches:
               only:
                 - dev
-                - /hotfix\/\d+\.\d+\.\d+$/
+                - /release\/\d+\.\d+\.\d+$/
           requires:
             - install_deps
       - install_pods:
@@ -535,7 +535,7 @@ workflows:
             branches:
               only:
                 - dev
-                - /hotfix\/\d+\.\d+\.\d+$/
+                - /release\/\d+\.\d+\.\d+$/
           requires:
             - setup_repo
             - install_deps
@@ -544,7 +544,7 @@ workflows:
             branches:
               only:
                 - dev
-                - /hotfix\/\d+\.\d+\.\d+$/
+                - /release\/\d+\.\d+\.\d+$/
           requires:
             - install_deps
             - build_openssl
@@ -554,7 +554,7 @@ workflows:
             branches:
               only:
                 - dev
-                - /hotfix\/\d+\.\d+\.\d+$/
+                - /release\/\d+\.\d+\.\d+$/
           requires:
             - install_deps
             - build_openssl
@@ -564,7 +564,7 @@ workflows:
             branches:
               only:
                 - dev
-                - /hotfix\/\d+\.\d+\.\d+$/
+                - /release\/\d+\.\d+\.\d+$/
           requires:
             - run_tests
             - archive_and_export_staging_ad_hoc

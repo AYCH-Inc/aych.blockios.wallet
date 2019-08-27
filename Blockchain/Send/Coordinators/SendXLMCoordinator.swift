@@ -260,12 +260,27 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         }
         updateXlmEntryInterface(text: cryptoText)
     }
-
-    func onStellarAddressEntry() {
-        interface.apply(updates: [
+    
+    func onStellarAddressEntry(_ value: String?) {
+        var updates: [SendLumensViewController.PresentationUpdate] = [
             .stellarAddressTextColor(.gray6),
             .errorLabelVisibility(.hidden)
-        ])
+        ]
+        if let entry = value {
+            services.accounts.isExchangeAddress(entry)
+                .observeOn(MainScheduler.instance)
+                .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+                .subscribe(onSuccess: { [weak self] (isExchangeAddress) in
+                    guard let self = self else { return }
+                    let visibility: Visibility = isExchangeAddress ? .visible : .hidden
+                    updates.append(.memoRequiredDisclaimerVisibility(visibility))
+                    self.interface.apply(updates: updates)
+                })
+                .disposed(by: bag)
+        } else {
+            updates.append(.memoRequiredDisclaimerVisibility(.hidden))
+            interface.apply(updates: updates)
+        }
     }
 
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation) {
@@ -342,10 +357,11 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         
         let disposable = Single.zip(
             services.limits.isSpendable(amount: amountCrypto, for: sourceAccount.publicKey),
-            services.accounts.validate(accountID: toAddress)
+            services.accounts.validate(accountID: toAddress),
+            services.accounts.isExchangeAddress(toAddress)
         ).subscribeOn(MainScheduler.asyncInstance)
         .observeOn(MainScheduler.instance)
-        .subscribe(onSuccess: { [weak self] isSpendable, isValidDestination in
+        .subscribe(onSuccess: { [weak self] isSpendable, isValidDestination, isExchangeAddress in
             guard let self = self else { return }
             guard isSpendable else {
                 self.interface.apply(updates: [
@@ -362,6 +378,11 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                     .errorLabelVisibility(.visible),
                     .stellarAddressTextColor(.error)
                 ])
+                return
+            }
+            
+            if isExchangeAddress == true && memo == nil {
+                self.interface.apply(updates: [.memoRequiredDisclaimerVisibility(.visible)])
                 return
             }
             

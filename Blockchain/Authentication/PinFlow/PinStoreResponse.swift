@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PinStoreResponse: Decodable {
+struct PinStoreResponse: Decodable & Error {
     
     enum StatusCode: Int, Decodable {
         case success = 0 // Pin retry succeeded

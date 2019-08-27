@@ -80,6 +80,8 @@ public struct WalletOptions: Decodable {
         case update
         case updateType
         case latestStoreVersion
+        case xlmExchange
+        case exchangeAddresses
     }
     
     public struct Domains: Decodable {
@@ -205,6 +207,8 @@ public struct WalletOptions: Decodable {
     public let coinifyMetadata: Coinify?
     
     public let xlmMetadata: XLMMetadata?
+    
+    public let xlmExchangeAddresses: [String]?
 }
 
 extension WalletOptions.Domains {
@@ -315,6 +319,8 @@ public extension WalletOptions {
         self.coinifyMetadata = WalletOptions.Coinify(json: json)
         self.xlmMetadata = WalletOptions.XLMMetadata(json: json)
         updateType = WalletOptions.UpdateType(json: json)
+        let xlmExchangeContainer = json[CodingKeys.xlmExchange.rawValue] as? [String: [String]]
+        self.xlmExchangeAddresses = xlmExchangeContainer?[CodingKeys.exchangeAddresses.rawValue] ?? nil
     }
     
     init(from decoder: Decoder) throws {
@@ -332,6 +338,8 @@ public extension WalletOptions {
         } else {
             self.mobileInfo = nil
         }
+        let xlmExchangeAddressContainer = try values.nestedContainer(keyedBy: CodingKeys.self, forKey: .xlmExchange)
+        self.xlmExchangeAddresses = try xlmExchangeAddressContainer.decodeIfPresent([String].self, forKey: .exchangeAddresses)
         let nestedCoinifyContainer = try values.nestedContainer(keyedBy: CodingKeys.self, forKey: .partners)
         self.coinifyMetadata = try nestedCoinifyContainer.decodeIfPresent(Coinify.self, forKey: .coinify)
         let appUpdateMetaData = try values.decodeIfPresent(AppUpdateMetadata.self, forKey: .ios)

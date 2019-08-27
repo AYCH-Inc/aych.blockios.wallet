@@ -10,6 +10,7 @@ import Foundation
 import stellarsdk
 import RxSwift
 import StellarKit
+import PlatformKit
 
 protocol StellarAccountAPI {
     
@@ -43,4 +44,7 @@ protocol StellarAccountAPI {
 
     // Checks if address is valid
     func validate(accountID: AccountID) -> Single<Bool>
+    
+    // Checks if address is an exchangeAddress that is listed in WalletOptions
+    func isExchangeAddress(_ address: AccountID) -> Single<Bool>
 }

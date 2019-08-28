@@ -170,7 +170,7 @@ jobs:
           at: /Users/distiller/project
       - restore_cache:
           keys:
-            - pods-cache-{{ checksum "Podfile.lock" }}
+            - pods-{{ checksum "Podfile.lock" }}
       - run:
           name: Install brew dependencies
           command: brew reinstall -s libtool gnu-sed
@@ -185,7 +185,7 @@ jobs:
             cp /tmp/xcconfig/Config/Release.xcconfig Config/Release.xcconfig
             cp /tmp/xcconfig/Config/Staging.xcconfig Config/Staging.xcconfig
       - save_cache:
-          key: pods-cache-{{ checksum "Podfile.lock" }}
+          key: pods-{{ checksum "Podfile.lock" }}
           paths:
             - ~/.cocoapods
             - ~/Library/Caches/CocoaPods

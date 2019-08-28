@@ -197,7 +197,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   LibWally:
-    :commit: 39056ba6692db5fd6f584e45b3eb3d2b7534b026
+    :commit: 320c370fc66cbf3809c4042a58bf59d9ba532268
     :git: "git@github.com:blockchain/libwally-swift.git"
     :submodules: true
   stellar-ios-mac-sdk:

@@ -19,13 +19,16 @@ class TradeLimitsService: TradeLimitsAPI {
     private var cachedLimits = BehaviorRelay<TradeLimits?>(value: nil)
     private var cachedLimitsTimer: Timer?
     private let clearCachedLimitsInterval: TimeInterval = 60
+    private let communicator: NetworkCommunicatorAPI
 
     init(
         authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
-        socketManager: SocketManager = SocketManager.shared
+        socketManager: SocketManager = SocketManager.shared,
+        communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared
     ) {
         self.authenticationService = authenticationService
         self.socketManager = socketManager
+        self.communicator = communicator
         self.cachedLimitsTimer = Timer.scheduledTimer(withTimeInterval: clearCachedLimitsInterval, repeats: true) { [weak self] _ in
             self?.clearCachedLimits()
         }
@@ -99,12 +102,13 @@ class TradeLimitsService: TradeLimitsAPI {
             return .error(TradeLimitsAPIError.generic)
         }
 
-        return authenticationService.getSessionToken().flatMap { token in
-            return NetworkRequest.GET(
-                url: endpoint,
-                body: nil,
-                headers: [HttpHeaderField.authorization: token.token],
-                type: TradeLimits.self
+        return authenticationService.getSessionToken().flatMap(weak: self) { (self, token) in
+            return self.communicator.perform(
+                request: NetworkRequest(
+                    endpoint: endpoint,
+                    method: .get,
+                    headers: [HttpHeaderField.authorization: token.token]
+                )
             )
         }
     }

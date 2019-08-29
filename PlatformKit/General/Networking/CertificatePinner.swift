@@ -37,11 +37,19 @@ final public class CertificatePinner: NSObject {
         }
         return path
     }
+    
+    private let session: URLSession
 
     // MARK: - Initialization
 
     //: Prevent outside objects from creating their own instances of this class.
-    private override init() {
+    override public init() {
+        self.session = Network.Dependencies.default.session
+        super.init()
+    }
+
+    init(session: URLSession) {
+        self.session = session
         super.init()
     }
 
@@ -50,8 +58,10 @@ final public class CertificatePinner: NSObject {
         guard let url = URL(string: walletUrl) else {
                 fatalError("Failed to get wallet url from Bundle.")
         }
-        NetworkManager.shared.session.sessionDescription = url.host
-        let task = NetworkManager.shared.session.dataTask(with: url) { _, response, error in
+        session.sessionDescription = url.host
+        // TODO:
+        // * inject NetworkCommunicator
+        let task = session.dataTask(with: url) { _, response, error in
             if let transportError = error {
                 self.handleClientError(transportError)
                 return

@@ -41,14 +41,17 @@ class KYCCoinifyAuthenticator {
     
     private let wallet: Wallet
     private let authenticationService: NabuAuthenticationService
+    private let communicator: NetworkCommunicatorAPI
     
     // MARK: - Initialization
     
     init(wallet: Wallet = WalletManager.shared.wallet,
-         authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared
+         authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
+         communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared
         ) {
         self.authenticationService = authenticationService
         self.wallet = wallet
+        self.communicator = communicator
     }
     
     func createCoinifyTrader() -> Single<CoinifyMetadata> {
@@ -96,13 +99,17 @@ class KYCCoinifyAuthenticator {
         
         let payload = CoinifyTraderPayload(coinifyTraderId: coinifyID)
         
-        return authenticationService.getSessionToken().flatMapCompletable {
-            return NetworkRequest.PUT(
-                url: endpoint,
-                body: try? JSONEncoder().encode(payload),
-                headers: [HttpHeaderField.authorization: $0.token]
-            )
-        }
+        return authenticationService.getSessionToken()
+            .flatMapCompletable(weak: self) { (self, sessionToken) -> Completable in
+                self.communicator.perform(
+                    request: NetworkRequest(
+                        endpoint: endpoint,
+                        method: .put,
+                        body: try? JSONEncoder().encode(payload),
+                        headers: [HttpHeaderField.authorization: sessionToken.token]
+                    )
+                )
+            }
     }
     
     func partnerToken() -> Single<KYCCoinifySignedToken> {
@@ -138,7 +145,7 @@ class KYCCoinifyAuthenticator {
                               "api_code": KYCCoinifyAuthenticator.apiCode
             ]) else { return Single.error(NetworkError.generic(message: nil)) }
         
-        return NetworkRequest.GET(url: url, headers: headers, type: KYCCoinifySignedToken.self)
+        return communicator.perform(request: NetworkRequest(endpoint: url, method: .get, headers: headers))
     }
     
     func signUp(partnerToken: String, countryCode: String, partnerID: Int) -> Single<KYCCoinifyTraderResponse> {
@@ -173,10 +180,12 @@ class KYCCoinifyAuthenticator {
         
         let data = try? JSONEncoder().encode(payload)
         
-        return NetworkRequest.POST(
-            url: url,
-            body: data,
-            type: KYCCoinifyTraderResponse.self
+        return communicator.perform(
+            request: NetworkRequest(
+                endpoint: url,
+                method: .post,
+                body: data
+            )
         )
     }
     

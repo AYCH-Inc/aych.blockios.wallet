@@ -30,3 +30,23 @@ extension Result {
         }
     }
 }
+
+extension Result where Failure == Never {
+    public func flatMapError<E: Error>(to type: E.Type) -> Result<Success, E> {
+        return flatMapError()
+    }
+    
+    public func flatMapError<E: Error>() -> Result<Success, E> {
+        return flatMapError { _ -> Result<Success, E> in
+            fatalError("This can never be executed")
+        }
+    }
+}
+
+extension Result where Success == Never {
+    public func flatMapSuccess<T>() -> Result<T, Failure> {
+        return flatMap { _ -> Result<T, Failure> in
+            fatalError("This can never be executed")
+        }
+    }
+}

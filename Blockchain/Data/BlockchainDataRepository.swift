@@ -18,9 +18,12 @@ import PlatformKit
     static let shared = BlockchainDataRepository()
 
     private let authenticationService: NabuAuthenticationService
+    private let communicator: NetworkCommunicatorAPI
 
-    init(authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared) {
+    init(authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
+         communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
         self.authenticationService = authenticationService
+        self.communicator = communicator
     }
 
     // MARK: - Public Properties
@@ -61,14 +64,17 @@ import PlatformKit
             return Observable.error(NetworkError.generic(message: "Could not get endpoint"))
         }
 
-        let tiersFetchedOverNetwork = authenticationService.getSessionToken().flatMap { token in
-            return NetworkRequest.GET(
-                url: endpoint,
-                body: nil,
-                headers: [HttpHeaderField.authorization: token.token],
-                type: KYCUserTiersResponse.self
-            )
-        }
+        let tiersFetchedOverNetwork: Single<KYCUserTiersResponse> = authenticationService
+            .getSessionToken()
+            .flatMap(weak: self) { (self, token) -> Single<KYCUserTiersResponse> in
+                self.communicator.perform(
+                    request: NetworkRequest(
+                        endpoint: endpoint,
+                        method: .get,
+                        headers: [HttpHeaderField.authorization: token.token]
+                    )
+                )
+            }
 
         return fetchDataStartingWithCache(
             cachedValue: cachedTiers,

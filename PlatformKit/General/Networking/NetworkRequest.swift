@@ -60,29 +60,32 @@ public struct NetworkRequest {
     let endpoint: URL
     let headers: HTTPHeaders?
     let contentType: ContentType
+    // TODO:
+    // * Also inject error decoder
+    let decoder: NetworkResponseDecoderAPI
 
     // TODO: modify this to be an Encodable type so that JSON serialization is done in this class
     // vs. having to serialize outside of this class
     let body: Data?
+    
+    let recordErrors: Bool
 
-    private let session: URLSession? = {
-        return NetworkManager.shared.session
-    }()
-    
-    private var task: URLSessionDataTask?
-    
     public init(
         endpoint: URL,
         method: NetworkMethod,
         body: Data? = nil,
         headers: HTTPHeaders? = nil,
-        contentType: ContentType = .json
+        contentType: ContentType = .json,
+        decoder: NetworkResponseDecoderAPI = NetworkResponseDecoder.default,
+        recordErrors: Bool = false
     ) {
         self.endpoint = endpoint
         self.method = method
         self.body = body
         self.headers = headers
         self.contentType = contentType
+        self.decoder = decoder
+        self.recordErrors = recordErrors
     }
     
     private func addHttpBody(to request: NSMutableURLRequest) {
@@ -115,66 +118,6 @@ public struct NetworkRequest {
     @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
     public static func DELETE(url: URL) -> NetworkRequest {
         return self.init(endpoint: url, method: .delete, body: nil)
-    }
-}
-
-// MARK: - Rx
-
-extension NetworkRequest {
-    
-    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
-    public static func GET<ResponseType: Decodable>(
-        url: URL,
-        body: Data? = nil,
-        headers: HTTPHeaders? = nil,
-        type: ResponseType.Type
-    ) -> Single<ResponseType> {
-        let request = self.init(endpoint: url, method: .get, body: body, headers: headers)
-        return NetworkCommunicator.shared.perform(request: request)
-    }
-
-    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
-    public static func POST(
-        url: URL,
-        body: Data?,
-        headers: HTTPHeaders? = nil,
-        contentType: ContentType = .json
-    ) -> Completable {
-        let request = self.init(endpoint: url, method: .post, body: body, headers: headers, contentType: contentType)
-        return NetworkCommunicator.shared.perform(request: request, responseType: EmptyNetworkResponse.self)
-    }
-
-    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
-    public static func POST<ResponseType: Decodable>(
-        url: URL,
-        body: Data?,
-        type: ResponseType.Type,
-        headers: HTTPHeaders? = nil,
-        contentType: ContentType = .json
-    ) -> Single<ResponseType> {
-        let request = self.init(endpoint: url, method: .post, body: body, headers: headers, contentType: contentType)
-        return NetworkCommunicator.shared.perform(request: request)
-    }
-    
-    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
-    public static func PUT(
-        url: URL,
-        body: Data?,
-        headers: HTTPHeaders? = nil
-    ) -> Completable {
-        let request = self.init(endpoint: url, method: .put, body: body, headers: headers)
-        return NetworkCommunicator.shared.perform(request: request, responseType: EmptyNetworkResponse.self)
-    }
-
-    @available(*, deprecated, message: "Don't use this, instance methods will _probably_ be added to NetworkCommunicator")
-    public static func PUT<ResponseType: Decodable>(
-        url: URL,
-        body: Data?,
-        type: ResponseType.Type,
-        headers: HTTPHeaders? = nil
-    ) -> Single<ResponseType> {
-        let request = self.init(endpoint: url, method: .put, body: body, headers: headers)
-        return NetworkCommunicator.shared.perform(request: request)
     }
 }
 

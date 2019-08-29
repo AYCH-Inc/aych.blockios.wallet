@@ -62,7 +62,7 @@ class EthereumAPIClient: EthereumAPIClientAPI {
             api_code: networkConfig.apiCode
         )
         let data = try? JSONEncoder().encode(pushTxRequest)
-        let networkRequest = NetworkRequest(endpoint: url, method: .post, body: data)
+        let networkRequest = NetworkRequest(endpoint: url, method: .post, body: data, recordErrors: true)
         return communicator.perform(request: networkRequest)
     }
     

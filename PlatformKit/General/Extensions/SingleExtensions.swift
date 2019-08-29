@@ -50,4 +50,23 @@ extension PrimitiveSequence where Trait == SingleTrait {
             }
             .asCompletable()
     }
+    
+    public static func create<A: AnyObject>(weak object: A, subscribe: @escaping (A, @escaping SingleObserver) -> Disposable) -> Single<Element> {
+        return Single<Element>.create { [weak object] observer -> Disposable in
+            guard let object = object else {
+                observer(.error(PlatformKitError.nullReference(A.self)))
+                return Disposables.create()
+            }
+            return subscribe(object, observer)
+        }
+    }
+}
+
+extension PrimitiveSequence where Trait == SingleTrait {
+    public func recordErrors(on recorder: Recording?, enabled: Bool = true) -> Single<Element> {
+        guard enabled else { return self }
+        return self.do(onError: { error in
+            recorder?.error(error)
+        })
+    }
 }

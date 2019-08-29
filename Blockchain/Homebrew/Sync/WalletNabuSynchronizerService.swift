@@ -12,11 +12,12 @@ import PlatformKit
 class WalletNabuSynchronizerService: WalletNabuSynchronizerAPI {
 
     private let appSettings: BlockchainSettings.App
+    private let communictator: NetworkCommunicatorAPI
 
-    init(
-        appSettings: BlockchainSettings.App = BlockchainSettings.App.shared
-    ) {
+    init(appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
+         communictator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
         self.appSettings = appSettings
+        self.communictator = communictator
     }
 
     func sync(token: NabuSessionTokenResponse) -> Single<NabuUser> {
@@ -57,14 +58,14 @@ class WalletNabuSynchronizerService: WalletNabuSynchronizerAPI {
             sharedKey: sharedKey,
             walletGuid: walletGuid
         )
-        guard let baseUrl = URL(string: BlockchainAPI.shared.signedRetailTokenUrl),
-            let url = URL.endpoint(baseUrl, pathComponents: nil, queryParameters: requestPayload.toDictionary),
-            let urlRequest = try? URLRequest(url: url, method: .get) else {
-                return Single.error(NabuAuthenticationError.invalidUrl)
+        guard
+            let baseUrl = URL(string: BlockchainAPI.shared.signedRetailTokenUrl),
+            let url = URL.endpoint(baseUrl, pathComponents: nil, queryParameters: requestPayload.toDictionary)
+        else {
+            return Single.error(NabuAuthenticationError.invalidUrl)
         }
-
         // Initiate request
-        return NetworkManager.shared.request(urlRequest, responseType: SignedRetailTokenResponse.self)
+        return communictator.perform(request: NetworkRequest(endpoint: url, method: .get))
     }
 
 }

@@ -13,9 +13,11 @@ import RxSwift
 class WalletSettingsService: WalletSettingsAPI {
 
     private let apiCode: String
+    private let communicator: NetworkCommunicatorAPI
 
-    init(apiCode: String = BlockchainAPI.Parameters.apiCode) {
+    init(apiCode: String = BlockchainAPI.Parameters.apiCode, communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
         self.apiCode = apiCode
+        self.communicator = communicator
     }
 
     func fetchSettings(guid: String, sharedKey: String) -> Single<WalletSettings> {
@@ -29,7 +31,14 @@ class WalletSettingsService: WalletSettingsAPI {
             apiCode: apiCode
         )
         let data = try? JSONEncoder().encode(request)
-        return NetworkRequest.POST(url: url, body: data, type: WalletSettings.self, contentType: .formUrlEncoded)
+        return communicator.perform(
+            request: NetworkRequest(
+                endpoint: url,
+                method: .post,
+                body: data,
+                contentType: .formUrlEncoded
+            )
+        )
     }
 
     func updateSettings(method: WalletSettingsApiMethod, guid: String, sharedKey: String, payload: String, context: ContextParameter?) -> Completable {
@@ -48,7 +57,14 @@ class WalletSettingsService: WalletSettingsAPI {
             context: context?.rawValue ?? nil
         )
         let data = try? JSONEncoder().encode(request)
-        return NetworkRequest.POST(url: url, body: data, contentType: .formUrlEncoded)
+        return communicator.perform(
+            request: NetworkRequest(
+                endpoint: url,
+                method: .post,
+                body: data,
+                contentType: .formUrlEncoded
+            )
+        )
     }
 
     func updateLastTxTimeToCurrentTime(guid: String, sharedKey: String) -> Completable {

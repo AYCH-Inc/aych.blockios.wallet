@@ -511,7 +511,7 @@ final class DashboardController: UIViewController {
         }
 
         let url = URL(string: BlockchainAPI.shared.chartsURL(for: base, quote: quote, startDate: startDate, scale: timeFrame.scale))!
-        let task = NetworkManager.shared.session.dataTask(with: url, completionHandler: { data, response, error in
+        let task = Network.Dependencies.default.session.dataTask(with: url, completionHandler: { data, response, error in
             if let theError = error {
                 self.showError(message: theError.localizedDescription)
                 return

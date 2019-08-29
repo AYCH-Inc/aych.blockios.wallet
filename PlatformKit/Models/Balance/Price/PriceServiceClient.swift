@@ -21,7 +21,11 @@ public class PriceServiceClient: PriceServiceAPI {
 
     public typealias CryptoCurrencyToPrices = [CryptoCurrency: PriceInFiatValue]
     
-    public init() { }
+    private let communicator: NetworkCommunicatorAPI
+    
+    public init(communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
+        self.communicator = communicator
+    }
     
     public func fiatPrice(forCurrency cryptoCurrency: CryptoCurrency, fiatSymbol: String, timestamp: Date) -> Single<PriceInFiatValue> {
         return fetchFiatPrice(forCurrency: cryptoCurrency, fiatSymbol: fiatSymbol, timestamp: timestamp)
@@ -46,9 +50,10 @@ public class PriceServiceClient: PriceServiceAPI {
             ) else {
                 return Single.error(NetworkError.generic(message: "URL is invalid."))
         }
-        return NetworkRequest.GET(url: url, type: PriceInFiat.self).map {
-            $0.toPriceInFiatValue(currencyCode: fiatSymbol)
-        }
+        return communicator.perform(request: NetworkRequest(endpoint: url, method: .get))
+            .map { (price: PriceInFiat) -> PriceInFiatValue in
+                price.toPriceInFiatValue(currencyCode: fiatSymbol)
+            }
     }
 
     /// Returns a Single that emits a mapping between an AssetType and it's price in fiat

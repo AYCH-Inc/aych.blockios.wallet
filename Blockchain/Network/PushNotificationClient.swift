@@ -1,21 +1,44 @@
 //
-//  NetworkManager+PushNotifications.swift
+//  PushNotificationClient.swift
 //  Blockchain
 //
-//  Created by Maurice A. on 5/4/18.
-//  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
+//  Created by Jack on 22/08/2019.
+//  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
 import Foundation
 import PlatformKit
 
-extension NetworkManager {
-    static func registerDeviceForPushNotifications(withDeviceToken token: String) {
+public class PushNotificationClient {
+    
+    public struct WalletCredentials {
+        public let guid: String
+        public let sharedKey: String
+        
+        public init?(guid: String?, sharedKey: String?) {
+            guard let guid = guid, let sharedKey = sharedKey else {
+                return nil
+            }
+            self.guid = guid
+            self.sharedKey = sharedKey
+        }
+    }
+    
+    private let communicator: NetworkCommunicatorAPI
+    
+    init(communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
+        self.communicator = communicator
+    }
+    
+    public func registerDeviceForPushNotifications(withDeviceToken token: String, credentials: WalletCredentials?) {
         // TODO: test deregistering from the server
+        guard let credentials = credentials else {
+            return
+        }
         let pushNotificationsUrl = BlockchainAPI.shared.pushNotificationsUrl
+        let guid = credentials.guid
+        let sharedKey = credentials.sharedKey
         guard let url = URL(string: pushNotificationsUrl),
-            let guid = WalletManager.shared.wallet.guid,
-            let sharedKey = WalletManager.shared.wallet.sharedKey,
             let payload = PushNotificationAuthPayload(guid: guid, sharedKey: sharedKey, deviceToken: token),
             let body = BlockchainAPI.registerDeviceForPushNotifications(using: payload) else {
                 return
@@ -25,7 +48,9 @@ extension NetworkManager {
         notificationRequest.httpBody = body
         notificationRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         notificationRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        let task = NetworkManager.shared.session.dataTask(with: notificationRequest, completionHandler: { data, response, error in
+        // TODO:
+        // * Use NetworkCommunicator to send request
+        let task = Network.Dependencies.default.session.dataTask(with: notificationRequest, completionHandler: { data, response, error in
             guard error == nil else {
                 Logger.shared.error("Error registering device with backend: \(error!.localizedDescription)")
                 return

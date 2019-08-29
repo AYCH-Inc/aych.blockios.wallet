@@ -24,15 +24,17 @@ public final class AnyERC20AccountAPIClient<Token: ERC20Token>: ERC20AccountAPIC
         ) else {
             return .error(TradeExecutionAPIError.generic)
         }
-        return NetworkRequest.GET(url: endpoint, type: ERC20AccountResponse<Token>.self)
+        return communicator.perform(request: NetworkRequest(endpoint: endpoint, method: .get))
             .do(onError: { error in
                 Logger.shared.error(error)
             })
     }
     
     private let apiUrl: String
+    private let communicator: NetworkCommunicatorAPI
     
-    init(apiUrl: String = BlockchainAPI.shared.apiUrl) {
+    init(apiUrl: String = BlockchainAPI.shared.apiUrl, communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
         self.apiUrl = apiUrl
+        self.communicator = communicator
     }
 }

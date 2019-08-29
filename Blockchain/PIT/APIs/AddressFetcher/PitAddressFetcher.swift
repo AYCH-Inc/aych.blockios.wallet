@@ -102,7 +102,7 @@ final class PitAddressFetcher: PitAddressFetching {
     
     private let featureConfigurator: FeatureConfiguring
     private let authentication: NabuAuthenticationService
-    private let network: NetworkManager
+    private let communicator: NetworkCommunicatorAPI
     private let repository: PITAccountRepositoryAPI
     private let urlPrefix: String
         
@@ -111,10 +111,10 @@ final class PitAddressFetcher: PitAddressFetching {
     init(featureConfigurator: FeatureConfiguring = AppFeatureConfigurator.shared,
          repository: PITAccountRepositoryAPI = PITAccountRepository(),
          authentication: NabuAuthenticationService = .shared,
-         network: NetworkManager = NetworkManager.shared,
+         communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared,
          urlPrefix: String = BlockchainAPI.shared.retailCoreUrl) {
         self.authentication = authentication
-        self.network = network
+        self.communicator = communicator
         self.repository = repository
         self.featureConfigurator = featureConfigurator
         self.urlPrefix = urlPrefix
@@ -144,11 +144,14 @@ final class PitAddressFetcher: PitAddressFetching {
                 return [HttpHeaderField.authorization: token.token]
             }
             .flatMap(weak: self) { (self, headers) -> Single<PitAddressResponseBody> in
-                return self.network.put(url,
-                                        headers: headers,
-                                        data: data,
-                                        decodeTo: PitAddressResponseBody.self,
-                                        encoding: .json)
+                return self.communicator.perform(
+                    request: NetworkRequest(
+                        endpoint: URL(string: url)!,
+                        method: .put,
+                        body: try? JSONEncoder().encode(data),
+                        headers: headers
+                    )
+                )
             }
             .map { $0.address }
     }

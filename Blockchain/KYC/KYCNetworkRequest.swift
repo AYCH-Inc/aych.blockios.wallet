@@ -217,7 +217,7 @@ final class KYCNetworkRequest {
 
     private func send(taskSuccess: @escaping TaskSuccess, taskFailure: @escaping TaskFailure) {
 //        Logger.shared.debug("Sending \(request.httpMethod ?? "") request to '\(request.url?.absoluteString ?? "")'")
-        let task = NetworkManager.shared.session.dataTask(with: request, completionHandler: { data, response, error in
+        let task = Network.Dependencies.default.session.dataTask(with: request, completionHandler: { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
                     taskFailure(HTTPRequestClientError.failedRequest(description: error.localizedDescription)); return

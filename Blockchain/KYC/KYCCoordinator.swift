@@ -65,17 +65,21 @@ protocol KYCCoordinatorDelegate: class {
     
     private var userTiersResponse: KYCUserTiersResponse?
     private var kycSettings: KYCSettingsAPI
+    
+    private let communicator: NetworkCommunicatorAPI
 
     init(
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
         kycSettings: KYCSettingsAPI = KYCSettings.shared,
         authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
-        loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
+        loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared,
+        communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared
     ) {
         self.appSettings = appSettings
         self.kycSettings = kycSettings
         self.authenticationService = authenticationService
         self.loadingViewPresenter = loadingViewPresenter
+        self.communicator = communicator
     }
 
     deinit {
@@ -444,12 +448,14 @@ protocol KYCCoordinatorDelegate: class {
                 return .error(TradeExecutionAPIError.generic)
         }
         let body = KYCTierPostBody(selectedTier:tier)
-        return authenticationService.getSessionToken().flatMap { token in
-            return NetworkRequest.POST(
-                url: endpoint,
-                body: try? JSONEncoder().encode(body),
-                type: KYCUserTiersResponse.self,
-                headers: [HttpHeaderField.authorization: token.token]
+        return authenticationService.getSessionToken().flatMap(weak: self) { (self, token) -> Single<KYCUserTiersResponse> in
+            return self.communicator.perform(
+                request: NetworkRequest(
+                    endpoint: endpoint,
+                    method: .post,
+                    body: try? JSONEncoder().encode(body),
+                    headers: [HttpHeaderField.authorization: token.token]
+                )
             )
         }
     }

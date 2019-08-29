@@ -1,5 +1,5 @@
 //
-//  UserAgent.swift
+//  Network+UserAgent.swift
 //  Blockchain
 //
 //  Created by Maurice A. on 4/16/18.
@@ -7,21 +7,6 @@
 //
 
 import Foundation
-
-@objc
-extension NetworkManager {
-    static var userAgent: String? {
-        let systemVersion = UIDevice.current.systemVersion
-        let modelName = UIDevice.current.model
-        guard
-            let version = Bundle.applicationVersion,
-            let build = Bundle.applicationBuildVersion else {
-                return nil
-        }
-        let versionAndBuild = String(format: "%@ b%@", version, build)
-        return String(format: "Blockchain-iOS/%@ (iOS/%@; %@)", versionAndBuild, systemVersion, modelName)
-    }
-}
 
 // TODO: Add `AppVersion` getter to Bundle for a more convenient access as it is used in several other placed, causing duplication of identical code
 @objc

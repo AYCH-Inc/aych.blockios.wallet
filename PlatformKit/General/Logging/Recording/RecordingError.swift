@@ -9,7 +9,7 @@
 import Foundation
 
 /// Any recorded error should be added here
-enum RecordingError: Error {
+public enum RecordingError: Error {
     
     /// Breadcrumb (no information
     case breadcrumb

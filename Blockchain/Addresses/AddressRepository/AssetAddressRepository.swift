@@ -236,13 +236,12 @@ extension AssetAddressRepository {
             }
             
             // TODO: Inject
-            NetworkManager.shared.session.sessionDescription = url.host
-            let task = NetworkManager.shared.session.dataTask(with: url, completionHandler: { data, _, error in
+            Network.Dependencies.default.session.sessionDescription = url.host
+            let task = Network.Dependencies.default.session.dataTask(with: url, completionHandler: { data, _, error in
                 guard error == nil else {
                     single(.error(error!))
                     return
                 }
-                // TODO: Type program the parsing into `NetworkManager`
                 guard let json = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: AnyObject],
                     let transactions = json["txs"] as? [NSDictionary] else {
                         single(.error(NetworkError.jsonParseError))

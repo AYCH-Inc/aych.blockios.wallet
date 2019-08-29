@@ -64,13 +64,17 @@ class MarketsService {
     private var dataSource: DataSource = .socket
 
     var hasAuthenticated: Bool = false
-
+    
+    private let communicator: NetworkCommunicatorAPI
+    
     init(
         authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
-        socketManager: SocketManager = SocketManager.shared
+        socketManager: SocketManager = SocketManager.shared,
+        communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared
     ) {
         self.authentication = authenticationService
         self.socketManager = socketManager
+        self.communicator = communicator
     }
 
     deinit {
@@ -151,26 +155,28 @@ extension MarketsService: ExchangeMarketsAPI {
     }
 
     func exchangeRateAvailablePairs() -> Single<ExchangeTradingPairs> {
-        return authentication.getSessionToken().flatMap { token in
-            guard let baseURL = URL(
-                string: BlockchainAPI.shared.retailCoreUrl) else {
-                    return Single.error(NetworkError.generic(message: "Could not form retail core url"))
-            }
+        return authentication.getSessionToken()
+            .flatMap(weak: self) { (self, token) -> Single<ExchangeTradingPairs> in
+                guard let baseURL = URL(
+                    string: BlockchainAPI.shared.retailCoreUrl) else {
+                        return Single.error(NetworkError.generic(message: "Could not form retail core url"))
+                }
 
-            guard let endpoint = URL.endpoint(
-                baseURL,
-                pathComponents: ["markets", "bestrates", "pairs"],
-                queryParameters: nil) else {
-                    return Single.error(NetworkError.generic(message: "Could not get endpoint"))
-            }
+                guard let endpoint = URL.endpoint(
+                    baseURL,
+                    pathComponents: ["markets", "bestrates", "pairs"],
+                    queryParameters: nil) else {
+                        return Single.error(NetworkError.generic(message: "Could not get endpoint"))
+                }
 
-            return NetworkRequest.GET(
-                url: endpoint,
-                body: nil,
-                headers: [HttpHeaderField.authorization: token.token],
-                type: ExchangeTradingPairs.self
-            )
-        }
+                return self.communicator.perform(
+                    request: NetworkRequest(
+                        endpoint: endpoint,
+                        method: .get,
+                        headers: [HttpHeaderField.authorization: token.token]
+                    )
+                )
+            }
     }
 
     func bestExchangeRates() -> Observable<ExchangeRates> {

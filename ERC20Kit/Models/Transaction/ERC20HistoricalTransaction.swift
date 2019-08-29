@@ -44,7 +44,7 @@ public struct ERC20AccountTransactionsResponse<Token: ERC20Token>: Decodable, To
 }
 
 public struct ERC20HistoricalTransaction<Token: ERC20Token>: Decodable, Hashable, HistoricalTransaction, Tokenized {
-    
+
     public typealias Address = EthereumAssetAddress
     
     /// There's not much point to `token` in this case since
@@ -152,6 +152,7 @@ public struct ERC20HistoricalTransaction<Token: ERC20Token>: Decodable, Hashable
     
     // MARK: Private
     
+    @available(*, deprecated, message: "Network Requests shouldn't be performed from models. This method should be replaced by a call to a Service e.g. ERC20Service")
     private var transactionDetails: Single<ERC20TransactionDetails<Token>> {
         guard let baseURL = URL(string: BlockchainAPI.shared.apiUrl) else {
             return Single.error(NetworkError.generic(message: "Invalid URL"))
@@ -160,11 +161,12 @@ public struct ERC20HistoricalTransaction<Token: ERC20Token>: Decodable, Hashable
         guard let endpoint = URL.endpoint(baseURL, pathComponents: components, queryParameters: nil) else {
             return Single.error(NetworkError.generic(message: "Invalid URL"))
         }
-        return NetworkRequest.GET(url: endpoint, type: ERC20TransactionDetails<Token>.self)
+        return Network.Dependencies.default.communicator.perform(request: NetworkRequest(endpoint: endpoint, method: .get))
     }
     
     // Provides price index (exchange rate) between supported cryptocurrency and fiat currency.
     // This is how you populate the `historicalFiatValue`.
+    @available(*, deprecated, message: "Network Requests shouldn't be performed from models. This method should be replaced by a call to a Service e.g. ERC20Service")
     public func historicalFiatPrice(with currencyCode: String) -> Single<PriceInFiatValue> {
         guard let baseUrl = URL(string: BlockchainAPI.shared.servicePriceUrl) else {
             return Single.error(NetworkError.generic(message: "URL is invalid."))
@@ -180,9 +182,10 @@ public struct ERC20HistoricalTransaction<Token: ERC20Token>: Decodable, Hashable
             ) else {
                 return Single.error(NetworkError.generic(message: "URL is invalid."))
         }
-        return NetworkRequest.GET(url: url, type: PriceInFiat.self).map {
-            $0.toPriceInFiatValue(currencyCode: currencyCode)
-        }
+        return Network.Dependencies.default.communicator.perform(request: NetworkRequest(endpoint: url, method: .get))
+            .map { (price: PriceInFiat) -> PriceInFiatValue in
+                price.toPriceInFiatValue(currencyCode: currencyCode)
+            }
     }
     
     // MARK: Hashable

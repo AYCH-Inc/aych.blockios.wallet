@@ -28,15 +28,18 @@ class StellarAirdropRegistrationService: StellarAirdropRegistrationAPI {
     private let appSettings: BlockchainSettings.App
     private let kycSettings: KYCSettingsAPI
     private let nabuAuthenticationService: NabuAuthenticationService
+    private let communicator: NetworkCommunicatorAPI
 
     init(
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
         kycSettings: KYCSettingsAPI = KYCSettings.shared,
-        nabuAuthenticationService: NabuAuthenticationService = NabuAuthenticationService.shared
+        nabuAuthenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
+        communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared
     ) {
         self.appSettings = appSettings
         self.kycSettings = kycSettings
         self.nabuAuthenticationService = nabuAuthenticationService
+        self.communicator = communicator
     }
 
     func registerForCampaign(xlmAccount: StellarWalletAccount, nabuUser: NabuUser) -> Single<StellarRegisterCampaignResponse> {
@@ -73,14 +76,16 @@ class StellarAirdropRegistrationService: StellarAirdropRegistrationAPI {
         guard let postPayload = try? JSONEncoder().encode(payload) else {
             return Single.never()
         }
-        return NetworkRequest.PUT(
-            url: endpoint,
-            body: postPayload,
-            type: StellarRegisterCampaignResponse.self,
-            headers: [
-                "X-CAMPAIGN": "sunriver",
-                HttpHeaderField.authorization: authToken.token
-            ]
+        return communicator.perform(
+            request: NetworkRequest(
+                endpoint: endpoint,
+                method: .put,
+                body: postPayload,
+                headers: [
+                    "X-CAMPAIGN": "sunriver",
+                    HttpHeaderField.authorization: authToken.token
+                ]
+            )
         )
     }
 

@@ -21,14 +21,19 @@ public class WalletService: WalletOptionsAPI {
         guard let url = URL(string: BlockchainAPI.shared.walletOptionsUrl) else {
             return Single.error(NetworkCommunicatorError.clientError(.failedRequest(description: "Invalid URL")))
         }
-        
-        let request = NetworkRequest.GET(url: url, type: WalletOptions.self)
-        return request.do(onSuccess: { [weak self] in
-            self?.cachedWalletOptions.value = $0
-        })
+        return communicator.perform(request: NetworkRequest(endpoint: url, method: .get))
+            .do(onSuccess: { [weak self] in
+                self?.cachedWalletOptions.value = $0
+            })
     }
     
+    private let communicator: NetworkCommunicatorAPI
+    
     // MARK: - Public
+    
+    public init(communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
+        self.communicator = communicator
+    }
     
     /// A Single returning the WalletOptions which contains dynamic flags for configuring the app.
     /// If WalletOptions has already been fetched, this property will return the cached value

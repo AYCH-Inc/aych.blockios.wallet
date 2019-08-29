@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 import Firebase
 
 /// Crashlytics implementation of `Recording`. Should be injected as a service.

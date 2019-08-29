@@ -26,8 +26,11 @@ class HomebrewExchangeService: HomebrewExchangeAPI {
     fileprivate let authentication: NabuAuthenticationService
     fileprivate var disposable: Disposable?
     
-    init(service: NabuAuthenticationService = NabuAuthenticationService.shared) {
+    private let communicator: NetworkCommunicatorAPI
+    
+    init(service: NabuAuthenticationService = NabuAuthenticationService.shared, communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
         self.authentication = service
+        self.communicator = communicator
     }
     
     deinit {
@@ -60,12 +63,13 @@ class HomebrewExchangeService: HomebrewExchangeAPI {
             return .error(HomebrewExchangeServiceError.generic)
         }
         
-        return authentication.getSessionToken().flatMap { token in
-            return NetworkRequest.GET(
-                url: endpoint,
-                body: nil,
-                headers: [HttpHeaderField.authorization: token.token],
-                type: [ExchangeTradeCellModel].self
+        return authentication.getSessionToken().flatMap(weak: self) { (self, token) -> Single<[ExchangeTradeCellModel]> in
+            return self.communicator.perform(
+                request: NetworkRequest(
+                    endpoint: endpoint,
+                    method: .get,
+                    headers: [HttpHeaderField.authorization: token.token]
+                )
             )
         }
     }

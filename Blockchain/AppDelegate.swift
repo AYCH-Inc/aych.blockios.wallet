@@ -58,6 +58,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private lazy var deepLinkHandler: DeepLinkHandler = {
         return DeepLinkHandler()
     }()
+    
+    private lazy var pushNotificationClient: PushNotificationClient = {
+        return PushNotificationClient()
+    }()
 
     // MARK: - Lifecycle Methods
 
@@ -102,7 +106,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // TODO: prevent any other data tasks from executing until cert is pinned
         CertificatePinner.shared.pinCertificate()
-
+        
+        Network.Dependencies.default.communicator.use(recorder: CrashlyticsRecorder())
+        
         checkForNewInstall()
 
         AppCoordinator.shared.start()
@@ -165,7 +171,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         showPrivacyScreen()
         
-        NetworkManager.shared.session.reset {
+        Network.Dependencies.default.session.reset {
             Logger.shared.debug("URLSession reset completed.")
         }
         
@@ -258,7 +264,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        NetworkManager.registerDeviceForPushNotifications(withDeviceToken: token)
+        pushNotificationClient.registerDeviceForPushNotifications(
+            withDeviceToken: token,
+            credentials: PushNotificationClient.WalletCredentials(
+                guid: WalletManager.shared.wallet.guid,
+                sharedKey: WalletManager.shared.wallet.sharedKey
+            )
+        )
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

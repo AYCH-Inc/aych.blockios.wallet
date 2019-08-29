@@ -21,14 +21,16 @@ public class AnyERC20HistoricalTransactionService<Token: ERC20Token>: TokenizedH
     public typealias Bridge = ERC20WalletTranscationsBridgeAPI
     public typealias PageModel = PageResult<Model>
     
-    private let bridge: EthereumWalletBridgeAPI
-    
     private var ethereumAddress: Single<String> {
         return bridge.address
     }
     
-    public init(bridge: EthereumWalletBridgeAPI) {
+    private let bridge: EthereumWalletBridgeAPI
+    private let communicator: NetworkCommunicatorAPI
+    
+    public init(bridge: EthereumWalletBridgeAPI, communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
         self.bridge = bridge
+        self.communicator = communicator
     }
     
     public func fetchTransactions(token: String?, size: Int) -> Single<PageModel> {
@@ -65,7 +67,7 @@ public class AnyERC20HistoricalTransactionService<Token: ERC20Token>: TokenizedH
     }
     
     private func fetchTransactionResponse(from page: String = "0") -> Single<ERC20AccountTransactionsResponse<Token>> {
-        return ethereumAddress.flatMap { address -> Single<ERC20AccountTransactionsResponse<Token>> in
+        return ethereumAddress.flatMap(weak: self) { (self, address) -> Single<ERC20AccountTransactionsResponse<Token>> in
             guard let baseURL = URL(string: BlockchainAPI.shared.apiUrl) else {
                 return Single.error(NetworkError.generic(message: "Invalid URL"))
             }
@@ -75,7 +77,7 @@ public class AnyERC20HistoricalTransactionService<Token: ERC20Token>: TokenizedH
                 return Single.error(NetworkError.generic(message: "Invalid URL"))
             }
             
-            return NetworkRequest.GET(url: endpoint, type: ERC20AccountTransactionsResponse<Token>.self)
+            return self.communicator.perform(request: NetworkRequest(endpoint: endpoint, method: .get))
         }
     }
 }

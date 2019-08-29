@@ -97,17 +97,21 @@ class TradeExecutionService: TradeExecutionAPI {
         return dependencies.feeService.stellar
     }
     
+    private let communicator: NetworkCommunicatorAPI
+    
     // MARK: Init
     
     init(
         service: NabuAuthenticationServiceAPI = NabuAuthenticationService.shared,
         wallet: LegacyWalletAPI = WalletManager.shared.wallet,
-        dependencies: TradeExecutionServiceDependenciesAPI
+        dependencies: TradeExecutionServiceDependenciesAPI,
+        communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared
         ) {
         self.authentication = service
         self.wallet = wallet
         self.dependencies = dependencies
         self.assetAccountRepository = dependencies.assetAccountRepository
+        self.communicator = communicator
     }
     
     deinit {
@@ -218,28 +222,25 @@ class TradeExecutionService: TradeExecutionAPI {
         
         let payload = TransactionFailure(message: reason)
         
-        let disposable = authentication.getSessionToken()
+        authentication.getSessionToken()
+            .flatMapCompletable(weak: self) { (self, token) -> Completable in
+                return self.communicator.perform(
+                    request: NetworkRequest(
+                        endpoint: endpoint,
+                        method: .put,
+                        body: try? JSONEncoder().encode(payload),
+                        headers: [HttpHeaderField.authorization: token.token]
+                    )
+                )
+            }
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] token in
-                guard let this = self else { return }
-                let disposable = NetworkRequest.PUT(url: endpoint,
-                                                    body: try? JSONEncoder().encode(payload),
-                                                    headers: [HttpHeaderField.authorization: token.token])
-                    .subscribeOn(MainScheduler.asyncInstance)
-                    .observeOn(MainScheduler.instance)
-                    .subscribe(onCompleted: {
-                        completion(nil)
-                    }, onError: { error in
-                        completion(error)
-                    })
-            
-            this.disposables.insertWithDiscardableResult(disposable)
-        }, onError: { error in
-            completion(error)
-        })
-        
-        disposables.insertWithDiscardableResult(disposable)
+            .subscribe(onCompleted: {
+                completion(nil)
+            }, onError: { error in
+                completion(error)
+            })
+            .disposed(by: bag)
     }
 
     // Build an order from an OrderTransactionLegacy struct.
@@ -404,14 +405,17 @@ class TradeExecutionService: TradeExecutionAPI {
                 return .error(TradeExecutionAPIError.generic)
         }
 
-        return authentication.getSessionToken().flatMap { token in
-            return NetworkRequest.POST(
-                url: endpoint,
-                body: try? JSONEncoder().encode(order),
-                type: OrderResult.self,
-                headers: [HttpHeaderField.authorization: token.token]
-            )
-        }
+        return authentication.getSessionToken()
+            .flatMap(weak: self) { (self, token) -> Single<OrderResult> in
+                self.communicator.perform(
+                    request: NetworkRequest(
+                        endpoint: endpoint,
+                        method: .post,
+                        body: try? JSONEncoder().encode(order),
+                        headers: [HttpHeaderField.authorization: token.token]
+                    )
+                )
+            }
     }
 
     // Sign and send the payment object created by either of the buildOrder methods.

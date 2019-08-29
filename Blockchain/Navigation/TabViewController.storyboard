@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="k51-RX-6bt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="k51-RX-6bt">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -51,17 +51,70 @@
                                     <outlet property="delegate" destination="k51-RX-6bt" id="CNQ-cW-KKN"/>
                                 </connections>
                             </tabBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z9v-7K-foj" customClass="PassthroughView" customModule="PlatformUIKit">
+                                <rect key="frame" x="0.0" y="618" width="375" height="49"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tDN-MA-Y3Y" customClass="PassthroughView" customModule="PlatformUIKit">
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="49"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g3T-xe-A8S" customClass="PassthroughView" customModule="PlatformUIKit">
+                                        <rect key="frame" x="75" y="0.0" width="75" height="49"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7bS-VB-tYP" customClass="PassthroughView" customModule="PlatformUIKit">
+                                        <rect key="frame" x="150" y="0.0" width="75" height="49"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gZY-Pv-br4" customClass="PassthroughView" customModule="PlatformUIKit">
+                                        <rect key="frame" x="225" y="0.0" width="75" height="49"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aeo-1H-ixg" customClass="PassthroughView" customModule="PlatformUIKit">
+                                        <rect key="frame" x="300" y="0.0" width="75" height="49"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="tDN-MA-Y3Y" firstAttribute="width" secondItem="Z9v-7K-foj" secondAttribute="width" multiplier="0.2" id="4zh-ro-t5G"/>
+                                    <constraint firstItem="tDN-MA-Y3Y" firstAttribute="height" secondItem="Z9v-7K-foj" secondAttribute="height" id="BWd-4w-wYF"/>
+                                    <constraint firstItem="tDN-MA-Y3Y" firstAttribute="leading" secondItem="Z9v-7K-foj" secondAttribute="leading" id="FqW-8R-rgk"/>
+                                    <constraint firstItem="g3T-xe-A8S" firstAttribute="top" secondItem="Z9v-7K-foj" secondAttribute="top" id="HIX-U2-F4w"/>
+                                    <constraint firstItem="gZY-Pv-br4" firstAttribute="top" secondItem="Z9v-7K-foj" secondAttribute="top" id="HcN-cV-jpb"/>
+                                    <constraint firstItem="gZY-Pv-br4" firstAttribute="height" secondItem="tDN-MA-Y3Y" secondAttribute="height" id="MbT-Np-qsS"/>
+                                    <constraint firstItem="7bS-VB-tYP" firstAttribute="centerY" secondItem="Z9v-7K-foj" secondAttribute="centerY" id="OcN-8C-gGv"/>
+                                    <constraint firstAttribute="trailing" secondItem="aeo-1H-ixg" secondAttribute="trailing" id="Q9E-6V-Lo4"/>
+                                    <constraint firstItem="7bS-VB-tYP" firstAttribute="centerX" secondItem="Z9v-7K-foj" secondAttribute="centerX" id="Swh-ED-Pax"/>
+                                    <constraint firstItem="g3T-xe-A8S" firstAttribute="height" secondItem="tDN-MA-Y3Y" secondAttribute="height" id="VaP-Wo-2EQ"/>
+                                    <constraint firstItem="g3T-xe-A8S" firstAttribute="width" secondItem="tDN-MA-Y3Y" secondAttribute="width" id="YPS-6V-2Uw"/>
+                                    <constraint firstItem="aeo-1H-ixg" firstAttribute="top" secondItem="Z9v-7K-foj" secondAttribute="top" id="ZHz-5e-yfZ"/>
+                                    <constraint firstItem="7bS-VB-tYP" firstAttribute="height" secondItem="tDN-MA-Y3Y" secondAttribute="height" id="eCj-1v-WOV"/>
+                                    <constraint firstAttribute="bottom" secondItem="tDN-MA-Y3Y" secondAttribute="bottom" id="edI-79-4Xj"/>
+                                    <constraint firstItem="g3T-xe-A8S" firstAttribute="leading" secondItem="tDN-MA-Y3Y" secondAttribute="trailing" id="gqb-hD-w2U"/>
+                                    <constraint firstItem="gZY-Pv-br4" firstAttribute="leading" secondItem="7bS-VB-tYP" secondAttribute="trailing" id="hKc-sa-gNT"/>
+                                    <constraint firstItem="aeo-1H-ixg" firstAttribute="width" secondItem="tDN-MA-Y3Y" secondAttribute="width" id="lfb-Af-Pfa"/>
+                                    <constraint firstItem="tDN-MA-Y3Y" firstAttribute="top" secondItem="Z9v-7K-foj" secondAttribute="top" id="ljq-lN-qDv"/>
+                                    <constraint firstItem="aeo-1H-ixg" firstAttribute="height" secondItem="tDN-MA-Y3Y" secondAttribute="height" id="rks-lK-f8V"/>
+                                    <constraint firstItem="7bS-VB-tYP" firstAttribute="width" secondItem="tDN-MA-Y3Y" secondAttribute="width" id="ton-P7-st2"/>
+                                    <constraint firstItem="gZY-Pv-br4" firstAttribute="width" secondItem="tDN-MA-Y3Y" secondAttribute="width" id="vPW-65-yht"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Z9v-7K-foj" firstAttribute="height" secondItem="pNH-Ic-h6g" secondAttribute="height" id="3Hv-2c-NZi"/>
                             <constraint firstItem="pNH-Ic-h6g" firstAttribute="leading" secondItem="EmF-no-qxO" secondAttribute="leading" id="ECe-ge-E9v"/>
                             <constraint firstItem="QGU-pa-jaz" firstAttribute="top" secondItem="5gi-rF-GGs" secondAttribute="top" id="H98-qR-wnx"/>
                             <constraint firstItem="pNH-Ic-h6g" firstAttribute="trailing" secondItem="EmF-no-qxO" secondAttribute="trailing" id="H9y-oL-avG"/>
+                            <constraint firstItem="Z9v-7K-foj" firstAttribute="centerY" secondItem="pNH-Ic-h6g" secondAttribute="centerY" id="KMc-UZ-lqZ"/>
                             <constraint firstItem="059-eH-nYE" firstAttribute="top" secondItem="5gi-rF-GGs" secondAttribute="top" id="Ydp-Po-OZY"/>
+                            <constraint firstItem="Z9v-7K-foj" firstAttribute="centerX" secondItem="pNH-Ic-h6g" secondAttribute="centerX" id="Zjx-j5-il1"/>
                             <constraint firstItem="EmF-no-qxO" firstAttribute="bottom" secondItem="pNH-Ic-h6g" secondAttribute="bottom" id="eCn-aE-CET"/>
                             <constraint firstItem="EmF-no-qxO" firstAttribute="trailing" secondItem="059-eH-nYE" secondAttribute="trailing" id="eg6-A5-233"/>
                             <constraint firstItem="QGU-pa-jaz" firstAttribute="trailing" secondItem="EmF-no-qxO" secondAttribute="trailing" id="eh8-rb-22i"/>
                             <constraint firstItem="QGU-pa-jaz" firstAttribute="leading" secondItem="EmF-no-qxO" secondAttribute="leading" id="gOJ-77-PFb"/>
+                            <constraint firstItem="Z9v-7K-foj" firstAttribute="width" secondItem="pNH-Ic-h6g" secondAttribute="width" id="mRE-Nj-A3G"/>
                             <constraint firstItem="pNH-Ic-h6g" firstAttribute="top" secondItem="059-eH-nYE" secondAttribute="bottom" id="mwU-cH-ahB"/>
                             <constraint firstItem="pNH-Ic-h6g" firstAttribute="top" secondItem="QGU-pa-jaz" secondAttribute="bottom" id="v9U-kK-xxA"/>
                             <constraint firstItem="059-eH-nYE" firstAttribute="leading" secondItem="EmF-no-qxO" secondAttribute="leading" id="vJe-cA-TrS"/>
@@ -69,12 +122,17 @@
                         <viewLayoutGuide key="safeArea" id="EmF-no-qxO"/>
                     </view>
                     <connections>
+                        <outlet property="activityPassthroughContainer" destination="tDN-MA-Y3Y" id="Es9-tI-fAr"/>
                         <outlet property="activityTabBarItem" destination="tMc-VR-xuI" id="NmW-eG-xin"/>
                         <outlet property="assetContainerView" destination="059-eH-nYE" id="IaY-eU-UXe"/>
                         <outlet property="contentView" destination="QGU-pa-jaz" id="Pgi-nR-3mq"/>
+                        <outlet property="homePassthroughContainer" destination="7bS-VB-tYP" id="T3y-jr-NPj"/>
                         <outlet property="homeTabBarItem" destination="llG-fF-98g" id="bnH-0X-4yV"/>
+                        <outlet property="requestPassthroughContainer" destination="aeo-1H-ixg" id="HPj-4V-T17"/>
                         <outlet property="requestTabBarItem" destination="aAi-9v-Ywl" id="2tp-nR-RL8"/>
+                        <outlet property="sendPassthroughContainer" destination="gZY-Pv-br4" id="F8m-l1-0Jf"/>
                         <outlet property="sendTabBarItem" destination="n35-sm-4lY" id="6CS-yc-46c"/>
+                        <outlet property="swapPassthroughContainer" destination="g3T-xe-A8S" id="3lN-HZ-0ef"/>
                         <outlet property="swapTabBarItem" destination="aef-Zj-Qbh" id="rwh-DP-yTP"/>
                         <outlet property="tabBar" destination="pNH-Ic-h6g" id="uYx-Pr-t2i"/>
                     </connections>

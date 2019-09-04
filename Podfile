@@ -86,7 +86,7 @@ end
 target 'BitcoinKit' do
   pod 'RxSwift', '5.0'
   pod 'BigInt', '~> 4.0'
-  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'master', :submodules => true
 
   target 'BitcoinKitTests' do
     inherit! :search_paths
@@ -95,31 +95,31 @@ target 'BitcoinKit' do
     pod 'RxBlocking', '~> 5.0'
     pod 'RxTest', '~> 5.0'
     pod 'BigInt', '~> 4.0'
-    pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+    pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'master', :submodules => true
   end
 end
 
 target 'HDWalletKit' do
   pod 'BigInt', '~> 4.0'
-  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'master', :submodules => true
 
   target 'HDWalletKitTests' do
     inherit! :search_paths
     # Pods for testing
     pod 'BigInt', '~> 4.0'
-    pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+    pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'master', :submodules => true
   end
 end
 
 target 'CommonCryptoKit' do
   pod 'BigInt', '~> 4.0'
-  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'master', :submodules => true
 
   target 'CommonCryptoKitTests' do
     inherit! :search_paths
     # Pods for testing
     pod 'BigInt', '~> 4.0'
-    pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'jack/IOS-2418', :submodules => true
+    pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'master', :submodules => true
   end
 end
 

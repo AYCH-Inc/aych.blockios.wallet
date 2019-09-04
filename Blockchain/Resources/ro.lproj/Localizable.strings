@@ -1023,7 +1023,7 @@
 "Log in to refresh addresses" = "Conectați-vă pentru a actualiza adresele";
 "Log Out" = "Deconectați-vă";
 "Low Fees" = "Taxe reduse";
-"My PIT %@ Wallet" = "Portofelul meu %@ P %@";
+"My PIT %@ Wallet" = "Portofelul meu %@ PIT";
 "PIN response Object success length 0" = "Răspunsul la codul PIN Obiectivul lungimii succesului 0";
 "PINs don't match" = "Codurile PIN nu se potrivesc";
 "Please enter your wallet password." = "Introduceți parola portofelului.";

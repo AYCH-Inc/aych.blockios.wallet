@@ -40,7 +40,7 @@ public struct Network {
         public let session: URLSession
         let sessionConfiguration: URLSessionConfiguration
         let sessionDelegate: SessionDelegateAPI
-        public let communicator: NetworkCommunicatorAPI & Recordable
+        public let communicator: NetworkCommunicatorAPI & AnalyticsEventRecordable
         
         public static let `default`: Dependencies = {
             let sessionConfiguration = URLSessionConfiguration.default

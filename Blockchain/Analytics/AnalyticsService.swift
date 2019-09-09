@@ -8,12 +8,11 @@
 
 import Foundation
 import Firebase
+import PlatformKit
 
-class AnalyticsService {
+class AnalyticsService: AnalyticsServiceAPI {
     
     static let shared = AnalyticsService()
-
-    typealias AnalyticsParameters = [String: Any]
 
     // MARK: - Properties
     
@@ -25,9 +24,14 @@ class AnalyticsService {
     // MARK: Public Methods
     
     // Simple custom event with no parameters
-    func trackEvent(title: String, parameters: AnalyticsParameters? = nil) {
+    func trackEvent(title: String, parameters: [String: Any]? = nil) {
         if !title.isEmpty {
            Analytics.logEvent(title, parameters: parameters)
         }
     }
+}
+
+
+extension AnalyticsEventRecorder {
+    static let shared = AnalyticsEventRecorder(analyticsService: AnalyticsService.shared)
 }

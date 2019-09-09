@@ -24,6 +24,7 @@
 
 @class BridgeAddressFetcher;
 @class BridgeBitpayService;
+@class BridgeAnalyticsRecorder;
 
 @import BitcoinKit;
 
@@ -86,6 +87,7 @@ typedef enum {
 
 @property (nonatomic) BridgeAddressFetcher *addressFetcher;
 @property (nonatomic) BridgeBitpayService *bitpayService;
+@property (nonatomic) BridgeAnalyticsRecorder *analyticsRecorder;
 
 @property (nonatomic, copy) NSString *pitAddress;
 
@@ -157,6 +159,7 @@ BOOL displayingLocalSymbolSend;
     self.addressFetcher = [[BridgeAddressFetcher alloc] init];
     
     self.bitpayService = [[BridgeBitpayService alloc] init];
+    self.analyticsRecorder = [[BridgeAnalyticsRecorder alloc] init];
 
     self.view.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:YES assetSelector:YES];
 
@@ -410,6 +413,7 @@ BOOL displayingLocalSymbolSend;
     
     self.isSending = NO;
     self.isReloading = NO;
+
     self.isBitpayPayPro = NO;
     
     self.noteToSet = nil;
@@ -1178,6 +1182,7 @@ BOOL displayingLocalSymbolSend;
     }
     
     if (hours + minutes <= 0 && seconds <= 2) {
+        [self.analyticsRecorder recordWithEvent:[[BitpayPaymentExpired alloc] init]];
         [timer invalidate];
         [self showBitPayExpiredAlert];
     }
@@ -1853,7 +1858,7 @@ BOOL displayingLocalSymbolSend;
             if ([self isBitpayURL:bitpayURLCandidate] && self.assetType == LegacyAssetTypeBitcoin)
             {
                 NSString *bitpayInvoiceID = [self invoiceIDFromBitPayURL:bitpayURLCandidate];
-                [self handleBitpayInvoiceID:bitpayInvoiceID];
+                [self handleBitpayInvoiceID:bitpayInvoiceID event:[BitpayUrlPasted createWithLegacyAssetType:self.assetType]];
                 return YES;
             }
         }
@@ -2305,8 +2310,9 @@ BOOL displayingLocalSymbolSend;
     }
 }
 
-- (void)handleBitpayInvoiceID:(NSString *)invoiceID
+- (void)handleBitpayInvoiceID:(NSString *)invoiceID event:(id<ObjcAnalyticsEvent> _Nonnull) event
 {
+    [self.analyticsRecorder recordWithEvent:event];
     [self.bitpayService bitpayPaymentRequestWithInvoiceID:invoiceID assetType:self.assetType completion:^(ObjcCompatibleBitpayObject * _Nullable paymentReq, NSError * _Nullable error) {
         if (error != nil) {
             DLog(@"Error when creating bitpay request: %@", error);
@@ -2314,7 +2320,7 @@ BOOL displayingLocalSymbolSend;
         }
         self.isBitpayPayPro = YES;
         [self disableInputs];
-        
+
         //set required fee type to priority
         self.feeType = FeeTypePriority;
         [self updateFeeLabels];
@@ -2382,7 +2388,7 @@ BOOL displayingLocalSymbolSend;
                     if ([paymentRequestUrl hasPrefix:@"https://bitpay.com/i/"] && self.assetType == LegacyAssetTypeBitcoin) {
                         NSString *invoiceId = payload.paymentRequestUrl;
                         invoiceId = [invoiceId stringByReplacingOccurrencesOfString:@"https://bitpay.com/i/" withString:@""];
-                        [self handleBitpayInvoiceID:invoiceId];
+                        [self handleBitpayInvoiceID:invoiceId event:[BitpayUrlScanned createWithLegacyAssetType:self.assetType]];
                         return;
                     } else {
                         return;

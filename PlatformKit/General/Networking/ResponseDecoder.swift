@@ -9,25 +9,31 @@
 import Foundation
 import RxSwift
 
-public struct NetworkResponse {
+public struct ServerResponse {
     let response: HTTPURLResponse
     let payload: Data?
 }
 
-public struct NetworkErrorResponse: Error {
+public struct ServerErrorResponse: Error {
     let response: HTTPURLResponse
     let payload: Data?
 }
 
-extension PrimitiveSequence where Trait == SingleTrait, Element == Result<NetworkResponse, NetworkErrorResponse> {
+extension PrimitiveSequence where Trait == SingleTrait, Element == Result<ServerResponse, ServerErrorResponse> {
     func decode<ResponseType: Decodable, ErrorResponseType: Error & Decodable>(with decoder: NetworkResponseDecoderAPI) -> Single<Result<ResponseType, ErrorResponseType>> {
         return flatMap { result -> Single<Result<ResponseType, ErrorResponseType>> in
             decoder.decode(result: result)
         }
     }
+    
+    func decode<ResponseType: Decodable>(with decoder: NetworkResponseDecoderAPI) -> Single<ResponseType> {
+        return flatMap { result -> Single<ResponseType> in
+            decoder.decode(result: result)
+        }
+    }
 }
 
-extension PrimitiveSequence where Trait == SingleTrait, Element == NetworkResponse {
+extension PrimitiveSequence where Trait == SingleTrait, Element == ServerResponse {
     func decode<ResponseType: Decodable>(with decoder: NetworkResponseDecoderAPI) -> Single<ResponseType> {
         return flatMap { response -> Single<ResponseType> in
             decoder.decode(response: response)
@@ -36,9 +42,11 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == NetworkRespon
 }
 
 public protocol NetworkResponseDecoderAPI {
-    func decode<ResponseType: Decodable>(response: NetworkResponse) -> Single<ResponseType>
-    func decode<ResponseType: Decodable, ErrorResponseType: Error & Decodable>(result: Result<NetworkResponse, NetworkErrorResponse>) -> Single<Result<ResponseType, ErrorResponseType>>
-    func decodeFailure<ErrorResponseType: Error & Decodable>(errorResponse: NetworkErrorResponse) throws -> Result<Never, ErrorResponseType>
+    func decode<ResponseType: Decodable>(response: ServerResponse) -> Single<ResponseType>
+    func decode<ResponseType: Decodable>(result: Result<ServerResponse, ServerErrorResponse>) -> Single<ResponseType>
+    func decode<ResponseType: Decodable, ErrorResponseType: Error & Decodable>(result: Result<ServerResponse, ServerErrorResponse>) -> Single<Result<ResponseType, ErrorResponseType>>
+    func decodeFailure<ErrorResponseType: Error & Decodable>(errorResponse: ServerErrorResponse, type: ErrorResponseType.Type) throws -> Result<Never, ErrorResponseType>
+    func decodeFailureToString(errorResponse: ServerErrorResponse) -> String?
 }
 
 public class NetworkResponseDecoder: NetworkResponseDecoderAPI {
@@ -58,38 +66,94 @@ public class NetworkResponseDecoder: NetworkResponseDecoderAPI {
         self.jsonDecoder = jsonDecoder
     }
     
-    public func decode<ResponseType: Decodable>(response: NetworkResponse) -> Single<ResponseType> {
-        let result: Result<ResponseType, Never>
-        do {
-            result = try self.decodeSuccess(response: response)
-        } catch {
-            return Single.error(error)
-        }
-        return result.flatMapError(to: Error.self).single
+    // MARK: - NetworkResponseDecoderAPI
+    
+    public func decode<ResponseType: Decodable>(response: ServerResponse) -> Single<ResponseType> {
+        return decode(networkResponse: response).single
     }
     
-    public func decode<ResponseType: Decodable, ErrorResponseType: Error & Decodable>(result: Result<NetworkResponse, NetworkErrorResponse>) -> Single<Result<ResponseType, ErrorResponseType>> {
+    public func decode<ResponseType: Decodable>(result: Result<ServerResponse, ServerErrorResponse>) -> Single<ResponseType> {
         switch result {
         case .success(let networkResponse):
-            let response: Result<ResponseType, Never>
-            do {
-                response = try decodeSuccess(response: networkResponse)
-            } catch {
-                return Single.error(error)
-            }
-            return Single.just(response.flatMapError())
+            return decode(networkResponse: networkResponse).single
         case .failure(let networkErrorResponse):
-            let errorResult: Result<Never, ErrorResponseType>
-            do {
-                errorResult = try decodeFailure(errorResponse: networkErrorResponse)
-            } catch {
-                return Single.error(error)
-            }
-            return Single.just(errorResult.flatMapSuccess())
+            return decodeWithDefaultDecoding(networkErrorResponse: networkErrorResponse).single
         }
     }
     
-    public func decodeFailure<ErrorResponseType: Error & Decodable>(errorResponse: NetworkErrorResponse) throws -> Result<Never, ErrorResponseType> {
+    public func decode<ResponseType: Decodable, ErrorResponseType: Error & Decodable>(result: Result<ServerResponse, ServerErrorResponse>) -> Single<Result<ResponseType, ErrorResponseType>> {
+        switch result {
+        case .success(let networkResponse):
+            return Result<Result<ResponseType, Never>, Error> {
+                    try decodeSuccess(response: networkResponse, type: ResponseType.self)
+                }
+                .map { result -> Result<ResponseType, ErrorResponseType> in
+                    result.mapError()
+                }
+                .single
+        case .failure(let networkErrorResponse):
+            return Result<Result<Never, ErrorResponseType>, Error> {
+                    try decodeFailure(errorResponse: networkErrorResponse, type: ErrorResponseType.self)
+                }
+                .map { result -> Result<ResponseType, ErrorResponseType> in
+                    result.map()
+                }
+                .single
+        }
+    }
+    
+    public func decodeFailure<ErrorResponseType: Error & Decodable>(errorResponse: ServerErrorResponse, type: ErrorResponseType.Type) throws -> Result<Never, ErrorResponseType> {
+        return try decodeFailure(errorResponse: errorResponse)
+    }
+    
+    public func decodeFailureToString(errorResponse: ServerErrorResponse) -> String? {
+        guard let payload = errorResponse.payload else {
+            return nil
+        }
+        return String(data: payload, encoding: .utf8)
+    }
+    
+    // MARK: - Private methods
+    
+    private func decode<ResponseType: Decodable>(networkResponse: ServerResponse) -> Result<ResponseType, Error> {
+        return Result<Result<ResponseType, Never>, Error> {
+               try decodeSuccess(response: networkResponse, type: ResponseType.self)
+            }
+            .flatMap { result -> Result<ResponseType, Error> in
+                result.mapError(to: Error.self)
+            }
+    }
+    
+    private func decode<ResponseType: Decodable, ErrorResponseType: Error & Decodable>(networkErrorResponse: ServerErrorResponse) throws -> Result<ResponseType, ErrorResponseType> {
+        return try decodeFailure(errorResponse: networkErrorResponse).map()
+    }
+    
+    private func decodeWithDefaultDecoding<ResponseType: Decodable>(networkErrorResponse: ServerErrorResponse) -> Result<ResponseType, Error> {
+        let errorResult: Result<Never, NabuNetworkError>
+        do {
+            errorResult = try decodeFailure(errorResponse: networkErrorResponse)
+        } catch {
+            return .failure(error)
+        }
+        
+        guard case .failure(let errorPayload) = errorResult else {
+            return .failure(NetworkCommunicatorError.payloadError(.emptyData))
+        }
+        
+        guard let payload = networkErrorResponse.payload else {
+            return .failure(NetworkCommunicatorError.payloadError(.emptyData))
+        }
+        
+        let message = String(data: payload, encoding: .utf8) ?? ""
+        let errorStatusCode = HTTPRequestServerError.badStatusCode(
+            code: networkErrorResponse.response.statusCode,
+            error: errorPayload,
+            message: message
+        )
+        return .failure(NetworkCommunicatorError.serverError(errorStatusCode))
+    }
+    
+    private func decodeFailure<ErrorResponseType: Error & Decodable>(errorResponse: ServerErrorResponse) throws -> Result<Never, ErrorResponseType> {
         guard let payload = errorResponse.payload else {
             throw NetworkCommunicatorError.payloadError(.emptyData)
         }
@@ -103,7 +167,11 @@ public class NetworkResponseDecoder: NetworkResponseDecoderAPI {
         return .failure(decodedErrorResponse)
     }
     
-    private func decodeSuccess<ResponseType: Decodable>(response: NetworkResponse) throws -> Result<ResponseType, Never> {
+    private func decodeSuccess<ResponseType: Decodable>(response: ServerResponse, type: ResponseType.Type) throws -> Result<ResponseType, Never> {
+        return try decodeSuccess(response: response)
+    }
+    
+    private func decodeSuccess<ResponseType: Decodable>(response: ServerResponse) throws -> Result<ResponseType, Never> {
         guard ResponseType.self != EmptyNetworkResponse.self else {
             let emptyResponse: ResponseType = EmptyNetworkResponse() as! ResponseType
             return .success(emptyResponse)

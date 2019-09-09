@@ -16,20 +16,14 @@ public protocol NetworkCommunicatorAPI {
     func perform<ResponseType: Decodable>(request: NetworkRequest) -> Single<ResponseType>
 }
 
-public enum NetworkCommunicatorError: Error {
-    case clientError(HTTPRequestClientError)
-    case serverError(HTTPRequestServerError)
-    case payloadError(HTTPRequestPayloadError)
-}
-
 // TODO:
 // * Handle network reachability
 
-final public class NetworkCommunicator: NetworkCommunicatorAPI, Recordable {
+final public class NetworkCommunicator: NetworkCommunicatorAPI, AnalyticsEventRecordable {
     
     public static let shared = Network.Dependencies.default.communicator
     
-    private var recorder: Recording?
+    private var eventRecorder: AnalyticsEventRecording?
     
     private let scheduler: ConcurrentDispatchQueueScheduler
     private let session: URLSession
@@ -51,8 +45,8 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI, Recordable {
     
     // MARK: - Recordable
     
-    public func use(recorder: Recording) {
-        self.recorder = recorder
+    public func use(eventRecorder: AnalyticsEventRecording) {
+        self.eventRecorder = eventRecorder
     }
     
     // MARK: - NetworkCommunicatorAPI
@@ -68,61 +62,50 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI, Recordable {
     
     @available(*, deprecated, message: "Don't use this")
     public func perform<ResponseType: Decodable, ErrorResponseType: Error & Decodable>(request: NetworkRequest, responseType: ResponseType.Type, errorResponseType: ErrorResponseType.Type) -> Single<Result<ResponseType, ErrorResponseType>> {
-        return execute(request: request).decode(with: request.decoder)
+        return execute(request: request)
+            .recordErrors(on: eventRecorder, request: request) { request, error -> AnalyticsEvent? in
+                error.analyticsEvent(for: request) { serverErrorResponse in
+                    request.decoder.decodeFailureToString(errorResponse: serverErrorResponse)
+                }
+            }
+            .mapRawServerError()
+            .decode(with: request.decoder)
     }
     
     public func perform<ResponseType: Decodable>(request: NetworkRequest) -> Single<ResponseType> {
-        return executeWithDefaultErrorDecoding(request: request).decode(with: request.decoder)
-    }
-    
-    private func executeWithDefaultErrorDecoding(request: NetworkRequest) -> Single<NetworkResponse> {
         return execute(request: request)
-            .map { result -> NetworkResponse in
-                switch result {
-                case .success(let networkResponse):
-                    return networkResponse
-                case .failure(let networkErrorResponse):
-                    let decodedErrorResult: Result<Never, NabuNetworkError> = try request
-                        .decoder
-                        .decodeFailure(errorResponse: networkErrorResponse)
-                    guard case .failure(let errorPayload) = decodedErrorResult else {
-                        throw NetworkCommunicatorError.payloadError(.emptyData)
-                    }
-                    guard let payload = networkErrorResponse.payload else {
-                        throw NetworkCommunicatorError.payloadError(.emptyData)
-                    }
-                    let message = String(data: payload, encoding: .utf8) ?? ""
-                    let errorStatusCode = HTTPRequestServerError.badStatusCode(
-                        code: networkErrorResponse.response.statusCode,
-                        error: errorPayload,
-                        message: message
-                    )
-                    throw NetworkCommunicatorError.serverError(errorStatusCode)
+            .recordErrors(on: eventRecorder, request: request) { request, error -> AnalyticsEvent? in
+                error.analyticsEvent(for: request) { serverErrorResponse in
+                    request.decoder.decodeFailureToString(errorResponse: serverErrorResponse)
                 }
             }
+            .mapRawServerError()
+            .decode(with: request.decoder)
     }
     
     // swiftlint:disable:next function_body_length
-    private func execute(request: NetworkRequest) -> Single<Result<NetworkResponse, NetworkErrorResponse>> {
-        return Single<Result<NetworkResponse, NetworkErrorResponse>>.create { [weak self] observer -> Disposable in
+    private func execute(request: NetworkRequest) -> Single<
+        Result<ServerResponse, NetworkCommunicatorError>
+    > {
+        return Single<Result<ServerResponse, NetworkCommunicatorError>>.create { [weak self] observer -> Disposable in
             let urlRequest = request.URLRequest
             let task = self?.session.dataTask(with: urlRequest) { payload, response, error in
                 if let error = error {
-                    observer(.error(NetworkCommunicatorError.clientError(.failedRequest(description: error.localizedDescription))))
+                    observer(.success(.failure(NetworkCommunicatorError.clientError(.failedRequest(description: error.localizedDescription)))))
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    observer(.error(NetworkCommunicatorError.serverError(.badResponse)))
+                    observer(.success(.failure(NetworkCommunicatorError.serverError(.badResponse))))
                     return
                 }
                 if let payload = payload, let responseValue = String(data: payload, encoding: .utf8) {
                     Logger.shared.info(responseValue)
                 }
                 guard (200...299).contains(httpResponse.statusCode) else {
-                    observer(.success(.failure(NetworkErrorResponse(response: httpResponse, payload: payload)) ) )
+                    observer(.success(.failure(NetworkCommunicatorError.rawServerError(ServerErrorResponse(response: httpResponse, payload: payload)))))
                     return
                 }
-                observer(.success(.success(NetworkResponse(response: httpResponse, payload: payload))))
+                observer(.success(.success(ServerResponse(response: httpResponse, payload: payload))))
             }
             defer {
                 task?.resume()
@@ -131,11 +114,9 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI, Recordable {
                 task?.cancel()
             }
         }
-        .recordErrors(on: recorder, enabled: request.recordErrors)
         .subscribeOn(scheduler)
         .observeOn(scheduler)
     }
-    
 }
 
 class NetworkCommunicatorSessionHandler: NetworkSessionDelegateAPI {
@@ -152,5 +133,45 @@ class NetworkCommunicatorSessionHandler: NetworkSessionDelegateAPI {
             CertificatePinner.shared.didReceive(challenge, completion: completionHandler)
         }
         #endif
+    }
+}
+
+extension PrimitiveSequence where Trait == SingleTrait, Element == Result<ServerResponse, NetworkCommunicatorError> {
+    fileprivate func recordErrors(on recorder: AnalyticsEventRecording?, request: NetworkRequest, errorMapper: @escaping (NetworkRequest, NetworkCommunicatorError) -> AnalyticsEvent?) -> Single<Element> {
+        guard request.recordErrors else { return self }
+        return self.do(onSuccess: { result in
+                guard case .failure(let error) = result else {
+                    return
+                }
+                guard let event = errorMapper(request, error) else {
+                    return
+                }
+                recorder?.record(event: event)
+            })
+            .do(onError: { error in
+                guard let error = error as? NetworkCommunicatorError else {
+                    return
+                }
+                guard let event = errorMapper(request, error) else {
+                    return
+                }
+                recorder?.record(event: event)
+            })
+    }
+}
+
+extension PrimitiveSequence where Trait == SingleTrait, Element == Result<ServerResponse, NetworkCommunicatorError> {
+    fileprivate func mapRawServerError() -> Single<Result<ServerResponse, ServerErrorResponse>> {
+        return map { result -> Result<ServerResponse, ServerErrorResponse> in
+            switch result {
+            case .success(let networkResponse):
+                return .success(networkResponse)
+            case .failure(let error):
+                guard case .rawServerError(let serverErrorResponse) = error else {
+                    throw error
+                }
+                return .failure(serverErrorResponse)
+            }
+        }
     }
 }

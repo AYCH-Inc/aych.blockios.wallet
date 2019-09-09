@@ -28,14 +28,16 @@ final class BitpayService: BitpayServiceProtocol {
             self.transactions = transactions
         }
     }
-    
+
+    private let recorder: AnalyticsEventRecording
     private let network: NetworkCommunicatorAPI
     private let bitpayUrl: String = "https://bitpay.com/"
     private let invoicePath: String = "i/"
     
     // MARK: Init
     
-    init(network: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
+    init(recorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared, network: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
+        self.recorder = recorder
         self.network = network
     }
     
@@ -81,7 +83,11 @@ final class BitpayService: BitpayServiceProtocol {
             return Single.error(NetworkError.generic(message: nil))
         }
         let request = NetworkRequest(endpoint: url, method: .post, body: try? JSONEncoder().encode(signed), headers: headers)
-        return network.perform(request: request)
+        return network.perform(request: request).do(onSuccess: { [weak self] _ in
+            self?.recorder.record(event: BitpayAnalyticsEvent.success)
+        }, onError: { [weak self] error in
+            self?.recorder.record(event: BitpayAnalyticsEvent.failure(error))
+        })
     }
     
     // MARK: Private Functions

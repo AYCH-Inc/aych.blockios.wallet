@@ -107,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // TODO: prevent any other data tasks from executing until cert is pinned
         CertificatePinner.shared.pinCertificate()
         
-        Network.Dependencies.default.communicator.use(recorder: CrashlyticsRecorder())
+        Network.Dependencies.default.communicator.use(eventRecorder: AnalyticsEventRecorder.shared)
         
         checkForNewInstall()
 

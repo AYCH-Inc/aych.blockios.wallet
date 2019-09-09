@@ -32,20 +32,24 @@ extension Result {
 }
 
 extension Result where Failure == Never {
-    public func flatMapError<E: Error>(to type: E.Type) -> Result<Success, E> {
-        return flatMapError()
+    public func mapError<E: Error>(to type: E.Type) -> Result<Success, E> {
+        return mapError()
     }
     
-    public func flatMapError<E: Error>() -> Result<Success, E> {
-        return flatMapError { _ -> Result<Success, E> in
+    public func mapError<E: Error>() -> Result<Success, E> {
+        return mapError { _ -> E in
             fatalError("This can never be executed")
         }
     }
 }
 
 extension Result where Success == Never {
-    public func flatMapSuccess<T>() -> Result<T, Failure> {
-        return flatMap { _ -> Result<T, Failure> in
+    public func map<T>(to type: T.Type) -> Result<T, Failure> {
+        return map()
+    }
+    
+    public func map<T>() -> Result<T, Failure> {
+        return map { _ in
             fatalError("This can never be executed")
         }
     }

@@ -78,6 +78,9 @@ Then the project ruby dependencies (`cocoapods`, `fastlane`, etc.):
     $ vi Production.xcconfig
 
     #write the following in Production.xcconfig
+
+    #include "../Pods/Target Support Files/Pods-Blockchain/Pods-Blockchain.debug production.xcconfig"
+
     APP_NAME = Blockchain
 
     APP_ICON = AppIcon
@@ -96,11 +99,17 @@ Then the project ruby dependencies (`cocoapods`, `fastlane`, etc.):
 
     LOCAL_CERTIFICATE_FILE = blockchain
 
+    FABRIC_API_KEY = <API_KEY>
+
+    FABRIC_SECRET_KEY = <SECRET_KEY>
+
     GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 COCOAPODS=1
 
     OTHER_SWIFT_FLAGS = -DDEBUG
 
-    RETAIL_CORE_URL = api.dev.blockchain.info/nabu-app
+    RETAIL_CORE_URL = api.blockchain.info/nabu-gateway
+
+    RETAIL_CORE_SOCKET_URL = ws.blockchain.info/nabu-gateway/markets/quotes
 
 ## Add Firebase Config Files
 

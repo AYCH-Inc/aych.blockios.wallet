@@ -32,14 +32,14 @@ enum SendMoniesInternalError: Error {
             case .cryptoValueBelowMinimumSpendable:
                 self = .default
             }
-        }
-        if let value = erc20error as? ERC20ServiceError {
+        } else if let value = erc20error as? ERC20ServiceError {
             switch value {
             case .invalidEthereumAddress:
                 self = .invalidDestinationAddress
             }
+        } else {
+            self = .default
         }
-        self = .default
     }
 }
 

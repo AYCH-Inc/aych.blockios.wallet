@@ -1218,6 +1218,12 @@
 		657FDA4F23015F1A0090C1D7 /* AccountBalanceFetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FDA4E23015F1A0090C1D7 /* AccountBalanceFetching.swift */; };
 		657FDA54230176380090C1D7 /* FiatCurrencyTypeProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FDA53230176380090C1D7 /* FiatCurrencyTypeProviding.swift */; };
 		657FDA55230176380090C1D7 /* FiatCurrencyTypeProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FDA53230176380090C1D7 /* FiatCurrencyTypeProviding.swift */; };
+		65804B5E2328EB9700D0DAB0 /* SendSourceAccountStateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65804B5D2328EB9700D0DAB0 /* SendSourceAccountStateService.swift */; };
+		65804B5F2328EB9700D0DAB0 /* SendSourceAccountStateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65804B5D2328EB9700D0DAB0 /* SendSourceAccountStateService.swift */; };
+		65804B6A2328ECBF00D0DAB0 /* SendSourceAccountState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65804B692328ECBF00D0DAB0 /* SendSourceAccountState.swift */; };
+		65804B6B2328ECBF00D0DAB0 /* SendSourceAccountState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65804B692328ECBF00D0DAB0 /* SendSourceAccountState.swift */; };
+		65804B6D232943C600D0DAB0 /* MockSendSourceAccountStateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65804B6C232943C600D0DAB0 /* MockSendSourceAccountStateService.swift */; };
+		65804B6E232943C600D0DAB0 /* MockSendSourceAccountStateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65804B6C232943C600D0DAB0 /* MockSendSourceAccountStateService.swift */; };
 		6587FCB522F8384400206575 /* UnretainedContentBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6587FCB422F8384400206575 /* UnretainedContentBox.swift */; };
 		6587FD1322F97F5F00206575 /* SendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6587FD1122F97F5F00206575 /* SendViewController.swift */; };
 		6587FD1422F97F5F00206575 /* SendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6587FD1122F97F5F00206575 /* SendViewController.swift */; };
@@ -4537,6 +4543,9 @@
 		657FDA3222FF4A530090C1D7 /* SendExchangeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendExchangeService.swift; sourceTree = "<group>"; };
 		657FDA4E23015F1A0090C1D7 /* AccountBalanceFetching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalanceFetching.swift; sourceTree = "<group>"; };
 		657FDA53230176380090C1D7 /* FiatCurrencyTypeProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiatCurrencyTypeProviding.swift; sourceTree = "<group>"; };
+		65804B5D2328EB9700D0DAB0 /* SendSourceAccountStateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendSourceAccountStateService.swift; sourceTree = "<group>"; };
+		65804B692328ECBF00D0DAB0 /* SendSourceAccountState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendSourceAccountState.swift; sourceTree = "<group>"; };
+		65804B6C232943C600D0DAB0 /* MockSendSourceAccountStateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSendSourceAccountStateService.swift; sourceTree = "<group>"; };
 		6587FCB422F8384400206575 /* UnretainedContentBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnretainedContentBox.swift; sourceTree = "<group>"; };
 		6587FD1122F97F5F00206575 /* SendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendViewController.swift; sourceTree = "<group>"; };
 		6587FD1222F97F5F00206575 /* SendViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendViewController.xib; sourceTree = "<group>"; };
@@ -10241,6 +10250,7 @@
 				65D821CE2303FE2A0060794B /* SendFeeService.swift */,
 				65D821BF23032BDA0060794B /* SendExecutor.swift */,
 				65427BD02305942B00D90A27 /* AccountValidator.swift */,
+				65804B5D2328EB9700D0DAB0 /* SendSourceAccountStateService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -10249,6 +10259,7 @@
 			isa = PBXGroup;
 			children = (
 				657FD9C422FC2A630090C1D7 /* SendSourceAccount.swift */,
+				65804B692328ECBF00D0DAB0 /* SendSourceAccountState.swift */,
 				65B77D5F22F9B2F6009AE141 /* SendDestinationAccountState.swift */,
 				657FD9CE22FC57680090C1D7 /* SendCalculationState.swift */,
 				65427BBD23056DC200D90A27 /* TransferredValue.swift */,
@@ -10486,6 +10497,7 @@
 				65B5416E230C687300D04A2E /* MockSendServiceContainer.swift */,
 				65B5416F230C687300D04A2E /* MockSendExchangeService.swift */,
 				65B54170230C687300D04A2E /* MockSendFeeService.swift */,
+				65804B6C232943C600D0DAB0 /* MockSendSourceAccountStateService.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -14692,6 +14704,7 @@
 				65B5417E230C687300D04A2E /* MockSendExecutor.swift in Sources */,
 				3AC4F97B21234940003AA207 /* KYCPageType.swift in Sources */,
 				3AD8816C2138E57F0047B66E /* TransitionPresentationUpdate.swift in Sources */,
+				65804B5F2328EB9700D0DAB0 /* SendSourceAccountStateService.swift in Sources */,
 				51A862DF20921FCA00B338E0 /* BlockchainAPI+URLSuffixTests.swift in Sources */,
 				602B9D1E2118E26C00BD3D60 /* KYCCountrySelectionController.swift in Sources */,
 				5113570B209CF6D700056D65 /* BackupVerifyViewController.swift in Sources */,
@@ -14857,6 +14870,7 @@
 				348B2B67221B0C4500394526 /* AppFeatureConfigurator.swift in Sources */,
 				6509999E22E31A4F0092BFB9 /* DismissibleAnnouncement.swift in Sources */,
 				3A2BBCCA21C31B01001E55BF /* KYCAvailableFundsHeaderView.swift in Sources */,
+				65804B6B2328ECBF00D0DAB0 /* SendSourceAccountState.swift in Sources */,
 				AA25F1812146F87C0028C82E /* NabuAuthenticationError.swift in Sources */,
 				3AE74B6721C07AA900246A9C /* KYCTiersFooterView.swift in Sources */,
 				C7C0DC10212F6597000EFE71 /* TradingPair.swift in Sources */,
@@ -15008,6 +15022,7 @@
 				C7343BD8215003E6001B1EC9 /* ExchangeDetailContracts.swift in Sources */,
 				AACE3134209121B800B7B806 /* WalletManager.swift in Sources */,
 				C76143AC211A80D30041411E /* Codable+Coding.swift in Sources */,
+				65804B6E232943C600D0DAB0 /* MockSendSourceAccountStateService.swift in Sources */,
 				AA278EAD22B1845D009F203D /* AnnouncementDismissRecorder.swift in Sources */,
 				C74A0DE62174DFA000402A2F /* StellarAddress.swift in Sources */,
 				AA748359211129DF008F2768 /* MockKYCEnterPhoneNumberView.swift in Sources */,
@@ -15486,6 +15501,7 @@
 				606399FC2110FC2D005B6DF5 /* SRIOConsumer.m in Sources */,
 				9FCA4D161514949500ECDFBE /* ReceiveBitcoinViewController.m in Sources */,
 				C7343BC4214FF8B1001B1EC9 /* ExchangeDetailPresenter.swift in Sources */,
+				65804B6A2328ECBF00D0DAB0 /* SendSourceAccountState.swift in Sources */,
 				C790E0F81E4E60AE0063D141 /* NSDateFormatter+TimeAgoString.m in Sources */,
 				230FD2D31C5BD04000336683 /* BCEditAddressView.m in Sources */,
 				AA25F1802146F87C0028C82E /* NabuAuthenticationError.swift in Sources */,
@@ -15510,6 +15526,7 @@
 				6587FD2522F9813E00206575 /* SendAmountTableViewCell.swift in Sources */,
 				6509995C22E0D6C70092BFB9 /* AnnouncementInteractor.swift in Sources */,
 				5176A4C7214AA5B80006769F /* DashboardController.swift in Sources */,
+				65804B6D232943C600D0DAB0 /* MockSendSourceAccountStateService.swift in Sources */,
 				AA08440C215EEDF90007BFD1 /* Lockbox.swift in Sources */,
 				23EA61C81B54282D0032B907 /* SettingsNavigationController.m in Sources */,
 				FCB33B6F1FC369D700317E6B /* ExchangeDetailView.m in Sources */,
@@ -15800,6 +15817,7 @@
 				602B9CF72118E15300BD3D60 /* KYCVerifyIdentityController.swift in Sources */,
 				513913F02081206C002578FD /* UserDefaults.swift in Sources */,
 				C7559CB71F570602005B2375 /* TransactionEtherTableViewCell.m in Sources */,
+				65804B5E2328EB9700D0DAB0 /* SendSourceAccountStateService.swift in Sources */,
 				C7F1577B217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */,
 				3A56AEAF2176620400044302 /* StellarTransactionService.swift in Sources */,
 				65550E8F22BE671F00522656 /* PinScreenViewController.swift in Sources */,

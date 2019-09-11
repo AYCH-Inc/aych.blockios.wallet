@@ -23,6 +23,8 @@ public enum EthereumWalletServiceError: Error {
 }
 
 public protocol EthereumWalletServiceAPI {
+    
+    var handlePendingTransaction: Single<Void> { get }
     var fetchHistoryIfNeeded: Single<Void> { get }
     
     func evaluate(amount: EthereumValue) -> Single<TransactionValidationResult>
@@ -41,13 +43,26 @@ public final class EthereumWalletService: EthereumWalletServiceAPI {
         return bridge.fetchHistory
     }
     
-    private var handlePendingTransaction: Single<Void> {
+    public var handlePendingTransaction: Single<Void> {
         return bridge.isWaitingOnEtherTransaction
             .flatMap { isWaiting -> Single<Void> in
                 guard !isWaiting else {
                     throw EthereumKitValidationError.waitingOnPendingTransaction
                 }
                 return Single.just(())
+            }
+    }
+    
+    private var handlePendingTransactionResult: Single<TransactionValidationResult> {
+        return handlePendingTransaction
+            .map { _ in return .ok }
+            .catchError { error -> Single<TransactionValidationResult> in
+                switch error {
+                case EthereumKitValidationError.waitingOnPendingTransaction:
+                    return .just(TransactionValidationResult.invalid(EthereumKitValidationError.waitingOnPendingTransaction))
+                default:
+                    throw error
+                }
             }
     }
     
@@ -80,11 +95,18 @@ public final class EthereumWalletService: EthereumWalletServiceAPI {
     }
     
     public func evaluate(amount: EthereumValue) -> Single<TransactionValidationResult> {
-        return transactionValidationService.validateCryptoAmount(amount: amount)
+        return handlePendingTransactionResult.flatMap(weak: self) { (self, result) -> Single<TransactionValidationResult> in
+            guard result.isOk else { return .just(result) }
+            return self.transactionValidationService.validateCryptoAmount(amount: amount)
+        }
     }
     
     public func buildTransaction(with value: EthereumValue, to: EthereumAddress) -> Single<EthereumTransactionCandidate> {
-        return transactionBuildingService.buildTransaction(with: value, to: to)
+        return handlePendingTransactionResult.flatMap(weak: self) { (self, result) -> Single<EthereumTransactionCandidate> in
+            // Throw error if received from earlier step
+            if let error = result.error { throw error }
+            return self.transactionBuildingService.buildTransaction(with: value, to: to)
+        }
     }
     
     public func send(transaction: EthereumTransactionCandidate) -> Single<EthereumTransactionPublished> {

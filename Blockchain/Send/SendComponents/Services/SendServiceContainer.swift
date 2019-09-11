@@ -12,7 +12,8 @@ import EthereumKit
 
 protocol SendServiceContaining {
     var asset: AssetType { get }
-    var sourceAccount: SendSourceAccountProviding { get }
+    var sourceAccountProvider: SendSourceAccountProviding { get }
+    var sourceAccountState: SendSourceAccountStateServicing { get }
     var pitAddressFetcher: PitAddressFetching { get }
     var executor: SendExecuting { get }
     var exchange: SendExchangeServicing { get }
@@ -28,7 +29,8 @@ protocol SendServiceContaining {
 
 struct SendServiceContainer: SendServiceContaining {
     let asset: AssetType
-    let sourceAccount: SendSourceAccountProviding
+    let sourceAccountProvider: SendSourceAccountProviding
+    let sourceAccountState: SendSourceAccountStateServicing
     let pitAddressFetcher: PitAddressFetching
     let executor: SendExecuting
     let exchange: SendExchangeServicing
@@ -41,9 +43,10 @@ struct SendServiceContainer: SendServiceContaining {
         executor = SendExecutor(asset: asset)
         exchange = SendExchangeService(asset: asset)
         fee = SendFeeService(asset: asset)
+        sourceAccountState = SendSourceAccountStateService(asset: asset)
         switch asset {
         case .ethereum:
-            sourceAccount = EtherSendSourceAccountProvider()
+            sourceAccountProvider = EtherSendSourceAccountProvider()
             balance = WalletManager.shared.wallet.ethereum
         case .bitcoin, .bitcoinCash, .pax, .stellar:
             fatalError("\(#function) is not implemented for \(asset)")
@@ -51,6 +54,7 @@ struct SendServiceContainer: SendServiceContaining {
     }
     
     func clean() {
+        sourceAccountState.recalculateState()
         fee.triggerRelay.accept(Void())
         exchange.fetchTriggerRelay.accept(Void())
         executor.fetchHistoryIfNeeded()

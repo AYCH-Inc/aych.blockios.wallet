@@ -13,6 +13,10 @@ import PlatformKit
 
 class EthereumWalletServiceMock: EthereumWalletServiceAPI {
     
+    var handlePendingTransaction: Single<Void> {
+        return .just(())
+    }
+    
     var fetchHistoryIfNeededValue: Single<Void> = Single.just(())
     var fetchHistoryIfNeeded: Single<Void> {
         return fetchHistoryIfNeededValue

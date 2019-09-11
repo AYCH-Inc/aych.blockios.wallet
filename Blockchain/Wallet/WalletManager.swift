@@ -29,24 +29,7 @@ class WalletManager: NSObject, TransactionObserving {
     private let appSettings: BlockchainSettings.App
     
     // TODO: make this private(set) once other methods in RootService have been migrated in here
-    @objc var latestMultiAddressResponse: MultiAddressResponse? {
-        didSet {
-            var currency = BlockchainSettings.App.FiatCurrency.default
-            defer {
-                appSettings.fiatCurrencyRelay.accept(currency)
-            }
-            
-            guard let response = latestMultiAddressResponse else {
-                currency = .default
-                return
-            }
-            guard let symbol = response.symbol_local?.symbol, let code = response.symbol_local?.code else {
-                currency = .default
-                return
-            }
-            currency = .init(symbol: symbol, code: code)
-        }
-    }
+    @objc var latestMultiAddressResponse: MultiAddressResponse?
 
     @objc var didChangePassword: Bool = false
 
@@ -156,6 +139,17 @@ class WalletManager: NSObject, TransactionObserving {
     fileprivate func updateSymbols() {
         updateFiatSymbols()
         updateBtcSymbols()
+        
+        guard let response = latestMultiAddressResponse else {
+            appSettings.fiatCurrencyRelay.accept(.default)
+            return
+        }
+        guard let symbol = response.symbol_local?.symbol, let code = response.symbol_local?.code else {
+            appSettings.fiatCurrencyRelay.accept(.default)
+            return
+        }
+        let currency = BlockchainSettings.App.FiatCurrency(symbol: symbol, code: code)
+        appSettings.fiatCurrencyRelay.accept(currency)
     }
 
     private func updateFiatSymbols() {

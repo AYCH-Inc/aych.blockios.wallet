@@ -62,26 +62,34 @@ extension SendInputState {
     
     init(amountCalculationState: SendCalculationState,
          feeCalculationState: SendCalculationState,
+         sourceAccountState: SendSourceAccountState,
          destinationAccountState: SendDestinationAccountState,
          amountBalanceRatio: AmountBalanceRatio) {
-        switch (amountCalculationState, feeCalculationState, destinationAccountState, amountBalanceRatio) {
+        switch (amountCalculationState,
+                feeCalculationState,
+                sourceAccountState,
+                destinationAccountState,
+                amountBalanceRatio) {
         // All values are valid
-        case (.value, .value, .valid, .withinSpendableBalance):
+        case (.value, .value, .available, .valid, .withinSpendableBalance):
             self = .valid
+        case (_, _, .pendingTransactionCompletion, _, _):
+            self = .invalid(.pendingTransaction)
         // The destination address is not in the proper format
-        case (_, _, .invalid(.format), _):
+        case (_, _, _, .invalid(.format), _):
             self = .invalid(.destinationAddress)
         // Fee coverage is not enough
-        case (_, _, _, .aboveSpendableBalance):
+        case (_, _, _, _, .aboveSpendableBalance):
             self = .invalid(.feeCoverage)
         // Calculating state
-        case (.calculating, _, _, _),
-             (_, .calculating, _, _):
+        case (.calculating, _, _, _, _),
+             (_, .calculating, _, _, _),
+             (_, _, .calculating, _, _):
             self = .calculating
         // Empty state (missing input such as destination address, amount, fee)
-        case (.invalid(.empty), _, _, _),
-             (_, .invalid(.empty), _, _),
-             (_, _, .invalid(.empty), _):
+        case (.invalid(.empty), _, _, _, _),
+             (_, .invalid(.empty), _, _, _),
+             (_, _, _, .invalid(.empty), _):
             self = .empty
         default:
             self = .invalid(.default)

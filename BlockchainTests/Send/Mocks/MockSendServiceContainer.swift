@@ -11,7 +11,8 @@ import PlatformKit
 
 struct MockSendServiceContainer: SendServiceContaining {
     let asset: AssetType
-    let sourceAccount: SendSourceAccountProviding
+    let sourceAccountProvider: SendSourceAccountProviding
+    var sourceAccountState: SendSourceAccountStateServicing
     let pitAddressFetcher: PitAddressFetching
     let executor: SendExecuting
     let exchange: SendExchangeServicing
@@ -22,6 +23,7 @@ struct MockSendServiceContainer: SendServiceContaining {
          balance: CryptoValue,
          fee: CryptoValue,
          exchange: FiatValue,
+         sourceAccountStateValue: SendSourceAccountState,
          pitAddressFetchResult: Result<PitAddressFetcher.PitAddressResponseBody.State, PitAddressFetcher.FetchingError>,
          transferExecutionResult: Result<Void, Error>) {
         self.asset = asset
@@ -29,11 +31,12 @@ struct MockSendServiceContainer: SendServiceContaining {
         executor = MockSendExecutor(expectedResult: transferExecutionResult)
         self.exchange = MockSendExchangeService(expectedValue: exchange)
         self.fee = MockSendFeeService(expectedValue: fee)
+        sourceAccountState = MockSendSourceAccountStateService(stateRawValue: sourceAccountStateValue)
         switch asset {
-        case .ethereum:
-            sourceAccount = EtherSendSourceAccountProvider()
+        case .ethereum, .pax:
+            sourceAccountProvider = EtherSendSourceAccountProvider()
             self.balance = MockAccountBalanceFetcher(expectedBalance: balance)
-        case .bitcoin, .bitcoinCash, .pax, .stellar:
+        case .bitcoin, .bitcoinCash, .stellar:
             fatalError("\(#function) is not implemented for \(asset)")
         }
     }

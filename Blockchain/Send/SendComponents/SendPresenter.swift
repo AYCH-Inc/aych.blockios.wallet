@@ -198,11 +198,12 @@ final class SendPresenter {
     /// **MUST** be called before sending a transaction.
     func prepareForSending() -> Single<BCConfirmPaymentViewModel> {
         let confirmationData = Observable
-            .zip(sourcePresenter.account.asObservable(),
-                 destinationPresenter.finalDisplayAddress,
-                 amountPresenter.totalCrypto,
-                 amountPresenter.totalFiat,
-                 feePresenter.fee.asObservable()
+            .zip(
+                sourcePresenter.account.asObservable(),
+                destinationPresenter.finalDisplayAddress,
+                amountPresenter.totalCrypto,
+                amountPresenter.totalFiat,
+                feePresenter.fee.asObservable()
             )
             .take(1) // Take the first, drop the rest.
             .asSingle()
@@ -256,6 +257,7 @@ extension SendPresenter {
     func sendButtonTapped() -> Single<Void> {
         return interactor.send()
             .handleLoaderForLifecycle(loader: loader, text: LocalizationConstants.loading)
+            .observeOn(MainScheduler.instance)
     }
 }
 

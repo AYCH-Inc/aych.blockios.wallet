@@ -278,15 +278,7 @@ class ExchangeDetailCoordinator: NSObject {
                     descriptionAccessibilityId: AccessibilityIdentifier.receiveDescriptionLabel,
                     valueAccessibilityId: AccessibilityIdentifier.receiveValueLabel
                 )
-
-                let fees = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.fees,
-                    value: trade.feeDisplayValue,
-                    backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
-                    descriptionAccessibilityId: AccessibilityIdentifier.feesDescriptionLabel,
-                    valueAccessibilityId: AccessibilityIdentifier.feesValueLabel
-                )
-
+                
                 var orderId = ExchangeCellModel.Plain(
                     description: LocalizationConstants.Exchange.orderID,
                     value: trade.identifier,
@@ -310,7 +302,6 @@ class ExchangeDetailCoordinator: NSObject {
                     .plain(value),
                     .plain(exchange),
                     .plain(receive),
-                    .plain(fees),
                     .plain(orderId)
                     ]
                 )

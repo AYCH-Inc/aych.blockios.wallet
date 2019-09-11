@@ -144,7 +144,7 @@ extension ExchangeRates {
             let price: BigInt = BigInt(string: matchingPair.price, unitDecimals: 2) ?? 1
             let conversion = price * balance.amount
             let amountString = conversion.string(unitDecimals: balance.currencyType.maxDecimalPlaces + 2)
-            return FiatValue.create(amountString: amountString, currencyCode: toCurrency)
+            return FiatValue.create(amountString: amountString, currencyCode: toCurrency, locale: .US)
         }
         return FiatValue.zero(currencyCode: toCurrency)
     }

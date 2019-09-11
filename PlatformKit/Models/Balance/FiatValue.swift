@@ -27,8 +27,8 @@ extension FiatValue {
     ///   - amountString: the amount as a String
     ///   - currencyCode: the currency code
     /// - Returns: the FiatValue
-    public static func create(amountString: String, currencyCode: String) -> FiatValue {
-        let amount = Decimal(string: amountString, locale: Locale.current) ?? 0
+    public static func create(amountString: String, currencyCode: String, locale: Locale = Locale.current) -> FiatValue {
+        let amount = Decimal(string: amountString, locale: locale) ?? 0
         return FiatValue(currencyCode: currencyCode, amount: amount)
     }
 

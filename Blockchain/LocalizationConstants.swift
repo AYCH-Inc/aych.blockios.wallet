@@ -1083,7 +1083,7 @@ struct LocalizationConstants {
             static let connectingYou = NSLocalizedString("Connecting You To The PIT", comment: "Connecting You To The PIT")
             static let newWindow = NSLocalizedString("A new window should open within 10 seconds.", comment: "A new window should open within 10 seconds.")
             static let success = NSLocalizedString("Success!", comment: "Success!")
-            static let successDescription = NSLocalizedString("You have connected your Blockchain Wallet to The PIT.", comment: "You have connected your Blockchain Wallet to The PIT.")
+            static let successDescription = NSLocalizedString("Please return to The PIT to complete account setup.", comment: "Please return to The PIT to complete account setup.")
             static let error = NSLocalizedString("Connection Error", comment: "Connection Error")
             static let errorDescription = NSLocalizedString("We could not connect your Wallet to The PIT. Please try again", comment: "We could not connect your Wallet to The PIT. Please try again")
         }

@@ -1078,6 +1078,7 @@ struct LocalizationConstants {
         static let title = NSLocalizedString("The PIT", comment: "The PIT")
         static let connect = NSLocalizedString("Connect", comment: "Connect")
         static let connected = NSLocalizedString("Connected", comment: "Connected")
+        static let twoFactorNotEnabled = NSLocalizedString("Please enable 2FA on your PIT account to complete deposit.", comment: "User must have 2FA enabled to deposit from send.")
         struct Alerts {
             static let connectingYou = NSLocalizedString("Connecting You To The PIT", comment: "Connecting You To The PIT")
             static let newWindow = NSLocalizedString("A new window should open within 10 seconds.", comment: "A new window should open within 10 seconds.")
@@ -2450,6 +2451,8 @@ struct LocalizationConstants {
     @objc class func privacyPolicy() -> String {
         return LocalizationConstants.privacyPolicy
     }
+    
+    @objc class func twoFactorPITDisabled() -> String { return LocalizationConstants.PIT.twoFactorNotEnabled }
     
     @objc class func sendAssetPitDestination() -> String { return LocalizationConstants.PIT.Send.destination }
 

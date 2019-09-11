@@ -22,6 +22,7 @@ protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
     var rightNavigationCTAType: NavigationCTAType { get }
 }
 
+/// TICKET: IOS-2501 - Fix computing max spendable balance
 struct BalanceMetadata {
     let cryptoBalance: CryptoValue
     let cryptoFees: CryptoValue
@@ -37,7 +38,11 @@ extension BalanceMetadata {
         if includingFees {
             do {
                 /// We do not want to show a negative value when showing your available balance.
-                cryptoValue = try CryptoValue.max(cryptoBalance - cryptoFees, CryptoValue.zero(assetType: cryptoValue.currencyType))
+                /// PAX and ETH aren't technically comparable, so this is a temporary work around.
+                /// Otherwise subtracting the fees from the balance will fail since PAX fees
+                /// are in ETH. 
+                let adjusted = cryptoBalance.amount - cryptoFees.amount
+                cryptoValue = try CryptoValue.max(CryptoValue.createFromMinorValue(adjusted, assetType: cryptoBalance.currencyType), CryptoValue.zero(assetType: cryptoValue.currencyType))
                 fiatValue = try FiatValue.max(fiatBalance - fiatFees, FiatValue.zero(currencyCode: BlockchainSettings.App.shared.fiatCurrencyCode))
             } catch {
                 return nil

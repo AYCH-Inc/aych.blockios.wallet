@@ -235,7 +235,7 @@ class SendPaxCalculator {
                 return Output(presentationUpdates: updates, model: viewModel)
             }
             .catchError { error -> Single<Output> in
-                if let error = error as? ERC20ServiceError {
+                if let error = error as? ERC20EvaluationError {
                     let internalError = SendMoniesInternalError(erc20error: error)
                     viewModel.internalError = internalError
                 } else if let error = error as? SendMoniesInternalError {

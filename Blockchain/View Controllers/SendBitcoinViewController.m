@@ -89,7 +89,7 @@ typedef enum {
 @property (nonatomic) BridgeBitpayService *bitpayService;
 @property (nonatomic) BridgeAnalyticsRecorder *analyticsRecorder;
 
-@property (nonatomic, copy) NSString *pitAddress;
+@property (nonatomic, strong) PITAddressViewModel *pitAddressViewModel;
 
 @property (nonatomic, strong) BridgeDeepLinkQRCodeRouter *deepLinkQRCodeRouter;
 
@@ -156,7 +156,8 @@ BOOL displayingLocalSymbolSend;
     [super viewDidLoad];
 
     self.deepLinkQRCodeRouter = [[BridgeDeepLinkQRCodeRouter alloc] init];
-    self.addressFetcher = [[BridgeAddressFetcher alloc] init];
+    
+    self.addressFetcher = [[BridgeAddressFetcher alloc] initWithAssetType:self.assetType];
     
     self.bitpayService = [[BridgeBitpayService alloc] init];
     self.analyticsRecorder = [[BridgeAnalyticsRecorder alloc] init];
@@ -419,15 +420,13 @@ BOOL displayingLocalSymbolSend;
     self.noteToSet = nil;
     
     __weak SendBitcoinViewController *weakSelf = self;
-    [self.addressFetcher fetchAddressFor:self.assetType completion:^(NSString * _Nullable address) {
-        [weakSelf updatePitButtonVisibilityWith:address];
+    
+    self.addressFetcher = [[BridgeAddressFetcher alloc] initWithAssetType:self.assetType];
+    
+    [self.addressFetcher fetchAddressViewModelWithCompletion:^(PITAddressViewModel * _Nonnull viewModel) {
+        weakSelf.pitAddressViewModel = viewModel;
+        weakSelf.pitAddressButton.hidden = viewModel.isPITLinked == NO;
     }];
-}
-
-/// Update pit button visibility
-- (void)updatePitButtonVisibilityWith:(NSString * _Nullable)address {
-    self.pitAddress = address;
-    self.pitAddressButton.hidden = self.pitAddress == nil;
 }
 
 - (void)reloadAfterMultiAddressResponse
@@ -563,12 +562,20 @@ BOOL displayingLocalSymbolSend;
             destinationAddressIndicatorLabel.hidden = true;
             break;
         default: // Any other state (doesn't matter which)
-            [self.pitAddressButton setImage:[UIImage imageNamed:@"cancel_icon"] forState:UIControlStateNormal];
-            self.addressSource = DestinationAddressSourcePit;
-            toField.hidden = true;
-            [self selectToAddress:self.pitAddress];
-            destinationAddressIndicatorLabel.hidden = false;
-            break;
+        /// The user tapped the PIT button to send funds to the PIT.
+        /// We must confirm that 2FA is enabled otherwise we will not have a destination address
+        if (self.pitAddressViewModel != nil && self.pitAddressViewModel.assetType == self.assetType) {
+            if (self.pitAddressViewModel.pitDestinationAddress != nil) {
+                [self.pitAddressButton setImage:[UIImage imageNamed:@"cancel_icon"] forState:UIControlStateNormal];
+                self.addressSource = DestinationAddressSourcePit;
+                toField.hidden = true;
+                [self selectToAddress:self.pitAddressViewModel.pitDestinationAddress];
+                destinationAddressIndicatorLabel.hidden = false;
+            } else {
+                [AlertViewPresenter.sharedInstance standardErrorWithMessage:[LocalizationConstantsObjcBridge twoFactorPITDisabled] title:BC_STRING_ERROR in:self handler:nil];
+            }
+        }
+        break;
     }
 }
 

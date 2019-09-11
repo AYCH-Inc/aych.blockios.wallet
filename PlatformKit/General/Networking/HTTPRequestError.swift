@@ -30,6 +30,26 @@ public enum HTTPRequestServerError: HTTPRequestError {
         case .badStatusCode(let code, _, let message): return "The server returned a bad response: \(code). Message: \(message ?? "")"
         }
     }
+    
+    public var code: Int? {
+        switch self {
+        case .badResponse:
+            return nil
+        case .badStatusCode(code: let code, error: _, message: _):
+            return code
+        }
+    }
+    
+    public var nabuError: NabuNetworkError? {
+        switch self {
+        case .badStatusCode(code: _, error: let value, message: _):
+            guard let nabuError = value as? NabuNetworkError else { return nil }
+            return nabuError
+        case .badResponse:
+            return nil
+        }
+    }
+    
 }
 
 // NOTE: in future cases, we may want to allow empty payloads, but this is currently not applicable for the KYC flow.

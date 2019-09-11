@@ -454,8 +454,10 @@ extension SendPaxViewController {
     
     private func handleAddressScan(result: Result<AddressQRCodeParser.Address, AddressQRCodeParser.AddressQRCodeParserError>) {
         if case .success(let assetURL) = result {
-            delegate?.onAddressEntry(assetURL.payload.address)
-            
+            let address = assetURL.payload.address
+            delegate?.onAddressEntry(address)
+            destinationAddressTextField.text = address
+
             guard
                 let amount = assetURL.payload.amount,
                 let value = CryptoValue.paxFromMajor(string: amount)
@@ -463,6 +465,7 @@ extension SendPaxViewController {
                 return
             }
             delegate?.onPaxEntry(value)
+            cryptoAmountTextField.insertText(amount)
         }
     }
 }

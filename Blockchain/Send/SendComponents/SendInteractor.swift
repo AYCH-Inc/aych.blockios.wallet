@@ -32,6 +32,9 @@ final class SendInteractor: SendInteracting {
         
         /// The sent amount is unexpectedly nullified
         case nullifiedCryptoAmount
+        
+        /// The source account state is not `.available`
+        case unexpectedSourceAccountState
     }
     
     /// The transaction candidate that is built just before sending the transaction
@@ -105,7 +108,10 @@ final class SendInteractor: SendInteracting {
             feeInteractor: feeInteractor,
             exchangeService: services.exchange
         )
-        sourceInteractor = SendSourceAccountInteractor(provider: services.sourceAccount)
+        sourceInteractor = SendSourceAccountInteractor(
+            provider: services.sourceAccountProvider,
+            stateService: services.sourceAccountState
+        )
         destinationInteractor = SendDestinationAccountInteractor(
             asset: asset,
             pitAddressFetcher: services.pitAddressFetcher
@@ -117,15 +123,11 @@ final class SendInteractor: SendInteracting {
         Observable
             .combineLatest(amountInteractor.calculationState,
                            feeInteractor.calculationState,
+                           sourceInteractor.state,
                            destinationInteractor.accountState,
                            amountInteractor.amountBalanceRatio)
-            .map { (amountCalculationState, feeCalculationState, accountState, amountBalanceRatio) -> SendInputState in
-                return SendInputState(
-                    amountCalculationState: amountCalculationState,
-                    feeCalculationState: feeCalculationState,
-                    destinationAccountState: accountState,
-                    amountBalanceRatio: amountBalanceRatio
-                )
+            .map { (amountCalculationState, feeCalculationState, sourceAccountState, destinationAccountState, amountBalanceRatio) -> SendInputState in
+                return SendInputState(amountCalculationState: amountCalculationState, feeCalculationState: feeCalculationState, sourceAccountState: sourceAccountState, destinationAccountState: destinationAccountState, amountBalanceRatio: amountBalanceRatio)
             }
             .startWith(.empty)
             .bind(to: inputStateRelay)
@@ -154,7 +156,17 @@ final class SendInteractor: SendInteracting {
     /// Since a candidate needs to be created and validated before the actual send.
     /// - Returns: A single that wraps `Void` to indicates a successful candidate creation,
     /// or a `Single.error(InteractionError)` to indicate the specific type of failure.
+    /// Case of failure should be reached at this stage since all the input is assumed to
+    /// be valid by now.
     func prepareForSending() -> Single<Void> {
+        let sourceAccountStateValidation = sourceInteractor.state
+            .take(1)
+            .asSingle()
+            .map { state -> Void in
+                guard state == .available else { throw InteractionError.unexpectedSourceAccountState }
+                return ()
+            }
+        
         let value = amountInteractor.calculationState
             .map { $0.value?.crypto }
             .take(1)
@@ -174,8 +186,10 @@ final class SendInteractor: SendInteracting {
             }
         
         return Single
-            .zip(address, value)
-            .map { TransactionCandidate(address: $0, amount: $1) }
+            .zip(address, value, sourceAccountStateValidation)
+            .map { (address, value, _) -> TransactionCandidate in
+                TransactionCandidate(address: address, amount: value)
+            }
             .do(onSuccess: { [weak self] candidate in
                 guard let self = self else {
                     throw InteractionError.nullifiedSelf

@@ -15,9 +15,14 @@ final class SendSourceAccountInteractor: SendSourceAccountInteracting {
     
     // MARK: - Exposed Properties
     
-    /// Returns the *selected* source account to send crypto from
+    /// Streams the *selected* source account to send crypto from
     var account: Observable<SendSourceAccount> {
         return accountRelay.asObservable()
+    }
+    
+    /// Streams the state of the account
+    var state: Observable<SendSourceAccountState> {
+        return stateService.state
     }
     
     // MARK: - Private Properties
@@ -25,12 +30,15 @@ final class SendSourceAccountInteractor: SendSourceAccountInteracting {
     /// The source account to send crypto from
     private let accountRelay: BehaviorRelay<SendSourceAccount>
     
+    private let stateService: SendSourceAccountStateServicing
     private let provider: SendSourceAccountProviding
     
     // MARK: - Setup
     
-    init(provider: SendSourceAccountProviding) {
+    init(provider: SendSourceAccountProviding,
+         stateService: SendSourceAccountStateServicing) {
         self.provider = provider
+        self.stateService = stateService
         accountRelay = BehaviorRelay(value: provider.default)
     }
 }

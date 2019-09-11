@@ -32,6 +32,7 @@ final class SendInteractorTests: XCTestCase {
                 balanceMajor: "100",
                 feeMajor: "1",
                 fiatExchangeRate: "1",
+                sourceAccountStateValue: .available,
                 pitAddressFetchResult: .success(.active),
                 transferExecutionResult: .success(())
             )
@@ -64,6 +65,7 @@ final class SendInteractorTests: XCTestCase {
                 balanceMajor: "100",
                 feeMajor: "1",
                 fiatExchangeRate: "1",
+                sourceAccountStateValue: .available,
                 pitAddressFetchResult: .success(.active),
                 transferExecutionResult: .success(())
             )
@@ -98,6 +100,7 @@ final class SendInteractorTests: XCTestCase {
                 balanceMajor: "100",
                 feeMajor: "1",
                 fiatExchangeRate: "1",
+                sourceAccountStateValue: .available,
                 pitAddressFetchResult: .success(.blocked),
                 transferExecutionResult: .success(())
             )
@@ -125,6 +128,7 @@ final class SendInteractorTests: XCTestCase {
                 balanceMajor: "100",
                 feeMajor: "1",
                 fiatExchangeRate: "1",
+                sourceAccountStateValue: .available,
                 pitAddressFetchResult: .success(.active),
                 transferExecutionResult: .success(())
             )
@@ -152,6 +156,7 @@ final class SendInteractorTests: XCTestCase {
                 balanceMajor: "100",
                 feeMajor: "1",
                 fiatExchangeRate: "1",
+                sourceAccountStateValue: .available,
                 pitAddressFetchResult: .success(.active),
                 transferExecutionResult: .success(())
             )
@@ -179,6 +184,7 @@ final class SendInteractorTests: XCTestCase {
                 balanceMajor: "100",
                 feeMajor: "1",
                 fiatExchangeRate: "1",
+                sourceAccountStateValue: .available,
                 pitAddressFetchResult: .success(.active),
                 transferExecutionResult: .success(())
             )
@@ -197,6 +203,33 @@ final class SendInteractorTests: XCTestCase {
         }
     }
     
+    func testSourceAccountError() {
+        for asset in assets {
+            let interactor = self.interactor(
+                for: asset,
+                balanceMajor: "100",
+                feeMajor: "1",
+                fiatExchangeRate: "1",
+                sourceAccountStateValue: .pendingTransactionCompletion,
+                pitAddressFetchResult: .success(.active),
+                transferExecutionResult: .success(())
+            )
+            
+            interactor.set(address: FakeAddress.address(for: asset))
+            interactor.set(cryptoAmount: "1")
+            
+            do {
+                let state = try interactor.inputState.toBlocking().first()!
+                guard case .invalid(.pendingTransaction) = state else {
+                    XCTFail("expected transfer to fail with \(SendInputState.StateError.pendingTransaction). got \(state) instead")
+                    return
+                }
+            } catch {
+                XCTFail("expected transfer to fail with \(SendInputState.StateError.pendingTransaction). got \(error) instead")
+            }
+        }
+    }
+    
     private func testInsufficientFeeCoverage() throws {
         try testInsufficientFeeCoverage(transferredAmountType: .crypto(major: "1"))
         try testInsufficientFeeCoverage(transferredAmountType: .fiat(raw: "1"))
@@ -210,6 +243,7 @@ final class SendInteractorTests: XCTestCase {
                 balanceMajor: "1",
                 feeMajor: "1",
                 fiatExchangeRate: "1",
+                sourceAccountStateValue: .available,
                 pitAddressFetchResult: .success(.active),
                 transferExecutionResult: .success(())
             )
@@ -243,6 +277,7 @@ final class SendInteractorTests: XCTestCase {
         balanceMajor: String,
         feeMajor: String,
         fiatExchangeRate: String,
+        sourceAccountStateValue: SendSourceAccountState,
         pitAddressFetchResult: Result<PitAddressFetcher.PitAddressResponseBody.State, PitAddressFetcher.FetchingError>,
         transferExecutionResult: Result<Void, Error>
         ) -> SendInteracting {
@@ -254,6 +289,7 @@ final class SendInteractorTests: XCTestCase {
             balance: balance,
             fee: fee,
             exchange: exchange,
+            sourceAccountStateValue: sourceAccountStateValue,
             pitAddressFetchResult: pitAddressFetchResult,
             transferExecutionResult: transferExecutionResult
         )

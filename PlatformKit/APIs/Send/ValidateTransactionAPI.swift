@@ -24,6 +24,26 @@ public enum TransactionValidationResult {
     case ok
     /// The amount you would like to send is invalid
     case invalid(TransactionValidationError)
+    
+    /// Returns the error in case of `.invalid`
+    public var error: TransactionValidationError? {
+        switch self {
+        case .invalid(let error):
+            return error
+        case .ok:
+            return nil
+        }
+    }
+    
+    /// Returns `true` in case of `.ok`
+    public var isOk: Bool {
+        switch self {
+        case .ok:
+            return true
+        case .invalid:
+            return false
+        }
+    }
 }
 
 /// `ValidateTransactionAPI` takes a `Crypto`. The reason that this is not a `CryptoValue` is `ERC20TokenValue`

@@ -306,8 +306,7 @@ final class DashboardController: UIViewController {
         guard let ethBalance = wallet.getEthBalance() else {
             return CryptoValue.etherZero
         }
-        let localized = NumberFormatter.localFormattedString(ethBalance) ?? ethBalance
-        return CryptoValue.etherFromMajor(string: localized) ?? CryptoValue.etherZero
+        return CryptoValue.etherFromMajor(string: ethBalance, locale: Locale.US) ?? CryptoValue.etherZero
     }
 
     private func getBchBalance() -> CryptoValue {

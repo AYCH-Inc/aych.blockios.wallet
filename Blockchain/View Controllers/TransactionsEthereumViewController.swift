@@ -141,7 +141,7 @@ final class TransactionsEthereumViewController: TransactionsViewController {
         disposables.insertWithDiscardableResult(disposable)
     }
     
-    private func getAssetButtonClicked() {
+    override func getAssetButtonClicked() {
         let tabControllerManager: TabControllerManager = AppCoordinator.shared.tabControllerManager
         tabControllerManager.receiveCoinClicked(nil)
     }

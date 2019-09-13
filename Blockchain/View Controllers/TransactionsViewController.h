@@ -11,4 +11,5 @@
 @interface TransactionsViewController : UIViewController
 @property (nonatomic) NSInteger filterIndex;
 - (void)changeFilterLabel:(NSString *)newText;
+- (void)getAssetButtonClicked;
 @end

@@ -288,8 +288,8 @@ extension CryptoValue {
         return CryptoValue(currencyType: .ethereum, amount: weiInBigInt)
     }
 
-    public static func etherFromMajor(string ether: String) -> CryptoValue? {
-        return createFromMajorValue(string: ether, assetType: .ethereum)
+    public static func etherFromMajor(string ether: String, locale: Locale = Locale.current) -> CryptoValue? {
+        return createFromMajorValue(string: ether, assetType: .ethereum, locale: locale)
     }
 }
 

@@ -395,7 +395,7 @@ extension EthereumWallet: EthereumWalletBridgeAPI, EthereumWalletTransactionsBri
             return Disposables.create()
         })
         .flatMap { balanceString -> Single<CryptoValue> in
-            guard let balance = CryptoValue.etherFromMajor(string: balanceString) else {
+            guard let balance = CryptoValue.etherFromMajor(string: balanceString, locale: Locale.US) else {
                 throw WalletError.unknown
             }
             return Single.just(balance)
@@ -451,7 +451,7 @@ extension EthereumWallet: EthereumWalletBridgeAPI, EthereumWalletTransactionsBri
             return Disposables.create()
         })
         .flatMap { balanceString -> Single<CryptoValue> in
-            guard let value = CryptoValue.etherFromMajor(string: balanceString) else {
+            guard let value = CryptoValue.etherFromMajor(string: balanceString, locale: Locale.US) else {
                 throw WalletError.unknown
             }
             return Single.just(value)

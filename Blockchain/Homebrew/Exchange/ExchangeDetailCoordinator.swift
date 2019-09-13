@@ -73,7 +73,11 @@ class ExchangeDetailCoordinator: NSObject {
 
             switch model.pageType {
             case .confirm(let orderTransaction, let conversion):
-                let disposable = accountRepository.nameOfAccountContaining(address: orderTransaction.destination.address.address).asObservable()
+                let currencyType = orderTransaction.destination.balance.currencyType
+                let disposable = accountRepository.nameOfAccountContaining(
+                    address: orderTransaction.destination.address.address,
+                    currencyType: currencyType
+                    ).asObservable()
                     .take(1)
                     .subscribeOn(MainScheduler.asyncInstance)
                     .observeOn(MainScheduler.instance)
@@ -152,7 +156,12 @@ class ExchangeDetailCoordinator: NSObject {
             case .locked(let orderTransaction, let conversion):
                 logTransactionLocked(orderTransaction)
                 
-                let disposable = accountRepository.nameOfAccountContaining(address: orderTransaction.destination.address.address).asObservable()
+                let destinationCurrency = orderTransaction.destination.balance.currencyType
+                
+                let disposable = accountRepository.nameOfAccountContaining(
+                    address: orderTransaction.destination.address.address,
+                    currencyType: destinationCurrency
+                    ).asObservable()
                     .take(1)
                     .subscribeOn(MainScheduler.asyncInstance)
                     .observeOn(MainScheduler.instance)

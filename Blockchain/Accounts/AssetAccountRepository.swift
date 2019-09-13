@@ -282,9 +282,9 @@ extension AssetAccountRepository {
         return networkObservable.startWith(cached)
     }
     
-    func nameOfAccountContaining(address: String) -> Maybe<String> {
+    func nameOfAccountContaining(address: String, currencyType: CryptoCurrency) -> Maybe<String> {
         return accounts.asSingle().flatMapMaybe { output -> Maybe<String> in
-            guard let result = output.first(where: { $0.address.address == address }) else {
+            guard let result = output.first(where: { $0.address.address == address && $0.balance.currencyType == currencyType }) else {
                 return Maybe.empty()
             }
             return Maybe.just(result.name)

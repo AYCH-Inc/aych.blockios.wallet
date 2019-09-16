@@ -1117,7 +1117,7 @@ struct LocalizationConstants {
         struct ConnectionPage {
             struct Descriptors {
                 static let description = NSLocalizedString("There's a new way to trade. Link your Wallet for instant access.", comment: "Description of the pit.")
-                static let lightningFast = NSLocalizedString("Lighting Fast Trading", comment: "")
+                static let lightningFast = NSLocalizedString("Lightning Fast Trading", comment: "")
                 static let lowFees = NSLocalizedString("Extra Low Fees", comment: "")
                 static let builtByBlockchain = NSLocalizedString("Built by the Pros", comment: "")
                 static let reliable = NSLocalizedString("Liquid & Reliable", comment: "")

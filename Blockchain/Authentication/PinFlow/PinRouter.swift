@@ -211,6 +211,7 @@ extension PinRouter {
                 window.rootViewController = navigationController
             case .foreground(parent: let boxedParent):
                 if let parent = boxedParent.value {
+                    navigationController.modalPresentationStyle = .fullScreen
                     parent.present(navigationController, animated: true)
                 } else {
                     recorder.error("Parent view controller must not be `nil` for foreground authentication")

@@ -72,6 +72,7 @@ import PlatformKit
     /// Displays a reminder to the user that two-factor should be enabled
     func showTwoFactorReminder() {
         let twoFactorController = ReminderModalViewController(reminderType: ReminderTypeTwoFactor)!
+        twoFactorController.modalPresentationStyle = .fullScreen
         twoFactorController.delegate = self
         presentInNavigationController(twoFactorController)
     }
@@ -80,6 +81,7 @@ import PlatformKit
     @objc func showBackupReminder(firstReceive: Bool) {
         let reminderType = firstReceive ? ReminderTypeBackupJustReceivedBitcoin : ReminderTypeBackupHasBitcoin
         let backupController = ReminderModalViewController(reminderType: reminderType)!
+        backupController.modalPresentationStyle = .fullScreen
         backupController.delegate = self
         presentInNavigationController(backupController)
     }
@@ -93,7 +95,8 @@ import PlatformKit
 
         let setupViewController = WalletSetupViewController()!
         setupViewController.modalTransitionStyle = .crossDissolve
-
+        setupViewController.modalPresentationStyle = .fullScreen
+        
         onboardingSettings.shouldShowBiometrySetup = false
         onboardingSettings.didFailBiometrySetup = false
 

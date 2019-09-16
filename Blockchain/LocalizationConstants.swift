@@ -1089,7 +1089,7 @@ struct LocalizationConstants {
         }
         struct AnnouncementCard {
             static let body = NSLocalizedString(
-                "It's time to Level Up to a better crypto exchange. First 100,000 traders to sign up will trade free for 30 days.",
+                "It's time to Level Up to a better crypto exchange. Buy, sell, and trade more digital assets in The PIT.",
                 comment: ""
             )
             static let CTA = NSLocalizedString("Check it out!", comment: "")
@@ -1116,10 +1116,10 @@ struct LocalizationConstants {
         }
         struct ConnectionPage {
             struct Descriptors {
-                static let description = NSLocalizedString("The only Exchange that connects to your Wallet.", comment: "Description of the pit.")
-                static let lightningFast = NSLocalizedString("Lightning Fast Trades", comment: "")
-                static let lowFees = NSLocalizedString("Low Fees", comment: "")
-                static let builtByBlockchain = NSLocalizedString("Built by Blockchain.com", comment: "")
+                static let description = NSLocalizedString("There's a new way to trade. Link your Wallet for instant access.", comment: "Description of the pit.")
+                static let lightningFast = NSLocalizedString("Lighting Fast Trading", comment: "")
+                static let lowFees = NSLocalizedString("Extra Low Fees", comment: "")
+                static let builtByBlockchain = NSLocalizedString("Built by the Pros", comment: "")
                 static let reliable = NSLocalizedString("Liquid & Reliable", comment: "")
             }
             
@@ -1131,7 +1131,7 @@ struct LocalizationConstants {
                 static let builtByBlockchain = NSLocalizedString("Built by Blockchain.com", comment: "")
                 
                 static let pitWillNotBeAbleTo = NSLocalizedString("The PIT will not be able to:", comment: "")
-                static let viewYourPassword = NSLocalizedString("View your wallet password", comment: "")
+                static let viewYourPassword = NSLocalizedString("View your Wallet password", comment: "")
             }
             
             struct Actions {

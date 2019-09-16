@@ -49,7 +49,10 @@ extension VeriffController where Self: UIViewController {
             guard let modifiedURL = components?.url else { return }
             url = modifiedURL
         }
-        let config = VeriffConfiguration(sessionToken: token, sessionUrl: url.absoluteString)
+        
+        guard let config = VeriffConfiguration(sessionToken: token, sessionUrl: url.absoluteString) else {
+            return
+        }
 
         veriff.set(configuration: config)
 
@@ -77,10 +80,8 @@ extension VeriffController {
             onVeriffSubmissionCompleted()
         case .STATUS_USER_CANCELED:
             onVeriffCancelled()
-            // TODO: Removed since we downgraded `VeriffSDK` from `2.4.0`
-            // back to `2.0.5`. Once `VeriffSDK` is upgraded we can get this back in.
-//        case .UNABLE_TO_ACCESS_MICROPHONE:
-//            onVeriffError(message: LocalizationConstants.Errors.microphoneAccessDeniedMessage)
+        case .UNABLE_TO_ACCESS_MICROPHONE:
+            onVeriffError(message: LocalizationConstants.Errors.microphoneAccessDeniedMessage)
         }
     }
 }

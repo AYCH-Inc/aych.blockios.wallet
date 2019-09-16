@@ -211,6 +211,7 @@ import PlatformUIKit
 
     @objc func startNewWalletSetUp() {
         let viewController = WalletSetupViewController()!
+        viewController.modalPresentationStyle = .fullScreen
         let topMostViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController
         topMostViewController?.present(viewController, animated: false) { [weak self] in
             self?.showPinEntryView()

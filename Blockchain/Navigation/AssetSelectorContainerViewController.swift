@@ -41,7 +41,7 @@ class AssetSelectorContainerViewController: UIViewController {
         assetSelector.selectedAsset = currentAsset
         assetSelector.reload()
         assetSelector.delegate = self
-        assetSelector.translatesAutoresizingMaskIntoConstraints = false
+        assetSelector.constraint(toParent: view)
     }
         
     // MARK: Public
@@ -59,7 +59,12 @@ class AssetSelectorContainerViewController: UIViewController {
         children.forEach({ $0.view.removeFromSuperview() })
         children.forEach({ $0.removeFromParent() })
         addChild(viewController)
-        containerView.addConstrainedSubview(viewController.view)
+        containerView.addSubview(viewController.view)
+        viewController.view.layoutToSuperview(.horizontal)
+        NSLayoutConstraint.activate([
+            viewController.view.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Constants.Measurements.assetTypeCellHeight),
+            viewController.view.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
         viewController.didMove(toParent: self)
         setupTitle()
     }

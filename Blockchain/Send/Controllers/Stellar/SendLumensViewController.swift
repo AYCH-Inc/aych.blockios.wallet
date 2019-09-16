@@ -24,6 +24,8 @@ protocol SendXLMViewControllerDelegate: class {
     
     /// Invoked upon tapping the pit address button
     func onPitAddressButtonTapped()
+    
+    var sendingToPIT: Bool { get }
 }
 
 @objc class SendLumensViewController: UIViewController, BottomButtonContainerView {
@@ -128,6 +130,7 @@ protocol SendXLMViewControllerDelegate: class {
         case memoRequiredDisclaimerVisibility(Visibility)
         case memoTextFieldShouldBeginEditing
         case memoIDFieldShouldBeginEditing
+        case memoTextFieldText(String?)
         case errorLabelText(String)
         case feeAmountLabelText
         case stellarAddressText(String)
@@ -303,6 +306,13 @@ protocol SendXLMViewControllerDelegate: class {
     // swiftlint:disable:next cyclomatic_complexity
     fileprivate func apply(_ update: PresentationUpdate) {
         switch update {
+        case .memoTextFieldText(let value):
+            memoTextField.text = value
+            guard let memo = value else {
+                clearMemoField()
+                return
+            }
+            self.memo = .text(memo)
         case .memoTextFieldVisibility(let visibility):
             memoTextField.alpha = visibility.defaultAlpha
         case .memoIDTextFieldVisibility(let visibility):
@@ -632,6 +642,15 @@ extension SendLumensViewController: UITextFieldDelegate {
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         guard textField == stellarAddressField else { return true }
         delegate?.onStellarAddressEntry(nil)
+        return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        guard [memoTextField].contains(textField) else { return true }
+        /// If the user is sending XLM funds to the PIT, we don't
+        /// want them to change the memo value, otherwise they
+        /// risk losing their funds. 
+        guard delegate?.sendingToPIT == false else { return false }
         return true
     }
     

@@ -28,6 +28,7 @@ class SendXLMCoordinator {
     
     /// The pit address
     private var pitAddress: String!
+    private var pitMemo: String!
 
     private let bag = DisposeBag()
     
@@ -58,6 +59,10 @@ class SendXLMCoordinator {
     }
     
     // MARK: Private Functions
+    
+    private func isPITAddress() -> Single<Bool> {
+        return Single.just(addressSource == .pit)
+    }
 
     fileprivate func accountDetailsTrigger() -> Observable<StellarAccount> {
         return services.operation.operations.concatMap { result -> Observable<StellarAccount> in
@@ -129,7 +134,9 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] address in
                 guard let self = self else { return }
-                self.pitAddress = address
+                let split = address.components(separatedBy: ":")
+                self.pitAddress = split.first ?? ""
+                self.pitMemo = split.last ?? ""
                 self.interface.apply(updates: [.pitAddressButtonVisibility(.visible)])
             }, onError: { [weak self] error in
                 self?.interface.apply(updates: [.pitAddressButtonVisibility(.hidden)])
@@ -215,6 +222,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     }
     
     func onMemoTextSelection() {
+        guard addressSource != .pit else { return }
         interface.apply(updates: [.memoTextFieldVisibility(.visible),
                                   .memoIDTextFieldVisibility(.hidden),
                                   .memoTextFieldShouldBeginEditing,
@@ -267,7 +275,8 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             .errorLabelVisibility(.hidden)
         ]
         if let entry = value {
-            services.accounts.isExchangeAddress(entry)
+            Single.zip(services.accounts.isExchangeAddress(entry), isPITAddress())
+                .map { return $0 && $1 }
                 .observeOn(MainScheduler.instance)
                 .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
                 .subscribe(onSuccess: { [weak self] (isExchangeAddress) in
@@ -451,11 +460,25 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         switch addressSource {
         case .pit:
             addressSource = .standard
-            interface.apply(updates: [.usePitAddress(nil)])
+            interface.apply(updates: [.usePitAddress(nil),
+                                      .memoTextFieldText(nil),
+                                      .memoTextFieldVisibility(.visible),
+                                      .memoIDTextFieldVisibility(.hidden),
+                                      .memoSelectionButtonVisibility(.visible)])
         case .standard:
             addressSource = .pit
-            interface.apply(updates: [.usePitAddress(pitAddress)])
+            interface.apply(updates: [
+                .usePitAddress(pitAddress),
+                .memoTextFieldText(pitMemo),
+                .memoTextFieldVisibility(.visible),
+                .memoIDTextFieldVisibility(.hidden),
+                .memoSelectionButtonVisibility(.hidden)
+                ])
         }
+    }
+    
+    var sendingToPIT: Bool {
+        return addressSource == .pit
     }
     
     // MARK: - Private

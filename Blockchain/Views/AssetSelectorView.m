@@ -16,6 +16,9 @@
 @property (nonatomic) UITableView *tableView;
 @property (nonatomic, readwrite) BOOL isOpen;
 @property (nonatomic, readwrite) NSArray *assets;
+
+@property (nonatomic, strong) NSLayoutConstraint *heightConstraint;
+
 @end
 
 @implementation AssetSelectorView
@@ -24,28 +27,28 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        [self setup];
+        [self setupInParent:nil];
     }
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame parentView:(UIView *)parentView
 {
     if (self == [super initWithFrame:frame]) {
-        [self setup];
+        [self setupInParent: parentView];
     }
     
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame assets:(NSArray *)assets
+- (instancetype)initWithFrame:(CGRect)frame assets:(NSArray *)assets parentView:(UIView *)parentView
 {
-    AssetSelectorView *assetSelectorView = [self initWithFrame:frame];
+    AssetSelectorView *assetSelectorView = [self initWithFrame:frame parentView:parentView];
     assetSelectorView.assets = assets;
     return assetSelectorView;
 }
 
-- (void)setup
+- (void)setupInParent:(UIView *)parentView
 {
     if (self.tableView == nil) {
         NSMutableArray *allAssets = [
@@ -63,15 +66,48 @@
         self.tableView = [[UITableView alloc] initWithFrame:self.bounds];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.tableView registerNib:[UINib nibWithNibName:@"AssetTypeCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:[AssetTypeCell identifier]];
         [self addSubview:self.tableView];
         
         self.tableView.separatorColor = [UIColor darkBlue];
         self.tableView.backgroundColor = [UIColor darkBlue];
         self.backgroundColor = [UIColor darkBlue];
+                
+        self.tableView.translatesAutoresizingMaskIntoConstraints = false;
+
+        CGFloat height = [ConstantsObjcBridge assetTypeCellHeight] * self.assets.count;
+        NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:height];
+        [self.tableView addConstraint:heightConstraint];
         
-        [self.tableView changeHeight:[ConstantsObjcBridge assetTypeCellHeight] * self.assets.count];
+        [NSLayoutConstraint activateConstraints: @[
+            [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0],
+            [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0],
+            [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]
+        ]];
+                        
+        if (parentView != nil) {
+            [self constraintToParent:parentView];
+        }
     }
+}
+
+- (void)constraintToParent:(UIView *)parentView {
+    self.translatesAutoresizingMaskIntoConstraints = false;
+        
+    if (self.superview == nil) {
+        [parentView addSubview:self];
+    }
+    
+    [NSLayoutConstraint activateConstraints: @[
+        [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:parentView attribute:NSLayoutAttributeLeft multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:parentView attribute:NSLayoutAttributeRight multiplier:1 constant:0],
+        [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]
+    ]];
+    
+    CGFloat height = [ConstantsObjcBridge assetTypeCellHeight];
+    self.heightConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:height];
+    [self addConstraint: self.heightConstraint];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -121,7 +157,7 @@
 {
     [self.superview layoutIfNeeded];
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [self changeHeight:0];
+        self.heightConstraint.constant = 0;
         [self.superview layoutIfNeeded];
     }];
 }
@@ -130,7 +166,7 @@
 {
     [self.superview layoutIfNeeded];
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [self changeHeight:[ConstantsObjcBridge assetTypeCellHeight]];
+        self.heightConstraint.constant = [ConstantsObjcBridge assetTypeCellHeight];
         [self.superview layoutIfNeeded];
     }];
 }
@@ -141,10 +177,10 @@
 
     [self.tableView reloadData];
     [self.superview layoutIfNeeded];
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [self changeHeight:[ConstantsObjcBridge assetTypeCellHeight] * self.assets.count];
+    [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+        self.heightConstraint.constant = [ConstantsObjcBridge assetTypeCellHeight] * self.assets.count;
         [self.superview layoutIfNeeded];
-    }];
+    } completion:nil];
 }
 
 - (void)close
@@ -154,10 +190,10 @@
         
         [self.tableView reloadData];
         [self.superview layoutIfNeeded];
-        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-            [self changeHeight:[ConstantsObjcBridge assetTypeCellHeight]];
+        [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+            self.heightConstraint.constant = [ConstantsObjcBridge assetTypeCellHeight];
             [self.superview layoutIfNeeded];
-        }];
+        } completion:nil];
     }
 }
 

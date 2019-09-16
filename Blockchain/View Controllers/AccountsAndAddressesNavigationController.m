@@ -46,9 +46,9 @@
     
     self.assetSelectorView = [[AssetSelectorView alloc]
                               initWithFrame:selectorFrame
-                              assets:@[[NSNumber numberWithInteger:LegacyAssetTypeBitcoin], [NSNumber numberWithInteger:LegacyAssetTypeBitcoinCash]]];
+                              assets:@[[NSNumber numberWithInteger:LegacyAssetTypeBitcoin], [NSNumber numberWithInteger:LegacyAssetTypeBitcoinCash]]
+                              parentView: self.view];
     self.assetSelectorView.delegate = self;
-    [self.view addSubview:self.assetSelectorView];    
 }
 
 - (void)viewDidLayoutSubviews

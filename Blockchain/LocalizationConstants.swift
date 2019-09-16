@@ -1126,7 +1126,7 @@ struct LocalizationConstants {
             struct Features {
                 static let pitWillBeAbleTo = NSLocalizedString("The PIT will be able to:", comment: "")
                 static let shareStatus = NSLocalizedString("Share your Gold or Silver Level status", comment: "")
-                static let exchangeAddresses = NSLocalizedString("Exchange crypto addresses so you don't have to copy and paste", comment: "")
+                static let shareAddresses = NSLocalizedString("Share crypto addresses so you don't have to copy and paste", comment: "")
                 static let lowFees = NSLocalizedString("Low Fees", comment: "")
                 static let builtByBlockchain = NSLocalizedString("Built by Blockchain.com", comment: "")
                 

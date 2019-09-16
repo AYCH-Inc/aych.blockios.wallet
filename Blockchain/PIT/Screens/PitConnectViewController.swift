@@ -83,7 +83,7 @@ class PitConnectViewController: UIViewController, NavigatableView {
             ]
         ).asBulletPoint()
         exchangeAddresses.attributedText = NSAttributedString(
-            string: LocalizationConstants.PIT.ConnectionPage.Features.exchangeAddresses,
+            string: LocalizationConstants.PIT.ConnectionPage.Features.shareAddresses,
             attributes: [.font: copyFont()
             ]
         ).asBulletPoint()

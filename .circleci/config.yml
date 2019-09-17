@@ -119,8 +119,8 @@ jobs:
             export LC_ALL=en_US.UTF-8
             gem env
             sudo gem cleanup
-            sudo gem update bundler
-            sudo gem install bundler
+            sudo gem update -f bundler
+            sudo gem install -f bundler
             bundle install --path vendor/bundle
             bundle clean
       - save_cache:

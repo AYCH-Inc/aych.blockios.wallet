@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>PIT_URL</key>
-	<string>$(PIT_URL)</string>
 	<key>API_URL</key>
 	<string>$(API_URL)</string>
 	<key>BUY_WEBVIEW_URL</key>
@@ -47,6 +45,8 @@
 	<string>$(COINIFY_URL)</string>
 	<key>EXPLORER_SERVER</key>
 	<string>$(EXPLORER_SERVER)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -61,6 +61,8 @@
 	<string>Required for video capture.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Your permission is needed in order to upload documents from your photo library.</string>
+	<key>PIT_URL</key>
+	<string>$(PIT_URL)</string>
 	<key>RETAIL_CORE_SOCKET_URL</key>
 	<string>$(RETAIL_CORE_SOCKET_URL)</string>
 	<key>RETAIL_CORE_URL</key>

@@ -57,6 +57,8 @@ protocol KYCCoordinatorDelegate: class {
 
     private let disposables = CompositeDisposable()
 
+    private let disposeBag = DisposeBag()
+    
     private let pageFactory = KYCPageViewFactory()
 
     private let appSettings: BlockchainSettings.App
@@ -229,7 +231,13 @@ protocol KYCCoordinatorDelegate: class {
                     case .approved:
                         self.finish()
                     case .pending:
-                        PushNotificationManager.shared.requestAuthorization()
+                        // TODO: Temporary replacement for previous logic.
+                        // Once notification permission is redesigned - remove this entirely and
+                        // implement properly.
+                        RemoteNotificationServiceContainer.default.authorizer
+                            .requestAuthorizationIfNeeded()
+                            .subscribe()
+                            .disposed(by: self.disposeBag)
                     case .failed, .expired:
                         URL(string: Constants.Url.blockchainSupport)?.launch()
                     case .none, .underReview: return

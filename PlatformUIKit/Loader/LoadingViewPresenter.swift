@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import PlatformKit
 
 /// Presenter in charge of displaying a loading overlay, that entirely covers the current context
 @objc final public class LoadingViewPresenter: NSObject, LoadingViewPresenting {

@@ -202,7 +202,7 @@ final public class BlockchainAPI: NSObject {
     }
     
     public var pushNotificationsUrl: String {
-        return "\(walletUrl)/wallet?method=update-ios"
+        return "\(walletUrl)/wallet?method=update-firebase"
     }
     
     public var servicePriceUrl: String {

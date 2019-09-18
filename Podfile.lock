@@ -14,6 +14,9 @@ PODS:
   - Firebase/DynamicLinks (5.17.0):
     - Firebase/CoreOnly
     - FirebaseDynamicLinks (= 3.4.0)
+  - Firebase/Messaging (5.17.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (= 3.3.1)
   - Firebase/RemoteConfig (5.17.0):
     - Firebase/Core
     - FirebaseRemoteConfig (= 3.1.0)
@@ -40,6 +43,13 @@ PODS:
     - FirebaseCore (~> 5.2)
     - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/UserDefaults (~> 5.2)
+  - FirebaseMessaging (3.3.1):
+    - FirebaseAnalyticsInterop (~> 1.1)
+    - FirebaseCore (~> 5.2)
+    - FirebaseInstanceID (~> 3.4)
+    - GoogleUtilities/Environment (~> 5.2)
+    - GoogleUtilities/Reachability (~> 5.2)
+    - Protobuf (~> 3.1)
   - FirebaseRemoteConfig (3.1.0):
     - FirebaseABTesting (~> 2.0)
     - FirebaseAnalytics (~> 5.3)
@@ -134,6 +144,7 @@ DEPENDENCIES:
   - Fabric
   - Firebase/Core (~> 5.17.0)
   - Firebase/DynamicLinks (~> 5.17.0)
+  - Firebase/Messaging
   - Firebase/RemoteConfig (~> 5.17.0)
   - "LibWally (from `git@github.com:blockchain/libwally-swift.git`, branch `master`)"
   - PhoneNumberKit (~> 2.1)
@@ -160,6 +171,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseDynamicLinks
     - FirebaseInstanceID
+    - FirebaseMessaging
     - FirebaseRemoteConfig
     - GoogleAppMeasurement
     - GoogleUtilities
@@ -219,6 +231,7 @@ SPEC CHECKSUMS:
   FirebaseCore: c0c4befb82374d6aef64d800e569f47625352edc
   FirebaseDynamicLinks: 83a0071c95ad715bc324fcb8f51028d5b6a58af0
   FirebaseInstanceID: a122b0c258720cf250551bb2bedf48c699f80d90
+  FirebaseMessaging: 08289db05bdc71d91fe70916de95bb0c3c86ca9b
   FirebaseRemoteConfig: 7e11c65f0769c09bff6947997c209515058c5318
   GoogleAppMeasurement: 008e04ecd8efedd97a693aea8634aefe220bd26e
   GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
@@ -245,6 +258,6 @@ SPEC CHECKSUMS:
   VeriffWebRTC: 47806fee639a69ae5f82f2b031d20f0014d4a016
   web3swift.pod: 98e8653f39e1bcd7b45f46dd982ec49cdfc6c46a
 
-PODFILE CHECKSUM: 334014b2a2ff6464be216681d178fa9b65cdc6df
+PODFILE CHECKSUM: 74de4eb1bf014da440934599e694e4a12a552ff1
 
 COCOAPODS: 1.7.3

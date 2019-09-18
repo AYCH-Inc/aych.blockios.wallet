@@ -13,6 +13,7 @@ import Firebase
 import PlatformKit
 import BitcoinKit
 import FirebaseDynamicLinks
+import RxSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -58,21 +59,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private lazy var deepLinkHandler: DeepLinkHandler = {
         return DeepLinkHandler()
     }()
-    
-    private lazy var pushNotificationClient: PushNotificationClient = {
-        return PushNotificationClient()
+
+    /// A service that provides remote notification registration logic,
+    /// thus taking responsibility off `AppDelegate` instance.
+    private lazy var remoteNotificationRegistrationService: RemoteNotificationRegistering = {
+        return RemoteNotificationServiceContainer.default.authorizer
     }()
+    
+    /// A receipient for device tokens
+    private lazy var remoteNotificationTokenReceiver: RemoteNotificationDeviceTokenReceiving = {
+        return RemoteNotificationServiceContainer.default.tokenReceiver
+    }()
+    
+    private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle Methods
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        FirebaseApp.configure() 
+        FirebaseApp.configure()
         Fabric.with([Crashlytics.self])
+        
+        // Register the application for remote notifications
+        remoteNotificationRegistrationService.registerForRemoteNotificationsIfAuthorized()
+            .subscribe()
+            .disposed(by: disposeBag)
         
         BlockchainSettings.App.shared.appBecameActiveCount += 1
         // MARK: - Global Appearance
-        //: Status Bar
         UIApplication.shared.statusBarStyle = .default
         
         //: Navigation Bar
@@ -252,33 +266,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(
         _ application: UIApplication,
-        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
-    ) {
-        PushNotificationManager.shared.processRemoteNotification(
-            from: application,
-            userInfo: userInfo,
-            fetchCompletionHandler: completionHandler
-        )
-    }
-
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        pushNotificationClient.registerDeviceForPushNotifications(
-            withDeviceToken: token,
-            credentials: PushNotificationClient.WalletCredentials(
-                guid: WalletManager.shared.wallet.guid,
-                sharedKey: WalletManager.shared.wallet.sharedKey
-            )
-        )
-    }
-
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        // TICKET: IOS-1329 - Implement didFailToRegisterForRemoteNotificationsWithError
-    }
-
-    func application(
-        _ application: UIApplication,
         continue userActivity: NSUserActivity,
         restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
     ) -> Bool {
@@ -380,6 +367,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             title: LocalizationConstants.DeepLink.deepLinkUpdateTitle,
             actions: actions
         )
+    }
+}
+
+// MARK: - Remote Notification Registration
+
+extension AppDelegate {
+    func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        remoteNotificationTokenReceiver.appDidFailToRegisterForRemoteNotifications(with: error)
+    }
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        remoteNotificationTokenReceiver.appDidRegisterForRemoteNotifications(with: deviceToken)
     }
 }
 

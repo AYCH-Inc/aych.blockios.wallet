@@ -25,6 +25,9 @@ import PlatformUIKit
     private(set) lazy var appSettings = BlockchainSettings.App.shared
     private(set) lazy var onboardingSettings = BlockchainSettings.Onboarding.shared
     private(set) lazy var wallet = WalletManager.shared.wallet
+    private let remoteNotificationTokenSender: RemoteNotificationTokenSending
+    private let remoteNotificationAuthorizer: RemoteNotificationAuthorizationRequesting
+
     let recorder: ErrorRecording
     let loadingViewPresenter: LoadingViewPresenting
 
@@ -70,10 +73,7 @@ import PlatformUIKit
 
         self.dataRepository.prefetchData()
         self.stellarServiceProvider.services.accounts.prefetch()
-
-        /// Prompt the user for push notification permission
-        PushNotificationManager.shared.requestAuthorization()
-
+        
         // Make user set up a pin if none is set. They can also optionally enable touch ID and link their email.
         guard self.appSettings.isPinSet else {
             if self.walletManager.wallet.isNew {
@@ -89,7 +89,7 @@ import PlatformUIKit
         let reminderCompletion = { [weak self] () -> Void in
             self?.handlePostAuthenticationRouting()
         }
-
+        
         // Show security reminder modal if needed
         if let dateOfLastSecurityReminder = self.appSettings.dateOfLastSecurityReminder {
 
@@ -115,10 +115,16 @@ import PlatformUIKit
             .subscribe()
             .disposed(by: self.bag)
         
+        // TODO: Relocate notification permissions according to the new design
+        self.remoteNotificationTokenSender.sendTokenIfNeeded()
+            .subscribe()
+            .disposed(by: self.bag)
+        self.remoteNotificationAuthorizer.requestAuthorizationIfNeeded()
+            .subscribe()
+            .disposed(by: self.bag)
         
         if let topViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController,
-            self.appSettings.isPinSet,
-            !(topViewController is SettingsNavigationController) {
+            self.appSettings.isPinSet, !(topViewController is SettingsNavigationController) {
             self.alertPresenter.showMobileNoticeIfNeeded()
         }
 
@@ -152,7 +158,6 @@ import PlatformUIKit
     private var pairingCodeParserViewController: UIViewController?
 
     private var disposable: Disposable?
-
     // MARK: - Initializer
 
     init(walletManager: WalletManager = WalletManager.shared,
@@ -162,6 +167,7 @@ import PlatformUIKit
          stellarServiceProvider: StellarServiceProvider = StellarServiceProvider.shared,
          deepLinkRouter: DeepLinkRouter = DeepLinkRouter(),
          recorder: ErrorRecording = CrashlyticsRecorder(),
+         remoteNotificationServiceContainer: RemoteNotificationServiceContainer = .default,
          pitRepository: PITAccountRepositoryAPI = PITAccountRepository()) {
         self.walletManager = walletManager
         self.walletService = walletService
@@ -170,6 +176,8 @@ import PlatformUIKit
         self.deepLinkRouter = deepLinkRouter
         self.recorder = recorder
         self.loadingViewPresenter = loadingViewPresenter
+        remoteNotificationAuthorizer = remoteNotificationServiceContainer.authorizer
+        remoteNotificationTokenSender = remoteNotificationServiceContainer.tokenSender
         self.pitRepository = pitRepository
         super.init()
         self.walletManager.secondPasswordDelegate = self

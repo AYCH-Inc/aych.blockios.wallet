@@ -54,3 +54,14 @@ extension Result where Success == Never {
         }
     }
 }
+
+extension Result {
+    public var singleEvent: SingleEvent<Success> {
+        switch self {
+        case .success(let value):
+            return .success(value)
+        case .failure(let error):
+            return .error(error)
+        }
+    }
+}

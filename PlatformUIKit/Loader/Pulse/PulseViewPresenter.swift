@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 
 /// Presenter in charge of displaying a `PulseAnimationView`.
 /// Note that though this API is very similar to that of the Loader, this

@@ -1089,10 +1089,10 @@ struct LocalizationConstants {
         }
         struct AnnouncementCard {
             static let body = NSLocalizedString(
-                "It's time to Level Up to a better crypto exchange. Buy, sell, and trade more digital assets in The PIT.",
+                "We built our own exchange that redefines speed, reliability, and liquidity so you can upgrade your trading experience.",
                 comment: ""
             )
-            static let CTA = NSLocalizedString("Check it out!", comment: "")
+            static let CTA = NSLocalizedString("Get Started", comment: "")
         }
         struct EmailVerification {
             static let title = NSLocalizedString("Verify Your Email", comment: "")
@@ -1117,21 +1117,21 @@ struct LocalizationConstants {
         struct ConnectionPage {
             struct Descriptors {
                 static let description = NSLocalizedString("There's a new way to trade. Link your Wallet for instant access.", comment: "Description of the pit.")
-                static let lightningFast = NSLocalizedString("Lightning Fast Trading", comment: "")
-                static let lowFees = NSLocalizedString("Extra Low Fees", comment: "")
-                static let builtByBlockchain = NSLocalizedString("Built by the Pros", comment: "")
-                static let reliable = NSLocalizedString("Liquid & Reliable", comment: "")
+                static let lightningFast = NSLocalizedString("Trade Lightning Fast", comment: "")
+                static let withdrawDollars = NSLocalizedString("Deposit & Withdraw Euros/Dollars", comment: "")
+                static let accessCryptos = NSLocalizedString("Access More Cryptos", comment: "")
+                static let builtByBlockchain = NSLocalizedString("Built by Blockchain", comment: "")
             }
             
             struct Features {
                 static let pitWillBeAbleTo = NSLocalizedString("The PIT will be able to:", comment: "")
-                static let shareStatus = NSLocalizedString("Share your Gold or Silver Level status", comment: "")
-                static let shareAddresses = NSLocalizedString("Share crypto addresses so you don't have to copy and paste", comment: "")
+                static let shareStatus = NSLocalizedString("Share your Gold or Silver Level status for unlimited trading", comment: "")
+                static let shareAddresses = NSLocalizedString("Sync addresses with your Wallet so you can securely sweep crypto between accounts", comment: "")
                 static let lowFees = NSLocalizedString("Low Fees", comment: "")
                 static let builtByBlockchain = NSLocalizedString("Built by Blockchain.com", comment: "")
                 
-                static let pitWillNotBeAbleTo = NSLocalizedString("The PIT will not be able to:", comment: "")
-                static let viewYourPassword = NSLocalizedString("View your Wallet password", comment: "")
+                static let pitWillNotBeAbleTo = NSLocalizedString("Will Not:", comment: "")
+                static let viewYourPassword = NSLocalizedString("Access the crypto in your wallet, access your keys, or view your password.", comment: "")
             }
             
             struct Actions {

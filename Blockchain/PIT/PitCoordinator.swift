@@ -131,6 +131,7 @@ class PitCoordinator {
         in presentingViewController: UIViewController
         ) -> BaseNavigationController {
         let navController = BaseNavigationController(rootViewController: viewController)
+        navController.modalPresentationStyle = .fullScreen
         navController.modalTransitionStyle = .coverVertical
         presentingViewController.present(navController, animated: true)
         return navController

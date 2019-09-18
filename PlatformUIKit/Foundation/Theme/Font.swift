@@ -52,6 +52,10 @@ public struct Font {
         case gillSansLight = "GillSans-Light"
         case helveticaNueue = "Helvetica Neue"
         case helveticaNueueMedium = "HelveticaNeue-Medium"
+        case interRegular = "Inter-Regular"
+        case interMedium = "Inter-Medium"
+        case interSemiBold = "Inter-SemiBold"
+        case interBold = "Inter-Bold"
     }
     
     public enum StandardSize {

@@ -33,9 +33,9 @@ class PitConnectViewController: UIViewController, NavigatableView {
     // MARK: Private IBOutlets (UILabel)
     
     @IBOutlet private var pitDescriptionLabel: UILabel!
+    @IBOutlet private var accessCryptosLabel: UILabel!
+    @IBOutlet private var withdrawDollarsLabel: UILabel!
     @IBOutlet private var lightningTradesLabel: UILabel!
-    @IBOutlet private var reliabilityLabel: UILabel!
-    @IBOutlet private var lowFaresLabel: UILabel!
     @IBOutlet private var builtByBlockchainLabel: UILabel!
     @IBOutlet private var ableToLabel: UILabel!
     @IBOutlet private var notAbleToLabel: UILabel!
@@ -70,9 +70,9 @@ class PitConnectViewController: UIViewController, NavigatableView {
     private func applyCopy() {
         pitDescriptionLabel.text = LocalizationConstants.PIT.ConnectionPage.Descriptors.description
         lightningTradesLabel.text = LocalizationConstants.PIT.ConnectionPage.Descriptors.lightningFast
-        lowFaresLabel.text = LocalizationConstants.PIT.ConnectionPage.Descriptors.lowFees
+        accessCryptosLabel.text = LocalizationConstants.PIT.ConnectionPage.Descriptors.accessCryptos
         builtByBlockchainLabel.text = LocalizationConstants.PIT.ConnectionPage.Descriptors.builtByBlockchain
-        reliabilityLabel.text = LocalizationConstants.PIT.ConnectionPage.Descriptors.reliable
+        withdrawDollarsLabel.text = LocalizationConstants.PIT.ConnectionPage.Descriptors.withdrawDollars
         
         ableToLabel.text = LocalizationConstants.PIT.ConnectionPage.Features.pitWillBeAbleTo
         notAbleToLabel.text = LocalizationConstants.PIT.ConnectionPage.Features.pitWillNotBeAbleTo
@@ -110,7 +110,7 @@ class PitConnectViewController: UIViewController, NavigatableView {
     }
     
     private func copyFont() -> UIFont {
-        return Font(.branded(.montserratMedium), size: .custom(14.0)).result
+        return Font(.branded(.interMedium), size: .custom(14.0)).result
     }
     
     // MARK: Actions

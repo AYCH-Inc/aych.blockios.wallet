@@ -18,6 +18,7 @@ struct MockSendServiceContainer: SendServiceContaining {
     let exchange: SendExchangeServicing
     let fee: SendFeeServicing
     let balance: AccountBalanceFetching
+    let bus: WalletActionEventBus
     
     init(asset: AssetType,
          balance: CryptoValue,
@@ -32,6 +33,7 @@ struct MockSendServiceContainer: SendServiceContaining {
         self.exchange = MockSendExchangeService(expectedValue: exchange)
         self.fee = MockSendFeeService(expectedValue: fee)
         sourceAccountState = MockSendSourceAccountStateService(stateRawValue: sourceAccountStateValue)
+        bus = WalletActionEventBus()
         switch asset {
         case .ethereum, .pax:
             sourceAccountProvider = EtherSendSourceAccountProvider()

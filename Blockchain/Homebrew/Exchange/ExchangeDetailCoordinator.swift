@@ -45,6 +45,9 @@ class ExchangeDetailCoordinator: NSObject {
     fileprivate var fiatCurrencySymbol: String = {
         return BlockchainSettings.App.shared.fiatCurrencySymbol
     }()
+    fileprivate var bus: WalletActionEventBus = {
+        return WalletActionEventBus()
+    }()
     fileprivate let disposables = CompositeDisposable()
 
     init(
@@ -357,6 +360,10 @@ class ExchangeDetailCoordinator: NSObject {
                         Notification(name: Constants.NotificationKeys.exchangeSubmitted)
                     )
                     
+                    this.bus.publish(
+                        action: .sendCrypto,
+                        extras: [WalletAction.ExtraKeys.assetType: transaction.from.address.assetType]
+                    )
                     this.interface?.loadingVisibility(.hidden)
                     ExchangeCoordinator.shared.handle(
                         event: .sentTransaction(

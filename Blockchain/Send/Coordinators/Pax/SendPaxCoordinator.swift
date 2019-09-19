@@ -16,18 +16,19 @@ import ERC20Kit
 
 class SendPaxCoordinator {
     
-    fileprivate let interface: SendPAXInterface
-    fileprivate let serviceProvider: PAXServiceProvider
-    fileprivate var services: PAXServices {
+    private let interface: SendPAXInterface
+    private let serviceProvider: PAXServiceProvider
+    private var services: PAXServices {
         return serviceProvider.services
     }
     
-    fileprivate let bag: DisposeBag = DisposeBag()
+    private let bag: DisposeBag = DisposeBag()
+    private let bus: WalletActionEventBus
     
-    fileprivate let calculator: SendPaxCalculator
-    fileprivate let priceAPI: PriceServiceAPI
-    fileprivate var isExecuting: Bool = false
-    fileprivate var output: SendPaxOutput?
+    private let calculator: SendPaxCalculator
+    private let priceAPI: PriceServiceAPI
+    private var isExecuting: Bool = false
+    private var output: SendPaxOutput?
     private let pitAddressFetcher: PitAddressFetching
     
     /// The source of the address
@@ -44,13 +45,15 @@ class SendPaxCoordinator {
         interface: SendPAXInterface,
         serviceProvider: PAXServiceProvider = PAXServiceProvider.shared,
         priceService: PriceServiceAPI = PriceServiceClient(),
-        pitAddressFetcher: PitAddressFetching = PitAddressFetcher()
+        pitAddressFetcher: PitAddressFetching = PitAddressFetcher(),
+        bus: WalletActionEventBus = WalletActionEventBus.shared
     ) {
         self.interface = interface
         self.calculator = SendPaxCalculator(erc20Service: serviceProvider.services.paxService)
         self.serviceProvider = serviceProvider
         self.priceAPI = priceService
         self.pitAddressFetcher = pitAddressFetcher
+        self.bus = bus
         if let controller = interface as? SendPaxViewController {
             controller.delegate = self
         }
@@ -335,6 +338,10 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
                 self.interface.apply(updates: [.hideConfirmationModal,
                                                .toAddressTextField(nil),
                                                .showAlertSheetForSuccess])
+                self.bus.publish(
+                    action: .sendCrypto,
+                    extras: [WalletAction.ExtraKeys.assetType: AssetType.pax]
+                )
                 Logger.shared.debug("Published PAX transaction: \(published)")
             }, onError: { [weak self] error in
                 Logger.shared.error(error)

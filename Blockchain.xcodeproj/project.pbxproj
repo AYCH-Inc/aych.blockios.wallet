@@ -2259,6 +2259,27 @@
 			remoteGlobalIDString = 3A6A1A1621B9A64D00D97C74;
 			remoteInfo = EthereumKit;
 		};
+		3ABC3AED2332BEF600D1BDF5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34C3C94023059284008F2154;
+			remoteInfo = TestKit;
+		};
+		3ABC3AF82332BF0700D1BDF5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34C3C94023059284008F2154;
+			remoteInfo = TestKit;
+		};
+		3ABC3AFA2332BF1300D1BDF5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34C3C94023059284008F2154;
+			remoteInfo = TestKit;
+		};
 		519435A3208E61F3001EF882 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9FB3636814B60128004BEA02 /* Project object */;
@@ -12881,6 +12902,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3ABC3AF92332BF0700D1BDF5 /* PBXTargetDependency */,
 				34EDB8322261065D009521D9 /* PBXTargetDependency */,
 				34EDB8342261065D009521D9 /* PBXTargetDependency */,
 			);
@@ -12921,6 +12943,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3ABC3AEE2332BEF600D1BDF5 /* PBXTargetDependency */,
 				3A4E488C21BF3070001A799D /* PBXTargetDependency */,
 				3A4E488E21BF3070001A799D /* PBXTargetDependency */,
 			);
@@ -13059,6 +13082,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3ABC3AFB2332BF1300D1BDF5 /* PBXTargetDependency */,
 				3A6A1A2221B9A64D00D97C74 /* PBXTargetDependency */,
 				3A6A1A2421B9A64D00D97C74 /* PBXTargetDependency */,
 			);
@@ -16498,6 +16522,21 @@
 			isa = PBXTargetDependency;
 			target = 3A6A1A1621B9A64D00D97C74 /* EthereumKit */;
 			targetProxy = 3A6A1A2A21B9A64D00D97C74 /* PBXContainerItemProxy */;
+		};
+		3ABC3AEE2332BEF600D1BDF5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34C3C94023059284008F2154 /* TestKit */;
+			targetProxy = 3ABC3AED2332BEF600D1BDF5 /* PBXContainerItemProxy */;
+		};
+		3ABC3AF92332BF0700D1BDF5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34C3C94023059284008F2154 /* TestKit */;
+			targetProxy = 3ABC3AF82332BF0700D1BDF5 /* PBXContainerItemProxy */;
+		};
+		3ABC3AFB2332BF1300D1BDF5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34C3C94023059284008F2154 /* TestKit */;
+			targetProxy = 3ABC3AFA2332BF1300D1BDF5 /* PBXContainerItemProxy */;
 		};
 		519435A4208E61F3001EF882 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

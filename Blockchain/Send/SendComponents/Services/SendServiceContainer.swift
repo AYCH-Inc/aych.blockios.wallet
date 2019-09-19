@@ -19,6 +19,7 @@ protocol SendServiceContaining {
     var exchange: SendExchangeServicing { get }
     var fee: SendFeeServicing { get }
     var balance: AccountBalanceFetching { get }
+    var bus: WalletActionEventBus { get }
     
     /// Performs any necessary cleaning to the service layer.
     /// In order to change asset in the future, we will only replace `asset: AssetType`
@@ -36,6 +37,7 @@ struct SendServiceContainer: SendServiceContaining {
     let exchange: SendExchangeServicing
     let fee: SendFeeServicing
     let balance: AccountBalanceFetching
+    let bus: WalletActionEventBus
     
     init(asset: AssetType) {
         self.asset = asset
@@ -44,6 +46,7 @@ struct SendServiceContainer: SendServiceContaining {
         exchange = SendExchangeService(asset: asset)
         fee = SendFeeService(asset: asset)
         sourceAccountState = SendSourceAccountStateService(asset: asset)
+        bus = WalletActionEventBus()
         switch asset {
         case .ethereum:
             sourceAccountProvider = EtherSendSourceAccountProvider()

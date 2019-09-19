@@ -213,7 +213,13 @@ final class SendInteractor: SendInteracting {
                 to: transactionCandidate.address
             )
             .do(onSuccess: { [weak self] _ in
-                self?.transactionCandidate = nil
+                guard let self = self else { return }
+                let asset = self.transactionCandidate.amount.currencyType.assetType
+                self.services.bus.publish(
+                    action: .sendCrypto,
+                    extras: [WalletAction.ExtraKeys.assetType: asset]
+                )
+                self.transactionCandidate = nil
             })
     }
 }

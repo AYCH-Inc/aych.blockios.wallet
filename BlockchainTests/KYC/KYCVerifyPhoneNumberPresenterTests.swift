@@ -27,7 +27,7 @@ class KYCVerifyPhoneNumberPresenterTests: XCTestCase {
         view.didCallShowLoadingViewExpectation = expectation(description: "Loading view shown")
         view.didCallHideLoadingViewExpectation = expectation(description: "Loading view hidden")
         view.didCallConfirmCodeExpectation = expectation(description: "Verification succeeds")
-        presenter.verifyNumber(with: "12345")
+        presenter.verifyNumber(with: "12345", subscribesAsync: false)
         waitForExpectations(timeout: 0.1)
     }
 
@@ -36,7 +36,7 @@ class KYCVerifyPhoneNumberPresenterTests: XCTestCase {
         view.didCallShowLoadingViewExpectation = expectation(description: "Loading view shown")
         view.didCallHideLoadingViewExpectation = expectation(description: "Loading view hidden")
         view.didCallShowErrorExpectation = expectation(description: "Error displayed when verification fails")
-        presenter.verifyNumber(with: "12345")
+        presenter.verifyNumber(with: "12345", subscribesAsync: false)
         waitForExpectations(timeout: 0.1)
     }
 

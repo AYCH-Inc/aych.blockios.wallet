@@ -28,6 +28,9 @@ import Foundation
     
     /// Pit announcement visibility
     case pitAnnouncement
+    
+    /// The announcments
+    case announcements
 }
 
 extension AppFeature {
@@ -46,6 +49,8 @@ extension AppFeature {
             return "pit_linking_enabled"
         case .pitAnnouncement:
             return "pit_show_announcement"
+        case .announcements:
+            return "announcements"
         default:
             return nil
         }

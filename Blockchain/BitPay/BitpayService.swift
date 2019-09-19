@@ -34,11 +34,17 @@ final class BitpayService: BitpayServiceProtocol {
     private let bitpayUrl: String = "https://bitpay.com/"
     private let invoicePath: String = "i/"
     
+    /// A recorder that marks the Bitpay announcement removed once the URI was used
+    private let announcementRecorder: AnnouncementRecorder
+    
     // MARK: Init
     
-    init(recorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared, network: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
+    init(recorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         network: NetworkCommunicatorAPI = NetworkCommunicator.shared,
+         cacheSuite: CacheSuite = UserDefaults.standard) {
         self.recorder = recorder
         self.network = network
+        self.announcementRecorder = AnnouncementRecorder(cache: cacheSuite)
     }
     
     // MARK: BitpayServiceProtocol
@@ -115,5 +121,26 @@ final class BitpayService: BitpayServiceProtocol {
         let dateLocalString = dateFormatter.string(from: dt!)
         
         return dateFormatter.date(from: dateLocalString)!
+    }
+    
+    func getRawPaymentRequest(for invoiceId: String) -> Single<ObjcCompatibleBitpayObject> {
+        let headers = [HttpHeaderField.accept: "application/payment-request",
+                       HttpHeaderField.contentType: HttpHeaderValue.json]
+        
+        guard let url = URL(string: bitpayUrl + invoicePath + invoiceId) else {
+            return Single.error(NetworkError.generic(message: nil))
+        }
+        
+        let request = NetworkRequest(endpoint:url, method: .get, headers: headers, contentType: .json)
+        let networkReq: Single<BitpayPaymentRequest> = self.network.perform(request: request)
+        
+        return networkReq
+            .map {
+                let expiresLocalTime = self.UTCToLocal(date: $0.expires)
+                return ObjcCompatibleBitpayObject(memo: $0.memo, expires: expiresLocalTime, paymentUrl: $0.paymentUrl, amount: $0.outputs[0].amount, address: $0.outputs[0].address)
+            }
+            .do(onSuccess: { [weak self] _ in
+                self?.announcementRecorder[.bitpay].markRemoved(category: .oneTime)
+            })
     }
 }

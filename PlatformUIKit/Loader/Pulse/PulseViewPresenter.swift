@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 import PlatformKit
 
 /// Presenter in charge of displaying a `PulseAnimationView`.
@@ -68,6 +69,8 @@ import PlatformKit
         }
     }
     
+    private let bag: DisposeBag = DisposeBag()
+    
     // Privately used by exposed `isEnabled` only.
     private var _isEnabled = true
     
@@ -94,7 +97,7 @@ import PlatformKit
     // MARK: - API
     
     /// Hides the `PulseAnimationView`
-    @objc public func hide() {
+    public func hide() {
         Execution.MainQueue.dispatch { [weak self] in
             guard let self = self else { return }
             guard self.view != nil else { return }
@@ -104,10 +107,18 @@ import PlatformKit
     }
     
     /// Shows the `PulseAnimationView` in a provided view
-    @objc public func show(in superview: UIView) {
+    public func show(viewModel: PulseViewModel) {
+        guard viewModel.container.subviews.contains(where: { $0 is PulseContainerView }) == false else { return }
         Execution.MainQueue.dispatch { [weak self] in
             guard let self = self, self.isEnabled else { return }
-            self.setupView(in: superview)
+            self.setupView(in: viewModel.container)
+            self.view.selection.emit(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                viewModel.onSelection()
+                // We should hide the pulse when the user taps it.
+                self.hide()
+            })
+            .disposed(by: self.bag)
             self.state = .animating
         }
     }

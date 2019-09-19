@@ -6,21 +6,11 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
 import RxSwift
 import RxCocoa
 import PlatformUIKit
 import PlatformKit
 
-// Priority of announcements
-// 1. PIT linking
-// 2. PAX
-// 3. Swap
-// 4. Coinify
-// 5. Airdrop + KYC cards - several
-// 6. Welcome cards - 3 cards
-
-// TODO: ObjC - Remove ObjC semantics when transitioning `CardsViewController` to `Swift`
 // TODO: Tests - Create a protocol for tests, and inject protocol dependencies.
 
 /// Describes the announcement visual. Plays as a presenter / provide for announcements,
@@ -32,22 +22,13 @@ final class AnnouncementPresenter: NSObject {
     
     private let appCoordinator: AppCoordinator
     private let featureConfigurator: FeatureConfiguring
+    private let featureFetcher: FeatureFetching
     private let kycCoordinator: KYCCoordinator
-    private let onboardingSettings: BlockchainSettings.Onboarding
-    private let appSettings: BlockchainSettings.App
     private let pitCoordinator: PitCoordinator
     private let wallet: Wallet
-    private let announcementHandler: AnnouncementCardActionHandler
     private let kycSettings: KYCSettingsAPI
     
     private let interactor: AnnouncementInteracting
-    
-    /// In-memory cache suite for announcements
-    private let memoryCacheSuite = MemoryCacheSuite()
-    
-    // MARK: - Announcements
-    
-    private var announcements = AnnouncementSequence()
     
     // MARK: - Rx
 
@@ -60,64 +41,87 @@ final class AnnouncementPresenter: NSObject {
     private let announcementRelay = PublishRelay<AnnouncementDisplayAction>()
     private let disposeBag = DisposeBag()
     
+    private var currentAnnouncement: Announcement?
+    
     // MARK: - Setup
     
     init(interactor: AnnouncementInteracting = AnnouncementInteractor(),
          featureConfigurator: FeatureConfiguring = AppFeatureConfigurator.shared,
+         featureFetcher: FeatureFetching = AppFeatureConfigurator.shared,
          appCoordinator: AppCoordinator = .shared,
          pitCoordinator: PitCoordinator = .shared,
          kycCoordinator: KYCCoordinator = .shared,
          kycSettings: KYCSettingsAPI = KYCSettings.shared,
-         onboardingSettings: BlockchainSettings.Onboarding = .shared,
-         appSettings: BlockchainSettings.App = .shared,
-         wallet: Wallet = WalletManager.shared.wallet,
-         announcementHandler: AnnouncementCardActionHandler = AnnouncementCardActionHandler()) {
+         wallet: Wallet = WalletManager.shared.wallet) {
         self.interactor = interactor
         self.appCoordinator = appCoordinator
         self.pitCoordinator = pitCoordinator
         self.kycCoordinator = kycCoordinator
         self.kycSettings = kycSettings
         self.featureConfigurator = featureConfigurator
-        self.onboardingSettings = onboardingSettings
-        self.appSettings = appSettings
+        self.featureFetcher = featureFetcher
         self.wallet = wallet
-        self.announcementHandler = announcementHandler
     }
     
     /// Refreshes announcements on demand
     func refresh() {
-        interactor.preliminaryData
-            .map { [weak self] data -> [Announcement] in
-                self?.computeAnnouncements(using: data) ?? []
+        let announcementsMetadata: Single<AnnouncementsMetadata> = featureFetcher.fetch(for: .announcements)
+        let data: Single<AnnouncementPreliminaryData> = interactor.preliminaryData
+        Single
+            .zip(announcementsMetadata, data)
+            .flatMap(weak: self) { (self, payload) -> Single<AnnouncementDisplayAction> in
+                return .just(self.resolve(metadata: payload.0, preliminaryData: payload.1))
             }
-            .subscribe(onSuccess: { [weak self] announcements in
-                self?.execute(announcements: announcements)
-            }, onError: { [weak self] error in
-                guard let self = self else { return }
-                self.execute(announcements: [self.welcomeAnnouncement])
-            })
+            .catchErrorJustReturn(.none)
+            .asObservable()
+            .bind(to: announcementRelay)
             .disposed(by: disposeBag)
     }
     
-    private func execute(announcements: [Announcement]) {
-        self.announcements.reset(to: announcements)
-        triggerNextAnnouncement()
-    }
-    
-    /// Computes announcements in the following order
-    private func computeAnnouncements(using data: AnnouncementPreliminaryData) -> [Announcement] {
-        return [
-            pitLinkingAnnouncement,
-            pax,
-            swap(using: data),
-            coinifyKyc(tiers: data.tiers),
-            uploadDocuments(user: data.user),
-            continueKyc(using: data.user),
-            completeProfile(tiers: data.tiers),
-            airdropRegistration(using: data),
-            joinStellarAirdropWhitelist,
-            welcomeAnnouncement
-        ]
+    /// Resolves the first valid announcement according by the provided types and preloiminary data
+    private func resolve(metadata: AnnouncementsMetadata,
+                         preliminaryData: AnnouncementPreliminaryData) -> AnnouncementDisplayAction {
+        for type in metadata.order {
+            let announcement: Announcement
+            switch type {
+            case .verifyEmail:
+                announcement = verifyEmail(user: preliminaryData.user)
+            case .walletIntro:
+                announcement = walletIntro(reappearanceTimeInterval: metadata.interval)
+            case .twoFA:
+                announcement = twoFA(reappearanceTimeInterval: metadata.interval)
+            case .backupFunds:
+                announcement = backupFunds(reappearanceTimeInterval: metadata.interval)
+            case .buyBitcoin:
+                announcement = buyBitcoin(reappearanceTimeInterval: metadata.interval)
+            case .verifyIdentity:
+                announcement = verifyIdentity(using: preliminaryData.user)
+            case .swap:
+                announcement = swap(using: preliminaryData, reappearanceTimeInterval: metadata.interval)
+            case .coinifyKyc:
+                announcement = coinifyKyc(tiers: preliminaryData.tiers, reappearanceTimeInterval: metadata.interval)
+            case .pitLinking:
+                announcement = pitLinking(user: preliminaryData.user)
+            case .bitpay:
+                announcement = bitpay
+            case .pax:
+                announcement = pax(hasPaxTransactions: preliminaryData.hasPaxTransactions)
+            case .resubmitDocuments:
+                announcement = resubmitDocuments(user: preliminaryData.user)
+            }
+            
+            // Return the first different announcement that should show
+            if announcement.shouldShow {
+                if currentAnnouncement?.type != announcement.type {
+                    currentAnnouncement = announcement
+                    return .show(announcement.viewModel)
+                } else { // Announcement is currently displaying
+                    return .none
+                }
+            }
+        }
+        // None of the types were resolved into a displayable announcement
+        return .none
     }
     
     // MARK: - Accessors
@@ -126,113 +130,43 @@ final class AnnouncementPresenter: NSObject {
     private func hideAnnouncement() {
         announcementRelay.accept(.hide)
     }
-    
-    /// Triggers the next announcement if available
-    private func triggerNextAnnouncement() {
-        guard let next = announcements.next() else {
-            return
-        }
-        announcementRelay.accept(.show(next.type))
-    }
 }
 
 // MARK: - Computes announcements
 
 extension AnnouncementPresenter {
     
-    // MARK: Alert Announcements
-    
-    /// Computes Airdrop Registration alert announcement
-    private func airdropRegistration(using data: AnnouncementPreliminaryData) -> Announcement {
-        return AirdropRegistrationAnnouncement(
-            user: data.user,
-            tiers: data.tiers,
-            approve: announcementHandler.stellarModalPromptForAirdropRegistrationActionTapped
-        )
-    }
-    
-    /// Computes Coinify KYC alert announcement
-    private func coinifyKyc(tiers: KYCUserTiersResponse) -> Announcement {
-        let coinifyConfig = featureConfigurator.configuration(for: .notifyCoinifyUserToKyc)
-        return CoinifyKycAnnouncement(
-            configuration: coinifyConfig,
-            tiers: tiers,
-            wallet: wallet,
-            dismissRecorder: AnnouncementDismissRecorder(cache: memoryCacheSuite),
-            confirm: announcementHandler.coinifyKycActionTapped,
-            learnMore: { [weak self] in
-                guard let self = self else { return }
-                UIApplication.shared.openSafariViewController(
-                    url: Constants.Url.requiredIdentityVerificationURL,
-                    presentingViewController: self.appCoordinator.tabControllerManager.tabViewController
-                )
+    /// Computes email verification announcement
+    private func verifyEmail(user: NabuUser) -> Announcement {
+        return VerifyEmailAnnouncement(
+            isEmailVerified: user.email.verified,
+            action: { [weak self] in
+                UIApplication.shared.openMailApplication()
+                self?.hideAnnouncement()
             }
         )
     }
     
-    // MARK: - Card Accouncements
-    
-    // Computes Wallet-PIT linking announcement
-    private var pitLinkingAnnouncement: PitLinkingAnnouncement {
-        let pitAnnouncementConfig = featureConfigurator.configuration(for: .pitAnnouncement)
-        return PitLinkingAnnouncement(
-            config: pitAnnouncementConfig,
-            dismiss: hideAnnouncement,
-            approve: pitCoordinator.start
+    // Computes Wallet Intro card announcement
+    private func walletIntro(reappearanceTimeInterval: TimeInterval) -> Announcement {
+        return WalletIntroAnnouncement(
+            reappearanceTimeInterval: reappearanceTimeInterval,
+            action: { [weak self] in
+               guard let self = self else { return }
+               self.hideAnnouncement()
+               self.appCoordinator.tabControllerManager.tabViewController.setupIntroduction()
+            },
+            dismiss: hideAnnouncement
         )
     }
     
-    // Computes Welcome Announcement
-    private var welcomeAnnouncement: Announcement {
-        return WelcomeAnnouncement()
-    }
-    
-    // Computes Join Stellar Airedrop Whitelist card announcement
-    private var joinStellarAirdropWhitelist: Announcement {
-        let stellarAirdropPopupConfig = featureConfigurator.configuration(for: .stellarAirdropPopup)
-        let airdropConfig = featureConfigurator.configuration(for: .stellarAirdrop)
-        return JoinStellarAirdropWhitelistAnnouncement(
-            airdropConfig: airdropConfig,
-            popupConfig: stellarAirdropPopupConfig,
-            appSettings: appSettings,
-            dismiss: hideAnnouncement,
-            approve: announcementHandler.stellarAirdropCardActionTapped
-        )
-    }
-    
-    // Computes Complete Profile card announcement
-    private func completeProfile(tiers: KYCUserTiersResponse) -> Announcement {
-        let airdropConfig = featureConfigurator.configuration(for: .stellarAirdrop)
-        return CompleteProfileAnnouncement(
-            onboardingSettings: onboardingSettings,
-            appSettings: appSettings,
-            airdropConfig: airdropConfig,
-            tiers: tiers,
-            dismiss: hideAnnouncement,
-            approve: announcementHandler.stellarAirdropCardActionTapped
-        )
-    }
-    
-    /// Computes Upload Documents card announcement
-    private func uploadDocuments(user: NabuUser) -> Announcement {
-        return UploadDocumentsAnnouncement(
-            user: user,
-            dismiss: hideAnnouncement,
-            approve: { [weak self] in
-                guard let self = self else { return }
-                let tier = user.tiers?.selected ?? .tier1
-                self.kycCoordinator.start(from: self.appCoordinator.tabControllerManager, tier: tier)
-            }
-        )
-    }
-    
-    /// Computes Continue Kyc card announcement
-    private func continueKyc(using user: NabuUser) -> Announcement {
-        return ContinueKycAnnouncement(
+    /// Computes identity verification card announcement
+    private func verifyIdentity(using user: NabuUser) -> Announcement {
+        return VerifyIdentityAnnouncement(
             user: user,
             isCompletingKyc: kycSettings.isCompletingKyc,
             dismiss: hideAnnouncement,
-            approve: { [weak self] in
+            action: { [weak self] in
                 guard let self = self else { return }
                 let tier = user.tiers?.selected ?? .tier1
                 self.kycCoordinator.start(from: self.appCoordinator.tabControllerManager, tier: tier)
@@ -240,21 +174,112 @@ extension AnnouncementPresenter {
         )
     }
     
-    /// Computes Swap card announcement
-    private func swap(using data: AnnouncementPreliminaryData) -> Announcement {
-        return SwapAnnouncement(
-            isSwapEnabled: data.isSwapEnabled,
-            hasTrades: data.hasTrades,
+    /// Computes Bitpay announcement
+    private var bitpay: Announcement {
+        return BitpayAnnouncement(dismiss: hideAnnouncement)
+    }
+    
+    // Computes Wallet-PIT linking announcement
+    private func pitLinking(user: NabuUser) -> Announcement {
+        let isFeatureEnabled = featureConfigurator.configuration(for: .pitAnnouncement).isEnabled
+        let shouldShowPitAnnouncement = isFeatureEnabled && !user.hasLinkedPITAccount
+        return PITLinkingAnnouncement(
+            shouldShowPitAnnouncement: shouldShowPitAnnouncement,
             dismiss: hideAnnouncement,
-            approve: appCoordinator.switchTabToSwap
+            action: pitCoordinator.start
         )
     }
     
     /// Computes PAX card announcement
-    private var pax: Announcement {
+    private func pax(hasPaxTransactions: Bool) -> Announcement {
         return PAXAnnouncement(
+            hasTransactions: hasPaxTransactions,
             dismiss: hideAnnouncement,
-            approve: appCoordinator.switchTabToSwap
+            action: appCoordinator.switchTabToSwap
+        )
+    }
+    
+    /// Computes Buy BTC announcement
+    private func buyBitcoin(reappearanceTimeInterval: TimeInterval) -> Announcement {
+        let isBuyEnabled = wallet.isBuyEnabled() && !wallet.isBitcoinWalletFunded
+        return BuyBitcoinAnnouncement(
+            isBuyEnabled: isBuyEnabled,
+            reappearanceTimeInterval: reappearanceTimeInterval,
+            dismiss: hideAnnouncement,
+            action: appCoordinator.handleBuyBitcoin
+        )
+    }
+    
+    /// Computes Swap card announcement
+    private func swap(using data: AnnouncementPreliminaryData,
+                      reappearanceTimeInterval: TimeInterval) -> Announcement {
+        return SwapAnnouncement(
+            isSwapEnabled: data.isSwapEnabled,
+            hasTrades: data.hasTrades,
+            reappearanceTimeInterval: reappearanceTimeInterval,
+            dismiss: hideAnnouncement,
+            action: appCoordinator.switchTabToSwap
+        )
+    }
+
+    // TODO: `wallet.getTotalActiveBalance()` is wrong because it doesn't deduce the state of all asset
+    // accounts. only BTC is included. therefore, we should have a service that does it.
+    // TICKET: IOS-2503 - iOS Wallet Networking | Replace JS network calls with native
+    
+    /// Computes Backup Funds (recovery phrase)
+    private func backupFunds(reappearanceTimeInterval: TimeInterval) -> Announcement {
+        let shouldBackupFunds = !wallet.isRecoveryPhraseVerified() && wallet.isBitcoinWalletFunded
+        return BackupFundsAnnouncement(
+            shouldBackupFunds: shouldBackupFunds,
+            reappearanceTimeInterval: reappearanceTimeInterval,
+            dismiss: hideAnnouncement,
+            action: appCoordinator.showBackupView
+        )
+    }
+    
+    /// Computes 2FA announcement
+    private func twoFA(reappearanceTimeInterval: TimeInterval) -> Announcement {
+        let shouldEnable2FA = !wallet.hasEnabledTwoStep() && wallet.isBitcoinWalletFunded
+        return Enable2FAAnnouncement(
+            shouldEnable2FA: shouldEnable2FA,
+            reappearanceTimeInterval: reappearanceTimeInterval,
+            dismiss: hideAnnouncement,
+            action: { [weak self] in
+                self?.appCoordinator.showSettingsView { $0.showTwoStep() }
+            }
+        )
+    }
+    
+    /// Computes Coinify KYC alert announcement
+    private func coinifyKyc(tiers: KYCUserTiersResponse,
+                            reappearanceTimeInterval: TimeInterval) -> Announcement {
+        let coinifyConfig = featureConfigurator.configuration(for: .notifyCoinifyUserToKyc)
+        
+        let approve = { [weak self] in
+            let rootVC = UIApplication.shared.keyWindow!.rootViewController!
+            self?.kycCoordinator.start(from: rootVC, tier: .tier2)
+        }
+
+        return CoinifyKycAnnouncement(
+            configuration: coinifyConfig,
+            tiers: tiers,
+            wallet: wallet,
+            reappearanceTimeInterval: reappearanceTimeInterval,
+            dismiss: hideAnnouncement,
+            action: approve
+        )
+    }
+    
+    /// Computes Upload Documents card announcement
+    private func resubmitDocuments(user: NabuUser) -> Announcement {
+        return ResubmitDocumentsAnnouncement(
+            user: user,
+            dismiss: hideAnnouncement,
+            action: { [weak self] in
+                guard let self = self else { return }
+                let tier = user.tiers?.selected ?? .tier1
+                self.kycCoordinator.start(from: self.appCoordinator.tabControllerManager, tier: tier)
+            }
         )
     }
 }

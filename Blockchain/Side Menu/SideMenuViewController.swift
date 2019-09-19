@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import RxSwift
 import PlatformKit
+import PlatformUIKit
 
 protocol SideMenuViewControllerDelegate: class {
     func sideMenuViewController(_ viewController: SideMenuViewController, didTapOn item: SideMenuItem)
@@ -27,6 +29,8 @@ class SideMenuViewController: UIViewController {
     private var tapToCloseGestureRecognizerVC: UITapGestureRecognizer!
     private var tapToCloseGestureRecognizerTabBar: UITapGestureRecognizer!
 
+    private let disposeBag = DisposeBag()
+    
     private lazy var presenter: SideMenuPresenter = {
         return SideMenuPresenter(view: self)
     }()
@@ -56,6 +60,19 @@ class SideMenuViewController: UIViewController {
         initializeTableView()
         addShadow()
         footerView.delegate = self
+        
+        presenter.presentationEvent.drive(onNext: { [weak self] items in
+            guard let self = self else { return }
+            self.sideMenuItems = items
+            self.tableView?.reloadData()
+        })
+        .disposed(by: disposeBag)
+        
+        presenter.itemSelection.drive(onNext: { [weak self] item in
+            guard let self = self else { return }
+            self.delegate?.sideMenuViewController(self, didTapOn: item)
+        })
+        .disposed(by: disposeBag)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -135,6 +152,10 @@ class SideMenuViewController: UIViewController {
         tabViewController.menuSwipeRecognizerView.isUserInteractionEnabled = true
         tabViewController.menuSwipeRecognizerView.addGestureRecognizer(slidingViewController.panGesture)
     }
+    
+    private lazy var sheetPresenter: BottomSheetPresenting = {
+        return BottomSheetPresenting()
+    }()
 }
 
 extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
@@ -152,17 +173,33 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         sideMenuCell.item = sideMenuItems[indexPath.row]
+        if case let .buyBitcoin(block) = sideMenuItems[indexPath.row] {
+            if let action = block {
+                PulseViewPresenter.shared.show(viewModel: .init(container: sideMenuCell.passthroughView, onSelection: action))
+            } else {
+                /// If `.buyBitcoin` does not have a closure to execute when the pulse is selected
+                /// than the pulse should not be visible. 
+                PulseViewPresenter.shared.hide()
+            }
+        }
         return sideMenuCell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = sideMenuItems[indexPath.row]
-        delegate?.sideMenuViewController(self, didTapOn: item)
+        presenter.onItemSelection(item)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 extension SideMenuViewController: SideMenuView {
+    func presentSheet(viewModel: IntroductionSheetViewModel) {
+        let controller = IntroductionSheetViewController.make(with: viewModel)
+        controller.transitioningDelegate = sheetPresenter
+        controller.modalPresentationStyle = .custom
+        present(controller, animated: true, completion: nil)
+    }
+    
     func setMenu(items: [SideMenuItem]) {
         self.sideMenuItems = items
     }

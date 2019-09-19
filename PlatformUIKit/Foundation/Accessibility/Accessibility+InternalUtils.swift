@@ -21,6 +21,7 @@ public extension Accessibility.Identifier {
         
         /// Main CTA button
         public static let mainCTAButton = "mainCTAButton"
+        public static let secondaryCTAButton = "secondaryCTAButton"
     }
 }
 

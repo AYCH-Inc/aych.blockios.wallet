@@ -270,7 +270,7 @@ class SendPaxViewController: UIViewController {
         )
         if error == .insufficientFeeCoverage {
             guard let url = URL(string: Constants.Url.ethGasExplanationForPax) else { return }
-            let action = AlertAction(style: .confirm(LocalizationConstants.AnnouncementCards.learnMore), metadata: .url(url))
+            let action = AlertAction(style: .confirm(LocalizationConstants.learnMore), metadata: .url(url))
             alert.actions = [action]
         }
         let alertView = AlertView.make(with: alert) { [weak self] action in

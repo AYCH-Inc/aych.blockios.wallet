@@ -64,13 +64,13 @@ final class DashboardController: UIViewController {
         return theViewController
     }()
 
-    // TICKET: IOS-1249 - Refactor CardsViewController
-
-    private lazy var cardsViewController: CardsViewController = {
-        let theViewController = CardsViewController()
-        theViewController.dashboardContentView = self.contentView
-        theViewController.dashboardScrollView = self.scrollView
-        return theViewController
+    // TODO: Make it a cell once the dashboard gets refactored
+    private lazy var announcementContainerView: AnnouncementCardContainerView = {
+        let view = AnnouncementCardContainerView(superview: scrollView, delegate: self)
+        NSLayoutConstraint.activate([
+            view.widthAnchor.constraint(equalTo: self.view.widthAnchor)
+            ])
+        return view
     }()
 
     private lazy var balancesChartView: BCBalancesChartView = {
@@ -156,12 +156,7 @@ final class DashboardController: UIViewController {
 
         AnalyticsService.shared.trackEvent(title: "dashboard")
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        cardsViewController.reloadAllCards()
-    }
-
+    
     // TICKET: IOS-1507 - Refactor to use autolayout
     // TODO: use UIStackView
     // swiftlint:disable:next function_body_length
@@ -383,7 +378,8 @@ final class DashboardController: UIViewController {
                 priceChartContainerView?.changeYPosition(offset)
                 contentView.changeHeight(defaultContentHeight)
             }
-            cardsViewController.reloadAllCards()
+            
+            announcementContainerView.refresh()
         }
 
         balancesChartView.updateChart()
@@ -461,8 +457,6 @@ final class DashboardController: UIViewController {
             }, onError: { error in
                 Logger.shared.error(error.localizedDescription)
             })
-
-        cardsViewController.reloadAllCards()
     }
 
     @objc func reloadSymbols() {
@@ -568,6 +562,19 @@ final class DashboardController: UIViewController {
             dateFormatter.dateFormat = GraphTimeFrame.timeFrameDay().dateFormat
         }
         return dateFormatter.string(from: Date(timeIntervalSince1970: value))
+    }
+}
+
+// MARK: - AnnouncementCardContainerDelegate
+
+// TODO: Remove once dashboard is refactored
+extension DashboardController: AnnouncementCardContainerDelegate {
+    func didUpdateAnnouncementCardHeight(_ cardHeight: CGFloat) {
+        contentView.changeYPosition(cardHeight)
+        scrollView.contentSize = CGSize(
+            width: scrollView.contentSize.width,
+            height: contentView.frame.size.height + cardHeight
+        )
     }
 }
 

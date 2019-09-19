@@ -16,6 +16,8 @@ class MockWalletData: WalletProtocol {
     weak var delegate: WalletDelegate?
     private let initialized: Bool
     
+    var isBitcoinWalletFunded: Bool { return false }
+    
     init(initialized: Bool, delegate: WalletDelegate?) {
         self.initialized = initialized
         self.delegate = delegate

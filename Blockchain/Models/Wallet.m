@@ -1603,9 +1603,7 @@ NSString * const kLockboxInvitation = @"lockbox";
                    error:(void (^ _Nonnull)(NSString * _Nullable))error
 {
     [self useDebugSettingsIfSet];
-    
-    BlockchainSettings.sharedOnboardingInstance.hasSeenAllCards = YES;
-    
+        
     [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull value) {
         NSDictionary *pairingCodeDict = [value toDictionary];
         success(pairingCodeDict);

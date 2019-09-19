@@ -7,8 +7,15 @@
 //
 
 import Firebase
+import RxSwift
 
 @objc class AppFeatureConfigurator: NSObject, FeatureConfiguring {
+    
+    enum ConfigurationError: Error {
+        case missingKeyRawValue
+        case missingValue
+    }
+    
     static let shared = AppFeatureConfigurator()
 
     /// Class function to retrieve the AppFeatureConfigurator shared instance for obj-c compatibility.
@@ -60,5 +67,45 @@ import Firebase
         remoteConfig.setDefaults([
             AppFeature.stellarAirdrop.remoteEnabledKey!: "false" as NSString
         ])
+    }
+}
+
+// MARK: - FeatureDecoding
+
+extension AppFeatureConfigurator: FeatureFetching {
+
+    /// Returns an expected decodable construct for the provided feature key
+    ///
+    /// - Parameter feature: the feature key
+    /// - Returns: the decodable object wrapped in a `RxSwift.Single`
+    /// - Throws: An `ConfigurationError.missingKeyRawValue` in case the key raw value
+    /// of the feature is missing or another error if the decoding has failed.
+    func fetch<Feature: Decodable>(for key: AppFeature) -> Single<Feature> {
+        guard let keyRawValue = key.remoteEnabledKey else {
+            return .error(ConfigurationError.missingKeyRawValue)
+        }
+        let data = remoteConfig.configValue(forKey: keyRawValue).dataValue
+        do {
+            let feature = try data.decode(to: Feature.self)
+            return .just(feature)
+        } catch {
+            return .error(error)
+        }
+    }
+    
+    /// Returns an expected integer for the provided feature key
+    ///
+    /// - Parameter feature: the feature key
+    /// - Returns: the integer value wrapped in a `RxSwift.Single`
+    /// - Throws: An `ConfigurationError.missingKeyRawValue` in case the key raw value
+    /// is missing or `ConfigurationError.missingValue` if the value itself is missing.
+    func fetchInteger(for key: AppFeature) -> Single<Int> {
+        guard let keyRawValue = key.remoteEnabledKey else {
+            return .error(ConfigurationError.missingKeyRawValue)
+        }
+        guard let number = remoteConfig.configValue(forKey: keyRawValue).numberValue?.intValue else {
+            return .error(ConfigurationError.missingValue)
+        }
+        return .just(number)
     }
 }

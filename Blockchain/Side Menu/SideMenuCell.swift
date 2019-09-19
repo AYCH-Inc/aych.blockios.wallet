@@ -6,6 +6,8 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import PlatformUIKit
+
 final class SideMenuCell: UITableViewCell {
     
     fileprivate static let newContainerViewTrailingPadding: CGFloat = 16.0
@@ -19,6 +21,7 @@ final class SideMenuCell: UITableViewCell {
 
     static let defaultHeight: CGFloat = 54
 
+    @IBOutlet var passthroughView: PassthroughView!
     @IBOutlet fileprivate var title: UILabel!
     @IBOutlet fileprivate var icon: UIImageView!
     @IBOutlet fileprivate var newContainerView: UIView!

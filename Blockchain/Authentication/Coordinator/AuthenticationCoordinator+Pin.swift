@@ -35,7 +35,9 @@ extension AuthenticationCoordinator {
         let boxedParent = UnretainedContentBox(parentViewController)
         let flow = PinRouting.Flow.create(parent: boxedParent)
         pinRouter = PinRouter(flow: flow) { [weak self] _ in
-            self?.alertPresenter.showMobileNoticeIfNeeded()
+            guard let self = self else { return }
+            self.alertPresenter.showMobileNoticeIfNeeded()
+            self.handlePostAuthenticationRouting()
         }
         pinRouter.execute()
     }

@@ -76,38 +76,8 @@ import PlatformUIKit
         
         // Make user set up a pin if none is set. They can also optionally enable touch ID and link their email.
         guard self.appSettings.isPinSet else {
-            if self.walletManager.wallet.isNew {
-                self.startNewWalletSetUp()
-            } else {
-                // PATCH: Removing potential displayed pairing alert (we need to refactor this method)
-                UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.dismiss(animated: true, completion: nil)
-                self.showPinEntryView()
-            }
+            self.showPinEntryView()
             return
-        }
-        
-        let reminderCompletion = { [weak self] () -> Void in
-            self?.handlePostAuthenticationRouting()
-        }
-        
-        // Show security reminder modal if needed
-        if let dateOfLastSecurityReminder = self.appSettings.dateOfLastSecurityReminder {
-
-            // TODO: hook up debug settings to show security reminder
-            let timeIntervalBetweenPrompts = Constants.Time.securityReminderModalTimeInterval
-
-            if dateOfLastSecurityReminder.timeIntervalSinceNow < -timeIntervalBetweenPrompts {
-                ReminderPresenter.shared.showSecurityReminder(onCompletion: reminderCompletion)
-            } else {
-                /// We want to handle routing immediately in this case
-                reminderCompletion()
-            }
-        } else if self.appSettings.hasSeenEmailReminder {
-            ReminderPresenter.shared.showSecurityReminder(onCompletion: reminderCompletion)
-        } else {
-            ReminderPresenter.shared.checkIfSettingsLoadedAndShowEmailReminder(
-                onCompletion: reminderCompletion
-            )
         }
         
         /// If the user has linked to the PIT, we sync their addresses on authentication.
@@ -128,11 +98,14 @@ import PlatformUIKit
             self.alertPresenter.showMobileNoticeIfNeeded()
         }
 
+        // Handle any necessary routing after authentication
+        self.handlePostAuthenticationRouting()
+        
         // Enabling touch ID and immediately backgrounding the app hides the status bar
         UIApplication.shared.setStatusBarHidden(false, with: .slide)
     }
 
-    private func handlePostAuthenticationRouting() {
+    func handlePostAuthenticationRouting() {
         if let route = postAuthenticationRoute {
             switch route {
             case .sendCoins:
@@ -153,7 +126,7 @@ import PlatformUIKit
 
     var pinRouter: PinRouter!
     private let deepLinkRouter: DeepLinkRouter
-    private let pitRepository: PITAccountRepositoryAPI
+    let pitRepository: PITAccountRepositoryAPI
     private let bag: DisposeBag = DisposeBag()
     private var pairingCodeParserViewController: UIViewController?
 
@@ -181,7 +154,6 @@ import PlatformUIKit
         self.pitRepository = pitRepository
         super.init()
         self.walletManager.secondPasswordDelegate = self
-        registerForNotifications()
     }
 
     deinit {
@@ -217,15 +189,6 @@ import PlatformUIKit
         // name:NOTIFICATION_KEY_GET_ACCOUNT_INFO_SUCCESS object:nil];
     }
 
-    @objc func startNewWalletSetUp() {
-        let viewController = WalletSetupViewController()!
-        viewController.modalPresentationStyle = .fullScreen
-        let topMostViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController
-        topMostViewController?.present(viewController, animated: false) { [weak self] in
-            self?.showPinEntryView()
-        }
-    }
-
     /// Starts the manual wallet pairing flow
     func startManualPairing() {
         let manualPairView = BCManualPairView.instanceFromNib()
@@ -248,7 +211,7 @@ import PlatformUIKit
         StellarServiceProvider.shared.tearDown()
         appSettings.reset()
         onboardingSettings.reset()
-
+        
         let appCoordinator = AppCoordinator.shared
         appCoordinator.tabControllerManager.clearSendToAddressAndAmountFields()
         appCoordinator.closeSideMenu()
@@ -313,13 +276,6 @@ import PlatformUIKit
             pairingCodeParserViewController,
             animated: true
         )
-    }
-    
-    private func registerForNotifications() {
-        NotificationCenter.when(Constants.NotificationKeys.walletSetupViewControllerDismissed) { [weak self] _ in
-            guard let self = self else { return }
-            self.handlePostAuthenticationRouting()
-        }
     }
     
     private func handlePairingCodeResult(result: Result<PairingCodeQRCodeParser.PairingCode, PairingCodeQRCodeParser.PairingCodeParsingError>) {

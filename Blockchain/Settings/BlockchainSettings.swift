@@ -136,15 +136,6 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.hasEndedFirstSession.rawValue)
             }
         }
-
-        @objc var hasSeenEmailReminder: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.hasSeenEmailReminder.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenEmailReminder.rawValue)
-            }
-        }
         
         @objc var pin: String? {
             get {
@@ -263,29 +254,6 @@ final class BlockchainSettings: NSObject {
                     return
                 }
                 KeychainItemWrapper.setGuidInKeychain(guid)
-            }
-        }
-
-        /**
-         Keeps track of the last time the security reminder alert was shown to the user.
-
-         - Note:
-         The value of this setting is updated each time the `showSecurityReminder` method of the `ReminderPresenter` is called.
-
-         The value of this setting is set to `nil` upon calling the `didCreateNewAccount` method of the wallet delegate.
-
-         The default value of this setting is `nil`.
-        */
-        @objc var dateOfLastSecurityReminder: NSDate? {
-            get {
-                return defaults.object(forKey: UserDefaults.Keys.reminderModalDate.rawValue) as? NSDate
-            }
-            set {
-                guard let date = newValue else {
-                    defaults.removeObject(forKey: UserDefaults.Keys.reminderModalDate.rawValue)
-                    return
-                }
-                defaults.set(date, forKey: UserDefaults.Keys.reminderModalDate.rawValue)
             }
         }
 
@@ -419,39 +387,6 @@ final class BlockchainSettings: NSObject {
                 defaults.set(newValue, forKey: UserDefaults.Keys.didTapOnAirdropDeepLink.rawValue)
             }
         }
-        
-        /**
-         Determines if the user has dismissed the `Swap` card. Users that have not completed
-         a swap transaction will see this card until they submit a transaction or they dismiss the card.
-         
-         - Important:
-         This setting **MUST** be set to `false` upon logging the user out of the application.
-         */
-        @objc var shouldHideSwapCard: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.shouldHideSwapCard.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.shouldHideSwapCard.rawValue)
-            }
-        }
-        
-        /**
-         Determines if the user has dismissed the `PIT Linking` card. Users that have not linked
-        their wallet to the PIT will see this card until they either link their wallet or dismiss
-         the card.
-         
-         - Important:
-         This setting **MUST** be set to `false` upon logging the user out of the application.
-         */
-        @objc var shouldHidePITLinkingCard: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.shouldHidePITLinkingCard.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.shouldHidePITLinkingCard.rawValue)
-            }
-        }
 
         /// Determines if the app already tried to route the user for the airdrop flow as a result
         /// of tapping on a deep link
@@ -561,11 +496,11 @@ final class BlockchainSettings: NSObject {
             didAttemptToRouteForAirdrop = false
             didTapOnKycDeepLink = false
             didAcceptCoinifyTOS = false
-            shouldHidePITLinkingCard = false
             pitLinkIdentifier = nil
 
             KYCSettings.shared.reset()
-
+            AnnouncementRecorder.reset()
+            
             Logger.shared.info("Application settings have been reset.")
         }
 
@@ -614,42 +549,18 @@ final class BlockchainSettings: NSObject {
             return .standard
         }()
 
-        /// Property indicating if setting up biometric authentication failed
-        var didFailBiometrySetup: Bool {
+        var walletIntroLatestLocation: WalletIntroductionLocation? {
             get {
-                return defaults.bool(forKey: UserDefaults.Keys.didFailBiometrySetup.rawValue)
+                guard let value = defaults.object(forKey: UserDefaults.Keys.walletIntroLatestLocation.rawValue) as? Data else { return nil }
+                do {
+                    let result = try JSONDecoder().decode(WalletIntroductionLocation.self, from: value)
+                    return result
+                } catch {
+                    return nil
+                }
             }
             set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.didFailBiometrySetup.rawValue)
-            }
-        }
-
-        /// Property indicating if the user saw the HD wallet upgrade screen
-        var hasSeenUpgradeToHdScreen: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.hasSeenUpgradeToHdScreen.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenUpgradeToHdScreen.rawValue)
-            }
-        }
-
-        /**
-         Determines if the biometric authentication setup should be shown to the user.
-
-         - Note:
-         This value is set to `true` if the value of `didFailBiometrySetup` is `true` and the value of `biometryEnabled` is false.
-
-         This value is set to `false` whenever the user is reminded to very their email.
-
-         The default value of this setting is `false`.
-        */
-        var shouldShowBiometrySetup: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.shouldShowBiometrySetup.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.shouldShowBiometrySetup.rawValue)
+                defaults.set(newValue, forKey: UserDefaults.Keys.walletIntroLatestLocation.rawValue)
             }
         }
 
@@ -670,78 +581,14 @@ final class BlockchainSettings: NSObject {
             }
         }
 
-        /// Property indicating if the buy/sell onboarding card should be shown
-        @objc var shouldHideBuySellCard: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.shouldHideBuySellCard.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.shouldHideBuySellCard.rawValue)
-            }
-        }
-
-        /// Property indicating if the user has seen all onboarding cards
-        @objc var hasSeenAllCards: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.hasSeenAllCards.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenAllCards.rawValue)
-            }
-        }
-
-        /// Property indicating whether or not the user has already seen, and clicked, on the
-        /// Stellar "join the waitlist" onboarding card for receiving an XLM airdrop
-        @objc var hasSeenAirdropJoinWaitlistCard: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.hasSeenAirdropJoinWaitlistCard.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenAirdropJoinWaitlistCard.rawValue)
-            }
-        }
-
-        /// Property indicating whether or not the user has already seen, and clicked, on the
-        /// Stellar "Get Free XLM" bottom modal
-        @objc var hasSeenGetFreeXlmModal: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.hasSeenGetFreeXlmModal.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenGetFreeXlmModal.rawValue)
-            }
-        }
-        
-        @objc var hasSeenStellarAirdropRegistrationAlert: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.hasSeenStellarAirdropRegistrationAlert.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.hasSeenStellarAirdropRegistrationAlert.rawValue)
-            }
-        }
-        
-        @objc var hasDismissedCompleteYourProfileCard: Bool {
-            get {
-                return defaults.bool(forKey: UserDefaults.Keys.hasDismissedCompleteYourProfileCard.rawValue)
-            }
-            set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.hasDismissedCompleteYourProfileCard.rawValue)
-            }
-        }
-
         private override init() {
             super.init()
         }
 
         func reset() {
-            hasSeenStellarAirdropRegistrationAlert = false
-            hasDismissedCompleteYourProfileCard = false
-            hasSeenGetFreeXlmModal = false
-            hasSeenAirdropJoinWaitlistCard = false
+            walletIntroLatestLocation = nil
         }
     }
-
     private override init() {
         // Private initializer so that an instance of BLockchainSettings can't be created
         super.init()

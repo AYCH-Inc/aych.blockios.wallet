@@ -22,14 +22,6 @@
 @property (strong, nonatomic) AssetSelectorContainerViewController *assetSelectorViewController;
 @property (strong, nonatomic) IBOutlet UIView *assetContainerView;
 
-#pragma mark - UITabBar Overlay Containers
-
-@property (strong, nonatomic) IBOutlet PassthroughView *activityPassthroughContainer;
-@property (strong, nonatomic) IBOutlet PassthroughView *swapPassthroughContainer;
-@property (strong, nonatomic) IBOutlet PassthroughView *homePassthroughContainer;
-@property (strong, nonatomic) IBOutlet PassthroughView *sendPassthroughContainer;
-@property (strong, nonatomic) IBOutlet PassthroughView *requestPassthroughContainer;
-
 @end
 
 @implementation TabViewController
@@ -229,6 +221,15 @@
 - (void)assetSelectorContainer:(AssetSelectorContainerViewController *)viewController tappedQRReaderFor:(LegacyAssetType)assetType
 {
     [self.assetDelegate qrCodeButtonClicked];
+}
+
+#pragma mark - Lazy Properties
+
+- (BottomSheetPresenting *)sheetPresenter {
+    if (_sheetPresenter == nil) {
+        _sheetPresenter = [[BottomSheetPresenting alloc] init];
+    }
+    return _sheetPresenter;
 }
 
 @end

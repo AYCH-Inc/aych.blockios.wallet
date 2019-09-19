@@ -21,11 +21,17 @@ public class AnyERC20HistoricalTransactionService<Token: ERC20Token>: TokenizedH
     public typealias Bridge = ERC20WalletTranscationsBridgeAPI
     public typealias PageModel = PageResult<Model>
     
+    /// Streams `true` in case the account has at least one transaction
+    public var hasTransactions: Single<Bool> {
+        return fetchTransactions().map { !$0.isEmpty }
+    }
+    
+    private let bridge: EthereumWalletBridgeAPI
+    
     private var ethereumAddress: Single<String> {
         return bridge.address
     }
     
-    private let bridge: EthereumWalletBridgeAPI
     private let communicator: NetworkCommunicatorAPI
     
     public init(bridge: EthereumWalletBridgeAPI, communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {

@@ -203,7 +203,7 @@ import PlatformUIKit
         if WalletManager.shared.wallet.didReceiveMessageForLastTransaction {
             WalletManager.shared.wallet.didReceiveMessageForLastTransaction = false
             if let transaction = WalletManager.shared.latestMultiAddressResponse?.transactions.firstObject as? Transaction {
-                tabControllerManager.receiveBitcoinViewController?.paymentReceived(UInt64(abs(transaction.amount)), showBackupReminder: false)
+                tabControllerManager.receiveBitcoinViewController?.paymentReceived(UInt64(abs(transaction.amount)))
             }
         }
 
@@ -220,7 +220,7 @@ import PlatformUIKit
 
 extension AppCoordinator: SideMenuViewControllerDelegate {
     func sideMenuViewController(_ viewController: SideMenuViewController, didTapOn item: SideMenuItem) {
-        AnalyticsService.shared.trackEvent(title: item.rawValue)
+        AnalyticsService.shared.trackEvent(title: item.analyticsKey)
         switch item {
         case .upgrade:
             handleUpgrade()
@@ -337,7 +337,7 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
         )
     }
 
-    private func handleBuyBitcoin() {
+    func handleBuyBitcoin() {
         BuySellCoordinator.shared.showBuyBitcoinView()
     }
     

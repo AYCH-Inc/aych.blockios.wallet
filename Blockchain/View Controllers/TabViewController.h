@@ -7,6 +7,10 @@
 //
 #import "Assets.h"
 #import "AssetSelectorView.h"
+@class WalletIntroductionPresenter;
+@class BridgedDisposeBag;
+@class PassthroughView;
+@class BottomSheetPresenting;
 
 @protocol AssetDelegate
 - (void)didSetAssetType:(LegacyAssetType)assetType;
@@ -22,6 +26,19 @@
 	int selectedIndex;
 }
 
+#pragma mark - UITabBar Overlay Containers
+
+// NOTE: All `PulseContainerViews` are added to a `PassthroughView`. This permits user interaction
+// when the view has not been added. A `PassthroughView` sits above each `UITabBarItem`
+@property (strong, nonatomic) IBOutlet PassthroughView *activityPassthroughContainer;
+@property (strong, nonatomic) IBOutlet PassthroughView *swapPassthroughContainer;
+@property (strong, nonatomic) IBOutlet PassthroughView *homePassthroughContainer;
+@property (strong, nonatomic) IBOutlet PassthroughView *sendPassthroughContainer;
+@property (strong, nonatomic) IBOutlet PassthroughView *requestPassthroughContainer;
+
+@property (nonatomic, strong) BottomSheetPresenting *sheetPresenter;
+@property (nonatomic, strong) BridgedDisposeBag *disposeBag;
+@property (nonatomic, strong) WalletIntroductionPresenter *introductionPresenter;
 @property (nonatomic, retain) UINavigationBar *navigationBar;
 @property (nonatomic, retain) UIViewController *activeViewController;
 @property (nonatomic, retain) IBOutlet UIView *contentView;

@@ -372,7 +372,7 @@
             [_transactionsBitcoinCashViewController didReceiveTransactionMessage];
         } else {
             Transaction *transaction = [[WalletManager.sharedInstance.wallet getBitcoinCashTransactions:[ConstantsObjcBridge filterIndexAll]] firstObject];
-            [_receiveBitcoinCashViewController paymentReceived:ABS(transaction.amount) showBackupReminder:NO];
+            [_receiveBitcoinCashViewController paymentReceived:ABS(transaction.amount)];
         }
     }
 }
@@ -535,12 +535,12 @@
     [self.receiveBitcoinCashViewController reloadMainAddress];
 }
 
-- (void)paymentReceived:(uint64_t)amount showBackupReminder:(BOOL)showBackupReminder
+- (void)paymentReceived:(uint64_t)amount
 {
     if (self.assetType == LegacyAssetTypeBitcoin) {
-        [_receiveBitcoinViewController paymentReceived:amount showBackupReminder:showBackupReminder];
+        [_receiveBitcoinViewController paymentReceived:amount];
     } else if (self.assetType == LegacyAssetTypeBitcoinCash) {
-        [_receiveBitcoinCashViewController paymentReceived:amount showBackupReminder:showBackupReminder];
+        [_receiveBitcoinCashViewController paymentReceived:amount];
     }
 }
 

@@ -7,8 +7,17 @@
 //
 
 import Foundation
+import RxCocoa
 
 final class PulseContainerView: PassthroughView {
+    
+    // MARK: Rx
+    
+    var selection: Signal<Void> {
+        return selectionRelay.asSignal()
+    }
+    
+    private let selectionRelay = PublishRelay<Void>()
     
     // MARK: - Properties
     
@@ -21,19 +30,38 @@ final class PulseContainerView: PassthroughView {
         return animationView
     }()
     
+    private lazy var feedbackGenerator: UIImpactFeedbackGenerator = {
+        return UIImpactFeedbackGenerator(style: .light)
+    }()
+    
+    private lazy var button: UIButton = {
+        let button = UIButton(frame: max)
+        button.addTarget(self, action: #selector(containerTapped(_:)), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: - Setup
     
     init() {
         super.init(frame: UIScreen.main.bounds)
-        isUserInteractionEnabled = true
         
+        addSubview(button)
         addSubview(pulseAnimationView)
+        button.layoutToSuperview(.center)
         pulseAnimationView.layoutToSuperview(.center)
         pulseAnimationView.layoutSize(to: CGSize(width: frame.min(max).width, height: frame.min(max).height))
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Selection
+    
+    @objc private func containerTapped(_ sender: UIButton) {
+        feedbackGenerator.prepare()
+        feedbackGenerator.impactOccurred()
+        selectionRelay.accept(())
     }
 }
 

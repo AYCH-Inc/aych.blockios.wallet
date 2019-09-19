@@ -28,6 +28,14 @@
                         <color key="textColor" red="0.51000000000000001" green="0.55000000000000004" blue="0.62" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bbS-lL-3Zs" customClass="PassthroughView" customModule="PlatformUIKit">
+                        <rect key="frame" x="17" y="35" width="22" height="22"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="oBt-vA-hE9"/>
+                            <constraint firstAttribute="width" constant="22" id="wLB-Ks-xVl"/>
+                        </constraints>
+                    </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock" translatesAutoresizingMaskIntoConstraints="NO" id="9Ab-1H-AYb">
                         <rect key="frame" x="16" y="34" width="24" height="24"/>
                         <constraints>
@@ -58,7 +66,9 @@
                     <constraint firstItem="08v-LL-JVW" firstAttribute="left" secondItem="9Ab-1H-AYb" secondAttribute="right" constant="16" id="VbP-ie-aJa"/>
                     <constraint firstItem="cz8-FP-woo" firstAttribute="centerY" secondItem="l2Y-YM-5lU" secondAttribute="centerY" id="bxQ-Qc-kto"/>
                     <constraint firstAttribute="right" secondItem="cz8-FP-woo" secondAttribute="right" constant="16" id="feQ-8c-vCe"/>
+                    <constraint firstItem="bbS-lL-3Zs" firstAttribute="centerY" secondItem="9Ab-1H-AYb" secondAttribute="centerY" id="fw2-BW-0Q5"/>
                     <constraint firstItem="9Ab-1H-AYb" firstAttribute="centerY" secondItem="l2Y-YM-5lU" secondAttribute="centerY" id="qVd-bA-wri"/>
+                    <constraint firstItem="bbS-lL-3Zs" firstAttribute="centerX" secondItem="9Ab-1H-AYb" secondAttribute="centerX" id="rWt-B9-A2K"/>
                     <constraint firstItem="9Ab-1H-AYb" firstAttribute="left" secondItem="l2Y-YM-5lU" secondAttribute="left" constant="16" id="vQc-zr-wsv"/>
                     <constraint firstItem="08v-LL-JVW" firstAttribute="centerY" secondItem="l2Y-YM-5lU" secondAttribute="centerY" id="yGr-7N-pFR"/>
                 </constraints>
@@ -68,6 +78,7 @@
                 <outlet property="newContainerTrailingConstraint" destination="feQ-8c-vCe" id="Dfi-iU-sit"/>
                 <outlet property="newContainerView" destination="cz8-FP-woo" id="Scz-Yc-th3"/>
                 <outlet property="newLabel" destination="FS3-g5-CiO" id="jzX-7t-X8q"/>
+                <outlet property="passthroughView" destination="bbS-lL-3Zs" id="sym-e9-ckW"/>
                 <outlet property="title" destination="08v-LL-JVW" id="9jB-Zz-Hm4"/>
             </connections>
             <point key="canvasLocation" x="-84" y="14.392803598200901"/>

@@ -21,7 +21,6 @@ protocol WalletNabuSyncable {
 }
 
 extension SettingsTableViewController: WalletNabuSyncable { }
-extension ReminderPresenter: WalletNabuSyncable { }
 
 extension WalletNabuSyncable {
     typealias WalletNabuSyncCompletion = (() -> ())

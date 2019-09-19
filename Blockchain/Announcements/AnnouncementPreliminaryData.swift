@@ -17,8 +17,14 @@ struct AnnouncementPreliminaryData {
     /// User tiers information
     let tiers: KYCUserTiersResponse
     
-    /// Whether the user has trades or not
+    /// Whether the wallet has trades or not
     let hasTrades: Bool
+    
+    let hasPaxTransactions: Bool
+    
+    var hasLinkedPitAccount: Bool {
+        return user.hasLinkedPITAccount
+    }
     
     /// `true` if swap is enabled for the user
     var isSwapEnabled: Bool {

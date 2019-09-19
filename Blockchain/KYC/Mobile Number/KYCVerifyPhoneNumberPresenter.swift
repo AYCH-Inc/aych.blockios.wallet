@@ -56,10 +56,11 @@ class KYCVerifyPhoneNumberPresenter {
             })
     }
 
-    func verifyNumber(with code: String) {
+    func verifyNumber(with code: String, subscribesAsync: Bool = true) {
+        let scheduler: SerialDispatchQueueScheduler = subscribesAsync ? MainScheduler.asyncInstance : MainScheduler.instance
         view?.showLoadingView(with: LocalizationConstants.loading)
         disposable = interactor.verifyNumber(with: code)
-            .subscribeOn(MainScheduler.asyncInstance)
+            .subscribeOn(scheduler)
             .observeOn(MainScheduler.instance)
             .subscribe(onCompleted: { [unowned self] in
                 self.handleVerifyCodeSuccess()

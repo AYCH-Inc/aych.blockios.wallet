@@ -7,22 +7,50 @@
 //
 
 import Foundation
+import PlatformUIKit
 
 /// Model definition for an item that is presented in the side menu of the app.
-enum SideMenuItem: String {
-    case accountsAndAddresses = "accounts_and_addresses"
-    case backup = "backup"
-    case buyBitcoin = "buy_bitcoin"
-    case logout = "logout"
-    case settings = "settings"
-    case support = "support"
-    case upgrade = "upgrade"
-    case webLogin = "web_login"
-    case lockbox = "lockbox"
-    case pit = "pit"
+enum SideMenuItem {
+    typealias PulseAction = () -> Void
+    case accountsAndAddresses
+    case backup
+    case buyBitcoin(PulseAction?)
+    case logout
+    case settings
+    case support
+    case upgrade
+    case webLogin
+    case lockbox
+    case pit
 }
 
 extension SideMenuItem {
+    
+    var analyticsKey: String {
+        switch self {
+        case .accountsAndAddresses:
+            return "accounts_and_addresses"
+        case .backup:
+            return "backup"
+        case .buyBitcoin:
+            return "buy_bitcoin"
+        case .logout:
+            return "logout"
+        case .settings:
+            return "settings"
+        case .support:
+            return "support"
+        case .upgrade:
+            return "upgrade"
+        case .webLogin:
+            return "web_login"
+        case .lockbox:
+            return "lockbox"
+        case .pit:
+            return "pit"
+        }
+    }
+    
     var title: String {
         switch self {
         case .accountsAndAddresses: return LocalizationConstants.SideMenu.addresses

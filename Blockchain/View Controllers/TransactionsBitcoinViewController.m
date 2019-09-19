@@ -449,15 +449,10 @@
 
         [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:self.sectionMain]] withRowAnimation:UITableViewRowAnimationFade];
 
-        BOOL shouldShowBackupReminder = (self.hasZeroTotalBalance && [WalletManager.sharedInstance.wallet getTotalActiveBalance] > 0 &&
-                                         ![WalletManager.sharedInstance.wallet isRecoveryPhraseVerified]);
-
         TabControllerManager *tabControllerManager = AppCoordinator.sharedInstance.tabControllerManager;
         if (tabControllerManager.tabViewController.selectedIndex == [ConstantsObjcBridge tabReceive] && ![tabControllerManager isSending]) {
             uint64_t amount = [self getAmountForReceivedTransaction:transaction];
-            [tabControllerManager paymentReceived:amount showBackupReminder:shouldShowBackupReminder];
-        } else if (shouldShowBackupReminder) {
-            [ReminderPresenter.sharedInstance showBackupReminderWithFirstReceive:YES];
+            [tabControllerManager paymentReceived:amount];
         }
     } else {
         [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:self.sectionMain]] withRowAnimation:UITableViewRowAnimationFade];

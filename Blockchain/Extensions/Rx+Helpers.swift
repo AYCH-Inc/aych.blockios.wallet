@@ -20,6 +20,10 @@ extension ObservableType {
             return e
         }
     }
+    
+    func mapToVoid() -> Observable<Void> {
+        return map { _ in return () }
+    }
 }
 
 extension PrimitiveSequenceType where Trait == SingleTrait {

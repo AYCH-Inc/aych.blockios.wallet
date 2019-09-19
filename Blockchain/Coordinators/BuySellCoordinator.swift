@@ -218,14 +218,14 @@ import PlatformKit
             KYCCoordinator.shared.startFrom(.tier2)
             return
         }
-        let beginNow = AlertAction(style: .confirm(LocalizationConstants.beginNow))
+        let beginNow = AlertAction(style: .confirm(LocalizationConstants.AnnouncementCards.CoinifyKyc.ctaButton))
         let termsOfService = AlertAction(
             style: .default(LocalizationConstants.tos),
             metadata: ActionMetadata.url(tosURL)
         )
         let alert = AlertModel(
-            headline: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoTitle,
-            body: LocalizationConstants.AnnouncementCards.bottomSheetCoinifyInfoDescription,
+            headline: LocalizationConstants.AnnouncementCards.CoinifyKyc.title,
+            body: LocalizationConstants.AnnouncementCards.CoinifyKyc.description,
             note: LocalizationConstants.BuySell.buySellAgreement,
             actions: [beginNow, termsOfService],
             image: #imageLiteral(resourceName: "Icon-Information"),

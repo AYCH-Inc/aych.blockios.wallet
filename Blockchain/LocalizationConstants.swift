@@ -607,6 +607,10 @@ struct LocalizationConstants {
         "Copied to clipboard",
         comment: "Text displayed when a user has tapped on an item to copy its text."
     )
+    static let learnMore = NSLocalizedString(
+        "Learn More",
+        comment: "Learn more button"
+    )
 
     struct Errors {
         static let genericError = NSLocalizedString(
@@ -907,6 +911,45 @@ struct LocalizationConstants {
         static let askToUserOldWalletMessage = NSLocalizedString("Please choose from the options below.", comment: "")
         static let loginExistingWallet = NSLocalizedString("Login existing Wallet", comment: "")
         static let biometricInstructions = NSLocalizedString("Use %@ instead of PIN to authenticate Blockchain and access your wallet.", comment: "")
+        
+        struct IntroductionSheet {
+            static let next = NSLocalizedString("Next", comment: "Next")
+            struct Home {
+                static let title = NSLocalizedString("View Your Portfolio", comment: "View Your Portfolio")
+                static let description = NSLocalizedString(
+                    "Keep track of your crypto balances from your Wallet's dashboard. Your Wallet currently supports Bitcoin, Ether, Bitcoin Cash, Stellar XLM and USD PAX.",
+                    comment: "Keep track of your crypto balances from your Wallet's dashboard. Your Wallet currently supports Bitcoin, Ether, Bitcoin Cash, Stellar XLM and USD PAX."
+                )
+            }
+            struct Send {
+                static let title = NSLocalizedString("Send", comment: "Send")
+                static let description = NSLocalizedString(
+                    "Send crypto anywhere, anytime. All you need is the recipients crypto address.",
+                    comment: "Send crypto anywhere, anytime. All you need is the recipients crypto address."
+                )
+            }
+            struct Request {
+                static let title = NSLocalizedString("Request", comment: "Request")
+                static let description = NSLocalizedString(
+                    "To receive crypto, all the sender needs is your crypto's address. You can find these addresses here.",
+                    comment: "To receive crypto, all the sender needs is your crypto's address. You can find these addresses here."
+                )
+            }
+            struct Swap {
+                static let title = NSLocalizedString("Swap", comment: "Swap")
+                static let description = NSLocalizedString(
+                    "Trade crypto with low fees without leaving your wallet.",
+                    comment: "Trade crypto with low fees without leaving your wallet."
+                )
+            }
+            struct BuySell {
+                static let title = NSLocalizedString("Buy & Sell", comment: "Buy & Sell")
+                static let description = NSLocalizedString(
+                    "Jumpstart your crypto portfolio by easily buying and selling Bitcoin.",
+                    comment: "Jumpstart your crypto portfolio by easily buying and selling Bitcoin."
+                )
+            }
+        }
     }
 
     struct DeepLink {
@@ -982,96 +1025,203 @@ struct LocalizationConstants {
     
     struct AnnouncementCards {
         
-        static let registerAirdropSuccessTitle = NSLocalizedString(
-            "Success!",
-            comment: "Title of an alert that notifies the user that airdrop registration has succeded"
-        )
-        static let registerAirdropSuccessDescription = NSLocalizedString(
-            "You’re now eligible for future Airdrops.",
-            comment: "Description of an alert that notifies the user that airdrop registration has succeded"
-        )
-        static let bottomSheetCoinifyInfoTitle = NSLocalizedString("More Info Needed", comment: "Title of an alert informing a user that personal information needs to be updated.")
-        static let bottomSheetCoinifyInfoDescription = NSLocalizedString("To keep using Buy & Sell, you'll need to update your profile. Once completed, you'll also unlock higher trading limits in Swap. ", comment: "Description of an alert informing a user that personal information needs to be updated.")
-        static let updateNow = NSLocalizedString("Update Now", comment: "Title of a button that a user can tap on to update their information")
-        static let learnMore = NSLocalizedString("Learn More", comment: "Title of a button that a user can tap on to learn more about an announcement")
-        static let bottomSheetPromptForKycTitle = NSLocalizedString(
-            "Get Free XLM",
-            comment: "Title of a bottom sheet alert prompting the user to complete KYC"
-        )
-        static let bottomSheetPromptForKycDescription = NSLocalizedString(
-            "Complete your profile to start instantly trading crypto from the security of your wallet. Pro tip: Gold level gets you higher limits and future airdrops. ",
-            comment: "Description of a bottom sheet alert prompting the user to complete KYC"
-        )
-        static let bottomSheetPromptForKycAction = NSLocalizedString(
-            "Get Free XLM",
-            comment: "Action button title of a bottom sheet alert prompting the user to complete KYC"
-        )
-        static let bottomSheetPromptForAirdropRegistrationTitle = NSLocalizedString(
-            "Airdrop Program",
-            comment: "Title of a bottom sheet alert prompting the user to opt-in for airdrop upon finishing KYC"
-        )
-        static let bottomSheetPromptForAirdropRegistrationDescription = NSLocalizedString(
-            "You’re eligible for future airdrops.",
-            comment: "Description of a bottom sheet alert prompting the user to opt-in for airdrop upon finishing KYC"
-        )
-        static let bottomSheetPromptForAirdropRegistrationAction = NSLocalizedString(
-            "Opt-in Now",
-            comment: "Action button title of a bottom sheet alert prompting the user to complete KYC"
-        )
-        static let bottomSheetPromptForAirdropRegistrationCancel = NSLocalizedString(
-            "Maybe Later",
-            comment: "Cancel button title of a bottom sheet alert prompting the user to complete KYC"
-        )
-        static let cardCompleteProfileTitle = NSLocalizedString(
-            "Complete Your Profile",
-            comment: "Title of a bottom sheet alert prompting the user to complete KYC"
-        )
-        static let cardCompleteProfileDescription = NSLocalizedString(
-            "Complete your Blockchain profile today and we'll airdrop XLM directly into your Wallet!",
-            comment: "Description of a bottom sheet alert prompting the user to complete KYC"
-        )
-        static let cardCompleteProfileAction = NSLocalizedString(
-            "Continue to Claim Your XLM",
-            comment: "Button title of a bottom sheet alert prompting the user to complete KYC"
-        )
-        static let buySellCardTitle = NSLocalizedString("The wait is over", comment: "The title of the card.")
-        static let continueKYCCardTitle = NSLocalizedString("Verify Your Identity", comment: "The title of the card.")
-        static let buySellCardDescription = NSLocalizedString(
-            "Buy and sell bitcoin directly from your Blockchain wallet. Start by creating an account in the Buy & Sell tab.",
-            comment: "The description displayed on the card."
-        )
-        static let continueKYCCardDescription = NSLocalizedString(
-            "Looks like you’ve started verifying your identity but didn’t finish. Pick up where you left off?",
-            comment: "The description displayed on the card."
-        )
-        static let continueKYCActionButtonTitle = NSLocalizedString(
-            "Continue verification",
-            comment: "The title of the action on the announcement card."
-        )
-        static let uploadDocumentsCardTitle = NSLocalizedString(
-            "Documents needed",
-            comment: "The title of the action on the announcement card for when a user needs to submit documents to verify their identity."
-        )
-        static let uploadDocumentsCardDescription = NSLocalizedString(
-            "We had some issues with the documents you’ve supplied.\nPlease try uploading the documents again to continue with your verification.",
-            comment: "The description on the announcement card for when a user needs to submit documents to verify their identity."
-        )
-        static let uploadDocumentsActionButtonTitle = NSLocalizedString(
-            "Upload documents",
-            comment: "The title of the action on the announcement card for when a user needs to submit documents to verify their identity."
-        )
-        static let paxIntroTitle = NSLocalizedString(
-            "Digital US Dollars",
-            comment: "Title of the announcement card shown when introducing PAX"
-        )
-        static let paxIntroDescription = NSLocalizedString(
-            "Introducing USD PAX, a safe and stable crypto asset you can use to store value. 1 PAX equals 1 USD.",
-            comment: "Description of the announcement card shown when introducing PAX"
-        )
-        static let paxIntroCTA = NSLocalizedString(
-            "Get USD PAX Now",
-            comment: "CTA of the announcement card shown when introducing PAX"
-        )
+        // MARK: - Persistent
+        
+        struct Welcome {
+            static let title = NSLocalizedString(
+                "Welcome to Blockchain!",
+                comment: "Welcome announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "Here are a few tips to get your account up and running, we’ll also help you make sure everything is secure.",
+                comment: "Welcome announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Tell Me More",
+                comment: "Welcome announcement card CTA button title"
+            )
+            static let skipButton = NSLocalizedString(
+                "Maybe Later",
+                comment: "Welcome announcement card skip button title"
+            )
+        }
+        struct VerifyEmail {
+            static let title = NSLocalizedString(
+                "Verify Your Email Address",
+                comment: "Verify email announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "In order to start using your Blockchain wallet, you need to confirm your email address.",
+                comment: "Verify email announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Verify Email Address",
+                comment: "Verify email announcement card CTA button title"
+            )
+        }
+        struct BackupFunds {
+            static let title = NSLocalizedString(
+                "Wallet Recovery Phrase",
+                comment: "Backup funds announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "Your recovery phrase can be used to restore all your funds in the case of a lost password or a loss of service at Blockchain.",
+                comment: "Backup funds announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Backup Phrase",
+                comment: "Backup funds announcement card CTA button title"
+            )
+        }
+        
+        // MARK: - One time
+        
+        struct IdentityVerification {
+            static let title = NSLocalizedString(
+                "Finish Verifying Your Account",
+                comment: "Finish identity verification announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "Pick up where you left off and complete your identity verification. ",
+                comment: "Finish identity verification announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Continue Verification",
+                comment: "Finish identity verification announcement card CTA button title"
+            )
+        }
+        struct Pax {
+            static let title = NSLocalizedString(
+                "Digital US Dollar",
+                comment: "Pax announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "Introducing USD PAX, a safe and stable crypto asset you can use to store value. 1 PAX = 1 USD.",
+                comment: "Pax announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Get USD PAX",
+                comment: "Pax announcement card CTA button title"
+            )
+        }
+        struct Pit {
+            static let title = NSLocalizedString(
+                "Introducing The PIT",
+                comment: "PIT announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "It's time to Level Up to a better crypto exchange by Blockchain. First 100,000 traders to sign up will trade free for 30 days.",
+                comment: "PIT announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Checkout The PIT",
+                comment: "PIT announcement card CTA button title"
+            )
+        }
+        struct Bitpay {
+            static let description = NSLocalizedString(
+                "With BitPay, you can now use your Blockchain wallet for purchases with supporting retailers.",
+                comment: "Bitpay announcement card description"
+            )
+        }
+        struct AirdropReceival {
+            static let title = NSLocalizedString(
+                "Your %@ is on its way",
+                comment: "Title displayed on the onboarding card notifying them that their airdrop is on its way."
+            )
+            static let description = NSLocalizedString(
+                "We have successfully verified your identity.",
+                comment: "Description displayed on the onboarding card notifying them that their airdrop is on its way."
+            )
+        }
+        
+        // MARK: - Periodic
+        
+        struct BuyBitcoin {
+            static let title = NSLocalizedString(
+                "Buy Bitcoin",
+                comment: "Buy BTC announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "Turn your cash in to Bitcoin and back.",
+                comment: "Buy BTC announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Buy Bitcoin",
+                comment: "Buy BTC announcement card CTA button title"
+            )
+        }
+        struct Swap {
+            static let title = NSLocalizedString(
+                "Trade Crypto",
+                comment: "Swap announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "Trade one crypto for another without ever leaving your wallet. Get competitive, real-time prices and fast on-chain settlement.",
+                comment: "Swap announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Check out Swap",
+                comment: "Swap announcement card CTA button title"
+            )
+        }
+
+        struct ResubmitDocuments {
+            static let title = NSLocalizedString(
+                "Documents Needed",
+                comment: "The title of the action on the announcement card for when a user needs to submit documents to verify their identity."
+            )
+            static let description = NSLocalizedString(
+                "We had some issues with the documents you’ve supplied. Please try uploading the documents again to continue with your verification.",
+                comment: "The description on the announcement card for when a user needs to submit documents to verify their identity."
+            )
+            static let ctaButton = NSLocalizedString(
+                "Upload Documents",
+                comment: "The title of the action on the announcement card for when a user needs to submit documents to verify their identity."
+            )
+        }
+        struct AirdropRegistration {
+            static let title = NSLocalizedString(
+                "Airdrop Program",
+                comment: "Title of a bottom sheet alert prompting the user to opt-in for airdrop upon finishing KYC"
+            )
+            static let description = NSLocalizedString(
+                "You’re eligible for future airdrops.",
+                comment: "Description of a bottom sheet alert prompting the user to opt-in for airdrop upon finishing KYC"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Opt-in Now",
+                comment: "Action button title of a bottom sheet alert prompting the user to complete KYC"
+            )
+        }
+        struct TwoFA {
+            static let title = NSLocalizedString(
+                "Enable 2-Step Verification",
+                comment: "2FA announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "Protect your wallet from unauthorized access by enabling 2-Step Verification.",
+                comment: "2FA announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Enable 2-Step Verification",
+                comment: "2FA announcement card CTA button title"
+            )
+        }
+        struct CoinifyKyc {
+            static let title = NSLocalizedString(
+                "More Information Needed",
+                comment: "Coinify kyc announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "To keep using Buy & Sell, you’ll need to update your profile. Once completed, you’ll also unlock higher trading limits in Swap.",
+                comment: "Coinify kyc announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Update Now",
+                comment: "Coinify kyc announcement card CTA button title"
+            )
+        }
     }
     
     struct PIT {
@@ -2399,14 +2549,6 @@ struct LocalizationConstants {
             "Get Stellar Now",
             comment: "CTA prompting the user to join the XLM waitlist."
         )
-        static let yourXLMIsOnItsWay = NSLocalizedString(
-            "Your XLM is on its way",
-            comment: "Title displayed on the onboarding card notifying them that their airdrop is on its way."
-        )
-        static let yourXLMIsOnItsWayDescription = NSLocalizedString(
-            "We have successfully verified your identity.",
-            comment: "Description displayed on the onboarding card notifying them that their airdrop is on its way."
-        )
         static let ohNo = NSLocalizedString(
             "Oh no!",
             comment: "Error title shown when deep linking from a claim your XLM link."
@@ -2561,10 +2703,6 @@ struct LocalizationConstants {
     @objc class func etherSecondPasswordPrompt() -> String { return LocalizationConstants.Authentication.etherSecondPasswordPrompt }
 
     @objc class func myEtherWallet() -> String { return LocalizationConstants.myEtherWallet }
-
-    @objc class func buySellCardTitle() -> String { return LocalizationConstants.AnnouncementCards.buySellCardTitle }
-
-    @objc class func buySellCardDescription() -> String { return LocalizationConstants.AnnouncementCards.buySellCardDescription }
 
     @objc class func notEnoughXForFees() -> String { return LocalizationConstants.Errors.notEnoughXForFees }
 

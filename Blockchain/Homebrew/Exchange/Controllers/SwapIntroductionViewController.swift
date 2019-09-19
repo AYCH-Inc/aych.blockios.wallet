@@ -141,6 +141,25 @@ extension SwapIntroductionViewController {
     }
 }
 
+extension SwapIntroductionViewController: NavigatableView {
+    
+    var rightNavControllerCTAType: NavigationCTAType {
+        return .none
+    }
+    
+    var leftNavControllerCTAType: NavigationCTAType {
+        return .menu
+    }
+    
+    func navControllerLeftBarButtonTapped(_ navController: UINavigationController) {
+        AppCoordinator.shared.toggleSideMenu()
+    }
+    
+    func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
+        // no op
+    }
+}
+
 extension SwapIntroductionViewController.Item {
     static let images = [#imageLiteral(resourceName: "swap-welcome-1"), #imageLiteral(resourceName: "swap-welcome-2"), #imageLiteral(resourceName: "swap-welcome-3"), #imageLiteral(resourceName: "swap-welcome-4"), #imageLiteral(resourceName: "swap-welcome-5")]
     private static let tutorialStringValues = LocalizationConstants.Swap.Tutorial.self

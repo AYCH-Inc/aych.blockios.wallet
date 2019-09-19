@@ -13,7 +13,11 @@ import Foundation
 // https://www.figma.com/file/MWCxP6khQHkDZSLEew6mLqcQ/iOS-Visual-consistency-update?node-id=68%3A0
 extension UIColor {
     
-    // Grey Fade
+    // Feature Based
+    
+    static let pitBackground = #colorLiteral(red: 0.13, green: 0.1, blue: 0.8, alpha: 1)
+    
+    // Crypto
     
     static let btc = #colorLiteral(red: 1.00, green: 0.61, blue: 0.13, alpha: 1.0)
     static let eth = #colorLiteral(red: 0.28, green: 0.23, blue: 0.80, alpha: 1.0)

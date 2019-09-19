@@ -21,5 +21,5 @@ public protocol PulseViewPresenting {
     func hide()
     
     /// Shows the `PulseAnimationView`. A `superview` is required. 
-    func show(in superview: UIView)
+    func show(viewModel: PulseViewModel)
 }

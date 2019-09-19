@@ -625,14 +625,12 @@
     self.view.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
 }
 
-- (void)alertUserOfPaymentWithMessage:(NSString *)messageString showBackupReminder:(BOOL)showBackupReminder;
+- (void)alertUserOfPaymentWithMessage:(NSString *)messageString;
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:BC_STRING_PAYMENT_RECEIVED message:messageString preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
-        if (showBackupReminder) {
-            [ReminderPresenter.sharedInstance showBackupReminderWithFirstReceive:YES];
-        } else if ([self.amountInputView.btcField isFirstResponder] || [self.amountInputView.fiatField isFirstResponder]) {
+        if ([self.amountInputView.btcField isFirstResponder] || [self.amountInputView.fiatField isFirstResponder]) {
             [self.lastSelectedField becomeFirstResponder];
         }
         
@@ -680,7 +678,7 @@
     [self updateAmounts];
 }
 
-- (void)paymentReceived:(uint64_t)amountReceived showBackupReminder:(BOOL)showBackupReminder
+- (void)paymentReceived:(uint64_t)amountReceived
 {
     NSString *btcAmountString = self.assetType == LegacyAssetTypeBitcoin ? [NSNumberFormatter formatMoney:amountReceived localCurrency:NO] : [NSNumberFormatter formatBchWithSymbol:amountReceived localCurrency:NO];
     NSString *localCurrencyAmountString = self.assetType == LegacyAssetTypeBitcoin ? [NSNumberFormatter formatMoney:amountReceived localCurrency:YES] : [NSNumberFormatter formatBchWithSymbol:amountReceived localCurrency:YES];
@@ -691,7 +689,7 @@
     } else {
         paymentMessage = btcAmountString;
     }
-    [self alertUserOfPaymentWithMessage:paymentMessage showBackupReminder:showBackupReminder];
+    [self alertUserOfPaymentWithMessage:paymentMessage];
 }
 
 - (void)selectDestination

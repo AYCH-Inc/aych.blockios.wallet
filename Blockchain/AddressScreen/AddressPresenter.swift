@@ -36,7 +36,8 @@ final class AddressPresenter {
     }
     
     /// View model for the copy button view
-    let copyViewModel = SideImageButtonViewModel(
+    let copyViewModel = ButtonViewModel(
+        font: Font(.branded(.montserratRegular), size: .custom(20)).result,
         accessibility: Accessibility(
             id: .value(AccessibilityIdentifiers.Address.copyButton),
             label: .value(LocalizationConstants.Address.Accessibility.copyButton),
@@ -45,7 +46,8 @@ final class AddressPresenter {
     )
     
     /// View model for the share button view
-    let shareViewModel = SideImageButtonViewModel(
+    let shareViewModel = ButtonViewModel(
+        font: Font(.branded(.montserratRegular), size: .custom(20)).result,
         accessibility: Accessibility(
             id: .value(AccessibilityIdentifiers.Address.shareButton),
             label: .value(LocalizationConstants.Address.Accessibility.shareButton),
@@ -193,7 +195,7 @@ final class AddressPresenter {
     }
     
     private func setupShareViewModel() {
-        let theme = SideImageButtonViewModel.Theme(backgroundColor: .secondary,
+        let theme = ButtonViewModel.Theme(backgroundColor: .secondary,
                                                    contentColor: .white,
                                                    imageName: "share_icon",
                                                    text: LocalizationConstants.Address.shareButton)
@@ -201,14 +203,14 @@ final class AddressPresenter {
     }
     
     private func setCopyViewModelToCopiedState() {
-        let theme = SideImageButtonViewModel.Theme(backgroundColor: .successButton,
+        let theme = ButtonViewModel.Theme(backgroundColor: .successButton,
                                                    contentColor: .white,
                                                    text: LocalizationConstants.Address.copiedButton)
         copyViewModel.animate(theme: theme)
     }
     
     private func setupCopyViewModel() {
-        let theme = SideImageButtonViewModel.Theme(backgroundColor: .secondary,
+        let theme = ButtonViewModel.Theme(backgroundColor: .secondary,
                                                     contentColor: .white,
                                                     imageName: "copy_icon",
                                                     text: LocalizationConstants.Address.copyButton)

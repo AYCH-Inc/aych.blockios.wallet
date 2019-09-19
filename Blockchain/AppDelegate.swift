@@ -80,6 +80,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         Fabric.with([Crashlytics.self])
         
+        // Migrate announcements
+        AnnouncementRecorder.migrate()
+        
         // Register the application for remote notifications
         remoteNotificationRegistrationService.registerForRemoteNotificationsIfAuthorized()
             .subscribe()
@@ -167,12 +170,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WalletManager.shared.close()
         }
 
-        // TODO: Remove - Now we don't need it as we offer biometry as part of the PIN creation
-        let onboardingSettings = BlockchainSettings.Onboarding.shared
-        if onboardingSettings.didFailBiometrySetup && !appSettings.biometryEnabled {
-            onboardingSettings.shouldShowBiometrySetup = true
-        }
-
         SocketManager.shared.disconnectAll()
 
         // UI-related background actions
@@ -188,12 +185,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Network.Dependencies.default.session.reset {
             Logger.shared.debug("URLSession reset completed.")
         }
-        
-        /// This is a special case. One of the `AlertViews` has a `Maybe Later`
-        /// CTA. In the event that the user swipes the `AlertView` away, we don't
-        /// want to represent the alert until the user dismisses the application
-        /// and relaunches it later. 
-        BlockchainSettings.Onboarding.shared.hasSeenStellarAirdropRegistrationAlert = false
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -303,10 +294,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let appSettings = BlockchainSettings.App.shared
         let onboardingSettings = BlockchainSettings.Onboarding.shared
-
-        if onboardingSettings.hasSeenUpgradeToHdScreen {
-            onboardingSettings.hasSeenUpgradeToHdScreen = false
-        }
 
         guard !onboardingSettings.firstRun else {
             Logger.shared.info("This is not the 1st time the user is running the app.")

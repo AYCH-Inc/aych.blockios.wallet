@@ -80,15 +80,6 @@ final class PinService: PinServicing {
     }
 }
 
-extension Encodable {
-    var dictionary: [String: Any] {
-        guard let data = try? JSONEncoder().encode(self) else {
-            return [:]
-        }
-        return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String: Any] ?? [:]
-    }
-}
-
 // MARK: - StoreRequestData
 
 extension PinService {

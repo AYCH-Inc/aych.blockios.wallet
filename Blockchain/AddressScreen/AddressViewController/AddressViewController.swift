@@ -20,8 +20,8 @@ final class AddressViewController: UIViewController {
     @IBOutlet private var assetNameLabel: UILabel!
     @IBOutlet private var assetImageView: UIImageView!
     @IBOutlet private var qrAddressView: QRAddressView!
-    @IBOutlet private var copyButtonView: SideImageButtonView!
-    @IBOutlet private var shareButtonView: SideImageButtonView!
+    @IBOutlet private var copyButtonView: ButtonView!
+    @IBOutlet private var shareButtonView: ButtonView!
 
     @IBOutlet private var qrAddressViewTopConstraint: NSLayoutConstraint!
     @IBOutlet private var buttonsBottomConstraint: NSLayoutConstraint!

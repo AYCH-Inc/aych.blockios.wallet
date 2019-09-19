@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ButtonView" customModule="PlatformUIKit" customModuleProvider="target">
+            <connections>
+                <outlet property="button" destination="DeG-4A-TdX" id="LuZ-Wn-oW4"/>
+                <outlet property="imageView" destination="BPA-bS-mLQ" id="75w-Tv-UJJ"/>
+                <outlet property="label" destination="NJG-bk-rzH" id="Xp0-uh-WUq"/>
+                <outlet property="labelToImageViewLeadingConstraint" destination="B7n-MN-cqd" id="j1h-Ha-NHk"/>
+                <outlet property="labelToSuperviewLeadingConstraint" destination="NhO-74-J4e" id="1hU-s2-uXi"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="212" height="53"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BPA-bS-mLQ">
+                    <rect key="frame" x="16" y="0.0" width="80" height="53"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DeG-4A-TdX">
+                    <rect key="frame" x="0.0" y="0.0" width="212" height="53"/>
+                    <connections>
+                        <action selector="touchDown" destination="-1" eventType="touchDown" id="owo-bg-fBF"/>
+                        <action selector="touchUp" destination="-1" eventType="touchCancel" id="1eX-Kh-PQT"/>
+                        <action selector="touchUp" destination="-1" eventType="touchUpOutside" id="6gp-C7-DCP"/>
+                        <action selector="touchUp" destination="-1" eventType="touchUpInside" id="iN4-6a-U3d"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="action" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NJG-bk-rzH">
+                    <rect key="frame" x="96" y="0.0" width="116" height="53"/>
+                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="20"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="NJG-bk-rzH" firstAttribute="leading" secondItem="BPA-bS-mLQ" secondAttribute="trailing" priority="750" id="B7n-MN-cqd"/>
+                <constraint firstItem="BPA-bS-mLQ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="BE5-B5-uig"/>
+                <constraint firstItem="DeG-4A-TdX" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="G4M-uT-4nX"/>
+                <constraint firstItem="BPA-bS-mLQ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="centerX" priority="999" constant="-10" id="HLG-tJ-t5l"/>
+                <constraint firstItem="DeG-4A-TdX" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="LS6-KD-IHi"/>
+                <constraint firstItem="NJG-bk-rzH" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" priority="250" id="NhO-74-J4e"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="DeG-4A-TdX" secondAttribute="bottom" id="PzI-Fa-eSE"/>
+                <constraint firstItem="BPA-bS-mLQ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="fTe-fp-pKK"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="BPA-bS-mLQ" secondAttribute="bottom" id="hjX-CG-juT"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="NJG-bk-rzH" secondAttribute="trailing" id="lAG-jp-ttd"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="DeG-4A-TdX" secondAttribute="trailing" id="pF0-5s-uJB"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="NJG-bk-rzH" secondAttribute="bottom" id="u3r-9v-4b8"/>
+                <constraint firstItem="NJG-bk-rzH" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="ynw-8V-dxK"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-115.2" y="87.706146926536732"/>
+        </view>
+    </objects>
+</document>

@@ -35,7 +35,6 @@ extension UserDefaults {
         case assetType
         case biometryEnabled
         case defaultAccountLabelledAddressesCount
-        case didFailBiometrySetup
         case dontAskUserToShowAppReviewPrompt
         case encryptedPinPassword
         // legacyEncryptedPinPassword is required for wallets that created a PIN prior to Homebrew release - see IOS-1537
@@ -44,27 +43,17 @@ extension UserDefaults {
         case firstRun
         case graphTimeFrameKey = "timeFrame"
         case hasEndedFirstSession
-        case hasSeenAllCards
-        case hasSeenEmailReminder
-        case hasSeenUpgradeToHdScreen
         case hideTransferAllFundsAlert
         case password
         case passwordPartHash
         case pin
         case pinKey
-        case reminderModalDate
-        case shouldHideBuySellCard = "shouldHideBuySellNotificationCard"
-        case shouldShowBiometrySetup
         case isCompletingKyc = "shouldShowKYCAnnouncementCard"
-        case shouldHideSwapCard
-        case shouldHidePITLinkingCard
         case didTapOnAirdropDeepLink
         case swipeToReceiveEnabled = "swipeToReceive"
         case symbolLocal
         case hasSeenAirdropJoinWaitlistCard
         case hasSeenGetFreeXlmModal
-        case hasSeenStellarAirdropRegistrationAlert
-        case hasDismissedCompleteYourProfileCard
         case didAttemptToRouteForAirdrop
         case didRegisterForAirdropCampaignSucceed
         case kycLatestPage
@@ -75,14 +64,12 @@ extension UserDefaults {
         case didTapOnDocumentResubmissionDeepLink
         case documentResubmissionLinkReason
         case didAcceptCoinifyTOS
-        case hasSeenPAXCard
         case pitLinkIdentifier
         case didTapOnPitDeepLink
+        case walletIntroLatestLocation
     }
 
     func migrateLegacyKeysIfNeeded() {
-        migrateBool(fromKey: "didFailTouchIDSetup", toKey: Keys.didFailBiometrySetup.rawValue)
-        migrateBool(fromKey: "shouldShowTouchIDSetup", toKey: Keys.shouldShowBiometrySetup.rawValue)
         migrateBool(fromKey: "touchIDEnabled", toKey: Keys.biometryEnabled.rawValue)
     }
 

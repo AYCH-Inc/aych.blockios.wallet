@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PulseAnimationView: UIView {
+final class PulseAnimationView: PassthroughView {
     
     private static let strokeWidth: CGFloat = 3.0
     private static let animationGroupKey: String = "animationGroup"
@@ -16,26 +16,16 @@ class PulseAnimationView: UIView {
     private let expandingShapeLayer: CAShapeLayer = CAShapeLayer()
     private let animationGroup: CAAnimationGroup = CAAnimationGroup()
     
-    private let button: UIButton
-    
     // MARK: - Setup
     
     init(diameter: CGFloat) {
-        button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: diameter, height: diameter)))
         super.init(frame: CGRect(origin: .zero, size: CGSize(width: diameter, height: diameter)))
-        button.addTarget(self, action: #selector(pulseTapped(_:)), for: .touchUpInside)
         setupSubviews()
         isAccessibilityElement = false
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    @objc private func pulseTapped(_ sender: UIButton) {
-        // TODO: We need to relay pulse interaction
-        // in order to update a user defaults key that dictates whether or not
-        // to show the pulse again.
     }
     
     private func applyShapeLayerAnimations() {
@@ -51,8 +41,6 @@ class PulseAnimationView: UIView {
         expandingShapeLayer.borderWidth = PulseAnimationView.strokeWidth
         expandingShapeLayer.borderColor = #colorLiteral(red: 0.05, green: 0.42, blue: 0.95, alpha: 1).withAlphaComponent(0.7).cgColor
         
-        layer.addSublayer(expandingShapeLayer)
-        
         animationGroup.animations = [
             transfromAnimation(scale: 1.0),
             opacityAnimation(),
@@ -66,6 +54,7 @@ class PulseAnimationView: UIView {
         animationGroup.repeatCount = .infinity
         
         expandingShapeLayer.add(animationGroup, forKey: PulseAnimationView.animationGroupKey)
+        layer.addSublayer(expandingShapeLayer)
     }
     
     private func transfromAnimation(scale: Double) -> CABasicAnimation {
@@ -105,7 +94,6 @@ class PulseAnimationView: UIView {
     }
     
     private func setupSubviews() {
-        addSubview(button)
         layer.cornerRadius = self.bounds.height / 2
         backgroundColor = #colorLiteral(red: 0.05, green: 0.42, blue: 0.95, alpha: 1).withAlphaComponent(0.2)
     }

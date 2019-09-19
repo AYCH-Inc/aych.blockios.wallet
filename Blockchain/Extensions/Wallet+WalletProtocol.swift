@@ -31,4 +31,9 @@ extension Wallet: WalletProtocol {
             pbkdf2_iterations: Int32(Constants.Security.pinPBKDF2Iterations)
         )
     }
+    
+    /// Returns true if the BTC wallet is funded
+    var isBitcoinWalletFunded: Bool {
+        return getTotalActiveBalance() > 0
+    }
 }

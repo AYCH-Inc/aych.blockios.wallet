@@ -24,6 +24,18 @@ class AccessibilityIdentifiers: NSObject {
         @objc static let createWalletButton = "CreateWalletScreen.createWalletButton"
     }
     
+    struct DashboardScreen {
+        private static let prefix = "DashboardScreen."
+        struct Announcement {
+            private static let prefix = "\(DashboardScreen.prefix)Announcement."
+            
+            static let titleLabel = "\(prefix)titleLabel"
+            static let descriptionLabel = "\(prefix)descriptionLabel"
+            static let imageView = "\(prefix)thumbImageView"
+            static let dismissButton = "\(prefix)dismissButton"
+        }
+    }
+    
     struct PinScreen {
         static let prefix = "PinScreen."
     
@@ -52,27 +64,6 @@ class AccessibilityIdentifiers: NSObject {
         static let copyButton = "\(prefix)copyButton"
         static let shareButton = "\(prefix)shareButton"
         static let pageControl = "\(prefix)pageControl"
-    }
-    
-    @objc(AccessibilityIdentifiers_WalletSetupScreen) class WalletSetupScreen: NSObject {
-        @objc static let biometricTitleLabel = "WalletSetupScreen.biometricTitleLabel"
-        @objc static let biometricBodyTextView = "WalletSetupScreen.biometricBodyTextView"
-        @objc static let biometricEnableButton = "WalletSetupScreen.biometricEnableButton"
-        @objc static let biometricDoneButton = "WalletSetupScreen.biometricDoneButton"
-        
-        @objc static let emailTitleLabel = "WalletSetupScreen.emailTitleLabel"
-        @objc static let emailEmailLabel = "WalletSetupScreen.emailEmailLabel"
-        @objc static let emailBodyTextView = "WalletSetupScreen.emailBodyTextView"
-        @objc static let emailOpenMailButton = "WalletSetupScreen.emailOpenMailButton"
-        @objc static let emailDoneButton = "WalletSetupScreen.emailDoneButton"
-    }
-    
-    @objc(AccessibilityIdentifiers_WalletSetupReminderScreen) class WalletSetupReminderScreen: NSObject {
-        @objc static let titleLabel = "WalletSetupReminderScreen.titleLabel"
-        @objc static let emailLabel = "WalletSetupReminderScreen.emailLabel"
-        @objc static let detailLabel = "WalletSetupReminderScreen.detailLabel"
-        @objc static let continueButton = "WalletSetupReminderScreen.continueButton"
-        @objc static let cancelButton = "WalletSetupReminderScreen.cancelButton"
     }
 
     class KYCVerifyIdentityScreen: NSObject {

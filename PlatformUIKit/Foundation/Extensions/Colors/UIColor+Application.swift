@@ -62,4 +62,8 @@ public extension UIColor {
     static let silverTier = tiersSilver
     static let goldTier = tiersGold
     static let diamondTier = tiersDiamond
+    
+    // MARK: - Feature Themes
+    
+    static let pitTheme = pitBackground
 }

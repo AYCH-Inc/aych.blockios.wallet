@@ -106,27 +106,6 @@ extension HTTPMethod {
     }
 }
 
-extension Data {
-    func decode<T: Decodable>(to type: T.Type) throws -> T {
-        let decoded: T
-        do {
-            decoded = try JSONDecoder().decode(type, from: self)
-        } catch {
-            throw error
-        }
-        return decoded
-    }
-}
-
-extension Encodable {
-    var dictionary: [String: Any] {
-        guard let data = try? JSONEncoder().encode(self) else {
-            return [:]
-        }
-        return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String: Any] ?? [:]
-    }
-}
-
 extension Bool {
     var encoded: String {
         return self ? "true" : "false"

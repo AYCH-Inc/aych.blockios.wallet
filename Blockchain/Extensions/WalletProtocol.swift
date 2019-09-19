@@ -10,6 +10,9 @@ import Foundation
 
 @objc
 protocol WalletProtocol: class {
+    
+    var isBitcoinWalletFunded: Bool { get }
+    
     @objc var password: String? { get set }
     @objc var isNew: Bool { get set }
     @objc var delegate: WalletDelegate! { get set }

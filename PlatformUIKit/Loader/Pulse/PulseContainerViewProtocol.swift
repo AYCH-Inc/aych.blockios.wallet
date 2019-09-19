@@ -7,10 +7,12 @@
 //
 
 import Foundation
+import RxCocoa
 
 protocol PulseContainerViewProtocol {
     func animate()
     func fadeOut()
+    var selection: Signal<Void> { get }
     var viewRepresentation: PassthroughView { get }
 }
 

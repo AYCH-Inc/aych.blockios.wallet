@@ -13,6 +13,7 @@ import Foundation
     let isNew: Bool
     let backgroundImage: UIImage?
     let headlineImage: UIImage?
+    let disclosureImage: UIImage?
     let contentMode: UIView.ContentMode
     let titleTextColor: UIColor
     let messageTextColor: UIColor
@@ -23,6 +24,7 @@ import Foundation
         isNew: Bool = false,
         backgroundImage: UIImage? = nil,
         headlineImage: UIImage? = nil,
+        disclosureImage: UIImage? = nil,
         backgroundContentMode: UIView.ContentMode = .scaleAspectFill,
         titleTextColor: UIColor = #colorLiteral(red: 0.004, green: 0.29, blue: 0.486, alpha: 1),
         messageTextColor: UIColor = #colorLiteral(red: 0.373, green: 0.373, blue: 0.373, alpha: 1),
@@ -31,6 +33,7 @@ import Foundation
         ) {
         self.isNew = isNew
         self.headlineImage = headlineImage
+        self.disclosureImage = disclosureImage
         self.contentMode = backgroundContentMode
         self.backgroundColor = backgroundColor
         self.backgroundImage = backgroundImage
@@ -99,6 +102,7 @@ extension AnnouncementCardViewModel {
         let palette = AnnouncementCardPallete(
             backgroundImage: #imageLiteral(resourceName: "pit-card-background"),
             headlineImage: #imageLiteral(resourceName: "pit-logo"),
+            disclosureImage: #imageLiteral(resourceName: "announcement-chevron-white"),
             backgroundContentMode: .scaleAspectFill,
             titleTextColor: .white,
             messageTextColor: .white,
@@ -107,7 +111,7 @@ extension AnnouncementCardViewModel {
         let model = AnnouncementCardViewModel(
             title: nil,
             message: LocalizationConstants.PIT.AnnouncementCard.body,
-            actionButtonTitle: LocalizationConstants.PIT.AnnouncementCard.CTA + " " + "👉",
+            actionButtonTitle: LocalizationConstants.PIT.AnnouncementCard.CTA,
             palette: palette,
             action: action,
             onClose: onClose

@@ -45,7 +45,10 @@ class AnnouncementCardView: UIView {
         cardView.titleLabel.isHidden = model.title == nil
         cardView.titleLabel.textColor = model.palette.titleTextColor
         cardView.bodyLabel.textColor = model.palette.messageTextColor
+        cardView.actionButton.setImage(model.palette.disclosureImage, for: .normal)
         cardView.actionButton.setTitleColor(model.palette.actionTextColor, for: .normal)
+        cardView.actionButton.semanticContentAttribute = UIApplication.shared
+        .userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
         cardView.shadowView.backgroundColor = model.palette.backgroundColor
         cardView.titleLabel.text = model.title
         cardView.bodyLabel.text = model.message

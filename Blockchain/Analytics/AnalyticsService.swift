@@ -31,7 +31,6 @@ class AnalyticsService: AnalyticsServiceAPI {
     }
 }
 
-
 extension AnalyticsEventRecorder {
     static let shared = AnalyticsEventRecorder(analyticsService: AnalyticsService.shared)
 }

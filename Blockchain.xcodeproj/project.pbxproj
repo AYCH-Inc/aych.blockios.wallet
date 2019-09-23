@@ -1416,6 +1416,8 @@
 		65D821C123032BDA0060794B /* SendExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D821BF23032BDA0060794B /* SendExecutor.swift */; };
 		65D821CF2303FE2A0060794B /* SendFeeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D821CE2303FE2A0060794B /* SendFeeService.swift */; };
 		65D821D02303FE2A0060794B /* SendFeeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D821CE2303FE2A0060794B /* SendFeeService.swift */; };
+		65E00A712338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E00A672338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift */; };
+		65E00A722338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E00A672338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift */; };
 		65E4B4FD22CDF9AA00EAC3CD /* DevSupporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B4FC22CDF9AA00EAC3CD /* DevSupporting.swift */; };
 		65E4B4FE22CDF9AA00EAC3CD /* DevSupporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B4FC22CDF9AA00EAC3CD /* DevSupporting.swift */; };
 		65E4B50F22CE180500EAC3CD /* AppSettingsFeaturing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B50E22CE180500EAC3CD /* AppSettingsFeaturing.swift */; };
@@ -1428,6 +1430,8 @@
 		65E587FC22BEA27800A174B1 /* AppSettingsAuthenticating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E587FA22BEA27800A174B1 /* AppSettingsAuthenticating.swift */; };
 		65E5883E22C0B88900A174B1 /* DigitPadViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E5883D22C0B88900A174B1 /* DigitPadViewModelTests.swift */; };
 		65E5884022C0D3EC00A174B1 /* PinInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E5883F22C0D3EC00A174B1 /* PinInteractorTests.swift */; };
+		65F20AB523326D4C00CA4410 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		65F20AB623326D4C00CA4410 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		65F5E70122C36D0D00D00F50 /* QRAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F5E70022C36D0D00D00F50 /* QRAddressView.swift */; };
 		65F5E70222C36D0D00D00F50 /* QRAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F5E70022C36D0D00D00F50 /* QRAddressView.swift */; };
 		65F5E70422C36D1F00D00F50 /* QRAddressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65F5E70322C36D1F00D00F50 /* QRAddressView.xib */; };
@@ -4777,6 +4781,7 @@
 		65D80ED523315A6300AE3BBC /* ExternalNotificationServiceProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalNotificationServiceProviderTests.swift; sourceTree = "<group>"; };
 		65D821BF23032BDA0060794B /* SendExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendExecutor.swift; sourceTree = "<group>"; };
 		65D821CE2303FE2A0060794B /* SendFeeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendFeeService.swift; sourceTree = "<group>"; };
+		65E00A672338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AnalyticsEvents+Onboarding.swift"; sourceTree = "<group>"; };
 		65E4B4FC22CDF9AA00EAC3CD /* DevSupporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevSupporting.swift; sourceTree = "<group>"; };
 		65E4B50E22CE180500EAC3CD /* AppSettingsFeaturing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsFeaturing.swift; sourceTree = "<group>"; };
 		65E4B51F22CE39F600EAC3CD /* QRAddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRAddressViewModel.swift; sourceTree = "<group>"; };
@@ -11922,6 +11927,7 @@
 		AAA333402088450D0019AD55 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				65E00A672338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift */,
 				3AB7579323185221002A3405 /* Introduction */,
 				AAA33343208845F40019AD55 /* Views */,
 			);
@@ -15077,6 +15083,7 @@
 				AAD92FBB2202658B005DA575 /* NavigationCTA.swift in Sources */,
 				65CDDB5B2330F6B90092947C /* FirebaseMessaging+FCMServiceAPI.swift in Sources */,
 				AACE31CD2092A99B00B7B806 /* BitcoinCashAddress.swift in Sources */,
+				65F20AB623326D4C00CA4410 /* (null) in Sources */,
 				6541551222C54A2300E78814 /* ReceivedPaymentDetails.swift in Sources */,
 				602B9D0B2118E23200BD3D60 /* KYCInformationController.swift in Sources */,
 				34A5121F225BB3D600C53DD6 /* AccessibilityIdentifiers.swift in Sources */,
@@ -15449,6 +15456,7 @@
 				AACE3134209121B800B7B806 /* WalletManager.swift in Sources */,
 				65804B6E232943C600D0DAB0 /* MockSendSourceAccountStateService.swift in Sources */,
 				AA278EAD22B1845D009F203D /* AnnouncementRecorder.swift in Sources */,
+				65E00A722338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift in Sources */,
 				C74A0DE62174DFA000402A2F /* StellarAddress.swift in Sources */,
 				AA748359211129DF008F2768 /* MockKYCEnterPhoneNumberView.swift in Sources */,
 				AA68F43C2151AA1F0099BB83 /* TradeLimitsService.swift in Sources */,
@@ -15671,6 +15679,7 @@
 				3A26AF96212B36B2003A8A08 /* FromToButtonDelegateIntermediate.swift in Sources */,
 				AA126D2A212D23FE005886A3 /* KYCUpdateMobileRequest.swift in Sources */,
 				23444F8A1DCD218F00573C8C /* BTCAddress.m in Sources */,
+				65E00A712338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift in Sources */,
 				9F45F82C1514E53C00018AED /* UIButtonPressAndHold.m in Sources */,
 				3AB757A12318526F002A3405 /* WalletIntroductionPulseViewModel.swift in Sources */,
 				9F7480E315140EF200BC4292 /* TabViewController.m in Sources */,
@@ -15757,6 +15766,7 @@
 				67EE1DCF19E3325900DBBFC9 /* UIViewController+ECSlidingViewController.m in Sources */,
 				3A5AF01422D5354F007C5717 /* PitCoordinator.swift in Sources */,
 				AACE314C209152D800B7B806 /* Application+Helpers.swift in Sources */,
+				65F20AB523326D4C00CA4410 /* (null) in Sources */,
 				65283F1722A7D69800255A30 /* VersionUpdateAlertDisplaying.swift in Sources */,
 				AA63F86720A27AC6002B719B /* PostAuthenticationRoute.swift in Sources */,
 				3A5C3C63225D4916003C99C9 /* KYCCoinifySignedToken.swift in Sources */,

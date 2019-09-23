@@ -20,3 +20,6 @@ public protocol AnalyticsEventRecording {
 public protocol AnalyticsEventRecordable {
     func use(eventRecorder: AnalyticsEventRecording)
 }
+
+/// Class that can be extended with nested types of events
+public class AnalyticsEvents {}

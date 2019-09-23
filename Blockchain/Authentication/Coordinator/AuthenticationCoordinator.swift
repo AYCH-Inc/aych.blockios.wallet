@@ -126,7 +126,8 @@ import PlatformUIKit
 
     var pinRouter: PinRouter!
     private let deepLinkRouter: DeepLinkRouter
-    let pitRepository: PITAccountRepositoryAPI
+    private let analyticsRecorder: AnalyticsEventRecording
+    private let pitRepository: PITAccountRepositoryAPI
     private let bag: DisposeBag = DisposeBag()
     private var pairingCodeParserViewController: UIViewController?
 
@@ -141,6 +142,7 @@ import PlatformUIKit
          deepLinkRouter: DeepLinkRouter = DeepLinkRouter(),
          recorder: ErrorRecording = CrashlyticsRecorder(),
          remoteNotificationServiceContainer: RemoteNotificationServiceContainer = .default,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          pitRepository: PITAccountRepositoryAPI = PITAccountRepository()) {
         self.walletManager = walletManager
         self.walletService = walletService
@@ -148,6 +150,7 @@ import PlatformUIKit
         self.stellarServiceProvider = stellarServiceProvider
         self.deepLinkRouter = deepLinkRouter
         self.recorder = recorder
+        self.analyticsRecorder = analyticsRecorder
         self.loadingViewPresenter = loadingViewPresenter
         remoteNotificationAuthorizer = remoteNotificationServiceContainer.authorizer
         remoteNotificationTokenSender = remoteNotificationServiceContainer.tokenSender
@@ -281,6 +284,7 @@ import PlatformUIKit
     private func handlePairingCodeResult(result: Result<PairingCodeQRCodeParser.PairingCode, PairingCodeQRCodeParser.PairingCodeParsingError>) {
         switch result {
         case .success(let pairingCode):
+            analyticsRecorder.record(event: AnalyticsEvents.Onboarding.AutoPairing())
             authenticationManager.authenticate(using: pairingCode.passcodePayload, andReply: authHandler)
         case .failure(let error):
             alertPresenter.standardError(message: error.localizedDescription)
@@ -423,6 +427,7 @@ extension AuthenticationCoordinator: ManualPairViewDelegate {
                 return
             }
             strongSelf.authHandler(isAuthenticated, twoFAtype, error)
+            strongSelf.analyticsRecorder.record(event: AnalyticsEvents.Onboarding.ManualLogin())
         }
     }
 

@@ -59,6 +59,7 @@ import PlatformUIKit
         let viewController = storyboard.instantiateViewController(
             withIdentifier: "AccountsAndAddressesNavigationController"
         ) as! AccountsAndAddressesNavigationController
+        viewController.modalPresentationStyle = .fullScreen
         viewController.modalTransitionStyle = .coverVertical
         return viewController
     }()
@@ -112,6 +113,7 @@ import PlatformUIKit
     func showHdUpgradeView() {
         let storyboard = UIStoryboard(name: "Upgrade", bundle: nil)
         let upgradeViewController = storyboard.instantiateViewController(withIdentifier: "UpgradeViewController")
+        upgradeViewController.modalPresentationStyle = .fullScreen
         upgradeViewController.modalTransitionStyle = .coverVertical
         UIApplication.shared.keyWindow?.rootViewController?.present(
             upgradeViewController,
@@ -136,6 +138,7 @@ import PlatformUIKit
         let storyboard = UIStoryboard(name: "Backup", bundle: nil)
         let backupController = storyboard.instantiateViewController(withIdentifier: "BackupNavigation") as! BackupNavigationViewController
         backupController.wallet = walletManager.wallet
+        backupController.modalPresentationStyle = .fullScreen
         backupController.modalTransitionStyle = .coverVertical
         UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(backupController, animated: true)
     }
@@ -243,6 +246,7 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
         case .lockbox:
             let storyboard = UIStoryboard(name: "LockboxViewController", bundle: nil)
             let lockboxViewController = storyboard.instantiateViewController(withIdentifier: "LockboxViewController") as! LockboxViewController
+            lockboxViewController.modalPresentationStyle = .fullScreen
             lockboxViewController.modalTransitionStyle = .coverVertical
             UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(lockboxViewController, animated: true)
         }

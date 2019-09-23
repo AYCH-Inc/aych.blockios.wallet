@@ -707,6 +707,7 @@ extension ExchangeCreateViewController: NavigatableView {
             let controller = ExchangeListViewController.make(with: self.dependencies)
             let navController = BaseNavigationController(rootViewController: controller)
             navController.modalTransitionStyle = .coverVertical
+            navController.modalPresentationStyle = .fullScreen
             root.present(navController, animated: true, completion: nil)
         }))
         let viewLimits = BottomSheetAction(title: LocalizationConstants.Swap.viewMySwapLimit, metadata: .block({

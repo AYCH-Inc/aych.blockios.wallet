@@ -326,6 +326,7 @@ import PlatformKit
                 rootViewController: buyBitcoinViewController,
                 title: LocalizationConstants.SideMenu.buySellBitcoin
             )
+            navigationController.modalPresentationStyle = .fullScreen
             UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
                 navigationController,
                 animated: true

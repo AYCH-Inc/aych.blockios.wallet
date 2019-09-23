@@ -217,6 +217,7 @@ protocol ExchangeCoordinatorAPI {
         let model = ExchangeDetailPageModel(type: .locked(orderTransaction, conversion))
         let controller = ExchangeDetailViewController.make(with: model, dependencies: ExchangeServices())
         let navController = BCNavigationController(rootViewController: controller)
+        navController.modalPresentationStyle = .fullScreen
         navController.modalTransitionStyle = .coverVertical
         root.present(navController, animated: true, completion: nil)
     }

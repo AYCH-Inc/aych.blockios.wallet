@@ -25,9 +25,4 @@ struct AnnouncementPreliminaryData {
     var hasLinkedPitAccount: Bool {
         return user.hasLinkedPITAccount
     }
-    
-    /// `true` if swap is enabled for the user
-    var isSwapEnabled: Bool {
-        return user.swapApproved()
-    }
 }

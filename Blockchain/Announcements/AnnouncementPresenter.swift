@@ -220,7 +220,6 @@ extension AnnouncementPresenter {
     private func swap(using data: AnnouncementPreliminaryData,
                       reappearanceTimeInterval: TimeInterval) -> Announcement {
         return SwapAnnouncement(
-            isSwapEnabled: data.isSwapEnabled,
             hasTrades: data.hasTrades,
             reappearanceTimeInterval: reappearanceTimeInterval,
             dismiss: hideAnnouncement,

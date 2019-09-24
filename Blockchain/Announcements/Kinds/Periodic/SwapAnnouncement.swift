@@ -46,9 +46,6 @@ final class SwapAnnouncement: PeriodicAnnouncement & ActionableAnnouncement {
     }
     
     var shouldShow: Bool {
-        guard isSwapEnabled else {
-            return false
-        }
         guard !hasTrades else {
             return false
         }
@@ -65,21 +62,18 @@ final class SwapAnnouncement: PeriodicAnnouncement & ActionableAnnouncement {
     
     let appearanceRules: PeriodicAnnouncementAppearanceRules
     
-    private let isSwapEnabled: Bool
     private let hasTrades: Bool
     
     private let disposeBag = DisposeBag()
 
     // MARK: - Setup
     
-    init(isSwapEnabled: Bool,
-         hasTrades: Bool,
+    init(hasTrades: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
          reappearanceTimeInterval: TimeInterval,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
-        self.isSwapEnabled = isSwapEnabled
         self.hasTrades = hasTrades
         recorder = AnnouncementRecorder(cache: cacheSuite)
         appearanceRules = PeriodicAnnouncementAppearanceRules(recessDurationBetweenDismissals: reappearanceTimeInterval)

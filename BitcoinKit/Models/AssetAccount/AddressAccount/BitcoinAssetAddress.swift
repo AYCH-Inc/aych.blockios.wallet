@@ -11,4 +11,9 @@ import PlatformKit
 public struct BitcoinAssetAddress: AssetAddress, Importable {
     public let isImported: Bool
     public let publicKey: String
+    
+    public init(isImported: Bool, publicKey: String) {
+        self.isImported = isImported
+        self.publicKey = publicKey
+    }
 }

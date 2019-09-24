@@ -14,8 +14,10 @@ import RxSwift
 import BigInt
 
 public class EthereumWallet: NSObject {
+    
     typealias Dispatcher = EthereumJSInteropDispatcherAPI & EthereumJSInteropDelegateAPI
-    typealias WalletAPI = LegacyEthereumWalletProtocol & MnemonicAccessAPI
+    
+    typealias WalletAPI = LegacyEthereumWalletProtocol & LegacyWalletAPI & MnemonicAccessAPI
     
     @objc public var delegate: EthereumJSInteropDelegateAPI {
         return dispatcher
@@ -45,7 +47,6 @@ public class EthereumWallet: NSObject {
     
     private var lastHistoryRefresh: Date = Date(timeIntervalSinceNow: -EthereumWallet.refreshInterval)
     
-    private var secondPassword: String?
     private var ethereumAccountExists: Bool?
     
     private var disposeBag = DisposeBag()
@@ -95,20 +96,6 @@ public class EthereumWallet: NSObject {
         }
         context.setJsFunction(named: "objc_on_error_gettingEtherTransactionNonceAsync" as NSString) { [weak self] errorMessage in
             self?.delegate.didFailToGetNonce(errorMessage: errorMessage)
-        }
-        
-        context.setJsFunction(named: "objc_on_getEthTransactionsAsync_success" as NSString) { [weak self] transactions in
-            self?.delegate.didGetTransactions(transactions)
-        }
-        context.setJsFunction(named: "objc_on_getEthTransactionsAsync_error" as NSString) { [weak self] errorMessage in
-            self?.delegate.didFailToGetTransactions(errorMessage: errorMessage)
-        }
-        
-        context.setJsFunction(named: "objc_on_get_available_eth_balance_success" as NSString) { [weak self] balance in
-            self?.delegate.didGetBalance(balance)
-        }
-        context.setJsFunction(named: "objc_on_get_available_eth_balance_error" as NSString) { [weak self] errorMessage in
-            self?.delegate.didFailToGetBalance(errorMessage: errorMessage)
         }
         
         context.setJsFunction(named: "objc_on_fetch_available_eth_balance_success" as NSString) { [weak self] balance in
@@ -273,7 +260,7 @@ extension EthereumWallet: ERC20BridgeAPI {
     }
 }
 
-extension EthereumWallet: EthereumWalletBridgeAPI, EthereumWalletTransactionsBridgeAPI {
+extension EthereumWallet: EthereumWalletBridgeAPI {
     
     public var fetchHistoryIfNeeded: Single<Void> {
         return secondPasswordIfAccountCreationNeeded
@@ -293,13 +280,6 @@ extension EthereumWallet: EthereumWalletBridgeAPI, EthereumWalletTransactionsBri
         return secondPasswordIfAccountCreationNeeded
             .flatMap(weak: self) { (self, secondPassword) -> Single<CryptoValue> in
                 return self.fetchBalance(secondPassword: secondPassword)
-            }
-    }
-    
-    public var balance: Single<CryptoValue> {
-        return secondPasswordIfAccountCreationNeeded
-            .flatMap(weak: self) { (self, secondPassword) -> Single<CryptoValue> in
-                return self.balance(secondPassword: secondPassword)
             }
     }
     
@@ -329,18 +309,11 @@ extension EthereumWallet: EthereumWalletBridgeAPI, EthereumWalletTransactionsBri
                     .compactMap { $0 }
                 self?.etherTransactions = result
                 return result
-        }
-    }
-    
-    public var transactions: Single<[EthereumHistoricalTransaction]> {
-        return secondPasswordIfAccountCreationNeeded
-            .flatMap(weak: self) { (self, secondPassword) -> Single<[EthereumHistoricalTransaction]> in
-                return self.transactions(secondPassword: secondPassword)
             }
     }
     
     public var account: Single<EthereumAssetAccount> {
-        return ethereumWallets
+        return wallets
             .flatMap { accounts -> Single<EthereumAssetAccount> in
                 guard let defaultAccount = accounts.first else {
                     throw WalletError.unknown
@@ -402,29 +375,8 @@ extension EthereumWallet: EthereumWalletBridgeAPI, EthereumWalletTransactionsBri
         }
     }
     
-    private func transactions(secondPassword: String? = nil) -> Single<[EthereumHistoricalTransaction]> {
-        return Single<[EtherTransaction]>.create(subscribe: { [weak self] observer -> Disposable in
-            guard let wallet = self?.wallet else {
-                observer(.error(WalletError.notInitialized))
-                return Disposables.create()
-            }
-            wallet.getEthereumTransactions(with: secondPassword, success: { transactions in
-                observer(.success(transactions))
-            }, error: { errorMessage in
-                observer(.error(WalletError.unknown))
-            })
-            return Disposables.create()
-        })
-        .flatMap { legacyTransactions -> Single<[EthereumHistoricalTransaction]> in
-            let transactions: [EthereumHistoricalTransaction] = legacyTransactions
-                .map { $0.transaction }
-                .compactMap { $0 }
-            return Single.just(transactions)
-        }
-    }
-    
     private func accounts(secondPassword: String? = nil) -> Single<EthereumAssetAccount> {
-        return ethereumWallets.flatMap { wallets -> Single<EthereumAssetAccount> in
+        return wallets.flatMap { wallets -> Single<EthereumAssetAccount> in
             guard let defaultAccount = wallets.first else {
                 throw WalletError.unknown
             }
@@ -434,27 +386,6 @@ extension EthereumWallet: EthereumWalletBridgeAPI, EthereumWalletTransactionsBri
                 name: defaultAccount.label ?? ""
             )
             return Single.just(account)
-        }
-    }
-    
-    private func balance(secondPassword: String? = nil) -> Single<CryptoValue> {
-        return Single<String>.create(subscribe: { [weak self] observer -> Disposable in
-            guard let wallet = self?.wallet else {
-                observer(.error(WalletError.notInitialized))
-                return Disposables.create()
-            }
-            wallet.ethereumBalance(with: secondPassword, success: { balanceString  in
-                observer(.success(balanceString))
-            }, error: { errorMessage in
-                observer(.error(WalletError.unknown))
-            })
-            return Disposables.create()
-        })
-        .flatMap { balanceString -> Single<CryptoValue> in
-            guard let value = CryptoValue.etherFromMajor(string: balanceString, locale: Locale.US) else {
-                throw WalletError.unknown
-            }
-            return Single.just(value)
         }
     }
     
@@ -616,7 +547,7 @@ extension EthereumWallet: EthereumWalletAccountBridgeAPI {
         })
     }
     
-    public var ethereumWallets: Single<[EthereumWalletAccount]> {
+    public var wallets: Single<[EthereumWalletAccount]> {
         return secondPasswordIfAccountCreationNeeded
             .flatMap(weak: self) { (self, secondPassword) -> Single<[EthereumWalletAccount]> in
                 return self.ethereumWallets(secondPassword: secondPassword)
@@ -652,57 +583,18 @@ extension EthereumWallet: EthereumWalletAccountBridgeAPI {
         }
     }
     
-    private var secondPasswordIfAccountCreationNeeded: Single<String?> {
-        return accountExists
-            .flatMap(weak: self) { (self, accountExists) -> Single<String?> in
-                guard accountExists else {
-                    return self.secondPasswordIfNeeded
-                }
-                return Single.just(nil)
-            }
+
+}
+
+extension EthereumWallet: SecondPasswordPromptable {
+    var legacyWallet: LegacyWalletAPI? {
+        return wallet
     }
     
-    private var accountExists: Single<Bool> {
+    var accountExists: Single<Bool> {
         guard let ethereumAccountExists = ethereumAccountExists else {
             return Single.error(WalletError.notInitialized)
         }
         return Single.just(ethereumAccountExists)
-    }
-    
-    private var secondPasswordNeeded: Single<Bool> {
-        guard let wallet = wallet else {
-            return Single.error(WalletError.notInitialized)
-        }
-        return Single.just(wallet.needsSecondPassword())
-    }
-    
-    private var secondPasswordIfNeeded: Single<String?> {
-        return secondPasswordNeeded
-            .flatMap(weak: self) { (self, needed) -> Single<String?> in
-                guard !needed else {
-                    return self.promptForSecondPassword
-                        .map { password -> String? in
-                            return password
-                        }
-                }
-                return Single.just(nil)
-            }
-    }
-    
-    private var promptForSecondPassword: Single<String> {
-        return Single.create(subscribe: { observer -> Disposable in
-            AuthenticationCoordinator.shared.showPasswordConfirm(
-                withDisplayText: LocalizationConstants.Authentication.secondPasswordDefaultDescription,
-                headerText: LocalizationConstants.Authentication.secondPasswordRequired,
-                validateSecondPassword: true,
-                confirmHandler: { password in
-                    observer(.success(password))
-                },
-                dismissHandler: {
-                    observer(.error(WalletError.unknown))
-                }
-            )
-            return Disposables.create()
-        })
     }
 }

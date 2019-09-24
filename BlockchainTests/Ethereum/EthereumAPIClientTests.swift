@@ -20,8 +20,8 @@ class EthereumAPIClientTests: XCTestCase {
     var disposeBag: DisposeBag!
 
     var communicator: MockNetworkCommunicator!
-    var networkConfig: EthereumAPIClient.NetworkConfig!
-    var subject: EthereumAPIClient!
+    var networkConfig: PlatformKit.Network.Config!
+    var subject: EthereumKit.APIClient!
 
     override func setUp() {
         super.setUp()
@@ -30,11 +30,11 @@ class EthereumAPIClientTests: XCTestCase {
         disposeBag = DisposeBag()
 
         communicator = MockNetworkCommunicator()
-        networkConfig = EthereumAPIClient.NetworkConfig.defaultConfig
+        networkConfig = PlatformKit.Network.Config.defaultConfig
 
-        subject = EthereumAPIClient(
+        subject = EthereumKit.APIClient(
             communicator: communicator,
-            networkConfig: networkConfig
+            config: networkConfig
         )
     }
 

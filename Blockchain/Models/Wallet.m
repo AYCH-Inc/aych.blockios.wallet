@@ -83,6 +83,7 @@ NSString * const kLockboxInvitation = @"lockbox";
 
     if (self) {
         _transactionProgressListeners = [NSMutableDictionary dictionary];
+        _bitcoin = [[BitcoinWallet alloc] initWithLegacyWallet:self];
         _ethereum = [[EthereumWallet alloc] initWithLegacyWallet:self];
     }
 
@@ -774,6 +775,9 @@ NSString * const kLockboxInvitation = @"lockbox";
     
     [self.ethereum setupWith:self.context];
 
+#pragma mark Bitcoin
+    
+    [self.bitcoin setupWith:self.context];
     
 #pragma mark Bitcoin Cash
 
@@ -2713,24 +2717,6 @@ NSString * const kLockboxInvitation = @"lockbox";
     return [self getBalanceForAccount:0 assetType:LegacyAssetTypeEther];
 }
 
-- (NSString *)getEthBalanceTruncated
-{
-    if ([self isInitialized] && [WalletManager.sharedInstance.wallet hasEthAccount]) {
-        NSNumber *balanceNumber = [[self.context evaluateScript:@"MyWalletPhone.getEthBalance()"] toNumber];
-        return [[NSNumberFormatter assetFormatterWithGroupingSeparator] stringFromNumber:balanceNumber];
-    } else {
-        DLog(@"Warning: getting eth balance when not initialized - returning 0");
-        return @"0";
-    }
-}
-
-- (void)getEthHistory
-{
-    if ([self isInitialized]) {
-        [self.context evaluateScript:@"MyWalletPhone.getEthHistory()"];
-    }
-}
-
 - (void)getEthExchangeRate
 {
     if ([self isInitialized]) {
@@ -3355,6 +3341,8 @@ NSString * const kLockboxInvitation = @"lockbox";
 - (void)did_load_wallet
 {
     [self.ethereum walletDidLoad];
+    
+    [self.bitcoin walletDidLoad];
     
     DLog(@"did_load_wallet");
 

@@ -216,7 +216,6 @@ final class KYCNetworkRequest {
     // MARK: - Private Methods
 
     private func send(taskSuccess: @escaping TaskSuccess, taskFailure: @escaping TaskFailure) {
-//        Logger.shared.debug("Sending \(request.httpMethod ?? "") request to '\(request.url?.absoluteString ?? "")'")
         let task = Network.Dependencies.default.session.dataTask(with: request, completionHandler: { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
@@ -229,12 +228,15 @@ final class KYCNetworkRequest {
                     taskFailure(HTTPRequestPayloadError.emptyData); return
                 }
 
-                let message = String(data: responseData, encoding: .utf8) ?? ""
-                Logger.shared.info(message)
-
+                let message = String(data: responseData, encoding: .utf8)
+                
+                if let message = message {
+                    Logger.shared.info(message)
+                }
+                
                 guard (200...299).contains(httpResponse.statusCode) else {
                     let errorPayload = try? JSONDecoder().decode(NabuNetworkError.self, from: responseData)
-                    taskFailure(HTTPRequestServerError.badStatusCode(code: httpResponse.statusCode, error: errorPayload, message: message)); return
+                    taskFailure(HTTPRequestServerError.badStatusCode(code: httpResponse.statusCode, error: errorPayload, message: message ?? "")); return
                 }
                 if let mimeType = httpResponse.mimeType {
                     guard mimeType == HttpHeaderValue.json else {

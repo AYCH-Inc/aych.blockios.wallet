@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 /// The Hierarchical Deterministic (HD) key creation and transfer protocol (BIP32),
 /// which allows creating child keys from parent keys in a hierarchy.
 /// Wallets using the HD protocol are called HD wallets.
@@ -19,7 +20,4 @@ public protocol HDAddressAssetAccount: MultiAddressAssetAccount {
     /** Derived address from the current receive index. This is expected to change to a new address after first receiving funds.
      */
     var currentAddress: Address { get }
-    
-    // The current receive index
-    var currentReceiveIndex: Int { get }
 }

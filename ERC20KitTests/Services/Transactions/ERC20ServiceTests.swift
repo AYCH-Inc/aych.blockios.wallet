@@ -176,7 +176,7 @@ class ERC20ServiceTests: XCTestCase {
             gasLimitContract: Int(MockEthereumWalletTestData.Transaction.gasLimitContract)
         )
         feeService.feesValue = Single.just(fee)
-        ethereumAPIAccountClient.accountBalanceValue = Single.just(CryptoValue.etherFromMajor(string: "0.01")!)
+        ethereumAPIAccountClient.balanceFromAddressValue = Single.just(CryptoValue.etherFromMajor(string: "0.01")!)
         
         let transferObservable = subject.transfer(to: to, amount: amount).asObservable()
         
@@ -200,7 +200,7 @@ class ERC20ServiceTests: XCTestCase {
             rawValue: MockEthereumWalletTestData.Transaction.to
         )!
 
-        ethereumAPIAccountClient.accountBalanceValue = Single.error(ERC20ServiceMockError.mockError)
+        ethereumAPIAccountClient.balanceFromAddressValue = Single.error(ERC20ServiceMockError.mockError)
 
         let transferObservable = subject.transfer(to: to, amount: amount).asObservable()
         

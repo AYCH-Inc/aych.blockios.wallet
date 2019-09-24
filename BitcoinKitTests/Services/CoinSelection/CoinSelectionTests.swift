@@ -165,6 +165,28 @@ private func unspents(_ values: [Int]) -> [UnspentOutput] {
         guard let bitcoinValue = try? BitcoinValue(crypto: CryptoValue.bitcoinFromSatoshis(int: abs(value))) else {
             return nil
         }
-        return UnspentOutput(value: bitcoinValue)
+        return UnspentOutput.create(with: bitcoinValue)
+    }
+}
+
+extension UnspentOutput {
+    static func create(with value: BitcoinValue,
+                       hash: String = "hash",
+                       script: String = "script",
+                       confirmations: UInt = 0,
+                       transactionIndex: Int = 0,
+                       xpub: XPub = XPub(m: "m", path: "path"),
+                       isReplayable: Bool = true,
+                       isForceInclude: Bool = false) -> UnspentOutput {
+        return UnspentOutput(
+            hash: hash,
+            script: script,
+            value: value,
+            confirmations: confirmations,
+            transactionIndex: transactionIndex,
+            xpub: xpub,
+            isReplayable: isReplayable,
+            isForceInclude: isForceInclude
+        )
     }
 }

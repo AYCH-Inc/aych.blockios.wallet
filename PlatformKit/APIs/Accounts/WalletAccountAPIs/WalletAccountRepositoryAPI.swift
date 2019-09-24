@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 /// Accessory for accounts in wallet metadata.
 /// Each currency has a `WalletAccountRepositoryAPI`. According to
@@ -16,6 +17,9 @@ import Foundation
 public protocol WalletAccountRepositoryAPI {
     associatedtype Account: WalletAccount
     
-    func accounts() -> [Account]
-    var defaultAccount: Account? { get }
+    // TODO:
+    // * Refactor StellarKit and EthereumKit to use the new `Single` based APIs
+//    var accounts: Single<[Account]> { get }
+    
+//    var defaultAccount: Single<Account?> { get }
 }

@@ -7,6 +7,7 @@
 //
 
 import PlatformKit
+import RxSwift
 
 open class BitcoinWalletAccountRepository: WalletAccountRepositoryAPI {
     public typealias Account = BitcoinWalletAccount
@@ -25,19 +26,19 @@ open class BitcoinWalletAccountRepository: WalletAccountRepositoryAPI {
      Transfer All - selected as the "To".
 
      */
-    public var defaultAccount: BitcoinWalletAccount?
-
-    fileprivate let bridge: Bridge
-
-    // MARK: - Init
-
-    public init(with bridge: Bridge) {
-        self.bridge = bridge
+    public var defaultAccount: Single<BitcoinWalletAccount> {
+        bridge.defaultWallet
+    }
+    
+    public var accounts: Single<[BitcoinWalletAccount]> {
+        bridge.wallets
     }
 
-    // MARK: - Public methods
+    private let bridge: Bridge
 
-    public func accounts() -> [BitcoinWalletAccount] {
-        return []
+    // MARK: - Init
+    
+    public init(with bridge: Bridge) {
+        self.bridge = bridge
     }
 }

@@ -46,19 +46,39 @@ enum EthereumAPIClientMockError: Error {
     case mockError
 }
 
-class EthereumAPIClientMock: EthereumAPIClientAPI {
+class EthereumAPIClientMock: EthereumKit.APIClientAPI {
+    
+    var latestBlockValue: Single<LatestBlockResponse> = Single.error(EthereumAPIClientMockError.mockError)
+    var latestBlock: Single<LatestBlockResponse> {
+        return latestBlockValue
+    }
+    
+    var lastAccountForAddress: String?
+    var accountForAddressValue: Single<EthereumAccountResponse> = Single.error(EthereumAPIClientMockError.mockError)
+    func account(for address: String) -> Single<EthereumAccountResponse> {
+        lastAccountForAddress = address
+        return accountForAddressValue
+    }
+    
+    var lastTransactionsForAccount: String?
+    var transactionsForAccountValue: Single<[EthereumHistoricalTransactionResponse]> = Single.just([])
+    func transactions(for account: String) -> Single<[EthereumHistoricalTransactionResponse]> {
+        lastTransactionsForAccount = account
+        return transactionsForAccountValue
+    }
+    
+    var lastBalanceFromAddress: String?
+    var balanceFromAddressValue: Single<CryptoValue> = Single.just(CryptoValue.createFromMajorValue(string: "2.0", assetType: .ethereum)!)
+    func balance(from address: String) -> Single<CryptoValue> {
+        lastBalanceFromAddress = address
+        return balanceFromAddressValue
+    }
+    
     var lastPushedTransaction: EthereumTransactionFinalised?
     var pushTransactionValue = Single.just(EthereumPushTxResponse(txHash: "txHash"))
     func push(transaction: EthereumTransactionFinalised) -> Single<EthereumPushTxResponse> {
         lastPushedTransaction = transaction
         return pushTransactionValue
-    }
-    
-    var accountBalanceValue = Single.just(CryptoValue.createFromMajorValue(string: "2.0", assetType: .ethereum)!)
-    var address: String = ""
-    func fetchBalance(from address: String) -> Single<CryptoValue> {
-        self.address = address
-        return accountBalanceValue
     }
 }
 

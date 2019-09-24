@@ -40,29 +40,6 @@ class EthereumWalletTests: XCTestCase {
         super.tearDown()
     }
     
-    func test_wallet_balance() {
-        // Arrange
-        let expectedBalance: CryptoValue = CryptoValue.etherFromMajor(string: "1337.0")!
-        let balanceObservable: Observable<CryptoValue> = subject
-            .balance
-            .asObservable()
-        
-        // Act
-        let result: TestableObserver<CryptoValue> = scheduler
-            .start { balanceObservable }
-        
-        // Assert
-        let expectedEvents: [Recorded<Event<CryptoValue>>] = Recorded.events(
-            .next(
-                200,
-                expectedBalance
-            ),
-            .completed(200)
-        )
-        
-        XCTAssertEqual(result.events, expectedEvents)
-    }
-    
     func test_wallet_name() {
         // Arrange
         let expectedName = "My ETH Wallet"
@@ -102,46 +79,6 @@ class EthereumWalletTests: XCTestCase {
             .next(
                 200,
                 expectedAddress
-            ),
-            .completed(200)
-        )
-        
-        XCTAssertEqual(result.events, expectedEvents)
-    }
-    
-    func test_wallet_transactions() {
-        // Arrange
-        let expectedTransactions: [EthereumHistoricalTransaction] = [
-            EthereumHistoricalTransaction(
-                identifier: "transactionHash",
-                fromAddress: EthereumHistoricalTransaction.Address(publicKey: "fromAddress.publicKey"),
-                toAddress: EthereumHistoricalTransaction.Address(publicKey: "toAddress.publicKey"),
-                direction: .credit,
-                amount: "amount",
-                transactionHash: "transactionHash",
-                createdAt: Date(),
-                fee: CryptoValue.etherFromGwei(string: "231000"),
-                memo: "memo",
-                confirmations: 12
-            )
-        ].compactMap { $0 }
-        
-        let legacyTransactions = expectedTransactions.compactMap { $0.legacyTransaction }
-        legacyWalletMock.getEthereumTransactionsCompletion = .success(legacyTransactions)
-        
-        let transactionsObservable: Observable<[EthereumHistoricalTransaction]> = subject
-            .transactions
-            .asObservable()
-        
-        // Act
-        let result: TestableObserver<[EthereumHistoricalTransaction]> = scheduler
-            .start { transactionsObservable }
-        
-        // Assert
-        let expectedEvents: [Recorded<Event<[EthereumHistoricalTransaction]>>] = Recorded.events(
-            .next(
-                200,
-                expectedTransactions
             ),
             .completed(200)
         )

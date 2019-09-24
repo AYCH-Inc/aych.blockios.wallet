@@ -18,6 +18,7 @@ public protocol StellarWalletAccountRepositoryAPI {
 }
 
 open class StellarWalletAccountRepository: StellarWalletAccountRepositoryAPI, WalletAccountRepositoryAPI, WalletAccountInitializer, KeyPairProviderAPI {
+    public typealias Account = StellarWalletAccount
     public typealias Pair = StellarKeyPair
     public typealias WalletAccount = StellarWalletAccount
     public typealias Bridge = StellarWalletBridgeAPI & MnemonicAccessAPI

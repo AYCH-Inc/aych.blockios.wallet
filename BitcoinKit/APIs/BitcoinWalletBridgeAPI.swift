@@ -11,22 +11,10 @@ import RxSwift
 
 public protocol BitcoinWalletBridgeAPI: class {
     /// If an imported address or HD account is active, it means that it is not archived.
+    
+    // MARK: - Wallet Account
+    
+    var defaultWallet: Single<BitcoinWalletAccount> { get }
 
-    // MARK: - HD Accounts
-
-    func hdAccounts() -> Single<[BitcoinHDAssetAccount]>
-
-    func balance(of HDAccounts: [BitcoinHDAssetAccount]) -> Single<CryptoValue>
-
-    func transactions(for HDAccounts: [BitcoinHDAssetAccount]) -> Single<[BitcoinTransaction]>
-
-    // MARK: - Imported Addresses
-
-    func importedAddresses() -> Single<[BitcoinAssetAddress]>
-
-    func balance(of importedAddresses: [BitcoinAssetAddress]) -> Single<CryptoValue>
-
-    func transactions(for importedAddresses: [BitcoinAssetAddress]) -> Single<[BitcoinTransaction]>
-
-    // TODO: add archiving/unarchiving support and add Archivable protocol
+    var wallets: Single<[BitcoinWalletAccount]> { get }
 }

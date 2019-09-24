@@ -246,6 +246,10 @@ extension CryptoValue {
         }
         return CryptoValue(currencyType: .bitcoin, amount: satoshiInBigInt)
     }
+    
+    public static func bitcoinFromSatoshis(bigInt satoshis: BigInt) -> CryptoValue {
+        return CryptoValue(currencyType: .bitcoin, amount: satoshis)
+    }
 
     public static func bitcoinFromSatoshis(int satoshis: Int) -> CryptoValue {
         return CryptoValue(currencyType: .bitcoin, amount: BigInt(satoshis))

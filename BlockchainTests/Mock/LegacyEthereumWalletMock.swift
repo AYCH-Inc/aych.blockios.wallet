@@ -13,8 +13,29 @@ import RxSwift
 @testable import PlatformUIKit
 @testable import Blockchain
 
-class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI {
-
+class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, Blockchain.LegacyWalletAPI, MnemonicAccessAPI {
+    
+    // MARK: - LegacyWalletAPI
+    
+    var waitingOnEtherTransaction: Bool = false
+    func isWaitingOnEtherTransaction() -> Bool {
+        return waitingOnEtherTransaction
+    }
+    
+    func createOrderPayment(withOrderTransaction orderTransaction: Blockchain.OrderTransactionLegacy, completion: @escaping () -> Void, success: ((String) -> Void)!, error: @escaping (String) -> Void) {
+        error("Not implemented")
+    }
+    
+    func sendOrderTransaction(_ legacyAssetType: Blockchain.LegacyAssetType, secondPassword: String?, completion: @escaping () -> Void, success: @escaping () -> Void, error: @escaping (String) -> Void, cancel: @escaping () -> Void) {
+        error("Not implemented")
+    }
+    
+    var receiveAddress: String = "ReceiveAddress"
+    func getReceiveAddress(forAccount account: Int32, assetType: Blockchain.LegacyAssetType) -> String! {
+        return receiveAddress
+    }
+    
+    // MARK: - LegacyEthereumWalletProtocol
     
     enum MockLegacyEthereumWalletError: Error {
         case notInitialized
@@ -87,42 +108,6 @@ class MockLegacyEthereumWallet: LegacyEthereumWalletProtocol, MnemonicAccessAPI 
     var fetchEthereumBalancecCompletion: Result<String, MockLegacyEthereumWalletError> = .success(ethBalanceValue)
     func fetchEthereumBalance(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void) {
         switch fetchEthereumBalancecCompletion {
-        case .success(let value):
-            success(value)
-        case .failure(let e):
-            error("\(e.localizedDescription)")
-        }
-    }
-    
-    var ethereumBalanceCalled: Bool = false
-    var ethereumBalancecCompletion: Result<String, MockLegacyEthereumWalletError> = .success(ethBalanceValue)
-    func ethereumBalance(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void) {
-        ethereumBalanceCalled = true
-        switch ethereumBalancecCompletion {
-        case .success(let value):
-            success(value)
-        case .failure(let e):
-            error("\(e.localizedDescription)")
-        }
-    }
-    
-    static let ethTransactions: [EtherTransaction] = [
-        EthereumHistoricalTransaction(
-            identifier: "identifier",
-            fromAddress: EthereumHistoricalTransaction.Address(publicKey: "fromAddress.publicKey"),
-            toAddress: EthereumHistoricalTransaction.Address(publicKey: "toAddress.publicKey"),
-            direction: .credit,
-            amount: "amount",
-            transactionHash: "transactionHash",
-            createdAt: Date(),
-            fee: CryptoValue.etherFromGwei(string: "1"),
-            memo: "memo",
-            confirmations: 12
-            ).legacyTransaction
-        ].compactMap { $0 }
-    var getEthereumTransactionsCompletion: Result<[EtherTransaction], MockLegacyEthereumWalletError> = .success(ethTransactions)
-    func getEthereumTransactions(with secondPassword: String?, success: @escaping ([EtherTransaction]) -> Void, error: @escaping (String) -> Void) {
-        switch getEthereumTransactionsCompletion {
         case .success(let value):
             success(value)
         case .failure(let e):

@@ -15,9 +15,9 @@ protocol EthereumAssetAccountServiceAPI {
 
 final class EthereumAssetAccountService: EthereumAssetAccountServiceAPI {
     
-    private let client: EthereumAPIClientAPI
+    private let client: APIClientAPI
     
-    public init(client: EthereumAPIClientAPI) {
+    public init(client: APIClientAPI) {
         self.client = client
     }
     

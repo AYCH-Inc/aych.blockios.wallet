@@ -11,18 +11,7 @@ import web3swift
 import BigInt
 import PlatformKit
 
-public struct EthereumPushTxResponse: Decodable, Equatable {
-    public let txHash: String
-    
-    public init(txHash: String) {
-        self.txHash = txHash
-    }
-}
 
-public protocol EthereumAPIClientAPI {
-    func push(transaction: EthereumTransactionFinalised) -> Single<EthereumPushTxResponse>
-    func fetchBalance(from address: String) -> Single<CryptoValue>
-}
 
 public protocol EthereumFeeServiceAPI {
     var fees: Single<EthereumTransactionFee> { get }
@@ -42,7 +31,7 @@ public final class EthereumTransactionSendingService: EthereumTransactionSending
     public typealias Bridge = EthereumWalletBridgeAPI
     
     private let bridge: Bridge
-    private let ethereumAPIClient: EthereumAPIClientAPI
+    private let client: APIClientAPI
     private let feeService: EthereumFeeServiceAPI
     private let transactionBuilder: EthereumTransactionBuilderAPI
     private let transactionSigner: EthereumTransactionSignerAPI
@@ -50,13 +39,13 @@ public final class EthereumTransactionSendingService: EthereumTransactionSending
     
     public init(
         with bridge: Bridge,
-        ethereumAPIClient: EthereumAPIClientAPI,
+        client: APIClientAPI,
         feeService: EthereumFeeServiceAPI,
         transactionBuilder: EthereumTransactionBuilderAPI = EthereumTransactionBuilder.shared,
         transactionSigner: EthereumTransactionSignerAPI = EthereumTransactionSigner.shared,
         transactionEncoder: EthereumTransactionEncoderAPI = EthereumTransactionEncoder.shared) {
         self.bridge = bridge
-        self.ethereumAPIClient = ethereumAPIClient
+        self.client = client
         self.feeService = feeService
         self.transactionBuilder = transactionBuilder
         self.transactionSigner = transactionSigner
@@ -89,7 +78,7 @@ public final class EthereumTransactionSendingService: EthereumTransactionSending
     }
 
     private func publish(transaction: EthereumTransactionFinalised) -> Single<EthereumTransactionPublished> {
-        return ethereumAPIClient.push(transaction: transaction)
+        return client.push(transaction: transaction)
             .flatMap { response in
                 let publishedTransaction = try EthereumTransactionPublished(
                     finalisedTransaction: transaction,

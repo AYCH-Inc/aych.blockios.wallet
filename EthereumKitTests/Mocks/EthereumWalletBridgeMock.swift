@@ -83,7 +83,7 @@ class EthereumWalletBridgeMock: EthereumWalletBridgeAPI, EthereumWalletAccountBr
     
     // MARK: - EthereumWalletAccountBridgeAPI
     
-    var ethereumWallets: Single<[EthereumWalletAccount]> {
+    var wallets: Single<[EthereumWalletAccount]> {
         return Single.just([])
     }
     

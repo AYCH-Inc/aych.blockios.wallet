@@ -20,7 +20,7 @@ class EthereumWalletServiceTests: XCTestCase {
     var disposeBag: DisposeBag!
     
     var bridge: EthereumWalletBridgeMock!
-    var ethereumAPIClient: EthereumAPIClientMock!
+    var client: EthereumAPIClientMock!
     var feeService: EthereumFeeServiceMock!
     
     var transactionBuilder: EthereumTransactionBuilder!
@@ -48,7 +48,7 @@ class EthereumWalletServiceTests: XCTestCase {
         disposeBag = DisposeBag()
         
         bridge = EthereumWalletBridgeMock()
-        ethereumAPIClient = EthereumAPIClientMock()
+        client = EthereumAPIClientMock()
         feeService = EthereumFeeServiceMock()
         
         transactionBuilder = EthereumTransactionBuilder.shared
@@ -60,7 +60,7 @@ class EthereumWalletServiceTests: XCTestCase {
         
         assetAccountDetailsService = EthereumAssetAccountDetailsService(
             with: bridge,
-            client: ethereumAPIClient
+            client: client
         )
         
         ethereumAssetAccountRepository = EthereumAssetAccountRepository(
@@ -69,7 +69,7 @@ class EthereumWalletServiceTests: XCTestCase {
         
         transactionSendingService = EthereumTransactionSendingService(
             with: bridge,
-            ethereumAPIClient: ethereumAPIClient,
+            client: client,
             feeService: feeService,
             transactionBuilder: transactionBuilder,
             transactionSigner: transactionSigner,
@@ -88,7 +88,7 @@ class EthereumWalletServiceTests: XCTestCase {
         
         subject = EthereumWalletService(
             with: bridge,
-            ethereumAPIClient: ethereumAPIClient,
+            client: client,
             feeService: feeService,
             walletAccountRepository: walletAccountRepository,
             transactionBuildingService: transactionBuildingService,
@@ -101,7 +101,7 @@ class EthereumWalletServiceTests: XCTestCase {
         scheduler = nil
         disposeBag = nil
         bridge = nil
-        ethereumAPIClient = nil
+        client = nil
         feeService = nil
         transactionBuilder = nil
         transactionSigner = nil
@@ -128,7 +128,7 @@ class EthereumWalletServiceTests: XCTestCase {
             .build()!
 
         bridge.recordLastTransactionValue = Single.just(expectedPublished)
-        ethereumAPIClient.pushTransactionValue = Single.just(EthereumPushTxResponse(txHash: expectedPublished.transactionHash))
+        client.pushTransactionValue = Single.just(EthereumPushTxResponse(txHash: expectedPublished.transactionHash))
         
         let sendObservable: Observable<EthereumTransactionPublished> = subject
             .send(transaction: candidate)
@@ -155,8 +155,8 @@ class EthereumWalletServiceTests: XCTestCase {
         }
         XCTAssertEqual(lastRecordedTransaction, expectedPublished)
         
-        XCTAssertNotNil(ethereumAPIClient.lastPushedTransaction)
-        guard let lastPushedTransaction = ethereumAPIClient.lastPushedTransaction else {
+        XCTAssertNotNil(client.lastPushedTransaction)
+        guard let lastPushedTransaction = client.lastPushedTransaction else {
             XCTFail("Should have successfully pushed the finalised transaction")
             return
         }
@@ -193,7 +193,7 @@ class EthereumWalletServiceTests: XCTestCase {
             rawValue: MockEthereumWalletTestData.Transaction.to
         )!
         
-        ethereumAPIClient.accountBalanceValue = Single.just(CryptoValue.etherFromMajor(string: "0.1")!)
+        client.balanceFromAddressValue = Single.just(CryptoValue.etherFromMajor(string: "0.1")!)
 
         let buildObservable: Observable<EthereumTransactionCandidate> = subject
             .buildTransaction(with: ethereumValue, to: toAddress)
@@ -231,7 +231,7 @@ class EthereumWalletServiceTests: XCTestCase {
             gasLimitContract: Int(MockEthereumWalletTestData.Transaction.gasLimitContract)
         )
         feeService.feesValue = Single.just(fee)
-        ethereumAPIClient.accountBalanceValue = Single.just(CryptoValue.etherFromMajor(string: "0.02")!)
+        client.balanceFromAddressValue = Single.just(CryptoValue.etherFromMajor(string: "0.02")!)
 
         let buildObservable: Observable<EthereumTransactionCandidate> = subject
             .buildTransaction(with: ethereumValue, to: toAddress)
@@ -263,7 +263,7 @@ class EthereumWalletServiceTests: XCTestCase {
         
         transactionSendingService = EthereumTransactionSendingService(
             with: bridge,
-            ethereumAPIClient: ethereumAPIClient,
+            client: client,
             feeService: feeService,
             transactionBuilder: transactionBuilder,
             transactionSigner: transactionSigner,
@@ -272,7 +272,7 @@ class EthereumWalletServiceTests: XCTestCase {
         
         subject = EthereumWalletService(
             with: bridge,
-            ethereumAPIClient: ethereumAPIClient,
+            client: client,
             feeService: feeService,
             walletAccountRepository: walletAccountRepository,
             transactionBuildingService: transactionBuildingService,
@@ -317,7 +317,7 @@ class EthereumWalletServiceTests: XCTestCase {
             .with(value: 1)
             .build()!
         
-        ethereumAPIClient.pushTransactionValue = Single.error(EthereumAPIClientMockError.mockError)
+        client.pushTransactionValue = Single.error(EthereumAPIClientMockError.mockError)
         
         let sendObservable: Observable<EthereumTransactionPublished> = subject
             .send(transaction: candidate)
@@ -344,7 +344,7 @@ class EthereumWalletServiceTests: XCTestCase {
             .with(candidate: candidate)
             .build()!
         
-        ethereumAPIClient.pushTransactionValue = Single.just(EthereumPushTxResponse(txHash: expectedPublished.transactionHash))
+        client.pushTransactionValue = Single.just(EthereumPushTxResponse(txHash: expectedPublished.transactionHash))
         bridge.recordLastTransactionValue = Single.error(EthereumWalletBridgeMockError.mockError)
 
         let sendObservable: Observable<EthereumTransactionPublished> = subject
@@ -372,7 +372,7 @@ class EthereumWalletServiceTests: XCTestCase {
             rawValue: MockEthereumWalletTestData.Transaction.to
         )!
         
-        ethereumAPIClient.accountBalanceValue = Single.error(EthereumWalletBridgeMockError.mockError)
+        client.balanceFromAddressValue = Single.error(EthereumWalletBridgeMockError.mockError)
 
         let buildObservable: Observable<EthereumTransactionCandidate> = subject
             .buildTransaction(with: ethereumValue, to: toAddress)

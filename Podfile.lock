@@ -150,6 +150,7 @@ DEPENDENCIES:
   - PhoneNumberKit (~> 2.1)
   - RxBlocking (~> 5.0)
   - RxCocoa (= 5.0)
+  - RxRelay (= 5.0)
   - RxSwift (= 5.0)
   - RxTest (~> 5.0)
   - Starscream (= 3.1.0)
@@ -258,6 +259,6 @@ SPEC CHECKSUMS:
   VeriffWebRTC: 47806fee639a69ae5f82f2b031d20f0014d4a016
   web3swift.pod: 98e8653f39e1bcd7b45f46dd982ec49cdfc6c46a
 
-PODFILE CHECKSUM: 74de4eb1bf014da440934599e694e4a12a552ff1
+PODFILE CHECKSUM: bd5dc112f9d6eff459bc8cb00c6ef316bab82bd1
 
 COCOAPODS: 1.7.3

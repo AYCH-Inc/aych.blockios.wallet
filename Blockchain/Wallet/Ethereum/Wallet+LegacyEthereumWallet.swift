@@ -7,13 +7,11 @@
 //
 
 import Foundation
-
-public protocol LegacyEthereumWalletProtocol: class {
+ 
+protocol LegacyEthereumWalletProtocol {
     var password: String? { get }
 
     func checkIfEthereumAccountExists() -> Bool
-    
-    func needsSecondPassword() -> Bool
     
     func ethereumAccounts(with secondPassword: String?, success: @escaping ([[String: Any]]) -> Void, error: @escaping (String) -> Void)
     func getLabelForEthereumAccount(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void)
@@ -21,8 +19,6 @@ public protocol LegacyEthereumWalletProtocol: class {
     func getEthereumAddress(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void)
     
     func fetchEthereumBalance(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void)
-    func ethereumBalance(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void)
-    func getEthereumTransactions(with secondPassword: String?, success: @escaping ([EtherTransaction]) -> Void, error: @escaping (String) -> Void)
     
     func fetchHistory(with secondPassword: String?, success: @escaping () -> Void, error: @escaping (String) -> Void)
     func isWaitingOnEthereumTransaction(with secondPassword: String?, success: @escaping (Bool) -> Void, error: @escaping (String) -> Void)
@@ -128,37 +124,6 @@ extension Wallet: LegacyEthereumWalletProtocol {
             }
         }
         let function: String = "MyWalletPhone.getAvailableEthBalanceAsync"
-        let script: String
-        if let escapedSecondPassword = secondPassword?.escapedForJS() {
-            script = "\(function)(\(escapedSecondPassword))"
-        } else {
-            script = "\(function)()"
-        }
-        context.evaluateScript(script)
-    }
-    
-    public func ethereumBalance(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void) {
-        guard isInitialized() else {
-            error("Wallet is not yet initialized.")
-            return
-        }
-        success(self.getEthBalanceTruncated())
-    }
-    
-    public func getEthereumTransactions(with secondPassword: String?, success: @escaping ([EtherTransaction]) -> Void, error: @escaping (String) -> Void) {
-        guard isInitialized() else {
-            error("Wallet is not yet initialized.")
-            return
-        }
-        ethereum.interopDispatcher.getTransactions.addObserver { result in
-            switch result {
-            case .success(let transactions):
-                success(transactions)
-            case .failure(let errorMessage):
-                error(errorMessage.localizedDescription)
-            }
-        }
-        let function: String = "MyWalletPhone.getEthTransactionsAsync"
         let script: String
         if let escapedSecondPassword = secondPassword?.escapedForJS() {
             script = "\(function)(\(escapedSecondPassword))"

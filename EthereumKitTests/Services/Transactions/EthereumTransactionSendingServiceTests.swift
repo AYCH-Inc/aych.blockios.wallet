@@ -19,7 +19,7 @@ class EthereumTransactionSendingServiceTests: XCTestCase {
     var disposeBag: DisposeBag!
     
     var bridge: EthereumWalletBridgeMock!
-    var ethereumAPIClient: EthereumAPIClientMock!
+    var client: EthereumAPIClientMock!
     var feeService: EthereumFeeServiceMock!
     
     var transactionBuilder: EthereumTransactionBuilder!
@@ -35,7 +35,7 @@ class EthereumTransactionSendingServiceTests: XCTestCase {
         disposeBag = DisposeBag()
 
         bridge = EthereumWalletBridgeMock()
-        ethereumAPIClient = EthereumAPIClientMock()
+        client = EthereumAPIClientMock()
         feeService = EthereumFeeServiceMock()
         
         transactionBuilder = EthereumTransactionBuilder.shared
@@ -44,7 +44,7 @@ class EthereumTransactionSendingServiceTests: XCTestCase {
         
         subject = EthereumTransactionSendingService(
             with: bridge,
-            ethereumAPIClient: ethereumAPIClient,
+            client: client,
             feeService: feeService,
             transactionBuilder: transactionBuilder,
             transactionSigner: transactionSigner,
@@ -56,7 +56,7 @@ class EthereumTransactionSendingServiceTests: XCTestCase {
         scheduler = nil
         disposeBag = nil
         bridge = nil
-        ethereumAPIClient = nil
+        client = nil
         feeService = nil
         transactionBuilder = nil
         transactionSigner = nil
@@ -74,7 +74,7 @@ class EthereumTransactionSendingServiceTests: XCTestCase {
             .with(candidate: candidate)
             .build()!
         
-        ethereumAPIClient.pushTransactionValue = Single.just(
+        client.pushTransactionValue = Single.just(
             EthereumPushTxResponse(txHash: expectedPublished.transactionHash)
         )
         

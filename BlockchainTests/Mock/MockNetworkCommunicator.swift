@@ -17,6 +17,9 @@ enum CommunicatorMockError: Error {
 }
 
 class MockNetworkCommunicator: NetworkCommunicatorAPI {
+    func perform<ResponseType: Decodable>(request: NetworkRequest, responseType: ResponseType.Type) -> Single<ResponseType> {
+        return decode(fixture: perfomRequestResponseFixture)
+    }
     
     @available(*, deprecated, message: "Don't use this")
     func perform<ResponseType, ErrorResponseType>(request: NetworkRequest, responseType: ResponseType.Type, errorResponseType: ErrorResponseType.Type) -> PrimitiveSequence<SingleTrait, Result<ResponseType, ErrorResponseType>> where ResponseType : Decodable, ErrorResponseType : Decodable, ErrorResponseType : Error {

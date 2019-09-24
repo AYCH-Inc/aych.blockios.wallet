@@ -12,15 +12,75 @@ import BigInt
 
 struct UnspentOutput: Equatable {
     
+    struct XPub: Equatable {
+        let m: String
+        let path: String
+    }
+    
     var magnitude: BigUInt {
         return value.amount.magnitude
     }
+
+    let hash: String
+    
+    let script: String
     
     let value: BitcoinValue
-
-    let isReplayable: Bool = true
     
-    let isForceInclude: Bool = false
+    let confirmations: UInt
+    
+    let transactionIndex: Int
+    
+    let xpub: XPub
+
+    let isReplayable: Bool
+    
+    let isForceInclude: Bool
+    
+    init(hash: String,
+         script: String,
+         value: BitcoinValue,
+         confirmations: UInt,
+         transactionIndex: Int,
+         xpub: XPub,
+         isReplayable: Bool,
+         isForceInclude: Bool = false) {
+        self.hash = hash
+        self.script = script
+        self.value = value
+        self.confirmations = confirmations
+        self.transactionIndex = transactionIndex
+        self.xpub = xpub
+        self.isReplayable = isReplayable
+        self.isForceInclude = isForceInclude
+    }
+}
+
+extension UnspentOutput {
+    init(response: UnspentOutputResponse) throws {
+        let satoshisString = NSDecimalNumber(decimal: response.value).stringValue
+        guard
+            let satoshis = BigInt(satoshisString)
+        else {
+            throw UnspentOutputError.invalidValue
+        }
+        let value = try BitcoinValue(satoshis: satoshis)
+        self.hash = response.tx_hash
+        self.script = response.script
+        self.value = value
+        self.confirmations = response.confirmations
+        self.transactionIndex = response.tx_index
+        self.xpub = XPub(responseXPub: response.xpub)
+        self.isReplayable = response.replayable ?? false
+        self.isForceInclude = false
+    }
+}
+
+extension UnspentOutput.XPub {
+    init(responseXPub: UnspentOutputResponse.XPub) {
+        self.m = responseXPub.m
+        self.path = responseXPub.path
+    }
 }
 
 extension UnspentOutput {

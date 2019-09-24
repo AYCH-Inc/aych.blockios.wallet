@@ -23,18 +23,12 @@ enum EthereumJSInteropDispatcherError: Error {
 
     func didFetchBalance(_ balance: JSValue)
     func didFailToFetchBalance(errorMessage: JSValue)
-
-    func didGetBalance(_ balance: JSValue)
-    func didFailToGetBalance(errorMessage: JSValue)
     
     func didGetAddress(_ address: JSValue)
     func didFailToGetAddress(errorMessage: JSValue)
     
     func didFetchHistory()
     func didFailToFetchHistory(errorMessage: JSValue)
-    
-    func didGetTransactions(_ transactions: JSValue)
-    func didFailToGetTransactions(errorMessage: JSValue)
 
     func didRecordLastTransaction()
     func didFailToRecordLastTransaction(errorMessage: JSValue)
@@ -57,9 +51,7 @@ protocol EthereumJSInteropDispatcherAPI {
     var saveAccount: Dispatcher<Void> { get }
     
     var fetchHistory: Dispatcher<Void> { get }
-    var getTransactions: Dispatcher<[EtherTransaction]> { get }
     var fetchBalance: Dispatcher<String> { get }
-    var getBalance: Dispatcher<String> { get }
     var getAddress: Dispatcher<String> { get }
     
     var recordLastTransaction: Dispatcher<Void> { get }
@@ -77,9 +69,7 @@ public class EthereumJSInteropDispatcher: EthereumJSInteropDispatcherAPI {
     let saveAccount = Dispatcher<Void>()
     
     let fetchHistory = Dispatcher<Void>()
-    let getTransactions = Dispatcher<[EtherTransaction]>()
     let fetchBalance = Dispatcher<String>()
-    let getBalance = Dispatcher<String>()
     let getAddress = Dispatcher<String>()
     
     let recordLastTransaction = Dispatcher<Void>()
@@ -123,18 +113,6 @@ extension EthereumJSInteropDispatcher: EthereumJSInteropDelegateAPI {
         sendFailure(dispatcher: fetchBalance, errorMessage: errorMessage)
     }
     
-    public func didGetBalance(_ balance: JSValue) {
-        guard let balance = balance.toString() else {
-            getBalance.sendFailure(.unknown)
-            return
-        }
-        getBalance.sendSuccess(with: balance)
-    }
-    
-    public func didFailToGetBalance(errorMessage: JSValue) {
-        sendFailure(dispatcher: getBalance, errorMessage: errorMessage)
-    }
-    
     public func didGetAddress(_ address: JSValue) {
         guard let address = address.toString() else {
             getAddress.sendFailure(.unknown)
@@ -153,21 +131,6 @@ extension EthereumJSInteropDispatcher: EthereumJSInteropDelegateAPI {
     
     public func didFailToFetchHistory(errorMessage: JSValue) {
         sendFailure(dispatcher: fetchHistory, errorMessage: errorMessage)
-    }
-    
-    public func didGetTransactions(_ transactions: JSValue) {
-        guard let transactionsDictionaries = transactions.toArray() as? [[String: AnyObject]] else {
-            getTransactions.sendFailure(.unknown)
-            return
-        }
-        let convertedTransactions = transactionsDictionaries.map { dict in
-            return EtherTransaction.fromJSON(dict: dict)
-        }
-        getTransactions.sendSuccess(with: convertedTransactions)
-    }
-    
-    public func didFailToGetTransactions(errorMessage: JSValue) {
-        sendFailure(dispatcher: getTransactions, errorMessage: errorMessage)
     }
     
     public func didRecordLastTransaction() {

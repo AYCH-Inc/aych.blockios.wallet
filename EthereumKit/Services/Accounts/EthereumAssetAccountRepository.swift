@@ -9,7 +9,7 @@
 import Foundation
 import PlatformKit
 import RxSwift
-import RxCocoa
+import RxRelay
 
 open class EthereumAssetAccountRepository: AssetAccountRepositoryAPI {
     public typealias Details = EthereumAssetAccountDetails

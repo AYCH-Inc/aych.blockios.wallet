@@ -2361,24 +2361,6 @@ MyWalletPhone.getEthTransactions = function() {
     }
 }
 
-MyWalletPhone.getEthTransactionsAsync = function(secondPassword) {
-    var convertTransactions = function () {
-        var eth = MyWallet.wallet.eth;
-        let transactions = MyWalletPhone.convertEthTransactionsToJSON(eth.defaultAccount.txs);
-        return Promise.resolve(transactions);
-    };
-    var success = function(transactions) {
-        objc_on_getEthTransactionsAsync_success(transactions);
-    };
-    var error = function(error) {
-        objc_on_getEthTransactionsAsync_error(error);
-    };
-    MyWalletPhone.createEthAccountIfNeeded(secondPassword)
-        .then(convertTransactions)
-        .then(success)
-        .catch(error);
-}
-
 MyWalletPhone.createEthAccountIfNeeded = function(secondPassword) {
     var eth = MyWallet.wallet.eth;
     if (eth && eth.defaultAccount) { 
@@ -2773,6 +2755,50 @@ MyWalletPhone.getEtherAccountsAsync = function (secondPassword) {
     };
     MyWalletPhone.createEthAccountIfNeeded(secondPassword)
         .then(fetchAccounts)
+        .then(success)
+        .catch(error);
+};
+
+MyWalletPhone.getDefaultBitcoinWalletIndexAsync = function (secondPassword) {
+    var getDefaultBitcoinWalletIndex = function () {
+        var defaultWalletIndex = MyWalletPhone.getDefaultAccountIndex();
+        return Promise.resolve(defaultWalletIndex);
+    };
+    var success = function (defaultWalletIndex) {
+        console.log('Fetched defaultWalletIndex');
+        console.log(defaultWalletIndex);
+        objc_on_didGetDefaultBitcoinWalletIndexAsync(defaultWalletIndex);
+    };
+    var error = function (e) {
+        console.log('Error fetching defaultWalletIndex');
+        console.log(e);
+        objc_on_error_gettingDefaultBitcoinWalletIndexAsync(e);
+    };
+    return getDefaultBitcoinWalletIndex()
+        .then(success)
+        .catch(error);
+};
+
+MyWalletPhone.getBitcoinWalletsAsync = function (secondPassword) {
+    var fetchAccounts = function () {
+        var wallet = MyWallet.wallet.hdwallet;
+        var jsonAccounts = wallet.accounts.map(function(account) {
+            return account.toJSON();
+        });
+        var accountsJSONString = JSON.stringify(jsonAccounts);
+        return Promise.resolve(accountsJSONString);
+    };
+    var success = function (accounts) {
+        console.log('Fetched accounts');
+        console.log(accounts);
+        objc_on_didGetBitcoinWalletsAsync(accounts);
+    };
+    var error = function (e) {
+        console.log('Error fetching accounts');
+        console.log(e);
+        objc_on_error_gettingBitcoinWalletsAsync(e);
+    };
+    return fetchAccounts()
         .then(success)
         .catch(error);
 };

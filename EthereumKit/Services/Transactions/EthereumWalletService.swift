@@ -71,7 +71,7 @@ public final class EthereumWalletService: EthereumWalletServiceAPI {
     }
     
     private let bridge: Bridge
-    private let ethereumAPIClient: EthereumAPIClientAPI
+    private let client: APIClientAPI
     private let feeService: EthereumFeeServiceAPI
     private let walletAccountRepository: EthereumWalletAccountRepositoryAPI
     private let transactionBuildingService: EthereumTransactionBuildingServiceAPI
@@ -79,14 +79,14 @@ public final class EthereumWalletService: EthereumWalletServiceAPI {
     private let transactionValidationService: ValidateTransactionAPI
     
     public init(with bridge: Bridge,
-                ethereumAPIClient: EthereumAPIClientAPI,
+                client: APIClientAPI,
                 feeService: EthereumFeeServiceAPI,
                 walletAccountRepository: EthereumWalletAccountRepositoryAPI,
                 transactionBuildingService: EthereumTransactionBuildingServiceAPI,
                 transactionSendingService: EthereumTransactionSendingServiceAPI,
                 transactionValidationService: ValidateTransactionAPI) {
         self.bridge = bridge
-        self.ethereumAPIClient = ethereumAPIClient
+        self.client = client
         self.feeService = feeService
         self.walletAccountRepository = walletAccountRepository
         self.transactionBuildingService = transactionBuildingService

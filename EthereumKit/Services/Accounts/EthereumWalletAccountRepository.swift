@@ -18,7 +18,7 @@ public protocol EthereumWalletAccountRepositoryAPI {
 }
 
 open class EthereumWalletAccountRepository: EthereumWalletAccountRepositoryAPI, WalletAccountRepositoryAPI, KeyPairProviderAPI {
-    
+    public typealias Account = EthereumWalletAccount
     public typealias KeyPair = EthereumKeyPair
     public typealias WalletAccount = EthereumWalletAccount
     public typealias Bridge =
@@ -69,7 +69,7 @@ open class EthereumWalletAccountRepository: EthereumWalletAccountRepositoryAPI, 
     // MARK: - Private methods
     
     private func loadDefaultAccount() -> Maybe<WalletAccount> {
-        return bridge.ethereumWallets.asMaybe()
+        return bridge.wallets.asMaybe()
             .flatMap { accounts -> Maybe<WalletAccount> in
                 guard let first = accounts.first else {
                     return Maybe.empty()

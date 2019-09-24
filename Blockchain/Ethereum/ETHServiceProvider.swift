@@ -10,6 +10,8 @@ import Foundation
 import RxSwift
 import EthereumKit
 
+// TODO: Move this to EthereumKit
+
 protocol ETHDependencies {
     var repository: EthereumWalletAccountRepository { get }
     var assetAccountRepository: EthereumAssetAccountRepository { get }
@@ -28,11 +30,12 @@ struct ETHServices: ETHDependencies {
         self.assetAccountRepository = EthereumAssetAccountRepository(
             service: EthereumAssetAccountDetailsService(
                 with: wallet.ethereum,
-                client: EthereumAPIClient.shared
+                client: EthereumKit.APIClient.shared
             )
         )
         self.transactionService = EthereumHistoricalTransactionService(
-            with: wallet.ethereum
+            with: wallet.ethereum,
+            client: EthereumKit.APIClient.shared
         )
         self.qrMetadataFactory = EthereumQRMetadataFactory()
     }

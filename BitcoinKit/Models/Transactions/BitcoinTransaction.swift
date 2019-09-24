@@ -34,7 +34,7 @@ public struct BitcoinTransaction: HistoricalTransaction, Mineable {
 
     // MARK: - Mineable
 
-    public let confirmations: Int
+    public let confirmations: UInt
 
     public var isConfirmed: Bool {
         return confirmations == 3

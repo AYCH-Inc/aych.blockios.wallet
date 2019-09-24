@@ -12,6 +12,7 @@ import BigInt
 
 public enum BitcoinValueError: Error {
     case invalidCryptoValue
+    case invalidAmount
 }
 
 public struct BitcoinValue: Crypto {
@@ -30,6 +31,10 @@ public struct BitcoinValue: Crypto {
             throw BitcoinValueError.invalidCryptoValue
         }
         self.crypto = crypto
+    }
+    
+    public init(satoshis: BigInt) throws {
+        self.crypto = CryptoValue.bitcoinFromSatoshis(bigInt: satoshis)
     }
 }
 

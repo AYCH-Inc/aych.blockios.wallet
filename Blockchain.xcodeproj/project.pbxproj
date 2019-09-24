@@ -98,11 +98,24 @@
 		34304465224CF36C0036345B /* EthereumAssetAccountDetailsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34304464224CF36C0036345B /* EthereumAssetAccountDetailsServiceTests.swift */; };
 		3430446F224CFB960036345B /* EthereumWalletBridgeMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3430446E224CFB960036345B /* EthereumWalletBridgeMock.swift */; };
 		3430447A224D23A40036345B /* EthereumTransactionBuildingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34304479224D23A40036345B /* EthereumTransactionBuildingService.swift */; };
+		344171EE23311800008C32CA /* UnspentOutputsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344171ED23311800008C32CA /* UnspentOutputsResponse.swift */; };
+		3441720B233278BF008C32CA /* SecondPasswordPromptable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3441720A233278BF008C32CA /* SecondPasswordPromptable.swift */; };
+		344172242333C0CD008C32CA /* CachedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344172232333C0CC008C32CA /* CachedValue.swift */; };
+		344172382333D3DD008C32CA /* EthereumAccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344172372333D3DD008C32CA /* EthereumAccountResponse.swift */; };
+		3441723A2333D429008C32CA /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344172392333D429008C32CA /* APIClient.swift */; };
+		3441724A2333DCCB008C32CA /* BalanceDetailsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344172492333DCCB008C32CA /* BalanceDetailsResponse.swift */; };
+		3441724F2333E880008C32CA /* PushTxRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3441724E2333E880008C32CA /* PushTxRequest.swift */; };
+		3441725D23340B7F008C32CA /* EthereumPushTxResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3441725C23340B7F008C32CA /* EthereumPushTxResponse.swift */; };
+		3441726823340E66008C32CA /* LatestBlockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3441726723340E66008C32CA /* LatestBlockResponse.swift */; };
 		34418750230F08490027A066 /* RemoteNotificationNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3441874F230F08490027A066 /* RemoteNotificationNetworkService.swift */; };
 		34418752230F21930027A066 /* ParameterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34418751230F21930027A066 /* ParameterEncoder.swift */; };
-		34418756230F21D60027A066 /* NetworkUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34418755230F21D60027A066 /* NetworkUtilities.swift */; };
+		34418756230F21D60027A066 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34418755230F21D60027A066 /* Network.swift */; };
 		3441878223157D9B0027A066 /* RecordingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3441878023157D880027A066 /* RecordingError.swift */; };
 		34418786231591050027A066 /* RemoteNotificationNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3441874F230F08490027A066 /* RemoteNotificationNetworkService.swift */; };
+		34424B99233511F3000637FC /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34424B98233511F3000637FC /* RequestBuilder.swift */; };
+		34424BA72337CE2C000637FC /* UnspentOutputRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34424BA62337CE2C000637FC /* UnspentOutputRepositoryTests.swift */; };
+		34424BB32337CEDC000637FC /* BitcoinWalletBridgeMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34424BB22337CEDC000637FC /* BitcoinWalletBridgeMock.swift */; };
+		34424BB52337CFA3000637FC /* APIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34424BB42337CFA3000637FC /* APIClientMock.swift */; };
 		344B36A42282F1560011A922 /* EthereumKeyDerivationInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344B36A32282F1560011A922 /* EthereumKeyDerivationInput.swift */; };
 		344B36AF2282FFCB0011A922 /* StellarKeyDerivationInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344B36AE2282FFCB0011A922 /* StellarKeyDerivationInput.swift */; };
 		344B36B1228301240011A922 /* KeyDerivationInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344B36B0228301230011A922 /* KeyDerivationInput.swift */; };
@@ -200,6 +213,8 @@
 		34A5785D231ED821005BB39C /* AnalyticsEventRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A5784B231E9EFB005BB39C /* AnalyticsEventRecorder.swift */; };
 		34A5785F231ED84E005BB39C /* AnalyticsServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A5785E231ED84E005BB39C /* AnalyticsServiceAPI.swift */; };
 		34A5CBAD2278C12600F98E1F /* EthereumTransactionSendingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A5CBAC2278C12600F98E1F /* EthereumTransactionSendingServiceTests.swift */; };
+		34A8A12623256D5800520E6B /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A8A12523256D5800520E6B /* APIClient.swift */; };
+		34A8A12823256F1B00520E6B /* UnspentOutputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A8A12723256F1B00520E6B /* UnspentOutputs.swift */; };
 		34A92E4D22AE8CD600751C0E /* AssetURLPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE94F3420C70B96005A3595 /* AssetURLPayload.swift */; };
 		34AC02DE229EBD7E008B9857 /* EtherTransaction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AC02DD229EBD7E008B9857 /* EtherTransaction+Extensions.swift */; };
 		34AC02E9229EBDFA008B9857 /* Wallet+LegacyEthereumWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AC02E8229EBDFA008B9857 /* Wallet+LegacyEthereumWallet.swift */; };
@@ -212,8 +227,8 @@
 		34BAD1AF22C29B6300AEB1E1 /* EtherTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BAD1AE22C29B6300AEB1E1 /* EtherTransaction.swift */; };
 		34BB2CDD2322A8E200E544BC /* NetworkCommunicatorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BB2CDC2322A8E200E544BC /* NetworkCommunicatorError.swift */; };
 		34BB2D0E2323F7B600E544BC /* BitpayAnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA49676B231F2596004103F6 /* BitpayAnalyticsEvent.swift */; };
-		34BD57E2228A002D00882945 /* EthereumAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AE2AD4224E3E090080C219 /* EthereumAPIClient.swift */; };
-		34BD57E3228A002E00882945 /* EthereumAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AE2AD4224E3E090080C219 /* EthereumAPIClient.swift */; };
+		34BB2D3E23256BD300E544BC /* UnspentOutputRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BB2D3D23256BD200E544BC /* UnspentOutputRepository.swift */; };
+		34BC2CDE233A21BA00268E6C /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC2CDD233A21BA00268E6C /* Array+Extensions.swift */; };
 		34BD57E5228A099800882945 /* push_tx_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 34BD57E4228A099800882945 /* push_tx_response.json */; };
 		34BD57EF228A386700882945 /* EthereumTransactionSendingServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BD57EE228A386700882945 /* EthereumTransactionSendingServiceMock.swift */; };
 		34BD972C221B122D00D40D4C /* QRCodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3460EDA322149C5C00614F52 /* QRCodeScanner.swift */; };
@@ -275,6 +290,9 @@
 		34D88F62221A96C300AE9DE5 /* AddressQRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D88F61221A96C300AE9DE5 /* AddressQRCodeParser.swift */; };
 		34D88F76221AC06F00AE9DE5 /* QRCodeScannerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D88F75221AC06F00AE9DE5 /* QRCodeScannerViewModelTests.swift */; };
 		34D88F84221AC56200AE9DE5 /* QRCodeScannerViewControllerBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D88F83221AC56200AE9DE5 /* QRCodeScannerViewControllerBuilder.swift */; };
+		34DED983232A6B56000BA63B /* BitcoinWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DED982232A6B56000BA63B /* BitcoinWallet.swift */; };
+		34DED985232A7479000BA63B /* Wallet+LegacyBitcoinWalletProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DED984232A7479000BA63B /* Wallet+LegacyBitcoinWalletProtocol.swift */; };
+		34DED987232A8A8C000BA63B /* BitcoinJSInteropDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DED986232A8A8C000BA63B /* BitcoinJSInteropDispatcher.swift */; };
 		34E1C1E422244A17006E70D3 /* SingleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E1C1E322244A17006E70D3 /* SingleExtensions.swift */; };
 		34E66634224A6154007667FA /* EthereumTransactionFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E66633224A6154007667FA /* EthereumTransactionFee.swift */; };
 		34E66648224A68DE007667FA /* StellarTransactionFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E66647224A68DE007667FA /* StellarTransactionFee.swift */; };
@@ -2560,11 +2578,24 @@
 		34304464224CF36C0036345B /* EthereumAssetAccountDetailsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumAssetAccountDetailsServiceTests.swift; sourceTree = "<group>"; };
 		3430446E224CFB960036345B /* EthereumWalletBridgeMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumWalletBridgeMock.swift; sourceTree = "<group>"; };
 		34304479224D23A40036345B /* EthereumTransactionBuildingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionBuildingService.swift; sourceTree = "<group>"; };
+		344171ED23311800008C32CA /* UnspentOutputsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnspentOutputsResponse.swift; sourceTree = "<group>"; };
+		3441720A233278BF008C32CA /* SecondPasswordPromptable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondPasswordPromptable.swift; sourceTree = "<group>"; };
+		344172232333C0CC008C32CA /* CachedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedValue.swift; sourceTree = "<group>"; };
+		344172372333D3DD008C32CA /* EthereumAccountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumAccountResponse.swift; sourceTree = "<group>"; };
+		344172392333D429008C32CA /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		344172492333DCCB008C32CA /* BalanceDetailsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceDetailsResponse.swift; sourceTree = "<group>"; };
+		3441724E2333E880008C32CA /* PushTxRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTxRequest.swift; sourceTree = "<group>"; };
+		3441725C23340B7F008C32CA /* EthereumPushTxResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumPushTxResponse.swift; sourceTree = "<group>"; };
+		3441726723340E66008C32CA /* LatestBlockResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestBlockResponse.swift; sourceTree = "<group>"; };
 		3441874F230F08490027A066 /* RemoteNotificationNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationNetworkService.swift; sourceTree = "<group>"; };
 		34418751230F21930027A066 /* ParameterEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterEncoder.swift; sourceTree = "<group>"; };
-		34418755230F21D60027A066 /* NetworkUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkUtilities.swift; sourceTree = "<group>"; };
+		34418755230F21D60027A066 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		3441877F23157D880027A066 /* Recording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recording.swift; sourceTree = "<group>"; };
 		3441878023157D880027A066 /* RecordingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingError.swift; sourceTree = "<group>"; };
+		34424B98233511F3000637FC /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
+		34424BA62337CE2C000637FC /* UnspentOutputRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnspentOutputRepositoryTests.swift; sourceTree = "<group>"; };
+		34424BB22337CEDC000637FC /* BitcoinWalletBridgeMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinWalletBridgeMock.swift; sourceTree = "<group>"; };
+		34424BB42337CFA3000637FC /* APIClientMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientMock.swift; sourceTree = "<group>"; };
 		344B36A32282F1560011A922 /* EthereumKeyDerivationInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumKeyDerivationInput.swift; sourceTree = "<group>"; };
 		344B36AE2282FFCB0011A922 /* StellarKeyDerivationInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarKeyDerivationInput.swift; sourceTree = "<group>"; };
 		344B36B0228301230011A922 /* KeyDerivationInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyDerivationInput.swift; sourceTree = "<group>"; };
@@ -2648,17 +2679,20 @@
 		34A57858231EA10F005BB39C /* AnalyticsEventRecording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventRecording.swift; sourceTree = "<group>"; };
 		34A5785E231ED84E005BB39C /* AnalyticsServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceAPI.swift; sourceTree = "<group>"; };
 		34A5CBAC2278C12600F98E1F /* EthereumTransactionSendingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionSendingServiceTests.swift; sourceTree = "<group>"; };
+		34A8A12523256D5800520E6B /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		34A8A12723256F1B00520E6B /* UnspentOutputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnspentOutputs.swift; sourceTree = "<group>"; };
 		34AC02DD229EBD7E008B9857 /* EtherTransaction+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EtherTransaction+Extensions.swift"; sourceTree = "<group>"; };
 		34AC02E8229EBDFA008B9857 /* Wallet+LegacyEthereumWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Wallet+LegacyEthereumWallet.swift"; sourceTree = "<group>"; };
 		34AC02EA22A015FF008B9857 /* EthereumJSInteropDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumJSInteropDispatcher.swift; sourceTree = "<group>"; };
 		34AD0FFF22918A5B00FB464D /* ERC20Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ERC20Service.swift; sourceTree = "<group>"; };
 		34AD100A22918BC600FB464D /* ERC20ServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ERC20ServiceTests.swift; sourceTree = "<group>"; };
-		34AE2AD4224E3E090080C219 /* EthereumAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumAPIClient.swift; sourceTree = "<group>"; };
 		34BA9FC822B13B5E00A5698F /* PaxEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaxEmptyStateView.swift; sourceTree = "<group>"; };
 		34BA9FD422B13C3E00A5698F /* PaxEmptyStateContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaxEmptyStateContentView.swift; sourceTree = "<group>"; };
 		34BA9FD722B13C8100A5698F /* PaxEmptyStateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaxEmptyStateViewModel.swift; sourceTree = "<group>"; };
 		34BAD1AE22C29B6300AEB1E1 /* EtherTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtherTransaction.swift; sourceTree = "<group>"; };
 		34BB2CDC2322A8E200E544BC /* NetworkCommunicatorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCommunicatorError.swift; sourceTree = "<group>"; };
+		34BB2D3D23256BD200E544BC /* UnspentOutputRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnspentOutputRepository.swift; sourceTree = "<group>"; };
+		34BC2CDD233A21BA00268E6C /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		34BD57E4228A099800882945 /* push_tx_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = push_tx_response.json; sourceTree = "<group>"; };
 		34BD57EE228A386700882945 /* EthereumTransactionSendingServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionSendingServiceMock.swift; sourceTree = "<group>"; };
 		34BD973F221BF9A100D40D4C /* MockAVCaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAVCaptureSession.swift; sourceTree = "<group>"; };
@@ -2713,6 +2747,9 @@
 		34D88F61221A96C300AE9DE5 /* AddressQRCodeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressQRCodeParser.swift; sourceTree = "<group>"; };
 		34D88F75221AC06F00AE9DE5 /* QRCodeScannerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerViewModelTests.swift; sourceTree = "<group>"; };
 		34D88F83221AC56200AE9DE5 /* QRCodeScannerViewControllerBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerViewControllerBuilder.swift; sourceTree = "<group>"; };
+		34DED982232A6B56000BA63B /* BitcoinWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinWallet.swift; sourceTree = "<group>"; };
+		34DED984232A7479000BA63B /* Wallet+LegacyBitcoinWalletProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Wallet+LegacyBitcoinWalletProtocol.swift"; sourceTree = "<group>"; };
+		34DED986232A8A8C000BA63B /* BitcoinJSInteropDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinJSInteropDispatcher.swift; sourceTree = "<group>"; };
 		34E1C1E122244972006E70D3 /* EthereumWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumWallet.swift; sourceTree = "<group>"; };
 		34E1C1E322244A17006E70D3 /* SingleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleExtensions.swift; sourceTree = "<group>"; };
 		34E2D97F230BFE2C0043AE53 /* HDWalletKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HDWalletKitPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -5913,6 +5950,59 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
+		344171E3233117E9008C32CA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				344171ED23311800008C32CA /* UnspentOutputsResponse.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3441722B2333D3A5008C32CA /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				344172352333D3AE008C32CA /* Models */,
+				344172362333D3BA008C32CA /* Clients */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		344172352333D3AE008C32CA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				344172482333DCAA008C32CA /* Request */,
+				3441723E2333DC9A008C32CA /* Response */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		344172362333D3BA008C32CA /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				344172392333D429008C32CA /* APIClient.swift */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		3441723E2333DC9A008C32CA /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				344172372333D3DD008C32CA /* EthereumAccountResponse.swift */,
+				344172492333DCCB008C32CA /* BalanceDetailsResponse.swift */,
+				3441725C23340B7F008C32CA /* EthereumPushTxResponse.swift */,
+				3441726723340E66008C32CA /* LatestBlockResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		344172482333DCAA008C32CA /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				3441724E2333E880008C32CA /* PushTxRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
 		3441877523157D730027A066 /* Recording */ = {
 			isa = PBXGroup;
 			children = (
@@ -5920,6 +6010,15 @@
 				3441878023157D880027A066 /* RecordingError.swift */,
 			);
 			path = Recording;
+			sourceTree = "<group>";
+		};
+		34424BB12337CEBE000637FC /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				34424BB22337CEDC000637FC /* BitcoinWalletBridgeMock.swift */,
+				34424BB42337CFA3000637FC /* APIClientMock.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		344C42FA227CA4F000CFAC33 /* Transactions */ = {
@@ -6012,6 +6111,7 @@
 			isa = PBXGroup;
 			children = (
 				3471C6C62316D1A6007A89FA /* CoinSelection */,
+				34424BA62337CE2C000637FC /* UnspentOutputRepositoryTests.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -6036,6 +6136,7 @@
 		3471C72823184B23007A89FA /* UnspentOutputs */ = {
 			isa = PBXGroup;
 			children = (
+				34A8A12723256F1B00520E6B /* UnspentOutputs.swift */,
 				3471C6E9231824D4007A89FA /* UnspentOutput.swift */,
 				3471C71D23184701007A89FA /* SpendableUnspentOutputs.swift */,
 			);
@@ -6201,20 +6302,20 @@
 			path = Analytics;
 			sourceTree = "<group>";
 		};
+		34A8A12323256D2800520E6B /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				34A8A12523256D5800520E6B /* APIClient.swift */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
 		34A92E4322AE87F600751C0E /* URL */ = {
 			isa = PBXGroup;
 			children = (
 				AAE94F3420C70B96005A3595 /* AssetURLPayload.swift */,
 			);
 			path = URL;
-			sourceTree = "<group>";
-		};
-		34AE2AD3224E3DF10080C219 /* EthereumKit */ = {
-			isa = PBXGroup;
-			children = (
-				34AE2AD4224E3E090080C219 /* EthereumAPIClient.swift */,
-			);
-			path = EthereumKit;
 			sourceTree = "<group>";
 		};
 		34BA9FD322B13C2100A5698F /* Views */ = {
@@ -6240,6 +6341,15 @@
 				34BAD1AE22C29B6300AEB1E1 /* EtherTransaction.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		34BB2D4023256C2900E544BC /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				344171E3233117E9008C32CA /* Models */,
+				34A8A12323256D2800520E6B /* Clients */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		34BE77AF225372910034A6BE /* Value */ = {
@@ -6396,6 +6506,16 @@
 			path = Transactions;
 			sourceTree = "<group>";
 		};
+		34DED978232A6B3F000BA63B /* Bitcoin */ = {
+			isa = PBXGroup;
+			children = (
+				34DED982232A6B56000BA63B /* BitcoinWallet.swift */,
+				34DED984232A7479000BA63B /* Wallet+LegacyBitcoinWalletProtocol.swift */,
+				34DED986232A8A8C000BA63B /* BitcoinJSInteropDispatcher.swift */,
+			);
+			path = Bitcoin;
+			sourceTree = "<group>";
+		};
 		34E1C1D722244941006E70D3 /* Ethereum */ = {
 			isa = PBXGroup;
 			children = (
@@ -6412,7 +6532,6 @@
 			isa = PBXGroup;
 			children = (
 				34E7F9492225904400A987CD /* ETHServiceProvider.swift */,
-				34AE2AD3224E3DF10080C219 /* EthereumKit */,
 			);
 			path = Ethereum;
 			sourceTree = "<group>";
@@ -7017,6 +7136,7 @@
 				3A4E480B21BB379C001A799D /* Extensions */,
 				6587FCB422F8384400206575 /* UnretainedContentBox.swift */,
 				657A0C1A232C1E2F009BE083 /* BridgedDisposeBag.swift */,
+				344172232333C0CC008C32CA /* CachedValue.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -7042,6 +7162,7 @@
 				3AE6AFA62293299500BF8F56 /* DateFormatter+Conveniences.swift */,
 				34C8366E22A7FCD1008392E4 /* DictionaryExtensions.swift */,
 				3471C6F123182F66007A89FA /* BigInt+Extensions.swift */,
+				34BC2CDD233A21BA00268E6C /* Array+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -7067,6 +7188,7 @@
 			children = (
 				3A4E488321BF3070001A799D /* BitcoinKit.h */,
 				3A4E488421BF3070001A799D /* Info.plist */,
+				34BB2D4023256C2900E544BC /* Network */,
 				C7B4EB60220A68A9001C1795 /* APIs */,
 				C7B4EB39220A3BA7001C1795 /* Models */,
 				C7B4EB45220A3E60001C1795 /* Services */,
@@ -7077,6 +7199,7 @@
 		3A4E488F21BF3070001A799D /* BitcoinKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				34424BB12337CEBE000637FC /* Mocks */,
 				3471C6C32316CCB5007A89FA /* Services */,
 				34C3C9322305737E008F2154 /* Models */,
 				3A4E489021BF3070001A799D /* BitcoinKitTests.swift */,
@@ -7544,6 +7667,7 @@
 				347B69E722CB737C002C80E9 /* General */,
 				3A6A1A1921B9A64D00D97C74 /* EthereumKit.h */,
 				3A6A1A1A21B9A64D00D97C74 /* Info.plist */,
+				3441722B2333D3A5008C32CA /* Network */,
 				34C6CF4322417713009123E5 /* Foundation */,
 				C76E4D0E220B59B300B21B82 /* APIs */,
 				C7174B95220BA8FF0074ECF5 /* Models */,
@@ -8051,8 +8175,9 @@
 				34418751230F21930027A066 /* ParameterEncoder.swift */,
 				346CFA05230D9A6100A722C9 /* ResponseDecoder.swift */,
 				3AE6AF6F228F3F2900BF8F56 /* NetworkError.swift */,
-				34418755230F21D60027A066 /* NetworkUtilities.swift */,
+				34418755230F21D60027A066 /* Network.swift */,
 				3AE6AF71228F3F2A00BF8F56 /* NetworkRequest.swift */,
+				34424B98233511F3000637FC /* RequestBuilder.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -11999,8 +12124,10 @@
 				AA93413E21A327E300248E75 /* Analytics */,
 				AABE35E021939AA00001AE4A /* Models */,
 				AABF8FFF219E35CA004E8C12 /* Settings */,
+				34DED978232A6B3F000BA63B /* Bitcoin */,
 				34E1C1D722244941006E70D3 /* Ethereum */,
 				347B69F722CBA761002C80E9 /* LegacyWalletAPI.swift */,
+				3441720A233278BF008C32CA /* SecondPasswordPromptable.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -12495,6 +12622,7 @@
 			isa = PBXGroup;
 			children = (
 				3471C6B62316CA0A007A89FA /* CoinSelection */,
+				34BB2D3D23256BD200E544BC /* UnspentOutputRepository.swift */,
 				C7B4EB46220A3E8F001C1795 /* BitcoinWalletAccountRepository.swift */,
 			);
 			path = Services;
@@ -12786,7 +12914,6 @@
 				340ABD63230AAF5A0032278D /* Sources */,
 				340ABD64230AAF5A0032278D /* Frameworks */,
 				340ABD65230AAF5A0032278D /* Resources */,
-				546FF2730F318459FA699AB8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -12863,7 +12990,6 @@
 				34C3C9792305A593008F2154 /* Sources */,
 				34C3C97A2305A593008F2154 /* Frameworks */,
 				34C3C97B2305A593008F2154 /* Resources */,
-				E905E776A42E560F11EC12C3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -12985,7 +13111,6 @@
 				3A686561219A0BBB0009FF29 /* Sources */,
 				3A686562219A0BBB0009FF29 /* Frameworks */,
 				3A686563219A0BBB0009FF29 /* Resources */,
-				D0D493861864BEA8589F28E1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -13766,29 +13891,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EthereumKitTests/Pods-EthereumKitTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
-				"${BUILT_PRODUCTS_DIR}/keccak.c/keccak.framework",
-				"${BUILT_PRODUCTS_DIR}/scrypt.c/scrypt.framework",
-				"${BUILT_PRODUCTS_DIR}/secp256k1.c/secp256k1.framework",
-				"${BUILT_PRODUCTS_DIR}/web3swift.pod/web3swift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
 				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/keccak.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/scrypt.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/secp256k1.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/web3swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
 			);
@@ -13979,26 +14088,6 @@
 			shellPath = /bin/sh;
 			shellScript = "set -ue\nsleep 3\nINFO_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\nif [ -f \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\" ] ; then\necho \"Found Info.plist\"\nopensslURL=`/usr/libexec/PlistBuddy -c \"Print :WALLET_SERVER\" \"$INFO_PLIST\"`\nif [ ! -d ${SRCROOT}/Cert ]; then\nmkdir ${SRCROOT}/Cert\nfi\ncd ${SRCROOT}/Cert\nopenssl s_client -connect $opensslURL:443 -showcerts -CApath etc/ssl/certs/ | openssl x509 -outform DER > blockchain.der\nelse\necho \"Error: Could not find info.plist. Exiting\"\nexit 1\nfi\n\n";
 		};
-		546FF2730F318459FA699AB8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CommonCryptoKitTests/Pods-CommonCryptoKitTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
-				"${BUILT_PRODUCTS_DIR}/LibWally/LibWally.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LibWally.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CommonCryptoKitTests/Pods-CommonCryptoKitTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		6567FDAE22C6C5F90035CB16 /* Firebase Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -14082,17 +14171,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-BitcoinKitTests/Pods-BitcoinKitTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/LibWally/LibWally.framework",
 				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
 				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LibWally.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
 			);
@@ -14161,6 +14246,7 @@
 				"${BUILT_PRODUCTS_DIR}/web3swift.pod/web3swift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
 				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
+				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -14173,6 +14259,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/web3swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -14305,26 +14392,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D0D493861864BEA8589F28E1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PlatformKitTests/Pods-PlatformKitTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PlatformKitTests/Pods-PlatformKitTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		DD1C48F1F56FEF33498700DE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -14354,25 +14421,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ERC20KitTests/Pods-ERC20KitTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
-				"${BUILT_PRODUCTS_DIR}/keccak.c/keccak.framework",
-				"${BUILT_PRODUCTS_DIR}/scrypt.c/scrypt.framework",
-				"${BUILT_PRODUCTS_DIR}/secp256k1.c/secp256k1.framework",
-				"${BUILT_PRODUCTS_DIR}/web3swift.pod/web3swift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
 				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/keccak.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/scrypt.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/secp256k1.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/web3swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
 			);
@@ -14423,26 +14478,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E905E776A42E560F11EC12C3 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HDWalletKitTests/Pods-HDWalletKitTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
-				"${BUILT_PRODUCTS_DIR}/LibWally/LibWally.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LibWally.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HDWalletKitTests/Pods-HDWalletKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -14567,13 +14602,17 @@
 				3471C6C82316E4D0007A89FA /* CoinSortingStrategy.swift in Sources */,
 				3471C72A231AADAA007A89FA /* TransactionSizeCalculator.swift in Sources */,
 				3AE17ADF2229CECA0061AC86 /* BitcoinTransactionFee.swift in Sources */,
+				34A8A12623256D5800520E6B /* APIClient.swift in Sources */,
 				3416D2D022F8389D00105424 /* BitcoinQRMetadataFactory.swift in Sources */,
+				344171EE23311800008C32CA /* UnspentOutputsResponse.swift in Sources */,
 				C7B4EB62220A68BA001C1795 /* BitcoinWalletBridgeAPI.swift in Sources */,
 				3471C6C22316CA28007A89FA /* CoinSelection.swift in Sources */,
 				3471C6EA231824D4007A89FA /* UnspentOutput.swift in Sources */,
 				C7B4EB44220A3BBA001C1795 /* BitcoinHDAssetAccount.swift in Sources */,
+				34A8A12823256F1B00520E6B /* UnspentOutputs.swift in Sources */,
 				3AA90DD622F395F9000C0CC4 /* BitcoinCashTransactionFee.swift in Sources */,
 				3416D2D722F861CA00105424 /* BitcoinURLPayload.swift in Sources */,
+				34BB2D3E23256BD300E544BC /* UnspentOutputRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -14583,8 +14622,11 @@
 			files = (
 				3471C6C52316CDAD007A89FA /* CoinSelectionTests.swift in Sources */,
 				34A5783B231E7251005BB39C /* TransactionSizeCalculatorTests.swift in Sources */,
+				34424BB32337CEDC000637FC /* BitcoinWalletBridgeMock.swift in Sources */,
 				34C3C938230573CA008F2154 /* BitcoinKeyPairDeriverTests.swift in Sources */,
 				3A4E489121BF3070001A799D /* BitcoinKitTests.swift in Sources */,
+				34424BB52337CFA3000637FC /* APIClientMock.swift in Sources */,
+				34424BA72337CE2C000637FC /* UnspentOutputRepositoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -14619,6 +14661,7 @@
 				3A9B283121A4BF0A00DB46C7 /* WalletAccountInitializer.swift in Sources */,
 				3A6865A4219A0DBA0009FF29 /* HistoricalTransactionAPI.swift in Sources */,
 				3A6A1A0421B89BDB00D97C74 /* CryptoCurrency.swift in Sources */,
+				34BC2CDE233A21BA00268E6C /* Array+Extensions.swift in Sources */,
 				3AE6AF73228F3F2A00BF8F56 /* EmptyNetworkResponse.swift in Sources */,
 				C7174BD6220BB6CF0074ECF5 /* Mineable.swift in Sources */,
 				3A4E484E21BEE4CC001A799D /* BIP21URI.swift in Sources */,
@@ -14626,10 +14669,12 @@
 				3441878223157D9B0027A066 /* RecordingError.swift in Sources */,
 				657FDA4F23015F1A0090C1D7 /* AccountBalanceFetching.swift in Sources */,
 				3AE6AF77228F3F2A00BF8F56 /* HttpHeader.swift in Sources */,
+				34424B99233511F3000637FC /* RequestBuilder.swift in Sources */,
 				3AADB31C21B0AA4400FD2974 /* SingleAddressAssetAccount.swift in Sources */,
 				AA55B34A219DF84500533533 /* WalletSettingsAPI.swift in Sources */,
 				3A4E480921BB31EE001A799D /* SEP7URI.swift in Sources */,
 				34BFDF562271F4FE008160CD /* ResultExtensions.swift in Sources */,
+				344172242333C0CD008C32CA /* CachedValue.swift in Sources */,
 				3A1B292222FB6D7E00CFCF87 /* WalletService.swift in Sources */,
 				34BFDF562271F4FE008160CD /* ResultExtensions.swift in Sources */,
 				3A847401219CAF2B00F22FA6 /* AccountValidationAPI.swift in Sources */,
@@ -14645,7 +14690,7 @@
 				AA7F866C2200CA6900498D3E /* Locale+Conveniences.swift in Sources */,
 				AA75F8AC21F155C70003B19E /* FiatValue.swift in Sources */,
 				AA55B359219DFAF800533533 /* WalletSettings.swift in Sources */,
-				34418756230F21D60027A066 /* NetworkUtilities.swift in Sources */,
+				34418756230F21D60027A066 /* Network.swift in Sources */,
 				3AE6AF66228F276600BF8F56 /* Logger.swift in Sources */,
 				346CFA06230D9A6100A722C9 /* ResponseDecoder.swift in Sources */,
 				344B36B1228301240011A922 /* KeyDerivationInput.swift in Sources */,
@@ -14856,6 +14901,7 @@
 			files = (
 				C76E4D10220B59C500B21B82 /* EthereumWalletBridgeAPI.swift in Sources */,
 				34C74365228AD70600C88347 /* EthereumTransactionFinalised.swift in Sources */,
+				3441724F2333E880008C32CA /* PushTxRequest.swift in Sources */,
 				3A47827822987BE200DE5039 /* EthereumAccountValidator.swift in Sources */,
 				C7174BAD220BB33F0074ECF5 /* EthereumWalletAccountRepository.swift in Sources */,
 				34732D452291DD7200F34AB5 /* EthereumValue.swift in Sources */,
@@ -14873,10 +14919,12 @@
 				344C42FC227CA56100CFAC33 /* EthereumAssetAccountService.swift in Sources */,
 				345F7DED22AE612E0049F236 /* EIP67URI.swift in Sources */,
 				34C6CF2A22412E85009123E5 /* EthereumAssetAccountRepository.swift in Sources */,
+				344172382333D3DD008C32CA /* EthereumAccountResponse.swift in Sources */,
 				34C74348228AD5E300C88347 /* EthereumPrivateKey.swift in Sources */,
 				3426B15722551D42001831CF /* EthereumKeyPair.swift in Sources */,
 				3A1B28FA22FA319100CFCF87 /* EthereumTransactionValidationService.swift in Sources */,
 				C7174BA4220BAC820074ECF5 /* EthereumAssetAccount.swift in Sources */,
+				3441725D23340B7F008C32CA /* EthereumPushTxResponse.swift in Sources */,
 				34C74361228AD6B100C88347 /* EthereumTransactionCandidateCosted.swift in Sources */,
 				AA59274F22935BC3002A284D /* EthereumQRMetadata.swift in Sources */,
 				34C6CF3C224132B7009123E5 /* EthereumAssetAccountDetails.swift in Sources */,
@@ -14886,13 +14934,16 @@
 				34C74363228AD6DA00C88347 /* EthereumTransactionCandidateSigned.swift in Sources */,
 				C7174BA7220BACDB0074ECF5 /* EthereumAssetAddress.swift in Sources */,
 				3422FF91226F6A50005FBB2E /* EthereumTransactionSigner.swift in Sources */,
+				3441726823340E66008C32CA /* LatestBlockResponse.swift in Sources */,
 				347029DF225788AC007AD2C1 /* AnyEthereumKeyPairDeriver.swift in Sources */,
+				3441724A2333DCCB008C32CA /* BalanceDetailsResponse.swift in Sources */,
 				34BE8B422289A1800097F535 /* EthereumKeyPairDeriver.swift in Sources */,
 				C7174BA1220BA9270074ECF5 /* EthereumHistoricalTransaction.swift in Sources */,
 				347B69EA22CB739B002C80E9 /* BigIntExtensions.swift in Sources */,
 				34998C42228F7061005B5CDD /* EthereumTransactionSendingService.swift in Sources */,
 				34C6CF3E22413620009123E5 /* EthereumServiceError.swift in Sources */,
 				34E66634224A6154007667FA /* EthereumTransactionFee.swift in Sources */,
+				3441723A2333D429008C32CA /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -15365,7 +15416,6 @@
 				C732DF1E2200BC6B00F3687A /* DeepLinkRouting.swift in Sources */,
 				F7B8C84321A5EB81005CAA0D /* DeepLinkPayloadTests.swift in Sources */,
 				65B54186230C687300D04A2E /* SendDestinationInteractorTests.swift in Sources */,
-				34BD57E3228A002E00882945 /* EthereumAPIClient.swift in Sources */,
 				C7A85928217A294000502935 /* Identifiable.swift in Sources */,
 				3A4075A32321868300A9BE50 /* BuySellWalletIntroductionEvent.swift in Sources */,
 				C74FEA2620979259007CAB5D /* JSContextWithDOMTests.swift in Sources */,
@@ -16071,6 +16121,7 @@
 				65427BD12305942B00D90A27 /* AccountValidator.swift in Sources */,
 				6587FD3622F98C7700206575 /* SendPresenter.swift in Sources */,
 				C77C19B820C580E5005CB600 /* WalletSecondPasswordDelegate.swift in Sources */,
+				3441720B233278BF008C32CA /* SecondPasswordPromptable.swift in Sources */,
 				65550E9522BE671F00522656 /* LoginContainerViewController.swift in Sources */,
 				6780DB951A40BDCF0048EED2 /* InOut.m in Sources */,
 				3A3D5DCA211C9A8300E6C241 /* PersonalDetails.swift in Sources */,
@@ -16212,7 +16263,6 @@
 				F7B8C83821A5E607005CAA0D /* DeepLinkPayload.swift in Sources */,
 				AA46ECC0219A2ED50077B351 /* KYCVerifyIdentityPresenter.swift in Sources */,
 				3AE6AFAB22936FE500BF8F56 /* PaxActivityDataProvider.swift in Sources */,
-				34BD57E2228A002D00882945 /* EthereumAPIClient.swift in Sources */,
 				65B77D6C22F9B727009AE141 /* SendAmountInteracting.swift in Sources */,
 				2322321A1B44D4CB00E5DF26 /* UpgradeViewController.m in Sources */,
 				65B77D5522F99F13009AE141 /* SendFeeCellPresenter.swift in Sources */,
@@ -16315,6 +16365,7 @@
 				51A862DC20921EBD00B338E0 /* BitcoinCashAddress.swift in Sources */,
 				3A34280922249DFB000D8032 /* SideMenuFooterView.swift in Sources */,
 				3A91F7E121387A5300CDC3FD /* AnimatablePresentationUpdate.swift in Sources */,
+				34DED987232A8A8C000BA63B /* BitcoinJSInteropDispatcher.swift in Sources */,
 				3AFD18AF21221D95007145EA /* KYCPageModel.swift in Sources */,
 				653159FE22F4B6220018ED32 /* BridgeDeepLinkQRCodeRouter.swift in Sources */,
 				AAC9FCEE20AE456400E28B7A /* WalletTransactionDelegate.swift in Sources */,
@@ -16354,6 +16405,7 @@
 				C790E1241E5358540063D141 /* BCVerifyMobileNumberViewController.m in Sources */,
 				C7F1263D21C49BDC008D8F2A /* KYCSettings.swift in Sources */,
 				C7773330217E21F200899930 /* TransactionsXlmPresenter.swift in Sources */,
+				34DED985232A7479000BA63B /* Wallet+LegacyBitcoinWalletProtocol.swift in Sources */,
 				C7B6855B1F17AE2A00A18A5C /* BCEmptyPageView.m in Sources */,
 				3A8B228A211E0B380091E706 /* KYCPersonalDetailsController.swift in Sources */,
 				6502D58F23167CFF004F5EF4 /* PeriodicAnnouncement.swift in Sources */,
@@ -16362,6 +16414,7 @@
 				6502D5952316AD30004F5EF4 /* AnnouncementType.swift in Sources */,
 				AA31A7B42098DA4900FE6268 /* AlertViewPresenter+Wallet.swift in Sources */,
 				51E52D13217F6E6A00066F8D /* PricePreviewView.swift in Sources */,
+				34DED983232A6B56000BA63B /* BitcoinWallet.swift in Sources */,
 				3A1552F02136FFE200683CEB /* TradeExecutionAPI.swift in Sources */,
 				3AE74B8921C1AE4C00246A9C /* ModalAnimator.swift in Sources */,
 				6567FECC22CBA3860035CB16 /* AddressSubscribing.swift in Sources */,

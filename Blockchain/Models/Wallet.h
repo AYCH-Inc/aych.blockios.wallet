@@ -41,7 +41,15 @@
 @property(nonatomic, assign) int tag;
 @end
 
-@class Wallet, Transaction, JSValue, JSContext, ExchangeRate, OrderTransactionLegacy, EthereumWallet, EtherTransaction;
+@class Wallet,
+       Transaction,
+       JSValue,
+       JSContext,
+       ExchangeRate,
+       OrderTransactionLegacy,
+       BitcoinWallet,
+       EthereumWallet,
+       EtherTransaction;
 
 @protocol WalletSuccessCallback, WalletDismissCallback;
 
@@ -202,6 +210,7 @@
 
 @property (nonatomic) NSArray *bitcoinCashTransactions;
 
+@property (readonly, nonatomic) BitcoinWallet * _Nonnull bitcoin;
 @property (readonly, nonatomic) EthereumWallet * _Nonnull ethereum;
 
 @property (nonatomic) NSDecimalNumber *latestEthExchangeRate;
@@ -428,8 +437,6 @@
 
 // Ethereum
 - (NSString *)getEthBalance;
-- (NSString *)getEthBalanceTruncated;
-- (void)getEthHistory;
 - (void)getEthExchangeRate;
 
 // Ether send

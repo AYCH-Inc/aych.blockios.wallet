@@ -9,10 +9,15 @@
 import Foundation
 import RxSwift
 
+#if DEBUG
+fileprivate var DISABLE_CERT_PINNING: Bool = false
+#endif
+
 public protocol NetworkCommunicatorAPI {
     func perform(request: NetworkRequest) -> Completable
     func perform<ResponseType: Decodable>(request: NetworkRequest, responseType: ResponseType.Type) -> Completable
     func perform<ResponseType: Decodable, ErrorResponseType: Error & Decodable>(request: NetworkRequest, responseType: ResponseType.Type, errorResponseType: ErrorResponseType.Type) -> Single<Result<ResponseType, ErrorResponseType>>
+    func perform<ResponseType: Decodable>(request: NetworkRequest, responseType: ResponseType.Type) -> Single<ResponseType>
     func perform<ResponseType: Decodable>(request: NetworkRequest) -> Single<ResponseType>
 }
 
@@ -28,19 +33,20 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI, AnalyticsEventRe
     private let scheduler: ConcurrentDispatchQueueScheduler
     private let session: URLSession
     private let sessionHandler: NetworkCommunicatorSessionHandler
-    private let defaultDecoder: NetworkResponseDecoderAPI
     
     init(session: URLSession,
          sessionDelegate: SessionDelegateAPI,
          sessionHandler: NetworkCommunicatorSessionHandler = NetworkCommunicatorSessionHandler(),
-         scheduler: ConcurrentDispatchQueueScheduler = ConcurrentDispatchQueueScheduler(qos: .background),
-         defaultDecoder: NetworkResponseDecoderAPI = NetworkResponseDecoder.default) {
+         scheduler: ConcurrentDispatchQueueScheduler = ConcurrentDispatchQueueScheduler(qos: .background)) {
         self.session = session
         self.sessionHandler = sessionHandler
         self.scheduler = scheduler
-        self.defaultDecoder = defaultDecoder
         
         sessionDelegate.delegate = sessionHandler
+        
+        #if DEBUG
+            DISABLE_CERT_PINNING = true
+        #endif
     }
     
     // MARK: - Recordable
@@ -72,6 +78,10 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI, AnalyticsEventRe
             .decode(with: request.decoder)
     }
     
+    public func perform<ResponseType: Decodable>(request: NetworkRequest, responseType: ResponseType.Type) -> Single<ResponseType> {
+        return perform(request: request)
+    }
+    
     public func perform<ResponseType: Decodable>(request: NetworkRequest) -> Single<ResponseType> {
         return execute(request: request)
             .recordErrors(on: eventRecorder, request: request) { request, error -> AnalyticsEvent? in
@@ -89,6 +99,7 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI, AnalyticsEventRe
     > {
         return Single<Result<ServerResponse, NetworkCommunicatorError>>.create { [weak self] observer -> Disposable in
             let urlRequest = request.URLRequest
+            Logger.shared.debug("urlRequest.url: \(urlRequest.url)")
             let task = self?.session.dataTask(with: urlRequest) { payload, response, error in
                 if let error = error {
                     observer(.success(.failure(NetworkCommunicatorError.clientError(.failedRequest(description: error.localizedDescription)))))
@@ -99,7 +110,7 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI, AnalyticsEventRe
                     return
                 }
                 if let payload = payload, let responseValue = String(data: payload, encoding: .utf8) {
-                    Logger.shared.info(responseValue)
+                    Logger.shared.debug(responseValue)
                 }
                 guard (200...299).contains(httpResponse.statusCode) else {
                     observer(.success(.failure(NetworkCommunicatorError.rawServerError(ServerErrorResponse(response: httpResponse, payload: payload)))))
@@ -121,18 +132,21 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI, AnalyticsEventRe
 
 class NetworkCommunicatorSessionHandler: NetworkSessionDelegateAPI {
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping AuthChallengeHandler) {
+        #if DEBUG
+        guard !DISABLE_CERT_PINNING else {
+            completionHandler(.performDefaultHandling, nil)
+            return
+        }
+        #endif
+        
         let host = challenge.protectionSpace.host
         Logger.shared.info("Received challenge from \(host)")
         
-        #if DISABLE_CERT_PINNING
-        completionHandler(.performDefaultHandling, nil)
-        #else
         if BlockchainAPI.PartnerHosts.allCases.contains(where: { $0.rawValue == host }) {
             completionHandler(.performDefaultHandling, nil)
         } else {
             CertificatePinner.shared.didReceive(challenge, completion: completionHandler)
         }
-        #endif
     }
 }
 

@@ -16,9 +16,9 @@ public class EthereumAssetAccountDetailsService: AssetAccountDetailsAPI {
     public typealias Bridge = EthereumWalletBridgeAPI
     
     private let bridge: EthereumWalletBridgeAPI
-    private let client: EthereumAPIClientAPI
+    private let client: APIClientAPI
     
-    public init(with bridge: Bridge, client: EthereumAPIClientAPI) {
+    public init(with bridge: Bridge, client: APIClientAPI) {
         self.bridge = bridge
         self.client = client
     }
@@ -40,7 +40,7 @@ public class EthereumAssetAccountDetailsService: AssetAccountDetailsAPI {
         // FIXME: account id unused
         return Single.zip(bridge.account, balance)
             .flatMap { account, ethereumBalance -> Single<EthereumAssetAccountDetails> in
-                return Single.just(EthereumAssetAccountDetails(
+                Single.just(EthereumAssetAccountDetails(
                     account: account,
                     balance: ethereumBalance
                 ))
@@ -49,8 +49,8 @@ public class EthereumAssetAccountDetailsService: AssetAccountDetailsAPI {
     }
     
     private var balance: Single<CryptoValue> {
-        return bridge.address.flatMap(weak: self, { (self, address) -> Single<CryptoValue> in
-             return self.client.fetchBalance(from: address)
-        })
+        return bridge.address.flatMap(weak: self) { (self, address) -> Single<CryptoValue> in
+             self.client.balance(from: address)
+        }
     }
 }

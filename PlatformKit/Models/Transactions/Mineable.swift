@@ -9,6 +9,6 @@
 import Foundation
 
 public protocol Mineable {
-    var confirmations: Int { get }
+    var confirmations: UInt { get }
     var isConfirmed: Bool { get }
 }

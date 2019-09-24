@@ -16,13 +16,12 @@ import BigInt
 ///// and inject it in as a dependency. Frequently we'll use the term `bridge` as a way of
 ///// describing this.
 public protocol EthereumWalletAccountBridgeAPI: class {
-    var ethereumWallets: Single<[EthereumWalletAccount]> { get }
+    var wallets: Single<[EthereumWalletAccount]> { get }
     
     func save(keyPair: EthereumKeyPair, label: String) -> Completable
 }
 
 public protocol EthereumWalletBridgeAPI: AccountBalanceFetching {
-    var fetchBalance: Single<CryptoValue> { get }
     var name: Single<String> { get }
     var address: Single<String> { get }
     var account: Single<EthereumAssetAccount> { get }
@@ -33,8 +32,3 @@ public protocol EthereumWalletBridgeAPI: AccountBalanceFetching {
     
     func recordLast(transaction: EthereumTransactionPublished) -> Single<EthereumTransactionPublished> // TODO: CHECK THIS
 }
-
-public protocol EthereumWalletTransactionsBridgeAPI: class {
-    var transactions: Single<[EthereumHistoricalTransaction]> { get }
-}
-

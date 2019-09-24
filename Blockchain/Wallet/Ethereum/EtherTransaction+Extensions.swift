@@ -43,7 +43,7 @@ extension EtherTransaction {
         self.note = transaction.memo
         self.txType = transaction.direction.txType.rawValue
         self.time = UInt64(transaction.createdAt.timeIntervalSince1970)
-        self.confirmations = UInt(transaction.confirmations)
+        self.confirmations = transaction.confirmations
         self.fiatAmountsAtTime = [:]
     }
     
@@ -57,7 +57,7 @@ extension EtherTransaction {
             let amount = legacyTransaction.amount,
             let myHash = legacyTransaction.myHash,
             let txType = legacyTransaction.txType else {
-                return nil
+            return nil
         }
         
         let fromAddress = EthereumAssetAddress(
@@ -98,7 +98,7 @@ extension EtherTransaction {
             createdAt: Date(timeIntervalSince1970: TimeInterval(legacyTransaction.time)),
             fee: CryptoValue.etherFromGwei(string: "\(feeGwei)"),
             memo: legacyTransaction.note,
-            confirmations: Int(legacyTransaction.confirmations)
+            confirmations: legacyTransaction.confirmations
         )
     }
 }

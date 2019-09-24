@@ -143,11 +143,8 @@ extension AnnouncementPresenter {
     private func verifyEmail(user: NabuUser) -> Announcement {
         return VerifyEmailAnnouncement(
             isEmailVerified: user.email.verified,
-            action: { [weak self] in
-                UIApplication.shared.openMailApplication()
-                self?.hideAnnouncement()
-            }
-        )
+            action: UIApplication.shared.openMailApplication
+          )
     }
     
     // Computes Wallet Intro card announcement

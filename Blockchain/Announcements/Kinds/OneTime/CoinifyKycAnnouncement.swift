@@ -23,6 +23,7 @@ final class CoinifyKycAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
         )
         primaryButton.tapRelay
             .bind { [unowned self] in
+                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markRemoved()
                 self.action()
                 self.dismiss()
@@ -35,8 +36,12 @@ final class CoinifyKycAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
             description: LocalizationConstants.AnnouncementCards.CoinifyKyc.description,
             buttons: [primaryButton],
             dismissState: .dismissible {
+                self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markRemoved()
                 self.dismiss()
+            },
+            didAppear: {
+                self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )
     }
@@ -56,7 +61,8 @@ final class CoinifyKycAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
     }
 
     let type = AnnouncementType.coinifyKyc
-    
+    let analyticsRecorder: AnalyticsEventRecording
+
     let dismiss: CardAnnouncementAction
     let recorder: AnnouncementRecorder
     
@@ -74,6 +80,7 @@ final class CoinifyKycAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
          tiers: KYCUserTiersResponse,
          wallet: Wallet,
          cacheSuite: CacheSuite = UserDefaults.standard,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          reappearanceTimeInterval: TimeInterval,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
@@ -81,6 +88,7 @@ final class CoinifyKycAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
         self.tiers = tiers
         self.wallet = wallet
         self.recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
         self.action = action
     }

@@ -22,6 +22,7 @@ final class ResubmitDocumentsAnnouncement: OneTimeAnnouncement & ActionableAnnou
         )
         button.tapRelay
             .bind { [unowned self] in
+                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markRemoved()
                 self.action()
                 self.dismiss()
@@ -34,8 +35,12 @@ final class ResubmitDocumentsAnnouncement: OneTimeAnnouncement & ActionableAnnou
             description: LocalizationConstants.AnnouncementCards.ResubmitDocuments.description,
             buttons: [button],
             dismissState: .dismissible {
+                self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markRemoved()
                 self.dismiss()
+            },
+            didAppear: {
+                self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )
     }
@@ -48,7 +53,8 @@ final class ResubmitDocumentsAnnouncement: OneTimeAnnouncement & ActionableAnnou
     }
     
     let type = AnnouncementType.resubmitDocuments
-    
+    let analyticsRecorder: AnalyticsEventRecording
+
     var dismiss: CardAnnouncementAction
     var recorder: AnnouncementRecorder
     
@@ -62,10 +68,12 @@ final class ResubmitDocumentsAnnouncement: OneTimeAnnouncement & ActionableAnnou
 
     init(user: NabuUser,
          cacheSuite: CacheSuite = UserDefaults.standard,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.user = user
         self.recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
         self.action = action
     }

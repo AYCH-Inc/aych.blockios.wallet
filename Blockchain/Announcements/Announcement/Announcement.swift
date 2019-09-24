@@ -6,6 +6,8 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import PlatformKit
+
 /// Protocol for an announcement that is shown to the user. These are typically
 /// used for new products and features that we launch in the wallet.
 protocol Announcement {
@@ -19,4 +21,16 @@ protocol Announcement {
     
     /// The type of the announcement
     var type: AnnouncementType { get }
+    
+    /// The analytics recorder
+    var analyticsRecorder: AnalyticsEventRecording { get }
+    
+    /// An analytics event for appearance
+    var didAppearAnalyticsEvent: AnalyticsEvents.Announcement { get }
+}
+
+extension Announcement {
+    var didAppearAnalyticsEvent: AnalyticsEvents.Announcement {
+        return .init(name: .shown, type: type)
+    }
 }

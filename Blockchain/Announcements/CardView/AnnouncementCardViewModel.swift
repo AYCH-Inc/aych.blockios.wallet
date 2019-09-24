@@ -47,6 +47,7 @@ final class AnnouncementCardViewModel {
     let title: String?
     let description: String?
     let buttons: [ButtonViewModel]
+    let didAppear: () -> Void
     
     /// Returns `true` if the dismiss button should be hidden
     var isDismissButtonHidden: Bool {
@@ -94,13 +95,15 @@ final class AnnouncementCardViewModel {
          description: String? = nil,
          buttons: [ButtonViewModel] = [],
          dismissState: DismissState,
-         recorder: ErrorRecording = CrashlyticsRecorder()) {
+         recorder: ErrorRecording = CrashlyticsRecorder(),
+         didAppear: @escaping () -> Void) {
         self.image = image
         self.title = title
         self.description = description
         self.dismissState = dismissState
         self.buttons = buttons
         self.recorder = recorder
+        self.didAppear = didAppear
         
         dismissal
             .subscribe(onSuccess: { [weak self] _ in

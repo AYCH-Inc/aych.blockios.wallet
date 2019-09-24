@@ -22,6 +22,7 @@ final class BuyBitcoinAnnouncement: PeriodicAnnouncement & ActionableAnnouncemen
         )
         button.tapRelay
             .bind { [unowned self] in
+                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markDismissed()
                 self.action()
                 self.dismiss()
@@ -34,8 +35,12 @@ final class BuyBitcoinAnnouncement: PeriodicAnnouncement & ActionableAnnouncemen
             description: LocalizationConstants.AnnouncementCards.BuyBitcoin.description,
             buttons: [button],
             dismissState: .dismissible {
+                self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markDismissed()
                 self.dismiss()
+            },
+            didAppear: {
+                self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )
     }
@@ -48,6 +53,7 @@ final class BuyBitcoinAnnouncement: PeriodicAnnouncement & ActionableAnnouncemen
     }
     
     let type = AnnouncementType.buyBitcoin
+    let analyticsRecorder: AnalyticsEventRecording
     
     let dismiss: CardAnnouncementAction
     let recorder: AnnouncementRecorder
@@ -65,11 +71,13 @@ final class BuyBitcoinAnnouncement: PeriodicAnnouncement & ActionableAnnouncemen
     init(isBuyEnabled: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
          reappearanceTimeInterval: TimeInterval,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.isBuyEnabled = isBuyEnabled
         recorder = AnnouncementRecorder(cache: cacheSuite)
         appearanceRules = PeriodicAnnouncementAppearanceRules(recessDurationBetweenDismissals: reappearanceTimeInterval)
+        self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
         self.action = action
     }

@@ -6,6 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import PlatformKit
 import PlatformUIKit
 import RxSwift
 import RxCocoa
@@ -22,6 +23,7 @@ final class VerifyEmailAnnouncement: PersistentAnnouncement & ActionableAnnounce
         )
         button.tapRelay
             .bind { [unowned self] in
+                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.action()
             }
             .disposed(by: disposeBag)
@@ -31,7 +33,10 @@ final class VerifyEmailAnnouncement: PersistentAnnouncement & ActionableAnnounce
             title: LocalizationConstants.AnnouncementCards.VerifyEmail.title,
             description: LocalizationConstants.AnnouncementCards.VerifyEmail.description,
             buttons: [button],
-            dismissState: .undismissible
+            dismissState: .undismissible,
+            didAppear: {
+                self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
+            }
         )
     }
     
@@ -40,6 +45,7 @@ final class VerifyEmailAnnouncement: PersistentAnnouncement & ActionableAnnounce
     }
     
     let type = AnnouncementType.verifyEmail
+    let analyticsRecorder: AnalyticsEventRecording
     
     let action: CardAnnouncementAction
     
@@ -50,9 +56,11 @@ final class VerifyEmailAnnouncement: PersistentAnnouncement & ActionableAnnounce
     // MARK: - Setup
     
     init(isEmailVerified: Bool,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          action: @escaping CardAnnouncementAction) {
         self.isEmailVerified = isEmailVerified
         self.action = action
+        self.analyticsRecorder = analyticsRecorder
     }
 }
 

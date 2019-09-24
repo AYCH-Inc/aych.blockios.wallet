@@ -24,8 +24,14 @@ protocol DismissibleAnnouncement: Announcement {
     
     /// A dismiss action for announcement, called upon tapping `X` (dismiss button)
     var dismiss: CardAnnouncementAction { get }
+    
+    /// An analytics event for dismissal
+    var dismissAnalyticsEvent: AnalyticsEvents.Announcement { get }
 }
 
 extension DismissibleAnnouncement {
     var key: AnnouncementRecord.Key { return type.key }
+    var dismissAnalyticsEvent: AnalyticsEvents.Announcement {
+        return .init(name: .dismissed, type: type)
+    }
 }

@@ -22,6 +22,7 @@ final class BackupFundsAnnouncement: PeriodicAnnouncement & ActionableAnnounceme
         )
         button.tapRelay
             .bind { [unowned self] in
+                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markDismissed()
                 self.action()
                 self.dismiss()
@@ -34,8 +35,12 @@ final class BackupFundsAnnouncement: PeriodicAnnouncement & ActionableAnnounceme
             description: LocalizationConstants.AnnouncementCards.BackupFunds.description,
             buttons: [button],
             dismissState: .dismissible {
+                self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markDismissed()
                 self.dismiss()
+            },
+            didAppear: {
+                self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )
     }
@@ -48,6 +53,7 @@ final class BackupFundsAnnouncement: PeriodicAnnouncement & ActionableAnnounceme
     }
     
     let type = AnnouncementType.backupFunds
+    let analyticsRecorder: AnalyticsEventRecording
     
     let dismiss: CardAnnouncementAction
     let recorder: AnnouncementRecorder
@@ -65,11 +71,13 @@ final class BackupFundsAnnouncement: PeriodicAnnouncement & ActionableAnnounceme
     init(shouldBackupFunds: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
          reappearanceTimeInterval: TimeInterval,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.shouldBackupFunds = shouldBackupFunds
         recorder = AnnouncementRecorder(cache: cacheSuite)
         appearanceRules = PeriodicAnnouncementAppearanceRules(recessDurationBetweenDismissals: reappearanceTimeInterval)
+        self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
         self.action = action
     }

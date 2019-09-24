@@ -57,7 +57,8 @@ final class AnnouncementCardView: UIView {
         bottomSeparatorView.backgroundColor = .mediumBorder
         setupButtons()
         fixPositions()
-        setupAccessibility()        
+        setupAccessibility()
+        viewModel.didAppear()
     }
     
     private func setupAccessibility() {

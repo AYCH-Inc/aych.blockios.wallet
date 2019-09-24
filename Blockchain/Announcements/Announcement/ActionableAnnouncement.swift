@@ -16,4 +16,13 @@ protocol ActionableAnnouncement: Announcement {
     
     /// An action for announcement (driven by CTA button)
     var action: CardAnnouncementAction { get }
+    
+    /// An analytics event for action
+    var actionAnalyticsEvent: AnalyticsEvents.Announcement { get }
+}
+
+extension ActionableAnnouncement {
+    var actionAnalyticsEvent: AnalyticsEvents.Announcement {
+        return .init(name: .actioned, type: type)
+    }
 }

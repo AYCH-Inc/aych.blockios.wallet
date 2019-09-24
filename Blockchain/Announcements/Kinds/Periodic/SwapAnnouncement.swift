@@ -22,6 +22,7 @@ final class SwapAnnouncement: PeriodicAnnouncement & ActionableAnnouncement {
         )
         button.tapRelay
             .bind { [unowned self] in
+                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markDismissed()
                 self.action()
                 self.dismiss()
@@ -34,8 +35,12 @@ final class SwapAnnouncement: PeriodicAnnouncement & ActionableAnnouncement {
             description: LocalizationConstants.AnnouncementCards.Swap.description,
             buttons: [button],
             dismissState: .dismissible {
+                self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markDismissed()
                 self.dismiss()
+            },
+            didAppear: {
+                self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )
     }
@@ -51,6 +56,7 @@ final class SwapAnnouncement: PeriodicAnnouncement & ActionableAnnouncement {
     }
     
     let type = AnnouncementType.swap
+    let analyticsRecorder: AnalyticsEventRecording
     
     let dismiss: CardAnnouncementAction
     let recorder: AnnouncementRecorder
@@ -70,12 +76,14 @@ final class SwapAnnouncement: PeriodicAnnouncement & ActionableAnnouncement {
          hasTrades: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
          reappearanceTimeInterval: TimeInterval,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.isSwapEnabled = isSwapEnabled
         self.hasTrades = hasTrades
         recorder = AnnouncementRecorder(cache: cacheSuite)
         appearanceRules = PeriodicAnnouncementAppearanceRules(recessDurationBetweenDismissals: reappearanceTimeInterval)
+        self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
         self.action = action
     }

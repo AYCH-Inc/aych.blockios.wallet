@@ -21,8 +21,12 @@ final class BitpayAnnouncement: OneTimeAnnouncement {
             ),
             description: LocalizationConstants.AnnouncementCards.Bitpay.description,
             dismissState: .dismissible {
+                self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markRemoved()
                 self.dismiss()
+            },
+            didAppear: {
+                self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )
     }
@@ -32,6 +36,7 @@ final class BitpayAnnouncement: OneTimeAnnouncement {
     }
     
     let type = AnnouncementType.bitpay
+    let analyticsRecorder: AnalyticsEventRecording
     
     let dismiss: CardAnnouncementAction
     let recorder: AnnouncementRecorder
@@ -39,8 +44,10 @@ final class BitpayAnnouncement: OneTimeAnnouncement {
     // MARK: - Setup
     
     init(cacheSuite: CacheSuite = UserDefaults.standard,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          dismiss: @escaping CardAnnouncementAction) {
         self.recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
     }
 }

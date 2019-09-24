@@ -23,6 +23,7 @@ final class PAXAnnouncement: OneTimeAnnouncement & ActionableAnnouncement {
         )
         button.tapRelay
             .bind { [unowned self] in
+                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markRemoved()
                 self.action()
                 self.dismiss()
@@ -35,8 +36,12 @@ final class PAXAnnouncement: OneTimeAnnouncement & ActionableAnnouncement {
             description: LocalizationConstants.AnnouncementCards.Pax.description,
             buttons: [button],
             dismissState: .dismissible {
+                self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markRemoved()
                 self.dismiss()
+            },
+            didAppear: {
+                self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )
     }
@@ -49,7 +54,8 @@ final class PAXAnnouncement: OneTimeAnnouncement & ActionableAnnouncement {
     }
     
     let type = AnnouncementType.pax
-
+    let analyticsRecorder: AnalyticsEventRecording
+    
     let dismiss: CardAnnouncementAction
     let recorder: AnnouncementRecorder
     
@@ -63,10 +69,12 @@ final class PAXAnnouncement: OneTimeAnnouncement & ActionableAnnouncement {
 
     init(hasTransactions: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.hasTransactions = hasTransactions
         self.recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
         self.action = action
     }

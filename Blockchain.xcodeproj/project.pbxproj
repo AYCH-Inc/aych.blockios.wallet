@@ -1436,6 +1436,8 @@
 		65D821D02303FE2A0060794B /* SendFeeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D821CE2303FE2A0060794B /* SendFeeService.swift */; };
 		65E00A712338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E00A672338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift */; };
 		65E00A722338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E00A672338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift */; };
+		65E00AB4233958FB001AF6A6 /* AnalyticsEvents+Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E00AB3233958FB001AF6A6 /* AnalyticsEvents+Announcement.swift */; };
+		65E00AB5233958FB001AF6A6 /* AnalyticsEvents+Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E00AB3233958FB001AF6A6 /* AnalyticsEvents+Announcement.swift */; };
 		65E4B4FD22CDF9AA00EAC3CD /* DevSupporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B4FC22CDF9AA00EAC3CD /* DevSupporting.swift */; };
 		65E4B4FE22CDF9AA00EAC3CD /* DevSupporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B4FC22CDF9AA00EAC3CD /* DevSupporting.swift */; };
 		65E4B50F22CE180500EAC3CD /* AppSettingsFeaturing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B50E22CE180500EAC3CD /* AppSettingsFeaturing.swift */; };
@@ -4819,6 +4821,7 @@
 		65D821BF23032BDA0060794B /* SendExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendExecutor.swift; sourceTree = "<group>"; };
 		65D821CE2303FE2A0060794B /* SendFeeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendFeeService.swift; sourceTree = "<group>"; };
 		65E00A672338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AnalyticsEvents+Onboarding.swift"; sourceTree = "<group>"; };
+		65E00AB3233958FB001AF6A6 /* AnalyticsEvents+Announcement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsEvents+Announcement.swift"; sourceTree = "<group>"; };
 		65E4B4FC22CDF9AA00EAC3CD /* DevSupporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevSupporting.swift; sourceTree = "<group>"; };
 		65E4B50E22CE180500EAC3CD /* AppSettingsFeaturing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsFeaturing.swift; sourceTree = "<group>"; };
 		65E4B51F22CE39F600EAC3CD /* QRAddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRAddressViewModel.swift; sourceTree = "<group>"; };
@@ -11046,6 +11049,14 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		65E00AA9233958DD001AF6A6 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				65E00AB3233958FB001AF6A6 /* AnalyticsEvents+Announcement.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
 		65E4B53822CF3F7900EAC3CD /* Accessibility */ = {
 			isa = PBXGroup;
 			children = (
@@ -11700,6 +11711,7 @@
 		AA278EB122B18481009F203D /* Announcements */ = {
 			isa = PBXGroup;
 			children = (
+				65E00AA9233958DD001AF6A6 /* Analytics */,
 				6502D5782316791C004F5EF4 /* Announcement */,
 				6533339C230D74FD008B3ADF /* CardView */,
 				652CDFFD230FDD1F0044E899 /* Record */,
@@ -15506,6 +15518,7 @@
 				AACE3134209121B800B7B806 /* WalletManager.swift in Sources */,
 				65804B6E232943C600D0DAB0 /* MockSendSourceAccountStateService.swift in Sources */,
 				AA278EAD22B1845D009F203D /* AnnouncementRecorder.swift in Sources */,
+				65E00AB5233958FB001AF6A6 /* AnalyticsEvents+Announcement.swift in Sources */,
 				65E00A722338D5EE001AF6A6 /* AnalyticsEvents+Onboarding.swift in Sources */,
 				C74A0DE62174DFA000402A2F /* StellarAddress.swift in Sources */,
 				AA748359211129DF008F2768 /* MockKYCEnterPhoneNumberView.swift in Sources */,
@@ -16300,6 +16313,7 @@
 				602B9CE22118E15300BD3D60 /* KYCConfirmPhoneNumberController.swift in Sources */,
 				A2599B9F1B0B5FC800C2EA81 /* BackupViewController.swift in Sources */,
 				3AA94DE922418D800083210B /* ExchangeRateMetadata.swift in Sources */,
+				65E00AB4233958FB001AF6A6 /* AnalyticsEvents+Announcement.swift in Sources */,
 				652CDFFF230FDD360044E899 /* AnnouncementRecord.swift in Sources */,
 				C7900C832177CEEB00F57A9F /* SimpleListDataProvider.swift in Sources */,
 				65463CAF22DC9AA7005E5BF6 /* AddressViewController.swift in Sources */,

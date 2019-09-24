@@ -22,6 +22,7 @@ final class VerifyIdentityAnnouncement: OneTimeAnnouncement & ActionableAnnounce
         )
         button.tapRelay
             .bind { [unowned self] in
+                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markRemoved()
                 self.action()
                 self.dismiss()
@@ -34,8 +35,12 @@ final class VerifyIdentityAnnouncement: OneTimeAnnouncement & ActionableAnnounce
             description: LocalizationConstants.AnnouncementCards.IdentityVerification.description,
             buttons: [button],
             dismissState: .dismissible {
+                self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markRemoved()
                 self.dismiss()
+            },
+            didAppear: {
+                self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )
     }
@@ -51,6 +56,7 @@ final class VerifyIdentityAnnouncement: OneTimeAnnouncement & ActionableAnnounce
     }
     
     let type = AnnouncementType.verifyIdentity
+    let analyticsRecorder: AnalyticsEventRecording
     
     let dismiss: CardAnnouncementAction
     let recorder: AnnouncementRecorder
@@ -67,12 +73,13 @@ final class VerifyIdentityAnnouncement: OneTimeAnnouncement & ActionableAnnounce
     init(user: NabuUserSunriverAirdropRegistering,
          isCompletingKyc: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
         self.action = action
-        
         self.user = user
         self.isCompletingKyc = isCompletingKyc
     }

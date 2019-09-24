@@ -22,6 +22,7 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
         )
         ctaButton.tapRelay
             .bind { [unowned self] in
+                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markRemoved()
                 self.action()
                 self.dismiss()
@@ -33,6 +34,7 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
         )
         skipButton.tapRelay
             .bind { [unowned self] in
+                self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markDismissed()
                 self.dismiss()
             }
@@ -43,7 +45,10 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
             title: LocalizationConstants.AnnouncementCards.Welcome.title,
             description: LocalizationConstants.AnnouncementCards.Welcome.description,
             buttons: [ctaButton, skipButton],
-            dismissState: .undismissible
+            dismissState: .undismissible,
+            didAppear: {
+                self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
+            }
         )
     }
     
@@ -52,6 +57,7 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
     }
     
     let type = AnnouncementType.walletIntro
+    let analyticsRecorder: AnalyticsEventRecording
     
     let dismiss: CardAnnouncementAction
     let recorder: AnnouncementRecorder
@@ -68,6 +74,7 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
     init(cacheSuite: CacheSuite = UserDefaults.standard,
          reappearanceTimeInterval: TimeInterval,
          tiersResponse: KYCUserTiersResponse,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          action: @escaping CardAnnouncementAction,
          dismiss: @escaping CardAnnouncementAction) {
         recorder = AnnouncementRecorder(cache: cacheSuite)
@@ -78,5 +85,6 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
         self.tiersResponse = tiersResponse
         self.action = action
         self.dismiss = dismiss
+        self.analyticsRecorder = analyticsRecorder
     }
 }

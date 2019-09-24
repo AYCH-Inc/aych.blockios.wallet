@@ -24,12 +24,15 @@ struct MockOneTimeAnnouncement: OneTimeAnnouncement {
     let dismiss: CardAnnouncementAction
     let recorder: AnnouncementRecorder
     let type: AnnouncementType
+    let analyticsRecorder: AnalyticsEventRecording
     
     init(type: AnnouncementType,
          cacheSuite: CacheSuite,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          dismiss: @escaping CardAnnouncementAction) {
         self.type = type
         recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
     }
 }

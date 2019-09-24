@@ -22,6 +22,7 @@ final class Enable2FAAnnouncement: PeriodicAnnouncement & ActionableAnnouncement
         )
         button.tapRelay
             .bind { [unowned self] in
+                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markDismissed()
                 self.action()
                 self.dismiss()
@@ -34,8 +35,12 @@ final class Enable2FAAnnouncement: PeriodicAnnouncement & ActionableAnnouncement
             description: LocalizationConstants.AnnouncementCards.TwoFA.description,
             buttons: [button],
             dismissState: .dismissible {
+                self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markDismissed()
                 self.dismiss()
+            },
+            didAppear: {
+                self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )
     }
@@ -48,6 +53,7 @@ final class Enable2FAAnnouncement: PeriodicAnnouncement & ActionableAnnouncement
     }
     
     let type = AnnouncementType.twoFA
+    let analyticsRecorder: AnalyticsEventRecording
     
     let dismiss: CardAnnouncementAction
     let recorder: AnnouncementRecorder
@@ -65,11 +71,13 @@ final class Enable2FAAnnouncement: PeriodicAnnouncement & ActionableAnnouncement
     init(shouldEnable2FA: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
          reappearanceTimeInterval: TimeInterval,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.shouldEnable2FA = shouldEnable2FA
         recorder = AnnouncementRecorder(cache: cacheSuite)
         appearanceRules = PeriodicAnnouncementAppearanceRules(recessDurationBetweenDismissals: reappearanceTimeInterval)
+        self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
         self.action = action
     }

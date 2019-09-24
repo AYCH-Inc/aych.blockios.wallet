@@ -956,7 +956,11 @@ MyWalletPhone.quickSend = function(id, onSendScreen, secondPassword, assetType) 
     console.log('quickSend');
 
     var success = function(tx) {
-        objc_tx_on_success_secondPassword_hash(id, secondPassword, tx.txid, tx.transaction.toHex());
+        if (assetType == 'btc') {
+            objc_tx_on_success_secondPassword_hash(id, secondPassword, tx.txid, tx.transaction.toHex());
+        } else {
+            objc_tx_on_success_secondPassword_hash(id, secondPassword, tx.txid, null);
+        }
     };
 
     var error = function(response) {

@@ -149,6 +149,7 @@ import PlatformUIKit
             withIdentifier: "SettingsNavigationController"
         ) as! SettingsNavigationController
         viewController.showSettings()
+        viewController.modalPresentationStyle = .fullScreen
         viewController.modalTransitionStyle = .coverVertical
         UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
             viewController,

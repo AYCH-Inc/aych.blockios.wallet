@@ -48,7 +48,7 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
     }
     
     var shouldShow: Bool {
-        return !isDismissed
+        return !isDismissed && tiersResponse.tier1AccountStatus == .none
     }
     
     let type = AnnouncementType.walletIntro
@@ -60,12 +60,14 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
     
     let appearanceRules: PeriodicAnnouncementAppearanceRules
     
+    private let tiersResponse: KYCUserTiersResponse
     private let disposeBag = DisposeBag()
     
     // MARK: - Setup
     
     init(cacheSuite: CacheSuite = UserDefaults.standard,
          reappearanceTimeInterval: TimeInterval,
+         tiersResponse: KYCUserTiersResponse,
          action: @escaping CardAnnouncementAction,
          dismiss: @escaping CardAnnouncementAction) {
         recorder = AnnouncementRecorder(cache: cacheSuite)
@@ -73,6 +75,7 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
             recessDurationBetweenDismissals: reappearanceTimeInterval,
             maxDismissalCount: 3
         )
+        self.tiersResponse = tiersResponse
         self.action = action
         self.dismiss = dismiss
     }

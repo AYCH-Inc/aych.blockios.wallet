@@ -654,6 +654,8 @@
 		3A9A02612177F10200E2848E /* StellarOperationsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A02602177F10200E2848E /* StellarOperationsAPI.swift */; };
 		3A9A026F2178E19400E2848E /* StellarOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A026E2178E19400E2848E /* StellarOperation.swift */; };
 		3A9A02702178E19400E2848E /* StellarOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A026E2178E19400E2848E /* StellarOperation.swift */; };
+		3A9AB3CC2338D0FD00C6BD06 /* BuySellPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB3CB2338D0FD00C6BD06 /* BuySellPlaceholderViewController.swift */; };
+		3A9AB3D92338D40600C6BD06 /* BuySellPlaceholderViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB3D82338D40600C6BD06 /* BuySellPlaceholderViewController.storyboard */; };
 		3A9B282421A4BA2A00DB46C7 /* AssetAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B282321A4BA2A00DB46C7 /* AssetAddress.swift */; };
 		3A9B282621A4BBC900DB46C7 /* StellarWalletAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B282521A4BBC900DB46C7 /* StellarWalletAccount.swift */; };
 		3A9B283121A4BF0A00DB46C7 /* WalletAccountInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B283021A4BF0A00DB46C7 /* WalletAccountInitializer.swift */; };
@@ -833,6 +835,7 @@
 		3AEA402121FBA9DC00952587 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEA402021FBA9DC00952587 /* AlertView.swift */; };
 		3AEA402321FBAAEF00952587 /* AlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AEA402221FBAAEF00952587 /* AlertView.xib */; };
 		3AECA26422CFE1AA004ED7B7 /* PITAccountRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AECA26322CFE1AA004ED7B7 /* PITAccountRepository.swift */; };
+		3AED6072233A20C8009BF2AB /* BuySellPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB3CB2338D0FD00C6BD06 /* BuySellPlaceholderViewController.swift */; };
 		3AEE9690221DDE7700F8B5D5 /* DashboardContainerViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AEE968F221DDE7700F8B5D5 /* DashboardContainerViewController.storyboard */; };
 		3AEE969B221DDFD700F8B5D5 /* DashboardContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE969A221DDFD700F8B5D5 /* DashboardContainerViewController.swift */; };
 		3AEE969D221DF95600F8B5D5 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE969C221DF95600F8B5D5 /* BaseNavigationController.swift */; };
@@ -1450,7 +1453,6 @@
 		65E587FC22BEA27800A174B1 /* AppSettingsAuthenticating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E587FA22BEA27800A174B1 /* AppSettingsAuthenticating.swift */; };
 		65E5883E22C0B88900A174B1 /* DigitPadViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E5883D22C0B88900A174B1 /* DigitPadViewModelTests.swift */; };
 		65E5884022C0D3EC00A174B1 /* PinInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E5883F22C0D3EC00A174B1 /* PinInteractorTests.swift */; };
-		65F20AB523326D4C00CA4410 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		65F20AB623326D4C00CA4410 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		65F5E70122C36D0D00D00F50 /* QRAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F5E70022C36D0D00D00F50 /* QRAddressView.swift */; };
 		65F5E70222C36D0D00D00F50 /* QRAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F5E70022C36D0D00D00F50 /* QRAddressView.swift */; };
@@ -3018,6 +3020,8 @@
 		3A9511D921769DB500F26631 /* SendLumensViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SendLumensViewController.storyboard; sourceTree = "<group>"; };
 		3A9A02602177F10200E2848E /* StellarOperationsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarOperationsAPI.swift; sourceTree = "<group>"; };
 		3A9A026E2178E19400E2848E /* StellarOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarOperation.swift; sourceTree = "<group>"; };
+		3A9AB3CB2338D0FD00C6BD06 /* BuySellPlaceholderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuySellPlaceholderViewController.swift; sourceTree = "<group>"; };
+		3A9AB3D82338D40600C6BD06 /* BuySellPlaceholderViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = BuySellPlaceholderViewController.storyboard; sourceTree = "<group>"; };
 		3A9B282321A4BA2A00DB46C7 /* AssetAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetAddress.swift; sourceTree = "<group>"; };
 		3A9B282521A4BBC900DB46C7 /* StellarWalletAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarWalletAccount.swift; sourceTree = "<group>"; };
 		3A9B283021A4BF0A00DB46C7 /* WalletAccountInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAccountInitializer.swift; sourceTree = "<group>"; };
@@ -7878,6 +7882,23 @@
 			path = Transaction;
 			sourceTree = "<group>";
 		};
+		3A9AB3D62338D3DF00C6BD06 /* Introduction */ = {
+			isa = PBXGroup;
+			children = (
+				3A9AB3D72338D3ED00C6BD06 /* BuySell */,
+			);
+			path = Introduction;
+			sourceTree = "<group>";
+		};
+		3A9AB3D72338D3ED00C6BD06 /* BuySell */ = {
+			isa = PBXGroup;
+			children = (
+				3A9AB3CB2338D0FD00C6BD06 /* BuySellPlaceholderViewController.swift */,
+				3A9AB3D82338D40600C6BD06 /* BuySellPlaceholderViewController.storyboard */,
+			);
+			path = BuySell;
+			sourceTree = "<group>";
+		};
 		3A9B285221A4CD0300DB46C7 /* KeyPair */ = {
 			isa = PBXGroup;
 			children = (
@@ -11478,6 +11499,7 @@
 		9FCA4D18151494A300ECDFBE /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3A9AB3D62338D3DF00C6BD06 /* Introduction */,
 				237C9E8E1C482132000754F7 /* AccountsAndAddressesDetailViewController.h */,
 				23BF73371C454B8C00204503 /* AccountsAndAddressesNavigationController.h */,
 				23BF733A1C455DDB00204503 /* AccountsAndAddressesViewController.h */,
@@ -13815,6 +13837,7 @@
 				3A68A33222CA618A00EB1287 /* PitConnectViewController.storyboard in Resources */,
 				515EFAE8210282B4002350B6 /* ReceiveCoins.xib in Resources */,
 				602B9CD72118E15300BD3D60 /* KYCInformationController.storyboard in Resources */,
+				3A9AB3D92338D40600C6BD06 /* BuySellPlaceholderViewController.storyboard in Resources */,
 				602B9CF12118E15300BD3D60 /* LocationSuggestionCell.xib in Resources */,
 				51F5D09821542CEF003D6237 /* KYCCountrySelectionController.storyboard in Resources */,
 				3A76F8F72119EDE0002F7946 /* ValidationDateField.xib in Resources */,
@@ -15286,6 +15309,7 @@
 				AA084413215EEF750007BFD1 /* LockboxAccount.swift in Sources */,
 				6564E56322C13FDA0057108B /* PinServicing.swift in Sources */,
 				650CE41F22CBDDB000FA282E /* Wallet+WalletProtocol.swift in Sources */,
+				3AED6072233A20C8009BF2AB /* BuySellPlaceholderViewController.swift in Sources */,
 				AA0A4148214B0B2100807163 /* ExchangeAssetAccountListPresenter.swift in Sources */,
 				AA126CD9212C94CB005886A3 /* NabuCreateUserResponse.swift in Sources */,
 				652CE01F23100E500044E899 /* AnnouncementRecord+State.swift in Sources */,
@@ -15829,7 +15853,7 @@
 				67EE1DCF19E3325900DBBFC9 /* UIViewController+ECSlidingViewController.m in Sources */,
 				3A5AF01422D5354F007C5717 /* PitCoordinator.swift in Sources */,
 				AACE314C209152D800B7B806 /* Application+Helpers.swift in Sources */,
-				65F20AB523326D4C00CA4410 /* (null) in Sources */,
+				3A9AB3CC2338D0FD00C6BD06 /* BuySellPlaceholderViewController.swift in Sources */,
 				65283F1722A7D69800255A30 /* VersionUpdateAlertDisplaying.swift in Sources */,
 				AA63F86720A27AC6002B719B /* PostAuthenticationRoute.swift in Sources */,
 				3A5C3C63225D4916003C99C9 /* KYCCoinifySignedToken.swift in Sources */,

@@ -152,10 +152,6 @@ class SideMenuViewController: UIViewController {
         tabViewController.menuSwipeRecognizerView.isUserInteractionEnabled = true
         tabViewController.menuSwipeRecognizerView.addGestureRecognizer(slidingViewController.panGesture)
     }
-    
-    private lazy var sheetPresenter: BottomSheetPresenting = {
-        return BottomSheetPresenting()
-    }()
 }
 
 extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
@@ -193,10 +189,8 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension SideMenuViewController: SideMenuView {
-    func presentSheet(viewModel: IntroductionSheetViewModel) {
-        let controller = IntroductionSheetViewController.make(with: viewModel)
-        controller.transitioningDelegate = sheetPresenter
-        controller.modalPresentationStyle = .custom
+    
+    func presentBuySellNavigationPlaceholder(controller: UINavigationController) {
         present(controller, animated: true, completion: nil)
     }
     

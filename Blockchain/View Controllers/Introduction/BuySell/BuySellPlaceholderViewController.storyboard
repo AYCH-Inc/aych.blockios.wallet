@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wYo-Xg-UvU">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Bold.ttf">
+            <string>Inter-Bold</string>
+        </array>
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Buy Sell Placeholder View Controller-->
+        <scene sceneID="OWw-7H-fMd">
+            <objects>
+                <viewController id="wYo-Xg-UvU" customClass="BuySellPlaceholderViewController" customModule="Blockchain" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="A7W-7Y-TH3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="9FJ-zA-LqC">
+                                <rect key="frame" x="16" y="76" width="382" height="48"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rhw-O6-sAJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="183" height="48"/>
+                                        <color key="backgroundColor" red="0.050000000000000003" green="0.41999999999999998" blue="0.94999999999999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="20"/>
+                                        <state key="normal" title="Buy">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UG1-Oa-lL3">
+                                        <rect key="frame" x="199" y="0.0" width="183" height="48"/>
+                                        <color key="backgroundColor" red="0.050000000000000003" green="0.41999999999999998" blue="0.94999999999999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="20"/>
+                                        <state key="normal" title="Sell">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="Iim-kk-rR3"/>
+                                    <constraint firstAttribute="bottom" secondItem="rhw-O6-sAJ" secondAttribute="bottom" id="ctr-hf-lxe"/>
+                                    <constraint firstAttribute="bottom" secondItem="UG1-Oa-lL3" secondAttribute="bottom" id="xjb-ze-pff"/>
+                                </constraints>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rBq-d7-mmh">
+                                <rect key="frame" x="16" y="156" width="133" height="24.5"/>
+                                <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nu1-Ro-kUI">
+                                <rect key="frame" x="159" y="228.5" width="96" height="96"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buy-sell-large" translatesAutoresizingMaskIntoConstraints="NO" id="Ebo-x6-wtQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Ebo-x6-wtQ" secondAttribute="bottom" id="Gb2-NR-6oG"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ebo-x6-wtQ" secondAttribute="trailing" id="XW5-cZ-V1D"/>
+                                    <constraint firstAttribute="width" secondItem="Nu1-Ro-kUI" secondAttribute="height" multiplier="1:1" id="ajL-rT-sBg"/>
+                                    <constraint firstItem="Ebo-x6-wtQ" firstAttribute="top" secondItem="Nu1-Ro-kUI" secondAttribute="top" id="gUR-xA-VR1"/>
+                                    <constraint firstItem="Ebo-x6-wtQ" firstAttribute="leading" secondItem="Nu1-Ro-kUI" secondAttribute="leading" id="ocF-l0-vJV"/>
+                                    <constraint firstAttribute="width" constant="96" id="yva-E3-ewh"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="9FJ-zA-LqC" firstAttribute="top" secondItem="UpB-WM-KRD" secondAttribute="top" constant="32" id="4aE-2z-mHu"/>
+                            <constraint firstItem="rBq-d7-mmh" firstAttribute="leading" secondItem="rhw-O6-sAJ" secondAttribute="leading" id="G1N-vN-iIU"/>
+                            <constraint firstItem="Nu1-Ro-kUI" firstAttribute="top" secondItem="rBq-d7-mmh" secondAttribute="bottom" constant="48" id="UFU-px-Sqw"/>
+                            <constraint firstItem="UpB-WM-KRD" firstAttribute="trailing" secondItem="9FJ-zA-LqC" secondAttribute="trailing" constant="16" id="h3J-HF-u6j"/>
+                            <constraint firstItem="9FJ-zA-LqC" firstAttribute="leading" secondItem="UpB-WM-KRD" secondAttribute="leading" constant="16" id="jqf-tH-NdJ"/>
+                            <constraint firstItem="rBq-d7-mmh" firstAttribute="top" secondItem="9FJ-zA-LqC" secondAttribute="bottom" constant="32" id="w3q-X6-a5v"/>
+                            <constraint firstItem="Nu1-Ro-kUI" firstAttribute="centerX" secondItem="UpB-WM-KRD" secondAttribute="centerX" id="zKT-eq-jjp"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="UpB-WM-KRD"/>
+                    </view>
+                    <connections>
+                        <outlet property="buyButton" destination="rhw-O6-sAJ" id="rFF-HI-jPL"/>
+                        <outlet property="container" destination="Nu1-Ro-kUI" id="tUd-GN-Fkq"/>
+                        <outlet property="sellButton" destination="UG1-Oa-lL3" id="Tx7-DM-fPB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bM1-FH-C8t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="91" y="123"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="buy-sell-large" width="56" height="56"/>
+    </resources>
+</document>

@@ -15,7 +15,7 @@ import RxCocoa
 /// SideMenuItem objects.
 protocol SideMenuView: class {
     func setMenu(items: [SideMenuItem])
-    func presentSheet(viewModel: IntroductionSheetViewModel)
+    func presentBuySellNavigationPlaceholder(controller: UINavigationController)
 }
 
 /// Presenter for the side menu of the app. This presenter
@@ -31,7 +31,7 @@ class SideMenuPresenter {
             case .pulse(let model):
                 return self?.menuItems(model.action) ?? []
             case .sheet(let model):
-                self?.view?.presentSheet(viewModel: model)
+                self?.buySellPlaceholderController.presentIntroductionViewModel(model)
                 return self?.menuItems() ?? []
             case .none:
                 return self?.menuItems() ?? []
@@ -161,19 +161,39 @@ class SideMenuPresenter {
     private func buySellEvents() -> [WalletIntroductionEvent] {
         return [buy, buyDescription]
     }
+    
+    // MARK: Lazy Properties
+    
+    private lazy var buySellPlaceholderController: BuySellPlaceholderViewController = {
+        return BuySellPlaceholderViewController.makeFromStoryboard()
+    }()
+    
+    private lazy var buySellNavigationController: UINavigationController = {
+        let navController = BaseNavigationController(rootViewController: buySellPlaceholderController)
+        navController.modalPresentationStyle = .fullScreen
+        return navController
+    }()
 }
 
 extension SideMenuPresenter {
     var buy: BuySellWalletIntroductionEvent {
-        return BuySellWalletIntroductionEvent(selection: triggerNextStep)
+        return BuySellWalletIntroductionEvent { [weak self] in
+            guard let self = self else { return }
+            self.view?.presentBuySellNavigationPlaceholder(controller: self.buySellNavigationController)
+            AppCoordinator.shared.toggleSideMenu()
+            self.triggerNextStep()
+        }
     }
     
     var buyDescription: BuySellDescriptionIntroductionEvent {
         return BuySellDescriptionIntroductionEvent(selection: { [weak self] in
             guard let self = self else { return }
-            /// The closure has been executed, so we pass in `nil` here.
-            /// the `next` step will cause the `tableView` to reload.
-            self.itemSelectionRelay.accept(.buyBitcoin(nil))
+            /// Looks weird but actually both of these lines must
+            /// be here otherwise the view doesn't get dismissed.
+            self.buySellPlaceholderController.dismiss(animated: true, completion: nil)
+            self.buySellNavigationController.dismiss(animated: true, completion: nil)
+            /// Return to the dashboard once this step is completed.
+            AppCoordinator.shared.tabControllerManager.dashBoardClicked(nil)
             self.triggerNextStep()
         })
     }

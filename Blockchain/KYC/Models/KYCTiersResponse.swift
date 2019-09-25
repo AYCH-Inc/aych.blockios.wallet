@@ -50,6 +50,17 @@ extension KYCUserTiersResponse {
         }
     }
     
+    /// Returns the latest tier, approved OR in progress (pending || in-review)
+    var latestTier: KYCTier {
+        guard tier1AccountStatus.isInProgressOrApproved else {
+            return .tier0
+        }
+        guard tier2AccountStatus.isInProgressOrApproved else {
+            return .tier1
+        }
+        return .tier2
+    }
+    
     /// Returns `true` if the user is not tier2 verified, rejected or pending
     var canCompleteTier2: Bool {
         return userTiers.contains(where: {

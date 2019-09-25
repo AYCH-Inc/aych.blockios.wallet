@@ -52,6 +52,9 @@ class ExchangeService: NSObject {
 extension ExchangeService: ExchangeHistoryAPI {
     
     func hasExecutedTrades() -> Single<Bool> {
+        // Don't bother checking for trades if not empty, since we are only interested
+        // if the user has trades of not
+        guard tradeModels.isEmpty else { return .just(true) }
         return Single.create(subscribe: { [weak self] event -> Disposable in
             guard let this = self else { return Disposables.create() }
             this.getAllTrades(with: { result in

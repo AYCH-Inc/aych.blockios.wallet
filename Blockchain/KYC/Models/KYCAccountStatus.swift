@@ -16,3 +16,13 @@ enum KYCAccountStatus: String {
     case pending = "PENDING"
     case underReview = "UNDER_REVIEW"
 }
+
+extension KYCAccountStatus {
+    var isInProgress: Bool {
+        return self == .pending || self == .underReview
+    }
+    
+    var isInProgressOrApproved: Bool {
+        return isInProgress || self == .approved
+    }
+}

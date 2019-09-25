@@ -33,7 +33,13 @@ struct NabuUser: Decodable {
     let pitUserName: String?
     let depositAddresses: [DepositAddress]?
     let settings: NabuUserSettings?
-
+    
+    /// ISO-8601 Timestamp w/millis, eg 2018-08-15T17:00:45.129Z
+    let kycCreationDate: String?
+       
+    /// ISO-8601 Timestamp w/millis, eg 2018-08-15T17:00:45.129Z
+    let kycUpdateDate: String?
+    
     // MARK: - Decodable
 
     enum CodingKeys: String, CodingKey {
@@ -54,6 +60,8 @@ struct NabuUser: Decodable {
         case userName
         case walletAddresses
         case settings
+        case kycCreationDate = "insertedAt"
+        case kycUpdateDate = "updatedAt"
     }
 
     init(
@@ -69,7 +77,9 @@ struct NabuUser: Decodable {
         needsDocumentResubmission: DocumentResubmission?,
         pitUserName: String? = nil,
         depositAddresses: [DepositAddress]? = nil,
-        settings: NabuUserSettings? = nil
+        settings: NabuUserSettings? = nil,
+        kycCreationDate: String? = nil,
+        kycUpdateDate: String? = nil
     ) {
         self.personalDetails = personalDetails
         self.address = address
@@ -83,6 +93,8 @@ struct NabuUser: Decodable {
         self.pitUserName = pitUserName
         self.depositAddresses = depositAddresses
         self.settings = settings
+        self.kycCreationDate = kycCreationDate
+        self.kycUpdateDate = kycUpdateDate
     }
 
     init(from decoder: Decoder) throws {
@@ -137,6 +149,9 @@ struct NabuUser: Decodable {
         state = UserState(rawValue: userState) ?? .none
         tags = try values.decodeIfPresent(Tags.self, forKey: .tags)
         needsDocumentResubmission = try values.decodeIfPresent(DocumentResubmission.self, forKey: .needsDocumentResubmission)
+        
+        kycCreationDate = try values.decodeIfPresent(String.self, forKey: .kycCreationDate)
+        kycUpdateDate = try values.decodeIfPresent(String.self, forKey: .kycUpdateDate)
     }
     
     func swapApproved() -> Bool {

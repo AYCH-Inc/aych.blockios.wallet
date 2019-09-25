@@ -97,6 +97,8 @@ final class DashboardController: UIViewController {
         return theView
     }()
 
+    private let analyticsUserPropertyInteractor = AnalyticsUserPropertyInteractor()
+    
     // MARK: - IBOutlets
     
     @IBOutlet private var scrollView: UIScrollView!
@@ -379,6 +381,8 @@ final class DashboardController: UIViewController {
                 contentView.changeHeight(defaultContentHeight)
             }
             
+            // TODO: Move this elsewhere along with the balance data
+            analyticsUserPropertyInteractor.record()
             announcementContainerView.refresh()
         }
 

@@ -40,6 +40,14 @@
 @synthesize responseText;
 @synthesize status;
 
++ (NSError *)networkConnectivityError {
+    static NSError *error = nil;
+    if (error == nil) {
+        error = [[NSError alloc] initWithDomain:@"network_connectivity" code:0 userInfo:nil];
+    }
+    return error;
+}
+
 -(void)open:(NSString*)httpMethod :(NSString*)url :(bool)async;
 {
     _method = httpMethod;
@@ -79,10 +87,14 @@
 
     NSHTTPURLResponse* response;
     NSError* error;
-    NSData* data = [NSURLSession sendSynchronousRequest:req session:[[NetworkDependenciesObjc sharedInstance] session] returningResponse:&response error:&error sessionDescription:req.URL.host];
-    status = [response statusCode];
-    self.responseText = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    _responseHeaders = response.allHeaderFields;
+    if ([Reachability hasInternetConnection]) {
+        NSData* data = [NSURLSession sendSynchronousRequest:req session:[[NetworkDependenciesObjc sharedInstance] session] returningResponse:&response error:&error sessionDescription:req.URL.host];
+        status = [response statusCode];
+        self.responseText = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        _responseHeaders = response.allHeaderFields;
+    } else {
+        error = [ModuleXMLHttpRequest networkConnectivityError];
+    }
     
     if (!error && _onLoad)
         [[_onLoad.value invokeMethod:@"bind" withArguments:@[self]] callWithArguments:NULL];

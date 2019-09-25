@@ -26,7 +26,7 @@ import Foundation
 
     /// Converts this URL to an absolute string (e.g. "bitcoin:1Amu4uPJnYbUXX2HhDFMNq7tSneDwWYDyv")
     @objc var absoluteString: String { get }
-
+    
     /// The asset's scheme (e.g. "bitcoin")
     static var scheme: String { get }
 }

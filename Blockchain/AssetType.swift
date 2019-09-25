@@ -34,7 +34,7 @@ extension AssetType {
         }
     }
     
-    /// Returns `true` for any ERC20 based asset
+    /// Returns `true` for any ERC20 asset
     var isERC20: Bool {
         switch self {
         case .pax:
@@ -43,7 +43,7 @@ extension AssetType {
             return false
         }
     }
-    
+
     static let all: [AssetType] = {
         var allAssets: [AssetType] = [.bitcoin, .ethereum, .bitcoinCash]
         if AppFeatureConfigurator.shared.configuration(for: .stellar).isEnabled {

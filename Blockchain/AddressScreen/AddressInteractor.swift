@@ -49,22 +49,15 @@ final class AddressInteractor: AddressInteracting {
                 guard let self = self else {
                     throw AddressFetchingError.unretainedSelf
                 }
-                
-                var address = address
-
-                // Remove prefix "bitcoincash:"
-                if self.asset.isBitcoinCash {
-                    address.remove(prefix: "\(Constants.Schemes.bitcoinCash):")
-                }
-                
+                                
                 // Create a url
                 let qrUrl: String
-                if let url = AssetURLPayloadFactory.create(fromString: address, assetType: self.asset), !self.asset.isERC20 {
-                    qrUrl = url.absoluteString
+                if let url = AssetURLPayloadFactory.create(fromString: address, assetType: self.asset) {
+                    qrUrl = url.address
                 } else {
                     qrUrl = address
                 }
-                
+                                                       
                 // Generate a QR image out of the provided url
                 guard let image = self.qrCodeGenerator.createQRImage(fromString: qrUrl) else {
                     let error = AddressFetchingError.parsing

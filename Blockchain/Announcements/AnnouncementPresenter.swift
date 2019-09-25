@@ -87,10 +87,7 @@ final class AnnouncementPresenter: NSObject {
             case .verifyEmail:
                 announcement = verifyEmail(user: preliminaryData.user)
             case .walletIntro:
-               announcement = walletIntro(
-                    reappearanceTimeInterval: metadata.interval,
-                    tiersResponse: preliminaryData.tiers
-               )
+                announcement = walletIntro(reappearanceTimeInterval: metadata.interval)
             case .twoFA:
                 announcement = twoFA(reappearanceTimeInterval: metadata.interval)
             case .backupFunds:
@@ -148,12 +145,9 @@ extension AnnouncementPresenter {
     }
     
     // Computes Wallet Intro card announcement
-     private func walletIntro(
-          reappearanceTimeInterval: TimeInterval,
-          tiersResponse: KYCUserTiersResponse) -> Announcement {
+    private func walletIntro(reappearanceTimeInterval: TimeInterval) -> Announcement {
         return WalletIntroAnnouncement(
-          reappearanceTimeInterval: reappearanceTimeInterval,
-          tiersResponse: tiersResponse,
+            reappearanceTimeInterval: reappearanceTimeInterval,
             action: { [weak self] in
                guard let self = self else { return }
                self.hideAnnouncement()

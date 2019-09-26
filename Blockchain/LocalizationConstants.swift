@@ -924,8 +924,8 @@ struct LocalizationConstants {
             struct Send {
                 static let title = NSLocalizedString("Send", comment: "Send")
                 static let description = NSLocalizedString(
-                    "Send crypto anywhere, anytime. All you need is the recipients crypto address.",
-                    comment: "Send crypto anywhere, anytime. All you need is the recipients crypto address."
+                    "Send crypto anywhere, anytime. All you need is the recipient’s crypto address.",
+                    comment: "Send crypto anywhere, anytime. All you need is the recipient’s crypto address."
                 )
             }
             struct Request {

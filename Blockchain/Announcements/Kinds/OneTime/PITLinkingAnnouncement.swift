@@ -24,6 +24,7 @@ final class PITLinkingAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
         button.tapRelay
             .bind { [unowned self] in
                 self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
+                self.analyticsRecorder.record(event: AnalyticsEvents.PIT.AnnouncementTapped())
                 self.markRemoved()
                 self.action()
                 self.dismiss()

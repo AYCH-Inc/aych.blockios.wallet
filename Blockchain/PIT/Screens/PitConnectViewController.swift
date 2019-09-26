@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 import PlatformUIKit
 import RxSwift
 import RxCocoa
@@ -21,6 +22,7 @@ class PitConnectViewController: UIViewController, NavigatableView {
     // MARK: Private Properties
     
     private let bag: DisposeBag = DisposeBag()
+    private let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     
     // MARK: Private IBOutlets
     
@@ -99,12 +101,14 @@ class PitConnectViewController: UIViewController, NavigatableView {
         connectNowButton.rx.tap
             .subscribe(onNext: { _ in
                 self.connectRelay.accept(())
+                self.analyticsRecorder.record(event: AnalyticsEvents.PIT.ConnectNowTapped())
             })
             .disposed(by: bag)
         
         learnMoreButton.rx.tap
             .subscribe(onNext: { _ in
                 self.learnMoreRelay.accept(())
+                self.analyticsRecorder.record(event: AnalyticsEvents.PIT.LearnMoreTapped())
             })
             .disposed(by: bag)
     }

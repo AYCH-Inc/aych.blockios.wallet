@@ -224,7 +224,6 @@ import PlatformUIKit
 
 extension AppCoordinator: SideMenuViewControllerDelegate {
     func sideMenuViewController(_ viewController: SideMenuViewController, didTapOn item: SideMenuItem) {
-        AnalyticsService.shared.trackEvent(title: item.analyticsKey)
         switch item {
         case .upgrade:
             handleUpgrade()

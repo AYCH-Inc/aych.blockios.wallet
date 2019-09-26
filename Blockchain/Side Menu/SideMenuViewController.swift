@@ -42,6 +42,7 @@ class SideMenuViewController: UIViewController {
     }
     
     private let recorder: ErrorRecording = CrashlyticsRecorder()
+    private let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
 
     // MARK: - View Controller Lifecycle
 
@@ -70,6 +71,7 @@ class SideMenuViewController: UIViewController {
         
         presenter.itemSelection.drive(onNext: { [weak self] item in
             guard let self = self else { return }
+            self.analyticsRecorder.record(event: AnalyticsEvents.SideMenu.ItemTapped(item: item))
             self.delegate?.sideMenuViewController(self, didTapOn: item)
         })
         .disposed(by: disposeBag)

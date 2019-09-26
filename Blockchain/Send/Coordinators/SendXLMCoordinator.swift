@@ -502,6 +502,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         }
         let viewController = InformationViewController.make(viewModel: viewModel)
         let navigationController = BCNavigationController(rootViewController: viewController, title: LocalizationConstants.Stellar.minimumBalance)
+        navigationController.modalPresentationStyle = .fullScreen
         interface.present(viewController: navigationController)
     }
 

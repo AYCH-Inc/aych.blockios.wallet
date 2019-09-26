@@ -62,7 +62,7 @@ class TransactionsXlmViewController: SimpleTransactionsViewController {
             detailViewController.transactionModel = viewModel
             navigation.transactionHash = created.transactionHash
         }
-        
+        navigation.modalPresentationStyle = .fullScreen
         guard let top = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController else { return }
         top.present(navigation, animated: true, completion: nil)
     }

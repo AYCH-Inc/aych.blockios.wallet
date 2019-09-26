@@ -60,6 +60,7 @@ extension AboutUsViewController {
     @objc static func present(in viewController: UIViewController) {
         let storyboard = UIStoryboard(name: "AboutUsView", bundle: nil)
         let aboutUsViewController = storyboard.instantiateInitialViewController() as! AboutUsViewController
+        aboutUsViewController.modalPresentationStyle = .fullScreen
         viewController.present(aboutUsViewController, animated: true)
     }
 }

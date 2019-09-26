@@ -96,6 +96,7 @@
         tabControllerManager.transactionsEtherViewController.detailViewController = nil;
     };
     navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    navigationController.modalPresentationStyle = UIModalPresentationOverFullScreen;
     tabControllerManager.transactionsEtherViewController.detailViewController = detailViewController;
 
     UIViewController *topViewController = UIApplication.sharedApplication.keyWindow.rootViewController.topMostViewController;

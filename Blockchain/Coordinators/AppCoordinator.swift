@@ -296,6 +296,7 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
             rootViewController: webLoginViewController,
             title: LocalizationConstants.SideMenu.loginToWebWallet
         )
+        navigationViewController.modalPresentationStyle = .fullScreen
         UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
             navigationViewController,
             animated: true

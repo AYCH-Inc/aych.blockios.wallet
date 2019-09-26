@@ -483,6 +483,7 @@
         tabControllerManager.transactionsBitcoinViewController.detailViewController = nil;
     };
     navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    navigationController.modalPresentationStyle = UIModalPresentationFullScreen;
     tabControllerManager.transactionsBitcoinViewController.detailViewController = detailViewController;
 
     UIViewController *topViewController = UIApplication.sharedApplication.keyWindow.rootViewController.topMostViewController;

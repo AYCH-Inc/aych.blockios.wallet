@@ -41,6 +41,7 @@ class PaxActivityViewController: SimpleTransactionsViewController {
         let detailViewController = TransactionDetailViewController()
         let navigation = TransactionDetailNavigationController(rootViewController: detailViewController)
         detailViewController.modalTransitionStyle = .coverVertical
+        navigation.modalPresentationStyle = .fullScreen
         
         let viewModel: TransactionDetailViewModel = TransactionDetailViewModel(transaction: model)
         detailViewController.transactionModel = viewModel

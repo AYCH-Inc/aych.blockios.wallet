@@ -81,14 +81,18 @@ final class QRCodeScannerViewControllerBuilder<P: QRCodeScannerParsing> {
                 loadingViewPresenter: loadingViewPresenter,
                 dismissAnimated: dismissAnimated
             )
-            return UINavigationController(rootViewController: scannerViewController)
+            let navController = UINavigationController(rootViewController: scannerViewController)
+            navController.modalPresentationStyle = .fullScreen
+            return navController
         case .viewModel(let qrCodeScannerViewModel):
             let scannerViewController = QRCodeScannerViewController(
                 viewModel: qrCodeScannerViewModel,
                 loadingViewPresenter: loadingViewPresenter,
                 dismissAnimated: dismissAnimated
             )
-            return UINavigationController(rootViewController: scannerViewController)
+            let navController = UINavigationController(rootViewController: scannerViewController)
+            navController.modalPresentationStyle = .fullScreen
+            return navController
         }
     }
 }

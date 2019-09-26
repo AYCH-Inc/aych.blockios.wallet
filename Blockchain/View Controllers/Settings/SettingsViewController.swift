@@ -139,12 +139,14 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
         let aboutViewController = SettingsWebViewController()
         aboutViewController.urlTargetString = Constants.Url.termsOfService
         let navigationController = BCNavigationController(rootViewController: aboutViewController, title: LocalizationConstants.tos)
+        navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
     }
     func showPrivacyPolicy() {
         let aboutViewController = SettingsWebViewController()
         aboutViewController.urlTargetString = Constants.Url.privacyPolicy
         let navigationController = BCNavigationController(rootViewController: aboutViewController, title: LocalizationConstants.privacyPolicy)
+        navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
     }
     func showCookiePolicy() {
@@ -152,6 +154,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
         aboutViewController.urlTargetString = Constants.Url.privacyPolicy
         let navigationController = BCNavigationController(rootViewController: aboutViewController,
                                                           title: LocalizationConstantsObjcBridge.cookiePolicy())
+        navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
     }
     

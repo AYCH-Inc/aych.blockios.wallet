@@ -274,6 +274,7 @@ import PlatformUIKit
             .build()
 
         guard let pairingCodeParserViewController = pairingCodeParserViewController else { return }
+        pairingCodeParserViewController.modalPresentationStyle = .fullScreen
 
         UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
             pairingCodeParserViewController,

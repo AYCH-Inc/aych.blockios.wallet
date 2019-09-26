@@ -96,6 +96,22 @@ extension AppFeatureConfigurator: FeatureFetching {
     /// Returns an expected integer for the provided feature key
     ///
     /// - Parameter feature: the feature key
+    /// - Returns: the string value wrapped in a `RxSwift.Single`
+    /// - Throws: An `ConfigurationError.missingKeyRawValue` in case the key raw value
+    /// is missing or `ConfigurationError.missingValue` if the value itself is missing.
+    func fetchString(for key: AppFeature) -> Single<String> {
+        guard let keyRawValue = key.remoteEnabledKey else {
+            return .error(ConfigurationError.missingKeyRawValue)
+        }
+        guard let value = remoteConfig.configValue(forKey: keyRawValue).stringValue else {
+            return .error(ConfigurationError.missingValue)
+        }
+        return .just(value)
+    }
+    
+    /// Returns an expected integer for the provided feature key
+    ///
+    /// - Parameter feature: the feature key
     /// - Returns: the integer value wrapped in a `RxSwift.Single`
     /// - Throws: An `ConfigurationError.missingKeyRawValue` in case the key raw value
     /// is missing or `ConfigurationError.missingValue` if the value itself is missing.

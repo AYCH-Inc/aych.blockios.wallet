@@ -31,6 +31,9 @@ import Foundation
     
     /// The announcments
     case announcements
+    
+    /// Title for the PIT side menu
+    case pitSideNavigationVariant
 }
 
 extension AppFeature {
@@ -51,6 +54,8 @@ extension AppFeature {
             return "pit_show_announcement"
         case .announcements:
             return "announcements"
+        case .pitSideNavigationVariant:
+            return "ab_the_pit_side_nav_variant"
         default:
             return nil
         }

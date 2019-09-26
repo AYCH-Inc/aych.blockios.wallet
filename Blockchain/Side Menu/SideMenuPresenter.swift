@@ -27,16 +27,18 @@ class SideMenuPresenter {
     
     var presentationEvent: Driver<[SideMenuItem]> {
         return introductionRelay.map { [weak self] in
+            guard let self = self else { return [] }
+            let pitTitle = self.pitTitleVariantRelay.value
             switch $0 {
             case .pulse(let model):
-                return self?.menuItems(model.action) ?? []
+                return self.menuItems(model.action, pitTitle: pitTitle)
             case .sheet(let model):
-                self?.buySellPlaceholderController.presentIntroductionViewModel(model)
-                return self?.menuItems() ?? []
+                self.buySellPlaceholderController.presentIntroductionViewModel(model)
+                return self.menuItems(pitTitle: pitTitle)
             case .none:
-                return self?.menuItems() ?? []
+                return self.menuItems(pitTitle: pitTitle)
             }
-            }.asDriver(onErrorJustReturn: menuItems())
+        }.asDriver(onErrorJustReturn: menuItems(pitTitle: pitTitleVariantRelay.value))
     }
     
     var itemSelection: Driver<SideMenuItem> {
@@ -47,8 +49,10 @@ class SideMenuPresenter {
     private weak var view: SideMenuView?
     private var introductionSequence = WalletIntroductionSequence()
     private let interactor: WalletIntroductionInteractor
+    private let featureFetching: FeatureFetching
     private let introductionRelay = PublishRelay<WalletIntroductionEventType>()
     private let itemSelectionRelay = PublishRelay<SideMenuItem>()
+    private let pitTitleVariantRelay = BehaviorRelay<String>(value: LocalizationConstants.SideMenu.PITMenuItem.titleA)
     
     // MARK: - Services
     
@@ -63,6 +67,7 @@ class SideMenuPresenter {
         view: SideMenuView,
         wallet: Wallet = WalletManager.shared.wallet,
         walletService: WalletService = WalletService.shared,
+        featureFetching: FeatureFetching = AppFeatureConfigurator.shared,
         pitConfiguration: AppFeatureConfiguration = AppFeatureConfigurator.shared.configuration(for: .pitLinking),
         onboardingSettings: BlockchainSettings.Onboarding = .shared,
         recorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
@@ -73,6 +78,7 @@ class SideMenuPresenter {
         self.pitConfiguration = pitConfiguration
         self.interactor = WalletIntroductionInteractor(onboardingSettings: onboardingSettings, screen: .sideMenu)
         self.recorder = recorder
+        self.featureFetching = featureFetching
     }
 
     deinit {
@@ -81,12 +87,32 @@ class SideMenuPresenter {
     }
 
     func loadSideMenu() {
-        interactor.startingLocation
+        let pitTitle = featureFetching
+            .fetchString(for: .pitSideNavigationVariant)
+            .map {
+                switch $0 {
+                case "A":
+                    return LocalizationConstants.SideMenu.PITMenuItem.titleA
+                case "B":
+                    return LocalizationConstants.SideMenu.PITMenuItem.titleB
+                case "C":
+                    return LocalizationConstants.SideMenu.PITMenuItem.titleC
+                default:
+                    return LocalizationConstants.SideMenu.PITMenuItem.titleA
+                }
+            }
+            .catchErrorJustReturn(LocalizationConstants.SideMenu.PITMenuItem.titleA)
+        
+        let startingLocation = interactor.startingLocation
             .map { [weak self] location -> [WalletIntroductionEvent] in
                 return self?.startingWithLocation(location) ?? []
-            }
-            .subscribe(onSuccess: { [weak self] events in
+        }.catchErrorJustReturn([])
+        
+        Single.zip(startingLocation, pitTitle)
+            .subscribe(onSuccess: { [weak self] result in
+                let events = result.0
                 guard let self = self else { return }
+                self.pitTitleVariantRelay.accept(result.1)
                 self.execute(events: events)
                 }, onError: { [weak self] error in
                     guard let self = self else { return }
@@ -116,7 +142,10 @@ class SideMenuPresenter {
     }
     
     private func triggerNextStep() {
-        guard let next = introductionSequence.next() else { return }
+        guard let next = introductionSequence.next() else {
+            introductionRelay.accept(.none)
+            return
+        }
         /// We track all introduction events that have an analyticsKey.
         /// This happens on presentation.
         if let trackable = next as? WalletIntroductionAnalyticsEvent {
@@ -130,7 +159,7 @@ class SideMenuPresenter {
         triggerNextStep()
     }
 
-    private func menuItems(_ pulseAction: SideMenuItem.PulseAction? = nil) -> [SideMenuItem] {
+    private func menuItems(_ pulseAction: SideMenuItem.PulseAction? = nil, pitTitle: String) -> [SideMenuItem] {
         var items: [SideMenuItem] = [.accountsAndAddresses]
         
         if wallet.isLockboxEnabled() {
@@ -150,7 +179,7 @@ class SideMenuPresenter {
         items += [.support, .settings]
         
         if pitConfiguration.isEnabled {
-            items.append(.pit)
+            items.append(.pit(pitTitle))
         }
         
         return items

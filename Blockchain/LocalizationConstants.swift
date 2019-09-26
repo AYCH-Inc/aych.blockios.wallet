@@ -1428,7 +1428,11 @@ struct LocalizationConstants {
             "Lockbox",
             comment: "Lockbox menu item title."
         )
-        static let pit = NSLocalizedString("The PIT", comment: "The PIT")
+        struct PITMenuItem {
+            static let titleA = NSLocalizedString("The PIT", comment: "The PIT")
+            static let titleB = NSLocalizedString("Trading", comment: "Trading")
+            static let titleC = NSLocalizedString("The PIT Exchange", comment: "The PIT Exchange")
+        }
     }
 
     struct BuySell {

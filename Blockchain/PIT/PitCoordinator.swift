@@ -123,6 +123,7 @@ class PitCoordinator {
         
         disposables.insertWithDiscardableResult(disposable)
         let navigationController = BaseNavigationController(rootViewController: emailConfirmationScreen)
+        navigationController.modalPresentationStyle = .fullScreen
         navController.present(navigationController, animated: true, completion: nil)
     }
     

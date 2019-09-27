@@ -10,7 +10,7 @@ import Foundation
 
 /// Contains any needed remotely fetched data before displaying announcements.
 struct AnnouncementPreliminaryData {
-    
+
     /// The nabu user
     let user: NabuUser
     
@@ -24,6 +24,9 @@ struct AnnouncementPreliminaryData {
     
     let country: KYCCountry?
         
+    /// The variant for pit linking
+    let pitLinkingCardVariant: FeatureTestingVariant
+    
     var hasLinkedPitAccount: Bool {
         return user.hasLinkedPITAccount
     }
@@ -31,8 +34,14 @@ struct AnnouncementPreliminaryData {
     var isKycSupported: Bool {
         return country?.isKycSupported ?? false
     }
-    
-    init(user: NabuUser, tiers: KYCUserTiersResponse, hasTrades: Bool, hasPaxTransactions: Bool, countries: Countries) {
+        
+    init(user: NabuUser,
+         tiers: KYCUserTiersResponse,
+         hasTrades: Bool,
+         hasPaxTransactions: Bool,
+         countries: Countries,
+         pitLinkingCardVariant: FeatureTestingVariant) {
+        self.pitLinkingCardVariant = pitLinkingCardVariant
         self.user = user
         self.tiers = tiers
         self.hasTrades = hasTrades

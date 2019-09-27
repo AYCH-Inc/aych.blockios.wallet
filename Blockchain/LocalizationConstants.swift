@@ -1109,12 +1109,16 @@ struct LocalizationConstants {
                 "Introducing The PIT",
                 comment: "PIT announcement card title"
             )
-            static let description = NSLocalizedString(
-                "It's time to Level Up to a better crypto exchange by Blockchain. First 100,000 traders to sign up will trade free for 30 days.",
-                comment: "PIT announcement card description"
+            static let variantADescription = NSLocalizedString(
+                "We built our own exchange that links to your Wallet. Instantly access more cryptos and deposit/withdraw cash.",
+                comment: "PIT announcement card description - variantA"
+            )
+            static let variantBDescription = NSLocalizedString(
+                "Upgrade your trading on our new crypto exchange. Link your Wallet to buy, sell, and trade crypto instantly.",
+                comment: "PIT announcement card description - variantB"
             )
             static let ctaButton = NSLocalizedString(
-                "Checkout The PIT",
+                "Get Started",
                 comment: "PIT announcement card CTA button title"
             )
         }

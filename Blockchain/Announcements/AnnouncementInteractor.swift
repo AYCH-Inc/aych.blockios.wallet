@@ -23,6 +23,7 @@ final class AnnouncementInteractor: AnnouncementInteracting {
     private let wallet: WalletProtocol
     private let dataRepository: BlockchainDataRepository
     private let exchangeService: ExchangeService
+    private let featureFetcher: FeatureFetching
     private let paxTransactionService: AnyERC20HistoricalTransactionService<PaxToken>
     
     /// Returns announcement preliminary data, according to which the relevant
@@ -38,23 +39,31 @@ final class AnnouncementInteractor: AnnouncementInteracting {
         let hasPaxTransactions = paxTransactionService.hasTransactions
             .asObservable()
         
-        let hasTrades = exchangeService.hasExecutedTrades().asObservable()
+        let hasTrades = exchangeService.hasExecutedTrades()
+            .asObservable()
 
+        let pitLinkingCardVariant = featureFetcher
+            .fetchTestingVariant(for: .pitAnnouncementVariant)
+            .catchErrorJustReturn(.variantA)
+            .asObservable()
+            
         return Observable
             .zip(dataRepository.nabuUser,
                  dataRepository.tiers,
                  hasTrades,
                  hasPaxTransactions,
-                 countries)
+                 countries,
+                 pitLinkingCardVariant)
             .subscribeOn(SerialDispatchQueueScheduler(internalSerialQueueName: dispatchQueueName))
             .observeOn(MainScheduler.instance)
-            .map { (user, tiers, hasTrades, hasPaxTransactions, countries) -> AnnouncementPreliminaryData in
+            .map { (user, tiers, hasTrades, hasPaxTransactions, countries, pitLinkingCardVariant) -> AnnouncementPreliminaryData in
                 return AnnouncementPreliminaryData(
                     user: user,
                     tiers: tiers,
                     hasTrades: hasTrades,
                     hasPaxTransactions: hasPaxTransactions,
-                    countries: countries
+                    countries: countries,
+                    pitLinkingCardVariant: pitLinkingCardVariant
                 )
             }
             .asSingle()
@@ -66,12 +75,14 @@ final class AnnouncementInteractor: AnnouncementInteracting {
          ethereumWallet: EthereumWalletBridgeAPI = WalletManager.shared.wallet.ethereum,
          dataRepository: BlockchainDataRepository = .shared,
          exchangeService: ExchangeService = .shared,
-         paxAccountRepository: ERC20AssetAccountRepository<PaxToken> = PAXServiceProvider.shared.services.assetAccountRepository) {
+         paxAccountRepository: ERC20AssetAccountRepository<PaxToken> = PAXServiceProvider.shared.services.assetAccountRepository,
+         featureFetcher: FeatureFetching = AppFeatureConfigurator.shared) {
         self.wallet = wallet
         self.dataRepository = dataRepository
         self.exchangeService = exchangeService
         // TODO: Move this into a difference service that aggregates this logic
         // for all assets and utilize it in other flows (dashboard, send, swap, activity).
         self.paxTransactionService = AnyERC20HistoricalTransactionService<PaxToken>(bridge: ethereumWallet)
+        self.featureFetcher = featureFetcher
     }
 }

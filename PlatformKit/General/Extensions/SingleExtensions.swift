@@ -42,6 +42,15 @@ extension Single {
 }
 
 extension PrimitiveSequence where Trait == SingleTrait {
+    public func map<A: AnyObject, R>(weak object: A, _ selector: @escaping (A, Element) throws -> R) -> PrimitiveSequence<SingleTrait, R> {
+        return map { [weak object] element -> R in
+            guard let object = object else { throw PlatformKitError.nullReference(A.self) }
+            return try selector(object, element)
+        }
+    }
+}
+
+extension PrimitiveSequence where Trait == SingleTrait {
     public func flatMapCompletable<A: AnyObject>(weak object: A, _ selector: @escaping (A, Element) throws -> Completable)
         -> Completable {
         return asObservable()

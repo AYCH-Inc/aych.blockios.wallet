@@ -8,11 +8,12 @@
 
 import XCTest
 import PlatformKit
+import RxSwift
 
 @testable import Blockchain
 
 struct MockOneTimeAnnouncement: OneTimeAnnouncement {
-
+    
     var viewModel: AnnouncementCardViewModel {
         fatalError("\(#function) was not implemented")
     }

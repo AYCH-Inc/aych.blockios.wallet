@@ -70,7 +70,8 @@ final class AnnouncementPresenter: NSObject {
         Single
             .zip(announcementsMetadata, data)
             .flatMap(weak: self) { (self, payload) -> Single<AnnouncementDisplayAction> in
-                return .just(self.resolve(metadata: payload.0, preliminaryData: payload.1))
+                let action = self.resolve(metadata: payload.0, preliminaryData: payload.1)
+                return .just(action)
             }
             .catchErrorJustReturn(.none)
             .asObservable()
@@ -113,7 +114,10 @@ final class AnnouncementPresenter: NSObject {
             case .coinifyKyc:
                 announcement = coinifyKyc(tiers: preliminaryData.tiers, reappearanceTimeInterval: metadata.interval)
             case .pitLinking:
-                announcement = pitLinking(user: preliminaryData.user)
+                announcement = pitLinking(
+                    user: preliminaryData.user,
+                    variant: preliminaryData.pitLinkingCardVariant
+                )
             case .bitpay:
                 announcement = bitpay
             case .pax:
@@ -221,11 +225,12 @@ extension AnnouncementPresenter {
     }
     
     // Computes Wallet-PIT linking announcement
-    private func pitLinking(user: NabuUser) -> Announcement {
+    private func pitLinking(user: NabuUser, variant: FeatureTestingVariant) -> Announcement {
         let isFeatureEnabled = featureConfigurator.configuration(for: .pitAnnouncement).isEnabled
         let shouldShowPitAnnouncement = isFeatureEnabled && !user.hasLinkedPITAccount
         return PITLinkingAnnouncement(
             shouldShowPitAnnouncement: shouldShowPitAnnouncement,
+            variant: variant,
             dismiss: hideAnnouncement,
             action: pitCoordinator.start
         )

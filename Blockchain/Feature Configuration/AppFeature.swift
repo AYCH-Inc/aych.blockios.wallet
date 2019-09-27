@@ -29,6 +29,9 @@ import Foundation
     /// Pit announcement visibility
     case pitAnnouncement
     
+    /// Pit announcement variant used for A/B testings
+    case pitAnnouncementVariant
+
     /// The announcments
     case announcements
     
@@ -40,6 +43,8 @@ extension AppFeature {
     /// The remote key which determines if this feature is enabled or not
     var remoteEnabledKey: String? {
         switch self {
+        case .pitAnnouncementVariant:
+            return "ab_the_pit_announcement_variant"
         case .stellarAirdrop:
             return "ios_sunriver_airdrop_enabled"
         case .notifyCoinifyUserToKyc:

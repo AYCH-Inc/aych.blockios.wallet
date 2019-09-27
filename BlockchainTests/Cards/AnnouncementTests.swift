@@ -39,7 +39,9 @@ final class AnnouncementTests: XCTestCase {
         let cache = MemoryCacheSuite()
         let announcement = PITLinkingAnnouncement(
             shouldShowPitAnnouncement: true,
+            variant: .variantA,
             cacheSuite: cache,
+            variantFetcher: MockFeatureFetcher(),
             dismiss: {},
             action: {}
         )

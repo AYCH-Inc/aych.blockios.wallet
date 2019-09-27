@@ -1306,6 +1306,11 @@
 		657F0147233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */; };
 		657F0193233E249500006F37 /* KycAirdropAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */; };
 		657F0194233E249500006F37 /* KycAirdropAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */; };
+		657F0147233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */; };
+		657F0156233D256600006F37 /* FeatureTestingVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0154233D256600006F37 /* FeatureTestingVariant.swift */; };
+		657F0179233D322C00006F37 /* MockFeatureFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0178233D322C00006F37 /* MockFeatureFetcher.swift */; };
+		657F01AA233E3F3100006F37 /* FeatureTestingVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0154233D256600006F37 /* FeatureTestingVariant.swift */; };
+		657F01B4233E44E700006F37 /* TransferInCryptoAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */; };
 		657FD9C522FC2A630090C1D7 /* SendSourceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FD9C422FC2A630090C1D7 /* SendSourceAccount.swift */; };
 		657FD9C622FC2A630090C1D7 /* SendSourceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FD9C422FC2A630090C1D7 /* SendSourceAccount.swift */; };
 		657FD9C822FC2A870090C1D7 /* SendSourceAccountProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FD9C722FC2A870090C1D7 /* SendSourceAccountProvider.swift */; };
@@ -4757,6 +4762,8 @@
 		657ABB2E2332325700F3514F /* remote-notification-registration-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "remote-notification-registration-failure.json"; sourceTree = "<group>"; };
 		657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferInCryptoAnnouncement.swift; sourceTree = "<group>"; };
 		657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KycAirdropAnnouncement.swift; sourceTree = "<group>"; };
+		657F0154233D256600006F37 /* FeatureTestingVariant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureTestingVariant.swift; sourceTree = "<group>"; };
+		657F0178233D322C00006F37 /* MockFeatureFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFeatureFetcher.swift; sourceTree = "<group>"; };
 		657FD9C422FC2A630090C1D7 /* SendSourceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendSourceAccount.swift; sourceTree = "<group>"; };
 		657FD9C722FC2A870090C1D7 /* SendSourceAccountProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendSourceAccountProvider.swift; sourceTree = "<group>"; };
 		657FD9CE22FC57680090C1D7 /* SendCalculationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCalculationState.swift; sourceTree = "<group>"; };
@@ -11988,6 +11995,7 @@
 			isa = PBXGroup;
 			children = (
 				6564E55722C13F3E0057108B /* FeatureConfigurating.swift */,
+				657F0154233D256600006F37 /* FeatureTestingVariant.swift */,
 				AA63F87620A39DCF002B719B /* AppFeature.swift */,
 				AA63F87320A39D8D002B719B /* AppFeatureConfiguration.swift */,
 				AA63F87920A3A198002B719B /* AppFeatureConfigurator.swift */,
@@ -12345,6 +12353,7 @@
 				34BE8B5E2289F1A90097F535 /* MockNetworkCommunicator.swift */,
 				6564E5AB22C241610057108B /* MockAppSettingsAuthenticating.swift */,
 				6564E5AD22C241800057108B /* MockFeatureConfiguring.swift */,
+				657F0178233D322C00006F37 /* MockFeatureFetcher.swift */,
 				6564E5AF22C241AB0057108B /* MockAuthenticationManager.swift */,
 				6564E5B322C241DF0057108B /* MockPinService.swift */,
 				348DAB79221C27F80058782B /* MockQRCodeScanner.swift */,
@@ -15337,6 +15346,7 @@
 				65B77D6422F9B418009AE141 /* SendDestinationAccountInteracting.swift in Sources */,
 				C7343C2221516A6F001B1EC9 /* ExchangeDetailInteractor.swift in Sources */,
 				3A4FF223221DC26E00AA18AF /* TabContainer.swift in Sources */,
+				657F0156233D256600006F37 /* FeatureTestingVariant.swift in Sources */,
 				3AC7C2C222E6A8410021C841 /* PITAccountRepository.swift in Sources */,
 				3A4EABA52140826800081531 /* PlainCell.swift in Sources */,
 				AAA6648B2123426A009C1C64 /* PrimaryButtonContainer.swift in Sources */,
@@ -15391,6 +15401,7 @@
 				AADB027F20C0BACA000FFFEC /* WalletCryptoService.swift in Sources */,
 				AA0843C5215D72340007BFD1 /* MockSocketManager.swift in Sources */,
 				650999C722E60D050092BFB9 /* PITAccountRepository.swift in Sources */,
+				657F0179233D322C00006F37 /* MockFeatureFetcher.swift in Sources */,
 				3A91F7C2213845F700CDC3FD /* TradingPairView.swift in Sources */,
 				C7C0DC23212F677C000EFE71 /* MarketsService.swift in Sources */,
 				AAB759FB21895C6C00A0AD11 /* StellarAirdropRouterTests.swift in Sources */,
@@ -15467,7 +15478,6 @@
 				6587FD3722F98C7700206575 /* SendPresenter.swift in Sources */,
 				51DC2F6120B7312600E03AF2 /* EthereumAddress.swift in Sources */,
 				AA24D4C820D9D1EC0096DD5D /* AssetTypeLegacyHelper.swift in Sources */,
-				657F0147233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */,
 				65A78EF12326A3C400A93D10 /* RemoteNotification+Model.swift in Sources */,
 				AACE31DD2092A99B00B7B806 /* UserDefaults.swift in Sources */,
 				65D80ED2233143CA00AE3BBC /* MockRemoteNotificationsRegistry.swift in Sources */,
@@ -15652,6 +15662,7 @@
 				AAE94F4020C71379005A3595 /* AssetURLPayloadFactory.swift in Sources */,
 				AAE9113E20A640A40093A431 /* PinPayload.swift in Sources */,
 				511BF4EE20E67B3B00A14072 /* AppReviewPrompt.swift in Sources */,
+				657F01B4233E44E700006F37 /* TransferInCryptoAnnouncement.swift in Sources */,
 				602B9D1B2118E26300BD3D60 /* LocationSuggestionPageModel.swift in Sources */,
 				AA74835B21112A18008F2768 /* MockKYCVerifyPhoneNumberInteractor.swift in Sources */,
 				6564E55C22C13F9B0057108B /* AuthenticationManagerProtocol.swift in Sources */,
@@ -15829,6 +15840,7 @@
 				3AC9755A210FBD10006A9263 /* NSAttributedString+Conveniences.swift in Sources */,
 				65A78EF02326A3C400A93D10 /* RemoteNotification+Model.swift in Sources */,
 				3A1552EA2136EA8D00683CEB /* TradeExecutionService.swift in Sources */,
+				657F01AA233E3F3100006F37 /* FeatureTestingVariant.swift in Sources */,
 				9F1831EB1516AE3500FB3D52 /* NSString+URLEncode.m in Sources */,
 				23BA22111D6B736900D0472B /* NSNumberFormatter+Currencies.m in Sources */,
 				6564E55822C13F3E0057108B /* FeatureConfigurating.swift in Sources */,

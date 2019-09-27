@@ -24,18 +24,25 @@ final class PITLinkingAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
         button.tapRelay
             .bind { [weak self] in
                 guard let self = self else { return }
-                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.analyticsRecorder.record(event: AnalyticsEvents.PIT.AnnouncementTapped())
+                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markRemoved()
                 self.action()
                 self.dismiss()
             }
-            .disposed(by: disposeBag)
-        
+            .disposed(by: self.disposeBag)
+                    
+        let description: String
+        switch variant {
+        case .variantA:
+            description = LocalizationConstants.AnnouncementCards.Pit.variantADescription
+        case .variantB:
+            description = LocalizationConstants.AnnouncementCards.Pit.variantBDescription
+        }
         return AnnouncementCardViewModel(
             image: AnnouncementCardViewModel.Image(name: "card-icon-pit"),
             title: LocalizationConstants.AnnouncementCards.Pit.title,
-            description: LocalizationConstants.AnnouncementCards.Pit.description,
+            description: description,
             buttons: [button],
             dismissState: .dismissible { [weak self] in
                 guard let self = self else { return }
@@ -68,17 +75,21 @@ final class PITLinkingAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
     private let disposeBag = DisposeBag()
 
     private let shouldShowPitAnnouncement: Bool
+    private let variant: FeatureTestingVariant
     
     // MARK: - Setup
     
     init(shouldShowPitAnnouncement: Bool,
+         variant: FeatureTestingVariant,
          cacheSuite: CacheSuite = UserDefaults.standard,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         variantFetcher: FeatureFetching = AppFeatureConfigurator.shared,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.shouldShowPitAnnouncement = shouldShowPitAnnouncement
         self.recorder = AnnouncementRecorder(cache: cacheSuite)
         self.analyticsRecorder = analyticsRecorder
+        self.variant = variant
         self.dismiss = dismiss
         self.action = action
     }

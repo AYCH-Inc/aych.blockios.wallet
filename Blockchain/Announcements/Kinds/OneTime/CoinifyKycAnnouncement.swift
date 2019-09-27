@@ -22,7 +22,8 @@ final class CoinifyKycAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
             with: LocalizationConstants.AnnouncementCards.CoinifyKyc.ctaButton
         )
         primaryButton.tapRelay
-            .bind { [unowned self] in
+            .bind { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markRemoved()
                 self.action()
@@ -35,12 +36,14 @@ final class CoinifyKycAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
             title: LocalizationConstants.AnnouncementCards.CoinifyKyc.title,
             description: LocalizationConstants.AnnouncementCards.CoinifyKyc.description,
             buttons: [primaryButton],
-            dismissState: .dismissible {
+            dismissState: .dismissible { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markRemoved()
                 self.dismiss()
             },
-            didAppear: {
+            didAppear: { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )

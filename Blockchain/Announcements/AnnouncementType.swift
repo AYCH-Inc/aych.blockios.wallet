@@ -12,6 +12,7 @@ enum AnnouncementType: String, Codable {
     case verifyEmail = "verify_email"
     case buyBitcoin = "buy_btc"
     case transferBitcoin = "transfer_btc"
+    case kycAirdrop = "kyc_airdrop"
     case pitLinking = "pit_linking"
     case twoFA = "two_fa"
     case backupFunds = "backup_funds"
@@ -33,6 +34,8 @@ enum AnnouncementType: String, Codable {
             return .buyBitcoin
         case .transferBitcoin:
             return .transferBitcoin
+        case .kycAirdrop:
+            return .kycAirdrop
         case .pitLinking:
             return .pit
         case .twoFA:

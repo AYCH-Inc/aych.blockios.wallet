@@ -21,7 +21,8 @@ final class BuyBitcoinAnnouncement: PeriodicAnnouncement & ActionableAnnouncemen
             with: LocalizationConstants.AnnouncementCards.BuyBitcoin.ctaButton
         )
         button.tapRelay
-            .bind { [unowned self] in
+            .bind { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markDismissed()
                 self.action()
@@ -34,12 +35,14 @@ final class BuyBitcoinAnnouncement: PeriodicAnnouncement & ActionableAnnouncemen
             title: LocalizationConstants.AnnouncementCards.BuyBitcoin.title,
             description: LocalizationConstants.AnnouncementCards.BuyBitcoin.description,
             buttons: [button],
-            dismissState: .dismissible {
+            dismissState: .dismissible { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markDismissed()
                 self.dismiss()
             },
-            didAppear: {
+            didAppear: { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )

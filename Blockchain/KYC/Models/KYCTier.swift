@@ -23,6 +23,14 @@ public enum KYCTier: Int, Codable {
     case tier2 = 2
 }
 
+extension KYCTier: Comparable {
+    // It's best to use comparison to compare tiers instead of using `==` directly
+    // since additional values are likely to be added in future
+    public static func < (lhs: KYCTier, rhs: KYCTier) -> Bool {
+        return lhs.rawValue < rhs.rawValue
+    }
+}
+
 public extension KYCTier {
     static let lockedAnalyticsKey: String = "kyc_tiers_locked"
     

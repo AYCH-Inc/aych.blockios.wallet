@@ -50,6 +50,7 @@ extension KYCUserTiersResponse {
         }
     }
     
+    /// Returns `true` if the user is not tier2 verified, rejected or pending
     var canCompleteTier2: Bool {
         return userTiers.contains(where: {
             return $0.tier == .tier2 &&

@@ -1304,6 +1304,8 @@
 		657ABB302332325700F3514F /* remote-notification-registration-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 657ABB2E2332325700F3514F /* remote-notification-registration-failure.json */; };
 		657F0146233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */; };
 		657F0147233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */; };
+		657F0193233E249500006F37 /* KycAirdropAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */; };
+		657F0194233E249500006F37 /* KycAirdropAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */; };
 		657FD9C522FC2A630090C1D7 /* SendSourceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FD9C422FC2A630090C1D7 /* SendSourceAccount.swift */; };
 		657FD9C622FC2A630090C1D7 /* SendSourceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FD9C422FC2A630090C1D7 /* SendSourceAccount.swift */; };
 		657FD9C822FC2A870090C1D7 /* SendSourceAccountProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FD9C722FC2A870090C1D7 /* SendSourceAccountProvider.swift */; };
@@ -4754,6 +4756,7 @@
 		657ABB242332325600F3514F /* remote-notification-registration-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "remote-notification-registration-success.json"; sourceTree = "<group>"; };
 		657ABB2E2332325700F3514F /* remote-notification-registration-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "remote-notification-registration-failure.json"; sourceTree = "<group>"; };
 		657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferInCryptoAnnouncement.swift; sourceTree = "<group>"; };
+		657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KycAirdropAnnouncement.swift; sourceTree = "<group>"; };
 		657FD9C422FC2A630090C1D7 /* SendSourceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendSourceAccount.swift; sourceTree = "<group>"; };
 		657FD9C722FC2A870090C1D7 /* SendSourceAccountProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendSourceAccountProvider.swift; sourceTree = "<group>"; };
 		657FD9CE22FC57680090C1D7 /* SendCalculationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCalculationState.swift; sourceTree = "<group>"; };
@@ -10678,6 +10681,7 @@
 				652CDFBB230EDD680044E899 /* Enable2FAAnnouncement.swift */,
 				652ABF8C22EB008600D5F846 /* WalletIntroAnnouncement.swift */,
 				657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */,
+				657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */,
 			);
 			path = Periodic;
 			sourceTree = "<group>";
@@ -15788,6 +15792,7 @@
 				AA94966420CB613100A9C2DD /* AssetAddressFactoryTests.swift in Sources */,
 				C7387ED621814D6D005D35DA /* AmountTextFieldDelegateTests.swift in Sources */,
 				3A373C462188CBCE00DDFAFD /* StellarTransactionCaching.swift in Sources */,
+				657F0194233E249500006F37 /* KycAirdropAnnouncement.swift in Sources */,
 				C732DF122200BA8500F3687A /* DeepLinkRouter.swift in Sources */,
 				C76D732D20B2F5CD00040B57 /* WalletFiatAtTimeDelegate.swift in Sources */,
 				C74690602180ACCD001A7C52 /* SEP7URI.swift in Sources */,
@@ -16049,6 +16054,7 @@
 				C70576B2212CFFFC0027C6AA /* Nibable.swift in Sources */,
 				3A4EAB97214080D700081531 /* TextCell.swift in Sources */,
 				AA7133B521220B7100CB2AA9 /* KYCCountrySelectionPresenter.swift in Sources */,
+				657F0193233E249500006F37 /* KycAirdropAnnouncement.swift in Sources */,
 				34AC02DE229EBD7E008B9857 /* EtherTransaction+Extensions.swift in Sources */,
 				6570BF112332C093006D8A09 /* SendSourceAccountStateService.swift in Sources */,
 				84B601C7197ACD6300DA1829 /* UITextField+Blocks.m in Sources */,

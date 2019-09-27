@@ -21,7 +21,8 @@ final class Enable2FAAnnouncement: PeriodicAnnouncement & ActionableAnnouncement
             with: LocalizationConstants.AnnouncementCards.TwoFA.ctaButton
         )
         button.tapRelay
-            .bind { [unowned self] in
+            .bind { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markDismissed()
                 self.action()
@@ -34,12 +35,14 @@ final class Enable2FAAnnouncement: PeriodicAnnouncement & ActionableAnnouncement
             title: LocalizationConstants.AnnouncementCards.TwoFA.title,
             description: LocalizationConstants.AnnouncementCards.TwoFA.description,
             buttons: [button],
-            dismissState: .dismissible {
+            dismissState: .dismissible { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markDismissed()
                 self.dismiss()
             },
-            didAppear: {
+            didAppear: { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )

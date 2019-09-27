@@ -99,6 +99,13 @@ final class AnnouncementPresenter: NSObject {
                     isKycSupported: preliminaryData.isKycSupported,
                     reappearanceTimeInterval: metadata.interval
                 )
+            case .kycAirdrop:
+                announcement = kycAirdrop(
+                    user: preliminaryData.user,
+                    tiers: preliminaryData.tiers,
+                    isKycSupported: preliminaryData.isKycSupported,
+                    reappearanceTimeInterval: metadata.interval
+                )
             case .verifyIdentity:
                 announcement = verifyIdentity(using: preliminaryData.user)
             case .swap:
@@ -159,6 +166,24 @@ extension AnnouncementPresenter {
                self.appCoordinator.tabControllerManager.tabViewController.setupIntroduction()
             },
             dismiss: hideAnnouncement
+        )
+    }
+    
+    // Computes kyc airdrop announcement
+    private func kycAirdrop(user: NabuUser,
+                            tiers: KYCUserTiersResponse,
+                            isKycSupported: Bool,
+                            reappearanceTimeInterval: TimeInterval) -> Announcement {
+        return KycAirdropAnnouncement(
+            canCompleteTier2: tiers.canCompleteTier2,
+            isKycSupported: isKycSupported,
+            reappearanceTimeInterval: reappearanceTimeInterval,
+            dismiss: hideAnnouncement,
+            action: { [weak self] in
+                guard let self = self else { return }
+                let tier = user.tiers?.selected ?? .tier1
+                self.kycCoordinator.start(from: self.appCoordinator.tabControllerManager, tier: tier)
+            }
         )
     }
     

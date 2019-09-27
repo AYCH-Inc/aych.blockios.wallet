@@ -1051,7 +1051,7 @@ struct LocalizationConstants {
                 comment: "Verify email announcement card title"
             )
             static let description = NSLocalizedString(
-                "In order to start using your Blockchain wallet, you need to confirm your email address.",
+                "You need to confirm your email address so that we can keep you informed about your wallet.",
                 comment: "Verify email announcement card description"
             )
             static let ctaButton = NSLocalizedString(
@@ -1065,7 +1065,7 @@ struct LocalizationConstants {
                 comment: "Backup funds announcement card title"
             )
             static let description = NSLocalizedString(
-                "Your recovery phrase can be used to restore all your funds in the case of a lost password or a loss of service at Blockchain.",
+                "You control your crypto. Write down your recovery phrase to restore all your funds in case you lose your password.",
                 comment: "Backup funds announcement card description"
             )
             static let ctaButton = NSLocalizedString(
@@ -1124,16 +1124,6 @@ struct LocalizationConstants {
                 comment: "Bitpay announcement card description"
             )
         }
-        struct AirdropReceival {
-            static let title = NSLocalizedString(
-                "Your %@ is on its way",
-                comment: "Title displayed on the onboarding card notifying them that their airdrop is on its way."
-            )
-            static let description = NSLocalizedString(
-                "We have successfully verified your identity.",
-                comment: "Description displayed on the onboarding card notifying them that their airdrop is on its way."
-            )
-        }
         
         // MARK: - Periodic
         
@@ -1143,7 +1133,7 @@ struct LocalizationConstants {
                 comment: "Buy BTC announcement card title"
             )
             static let description = NSLocalizedString(
-                "Turn your cash in to Bitcoin and back.",
+                "Buy Bitcoin with your credit card or bank account to kickstart your crypto portfolio.",
                 comment: "Buy BTC announcement card description"
             )
             static let ctaButton = NSLocalizedString(
@@ -1157,7 +1147,7 @@ struct LocalizationConstants {
                 comment: "Swap announcement card title"
             )
             static let description = NSLocalizedString(
-                "Trade one crypto for another without ever leaving your wallet. Get competitive, real-time prices and fast on-chain settlement.",
+                "Trade one crypto for another without giving up control of your keys. Get competitive, real-time prices and fast on-chain settlement.",
                 comment: "Swap announcement card description"
             )
             static let ctaButton = NSLocalizedString(
@@ -1193,18 +1183,18 @@ struct LocalizationConstants {
                 comment: "The title of the action on the announcement card for when a user needs to submit documents to verify their identity."
             )
         }
-        struct AirdropRegistration {
+        struct KycAirdrop {
             static let title = NSLocalizedString(
-                "Airdrop Program",
-                comment: "Title of a bottom sheet alert prompting the user to opt-in for airdrop upon finishing KYC"
+                "Want Free Crypto?",
+                comment: "Kyc airdrop announcement card title"
             )
             static let description = NSLocalizedString(
-                "You’re eligible for future airdrops.",
-                comment: "Description of a bottom sheet alert prompting the user to opt-in for airdrop upon finishing KYC"
+                "Verify your identity to participate in our Airdrop program and receive free crypto from future Airdrops.",
+                comment: "Kyc airdrop announcement card description"
             )
             static let ctaButton = NSLocalizedString(
-                "Opt-in Now",
-                comment: "Action button title of a bottom sheet alert prompting the user to complete KYC"
+                "Start Verification",
+                comment: "Kyc airdrop announcement card CTA button title"
             )
         }
         struct TwoFA {

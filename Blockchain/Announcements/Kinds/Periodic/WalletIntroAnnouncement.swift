@@ -21,7 +21,8 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
             with: LocalizationConstants.AnnouncementCards.Welcome.ctaButton
         )
         ctaButton.tapRelay
-            .bind { [unowned self] in
+            .bind { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markRemoved()
                 self.action()
@@ -33,7 +34,8 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
             with: LocalizationConstants.AnnouncementCards.Welcome.skipButton
         )
         skipButton.tapRelay
-            .bind { [unowned self] in
+            .bind { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markDismissed()
                 self.dismiss()
@@ -46,7 +48,8 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
             description: LocalizationConstants.AnnouncementCards.Welcome.description,
             buttons: [ctaButton, skipButton],
             dismissState: .undismissible,
-            didAppear: {
+            didAppear: { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )

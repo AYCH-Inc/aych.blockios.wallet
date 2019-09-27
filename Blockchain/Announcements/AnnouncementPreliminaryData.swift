@@ -23,7 +23,7 @@ struct AnnouncementPreliminaryData {
     let hasPaxTransactions: Bool
     
     let country: KYCCountry?
-    
+        
     var hasLinkedPitAccount: Bool {
         return user.hasLinkedPITAccount
     }

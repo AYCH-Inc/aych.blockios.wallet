@@ -22,7 +22,8 @@ final class VerifyEmailAnnouncement: PersistentAnnouncement & ActionableAnnounce
             with: LocalizationConstants.AnnouncementCards.VerifyEmail.ctaButton
         )
         button.tapRelay
-            .bind { [unowned self] in
+            .bind { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.action()
             }
@@ -34,7 +35,8 @@ final class VerifyEmailAnnouncement: PersistentAnnouncement & ActionableAnnounce
             description: LocalizationConstants.AnnouncementCards.VerifyEmail.description,
             buttons: [button],
             dismissState: .undismissible,
-            didAppear: {
+            didAppear: { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )

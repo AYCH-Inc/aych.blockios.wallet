@@ -21,7 +21,8 @@ final class ResubmitDocumentsAnnouncement: OneTimeAnnouncement & ActionableAnnou
             with: LocalizationConstants.AnnouncementCards.ResubmitDocuments.ctaButton
         )
         button.tapRelay
-            .bind { [unowned self] in
+            .bind {  [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
                 self.markRemoved()
                 self.action()
@@ -34,12 +35,14 @@ final class ResubmitDocumentsAnnouncement: OneTimeAnnouncement & ActionableAnnou
             title: LocalizationConstants.AnnouncementCards.ResubmitDocuments.title,
             description: LocalizationConstants.AnnouncementCards.ResubmitDocuments.description,
             buttons: [button],
-            dismissState: .dismissible {
+            dismissState: .dismissible { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markRemoved()
                 self.dismiss()
             },
-            didAppear: {
+            didAppear: { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )

@@ -1,8 +1,8 @@
 //
-//  VerifyIdentityAnnouncement.swift
+//  KycAirdropAnnouncement.swift
 //  Blockchain
 //
-//  Created by Daniel Huri on 22/08/2019.
+//  Created by Daniel Huri on 27/09/2019.
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
@@ -11,34 +11,34 @@ import PlatformUIKit
 import RxSwift
 import RxCocoa
 
-/// Verify identity announcement
-final class VerifyIdentityAnnouncement: OneTimeAnnouncement & ActionableAnnouncement {
+/// Kyc airdrop announcement is a periodic announcement that introduces the user to airdrop verification
+final class KycAirdropAnnouncement: PeriodicAnnouncement & ActionableAnnouncement {
     
     // MARK: - Properties
     
     var viewModel: AnnouncementCardViewModel {
         let button = ButtonViewModel.primary(
-            with: LocalizationConstants.AnnouncementCards.IdentityVerification.ctaButton
+            with: LocalizationConstants.AnnouncementCards.KycAirdrop.ctaButton
         )
         button.tapRelay
             .bind { [weak self] in
                 guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
-                self.markRemoved()
+                self.markDismissed()
                 self.action()
                 self.dismiss()
             }
             .disposed(by: disposeBag)
 
         return AnnouncementCardViewModel(
-            image: AnnouncementCardViewModel.Image(name: "card-icon-v"),
-            title: LocalizationConstants.AnnouncementCards.IdentityVerification.title,
-            description: LocalizationConstants.AnnouncementCards.IdentityVerification.description,
+            image: AnnouncementCardViewModel.Image(name: "card-icon-airdrop"),
+            title: LocalizationConstants.AnnouncementCards.KycAirdrop.title,
+            description: LocalizationConstants.AnnouncementCards.KycAirdrop.description,
             buttons: [button],
             dismissState: .dismissible { [weak self] in
                 guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
-                self.markRemoved()
+                self.markDismissed()
                 self.dismiss()
             },
             didAppear: { [weak self] in
@@ -49,16 +49,16 @@ final class VerifyIdentityAnnouncement: OneTimeAnnouncement & ActionableAnnounce
     }
     
     var shouldShow: Bool {
-        guard isCompletingKyc else {
+        guard isKycSupported else {
             return false
         }
-        guard !user.isSunriverAirdropRegistered else {
+        guard canCompleteTier2 else {
             return false
         }
         return !isDismissed
     }
     
-    let type = AnnouncementType.verifyIdentity
+    let type = AnnouncementType.kycAirdrop
     let analyticsRecorder: AnalyticsEventRecording
     
     let dismiss: CardAnnouncementAction
@@ -66,24 +66,28 @@ final class VerifyIdentityAnnouncement: OneTimeAnnouncement & ActionableAnnounce
 
     let action: CardAnnouncementAction
     
-    private let user: NabuUserSunriverAirdropRegistering
-    private let isCompletingKyc: Bool
+    let appearanceRules: PeriodicAnnouncementAppearanceRules
     
+    private let canCompleteTier2: Bool
+    private let isKycSupported: Bool
+
     private let disposeBag = DisposeBag()
 
     // MARK: - Setup
     
-    init(user: NabuUserSunriverAirdropRegistering,
-         isCompletingKyc: Bool,
+    init(canCompleteTier2: Bool,
+         isKycSupported: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
+         reappearanceTimeInterval: TimeInterval,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
-        self.recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.canCompleteTier2 = canCompleteTier2
+        self.isKycSupported = isKycSupported
+        recorder = AnnouncementRecorder(cache: cacheSuite)
+        appearanceRules = PeriodicAnnouncementAppearanceRules(recessDurationBetweenDismissals: reappearanceTimeInterval)
         self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
         self.action = action
-        self.user = user
-        self.isCompletingKyc = isCompletingKyc
     }
 }

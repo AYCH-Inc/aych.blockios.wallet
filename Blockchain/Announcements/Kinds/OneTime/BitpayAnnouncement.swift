@@ -20,12 +20,14 @@ final class BitpayAnnouncement: OneTimeAnnouncement {
                 size: CGSize(width: 115, height: 40)
             ),
             description: LocalizationConstants.AnnouncementCards.Bitpay.description,
-            dismissState: .dismissible {
+            dismissState: .dismissible { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markRemoved()
                 self.dismiss()
             },
-            didAppear: {
+            didAppear: { [weak self] in
+                guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )

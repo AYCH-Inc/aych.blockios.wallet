@@ -10,4 +10,5 @@ import Foundation
 
 protocol TabSwapping {
     func switchTabToSwap()
+    func switchTabToReceive()
 }

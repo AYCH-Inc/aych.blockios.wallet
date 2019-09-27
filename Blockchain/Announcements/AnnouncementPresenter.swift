@@ -94,6 +94,11 @@ final class AnnouncementPresenter: NSObject {
                 announcement = backupFunds(reappearanceTimeInterval: metadata.interval)
             case .buyBitcoin:
                 announcement = buyBitcoin(reappearanceTimeInterval: metadata.interval)
+            case .transferBitcoin:
+                announcement = transferBitcoin(
+                    isKycSupported: preliminaryData.isKycSupported,
+                    reappearanceTimeInterval: metadata.interval
+                )
             case .verifyIdentity:
                 announcement = verifyIdentity(using: preliminaryData.user)
             case .swap:
@@ -154,6 +159,20 @@ extension AnnouncementPresenter {
                self.appCoordinator.tabControllerManager.tabViewController.setupIntroduction()
             },
             dismiss: hideAnnouncement
+        )
+    }
+    
+    // Computes transfer in bitcoin announcement
+    private func transferBitcoin(isKycSupported: Bool, reappearanceTimeInterval: TimeInterval) -> Announcement {
+        return TransferInCryptoAnnouncement(
+            isKycSupported: isKycSupported,
+            reappearanceTimeInterval: reappearanceTimeInterval,
+            dismiss: hideAnnouncement,
+            action: { [weak self] in
+               guard let self = self else { return }
+               self.hideAnnouncement()
+               self.appCoordinator.switchTabToReceive()
+            }
         )
     }
     

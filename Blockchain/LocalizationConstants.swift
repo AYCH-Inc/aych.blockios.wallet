@@ -1165,7 +1165,20 @@ struct LocalizationConstants {
                 comment: "Swap announcement card CTA button title"
             )
         }
-
+        struct TransferInCrypto {
+            static let title = NSLocalizedString(
+                "Transfer In Crypto",
+                comment: "Transfer crypto announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "Deposit crypto in your wallet to get started. It's the best way to store your crypto while keeping control of your keys.",
+                comment: "Transfer crypto announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Get Started",
+                comment: "Transfer crypto announcement card CTA button title"
+            )
+        }
         struct ResubmitDocuments {
             static let title = NSLocalizedString(
                 "Documents Needed",

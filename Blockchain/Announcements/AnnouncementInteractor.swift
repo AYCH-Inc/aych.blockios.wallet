@@ -32,6 +32,9 @@ final class AnnouncementInteractor: AnnouncementInteracting {
             return Single.error(AnnouncementError.uninitializedWallet)
         }
         
+        let countries = dataRepository.countries
+            .asObservable()
+        
         let hasPaxTransactions = paxTransactionService.hasTransactions
             .asObservable()
         
@@ -41,15 +44,17 @@ final class AnnouncementInteractor: AnnouncementInteracting {
             .zip(dataRepository.nabuUser,
                  dataRepository.tiers,
                  hasTrades,
-                 hasPaxTransactions)
+                 hasPaxTransactions,
+                 countries)
             .subscribeOn(SerialDispatchQueueScheduler(internalSerialQueueName: dispatchQueueName))
             .observeOn(MainScheduler.instance)
-            .map { (user, tiers, hasTrades, hasPaxTransactions) -> AnnouncementPreliminaryData in
+            .map { (user, tiers, hasTrades, hasPaxTransactions, countries) -> AnnouncementPreliminaryData in
                 return AnnouncementPreliminaryData(
                     user: user,
                     tiers: tiers,
                     hasTrades: hasTrades,
-                    hasPaxTransactions: hasPaxTransactions
+                    hasPaxTransactions: hasPaxTransactions,
+                    countries: countries
                 )
             }
             .asSingle()

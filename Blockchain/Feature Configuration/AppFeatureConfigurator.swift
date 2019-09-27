@@ -50,7 +50,11 @@ import RxSwift
     }
 
     private func fetchRemoteConfig() {
+        #if DEBUG
+        let expiration = TimeInterval(60) // 1 min
+        #else
         let expiration = TimeInterval(4 * 60 * 60) // 4 hours
+        #endif
         remoteConfig.fetch(withExpirationDuration: expiration) { [weak self] status, error in
             guard let strongSelf = self else { return }
             guard status == .success && error == nil else {

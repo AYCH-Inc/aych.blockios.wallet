@@ -395,6 +395,10 @@ extension AppCoordinator: TabSwapping {
     func switchTabToSwap() {
         tabControllerManager.swapTapped(nil)
     }
+    
+    func switchTabToReceive() {
+        tabControllerManager.receiveCoinClicked(nil)
+    }
 }
 
 // MARK: - DevSupporting

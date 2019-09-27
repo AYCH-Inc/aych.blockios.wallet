@@ -1302,6 +1302,8 @@
 		657A0C1B232C1E30009BE083 /* BridgedDisposeBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A0C1A232C1E2F009BE083 /* BridgedDisposeBag.swift */; };
 		657ABB2F2332325700F3514F /* remote-notification-registration-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 657ABB242332325600F3514F /* remote-notification-registration-success.json */; };
 		657ABB302332325700F3514F /* remote-notification-registration-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 657ABB2E2332325700F3514F /* remote-notification-registration-failure.json */; };
+		657F0146233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */; };
+		657F0147233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */; };
 		657FD9C522FC2A630090C1D7 /* SendSourceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FD9C422FC2A630090C1D7 /* SendSourceAccount.swift */; };
 		657FD9C622FC2A630090C1D7 /* SendSourceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FD9C422FC2A630090C1D7 /* SendSourceAccount.swift */; };
 		657FD9C822FC2A870090C1D7 /* SendSourceAccountProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FD9C722FC2A870090C1D7 /* SendSourceAccountProvider.swift */; };
@@ -4624,7 +4626,7 @@
 		6509994922E094EA0092BFB9 /* UIColor+Creative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Creative.swift"; sourceTree = "<group>"; };
 		6509995422E0A6820092BFB9 /* UIColor+Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Application.swift"; sourceTree = "<group>"; };
 		6509995622E0C7EC0092BFB9 /* SwapAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapAnnouncement.swift; sourceTree = "<group>"; };
-		6509995822E0CAE90092BFB9 /* AnnouncementPresenter.swift */ = {isa = PBXFileReference; indentWidth = 5; lastKnownFileType = sourcecode.swift; path = AnnouncementPresenter.swift; sourceTree = "<group>"; };
+		6509995822E0CAE90092BFB9 /* AnnouncementPresenter.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementPresenter.swift; sourceTree = "<group>"; };
 		6509995B22E0D6C70092BFB9 /* AnnouncementInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementInteractor.swift; sourceTree = "<group>"; };
 		6509997622E1D3CB0092BFB9 /* AnnouncementPreliminaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementPreliminaryData.swift; sourceTree = "<group>"; };
 		6509997922E1DCBC0092BFB9 /* CoinifyKycAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinifyKycAnnouncement.swift; sourceTree = "<group>"; };
@@ -4751,6 +4753,7 @@
 		657A0C1A232C1E2F009BE083 /* BridgedDisposeBag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BridgedDisposeBag.swift; sourceTree = "<group>"; };
 		657ABB242332325600F3514F /* remote-notification-registration-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "remote-notification-registration-success.json"; sourceTree = "<group>"; };
 		657ABB2E2332325700F3514F /* remote-notification-registration-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "remote-notification-registration-failure.json"; sourceTree = "<group>"; };
+		657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferInCryptoAnnouncement.swift; sourceTree = "<group>"; };
 		657FD9C422FC2A630090C1D7 /* SendSourceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendSourceAccount.swift; sourceTree = "<group>"; };
 		657FD9C722FC2A870090C1D7 /* SendSourceAccountProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendSourceAccountProvider.swift; sourceTree = "<group>"; };
 		657FD9CE22FC57680090C1D7 /* SendCalculationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCalculationState.swift; sourceTree = "<group>"; };
@@ -10674,6 +10677,7 @@
 				6509995622E0C7EC0092BFB9 /* SwapAnnouncement.swift */,
 				652CDFBB230EDD680044E899 /* Enable2FAAnnouncement.swift */,
 				652ABF8C22EB008600D5F846 /* WalletIntroAnnouncement.swift */,
+				657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */,
 			);
 			path = Periodic;
 			sourceTree = "<group>";
@@ -15459,6 +15463,7 @@
 				6587FD3722F98C7700206575 /* SendPresenter.swift in Sources */,
 				51DC2F6120B7312600E03AF2 /* EthereumAddress.swift in Sources */,
 				AA24D4C820D9D1EC0096DD5D /* AssetTypeLegacyHelper.swift in Sources */,
+				657F0147233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */,
 				65A78EF12326A3C400A93D10 /* RemoteNotification+Model.swift in Sources */,
 				AACE31DD2092A99B00B7B806 /* UserDefaults.swift in Sources */,
 				65D80ED2233143CA00AE3BBC /* MockRemoteNotificationsRegistry.swift in Sources */,
@@ -16092,6 +16097,7 @@
 				84B601CA197AD03800DA1829 /* BCModalView.m in Sources */,
 				3A68A33022CA617D00EB1287 /* PitConnectViewController.swift in Sources */,
 				65B77D5822F99FA2009AE141 /* SendFeeInteractor.swift in Sources */,
+				657F0146233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */,
 				AA755EBA2187B26C00FC4894 /* StellarAirdropRouter.swift in Sources */,
 				51C2ADD620BDECE700D66108 /* String+EscapeJS.swift in Sources */,
 				9F0CBAAA151351F400CD945D /* Wallet.m in Sources */,

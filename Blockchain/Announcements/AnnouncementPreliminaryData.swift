@@ -22,7 +22,21 @@ struct AnnouncementPreliminaryData {
     
     let hasPaxTransactions: Bool
     
+    let country: KYCCountry?
+    
     var hasLinkedPitAccount: Bool {
         return user.hasLinkedPITAccount
+    }
+    
+    var isKycSupported: Bool {
+        return country?.isKycSupported ?? false
+    }
+    
+    init(user: NabuUser, tiers: KYCUserTiersResponse, hasTrades: Bool, hasPaxTransactions: Bool, countries: Countries) {
+        self.user = user
+        self.tiers = tiers
+        self.hasTrades = hasTrades
+        self.hasPaxTransactions = hasPaxTransactions
+        country = countries.first { $0.code == user.address?.countryCode }
     }
 }

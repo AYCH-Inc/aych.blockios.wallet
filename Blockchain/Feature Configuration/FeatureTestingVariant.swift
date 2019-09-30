@@ -11,4 +11,5 @@ enum FeatureTestingVariant: String {
     // Typically used to represent the control group
     case variantA = "A"
     case variantB = "B"
+    case variantC = "C"
 }

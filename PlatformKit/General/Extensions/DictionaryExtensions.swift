@@ -18,6 +18,35 @@ extension Dictionary {
     }
 }
 
+extension Dictionary {
+    /// Merges two dictionary. duplicate keys would cause values to be overridden
+    public mutating func append(with dictionary: Dictionary<Key, Value>) {
+        for (key, value) in dictionary {
+            self[key] = value
+        }
+    }
+    /// Merges two dictionary. duplicate keys would cause values to be overridden
+    public func merge(with dictionary: Dictionary<Key, Value>) -> Dictionary<Key, Value> {
+        var mutableSelf = self
+        for (key, value) in dictionary {
+            mutableSelf[key] = value
+        }
+        return mutableSelf
+    }
+}
+
+/// Convenience alternative to `append`
+public func += <Key, Value> (lhs: inout Dictionary<Key, Value>,
+                             rhs: Dictionary<Key, Value>) {
+    lhs.append(with: rhs)
+}
+
+/// Convenience alternative to `merge`
+public func + <Key, Value> (lhs: Dictionary<Key, Value>,
+                            rhs: Dictionary<Key, Value>) -> Dictionary<Key, Value> {
+    return lhs.merge(with: rhs)
+}
+
 extension Dictionary where Key == String, Value == [String: Any] {
     /// Cast the `[String: [String: Any]]` objects in this Dictionary to instances of `Type`
     ///

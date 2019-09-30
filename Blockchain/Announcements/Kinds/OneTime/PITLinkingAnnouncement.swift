@@ -34,10 +34,10 @@ final class PITLinkingAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
                     
         let description: String
         switch variant {
-        case .variantA:
-            description = LocalizationConstants.AnnouncementCards.Pit.variantADescription
         case .variantB:
             description = LocalizationConstants.AnnouncementCards.Pit.variantBDescription
+        default: // Control group is assumed to be `A` which is also the default
+            description = LocalizationConstants.AnnouncementCards.Pit.variantADescription
         }
         return AnnouncementCardViewModel(
             image: AnnouncementCardViewModel.Image(name: "card-icon-pit"),

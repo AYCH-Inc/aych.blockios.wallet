@@ -49,7 +49,7 @@ class SideMenuPresenter {
     private weak var view: SideMenuView?
     private var introductionSequence = WalletIntroductionSequence()
     private let interactor: WalletIntroductionInteractor
-    private let featureFetching: FeatureFetching
+    private let variantFetcher: FeatureVariantFetching
     private let introductionRelay = PublishRelay<WalletIntroductionEventType>()
     private let itemSelectionRelay = PublishRelay<SideMenuItem>()
     private let pitTitleVariantRelay = BehaviorRelay<String>(value: LocalizationConstants.SideMenu.PITMenuItem.titleA)
@@ -67,7 +67,7 @@ class SideMenuPresenter {
         view: SideMenuView,
         wallet: Wallet = WalletManager.shared.wallet,
         walletService: WalletService = WalletService.shared,
-        featureFetching: FeatureFetching = AppFeatureConfigurator.shared,
+        variantFetcher: FeatureVariantFetching = AppFeatureConfigurator.shared,
         pitConfiguration: AppFeatureConfiguration = AppFeatureConfigurator.shared.configuration(for: .pitLinking),
         onboardingSettings: BlockchainSettings.Onboarding = .shared,
         recorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
@@ -78,7 +78,7 @@ class SideMenuPresenter {
         self.pitConfiguration = pitConfiguration
         self.interactor = WalletIntroductionInteractor(onboardingSettings: onboardingSettings, screen: .sideMenu)
         self.recorder = recorder
-        self.featureFetching = featureFetching
+        self.variantFetcher = variantFetcher
     }
 
     deinit {
@@ -87,21 +87,18 @@ class SideMenuPresenter {
     }
 
     func loadSideMenu() {
-        let pitTitle = featureFetching
-            .fetchString(for: .pitSideNavigationVariant)
-            .map {
-                switch $0 {
-                case "A":
+        let pitTitle = variantFetcher
+            .fetchTestingVariant(for: .pitSideNavigationVariant, onErrorReturn: .variantA)
+            .map { variant -> String in
+                switch variant {
+                case .variantA:
                     return LocalizationConstants.SideMenu.PITMenuItem.titleA
-                case "B":
+                case .variantB:
                     return LocalizationConstants.SideMenu.PITMenuItem.titleB
-                case "C":
+                case .variantC:
                     return LocalizationConstants.SideMenu.PITMenuItem.titleC
-                default:
-                    return LocalizationConstants.SideMenu.PITMenuItem.titleA
                 }
             }
-            .catchErrorJustReturn(LocalizationConstants.SideMenu.PITMenuItem.titleA)
         
         let startingLocation = interactor.startingLocation
             .map { [weak self] location -> [WalletIntroductionEvent] in

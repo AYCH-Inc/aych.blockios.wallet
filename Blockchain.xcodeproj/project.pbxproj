@@ -1118,6 +1118,8 @@
 		650CE42422CBDF3100FA282E /* ButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65F5E6FE22C2ACE200D00F50 /* ButtonView.xib */; };
 		650CE43122CC0B7300FA282E /* AddressInteractorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650CE43022CC0B7300FA282E /* AddressInteractorMock.swift */; };
 		650CE43C22CC0D4E00FA282E /* MockPasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650CE43B22CC0D4E00FA282E /* MockPasteboard.swift */; };
+		6512845C233E8DC9008776DC /* CampaignComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512845B233E8DC9008776DC /* CampaignComposer.swift */; };
+		6512845D233E8DC9008776DC /* CampaignComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512845B233E8DC9008776DC /* CampaignComposer.swift */; };
 		651AC8D922CF925400B2DC1B /* KeyPairDeriverAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8473C5219B5D2D00F22FA6 /* KeyPairDeriverAPI.swift */; };
 		6526A5B022B2BB260079AF6B /* AddressStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6526A5AF22B2BB260079AF6B /* AddressStatus.swift */; };
 		6526A5B122B2BB260079AF6B /* AddressStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6526A5AF22B2BB260079AF6B /* AddressStatus.swift */; };
@@ -1303,12 +1305,10 @@
 		657ABB2F2332325700F3514F /* remote-notification-registration-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 657ABB242332325600F3514F /* remote-notification-registration-success.json */; };
 		657ABB302332325700F3514F /* remote-notification-registration-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 657ABB2E2332325700F3514F /* remote-notification-registration-failure.json */; };
 		657F0146233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */; };
-		657F0147233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */; };
-		657F0193233E249500006F37 /* KycAirdropAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */; };
-		657F0194233E249500006F37 /* KycAirdropAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */; };
-		657F0147233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */; };
 		657F0156233D256600006F37 /* FeatureTestingVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0154233D256600006F37 /* FeatureTestingVariant.swift */; };
 		657F0179233D322C00006F37 /* MockFeatureFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0178233D322C00006F37 /* MockFeatureFetcher.swift */; };
+		657F0193233E249500006F37 /* KycAirdropAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */; };
+		657F0194233E249500006F37 /* KycAirdropAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */; };
 		657F01AA233E3F3100006F37 /* FeatureTestingVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0154233D256600006F37 /* FeatureTestingVariant.swift */; };
 		657F01B4233E44E700006F37 /* TransferInCryptoAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */; };
 		657FD9C522FC2A630090C1D7 /* SendSourceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FD9C422FC2A630090C1D7 /* SendSourceAccount.swift */; };
@@ -4651,6 +4651,7 @@
 		650CE41D22CBDDB000FA282E /* Wallet+WalletProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Wallet+WalletProtocol.swift"; sourceTree = "<group>"; };
 		650CE43022CC0B7300FA282E /* AddressInteractorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInteractorMock.swift; sourceTree = "<group>"; };
 		650CE43B22CC0D4E00FA282E /* MockPasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPasteboard.swift; sourceTree = "<group>"; };
+		6512845B233E8DC9008776DC /* CampaignComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignComposer.swift; sourceTree = "<group>"; };
 		6526A5AF22B2BB260079AF6B /* AddressStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressStatus.swift; sourceTree = "<group>"; };
 		65283F1622A7D69800255A30 /* VersionUpdateAlertDisplaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionUpdateAlertDisplaying.swift; sourceTree = "<group>"; };
 		65283F3322A80CC100255A30 /* WalletOptionsVersionUpdateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletOptionsVersionUpdateTests.swift; sourceTree = "<group>"; };
@@ -4761,9 +4762,9 @@
 		657ABB242332325600F3514F /* remote-notification-registration-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "remote-notification-registration-success.json"; sourceTree = "<group>"; };
 		657ABB2E2332325700F3514F /* remote-notification-registration-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "remote-notification-registration-failure.json"; sourceTree = "<group>"; };
 		657F0145233D072700006F37 /* TransferInCryptoAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferInCryptoAnnouncement.swift; sourceTree = "<group>"; };
-		657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KycAirdropAnnouncement.swift; sourceTree = "<group>"; };
 		657F0154233D256600006F37 /* FeatureTestingVariant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureTestingVariant.swift; sourceTree = "<group>"; };
 		657F0178233D322C00006F37 /* MockFeatureFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFeatureFetcher.swift; sourceTree = "<group>"; };
+		657F0192233E249500006F37 /* KycAirdropAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KycAirdropAnnouncement.swift; sourceTree = "<group>"; };
 		657FD9C422FC2A630090C1D7 /* SendSourceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendSourceAccount.swift; sourceTree = "<group>"; };
 		657FD9C722FC2A870090C1D7 /* SendSourceAccountProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendSourceAccountProvider.swift; sourceTree = "<group>"; };
 		657FD9CE22FC57680090C1D7 /* SendCalculationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCalculationState.swift; sourceTree = "<group>"; };
@@ -10608,6 +10609,14 @@
 			path = AddressFetcher;
 			sourceTree = "<group>";
 		};
+		6512845E23421270008776DC /* CampaignComposer */ = {
+			isa = PBXGroup;
+			children = (
+				6512845B233E8DC9008776DC /* CampaignComposer.swift */,
+			);
+			path = CampaignComposer;
+			sourceTree = "<group>";
+		};
 		65283F2622A80C5600255A30 /* WalletOptions */ = {
 			isa = PBXGroup;
 			children = (
@@ -11515,6 +11524,7 @@
 				5138375B21026BC800767B2E /* Environment.swift */,
 				51E5C73020741A130000A7FD /* LocalizationConstants.swift */,
 				AAA3333E2088131D0019AD55 /* ModalPresenter.swift */,
+				6512845E23421270008776DC /* CampaignComposer */,
 				65A78EEB2326961B00A93D10 /* RemoteNotfications */,
 				65E4B53822CF3F7900EAC3CD /* Accessibility */,
 				6564E51622C0F4B70057108B /* Recording */,
@@ -15737,6 +15747,7 @@
 				65A78EE1232695CD00A93D10 /* RemoteNotificationService.swift in Sources */,
 				AA7A474721C3353F006AA0D3 /* KYCMoreInformationController.swift in Sources */,
 				65B54187230C687300D04A2E /* SendFeeInteractorTests.swift in Sources */,
+				6512845D233E8DC9008776DC /* CampaignComposer.swift in Sources */,
 				6502D58A23167982004F5EF4 /* DismissibleAnnouncement.swift in Sources */,
 				34D88F76221AC06F00AE9DE5 /* QRCodeScannerViewModelTests.swift in Sources */,
 				AACE31D32092A99B00B7B806 /* OnboardingCoordinator.swift in Sources */,
@@ -15828,6 +15839,7 @@
 				3A3D5DB6211B96FA00E6C241 /* LocationUpdateAPI.swift in Sources */,
 				C7A85927217A294000502935 /* Identifiable.swift in Sources */,
 				3A01989522E7939C00EBDB78 /* PitDeepLinkRouter.swift in Sources */,
+				6512845C233E8DC9008776DC /* CampaignComposer.swift in Sources */,
 				AA8F21E421C719B700F45C42 /* WalletNabuSynchronizerService.swift in Sources */,
 				34D88F62221A96C300AE9DE5 /* AddressQRCodeParser.swift in Sources */,
 				65D821CF2303FE2A0060794B /* SendFeeService.swift in Sources */,

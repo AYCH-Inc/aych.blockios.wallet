@@ -28,17 +28,20 @@ class PitCoordinator {
     private let authenticator: PitAccountAuthenticatorAPI
     private let loadingIndicatorAPI: LoadingViewPresenting
     private let appSettings: BlockchainSettings.App
+    private let campaignComposer: CampaignComposer
     
     // MARK: Init
     
     init(repository: PITAccountRepositoryAPI = PITAccountRepository(),
          authenticator: PitAccountAuthenticatorAPI = PitAccountAuthenticator(),
          loadingIndicatorAPI: LoadingViewPresenting = LoadingViewPresenter.shared,
-         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared) {
+         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
+         campaignComposer: CampaignComposer = CampaignComposer()) {
         self.repository = repository
         self.authenticator = authenticator
         self.loadingIndicatorAPI = loadingIndicatorAPI
         self.appSettings = appSettings
+        self.campaignComposer = campaignComposer
     }
     
     // MARK: Public Functions
@@ -90,10 +93,20 @@ class PitCoordinator {
             }).disposed(by: bag)
         
         connect.learnMoreRelay
-            .subscribe(onNext: { [weak self] _ in
+            .withLatestFrom(campaignComposer.pitCampaign)
+            .map { campaignKeyValuePairs -> URLComponents in
+                var components = URLComponents()
+                components.path = "https://pit.blockchain.com"
+                components.queryItems = campaignKeyValuePairs.map {
+                    URLQueryItem(name: $0.rawValue, value: $1.rawValue)
+                }
+                return components
+            }
+            .compactMap { $0.string?.removingPercentEncoding }
+            .compactMap { URL(string: $0) }
+            .subscribe(onNext: { [weak self] url in
                 guard let self = self else { return }
-                guard let pitURL = URL(string: "https://pit.blockchain.com") else { return }
-                let controller = SFSafariViewController(url: pitURL)
+                let controller = SFSafariViewController(url: url)
                 controller.modalPresentationStyle = .overCurrentContext
                 self.navController.present(controller, animated: true, completion: nil)
             })

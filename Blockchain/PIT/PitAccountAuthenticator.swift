@@ -23,13 +23,16 @@ class PitAccountAuthenticator: PitAccountAuthenticatorAPI {
     private let blockchainRepository: BlockchainDataRepository
     private let authenticationService: NabuAuthenticationServiceAPI
     private let client: PITClientAPI
+    private let campaignComposer: CampaignComposer
     
     init(blockchainRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
          authenticationService: NabuAuthenticationServiceAPI = NabuAuthenticationService.shared,
-         clientAPI: PITClientAPI = PITClient(communicatorAPI: NetworkCommunicator.shared)) {
+         clientAPI: PITClientAPI = PITClient(communicatorAPI: NetworkCommunicator.shared),
+         campaignComposer: CampaignComposer = CampaignComposer()) {
         self.blockchainRepository = blockchainRepository
         self.authenticationService = authenticationService
         self.client = clientAPI
+        self.campaignComposer = campaignComposer
     }
     
     var pitLinkID: Single<LinkID> {
@@ -40,20 +43,29 @@ class PitAccountAuthenticator: PitAccountAuthenticatorAPI {
     }
     
     var pitURL: Single<URL> {
-        return Single.zip(blockchainRepository.fetchNabuUser(), pitLinkID)
+        return Single
+            .zip(blockchainRepository.fetchNabuUser(),
+                 pitLinkID,
+                 campaignComposer.pitCampaign)
             .flatMap(weak: self, { (self, payload) -> Single<URL> in
                 let user = payload.0
                 let linkID = payload.1
+                let campaignKeyValuePairs = payload.2
+                
                 let email = self.percentEscapeString(user.email.address)
                 guard let apiURL = URL(string: BlockchainAPI.shared.pitURL) else {
                     return Single.error(PITLinkingAPIError.unknown)
                 }
                 
-                guard let endpoint = URL.endpoint(
-                    apiURL,
-                    pathComponents: ["trade", "link", linkID],
-                    queryParameters: ["email": email]
-                ) else { return Single.error(PITLinkingAPIError.unknown) }
+                let pathComponents = ["trade", "link", linkID]
+                var queryParams = Dictionary(
+                    uniqueKeysWithValues: campaignKeyValuePairs.map { ($0.rawValue, $1.rawValue) }
+                )
+                queryParams += ["email": email]
+                
+                guard let endpoint = URL.endpoint(apiURL, pathComponents: pathComponents, queryParameters: queryParams) else {
+                    return Single.error(PITLinkingAPIError.unknown)
+                }
                 
                 return Single.just(endpoint)
             })
@@ -67,7 +79,7 @@ class PitAccountAuthenticator: PitAccountAuthenticatorAPI {
             return self.blockchainRepository.fetchNabuUser().asObservable()
         })
     }
-    
+        
     func linkToExistingPitUser(linkID: LinkID) -> Completable {
         return authenticationService.getSessionToken().flatMapCompletable(weak: self, { (self, sessionToken) -> Completable in
             return self.client.linkToExistingPitUser(authenticationToken: sessionToken.token, linkID)

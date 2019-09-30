@@ -77,7 +77,7 @@ import RxSwift
 // MARK: - FeatureDecoding
 
 extension AppFeatureConfigurator: FeatureFetching {
-
+    
     /// Returns an expected decodable construct for the provided feature key
     ///
     /// - Parameter feature: the feature key
@@ -113,17 +113,6 @@ extension AppFeatureConfigurator: FeatureFetching {
         return .just(value)
     }
     
-    /// Returns an expected variant for the provided feature key
-    ///
-    /// - Parameter feature: the feature key
-    /// - Returns: the `FeatureTestingVariant` value wrapped in a `RxSwift.Single`
-    /// - Throws: An `ConfigurationError.missingKeyRawValue` in case the key raw value
-    /// is missing or `ConfigurationError.missingValue` if the value itself is missing.
-    func fetchTestingVariant(for key: AppFeature) -> Single<FeatureTestingVariant> {
-        return fetchString(for: key)
-            .map { FeatureTestingVariant(rawValue: $0) ?? .variantA }
-    }
-    
     /// Returns an expected integer for the provided feature key
     ///
     /// - Parameter feature: the feature key
@@ -138,5 +127,26 @@ extension AppFeatureConfigurator: FeatureFetching {
             return .error(ConfigurationError.missingValue)
         }
         return .just(number)
+    }
+}
+
+// MARK: - FeatureVariantFetching
+
+extension AppFeatureConfigurator: FeatureVariantFetching {
+    /// Returns an expected variant for the provided feature key
+    ///
+    /// - Parameter feature: the feature key
+    /// - Returns: the `FeatureTestingVariant` value wrapped in a `RxSwift.Single`
+    /// - Throws: An `ConfigurationError.missingKeyRawValue` in case the key raw value
+    /// is missing or `ConfigurationError.missingValue` if the value itself is missing.
+    func fetchTestingVariant(for key: AppFeature) -> Single<FeatureTestingVariant> {
+        return fetchString(for: key)
+            .map { FeatureTestingVariant(rawValue: $0) ?? .variantA }
+    }
+    
+    func fetchTestingVariant(for key: AppFeature, onErrorReturn defaultVariant: FeatureTestingVariant) -> Single<FeatureTestingVariant> {
+        return fetchString(for: key)
+            .map { FeatureTestingVariant(rawValue: $0) ?? defaultVariant }
+            .catchErrorJustReturn(defaultVariant)
     }
 }

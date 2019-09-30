@@ -23,7 +23,7 @@ final class AnnouncementInteractor: AnnouncementInteracting {
     private let wallet: WalletProtocol
     private let dataRepository: BlockchainDataRepository
     private let exchangeService: ExchangeService
-    private let featureFetcher: FeatureFetching
+    private let variantFetcher: FeatureVariantFetching
     private let paxTransactionService: AnyERC20HistoricalTransactionService<PaxToken>
     
     /// Returns announcement preliminary data, according to which the relevant
@@ -42,7 +42,7 @@ final class AnnouncementInteractor: AnnouncementInteracting {
         let hasTrades = exchangeService.hasExecutedTrades()
             .asObservable()
 
-        let pitLinkingCardVariant = featureFetcher
+        let pitLinkingCardVariant = variantFetcher
             .fetchTestingVariant(for: .pitAnnouncementVariant)
             .catchErrorJustReturn(.variantA)
             .asObservable()
@@ -76,13 +76,13 @@ final class AnnouncementInteractor: AnnouncementInteracting {
          dataRepository: BlockchainDataRepository = .shared,
          exchangeService: ExchangeService = .shared,
          paxAccountRepository: ERC20AssetAccountRepository<PaxToken> = PAXServiceProvider.shared.services.assetAccountRepository,
-         featureFetcher: FeatureFetching = AppFeatureConfigurator.shared) {
+         variantFetcher: FeatureVariantFetching = AppFeatureConfigurator.shared) {
         self.wallet = wallet
         self.dataRepository = dataRepository
         self.exchangeService = exchangeService
         // TODO: Move this into a difference service that aggregates this logic
         // for all assets and utilize it in other flows (dashboard, send, swap, activity).
         self.paxTransactionService = AnyERC20HistoricalTransactionService<PaxToken>(bridge: ethereumWallet)
-        self.featureFetcher = featureFetcher
+        self.variantFetcher = variantFetcher
     }
 }

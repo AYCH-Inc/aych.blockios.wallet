@@ -28,6 +28,15 @@ public extension Accessibility.Identifier {
 // MARK: - Internal
 
 extension Accessibility.Identifier {
+    struct IntroductionSheet {
+        static let prefixFormat = "IntroductionSheet."
+        static let titleLabel = "\(prefixFormat)titleLabel"
+        static let subtitleLabel = "\(prefixFormat)subtitleLabel"
+        static let doneButton = "\(prefixFormat)doneButton"
+    }
+}
+
+extension Accessibility.Identifier {
     struct LoadingView {
         static let prefixFormat = "LoadingView."
         static let statusLabel = "\(prefixFormat)statusLabel"

@@ -12,6 +12,8 @@ import RxCocoa
 
 public final class IntroductionSheetViewController: UIViewController {
     
+    private typealias AccessibilityIdentifiers = Accessibility.Identifier.IntroductionSheet
+    
     // MARK: Private Properties
     
     private let bag: DisposeBag = DisposeBag()
@@ -48,5 +50,13 @@ public final class IntroductionSheetViewController: UIViewController {
         titleLabel.text = viewModel.title
         subtitleLabel.text = viewModel.description
         thumbnail.image = viewModel.thumbnail
+        
+        applyAccessibility()
+    }
+    
+    private func applyAccessibility() {
+        button.accessibility = .init(id: .value(AccessibilityIdentifiers.doneButton))
+        titleLabel.accessibility = .init(id: .value(AccessibilityIdentifiers.titleLabel))
+        subtitleLabel.accessibility = .init(id: .value(AccessibilityIdentifiers.subtitleLabel))
     }
 }

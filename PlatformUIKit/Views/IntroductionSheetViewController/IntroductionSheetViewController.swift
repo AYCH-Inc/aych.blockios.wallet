@@ -37,6 +37,7 @@ public final class IntroductionSheetViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        button.setTitle(viewModel.buttonTitle, for: .normal)
         button.layer.cornerRadius = 4.0
         button.rx.tap.bind { [weak self] _ in
             guard let self = self else { return }

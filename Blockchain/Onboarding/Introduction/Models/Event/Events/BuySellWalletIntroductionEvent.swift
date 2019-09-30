@@ -53,6 +53,7 @@ final class BuySellDescriptionIntroductionEvent: WalletIntroductionEvent, Wallet
         let viewModel = IntroductionSheetViewModel(
             title: LocalizationConstants.Onboarding.IntroductionSheet.BuySell.title,
             description: LocalizationConstants.Onboarding.IntroductionSheet.BuySell.description,
+            buttonTitle: LocalizationConstants.Onboarding.IntroductionSheet.done,
             thumbnail: #imageLiteral(resourceName: "Icon-Cart"),
             onSelection: {
                 self.selection()

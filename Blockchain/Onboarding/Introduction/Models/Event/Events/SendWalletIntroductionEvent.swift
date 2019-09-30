@@ -53,6 +53,7 @@ final class SendDescriptionIntroductionEvent: WalletIntroductionEvent, WalletInt
         let viewModel = IntroductionSheetViewModel(
             title: LocalizationConstants.Onboarding.IntroductionSheet.Send.title,
             description: LocalizationConstants.Onboarding.IntroductionSheet.Send.description,
+            buttonTitle: LocalizationConstants.Onboarding.IntroductionSheet.next,
             thumbnail: #imageLiteral(resourceName: "Icon-Receive"),
             onSelection: {
                 self.selection()

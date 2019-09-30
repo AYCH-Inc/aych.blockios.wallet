@@ -53,6 +53,7 @@ final class HomeDescriptionWalletIntroductionEvent: WalletIntroductionEvent, Wal
         let viewModel = IntroductionSheetViewModel(
             title: LocalizationConstants.Onboarding.IntroductionSheet.Home.title,
             description: LocalizationConstants.Onboarding.IntroductionSheet.Home.description,
+            buttonTitle: LocalizationConstants.Onboarding.IntroductionSheet.next,
             thumbnail: #imageLiteral(resourceName: "Icon-Home"),
             onSelection: {
                 self.selection()

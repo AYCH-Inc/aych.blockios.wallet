@@ -175,7 +175,7 @@ extension WalletIntroductionPresenter {
     }
     
     private var swapDescription: SwapDescriptionIntroductionEvent {
-        return SwapDescriptionIntroductionEvent(selection: { [weak self] in
+        return SwapDescriptionIntroductionEvent(isBuyEnabled: wallet.isBuyEnabled(), selection: { [weak self] in
             guard let self = self else { return }
             self.triggerNextStep()
             // If `Buy` isn't enabled, then we don't need to open the side menu.

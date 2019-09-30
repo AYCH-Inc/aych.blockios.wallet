@@ -914,6 +914,7 @@ struct LocalizationConstants {
         
         struct IntroductionSheet {
             static let next = NSLocalizedString("Next", comment: "Next")
+            static let done = NSLocalizedString("Done", comment: "Done")
             struct Home {
                 static let title = NSLocalizedString("View Your Portfolio", comment: "View Your Portfolio")
                 static let description = NSLocalizedString(

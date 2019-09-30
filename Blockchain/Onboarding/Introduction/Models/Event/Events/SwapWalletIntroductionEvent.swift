@@ -53,6 +53,7 @@ final class SwapDescriptionIntroductionEvent: WalletIntroductionEvent, WalletInt
         let viewModel = IntroductionSheetViewModel(
             title: LocalizationConstants.Onboarding.IntroductionSheet.Swap.title,
             description: LocalizationConstants.Onboarding.IntroductionSheet.Swap.description,
+            buttonTitle: buttonTitle,
             thumbnail: #imageLiteral(resourceName: "Icon-Swap"),
             onSelection: {
                 self.selection()
@@ -72,7 +73,21 @@ final class SwapDescriptionIntroductionEvent: WalletIntroductionEvent, WalletInt
         return true
     }
     
-    init(selection: @escaping WalletIntroductionAction) {
+    private var buttonTitle: String {
+        /// If `Buy` is enabled, the user will see an additional
+        /// introduction event. 
+        switch isBuyEnabled {
+        case true:
+            return LocalizationConstants.Onboarding.IntroductionSheet.next
+        case false:
+            return LocalizationConstants.Onboarding.IntroductionSheet.done
+        }
+    }
+    
+    private let isBuyEnabled: Bool
+    
+    init(isBuyEnabled: Bool, selection: @escaping WalletIntroductionAction) {
+        self.isBuyEnabled = isBuyEnabled
         self.selection = selection
     }
 }

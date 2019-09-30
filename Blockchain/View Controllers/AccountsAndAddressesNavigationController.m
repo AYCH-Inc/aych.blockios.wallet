@@ -13,9 +13,7 @@
 #import "UIView+ChangeFrameAttribute.h"
 #import "Blockchain-Swift.h"
 
-@interface AccountsAndAddressesNavigationController () <AssetSelectorViewDelegate, WalletAddressesDelegate>
-@property (nonatomic, readwrite) AssetSelectorView *assetSelectorView;
-@property (nonatomic) BOOL isOpeningSelector;
+@interface AccountsAndAddressesNavigationController () <WalletAddressesDelegate>
 @end
 
 @implementation AccountsAndAddressesNavigationController
@@ -26,9 +24,6 @@
 {
     [super viewDidLoad];
 
-    CGFloat safeAreaInsetTop = UIView.rootViewSafeAreaInsets.top;
-    CGFloat navBarHeight = [ConstantsObjcBridge defaultNavigationBarHeight];
-
     self.view.frame = [UIView rootViewSafeAreaFrameWithNavigationBar:YES tabBar:NO assetSelector:YES];
 
     [self.navigationBar setTitleTextAttributes:[UINavigationBar largeTitleTextAttributes]];
@@ -38,24 +33,6 @@
                           target:self action:@selector(transferAllFundsWarningClicked)];
 
     WalletManager.sharedInstance.addressesDelegate = self;
-    
-    CGRect selectorFrame = CGRectMake(0,
-                                      safeAreaInsetTop + navBarHeight,
-                                      self.view.frame.size.width,
-                                      [ConstantsObjcBridge assetTypeCellHeight]);
-    
-    self.assetSelectorView = [[AssetSelectorView alloc]
-                              initWithFrame:selectorFrame
-                              assets:@[[NSNumber numberWithInteger:LegacyAssetTypeBitcoin], [NSNumber numberWithInteger:LegacyAssetTypeBitcoinCash]]
-                              parentView: self.view];
-    self.assetSelectorView.delegate = self;
-}
-
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    
-    if (self.isOpeningSelector) { return; }
 }
 
 - (void)reload
@@ -110,43 +87,6 @@
     [[TransferAllCoordinator sharedInstance] startWithSendScreen];
 }
 
-#pragma mark - Navigation
-
-- (void)resetAddressesViewControllerContainerFrame
-{
-    if ([self.visibleViewController isMemberOfClass:[AccountsAndAddressesViewController class]]) {
-        AccountsAndAddressesViewController *accountsAndAddressesViewController = (AccountsAndAddressesViewController *)self.visibleViewController;
-        [accountsAndAddressesViewController.containerView changeYPosition:8 + [ConstantsObjcBridge assetTypeCellHeight]];
-    }
-}
-
-#pragma mark - Asset Selector View Delegate
-
-- (void)didSelectAsset:(LegacyAssetType)assetType
-{
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [self resetAddressesViewControllerContainerFrame];
-    }];
-    
-    if ([self.visibleViewController isMemberOfClass:[AccountsAndAddressesViewController class]]) {
-        AccountsAndAddressesViewController *accountsAndAddressesViewController = (AccountsAndAddressesViewController *)self.visibleViewController;
-        accountsAndAddressesViewController.assetType = assetType;
-    };
-}
-
-- (void)didOpenSelector
-{
-    self.isOpeningSelector = YES;
-
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        if ([self.visibleViewController isMemberOfClass:[AccountsAndAddressesViewController class]]) {
-            AccountsAndAddressesViewController *accountsAndAddressesViewController = (AccountsAndAddressesViewController *)self.visibleViewController;
-            [accountsAndAddressesViewController.containerView changeYPosition:8 + [ConstantsObjcBridge assetTypeCellHeight]*self.assetSelectorView.assets.count];
-        }
-    } completion:^(BOOL finished) {
-        self.isOpeningSelector = NO;
-    }];
-}
 
 #pragma mark WalletAddressesDelegate
 

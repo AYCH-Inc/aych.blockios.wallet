@@ -17,7 +17,9 @@
 
 #define CELL_HEIGHT_DEFAULT 44.0f
 
-@interface AccountsAndAddressesViewController () <UITableViewDelegate, UITableViewDataSource, LegacyPrivateKeyDelegate>
+@interface AccountsAndAddressesViewController () <AssetSelectorViewDelegate, UITableViewDelegate, UITableViewDataSource, LegacyPrivateKeyDelegate>
+@property (nonatomic, strong) AssetSelectorView *assetSelectorView;
+@property (nonatomic) BOOL isOpeningSelector;
 @property (nonatomic) NSString *clickedAddress;
 @property (nonatomic) int clickedAccount;
 @property (nonatomic) AccountsAndAddressesNavigationController *accountsAndAddressesNavigationController;
@@ -57,10 +59,24 @@
                                     style:UIBarButtonItemStylePlain
                                     target:self action:@selector(closeButtonClicked:)];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    CGRect frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height - assetSelectorHeight - safeAreaInsetTop);
+    
+    CGFloat navBarHeight = [ConstantsObjcBridge defaultNavigationBarHeight];
+    CGRect selectorFrame = CGRectMake(0,
+                                      safeAreaInsetTop + navBarHeight,
+                                      self.view.frame.size.width,
+                                      [ConstantsObjcBridge assetTypeCellHeight]);
+    
+    self.assetSelectorView = [[AssetSelectorView alloc]
+                              initWithFrame:selectorFrame
+                              assets:@[[NSNumber numberWithInteger:LegacyAssetTypeBitcoin],
+                                       [NSNumber numberWithInteger:LegacyAssetTypeBitcoinCash]]
+                              parentView: self.view];
+    self.assetSelectorView.delegate = self;
+    
+    CGRect frame = CGRectMake(self.view.frame.origin.x, self.assetSelectorView.frame.origin.x + self.assetSelectorView.frame.size.height, self.view.frame.size.width, self.view.frame.size.height - assetSelectorHeight - safeAreaInsetTop);
     self.tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = UIColor.lightGray;
-    [self.view addSubview:self.tableView];
+    [self.view insertSubview:self.tableView belowSubview: self.assetSelectorView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:NOTIFICATION_KEY_RELOAD_ACCOUNTS_AND_ADDRESSES object:nil];
@@ -142,6 +158,21 @@
     self.clickedAccount = account;
     self.clickedAddress = nil;
     [self performSegueWithIdentifier:SEGUE_IDENTIFIER_ACCOUNTS_AND_ADDRESSES_DETAIL sender:nil];
+}
+
+#pragma mark - Asset Selector View Delegate
+
+- (void)didSelectAsset:(LegacyAssetType)assetType
+{
+    [self.containerView changeYPosition:8 + [ConstantsObjcBridge assetTypeCellHeight]];
+    self.assetType = assetType;
+}
+
+- (void)didOpenSelector
+{
+    self.isOpeningSelector = YES;
+    [self.containerView changeYPosition:8 + [ConstantsObjcBridge assetTypeCellHeight]*self.assetSelectorView.assets.count];
+    self.isOpeningSelector = NO;
 }
 
 #pragma mark - Helpers

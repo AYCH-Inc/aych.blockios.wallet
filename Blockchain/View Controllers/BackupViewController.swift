@@ -103,11 +103,7 @@ import PlatformUIKit
     }
 
     @IBAction func backupWalletButtonTapped(_ sender: UIButton) {
-        if backupWalletButton.titleLabel!.text == LocalizationConstants.Backup.verifyBackup.uppercased() {
-            performSegue(withIdentifier: "verifyBackup", sender: nil)
-        } else {
-            performSegue(withIdentifier: "backupWords", sender: nil)
-        }
+        performSegue(withIdentifier: "backupWords", sender: nil)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

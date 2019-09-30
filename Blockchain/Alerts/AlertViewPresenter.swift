@@ -10,6 +10,12 @@ import PlatformKit
 import PlatformUIKit
 
 @objc class AlertViewPresenter: NSObject {
+    
+    struct Content {
+        let title: String
+        let message: String
+    }
+    
     typealias AlertConfirmHandler = ((UIAlertAction) -> Void)
 
     static let shared = AlertViewPresenter()
@@ -153,6 +159,10 @@ import PlatformUIKit
             }
             self.standardNotify(alert: alert, in: viewController)
         }
+    }
+    
+    func notify(content: Content) {
+        standardNotify(message: content.message, title: content.title)
     }
 
     private func standardNotify(alert: UIAlertController, in viewController: UIViewController? = nil) {

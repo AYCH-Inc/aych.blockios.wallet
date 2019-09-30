@@ -91,6 +91,7 @@ protocol SendXLMViewControllerDelegate: class {
     
     weak var delegate: SendXLMViewControllerDelegate?
     fileprivate var coordinator: SendXLMCoordinator!
+    private let alertViewPresenter: AlertViewPresenter = .shared
     fileprivate var trigger: ActionableTrigger?
     fileprivate var memo: StellarMemoType?
     fileprivate var toolbar: UIToolbar?
@@ -111,7 +112,8 @@ protocol SendXLMViewControllerDelegate: class {
         controller.coordinator = SendXLMCoordinator(
             serviceProvider: provider,
             interface: controller,
-            modelInterface: controller
+            modelInterface: controller,
+            pitAddressPresenter: SendPitAddressStatePresenter(assetType: .stellar)
         )
         return controller
     }
@@ -146,6 +148,7 @@ protocol SendXLMViewControllerDelegate: class {
         case fiatAmountText(String?)
         case fiatSymbolLabel(String?)
         case usePitAddress(String?)
+        case showAlertForEnabling2FA
     }
 
     // MARK: Public Methods
@@ -412,6 +415,11 @@ protocol SendXLMViewControllerDelegate: class {
                 destinationAddressIndicatorLabel.text = String(format: LocalizationConstants.PIT.Send.destination,
                                                                AssetType.stellar.symbol)
             }
+        case .showAlertForEnabling2FA:
+            alertViewPresenter.standardNotify(
+                message: LocalizationConstants.PIT.twoFactorNotEnabled,
+                title: LocalizationConstants.Errors.error
+            )
         }
     }
 

@@ -73,6 +73,7 @@ class SendPaxViewController: UIViewController {
     // MARK: Private Properties
         
     private var coordinator: SendPaxCoordinator!
+    private let alertViewPresenter: AlertViewPresenter = AlertViewPresenter.shared
     private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
     private var qrScannerViewModel: QRCodeScannerViewModel<AddressQRCodeParser>?
     
@@ -109,7 +110,10 @@ class SendPaxViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        coordinator = SendPaxCoordinator(interface: self)
+        coordinator = SendPaxCoordinator(
+            interface: self,
+            pitAddressPresenter: SendPitAddressStatePresenter(assetType: .pax)
+        )
         fields.forEach({ $0.delegate = self })
         topGravityStackView.addBackgroundColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
         sendNowButton.layer.cornerRadius = 4.0
@@ -237,6 +241,11 @@ class SendPaxViewController: UIViewController {
                 destinationAddressIndicatorLabel.text = String(format: LocalizationConstants.PIT.Send.destination,
                                                                AssetType.pax.symbol)
             }
+        case .showAlertForEnabling2FA:
+            alertViewPresenter.standardNotify(
+                message: LocalizationConstants.PIT.twoFactorNotEnabled,
+                title: LocalizationConstants.Errors.error
+            )
         }
     }
     

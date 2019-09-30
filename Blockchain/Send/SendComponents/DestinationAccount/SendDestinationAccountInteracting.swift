@@ -22,6 +22,9 @@ protocol SendDestinationAccountInteracting {
     /// Select PIT address
     var pitSelectedRelay: PublishRelay<Bool> { get }
     
+    /// Whether 2FA configuration is required to send to the PIT
+    var isTwoFAConfigurationRequired: Observable<Bool> { get }
+    
     /// The selected / inserted destination account state
     var accountState: Observable<SendDestinationAccountState> { get }
     

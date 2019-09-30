@@ -26,12 +26,18 @@ final class SendDestinationAccountInteractor: SendDestinationAccountInteracting 
     
     /// Streams boolean value on whether the source account is connected to the PIT and has a valid PIT address
     var hasPitAccount: Observable<Bool> {
-        return pitAccountRelay
-            .map { $0.isValid }
+        return Observable
+            .combineLatest(pitAccountRelay, isTwoFAConfigurationRequired)
+            .map { $0.0.isValid || $0.1 }
             .distinctUntilChanged()
             .asObservable()
     }
     
+    /// Streams boolean value indicating whether 2-fa configuration required (used upon tapping the PIT address button)
+    var isTwoFAConfigurationRequired: Observable<Bool> {
+        return twoFAConfigurationRequiredRelay.asObservable()
+    }
+        
     /// A relay for PIT address selection
     let pitSelectedRelay = PublishRelay<Bool>()
     
@@ -42,6 +48,7 @@ final class SendDestinationAccountInteractor: SendDestinationAccountInteracting 
     
     private let accountRelay = BehaviorRelay<SendDestinationAccountState>(value: .invalid(.empty))
     private let pitAccountRelay = BehaviorRelay<SendDestinationAccountState>(value: .invalid(.empty))
+    private let twoFAConfigurationRequiredRelay = BehaviorRelay<Bool>(value: false)
     private let disposeBag = DisposeBag()
     
     // MARK: - Services
@@ -58,9 +65,17 @@ final class SendDestinationAccountInteractor: SendDestinationAccountInteracting 
         
         pitAddressFetcher.fetchAddress(for: asset)
             .subscribe(onSuccess: { [weak self] address in
-                self?.pitAccountRelay.accept(.valid(address: address))
+                guard let self = self else { return }
+                self.pitAccountRelay.accept(.valid(address: address))
+                self.twoFAConfigurationRequiredRelay.accept(false)
             }, onError: { [weak self] error in
-                self?.pitAccountRelay.accept(.invalid(.fetch))
+                guard let self = self else { return }
+                switch error {
+                case PitAddressFetcher.FetchingError.twoFactorRequired:
+                    self.twoFAConfigurationRequiredRelay.accept(true)
+                default:
+                    self.pitAccountRelay.accept(.invalid(.fetch))
+                }
             })
             .disposed(by: disposeBag)
         

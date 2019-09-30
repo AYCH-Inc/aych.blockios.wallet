@@ -85,7 +85,7 @@ typedef enum {
 
 @property (nonatomic) BCNavigationController *contactRequestNavigationController;
 
-@property (nonatomic) BridgeAddressFetcher *addressFetcher;
+@property (nonatomic) SendPitAddressStatePresenter *pitAddressPresenter;
 @property (nonatomic) BridgeBitpayService *bitpayService;
 @property (nonatomic) BridgeAnalyticsRecorder *analyticsRecorder;
 
@@ -157,7 +157,7 @@ BOOL displayingLocalSymbolSend;
 
     self.deepLinkQRCodeRouter = [[BridgeDeepLinkQRCodeRouter alloc] init];
     
-    self.addressFetcher = [[BridgeAddressFetcher alloc] initWithAssetType:self.assetType];
+    self.pitAddressPresenter = [[SendPitAddressStatePresenter alloc] initWithAssetType:self.assetType];
     
     self.bitpayService = [[BridgeBitpayService alloc] init];
     self.analyticsRecorder = [[BridgeAnalyticsRecorder alloc] init];
@@ -421,9 +421,9 @@ BOOL displayingLocalSymbolSend;
     
     __weak SendBitcoinViewController *weakSelf = self;
     
-    self.addressFetcher = [[BridgeAddressFetcher alloc] initWithAssetType:self.assetType];
+    self.pitAddressPresenter = [[SendPitAddressStatePresenter alloc] initWithAssetType:self.assetType];
     
-    [self.addressFetcher fetchAddressViewModelWithCompletion:^(PITAddressViewModel * _Nonnull viewModel) {
+    [self.pitAddressPresenter fetchAddressViewModelWithCompletion:^(PITAddressViewModel * _Nonnull viewModel) {
         weakSelf.pitAddressViewModel = viewModel;
         weakSelf.pitAddressButton.hidden = viewModel.isPITLinked == NO;
     }];
@@ -564,12 +564,12 @@ BOOL displayingLocalSymbolSend;
         default: // Any other state (doesn't matter which)
         /// The user tapped the PIT button to send funds to the PIT.
         /// We must confirm that 2FA is enabled otherwise we will not have a destination address
-        if (self.pitAddressViewModel != nil && self.pitAddressViewModel.assetType == self.assetType) {
-            if (self.pitAddressViewModel.pitDestinationAddress != nil) {
+        if (self.pitAddressViewModel != nil && self.pitAddressViewModel.legacyAssetType == self.assetType) {
+            if (self.pitAddressViewModel.address != nil) {
                 [self.pitAddressButton setImage:[UIImage imageNamed:@"cancel_icon"] forState:UIControlStateNormal];
                 self.addressSource = DestinationAddressSourcePit;
                 toField.hidden = true;
-                [self selectToAddress:self.pitAddressViewModel.pitDestinationAddress];
+                [self selectToAddress:self.pitAddressViewModel.address];
                 destinationAddressIndicatorLabel.hidden = false;
             } else {
                 [AlertViewPresenter.sharedInstance standardErrorWithMessage:[LocalizationConstantsObjcBridge twoFactorPITDisabled] title:BC_STRING_ERROR in:self handler:nil];

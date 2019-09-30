@@ -20,8 +20,10 @@ class SendXLMCoordinator {
         return serviceProvider.services
     }
     
-    // Fetcher for PIT address
-    private let pitAddressFetcher: PitAddressFetching
+    /// pit address presenter
+    private let pitAddressPresenter: SendPitAddressStatePresenter
+    private var pitAddressViewModel = PITAddressViewModel(assetType: .stellar)
+
     
     /// The source of the address
     private var addressSource = SendAssetAddressSource.standard
@@ -36,12 +38,12 @@ class SendXLMCoordinator {
         serviceProvider: StellarServiceProvider,
         interface: SendXLMInterface,
         modelInterface: SendXLMModelInterface,
-        pitAddressFetcher: PitAddressFetching = PitAddressFetcher()
+        pitAddressPresenter: SendPitAddressStatePresenter
     ) {
         self.serviceProvider = serviceProvider
         self.interface = interface
         self.modelInterface = modelInterface
-        self.pitAddressFetcher = pitAddressFetcher
+        self.pitAddressPresenter = pitAddressPresenter
         if let controller = interface as? SendLumensViewController {
             controller.delegate = self
         }
@@ -130,11 +132,12 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                                   .usePitAddress(nil)])
         
         // Fetch the PIT address for asset and apply changes to the interface
-        pitAddressFetcher.fetchAddress(for: .stellar)
+        pitAddressPresenter.viewModel
             .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] address in
+            .subscribe(onSuccess: { [weak self] viewModel in
                 guard let self = self else { return }
-                let split = address.components(separatedBy: ":")
+                self.pitAddressViewModel = viewModel
+                let split = viewModel.address?.components(separatedBy: ":") ?? []
                 self.pitAddress = split.first ?? ""
                 self.pitMemo = split.last ?? ""
                 self.interface.apply(updates: [.pitAddressButtonVisibility(.visible)])
@@ -466,14 +469,19 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                                       .memoIDTextFieldVisibility(.hidden),
                                       .memoSelectionButtonVisibility(.visible)])
         case .standard:
-            addressSource = .pit
-            interface.apply(updates: [
-                .usePitAddress(pitAddress),
-                .memoTextFieldText(pitMemo),
-                .memoTextFieldVisibility(.visible),
-                .memoIDTextFieldVisibility(.hidden),
-                .memoSelectionButtonVisibility(.hidden)
-                ])
+            if !pitAddressViewModel.isTwoFactorEnabled {
+                interface.apply(updates: [.showAlertForEnabling2FA])
+            } else {
+                addressSource = .pit
+                interface.apply(
+                    updates: [
+                        .usePitAddress(pitAddress),
+                        .memoTextFieldText(pitMemo),
+                        .memoTextFieldVisibility(.visible),
+                        .memoIDTextFieldVisibility(.hidden),
+                        .memoSelectionButtonVisibility(.hidden)
+                    ])
+            }
         }
     }
     

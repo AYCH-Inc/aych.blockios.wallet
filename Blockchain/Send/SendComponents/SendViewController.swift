@@ -38,6 +38,7 @@ final class SendViewController: UIViewController {
     
     // MARK: - Injected
     
+    fileprivate let alertPresenter: AlertViewPresenter
     private let modalPresenter: ModalPresenter
     private let presenter: SendPresenter
     private let recorder: Recording
@@ -50,9 +51,11 @@ final class SendViewController: UIViewController {
     
     // TODO: Remove modal presenter dependency
     init(presenter: SendPresenter,
+         alertPresenter: AlertViewPresenter = .shared,
          modalPresenter: ModalPresenter = .shared,
          recorder: Recording = CrashlyticsRecorder()) {
         self.presenter = presenter
+        self.alertPresenter = alertPresenter
         self.modalPresenter = modalPresenter
         self.recorder = recorder
         super.init(nibName: type(of: self).objectName, bundle: nil)
@@ -81,6 +84,9 @@ final class SendViewController: UIViewController {
     private func setupErrorHandling() {
         presenter.error
             .emit(to: rx.errorHandler)
+            .disposed(by: disposeBag)
+        presenter.alert
+            .emit(to: rx.alertHandler)
             .disposed(by: disposeBag)
     }
     
@@ -276,6 +282,13 @@ extension Reactive where Base: SendViewController {
     fileprivate var errorHandler: Binder<SendInputState.StateError> {
         return Binder(base) { viewController, error in
             viewController.handle(error: error)
+        }
+    }
+    
+    /// Binder for any alert
+    fileprivate var alertHandler: Binder<AlertViewPresenter.Content> {
+        return Binder(base) { viewController, content in
+            viewController.alertPresenter.notify(content: content)
         }
     }
 }

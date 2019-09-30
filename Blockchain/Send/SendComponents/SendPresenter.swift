@@ -93,6 +93,11 @@ final class SendPresenter {
         return errorRelay.asSignal()
     }
     
+    /// Signals for alert notification
+    var alert: Signal<AlertViewPresenter.Content> {
+        alertRelay.asSignal()
+    }
+    
     /// Streams the right button type
     var navigationRightButton: Observable<NavigationRightButtonUpdate> {
         return navigationRightButtonRelay
@@ -120,6 +125,7 @@ final class SendPresenter {
     
     // MARK: - Accessors
     
+    private let alertRelay = PublishRelay<AlertViewPresenter.Content>()
     private let errorRelay = PublishRelay<SendInputState.StateError>()
     private let navigationRightButtonRelay = BehaviorRelay<NavigationRightButtonUpdate>(value: .init(state: .empty))
     private let disposeBag = DisposeBag()
@@ -151,6 +157,10 @@ final class SendPresenter {
         interactor.inputState
             .map { NavigationRightButtonUpdate(state: $0) }
             .bind(to: navigationRightButtonRelay)
+            .disposed(by: disposeBag)
+        
+        destinationPresenter.twoFAConfigurationAlertSignal
+            .emit(to: alertRelay)
             .disposed(by: disposeBag)
     }
     

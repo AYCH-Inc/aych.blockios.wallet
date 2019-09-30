@@ -29,13 +29,13 @@ class SendPaxCoordinator {
     private let priceAPI: PriceServiceAPI
     private var isExecuting: Bool = false
     private var output: SendPaxOutput?
-    private let pitAddressFetcher: PitAddressFetching
     
     /// The source of the address
     private var addressSource = SendAssetAddressSource.standard
     
-    /// The pit address
-    private var pitAddress: String!
+    /// pit address presenter
+    private let pitAddressPresenter: SendPitAddressStatePresenter
+    private var pitAddressViewModel = PITAddressViewModel(assetType: .pax)
 
     private var fees: Single<EthereumTransactionFee> {
         return services.feeService.fees
@@ -45,14 +45,14 @@ class SendPaxCoordinator {
         interface: SendPAXInterface,
         serviceProvider: PAXServiceProvider = PAXServiceProvider.shared,
         priceService: PriceServiceAPI = PriceServiceClient(),
-        pitAddressFetcher: PitAddressFetching = PitAddressFetcher(),
+        pitAddressPresenter: SendPitAddressStatePresenter,
         bus: WalletActionEventBus = WalletActionEventBus.shared
     ) {
         self.interface = interface
         self.calculator = SendPaxCalculator(erc20Service: serviceProvider.services.paxService)
         self.serviceProvider = serviceProvider
         self.priceAPI = priceService
-        self.pitAddressFetcher = pitAddressFetcher
+        self.pitAddressPresenter = pitAddressPresenter
         self.bus = bus
         if let controller = interface as? SendPaxViewController {
             controller.delegate = self
@@ -186,11 +186,11 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
                                   .usePitAddress(nil)])
 
         // Fetch the PIT address for PAX asset and apply changes to the interface
-        pitAddressFetcher.fetchAddress(for: .pax)
+        pitAddressPresenter.viewModel
             .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] address in
+            .subscribe(onSuccess: { [weak self] viewModel in
                 guard let self = self else { return }
-                self.pitAddress = address
+                self.pitAddressViewModel = viewModel
                 self.interface.apply(updates: [.pitAddressButtonVisibility(true)])
             }, onError: { [weak self] error in
                 self?.interface.apply(updates: [.pitAddressButtonVisibility(false)])
@@ -366,9 +366,13 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
             addressSource = .standard
             interface.apply(updates: [.usePitAddress(nil)])
         case .standard:
-            addressSource = .pit
-            onAddressEntry(pitAddress)
-            interface.apply(updates: [.usePitAddress(pitAddress)])
+            if !pitAddressViewModel.isTwoFactorEnabled {
+                interface.apply(updates: [.showAlertForEnabling2FA])
+            } else {
+                addressSource = .pit
+                onAddressEntry(pitAddressViewModel.address)
+                interface.apply(updates: [.usePitAddress(pitAddressViewModel.address)])
+            }
         }
     }
 }

@@ -1102,8 +1102,6 @@
 		650999B822E5C44F0092BFB9 /* PitAddressFetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650999B722E5C44F0092BFB9 /* PitAddressFetching.swift */; };
 		650999B922E5C44F0092BFB9 /* PitAddressFetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650999B722E5C44F0092BFB9 /* PitAddressFetching.swift */; };
 		650999BC22E5C4730092BFB9 /* MockPitAddressFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650999BA22E5C4730092BFB9 /* MockPitAddressFetcher.swift */; };
-		650999BF22E5CBB20092BFB9 /* BridgeAddressFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650999BE22E5CBB20092BFB9 /* BridgeAddressFetcher.swift */; };
-		650999C022E5CBB20092BFB9 /* BridgeAddressFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650999BE22E5CBB20092BFB9 /* BridgeAddressFetcher.swift */; };
 		650999C522E60CAA0092BFB9 /* PitCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5AF01322D5354E007C5717 /* PitCoordinator.swift */; };
 		650999C622E60CFD0092BFB9 /* PitAccountAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A204AF022DCF8EA008FCD0B /* PitAccountAuthenticator.swift */; };
 		650999C722E60D050092BFB9 /* PITAccountRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AECA26322CFE1AA004ED7B7 /* PITAccountRepository.swift */; };
@@ -1120,6 +1118,10 @@
 		650CE43C22CC0D4E00FA282E /* MockPasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650CE43B22CC0D4E00FA282E /* MockPasteboard.swift */; };
 		6512845C233E8DC9008776DC /* CampaignComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512845B233E8DC9008776DC /* CampaignComposer.swift */; };
 		6512845D233E8DC9008776DC /* CampaignComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512845B233E8DC9008776DC /* CampaignComposer.swift */; };
+		6512846623423814008776DC /* PITAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512846523423814008776DC /* PITAddressViewModel.swift */; };
+		6512846723423814008776DC /* PITAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512846523423814008776DC /* PITAddressViewModel.swift */; };
+		6512847223423869008776DC /* SendPitAddressStatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512847123423869008776DC /* SendPitAddressStatePresenter.swift */; };
+		6512847323423869008776DC /* SendPitAddressStatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512847123423869008776DC /* SendPitAddressStatePresenter.swift */; };
 		651AC8D922CF925400B2DC1B /* KeyPairDeriverAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8473C5219B5D2D00F22FA6 /* KeyPairDeriverAPI.swift */; };
 		6526A5B022B2BB260079AF6B /* AddressStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6526A5AF22B2BB260079AF6B /* AddressStatus.swift */; };
 		6526A5B122B2BB260079AF6B /* AddressStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6526A5AF22B2BB260079AF6B /* AddressStatus.swift */; };
@@ -4645,13 +4647,14 @@
 		650999A922E5BD510092BFB9 /* PitAddressFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitAddressFetcher.swift; sourceTree = "<group>"; };
 		650999B722E5C44F0092BFB9 /* PitAddressFetching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitAddressFetching.swift; sourceTree = "<group>"; };
 		650999BA22E5C4730092BFB9 /* MockPitAddressFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPitAddressFetcher.swift; sourceTree = "<group>"; };
-		650999BE22E5CBB20092BFB9 /* BridgeAddressFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeAddressFetcher.swift; sourceTree = "<group>"; };
 		650CE41822CBD54600FA282E /* MockWalletData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockWalletData.swift; path = Blockchain/Authentication/PinFlow/Tests/Mocks/MockWalletData.swift; sourceTree = SOURCE_ROOT; };
 		650CE41A22CBD55300FA282E /* MockPinInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockPinInteractor.swift; path = Blockchain/Authentication/PinFlow/Tests/Mocks/MockPinInteractor.swift; sourceTree = SOURCE_ROOT; };
 		650CE41D22CBDDB000FA282E /* Wallet+WalletProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Wallet+WalletProtocol.swift"; sourceTree = "<group>"; };
 		650CE43022CC0B7300FA282E /* AddressInteractorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInteractorMock.swift; sourceTree = "<group>"; };
 		650CE43B22CC0D4E00FA282E /* MockPasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPasteboard.swift; sourceTree = "<group>"; };
 		6512845B233E8DC9008776DC /* CampaignComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignComposer.swift; sourceTree = "<group>"; };
+		6512846523423814008776DC /* PITAddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PITAddressViewModel.swift; sourceTree = "<group>"; };
+		6512847123423869008776DC /* SendPitAddressStatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPitAddressStatePresenter.swift; sourceTree = "<group>"; };
 		6526A5AF22B2BB260079AF6B /* AddressStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressStatus.swift; sourceTree = "<group>"; };
 		65283F1622A7D69800255A30 /* VersionUpdateAlertDisplaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionUpdateAlertDisplaying.swift; sourceTree = "<group>"; };
 		65283F3322A80CC100255A30 /* WalletOptionsVersionUpdateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletOptionsVersionUpdateTests.swift; sourceTree = "<group>"; };
@@ -10602,9 +10605,10 @@
 			isa = PBXGroup;
 			children = (
 				65FD2B2222E77BDA00D90C44 /* Tests */,
-				650999BE22E5CBB20092BFB9 /* BridgeAddressFetcher.swift */,
 				650999B722E5C44F0092BFB9 /* PitAddressFetching.swift */,
 				650999A922E5BD510092BFB9 /* PitAddressFetcher.swift */,
+				6512847123423869008776DC /* SendPitAddressStatePresenter.swift */,
+				6512846523423814008776DC /* PITAddressViewModel.swift */,
 			);
 			path = AddressFetcher;
 			sourceTree = "<group>";
@@ -15369,6 +15373,7 @@
 				AAFA97B12115110000D19ED3 /* SettingsViewController.swift in Sources */,
 				602B9D162118E25A00BD3D60 /* LocationSuggestionService.swift in Sources */,
 				6502D58723167955004F5EF4 /* ActionableAnnouncement.swift in Sources */,
+				6512846723423814008776DC /* PITAddressViewModel.swift in Sources */,
 				AA1E52332097CC260099BD10 /* WalletAuthDelegate.swift in Sources */,
 				3A25517921E68CF6005D4E66 /* VeriffService.swift in Sources */,
 				C7F1577C217914B600A56376 /* SimpleTransactionsViewController.swift in Sources */,
@@ -15531,7 +15536,6 @@
 				C854E3F222F3A4AC007EC1D2 /* BridgeBitpayService.swift in Sources */,
 				3AB4D91D21309BE7004F0160 /* ExchangeListViewCell.swift in Sources */,
 				AA084410215EEF320007BFD1 /* LockboxDeviceType.swift in Sources */,
-				650999C022E5CBB20092BFB9 /* BridgeAddressFetcher.swift in Sources */,
 				65B54184230C687300D04A2E /* SendInteractorTests.swift in Sources */,
 				654154F622C4F0CA00E78814 /* DisplayAddressStatus.swift in Sources */,
 				34BD9736221B123000D40D4C /* PairingCodeQRCodeParser.swift in Sources */,
@@ -15545,6 +15549,7 @@
 				6544D8DC22CCB652000D656E /* PinService.swift in Sources */,
 				3A40759F2321867900A9BE50 /* HomeWalletIntroductionEvent.swift in Sources */,
 				C732DF1E2200BC6B00F3687A /* DeepLinkRouting.swift in Sources */,
+				6512847323423869008776DC /* SendPitAddressStatePresenter.swift in Sources */,
 				F7B8C84321A5EB81005CAA0D /* DeepLinkPayloadTests.swift in Sources */,
 				65B54186230C687300D04A2E /* SendDestinationInteractorTests.swift in Sources */,
 				C7A85928217A294000502935 /* Identifiable.swift in Sources */,
@@ -16137,6 +16142,7 @@
 				AADF6B4521C0A9DA00F8CA43 /* KYCPagerAPI.swift in Sources */,
 				34BFDF452271E5AF008160CD /* PaxComingSoonViewController.swift in Sources */,
 				C78893EE20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift in Sources */,
+				6512847223423869008776DC /* SendPitAddressStatePresenter.swift in Sources */,
 				3AE5419B217A677A001DDE02 /* StellarTransaction.swift in Sources */,
 				C787180120A22362000CC46E /* WalletAddressesDelegate.swift in Sources */,
 				3A56AEB22176637D00044302 /* StellarAccountService.swift in Sources */,
@@ -16146,6 +16152,7 @@
 				511646C5208124E200C43522 /* AssetType.swift in Sources */,
 				606399FC2110FC2D005B6DF5 /* SRIOConsumer.m in Sources */,
 				9FCA4D161514949500ECDFBE /* ReceiveBitcoinViewController.m in Sources */,
+				6512846623423814008776DC /* PITAddressViewModel.swift in Sources */,
 				C7343BC4214FF8B1001B1EC9 /* ExchangeDetailPresenter.swift in Sources */,
 				C790E0F81E4E60AE0063D141 /* NSDateFormatter+TimeAgoString.m in Sources */,
 				230FD2D31C5BD04000336683 /* BCEditAddressView.m in Sources */,
@@ -16599,7 +16606,6 @@
 				65F5E70122C36D0D00D00F50 /* QRAddressView.swift in Sources */,
 				AAB43A892162C19C0015C863 /* Rx+Helpers.swift in Sources */,
 				3AEE969B221DDFD700F8B5D5 /* DashboardContainerViewController.swift in Sources */,
-				650999BF22E5CBB20092BFB9 /* BridgeAddressFetcher.swift in Sources */,
 				AAB75A15218A733200A0AD11 /* AnnouncementCardContainerView.swift in Sources */,
 				65F5E70A22C384E700D00F50 /* AddressInteractor.swift in Sources */,
 			);

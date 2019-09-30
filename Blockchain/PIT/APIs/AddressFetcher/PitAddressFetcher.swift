@@ -19,6 +19,9 @@ final class PitAddressFetcher: PitAddressFetching {
         
         /// An error thrown when the user doesn't have a pit account to fetch his PIT address from
         case missingPitAccount
+        
+        /// Two factor authentication required
+        case twoFactorRequired
     }
     
     struct PitAddressResponseBody: Decodable {
@@ -152,6 +155,19 @@ final class PitAddressFetcher: PitAddressFetching {
                         headers: headers
                     )
                 )
+            }
+            // Catch two factor authentication errors and throw them, in case of other errors just rethrow
+            .catchError { error in
+                guard let networkError = error as? NetworkCommunicatorError else {
+                    throw error
+                }
+                if case let .serverError(serverError) = networkError,
+                        let nabuError = serverError.nabuError,
+                        nabuError.code == .bad2fa {
+                    throw FetchingError.twoFactorRequired
+                } else {
+                    throw networkError
+                }
             }
             .map { $0.address }
     }

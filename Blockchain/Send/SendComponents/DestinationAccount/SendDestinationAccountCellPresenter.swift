@@ -68,6 +68,11 @@ final class SendDestinationAccountCellPresenter {
         return pitButtonImageRelay.asDriver()
     }
     
+    /// Signals if the user has to configure 2FA in order to send to his PIT account
+    var twoFAConfigurationAlertSignal: Signal<AlertViewPresenter.Content> {
+        return twoFAConfigurationAlertRelay.asSignal()
+    }
+    
     /// Text field visibility.
     /// Streams on the main thread and replays the last element.
     var isTextFieldHidden: Driver<Bool> {
@@ -121,6 +126,9 @@ final class SendDestinationAccountCellPresenter {
     /// The selection state for the destination address
     private let selectionStateRelay = BehaviorRelay<SelectionState>(value: .empty)
     
+    /// Sends signals when the user taps the pit button while he still hasn't configured 2FA
+    private let twoFAConfigurationAlertRelay = PublishRelay<AlertViewPresenter.Content>()
+    
     private let isTextFieldHiddenRelay = BehaviorRelay<Bool>(value: false)
     private let isCoverTextHiddenRelay = BehaviorRelay<Bool>(value: true)
     private let isPitButtonVisibleRelay = BehaviorRelay<Bool>(value: false)
@@ -146,10 +154,31 @@ final class SendDestinationAccountCellPresenter {
             asset.symbol
         )
         
-        // Toggle PIT selection state upon each tap
-        pitButtonTapRelay.withLatestFrom(selectionStateRelay)
+        // The selection state after the pit button tap
+        let selectionStateAfterPitButtonTap = pitButtonTapRelay
+            .withLatestFrom(selectionStateRelay)
             .map { $0.isPit }
-            .map { $0 ? .empty : .pit }
+            .map { $0 ? SelectionState.empty : SelectionState.pit }
+        
+        let twoFAConditionalSelectionState = Observable
+            .combineLatest(interactor.isTwoFAConfigurationRequired, selectionStateAfterPitButtonTap)
+        
+        // Signal to show alert asking for 2FA configuration in case PIT button is tapped and 2FA is not configured
+        twoFAConditionalSelectionState
+            .filter { $0.0 }
+            .map { _ in
+                return AlertViewPresenter.Content(
+                    title: LocalizationConstants.Errors.error,
+                    message: LocalizationConstants.PIT.twoFactorNotEnabled
+                )
+            }
+            .bind(to: twoFAConfigurationAlertRelay)
+            .disposed(by: disposeBag)
+        
+        // Toggle PIT selection state upon each tap only if 2FA is not required to do so
+        twoFAConditionalSelectionState
+            .filter { !$0.0 }
+            .map { $0.1 }
             .bind(to: selectionStateRelay)
             .disposed(by: disposeBag)
         

@@ -19,6 +19,7 @@ enum SendMoniesPresentationUpdate: Hashable {
     case updateNavigationItems
     case textFieldEditingEnabled(Bool)
     case showAlertSheetForError(SendMoniesInternalError)
+    case showAlertForEnabling2FA
     case showAlertSheetForSuccess
     case hideConfirmationModal
     case loadingIndicatorVisibility(Visibility)

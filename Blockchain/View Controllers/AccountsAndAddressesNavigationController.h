@@ -11,8 +11,8 @@
 
 @interface AccountsAndAddressesNavigationController : UINavigationController
 @property (nonatomic) UIBarButtonItem *warningButton;
-@property (nonatomic, readonly) AssetSelectorView *assetSelectorView;
 
+- (AssetSelectorView *)assetSelectorView;
 - (void)didGenerateNewAddress;
 - (void)reload;
 - (void)alertUserToTransferAllFunds:(BOOL)automaticallyShown;

@@ -18,7 +18,6 @@
 #define CELL_HEIGHT_DEFAULT 44.0f
 
 @interface AccountsAndAddressesViewController () <AssetSelectorViewDelegate, UITableViewDelegate, UITableViewDataSource, LegacyPrivateKeyDelegate>
-@property (nonatomic, strong) AssetSelectorView *assetSelectorView;
 @property (nonatomic) BOOL isOpeningSelector;
 @property (nonatomic) NSString *clickedAddress;
 @property (nonatomic) int clickedAccount;

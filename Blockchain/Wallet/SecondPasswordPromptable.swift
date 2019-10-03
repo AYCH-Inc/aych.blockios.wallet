@@ -60,6 +60,7 @@ extension SecondPasswordPromptable {
             )
             return Disposables.create()
         })
+        .subscribeOn(MainScheduler.instance)
     }
     
     @available(*, deprecated, message: "The implementation of second password prompting will be deprecated soon")

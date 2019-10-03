@@ -273,7 +273,7 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
                 strongSelf.accountsAndAddressesNavigationController.viewControllers.count == 1 &&
                 wallet.didUpgradeToHd() &&
                 wallet.getTotalBalanceForSpendableActiveLegacyAddresses() >= wallet.dust() &&
-                strongSelf.accountsAndAddressesNavigationController.assetSelectorView.selectedAsset == .bitcoin else {
+                strongSelf.accountsAndAddressesNavigationController.assetSelectorView().selectedAsset == .bitcoin else {
                     return
             }
 

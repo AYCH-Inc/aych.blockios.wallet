@@ -939,6 +939,11 @@
     return YES;
 }
 
+// NOTE: Do not delete. Firebase Crash Id: 808047d6a3c27d535f33cb7bc34fd86a.
+// Fatal Exception: NSInvalidArgumentException
+// -[ECSlidingViewController notifyWhenInteractionChangesUsingBlock:]: unrecognized selector sent to instance**
+- (void)notifyWhenInteractionChangesUsingBlock:(void (^)(id<UIViewControllerTransitionCoordinatorContext> context))handler {}
+
 - (void)notifyWhenInteractionEndsUsingBlock:(void(^)(id<UIViewControllerTransitionCoordinatorContext>context))handler {
     self.coordinatorInteractionEnded = handler;
 }

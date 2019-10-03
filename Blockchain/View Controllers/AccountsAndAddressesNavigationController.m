@@ -110,4 +110,12 @@
     [self popToRootViewControllerAnimated:YES];
 }
 
+- (AssetSelectorView *)assetSelectorView {
+    if ([self.visibleViewController isMemberOfClass:[AccountsAndAddressesViewController class]]) {
+        AccountsAndAddressesViewController *vc = (AccountsAndAddressesViewController *)self.visibleViewController;
+        return vc.assetSelectorView;
+    }
+    return nil;
+}
+
 @end

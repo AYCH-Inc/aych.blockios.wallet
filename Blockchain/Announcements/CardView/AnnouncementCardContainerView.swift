@@ -68,10 +68,8 @@ final class AnnouncementCardContainerView: UIView {
         switch action {
         case .show(let viewModel):
             show(using: viewModel)
-        case .hide:
+        case .hide, .none:
             hide()
-        case .none:
-            break
         }
     }
     

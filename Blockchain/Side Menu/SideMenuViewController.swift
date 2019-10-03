@@ -71,7 +71,7 @@ class SideMenuViewController: UIViewController {
         
         presenter.itemSelection.drive(onNext: { [weak self] item in
             guard let self = self else { return }
-            self.analyticsRecorder.record(event: AnalyticsEvents.SideMenu.ItemTapped(item: item))
+            self.analyticsRecorder.record(event: item.analyticsEvent)
             self.delegate?.sideMenuViewController(self, didTapOn: item)
         })
         .disposed(by: disposeBag)

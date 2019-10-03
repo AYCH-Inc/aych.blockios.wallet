@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 import PlatformUIKit
 
 final class SwapWalletIntroductionEvent: CompletableWalletIntroductionEvent {
@@ -65,8 +66,8 @@ final class SwapDescriptionIntroductionEvent: WalletIntroductionEvent, WalletInt
     
     let selection: WalletIntroductionAction
     
-    var eventType: WalletIntroductionAnalyticsEventType {
-        return .swapViewed
+    var eventType: AnalyticsEvents.WalletIntro {
+        return .walletIntroSwapViewed
     }
     
     var shouldShow: Bool {

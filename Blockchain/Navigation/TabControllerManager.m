@@ -772,11 +772,13 @@
 
 - (void)receiveCoinClicked:(UITabBarItem *)sender
 {
+    [self recordRequestTabItemClick];
     [self showReceiveAnimated:YES];
 }
 
 - (void)swapTapped:(nullable UITabBarItem *)sender
 {
+    [self recordSwapTabItemClick];
     [self.tabViewController setActiveViewController:self.exchangeContainerViewController animated:true index:[ConstantsObjcBridge tabSwap]];
 }
 
@@ -832,6 +834,7 @@
 
 - (void)transactionsClicked:(UITabBarItem *)sender
 {
+    [self recordActivityTabItemClick];
     [self showTransactionsAnimated:YES];
 
     if (sender &&
@@ -867,6 +870,7 @@
 
 - (void)sendCoinsClicked:(UITabBarItem *)sender
 {
+    [self recordSendTabItemClick];
     [self showSendCoinsAnimated:YES];
 }
 

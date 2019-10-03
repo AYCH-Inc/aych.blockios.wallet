@@ -38,11 +38,20 @@ final class SendSpendableBalanceViewPresenter {
     // MARK: - Injected
     
     private let interactor: SendSpendableBalanceInteracting
+    private let analyticsRecorder: AnalyticsEventRelayRecording
     
     // MARK: - Setup
     
-    init(interactor: SendSpendableBalanceInteracting) {
+    init(asset: AssetType,
+         interactor: SendSpendableBalanceInteracting,
+         analyticsRecorder: AnalyticsEventRelayRecording = AnalyticsEventRecorder.shared) {
         self.interactor = interactor
+        self.analyticsRecorder = analyticsRecorder
+        
+        tapRelay
+            .map { AnalyticsEvents.Send.sendFormUseBalanceClick(asset: asset) }
+            .bind(to: analyticsRecorder.recordRelay)
+            .disposed(by: disposeBag)
         
         spendableBalanceTap = tapRelay.withLatestFrom(interactor.balance)
         

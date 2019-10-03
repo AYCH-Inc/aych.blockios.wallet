@@ -55,6 +55,8 @@ class ExchangeCreateInteractor {
     fileprivate let conversions: ExchangeConversionAPI
     fileprivate let tradeExecution: TradeExecutionAPI
     fileprivate let tradeLimitService: TradeLimitsAPI
+    private let analyticsRecorder: AnalyticsEventRecording
+
     private(set) var model: MarketsModel? {
         didSet {
             didSetModel(oldModel: oldValue)
@@ -72,6 +74,7 @@ class ExchangeCreateInteractor {
         self.conversions = dependencies.conversions
         self.tradeExecution = dependencies.tradeExecution
         self.tradeLimitService = dependencies.tradeLimits
+        self.analyticsRecorder = dependencies.analyticsRecorder
         self.model = model
         self.status = .unknown
     }
@@ -367,22 +370,27 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             from: model.marketPair.fromAccount,
             to: model.marketPair.toAccount,
             success: { [weak self] orderTransaction, conversion in
-                guard let this = self else { return }
-                this.output?.loadingVisibility(.hidden)
-                this.output?.showSummary(orderTransaction: orderTransaction, conversion: conversion)
-            }, error: { [weak self] errorMessage in
-                guard let this = self else { return }
+                guard let self = self else { return }
+                self.analyticsRecorder.record(event: AnalyticsEvents.Swap.swapFormConfirmSuccess)
+                self.output?.loadingVisibility(.hidden)
+                self.output?.showSummary(orderTransaction: orderTransaction, conversion: conversion)
+            }, error: { [weak self] message in
+                guard let self = self else { return }
+                self.analyticsRecorder.record(
+                    event: AnalyticsEvents.Swap.swapFormConfirmError(message: message)
+                )
+
                 /// BTC transactions that have insufficient funds will return
                 /// a very long error message that contains the below string. We want to
                 /// report the true error that we're receiving from JS but we don't want to show
                 /// it to the user. We show a more user friendly error message instead. 
-                if errorMessage.contains("NO_UNSPENT_OUTPUTS") {
-                    this.status = .error(.insufficientFundsForFees(.bitcoin))
+                if message.contains("NO_UNSPENT_OUTPUTS") {
+                    self.status = .error(.insufficientFundsForFees(.bitcoin))
                 } else {
-                    this.status = .error(.default(errorMessage))
+                    self.status = .error(.default(message))
                 }
                 
-                this.output?.loadingVisibility(.hidden)
+                self.output?.loadingVisibility(.hidden)
             }
         )
     }

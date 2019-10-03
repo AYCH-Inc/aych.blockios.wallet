@@ -35,6 +35,8 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
     @IBOutlet fileprivate var postalCodeTextField: ValidationTextField!
     @IBOutlet fileprivate var primaryButtonContainer: PrimaryButtonContainer!
 
+    private let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
+
     // MARK: - Public IBOutlets
 
     @IBOutlet var scrollView: UIScrollView!
@@ -257,6 +259,8 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
     fileprivate func primaryButtonTapped() {
         guard checkFieldsValidity() else { return }
 
+        analyticsRecorder.record(event: AnalyticsEvents.KYC.kycAddressDetailSet)
+        
         validationFields.forEach({$0.resignFocus()})
 
         let address = UserAddress(

@@ -76,6 +76,7 @@ class SendPaxViewController: UIViewController {
     private let alertViewPresenter: AlertViewPresenter = AlertViewPresenter.shared
     private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
     private var qrScannerViewModel: QRCodeScannerViewModel<AddressQRCodeParser>?
+    private let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     
     private var maxAvailableTrigger: ActionableTrigger? {
         didSet {
@@ -486,6 +487,7 @@ extension SendPaxViewController: ActionableLabelDelegate {
 
     func actionRequestingExecution(label: ActionableLabel) {
         guard let trigger = maxAvailableTrigger else { return }
+        analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormUseBalanceClick(asset: .pax))
         trigger.execute()
     }
 }

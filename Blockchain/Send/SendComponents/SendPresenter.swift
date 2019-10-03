@@ -43,6 +43,16 @@ final class SendPresenter {
                     return .activityIndicator
                 }
             }
+            
+            /// Returns `true` if `self` represents an error
+            var isError: Bool {
+                switch self {
+                case .error:
+                    return true
+                default:
+                    return false
+                }
+            }
         }
         
         let color: UIColor
@@ -122,6 +132,7 @@ final class SendPresenter {
     private unowned let router: SendRouter
     private let loader: LoadingViewPresenting
     private let interactor: SendInteracting
+    private let analyticsRecorder: AnalyticsEventRecording & AnalyticsEventRelayRecording
     
     // MARK: - Accessors
     
@@ -134,10 +145,12 @@ final class SendPresenter {
     
     init(router: SendRouter,
          loader: LoadingViewPresenting = LoadingViewPresenter.shared,
-         interactor: SendInteracting) {
+         interactor: SendInteracting,
+         analyticsRecorder: AnalyticsEventRecording & AnalyticsEventRelayRecording = AnalyticsEventRecorder.shared) {
         self.router = router
         self.loader = loader
         self.interactor = interactor
+        self.analyticsRecorder = analyticsRecorder
         sourcePresenter = SendSourceAccountCellPresenter(
             interactor: interactor.sourceInteractor
         )
@@ -145,6 +158,7 @@ final class SendPresenter {
             interactor: interactor.destinationInteractor
         )
         let spendableBalancePresenter = SendSpendableBalanceViewPresenter(
+            asset: interactor.asset,
             interactor: interactor.spendableBalanceInteractor
         )
         amountPresenter = SendAmountCellPresenter(
@@ -161,6 +175,12 @@ final class SendPresenter {
         
         destinationPresenter.twoFAConfigurationAlertSignal
             .emit(to: alertRelay)
+            .disposed(by: disposeBag)
+        
+        navigationRightButton
+            .filter { $0.indicator.isError }
+            .map { _ in AnalyticsEvents.Send.sendFormErrorAppear(asset: interactor.asset) }
+            .bind(to: analyticsRecorder.recordRelay)
             .disposed(by: disposeBag)
     }
     
@@ -205,6 +225,7 @@ final class SendPresenter {
     }
     
     /// Prepares the view and interaction layer for sending the transaction.
+    /// Getting called when `Continue` button is tapped
     /// **MUST** be called before sending a transaction.
     func prepareForSending() -> Single<BCConfirmPaymentViewModel> {
         let confirmationData = Observable
@@ -219,6 +240,11 @@ final class SendPresenter {
             .asSingle()
         
         return interactor.prepareForSending()
+            .recordOnResult(
+                successEvent: AnalyticsEvents.Send.sendFormConfirmSuccess(asset: asset),
+                errorEvent: AnalyticsEvents.Send.sendFormConfirmFailure(asset: asset),
+                using: analyticsRecorder
+            )
             .flatMap { confirmationData }
             .map { (source, destination, totalCrypto, totalFiat, fee) -> BCConfirmPaymentViewModel in
                 return BCConfirmPaymentViewModel(
@@ -250,8 +276,10 @@ extension SendPresenter {
     func navigationRightButtonTapped() {
         switch navigationRightButtonRelay.value.indicator {
         case .error(let error):
+            recordErrorClick()
             errorRelay.accept(error)
         case .qrCode:
+            recordQrButtonClick()
             scanQRCode()
         default:
             break
@@ -266,6 +294,12 @@ extension SendPresenter {
     /// CTA for the send button. Once invoked, the transaction will be initiated
     func sendButtonTapped() -> Single<Void> {
         return interactor.send()
+            .record(
+                subscribeEvent: AnalyticsEvents.Send.sendSummaryConfirmClick(asset: asset),
+                successEvent: AnalyticsEvents.Send.sendSummaryConfirmSuccess(asset: asset),
+                errorEvent: AnalyticsEvents.Send.sendSummaryConfirmFailure(asset: asset),
+                using: analyticsRecorder
+            )
             .handleLoaderForLifecycle(loader: loader, text: LocalizationConstants.loading)
             .observeOn(MainScheduler.instance)
     }
@@ -283,3 +317,31 @@ extension SendPresenter: Hashable {
     }
 }
 
+// MARK: - Analytics
+
+extension SendPresenter {
+    
+    func recordShowErrorAlert() {
+        analyticsRecorder.record(
+            event: AnalyticsEvents.Send.sendFormShowErrorAlert(asset: asset)
+        )
+    }
+    
+    func recordContinueClick() {
+        analyticsRecorder.record(
+            event: AnalyticsEvents.Send.sendFormConfirmClick(asset: asset)
+        )
+    }
+    
+    private func recordQrButtonClick() {
+        analyticsRecorder.record(
+            event: AnalyticsEvents.Send.sendFormQrButtonClick(asset: asset)
+        )
+    }
+    
+    private func recordErrorClick() {
+        analyticsRecorder.record(
+            event: AnalyticsEvents.Send.sendFormErrorClick(asset: asset)
+        )
+    }
+}

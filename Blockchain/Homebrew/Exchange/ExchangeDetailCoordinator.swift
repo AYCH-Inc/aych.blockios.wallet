@@ -34,6 +34,8 @@ class ExchangeDetailCoordinator: NSObject {
     
     fileprivate let tradeExecution: TradeExecutionAPI
     fileprivate let tradeLimitsService: TradeLimitsAPI
+    private let analyticsRecorder: AnalyticsEventRecording
+    
     fileprivate var accountRepository: AssetAccountRepository {
         get {
             return AssetAccountRepository.shared
@@ -59,6 +61,7 @@ class ExchangeDetailCoordinator: NSObject {
         self.interface = interface
         self.tradeLimitsService = dependencies.tradeLimits
         self.tradeExecution = dependencies.tradeExecution
+        self.analyticsRecorder = dependencies.analyticsRecorder
         super.init()
     }
 
@@ -298,8 +301,10 @@ class ExchangeDetailCoordinator: NSObject {
                     descriptionAccessibilityId: AccessibilityIdentifier.orderIdDescriptionLabel,
                     valueAccessibilityId: AccessibilityIdentifier.orderIdValueLabel
                 )
-                orderId.descriptionActionBlock = {
+                orderId.descriptionActionBlock = { [weak self] in
+                    guard let self = self else { return }
                     guard let text = $0.text else { return }
+                    self.analyticsRecorder.record(event: AnalyticsEvents.Swap.swapHistoryOrderIdCopied)
                     UIPasteboard.general.string = text
                     $0.animate(
                         fromText: trade.identifier,
@@ -340,8 +345,6 @@ class ExchangeDetailCoordinator: NSObject {
                 }
             }
         case .confirmExchange(let transaction):
-            AnalyticsService.shared.trackEvent(title: "swap_confirmed")
-            
             guard let lastConversion = interface?.mostRecentConversion else {
                 Logger.shared.error("No conversion to use")
                 return
@@ -354,32 +357,36 @@ class ExchangeDetailCoordinator: NSObject {
                 from: transaction.from,
                 to: transaction.destination,
                 success: { [weak self] orderTransaction in
-                    guard let this = self else { return }
-
+                    guard let self = self else { return }
+                    self.analyticsRecorder.record(
+                        event: AnalyticsEvents.Swap.swapSummaryConfirmSuccess
+                    )
+                    
                     NotificationCenter.default.post(
                         Notification(name: Constants.NotificationKeys.exchangeSubmitted)
                     )
                     
-                    this.bus.publish(
+                    self.bus.publish(
                         action: .sendCrypto,
                         extras: [WalletAction.ExtraKeys.assetType: transaction.from.address.assetType]
                     )
-                    this.interface?.loadingVisibility(.hidden)
+                    self.interface?.loadingVisibility(.hidden)
                     ExchangeCoordinator.shared.handle(
                         event: .sentTransaction(
                             orderTransaction: orderTransaction,
                             conversion: lastConversion
                         )
                     )
-                    this.delegate?.coordinator(this, completedTransaction: transaction)
+                    self.delegate?.coordinator(self, completedTransaction: transaction)
             }) { [weak self] errorDescription, transactionID, nabuError in
-                guard let this = self else { return }
+                guard let self = self else { return }
+                self.analyticsRecorder.record(event: AnalyticsEvents.Swap.swapSummaryConfirmFailure)
                 let complete: () -> Void = { [weak self] in
-                    guard let this = self else { return }
+                    guard let self = self else { return }
                     if let networkError = nabuError {
-                        this.showAlertFrom(networkError)
+                        self.showAlertFrom(networkError)
                     } else {
-                        this.interface?.loadingVisibility(.hidden)
+                        self.interface?.loadingVisibility(.hidden)
                         var description = errorDescription
                         if transaction.from.address.assetType == .stellar {
                             description = LocalizationConstants.Stellar.cannotSendXLMAtThisTime
@@ -389,8 +396,8 @@ class ExchangeDetailCoordinator: NSObject {
                 }
                 
                 if let identifier = transactionID {
-                    this.logTransactionFailure(transaction, errorMessage: errorDescription)
-                    this.tradeExecution.trackTransactionFailure(errorDescription, transactionID: identifier, completion: { error in
+                    self.logTransactionFailure(transaction, errorMessage: errorDescription)
+                    self.tradeExecution.trackTransactionFailure(errorDescription, transactionID: identifier, completion: { error in
                         if let value = error {
                             Logger.shared.error(value.localizedDescription)
                         }

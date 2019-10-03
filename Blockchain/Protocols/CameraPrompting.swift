@@ -7,6 +7,7 @@
 //
 
 import PlatformUIKit
+import PlatformKit
 
 // TODO: move this to PlatformUIKit with Localizations
 
@@ -49,11 +50,13 @@ extension CameraPrompting where Self: MicrophonePrompting {
 }
 
 protocol CameraPromptingDelegate: class {
+    var analyticsRecorder: AnalyticsEventRecording { get }
     func showCameraPermissionsDenied()
     func promptToAcceptCameraPermissions(confirmHandler: @escaping (() -> Void))
 }
 
 protocol MicrophonePromptingDelegate: class {
+    var analyticsRecorder: AnalyticsEventRecording { get }
     func onMicrophonePromptingComplete()
     func promptToAcceptMicrophonePermissions(confirmHandler: @escaping (() -> Void))
 }
@@ -72,9 +75,10 @@ extension MicrophonePromptingDelegate {
             switch output.style {
             case .confirm,
                  .default:
+                self.analyticsRecorder.record(event: AnalyticsEvents.Permission.permissionPreMicApprove)
                 confirmHandler()
             case .dismiss:
-                break
+                self.analyticsRecorder.record(event: AnalyticsEvents.Permission.permissionPreMicDecline)
             }
         }
         alert.show()
@@ -111,13 +115,14 @@ extension CameraPromptingDelegate {
             body: LocalizationConstants.KYC.enableCameraDescription,
             actions: [okay, notNow]
         )
-        let alert = AlertView.make(with: model) { output in
+        let alert = AlertView.make(with: model) { [weak self] output in
             switch output.style {
             case .confirm:
+                self?.analyticsRecorder.record(event: AnalyticsEvents.Permission.permissionPreCameraApprove)
                 confirmHandler()
             case .default,
                  .dismiss:
-                break
+                self?.analyticsRecorder.record(event: AnalyticsEvents.Permission.permissionPreCameraDecline)
             }
         }
         alert.show()

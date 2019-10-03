@@ -89,6 +89,7 @@
     NSString *currencyCode = [[self.itemsDictionary allKeysForObject:self.namesArray[indexPath.row]] firstObject];
     
     self.selectedCurrencyCode = currencyCode;
+    [self reportSelectedCurrencyWithCurrency:currencyCode];
     
     [self.tableView reloadData];
 }

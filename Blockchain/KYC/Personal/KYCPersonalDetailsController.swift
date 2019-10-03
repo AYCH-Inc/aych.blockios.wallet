@@ -51,6 +51,7 @@ final class KYCPersonalDetailsController: KYCBaseViewController,
     // MARK: Private Properties
 
     fileprivate var detailsCoordinator: PersonalDetailsCoordinator!
+    private let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
 
     private var user: NabuUser?
 
@@ -168,6 +169,10 @@ final class KYCPersonalDetailsController: KYCBaseViewController,
             birthday: birthdayField.selectedDate
         )
 
+        analyticsRecorder.record(
+            event: AnalyticsEvents.KYC.kycPersonalDetailSet(fieldName: "")
+        )
+        
         delegate?.onSubmission(details, completion: { [weak self] in
             guard let this = self else { return }
             this.coordinator.handle(event: .nextPageFromPageType(this.pageType, nil))

@@ -35,10 +35,12 @@ class KYCEnterEmailController: KYCBaseViewController, BottomButtonContainerView,
     private lazy var presenter: VerifyEmailPresenter = {
         return VerifyEmailPresenter(view: self)
     }()
+    
+    private let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
 
     // MARK: KYCBaseViewController
 
-    override class func make(with coordinator: KYCCoordinator) -> KYCEnterEmailController {
+    override class func make(with coordinator: KYCCoordinator) -> KYCBaseViewController {
         let controller = makeFromStoryboard()
         controller.coordinator = coordinator
         controller.pageType = .enterEmail
@@ -99,6 +101,7 @@ class KYCEnterEmailController: KYCBaseViewController, BottomButtonContainerView,
             Logger.shared.warning("number is nil.")
             return
         }
+        analyticsRecorder.record(event: AnalyticsEvents.KYC.kycVerifyEmailButtonClick)
         presenter.sendVerificationEmail(to: email)
     }
 }

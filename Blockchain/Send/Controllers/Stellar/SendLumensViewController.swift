@@ -91,6 +91,7 @@ protocol SendXLMViewControllerDelegate: class {
     
     weak var delegate: SendXLMViewControllerDelegate?
     fileprivate var coordinator: SendXLMCoordinator!
+    private let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     private let alertViewPresenter: AlertViewPresenter = .shared
     fileprivate var trigger: ActionableTrigger?
     fileprivate var memo: StellarMemoType?
@@ -154,6 +155,7 @@ protocol SendXLMViewControllerDelegate: class {
     // MARK: Public Methods
 
     @objc func scanQrCodeForDestinationAddress() {
+        analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormQrButtonClick(asset: .stellar))
         guard let scanner = QRCodeScanner() else { return }
         
         let parser = AddressQRCodeParser(assetType: .stellar)
@@ -518,6 +520,7 @@ extension SendLumensViewController: ActionableLabelDelegate {
 
     func actionRequestingExecution(label: ActionableLabel) {
         guard let trigger = trigger else { return }
+        analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormUseBalanceClick(asset: .stellar))
         trigger.execute()
     }
 }

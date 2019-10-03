@@ -90,6 +90,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     @IBOutlet var swipeToReceive: SettingsToggleTableViewCell!
     
     private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
+    let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -116,6 +117,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     }
 
     func mobileNumberClicked() {
+        analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsPhoneClicked)
         if walletManager.wallet.getTwoStepType() == AuthenticationTwoFactorType.sms.rawValue {
             let alertToDisableTwoFactorSMS = UIAlertController(title:
                 String(format: "2-step Verification is currently enabled for %@.", "SMS"), message:
@@ -159,6 +161,9 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     }
     
     func swapTapped() {
+        analyticsRecorder.record(
+            event: AnalyticsEvents.Settings.settingsSwapLimitClicked
+        )
         KYCTiersViewController.routeToTiers(
             fromViewController: self
         ).disposed(by: bag)
@@ -193,6 +198,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     }
     // MARK: - Web login
     func webLoginClicked() {
+        analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsWebWalletLoginClick)
         let webLoginViewController = WebLoginViewController()
         navigationController?.pushViewController(webLoginViewController, animated: true)
     }
@@ -220,6 +226,11 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
                 AssetAddressRepository.sharedInstance().removeAllSwipeAddresses()
             }
         }
+        analyticsRecorder.record(
+            event: AnalyticsEvents.Settings.settingsSwipeToReceiveSwitch(
+                value: BlockchainSettings.sharedAppInstance().swipeToReceiveEnabled
+            )
+        )
     }
     // MARK: - Biometrics
     /**
@@ -243,6 +254,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
         return nil
     }
     @objc func biometrySwitchTapped(_ sender: UISwitch) {
+        analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsBiometryAuthSwitch(value: sender.isOn))
         AuthenticationManager.sharedInstance().canAuthenticateUsingBiometry(andReply: { success, errorMessage in
             if success {
                 self.toggleBiometry(sender)
@@ -296,6 +308,9 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
             let changeEmailNotificationsCell: UITableViewCell? = tableView.cellForRow(at: indexPath)
             changeEmailNotificationsCell?.isUserInteractionEnabled = false
             addObserversForChangingNotifications()
+            analyticsRecorder.record(
+                event: AnalyticsEvents.Settings.settingsEmailNotifSwitch(value: emailNotificationsEnabled())
+            )
         } else {
             AlertViewPresenter.sharedInstance().showNoInternetConnectionAlert()
         }
@@ -334,6 +349,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     }
     // MARK: - Change Two Step
     @objc func showTwoStep() {
+        analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsTwoFaClick)
         performSingleSegue(withIdentifier: "twoStep", sender: nil)
     }
     func alertUserToChangeTwoStepVerification() {
@@ -523,6 +539,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     }
     // MARK: - Wallet Recovery Phrase
     @objc func showBackup() {
+        analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsRecoveryPhraseClick)
         if !(backupController != nil) {
             let storyboard = UIStoryboard(name: "Backup", bundle: nil)
             backupController = (storyboard.instantiateViewController(withIdentifier: "BackupNavigation") as! BackupNavigationViewController)
@@ -532,6 +549,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
         present(backupController!, animated: true)
     }
     func changePassword() {
+        analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsPasswordClick)
         performSingleSegue(withIdentifier: "changePassword", sender: nil)
     }
     // MARK: - TextField Delegate

@@ -142,6 +142,7 @@ final class SendViewController: UIViewController {
     }
     
     fileprivate func handle(error: SendInputState.StateError) {
+        presenter.recordShowErrorAlert()
         dismissKeyboard()
         let alert = AlertModel(
             headline: error.title(for: presenter.asset),
@@ -156,6 +157,7 @@ final class SendViewController: UIViewController {
     // TODO: Refactor this once `BCConfirmPaymentView` is written in `Swift`
     // The confirmation screen should be enqeued normally into a navigation controller.
     private func continueButtonTapped() {
+        presenter.recordContinueClick()
         presenter.prepareForSending()
             .subscribe(onSuccess: { [weak self] viewModel in
                 guard let self = self else { return }

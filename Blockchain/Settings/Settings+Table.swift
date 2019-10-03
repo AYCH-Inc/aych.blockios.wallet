@@ -341,6 +341,7 @@ extension SettingsTableViewController {
             } else if indexPath.row == securityWalletRecoveryPhrase {
                 showBackup()
             } else if indexPath.row == PINChangePIN {
+                analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsChangePinClick)
                 AuthenticationCoordinator.shared.changePin()
             }
         case sections.about:

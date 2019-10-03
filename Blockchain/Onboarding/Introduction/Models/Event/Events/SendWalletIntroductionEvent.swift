@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PlatformKit
 import PlatformUIKit
 
 final class SendWalletIntroductionEvent: CompletableWalletIntroductionEvent {
@@ -62,8 +63,8 @@ final class SendDescriptionIntroductionEvent: WalletIntroductionEvent, WalletInt
         return .sheet(viewModel)
     }
     
-    var eventType: WalletIntroductionAnalyticsEventType {
-        return .sendViewed
+    var eventType: AnalyticsEvents.WalletIntro {
+        return .walletIntroSendViewed
     }
     
     let selection: WalletIntroductionAction

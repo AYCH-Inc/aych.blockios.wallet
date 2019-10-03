@@ -10,23 +10,27 @@ import Foundation
 import RxSwift
 import stellarsdk
 import StellarKit
+import PlatformKit
 
 class StellarTransactionServiceAPI: SimpleListServiceAPI {
     
-    fileprivate var blockOperation: AsyncBlockOperation?
+    private var blockOperation: AsyncBlockOperation?
     
-    fileprivate let cache: StellarTransactionCache
-    fileprivate let provider: StellarServiceProvider
-    fileprivate let operationService: StellarOperationsAPI
-    fileprivate let transactionService: StellarTransactionAPI
-    fileprivate let disposables = CompositeDisposable()
-    fileprivate var operations: [StellarOperation]?
+    private let cache: StellarTransactionCache
+    private let provider: StellarServiceProvider
+    private let operationService: StellarOperationsAPI
+    private let transactionService: StellarTransactionAPI
+    private let analyticsRecorder: AnalyticsEventRecording
+    private let disposables = CompositeDisposable()
+    private var operations: [StellarOperation]?
     
-    init(provider: StellarServiceProvider = StellarServiceProvider.shared) {
+    init(provider: StellarServiceProvider = StellarServiceProvider.shared,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared) {
         self.provider = provider
         self.operationService = provider.services.operation
         self.transactionService = provider.services.transaction
         self.cache = StellarTransactionCache()
+        self.analyticsRecorder = analyticsRecorder
     }
     
     fileprivate func fetch(with output: SimpleListOutput?) {
@@ -101,7 +105,8 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
         output?.willApplyUpdate()
         blockOperation = AsyncBlockOperation(executionBlock: { [weak self] finished in
             guard let this = self else { return }
-            this.transactionService.get(transaction: model.transactionHash) { result in
+            this.transactionService.get(transaction: model.transactionHash) { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let payload):
                     var updated: StellarOperation?
@@ -119,6 +124,9 @@ class StellarTransactionServiceAPI: SimpleListServiceAPI {
                     guard let value = updated else { return }
                     this.cache.save(value, key: value.transactionHash)
                     DispatchQueue.main.async {
+                        self.analyticsRecorder.record(
+                            event: AnalyticsEvents.Transactions.transactionsListItemClick(asset: .stellar)
+                        )
                         output?.didApplyUpdate()
                         output?.showItemDetails(value)
                     }

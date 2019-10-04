@@ -71,7 +71,10 @@ final class AnnouncementCardContainerView: UIView {
         case .hide:
             hide()
         case .none:
-            break
+            // TODO: Model this nicely when dashbaord is refactored
+            if cardView == nil {
+                delegate.didUpdateAnnouncementCardHeight(0)
+            }
         }
     }
     

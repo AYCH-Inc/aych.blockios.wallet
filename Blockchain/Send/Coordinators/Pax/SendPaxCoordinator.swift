@@ -364,10 +364,9 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
     }
     
     func onErrorBarButtonItemTapped() {
-        analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormErrorClick(asset: .stellar))
+        analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormErrorClick(asset: .pax))
         guard let output = output else { return }
         guard let error = output.model.internalError else { return }
-        analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormErrorClick(asset: .pax))
         interface.apply(updates: [.showAlertSheetForError(error)])
     }
     

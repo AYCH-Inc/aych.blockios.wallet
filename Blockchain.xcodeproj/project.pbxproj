@@ -363,6 +363,7 @@
 		3A1D3C48223C36C5006F0D22 /* ExchangeInputTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1D3C47223C36C5006F0D22 /* ExchangeInputTests.swift */; };
 		3A1FD14C224049CE00E613E8 /* NotificationCenter+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1FD14B224049CE00E613E8 /* NotificationCenter+Conveniences.swift */; };
 		3A204AF122DCF8EA008FCD0B /* PitAccountAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A204AF022DCF8EA008FCD0B /* PitAccountAuthenticator.swift */; };
+		3A22A57823453FF60018DD53 /* SparklineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22A57723453FF60018DD53 /* SparklineViewModel.swift */; };
 		3A25517821E68CF6005D4E66 /* VeriffService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25517721E68CF6005D4E66 /* VeriffService.swift */; };
 		3A25517921E68CF6005D4E66 /* VeriffService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25517721E68CF6005D4E66 /* VeriffService.swift */; };
 		3A25519521E6E286005D4E66 /* VeriffCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25519421E6E286005D4E66 /* VeriffCredentials.swift */; };
@@ -538,6 +539,7 @@
 		3A5C3C64225D4916003C99C9 /* KYCCoinifySignedToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C3C62225D4916003C99C9 /* KYCCoinifySignedToken.swift */; };
 		3A5CEE262315805A000E212A /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5CEE252315805A000E212A /* PassthroughView.swift */; };
 		3A64A51E21B9C150002D6851 /* PlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A68655D219A0BBA0009FF29 /* PlatformKit.framework */; };
+		3A655F2B23301283005C8C35 /* Sparkline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A655F2A23301283005C8C35 /* Sparkline.swift */; };
 		3A686566219A0BBB0009FF29 /* PlatformKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A68655D219A0BBA0009FF29 /* PlatformKit.framework */; };
 		3A68656D219A0BBB0009FF29 /* PlatformKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A68656C219A0BBB0009FF29 /* PlatformKitTests.swift */; };
 		3A68656F219A0BBB0009FF29 /* PlatformKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A68655F219A0BBB0009FF29 /* PlatformKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2825,6 +2827,7 @@
 		3A1D3C47223C36C5006F0D22 /* ExchangeInputTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeInputTests.swift; sourceTree = "<group>"; };
 		3A1FD14B224049CE00E613E8 /* NotificationCenter+Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Conveniences.swift"; sourceTree = "<group>"; };
 		3A204AF022DCF8EA008FCD0B /* PitAccountAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitAccountAuthenticator.swift; sourceTree = "<group>"; };
+		3A22A57723453FF60018DD53 /* SparklineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparklineViewModel.swift; sourceTree = "<group>"; };
 		3A25517721E68CF6005D4E66 /* VeriffService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VeriffService.swift; sourceTree = "<group>"; };
 		3A25519421E6E286005D4E66 /* VeriffCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VeriffCredentials.swift; sourceTree = "<group>"; };
 		3A258C0C210A486F00C023F5 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
@@ -2941,6 +2944,7 @@
 		3A5AF01322D5354E007C5717 /* PitCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitCoordinator.swift; sourceTree = "<group>"; };
 		3A5C3C62225D4916003C99C9 /* KYCCoinifySignedToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KYCCoinifySignedToken.swift; sourceTree = "<group>"; };
 		3A5CEE252315805A000E212A /* PassthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
+		3A655F2A23301283005C8C35 /* Sparkline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sparkline.swift; sourceTree = "<group>"; };
 		3A68655D219A0BBA0009FF29 /* PlatformKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlatformKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A68655F219A0BBB0009FF29 /* PlatformKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlatformKit.h; sourceTree = "<group>"; };
 		3A686560219A0BBB0009FF29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -7399,6 +7403,15 @@
 			path = PassthroughView;
 			sourceTree = "<group>";
 		};
+		3A655F2023301253005C8C35 /* Sparkline */ = {
+			isa = PBXGroup;
+			children = (
+				3A655F2A23301283005C8C35 /* Sparkline.swift */,
+				3A22A57723453FF60018DD53 /* SparklineViewModel.swift */,
+			);
+			path = Sparkline;
+			sourceTree = "<group>";
+		};
 		3A68655E219A0BBB0009FF29 /* PlatformKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -7542,6 +7555,7 @@
 		3A6865C2219A12530009FF29 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3A655F2023301253005C8C35 /* Sparkline */,
 				3A5CEE2423157FBF000E212A /* PassthroughView */,
 				3A1BB2D92307256800761EF5 /* IntroductionSheetViewController */,
 				3A7E382722E1489800E289C4 /* Gradient */,
@@ -14948,6 +14962,7 @@
 				65E4B54722CF46F900EAC3CD /* Accessibility.swift in Sources */,
 				650CE42322CBDF1300FA282E /* ButtonView.swift in Sources */,
 				3A3428012220B7A3000D8032 /* BottomSheet.swift in Sources */,
+				3A22A57823453FF60018DD53 /* SparklineViewModel.swift in Sources */,
 				3A5CEE262315805A000E212A /* PassthroughView.swift in Sources */,
 				3AB757EA2319B274002A3405 /* IntroductionSheetViewModel.swift in Sources */,
 				3A1BB2DB2307257900761EF5 /* IntroductionSheetViewController.swift in Sources */,
@@ -14961,6 +14976,7 @@
 				654193E622D4A93500B3E6ED /* NavigationTransitionAnimating.swift in Sources */,
 				3A3F3B9421E400DE003BFDFC /* LayoutAttributes.swift in Sources */,
 				3ADD8E4E22DD299A00942ED0 /* BottomAlertSheet.swift in Sources */,
+				3A655F2B23301283005C8C35 /* Sparkline.swift in Sources */,
 				3AB692FF21FB8A840069CB90 /* UIView+Conveniences.swift in Sources */,
 				652937F7231582BD0004D81D /* UIFont+Utils.swift in Sources */,
 				3A342805222465D1000D8032 /* ActionMetadata.swift in Sources */,

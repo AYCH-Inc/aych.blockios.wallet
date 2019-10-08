@@ -173,6 +173,8 @@
 
 - (void)open
 {
+    [self reportOpen];
+    
     self.isOpen = YES;
 
     [self.tableView reloadData];
@@ -186,6 +188,9 @@
 - (void)close
 {
     if (self.isOpen) {
+        
+        [self reportClose];
+    
         self.isOpen = NO;
         
         [self.tableView reloadData];

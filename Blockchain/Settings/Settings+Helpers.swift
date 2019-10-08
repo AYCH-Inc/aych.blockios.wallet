@@ -57,12 +57,18 @@ extension SettingsTableViewController {
     }
 
     func walletIdentifierClicked() {
+        analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsWalletIdCopyClick)
         let alert = UIAlertController(title: LocalizationConstants.AddressAndKeyImport.copyWalletId,
                                       message: LocalizationConstants.AddressAndKeyImport.copyWarning,
                                       preferredStyle: .actionSheet)
-        let copyAction = UIAlertAction(title: LocalizationConstants.AddressAndKeyImport.copyCTA, style: .destructive, handler: { _ in
-            UIPasteboard.general.string = WalletManager.shared.wallet.guid
-        })
+        let copyAction = UIAlertAction(
+            title: LocalizationConstants.AddressAndKeyImport.copyCTA,
+            style: .destructive,
+            handler: { [weak self] _ in
+                self?.analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsWalletIdCopied)
+                UIPasteboard.general.string = WalletManager.shared.wallet.guid
+            }
+        )
         let cancelAction = UIAlertAction(title: LocalizationConstants.cancel, style: .cancel, handler: nil)
         alert.addAction(cancelAction)
         alert.addAction(copyAction)
@@ -70,6 +76,7 @@ extension SettingsTableViewController {
     }
 
     func emailClicked() {
+        analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsEmailClicked)
         let verifyEmailController = BCVerifyEmailViewController(emailDelegate: delegate)
         navigationController?.pushViewController(verifyEmailController!, animated: true)
     }

@@ -56,9 +56,4 @@ enum AnnouncementType: String, Codable {
             return .resubmitDocuments
         }
     }
-    
-    /// Returns the analytics event that corresponds for Self value
-    func event(name: AnalyticsEvents.Announcement.Name) -> AnalyticsEvents.Announcement {
-        return .init(name: name, type: self)
-    }
 }

@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import PlatformKit
 import PlatformUIKit
 
 /// Destination account cell on send screen
@@ -45,7 +46,7 @@ final class SendDestinationAccountTableViewCell: UITableViewCell {
             configurePitButtonIfNeeded()
         }
     }
-    
+        
     // MARK: - Lifecycle
     
     override func awakeFromNib() {

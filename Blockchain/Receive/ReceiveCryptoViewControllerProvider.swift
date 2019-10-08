@@ -107,6 +107,7 @@ extension ReceiveCryptoViewController {
         let receiveViewController = ReceiveCryptoViewController.makeFromStoryboard()
         let crypto = CryptoCurrency(from: legacyAssetType)
         receiveViewController.viewModel = ReceiveCryptoViewModelProvider.shared.provide(for: crypto)
+        receiveViewController.use(eventRecorder: AnalyticsEventRecorder.shared)
         return receiveViewController
     }
 

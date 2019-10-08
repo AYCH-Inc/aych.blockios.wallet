@@ -214,6 +214,7 @@ extension ExchangeDetailViewController: UICollectionViewDelegateFlowLayout {
                 guard let order = mostRecentOrderTransaction else { return footer }
                 footer.actionBlock = { [weak self] in
                     guard let self = self else { return }
+                    self.dependencies.analyticsRecorder.record(event: AnalyticsEvents.Swap.swapSummaryConfirmClick)
                     self.coordinator.handle(event: .confirmExchange(order))
                     self.dismiss(animated: false, completion: nil)
                 }

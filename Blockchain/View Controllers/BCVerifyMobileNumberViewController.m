@@ -130,6 +130,7 @@
 
 - (void)updateButtonClicked
 {
+    [self reportUpdateButtonPressed];
     [self.mobileNumberField resignFirstResponder];
     
     [self performSelector:@selector(changeMobileNumber) withObject:nil afterDelay:DELAY_KEYBOARD_DISMISSAL];

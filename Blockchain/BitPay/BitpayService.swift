@@ -90,9 +90,9 @@ final class BitpayService: BitpayServiceProtocol {
         }
         let request = NetworkRequest(endpoint: url, method: .post, body: try? JSONEncoder().encode(signed), headers: headers)
         return network.perform(request: request).do(onSuccess: { [weak self] _ in
-            self?.recorder.record(event: BitpayAnalyticsEvent.success)
+            self?.recorder.record(event: AnalyticsEvents.Bitpay.bitpayPaymentSuccess)
         }, onError: { [weak self] error in
-            self?.recorder.record(event: BitpayAnalyticsEvent.failure(error))
+            self?.recorder.record(event: AnalyticsEvents.Bitpay.bitpayPaymentFailure(error: error))
         })
     }
     

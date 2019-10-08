@@ -6,7 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformKit
 import UserNotifications
 
 /// `PermissionsRequestor` is for requesting access to the user's camera
@@ -18,6 +18,12 @@ class PermissionsRequestor {
         case camera
         case notification
         case microphone
+    }
+    
+    private let analyticsRecorder: AnalyticsEventRecording
+    
+    init(analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared) {
+        self.analyticsRecorder = analyticsRecorder
     }
     
     // MARK: Public Functions
@@ -88,9 +94,18 @@ class PermissionsRequestor {
     }()
     
     private lazy var cameraOperation: AsyncBlockOperation = {
-        let camera = AsyncBlockOperation { done in
+        let camera = AsyncBlockOperation { [weak self] done in
             DispatchQueue.main.async(execute: {
-                AVCaptureDevice.requestAccess(for: .video) { _ in
+                AVCaptureDevice.requestAccess(for: .video) { granted in
+                    if granted {
+                        self?.analyticsRecorder.record(
+                            event: AnalyticsEvents.Permission.permissionSysCameraApprove
+                        )
+                    } else {
+                        self?.analyticsRecorder.record(
+                            event: AnalyticsEvents.Permission.permissionSysCameraDecline
+                        )
+                    }
                     done()
                 }
             })
@@ -112,11 +127,20 @@ class PermissionsRequestor {
     }()
     
     private lazy var microphoneOperation: AsyncBlockOperation = {
-        let microphone = AsyncBlockOperation { done in
+        let microphone = AsyncBlockOperation { [weak self] done in
             DispatchQueue.main.async(execute: {
-                AVAudioSession.sharedInstance().requestRecordPermission({ _ in
+                AVAudioSession.sharedInstance().requestRecordPermission { granted in
+                    if granted {
+                        self?.analyticsRecorder.record(
+                            event: AnalyticsEvents.Permission.permissionSysMicApprove
+                        )
+                    } else {
+                        self?.analyticsRecorder.record(
+                            event: AnalyticsEvents.Permission.permissionSysMicDecline
+                        )
+                    }
                     done()
-                })
+                }
             })
         }
         return microphone

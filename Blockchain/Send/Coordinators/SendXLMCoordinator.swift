@@ -19,11 +19,11 @@ class SendXLMCoordinator {
     fileprivate var services: StellarServices {
         return serviceProvider.services
     }
+    private let analyticsRecorder: AnalyticsEventRecording
     
     /// pit address presenter
     private let pitAddressPresenter: SendPitAddressStatePresenter
     private var pitAddressViewModel = PITAddressViewModel(assetType: .stellar)
-
     
     /// The source of the address
     private var addressSource = SendAssetAddressSource.standard
@@ -38,12 +38,14 @@ class SendXLMCoordinator {
         serviceProvider: StellarServiceProvider,
         interface: SendXLMInterface,
         modelInterface: SendXLMModelInterface,
-        pitAddressPresenter: SendPitAddressStatePresenter
+        pitAddressPresenter: SendPitAddressStatePresenter,
+        analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     ) {
         self.serviceProvider = serviceProvider
         self.interface = interface
         self.modelInterface = modelInterface
         self.pitAddressPresenter = pitAddressPresenter
+        self.analyticsRecorder = analyticsRecorder
         if let controller = interface as? SendLumensViewController {
             controller.delegate = self
         }
@@ -296,6 +298,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     }
 
     func onConfirmPayTapped(_ paymentOperation: StellarPaymentOperation) {
+        analyticsRecorder.record(event: AnalyticsEvents.Send.sendSummaryConfirmClick(asset: .stellar))
         let transaction = services.transaction
         let disposable = services.repository.loadKeyPair()
             .asObservable()
@@ -312,7 +315,9 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onError: { [weak self] error in
+                guard let self = self else { return }
                 Logger.shared.error("Failed to send XLM. Error: \(error)")
+                self.analyticsRecorder.record(event: AnalyticsEvents.Send.sendSummaryConfirmFailure(asset: .stellar))
                 let errorMessage: String
                 if let stellarError = error as? StellarPaymentOperationError, stellarError == .cancelled {
                     // User cancelled transaction when shown second password - do not show an error.
@@ -323,19 +328,21 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                     errorMessage = LocalizationConstants.Stellar.cannotSendXLMAtThisTime
                 }
                 
-                self?.interface.apply(updates: [
+                self.interface.apply(updates: [
                     .errorLabelText(errorMessage),
                     .errorLabelVisibility(.visible),
                     .activityIndicatorVisibility(.hidden),
                     .primaryButtonEnabled(true)
                 ])
             }, onCompleted: { [weak self] in
-                self?.services.walletActionEventBus.publish(
+                guard let self = self else { return }
+                self.analyticsRecorder.record(event: AnalyticsEvents.Send.sendSummaryConfirmSuccess(asset: .stellar))
+                self.services.walletActionEventBus.publish(
                     action: .sendCrypto,
                     extras: [WalletAction.ExtraKeys.assetType: AssetType.stellar]
                 )
-                self?.computeMaxSpendableAmount(for: paymentOperation.sourceAccount.publicKey)
-                self?.interface.apply(updates: [
+                self.computeMaxSpendableAmount(for: paymentOperation.sourceAccount.publicKey)
+                self.interface.apply(updates: [
                     .fiatAmountText(""),
                     .stellarAmountText(""),
                     .paymentSuccess,
@@ -350,6 +357,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     }
     
     func onPrimaryTapped(toAddress: String, amount: Decimal, feeInXlm: Decimal, memo: StellarMemoType?) {
+        analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormConfirmClick(asset: .stellar))
         guard let sourceAccount = services.repository.defaultAccount else {
             interface.apply(updates: [
                 .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
@@ -420,12 +428,15 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                 .errorLabelVisibility(.hidden),
                 .stellarAddressTextColor(.gray6)
             ])
+            self.analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormConfirmSuccess(asset: .stellar))
         }, onError: { [weak self] error in
+            guard let self = self else { return }
             Logger.shared.error("Could not fetch ledger or account details")
-            self?.interface.apply(updates: [
+            self.interface.apply(updates: [
                 .errorLabelText(LocalizationConstants.Stellar.cannotSendXLMAtThisTime),
                 .errorLabelVisibility(.visible)
             ])
+            self.analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormConfirmFailure(asset: .stellar))
         })
         disposables.insertWithDiscardableResult(disposable)
     }
@@ -469,6 +480,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
                                       .memoIDTextFieldVisibility(.hidden),
                                       .memoSelectionButtonVisibility(.visible)])
         case .standard:
+            analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormPitButtonClick(asset: .stellar))
             if !pitAddressViewModel.isTwoFactorEnabled {
                 interface.apply(updates: [.showAlertForEnabling2FA])
             } else {

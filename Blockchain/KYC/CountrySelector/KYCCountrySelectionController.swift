@@ -33,6 +33,8 @@ final class KYCCountrySelectionController: KYCBaseViewController, ProgressableVi
     private lazy var presenter: KYCCountrySelectionPresenter = {
         return KYCCountrySelectionPresenter(view: self)
     }()
+    
+    private let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
 
     private var disposable: Disposable?
 
@@ -133,7 +135,9 @@ extension KYCCountrySelectionController: UITableViewDataSource, UITableViewDeleg
             return
         }
         Logger.shared.info("User selected '\(selectedCountry.name)'")
+        
         presenter.selected(country: selectedCountry)
+        analyticsRecorder.record(event: AnalyticsEvents.KYC.kycCountrySelected)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

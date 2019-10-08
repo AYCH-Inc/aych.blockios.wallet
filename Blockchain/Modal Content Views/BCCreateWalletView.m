@@ -226,6 +226,7 @@
  
     // Load the JS without a wallet
     [WalletManager.sharedInstance.wallet performSelector:@selector(loadBlankWallet) withObject:nil afterDelay:DELAY_KEYBOARD_DISMISSAL];
+    [self reportCreateWallet];
 }
 
 - (void)showTermsOfService

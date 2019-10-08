@@ -22,6 +22,8 @@ class SendPaxCoordinator {
         return serviceProvider.services
     }
     
+    private let analyticsRecorder: AnalyticsEventRecording
+    
     private let bag: DisposeBag = DisposeBag()
     private let bus: WalletActionEventBus
     
@@ -46,7 +48,8 @@ class SendPaxCoordinator {
         serviceProvider: PAXServiceProvider = PAXServiceProvider.shared,
         priceService: PriceServiceAPI = PriceServiceClient(),
         pitAddressPresenter: SendPitAddressStatePresenter,
-        bus: WalletActionEventBus = WalletActionEventBus.shared
+        bus: WalletActionEventBus = WalletActionEventBus.shared,
+        analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     ) {
         self.interface = interface
         self.calculator = SendPaxCalculator(erc20Service: serviceProvider.services.paxService)
@@ -54,6 +57,7 @@ class SendPaxCoordinator {
         self.priceAPI = priceService
         self.pitAddressPresenter = pitAddressPresenter
         self.bus = bus
+        self.analyticsRecorder = analyticsRecorder
         if let controller = interface as? SendPaxViewController {
             controller.delegate = self
         }
@@ -271,6 +275,7 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
     }
     
     func onSendProposed() {
+        analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormConfirmClick(asset: .pax))
         guard let model = output?.model else { return }
         guard let address = model.addressStatus.address else {
             interface.apply(updates: [.showAlertSheetForError(.invalidDestinationAddress)])
@@ -308,16 +313,21 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
                 return model
             }
             .subscribe(onSuccess: { [weak self] viewModel in
-                self?.interface.display(confirmation: viewModel)
-                self?.interface.apply(updates: [.loadingIndicatorVisibility(.hidden)])
+                guard let self = self else { return }
+                self.analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormConfirmSuccess(asset: .pax))
+                self.interface.display(confirmation: viewModel)
+                self.interface.apply(updates: [.loadingIndicatorVisibility(.hidden)])
             }, onError: { [weak self]  error in
+                guard let self = self else { return }
+                self.analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormConfirmFailure(asset: .pax))
+                self.interface.apply(updates: [.showAlertSheetForError(SendMoniesInternalError.default)])
                 Logger.shared.error(error)
-                self?.interface.apply(updates: [.showAlertSheetForError(SendMoniesInternalError.default)])
             })
             .disposed(by: bag)
     }
     
     func onConfirmSendTapped() {
+        analyticsRecorder.record(event: AnalyticsEvents.Send.sendSummaryConfirmClick(asset: .pax))
         guard let model = output?.model else { return }
         guard let proposal = model.proposal else { return }
         guard case .valid(let address) = model.addressStatus else { return }
@@ -334,6 +344,7 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
             })
             .subscribe(onSuccess: { [weak self] published in
                 guard let self = self else { return }
+                self.analyticsRecorder.record(event: AnalyticsEvents.Send.sendSummaryConfirmSuccess(asset: .pax))
                 self.calculator.handle(event: .start)
                 self.interface.apply(updates: [.hideConfirmationModal,
                                                .toAddressTextField(nil),
@@ -344,19 +355,23 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
                 )
                 Logger.shared.debug("Published PAX transaction: \(published)")
             }, onError: { [weak self] error in
+                guard let self = self else { return }
+                self.analyticsRecorder.record(event: AnalyticsEvents.Send.sendSummaryConfirmFailure(asset: .pax))
+                self.interface.apply(updates: [.showAlertSheetForError(SendMoniesInternalError.default)])
                 Logger.shared.error(error)
-                self?.interface.apply(updates: [.showAlertSheetForError(SendMoniesInternalError.default)])
             })
             .disposed(by: bag)
     }
     
     func onErrorBarButtonItemTapped() {
+        analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormErrorClick(asset: .pax))
         guard let output = output else { return }
         guard let error = output.model.internalError else { return }
         interface.apply(updates: [.showAlertSheetForError(error)])
     }
     
     func onQRBarButtonItemTapped() {
+        analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormQrButtonClick(asset: .pax))
         interface.displayQRCodeScanner()
     }
     
@@ -366,6 +381,7 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
             addressSource = .standard
             interface.apply(updates: [.usePitAddress(nil)])
         case .standard:
+            analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormPitButtonClick(asset: .pax))
             if !pitAddressViewModel.isTwoFactorEnabled {
                 interface.apply(updates: [.showAlertForEnabling2FA])
             } else {

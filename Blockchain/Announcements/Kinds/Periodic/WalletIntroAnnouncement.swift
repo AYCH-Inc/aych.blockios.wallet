@@ -50,6 +50,7 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
             dismissState: .undismissible,
             didAppear: { [weak self] in
                 guard let self = self else { return }
+                self.analyticsRecorder.record(event: AnalyticsEvents.WalletIntro.walletIntroOffered)
                 self.analyticsRecorder.record(event: self.didAppearAnalyticsEvent)
             }
         )

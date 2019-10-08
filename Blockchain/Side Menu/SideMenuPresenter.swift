@@ -59,7 +59,7 @@ class SideMenuPresenter {
     private let wallet: Wallet
     private let walletService: WalletService
     private let pitConfiguration: AppFeatureConfiguration
-    private let recorder: AnalyticsEventRecording
+    private let analyticsRecorder: AnalyticsEventRecording
     private let disposeBag = DisposeBag()
     private var disposable: Disposable?
 
@@ -70,14 +70,14 @@ class SideMenuPresenter {
         variantFetcher: FeatureVariantFetching = AppFeatureConfigurator.shared,
         pitConfiguration: AppFeatureConfiguration = AppFeatureConfigurator.shared.configuration(for: .pitLinking),
         onboardingSettings: BlockchainSettings.Onboarding = .shared,
-        recorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
+        analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     ) {
         self.view = view
         self.wallet = wallet
         self.walletService = walletService
         self.pitConfiguration = pitConfiguration
         self.interactor = WalletIntroductionInteractor(onboardingSettings: onboardingSettings, screen: .sideMenu)
-        self.recorder = recorder
+        self.analyticsRecorder = analyticsRecorder
         self.variantFetcher = variantFetcher
     }
 
@@ -146,7 +146,7 @@ class SideMenuPresenter {
         /// We track all introduction events that have an analyticsKey.
         /// This happens on presentation.
         if let trackable = next as? WalletIntroductionAnalyticsEvent {
-            recorder.record(event: trackable.eventType)
+            analyticsRecorder.record(event: trackable.eventType)
         }
         introductionRelay.accept(next.type)
     }

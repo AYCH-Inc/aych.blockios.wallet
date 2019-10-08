@@ -136,6 +136,7 @@
 
 - (void)updateButtonClicked
 {
+    [self reportUpdateButtonPressed];
     [self.emailField resignFirstResponder];
     
     [self performSelector:@selector(changeEmail) withObject:nil afterDelay:DELAY_KEYBOARD_DISMISSAL];

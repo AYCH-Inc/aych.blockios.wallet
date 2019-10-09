@@ -19,6 +19,7 @@ class PaxActivityServiceAPI: SimpleListServiceAPI {
     private let cache: ERC20HistoricalTransactionCaching<PaxToken>
     private let transactionService: AnyERC20HistoricalTransactionService<PaxToken>
     private let loadingViewPresenter: LoadingViewPresenting
+    private let analyticsRecorder: AnalyticsEventRecording
     
     private var disposable: Disposable?
     private var internalModel: InternalModel?
@@ -28,10 +29,12 @@ class PaxActivityServiceAPI: SimpleListServiceAPI {
     }
     
     init(provider: PAXServiceProvider = PAXServiceProvider.shared,
-         loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared) {
+         loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared) {
         self.transactionService = provider.services.historicalTransactionService
         self.cache = ERC20HistoricalTransactionCaching<PaxToken>()
         self.loadingViewPresenter = loadingViewPresenter
+        self.analyticsRecorder = analyticsRecorder
     }
     
     func fetchAllItems(output: SimpleListOutput?) {
@@ -70,8 +73,12 @@ class PaxActivityServiceAPI: SimpleListServiceAPI {
                 self.loadingViewPresenter.hide()
                 self.disposable = nil
             })
-            .subscribe(onSuccess: { newModel in
+            .subscribe(onSuccess: { [weak self] newModel in
+                guard let self = self else { return }
                 self.cache.save(newModel, key: newModel.transactionHash)
+                self.analyticsRecorder.record(
+                    event: AnalyticsEvents.Transactions.transactionsListItemClick(asset: .pax)
+                )
                 output?.showItemDetails(newModel)
             }, onError: { error in
                 Logger.shared.error(error)

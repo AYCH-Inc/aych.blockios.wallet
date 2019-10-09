@@ -10,6 +10,7 @@ import Foundation
 import RxSwift
 import RxRelay
 import RxCocoa
+import PlatformKit
 
 /// The destination account presenter on the send screen
 final class SendDestinationAccountCellPresenter {
@@ -141,11 +142,14 @@ final class SendDestinationAccountCellPresenter {
     
     private let asset: AssetType
     private let interactor: SendDestinationAccountInteracting
+    private let analyticsRecorder: AnalyticsEventRelayRecording
     
     // MARK: - Setup
     
-    init(interactor: SendDestinationAccountInteracting) {
+    init(interactor: SendDestinationAccountInteracting,
+         analyticsRecorder: AnalyticsEventRelayRecording = AnalyticsEventRecorder.shared) {
         asset = interactor.asset
+        self.analyticsRecorder = analyticsRecorder
         self.interactor = interactor
         
         // Setup text field placeholder
@@ -153,6 +157,11 @@ final class SendDestinationAccountCellPresenter {
             format: LocalizationConstants.Send.Destination.placeholder,
             asset.symbol
         )
+        
+        pitButtonTapRelay
+            .map { AnalyticsEvents.Send.sendFormPitButtonClick(asset: interactor.asset) }
+            .bind(to: analyticsRecorder.recordRelay)
+            .disposed(by: disposeBag)
         
         // The selection state after the pit button tap
         let selectionStateAfterPitButtonTap = pitButtonTapRelay

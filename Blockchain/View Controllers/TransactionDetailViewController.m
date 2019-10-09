@@ -468,6 +468,8 @@ const CGFloat rowHeightValueReceived = 80;
 
 - (void)showWebviewDetail
 {
+    [self reportWebViewClickWithAsset:self.transactionModel.assetType];
+    
     NSURL *url = [NSURL URLWithString:self.transactionModel.detailButtonLink];
 
     if ([[UIApplication sharedApplication] canOpenURL:url]) {

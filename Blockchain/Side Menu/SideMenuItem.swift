@@ -6,7 +6,7 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformKit
 import PlatformUIKit
 
 /// Model definition for an item that is presented in the side menu of the app.
@@ -27,28 +27,28 @@ enum SideMenuItem {
 
 extension SideMenuItem {
     
-    var analyticsKey: String {
+    var analyticsEvent: AnalyticsEvents.SideMenu {
         switch self {
         case .accountsAndAddresses:
-            return "accounts_and_addresses"
+            return .sideNavAccountsAndAddresses
         case .backup:
-            return "backup"
+            return .sideNavBackup
         case .buyBitcoin:
-            return "buy_bitcoin"
+            return .sideNavBuyBitcoin
         case .logout:
-            return "logout"
+            return .sideNavLogout
         case .settings:
-            return "settings"
+            return .sideNavSettings
         case .support:
-            return "support"
+            return .sideNavSupport
         case .upgrade:
-            return "upgrade"
+            return .sideNavUpgrade
         case .webLogin:
-            return "web_login"
+            return .sideNavWebLogin
         case .lockbox:
-            return "lockbox"
+            return .sideNavLockbox
         case .pit:
-            return "pit"
+            return .sideNavPit
         }
     }
     

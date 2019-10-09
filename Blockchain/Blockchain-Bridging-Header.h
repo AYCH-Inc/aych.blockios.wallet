@@ -4,6 +4,11 @@
 
 #import <UIKit/UIKit.h>
 #import "AccountsAndAddressesNavigationController.h"
+#import "SendBitcoinViewController.h"
+#import "TransactionsViewController.h"
+#import "TransactionsBitcoinViewController.h"
+#import "TransactionsBitcoinCashViewController.h"
+#import "AssetSelectorView.h"
 #import "Assets.h"
 #import "BCBalancesChartView.h"
 #import "BCCreateWalletView.h"
@@ -44,6 +49,7 @@
 #import "TransactionTableCell.h"
 #import "TransactionDetailViewModel.h"
 #import "TransactionDetailNavigationController.h"
+#import "TransactionDetailViewController.h"
 #import "NSDateFormatter+VerboseString.h"
 // Settings
 #import "SettingsWebViewController.h"
@@ -51,6 +57,7 @@
 #import "BCVerifyEmailViewController.h"
 #import "BCVerifyMobileNumberViewController.h"
 #import "SettingsSelectorTableViewController.h"
+#import "SettingsChangePasswordViewController.h"
 
 #import "FromToView.h"
 #import "ContinueButtonInputAccessoryView.h"

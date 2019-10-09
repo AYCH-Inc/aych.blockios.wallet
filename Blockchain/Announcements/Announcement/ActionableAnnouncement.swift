@@ -6,6 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import PlatformKit
 
 /// Action that takes place when tapping CTA / dismiss button in card announcement
 typealias CardAnnouncementAction = () -> Void
@@ -23,6 +24,6 @@ protocol ActionableAnnouncement: Announcement {
 
 extension ActionableAnnouncement {
     var actionAnalyticsEvent: AnalyticsEvents.Announcement {
-        return .init(name: .actioned, type: type)
+        return .cardActioned(type: type)
     }
 }

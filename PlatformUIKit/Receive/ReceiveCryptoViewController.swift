@@ -44,6 +44,8 @@ public class ReceiveCryptoViewController: UIViewController {
     }
     private var disposable: Disposable?
 
+    private var analyticsRecorder: AnalyticsEventRecording!
+        
     deinit {
         disposable?.dispose()
     }
@@ -71,7 +73,11 @@ public class ReceiveCryptoViewController: UIViewController {
 
     @IBAction private func onAddressTapped(_ sender: Any) {
         guard let walletAccount = walletAccount else { return }
-
+        guard let viewModel = viewModel else { return }
+        analyticsRecorder.record(event:
+            AnalyticsEvents.Request.requestQrAddressClick(asset: viewModel.cryptoCurrency)
+        )
+        
         UIPasteboard.general.string = walletAccount.publicKey
 
         UIView.animate(withDuration: 1, animations: { [weak self] in
@@ -90,7 +96,10 @@ public class ReceiveCryptoViewController: UIViewController {
     @IBAction private func onRequestPaymentTapped(_ sender: UIButton) {
         guard let walletAccount = walletAccount else { return }
         guard let viewModel = viewModel else { return }
-
+        
+        analyticsRecorder.record(event:
+            AnalyticsEvents.Request.requestRequestPaymentClick(asset: viewModel.cryptoCurrency)
+        )
         let message = "\(viewModel.textViewModel.requestPaymentMessagePrefix) \(walletAccount.publicKey)"
         let items: [Any] = [message, self]
 
@@ -123,5 +132,13 @@ public class ReceiveCryptoViewController: UIViewController {
 
         buttonEnterPassword.layer.cornerRadius = 4.0
         buttonEnterPassword.setTitle(viewModel?.textViewModel.enterYourSecondPasswordText, for: .normal)
+    }
+}
+
+// MARK: - AnalyticsEventRecordable
+
+extension ReceiveCryptoViewController: AnalyticsEventRecordable {
+    public func use(eventRecorder: AnalyticsEventRecording) {
+        self.analyticsRecorder = eventRecorder
     }
 }

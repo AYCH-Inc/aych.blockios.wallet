@@ -285,7 +285,7 @@ import PlatformUIKit
     private func handlePairingCodeResult(result: Result<PairingCodeQRCodeParser.PairingCode, PairingCodeQRCodeParser.PairingCodeParsingError>) {
         switch result {
         case .success(let pairingCode):
-            analyticsRecorder.record(event: AnalyticsEvents.Onboarding.AutoPairing())
+            analyticsRecorder.record(event: AnalyticsEvents.Onboarding.walletAutoPairing)
             authenticationManager.authenticate(using: pairingCode.passcodePayload, andReply: authHandler)
         case .failure(let error):
             alertPresenter.standardError(message: error.localizedDescription)
@@ -428,7 +428,7 @@ extension AuthenticationCoordinator: ManualPairViewDelegate {
                 return
             }
             strongSelf.authHandler(isAuthenticated, twoFAtype, error)
-            strongSelf.analyticsRecorder.record(event: AnalyticsEvents.Onboarding.ManualLogin())
+            strongSelf.analyticsRecorder.record(event: AnalyticsEvents.Onboarding.walletManualLogin)
         }
     }
 

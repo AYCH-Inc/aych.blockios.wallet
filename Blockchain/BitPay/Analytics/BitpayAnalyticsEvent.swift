@@ -8,47 +8,6 @@
 
 import PlatformKit
 
-enum BitpayAnalyticsEvent: AnalyticsEvent {
-    case urlScanned(AssetType)
-    case urlPasted(AssetType)
-    case urlDeepLink(AssetType)
-    case expired
-    case success
-    case failure(Error?)
-
-    var name: String {
-        switch self {
-        case .urlDeepLink:
-            return "bitpay_url_deeplink"
-        case .urlScanned:
-            return "bitpay_url_scanned"
-        case .urlPasted:
-            return "bitpay_url_pasted"
-        case .expired:
-            return "bitpay_payment_expired"
-        case .success:
-            return "bitpay_payment_success"
-        case .failure:
-            return "bitpay_payment_failure"
-        }
-    }
-
-    var params: [String : String]? {
-        switch self {
-        case .urlDeepLink(let assetType),
-             .urlScanned(let assetType),
-             .urlPasted(let assetType):
-            return ["currency": assetType.cryptoCurrency.rawValue]
-        case .expired,
-             .success:
-            return nil
-        case .failure(let error):
-            guard let error = error else { return nil }
-            return ["error": error.localizedDescription]
-        }
-    }
-}
-
 // MARK: - Deprecate these once we SendBitcoinViewController is written in Swift
 
 @objc class BitpayUrlScanned: NSObject, ObjcAnalyticsEvent {
@@ -56,7 +15,7 @@ enum BitpayAnalyticsEvent: AnalyticsEvent {
 
     private var event: AnalyticsEvent {
         let assetType = AssetTypeLegacyHelper.convert(fromLegacy: legacyAssetType)
-        return BitpayAnalyticsEvent.urlScanned(assetType)
+        return AnalyticsEvents.Bitpay.bitpayUrlScanned(asset: assetType)
     }
 
     @objc class func create(legacyAssetType: LegacyAssetType) -> BitpayUrlScanned {
@@ -81,7 +40,7 @@ enum BitpayAnalyticsEvent: AnalyticsEvent {
 
     private var event: AnalyticsEvent {
         let assetType = AssetTypeLegacyHelper.convert(fromLegacy: legacyAssetType)
-        return BitpayAnalyticsEvent.urlPasted(assetType)
+        return AnalyticsEvents.Bitpay.bitpayUrlPasted(asset: assetType)
     }
 
     @objc class func create(legacyAssetType: LegacyAssetType) -> BitpayUrlPasted {
@@ -103,10 +62,10 @@ enum BitpayAnalyticsEvent: AnalyticsEvent {
 
 @objc class BitpayPaymentExpired: NSObject, ObjcAnalyticsEvent {
     var name: String {
-        return BitpayAnalyticsEvent.expired.name
+        return AnalyticsEvents.Bitpay.bitpayPaymentExpired.name
     }
 
     var params: [String : String]? {
-        return BitpayAnalyticsEvent.expired.params
+        return AnalyticsEvents.Bitpay.bitpayPaymentExpired.params
     }
 }

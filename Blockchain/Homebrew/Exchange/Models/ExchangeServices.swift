@@ -8,6 +8,7 @@
 
 import Foundation
 import StellarKit
+import PlatformKit
 
 protocol ExchangeDependencies {
     var service: ExchangeHistoryAPI { get }
@@ -17,6 +18,7 @@ protocol ExchangeDependencies {
     var tradeExecution: TradeExecutionAPI { get }
     var assetAccountRepository: AssetAccountRepository { get }
     var tradeLimits: TradeLimitsAPI { get }
+    var analyticsRecorder: AnalyticsEventRecording { get }
 }
 
 struct ExchangeServices: ExchangeDependencies {
@@ -27,6 +29,7 @@ struct ExchangeServices: ExchangeDependencies {
     let tradeExecution: TradeExecutionAPI
     let assetAccountRepository: AssetAccountRepository
     let tradeLimits: TradeLimitsAPI
+    let analyticsRecorder: AnalyticsEventRecording
     
     init() {
         service = ExchangeService()
@@ -36,5 +39,6 @@ struct ExchangeServices: ExchangeDependencies {
         assetAccountRepository = AssetAccountRepository.shared
         tradeExecution = TradeExecutionService(dependencies: TradeExecutionService.Dependencies())
         tradeLimits = TradeLimitsService()
+        analyticsRecorder = AnalyticsEventRecorder.shared
     }
 }

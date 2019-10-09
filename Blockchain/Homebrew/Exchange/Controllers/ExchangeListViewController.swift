@@ -124,6 +124,7 @@ extension ExchangeListViewController: ExchangeListInterface {
 
 extension ExchangeListViewController: ExchangeListDataProviderDelegate {
     func dataProvider(_ dataProvider: ExchangeListDataProvider, didSelect trade: ExchangeTradeCellModel) {
+        dependencies.analyticsRecorder.record(event: AnalyticsEvents.Swap.swapHistoryOrderClick)
         delegate?.onTradeCellTapped(trade)
     }
     

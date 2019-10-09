@@ -33,6 +33,7 @@ final class RemoteNotificationAuthorizer {
     // MARK: - Private Properties
     
     private let application: UIApplicationRemoteNotificationsAPI
+    private let analyticsRecorder: AnalyticsEventRecording
     private let userNotificationCenter: UNUserNotificationCenterAPI
     private let options: UNAuthorizationOptions
     
@@ -41,9 +42,11 @@ final class RemoteNotificationAuthorizer {
     // MARK: - Setup
     
     init(application: UIApplicationRemoteNotificationsAPI = UIApplication.shared,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          userNotificationCenter: UNUserNotificationCenterAPI = UNUserNotificationCenter.current(),
          options: UNAuthorizationOptions = [.alert, .badge, .sound]) {
         self.application = application
+        self.analyticsRecorder = analyticsRecorder
         self.userNotificationCenter = userNotificationCenter
         self.options = options
     }
@@ -53,18 +56,22 @@ final class RemoteNotificationAuthorizer {
     private func requestAuthorization() -> Single<Void> {
         return Single
             .create(weak: self) { (self, observer) -> Disposable in
-            self.userNotificationCenter.requestAuthorization(options: self.options) { isGranted, error in
-                guard error == nil else {
-                    observer(.error(ServiceError.system(error!)))
-                    return
+                self.analyticsRecorder.record(event: AnalyticsEvents.Permission.permissionSysNotifRequest)
+                self.userNotificationCenter.requestAuthorization(options: self.options) { [weak self] isGranted, error in
+                    guard let self = self else { return }
+                    guard error == nil else {
+                        observer(.error(ServiceError.system(error!)))
+                        return
+                    }
+                    guard isGranted else {
+                        self.analyticsRecorder.record(event: AnalyticsEvents.Permission.permissionSysNotifDecline)
+                        observer(.error(ServiceError.permissionDenied))
+                        return
+                    }
+                    self.analyticsRecorder.record(event: AnalyticsEvents.Permission.permissionSysNotifApprove)
+                    observer(.success(()))
                 }
-                guard isGranted else {
-                    observer(.error(ServiceError.permissionDenied))
-                    return
-                }
-                observer(.success(()))
-            }
-            return Disposables.create()
+                return Disposables.create()
         }
     }
     

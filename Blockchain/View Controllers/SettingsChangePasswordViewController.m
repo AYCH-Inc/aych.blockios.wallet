@@ -121,6 +121,7 @@
 - (void)changePasswordSuccess
 {
     [self removeObserversForChangingPassword];
+    [self reportChangePasswordSuccess];
     
     UIAlertController *alertForChangePasswordSuccess = [UIAlertController alertControllerWithTitle:[LocalizationConstantsObjcBridge success] message:BC_STRING_SETTINGS_SECURITY_PASSWORD_CHANGED preferredStyle:UIAlertControllerStyleAlert];
     [alertForChangePasswordSuccess addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:nil]];

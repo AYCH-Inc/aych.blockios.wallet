@@ -49,6 +49,7 @@ final class KYCResubmitIdentityController: KYCBaseViewController {
 
     private var presenter: KYCVerifyIdentityPresenter!
     private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
+    let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     
     // MARK: - KYCCoordinatorDelegate
 

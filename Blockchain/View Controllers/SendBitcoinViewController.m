@@ -562,20 +562,21 @@ BOOL displayingLocalSymbolSend;
             destinationAddressIndicatorLabel.hidden = true;
             break;
         default: // Any other state (doesn't matter which)
-        /// The user tapped the PIT button to send funds to the PIT.
-        /// We must confirm that 2FA is enabled otherwise we will not have a destination address
-        if (self.pitAddressViewModel != nil && self.pitAddressViewModel.legacyAssetType == self.assetType) {
-            if (self.pitAddressViewModel.address != nil) {
-                [self.pitAddressButton setImage:[UIImage imageNamed:@"cancel_icon"] forState:UIControlStateNormal];
-                self.addressSource = DestinationAddressSourcePit;
-                toField.hidden = true;
-                [self selectToAddress:self.pitAddressViewModel.address];
-                destinationAddressIndicatorLabel.hidden = false;
-            } else {
-                [AlertViewPresenter.sharedInstance standardErrorWithMessage:[LocalizationConstantsObjcBridge twoFactorPITDisabled] title:BC_STRING_ERROR in:self handler:nil];
+            [self reportPitButtonClick];
+            /// The user tapped the PIT button to send funds to the PIT.
+            /// We must confirm that 2FA is enabled otherwise we will not have a destination address
+            if (self.pitAddressViewModel != nil && self.pitAddressViewModel.legacyAssetType == self.assetType) {
+                if (self.pitAddressViewModel.address != nil) {
+                    [self.pitAddressButton setImage:[UIImage imageNamed:@"cancel_icon"] forState:UIControlStateNormal];
+                    self.addressSource = DestinationAddressSourcePit;
+                    toField.hidden = true;
+                    [self selectToAddress:self.pitAddressViewModel.address];
+                    destinationAddressIndicatorLabel.hidden = false;
+                } else {
+                    [AlertViewPresenter.sharedInstance standardErrorWithMessage:[LocalizationConstantsObjcBridge twoFactorPITDisabled] title:BC_STRING_ERROR in:self handler:nil];
+                }
             }
-        }
-        break;
+            break;
     }
 }
 
@@ -759,6 +760,8 @@ BOOL displayingLocalSymbolSend;
              DLog(@"SendViewController: on_success");
              [WalletActionEventBus.sharedInstance publishObjWithAction:WalletActionSendCrypto extras:nil];
 
+             [self reportSendSummaryConfirmSuccess];
+             
              UIAlertController *paymentSentAlert = [UIAlertController alertControllerWithTitle:[LocalizationConstantsObjcBridge success] message:BC_STRING_PAYMENT_SENT preferredStyle:UIAlertControllerStyleAlert];
              [paymentSentAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_OK style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                  [[AppReviewPrompt sharedInstance] showIfNeeded];
@@ -801,6 +804,8 @@ BOOL displayingLocalSymbolSend;
          listener.on_error = ^(NSString* error, NSString* secondPassword) {
              DLog(@"Send error: %@", error);
                           
+             [self reportSendSummaryConfirmFailure];
+             
              if ([error isEqualToString:ERROR_UNDEFINED]) {
                  [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:BC_STRING_SEND_ERROR_NO_INTERNET_CONNECTION title:BC_STRING_ERROR in:self handler: nil];
              } else if ([error isEqualToString:ERROR_FEE_TOO_LOW]) {
@@ -1061,6 +1066,8 @@ BOOL displayingLocalSymbolSend;
         } else {
             [self.confirmPaymentView.reallyDoPaymentButton addTarget:self action:@selector(reallyDoPayment:) forControlEvents:UIControlEventTouchUpInside];
         }
+        
+        [self.confirmPaymentView.reallyDoPaymentButton addTarget:self action:@selector(reportSendSummaryConfirmClick) forControlEvents:UIControlEventTouchUpInside];
 
         [[ModalPresenter sharedInstance] showModalWithContent:self.confirmPaymentView closeType:ModalCloseTypeBack showHeader:true headerText:BC_STRING_CONFIRM_PAYMENT onDismiss:^{
             [self enablePaymentButtons];
@@ -2477,6 +2484,8 @@ BOOL displayingLocalSymbolSend;
 
 - (IBAction)useAllClicked:(id)sender
 {
+    [self reportFormUseBalanceClick];
+    
     [btcAmountField resignFirstResponder];
     [fiatAmountField resignFirstResponder];
     
@@ -2511,6 +2520,8 @@ BOOL displayingLocalSymbolSend;
 
 - (IBAction)sendPaymentClicked:(id)sender
 {
+    [self reportSendFormConfirmClick];
+    
     if ([self.toAddress length] == 0) {
         self.toAddress = toField.text;
         DLog(@"toAddress: %@", self.toAddress);

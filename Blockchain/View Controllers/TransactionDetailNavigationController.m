@@ -101,7 +101,8 @@
 - (void)share
 {
     TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
-
+    [self reportShareWithAsset:tabControllerManager.assetType];
+    
     AssetType assetType = [AssetTypeLegacyHelper convertFromLegacy:tabControllerManager.assetType];
 
     NSString *txDetailString = [BlockchainAPI.sharedInstance transactionDetailURLFor:self.transactionHash assetType:assetType];

@@ -137,6 +137,9 @@ class ExchangeCreateViewController: UIViewController {
 
     // MARK: Private Properties
 
+    private var analyticsRecorder: AnalyticsEventRecording {
+        return presenter.analyticsRecorder
+    }
     private var presenter: ExchangeCreatePresenter!
     private var dependencies: ExchangeDependencies = ExchangeServices()
     private var assetAccountListPresenter: ExchangeAssetAccountListPresenter!
@@ -332,11 +335,13 @@ class ExchangeCreateViewController: UIViewController {
     private var exchangeHistoryAction: AlertAction {
         return AlertAction(
             style: .default(LocalizationConstants.Swap.viewOrderDetails),
-            metadata: .block({
+            metadata: .block({ [weak self] in
+                guard let self = self else { return }
                 guard let root = UIApplication.shared.keyWindow?.rootViewController else {
                         Logger.shared.error("No navigation controller found")
                         return
                 }
+                self.analyticsRecorder.record(event: AnalyticsEvents.Swap.swapViewHistoryButtonClick)
                 let controller = ExchangeListViewController.make(with: self.dependencies)
                 let navController = BaseNavigationController(rootViewController: controller)
                 navController.modalPresentationStyle = .fullScreen
@@ -354,6 +359,7 @@ class ExchangeCreateViewController: UIViewController {
     }
     
     @IBAction private func exchangeButtonTapped(_ sender: Any) {
+        analyticsRecorder.record(event: AnalyticsEvents.Swap.swapFormConfirmClick)
         delegate?.onExchangeButtonTapped()
     }
     
@@ -557,14 +563,17 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
 
 extension ExchangeCreateViewController: TradingPairViewDelegate {
     func onLeftButtonTapped(_ view: TradingPairView, title: String) {
+        analyticsRecorder.record(event: AnalyticsEvents.Swap.swapLeftAssetClick)
         assetAccountListPresenter.presentPicker(excludingAccount: fromAccount, for: .exchanging)
     }
 
     func onRightButtonTapped(_ view: TradingPairView, title: String) {
+        analyticsRecorder.record(event: AnalyticsEvents.Swap.swapRightAssetClick)
         assetAccountListPresenter.presentPicker(excludingAccount: toAccount, for: .receiving)
     }
 
     func onSwapButtonTapped(_ view: TradingPairView) {
+        analyticsRecorder.record(event: AnalyticsEvents.Swap.swapReversePairClick)
         // TICKET: https://blockchain.atlassian.net/browse/IOS-1350
     }
 }
@@ -666,6 +675,9 @@ extension ExchangeCreateViewController: NavigatableView {
     
     func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
         if case let .error(value) = presenter.status, value != .noVolumeProvided {
+            analyticsRecorder.record(
+                event: AnalyticsEvents.Swap.swapFormConfirmErrorClick(error: value)
+            )
             
             let action = AlertAction(style: .default(LocalizationConstants.Exchange.done))
             var actions = [action]

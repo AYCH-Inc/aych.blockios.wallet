@@ -31,6 +31,6 @@ protocol Announcement {
 
 extension Announcement {
     var didAppearAnalyticsEvent: AnalyticsEvents.Announcement {
-        return .init(name: .shown, type: type)
+        return .cardShown(type: type)
     }
 }

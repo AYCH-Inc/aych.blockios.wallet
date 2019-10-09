@@ -50,8 +50,8 @@ final class TransactionsEthereumViewController: TransactionsViewController {
     
     private let assetAccountRepository = ETHServiceProvider.shared.assetAccountRepository
     private let transactionService = ETHServiceProvider.shared.transactionService
-    
     private let wallet = WalletManager.shared.wallet.ethereum
+    private let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     
     deinit {
         disposables.dispose()
@@ -176,7 +176,8 @@ extension TransactionsEthereumViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if let cell = tableView.cellForRow(at: indexPath) as? TransactionEtherTableViewCell {
-           cell.transactionClicked()
+            reportTransactionClick(asset: .ethereum)
+            cell.transactionClicked()
         }
     }
 }

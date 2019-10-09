@@ -24,6 +24,7 @@ class ExchangeContainerViewController: BaseNavigationController {
     private var tiersViewController: KYCTiersViewController?
     private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
     private let kycSettings: KYCSettingsAPI = KYCSettings.shared
+    private let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     
     // MARK: Lifecycle
     
@@ -158,6 +159,7 @@ class ExchangeContainerViewController: BaseNavigationController {
         let controller = SwapIntroductionViewController.makeFromStoryboard()
         controller.start = { [weak self] in
             guard let self = self else { return }
+            self.analyticsRecorder.record(event: AnalyticsEvents.Swap.swapIntroStartButtonClick)
             self.introductionStartTapped()
         }
         return controller

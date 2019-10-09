@@ -209,7 +209,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     TransactionTableCell *cell = (TransactionTableCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-
+    
+    [super reportTransactionClickWithAsset:LegacyAssetTypeBitcoinCash];
+    
     [cell bitcoinCashTransactionClicked];
 }
 

@@ -132,7 +132,7 @@ final class DashboardController: UIViewController {
             name: UIApplication.didEnterBackgroundNotification,
             object: nil
         )
-
+        
         title = LocalizationConstants.ObjCStrings.BC_STRING_DASHBOARD
         
         view.backgroundColor = .lightGray

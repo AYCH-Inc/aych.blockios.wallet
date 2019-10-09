@@ -27,11 +27,14 @@ class ExchangeCreatePresenter {
     fileprivate var currentRateDescriptionType: ExchangeRateDescriptionType = .fromAssetToFiat
     fileprivate var recycleRateTimer: Timer?
     fileprivate var ratesMetadata: ExchangeRateMetadata?
+    let analyticsRecorder: AnalyticsEventRecording
     
     weak var interface: ExchangeCreateInterface?
 
-    init(interactor: ExchangeCreateInteractor) {
+    init(interactor: ExchangeCreateInteractor,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared) {
         self.interactor = interactor
+        self.analyticsRecorder = analyticsRecorder
         self.feedback = UINotificationFeedbackGenerator()
     }
     

@@ -6,11 +6,19 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import RxRelay
 
 public protocol AnalyticsEvent {
     var name: String { get }
     var params: [String: String]? { get }
+}
+
+extension AnalyticsEvent {
+    public var params: [String: String]? { return nil }
+}
+
+public protocol AnalyticsEventRelayRecording {
+    var recordRelay: PublishRelay<AnalyticsEvent> { get }
 }
 
 public protocol AnalyticsEventRecording {

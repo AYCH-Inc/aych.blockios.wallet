@@ -17,16 +17,7 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
     enum VerificationProviders {
         case veriff
     }
-
-    // MARK: Factory
-
-    override class func make(with coordinator: KYCCoordinator) -> KYCVerifyIdentityController {
-        let controller = makeFromStoryboard()
-        controller.coordinator = coordinator
-        controller.pageType = .verifyIdentity
-        return controller
-    }
-
+    
     // MARK: - Views
 
     @IBOutlet private var nextButton: PrimaryButtonContainer!
@@ -62,8 +53,18 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
 
     private var presenter: KYCVerifyIdentityPresenter!
     private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
+    let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     
     private var countrySupportedTrigger: ActionableTrigger!
+
+    // MARK: Factory
+
+    override class func make(with coordinator: KYCCoordinator) -> KYCVerifyIdentityController {
+        let controller = makeFromStoryboard()
+        controller.coordinator = coordinator
+        controller.pageType = .verifyIdentity
+        return controller
+    }
 
     // MARK: - KYCCoordinatorDelegate
 
@@ -79,6 +80,7 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
         addAccessibilityIds()
         dependenciesSetup()
         nextButton.actionBlock = { [unowned self] in
+            self.analyticsRecorder.record(event: AnalyticsEvents.KYC.kycVerifyIdStartButtonClick)
             switch self.currentProvider {
             case .veriff:
                 self.presenter.didTapNext()
@@ -233,6 +235,7 @@ extension KYCVerifyIdentityController: LoadingView {
 
 extension KYCVerifyIdentityController: VeriffController {
     func onVeriffSubmissionCompleted() {
+        analyticsRecorder.record(event: AnalyticsEvents.KYC.kycVeriffInfoSubmitted)
         loadingViewPresenter.show(with: LocalizationConstants.KYC.submittingInformation)
         delegate?.submitVerification(onCompleted: { [unowned self] in
             self.dismiss(animated: true, completion: {

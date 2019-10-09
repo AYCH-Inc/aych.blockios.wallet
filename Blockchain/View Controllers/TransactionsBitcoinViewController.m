@@ -202,6 +202,7 @@
         cell.assetType = LegacyAssetTypeBitcoin;
         [cell transactionClicked:nil];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [super reportTransactionClickWithAsset:LegacyAssetTypeBitcoin];
     } else {
         DLog(@"Invalid section %lu", indexPath.section);
     }

@@ -33,7 +33,8 @@ class KYCTiersViewController: UIViewController {
     fileprivate var coordinator: KYCTiersCoordinator!
     private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
     fileprivate var disposable: Disposable?
-
+    private let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
+    
     // MARK: Public Properties
     
     var pageModel: KYCTiersPageModel!
@@ -172,6 +173,11 @@ extension KYCTiersViewController: UICollectionViewDelegate {
                 """
             )
             return
+        }
+        if item.tier == .tier1 {
+            analyticsRecorder.record(event: AnalyticsEvents.KYC.kycUnlockSilverClick)
+        } else if item.tier == .tier2 {
+            analyticsRecorder.record(event: AnalyticsEvents.KYC.kycUnlockGoldClick)
         }
         tierCell(cell, selectedTier: item.tier)
     }

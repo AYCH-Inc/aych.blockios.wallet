@@ -62,21 +62,11 @@ class StellarAirdropRouterTests: XCTestCase {
             tiers: nil,
             needsDocumentResubmission: nil
         )
-        mockRegistration.didCallRegisterExpectation = expectation(
-            description: "Expects that registration is attempted through router when user has deeplinked."
-        )
-        router.routeIfNeeded()
-        waitForExpectations(timeout: 0.1)
+        XCTAssertTrue(router.routeIfNeeded())
     }
 
     func testDoesNotRouteIfDidntTapOnDeepLink() {
         mockAppSettings.mockDidTapOnAirdropDeepLink = false
-        let exp = expectation(
-            description: "Expects that registration is NOT attempted through router when user has NOT deeplinked."
-        )
-        exp.isInverted = true
-        mockRegistration.didCallRegisterExpectation = exp
-        router.routeIfNeeded()
-        waitForExpectations(timeout: 0.1)
+        XCTAssertFalse(router.routeIfNeeded())
     }
 }

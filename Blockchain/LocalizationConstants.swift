@@ -1111,11 +1111,11 @@ struct LocalizationConstants {
                 comment: "PIT announcement card title"
             )
             static let variantADescription = NSLocalizedString(
-                "We built our own exchange that links to your Wallet. Instantly access more cryptos and deposit/withdraw cash.",
+                "Trade crypto & fiat on The PIT, Blockchain’s new lighting fast exchange.",
                 comment: "PIT announcement card description - variantA"
             )
             static let variantBDescription = NSLocalizedString(
-                "Upgrade your trading on our new crypto exchange. Link your Wallet to buy, sell, and trade crypto instantly.",
+                "Link your Wallet and trade crypto & fiat on The PIT, Blockchain’s new lighting fast exchange.",
                 comment: "PIT announcement card description - variantB"
             )
             static let ctaButton = NSLocalizedString(
@@ -1244,13 +1244,6 @@ struct LocalizationConstants {
             static let successDescription = NSLocalizedString("Please return to The PIT to complete account setup.", comment: "Please return to The PIT to complete account setup.")
             static let error = NSLocalizedString("Connection Error", comment: "Connection Error")
             static let errorDescription = NSLocalizedString("We could not connect your Wallet to The PIT. Please try again", comment: "We could not connect your Wallet to The PIT. Please try again")
-        }
-        struct AnnouncementCard {
-            static let body = NSLocalizedString(
-                "We built our own exchange that redefines speed, reliability, and liquidity so you can upgrade your trading experience.",
-                comment: ""
-            )
-            static let CTA = NSLocalizedString("Get Started", comment: "")
         }
         struct EmailVerification {
             static let title = NSLocalizedString("Verify Your Email", comment: "")
@@ -1437,9 +1430,9 @@ struct LocalizationConstants {
             comment: "Lockbox menu item title."
         )
         struct PITMenuItem {
-            static let titleA = NSLocalizedString("The PIT", comment: "The PIT")
-            static let titleB = NSLocalizedString("Trading", comment: "Trading")
-            static let titleC = NSLocalizedString("The PIT Exchange", comment: "The PIT Exchange")
+            static let titleA = NSLocalizedString("The PIT Exchange", comment: "The PIT Exchange")
+            static let titleB = NSLocalizedString("Crypto Exchange", comment: "Crypto Exchange")
+            static let titleC = NSLocalizedString("Crypto Trading", comment: "Crypto Trading")
         }
     }
 

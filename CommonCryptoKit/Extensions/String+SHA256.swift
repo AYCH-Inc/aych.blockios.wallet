@@ -9,8 +9,8 @@
 import Foundation
 import CommonCrypto
 
-extension String {
-    public var sha256: String {
+public extension String {
+    var sha256: String {
         guard let string = data(using: .utf8) else {
             return ""
         }

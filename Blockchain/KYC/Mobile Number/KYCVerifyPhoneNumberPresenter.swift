@@ -30,14 +30,18 @@ class KYCVerifyPhoneNumberPresenter {
     private weak var view: KYCVerifyPhoneNumberView?
     private var disposable: Disposable?
 
+    private let subscriptionScheduler: SerialDispatchQueueScheduler
+    
     deinit {
         disposable?.dispose()
     }
 
     init(
+        subscriptionScheduler: SerialDispatchQueueScheduler = MainScheduler.asyncInstance,
         view: KYCVerifyPhoneNumberView,
         interactor: KYCVerifyPhoneNumberInteractor = KYCVerifyPhoneNumberInteractor()
     ) {
+        self.subscriptionScheduler = subscriptionScheduler
         self.view = view
         self.interactor = interactor
     }
@@ -47,7 +51,7 @@ class KYCVerifyPhoneNumberPresenter {
     func startVerification(number: String) {
         view?.showLoadingView(with: LocalizationConstants.loading)
         disposable = interactor.startVerification(number: number)
-            .subscribeOn(MainScheduler.asyncInstance)
+            .subscribeOn(subscriptionScheduler)
             .observeOn(MainScheduler.instance)
             .subscribe(onCompleted: { [unowned self] in
                 self.handleStartVerificationCodeSuccess()
@@ -56,11 +60,10 @@ class KYCVerifyPhoneNumberPresenter {
             })
     }
 
-    func verifyNumber(with code: String, subscribesAsync: Bool = true) {
-        let scheduler: SerialDispatchQueueScheduler = subscribesAsync ? MainScheduler.asyncInstance : MainScheduler.instance
+    func verifyNumber(with code: String) {
         view?.showLoadingView(with: LocalizationConstants.loading)
         disposable = interactor.verifyNumber(with: code)
-            .subscribeOn(scheduler)
+            .subscribeOn(subscriptionScheduler)
             .observeOn(MainScheduler.instance)
             .subscribe(onCompleted: { [unowned self] in
                 self.handleVerifyCodeSuccess()

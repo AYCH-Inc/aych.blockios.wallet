@@ -32,6 +32,7 @@ target 'Blockchain' do
     pod 'web3swift.pod', git: 'git@github.com:thisisalexmcgregor/web3swift.git', commit: '39abb613bef9f63f7bff5633172b3b474e54c165'
     pod 'RxBlocking', '~> 5.0'
     pod 'RxTest', '~> 5.0'
+    pod 'SwiftCheck', '~> 0.12'
   end
 end
 
@@ -55,6 +56,7 @@ target 'StellarKit' do
 
   target 'StellarKitTests' do
     inherit! :search_paths
+    pod 'SwiftCheck', '~> 0.12'
   end
 end
 
@@ -69,6 +71,7 @@ target 'EthereumKit' do
     # Pods for testing
     pod 'RxBlocking', '~> 5.0'
     pod 'RxTest', '~> 5.0'
+    pod 'SwiftCheck', '~> 0.12'
   end
 end
 
@@ -83,6 +86,7 @@ target 'ERC20Kit' do
     # Pods for testing
     pod 'RxBlocking', '~> 5.0'
     pod 'RxTest', '~> 5.0'
+    pod 'SwiftCheck', '~> 0.12'
   end
 end
 
@@ -96,6 +100,7 @@ target 'BitcoinKit' do
     # Pods for testing
     pod 'RxBlocking', '~> 5.0'
     pod 'RxTest', '~> 5.0'
+    pod 'SwiftCheck', '~> 0.12'
   end
 end
 
@@ -106,6 +111,7 @@ target 'HDWalletKit' do
   target 'HDWalletKitTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'SwiftCheck', '~> 0.12'
   end
 end
 
@@ -116,6 +122,7 @@ target 'CommonCryptoKit' do
   target 'CommonCryptoKitTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'SwiftCheck', '~> 0.12'
   end
 end
 
@@ -127,6 +134,7 @@ target 'PlatformKit' do
   target 'PlatformKitTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'SwiftCheck', '~> 0.12'
   end
 end
 

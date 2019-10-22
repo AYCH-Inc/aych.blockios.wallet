@@ -35,6 +35,12 @@ public extension UIColor {
 
     // MARK: Texts
     
+    static let normalPassword = green600
+    static let strongPassword = blue600
+    static let destructive = red600
+    
+    static let textFieldPlaceholder = grey400
+    static let textFieldText = grey800
     static let titleText = grey800
     static let descriptionText = grey600
     static let mutedText = grey400
@@ -45,7 +51,9 @@ public extension UIColor {
     static let successButton = green600
     static let primaryButton = blue600
     static let secondaryButton = grey800
-
+    static let tertiaryButton = grey900
+    static let linkableText = blue600
+    
     static let iconDefault = grey400
     static let iconSelected = grey400
     

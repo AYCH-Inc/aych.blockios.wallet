@@ -47,6 +47,8 @@ protocol QRCodeScannerViewModelProtocol: class {
     func closeButtonPressed()
     func startReadingQRCode()
     func handleDismissCompleted(with scanResult: Result<String, QRScannerError>)
+    
+    func viewWillDisappear()
 }
 
 final class QRCodeScannerViewModel<P: QRCodeScannerParsing>: QRCodeScannerViewModelProtocol {
@@ -103,6 +105,10 @@ final class QRCodeScannerViewModel<P: QRCodeScannerParsing>: QRCodeScannerViewMo
         self.scanner = scanner
         self.completed = completed
         self.scanner.delegate = self
+    }
+    
+    func viewWillDisappear() {
+        scanner.stopReadingQRCode(complete: nil)
     }
     
     func closeButtonPressed() {

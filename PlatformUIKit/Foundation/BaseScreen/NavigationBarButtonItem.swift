@@ -31,14 +31,17 @@ class NavigationBarButtonItem: UIBarButtonItem {
         
         switch type {
         case .content(content: let content, tap: let tap):
-            let font = Font(.branded(.montserratSemiBold), size: .custom(14))
-            let attributes: [NSAttributedString.Key: Any] = [.font: font.result,
-                                                             .foregroundColor: color]
+            let font = UIFont.mainMedium(16)
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: font,
+                .foregroundColor: color
+            ]
             self.setTitleTextAttributes(attributes, for: .normal)
             self.setTitleTextAttributes(attributes, for: .highlighted)
             self.setTitleTextAttributes(attributes, for: .disabled)
             self.title = content.title
             self.image = content.image
+            self.accessibilityIdentifier = content.accessibility?.id.rawValue
             
             self.rx.tap.bind {
                 tap()

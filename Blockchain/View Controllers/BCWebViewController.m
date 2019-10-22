@@ -160,15 +160,17 @@ NSMutableArray *visitedPages;
 
 # pragma mark - Loading URLs
 
+- (void)loadNSURL:(NSURL *)url {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [visitedPages addObject:[[request URL] absoluteString]];
+    [self addCookiesToRequest:request];
+    [webView loadRequest:request];
+}
+
 - (void)loadURL:(NSString*)url
 {
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    
-    [visitedPages addObject:[[request URL] absoluteString]];
-    
-    [self addCookiesToRequest:request];
-    
-    [webView loadRequest:request];
+    NSURL *nsUrl = [NSURL URLWithString:url];
+    [self loadNSURL:nsUrl];
 }
 
 - (void)addCookiesToRequest:(NSMutableURLRequest*)request

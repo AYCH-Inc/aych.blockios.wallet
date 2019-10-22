@@ -19,6 +19,15 @@ public struct Accessibility {
         
         /// Doesn't contain any value
         case none
+        
+        var rawValue: T? {
+            switch self {
+            case .value(let rawValue):
+                return rawValue
+            case .none:
+                return nil
+            }
+        }
     }
     
     /// `.none` represents an inaccessible element

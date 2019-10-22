@@ -451,7 +451,7 @@ extension SendPaxViewController {
         )
         
         let viewController = QRCodeScannerViewControllerBuilder(viewModel: qrScannerViewModel)?
-            .with(dismissAnimated: false)
+            .with(presentationType: .modal(dismissWithAnimation: false))
             .build()
         
         guard let qrCodeScannerViewController = viewController else { return }

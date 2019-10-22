@@ -14,6 +14,7 @@
 
 - (id)initWithTitle:(NSString *)title;
 
+- (void)loadNSURL:(NSURL *)url;
 - (void)loadURL:(NSString*)url;
 
 @end

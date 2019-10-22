@@ -16,7 +16,7 @@ import PlatformKit
     // MARK: - Types
     
     /// The style of the loading view
-    enum LoadingViewStyle {
+    public enum LoadingViewStyle {
         
         /// Activity indicator style (legacy design)
         case activityIndicator

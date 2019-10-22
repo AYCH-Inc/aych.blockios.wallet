@@ -10,6 +10,11 @@ import UIKit
 import PlatformKit
 import PlatformUIKit
 
+enum QRCodePresentationType {
+    case modal(dismissWithAnimation: Bool)
+    case child
+}
+
 final class QRCodeScannerViewController: UIViewController {
     
     private var viewFrame: CGRect {
@@ -21,20 +26,31 @@ final class QRCodeScannerViewController: UIViewController {
         return CGRect(x: 0, y: 0, width: width, height: height)
     }
     
-    private var scannerView: QRCodeScannerView?
+    private var scannerView: QRCodeScannerView!
     
     private let viewModel: QRCodeScannerViewModelProtocol
+    private let loadingViewStyle: LoadingViewPresenter.LoadingViewStyle
     private let loadingViewPresenter: LoadingViewPresenting
-    private let dismissAnimated: Bool
+    private let presentationType: QRCodePresentationType
     
-    init(viewModel: QRCodeScannerViewModelProtocol,
+    init(presentationType: QRCodePresentationType = .modal(dismissWithAnimation: true),
+         viewModel: QRCodeScannerViewModelProtocol,
          loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared,
-         dismissAnimated: Bool = true) {
+         loadingViewStyle: LoadingViewPresenter.LoadingViewStyle = .activityIndicator) {
+        self.presentationType = presentationType
         self.viewModel = viewModel
         self.loadingViewPresenter = loadingViewPresenter
-        self.dismissAnimated = dismissAnimated
+        self.loadingViewStyle = loadingViewStyle
         super.init(nibName: nil, bundle: nil)
-        modalTransitionStyle = .crossDissolve
+        switch presentationType {
+        case .modal(dismissWithAnimation: let animated):
+            modalTransitionStyle = .crossDissolve
+            self.viewModel.closeButtonTapped = { [weak self] in
+                self?.dismiss(animated: animated)
+            }
+        case .child:
+            break
+        }
         
         self.viewModel.scanningStarted = {
             Logger.shared.info("Scanning started")
@@ -42,10 +58,6 @@ final class QRCodeScannerViewController: UIViewController {
         
         self.viewModel.scanningStopped = { [weak self] in
             self?.scannerView?.removePreviewLayer()
-        }
-        
-        self.viewModel.closeButtonTapped = { [weak self] in
-            self?.dismiss(animated: dismissAnimated)
         }
         
         self.viewModel.scanComplete = { [weak self] result in
@@ -61,26 +73,22 @@ final class QRCodeScannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = viewModel.headerText
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: #imageLiteral(resourceName: "close"),
-            style: .plain,
-            target: self,
-            action: #selector(closeButtonClicked)
-        )
-        
+        switch presentationType {
+        case .modal:
+            title = viewModel.headerText
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: #imageLiteral(resourceName: "close"),
+                style: .plain,
+                target: self,
+                action: #selector(closeButtonClicked)
+            )
+        case .child:
+            break
+        }
+
         scannerView = QRCodeScannerView(viewModel: viewModel, frame: viewFrame)
-        view.addSubview(scannerView!)
-        
-        scannerView!.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            scannerView!.topAnchor.constraint(equalTo: view.topAnchor),
-            scannerView!.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scannerView!.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scannerView!.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        view.addSubview(scannerView)
+        scannerView.fillSuperview()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -90,16 +98,32 @@ final class QRCodeScannerViewController: UIViewController {
         scannerView?.startReadingQRCode()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.viewWillDisappear()
+    }
+    
     @objc func closeButtonClicked(sender: AnyObject) {
         viewModel.closeButtonPressed()
     }
     
     private func handleScanComplete(with result: Result<String, QRScannerError>) {
         if let loadingText = viewModel.loadingText {
-            loadingViewPresenter.show(with: loadingText)
+            switch loadingViewStyle {
+            case .activityIndicator:
+                loadingViewPresenter.show(with: loadingText)
+            case .circle:
+                loadingViewPresenter.showCircular(with: loadingText)
+            }
+            
         }
-        dismiss(animated: dismissAnimated) { [weak self] in
-            self?.viewModel.handleDismissCompleted(with: result)
+        switch presentationType {
+        case .modal(dismissWithAnimation: let animated):
+            dismiss(animated: animated) { [weak self] in
+                self?.viewModel.handleDismissCompleted(with: result)
+            }
+        case .child:
+            viewModel.handleDismissCompleted(with: result)
         }
     }
 }

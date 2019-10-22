@@ -21,3 +21,17 @@ extension Reachability {
         return true
     }
 }
+
+protocol InternentReachabilityAPI: class {
+    var canConnect: Bool { get }
+}
+
+final class InternentReachability: InternentReachabilityAPI {
+    enum ErrorType: Error {
+        case interentUnreachable
+    }
+    
+    var canConnect: Bool {
+        return Reachability.hasInternetConnection()
+    }
+}

@@ -45,4 +45,9 @@ public extension String {
         this.remove(prefix: prefix)
         return this
     }
+    
+    /// Returns the string with no whitespaces
+    public var trimmingWhitespaces: String {
+        return trimmingCharacters(in: .whitespaces)
+    }
 }

@@ -130,7 +130,7 @@ final class PinScreenViewController: BaseScreenViewController {
     
     // MARK: - Navigation
     
-    override func navigationBarLeftButtonPressed() {
+    override func navigationBarLeadingButtonPressed() {
         if presenter.useCase.isAuthenticateOnLogin {
             displayLogoutWarningAlert()
         } else {
@@ -138,7 +138,7 @@ final class PinScreenViewController: BaseScreenViewController {
         }
     }
     
-    override func navigationBarRightButtonPressed() {
+    override func navigationBarTrailingButtonPressed() {
         presenter.trailingButtonPressed()
     }
 }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RecoverFundsViewController" customModule="Blockchain" customModuleProvider="target">
+            <connections>
+                <outlet property="continueButtonView" destination="vC1-tM-KGL" id="obk-GA-F1C"/>
+                <outlet property="descriptionLabel" destination="S4e-J7-N1O" id="F8c-o4-wMu"/>
+                <outlet property="mnemonicTextView" destination="pId-Nf-8tZ" id="y83-4B-AAi"/>
+                <outlet property="view" destination="Cbm-vX-pWb" id="NBO-Ff-Z1b"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Cbm-vX-pWb">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="giQ-wE-5K6">
+                    <rect key="frame" x="16" y="64" width="382" height="156"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your 12 recovery words with spaces to recover your funds &amp; transactions" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S4e-J7-N1O">
+                            <rect key="frame" x="0.0" y="0.0" width="382" height="34"/>
+                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                            <color key="textColor" red="0.40999999999999998" green="0.44" blue="0.52000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pId-Nf-8tZ" customClass="MnemonicTextView" customModule="PlatformUIKit">
+                            <rect key="frame" x="0.0" y="60" width="382" height="96"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="96" id="da9-XN-WFU"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                </stackView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vC1-tM-KGL" customClass="ButtonView" customModule="PlatformUIKit">
+                    <rect key="frame" x="16" y="798" width="382" height="48"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="Vl5-mF-trF"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="giQ-wE-5K6" firstAttribute="leading" secondItem="6LE-bG-fo3" secondAttribute="leading" constant="16" id="6Qo-3v-sgC"/>
+                <constraint firstItem="6LE-bG-fo3" firstAttribute="trailing" secondItem="vC1-tM-KGL" secondAttribute="trailing" constant="16" id="aZy-bN-oVC"/>
+                <constraint firstItem="6LE-bG-fo3" firstAttribute="trailing" secondItem="giQ-wE-5K6" secondAttribute="trailing" constant="16" id="gxf-Ty-29C"/>
+                <constraint firstItem="6LE-bG-fo3" firstAttribute="bottom" secondItem="vC1-tM-KGL" secondAttribute="bottom" constant="16" id="oQH-je-P28"/>
+                <constraint firstItem="vC1-tM-KGL" firstAttribute="leading" secondItem="6LE-bG-fo3" secondAttribute="leading" constant="16" id="uld-Ia-oA7"/>
+                <constraint firstItem="giQ-wE-5K6" firstAttribute="top" secondItem="6LE-bG-fo3" secondAttribute="top" constant="20" id="zGp-9c-a57"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="6LE-bG-fo3"/>
+            <point key="canvasLocation" x="170" y="127"/>
+        </view>
+    </objects>
+</document>

@@ -37,6 +37,10 @@ extension AuthenticationCoordinator {
         pinRouter = PinRouter(flow: flow) { [weak self] _ in
             guard let self = self else { return }
             self.alertPresenter.showMobileNoticeIfNeeded()
+            /// TODO: Inject app coordinator instead - currently there is
+            /// a crash related to circle-dependency between `AuthenticationCoordinator`
+            /// and `AppCoordinator`.
+            AppCoordinator.shared.startAfterWalletCreation()
             self.handlePostAuthenticationRouting()
         }
         pinRouter.execute()
@@ -78,7 +82,7 @@ extension AuthenticationCoordinator {
     /// Shows the pin entry view.
     func showPinEntryView() {
         if walletManager.didChangePassword {
-            showPasswordModal()
+            showPasswordViewController()
         } else if appSettings.isPinSet {
             authenticatePin()
         } else {
@@ -114,7 +118,7 @@ extension AuthenticationCoordinator {
     private func offerAuthenticatingAgain() {
         let actions = [
             UIAlertAction(title: LocalizationConstants.Authentication.enterPassword, style: .cancel) { [unowned self] _ in
-                self.showPasswordModal()
+                self.showPasswordViewController()
             },
             UIAlertAction(title: LocalizationConstants.Authentication.retryValidation, style: .default) { [unowned self] _ in
                 self.pinRouter.execute()

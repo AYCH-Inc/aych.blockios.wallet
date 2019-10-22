@@ -98,6 +98,8 @@ protocol NavigatableView: class {
     
     var navigationDisplayMode: NavigationBarDisplayMode { get }
     
+    var navigationBarTintColor: UIColor? { get }
+    
     var rightNavControllerCTAType: NavigationCTAType { get }
     var leftNavControllerCTAType: NavigationCTAType { get }
     
@@ -124,6 +126,18 @@ extension NavigatableView where Self: UIViewController {
     
     var navigationDisplayMode: NavigationBarDisplayMode {
         return .dark
+    }
+    
+    var navigationBarTintColor: UIColor? {
+        return navigationDisplayMode.tintColor
+    }
+    
+    func navControllerRightBarButtonTapped(_ navController: UINavigationController) {
+        // no-op
+    }
+    
+    func navControllerLeftBarButtonTapped(_ navController: UINavigationController) {
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -182,8 +196,8 @@ extension NavigatableView where Self: UIViewController {
         
         controller.navigationItem.rightBarButtonItem?.tintColor = navigatableView.rightCTATintColor
         controller.navigationItem.leftBarButtonItem?.tintColor = navigatableView.leftCTATintColor
-        navigationBar.backgroundColor = navigatableView.navigationDisplayMode.tintColor
-        navigationBar.barTintColor = navigatableView.navigationDisplayMode.tintColor
+        navigationBar.backgroundColor = navigatableView.navigationBarTintColor ?? navigatableView.navigationDisplayMode.tintColor
+        navigationBar.barTintColor = navigatableView.navigationBarTintColor ?? navigatableView.navigationDisplayMode.tintColor
         navigationBar.titleTextAttributes = [
             .font: BaseNavigationController.titleFont(),
             .foregroundColor: navigatableView.navigationDisplayMode.textColor
@@ -210,7 +224,7 @@ extension NavigatableView where Self: UIViewController {
     }
     
     fileprivate static func titleFont() -> UIFont {
-        let font = Font(.branded(.montserratRegular), size: .custom(23.0))
+        let font = Font(.branded(.interMedium), size: .custom(20.0))
         return font.result
     }
 }

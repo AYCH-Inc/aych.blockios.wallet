@@ -23,15 +23,17 @@ extension AlertViewPresenter {
         let message = walletOptions.mobileInfo?.message ?? LocalizationConstants.Errors.siteMaintenanceError
         AlertViewPresenter.shared.standardError(message: message)
     }
-
-    @objc func showEmailAuthorizationRequired() {
+    
+    @objc func showEmailAuthorizationRequired(cancel: @escaping () -> Void) {
         let alert = UIAlertController(
             title: LocalizationConstants.Authentication.manualPairingAuthorizationRequiredTitle,
             message: LocalizationConstants.Authentication.manualPairingAuthorizationRequiredMessage,
             preferredStyle: .alert
         )
         alert.addAction(
-            UIAlertAction(title: LocalizationConstants.okString, style: .cancel)
+            UIAlertAction(title: LocalizationConstants.okString, style: .cancel) { _ in
+                cancel()
+            }
         )
         alert.addAction(
             UIAlertAction(title: LocalizationConstants.openMailApp, style: .default) { _ in

@@ -53,8 +53,9 @@ extension AVCaptureOutput: CaptureOutputProtocol {
     }
 }
 
-protocol CaptureSessionProtocol {
+protocol CaptureSessionProtocol: class {
     var current: AVCaptureSession? { get }
+    var sessionPreset: AVCaptureSession.Preset { get set }
     
     func startRunning()
     func stopRunning()
@@ -98,6 +99,7 @@ extension AVCaptureMetadataOutput: CaptureMetadataOutputProtocol {}
     required init?(deviceInput: CaptureInputProtocol? = QRCodeScanner.runDeviceInputChecks(alertViewPresenter: AlertViewPresenter.shared), captureSession: CaptureSessionProtocol = AVCaptureSession(), captureMetadataOutputBuilder: @escaping () -> CaptureMetadataOutputProtocol = { AVCaptureMetadataOutput() }, sessionQueue: DispatchQueue = DispatchQueue(label: "com.blockchain.Blockchain.qrCodeScanner.sessionQueue", qos: .background)) {
         guard let deviceInput = deviceInput else { return nil }
         
+        captureSession.sessionPreset = .high
         self.captureSession = captureSession
         self.captureMetadataOutputBuilder = captureMetadataOutputBuilder
         self.sessionQueue = sessionQueue

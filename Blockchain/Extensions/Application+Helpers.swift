@@ -9,19 +9,28 @@
 import Foundation
 import SafariServices
 
-extension UIApplication {
+/// A protocol for Safari services
+protocol WebViewServiceAPI: class {
+    func openSafari(url: String, from parent: UIViewController)
+    func openSafari(url: URL, from parent: UIViewController)
+}
 
+extension UIApplication: WebViewServiceAPI {
     // Prefer using SFSafariViewController over UIWebview due to privacy and security improvements.
     // https://medium.com/ios-os-x-development/security-flaw-with-uiwebview-95bbd8508e3c
-    func openSafariViewController(url: String, presentingViewController: UIViewController) {
-        guard let urlTarget = URL(string: url) else {
-            return
-        }
-        let viewController = SFSafariViewController(url: urlTarget)
-        viewController.modalPresentationStyle = .overFullScreen
-        presentingViewController.present(viewController, animated: true, completion: nil)
+    func openSafari(url: String, from parent: UIViewController) {
+        guard let url = URL(string: url) else { return }
+        openSafari(url: url, from: parent)
     }
+    
+    func openSafari(url: URL, from parent: UIViewController) {
+        let viewController = SFSafariViewController(url: url)
+        viewController.modalPresentationStyle = .overFullScreen
+        parent.present(viewController, animated: true, completion: nil)
+    }
+}
 
+extension UIApplication {
     @objc func openWebView(url: String, title: String, presentingViewController: UIViewController) {
         let webViewController = SettingsWebViewController()
         webViewController.urlTargetString = url

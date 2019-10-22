@@ -27,7 +27,8 @@ final class QRCodeScannerViewControllerBuilder<P: QRCodeScannerParsing> {
     
     private var scanner: QRCodeScanner? = QRCodeScanner()
     private var loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
-    private var dismissAnimated: Bool = true
+    private var loadingViewStyle: LoadingViewPresenter.LoadingViewStyle = .activityIndicator
+    private var presentationType = QRCodePresentationType.modal(dismissWithAnimation: true)
     
     private let setupType: SetupType<P>
     
@@ -51,17 +52,20 @@ final class QRCodeScannerViewControllerBuilder<P: QRCodeScannerParsing> {
         return self
     }
     
-    func with(loadingViewPresenter: LoadingViewPresenting) -> QRCodeScannerViewControllerBuilder {
+    func with(loadingViewPresenter: LoadingViewPresenting,
+              style: LoadingViewPresenter.LoadingViewStyle = .activityIndicator) -> QRCodeScannerViewControllerBuilder {
+        self.loadingViewStyle = style
         self.loadingViewPresenter = loadingViewPresenter
         return self
     }
     
-    func with(dismissAnimated: Bool) -> QRCodeScannerViewControllerBuilder {
-        self.dismissAnimated = dismissAnimated
+    func with(presentationType: QRCodePresentationType) -> QRCodeScannerViewControllerBuilder {
+        self.presentationType = presentationType
         return self
     }
     
     func build() -> UIViewController? {
+        var scannerViewController: QRCodeScannerViewController?
         switch setupType {
         case .dependencies(let dependencies):
             guard let scanner = scanner else { return nil }
@@ -76,23 +80,30 @@ final class QRCodeScannerViewControllerBuilder<P: QRCodeScannerParsing> {
     
             guard let qrCodeScannerViewModel = vm else { return nil }
             
-            let scannerViewController = QRCodeScannerViewController(
+            scannerViewController = QRCodeScannerViewController(
+                presentationType: presentationType,
                 viewModel: qrCodeScannerViewModel,
                 loadingViewPresenter: loadingViewPresenter,
-                dismissAnimated: dismissAnimated
+                loadingViewStyle: loadingViewStyle
             )
-            let navController = UINavigationController(rootViewController: scannerViewController)
-            navController.modalPresentationStyle = .fullScreen
-            return navController
         case .viewModel(let qrCodeScannerViewModel):
-            let scannerViewController = QRCodeScannerViewController(
+            scannerViewController = QRCodeScannerViewController(
+                presentationType: presentationType,
                 viewModel: qrCodeScannerViewModel,
                 loadingViewPresenter: loadingViewPresenter,
-                dismissAnimated: dismissAnimated
+                loadingViewStyle: loadingViewStyle
             )
-            let navController = UINavigationController(rootViewController: scannerViewController)
-            navController.modalPresentationStyle = .fullScreen
-            return navController
+        }
+        guard let scannerVC = scannerViewController else {
+            return nil
+        }
+        switch presentationType {
+        case .modal:
+            let viewController = UINavigationController(rootViewController: scannerVC)
+            viewController.modalPresentationStyle = .fullScreen
+            return viewController
+        case .child:
+            return scannerVC
         }
     }
 }

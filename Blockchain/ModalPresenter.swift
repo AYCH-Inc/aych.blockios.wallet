@@ -159,13 +159,6 @@ typealias OnModalResumed = () -> Void
             height: modalViewToShow.myHolderView?.frame.size.height ?? 0
         )
 
-        //: The pairing instructions view requires a custom background color
-        //: due to bottom insets on the iPhone X
-        // TODO: remove this stopgap solution when the modal view presenter is deprecated
-        if content is PairingInstructionsView {
-            modalViewToShow.backgroundColor = .gray1
-        }
-
         modalViewToShow.myHolderView?.addSubview(content)
         topMostView?.addSubview(modalViewToShow)
         topMostView?.endEditing(true)

@@ -17,3 +17,38 @@ extension Array {
         return self[index]
     }
 }
+
+// MARK: - Hashable
+
+extension Array where Element: Hashable {
+    public var duplicates: Array<Element>? {
+        let dictionary = Dictionary(grouping: self, by: { $0 })
+        let pairs = dictionary.filter { $1.count > 1 }
+        let duplicates = Array(pairs.keys)
+        return duplicates.count > 0 ? duplicates : nil
+    }
+}
+
+
+// MARK: - Equatable
+
+extension Array where Element: Equatable {
+    public var areAllElementsEqual: Bool {
+        guard let first = self.first else { return true }
+        return !dropFirst().contains { $0 != first }
+    }
+    
+    /// Returns `true` if if all elements are equal to a given value
+    public func areAllElements(equal element: Element) -> Bool {
+        return !dropFirst().contains { $0 != element }
+    }
+}
+
+// MARK: - String
+
+extension Array where Element == String {
+    public var containsEmpty: Bool {
+        return contains("")
+    }
+}
+

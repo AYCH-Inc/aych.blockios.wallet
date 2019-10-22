@@ -3,6 +3,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BCWebViewController.h"
 #import "AccountsAndAddressesNavigationController.h"
 #import "SendBitcoinViewController.h"
 #import "TransactionsViewController.h"
@@ -11,16 +12,13 @@
 #import "AssetSelectorView.h"
 #import "Assets.h"
 #import "BCBalancesChartView.h"
-#import "BCCreateWalletView.h"
 #import "BCConfirmPaymentViewModel.h"
-#import "BCManualPairView.h"
 #import "BCModalView.h"
 #import "BCNavigationController.h"
 #import "BCNavigationController.h"
 #import "BCPriceChartContainerViewController.h"
 #import "BCPriceChartView.h"
 #import "BCPricePreviewView.h"
-#import "BCWelcomeView.h"
 #import "BuyBitcoinNavigationController.h"
 #import "BuyBitcoinViewController.h"
 #import "DebugTableViewController.h"

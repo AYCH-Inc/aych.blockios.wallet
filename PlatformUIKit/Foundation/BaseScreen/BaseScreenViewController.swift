@@ -23,7 +23,7 @@ open class BaseScreenViewController: UIViewController {
     public var barStyle = Screen.Style.Bar.lightContent(ignoresStatusBar: false, background: .clear) {
         didSet {
             baseNavigationController?.navigationBar.titleTextAttributes = [
-                .font: Font(.branded(.montserratRegular), size: .custom(16.0)).result,
+                .font: UIFont.mainMedium(16),
                 .foregroundColor: barStyle.contentColor]
             setBackground(by: barStyle)
         }
@@ -68,7 +68,7 @@ open class BaseScreenViewController: UIViewController {
             let itemType: NavigationBarButtonItem.ItemType
             if let content = leadingButtonStyle.content {
                 itemType = NavigationBarButtonItem.ItemType.content(content: content) { [weak self] in
-                    self?.navigationBarLeftButtonPressed()
+                    self?.navigationBarLeadingButtonPressed()
                 }
             } else {
                 itemType = .none
@@ -90,7 +90,7 @@ open class BaseScreenViewController: UIViewController {
             switch trailingButtonStyle {
             case .content(let content):
                 itemType = .content(content: content) { [weak self] in
-                    self?.navigationBarRightButtonPressed()
+                    self?.navigationBarTrailingButtonPressed()
                 }
             case .processing:
                 itemType = .processing
@@ -142,6 +142,7 @@ open class BaseScreenViewController: UIViewController {
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         baseNavigationController?.navigationBar.isTranslucent = true
+        setBackground(by: barStyle)
         if !barStyle.ignoresStatusBar {
             UIApplication.shared.statusBarStyle = barStyle.statusBarStyle
         }
@@ -151,9 +152,15 @@ open class BaseScreenViewController: UIViewController {
     // MARK: - Setup
     
     private func setBackground(by style: Screen.Style.Bar) {
-        baseNavigationController?.navigationBar.setBackgroundImage(.image(color: style.backgroundColor,
-                                                                                 size: view.bounds.size),
-                                                                   for: .default)
+        let animation = CATransition()
+        animation.duration = 0.25
+        animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
+        animation.type = .fade
+        baseNavigationController?.navigationBar.layer.add(animation, forKey: nil)
+        baseNavigationController?.navigationBar.setBackgroundImage(
+            .image(color: style.backgroundColor, size: view.bounds.size),
+            for: .default
+        )
         baseNavigationController?.navigationBar.shadowImage = UIImage()
     }
     
@@ -175,9 +182,9 @@ open class BaseScreenViewController: UIViewController {
     // MARK: - User Interaction
 
     // TODO: Handle according to various styles
-    open func navigationBarLeftButtonPressed() {}
+    open func navigationBarTrailingButtonPressed() {}
     
-    open func navigationBarRightButtonPressed() {
+    open func navigationBarLeadingButtonPressed() {
         switch leadingButtonStyle {
         case .back:
             baseNavigationController?.popViewController(animated: true)

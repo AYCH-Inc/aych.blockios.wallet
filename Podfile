@@ -24,6 +24,7 @@ target 'Blockchain' do
   pod 'SwiftLint', '0.30.1'
   pod 'stellar-ios-mac-sdk', git: 'git@github.com:thisisalexmcgregor/stellar-ios-mac-sdk.git', commit: '03aefcdc14a43a16c46b483ffaea90ce9c210071'
   pod 'VeriffSDK', '2.5.0-patch3'
+  pod 'zxcvbn-ios', '1.0.4'
 
   target 'BlockchainTests' do
     inherit! :search_paths
@@ -37,6 +38,14 @@ end
 target 'PlatformUIKit' do
   pod 'RxSwift', '5.0'
   pod 'RxCocoa', '5.0'
+  pod 'zxcvbn-ios', '1.0.4'
+  
+  target 'PlatformUIKitTests' do
+    inherit! :search_paths
+    # Pods for testing
+    pod 'RxBlocking', '~> 5.0'
+    pod 'RxTest', '~> 5.0'
+  end
 end
 
 target 'StellarKit' do

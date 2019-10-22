@@ -187,7 +187,7 @@ extension PinRouter {
             self?.navigationController.popViewController(animated: true)
         }
         let forwardRouting: PinRouting.RoutingType.Forward = { [weak self] pin in
-            self?.finish()
+            self?.finish(performsCompletionAfterDismissal: false)
         }
         let presenter = PinScreenPresenter(useCase: useCase,
                                            flow: flow,
@@ -223,6 +223,7 @@ extension PinRouter {
     
     /// Cleanup the flow and calls completion handler
     private func finish(animated: Bool = true,
+                        performsCompletionAfterDismissal: Bool = true,
                         completedSuccessfully: Bool = true,
                         completionInput: PinRouting.RoutingType.Input = .none) {        
         // Concentrate any cleaup logic here
@@ -231,7 +232,7 @@ extension PinRouter {
             self.navigationController = nil
             self.previousRootViewController = nil
             self.isBeingDisplayed = false
-            if completedSuccessfully {
+            if completedSuccessfully && performsCompletionAfterDismissal {
                 self.completion?(completionInput)
             }
         }
@@ -243,6 +244,9 @@ extension PinRouter {
                 // The contorller MUST be allocated at that point. report non-fatal in case something goes wrong
                 recorder.error(PinRouting.FlowError.navigationControllerIsNotInitialized)
                 return
+            }
+            if completedSuccessfully && !performsCompletionAfterDismissal {
+                completion?(completionInput)
             }
             controller.dismiss(animated: animated, completion: cleanup)
         case .background:

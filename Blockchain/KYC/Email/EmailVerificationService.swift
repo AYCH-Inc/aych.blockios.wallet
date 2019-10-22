@@ -41,6 +41,7 @@ class EmailVerificationService: EmailVerifierAPI {
             .map { $0.emailVerified }
             .distinctUntilChanged()
             .filter { $0 }
+            .observeOn(MainScheduler.instance)
             .flatMap { [weak self] isVerified -> Observable<Bool> in
                 guard let strongSelf = self else {
                     return Observable.empty()
@@ -78,22 +79,22 @@ class EmailVerificationService: EmailVerifierAPI {
     // MARK: Private Methods
 
     func pollWalletSettings() -> Observable<WalletSettings> {
-        return Observable<Int>.interval(
-            1,
-            scheduler: MainScheduler.asyncInstance
-        ).flatMap { [weak self] _ -> Observable<WalletSettings> in
-            guard let strongSelf = self else {
-                return Observable.empty()
-            }
-            guard let guid = strongSelf.appSettings.guid else {
-                return Observable.error(VerifyEmailError.invalidWalletState)
-            }
+        return Observable<Int>
+            .interval(.seconds(1), scheduler: MainScheduler.asyncInstance)
+            .flatMap { [weak self] _ -> Observable<WalletSettings> in
+                guard let self = self else {
+                    return Observable.empty()
+                }
+                guard let guid = self.appSettings.guid else {
+                    return Observable.error(VerifyEmailError.invalidWalletState)
+                }
 
-            guard let sharedKey = strongSelf.appSettings.sharedKey else {
-                return Observable.error(VerifyEmailError.invalidWalletState)
-            }
-            return strongSelf.walletSettings.fetchSettings(guid: guid, sharedKey: sharedKey)
-                .asObservable()
+                guard let sharedKey = self.appSettings.sharedKey else {
+                    return Observable.error(VerifyEmailError.invalidWalletState)
+                }
+                return self.walletSettings
+                    .fetchSettings(guid: guid, sharedKey: sharedKey)
+                    .asObservable()
         }
     }
 }

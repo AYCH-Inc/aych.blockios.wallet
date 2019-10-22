@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegisterWalletViewController" customModule="Blockchain" customModuleProvider="target">
+            <connections>
+                <outlet property="buttonView" destination="BRo-W4-hJu" id="IhR-C5-hvX"/>
+                <outlet property="confirmPasswordTextField" destination="9Et-4r-kcP" id="xOr-75-jZa"/>
+                <outlet property="emailTextField" destination="u68-ox-ANY" id="zcs-IT-NRq"/>
+                <outlet property="passwordTextField" destination="PFb-4P-5j8" id="jfJ-Kf-7bp"/>
+                <outlet property="stackView" destination="ch0-qA-w9f" id="5t8-Bp-WuU"/>
+                <outlet property="termsOfUseTextView" destination="Q9Z-Ac-qOm" id="UHU-gv-SJX"/>
+                <outlet property="view" destination="zlS-JL-29R" id="CoZ-lA-zZt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="zlS-JL-29R">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="ch0-qA-w9f">
+                    <rect key="frame" x="16" y="60" width="382" height="185"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u68-ox-ANY" customClass="TextFieldView" customModule="PlatformUIKit">
+                            <rect key="frame" x="0.0" y="0.0" width="382" height="61.5"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="250" constant="48" id="TEh-kI-DCg"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PFb-4P-5j8" customClass="PasswordTextFieldView" customModule="PlatformUIKit">
+                            <rect key="frame" x="0.0" y="61.5" width="382" height="62"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="250" constant="48" id="Jny-ko-CI0"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Et-4r-kcP" customClass="PasswordTextFieldView" customModule="PlatformUIKit">
+                            <rect key="frame" x="0.0" y="123.5" width="382" height="61.5"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="250" constant="48" id="fE5-fv-a0f"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                </stackView>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" id="Q9Z-Ac-qOm" customClass="InteractableTextView" customModule="PlatformUIKit">
+                    <rect key="frame" x="16" y="253" width="382" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BRo-W4-hJu" customClass="ButtonView" customModule="PlatformUIKit">
+                    <rect key="frame" x="16" y="798" width="382" height="48"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="tD9-CL-ynR"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="WPs-pA-hQm" firstAttribute="trailing" secondItem="BRo-W4-hJu" secondAttribute="trailing" constant="16" id="Kit-bS-1fd"/>
+                <constraint firstItem="ch0-qA-w9f" firstAttribute="leading" secondItem="BRo-W4-hJu" secondAttribute="leading" id="ZV9-uu-lDj"/>
+                <constraint firstItem="ch0-qA-w9f" firstAttribute="trailing" secondItem="BRo-W4-hJu" secondAttribute="trailing" id="bJJ-ch-yds"/>
+                <constraint firstItem="BRo-W4-hJu" firstAttribute="leading" secondItem="WPs-pA-hQm" secondAttribute="leading" constant="16" id="bhd-F1-Dnt"/>
+                <constraint firstItem="WPs-pA-hQm" firstAttribute="bottom" secondItem="BRo-W4-hJu" secondAttribute="bottom" constant="16" id="gT9-5v-W1N"/>
+                <constraint firstItem="ch0-qA-w9f" firstAttribute="top" secondItem="WPs-pA-hQm" secondAttribute="top" constant="16" id="uQi-V9-KqS"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="WPs-pA-hQm"/>
+            <point key="canvasLocation" x="-7.2463768115942031" y="126.5625"/>
+        </view>
+    </objects>
+</document>

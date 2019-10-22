@@ -191,8 +191,8 @@ final class AuthenticationManager: NSObject, AuthenticationManagerProtocol {
     }
 
     /// Deprecate this method once the wallet creation process has been refactored
-    func setHandlerForWalletCreation(handler: @escaping WalletAuthHandler) {
-        self.authHandler = handler
+    func setAuthCoordinatorAsCreationHandler() {
+        authHandler = AuthenticationCoordinator.shared.authHandler
     }
 
     // MARK: - Authentication with Biometrics

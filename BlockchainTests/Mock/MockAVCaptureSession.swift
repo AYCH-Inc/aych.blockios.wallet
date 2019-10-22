@@ -10,6 +10,7 @@ import Foundation
 import PlatformKit
 
 class CaptureSessionMock: CaptureSessionProtocol {
+    var sessionPreset = AVCaptureSession.Preset.high
     var current: AVCaptureSession? = AVCaptureSession()
     
     var startRunningCallback: () -> Void = { }

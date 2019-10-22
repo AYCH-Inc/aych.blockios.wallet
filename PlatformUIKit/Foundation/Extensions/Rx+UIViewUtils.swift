@@ -9,6 +9,27 @@
 import RxSwift
 import RxCocoa
 
+/// Extension for rx that makes `UIProgressView` properties reactive
+extension Reactive where Base: UIProgressView {
+    public var progress: Binder<Float> {
+        return Binder(base) { view, progress in
+            view.setProgress(progress, animated: true)
+        }
+    }
+    
+    public var trackTintColor: Binder<UIColor> {
+        return Binder(base) { view, color in
+            view.trackTintColor = color
+        }
+    }
+    
+    public var fillColor: Binder<UIColor> {
+        return Binder(base) { view, color in
+            view.progressTintColor = color
+        }
+    }
+}
+
 /// Extension for rx that makes `UIView` properties reactive
 extension Reactive where Base: UIView {
     public var backgroundColor: Binder<UIColor> {

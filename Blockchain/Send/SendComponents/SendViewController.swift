@@ -27,14 +27,7 @@ final class SendViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var continueButton: PrimaryButtonContainer!
 
-    private lazy var keyboardBar: UIToolbar = {
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissKeyboard))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let bar = UIToolbar()
-        bar.items = [flexibleSpace, doneButton]
-        bar.sizeToFit()
-        return bar
-    }()
+    private var keyboardInteractionController: KeyboardInteractionController!
     
     // MARK: - Injected
     
@@ -67,7 +60,7 @@ final class SendViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTapGestureRecognizer()
+        keyboardInteractionController = KeyboardInteractionController(in: self)
         setupTableView()
         setupContinueButton()
         setupNavigationRightButton()
@@ -100,16 +93,6 @@ final class SendViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func setupTapGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer()
-        view.addGestureRecognizer(tapGestureRecognizer)
-        tapGestureRecognizer.rx.event
-            .bind { [unowned self] _ in
-                self.dismissKeyboard()
-            }
-            .disposed(by: disposeBag)
-    }
-    
     private func setupTableView() {
         tableView.separatorInset = .zero
         tableView.separatorColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
@@ -137,13 +120,9 @@ final class SendViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
     fileprivate func handle(error: SendInputState.StateError) {
+        keyboardInteractionController.dismissKeyboard()
         presenter.recordShowErrorAlert()
-        dismissKeyboard()
         let alert = AlertModel(
             headline: error.title(for: presenter.asset),
             body: error.description(for: presenter.asset),
@@ -233,14 +212,14 @@ extension SendViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             )
             cell.presenter = presenter.destinationPresenter
-            cell.prepare(using: keyboardBar)
+            cell.prepare(using: keyboardInteractionController.toolbar)
             return cell
         case CellIndex.amount:
             let cell: SendAmountTableViewCell = tableView.dequeue(
                 SendAmountTableViewCell.identifier, for: indexPath
             )
             cell.presenter = presenter.amountPresenter
-            cell.prepare(using: keyboardBar)
+            cell.prepare(using: keyboardInteractionController.toolbar)
             return cell
         case CellIndex.fee:
             let cell: SendFeeTableViewCell = tableView.dequeue(

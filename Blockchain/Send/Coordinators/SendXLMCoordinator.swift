@@ -515,9 +515,9 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             balance: balance,
             baseReserve: baseReserve
         ) { viewController in
-            UIApplication.shared.openSafariViewController(
+            UIApplication.shared.openSafari(
                 url: Constants.Url.stellarMinimumBalanceInfo,
-                presentingViewController: viewController
+                from: viewController
             )
         }
         let viewController = InformationViewController.make(viewModel: viewModel)

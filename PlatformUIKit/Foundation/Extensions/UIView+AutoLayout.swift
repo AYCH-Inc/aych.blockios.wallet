@@ -22,6 +22,46 @@ public extension UILayoutPriority {
 
 extension UIView {
     
+    // MARK: - Content Hugging Priority
+    
+    public var verticalContentHuggingPriority: UILayoutPriority {
+        set {
+            setContentHuggingPriority(newValue, for: .vertical)
+        }
+        get {
+            return contentHuggingPriority(for: .vertical)
+        }
+    }
+    
+    public var horizontalContentHuggingPriority: UILayoutPriority {
+        set {
+            setContentHuggingPriority(newValue, for: .horizontal)
+        }
+        get {
+            return contentHuggingPriority(for: .horizontal)
+        }
+    }
+    
+    // MARK: - Content Compression Resistance Priority
+    
+    public var verticalContentCompressionResistancePriority: UILayoutPriority {
+        set {
+            setContentCompressionResistancePriority(newValue, for: .vertical)
+        }
+        get {
+            return contentCompressionResistancePriority(for: .vertical)
+        }
+    }
+    
+    public var horizontalContentCompressionResistancePriority: UILayoutPriority {
+        set {
+            setContentCompressionResistancePriority(newValue, for: .horizontal)
+        }
+        get {
+            return contentCompressionResistancePriority(for: .horizontal)
+        }
+    }
+    
     public func layoutToSuperview(_ layoutForms: LayoutForm..., offset: CGFloat = 0) {
         guard let superview = superview else {
             print("\(#function): superview is nil")

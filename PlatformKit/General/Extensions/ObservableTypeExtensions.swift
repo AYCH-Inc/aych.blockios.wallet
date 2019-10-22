@@ -32,6 +32,15 @@ extension ObservableType where Element: OptionalType {
 }
 
 extension ObservableType {
+    public func map<A: AnyObject, R>(weak object: A, _ selector: @escaping (A, Element) throws -> R) -> Observable<R> {
+        return map { [weak object] element -> R in
+            guard let object = object else { throw PlatformKitError.nullReference(A.self) }
+            return try selector(object, element)
+        }
+    }
+}
+
+extension ObservableType {
     public func flatMap<A: AnyObject, R>(weak object: A, selector: @escaping (A, Self.Element) throws -> Observable<R>) -> Observable<R> {
         return flatMap { [weak object] (value) -> Observable<R> in
             guard let object = object else {

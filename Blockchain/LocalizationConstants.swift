@@ -900,8 +900,227 @@ struct LocalizationConstants {
             comment: "The error description for when the user has made too many failed authentication attempts using Touch ID."
         )
     }
-
+    
     struct Onboarding {
+        struct TwoFAAlert {
+            static let title = NSLocalizedString(
+                "Verification Code",
+                comment: "2FA alert: title"
+            )
+            static let message = NSLocalizedString(
+                "Please enter your %@ 2FA code",
+                comment: "2FA alert: message"
+            )
+            static let verifyButton = NSLocalizedString(
+                "Verify",
+                comment: "2FA alert: verify button"
+            )
+            static let resendButton = NSLocalizedString(
+                "Send again",
+                comment: "2FA alert: resend button"
+            )
+        }
+        struct WelcomeScreen {
+            struct Description {
+                static let prefix = NSLocalizedString(
+                    "The easy way to ",
+                    comment: "Welcome screen description: description prefix"
+                )
+                static let comma = NSLocalizedString(
+                    ", ",
+                    comment: "Welcome screen description: comma separator"
+                )
+                static let send = NSLocalizedString(
+                    "send",
+                    comment: "Welcome screen description: send word"
+                )
+                static let receive = NSLocalizedString(
+                    "receive",
+                    comment: "Welcome screen description: receive word"
+                )
+                static let store = NSLocalizedString(
+                    "store",
+                    comment: "Welcome screen description: store word"
+                )
+                static let and = NSLocalizedString(
+                    " and ",
+                    comment: "Welcome screen description: store word"
+                )
+                static let trade = NSLocalizedString(
+                    "trade",
+                    comment: "Welcome screen description: trade word"
+                )
+                static let suffix = NSLocalizedString(
+                    " digital currencies.",
+                    comment: "Welcome screen description: suffix"
+                )
+            }
+            struct Button {
+                static let createWallet = NSLocalizedString(
+                    "Create Wallet",
+                    comment: "Welcome screen: create wallet CTA button"
+                )
+                static let login = NSLocalizedString(
+                    "Log in",
+                    comment: "Welcome screen: login CTA button"
+                )
+                static let recoverFunds = NSLocalizedString(
+                    "Recover Funds",
+                    comment: "Welcome screen: recover funds CTA button"
+                )
+            }
+            static let title = NSLocalizedString(
+                "Welcome to Blockchain",
+                comment: "Welcome screen: title"
+            )
+        }
+        struct PairingIntroScreen {
+            struct Instruction {
+                static let firstPrefix = NSLocalizedString(
+                    "Log in to your Blockchain Wallet via your PC or Mac at ",
+                    comment: "Pairing intro screen: first instruction prefix"
+                )
+                static let firstSuffix = NSLocalizedString(
+                    "login.blockchain.com",
+                    comment: "Pairing intro screen: first instruction suffix"
+                )
+                static let second = NSLocalizedString(
+                    "Go to Settings / General.",
+                    comment: "Pairing intro screen: second instruction"
+                )
+                static let third = NSLocalizedString(
+                    "Click Show Pairing Code to reveal a QR Code, a square black & white barcode. Scan the code with your camera.",
+                    comment: "Pairing intro screen: third instruction"
+                )
+            }
+            static let title = NSLocalizedString(
+                "Automatic Pairing",
+                comment: "Manual pairing screen title"
+            )
+            static let primaryButton = NSLocalizedString(
+                "Scan Pairing Code",
+                comment: "Scan pairing code CTA button"
+            )
+            static let secondaryButton = NSLocalizedString(
+                "Manual Pairing",
+                comment: "Manual pairing CTA button"
+            )
+        }
+        
+        struct ManualPairingScreen {
+            static let title = NSLocalizedString(
+                "Manual Pairing",
+                comment: "Manual pairing screen title"
+            )
+            static let button = NSLocalizedString(
+                "Continue",
+                comment: "Manual pairing screen CTA button"
+            )
+        }
+        struct CreateWalletScreen {
+            static let title = NSLocalizedString(
+                "Create New Wallet",
+                comment: "Create new wallet screen title"
+            )
+            static let button = NSLocalizedString(
+                "Create Wallet",
+                comment: "Create new wallet screen CTA button"
+            )
+            struct TermsOfUse {
+                static let prefix = NSLocalizedString(
+                    "By creating a wallet you agree to Blockchain’s ",
+                    comment: "Create new wallet screen TOS prefix"
+                )
+                static let termsOfServiceLink = NSLocalizedString(
+                    "Terms of Services",
+                    comment: "Create new wallet screen TOS terms part"
+                )
+                static let linkDelimiter = NSLocalizedString(
+                    " & ",
+                    comment: "Create new wallet screen TOS terms part"
+                )
+                static let privacyPolicyLink = NSLocalizedString(
+                    "Privacy Policy",
+                    comment: "Create new wallet screen TOS privacy policy part"
+                )
+            }
+            // TODO: Format it properly
+            static let termsOfUseFormat = NSLocalizedString(
+                "By creating a wallet you agree to Blockchain’s Terms of Services & Privacy Policy",
+                comment: "Create new wallet screen terms of use text label"
+            )
+        }
+        
+        struct PasswordRequiredScreen {
+            static let title = NSLocalizedString(
+                "Password Required",
+                comment: "Password required screen title"
+            )
+            static let continueButton = NSLocalizedString(
+                "Continue",
+                comment: "Password required CTA"
+            )
+            static let forgotButton = NSLocalizedString(
+                "Forgot Password?",
+                comment: "Forgot password CTA"
+            )
+            static let forgetWalletButton = NSLocalizedString(
+                "Forget Wallet",
+                comment: "Forget wallet CTA"
+            )
+            static let description = NSLocalizedString(
+                "You have logged out or there was an error decrypting your wallet file. Enter your password below to login.",
+                comment: "Description of Password Required form"
+            )
+            static let forgetWalletDescription = NSLocalizedString(
+                "If you would like to forget this wallet and start over, press ‘Forget Wallet’.",
+                comment: "Description of forget wallet functionality."
+            )
+            struct ForgotPasswordAlert {
+                static let title = NSLocalizedString(
+                    "Open Support",
+                    comment: "forgot password alert title"
+                )
+                static let message = NSLocalizedString(
+                    "You will be redirected to\n%@.",
+                    comment: "forgot password alert body"
+                )
+            }
+            struct ForgetWalletAlert {
+                static let title = NSLocalizedString(
+                    "Warning",
+                    comment: "forget wallet alert title"
+                )
+                static let message = NSLocalizedString(
+                    "This will erase all wallet data on this device. Please confirm you have your wallet information saved elsewhere, otherwise any bitcoin in this wallet will be inaccessible!",
+                    comment: "forget wallet alert body"
+                )
+                static let forgetButton = NSLocalizedString(
+                    "Forget",
+                    comment: "forget wallet alert button"
+                )
+            }
+        }
+        
+        struct RecoverFunds {
+            static let title = NSLocalizedString(
+                "Recover Funds",
+                comment: "Title of the recover funds screen"
+            )
+            static let description = NSLocalizedString(
+                "Enter your 12 recovery words with spaces to recover your funds & transactions",
+                comment: "Description of what to type into the recover funds screen"
+            )
+            static let placeholder = NSLocalizedString(
+                "Recovery phrase",
+                comment: "Placeholder for the text field on the Recover Funds screen."
+            )
+            static let button = NSLocalizedString(
+                "Continue",
+                comment: "CTA on the recover funds screen"
+            )
+        }
+        
         static let createNewWallet = NSLocalizedString("Create New Wallet", comment: "")
         static let termsOfServiceAndPrivacyPolicyNoticePrefix = NSLocalizedString("By creating a wallet you agree to Blockchain’s", comment: "Text displayed to the user notifying them that they implicitly agree to Blockchain’s terms of service and privacy policy when they create a wallet")
         static let automaticPairing = NSLocalizedString("Automatic Pairing", comment: "")

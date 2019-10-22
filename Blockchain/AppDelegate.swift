@@ -18,44 +18,18 @@ import RxSwift
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    // The view used as an intermediary privacy screen when the application state changes to inactive
-    fileprivate lazy var visualEffectView: UIVisualEffectView = self.lazyVisualEffectView()
-
-    /// Adds a privacy screen during inactive->activate state transitions
-    ///
-    /// - Returns: UIVisualEffectView added to keyWindow
-    fileprivate func lazyVisualEffectView() -> UIVisualEffectView {
+    var window: UIWindow!
+    
+    private lazy var visualEffectView: UIVisualEffectView = {
         let view = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.masksToBounds = true
         view.frame = UIScreen.main.bounds
         view.alpha = 0
         return view
-    }
-
-    // MARK: - Properties
-    // NOTE: Xcode automatically creates the file name for each launch image
-    /// The overlay shown when the application resigns active state.
-    lazy var privacyScreen: UIImageView? = {
-        let launchImages = [
-            "320x480": "LaunchImage-700",
-            "320x568": "LaunchImage-700-568h",
-            "375x667": "LaunchImage-800-667h",
-            "375x812": "LaunchImage-1100-Portrait-2436h",
-            "414x736": "LaunchImage-800-Portrait-736h"
-        ]
-        let screenWidth = Int(UIScreen.main.bounds.size.width)
-        let screenHeight = Int(UIScreen.main.bounds.size.height)
-        let key = String(format: "%dx%d", screenWidth, screenHeight)
-        if let launchImage = UIImage(named: launchImages[key]!) {
-            let imageView = UIImageView(frame: UIScreen.main.bounds)
-            imageView.image = launchImage
-            imageView.alpha = 0
-            return imageView
-        }
-        return nil
     }()
 
+    // MARK: - Properties
+    
+    /// The overlay shown when the application resigns active state.
     private lazy var deepLinkHandler: DeepLinkHandler = {
         return DeepLinkHandler()
     }()
@@ -72,13 +46,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
     
     private let disposeBag = DisposeBag()
-
+    private weak var appCoordinator: AppCoordinator!
+    
     // MARK: - Lifecycle Methods
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions
+                     launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         FirebaseApp.configure()
         Fabric.with([Crashlytics.self])
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window.makeKeyAndVisible()
+        window.backgroundColor = .white
+
+        // Trigger routing hierarchy
+        appCoordinator = AppCoordinator.shared
+        appCoordinator.window = window
         
         // Migrate announcements
         AnnouncementRecorder.migrate()
@@ -89,8 +74,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .disposed(by: disposeBag)
         
         BlockchainSettings.App.shared.appBecameActiveCount += 1
+        
         // MARK: - Global Appearance
-        UIApplication.shared.statusBarStyle = .default
         
         //: Navigation Bar
         let navigationBarAppearance = UINavigationBar.appearance()
@@ -127,25 +112,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Network.Dependencies.default.communicator.use(eventRecorder: AnalyticsEventRecorder.shared)
         
         checkForNewInstall()
-
-        AppCoordinator.shared.start()
+        
+        appCoordinator.start()
         WalletActionSubscriber.shared.subscribe()
 
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        Logger.shared.debug("applicationWillResignActive")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            if application.applicationState != .active {
-                self.showBlurCurtain()
-            }
-        }
+        changeBlurVisibility(true)
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        Logger.shared.debug("applicationDidEnterBackground")
-
         // Wallet-related background actions
 
         // TODO: This should be moved into a component that performs actions to the wallet
@@ -179,8 +157,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         AppCoordinator.shared.cleanupOnAppBackgrounded()
         AuthenticationCoordinator.shared.cleanupOnAppBackgrounded()
-
-        showPrivacyScreen()
         
         Network.Dependencies.default.session.reset {
             Logger.shared.debug("URLSession reset completed.")
@@ -189,7 +165,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         Logger.shared.debug("applicationWillEnterForeground")
-        hidePrivacyScreen()
 
         BlockchainSettings.App.shared.appBecameActiveCount += 1
 
@@ -199,15 +174,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if BlockchainSettings.App.shared.guid != nil && BlockchainSettings.App.shared.sharedKey != nil {
                 AuthenticationCoordinator.shared.start()
             } else {
-                OnboardingCoordinator.shared.start()
+                if !AuthenticationCoordinator.shared.isWaitingForEmailValidation {
+                    appCoordinator.onboardingRouter.start(in: UIApplication.shared.keyWindow!)
+                }
+                AuthenticationCoordinator.shared.isWaitingForEmailValidation = false
             }
         }
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        hideBlurCurtain()
+        changeBlurVisibility(false)
         Logger.shared.debug("applicationDidBecomeActive")
-        hidePrivacyScreen()
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
@@ -217,7 +194,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         guard BlockchainSettings.App.shared.isPinSet else {
             if "\(Constants.Schemes.blockchainWallet)loginAuthorized" == urlString {
-                AuthenticationCoordinator.shared.startManualPairing()
+                // TODO: Link to manual pairing
+                appCoordinator.onboardingRouter.start()
                 return true
             }
             return false
@@ -244,7 +222,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             AuthenticationCoordinator.shared.postAuthenticationRoute = .sendCoins
 
-            AppCoordinator.shared.tabControllerManager.setupBitcoinPaymentFromURLHandler(
+            appCoordinator.tabControllerManager.setupBitcoinPaymentFromURLHandler(
                 withAmountString: bitcoinUrlPayload.amount,
                 address: bitcoinUrlPayload.address
             )
@@ -304,42 +282,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if appSettings.guid != nil && appSettings.sharedKey != nil && !appSettings.isPinSet {
             AlertViewPresenter.shared.alertUserAskingToUseOldKeychain { _ in
-                AuthenticationCoordinator.shared.showForgetWalletConfirmAlert()
+                AuthenticationCoordinator.shared.showPasswordViewController()
             }
         }
     }
 
-    // MARK: - Privacy screen
+    // MARK: - Blur
 
-    /// Fades out the privacy overlay and removes it from its superview.
-    func hidePrivacyScreen() {
-        UIView.animate(withDuration: 0.12, animations: {
-            self.privacyScreen?.alpha = 0
-        }, completion: { _ in
-            self.privacyScreen?.removeFromSuperview()
-        })
-    }
-
-    func hideBlurCurtain() {
-        UIView.animate(withDuration: 0.12, animations: {
-            self.visualEffectView.alpha = 0
-        }, completion: { _ in
-            self.visualEffectView.removeFromSuperview()
-        })
-    }
-
-    func showBlurCurtain() {
+    private func changeBlurVisibility(_ isVisible: Bool) {
+        let alpha: CGFloat = isVisible ? 1 : 0
         UIApplication.shared.keyWindow?.addSubview(visualEffectView)
-        UIView.animate(withDuration: 0.64) {
-            self.visualEffectView.alpha = 1
-        }
+        UIView.animate(
+            withDuration: 0.12,
+            delay: 0,
+            options: [.beginFromCurrentState],
+            animations: {
+                self.visualEffectView.alpha = alpha
+            },
+            completion: { finished in
+                if finished {
+                    if !isVisible {
+                        self.visualEffectView.removeFromSuperview()
+                    }
+                }
+            })
     }
-
-    func showPrivacyScreen() {
-        privacyScreen?.alpha = 1
-        UIApplication.shared.keyWindow?.addSubview(privacyScreen!)
-    }
-
+    
     // MARK: - Private
 
     private func showUpdateAppAlert() {

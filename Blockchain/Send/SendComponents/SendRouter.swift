@@ -59,7 +59,7 @@ final class SendRouter: NSObject {
     }
     
     func presentQRScan(using builder: QRCodeScannerViewControllerBuilder<AddressQRCodeParser>) {
-        guard let viewController = builder.with(dismissAnimated: true).build() else { return }
+        guard let viewController = builder.build() else { return }
         initialViewController.present(viewController, animated: true, completion: nil)
     }
     

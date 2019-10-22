@@ -18,9 +18,13 @@ public struct Screen {
     public struct NavigationBarContent {
         let title: String?
         let image: UIImage?
-        public init(title: String? = nil, image: UIImage? = nil) {
+        let accessibility: Accessibility?
+        public init(title: String? = nil,
+                    image: UIImage? = nil,
+                    accessibility: Accessibility? = nil) {
             self.title = title
             self.image = image
+            self.accessibility = accessibility
         }
     }
     
@@ -143,7 +147,12 @@ public struct Screen {
                 case .text(value: let text):
                     return NavigationBarContent(title: text)
                 case .back:
-                    return NavigationBarContent(image: UIImage(named: "back_icon"))
+                    return NavigationBarContent(
+                        image: UIImage(named: "back_icon"),
+                        accessibility: .init(
+                            id: .value(Accessibility.Identifier.NavigationBar.backButton)
+                        )
+                    )
                 default: // TODO: close button should be `X`
                     return nil
                 }

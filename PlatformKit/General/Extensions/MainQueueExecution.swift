@@ -22,9 +22,7 @@ public struct Execution {
             if Thread.isMainThread {
                 action()
             } else {
-                DispatchQueue.main.async {
-                    action()
-                }
+                DispatchQueue.main.async(execute: action)
             }
         }
     }

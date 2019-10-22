@@ -32,8 +32,6 @@ class VerifyEmailPresenter {
 
     func waitForEmailConfirmation() -> Disposable {
         return interactor.waitForEmailVerification()
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] isEmailVerified in
                 guard let strongSelf = self else {
                     return

@@ -554,8 +554,8 @@
 - (void)showDashboardAnimated:(BOOL)animated
 {
     [_tabViewController setActiveViewController:self.dashboardContainer animated:animated index:[ConstantsObjcBridge tabDashboard]];
-
     if (self.dashboardContainer.dashboard != nil) {
+        [self.dashboardContainer.dashboard.view layoutIfNeeded];
         [self.dashboardContainer.dashboard setAssetType:self.assetType];
     }
 }

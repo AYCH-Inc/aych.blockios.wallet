@@ -52,14 +52,19 @@ public extension PrimitiveSequence where Trait == SingleTrait {
     }
 }
 
-
 /// Extension for `ObservableType` that enables the loader to take part in a chain of observables
 public extension ObservableType {
     
     /// Show the loader and returns `Element`
     func show(loader: LoadingViewPresenting,
+              style: LoadingViewPresenter.LoadingViewStyle = .activityIndicator,
               text: String? = nil) -> Observable<Element> {
-        loader.show(with: text)
+        switch style {
+        case .circle:
+            loader.showCircular(with: text)
+        case .activityIndicator:
+            loader.show(with: text)
+        }
         return map { $0 }
     }
     
@@ -105,9 +110,16 @@ public extension Reactive where Base: ReactiveLoaderPresenting {
     
     /// Show the loader and returns `Element`
     func show(loader: LoadingViewPresenting,
+              style: LoadingViewPresenter.LoadingViewStyle = .activityIndicator,
               text: String? = nil) -> Completable {
         return Completable.create { completable -> Disposable in
-            loader.show(with: text)
+            switch style {
+            case .circle:
+                loader.showCircular(with: text)
+            case .activityIndicator:
+                loader.show(with: text)
+            }
+            
             completable(.completed)
             return Disposables.create()
         }

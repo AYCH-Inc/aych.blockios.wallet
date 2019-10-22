@@ -6,10 +6,42 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformKit
+
+extension NSMutableAttributedString {
+    
+    /// Makes the whole range hyperrlink
+    public func makeHyperlink(to urlString: String) {
+        guard let url = URL(string: urlString) else {
+            Logger.shared.error("could not create URL from string: \(urlString)")
+            return
+        }
+        let range = NSRange(location: 0, length: string.count)
+        addAttribute(NSAttributedString.Key.link, value: url, range: range)
+    }
+    
+    /// Adds a given line spacing
+    public func add(lineSpacing: CGFloat) {
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = lineSpacing
+        let range = NSRange(location: 0, length: string.count)
+        addAttribute(.paragraphStyle, value: style, range: range)
+    }
+}
 
 extension NSAttributedString {
     
+    public convenience init(_ text: String, font: UIFont, color: UIColor) {
+        self.init(string: text, attributes: [.font: font, .foregroundColor: color])
+    }
+    
+    public static func + (leading: NSAttributedString, trailing: NSAttributedString) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString()
+        attributedString.append(leading)
+        attributedString.append(trailing)
+        return attributedString
+    }
+        
     public var height: CGFloat {
         return heightForWidth(width: CGFloat.greatestFiniteMagnitude)
     }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ManualPairingViewController" customModule="Blockchain" customModuleProvider="target">
+            <connections>
+                <outlet property="buttonView" destination="U1o-Vr-9Zj" id="Xi7-hj-YqQ"/>
+                <outlet property="passwordTextFieldView" destination="cIO-t3-n7q" id="WJr-YX-uje"/>
+                <outlet property="view" destination="3RH-Oe-2VY" id="TE7-15-DKc"/>
+                <outlet property="walletIdTextFieldView" destination="0Lj-hO-Ont" id="1Mu-8B-e1g"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="3RH-Oe-2VY">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U1o-Vr-9Zj" customClass="ButtonView" customModule="PlatformUIKit">
+                    <rect key="frame" x="16" y="798" width="382" height="48"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="eXg-mn-LFu"/>
+                    </constraints>
+                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="r9O-T6-Po1">
+                    <rect key="frame" x="16" y="68" width="382" height="123"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Lj-hO-Ont" customClass="TextFieldView" customModule="PlatformUIKit">
+                            <rect key="frame" x="0.0" y="0.0" width="382" height="61.5"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="250" constant="48" id="224-Zg-uDk"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cIO-t3-n7q" customClass="TextFieldView" customModule="PlatformUIKit">
+                            <rect key="frame" x="0.0" y="61.5" width="382" height="61.5"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="250" constant="48" id="fNo-Tx-MQh"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="r9O-T6-Po1" firstAttribute="top" secondItem="X0V-9p-4JP" secondAttribute="top" constant="24" id="3d2-hP-G6b"/>
+                <constraint firstItem="r9O-T6-Po1" firstAttribute="leading" secondItem="U1o-Vr-9Zj" secondAttribute="leading" id="D0m-Kd-Vpr"/>
+                <constraint firstItem="X0V-9p-4JP" firstAttribute="bottom" secondItem="U1o-Vr-9Zj" secondAttribute="bottom" constant="16" id="ILU-sp-6Kb"/>
+                <constraint firstItem="r9O-T6-Po1" firstAttribute="trailing" secondItem="U1o-Vr-9Zj" secondAttribute="trailing" id="f4S-bg-HWg"/>
+                <constraint firstItem="X0V-9p-4JP" firstAttribute="trailing" secondItem="U1o-Vr-9Zj" secondAttribute="trailing" constant="16" id="yIE-Te-PGe"/>
+                <constraint firstItem="U1o-Vr-9Zj" firstAttribute="leading" secondItem="X0V-9p-4JP" secondAttribute="leading" constant="16" id="zOe-v6-08k"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="X0V-9p-4JP"/>
+            <point key="canvasLocation" x="111.59420289855073" y="100.44642857142857"/>
+        </view>
+    </objects>
+</document>

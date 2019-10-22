@@ -53,7 +53,7 @@ import PlatformUIKit
             alert.addAction(
                 UIAlertAction(title: LocalizationConstants.cancel, style: .cancel)
             )
-            self.present(alert: alert)
+            self.standardNotify(alert: alert)
         }
     }
 
@@ -75,7 +75,7 @@ import PlatformUIKit
             alert.addAction(
                 UIAlertAction(title: LocalizationConstants.Onboarding.loginExistingWallet, style: .default)
             )
-            self.present(alert: alert)
+            self.standardNotify(alert: alert)
         }
     }
 
@@ -167,18 +167,79 @@ import PlatformUIKit
 
     private func standardNotify(alert: UIAlertController, in viewController: UIViewController? = nil) {
         Execution.MainQueue.dispatch {
-            let window = UIApplication.shared.keyWindow
-            let rootController = window?.rootViewController
-            let presentingViewController = viewController ?? rootController?.topMostViewController ?? rootController
-            presentingViewController?.present(alert, animated: true)
+            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+                return
+            }
+            guard let topMostViewController = rootViewController.topMostViewController else {
+                return
+            }
+            
+            let presentingVC = viewController ?? topMostViewController
+            self.present(alert: alert, from: presentingVC)
+        }
+    }
+    
+    /// Dismisses an alert controller if currently presented.
+    /// Since only one alert is allowed at the same time, we need to dismiss
+    /// the currently displayed alert in case another one should be displayed
+    private func present(alert: UIAlertController, from presentingVC: UIViewController) {
+        guard let previousAlertController = presentingVC.presentedViewController as? UIAlertController else {
+            presentingVC.present(alert, animated: true, completion: nil)
+            return
+        }
+        previousAlertController.dismiss(animated: false) {
+            presentingVC.present(alert, animated: true, completion: nil)
         }
     }
 
-    private func present(alert: UIAlertController) {
-        recorder.recordIllegalUIOperationIfNeeded()
-        UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
-            alert,
-            animated: true
-        )
+}
+
+// MARK: - 2FA alert
+
+extension AlertViewPresenter {
+        
+    /// Displays 2FA alert according to type
+    func notify2FA(type: AuthenticationTwoFactorType,
+                   in viewController: UIViewController? = nil,
+                   resendAction: (() -> Void)? = nil,
+                   verifyAction: @escaping (String) -> Void) {
+        Execution.MainQueue.dispatch {
+            let alert = UIAlertController(
+                title: LocalizationConstants.Onboarding.TwoFAAlert.title,
+                message: String(
+                    format: LocalizationConstants.Onboarding.TwoFAAlert.message,
+                    type.name
+                ),
+                preferredStyle: .alert
+            )
+            var alertTextField: UITextField!
+            alert.addTextField { textField in
+                alertTextField = textField
+                textField.autocorrectionType = .no
+                textField.spellCheckingType = .no
+                textField.autocapitalizationType = .none
+                textField.returnKeyType = .done
+            }
+            // Resend action applicable only for SMS
+            if type == .sms {
+                let resendAction = UIAlertAction(
+                    title: LocalizationConstants.Onboarding.TwoFAAlert.resendButton,
+                    style: .default) { _ in
+                        resendAction?()
+                    }
+                alert.addAction(resendAction)
+            }
+            let verifyAction = UIAlertAction(
+                title: LocalizationConstants.Onboarding.TwoFAAlert.verifyButton,
+                style: .default) { _ in
+                    verifyAction(alertTextField.text ?? "")
+                }
+            alert.addAction(verifyAction)
+            
+            let cancelAction = UIAlertAction(title: LocalizationConstants.cancel, style: .cancel)
+            alert.addAction(cancelAction)
+            
+            self.standardNotify(alert: alert, in: viewController)
+        }
     }
 }

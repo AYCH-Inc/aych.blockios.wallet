@@ -22,10 +22,19 @@ public extension Accessibility.Identifier {
         /// Main CTA button
         public static let mainCTAButton = "mainCTAButton"
         public static let secondaryCTAButton = "secondaryCTAButton"
+        public static let destructiveCTAButton = "desctructiveCTAButton"
     }
 }
 
 // MARK: - Internal
+
+extension Accessibility.Identifier {
+    struct NavigationBar {
+        static let prefix = "NavigationBar."
+        static let backButton = "\(prefix)backButton"
+        static let dismissButton = "\(prefix)dismissButton"
+    }
+}
 
 extension Accessibility.Identifier {
     struct IntroductionSheet {
@@ -51,5 +60,24 @@ extension Accessibility.Identifier {
         static let addressLabel = "\(prefix)addressLabel"
         static let qrCodeImageView = "\(prefix)qrCodeImageView"
         static let enterPasswordButton = "\(prefix)enterPasswordButton"
+    }
+}
+
+extension Accessibility.Identifier {
+    struct TextFieldView {
+        static let prefix = "TextFieldView."
+        static let email = "\(prefix)statusLabel"
+        static let newPassword = "\(prefix)newPassword"
+        static let confirmNewPassword = "\(prefix)confirmNewPassword"
+        static let password = "\(prefix)password"
+        static let walletIdentifier = "\(prefix)walletIdentifier"
+        static let recoveryPhrase = "\(prefix)recoveryPhrase"
+    }
+}
+
+extension Accessibility.Identifier {
+    struct MnemonicTextView {
+        static let prefix = "MnemonicTextView."
+        static let recoveryPhrase = "\(prefix)recoveryPhrase"
     }
 }

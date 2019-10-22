@@ -130,9 +130,9 @@ class PaxActivityViewController: SimpleTransactionsViewController {
     }
     
     private func learnMoreAction() {
-        UIApplication.shared.openSafariViewController(
+        UIApplication.shared.openSafari(
             url: Constants.Url.learnMoreAboutPaxURL,
-            presentingViewController: AppCoordinator.shared.tabControllerManager.tabViewController
+            from: AppCoordinator.shared.tabControllerManager.tabViewController
         )
     }
     

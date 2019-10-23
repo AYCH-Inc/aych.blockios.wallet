@@ -678,6 +678,10 @@
 		3AA3BB9B231EFA01000CFFF9 /* SwapWalletIntroductionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA3BB9A231EFA01000CFFF9 /* SwapWalletIntroductionEvent.swift */; };
 		3AA3BB9D231EFA4F000CFFF9 /* BuySellWalletIntroductionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA3BB9C231EFA4F000CFFF9 /* BuySellWalletIntroductionEvent.swift */; };
 		3AA5DF392225A72100E2A3FA /* DashboardContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE969A221DDFD700F8B5D5 /* DashboardContainerViewController.swift */; };
+		3AA827DF2360C3D6007BFFBC /* AirdropRegistrationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA827DE2360C3D6007BFFBC /* AirdropRegistrationResponse.swift */; };
+		3AA827E12360CB57007BFFBC /* AirdropRegistrationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA827E02360CB57007BFFBC /* AirdropRegistrationRequest.swift */; };
+		3AA827E32360D6F0007BFFBC /* AirdropRegistrationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA827E22360D6F0007BFFBC /* AirdropRegistrationPayload.swift */; };
+		3AA827E52360DF79007BFFBC /* AirdropRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA827E42360DF79007BFFBC /* AirdropRegistrationService.swift */; };
 		3AA90DD622F395F9000C0CC4 /* BitcoinCashTransactionFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA90DD522F395F8000C0CC4 /* BitcoinCashTransactionFee.swift */; };
 		3AA94DE922418D800083210B /* ExchangeRateMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA94DE822418D800083210B /* ExchangeRateMetadata.swift */; };
 		3AA94DEA22418D800083210B /* ExchangeRateMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA94DE822418D800083210B /* ExchangeRateMetadata.swift */; };
@@ -1749,10 +1753,8 @@
 		AAA6648B2123426A009C1C64 /* PrimaryButtonContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B9CD42118E15200BD3D60 /* PrimaryButtonContainer.swift */; };
 		AAB43A892162C19C0015C863 /* Rx+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB43A882162C19C0015C863 /* Rx+Helpers.swift */; };
 		AAB43A8A2162C19C0015C863 /* Rx+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB43A882162C19C0015C863 /* Rx+Helpers.swift */; };
-		AAB759F82189586500A0AD11 /* StellarAirdropRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB759F72189586500A0AD11 /* StellarAirdropRegistrationService.swift */; };
 		AAB759FB21895C6C00A0AD11 /* StellarAirdropRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB759FA21895C6C00A0AD11 /* StellarAirdropRouterTests.swift */; };
 		AAB759FF21895CD200A0AD11 /* MockBlockchainSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB759FE21895CD200A0AD11 /* MockBlockchainSettings.swift */; };
-		AAB75A00218960C300A0AD11 /* StellarAirdropRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB759F72189586500A0AD11 /* StellarAirdropRegistrationService.swift */; };
 		AAB75A022189641900A0AD11 /* MockXlmWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB75A012189641900A0AD11 /* MockXlmWallet.swift */; };
 		AAB75A042189650D00A0AD11 /* MockBlockchainDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB75A032189650D00A0AD11 /* MockBlockchainDataRepository.swift */; };
 		AAB75A15218A733200A0AD11 /* AnnouncementCardContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB75A14218A733200A0AD11 /* AnnouncementCardContainerView.swift */; };
@@ -3056,6 +3058,10 @@
 		3AA3BB98231EF900000CFFF9 /* RequestWalletIntroductionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestWalletIntroductionEvent.swift; sourceTree = "<group>"; };
 		3AA3BB9A231EFA01000CFFF9 /* SwapWalletIntroductionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapWalletIntroductionEvent.swift; sourceTree = "<group>"; };
 		3AA3BB9C231EFA4F000CFFF9 /* BuySellWalletIntroductionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuySellWalletIntroductionEvent.swift; sourceTree = "<group>"; };
+		3AA827DE2360C3D6007BFFBC /* AirdropRegistrationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropRegistrationResponse.swift; sourceTree = "<group>"; };
+		3AA827E02360CB57007BFFBC /* AirdropRegistrationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropRegistrationRequest.swift; sourceTree = "<group>"; };
+		3AA827E22360D6F0007BFFBC /* AirdropRegistrationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropRegistrationPayload.swift; sourceTree = "<group>"; };
+		3AA827E42360DF79007BFFBC /* AirdropRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropRegistrationService.swift; sourceTree = "<group>"; };
 		3AA90DD522F395F8000C0CC4 /* BitcoinCashTransactionFee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinCashTransactionFee.swift; sourceTree = "<group>"; };
 		3AA94DE822418D800083210B /* ExchangeRateMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateMetadata.swift; sourceTree = "<group>"; };
 		3AAAAD8A22F09E7E00989320 /* SwapIntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapIntroductionViewController.swift; sourceTree = "<group>"; };
@@ -5166,7 +5172,6 @@
 		AAA341D72182448800E09561 /* StellarPaymentOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarPaymentOperation.swift; sourceTree = "<group>"; };
 		AAA58093233CEFB700F51528 /* AnalyticsEvents+PIT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsEvents+PIT.swift"; sourceTree = "<group>"; };
 		AAB43A882162C19C0015C863 /* Rx+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+Helpers.swift"; sourceTree = "<group>"; };
-		AAB759F72189586500A0AD11 /* StellarAirdropRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAirdropRegistrationService.swift; sourceTree = "<group>"; };
 		AAB759FA21895C6C00A0AD11 /* StellarAirdropRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StellarAirdropRouterTests.swift; sourceTree = "<group>"; };
 		AAB759FE21895CD200A0AD11 /* MockBlockchainSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBlockchainSettings.swift; sourceTree = "<group>"; };
 		AAB75A012189641900A0AD11 /* MockXlmWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockXlmWallet.swift; sourceTree = "<group>"; };
@@ -7989,6 +7994,17 @@
 				65283F3322A80CC100255A30 /* WalletOptionsVersionUpdateTests.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		3AA827D22360C04F007BFFBC /* Airdrop */ = {
+			isa = PBXGroup;
+			children = (
+				3AA827DE2360C3D6007BFFBC /* AirdropRegistrationResponse.swift */,
+				3AA827E02360CB57007BFFBC /* AirdropRegistrationRequest.swift */,
+				3AA827E22360D6F0007BFFBC /* AirdropRegistrationPayload.swift */,
+				3AA827E42360DF79007BFFBC /* AirdropRegistrationService.swift */,
+			);
+			path = Airdrop;
 			sourceTree = "<group>";
 		};
 		3AAAAD9C22F0DC7400989320 /* CollectionView */ = {
@@ -11934,6 +11950,7 @@
 		AA55B354219DF96400533533 /* Blockchain */ = {
 			isa = PBXGroup;
 			children = (
+				3AA827D22360C04F007BFFBC /* Airdrop */,
 				34579858224BC53E00F50F92 /* CryptoFeeServiceAPI.swift */,
 				AABF8FF4219E359F004E8C12 /* Wallet */,
 			);
@@ -12075,7 +12092,6 @@
 			isa = PBXGroup;
 			children = (
 				AA755EB92187B26C00FC4894 /* StellarAirdropRouter.swift */,
-				AAB759F72189586500A0AD11 /* StellarAirdropRegistrationService.swift */,
 			);
 			path = Airdrop;
 			sourceTree = "<group>";
@@ -14771,6 +14787,7 @@
 				34C1AEAF233B95C2008779C1 /* APIClient.swift in Sources */,
 				3471C6F223182F66007A89FA /* BigInt+Extensions.swift in Sources */,
 				3AADB31E21B0AA5F00FD2974 /* MultiAddressAssetAccount.swift in Sources */,
+				3AA827E52360DF79007BFFBC /* AirdropRegistrationService.swift in Sources */,
 				34A92E4D22AE8CD600751C0E /* AssetURLPayload.swift in Sources */,
 				3AE6AF79228F3FC500BF8F56 /* HTTPRequestError.swift in Sources */,
 				6567FE7C22CA7AE80035CB16 /* Object+Name.swift in Sources */,
@@ -14806,6 +14823,7 @@
 				3A1B292222FB6D7E00CFCF87 /* WalletService.swift in Sources */,
 				34BFDF562271F4FE008160CD /* ResultExtensions.swift in Sources */,
 				3A847401219CAF2B00F22FA6 /* AccountValidationAPI.swift in Sources */,
+				3AA827DF2360C3D6007BFFBC /* AirdropRegistrationResponse.swift in Sources */,
 				3AE6AF76228F3F2A00BF8F56 /* NetworkRequest.swift in Sources */,
 				652CE017230FF5B80044E899 /* Data+Decodable.swift in Sources */,
 				3A1B28F622F9CD4C00CFCF87 /* ValidateTransactionAPI.swift in Sources */,
@@ -14819,6 +14837,7 @@
 				AA7F866C2200CA6900498D3E /* Locale+Conveniences.swift in Sources */,
 				AA75F8AC21F155C70003B19E /* FiatValue.swift in Sources */,
 				AA55B359219DFAF800533533 /* WalletSettings.swift in Sources */,
+				3AA827E12360CB57007BFFBC /* AirdropRegistrationRequest.swift in Sources */,
 				34418756230F21D60027A066 /* Network.swift in Sources */,
 				3AE6AF66228F276600BF8F56 /* Logger.swift in Sources */,
 				346CFA06230D9A6100A722C9 /* ResponseDecoder.swift in Sources */,
@@ -14839,6 +14858,7 @@
 				34579859224BC53E00F50F92 /* CryptoFeeServiceAPI.swift in Sources */,
 				3AADB30821B0849300FD2974 /* AssetAccountRepositoryAPI.swift in Sources */,
 				3AE6AFA72293299500BF8F56 /* DateFormatter+Conveniences.swift in Sources */,
+				3AA827E32360D6F0007BFFBC /* AirdropRegistrationPayload.swift in Sources */,
 				3A1B291D22FB679800CFCF87 /* WalletOptions.swift in Sources */,
 				3AE17AD22229C9A10061AC86 /* TransactionFee.swift in Sources */,
 				3A8473AD219A4A6100F22FA6 /* KeyPair.swift in Sources */,
@@ -15729,7 +15749,6 @@
 				AAE9113620A520D40093A431 /* WalletAccountInfoDelegate.swift in Sources */,
 				652CDFBD230EDD680044E899 /* Enable2FAAnnouncement.swift in Sources */,
 				3A019122212DF0EB00AED2BF /* AsyncBlockOperationTests.swift in Sources */,
-				AAB75A00218960C300A0AD11 /* StellarAirdropRegistrationService.swift in Sources */,
 				AAF2AEC22123799800687E30 /* KYCPersonalDetailsController.swift in Sources */,
 				65CCEA21232B92E100D78987 /* ExternalNotificationServiceProvider.swift in Sources */,
 				AABE35EC21939AC00001AE4A /* WalletError.swift in Sources */,
@@ -16101,7 +16120,6 @@
 				657FD9CF22FC57680090C1D7 /* SendCalculationState.swift in Sources */,
 				C7E1A2E8210A45B30072DDA0 /* ExchangeCoordinator.swift in Sources */,
 				23BF73391C454B8C00204503 /* AccountsAndAddressesNavigationController.m in Sources */,
-				AAB759F82189586500A0AD11 /* StellarAirdropRegistrationService.swift in Sources */,
 				51A862D520921A6E00B338E0 /* BlockchainAPI+URLSuffix.swift in Sources */,
 				3AB757EF2319C170002A3405 /* WalletIntroductionEvent.swift in Sources */,
 				C7F1267921C716F7008D8F2A /* KYCTierPostBody.swift in Sources */,

@@ -19,6 +19,7 @@ public struct HttpHeaderField {
     public static let walletGuid = "X-WALLET-GUID"
     public static let walletEmail = "X-WALLET-EMAIL"
     public static let deviceId = "X-DEVICE-ID"
+    public static let airdropCampaign = "X-CAMPAIGN"
 }
 
 public struct HttpHeaderValue {

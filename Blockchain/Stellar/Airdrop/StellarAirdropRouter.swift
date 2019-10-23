@@ -16,23 +16,29 @@ class StellarAirdropRouter: DeepLinkRouting {
     private let appSettings: BlockchainSettings.App
     private let kycCoordinator: KYCCoordinator
     private let repository: BlockchainDataRepository
-    private let registrationService: StellarAirdropRegistrationAPI
+    private let kycSettings: KYCSettingsAPI
+    private let airdropRegistrationService: AirdropRegistrationAPI
+    private let nabuAuthenticationService: NabuAuthenticationService
 
     private let disposables = CompositeDisposable()
     
     private let stellarWalletAccountRepository: StellarWalletAccountRepositoryAPI
 
     init(
+        kycSettings: KYCSettingsAPI = KYCSettings.shared,
+        airdropRegistrationService: AirdropRegistrationAPI = AirdropRegistrationService(),
+        nabuAuthenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
         kycCoordinator: KYCCoordinator = KYCCoordinator.shared,
         repository: BlockchainDataRepository = BlockchainDataRepository.shared,
-        stellarWalletAccountRepository: StellarWalletAccountRepository = StellarWalletAccountRepository(with: WalletManager.shared.wallet),
-        registrationService: StellarAirdropRegistrationAPI = StellarAirdropRegistrationService()
+        stellarWalletAccountRepository: StellarWalletAccountRepository = StellarWalletAccountRepository(with: WalletManager.shared.wallet)
     ) {
+        self.kycSettings = kycSettings
+        self.nabuAuthenticationService = nabuAuthenticationService
+        self.airdropRegistrationService = airdropRegistrationService
         self.appSettings = appSettings
         self.kycCoordinator = kycCoordinator
         self.repository = repository
-        self.registrationService = registrationService
         self.stellarWalletAccountRepository = stellarWalletAccountRepository
     }
 
@@ -139,13 +145,19 @@ class StellarAirdropRouter: DeepLinkRouting {
     }
 
     private func registerForCampaign(xlmAccount: StellarWalletAccount, nabuUser: NabuUser) -> Observable<NabuUser> {
-        return registrationService.registerForCampaign(xlmAccount: xlmAccount, nabuUser: nabuUser)
-            .do(onSuccess: { response in
-                Logger.shared.info("Successfully registered for sunriver campaign. Message: '\(response.message)'")
-            })
-            .asObservable()
-            .map { _ -> NabuUser in
-                return nabuUser
-            }
+        let isNewUser = (nabuUser.status == .none) && !kycSettings.isCompletingKyc
+        return nabuAuthenticationService.getSessionToken().flatMap(weak: self) { (self, tokenResponse) -> Single<AirdropRegistrationResponse> in
+            let request = AirdropRegistrationRequest(
+                authToken: tokenResponse.token,
+                publicKey: xlmAccount.publicKey,
+                campaignIdentifier: "sunriver",
+                isNewUser: isNewUser
+            )
+            return self.airdropRegistrationService.submitRegistrationRequest(request)
+        }
+        .asObservable()
+        .map { _ -> NabuUser in
+            return nabuUser
+        }
     }
 }

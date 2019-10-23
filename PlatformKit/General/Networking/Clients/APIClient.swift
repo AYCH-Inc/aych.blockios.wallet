@@ -13,14 +13,14 @@ enum APIClientError: Error {
     case unknown
 }
 
-protocol APIClientAPI {
+protocol APIClientAPI: AirdropRegistrationAPI {
     func prices(within window: PriceWindow) -> Single<[PriceInFiat]>
 }
 
 final class APIClient: APIClientAPI {
     
     struct Endpoint {
-        
+        static let airdropRegistrationSeries: [String] = ["users", "register-campaign"]
         static let priceIndexSeries: [String] = [ "price", "index-series" ]
     }
     
@@ -69,5 +69,22 @@ final class APIClient: APIClientAPI {
             return Single.error(APIClientError.unknown)
         }
         return communicator.perform(request: request)
+    }
+    
+    func submitRegistrationRequest(_ registrationRequest: AirdropRegistrationRequest) -> Single<AirdropRegistrationResponse> {
+        let payload = AirdropRegistrationPayload(
+            publicKey: registrationRequest.publicKey,
+            isNewUser: registrationRequest.newUser
+        )
+        let data = try? JSONEncoder().encode(payload)
+        
+        let headers: HTTPHeaders = [HttpHeaderField.authorization: registrationRequest.authToken,
+                                    HttpHeaderField.airdropCampaign: registrationRequest.campaignIdentifier]
+        
+        guard let request = requestBuilder.put(path: Endpoint.airdropRegistrationSeries, body: data, headers: headers) else {
+            return Single.error(APIClientError.unknown)
+        }
+        return communicator.perform(request: request)
+        
     }
 }

@@ -51,3 +51,15 @@ public extension String {
         return trimmingCharacters(in: .whitespaces)
     }
 }
+
+extension String {
+    public var isAlphanumeric: Bool {
+        guard !isEmpty else {
+            return false
+        }
+        guard rangeOfCharacter(from: CharacterSet.alphanumerics.inverted) == nil else {
+            return false
+        }
+        return true
+    }
+}

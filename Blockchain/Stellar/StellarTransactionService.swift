@@ -73,7 +73,7 @@ class StellarTransactionService: StellarTransactionAPI {
                         transactionHash: details.transactionHash,
                         createdAt: details.createdAt,
                         sourceAccount: details.sourceAccount,
-                        feePaid: details.feePaid,
+                        feePaid: details.feePaid ?? 0,
                         memo: memo
                     )
                     DispatchQueue.main.async {
@@ -184,7 +184,7 @@ class StellarTransactionService: StellarTransactionAPI {
                     let transaction = try StellarTransaction(
                         sourceAccount: accountResponse,
                         operations: [payment],
-                        baseFee: baseFeeInStroops,
+                        baseFee: UInt32(baseFeeInStroops),
                         memo: memo,
                         timeBounds: timebounds
                     )

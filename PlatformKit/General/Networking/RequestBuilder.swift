@@ -58,6 +58,46 @@ public class RequestBuilder {
         )
     }
     
+    // MARK: - PUT
+    
+    public func put(path components: [String] = [],
+                     parameters: [URLQueryItem] = [],
+                     body: Data? = nil,
+                     headers: HTTPHeaders? = nil,
+                     contentType: NetworkRequest.ContentType = .json,
+                     decoder: NetworkResponseDecoderAPI = NetworkResponseDecoder.default,
+                     recordErrors: Bool = false) -> NetworkRequest? {
+        return put(
+            path: RequestBuilder.path(from: components),
+            parameters: parameters,
+            body: body,
+            headers: headers,
+            contentType: contentType,
+            decoder: decoder,
+            recordErrors: recordErrors
+        )
+    }
+    
+    public func put(path: String,
+                     parameters: [URLQueryItem] = [],
+                     body: Data? = nil,
+                     headers: HTTPHeaders? = nil,
+                     contentType: NetworkRequest.ContentType = .json,
+                     decoder: NetworkResponseDecoderAPI = NetworkResponseDecoder.default,
+                     recordErrors: Bool = false) -> NetworkRequest? {
+        return buildRequest(
+            method: .put,
+            path: path,
+            parameters: parameters,
+            body: body,
+            headers: headers,
+            contentType: contentType,
+            decoder: decoder,
+            recordErrors: recordErrors
+        )
+    }
+    
+    
     // MARK: - POST
     
     public func post(path components: [String] = [],

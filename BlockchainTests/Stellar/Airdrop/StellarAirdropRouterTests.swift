@@ -11,38 +11,36 @@ import StellarKit
 import XCTest
 @testable import Blockchain
 
-private class MockRegistrationService: StellarAirdropRegistrationAPI {
-    
-    var didCallRegisterExpectation: XCTestExpectation?
-
-    func registerForCampaign(xlmAccount: StellarWalletAccount, nabuUser: NabuUser) -> Single<StellarRegisterCampaignResponse> {
-        return Single.create(subscribe: { _ -> Disposable in
-            self.didCallRegisterExpectation?.fulfill()
-            return Disposables.create()
-        })
-    }
-}
-
 class StellarAirdropRouterTests: XCTestCase {
 
     private var mockAppSettings: MockBlockchainSettingsApp!
-    private var mockRegistration: MockRegistrationService!
     private var mockStellarBridge: MockStellarBridge!
     private var mockDataRepo: MockBlockchainDataRepository!
+    private var mockAirdropRegistration: AirdropRegistrationMock!
+    private var mockKYCSettings: KYCSettingsMock!
+    private var mockNabuAuthenticationService: NabuAuthenticationServiceMock!
+    private var stellarWalletAccountRepository: StellarWalletAccountRepository!
+    
     private var router: StellarAirdropRouter!
 
     override func setUp() {
         super.setUp()
+        
         mockAppSettings = MockBlockchainSettingsApp()
-        mockRegistration = MockRegistrationService()
         mockDataRepo = MockBlockchainDataRepository()
         mockStellarBridge = MockStellarBridge()
+        mockAirdropRegistration = AirdropRegistrationMock()
+        mockKYCSettings = KYCSettingsMock()
+        mockNabuAuthenticationService = NabuAuthenticationServiceMock()
+        stellarWalletAccountRepository = StellarWalletAccountRepository(with: mockStellarBridge)
         
         router = StellarAirdropRouter(
+            kycSettings: mockKYCSettings,
+            airdropRegistrationService: mockAirdropRegistration,
+            nabuAuthenticationService: mockNabuAuthenticationService,
             appSettings: mockAppSettings,
             repository: mockDataRepo,
-            stellarWalletAccountRepository: StellarWalletAccountRepository(with: mockStellarBridge),
-            registrationService: mockRegistration
+            stellarWalletAccountRepository: stellarWalletAccountRepository
         )
     }
 
@@ -62,11 +60,14 @@ class StellarAirdropRouterTests: XCTestCase {
             tiers: nil,
             needsDocumentResubmission: nil
         )
-        mockRegistration.didCallRegisterExpectation = expectation(
+        let exp = expectation(
             description: "Expects that registration is attempted through router when user has deeplinked."
         )
+        mockAirdropRegistration.didCallSubmitRegistrationRequest = { _ in
+            exp.fulfill()
+        }
         router.routeIfNeeded()
-        waitForExpectations(timeout: 0.1)
+        waitForExpectations(timeout: 5)
     }
 
     func testDoesNotRouteIfDidntTapOnDeepLink() {
@@ -75,7 +76,6 @@ class StellarAirdropRouterTests: XCTestCase {
             description: "Expects that registration is NOT attempted through router when user has NOT deeplinked."
         )
         exp.isInverted = true
-        mockRegistration.didCallRegisterExpectation = exp
         router.routeIfNeeded()
         waitForExpectations(timeout: 0.1)
     }

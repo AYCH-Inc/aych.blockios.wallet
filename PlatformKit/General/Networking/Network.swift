@@ -32,6 +32,12 @@ public struct Network {
             apiHost: BlockchainAPI.shared.apiHost,
             apiCode: "1770d5d9-bcea-4d28-ad21-6cbd5be018a8" // TODO: is this the correct value?
         )
+        
+        static let retailConfig: Config = Config(
+            apiScheme: "https",
+            apiHost: BlockchainAPI.shared.retailCoreUrl,
+            apiCode: "1770d5d9-bcea-4d28-ad21-6cbd5be018a8"
+        )
     }
     
     public struct Dependencies {
@@ -46,6 +52,27 @@ public struct Network {
         
         public static let `default`: Dependencies = {
             let blockchainAPIConfig = Config.defaultConfig
+            let sessionConfiguration = URLSessionConfiguration.default
+            if let userAgent = Network.userAgent {
+                sessionConfiguration.httpAdditionalHeaders = [HttpHeaderField.userAgent: userAgent]
+            }
+            if #available(iOS 11.0, *) {
+                sessionConfiguration.waitsForConnectivity = true
+            }
+            let sessionDelegate = SessionDelegate()
+            let session = URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
+            let communicator = NetworkCommunicator(session: session, sessionDelegate: sessionDelegate)
+            return Dependencies(
+                blockchainAPIConfig: blockchainAPIConfig,
+                session: session,
+                sessionConfiguration: sessionConfiguration,
+                sessionDelegate: sessionDelegate,
+                communicator: communicator
+            )
+        }()
+        
+        public static let retail: Dependencies = {
+            let blockchainAPIConfig = Config.retailConfig
             let sessionConfiguration = URLSessionConfiguration.default
             if let userAgent = Network.userAgent {
                 sessionConfiguration.httpAdditionalHeaders = [HttpHeaderField.userAgent: userAgent]

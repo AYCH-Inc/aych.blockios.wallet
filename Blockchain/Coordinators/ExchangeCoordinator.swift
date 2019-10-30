@@ -98,6 +98,15 @@ protocol ExchangeCoordinatorAPI {
                 })
             return Disposables.create()
         })
+        .do(onSuccess: { [weak self] swapEnabled in
+            guard swapEnabled else { return }
+            guard let self = self else { return }
+            
+            // Handle STX Airdrop registration
+            self.blockstackService.registerForCampaignIfNeeded
+                .subscribe()
+                .disposed(by: self.bag)
+        })
     }
     
     /// Note: `initXlmAccountIfNeeded` and `createEthAccountForExchange` are now public
@@ -246,18 +255,22 @@ protocol ExchangeCoordinatorAPI {
     private let exchangeService: ExchangeService
     private let stellarAccountService: StellarAccountAPI
     private let stellarAccountRepository: StellarWalletAccountRepositoryAPI
+    private let blockstackService: BlockstackServiceAPI
+    private let bag: DisposeBag = DisposeBag()
 
     // MARK: - Lifecycle
     private init(
         walletManager: WalletManager = WalletManager.shared,
         exchangeService: ExchangeService = ExchangeService(),
         stellarAccountService: StellarAccountAPI = StellarServiceProvider.shared.services.accounts,
-        stellarAccountRepository: StellarWalletAccountRepositoryAPI = StellarServiceProvider.shared.services.repository
+        stellarAccountRepository: StellarWalletAccountRepositoryAPI = StellarServiceProvider.shared.services.repository,
+        blockstackService: BlockstackServiceAPI = BlockstackService()
     ) {
         self.walletManager = walletManager
         self.exchangeService = exchangeService
         self.stellarAccountService = stellarAccountService
         self.stellarAccountRepository = stellarAccountRepository
+        self.blockstackService = blockstackService
         super.init()
     }
 

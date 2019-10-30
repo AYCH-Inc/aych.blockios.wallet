@@ -17,13 +17,14 @@ public class EthereumWallet: NSObject {
     
     typealias Dispatcher = EthereumJSInteropDispatcherAPI & EthereumJSInteropDelegateAPI
     
-    typealias WalletAPI = LegacyEthereumWalletProtocol & LegacyWalletAPI & MnemonicAccessAPI
+    typealias WalletAPI = LegacyEthereumWalletAPI & LegacyWalletAPI & MnemonicAccessAPI
     
     @objc public var delegate: EthereumJSInteropDelegateAPI {
         return dispatcher
     }
     
-    var interopDispatcher: EthereumJSInteropDispatcherAPI {
+    @available(*, deprecated, message: "making this public so tests will compile")
+    public var interopDispatcher: EthereumJSInteropDispatcherAPI {
         return dispatcher
     }
     

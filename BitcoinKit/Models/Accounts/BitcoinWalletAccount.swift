@@ -8,10 +8,14 @@
 
 import PlatformKit
 
-public struct BitcoinWalletAccount: WalletAccount, Codable {
+public struct BitcoinWalletAccount: WalletAccount, Codable, Hashable {
+    
     public let index: Int
+    
     public let publicKey: String
+    
     public var label: String?
+    
     public var archived: Bool
     
     public init(index: Int,

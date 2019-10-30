@@ -25,6 +25,8 @@ protocol TradeExecutionServiceDependenciesAPI {
 
 class TradeExecutionService: TradeExecutionAPI {
     
+    typealias LegacyWallet = LegacyWalletAPI & LegacyEthereumWalletAPI
+    
     // MARK: Models
     
     struct Dependencies: TradeExecutionServiceDependenciesAPI {
@@ -73,7 +75,7 @@ class TradeExecutionService: TradeExecutionAPI {
     // MARK: Private Properties
     
     private let authentication: NabuAuthenticationServiceAPI
-    private let wallet: LegacyWalletAPI
+    private let wallet: LegacyWallet
     private let assetAccountRepository: AssetAccountRepositoryAPI
     private let dependencies: TradeExecutionServiceDependenciesAPI
     private let disposables = CompositeDisposable()
@@ -103,7 +105,7 @@ class TradeExecutionService: TradeExecutionAPI {
     
     init(
         service: NabuAuthenticationServiceAPI = NabuAuthenticationService.shared,
-        wallet: LegacyWalletAPI = WalletManager.shared.wallet,
+        wallet: LegacyWallet,
         dependencies: TradeExecutionServiceDependenciesAPI,
         communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared
         ) {

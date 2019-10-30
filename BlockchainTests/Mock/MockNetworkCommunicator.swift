@@ -10,6 +10,7 @@ import Foundation
 import RxSwift
 import PlatformKit
 import Blockchain
+import TestKit
 
 enum CommunicatorMockError: Error {
     case mockError
@@ -42,7 +43,7 @@ class MockNetworkCommunicator: NetworkCommunicatorAPI {
     }
     
     func decode<ResponseType: Decodable>(fixture name: String) -> Single<ResponseType> {
-        guard let fixture: ResponseType = Fixtures.load(name: name) else {
+        guard let fixture: ResponseType = Fixtures.load(name: name, in: Bundle(for: MockNetworkCommunicator.self)) else {
             return Single.error(CommunicatorMockError.decodingError)
         }
         return Single.just(fixture)

@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import BitcoinKit
 import PlatformKit
 import PlatformUIKit
 
@@ -103,6 +104,11 @@ import PlatformUIKit
         
         // Enabling touch ID and immediately backgrounding the app hides the status bar
         UIApplication.shared.setStatusBarHidden(false, with: .slide)
+        
+        // Handle STX Airdrop registration
+        self.blockstackService.registerForCampaignIfNeeded
+            .subscribe()
+            .disposed(by: self.bag)
     }
 
     func handlePostAuthenticationRouting() {
@@ -128,6 +134,7 @@ import PlatformUIKit
     private let deepLinkRouter: DeepLinkRouter
     private let analyticsRecorder: AnalyticsEventRecording
     private let pitRepository: PITAccountRepositoryAPI
+    private let blockstackService: BlockstackServiceAPI
     private let bag: DisposeBag = DisposeBag()
     private var pairingCodeParserViewController: UIViewController?
 
@@ -143,7 +150,8 @@ import PlatformUIKit
          recorder: ErrorRecording = CrashlyticsRecorder(),
          remoteNotificationServiceContainer: RemoteNotificationServiceContainer = .default,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
-         pitRepository: PITAccountRepositoryAPI = PITAccountRepository()) {
+         pitRepository: PITAccountRepositoryAPI = PITAccountRepository(),
+         blockstackService: BlockstackServiceAPI = BlockstackService()) {
         self.walletManager = walletManager
         self.walletService = walletService
         self.dataRepository = dataRepository
@@ -155,6 +163,7 @@ import PlatformUIKit
         remoteNotificationAuthorizer = remoteNotificationServiceContainer.authorizer
         remoteNotificationTokenSender = remoteNotificationServiceContainer.tokenSender
         self.pitRepository = pitRepository
+        self.blockstackService = blockstackService
         super.init()
         self.walletManager.secondPasswordDelegate = self
     }

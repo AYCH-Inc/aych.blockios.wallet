@@ -16,6 +16,11 @@ class BitcoinWalletBridgeMock: BitcoinWalletBridgeAPI {
         case error
     }
     
+    var hdWalletValue: Single<PayloadBitcoinHDWallet> = Single.error(MockError.error)
+    var hdWallet: Single<PayloadBitcoinHDWallet> {
+        return hdWalletValue
+    }
+    
     var defaultWalletValue: Single<BitcoinWalletAccount> = Single.error(MockError.error)
     var defaultWallet: Single<BitcoinWalletAccount> {
         return defaultWalletValue

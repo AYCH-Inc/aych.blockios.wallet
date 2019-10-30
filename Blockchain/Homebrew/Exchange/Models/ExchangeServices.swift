@@ -37,7 +37,10 @@ struct ExchangeServices: ExchangeDependencies {
         conversions = ExchangeConversionService()
         inputs = ExchangeInputsService()
         assetAccountRepository = AssetAccountRepository.shared
-        tradeExecution = TradeExecutionService(dependencies: TradeExecutionService.Dependencies())
+        tradeExecution = TradeExecutionService(
+            wallet: WalletManager.shared.wallet,
+            dependencies: TradeExecutionService.Dependencies()
+        )
         tradeLimits = TradeLimitsService()
         analyticsRecorder = AnalyticsEventRecorder.shared
     }

@@ -17,10 +17,7 @@ public struct HDKeychain {
         self.privateKey = privateKey
     }
     
-    public init(mnemonic: Mnemonic, network: Network) throws {
-        guard let seed = mnemonic.seed else {
-            throw HDWalletKitError.unknown
-        }
+    public init(seed: Seed, network: Network) throws {
         let privateKey: HDPrivateKey
         do {
             privateKey = try HDPrivateKey(seed: seed, network: network)
@@ -28,6 +25,13 @@ public struct HDKeychain {
             throw HDWalletKitError.libWallyError(error)
         }
         self.privateKey = privateKey
+    }
+    
+    public init(mnemonic: Mnemonic, network: Network) throws {
+        guard let seed = mnemonic.seed else {
+            throw HDWalletKitError.unknown
+        }
+        try self.init(seed: seed, network: network)
     }
     
     public func derivedKey(path: HDKeyPath) throws -> HDPrivateKey {

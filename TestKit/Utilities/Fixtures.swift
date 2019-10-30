@@ -8,18 +8,18 @@
 
 import Foundation
 
-class Fixtures {
-    static func load<T: Decodable>(name: String) -> T? {
-        guard let data = loadJSON(filename: name) else {
+public class Fixtures {
+    
+    public static func load<T: Decodable>(name: String, in bundle: Bundle) -> T? {
+        guard let data = loadJSON(filename: name, in: bundle) else {
             return nil
         }
         let decoder = JSONDecoder()
         return try? decoder.decode(T.self, from: data)
     }
     
-    private static func loadJSON(filename: String) -> Data? {
-        let testBundle = Bundle(for: Fixtures.self)
-        guard let file = testBundle.url(forResource: filename, withExtension: "json") else {
+    private static func loadJSON(filename: String, in bundle: Bundle) -> Data? {
+        guard let file = bundle.url(forResource: filename, withExtension: "json") else {
             return nil
         }
         return try? Data(contentsOf: file)

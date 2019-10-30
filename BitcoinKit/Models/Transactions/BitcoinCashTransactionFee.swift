@@ -8,6 +8,7 @@
 
 import PlatformKit
 
+// TODO: Move this to BitcoinCashKit
 public struct BitcoinCashTransactionFee: TransactionFee, Decodable {
     public static var cryptoType: HasPathComponent = CryptoCurrency.bitcoinCash
     public static let `default` = BitcoinCashTransactionFee(

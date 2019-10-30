@@ -90,6 +90,4 @@ class BitcoinKeyPairDeriverTests: XCTestCase {
         )
         XCTAssertEqual(result.events, expectedEvents)
     }
-
-
 }

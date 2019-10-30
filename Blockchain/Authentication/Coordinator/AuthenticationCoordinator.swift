@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import BitcoinKit
 import PlatformKit
 import PlatformUIKit
 
@@ -122,6 +123,11 @@ protocol ManualPairingServiceAPI: class {
 
         // Handle any necessary routing after authentication
         self.handlePostAuthenticationRouting()
+
+        // Handle STX Airdrop registration
+        self.blockstackService.registerForCampaignIfNeeded
+            .subscribe()
+            .disposed(by: self.bag)
     }
     
     func handlePostAuthenticationRouting() {
@@ -146,6 +152,7 @@ protocol ManualPairingServiceAPI: class {
     private let deepLinkRouter: DeepLinkRouter
     private let analyticsRecorder: AnalyticsEventRecording
     private let pitRepository: PITAccountRepositoryAPI
+    private let blockstackService: BlockstackServiceAPI
     private let bag: DisposeBag = DisposeBag()
     private var pairingCodeParserViewController: UIViewController?
 
@@ -162,7 +169,8 @@ protocol ManualPairingServiceAPI: class {
          recorder: ErrorRecording = CrashlyticsRecorder(),
          remoteNotificationServiceContainer: RemoteNotificationServiceContainer = .default,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
-         pitRepository: PITAccountRepositoryAPI = PITAccountRepository()) {
+         pitRepository: PITAccountRepositoryAPI = PITAccountRepository(),
+         blockstackService: BlockstackServiceAPI = BlockstackService()) {
         self.authenticationManager = authenticationManager
         self.walletManager = walletManager
         self.walletService = walletService
@@ -175,6 +183,7 @@ protocol ManualPairingServiceAPI: class {
         remoteNotificationAuthorizer = remoteNotificationServiceContainer.authorizer
         remoteNotificationTokenSender = remoteNotificationServiceContainer.tokenSender
         self.pitRepository = pitRepository
+        self.blockstackService = blockstackService
         super.init()
         self.walletManager.secondPasswordDelegate = self
     }

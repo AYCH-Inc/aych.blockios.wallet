@@ -34,4 +34,16 @@ struct NabuSessionTokenResponse: Decodable {
         let expiresAtString = try values.decode(String.self, forKey: .expiresAt)
         expiresAt = DateFormatter.sessionDateFormat.date(from: expiresAtString)
     }
+    
+    init(identifier: String,
+         userId: String,
+         token: String,
+         isActive: Bool,
+         expiresAt: Date?) {
+        self.identifier = identifier
+        self.userId = userId
+        self.token = token
+        self.isActive = isActive
+        self.expiresAt = expiresAt
+    }
 }

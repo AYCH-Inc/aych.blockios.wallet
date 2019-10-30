@@ -20,6 +20,10 @@ public struct Bitcoin: CoinType {
     public static let coinType: UInt32 = 0
 }
 
+public struct Blockstack: CoinType {
+    public static let coinType: UInt32 = 5757
+}
+
 // TODO
 // * For now `CoinType` is not supported by LibWally-Swift,
 public enum Network {

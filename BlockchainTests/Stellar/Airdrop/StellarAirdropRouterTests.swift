@@ -16,18 +16,31 @@ class StellarAirdropRouterTests: XCTestCase {
     private var mockAppSettings: MockBlockchainSettingsApp!
     private var mockStellarBridge: MockStellarBridge!
     private var mockDataRepo: MockBlockchainDataRepository!
+    private var mockAirdropRegistration: AirdropRegistrationMock!
+    private var mockKYCSettings: KYCSettingsMock!
+    private var mockNabuAuthenticationService: NabuAuthenticationServiceMock!
+    private var stellarWalletAccountRepository: StellarWalletAccountRepository!
+    
     private var router: StellarAirdropRouter!
 
     override func setUp() {
         super.setUp()
+        
         mockAppSettings = MockBlockchainSettingsApp()
         mockDataRepo = MockBlockchainDataRepository()
         mockStellarBridge = MockStellarBridge()
+        mockAirdropRegistration = AirdropRegistrationMock()
+        mockKYCSettings = KYCSettingsMock()
+        mockNabuAuthenticationService = NabuAuthenticationServiceMock()
+        stellarWalletAccountRepository = StellarWalletAccountRepository(with: mockStellarBridge)
         
         router = StellarAirdropRouter(
+            kycSettings: mockKYCSettings,
+            airdropRegistrationService: mockAirdropRegistration,
+            nabuAuthenticationService: mockNabuAuthenticationService,
             appSettings: mockAppSettings,
             repository: mockDataRepo,
-            stellarWalletAccountRepository: StellarWalletAccountRepository(with: mockStellarBridge)
+            stellarWalletAccountRepository: stellarWalletAccountRepository
         )
     }
 
@@ -47,11 +60,23 @@ class StellarAirdropRouterTests: XCTestCase {
             tiers: nil,
             needsDocumentResubmission: nil
         )
-        XCTAssertTrue(router.routeIfNeeded())
+        let exp = expectation(
+            description: "Expects that registration is attempted through router when user has deeplinked."
+        )
+        mockAirdropRegistration.didCallSubmitRegistrationRequest = { _ in
+            exp.fulfill()
+        }
+        router.routeIfNeeded()
+        waitForExpectations(timeout: 5)
     }
 
     func testDoesNotRouteIfDidntTapOnDeepLink() {
         mockAppSettings.mockDidTapOnAirdropDeepLink = false
-        XCTAssertFalse(router.routeIfNeeded())
+        let exp = expectation(
+            description: "Expects that registration is NOT attempted through router when user has NOT deeplinked."
+        )
+        exp.isInverted = true
+        router.routeIfNeeded()
+        waitForExpectations(timeout: 0.1)
     }
 }

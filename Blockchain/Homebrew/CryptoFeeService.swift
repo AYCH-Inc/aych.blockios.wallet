@@ -82,6 +82,7 @@ extension CryptoFeeService where T == BitcoinCashTransactionFee {
 }
 
 class EthereumFeeService: EthereumFeeServiceAPI {
+    
     static let shared: EthereumFeeService = EthereumFeeService()
     
     // MARK: Public Properties

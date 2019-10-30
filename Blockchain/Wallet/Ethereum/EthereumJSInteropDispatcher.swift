@@ -9,7 +9,7 @@
 import Foundation
 import PlatformKit
 
-enum EthereumJSInteropDispatcherError: Error {
+public enum EthereumJSInteropDispatcherError: Error {
     case jsError(String)
     case unknown
 }
@@ -46,7 +46,7 @@ enum EthereumJSInteropDispatcherError: Error {
     func didFailToSaveERC20Tokens(errorMessage: JSValue)
 }
 
-protocol EthereumJSInteropDispatcherAPI {
+public protocol EthereumJSInteropDispatcherAPI {
     var getAccounts: Dispatcher<[[String: Any]]> { get }
     var saveAccount: Dispatcher<Void> { get }
     
@@ -65,19 +65,19 @@ protocol EthereumJSInteropDispatcherAPI {
 public class EthereumJSInteropDispatcher: EthereumJSInteropDispatcherAPI {
     static let shared = EthereumJSInteropDispatcher()
     
-    let getAccounts = Dispatcher<[[String: Any]]>()
-    let saveAccount = Dispatcher<Void>()
+    public let getAccounts = Dispatcher<[[String: Any]]>()
+    public let saveAccount = Dispatcher<Void>()
     
-    let fetchHistory = Dispatcher<Void>()
-    let fetchBalance = Dispatcher<String>()
-    let getAddress = Dispatcher<String>()
+    public let fetchHistory = Dispatcher<Void>()
+    public let fetchBalance = Dispatcher<String>()
+    public let getAddress = Dispatcher<String>()
     
-    let recordLastTransaction = Dispatcher<Void>()
-    let getIsWaitingOnTransaction = Dispatcher<Bool>()
-    let getNonce = Dispatcher<String>()
+    public let recordLastTransaction = Dispatcher<Void>()
+    public let getIsWaitingOnTransaction = Dispatcher<Bool>()
+    public let getNonce = Dispatcher<String>()
     
-    let getERC20Tokens = Dispatcher<[String: [String: Any]]>()
-    let saveERC20Tokens = Dispatcher<Void>()
+    public let getERC20Tokens = Dispatcher<[String: [String: Any]]>()
+    public let saveERC20Tokens = Dispatcher<Void>()
 }
 
 extension EthereumJSInteropDispatcher: EthereumJSInteropDelegateAPI {
@@ -190,12 +190,12 @@ extension EthereumJSInteropDispatcher: EthereumJSInteropDelegateAPI {
     }
 }
 
-final class Dispatcher<Value> {
-    typealias ObserverType = (Result<Value, EthereumJSInteropDispatcherError>) -> Void
+public final class Dispatcher<Value> {
+    public typealias ObserverType = (Result<Value, EthereumJSInteropDispatcherError>) -> Void
     
     private var observers: [ObserverType] = []
     
-    func addObserver(block: @escaping ObserverType) {
+    public func addObserver(block: @escaping ObserverType) {
         observers.append(block)
     }
     

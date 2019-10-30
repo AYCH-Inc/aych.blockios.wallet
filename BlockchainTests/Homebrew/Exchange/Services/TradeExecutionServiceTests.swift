@@ -12,12 +12,13 @@ import PlatformKit
 import BitcoinKit
 import StellarKit
 import EthereumKit
+import TestKit
 @testable import Blockchain
 
 class TradeExecutionServiceTests: XCTestCase {
     
     var authenticationService: NabuAuthenticationServiceMock!
-    var wallet: LegacyWalletMock!
+    var wallet: MockLegacyEthereumWallet!
     var dependencies: TradeExecutionServiceDependenciesMock!
     var subject: TradeExecutionService!
 
@@ -25,7 +26,7 @@ class TradeExecutionServiceTests: XCTestCase {
         super.setUp()
         
         authenticationService = NabuAuthenticationServiceMock()
-        wallet = LegacyWalletMock()
+        wallet = MockLegacyEthereumWallet()
         dependencies = TradeExecutionServiceDependenciesMock()
         subject = TradeExecutionService(
             service: authenticationService,
@@ -46,7 +47,7 @@ class TradeExecutionServiceTests: XCTestCase {
     func test_prebuild_pax_order() {
         let expectation = self.expectation(description: "Should build a valid PAX trade")
         
-        let conversion: Conversion = Fixtures.load(name: "conversion")!
+        let conversion: Conversion = Fixtures.load(name: "conversion", in: Bundle(for: TradeExecutionServiceTests.self))!
         
         let addressString = MockEthereumWalletTestData.account
         

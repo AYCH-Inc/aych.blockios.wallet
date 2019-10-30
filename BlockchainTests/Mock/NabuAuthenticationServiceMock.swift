@@ -11,7 +11,14 @@ import RxSwift
 
 class NabuAuthenticationServiceMock: NabuAuthenticationServiceAPI {
     
-    var getSessionTokenValue = Single<NabuSessionTokenResponse>.error(NSError())
+    static let token = NabuSessionTokenResponse(
+        identifier: "identifier",
+        userId: "userId",
+        token: "token",
+        isActive: true,
+        expiresAt: Date.distantFuture
+    )
+    var getSessionTokenValue = Single.just(token)
     func getSessionToken(requestNewToken: Bool) -> Single<NabuSessionTokenResponse> {
         return getSessionTokenValue
     }

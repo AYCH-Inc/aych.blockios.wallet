@@ -18,7 +18,7 @@ class StellarAirdropRouter: DeepLinkRouting {
     private let repository: BlockchainDataRepository
     private let kycSettings: KYCSettingsAPI
     private let airdropRegistrationService: AirdropRegistrationAPI
-    private let nabuAuthenticationService: NabuAuthenticationService
+    private let nabuAuthenticationService: NabuAuthenticationServiceAPI
 
     private let disposables = CompositeDisposable()
     
@@ -27,7 +27,7 @@ class StellarAirdropRouter: DeepLinkRouting {
     init(
         kycSettings: KYCSettingsAPI = KYCSettings.shared,
         airdropRegistrationService: AirdropRegistrationAPI = AirdropRegistrationService(),
-        nabuAuthenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
+        nabuAuthenticationService: NabuAuthenticationServiceAPI = NabuAuthenticationService.shared,
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
         kycCoordinator: KYCCoordinator = KYCCoordinator.shared,
         repository: BlockchainDataRepository = BlockchainDataRepository.shared,
@@ -150,7 +150,7 @@ class StellarAirdropRouter: DeepLinkRouting {
             let request = AirdropRegistrationRequest(
                 authToken: tokenResponse.token,
                 publicKey: xlmAccount.publicKey,
-                campaignIdentifier: "sunriver",
+                campaignIdentifier: .sunriver,
                 isNewUser: isNewUser
             )
             return self.airdropRegistrationService.submitRegistrationRequest(request)

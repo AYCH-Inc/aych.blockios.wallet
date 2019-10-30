@@ -12,6 +12,10 @@ protocol NabuUserSunriverAirdropRegistering {
     var isSunriverAirdropRegistered: Bool { get }
 }
 
+protocol NabuUserBlockstackAirdropRegistering {
+    var isBlockstackAirdropRegistered: Bool { get }
+}
+
 struct NabuUser: Decodable {
 
     enum UserState: String {
@@ -152,9 +156,22 @@ extension NabuUser {
     }
 }
 
+extension NabuUser {
+    var isGoldTierVerified: Bool {
+        guard let tiers = tiers else { return false }
+        return tiers.current == .tier2
+    }
+}
+
 extension NabuUser: NabuUserSunriverAirdropRegistering {
     var isSunriverAirdropRegistered: Bool {
         return tags?.sunriver != nil
+    }
+}
+
+extension NabuUser: NabuUserBlockstackAirdropRegistering {
+    var isBlockstackAirdropRegistered: Bool {
+        return tags?.blockstack != nil
     }
 }
 
@@ -180,11 +197,13 @@ struct Mobile: Decodable {
 
 struct Tags: Decodable {
     let sunriver: Sunriver?
+    let blockstack: Blockstack?
     let coinify: Bool?
     let powerPax: PowerPax?
-
+    
     enum CodingKeys: String, CodingKey {
         case sunriver = "SUNRIVER"
+        case blockstack = "BLOCKSTACK"
         case coinify = "COINIFY"
         case powerPax = "POWER_PAX"
     }
@@ -192,18 +211,28 @@ struct Tags: Decodable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         sunriver = try values.decodeIfPresent(Sunriver.self, forKey: .sunriver)
+        blockstack = try values.decodeIfPresent(Blockstack.self, forKey: .blockstack)
         coinify = try values.decodeIfPresent(Bool.self, forKey: .coinify)
         powerPax = try values.decodeIfPresent(PowerPax.self, forKey: .powerPax)
     }
     
-    init(sunriver: Sunriver? = nil, coinify: Bool = false, powerPax: PowerPax? = nil) {
+    init(sunriver: Sunriver? = nil, blockstack: Blockstack? = nil, coinify: Bool = false, powerPax: PowerPax? = nil) {
         self.sunriver = sunriver
+        self.blockstack = blockstack
         self.coinify = coinify
         self.powerPax = powerPax
     }
 }
 
 struct Sunriver: Decodable {
+    let campaignAddress: String
+
+    enum CodingKeys: String, CodingKey {
+        case campaignAddress = "x-campaign-address"
+    }
+}
+
+struct Blockstack: Decodable {
     let campaignAddress: String
 
     enum CodingKeys: String, CodingKey {

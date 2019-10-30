@@ -12,8 +12,7 @@ import LibWally
 public struct WordList {
     
     private struct Languages {
-        // TODO:
-        // * Check this is the correct wordlist
+        
         public static let english = WordList(words: BIP39Words)
     }
     

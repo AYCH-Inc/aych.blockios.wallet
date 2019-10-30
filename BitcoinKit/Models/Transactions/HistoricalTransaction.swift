@@ -1,5 +1,5 @@
 //
-//  BitcoinTransaction.swift
+//  HistoricalTransaction.swift
 //  BitcoinKit
 //
 //  Created by kevinwu on 2/6/19.
@@ -8,7 +8,7 @@
 
 import PlatformKit
 
-public struct BitcoinTransaction: HistoricalTransaction, Mineable {
+public struct HistoricalTransaction: PlatformKit.HistoricalTransaction, Mineable {
 
     public typealias Address = BitcoinAssetAddress
 

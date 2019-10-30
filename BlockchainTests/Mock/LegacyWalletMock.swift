@@ -9,6 +9,9 @@
 import Foundation
 
 class LegacyWalletMock: LegacyWalletAPI {
+    
+    var password: String?
+    
     func isWaitingOnEtherTransaction() -> Bool {
         return false
     }

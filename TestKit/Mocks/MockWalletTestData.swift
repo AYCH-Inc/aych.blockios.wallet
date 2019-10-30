@@ -9,6 +9,7 @@
 import Foundation
 
 public struct MockWalletTestData {
+    
     public static let walletId = "22d57944-bb00-49e5-bc96-e2c31e0a0ff1"
     public static let email = "test@blockchain.com"
     

@@ -15,6 +15,9 @@ import Foundation
     
     func didGetAccounts(_ accounts: JSValue)
     func didFailToGetAccounts(errorMessage: JSValue)
+    
+    func didGetHDWallet(_ wallet: JSValue)
+    func didFailToGetHDWallet(errorMessage: JSValue)
 }
 
 protocol BitcoinJSInteropDispatcherAPI {
@@ -22,6 +25,8 @@ protocol BitcoinJSInteropDispatcherAPI {
     var getDefaultWalletIndex: Dispatcher<Int> { get }
     
     var getAccounts: Dispatcher<String> { get }
+    
+    var getHDWallet: Dispatcher<String> { get }
 }
 
 public class BitcoinJSInteropDispatcher: BitcoinJSInteropDispatcherAPI {
@@ -31,6 +36,8 @@ public class BitcoinJSInteropDispatcher: BitcoinJSInteropDispatcherAPI {
     let getDefaultWalletIndex = Dispatcher<Int>()
     
     let getAccounts = Dispatcher<String>()
+    
+    let getHDWallet = Dispatcher<String>()
 }
 
 extension BitcoinJSInteropDispatcher: BitcoinJSInteropDelegateAPI {
@@ -57,6 +64,18 @@ extension BitcoinJSInteropDispatcher: BitcoinJSInteropDelegateAPI {
     
     public func didFailToGetAccounts(errorMessage: JSValue) {
         sendFailure(dispatcher: getAccounts, errorMessage: errorMessage)
+    }
+    
+    public func didGetHDWallet(_ wallet: JSValue) {
+        guard let walletString = wallet.toString() as? String else {
+            getHDWallet.sendFailure(.unknown)
+            return
+        }
+        getHDWallet.sendSuccess(with: walletString)
+    }
+    
+    public func didFailToGetHDWallet(errorMessage: JSValue) {
+        sendFailure(dispatcher: getHDWallet, errorMessage: errorMessage)
     }
     
     private func sendFailure<T>(dispatcher: Dispatcher<T>, errorMessage: JSValue) {

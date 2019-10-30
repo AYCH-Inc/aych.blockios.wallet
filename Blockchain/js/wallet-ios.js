@@ -2783,6 +2783,27 @@ MyWalletPhone.getDefaultBitcoinWalletIndexAsync = function (secondPassword) {
         .catch(error);
 };
 
+MyWalletPhone.getHDWalletAsync = function (secondPassword) {
+    var fetchHDWallet = function () {
+        var hdwallet = MyWallet.wallet.hdwallet;
+        var walletJSONString = JSON.stringify(hdwallet);
+        return Promise.resolve(walletJSONString);
+    };
+    var success = function (wallet) {
+        console.log('Fetched HD Wallet');
+        console.log(wallet);
+        objc_on_didGetHDWalletAsync(wallet);
+    };
+    var error = function (e) {
+        console.log('Error fetching wallet');
+        console.log(e);
+        objc_on_error_gettingHDWalletAsync(e);
+    };
+    return fetchHDWallet()
+        .then(success)
+        .catch(error);
+};
+
 MyWalletPhone.getBitcoinWalletsAsync = function (secondPassword) {
     var fetchAccounts = function () {
         var wallet = MyWallet.wallet.hdwallet;

@@ -43,6 +43,7 @@ final class AnnouncementCardViewModel {
     
     // MARK: - Properties
     
+    let backgroundColor: UIColor
     let image: Image
     let title: String?
     let description: String?
@@ -90,13 +91,15 @@ final class AnnouncementCardViewModel {
     
     // MARK: - Setup
     
-    init(image: Image,
+    init(backgroundColor: UIColor = .white,
+         image: Image,
          title: String? = nil,
          description: String? = nil,
          buttons: [ButtonViewModel] = [],
          dismissState: DismissState,
          recorder: ErrorRecording = CrashlyticsRecorder(),
          didAppear: @escaping () -> Void) {
+        self.backgroundColor = backgroundColor
         self.image = image
         self.title = title
         self.description = description

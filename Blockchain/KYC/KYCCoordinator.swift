@@ -68,15 +68,18 @@ protocol KYCCoordinatorDelegate: class {
     private var userTiersResponse: KYCUserTiersResponse?
     private var kycSettings: KYCSettingsAPI
     
+    private let blockchainRepository: BlockchainDataRepository
     private let communicator: NetworkCommunicatorAPI
 
     init(
+        blockchainRepository: BlockchainDataRepository = .shared,
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
         kycSettings: KYCSettingsAPI = KYCSettings.shared,
         authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
         loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared,
         communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared
     ) {
+        self.blockchainRepository = blockchainRepository
         self.appSettings = appSettings
         self.kycSettings = kycSettings
         self.authenticationService = authenticationService
@@ -105,6 +108,73 @@ protocol KYCCoordinatorDelegate: class {
         }
         
         start(from: rootViewController, tier: tier)
+    }
+    
+    /// Presents an airdrop modal before bringing the user to KYC
+    func startKycForSTXAirdrop(from parentViewController: UIViewController, tier: KYCTier = .tier1) {
+        // In case the user has started KYC for STX airdrop, register for the KYC completion
+        // TODO: Uncomment for v2.1
+//        registerForBlockstackAirdropKycCompletion()
+        let presenter = InfoScreenPresenter(
+            with: AirdropInfoScreenContent(),
+            action: { [weak self] in
+                parentViewController.dismiss(animated: true) {
+                    self?.start(from: parentViewController, tier: tier)
+                }
+            }
+        )
+        let viewController = NavigationController(
+            rootViewController: InfoScreenViewController(presenter: presenter)
+        )
+        if #available(iOS 13.0, *) {
+            viewController.modalPresentationStyle = .automatic
+        }
+        parentViewController.present(viewController, animated: true, completion: nil)
+    }
+        
+    private func showKycCompletionForBlockstackAirdrop() {
+        guard let parentViewController = rootViewController else {
+            Logger.shared.error("Trying to display KYC completion while `rootViewController` is `nil`")
+            return
+        }
+        let presenter = InfoScreenPresenter(
+            with: STXApplicationCompleteInfoScreenContent(),
+            action: {
+                parentViewController.dismiss(animated: true) { [weak parentViewController] in
+                    let url = URL(string: Constants.Url.airdropWaitlist)!
+                    let message = LocalizationConstants.InfoScreen.STXApplicationComplete.shareText
+                    let activityVC = UIActivityViewController(
+                        activityItems: [url, message],
+                        applicationActivities: nil
+                    )
+                    parentViewController?.present(activityVC, animated: true)
+                }
+            }
+        )
+        let viewController = NavigationController(
+            rootViewController: InfoScreenViewController(presenter: presenter)
+        )
+        if #available(iOS 13.0, *) {
+            viewController.modalPresentationStyle = .automatic
+        }
+        parentViewController.present(viewController, animated: true, completion: nil)
+    }
+        
+    private func registerForBlockstackAirdropKycCompletion() {
+        NotificationCenter.when(Constants.NotificationKeys.kycStopped) { [weak self] _ in
+            guard let self = self else { return }
+            self.blockchainRepository.tiers
+                .take(1)
+                .asSingle()
+                .map { $0.isTier2Pending }
+                .catchErrorJustReturn(false)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { [weak self] isEligible in
+                    guard let self = self, isEligible else { return }
+                    self.showKycCompletionForBlockstackAirdrop()
+                })
+                .disposed(by: self.disposeBag)
+        }
     }
 
     func start(from viewController: UIViewController, tier: KYCTier = .tier1) {
@@ -154,11 +224,12 @@ protocol KYCCoordinatorDelegate: class {
     // Called when the KYC process is completed or stopped before completing.
     @objc func stop() {
         if navController == nil { return }
-        navController.dismiss(animated: true)
-        NotificationCenter.default.post(
-            name: Constants.NotificationKeys.kycStopped,
-            object: nil
-        )
+        navController.dismiss(animated: true) {
+            NotificationCenter.default.post(
+                name: Constants.NotificationKeys.kycStopped,
+                object: nil
+            )
+        }
     }
 
     func handle(event: KYCEvent) {

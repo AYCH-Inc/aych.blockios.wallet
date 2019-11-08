@@ -146,14 +146,14 @@ public struct Screen {
                 switch self {
                 case .text(value: let text):
                     return NavigationBarContent(title: text)
-                case .back:
+                case .back, .close:
                     return NavigationBarContent(
                         image: UIImage(named: "back_icon"),
                         accessibility: .init(
                             id: .value(Accessibility.Identifier.NavigationBar.backButton)
                         )
                     )
-                default: // TODO: close button should be `X`
+                case .none:
                     return nil
                 }
             }

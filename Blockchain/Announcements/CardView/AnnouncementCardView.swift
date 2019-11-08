@@ -48,6 +48,7 @@ final class AnnouncementCardView: UIView {
     
     private func setup() {
         fromNib()
+        backgroundColor = viewModel.backgroundColor
         thumbImageView.image = UIImage(named: viewModel.image.name)
         thumbImageView.layoutSize(to: viewModel.image.size)
         titleLabel.text = viewModel.title

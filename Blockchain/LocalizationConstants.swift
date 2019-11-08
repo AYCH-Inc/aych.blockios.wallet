@@ -1242,6 +1242,49 @@ struct LocalizationConstants {
             comment: "`Update` button for an alert that notifies the user that a new app version is available on the store"
         )
     }
+
+    struct InfoScreen {
+        struct Airdrop {
+            static let title = NSLocalizedString(
+                "Get Crypto for Free with Blockchain Airdrops.",
+                comment: "airdrop info screen title"
+            )
+            static let description = NSLocalizedString(
+                "Uprade your profile to the Gold Level to be elgbible for this and all future Airdrops.",
+                comment: "airdrop info screen description"
+            )
+            static let note = NSLocalizedString(
+                "*For legal reasons, USA, Canada and Japan nationals can’t participate in the airdrop. Learn more",
+                comment: "airdrop info screen note"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Complete My Profile",
+                comment: "airdrop info screen CTA button title"
+            )
+        }
+        struct STXApplicationComplete {
+            static let title = NSLocalizedString(
+                "Application complete",
+                comment: "STX application complete info screen title"
+            )
+            static let description = NSLocalizedString(
+                "You’ve successfully submitted your application. A Blockchain Support Member will review your information.",
+                comment: "STX application complete info screen description"
+            )
+            static let note = NSLocalizedString(
+                "Once you’re verification is confirmed you’ll have secure your Stacks Airdrop",
+                comment: "STX application complete info screen note"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Share Now",
+                comment: "STX application complete info screen CTA button title"
+            )
+            static let shareText = NSLocalizedString(
+                "Hey! Get crypto for free with Blockchain Airdrops. Sign up and get verified to become eligible for $10 worth of Blockstack Tokens.",
+                comment: "STX application complete info screen: message to share"
+            )
+        }
+    }
     
     struct AnnouncementCards {
         
@@ -1296,13 +1339,27 @@ struct LocalizationConstants {
         
         // MARK: - One time
         
+        struct BlockstackAirdrop {
+            static let title = NSLocalizedString(
+                "Our Latest Airdrop is Here. Reserve Your Free Stacks (STX)",
+                comment: "STX airdrop announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "Uprade your profile to the Gold Level to be elegible for this and all future Airdrops.",
+                comment: "STX airdrop announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Get $10 of STX",
+                comment: "STX airdrop announcement card CTA button title"
+            )
+        }
         struct IdentityVerification {
             static let title = NSLocalizedString(
                 "Finish Verifying Your Account",
                 comment: "Finish identity verification announcement card title"
             )
             static let description = NSLocalizedString(
-                "Pick up where you left off and complete your identity verification. ",
+                "Pick up where you left off and complete your identity verification.",
                 comment: "Finish identity verification announcement card description"
             )
             static let ctaButton = NSLocalizedString(

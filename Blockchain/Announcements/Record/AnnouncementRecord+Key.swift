@@ -26,6 +26,7 @@ extension AnnouncementRecord {
         
         // MARK: - One Time
         
+        case kycBlockstackAirdrop = "announcement-cache-kyc-stx-airdrop"
         case identityVerification = "announcement-cache-identity-verification"
         case pax = "announcement-cache-pax"
         case pit = "announcement-cache-pit"

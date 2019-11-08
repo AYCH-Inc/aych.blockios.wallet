@@ -16,7 +16,8 @@ extension UIColor {
     // Feature Based
     
     static let pitBackground = #colorLiteral(red: 0.13, green: 0.1, blue: 0.8, alpha: 1)
-    
+    static let blockstackBackground = #colorLiteral(red: 0.957, green: 0.957, blue: 0.996, alpha: 1)
+
     // Crypto
     
     static let btc = #colorLiteral(red: 1.00, green: 0.61, blue: 0.13, alpha: 1.0)

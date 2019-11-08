@@ -87,8 +87,8 @@
 		341E5A702284A58E007BE6A6 /* PlatformKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341E5A6F2284A58E007BE6A6 /* PlatformKitError.swift */; };
 		341E5A722284A707007BE6A6 /* ObservableTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341E5A712284A707007BE6A6 /* ObservableTypeExtensions.swift */; };
 		341E5A752284BCB8007BE6A6 /* EthereumKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341E5A742284BCB8007BE6A6 /* EthereumKitError.swift */; };
-		34200262235E351700D801A6 /* EthereumAccountAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34200261235E351700D801A6 /* EthereumAccountAddressTests.swift */; };
 		342002412359ECD200D801A6 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342002402359ECD200D801A6 /* Atomic.swift */; };
+		34200262235E351700D801A6 /* EthereumAccountAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34200261235E351700D801A6 /* EthereumAccountAddressTests.swift */; };
 		34219CFA22F32ADD00F0AB71 /* MaybeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34219CF922F32ADD00F0AB71 /* MaybeExtensions.swift */; };
 		3422FF86226F4B8B005FBB2E /* EthereumTransactionSignerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3422FF85226F4B8A005FBB2E /* EthereumTransactionSignerTests.swift */; };
 		3422FF91226F6A50005FBB2E /* EthereumTransactionSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3422FF90226F6A50005FBB2E /* EthereumTransactionSigner.swift */; };
@@ -1505,6 +1505,16 @@
 		65A78EEE2326963600A93D10 /* RemoteNotificationServicing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A78EEC2326963600A93D10 /* RemoteNotificationServicing.swift */; };
 		65A78EF02326A3C400A93D10 /* RemoteNotification+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A78EEF2326A3C400A93D10 /* RemoteNotification+Model.swift */; };
 		65A78EF12326A3C400A93D10 /* RemoteNotification+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A78EEF2326A3C400A93D10 /* RemoteNotification+Model.swift */; };
+		65AE576A237595D600677025 /* KycBlockstackAirdropAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE5769237595D600677025 /* KycBlockstackAirdropAnnouncement.swift */; };
+		65AE57982375A2C700677025 /* UILabel+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE578D2375A2C700677025 /* UILabel+Conveniences.swift */; };
+		65AE57992375A2C700677025 /* UIImageView+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE57972375A2C700677025 /* UIImageView+Conveniences.swift */; };
+		65AE579A2375C0DC00677025 /* InfoScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE577523759A0E00677025 /* InfoScreenViewController.swift */; };
+		65AE579B2375C0DC00677025 /* InfoScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE577623759A0E00677025 /* InfoScreenPresenter.swift */; };
+		65AE579C2375C0DC00677025 /* InfoScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65AE577723759A0E00677025 /* InfoScreenViewController.xib */; };
+		65AE579D2375C0DC00677025 /* InfoScreen+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE577E23759A5D00677025 /* InfoScreen+Accessibility.swift */; };
+		65AE57A02375C12A00677025 /* InfoScreenContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE579F2375C12A00677025 /* InfoScreenContent.swift */; };
+		65AE57A12375C12A00677025 /* InfoScreenContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE579F2375C12A00677025 /* InfoScreenContent.swift */; };
+		65AE57A82375D45800677025 /* KycBlockstackAirdropAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE5769237595D600677025 /* KycBlockstackAirdropAnnouncement.swift */; };
 		65B3D1E9231EB20B0081B22B /* EthereumWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E1C1E122244972006E70D3 /* EthereumWallet.swift */; };
 		65B5417E230C687300D04A2E /* MockSendExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416B230C687300D04A2E /* MockSendExecutor.swift */; };
 		65B5417F230C687300D04A2E /* MockAccountBalanceFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416C230C687300D04A2E /* MockAccountBalanceFetcher.swift */; };
@@ -2765,8 +2775,8 @@
 		341E5A6F2284A58E007BE6A6 /* PlatformKitError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformKitError.swift; sourceTree = "<group>"; };
 		341E5A712284A707007BE6A6 /* ObservableTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTypeExtensions.swift; sourceTree = "<group>"; };
 		341E5A742284BCB8007BE6A6 /* EthereumKitError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumKitError.swift; sourceTree = "<group>"; };
-		34200261235E351700D801A6 /* EthereumAccountAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumAccountAddressTests.swift; sourceTree = "<group>"; };
 		342002402359ECD200D801A6 /* Atomic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
+		34200261235E351700D801A6 /* EthereumAccountAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumAccountAddressTests.swift; sourceTree = "<group>"; };
 		34219CF922F32ADD00F0AB71 /* MaybeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaybeExtensions.swift; sourceTree = "<group>"; };
 		3422FF85226F4B8A005FBB2E /* EthereumTransactionSignerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionSignerTests.swift; sourceTree = "<group>"; };
 		3422FF90226F6A50005FBB2E /* EthereumTransactionSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionSigner.swift; sourceTree = "<group>"; };
@@ -5027,6 +5037,14 @@
 		65A78EDF232695CD00A93D10 /* RemoteNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationService.swift; sourceTree = "<group>"; };
 		65A78EEC2326963600A93D10 /* RemoteNotificationServicing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationServicing.swift; sourceTree = "<group>"; };
 		65A78EEF2326A3C400A93D10 /* RemoteNotification+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteNotification+Model.swift"; sourceTree = "<group>"; };
+		65AE5769237595D600677025 /* KycBlockstackAirdropAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KycBlockstackAirdropAnnouncement.swift; sourceTree = "<group>"; };
+		65AE577523759A0E00677025 /* InfoScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoScreenViewController.swift; sourceTree = "<group>"; };
+		65AE577623759A0E00677025 /* InfoScreenPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoScreenPresenter.swift; sourceTree = "<group>"; };
+		65AE577723759A0E00677025 /* InfoScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoScreenViewController.xib; sourceTree = "<group>"; };
+		65AE577E23759A5D00677025 /* InfoScreen+Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InfoScreen+Accessibility.swift"; sourceTree = "<group>"; };
+		65AE578D2375A2C700677025 /* UILabel+Conveniences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Conveniences.swift"; sourceTree = "<group>"; };
+		65AE57972375A2C700677025 /* UIImageView+Conveniences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Conveniences.swift"; sourceTree = "<group>"; };
+		65AE579F2375C12A00677025 /* InfoScreenContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoScreenContent.swift; sourceTree = "<group>"; };
 		65AEB82E233CF8270093561F /* UserPropertyRecording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPropertyRecording.swift; sourceTree = "<group>"; };
 		65AEB83D233CF8E10093561F /* StandardUserProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardUserProperty.swift; sourceTree = "<group>"; };
 		65AEB849233CF8F40093561F /* HashedUserProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashedUserProperty.swift; sourceTree = "<group>"; };
@@ -6166,20 +6184,20 @@
 			path = General;
 			sourceTree = "<group>";
 		};
-		34200260235E34F300D801A6 /* Address */ = {
-			isa = PBXGroup;
-			children = (
-				34200261235E351700D801A6 /* EthereumAccountAddressTests.swift */,
-			);
-			path = Address;
-			sourceTree = "<group>";
-		};
 		342002342359EC9200D801A6 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				342002402359ECD200D801A6 /* Atomic.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		34200260235E34F300D801A6 /* Address */ = {
+			isa = PBXGroup;
+			children = (
+				34200261235E351700D801A6 /* EthereumAccountAddressTests.swift */,
+			);
+			path = Address;
 			sourceTree = "<group>";
 		};
 		3422FF9F226F803A005FBB2E /* Activity */ = {
@@ -7952,6 +7970,7 @@
 		3A6865BB219A11A70009FF29 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				65AE577423759A0E00677025 /* InfoScreen */,
 				3AAAAD9C22F0DC7400989320 /* CollectionView */,
 				65550E5E22BE671E00522656 /* ScreenTransitioning */,
 				65550E3822BE671E00522656 /* BaseScreen */,
@@ -7981,6 +8000,8 @@
 				652937F12315454F0004D81D /* Rx+UILayerUtils.swift */,
 				65550E3C22BE671E00522656 /* Rx+UIViewUtils.swift */,
 				65D57260234C923A00D14342 /* Rx+TextField.swift */,
+				65AE57972375A2C700677025 /* UIImageView+Conveniences.swift */,
+				65AE578D2375A2C700677025 /* UILabel+Conveniences.swift */,
 				3A07814B21E54DB200760BF9 /* UICollectionViewCell+Conveniences.swift */,
 				65B77D5D22F9AFFB009AE141 /* UITableView+Conveniences.swift */,
 				3A6865D4219A1A510009FF29 /* UIDevice+Conveniences.swift */,
@@ -9180,6 +9201,7 @@
 		602B9CA62118E15200BD3D60 /* KYC */ = {
 			isa = PBXGroup;
 			children = (
+				65AE579E2375C11500677025 /* Info */,
 				3A7293D3225BA4A100F17646 /* Coinify */,
 				3A7EB14922209E9700C7E455 /* Onboarding */,
 				3AFDD8B12200D60A00CA7A21 /* Permissions */,
@@ -11309,6 +11331,7 @@
 				652CDFFA230FDC000044E899 /* BitpayAnnouncement.swift */,
 				6509998322E1F7FD0092BFB9 /* ResubmitDocumentsAnnouncement.swift */,
 				6509997922E1DCBC0092BFB9 /* CoinifyKycAnnouncement.swift */,
+				65AE5769237595D600677025 /* KycBlockstackAirdropAnnouncement.swift */,
 			);
 			path = OneTime;
 			sourceTree = "<group>";
@@ -11705,6 +11728,25 @@
 				652A381E232F975F00A3F957 /* RemoteNotificationServiceContainer.swift */,
 			);
 			path = RemoteNotfications;
+			sourceTree = "<group>";
+		};
+		65AE577423759A0E00677025 /* InfoScreen */ = {
+			isa = PBXGroup;
+			children = (
+				65AE577523759A0E00677025 /* InfoScreenViewController.swift */,
+				65AE577623759A0E00677025 /* InfoScreenPresenter.swift */,
+				65AE577723759A0E00677025 /* InfoScreenViewController.xib */,
+				65AE577E23759A5D00677025 /* InfoScreen+Accessibility.swift */,
+			);
+			path = InfoScreen;
+			sourceTree = "<group>";
+		};
+		65AE579E2375C11500677025 /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				65AE579F2375C12A00677025 /* InfoScreenContent.swift */,
+			);
+			path = Info;
 			sourceTree = "<group>";
 		};
 		65AEB84C233CFB860093561F /* UserProperty */ = {
@@ -14492,6 +14534,7 @@
 				3A3427FD2220B57B000D8032 /* BottomSheetView.xib in Resources */,
 				AA5D848E228E2A4600992810 /* ReceiveCryptoViewController.storyboard in Resources */,
 				3AC90D0421F78CF2006DD565 /* PaginatedContainerCell.xib in Resources */,
+				65AE579C2375C0DC00677025 /* InfoScreenViewController.xib in Resources */,
 				3A6865C1219A12290009FF29 /* PlatformUIKitAssets.xcassets in Resources */,
 				3A1BB2DD2307258A00761EF5 /* IntroductionSheetViewController.storyboard in Resources */,
 				3ADD8E4322DD17B500942ED0 /* BottomAlertSheet.xib in Resources */,
@@ -15805,6 +15848,7 @@
 				3AC90D0621F79377006DD565 /* PaginatedContainerModel.swift in Sources */,
 				3A6865BF219A11C40009FF29 /* Visibility.swift in Sources */,
 				3AFEC7CA231488C2003D2C1E /* PulseViewPresenter.swift in Sources */,
+				65AE57982375A2C700677025 /* UILabel+Conveniences.swift in Sources */,
 				652AA8F722D892D500B22360 /* Accessibility+InternalUtils.swift in Sources */,
 				6541940522D7688F00B3E6ED /* LoadingViewPresenting.swift in Sources */,
 				65D5725F234C91F300D14342 /* TextFieldType.swift in Sources */,
@@ -15834,6 +15878,7 @@
 				3A3F3B9621E40538003BFDFC /* HorizontalContainerCell.swift in Sources */,
 				65BDB4192350998B00D10435 /* InstructionTableViewCell.swift in Sources */,
 				3AB8A27423510BC10052A111 /* MnemonicTextView.swift in Sources */,
+				65AE579A2375C0DC00677025 /* InfoScreenViewController.swift in Sources */,
 				657F2781234CF31E0015F669 /* NewPasswordTextValidator.swift in Sources */,
 				3A8473BB219B369E00F22FA6 /* TransactionDetail.swift in Sources */,
 				65244B47234F93EF002EB289 /* TextRegex.swift in Sources */,
@@ -15849,12 +15894,14 @@
 				657F2787234CF5C50015F669 /* PasswordTextFieldView.swift in Sources */,
 				3AB452F1234E75A3000C33C5 /* MnemonicValidator.swift in Sources */,
 				653C4220234639D200AAD154 /* AnalyticsEvents+Request.swift in Sources */,
+				65AE579D2375C0DC00677025 /* InfoScreen+Accessibility.swift in Sources */,
 				6567FE7A22CA7AAF0035CB16 /* UIViewController+Child.swift in Sources */,
 				654193E022D4A91200B3E6ED /* NavigationBarButtonItem.swift in Sources */,
 				652937F22315454F0004D81D /* Rx+UILayerUtils.swift in Sources */,
 				657F2783234CF4780015F669 /* NewPasswordValidating.swift in Sources */,
 				3AB45317234FC00A000C33C5 /* MnemonicValidating.swift in Sources */,
 				652AA90922D8C7CA00B22360 /* ReactiveLoaderPresenting.swift in Sources */,
+				65AE579B2375C0DC00677025 /* InfoScreenPresenter.swift in Sources */,
 				6567FE7922CA7AAF0035CB16 /* UIView+Nib.swift in Sources */,
 				3A6865C9219A12B90009FF29 /* TransactionDetailCell.swift in Sources */,
 				3AB45315234FBC10000C33C5 /* MnemonicValidationScore.swift in Sources */,
@@ -15874,6 +15921,7 @@
 				3A3428012220B7A3000D8032 /* BottomSheet.swift in Sources */,
 				3A22A57823453FF60018DD53 /* SparklineViewModel.swift in Sources */,
 				3A5CEE262315805A000E212A /* PassthroughView.swift in Sources */,
+				65AE57992375A2C700677025 /* UIImageView+Conveniences.swift in Sources */,
 				3AB757EA2319B274002A3405 /* IntroductionSheetViewModel.swift in Sources */,
 				3A1BB2DB2307257900761EF5 /* IntroductionSheetViewController.swift in Sources */,
 				3A45608921F270B7006C2568 /* BaseViewController.swift in Sources */,
@@ -16124,7 +16172,6 @@
 				3A01911E212DF0B300AED2BF /* AsyncBlockOperaiton.swift in Sources */,
 				652CDF90230E925F0044E899 /* VerifyIdentityAnnouncement.swift in Sources */,
 				653A566423479F8700DDAE4E /* SettingsChangePasswordViewController+Analytics.swift in Sources */,
-				3A7EB145222078F900C7E455 /* ExchangeServices.swift in Sources */,
 				C7C0DC22212F676E000EFE71 /* ExchangeCoordinator.swift in Sources */,
 				C75757462176501400CE7814 /* AssetTypeCell.swift in Sources */,
 				51B7682221065D52003CCD46 /* Environment.swift in Sources */,
@@ -16247,6 +16294,7 @@
 				5113570B209CF6D700056D65 /* BackupVerifyViewController.swift in Sources */,
 				3A4075A22321868100A9BE50 /* SwapWalletIntroductionEvent.swift in Sources */,
 				AAC9FCEF20AE456400E28B7A /* WalletTransactionDelegate.swift in Sources */,
+				65AE57A82375D45800677025 /* KycBlockstackAirdropAnnouncement.swift in Sources */,
 				65550EA022BE671F00522656 /* Pin.swift in Sources */,
 				3AFDD8B42200D64300CA7A21 /* PermissionsRequestor.swift in Sources */,
 				AA63F84C20A12AE9002B719B /* URLs.swift in Sources */,
@@ -16554,6 +16602,7 @@
 				65F5E70222C36D0D00D00F50 /* QRAddressView.swift in Sources */,
 				AA46ECB2219A14310077B351 /* KYCDocumentType.swift in Sources */,
 				6587FD3322F9863F00206575 /* SendSourceAccountCellPresenter.swift in Sources */,
+				65AE57A12375C12A00677025 /* InfoScreenContent.swift in Sources */,
 				C73037AB218B508C00F38BA8 /* InformationViewController.swift in Sources */,
 				602B9D132118E24C00BD3D60 /* SearchControllerDelegate.swift in Sources */,
 				3ADFE6EE214862E000E7E2D5 /* ExchangeInputComponent.swift in Sources */,
@@ -16868,6 +16917,7 @@
 				670595A41AB0F59D00D2D6D9 /* KeychainItemWrapper.m in Sources */,
 				3A3D5DD0211CA2CD00E6C241 /* PersonalDetailsInterface.swift in Sources */,
 				AAFA97B5211511D000D19ED3 /* Settings+Helpers.swift in Sources */,
+				65AE576A237595D600677025 /* KycBlockstackAirdropAnnouncement.swift in Sources */,
 				6509999322E224970092BFB9 /* PITLinkingAnnouncement.swift in Sources */,
 				606399F62110FC2D005B6DF5 /* SRError.m in Sources */,
 				3AB5EB4C2347DEAA00A11BD6 /* WelcomeScreenPresenter.swift in Sources */,
@@ -17544,6 +17594,7 @@
 				AA54E495216D2A4E005061F9 /* SearchableMap.swift in Sources */,
 				23444F841DCD217000573C8C /* NSData+BTCData.m in Sources */,
 				3A1552ED2136EAF000683CEB /* TradeLimits.swift in Sources */,
+				65AE57A02375C12A00677025 /* InfoScreenContent.swift in Sources */,
 				34615BC4225F809D00CEC8C4 /* ERC20AccountAPIClient.swift in Sources */,
 				34BA9FC922B13B5E00A5698F /* PaxEmptyStateView.swift in Sources */,
 				3AECA26422CFE1AA004ED7B7 /* PITAccountRepository.swift in Sources */,

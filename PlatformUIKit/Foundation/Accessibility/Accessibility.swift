@@ -63,3 +63,11 @@ public struct Accessibility {
         self.isAccessible = isAccessible
     }
 }
+
+/// MARK: - Conveniences
+
+extension Accessibility {
+    public static func id(_ rawValue: String) -> Accessibility {
+        return .init(id: .value(rawValue))
+    }
+}

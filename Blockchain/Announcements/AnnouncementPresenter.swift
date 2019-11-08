@@ -85,6 +85,8 @@ final class AnnouncementPresenter: NSObject {
         for type in metadata.order {
             let announcement: Announcement
             switch type {
+            case .kycBlockstackAirdrop:
+                announcement = kycBlockstackAirdrop(user: preliminaryData.user, tiers: preliminaryData.tiers)
             case .verifyEmail:
                 announcement = verifyEmail(user: preliminaryData.user)
             case .walletIntro:
@@ -233,6 +235,21 @@ extension AnnouncementPresenter {
             variant: variant,
             dismiss: hideAnnouncement,
             action: pitCoordinator.start
+        )
+    }
+    
+    private func kycBlockstackAirdrop(user: NabuUser, tiers: KYCUserTiersResponse) -> Announcement {
+        return KycBlockstackAirdropAnnouncement(
+            canCompleteTier2: tiers.canCompleteTier2,
+            dismiss: hideAnnouncement,
+            action: { [weak self] in
+                guard let self = self else { return }
+                let tier = user.tiers?.selected ?? .tier1
+                self.kycCoordinator.startKycForSTXAirdrop(
+                    from: self.appCoordinator.tabControllerManager,
+                    tier: tier
+                )
+            }
         )
     }
     

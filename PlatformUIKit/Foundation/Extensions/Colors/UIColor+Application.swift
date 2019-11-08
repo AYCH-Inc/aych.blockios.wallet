@@ -74,4 +74,5 @@ public extension UIColor {
     // MARK: - Feature Themes
     
     static let pitTheme = pitBackground
+    static let blockastackCardBackground = blockstackBackground
 }

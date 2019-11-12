@@ -20,8 +20,9 @@ protocol APIClientAPI: AirdropRegistrationAPI {
 final class APIClient: APIClientAPI {
     
     struct Endpoint {
-        static let airdropRegistrationSeries: [String] = ["users", "register-campaign"]
-        static let priceIndexSeries: [String] = [ "price", "index-series" ]
+        
+        static let airdropRegistration = [ "nabu-gateway", "users", "register-campaign" ]
+        static let priceIndex = [ "price", "index-series" ]
     }
     
     // MARK: - Private properties
@@ -65,7 +66,7 @@ final class APIClient: APIClientAPI {
                 value: "true"
             )
         ]
-        guard let request = requestBuilder.get(path: Endpoint.priceIndexSeries, parameters: parameters) else {
+        guard let request = requestBuilder.get(path: Endpoint.priceIndex, parameters: parameters) else {
             return Single.error(APIClientError.unknown)
         }
         return communicator.perform(request: request)
@@ -81,7 +82,7 @@ final class APIClient: APIClientAPI {
         let headers: HTTPHeaders = [HttpHeaderField.authorization: registrationRequest.authToken,
                                     HttpHeaderField.airdropCampaign: registrationRequest.campaignIdentifier]
         
-        guard let request = requestBuilder.put(path: Endpoint.airdropRegistrationSeries, body: data, headers: headers) else {
+        guard let request = requestBuilder.put(path: Endpoint.airdropRegistration, body: data, headers: headers) else {
             return Single.error(APIClientError.unknown)
         }
         return communicator.perform(request: request)

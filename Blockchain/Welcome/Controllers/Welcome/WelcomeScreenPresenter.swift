@@ -21,10 +21,17 @@ final class WelcomeScreenPresenter {
 
     // MARK: - Properties
     
-    let navBarStyle = Screen.Style.Bar.darkContent(ignoresStatusBar: false, background: .white)
-    let title = LocalizedString.title
+    let navBarStyle = Screen.Style.Bar.darkContent(
+        ignoresStatusBar: false,
+        background: .white
+    )
+    let title = LabelContent(
+        text: LocalizedString.title,
+        font: .mainSemibold(Constants.Booleans.isUsingScreenSizeEqualIphone5S ? 20 : 24),
+        color: .titleText
+    )
     let description: NSAttributedString = {
-        let font = UIFont.mainMedium(16)
+        let font = UIFont.mainMedium(Constants.Booleans.isUsingScreenSizeEqualIphone5S ? 14 : 16)
         let prefix = NSAttributedString(LocalizedString.Description.prefix, font: font, color: .mutedText)
         let send = NSAttributedString(LocalizedString.Description.send, font: font, color: .descriptionText)
         let receive = NSAttributedString(LocalizedString.Description.receive, font: font, color: .descriptionText)
@@ -35,8 +42,12 @@ final class WelcomeScreenPresenter {
         let suffix = NSAttributedString(LocalizedString.Description.suffix, font: font, color: .mutedText)
         return prefix + send + comma + receive + comma + store + and + trade + suffix
     }()
-    let version = Bundle.applicationVersion ?? ""
-
+    let version = LabelContent(
+        text: Bundle.applicationVersion ?? "",
+        font: .mainMedium(12),
+        color: .mutedText
+    )
+    
     private(set) var createWalletButtonViewModel: ButtonViewModel
     private(set) var loginButtonViewModel: ButtonViewModel
     private(set) var recoverFundsButtonViewModel: ButtonViewModel
@@ -72,7 +83,7 @@ final class WelcomeScreenPresenter {
         createWalletButtonViewModel = ButtonViewModel(
             font: font,
             cornerRadius: cornerRadius,
-            accessibility: .init(id: .value(AccessibilityId.Button.createWallet))
+            accessibility: .id(AccessibilityId.Button.createWallet)
         )
         createWalletButtonViewModel.theme = .init(
             backgroundColor: .primaryButton,
@@ -88,7 +99,7 @@ final class WelcomeScreenPresenter {
         loginButtonViewModel = ButtonViewModel(
             font: font,
             cornerRadius: cornerRadius,
-            accessibility: .init(id: .value(AccessibilityId.Button.login))
+            accessibility: .id(AccessibilityId.Button.login)
         )
         loginButtonViewModel.theme = .init(
             backgroundColor: .tertiaryButton,

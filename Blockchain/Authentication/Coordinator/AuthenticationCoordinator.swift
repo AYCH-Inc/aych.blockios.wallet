@@ -122,15 +122,15 @@ protocol ManualPairingServiceAPI: class {
         UIApplication.shared.keyWindow?.rootViewController = AppCoordinator.shared.slidingViewController
 
         // Handle any necessary routing after authentication
-        self.handlePostAuthenticationRouting()
-
+        self.handlePostAuthenticationLogic()
+    }
+    
+    func handlePostAuthenticationLogic() {
         // Handle STX Airdrop registration
         self.blockstackService.registerForCampaignIfNeeded
             .subscribe()
             .disposed(by: self.bag)
-    }
-    
-    func handlePostAuthenticationRouting() {
+        
         if let route = postAuthenticationRoute {
             switch route {
             case .sendCoins:
@@ -170,7 +170,7 @@ protocol ManualPairingServiceAPI: class {
          remoteNotificationServiceContainer: RemoteNotificationServiceContainer = .default,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          pitRepository: PITAccountRepositoryAPI = PITAccountRepository(),
-         blockstackService: BlockstackServiceAPI = BlockstackService()) {
+         blockstackService: BlockstackServiceAPI & AnalyticsEventRecordable = BlockstackService()) {
         self.authenticationManager = authenticationManager
         self.walletManager = walletManager
         self.walletService = walletService
@@ -186,6 +186,8 @@ protocol ManualPairingServiceAPI: class {
         self.blockstackService = blockstackService
         super.init()
         self.walletManager.secondPasswordDelegate = self
+        
+        blockstackService.use(eventRecorder: AnalyticsEventRecorder.shared)
     }
 
     deinit {

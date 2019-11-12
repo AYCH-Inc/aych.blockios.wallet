@@ -143,6 +143,9 @@ final class OnboardingRouter: VersionUpdateAlertDisplaying {
             .disposed(by: bag)
         let viewController = PairingIntroViewController(presenter: presenter)
         navigate(to: viewController)
+        /// That helps to layout the view prematurely and prepare it for presentation
+        /// See further documentation in `PairingIntroViewController`
+        viewController.view.frame = UIScreen.main.bounds
     }
     
     private func navigateToAutoPairingScreen() {

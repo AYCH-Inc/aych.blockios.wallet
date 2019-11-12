@@ -11,12 +11,27 @@ import RxSwift
 import PlatformKit
 import BitcoinKit
 
+enum BlockstackErrorEvent: AnalyticsEvent {
+    case failedToRegister(Error)
+    
+    var name: String {
+        return "blockstack_registration_error"
+    }
+    
+    var params: [String : String]? {
+        switch self {
+        case .failedToRegister(let error):
+            return [ "error_message" : error.localizedDescription ]
+        }
+    }
+}
+
 protocol BlockstackServiceAPI {
     
     var registerForCampaignIfNeeded: Completable { get }
 }
 
-final class BlockstackService: BlockstackServiceAPI {
+final class BlockstackService: BlockstackServiceAPI, AnalyticsEventRecordable {
     
     // MARK: - Public properties
     
@@ -31,6 +46,15 @@ final class BlockstackService: BlockstackServiceAPI {
                 }
                 return self.register(nabuUser: nabuUser)
             }
+            .do(onError: { [weak self] error in
+                self?.eventRecorder?.record(event: BlockstackErrorEvent.failedToRegister(error))
+            })
+    }
+    
+    // MARK: - Recordable
+    
+    public func use(eventRecorder: AnalyticsEventRecording) {
+        self.eventRecorder = eventRecorder
     }
     
     // MARK: - Private properties
@@ -40,6 +64,7 @@ final class BlockstackService: BlockstackServiceAPI {
     private let nabuAuthenticationService: NabuAuthenticationServiceAPI
     private let blockStackAccountRepository: BlockstackAccountAPI
     private let kycSettings: KYCSettingsAPI
+    private var eventRecorder: AnalyticsEventRecording?
     
     // MARK: - Init
     

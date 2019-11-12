@@ -20,7 +20,7 @@ final class WelcomeViewController: BaseScreenViewController {
     @IBOutlet private var createWalletButtonView: ButtonView!
     @IBOutlet private var loginButtonView: ButtonView!
     @IBOutlet private var recoverFundsButtonView: ButtonView!
-    
+        
     // MARK: Private Properties
     
     private let presenter: WelcomeScreenPresenter
@@ -41,11 +41,9 @@ final class WelcomeViewController: BaseScreenViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         set(barStyle: presenter.navBarStyle)
-        welcomeLabel.font = .mainSemibold(24)
-        welcomeLabel.text = presenter.title
+        welcomeLabel.content = presenter.title
         descriptionLabel.attributedText = presenter.description
-        versionLabel.textColor = .mutedText
-        versionLabel.text = presenter.version
+        versionLabel.content = presenter.version
         createWalletButtonView.viewModel = presenter.createWalletButtonViewModel
         loginButtonView.viewModel = presenter.loginButtonViewModel
         recoverFundsButtonView.viewModel = presenter.recoverFundsButtonViewModel

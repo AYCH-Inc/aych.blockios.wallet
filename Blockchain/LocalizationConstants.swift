@@ -957,11 +957,11 @@ struct LocalizationConstants {
             }
             struct Button {
                 static let createWallet = NSLocalizedString(
-                    "Create Wallet",
+                    "Create a Wallet",
                     comment: "Welcome screen: create wallet CTA button"
                 )
                 static let login = NSLocalizedString(
-                    "Log in",
+                    "Log In",
                     comment: "Welcome screen: login CTA button"
                 )
                 static let recoverFunds = NSLocalizedString(
@@ -994,7 +994,7 @@ struct LocalizationConstants {
                 )
             }
             static let title = NSLocalizedString(
-                "Automatic Pairing",
+                "Log In",
                 comment: "Manual pairing screen title"
             )
             static let primaryButton = NSLocalizedString(
@@ -1006,7 +1006,30 @@ struct LocalizationConstants {
                 comment: "Manual pairing CTA button"
             )
         }
-        
+        struct AutoPairingScreen {
+            static let title = NSLocalizedString(
+                "Automatic Pairing",
+                comment: "Automatic pairing screen title"
+            )
+            struct ErrorAlert {
+                static let title = NSLocalizedString(
+                    "Error",
+                    comment: "Auto pairing error alert title"
+                )
+                static let message = NSLocalizedString(
+                    "There was an error while scanning your pairing QR code",
+                    comment: "Auto pairing error alert message"
+                )
+                static let scanAgain = NSLocalizedString(
+                    "Try Again",
+                    comment: "Auto pairing error alert scan again button"
+                )
+                static let manualPairing = NSLocalizedString(
+                    "Cancel",
+                    comment: "Auto pairing error alert cancel button"
+                )
+            }
+        }
         struct ManualPairingScreen {
             static let title = NSLocalizedString(
                 "Manual Pairing",

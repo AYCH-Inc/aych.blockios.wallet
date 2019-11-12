@@ -25,8 +25,8 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="giQ-wE-5K6">
-                    <rect key="frame" x="16" y="64" width="382" height="156"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="giQ-wE-5K6">
+                    <rect key="frame" x="16" y="66" width="382" height="160"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your 12 recovery words with spaces to recover your funds &amp; transactions" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S4e-J7-N1O">
                             <rect key="frame" x="0.0" y="0.0" width="382" height="34"/>
@@ -35,7 +35,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pId-Nf-8tZ" customClass="MnemonicTextView" customModule="PlatformUIKit">
-                            <rect key="frame" x="0.0" y="60" width="382" height="96"/>
+                            <rect key="frame" x="0.0" y="64" width="382" height="96"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="96" id="da9-XN-WFU"/>
@@ -58,7 +58,7 @@
                 <constraint firstItem="6LE-bG-fo3" firstAttribute="trailing" secondItem="giQ-wE-5K6" secondAttribute="trailing" constant="16" id="gxf-Ty-29C"/>
                 <constraint firstItem="6LE-bG-fo3" firstAttribute="bottom" secondItem="vC1-tM-KGL" secondAttribute="bottom" constant="16" id="oQH-je-P28"/>
                 <constraint firstItem="vC1-tM-KGL" firstAttribute="leading" secondItem="6LE-bG-fo3" secondAttribute="leading" constant="16" id="uld-Ia-oA7"/>
-                <constraint firstItem="giQ-wE-5K6" firstAttribute="top" secondItem="6LE-bG-fo3" secondAttribute="top" constant="20" id="zGp-9c-a57"/>
+                <constraint firstItem="giQ-wE-5K6" firstAttribute="top" secondItem="6LE-bG-fo3" secondAttribute="top" constant="22" id="zGp-9c-a57"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="6LE-bG-fo3"/>
             <point key="canvasLocation" x="170" y="127"/>

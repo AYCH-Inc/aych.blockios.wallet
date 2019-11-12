@@ -13,6 +13,11 @@ import RxCocoa
 /// A view model for text field
 public class TextFieldViewModel {
     
+    struct GestureMessage: Equatable {
+        let message: String
+        let isVisible: Bool
+    }
+    
     // MARK: Properties
 
     /// The state of the text field
@@ -46,9 +51,15 @@ public class TextFieldViewModel {
     }
         
     /// A text to display below the text field in case of an error
-    var gestureMessage: Driver<String> {
-        return gestureMessageRelay
-            .asDriver()
+    var gestureMessage: Driver<GestureMessage> {
+        return Driver
+            .combineLatest(hintRelay.asDriver(), isHintVisibleRelay.asDriver())
+            .map {
+                GestureMessage(
+                    message: $0.0,
+                    isVisible: $0.1
+                )
+            }
             .distinctUntilChanged()
     }
         
@@ -59,13 +70,15 @@ public class TextFieldViewModel {
             .distinctUntilChanged()
     }
     
+    let isHintVisibleRelay = BehaviorRelay(value: false)
+    
     let font = UIFont.mainMedium(16)
     
     private let contentTypeRelay: BehaviorRelay<UITextContentType?>
-    private let isSecureRelay = BehaviorRelay<Bool>(value: false)
+    private let isSecureRelay = BehaviorRelay(value: false)
     private let placeholderRelay: BehaviorRelay<NSAttributedString>
     private let textColorRelay = BehaviorRelay<UIColor>(value: .textFieldText)
-    private let gestureMessageRelay = BehaviorRelay<String>(value: "")
+    private let hintRelay = BehaviorRelay<String>(value: "")
     private let stateRelay = BehaviorRelay<State>(value: .empty)
     private let disposeBag = DisposeBag()
     
@@ -143,13 +156,18 @@ public class TextFieldViewModel {
                     }
                 }
             }
-            .bind(to: gestureMessageRelay)
+            .bind(to: hintRelay)
             .disposed(by: disposeBag)
+    }
+    
+    func textFieldDidEndEditing() {
+        isHintVisibleRelay.accept(true)
     }
     
     /// Should be called upon editing the text field
     func textFieldEdited(with value: String) {
         textRelay.accept(value)
+        isHintVisibleRelay.accept(type.showsHintWhileTyping)
     }
 }
 

@@ -12,6 +12,8 @@ import PlatformUIKit
 
 final class PairingCodeQRCodeParser: QRCodeScannerParsing {
     
+    // MARK: - Types
+    
     enum PairingCodeParsingError: Error {
         case scannerError(QRScannerError)
         case invalidPairingCode
@@ -25,12 +27,11 @@ final class PairingCodeQRCodeParser: QRCodeScannerParsing {
     }
     
     private let walletManager: WalletManager
-    private let loadingViewPresenter: LoadingViewPresenter
     
-    init(walletManager: WalletManager = .shared,
-         loadingViewPresenter: LoadingViewPresenter = .shared) {
+    // MARK: - Setup
+    
+    init(walletManager: WalletManager = .shared) {
         self.walletManager = walletManager
-        self.loadingViewPresenter = loadingViewPresenter
     }
     
     func parse(scanResult: Result<String, QRScannerError>, completion: ((Result<PairingCode, PairingCodeParsingError>) -> Void)?) {
@@ -56,16 +57,18 @@ final class PairingCodeQRCodeParser: QRCodeScannerParsing {
     }
     
     private func errorParsingPairingCode(_ message: String!, completion: ((Result<PairingCode, PairingCodeParsingError>) -> Void)?) {
-        loadingViewPresenter.hide()
-        
-        switch message {
-        case "Invalid Pairing Version Code":
+        guard let message = message else {
+            completion?(.failure(PairingCodeQRCodeParser.PairingCodeParsingError.unknown))
+            return
+        }
+        if message.contains("Invalid Pairing Version Code") {
             completion?(.failure(PairingCodeQRCodeParser.PairingCodeParsingError.invalidPairingCode))
-        case "TypeError: must start with number", "TypeError: First argument must be a string":
+        } else if message.contains("TypeError: must start with number") ||
+            message.contains("TypeError: First argument must be a string") {
             completion?(.failure(PairingCodeQRCodeParser.PairingCodeParsingError.stringError))
-        case "Decryption Error":
+        } else if message.contains("Decryption Error") {
             completion?(.failure(PairingCodeQRCodeParser.PairingCodeParsingError.decryptionError))
-        default:
+        } else {
             completion?(.failure(PairingCodeQRCodeParser.PairingCodeParsingError.unknown))
         }
     }

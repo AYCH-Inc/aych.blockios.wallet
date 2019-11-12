@@ -33,10 +33,14 @@ struct PairingIntroScreenPresenter {
             InstructionCellViewModel(number: $0.offset + 1, inputs: $0.element)
         }
     }()
-    let primaryButtonViewModel = ButtonViewModel.primary(with: LocalizedString.primaryButton,
-                                                         cornerRadius: 8)
-    let secondaryButtonViewModel = ButtonViewModel.secondary(with: LocalizedString.secondaryButton,
-                                                             cornerRadius: 8)
+    let primaryButtonViewModel = ButtonViewModel.primary(
+        with: LocalizedString.primaryButton,
+        cornerRadius: 8
+    )
+    let secondaryButtonViewModel = ButtonViewModel.secondary(
+        with: LocalizedString.secondaryButton,
+        cornerRadius: 8
+    )
     
     /// Should connect to manual pairing flow
     let manualPairingNavigationRelay = PublishRelay<Void>()

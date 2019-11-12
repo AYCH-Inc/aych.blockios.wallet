@@ -127,7 +127,9 @@ final class QRCodeScannerViewModel<P: QRCodeScannerParsing>: QRCodeScannerViewMo
             guard let self = self else { return }
             switch result {
             case .failure:
-                self.deepLinkQRCodeRouter.routeIfNeeded(using: scanResult)
+                if !self.deepLinkQRCodeRouter.routeIfNeeded(using: scanResult) {
+                    self.completed(result)
+                }
             case .success:
                 self.completed(result)
             }

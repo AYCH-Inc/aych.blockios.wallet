@@ -41,11 +41,14 @@ final class PairingIntroViewController: BaseScreenViewController {
         primaryButton.viewModel = presenter.primaryButtonViewModel
         secondaryButton.viewModel = presenter.secondaryButtonViewModel
         tableView.viewModels = presenter.instructionViewModels
-        
-        /// The reason for calling `view.layoutIfNeeded()` + `tableView.relaodData()`
-        /// is that the layout of `tableView` does not refresh properly
-        /// The root cause couldn't be found
-        view.layoutIfNeeded()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        /// The reason for calling `tableView.reloadData()`
+        /// is that the layout of `tableView` does not refresh properly and because
+        /// the width of the cells are not known, the height of the attributed text
+        /// cannot be accurately calculated. Reloading the data solves it.
         tableView.reloadData()
     }
 }

@@ -71,6 +71,25 @@ extension TextFieldType {
     }
 }
 
+// MARK: - Gesture
+
+extension TextFieldType {
+    
+    /// This is `true` if the text field should show hints during typing
+    var showsHintWhileTyping: Bool {
+        switch self {
+        case .email:
+            return false
+        case .password,
+             .newPassword,
+             .confirmNewPassword,
+             .walletIdentifier,
+             .recoveryPhrase:
+            return true
+        }
+    }
+}
+
 // MARK: - Placeholder
 
 extension TextFieldType {

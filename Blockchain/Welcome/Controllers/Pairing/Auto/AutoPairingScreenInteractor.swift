@@ -45,6 +45,7 @@ final class AutoPairingScreenInteractor {
                 andReply: authenticationCoordinator.authHandler
             )
         case .failure(let error):
+            analyticsRecorder.record(event: AnalyticsEvents.Onboarding.walletAutoPairingError)
             errorRelay.accept(error)
         }
     }

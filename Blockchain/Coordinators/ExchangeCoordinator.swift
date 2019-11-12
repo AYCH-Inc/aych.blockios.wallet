@@ -264,7 +264,7 @@ protocol ExchangeCoordinatorAPI {
         exchangeService: ExchangeService = ExchangeService(),
         stellarAccountService: StellarAccountAPI = StellarServiceProvider.shared.services.accounts,
         stellarAccountRepository: StellarWalletAccountRepositoryAPI = StellarServiceProvider.shared.services.repository,
-        blockstackService: BlockstackServiceAPI = BlockstackService()
+        blockstackService: BlockstackServiceAPI & AnalyticsEventRecordable = BlockstackService()
     ) {
         self.walletManager = walletManager
         self.exchangeService = exchangeService
@@ -272,6 +272,8 @@ protocol ExchangeCoordinatorAPI {
         self.stellarAccountRepository = stellarAccountRepository
         self.blockstackService = blockstackService
         super.init()
+        
+        blockstackService.use(eventRecorder: AnalyticsEventRecorder.shared)
     }
 
     deinit {

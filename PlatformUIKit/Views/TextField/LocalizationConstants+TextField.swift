@@ -39,7 +39,7 @@ struct LocalizationConstants {
                 comment: "Label for a Weak password score in password text field"
             )
             static let normal = NSLocalizedString(
-                "Normal",
+                "Medium",
                 comment: "Label for a Normal password score in password text field"
             )
             static let strong = NSLocalizedString(

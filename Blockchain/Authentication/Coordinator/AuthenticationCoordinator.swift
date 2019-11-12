@@ -122,15 +122,15 @@ protocol ManualPairingServiceAPI: class {
         UIApplication.shared.keyWindow?.rootViewController = AppCoordinator.shared.slidingViewController
 
         // Handle any necessary routing after authentication
-        self.handlePostAuthenticationRouting()
-
+        self.handlePostAuthenticationLogic()
+    }
+    
+    func handlePostAuthenticationLogic() {
         // Handle STX Airdrop registration
         self.blockstackService.registerForCampaignIfNeeded
             .subscribe()
             .disposed(by: self.bag)
-    }
-    
-    func handlePostAuthenticationRouting() {
+        
         if let route = postAuthenticationRoute {
             switch route {
             case .sendCoins:

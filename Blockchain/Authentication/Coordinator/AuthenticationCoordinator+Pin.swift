@@ -41,7 +41,7 @@ extension AuthenticationCoordinator {
             /// a crash related to circle-dependency between `AuthenticationCoordinator`
             /// and `AppCoordinator`.
             AppCoordinator.shared.startAfterWalletCreation()
-            self.handlePostAuthenticationRouting()
+            self.handlePostAuthenticationLogic()
         }
         pinRouter.execute()
     }

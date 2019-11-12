@@ -43,6 +43,7 @@ public class MnemonicTextView: UIView {
         fromNib(named: MnemonicTextView.objectName)
         textView.textAlignment = .left
         textView.delegate = self
+        textView.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
     
     // MARK: - API
@@ -55,7 +56,7 @@ public class MnemonicTextView: UIView {
         self.accessibility = viewModel.accessibility
         
         textView.layer.borderWidth = 1.0
-        textView.layer.cornerRadius = 4.0
+        textView.layer.cornerRadius = 8.0
         
         /// Use the given toolbar
         textView.inputAccessoryView = keyboardInteractionController.toolbar

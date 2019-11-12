@@ -13,14 +13,20 @@ import RxCocoa
 
 /// A styled text field component with validation and password expression scoring
 public class TextFieldView: UIView {
-        
-    // MARK: - Injected
+
+    /// Equals to the expression: `textField.text ?? ""`
+    var text: String {
+        return textField.text ?? ""
+    }
     
-    private var viewModel: TextFieldViewModel!
+    /// Returns a boolean indicating whether the field is currently focused
+    var isTextFieldFocused: Bool {
+        return textField.isFirstResponder
+    }
     
     // MARK: - UI Properties
     
-    @IBOutlet private var textField: UITextField!
+    @IBOutlet var textField: UITextField!
     @IBOutlet private(set) var separatorView: UIView!
     @IBOutlet fileprivate var gestureMessageLabel: UILabel!
     @IBOutlet private(set) var accessoryView: UIView!
@@ -30,6 +36,10 @@ public class TextFieldView: UIView {
     // Mutable since we would like to make the text field
     // compatible with constructs like table/collection views
     private var disposeBag = DisposeBag()
+    
+    // MARK: - Injected
+    
+    private var viewModel: TextFieldViewModel!
     
     // MARK: - Setup
     
@@ -111,8 +121,8 @@ public class TextFieldView: UIView {
             .disposed(by: disposeBag)
         
         viewModel.gestureMessage
-            .asObservable()
-            .bind(to: rx.gestureMessage)
+            .map { $0.isVisible ? $0.message : "" }
+            .drive(rx.gestureMessage)
             .disposed(by: disposeBag)
         
         viewModel.focusRelay
@@ -125,6 +135,17 @@ public class TextFieldView: UIView {
                 }
             }
             .disposed(by: disposeBag)
+    }
+    
+    fileprivate func showGesture(message: String) {
+        UIView.transition(
+            with: gestureMessageLabel,
+            duration: 0.15,
+            options: [.beginFromCurrentState, .transitionCrossDissolve],
+            animations: {
+                self.gestureMessageLabel.text = message
+            },
+            completion: nil)
     }
 }
 
@@ -144,6 +165,10 @@ extension TextFieldView: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        viewModel.textFieldDidEndEditing()
+    }
 }
 
 // MARK: - Rx
@@ -153,14 +178,7 @@ extension Reactive where Base: TextFieldView {
     /// Binder for the error handling
     fileprivate var gestureMessage: Binder<String> {
         return Binder(base) { view, message in
-            UIView.transition(
-                with: view.gestureMessageLabel,
-                duration: 0.15,
-                options: [.beginFromCurrentState, .transitionCrossDissolve],
-                animations: {
-                    view.gestureMessageLabel.text = message
-                },
-                completion: nil)
+            view.showGesture(message: message)
         }
     }
 }

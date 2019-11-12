@@ -27,7 +27,9 @@ extension AnalyticsEvents {
     
     enum Onboarding: AnalyticsEvent {
         case walletCreation
+        case walletCreationError(error: String)
         case walletManualLogin
+        case walletAutoPairingError
         case walletAutoPairing
         
         var name: String {
@@ -35,10 +37,16 @@ extension AnalyticsEvents {
             // User creates Wallet
             case .walletCreation:
                 return "wallet_creation"
-            // User logs in to the Wallet
+            // Error is received while creating a wallet
+            case .walletCreationError:
+                return "wallet_creation_error"
+            // User logs in manually to the Wallet
             case .walletManualLogin:
                 return "wallet_manual_login"
-            // User logs in to the Wallet
+            // User receives an error during scan (auto pairing)
+            case .walletAutoPairingError:
+                return "wallet_auto_pairing_error"
+            // User logs in automatically to the Wallet
             case .walletAutoPairing:
                 return "wallet_auto_pairing"
             }

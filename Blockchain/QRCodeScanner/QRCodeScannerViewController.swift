@@ -52,12 +52,13 @@ final class QRCodeScannerViewController: UIViewController {
             break
         }
         
-        self.viewModel.scanningStarted = {
+        self.viewModel.scanningStarted = { [weak self] in
+            self?.scanDidStart()
             Logger.shared.info("Scanning started")
         }
         
         self.viewModel.scanningStopped = { [weak self] in
-            self?.scannerView?.removePreviewLayer()
+            self?.scanDidStop()
         }
         
         self.viewModel.scanComplete = { [weak self] result in
@@ -87,13 +88,13 @@ final class QRCodeScannerViewController: UIViewController {
         }
 
         scannerView = QRCodeScannerView(viewModel: viewModel, frame: viewFrame)
+        scannerView.alpha = 0
         view.addSubview(scannerView)
         scannerView.fillSuperview()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         viewModel.startReadingQRCode()
         scannerView?.startReadingQRCode()
     }
@@ -125,5 +126,31 @@ final class QRCodeScannerViewController: UIViewController {
         case .child:
             viewModel.handleDismissCompleted(with: result)
         }
+    }
+    
+    private func scanDidStart() {
+        UIView.animate(
+            withDuration: 0.25,
+            delay: 0,
+            options: [.curveEaseIn, .transitionCrossDissolve, .beginFromCurrentState],
+            animations: {
+                self.scannerView?.alpha = 1
+            },
+            completion: nil
+        )
+    }
+    
+    private func scanDidStop() {
+        UIView.animate(
+            withDuration: 0.25,
+            delay: 0,
+            options: [.curveEaseIn, .transitionCrossDissolve, .beginFromCurrentState],
+            animations: {
+                self.scannerView?.alpha = 0
+            },
+            completion: { _ in
+                self.scannerView?.removePreviewLayer()
+            }
+        )
     }
 }

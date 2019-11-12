@@ -42,13 +42,13 @@ public struct InteractableTextViewModel {
     public var tap: Observable<TitledUrl> {
         return tapRelay.asObservable()
     }
-    
+        
     /// An array of inputs
     let inputs: [Input]
     let textStyle: Style
     let linkStyle: Style
     let lineSpacing: CGFloat
-    
+
     let tapRelay = PublishRelay<TitledUrl>()
     
     public init(inputs: [Input], textStyle: Style, linkStyle: Style, lineSpacing: CGFloat = 0) {

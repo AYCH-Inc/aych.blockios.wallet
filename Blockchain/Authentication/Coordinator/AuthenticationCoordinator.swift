@@ -170,7 +170,7 @@ protocol ManualPairingServiceAPI: class {
          remoteNotificationServiceContainer: RemoteNotificationServiceContainer = .default,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          pitRepository: PITAccountRepositoryAPI = PITAccountRepository(),
-         blockstackService: BlockstackServiceAPI = BlockstackService()) {
+         blockstackService: BlockstackServiceAPI & AnalyticsEventRecordable = BlockstackService()) {
         self.authenticationManager = authenticationManager
         self.walletManager = walletManager
         self.walletService = walletService
@@ -186,6 +186,8 @@ protocol ManualPairingServiceAPI: class {
         self.blockstackService = blockstackService
         super.init()
         self.walletManager.secondPasswordDelegate = self
+        
+        blockstackService.use(eventRecorder: AnalyticsEventRecorder.shared)
     }
 
     deinit {

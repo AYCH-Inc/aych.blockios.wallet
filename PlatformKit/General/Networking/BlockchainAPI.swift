@@ -223,6 +223,18 @@ final public class BlockchainAPI: NSObject {
         return "\(walletUrl)/pin-store"
     }
     
+    public var sessionGuid: String {
+        return "\(walletUrl)/wallet/poll-for-session-guid"
+    }
+    
+    public func wallet(with guid: String) -> String {
+        return "\(walletUrl)/wallet/\(guid)"
+    }
+    
+    public var walletSession: String {
+        return "\(walletUrl)/wallet/sessions"
+    }
+    
     public enum KYC {
         static var countries: String {
             return BlockchainAPI.shared.apiUrl + "/kyc/config/countries"

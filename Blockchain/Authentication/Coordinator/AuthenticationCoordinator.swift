@@ -8,12 +8,22 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 import BitcoinKit
 import PlatformKit
 import PlatformUIKit
 
+/// Any action related to authentication should go here
+enum AuthenticationAction {
+    
+    /// Email verification
+    case verifyEmail
+
+}
+
 /// An authentication service API for manual pairing
 protocol ManualPairingServiceAPI: class {
+    var action: Observable<AuthenticationAction> { get }
     func authenticate(with guid: String,
                       password: String,
                       twoFAHandler: @escaping (AuthenticationTwoFactorType) -> Void)
@@ -42,9 +52,15 @@ protocol ManualPairingServiceAPI: class {
     var isWaitingForEmailValidation = false
     
     let loadingViewPresenter: LoadingViewPresenting
-
+    private lazy var emailAuthorizationPresenter = EmailAuthorizationPresenter()
+    
     var postAuthenticationRoute: PostAuthenticationRoute?
 
+    let actionRelay = PublishRelay<AuthenticationAction>()
+    var action: Observable<AuthenticationAction> {
+        return actionRelay.asObservable()
+    }
+        
     /// Authentication handler - this should not be a property of AuthenticationCoordinator
     /// but the current way wallet creation is designed, we need to share this handler
     /// with that flow. Eventually, wallet creation should be moved with AuthenticationCoordinator
@@ -54,7 +70,7 @@ protocol ManualPairingServiceAPI: class {
 
         self.loadingViewPresenter.hide()
 
-        self.isWaitingForEmailValidation = false
+        self.emailAuthorizationPresenter.isWaitingForEmailValidation = false
         
         // Error checking
         guard error == nil, isAuthenticated else {
@@ -62,10 +78,7 @@ protocol ManualPairingServiceAPI: class {
             case AuthenticationError.ErrorCode.noInternet.rawValue:
                 self.alertPresenter.showNoInternetConnectionAlert()
             case AuthenticationError.ErrorCode.emailAuthorizationRequired.rawValue:
-                self.isWaitingForEmailValidation = true
-                self.alertPresenter.showEmailAuthorizationRequired { [weak self] in
-                    self?.isWaitingForEmailValidation = false
-                }
+                self.actionRelay.accept(.verifyEmail)
             case AuthenticationError.ErrorCode.failedToLoadWallet.rawValue:
                 self.handleFailedToLoadWallet()
             case AuthenticationError.ErrorCode.errorDecryptingWallet.rawValue:

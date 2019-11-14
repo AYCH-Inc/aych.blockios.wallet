@@ -40,6 +40,7 @@ final class ManualPairingScreenPresenter {
     
     private let interactor: ManualPairingInteractor
     private let alertPresenter: AlertViewPresenter
+    private let emailAuthorizationPresenter: EmailAuthorizationPresenter
     private let loadingViewPresenter: LoadingViewPresenting
     
     // MARK: - Accessors
@@ -51,9 +52,11 @@ final class ManualPairingScreenPresenter {
     // MARK: - Setup
     
     init(interactor: ManualPairingInteractor = ManualPairingInteractor(),
+         emailAuthorizationPresenter: EmailAuthorizationPresenter = EmailAuthorizationPresenter(),
          alertPresenter: AlertViewPresenter = .shared,
          loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared) {
         self.alertPresenter = alertPresenter
+        self.emailAuthorizationPresenter = emailAuthorizationPresenter
         self.loadingViewPresenter = loadingViewPresenter
         self.interactor = interactor
         walletIdTextFieldViewModel = TextFieldViewModel(
@@ -111,6 +114,17 @@ final class ManualPairingScreenPresenter {
                 self?.display2FAAlert(with: type)
             }
             .disposed(by: disposeBag)
+        
+        /// Bind authentication action
+        interactor.authenticationAction
+            .bind { [weak self] action in
+                guard let self = self else { return }
+                switch action {
+                case.verifyEmail:
+                    self.displayEmailAuthorizationAlert()
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     func viewDidLoad() {
@@ -133,6 +147,12 @@ final class ManualPairingScreenPresenter {
         }
         alertPresenter.notify2FA(type: type, resendAction: resend) { [weak self] otp in
             self?.pair(using: .twoFA(otp))
+        }
+    }
+    
+    private func displayEmailAuthorizationAlert() {
+        emailAuthorizationPresenter.authorize { [weak self] in
+            self?.pair(using: .standard)
         }
     }
 }

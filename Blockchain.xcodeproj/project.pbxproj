@@ -1530,6 +1530,16 @@
 		65B54186230C687300D04A2E /* SendDestinationInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B54173230C687300D04A2E /* SendDestinationInteractorTests.swift */; };
 		65B54187230C687300D04A2E /* SendFeeInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B54174230C687300D04A2E /* SendFeeInteractorTests.swift */; };
 		65B6ABF2237C13E2002561E8 /* Retry+Behavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6ABE8237C13E2002561E8 /* Retry+Behavior.swift */; };
+		65B6AC08237C1577002561E8 /* SessionTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6ABFC237C1576002561E8 /* SessionTokenService.swift */; };
+		65B6AC09237C1577002561E8 /* SessionTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6ABFC237C1576002561E8 /* SessionTokenService.swift */; };
+		65B6AC0C237C1577002561E8 /* SessionGuidService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6AC07237C1577002561E8 /* SessionGuidService.swift */; };
+		65B6AC0D237C1577002561E8 /* SessionGuidService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6AC07237C1577002561E8 /* SessionGuidService.swift */; };
+		65B6AC0E237C20A5002561E8 /* EmailAuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6AC06237C1577002561E8 /* EmailAuthorizationService.swift */; };
+		65B6AC0F237C20A6002561E8 /* EmailAuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6AC06237C1577002561E8 /* EmailAuthorizationService.swift */; };
+		65B6AC11237C28E9002561E8 /* GetWalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6AC10237C28E9002561E8 /* GetWalletService.swift */; };
+		65B6AC12237C28E9002561E8 /* GetWalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6AC10237C28E9002561E8 /* GetWalletService.swift */; };
+		65B6AC14237C2DA1002561E8 /* EmailAuthorizationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6AC13237C2DA1002561E8 /* EmailAuthorizationPresenter.swift */; };
+		65B6AC15237C2DA1002561E8 /* EmailAuthorizationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6AC13237C2DA1002561E8 /* EmailAuthorizationPresenter.swift */; };
 		65B77D4622F99D69009AE141 /* SendDestinationAccountInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B77D4522F99D69009AE141 /* SendDestinationAccountInteractor.swift */; };
 		65B77D4722F99D69009AE141 /* SendDestinationAccountInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B77D4522F99D69009AE141 /* SendDestinationAccountInteractor.swift */; };
 		65B77D5222F99DDA009AE141 /* SendSourceAccountInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B77D5122F99DDA009AE141 /* SendSourceAccountInteractor.swift */; };
@@ -5065,6 +5075,11 @@
 		65B54173230C687300D04A2E /* SendDestinationInteractorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendDestinationInteractorTests.swift; sourceTree = "<group>"; };
 		65B54174230C687300D04A2E /* SendFeeInteractorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendFeeInteractorTests.swift; sourceTree = "<group>"; };
 		65B6ABE8237C13E2002561E8 /* Retry+Behavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Retry+Behavior.swift"; sourceTree = "<group>"; };
+		65B6ABFC237C1576002561E8 /* SessionTokenService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionTokenService.swift; sourceTree = "<group>"; };
+		65B6AC06237C1577002561E8 /* EmailAuthorizationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailAuthorizationService.swift; sourceTree = "<group>"; };
+		65B6AC07237C1577002561E8 /* SessionGuidService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionGuidService.swift; sourceTree = "<group>"; };
+		65B6AC10237C28E9002561E8 /* GetWalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWalletService.swift; sourceTree = "<group>"; };
+		65B6AC13237C2DA1002561E8 /* EmailAuthorizationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthorizationPresenter.swift; sourceTree = "<group>"; };
 		65B77D4522F99D69009AE141 /* SendDestinationAccountInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDestinationAccountInteractor.swift; sourceTree = "<group>"; };
 		65B77D5122F99DDA009AE141 /* SendSourceAccountInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendSourceAccountInteractor.swift; sourceTree = "<group>"; };
 		65B77D5422F99F13009AE141 /* SendFeeCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendFeeCellPresenter.swift; sourceTree = "<group>"; };
@@ -11206,6 +11221,11 @@
 		65244B24234F7263002EB289 /* Manual */ = {
 			isa = PBXGroup;
 			children = (
+				65B6AC10237C28E9002561E8 /* GetWalletService.swift */,
+				65B6AC13237C2DA1002561E8 /* EmailAuthorizationPresenter.swift */,
+				65B6AC06237C1577002561E8 /* EmailAuthorizationService.swift */,
+				65B6AC07237C1577002561E8 /* SessionGuidService.swift */,
+				65B6ABFC237C1576002561E8 /* SessionTokenService.swift */,
 				65244B48234F9AFE002EB289 /* ManualPairingInteractor.swift */,
 				65244B25234F727B002EB289 /* ManualPairingScreenPresenter.swift */,
 				3A307B8023465D8A00555807 /* ManualPairingViewController.swift */,
@@ -16187,6 +16207,7 @@
 				3AE5419C217A677A001DDE02 /* StellarTransaction.swift in Sources */,
 				653A56502347846000DDAE4E /* BCVerifyMobileNumberViewController+Analytics.swift in Sources */,
 				AACE31D92092A99B00B7B806 /* Reachability.swift in Sources */,
+				65B6AC12237C28E9002561E8 /* GetWalletService.swift in Sources */,
 				65A44356235478BC00ED28BA /* WelcomeScreenPresenter.swift in Sources */,
 				65CDDB582330F6790092947C /* MockRemoteNotificationNetworkService.swift in Sources */,
 				65C59ED523586A620096ED0B /* LaunchAnnouncementType.swift in Sources */,
@@ -16397,6 +16418,7 @@
 				C7797DC021C037070088ABA5 /* BCActionNavigationController.swift in Sources */,
 				C77217D020AE44B20087836A /* WalletAccountInfoAndExchangeRatesDelegate.swift in Sources */,
 				AADF6B4621C0A9DB00F8CA43 /* KYCPagerAPI.swift in Sources */,
+				65B6AC0D237C1577002561E8 /* SessionGuidService.swift in Sources */,
 				3AB757F52319C956002A3405 /* Storyboardable.swift in Sources */,
 				AACE31C82092A99B00B7B806 /* ModalPresenter.swift in Sources */,
 				AACE31C32092A99B00B7B806 /* AppDelegate.swift in Sources */,
@@ -16442,6 +16464,7 @@
 				3AC25E6922443DA40033FB9D /* ExchangeInteractorStatus.swift in Sources */,
 				602B9D172118E25A00BD3D60 /* LocationSuggestionInterface.swift in Sources */,
 				3A56AEB02176620400044302 /* StellarTransactionService.swift in Sources */,
+				65B6AC09237C1577002561E8 /* SessionTokenService.swift in Sources */,
 				650BDFC92354CDAA0035E07B /* CreateWalletScreenInteractor.swift in Sources */,
 				65CDDB612330F70C0092947C /* MockUNUserNotificationCenter.swift in Sources */,
 				347B6A0C22CCD4A5002C80E9 /* LegacyWalletMock.swift in Sources */,
@@ -16506,6 +16529,7 @@
 				AACB48BB214784D6008FCCD0 /* Collection+HelpersTests.swift in Sources */,
 				6564E5AE22C241800057108B /* MockFeatureConfiguring.swift in Sources */,
 				3A4075A62321875400A9BE50 /* WalletIntroductionEventType.swift in Sources */,
+				65B6AC0F237C20A6002561E8 /* EmailAuthorizationService.swift in Sources */,
 				C7C572F121FBBBFC008B174D /* VeriffController.swift in Sources */,
 				34BE8B5D2289D0D30097F535 /* EthereumAPIClientTests.swift in Sources */,
 				51D17A9A20A33A700071E7E0 /* PrivateKeyReader.swift in Sources */,
@@ -16761,6 +16785,7 @@
 				C75817B72146FC5F00AA6A04 /* ExchangeConversionService.swift in Sources */,
 				65A78EEE2326963600A93D10 /* RemoteNotificationServicing.swift in Sources */,
 				34615C322260917300CEC8C4 /* PaxAddress.swift in Sources */,
+				65B6AC15237C2DA1002561E8 /* EmailAuthorizationPresenter.swift in Sources */,
 				347B6A0E22CCD4EE002C80E9 /* NabuAuthenticationServiceMock.swift in Sources */,
 				C854E3F722F3A554007EC1D2 /* MockBitpayService.swift in Sources */,
 				C854E3F322F3A4AC007EC1D2 /* BitpayServiceProtocol.swift in Sources */,
@@ -16896,6 +16921,7 @@
 				23BD046D1D79F1EC00DB69E6 /* TransactionDetailNavigationController.m in Sources */,
 				6587FD1F22F9811D00206575 /* SendDestinationAccountTableViewCell.swift in Sources */,
 				C7FA9B59212F499D00B98EBF /* MarketsService.swift in Sources */,
+				65B6AC0E237C20A5002561E8 /* EmailAuthorizationService.swift in Sources */,
 				678AD5E919D4610000E9A778 /* BCModalContentView.m in Sources */,
 				3A26AF96212B36B2003A8A08 /* FromToButtonDelegateIntermediate.swift in Sources */,
 				AA126D2A212D23FE005886A3 /* KYCUpdateMobileRequest.swift in Sources */,
@@ -16957,6 +16983,7 @@
 				60AEA56821125AB20053A753 /* SettingsTwoStepVC.swift in Sources */,
 				65550E9322BE671F00522656 /* PinRouter.swift in Sources */,
 				9F765F3214BC622E00048EFB /* TransactionsBitcoinViewController.m in Sources */,
+				65B6AC0C237C1577002561E8 /* SessionGuidService.swift in Sources */,
 				3A4FF222221DC26E00AA18AF /* TabContainer.swift in Sources */,
 				AAD92FBA2202658B005DA575 /* NavigationCTA.swift in Sources */,
 				347B69F822CBA761002C80E9 /* LegacyWalletAPI.swift in Sources */,
@@ -17352,6 +17379,7 @@
 				3A7293DE225BA57400F17646 /* KYCCoinifyAuthenticator.swift in Sources */,
 				C769B2DA1FC4ABA9009632B6 /* ContinueButtonInputAccessoryView.m in Sources */,
 				652CDFEF230FDA900044E899 /* BuyBitcoinAnnouncement.swift in Sources */,
+				65B6AC11237C28E9002561E8 /* GetWalletService.swift in Sources */,
 				653C42102345F99500AAD154 /* AnalyticsEvents+Blockchain.swift in Sources */,
 				51D17A9920A33A700071E7E0 /* PrivateKeyReader.swift in Sources */,
 				65D5720D234B515E00D14342 /* AssetSelectorView+Analytics.swift in Sources */,
@@ -17512,6 +17540,7 @@
 				C7343BCF214FF93A001B1EC9 /* ExchangeDetailInteractor.swift in Sources */,
 				3A25517821E68CF6005D4E66 /* VeriffService.swift in Sources */,
 				6567FEAC22CB70990035CB16 /* AssetAddressFetching.swift in Sources */,
+				65B6AC14237C2DA1002561E8 /* EmailAuthorizationPresenter.swift in Sources */,
 				AA126DBC212F4DA5005886A3 /* SignedRetailTokenResponse.swift in Sources */,
 				51DC2F5C20B72F4900E03AF2 /* AddressValidator.swift in Sources */,
 				AA54E485216D20C8005061F9 /* KYCState.swift in Sources */,
@@ -17594,6 +17623,7 @@
 				AA46ECBD219A2D270077B351 /* KYCSupportedDocumentsResponse.swift in Sources */,
 				23FB5C161D9ABBB20008C6AB /* TransactionDetailValueCell.m in Sources */,
 				6502D58C23167ADE004F5EF4 /* OneTimeAnnouncement.swift in Sources */,
+				65B6AC08237C1577002561E8 /* SessionTokenService.swift in Sources */,
 				3A55854D22A050200046168C /* SendPaxInput.swift in Sources */,
 				AA54E495216D2A4E005061F9 /* SearchableMap.swift in Sources */,
 				23444F841DCD217000573C8C /* NSData+BTCData.m in Sources */,

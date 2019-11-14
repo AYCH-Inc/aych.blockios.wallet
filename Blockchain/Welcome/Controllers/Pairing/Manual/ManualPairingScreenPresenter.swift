@@ -131,6 +131,10 @@ final class ManualPairingScreenPresenter {
         walletIdTextFieldViewModel.focusRelay.accept(true)
     }
     
+    func viewDidDisappear() {
+        emailAuthorizationPresenter.cancel()
+    }
+    
     private func pair(using type: ManualPairingInteractor.AuthType) {
         do {
             try interactor.pair(using: type)

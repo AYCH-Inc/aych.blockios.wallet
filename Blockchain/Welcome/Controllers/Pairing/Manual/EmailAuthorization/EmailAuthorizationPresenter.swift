@@ -47,6 +47,12 @@ final class EmailAuthorizationPresenter {
             .disposed(by: disposeBag)
     }
     
+    /// Cancels polling and waiting for authorization
+    func cancel() {
+        authenticationCoordinator.isWaitingForEmailValidation = true
+        interactor.cancel()
+    }
+    
     private func showAlert() {
         alertPresenter.standardNotify(
             message: LocalizedString.message,

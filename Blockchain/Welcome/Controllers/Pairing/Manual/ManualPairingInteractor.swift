@@ -100,7 +100,7 @@ final class ManualPairingInteractor {
                     self?.authenticate()
                 },
                 onError: { error in
-                    // TODO: Daniel
+                    // TODO: Error handling
                 }
             )
             .disposed(by: disposeBag)

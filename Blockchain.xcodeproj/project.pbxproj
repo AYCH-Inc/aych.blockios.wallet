@@ -759,7 +759,6 @@
 		3AAEF9602141CF2C005852D1 /* ExchangeDetailHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AAEF95F2141CF2C005852D1 /* ExchangeDetailHeaderView.xib */; };
 		3AAEF9612141CF2C005852D1 /* ExchangeDetailHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AAEF95F2141CF2C005852D1 /* ExchangeDetailHeaderView.xib */; };
 		3AAEF96221421C6F005852D1 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4EAB95214080D700081531 /* TextCell.swift */; };
-		3AB45266234BAA54000C33C5 /* PasswordStrengthening.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB45265234BAA54000C33C5 /* PasswordStrengthening.swift */; };
 		3AB4528D234D2CB2000C33C5 /* PasswordRequiredScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB4528C234D2CB2000C33C5 /* PasswordRequiredScreenPresenter.swift */; };
 		3AB452ED234E717C000C33C5 /* RecoverFundsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB452EC234E717C000C33C5 /* RecoverFundsViewController.swift */; };
 		3AB452EF234E71A1000C33C5 /* RecoverFundsScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB452EE234E71A1000C33C5 /* RecoverFundsScreenPresenter.swift */; };
@@ -1192,7 +1191,6 @@
 		651060F82356447400C871C0 /* PasswordRequiredScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB4528C234D2CB2000C33C5 /* PasswordRequiredScreenPresenter.swift */; };
 		651060F92356447400C871C0 /* PasswordRequiredViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A307B8423465DD400555807 /* PasswordRequiredViewController.swift */; };
 		651060FA2356447400C871C0 /* PasswordRequiredViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A307B9223465F2F00555807 /* PasswordRequiredViewController.xib */; };
-		651060FB2356447E00C871C0 /* PasswordStrengthening.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB45265234BAA54000C33C5 /* PasswordStrengthening.swift */; };
 		6510612023571BC800C871C0 /* RecoverFundsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB452EC234E717C000C33C5 /* RecoverFundsViewController.swift */; };
 		6510612123571BC800C871C0 /* RecoverFundsScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB452EE234E71A1000C33C5 /* RecoverFundsScreenPresenter.swift */; };
 		6510612223571BC800C871C0 /* RecoverFundsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AB452F2234E8062000C33C5 /* RecoverFundsViewController.xib */; };
@@ -3311,7 +3309,6 @@
 		3AAEF9592141B05A005852D1 /* ActionableFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActionableFooterView.xib; sourceTree = "<group>"; };
 		3AAEF95C2141CEE9005852D1 /* ExchangeDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailHeaderView.swift; sourceTree = "<group>"; };
 		3AAEF95F2141CF2C005852D1 /* ExchangeDetailHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeDetailHeaderView.xib; sourceTree = "<group>"; };
-		3AB45265234BAA54000C33C5 /* PasswordStrengthening.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStrengthening.swift; sourceTree = "<group>"; };
 		3AB4528C234D2CB2000C33C5 /* PasswordRequiredScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordRequiredScreenPresenter.swift; sourceTree = "<group>"; };
 		3AB452EC234E717C000C33C5 /* RecoverFundsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverFundsViewController.swift; sourceTree = "<group>"; };
 		3AB452EE234E71A1000C33C5 /* RecoverFundsScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverFundsScreenPresenter.swift; sourceTree = "<group>"; };
@@ -7345,7 +7342,6 @@
 			isa = PBXGroup;
 			children = (
 				AAA3333C208813040019AD55 /* OnboardingRouter.swift */,
-				3AB45264234BA850000C33C5 /* APIs */,
 				3A307B7B23465C6400555807 /* Controllers */,
 			);
 			path = Welcome;
@@ -8565,14 +8561,6 @@
 				3AAEF9592141B05A005852D1 /* ActionableFooterView.xib */,
 			);
 			path = Footers;
-			sourceTree = "<group>";
-		};
-		3AB45264234BA850000C33C5 /* APIs */ = {
-			isa = PBXGroup;
-			children = (
-				3AB45265234BAA54000C33C5 /* PasswordStrengthening.swift */,
-			);
-			path = APIs;
 			sourceTree = "<group>";
 		};
 		3AB452E2234E70E1000C33C5 /* Recover */ = {
@@ -11227,13 +11215,7 @@
 		65244B24234F7263002EB289 /* Manual */ = {
 			isa = PBXGroup;
 			children = (
-				65E4AD52237D7ACE009F9DF0 /* SessionGuidRepositoryAPI.swift */,
-				65E4AD5E237D7AE8009F9DF0 /* SessionTokenRepositoryAPI.swift */,
-				65B6AC10237C28E9002561E8 /* GetWalletService.swift */,
-				65B6AC13237C2DA1002561E8 /* EmailAuthorizationPresenter.swift */,
-				65B6AC06237C1577002561E8 /* EmailAuthorizationInteractor.swift */,
-				65B6AC07237C1577002561E8 /* GuidProvider.swift */,
-				65B6ABFC237C1576002561E8 /* SessionTokenService.swift */,
+				65E4AD61237D9735009F9DF0 /* EmailAuthorization */,
 				65244B48234F9AFE002EB289 /* ManualPairingInteractor.swift */,
 				65244B25234F727B002EB289 /* ManualPairingScreenPresenter.swift */,
 				3A307B8023465D8A00555807 /* ManualPairingViewController.swift */,
@@ -11914,6 +11896,20 @@
 				653C41E72344D1DC00AAD154 /* AnalyticsUserPropertyValidator.swift */,
 			);
 			path = UserPropertyRecorder;
+			sourceTree = "<group>";
+		};
+		65E4AD61237D9735009F9DF0 /* EmailAuthorization */ = {
+			isa = PBXGroup;
+			children = (
+				65E4AD52237D7ACE009F9DF0 /* SessionGuidRepositoryAPI.swift */,
+				65E4AD5E237D7AE8009F9DF0 /* SessionTokenRepositoryAPI.swift */,
+				65B6AC10237C28E9002561E8 /* GetWalletService.swift */,
+				65B6AC07237C1577002561E8 /* GuidProvider.swift */,
+				65B6ABFC237C1576002561E8 /* SessionTokenService.swift */,
+				65B6AC13237C2DA1002561E8 /* EmailAuthorizationPresenter.swift */,
+				65B6AC06237C1577002561E8 /* EmailAuthorizationInteractor.swift */,
+			);
+			path = EmailAuthorization;
 			sourceTree = "<group>";
 		};
 		65E4B53822CF3F7900EAC3CD /* Accessibility */ = {
@@ -16439,7 +16435,6 @@
 				6564E56322C13FDA0057108B /* PinServicing.swift in Sources */,
 				650CE41F22CBDDB000FA282E /* Wallet+WalletProtocol.swift in Sources */,
 				3AED6072233A20C8009BF2AB /* BuySellPlaceholderViewController.swift in Sources */,
-				651060FB2356447E00C871C0 /* PasswordStrengthening.swift in Sources */,
 				AA0A4148214B0B2100807163 /* ExchangeAssetAccountListPresenter.swift in Sources */,
 				AA126CD9212C94CB005886A3 /* NabuCreateUserResponse.swift in Sources */,
 				652CE01F23100E500044E899 /* AnnouncementRecord+State.swift in Sources */,
@@ -17210,7 +17205,6 @@
 				3A68A33022CA617D00EB1287 /* PitConnectViewController.swift in Sources */,
 				65E4AD5F237D7AE8009F9DF0 /* SessionTokenRepositoryAPI.swift in Sources */,
 				65B77D5822F99FA2009AE141 /* SendFeeInteractor.swift in Sources */,
-				3AB45266234BAA54000C33C5 /* PasswordStrengthening.swift in Sources */,
 				657F0146233D072700006F37 /* TransferInCryptoAnnouncement.swift in Sources */,
 				AA755EBA2187B26C00FC4894 /* StellarAirdropRouter.swift in Sources */,
 				51C2ADD620BDECE700D66108 /* String+EscapeJS.swift in Sources */,

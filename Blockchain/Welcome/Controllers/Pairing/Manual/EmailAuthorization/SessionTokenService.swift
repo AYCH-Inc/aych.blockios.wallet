@@ -50,7 +50,7 @@ final class SessionTokenService: SessionTokenServiceAPI {
         return self.communicator
             .perform(request: request, responseType: Response.self)
             .map { $0.token }
-            .map{ token -> String in
+            .map { token -> String in
                 guard let token = token else { throw FetchError.missingToken }
                 return token
             }

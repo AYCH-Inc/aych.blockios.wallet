@@ -81,11 +81,13 @@ final class EmailAuthorizationInteractor {
             .mapToVoid() // Map to void as we just want to verify it could be retrieved
             /// Any error should be caught and unless the request was cancelled or
             /// session token was missing, just keep polling until the guid is retrieved
-            .catchError { error -> Single<Void> in
+            .catchError { [weak self] error -> Single<Void> in
+                guard let self = self else { throw PollError.unretainedSelf }
                 /// In case the session token is missing, don't continue since the `sessionToken`
                 /// is essential to form the request
                 switch error {
                 case GuidProvider.FetchError.missingSessionToken:
+                    self.cancel()
                     throw PollError.missingSessionToken
                 default:
                     break

@@ -16,9 +16,8 @@ import PlatformUIKit
 /// Any action related to authentication should go here
 enum AuthenticationAction {
     
-    /// Email verification
-    case verifyEmail
-
+    /// authorize login
+    case authorizeLoginWithEmail
 }
 
 /// An authentication service API for manual pairing
@@ -78,7 +77,7 @@ protocol ManualPairingServiceAPI: class {
             case AuthenticationError.ErrorCode.noInternet.rawValue:
                 self.alertPresenter.showNoInternetConnectionAlert()
             case AuthenticationError.ErrorCode.emailAuthorizationRequired.rawValue:
-                self.actionRelay.accept(.verifyEmail)
+                self.actionRelay.accept(.authorizeLoginWithEmail)
             case AuthenticationError.ErrorCode.failedToLoadWallet.rawValue:
                 self.handleFailedToLoadWallet()
             case AuthenticationError.ErrorCode.errorDecryptingWallet.rawValue:

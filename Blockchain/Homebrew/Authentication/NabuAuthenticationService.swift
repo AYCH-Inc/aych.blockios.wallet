@@ -136,14 +136,9 @@ final class NabuAuthenticationService: NabuAuthenticationServiceAPI {
             parameters: [:],
             headers: headers,
             type: NabuSessionTokenResponse.self
-        ).do(
-            onSuccess: { [unowned self] in
-                self.cachedSessionToken.accept($0)
-            },
-            onError: { error in
-                Logger.shared.error(error)
-            }
-        )
+        ).do(onSuccess: { [unowned self] in
+            self.cachedSessionToken.accept($0)
+        })
     }
 
     /// Retrieves the user's Nabu user ID and API token from the wallet metadata if the Nabu user ID

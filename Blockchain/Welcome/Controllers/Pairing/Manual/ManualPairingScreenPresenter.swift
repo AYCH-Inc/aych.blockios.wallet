@@ -120,7 +120,7 @@ final class ManualPairingScreenPresenter {
             .bind { [weak self] action in
                 guard let self = self else { return }
                 switch action {
-                case.verifyEmail:
+                case.authorizeLoginWithEmail:
                     self.displayEmailAuthorizationAlert()
                 }
             }

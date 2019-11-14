@@ -92,3 +92,19 @@ extension Wallet: CoinifyWalletBridgeAPI {
         return self.coinifyOfflineToken()
     }
 }
+
+// MARK: - SessionTokenRepositoryAPI
+
+extension Wallet: SessionTokenRepositoryAPI {
+    var hasSessionToken: Bool {
+        return sessionToken != nil
+    }
+}
+
+// MARK: - GuidRepositoryAPI
+
+extension Wallet: GuidRepositoryAPI {
+    var hasGuid: Bool {
+        return guid != nil
+    }
+}

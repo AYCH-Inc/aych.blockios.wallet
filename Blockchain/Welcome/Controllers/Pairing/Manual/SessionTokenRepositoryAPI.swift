@@ -10,7 +10,7 @@ import Foundation
 
 protocol SessionTokenRepositoryAPI: class {
     var hasSessionToken: Bool { get }
-    var sessionToken: String? { get set }
+    var sessionToken: String! { get set }
 }
 
 extension SessionTokenRepositoryAPI {

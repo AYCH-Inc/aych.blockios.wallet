@@ -65,7 +65,7 @@ final class ManualPairingInteractor {
     init(reachability: InternentReachabilityAPI = InternentReachability(),
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          manualPairingService: ManualPairingServiceAPI = AuthenticationCoordinator.shared,
-         sessionTokenService: SessionTokenServiceAPI = SessionTokenService(),
+         sessionTokenService: SessionTokenServiceAPI = SessionTokenService(repository: WalletManager.shared.wallet),
          wallet: Wallet = WalletManager.shared.wallet) {
         self.manualPairingService = manualPairingService
         self.sessionTokenService = sessionTokenService
@@ -94,9 +94,9 @@ final class ManualPairingInteractor {
         }
         analyticsRecorder.record(event: AnalyticsEvents.Onboarding.walletManualLogin)
         
-        sessionTokenService.requestSessionToken()
+        sessionTokenService.setupSessionToken()
             .subscribe(
-                onSuccess: { [weak self] _ in
+                onCompleted: { [weak self] in
                     self?.authenticate()
                 },
                 onError: { error in

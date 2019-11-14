@@ -52,7 +52,16 @@ protocol ManualPairingServiceAPI: class {
     var isWaitingForEmailValidation = false
     
     let loadingViewPresenter: LoadingViewPresenting
-    private lazy var emailAuthorizationPresenter = EmailAuthorizationPresenter()
+    
+    /// Provides a presenter
+    private var emailAuthorizationPresenter: EmailAuthorizationPresenter {
+        return EmailAuthorizationPresenter(
+            services: .init(
+                sessionTokenRepository: self.wallet,
+                guidProvider: GuidProvider(sessionTokenRepository: self.wallet)
+            )
+        )
+    }
     
     var postAuthenticationRoute: PostAuthenticationRoute?
 
@@ -69,8 +78,6 @@ protocol ManualPairingServiceAPI: class {
         guard let self = self else { return }
 
         self.loadingViewPresenter.hide()
-
-        self.emailAuthorizationPresenter.isWaitingForEmailValidation = false
         
         // Error checking
         guard error == nil, isAuthenticated else {

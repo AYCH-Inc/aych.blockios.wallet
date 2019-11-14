@@ -15,6 +15,12 @@ final class EmailAuthorizationInteractor {
     struct Services {
         let sessionTokenRepository: SessionTokenRepositoryAPI
         let guidProvider: GuidProviderAPI
+        
+        init(sessionTokenRepository: SessionTokenRepositoryAPI = WalletManager.shared.wallet,
+             guidProvider: GuidProviderAPI = GuidProvider()) {
+            self.sessionTokenRepository = sessionTokenRepository
+            self.guidProvider = guidProvider
+        }
     }
     
     // MARK: - Types
@@ -78,8 +84,11 @@ final class EmailAuthorizationInteractor {
             .catchError { error -> Single<Void> in
                 /// In case the session token is missing, don't continue since the `sessionToken`
                 /// is essential to form the request
-                guard error != GuidProvider.FetchError.missingSessionToken else {
+                switch error {
+                case GuidProvider.FetchError.missingSessionToken:
                     throw PollError.missingSessionToken
+                default:
+                    break
                 }
                 guard !self.isCancelled else { throw PollError.cancel }
                 return Single<Int>

@@ -22,7 +22,7 @@ final class SessionTokenService: SessionTokenServiceAPI {
     }
     
     private struct Response: Decodable {
-        let token: String
+        let token: String?
     }
     
     // MARK: - Properties

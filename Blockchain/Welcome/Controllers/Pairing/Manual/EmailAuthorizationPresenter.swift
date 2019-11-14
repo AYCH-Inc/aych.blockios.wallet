@@ -26,7 +26,7 @@ final class EmailAuthorizationPresenter {
     
     // MARK: - Setup
     
-    init(services: EmailAuthorizationInteractor.Services,
+    init(services: EmailAuthorizationInteractor.Services = .init(),
          alertPresenter: AlertViewPresenter = .shared) {
         interactor = EmailAuthorizationInteractor(services: services)
         self.alertPresenter = alertPresenter

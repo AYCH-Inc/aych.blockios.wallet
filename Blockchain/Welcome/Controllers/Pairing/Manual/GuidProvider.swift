@@ -50,7 +50,7 @@ final class GuidProvider: GuidProviderAPI {
     
     // MARK: - Setup
     
-    init(sessionTokenRepository: SessionTokenRepositoryAPI,
+    init(sessionTokenRepository: SessionTokenRepositoryAPI = WalletManager.shared.wallet,
          communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
         self.sessionTokenRepository = sessionTokenRepository
         self.communicator = communicator

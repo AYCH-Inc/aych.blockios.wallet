@@ -95,7 +95,7 @@ import PlatformUIKit
         guard UIDevice.current.isUnsafe() else {
             return
         }
-        AlertViewPresenter.shared.standardNotify(
+        standardNotify(
             message: LocalizationConstants.Errors.warning,
             title: LocalizationConstants.Errors.unsafeDeviceWarningMessage
         )

@@ -10,7 +10,7 @@ import Foundation
 
 protocol GuidRepositoryAPI: class {
     var hasGuid: Bool { get }
-    var guid: String? { set set }
+    var guid: String? { get set }
 }
 
 extension GuidRepositoryAPI {

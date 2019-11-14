@@ -11,25 +11,30 @@ import RxSwift
 
 final class EmailAuthorizationPresenter {
     
+    // MARK: - Types
+    
+    private typealias LocalizedString = LocalizationConstants.Onboarding.ManualPairingScreen.EmailAuthorizationAlert
+    
     var isWaitingForEmailValidation = false
     
     // MARK: - Services
     
-    private let service: EmailAuthorizationServiceAPI
+    private let interactor: EmailAuthorizationInteractor
     private let alertPresenter: AlertViewPresenter
         
     private let disposeBag = DisposeBag()
     
     // MARK: - Setup
     
-    init(service: EmailAuthorizationServiceAPI = EmailAuthorizationService(),
+    init(services: EmailAuthorizationInteractor.Services,
          alertPresenter: AlertViewPresenter = .shared) {
-        self.service = service
+        interactor = EmailAuthorizationInteractor(services: services)
         self.alertPresenter = alertPresenter
     }
     
     func authorize(_ completion: @escaping () -> Void) {
-        service.authorize
+        showAlert()
+        interactor.authorize
             .subscribe(
                 onCompleted: {
                     completion()
@@ -40,9 +45,20 @@ final class EmailAuthorizationPresenter {
             )
             .disposed(by: disposeBag)
         
+        // TODO: Daniel - waiting logic
         isWaitingForEmailValidation = true
-        alertPresenter.showEmailAuthorizationRequired { [weak self] in
-            self?.isWaitingForEmailValidation = false
-        }
+        showAlert()
+    }
+    
+    private func showAlert() {
+        alertPresenter.standardNotify(
+            message: LocalizedString.message,
+            title: LocalizedString.title,
+            actions: [
+                UIAlertAction(title: LocalizationConstants.openMailApp, style: .default) { _ in
+                    UIApplication.shared.openMailApplication()
+                }
+            ]
+        )
     }
 }

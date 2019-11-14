@@ -10,28 +10,38 @@ import PlatformKit
 import RxSwift
 
 protocol SessionTokenServiceAPI: class {
-    func requestSessionToken() -> Single<Void>
+    func setupSessionToken() -> Completable
 }
 
 final class SessionTokenService: SessionTokenServiceAPI {
     
-    struct Response: Decodable {
+    // MARK: - Types
+    
+    enum FetchError: Error {
+        case missingToken
+    }
+    
+    private struct Response: Decodable {
         let token: String
     }
     
+    // MARK: - Properties
+    
     private let url = URL(string: BlockchainAPI.shared.walletSession)!
     private let communicator: NetworkCommunicatorAPI
-    private let wallet: Wallet
+    private let repository: SessionTokenRepositoryAPI
+    
+    // MARK: - Setup
     
     init(communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared,
-         wallet: Wallet = WalletManager.shared.wallet) {
+         repository: SessionTokenRepositoryAPI) {
         self.communicator = communicator
-        self.wallet = wallet
+        self.repository = repository
     }
     
     /// Requests a session token for the wallet, if not available already
-    func requestSessionToken() -> Single<Void> {
-        guard wallet.sessionToken == nil else { return .just(()) }
+    func setupSessionToken() -> Completable {
+        guard !repository.hasSessionToken else { return .empty() }
         let request = NetworkRequest(
             endpoint: url,
             method: .post,
@@ -40,29 +50,13 @@ final class SessionTokenService: SessionTokenServiceAPI {
         return self.communicator
             .perform(request: request, responseType: Response.self)
             .map { $0.token }
+            .map{ token -> String in
+                guard let token = token else { throw FetchError.missingToken }
+                return token
+            }
             .do(onSuccess: { [weak self] token in
-                self?.wallet.sessionToken = token
+                self?.repository.sessionToken = token
             })
-            .mapToVoid()
+            .asCompletable()
     }
 }
-
-//function obtainSessionToken() {
-//  var processResult = function processResult(data) {
-//    if (!data.token || !data.token.length) {
-//      return Promise.reject('Invalid session token');
-//    }
-//    return data.token;
-//  };
-//
-//  return API.request('POST', 'wallet/sessions').then(processResult);
-//}
-//
-//function establishSession(token) {
-//  if (token) {
-//    return Promise.resolve(token);
-//  } else {
-//    return this.obtainSessionToken();
-//  }
-//}
-

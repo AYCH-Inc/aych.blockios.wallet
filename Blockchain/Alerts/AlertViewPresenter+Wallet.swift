@@ -24,28 +24,6 @@ extension AlertViewPresenter {
         AlertViewPresenter.shared.standardError(message: message)
     }
     
-    @objc func showEmailAuthorizationRequired(cancel: @escaping () -> Void) {
-        let alert = UIAlertController(
-            title: LocalizationConstants.Authentication.manualPairingAuthorizationRequiredTitle,
-            message: LocalizationConstants.Authentication.manualPairingAuthorizationRequiredMessage,
-            preferredStyle: .alert
-        )
-        alert.addAction(
-            UIAlertAction(title: LocalizationConstants.okString, style: .cancel) { _ in
-                cancel()
-            }
-        )
-        alert.addAction(
-            UIAlertAction(title: LocalizationConstants.openMailApp, style: .default) { _ in
-                UIApplication.shared.openMailApplication()
-            }
-        )
-        UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.present(
-            alert,
-            animated: true
-        )
-    }
-
     /// Displays an alert to the user if the wallet object contains a value from `Wallet.getMobileMessage`.
     /// Otherwise, if there is no value, no such alert will be presented.
     @objc func showMobileNoticeIfNeeded() {

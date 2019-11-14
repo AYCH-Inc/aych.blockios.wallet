@@ -24,6 +24,11 @@ final public class BlockchainAPI: NSObject {
     /// The instance variable used to access functions of the `API` class.
     public static let shared = BlockchainAPI()
 
+    public struct Query {
+        public static let jsonFormat = "format=json"
+        public static let apiCode = "api_code=\(Parameters.apiCode)"
+    }
+    
     // TODO: remove once migration is complete
     /// Objective-C compatible class function
     @objc public class func sharedInstance() -> BlockchainAPI {

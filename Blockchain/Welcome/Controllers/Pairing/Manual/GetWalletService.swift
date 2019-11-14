@@ -11,6 +11,12 @@ import RxSwift
 
 final class GetWalletService {
     
+    private enum Keys: String {
+        case format
+        case apiCode = "api_code"
+        case clientTime = "ct"
+    }
+    
     struct ErrorResponse: Decodable, Error {
         let authorization_required: Bool
     }

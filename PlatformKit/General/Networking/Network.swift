@@ -56,16 +56,16 @@ public struct Network {
             if let userAgent = Network.userAgent {
                 sessionConfiguration.httpAdditionalHeaders = [HttpHeaderField.userAgent: userAgent]
             }
-            sessionConfiguration.httpCookieAcceptPolicy = .always
-            sessionConfiguration.httpShouldSetCookies = true
-            
-            let cookies = HTTPCookieStorage.shared.cookies(for: URL(string: BlockchainAPI.shared.sessionGuid + "?format=json")!) ?? []
-            for c in cookies {
-                sessionConfiguration.httpCookieStorage!.setCookie(c)
-            }
-            if #available(iOS 11.0, *) {
-                sessionConfiguration.waitsForConnectivity = true
-            }
+//            sessionConfiguration.httpCookieAcceptPolicy = .always
+//            sessionConfiguration.httpShouldSetCookies = true
+//
+//            let cookies = HTTPCookieStorage.shared.cookies(for: URL(string: BlockchainAPI.shared.sessionGuid + "?format=json")!) ?? []
+//            for c in cookies {
+//                sessionConfiguration.httpCookieStorage!.setCookie(c)
+//            }
+//            if #available(iOS 11.0, *) {
+//                sessionConfiguration.waitsForConnectivity = true
+//            }
             let sessionDelegate = SessionDelegate()
             let session = URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
             let communicator = NetworkCommunicator(session: session, sessionDelegate: sessionDelegate)

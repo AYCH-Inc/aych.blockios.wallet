@@ -112,7 +112,6 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI, AnalyticsEventRe
                 if let payload = payload, let responseValue = String(data: payload, encoding: .utf8) {
                     Logger.shared.debug(responseValue)
                 }
-                
                 guard (200...299).contains(httpResponse.statusCode) else {
                     observer(.success(.failure(NetworkCommunicatorError.rawServerError(ServerErrorResponse(response: httpResponse, payload: payload)))))
                     return

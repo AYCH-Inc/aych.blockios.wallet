@@ -31,7 +31,7 @@ final class SessionGuidService: SessionGuidServiceAPI {
         let request = NetworkRequest(
             endpoint: url,
             method: .get,
-            headers: ["sessionToken": token],
+            headers: ["cookie": "SID=" + token],
             contentType: .json
         )
         return self.communicator

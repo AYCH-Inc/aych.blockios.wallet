@@ -1527,7 +1527,6 @@
 		65B54185230C687300D04A2E /* SendSpendableBalanceInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B54172230C687300D04A2E /* SendSpendableBalanceInteractorTests.swift */; };
 		65B54186230C687300D04A2E /* SendDestinationInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B54173230C687300D04A2E /* SendDestinationInteractorTests.swift */; };
 		65B54187230C687300D04A2E /* SendFeeInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B54174230C687300D04A2E /* SendFeeInteractorTests.swift */; };
-		65B6ABF2237C13E2002561E8 /* Retry+Behavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6ABE8237C13E2002561E8 /* Retry+Behavior.swift */; };
 		65B6AC08237C1577002561E8 /* SessionTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6ABFC237C1576002561E8 /* SessionTokenService.swift */; };
 		65B6AC09237C1577002561E8 /* SessionTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6ABFC237C1576002561E8 /* SessionTokenService.swift */; };
 		65B6AC0C237C1577002561E8 /* GuidProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6AC07237C1577002561E8 /* GuidProvider.swift */; };
@@ -5075,7 +5074,6 @@
 		65B54172230C687300D04A2E /* SendSpendableBalanceInteractorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendSpendableBalanceInteractorTests.swift; sourceTree = "<group>"; };
 		65B54173230C687300D04A2E /* SendDestinationInteractorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendDestinationInteractorTests.swift; sourceTree = "<group>"; };
 		65B54174230C687300D04A2E /* SendFeeInteractorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendFeeInteractorTests.swift; sourceTree = "<group>"; };
-		65B6ABE8237C13E2002561E8 /* Retry+Behavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Retry+Behavior.swift"; sourceTree = "<group>"; };
 		65B6ABFC237C1576002561E8 /* SessionTokenService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionTokenService.swift; sourceTree = "<group>"; };
 		65B6AC06237C1577002561E8 /* EmailAuthorizationInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailAuthorizationInteractor.swift; sourceTree = "<group>"; };
 		65B6AC07237C1577002561E8 /* GuidProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuidProvider.swift; sourceTree = "<group>"; };
@@ -7634,7 +7632,6 @@
 		3A4E480B21BB379C001A799D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				65B6ABE8237C13E2002561E8 /* Retry+Behavior.swift */,
 				654193F422D7354800B3E6ED /* MainQueueExecution.swift */,
 				6509997C22E1DDCC0092BFB9 /* UserDefault+CacheSuite.swift */,
 				65CE41C62317E8F60026C6EE /* TimeInterval+Utils.swift */,
@@ -15821,7 +15818,6 @@
 				341E5A722284A707007BE6A6 /* ObservableTypeExtensions.swift in Sources */,
 				3AADB30521B080FD00FD2974 /* AssetAccountDetailsAPI.swift in Sources */,
 				AA8A3741219E2F0C007AF5E1 /* AuthenticationTwoFactorType.swift in Sources */,
-				65B6ABF2237C13E2002561E8 /* Retry+Behavior.swift in Sources */,
 				3A8473CA219B60FB00F22FA6 /* WalletAccount.swift in Sources */,
 				3AE6AF8F228F43B800BF8F56 /* CertificatePinner.swift in Sources */,
 				3A4E480D21BB37AF001A799D /* String+Conveniences.swift in Sources */,

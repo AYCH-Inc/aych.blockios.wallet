@@ -48,19 +48,3 @@ final class GetWalletService {
             .perform(request: request, responseType: Response.self, errorResponseType: ErrorResponse.self)
     }
 }
-
-//// sharedKey is optional
-//// token must be present if sharedKey isn't
-//function callGetWalletEndpoint(guid, sharedKey, sessionToken) {
-//  var clientTime = new Date().getTime();
-//  var data = { format: 'json', resend_code: null, ct: clientTime };
-//  var headers = {};
-//
-//  if (sharedKey) {
-//    data.sharedKey = sharedKey;
-//  } else {
-//    assert(sessionToken, 'Session token required');
-//    headers.sessionToken = sessionToken;
-//  }
-//  return API.request('GET', 'wallet/' + guid, data, headers);
-//}

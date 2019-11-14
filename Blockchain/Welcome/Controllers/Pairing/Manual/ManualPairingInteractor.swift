@@ -52,6 +52,7 @@ final class ManualPairingInteractor {
     
     private let reachability: InternentReachabilityAPI
     private let analyticsRecorder: AnalyticsEventRecording
+    private let errorRecorder: ErrorRecording
     
     private let manualPairingService: ManualPairingServiceAPI
     private let sessionTokenService: SessionTokenServiceAPI
@@ -64,11 +65,13 @@ final class ManualPairingInteractor {
     
     init(reachability: InternentReachabilityAPI = InternentReachability(),
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          manualPairingService: ManualPairingServiceAPI = AuthenticationCoordinator.shared,
          sessionTokenService: SessionTokenServiceAPI = SessionTokenService(repository: WalletManager.shared.wallet),
          wallet: Wallet = WalletManager.shared.wallet) {
         self.manualPairingService = manualPairingService
         self.sessionTokenService = sessionTokenService
+        self.errorRecorder = errorRecorder
         self.wallet = wallet
         self.reachability = reachability
         self.analyticsRecorder = analyticsRecorder
@@ -99,8 +102,9 @@ final class ManualPairingInteractor {
                 onCompleted: { [weak self] in
                     self?.authenticate()
                 },
-                onError: { error in
-                    // TODO: Error handling
+                onError: { [weak self] error in
+                    // TODO: Handle errors by presenting alert via presenter
+                    self?.errorRecorder.error(error)
                 }
             )
             .disposed(by: disposeBag)

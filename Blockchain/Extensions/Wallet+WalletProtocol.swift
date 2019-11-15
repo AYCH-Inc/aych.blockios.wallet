@@ -6,7 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformKit
 
 // MARK: - AssetAddressSubscribing
 
@@ -40,16 +40,8 @@ extension Wallet: WalletProtocol {
 
 // MARK: - SessionTokenRepositoryAPI
 
-extension Wallet: SessionTokenRepositoryAPI {
-    var hasSessionToken: Bool {
-        return sessionToken != nil
-    }
-}
+extension Wallet: SessionTokenRepositoryAPI {}
 
 // MARK: - GuidRepositoryAPI
 
-extension Wallet: GuidRepositoryAPI {
-    var hasGuid: Bool {
-        return guid != nil
-    }
-}
+extension Wallet: GuidRepositoryAPI {}

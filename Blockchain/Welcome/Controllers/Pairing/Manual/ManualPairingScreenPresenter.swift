@@ -155,8 +155,16 @@ final class ManualPairingScreenPresenter {
     }
     
     private func displayEmailAuthorizationAlert() {
-        emailAuthorizationPresenter.authorize { [weak self] in
-            self?.pair(using: .standard)
-        }
+        // This method is designed to fail silently
+        emailAuthorizationPresenter.authorize()
+            .subscribe(
+                onCompleted: { [weak self] in
+                    self?.pair(using: .standard)
+                },
+                onError: { error in
+                    Logger.shared.error(error)
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }

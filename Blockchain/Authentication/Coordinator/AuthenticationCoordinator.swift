@@ -47,7 +47,8 @@ protocol ManualPairingServiceAPI: class {
 
     let recorder: ErrorRecording
     
-    /// Keeps state of email validation during the onboarding - remove this when refactoring
+    /// Keeps state of email validation during the onboarding
+    /// TODO: Remove this when refactoring `AuthenticationCoordinator`.
     var isWaitingForEmailValidation = false
     
     let loadingViewPresenter: LoadingViewPresenting

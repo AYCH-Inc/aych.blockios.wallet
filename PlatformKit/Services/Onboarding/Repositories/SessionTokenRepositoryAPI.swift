@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol SessionTokenRepositoryAPI: class {
+public protocol SessionTokenRepositoryAPI: class {
     var hasSessionToken: Bool { get }
     var sessionToken: String! { get set }
 }
 
-extension SessionTokenRepositoryAPI {
+public extension SessionTokenRepositoryAPI {
     var hasSessionToken: Bool {
         return sessionToken != nil
     }

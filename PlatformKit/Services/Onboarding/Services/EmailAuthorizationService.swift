@@ -6,26 +6,14 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformKit
 import RxSwift
 import RxRelay
 
-final class EmailAuthorizationInteractor {
-        
-    struct Services {
-        let sessionTokenRepository: SessionTokenRepositoryAPI
-        let guidProvider: GuidProviderAPI
-        
-        init(sessionTokenRepository: SessionTokenRepositoryAPI = WalletManager.shared.wallet,
-             guidProvider: GuidProviderAPI = GuidProvider()) {
-            self.sessionTokenRepository = sessionTokenRepository
-            self.guidProvider = guidProvider
-        }
-    }
+public final class EmailAuthorizationService {
     
     // MARK: - Types
-    
-    enum PollError: Error {
+        
+    public enum PollError: Error {
         
         /// Cancellation error
         case cancel
@@ -39,7 +27,7 @@ final class EmailAuthorizationInteractor {
     
     /// Steams a `completed` event once, upon successful authorization.
     /// Keeps polling until completion event is received
-    var authorize: Completable {
+    public var authorize: Completable {
         return authorizeEmail()
             .asCompletable()
     }
@@ -61,23 +49,23 @@ final class EmailAuthorizationInteractor {
     
     // MARK: - Injected
     
-    private let services: Services
+    private let guidClient: GuidClientAPI
         
     // MARK: - Setup
     
-    init(services: Services) {
-        self.services = services
+    public init(guidClient: GuidClientAPI) {
+        self.guidClient = guidClient
     }
     
     /// Cancels the authorization by sending interrupt to stop polling
-    func cancel() {
+    public func cancel() {
         isCancelled = true
     }
     
     // MARK: - Accessors
     
     private func authorizeEmail() -> Single<Void> {
-        return services.guidProvider.guid // Fetch the guid
+        return guidClient.guid // Fetch the guid
             .mapToVoid() // Map to void as we just want to verify it could be retrieved
             /// Any error should be caught and unless the request was cancelled or
             /// session token was missing, just keep polling until the guid is retrieved
@@ -86,7 +74,7 @@ final class EmailAuthorizationInteractor {
                 /// In case the session token is missing, don't continue since the `sessionToken`
                 /// is essential to form the request
                 switch error {
-                case GuidProvider.FetchError.missingSessionToken:
+                case GuidClient.FetchError.missingSessionToken:
                     self.cancel()
                     throw PollError.missingSessionToken
                 default:

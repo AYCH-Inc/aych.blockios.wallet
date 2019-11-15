@@ -17,41 +17,42 @@ final class EmailAuthorizationPresenter {
         
     // MARK: - Services
     
-    private let interactor: EmailAuthorizationInteractor
+    private let emailAuthorizationService: EmailAuthorizationService
     private let alertPresenter: AlertViewPresenter
     private let authenticationCoordinator: AuthenticationCoordinator
-        
-    private let disposeBag = DisposeBag()
-    
+            
     // MARK: - Setup
     
-    // TODO: Remote coordinator when refactored
+    /// TODO: Remove `authenticationCoordinator` dependency when refactored
     init(authenticationCoordinator: AuthenticationCoordinator = .shared,
-         services: EmailAuthorizationInteractor.Services = .init(),
+         emailAuthorizationService: EmailAuthorizationService = .init(guidClient: GuidClient(sessionTokenRepository: WalletManager.shared.wallet)),
          alertPresenter: AlertViewPresenter = .shared) {
-        interactor = EmailAuthorizationInteractor(services: services)
+        self.emailAuthorizationService = emailAuthorizationService
         self.alertPresenter = alertPresenter
         self.authenticationCoordinator = authenticationCoordinator
     }
     
-    func authorize(_ completion: @escaping () -> Void) {
+    // MARK: - API
+    
+    /// Starts email authorization. This method is designed to fail silently
+    /// As the only option to fail here is `cancellation` by calling `cancel()`
+    /// but clients of `EmailAuthorizationPresenter` may subscribe and utilize
+    /// `onError(_ error: Error)` if they need to.
+    func authorize() -> Completable {
         authenticationCoordinator.isWaitingForEmailValidation = true
         showAlert()
-        interactor.authorize
+        return emailAuthorizationService.authorize
             .do(onDispose: { [weak self] in
                 self?.authenticationCoordinator.isWaitingForEmailValidation = false
             })
-            .subscribe(onCompleted: {
-                completion()
-            })
-            .disposed(by: disposeBag)
     }
     
     /// Cancels polling and waiting for authorization
     func cancel() {
-        authenticationCoordinator.isWaitingForEmailValidation = true
-        interactor.cancel()
+        emailAuthorizationService.cancel()
     }
+    
+    // MARK: - Accessors
     
     private func showAlert() {
         alertPresenter.standardNotify(

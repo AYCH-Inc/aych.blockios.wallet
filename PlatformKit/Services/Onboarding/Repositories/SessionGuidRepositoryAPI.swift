@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol GuidRepositoryAPI: class {
+public protocol GuidRepositoryAPI: class {
     var hasGuid: Bool { get }
     var guid: String? { get set }
 }
 
-extension GuidRepositoryAPI {
+public extension GuidRepositoryAPI {
     var hasGuid: Bool {
         return guid != nil
     }

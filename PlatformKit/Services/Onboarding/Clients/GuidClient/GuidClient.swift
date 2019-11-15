@@ -1,24 +1,19 @@
 //
-//  SessionGuidService.swift
+//  GuidClient.swift
 //  Blockchain
 //
 //  Created by Daniel Huri on 12/11/2019.
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformKit
 import RxSwift
 
-protocol GuidProviderAPI: class {
-    /// Streams a `Single` with the guid
-    var guid: Single<String> { get }
-}
-
-final class GuidProvider: GuidProviderAPI {
+/// A network client for `GUID`
+public final class GuidClient: GuidClientAPI {
             
     // MARK: - Types
     
-    enum FetchError: Error {
+    public enum FetchError: Error {
         case missingSessionToken
     }
     
@@ -28,8 +23,8 @@ final class GuidProvider: GuidProviderAPI {
     
     // MARK: - Properties
     
-    /// Fetches the session GUID
-    var guid: Single<String> {
+    /// Fetches the `GUID`
+    public var guid: Single<String> {
         guard let token = sessionTokenRepository.sessionToken else {
             return .error(FetchError.missingSessionToken)
         }
@@ -50,7 +45,7 @@ final class GuidProvider: GuidProviderAPI {
     
     // MARK: - Setup
     
-    init(sessionTokenRepository: SessionTokenRepositoryAPI = WalletManager.shared.wallet,
+    public init(sessionTokenRepository: SessionTokenRepositoryAPI,
          communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
         self.sessionTokenRepository = sessionTokenRepository
         self.communicator = communicator
@@ -59,7 +54,7 @@ final class GuidProvider: GuidProviderAPI {
 
 // MARK: - RequestBuilder
 
-extension GuidProvider {
+extension GuidClient {
     
     private struct RequestBuilder {
         

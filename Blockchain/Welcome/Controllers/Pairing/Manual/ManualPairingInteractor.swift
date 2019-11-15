@@ -72,7 +72,7 @@ final class ManualPairingInteractor {
          manualPairingService: ManualPairingServiceAPI = AuthenticationCoordinator.shared,
          guidClient: GuidClientAPI = GuidClient(),
          sessionTokenClient: SessionTokenClientAPI = SessionTokenClient(),
-         sessionTokenRepository: SessionTokenRepositoryAPI = WalletManager.shared.wallet,
+         sessionTokenRepository: SessionTokenRepositoryAPI = WalletRepository(),
          wallet: Wallet = WalletManager.shared.wallet) {
         let guidService = GuidService(
             sessionTokenRepository: sessionTokenRepository,

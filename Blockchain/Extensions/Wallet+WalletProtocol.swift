@@ -37,11 +37,3 @@ extension Wallet: WalletProtocol {
         return getTotalActiveBalance() > 0
     }
 }
-
-// MARK: - SessionTokenRepositoryAPI
-
-extension Wallet: SessionTokenRepositoryAPI {}
-
-// MARK: - GuidRepositoryAPI
-
-extension Wallet: GuidRepositoryAPI {}

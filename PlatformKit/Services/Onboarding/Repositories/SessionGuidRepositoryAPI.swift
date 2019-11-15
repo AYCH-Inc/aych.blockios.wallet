@@ -1,5 +1,5 @@
 //
-//  SessionGuidRepositoryAPI.swift
+//  GuidRepositoryAPI.swift
 //  Blockchain
 //
 //  Created by Daniel Huri on 14/11/2019.

@@ -1332,6 +1332,8 @@
 		6541940722D7688F00B3E6ED /* LoadingAnimatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6541940322D7688F00B3E6ED /* LoadingAnimatingView.swift */; };
 		6541940822D7688F00B3E6ED /* LoadingViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6541940422D7688F00B3E6ED /* LoadingViewPresenter.swift */; };
 		6541940A22D786E100B3E6ED /* LoadingCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6541940922D786E100B3E6ED /* LoadingCircleView.swift */; };
+		654202E9237EE80A00E09918 /* WalletRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654202E8237EE80A00E09918 /* WalletRepository.swift */; };
+		654202EA237EE80A00E09918 /* WalletRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654202E8237EE80A00E09918 /* WalletRepository.swift */; };
 		65427BBA23056CC500D90A27 /* SendServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65427BB923056CC500D90A27 /* SendServiceContainer.swift */; };
 		65427BBB23056CC500D90A27 /* SendServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65427BB923056CC500D90A27 /* SendServiceContainer.swift */; };
 		65427BBE23056DC200D90A27 /* TransferredValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65427BBD23056DC200D90A27 /* TransferredValue.swift */; };
@@ -4950,6 +4952,7 @@
 		6541940322D7688F00B3E6ED /* LoadingAnimatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingAnimatingView.swift; sourceTree = "<group>"; };
 		6541940422D7688F00B3E6ED /* LoadingViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewPresenter.swift; sourceTree = "<group>"; };
 		6541940922D786E100B3E6ED /* LoadingCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCircleView.swift; sourceTree = "<group>"; };
+		654202E8237EE80A00E09918 /* WalletRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletRepository.swift; sourceTree = "<group>"; };
 		65427BB923056CC500D90A27 /* SendServiceContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendServiceContainer.swift; sourceTree = "<group>"; };
 		65427BBD23056DC200D90A27 /* TransferredValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferredValue.swift; sourceTree = "<group>"; };
 		65427BD02305942B00D90A27 /* AccountValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountValidator.swift; sourceTree = "<group>"; };
@@ -9018,6 +9021,7 @@
 				AA63F84A20A12AE9002B719B /* URLs.swift */,
 				513913EF2081206C002578FD /* UserDefaults.swift */,
 				6564E55D22C13FB00057108B /* WalletProtocol.swift */,
+				654202E8237EE80A00E09918 /* WalletRepository.swift */,
 				6567FECB22CBA3860035CB16 /* AddressSubscribing.swift */,
 				650CE41D22CBDDB000FA282E /* Wallet+WalletProtocol.swift */,
 				3A12A71721ACFD5800C616F6 /* Wallet+Extensions.swift */,
@@ -16649,6 +16653,7 @@
 				345DF367234B734300179996 /* LegacyEthereumWalletAPI.swift in Sources */,
 				650CE41922CBD54600FA282E /* MockWalletData.swift in Sources */,
 				AA0A41AC214C83A800807163 /* KYCCountrySelectionInteractor.swift in Sources */,
+				654202EA237EE80A00E09918 /* WalletRepository.swift in Sources */,
 				65E4B52122CE39F600EAC3CD /* QRAddressViewModel.swift in Sources */,
 				3A40759D2321863F00A9BE50 /* WalletIntroductionSequence.swift in Sources */,
 				653E0D1E2355CF9E00023D5B /* RegisterWalletScreenInteracting.swift in Sources */,
@@ -17224,6 +17229,7 @@
 				3AB4D91421308640004F0160 /* ListPresentationUpdate.swift in Sources */,
 				AAD279E0209A99DA00C0EAFC /* AVCaptureDeviceInput.swift in Sources */,
 				C782D84E21CBEDB3001582D0 /* WalletNabuSyncable.swift in Sources */,
+				654202E9237EE80A00E09918 /* WalletRepository.swift in Sources */,
 				3AE74B6621C07AA900246A9C /* KYCTiersFooterView.swift in Sources */,
 				6509997A22E1DCBC0092BFB9 /* CoinifyKycAnnouncement.swift in Sources */,
 				23444F9F1DCD221A00573C8C /* BTCProtocolSerialization.m in Sources */,

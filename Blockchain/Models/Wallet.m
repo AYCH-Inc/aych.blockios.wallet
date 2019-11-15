@@ -723,10 +723,10 @@ NSString * const kLockboxInvitation = @"lockbox";
         [weakSelf on_resend_verification_email_success];
     };
 
-    self.context[@"objc_show_email_authorization_alert"] = ^() {
-        [weakSelf show_email_authorization_alert];
+    self.context[@"objc_email_authorization_required"] = ^() {
+        [weakSelf email_authorization_required];
     };
-
+    
     self.context[@"objc_on_fetch_needs_two_factor_code"] = ^() {
         [weakSelf on_fetch_needs_two_factor_code];
     };
@@ -3877,9 +3877,9 @@ NSString * const kLockboxInvitation = @"lockbox";
     self.sessionToken = token;
 }
 
-- (void)show_email_authorization_alert
+- (void)email_authorization_required
 {
-    DLog(@"show_email_authorization_alert");
+    DLog(@"email_authorization_required");
     if ([self.delegate respondsToSelector:@selector(walletDidRequireEmailAuthorization:)]) {
         [self.delegate walletDidRequireEmailAuthorization:self];
     } else {

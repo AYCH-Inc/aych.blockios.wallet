@@ -8,13 +8,13 @@
 
 import RxSwift
 
-extension CompositeDisposable {
+public extension CompositeDisposable {
     @discardableResult func insertWithDiscardableResult(_ disposable: Disposable) -> CompositeDisposable.DisposeKey? {
         return self.insert(disposable)
     }
 }
 
-extension ObservableType {
+public extension ObservableType {
     func optional() -> Observable<Element?> {
         return self.asObservable().map { e -> Element? in
             return e
@@ -26,7 +26,7 @@ extension ObservableType {
     }
 }
 
-extension PrimitiveSequenceType where Trait == SingleTrait {
+public extension PrimitiveSequenceType where Trait == SingleTrait {
     func optional() -> Single<Element?> {
         return self.map { e -> Element? in
             return e

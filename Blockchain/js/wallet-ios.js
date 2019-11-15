@@ -758,7 +758,7 @@ MyWalletPhone.login = function(user_guid, shared_key, resend_code, inputedPasswo
     var authorization_required = function() {
         console.log('authorization required');
         objc_loading_stop();
-        objc_show_email_authorization_alert();
+        objc_email_authorization_required();
     }
 
     objc_loading_start_download_wallet();

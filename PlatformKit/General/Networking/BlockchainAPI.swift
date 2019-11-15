@@ -138,6 +138,10 @@ final public class BlockchainAPI: NSObject {
         return Bundle.main.infoDictionary!["API_URL"] as! String
     }
     
+    public var walletHost: String {
+        return Bundle.main.infoDictionary!["WALLET_SERVER"] as! String
+    }
+    
     @objc public var apiUrl: String {
         return "https://\(apiHost)"
     }
@@ -221,6 +225,18 @@ final public class BlockchainAPI: NSObject {
     
     public var pinStore: String {
         return "\(walletUrl)/pin-store"
+    }
+    
+    public var sessionGuid: String {
+        return "\(walletUrl)/wallet/poll-for-session-guid"
+    }
+    
+    public func wallet(with guid: String) -> String {
+        return "\(walletUrl)/wallet/\(guid)"
+    }
+    
+    public var walletSession: String {
+        return "\(walletUrl)/wallet/sessions"
     }
     
     public enum KYC {

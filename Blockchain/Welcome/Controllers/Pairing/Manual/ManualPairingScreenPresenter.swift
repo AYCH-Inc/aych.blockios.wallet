@@ -40,6 +40,7 @@ final class ManualPairingScreenPresenter {
     
     private let interactor: ManualPairingInteractor
     private let alertPresenter: AlertViewPresenter
+    private let emailAuthorizationPresenter: EmailAuthorizationPresenter
     private let loadingViewPresenter: LoadingViewPresenting
     
     // MARK: - Accessors
@@ -56,6 +57,9 @@ final class ManualPairingScreenPresenter {
         self.alertPresenter = alertPresenter
         self.loadingViewPresenter = loadingViewPresenter
         self.interactor = interactor
+        emailAuthorizationPresenter = EmailAuthorizationPresenter(
+            emailAuthorizationService: interactor.emailAuthorizationService
+        )
         walletIdTextFieldViewModel = TextFieldViewModel(
             with: .walletIdentifier,
             validator: TextValidationFactory.walletIdentifier
@@ -111,10 +115,25 @@ final class ManualPairingScreenPresenter {
                 self?.display2FAAlert(with: type)
             }
             .disposed(by: disposeBag)
+        
+        /// Bind authentication action
+        interactor.authenticationAction
+            .bind { [weak self] action in
+                guard let self = self else { return }
+                switch action {
+                case.authorizeLoginWithEmail:
+                    self.displayEmailAuthorizationAlert()
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     func viewDidLoad() {
         walletIdTextFieldViewModel.focusRelay.accept(true)
+    }
+    
+    func viewDidDisappear() {
+        emailAuthorizationPresenter.cancel()
     }
     
     private func pair(using type: ManualPairingInteractor.AuthType) {
@@ -134,5 +153,19 @@ final class ManualPairingScreenPresenter {
         alertPresenter.notify2FA(type: type, resendAction: resend) { [weak self] otp in
             self?.pair(using: .twoFA(otp))
         }
+    }
+    
+    private func displayEmailAuthorizationAlert() {
+        // This method is designed to fail silently
+        emailAuthorizationPresenter.authorize()
+            .subscribe(
+                onCompleted: { [weak self] in
+                    self?.pair(using: .standard)
+                },
+                onError: { error in
+                    Logger.shared.error(error)
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }

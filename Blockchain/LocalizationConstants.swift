@@ -682,8 +682,6 @@ struct LocalizationConstants {
         static let retryValidation = NSLocalizedString("Retry Validation", comment: "")
         static let manualPairing = NSLocalizedString("Manual Pairing", comment: "")
         static let invalidTwoFactorAuthenticationType = NSLocalizedString("Invalid two-factor authentication type", comment: "")
-        static let manualPairingAuthorizationRequiredTitle = NSLocalizedString("Authorization Required", comment: "")
-        static let manualPairingAuthorizationRequiredMessage = NSLocalizedString("Please check your email and authorize this log-in attempt. After doing so, please return here and try logging in again", comment: "")
         static let secondPasswordRequired = NSLocalizedString("Second Password Required", comment: "")
         static let etherSecondPasswordPrompt = NSLocalizedString("To use this service, we require you to enter your second password. You should only need to enter this once to set up your Ether wallet.", comment: "Text shown when a user whose wallet requires a second password needs to create an ether account to proceed")
         static let secondPasswordIncorrect = NSLocalizedString("Second Password Incorrect", comment: "")
@@ -1039,6 +1037,16 @@ struct LocalizationConstants {
                 "Continue",
                 comment: "Manual pairing screen CTA button"
             )
+            struct EmailAuthorizationAlert {
+                static let title = NSLocalizedString(
+                    "Authorization Required",
+                    comment: "Title for email authorization alert"
+                )
+                static let message = NSLocalizedString(
+                    "Please check your email and authorize this log-in attempt. After doing so, please return here.",
+                    comment: "Message for email authorization alert"
+                )
+            }
         }
         struct CreateWalletScreen {
             static let title = NSLocalizedString(

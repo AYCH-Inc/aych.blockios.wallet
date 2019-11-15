@@ -62,4 +62,9 @@ final class ManualPairingViewController: BaseScreenViewController {
             .disposed(by: disposeBag)
         presenter.viewDidLoad()
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        presenter.viewDidDisappear()
+    }
 }

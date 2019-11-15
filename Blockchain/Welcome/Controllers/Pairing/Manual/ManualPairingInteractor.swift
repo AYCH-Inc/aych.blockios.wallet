@@ -40,28 +40,58 @@ final class ManualPairingInteractor {
         return twoFARelay.asObservable()
     }
     
+    var authenticationAction: Observable<AuthenticationAction> {
+        return authenticationActionRelay.asObservable()
+    }
+    
     var content: Observable<Content> {
         return contentStateRelay.asObservable()
     }
+    
+    /// Email authorization service
+    let emailAuthorizationService: EmailAuthorizationService
         
     // MARK: - Properties
     
     private let reachability: InternentReachabilityAPI
     private let analyticsRecorder: AnalyticsEventRecording
+    private let errorRecorder: ErrorRecording
+    
     private let manualPairingService: ManualPairingServiceAPI
+    private let sessionTokenService: SessionTokenServiceAPI
     private let wallet: Wallet
+    
+    private let authenticationActionRelay = PublishRelay<AuthenticationAction>()
+    private let disposeBag = DisposeBag()
     
     // MARK: - Setup
     
     init(reachability: InternentReachabilityAPI = InternentReachability(),
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          manualPairingService: ManualPairingServiceAPI = AuthenticationCoordinator.shared,
+         guidClient: GuidClientAPI = GuidClient(),
+         sessionTokenClient: SessionTokenClientAPI = SessionTokenClient(),
+         sessionTokenRepository: SessionTokenRepositoryAPI = WalletRepository(),
          wallet: Wallet = WalletManager.shared.wallet) {
-        self.reachability = reachability
+        let guidService = GuidService(
+            sessionTokenRepository: sessionTokenRepository,
+            client: guidClient
+        )
+        sessionTokenService = SessionTokenService(
+            client: sessionTokenClient,
+            repository: sessionTokenRepository
+        )
+        emailAuthorizationService = EmailAuthorizationService(guidService: guidService)
         self.manualPairingService = manualPairingService
-        self.analyticsRecorder = analyticsRecorder
+        self.errorRecorder = errorRecorder
         self.wallet = wallet
-        wallet.loadLogin()
+        self.reachability = reachability
+        self.analyticsRecorder = analyticsRecorder
+                
+        manualPairingService.action
+            .bind(to: authenticationActionRelay)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - API
@@ -79,6 +109,22 @@ final class ManualPairingInteractor {
             wallet.twoFactorInput = nil
         }
         analyticsRecorder.record(event: AnalyticsEvents.Onboarding.walletManualLogin)
+        
+        sessionTokenService.setupSessionToken()
+            .subscribe(
+                onCompleted: { [weak self] in
+                    self?.authenticate()
+                },
+                onError: { [weak self] error in
+                    // TODO: Handle errors by presenting alert via presenter
+                    self?.errorRecorder.error(error)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    /// Invokes authentication
+    func authenticate() {
         manualPairingService.authenticate(
             with: contentStateRelay.value.walletIdentifier,
             password: contentStateRelay.value.password) { [weak self] twoFA in
@@ -86,6 +132,8 @@ final class ManualPairingInteractor {
             }
     }
     
+    /// TODO: Move SMS logic to a native specialized service
+    /// Requests `Wallet` to resend an SMS (2FA)
     func resendSMS() {
         wallet.resendTwoFactorSMS()
     }

@@ -12,51 +12,39 @@ import RxSwift
 public final class GuidClient: GuidClientAPI {
             
     // MARK: - Types
-    
-    public enum FetchError: Error {
-        case missingSessionToken
-    }
-    
+
     struct Response: Decodable {
         let guid: String
     }
     
     // MARK: - Properties
+        
+    private let communicator: NetworkCommunicatorAPI
+    private let requestBuilder: GuidRequestBuilder
+    
+    // MARK: - Setup
+    
+    public init(dependencies: Network.Dependencies = .wallet) {
+        self.requestBuilder = GuidRequestBuilder(requestBuilder: dependencies.requestBuilder)
+        self.communicator = dependencies.communicator
+    }
     
     /// Fetches the `GUID`
-    public var guid: Single<String> {
-        guard let token = sessionTokenRepository.sessionToken else {
-            return .error(FetchError.missingSessionToken)
-        }
-        let request = NetworkRequest(
-            endpoint: requestBuilder.url,
-            method: .get,
-            headers: requestBuilder.header(with: token),
-            contentType: .json
-        )
+    public func guid(by sessionToken: String) -> Single<String> {
+        let request = requestBuilder.build(sessionToken: sessionToken)
         return self.communicator
             .perform(request: request, responseType: Response.self)
             .map { $0.guid }
     }
-    
-    private let sessionTokenRepository: SessionTokenRepositoryAPI
-    private let communicator: NetworkCommunicatorAPI
-    private let requestBuilder = RequestBuilder()
-    
-    // MARK: - Setup
-    
-    public init(sessionTokenRepository: SessionTokenRepositoryAPI,
-         communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared) {
-        self.sessionTokenRepository = sessionTokenRepository
-        self.communicator = communicator
-    }
 }
 
-// MARK: - RequestBuilder
+// MARK: - GuidRequestBuilder
 
 extension GuidClient {
     
-    private struct RequestBuilder {
+    private struct GuidRequestBuilder {
+        
+        private let pathComponents = [ "wallet", "poll-for-session-guid" ]
         
         private enum HeaderKey: String {
             case cookie
@@ -64,27 +52,36 @@ extension GuidClient {
         
         private enum Query: String {
             case format
-            case apiCode = "api_code"
             case resendCode = "resend_code"
         }
         
-        // MARK: - Builders
+        // MARK: - Builder
+        
+        private let requestBuilder: RequestBuilder
 
-        /// Returns the full url
-        var url: URL {
-            let query = [
-                Query.format: "json",
-                Query.apiCode: BlockchainAPI.Parameters.apiCode,
-                Query.resendCode: "false"
-                ].reduce("?") { (result, element) -> String in
-                    return result + "\(element.key)=\(element.value)"
-            }
-            return URL(string: "\(BlockchainAPI.shared.sessionGuid)\(query)")!
+        init(requestBuilder: RequestBuilder) {
+            self.requestBuilder = requestBuilder
         }
-                
-        /// Returns the header
-        func header(with token: String) -> [String: String] {
-            return [HeaderKey.cookie.rawValue: "SID=\(token)"]
+        
+        // MARK: - API
+        
+        func build(sessionToken: String) -> NetworkRequest {
+            let headers = [HeaderKey.cookie.rawValue: "SID=\(sessionToken)"]
+            let parameters = [
+                URLQueryItem(
+                    name: Query.format.rawValue,
+                    value: "json"
+                ),
+                URLQueryItem(
+                    name: Query.resendCode.rawValue,
+                    value: "false"
+                )
+            ]
+            return requestBuilder.get(
+                path: pathComponents,
+                parameters: parameters,
+                headers: headers
+            )!
         }
     }
 }

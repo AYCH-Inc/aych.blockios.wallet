@@ -25,7 +25,7 @@ final class EmailAuthorizationPresenter {
     
     /// TODO: Remove `authenticationCoordinator` dependency when refactored
     init(authenticationCoordinator: AuthenticationCoordinator = .shared,
-         emailAuthorizationService: EmailAuthorizationService = .init(guidClient: GuidClient(sessionTokenRepository: WalletManager.shared.wallet)),
+         emailAuthorizationService: EmailAuthorizationService,
          alertPresenter: AlertViewPresenter = .shared) {
         self.emailAuthorizationService = emailAuthorizationService
         self.alertPresenter = alertPresenter

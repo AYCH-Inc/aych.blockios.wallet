@@ -30,13 +30,19 @@ public struct Network {
         static let defaultConfig: Config = Config(
             apiScheme: "https",
             apiHost: BlockchainAPI.shared.apiHost,
-            apiCode: "1770d5d9-bcea-4d28-ad21-6cbd5be018a8" // TODO: is this the correct value?
+            apiCode: BlockchainAPI.Parameters.apiCode
         )
         
         static let retailConfig: Config = Config(
             apiScheme: "https",
             apiHost: BlockchainAPI.shared.retailCoreUrl,
-            apiCode: "1770d5d9-bcea-4d28-ad21-6cbd5be018a8"
+            apiCode: BlockchainAPI.Parameters.apiCode
+        )
+        
+        static let walletConfig: Config = Config(
+            apiScheme: "https",
+            apiHost: BlockchainAPI.shared.walletHost,
+            apiCode: BlockchainAPI.Parameters.apiCode
         )
     }
     
@@ -45,6 +51,8 @@ public struct Network {
         // * This should be private, public until we can re-write our old network code
         public let blockchainAPIConfig: Config
         public let session: URLSession
+        public let requestBuilder: RequestBuilder
+        
         let sessionConfiguration: URLSessionConfiguration
         let sessionDelegate: SessionDelegateAPI
         
@@ -62,9 +70,34 @@ public struct Network {
             let sessionDelegate = SessionDelegate()
             let session = URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
             let communicator = NetworkCommunicator(session: session, sessionDelegate: sessionDelegate)
+            let requestBuilder = RequestBuilder(networkConfig: blockchainAPIConfig)
             return Dependencies(
                 blockchainAPIConfig: blockchainAPIConfig,
                 session: session,
+                requestBuilder: requestBuilder,
+                sessionConfiguration: sessionConfiguration,
+                sessionDelegate: sessionDelegate,
+                communicator: communicator
+            )
+        }()
+        
+        public static let wallet: Dependencies = {
+            let blockchainAPIConfig = Config.walletConfig
+            let sessionConfiguration = URLSessionConfiguration.default
+            if let userAgent = Network.userAgent {
+                sessionConfiguration.httpAdditionalHeaders = [HttpHeaderField.userAgent: userAgent]
+            }
+            if #available(iOS 11.0, *) {
+                sessionConfiguration.waitsForConnectivity = true
+            }
+            let sessionDelegate = SessionDelegate()
+            let session = URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
+            let communicator = NetworkCommunicator(session: session, sessionDelegate: sessionDelegate)
+            let requestBuilder = RequestBuilder(networkConfig: blockchainAPIConfig)
+            return Dependencies(
+                blockchainAPIConfig: blockchainAPIConfig,
+                session: session,
+                requestBuilder: requestBuilder,
                 sessionConfiguration: sessionConfiguration,
                 sessionDelegate: sessionDelegate,
                 communicator: communicator
@@ -83,9 +116,11 @@ public struct Network {
             let sessionDelegate = SessionDelegate()
             let session = URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
             let communicator = NetworkCommunicator(session: session, sessionDelegate: sessionDelegate)
+            let requestBuilder = RequestBuilder(networkConfig: blockchainAPIConfig)
             return Dependencies(
                 blockchainAPIConfig: blockchainAPIConfig,
                 session: session,
+                requestBuilder: requestBuilder,
                 sessionConfiguration: sessionConfiguration,
                 sessionDelegate: sessionDelegate,
                 communicator: communicator

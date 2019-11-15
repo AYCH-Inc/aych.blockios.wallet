@@ -52,13 +52,14 @@ final class ManualPairingScreenPresenter {
     // MARK: - Setup
     
     init(interactor: ManualPairingInteractor = ManualPairingInteractor(),
-         emailAuthorizationPresenter: EmailAuthorizationPresenter = EmailAuthorizationPresenter(),
          alertPresenter: AlertViewPresenter = .shared,
          loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared) {
         self.alertPresenter = alertPresenter
-        self.emailAuthorizationPresenter = emailAuthorizationPresenter
         self.loadingViewPresenter = loadingViewPresenter
         self.interactor = interactor
+        emailAuthorizationPresenter = EmailAuthorizationPresenter(
+            emailAuthorizationService: interactor.emailAuthorizationService
+        )
         walletIdTextFieldViewModel = TextFieldViewModel(
             with: .walletIdentifier,
             validator: TextValidationFactory.walletIdentifier

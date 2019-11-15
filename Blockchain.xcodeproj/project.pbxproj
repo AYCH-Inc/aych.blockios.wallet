@@ -1520,7 +1520,6 @@
 		65B3F6C4237EB582009297BD /* SessionGuidRepositoryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4AD52237D7ACE009F9DF0 /* SessionGuidRepositoryAPI.swift */; };
 		65B3F6C5237EB582009297BD /* SessionTokenRepositoryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4AD5E237D7AE8009F9DF0 /* SessionTokenRepositoryAPI.swift */; };
 		65B3F6C6237EB582009297BD /* GuidClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6AC07237C1577002561E8 /* GuidClient.swift */; };
-		65B3F6C9237EB5E2009297BD /* GuidClientAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B3F6C8237EB5E2009297BD /* GuidClientAPI.swift */; };
 		65B3F6CA237EB631009297BD /* WalletPayloadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6AC10237C28E9002561E8 /* WalletPayloadClient.swift */; };
 		65B3F6CB237EB631009297BD /* SessionTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6ABFC237C1576002561E8 /* SessionTokenService.swift */; };
 		65B3F6CC237EB631009297BD /* EmailAuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B6AC06237C1577002561E8 /* EmailAuthorizationService.swift */; };
@@ -1529,6 +1528,9 @@
 		65B3F6D4237EB887009297BD /* SessionTokenServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B3F6D3237EB887009297BD /* SessionTokenServiceAPI.swift */; };
 		65B3F6D7237EB8E9009297BD /* WalletPayloadClientAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B3F6D6237EB8E9009297BD /* WalletPayloadClientAPI.swift */; };
 		65B3F6DD237EBE4B009297BD /* Rx+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB43A882162C19C0015C863 /* Rx+Helpers.swift */; };
+		65B3F6DF237ECA32009297BD /* GuidServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B3F6DE237ECA32009297BD /* GuidServiceAPI.swift */; };
+		65B3F6E1237ECA50009297BD /* GuidService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B3F6E0237ECA50009297BD /* GuidService.swift */; };
+		65B3F6E3237ECB76009297BD /* GuidClientAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B3F6E2237ECB76009297BD /* GuidClientAPI.swift */; };
 		65B5417E230C687300D04A2E /* MockSendExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416B230C687300D04A2E /* MockSendExecutor.swift */; };
 		65B5417F230C687300D04A2E /* MockAccountBalanceFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416C230C687300D04A2E /* MockAccountBalanceFetcher.swift */; };
 		65B54180230C687300D04A2E /* MockSendFeeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416D230C687300D04A2E /* MockSendFeeInteractor.swift */; };
@@ -5062,11 +5064,13 @@
 		65AEB83D233CF8E10093561F /* StandardUserProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardUserProperty.swift; sourceTree = "<group>"; };
 		65AEB849233CF8F40093561F /* HashedUserProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashedUserProperty.swift; sourceTree = "<group>"; };
 		65AEB84D233CFBA40093561F /* MockUserPropertyRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserPropertyRecorder.swift; sourceTree = "<group>"; };
-		65B3F6C8237EB5E2009297BD /* GuidClientAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidClientAPI.swift; sourceTree = "<group>"; };
 		65B3F6CD237EB666009297BD /* SessionTokenClientAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTokenClientAPI.swift; sourceTree = "<group>"; };
 		65B3F6D0237EB763009297BD /* SessionTokenClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTokenClient.swift; sourceTree = "<group>"; };
 		65B3F6D3237EB887009297BD /* SessionTokenServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTokenServiceAPI.swift; sourceTree = "<group>"; };
 		65B3F6D6237EB8E9009297BD /* WalletPayloadClientAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPayloadClientAPI.swift; sourceTree = "<group>"; };
+		65B3F6DE237ECA32009297BD /* GuidServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidServiceAPI.swift; sourceTree = "<group>"; };
+		65B3F6E0237ECA50009297BD /* GuidService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidService.swift; sourceTree = "<group>"; };
+		65B3F6E2237ECB76009297BD /* GuidClientAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidClientAPI.swift; sourceTree = "<group>"; };
 		65B5416B230C687300D04A2E /* MockSendExecutor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSendExecutor.swift; sourceTree = "<group>"; };
 		65B5416C230C687300D04A2E /* MockAccountBalanceFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAccountBalanceFetcher.swift; sourceTree = "<group>"; };
 		65B5416D230C687300D04A2E /* MockSendFeeInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSendFeeInteractor.swift; sourceTree = "<group>"; };
@@ -11437,6 +11441,14 @@
 			path = Loader;
 			sourceTree = "<group>";
 		};
+		654202E4237EE5A600E09918 /* EmailAuthorizationService */ = {
+			isa = PBXGroup;
+			children = (
+				65B6AC06237C1577002561E8 /* EmailAuthorizationService.swift */,
+			);
+			path = EmailAuthorizationService;
+			sourceTree = "<group>";
+		};
 		65427BBC23056CFE00D90A27 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -11783,8 +11795,8 @@
 		65B3F6C7237EB5C0009297BD /* GuidClient */ = {
 			isa = PBXGroup;
 			children = (
+				65B3F6E2237ECB76009297BD /* GuidClientAPI.swift */,
 				65B6AC07237C1577002561E8 /* GuidClient.swift */,
-				65B3F6C8237EB5E2009297BD /* GuidClientAPI.swift */,
 			);
 			path = GuidClient;
 			sourceTree = "<group>";
@@ -11838,10 +11850,20 @@
 		65B3F6DA237EB93A009297BD /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				65B6AC06237C1577002561E8 /* EmailAuthorizationService.swift */,
+				654202E4237EE5A600E09918 /* EmailAuthorizationService */,
+				65B3F6E4237ECB9A009297BD /* GuidService */,
 				65B3F6D2237EB878009297BD /* SessionTokenService */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		65B3F6E4237ECB9A009297BD /* GuidService */ = {
+			isa = PBXGroup;
+			children = (
+				65B3F6DE237ECA32009297BD /* GuidServiceAPI.swift */,
+				65B3F6E0237ECA50009297BD /* GuidService.swift */,
+			);
+			path = GuidService;
 			sourceTree = "<group>";
 		};
 		65B54169230C687300D04A2E /* Send */ = {
@@ -15795,7 +15817,6 @@
 				3A6A1A0221B89BDB00D97C74 /* CryptoValue.swift in Sources */,
 				34A0BBEA2225597400F349CD /* Importable.swift in Sources */,
 				34C1AEAF233B95C2008779C1 /* APIClient.swift in Sources */,
-				65B3F6C9237EB5E2009297BD /* GuidClientAPI.swift in Sources */,
 				3471C6F223182F66007A89FA /* BigInt+Extensions.swift in Sources */,
 				3AADB31E21B0AA5F00FD2974 /* MultiAddressAssetAccount.swift in Sources */,
 				3AA827E52360DF79007BFFBC /* AirdropRegistrationService.swift in Sources */,
@@ -15807,6 +15828,7 @@
 				3A8473A6219A436100F22FA6 /* WalletAccountRepositoryAPI.swift in Sources */,
 				3AE6AF65228F276600BF8F56 /* ConsoleLogDestination.swift in Sources */,
 				3A9B282421A4BA2A00DB46C7 /* AssetAddress.swift in Sources */,
+				65B3F6E1237ECA50009297BD /* GuidService.swift in Sources */,
 				6512849D23434AD7008776DC /* UserProperty.swift in Sources */,
 				3A8473C8219B5F1C00F22FA6 /* MnemonicAccessAPI.swift in Sources */,
 				3AADB32021B0AA7200FD2974 /* HDAddressAssetAccount.swift in Sources */,
@@ -15839,6 +15861,7 @@
 				344172242333C0CD008C32CA /* CachedValue.swift in Sources */,
 				3A1B292222FB6D7E00CFCF87 /* WalletService.swift in Sources */,
 				34BFDF562271F4FE008160CD /* ResultExtensions.swift in Sources */,
+				65B3F6DF237ECA32009297BD /* GuidServiceAPI.swift in Sources */,
 				6512849E23434AD7008776DC /* HashedUserProperty.swift in Sources */,
 				3A847401219CAF2B00F22FA6 /* AccountValidationAPI.swift in Sources */,
 				3AA827DF2360C3D6007BFFBC /* AirdropRegistrationResponse.swift in Sources */,
@@ -15868,6 +15891,7 @@
 				65804B562327F0B600D0DAB0 /* MainQueueExecution.swift in Sources */,
 				34A57859231EA10F005BB39C /* AnalyticsEventRecording.swift in Sources */,
 				34418752230F21930027A066 /* ParameterEncoder.swift in Sources */,
+				65B3F6E3237ECB76009297BD /* GuidClientAPI.swift in Sources */,
 				3A68659A219A0D170009FF29 /* PageResult.swift in Sources */,
 				65BCFA37231ED14500BC002E /* Recording.swift in Sources */,
 				652CE019230FF80C0044E899 /* Encodable+Dictionary.swift in Sources */,

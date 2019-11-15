@@ -138,6 +138,10 @@ final public class BlockchainAPI: NSObject {
         return Bundle.main.infoDictionary!["API_URL"] as! String
     }
     
+    public var walletHost: String {
+        return Bundle.main.infoDictionary!["WALLET_SERVER"] as! String
+    }
+    
     @objc public var apiUrl: String {
         return "https://\(apiHost)"
     }

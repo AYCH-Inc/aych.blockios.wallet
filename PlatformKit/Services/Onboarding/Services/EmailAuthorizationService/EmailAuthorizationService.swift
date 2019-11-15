@@ -49,12 +49,12 @@ public final class EmailAuthorizationService {
     
     // MARK: - Injected
     
-    private let guidClient: GuidClientAPI
+    private let guidService: GuidServiceAPI
         
     // MARK: - Setup
     
-    public init(guidClient: GuidClientAPI) {
-        self.guidClient = guidClient
+    public init(guidService: GuidServiceAPI) {
+        self.guidService = guidService
     }
     
     /// Cancels the authorization by sending interrupt to stop polling
@@ -65,7 +65,7 @@ public final class EmailAuthorizationService {
     // MARK: - Accessors
     
     private func authorizeEmail() -> Single<Void> {
-        return guidClient.guid // Fetch the guid
+        return guidService.guid // Fetch the guid
             .mapToVoid() // Map to void as we just want to verify it could be retrieved
             /// Any error should be caught and unless the request was cancelled or
             /// session token was missing, just keep polling until the guid is retrieved
@@ -74,7 +74,7 @@ public final class EmailAuthorizationService {
                 /// In case the session token is missing, don't continue since the `sessionToken`
                 /// is essential to form the request
                 switch error {
-                case GuidClient.FetchError.missingSessionToken:
+                case GuidService.FetchError.missingSessionToken:
                     self.cancel()
                     throw PollError.missingSessionToken
                 default:

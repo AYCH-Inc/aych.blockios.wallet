@@ -47,6 +47,9 @@ final class ManualPairingInteractor {
     var content: Observable<Content> {
         return contentStateRelay.asObservable()
     }
+    
+    /// Email authorization service
+    let emailAuthorizationService: EmailAuthorizationService
         
     // MARK: - Properties
     
@@ -67,10 +70,20 @@ final class ManualPairingInteractor {
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          manualPairingService: ManualPairingServiceAPI = AuthenticationCoordinator.shared,
-         sessionTokenService: SessionTokenServiceAPI = SessionTokenService(repository: WalletManager.shared.wallet),
+         guidClient: GuidClientAPI = GuidClient(),
+         sessionTokenClient: SessionTokenClientAPI = SessionTokenClient(),
+         sessionTokenRepository: SessionTokenRepositoryAPI = WalletManager.shared.wallet,
          wallet: Wallet = WalletManager.shared.wallet) {
+        let guidService = GuidService(
+            sessionTokenRepository: sessionTokenRepository,
+            client: guidClient
+        )
+        sessionTokenService = SessionTokenService(
+            client: sessionTokenClient,
+            repository: sessionTokenRepository
+        )
+        emailAuthorizationService = EmailAuthorizationService(guidService: guidService)
         self.manualPairingService = manualPairingService
-        self.sessionTokenService = sessionTokenService
         self.errorRecorder = errorRecorder
         self.wallet = wallet
         self.reachability = reachability

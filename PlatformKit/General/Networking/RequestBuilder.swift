@@ -61,12 +61,12 @@ public class RequestBuilder {
     // MARK: - PUT
     
     public func put(path components: [String] = [],
-                     parameters: [URLQueryItem] = [],
-                     body: Data? = nil,
-                     headers: HTTPHeaders? = nil,
-                     contentType: NetworkRequest.ContentType = .json,
-                     decoder: NetworkResponseDecoderAPI = NetworkResponseDecoder.default,
-                     recordErrors: Bool = false) -> NetworkRequest? {
+                    parameters: [URLQueryItem] = [],
+                    body: Data? = nil,
+                    headers: HTTPHeaders? = nil,
+                    contentType: NetworkRequest.ContentType = .json,
+                    decoder: NetworkResponseDecoderAPI = NetworkResponseDecoder.default,
+                    recordErrors: Bool = false) -> NetworkRequest? {
         return put(
             path: RequestBuilder.path(from: components),
             parameters: parameters,
@@ -79,12 +79,12 @@ public class RequestBuilder {
     }
     
     public func put(path: String,
-                     parameters: [URLQueryItem] = [],
-                     body: Data? = nil,
-                     headers: HTTPHeaders? = nil,
-                     contentType: NetworkRequest.ContentType = .json,
-                     decoder: NetworkResponseDecoderAPI = NetworkResponseDecoder.default,
-                     recordErrors: Bool = false) -> NetworkRequest? {
+                    parameters: [URLQueryItem] = [],
+                    body: Data? = nil,
+                    headers: HTTPHeaders? = nil,
+                    contentType: NetworkRequest.ContentType = .json,
+                    decoder: NetworkResponseDecoderAPI = NetworkResponseDecoder.default,
+                    recordErrors: Bool = false) -> NetworkRequest? {
         return buildRequest(
             method: .put,
             path: path,
@@ -96,7 +96,6 @@ public class RequestBuilder {
             recordErrors: recordErrors
         )
     }
-    
     
     // MARK: - POST
     

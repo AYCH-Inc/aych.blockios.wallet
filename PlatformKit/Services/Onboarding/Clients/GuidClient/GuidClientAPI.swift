@@ -8,9 +8,9 @@
 
 import RxSwift
 
-/// A `GUID` client API. A concrete type is expected to fetch the `GUID`
+/// A `GUID` client/service API. A concrete type is expected to fetch the `GUID`
 public protocol GuidClientAPI: class {
     /// A `Single` that streams the `GUID` on success or fails due
-    /// to a missing resource or network error.
-    var guid: Single<String> { get }
+    /// to network error.
+    func guid(by sessionToken: String) -> Single<String>
 }

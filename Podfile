@@ -40,7 +40,7 @@ target 'PlatformUIKit' do
   pod 'RxSwift', '5.0'
   pod 'RxCocoa', '5.0'
   pod 'zxcvbn-ios', '1.0.4'
-  
+
   target 'PlatformUIKitTests' do
     inherit! :search_paths
     # Pods for testing

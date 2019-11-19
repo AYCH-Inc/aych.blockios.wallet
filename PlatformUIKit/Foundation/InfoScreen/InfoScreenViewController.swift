@@ -13,7 +13,7 @@ public final class InfoScreenViewController: BaseScreenViewController {
     @IBOutlet private var thumbImageView: UIImageView!
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var descriptionLabel: UILabel!
-    @IBOutlet private var noteLabel: UILabel!
+    @IBOutlet private var disclaimerTextView: InteractableTextView!
     @IBOutlet private var buttonView: ButtonView!
 
     // MARK: - Injected
@@ -38,7 +38,7 @@ public final class InfoScreenViewController: BaseScreenViewController {
         thumbImageView.content = presenter.imageViewContent
         titleLabel.content = presenter.titleLabelContent
         descriptionLabel.content = presenter.descriptionLabelContent
-        noteLabel.content = presenter.noteLabelContent
+        disclaimerTextView.viewModel = presenter.disclaimerViewModel
         buttonView.viewModel = presenter.buttonViewModel
     }
 }

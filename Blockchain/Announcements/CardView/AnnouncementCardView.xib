@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,6 +17,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AnnouncementCardView" customModule="Blockchain" customModuleProvider="target">
             <connections>
+                <outlet property="backgroundImageView" destination="gqc-Aa-cm0" id="xVe-bv-0Rl"/>
                 <outlet property="bottomSeparatorView" destination="iJa-kJ-aCt" id="ksI-62-iee"/>
                 <outlet property="buttonPlaceholderSeparatorView" destination="tRj-ew-SmP" id="i6e-If-qot"/>
                 <outlet property="buttonsStackView" destination="cdS-N6-92a" id="YtR-RK-KYY"/>
@@ -35,6 +34,9 @@
             <rect key="frame" x="0.0" y="0.0" width="376" height="187"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gqc-Aa-cm0">
+                    <rect key="frame" x="0.0" y="0.0" width="376" height="187"/>
+                </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bss-d6-2O7">
                     <rect key="frame" x="24" y="24" width="49" height="49"/>
                     <constraints>
@@ -87,6 +89,7 @@
                 <constraint firstAttribute="bottom" secondItem="cdS-N6-92a" secondAttribute="bottom" constant="24" id="5QN-Xa-RWU"/>
                 <constraint firstItem="fCk-NU-QfN" firstAttribute="trailing" secondItem="tMG-Cl-pfd" secondAttribute="trailing" constant="24" id="5RV-2y-gSk"/>
                 <constraint firstItem="jZO-lz-tfH" firstAttribute="firstBaseline" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="6hL-eP-RZr"/>
+                <constraint firstItem="gqc-Aa-cm0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="8tK-Kh-iYX"/>
                 <constraint firstItem="tMG-Cl-pfd" firstAttribute="top" secondItem="Bss-d6-2O7" secondAttribute="bottom" constant="16" id="90k-ri-36l"/>
                 <constraint firstItem="Bss-d6-2O7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="24" id="9t4-6X-5ES"/>
                 <constraint firstItem="bNw-GW-unC" firstAttribute="trailing" secondItem="tMG-Cl-pfd" secondAttribute="trailing" id="9uq-vC-gZ1"/>
@@ -97,10 +100,13 @@
                 <constraint firstAttribute="trailing" secondItem="jZO-lz-tfH" secondAttribute="trailing" constant="6" id="TKZ-Y3-M9z"/>
                 <constraint firstItem="fCk-NU-QfN" firstAttribute="trailing" secondItem="iJa-kJ-aCt" secondAttribute="trailing" id="VaJ-BI-bt9"/>
                 <constraint firstItem="cdS-N6-92a" firstAttribute="top" secondItem="bNw-GW-unC" secondAttribute="bottom" priority="999" constant="24" id="VvL-qT-XD0"/>
+                <constraint firstItem="gqc-Aa-cm0" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="YHy-5I-PrV"/>
                 <constraint firstItem="bNw-GW-unC" firstAttribute="top" secondItem="tMG-Cl-pfd" secondAttribute="bottom" constant="8" id="d3l-k2-QD6"/>
                 <constraint firstItem="iJa-kJ-aCt" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="jq2-Fj-4Zr"/>
+                <constraint firstItem="gqc-Aa-cm0" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="m4D-Kh-Lzm"/>
                 <constraint firstItem="tMG-Cl-pfd" firstAttribute="leading" secondItem="Bss-d6-2O7" secondAttribute="leading" id="n3v-mk-n4v"/>
                 <constraint firstItem="cdS-N6-92a" firstAttribute="trailing" secondItem="bNw-GW-unC" secondAttribute="trailing" id="slk-s6-XFz"/>
+                <constraint firstItem="gqc-Aa-cm0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="zRX-kl-Pxj"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>

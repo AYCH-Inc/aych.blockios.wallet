@@ -17,6 +17,32 @@ final class AnnouncementCardViewModel {
 
     // MARK: - Types
 
+    /// The style of the background
+    struct Background {
+
+        /// A blank white background. a computed property.
+        static var white: Background {
+            return Background(color: .white)
+        }
+        
+        /// The background color
+        let color: UIColor
+        
+        /// The background image
+        let imageName: String?
+
+        /// Computes the `UIImage` out of `imageName`
+        var image: UIImage? {
+            guard let imageName = imageName else { return nil }
+            return UIImage(named: imageName)
+        }
+        
+        init(color: UIColor = .clear, imageName: String? = nil) {
+            self.imageName = imageName
+            self.color = color
+        }
+    }
+    
     /// The image descriptor
     struct Image {
         let name: String
@@ -43,7 +69,7 @@ final class AnnouncementCardViewModel {
     
     // MARK: - Properties
     
-    let backgroundColor: UIColor
+    let background: Background
     let image: Image
     let title: String?
     let description: String?
@@ -80,18 +106,18 @@ final class AnnouncementCardViewModel {
     /// action that should cause card dismissal.
     let dismissalRelay = PublishRelay<Void>()
     
-    private var dismissal: Single<Void> {
+    private var dismissal: Completable {
         return dismissalRelay
             .take(1)
+            .ignoreElements()
             .observeOn(MainScheduler.instance)
-            .asSingle()
     }
     
     private let disposeBag = DisposeBag()
     
     // MARK: - Setup
     
-    init(backgroundColor: UIColor = .white,
+    init(background: Background = .white,
          image: Image,
          title: String? = nil,
          description: String? = nil,
@@ -99,7 +125,7 @@ final class AnnouncementCardViewModel {
          dismissState: DismissState,
          recorder: ErrorRecording = CrashlyticsRecorder(),
          didAppear: @escaping () -> Void) {
-        self.backgroundColor = backgroundColor
+        self.background = background
         self.image = image
         self.title = title
         self.description = description
@@ -108,10 +134,10 @@ final class AnnouncementCardViewModel {
         self.recorder = recorder
         self.didAppear = didAppear
         
-        dismissal
-            .subscribe(onSuccess: { [weak self] _ in
-                self?.dismissAction?()
-            })
-            .disposed(by: disposeBag)
+        if let dismissAction = dismissAction {
+            dismissal
+                .subscribe(onCompleted: dismissAction)
+                .disposed(by: disposeBag)
+        }
     }
 }

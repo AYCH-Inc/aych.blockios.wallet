@@ -145,6 +145,7 @@ struct Constants {
         static let lockbox = "https://blockchain.com/lockbox"
         static let stellarMinimumBalanceInfo = "https://www.stellar.org/developers/guides/concepts/fees.html#minimum-account-balance"
         static let airdropProgram = "https://support.blockchain.com/hc/en-us/categories/360001126692-Airdrop-Program"
+        static let blockstackAirdropLearnMore = "https://support.blockchain.com/hc/en-us/articles/360035793932"
         static let airdropWaitlist = blockchainHome + "/getcrypto"
         static let requiredIdentityVerificationURL = "https://support.blockchain.com/hc/en-us/articles/360018359871-What-Blockchain-products-require-identity-verification-"
         static let learnMoreAboutPaxURL = "https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ"

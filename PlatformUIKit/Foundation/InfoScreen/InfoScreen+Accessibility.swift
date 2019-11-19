@@ -12,6 +12,6 @@ extension Accessibility.Identifier {
         static let imageView = "\(prefix)imageView"
         static let titleLabel = "\(prefix)titleLabel"
         static let descriptionLabel = "\(prefix)descriptionLabel"
-        static let noteLabel = "\(prefix)noteLabel"
+        static let disclaimerLabel = "\(prefix)disclaimerLabel"
     }
 }

@@ -138,7 +138,7 @@ public struct ButtonViewModel {
     
     /// - parameter cornerRadius: corner radius of the component
     /// - parameter accessibility: accessibility for the view
-    public init(font: UIFont, cornerRadius: CGFloat = 4, accessibility: Accessibility) {
+    public init(font: UIFont = .mainSemibold(16), cornerRadius: CGFloat = 8, accessibility: Accessibility) {
         self.font = font
         self.cornerRadius = cornerRadius
         self.accessibility = accessibility

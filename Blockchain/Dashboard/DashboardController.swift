@@ -648,6 +648,6 @@ extension DashboardController: NavigatableView {
     }
     
     func navControllerLeftBarButtonTapped(_ navController: UINavigationController) {
-        AppCoordinator.shared.toggleSideMenu()
+        AppCoordinator.shared.toggleSideMenu()        
     }
 }

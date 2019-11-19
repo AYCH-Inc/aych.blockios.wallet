@@ -15,7 +15,10 @@ struct AirdropInfoScreenContent: InfoScreenContent {
     let image = "airdrop_icon"
     let title = LocalizedString.title
     let description = LocalizedString.description
-    let note = LocalizedString.note
+    let disclaimerInputs: [InteractableTextViewModel.Input] = [
+        .text(string: LocalizedString.disclaimerPrefix),
+        .url(string: LocalizedString.disclaimerLearnMoreLink, url: Constants.Url.blockstackAirdropLearnMore)
+    ]
     let buttonTitle = LocalizedString.ctaButton
 }
 
@@ -26,6 +29,6 @@ struct STXApplicationCompleteInfoScreenContent: InfoScreenContent {
     let image = "success_icon"
     let title = LocalizedString.title
     let description = LocalizedString.description
-    let note = LocalizedString.note
+    let disclaimerInputs: [InteractableTextViewModel.Input] = []
     let buttonTitle = LocalizedString.ctaButton
 }

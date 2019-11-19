@@ -27,6 +27,14 @@ extension NSMutableAttributedString {
         let range = NSRange(location: 0, length: string.count)
         addAttribute(.paragraphStyle, value: style, range: range)
     }
+    
+    /// Adds a given alignment
+    public func add(alignment: NSTextAlignment) {
+        let style = NSMutableParagraphStyle()
+        style.alignment = alignment
+        let range = NSRange(location: 0, length: string.count)
+        addAttribute(.paragraphStyle, value: style, range: range)
+    }
 }
 
 extension NSAttributedString {

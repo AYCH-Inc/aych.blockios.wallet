@@ -16,6 +16,7 @@ final class AnnouncementCardView: UIView {
     
     // MARK: - UI Properties
     
+    @IBOutlet private var backgroundImageView: UIImageView!
     @IBOutlet private var thumbImageView: UIImageView!
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var descriptionLabel: UILabel!
@@ -48,7 +49,8 @@ final class AnnouncementCardView: UIView {
     
     private func setup() {
         fromNib()
-        backgroundColor = viewModel.backgroundColor
+        backgroundColor = viewModel.background.color
+        backgroundImageView.image = viewModel.background.image
         thumbImageView.image = UIImage(named: viewModel.image.name)
         thumbImageView.layoutSize(to: viewModel.image.size)
         titleLabel.text = viewModel.title

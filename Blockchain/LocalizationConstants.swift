@@ -1277,16 +1277,20 @@ struct LocalizationConstants {
     struct InfoScreen {
         struct Airdrop {
             static let title = NSLocalizedString(
-                "Get Crypto for Free with Blockchain Airdrops.",
+                "Unlock Access to Airdrops",
                 comment: "airdrop info screen title"
             )
             static let description = NSLocalizedString(
-                "Uprade your profile to the Gold Level to be elgbible for this and all future Airdrops.",
+                "Our next airdrop with Blockstack is launching soon! Get free Stacks (STX) by upgrading your profile to Gold Level.",
                 comment: "airdrop info screen description"
             )
-            static let note = NSLocalizedString(
-                "*For legal reasons, USA, Canada and Japan nationals can’t participate in the airdrop. Learn more",
-                comment: "airdrop info screen note"
+            static let disclaimerPrefix = NSLocalizedString(
+                "*For regulatory reasons, USA, Canada and Japan nationals can’t participate in the airdrop. ",
+                comment: "airdrop info screen disclaimer prefix"
+            )
+            static let disclaimerLearnMoreLink = NSLocalizedString(
+                "Learn more",
+                comment: "airdrop info screen disclaimer learn more link"
             )
             static let ctaButton = NSLocalizedString(
                 "Complete My Profile",
@@ -1295,23 +1299,19 @@ struct LocalizationConstants {
         }
         struct STXApplicationComplete {
             static let title = NSLocalizedString(
-                "Application complete",
+                "Application Complete",
                 comment: "STX application complete info screen title"
             )
             static let description = NSLocalizedString(
-                "You’ve successfully submitted your application. A Blockchain Support Member will review your information.",
+                "Once your verification is confirmed, you’ll automatically secure a spot in the Airdrop for Stacks.",
                 comment: "STX application complete info screen description"
-            )
-            static let note = NSLocalizedString(
-                "Once you’re verification is confirmed you’ll have secure your Stacks Airdrop",
-                comment: "STX application complete info screen note"
             )
             static let ctaButton = NSLocalizedString(
                 "Share Now",
                 comment: "STX application complete info screen CTA button title"
             )
             static let shareText = NSLocalizedString(
-                "Hey! Get crypto for free with Blockchain Airdrops. Sign up and get verified to become eligible for $10 worth of Blockstack Tokens.",
+                "Hey! I just secured my spot for Blockchain’s latest airdrop with Blockstack. Sign up and get verified to get $10 of Stacks for free!",
                 comment: "STX application complete info screen: message to share"
             )
         }
@@ -1372,15 +1372,15 @@ struct LocalizationConstants {
         
         struct BlockstackAirdrop {
             static let title = NSLocalizedString(
-                "Our Latest Airdrop is Here. Reserve Your Free Stacks (STX)",
+                "Get Free Crypto",
                 comment: "STX airdrop announcement card title"
             )
             static let description = NSLocalizedString(
-                "Uprade your profile to the Gold Level to be elegible for this and all future Airdrops.",
+                "Upgrade your profile to Gold to access the Airdrop and get free Stacks (STX) from Blockstack.",
                 comment: "STX airdrop announcement card description"
             )
             static let ctaButton = NSLocalizedString(
-                "Get $10 of STX",
+                "Complete My Profile. Get $10.",
                 comment: "STX airdrop announcement card CTA button title"
             )
         }
@@ -2868,6 +2868,51 @@ struct LocalizationConstants {
     }
 
     struct Airdrop {
+        struct IntroScreen {
+            static let title = NSLocalizedString(
+                "Get Free Crypto.",
+                comment: "Airdrop intro screen: title"
+            )
+            static let subtitle = NSLocalizedString(
+                "With Blockchain Airdrops, get free crypto sent right to your Blockchain Wallet.",
+                comment: "Airdrop intro screen: subtitle"
+            )
+            static let disclaimerPrefix = NSLocalizedString(
+                "Due to local laws, USA, Canada and Japan nationals cannot particpate in the Blockstack Airdrop.",
+                comment: "Airdrop intro screen: description"
+            )
+            static let disclaimerLearnMoreLink = NSLocalizedString(
+                "Learn more",
+                comment: "Airdrop intro screen: learn more link"
+            )
+            static let ctaButton = NSLocalizedString(
+                "Upgrade to Gold. Get $10",
+                comment: "Airdrop intro screen: CTA button"
+            )
+            struct InfoCell {
+                struct Number {
+                    static let title = NSLocalizedString(
+                        "Current Airdrop",
+                        comment: "Airdrop intro screen number of airdrop cell: title"
+                    )
+                    static let value = NSLocalizedString(
+                        "02 - Blockstack",
+                        comment: "Airdrop intro screen number of airdrop cell: value"
+                    )
+                }
+                struct Currency {
+                    static let title = NSLocalizedString(
+                        "Currency",
+                        comment: "Airdrop intro screen currency of airdrop cell: title"
+                    )
+                    static let value = NSLocalizedString(
+                        "Stacks",
+                        comment: "Airdrop intro screen currency of airdrop cell: value"
+                    )
+                }
+            }
+        }
+        
         static let invalidCampaignUser = NSLocalizedString(
             "We're sorry, the airdrop program is currently not available where you are.",
             comment: "Error message displayed when the user that is trying to register for the campaign cannot register."

@@ -1222,6 +1222,22 @@
 		65244B49234F9AFE002EB289 /* ManualPairingInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65244B48234F9AFE002EB289 /* ManualPairingInteractor.swift */; };
 		65244B4E234FA834002EB289 /* FormPresentationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65244B4A234F9DC9002EB289 /* FormPresentationState.swift */; };
 		65244B4F234FA834002EB289 /* FormPresentationStateReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65244B4C234F9DE1002EB289 /* FormPresentationStateReducer.swift */; };
+		6524B30E2382C87A00218974 /* AirdropIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524B30D2382C87A00218974 /* AirdropIntroViewController.swift */; };
+		6524B30F2382C87A00218974 /* AirdropIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524B30D2382C87A00218974 /* AirdropIntroViewController.swift */; };
+		6524B3112382C8CB00218974 /* AirdropIntroViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6524B3102382C8CB00218974 /* AirdropIntroViewController.xib */; };
+		6524B3122382C8CB00218974 /* AirdropIntroViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6524B3102382C8CB00218974 /* AirdropIntroViewController.xib */; };
+		6524B3142382DBAF00218974 /* AirdropIntroScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524B3132382DBAF00218974 /* AirdropIntroScreenPresenter.swift */; };
+		6524B3152382DBAF00218974 /* AirdropIntroScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524B3132382DBAF00218974 /* AirdropIntroScreenPresenter.swift */; };
+		6524B3172382DC0A00218974 /* AirdropIntroScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524B3162382DC0A00218974 /* AirdropIntroScreenInteractor.swift */; };
+		6524B3182382DC0A00218974 /* AirdropIntroScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524B3162382DC0A00218974 /* AirdropIntroScreenInteractor.swift */; };
+		6524B31E2382DF1B00218974 /* AirdropIntroTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524B31C2382DF1B00218974 /* AirdropIntroTableViewCell.swift */; };
+		6524B31F2382DF1B00218974 /* AirdropIntroTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524B31C2382DF1B00218974 /* AirdropIntroTableViewCell.swift */; };
+		6524B3202382DF1B00218974 /* AirdropIntroTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6524B31D2382DF1B00218974 /* AirdropIntroTableViewCell.xib */; };
+		6524B3212382DF1B00218974 /* AirdropIntroTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6524B31D2382DF1B00218974 /* AirdropIntroTableViewCell.xib */; };
+		6524B3232382DF5A00218974 /* AirdropIntroCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524B3222382DF5A00218974 /* AirdropIntroCellPresenter.swift */; };
+		6524B3242382DF5A00218974 /* AirdropIntroCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524B3222382DF5A00218974 /* AirdropIntroCellPresenter.swift */; };
+		6524B3262382DFC300218974 /* Accessibility+AirdropIntroScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524B3252382DFC300218974 /* Accessibility+AirdropIntroScreen.swift */; };
+		6524B3272382DFC300218974 /* Accessibility+AirdropIntroScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524B3252382DFC300218974 /* Accessibility+AirdropIntroScreen.swift */; };
 		6525588E234DE4310079A103 /* KeyboardInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6525588D234DE4310079A103 /* KeyboardInteractionController.swift */; };
 		6525589A234E12D00079A103 /* TextValidationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65255899234E12D00079A103 /* TextValidationFactory.swift */; };
 		6525589C234E17CA0079A103 /* CollectionTextMatchValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6525589B234E17CA0079A103 /* CollectionTextMatchValidator.swift */; };
@@ -4886,6 +4902,14 @@
 		65244B48234F9AFE002EB289 /* ManualPairingInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualPairingInteractor.swift; sourceTree = "<group>"; };
 		65244B4A234F9DC9002EB289 /* FormPresentationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormPresentationState.swift; sourceTree = "<group>"; };
 		65244B4C234F9DE1002EB289 /* FormPresentationStateReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormPresentationStateReducer.swift; sourceTree = "<group>"; };
+		6524B30D2382C87A00218974 /* AirdropIntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropIntroViewController.swift; sourceTree = "<group>"; };
+		6524B3102382C8CB00218974 /* AirdropIntroViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AirdropIntroViewController.xib; sourceTree = "<group>"; };
+		6524B3132382DBAF00218974 /* AirdropIntroScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropIntroScreenPresenter.swift; sourceTree = "<group>"; };
+		6524B3162382DC0A00218974 /* AirdropIntroScreenInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropIntroScreenInteractor.swift; sourceTree = "<group>"; };
+		6524B31C2382DF1B00218974 /* AirdropIntroTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropIntroTableViewCell.swift; sourceTree = "<group>"; };
+		6524B31D2382DF1B00218974 /* AirdropIntroTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AirdropIntroTableViewCell.xib; sourceTree = "<group>"; };
+		6524B3222382DF5A00218974 /* AirdropIntroCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropIntroCellPresenter.swift; sourceTree = "<group>"; };
+		6524B3252382DFC300218974 /* Accessibility+AirdropIntroScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Accessibility+AirdropIntroScreen.swift"; sourceTree = "<group>"; };
 		6525588D234DE4310079A103 /* KeyboardInteractionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInteractionController.swift; sourceTree = "<group>"; };
 		65255899234E12D00079A103 /* TextValidationFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextValidationFactory.swift; sourceTree = "<group>"; };
 		6525589B234E17CA0079A103 /* CollectionTextMatchValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTextMatchValidator.swift; sourceTree = "<group>"; };
@@ -11242,6 +11266,21 @@
 			path = FormStateReducer;
 			sourceTree = "<group>";
 		};
+		6524B3032382C85F00218974 /* Airdrop */ = {
+			isa = PBXGroup;
+			children = (
+				6524B3102382C8CB00218974 /* AirdropIntroViewController.xib */,
+				6524B30D2382C87A00218974 /* AirdropIntroViewController.swift */,
+				6524B3132382DBAF00218974 /* AirdropIntroScreenPresenter.swift */,
+				6524B3162382DC0A00218974 /* AirdropIntroScreenInteractor.swift */,
+				6524B31C2382DF1B00218974 /* AirdropIntroTableViewCell.swift */,
+				6524B31D2382DF1B00218974 /* AirdropIntroTableViewCell.xib */,
+				6524B3222382DF5A00218974 /* AirdropIntroCellPresenter.swift */,
+				6524B3252382DFC300218974 /* Accessibility+AirdropIntroScreen.swift */,
+			);
+			path = Airdrop;
+			sourceTree = "<group>";
+		};
 		65255898234DE86C0079A103 /* Toolbar */ = {
 			isa = PBXGroup;
 			children = (
@@ -11763,9 +11802,9 @@
 		65AE577423759A0E00677025 /* InfoScreen */ = {
 			isa = PBXGroup;
 			children = (
+				65AE577723759A0E00677025 /* InfoScreenViewController.xib */,
 				65AE577523759A0E00677025 /* InfoScreenViewController.swift */,
 				65AE577623759A0E00677025 /* InfoScreenPresenter.swift */,
-				65AE577723759A0E00677025 /* InfoScreenViewController.xib */,
 				65AE577E23759A5D00677025 /* InfoScreen+Accessibility.swift */,
 			);
 			path = InfoScreen;
@@ -12368,6 +12407,7 @@
 				5138375B21026BC800767B2E /* Environment.swift */,
 				51E5C73020741A130000A7FD /* LocalizationConstants.swift */,
 				AAA3333E2088131D0019AD55 /* ModalPresenter.swift */,
+				6524B3032382C85F00218974 /* Airdrop */,
 				651060B7235610B900C871C0 /* Launch */,
 				6512845E23421270008776DC /* CampaignComposer */,
 				6512849C23434A37008776DC /* UserPropertyRecorder */,
@@ -14710,6 +14750,7 @@
 				C78238B02131F0CD008FCCAD /* ExchangeCreateViewController.storyboard in Resources */,
 				65550E7E22BE671F00522656 /* DigitPadButtonView.xib in Resources */,
 				653333AB230D7537008B3ADF /* AnnouncementCardView.xib in Resources */,
+				6524B3212382DF1B00218974 /* AirdropIntroTableViewCell.xib in Resources */,
 				C7C5730E21FF5CBC008B174D /* KYCResubmitIdentityController.storyboard in Resources */,
 				3A34280D22249E7F000D8032 /* SideMenuFooterView.xib in Resources */,
 				65550E8A22BE671F00522656 /* PinScreenViewController.xib in Resources */,
@@ -14744,6 +14785,7 @@
 				C73037A8218B4EE700F38BA8 /* InformationViewController.storyboard in Resources */,
 				3A91F7CE2138460900CDC3FD /* TradingPairView.xib in Resources */,
 				3A80B7C5216E820700679927 /* SideMenuCell.xib in Resources */,
+				6524B3122382C8CB00218974 /* AirdropIntroViewController.xib in Resources */,
 				65550E7A22BE671F00522656 /* SecurePinView.xib in Resources */,
 				6587FD1C22F9810600206575 /* SendSourceAccountTableViewCell.xib in Resources */,
 				3A53B95C213466670020ECAD /* ExchangeListHeaderView.xib in Resources */,
@@ -14773,6 +14815,7 @@
 				51B767AA2106369A003CCD46 /* Montserrat-BlackItalic.ttf in Resources */,
 				6587FD2122F9811D00206575 /* SendDestinationAccountTableViewCell.xib in Resources */,
 				650638E62355F21200975593 /* LaunchScreen.storyboard in Resources */,
+				6524B3202382DF1B00218974 /* AirdropIntroTableViewCell.xib in Resources */,
 				3A8B227C211DFE110091E706 /* PrimaryButtonContainer.xib in Resources */,
 				653333AA230D7537008B3ADF /* AnnouncementCardView.xib in Resources */,
 				51B767AB2106369A003CCD46 /* Montserrat-Bold.ttf in Resources */,
@@ -14854,6 +14897,7 @@
 				65550E8922BE671F00522656 /* PinScreenViewController.xib in Resources */,
 				51383566210255E100767B2E /* Colors.xcassets in Resources */,
 				3A91F7CD2138460900CDC3FD /* TradingPairView.xib in Resources */,
+				6524B3112382C8CB00218974 /* AirdropIntroViewController.xib in Resources */,
 				6587FD1B22F9810600206575 /* SendSourceAccountTableViewCell.xib in Resources */,
 				6587FD2722F9813E00206575 /* SendAmountTableViewCell.xib in Resources */,
 				51F504D5216E744000E1FE0C /* LockboxViewController.storyboard in Resources */,
@@ -16389,6 +16433,7 @@
 				AAD92FBB2202658B005DA575 /* NavigationCTA.swift in Sources */,
 				65CDDB5B2330F6B90092947C /* FirebaseMessaging+FCMServiceAPI.swift in Sources */,
 				AACE31CD2092A99B00B7B806 /* BitcoinCashAddress.swift in Sources */,
+				6524B3182382DC0A00218974 /* AirdropIntroScreenInteractor.swift in Sources */,
 				653C42112345F99500AAD154 /* AnalyticsEvents+Blockchain.swift in Sources */,
 				65F20AB623326D4C00CA4410 /* (null) in Sources */,
 				6541551222C54A2300E78814 /* ReceivedPaymentDetails.swift in Sources */,
@@ -16490,6 +16535,7 @@
 				C7343C2221516A6F001B1EC9 /* ExchangeDetailInteractor.swift in Sources */,
 				3A4FF223221DC26E00AA18AF /* TabContainer.swift in Sources */,
 				657F0156233D256600006F37 /* FeatureTestingVariant.swift in Sources */,
+				6524B3242382DF5A00218974 /* AirdropIntroCellPresenter.swift in Sources */,
 				3AC7C2C222E6A8410021C841 /* PITAccountRepository.swift in Sources */,
 				3A4EABA52140826800081531 /* PlainCell.swift in Sources */,
 				AAA6648B2123426A009C1C64 /* PrimaryButtonContainer.swift in Sources */,
@@ -16498,6 +16544,7 @@
 				AA56423B20DDBDBB0092A022 /* String+EscapeJSTests.swift in Sources */,
 				3A49A8E42151801300760B8C /* ConversionRatesView.swift in Sources */,
 				65B54182230C687300D04A2E /* MockSendExchangeService.swift in Sources */,
+				6524B3152382DBAF00218974 /* AirdropIntroScreenPresenter.swift in Sources */,
 				AAFA97B12115110000D19ED3 /* SettingsViewController.swift in Sources */,
 				602B9D162118E25A00BD3D60 /* LocationSuggestionService.swift in Sources */,
 				6502D58723167955004F5EF4 /* ActionableAnnouncement.swift in Sources */,
@@ -16515,6 +16562,7 @@
 				AACB48B921478472008FCCD0 /* Collection+Helpers.swift in Sources */,
 				51135707209CF68500056D65 /* BackupViewController.swift in Sources */,
 				AA94965F20CB5FA600A9C2DD /* AssetAddressFactory.swift in Sources */,
+				6524B31F2382DF1B00218974 /* AirdropIntroTableViewCell.swift in Sources */,
 				65550E9E22BE671F00522656 /* PinScreenUseCase.swift in Sources */,
 				AACE31CA2092A99B00B7B806 /* AssetAddress.swift in Sources */,
 				651060F62356446E00C871C0 /* ManualPairingViewController.swift in Sources */,
@@ -16867,6 +16915,7 @@
 				AA30893621A5F6FA002F9B37 /* DeepLinkPayload.swift in Sources */,
 				AA278EB022B18468009F203D /* PAXAnnouncement.swift in Sources */,
 				65C981BA2302B2F0007AE27F /* SendInputState.swift in Sources */,
+				6524B30F2382C87A00218974 /* AirdropIntroViewController.swift in Sources */,
 				65FD2B0922E7311F00D90C44 /* SendAssetAddressSource.swift in Sources */,
 				345DF368234B751500179996 /* ExchangeServices.swift in Sources */,
 				65283F1822A7D69800255A30 /* VersionUpdateAlertDisplaying.swift in Sources */,
@@ -16904,6 +16953,7 @@
 				51E52D14217F6E6A00066F8D /* PricePreviewView.swift in Sources */,
 				65D57228234B90D200D14342 /* SendBitcoinViewController+Analytics.swift in Sources */,
 				65A78EE1232695CD00A93D10 /* RemoteNotificationService.swift in Sources */,
+				6524B3272382DFC300218974 /* Accessibility+AirdropIntroScreen.swift in Sources */,
 				AA7A474721C3353F006AA0D3 /* KYCMoreInformationController.swift in Sources */,
 				65B54187230C687300D04A2E /* SendFeeInteractorTests.swift in Sources */,
 				6512845D233E8DC9008776DC /* CampaignComposer.swift in Sources */,
@@ -17021,6 +17071,7 @@
 				657F01AA233E3F3100006F37 /* FeatureTestingVariant.swift in Sources */,
 				9F1831EB1516AE3500FB3D52 /* NSString+URLEncode.m in Sources */,
 				23BA22111D6B736900D0472B /* NSNumberFormatter+Currencies.m in Sources */,
+				6524B3172382DC0A00218974 /* AirdropIntroScreenInteractor.swift in Sources */,
 				6564E55822C13F3E0057108B /* FeatureConfigurating.swift in Sources */,
 				23444F811DCD214800573C8C /* BTCBigNumber.m in Sources */,
 				51A862D920921E7600B338E0 /* BitcoinAddress.swift in Sources */,
@@ -17086,6 +17137,7 @@
 				23444F871DCD217E00573C8C /* BTCNetwork.m in Sources */,
 				3A1D3C3E223965D5006F0D22 /* InputComponentType.swift in Sources */,
 				67D95A281B3DDC900012EBB1 /* Constants.swift in Sources */,
+				6524B3232382DF5A00218974 /* AirdropIntroCellPresenter.swift in Sources */,
 				60AEA56821125AB20053A753 /* SettingsTwoStepVC.swift in Sources */,
 				65550E9322BE671F00522656 /* PinRouter.swift in Sources */,
 				9F765F3214BC622E00048EFB /* TransactionsBitcoinViewController.m in Sources */,
@@ -17323,6 +17375,7 @@
 				3A56AEB22176637D00044302 /* StellarAccountService.swift in Sources */,
 				3AAEF9572141B04F005852D1 /* ActionableFooterView.swift in Sources */,
 				602B9CF62118E15300BD3D60 /* KYCOnboardingNavigationController.swift in Sources */,
+				6524B30E2382C87A00218974 /* AirdropIntroViewController.swift in Sources */,
 				602B9CE12118E15300BD3D60 /* KYCEnterPhoneNumberController.swift in Sources */,
 				511646C5208124E200C43522 /* AssetType.swift in Sources */,
 				606399FC2110FC2D005B6DF5 /* SRIOConsumer.m in Sources */,
@@ -17562,6 +17615,7 @@
 				6587FD1322F97F5F00206575 /* SendViewController.swift in Sources */,
 				51578AEE20B44AD400B0080A /* KeyImportCoordinator.swift in Sources */,
 				65C59ED423586A620096ED0B /* LaunchAnnouncementType.swift in Sources */,
+				6524B31E2382DF1B00218974 /* AirdropIntroTableViewCell.swift in Sources */,
 				6510614B23572C4900C871C0 /* AutoPairingScreenInteractor.swift in Sources */,
 				FCB33B721FC36EA200317E6B /* ExchangeProgressViewController.m in Sources */,
 				653159FB22F4A9A40018ED32 /* DeepLinkConstant.swift in Sources */,
@@ -17574,10 +17628,12 @@
 				C73037AA218B508C00F38BA8 /* InformationViewController.swift in Sources */,
 				23BF733C1C455DDB00204503 /* AccountsAndAddressesViewController.m in Sources */,
 				C7F157A82179214400A56376 /* SimpleListViewController.swift in Sources */,
+				6524B3142382DBAF00218974 /* AirdropIntroScreenPresenter.swift in Sources */,
 				6587FD2B22F9814F00206575 /* SendFeeTableViewCell.swift in Sources */,
 				AA94965E20CB5FA600A9C2DD /* AssetAddressFactory.swift in Sources */,
 				AA4770B7211BA984006356B1 /* KYCAccountStatus.swift in Sources */,
 				65550E9D22BE671F00522656 /* PinScreenUseCase.swift in Sources */,
+				6524B3262382DFC300218974 /* Accessibility+AirdropIntroScreen.swift in Sources */,
 				AA8F21E121C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift in Sources */,
 				65CDDB5D2330F6DC0092947C /* UNUserNotificationCenter+UNUserNotificationCenterAPI.swift in Sources */,
 				65B77DAF22FB1C8F009AE141 /* SendSpendableBalanceViewPresenter.swift in Sources */,

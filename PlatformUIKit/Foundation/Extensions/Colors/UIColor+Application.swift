@@ -47,6 +47,8 @@ public extension UIColor {
     
     // Buttons
     
+    static let airdropCTAButton = green600
+    
     static let destructiveButton = red600
     static let successButton = green600
     static let primaryButton = blue600

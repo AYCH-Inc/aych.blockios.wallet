@@ -71,7 +71,10 @@ protocol KYCCoordinatorDelegate: class {
     private let blockchainRepository: BlockchainDataRepository
     private let communicator: NetworkCommunicatorAPI
 
+    private let webViewServiceAPI: WebViewServiceAPI
+    
     init(
+        webViewServiceAPI: WebViewServiceAPI = UIApplication.shared,
         blockchainRepository: BlockchainDataRepository = .shared,
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
         kycSettings: KYCSettingsAPI = KYCSettings.shared,
@@ -79,6 +82,7 @@ protocol KYCCoordinatorDelegate: class {
         loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared,
         communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared
     ) {
+        self.webViewServiceAPI = webViewServiceAPI
         self.blockchainRepository = blockchainRepository
         self.appSettings = appSettings
         self.kycSettings = kycSettings
@@ -113,8 +117,8 @@ protocol KYCCoordinatorDelegate: class {
     /// Presents an airdrop modal before bringing the user to KYC
     func startKycForSTXAirdrop(from parentViewController: UIViewController, tier: KYCTier = .tier1) {
         // In case the user has started KYC for STX airdrop, register for the KYC completion
-        // TODO: Uncomment for v2.1
-//        registerForBlockstackAirdropKycCompletion()
+        registerForBlockstackAirdropKycCompletion()
+        let viewController = NavigationController()
         let presenter = InfoScreenPresenter(
             with: AirdropInfoScreenContent(),
             action: { [weak self] in
@@ -123,9 +127,13 @@ protocol KYCCoordinatorDelegate: class {
                 }
             }
         )
-        let viewController = NavigationController(
-            rootViewController: InfoScreenViewController(presenter: presenter)
-        )
+        presenter.disclaimerViewModel.tap
+            .bind { [weak self, weak viewController] titledUrl in
+                guard let self = self, let viewController = viewController else { return }
+                self.webViewServiceAPI.openSafari(url: titledUrl.url, from: viewController)
+            }
+            .disposed(by: disposeBag)
+        viewController.viewControllers = [InfoScreenViewController(presenter: presenter)]
         if #available(iOS 13.0, *) {
             viewController.modalPresentationStyle = .automatic
         }

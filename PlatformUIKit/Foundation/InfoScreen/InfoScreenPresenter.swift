@@ -15,7 +15,7 @@ public protocol InfoScreenContent {
     var image: String { get }
     var title: String { get }
     var description: String { get }
-    var note: String { get }
+    var disclaimerInputs: [InteractableTextViewModel.Input] { get }
     var buttonTitle: String { get }
 }
 
@@ -30,7 +30,7 @@ public struct InfoScreenPresenter {
     let imageViewContent: ImageViewContent
     let titleLabelContent: LabelContent
     let descriptionLabelContent: LabelContent
-    let noteLabelContent: LabelContent
+    public let disclaimerViewModel: InteractableTextViewModel
     let buttonViewModel: ButtonViewModel
     
     private let disposeBag = DisposeBag()
@@ -54,11 +54,12 @@ public struct InfoScreenPresenter {
             color: .descriptionText,
             accessibility: .id(AccessibilityId.descriptionLabel)
         )
-        noteLabelContent = .init(
-            text: content.note,
-            font: .mainMedium(12),
-            color: .titleText,
-            accessibility: .id(AccessibilityId.noteLabel)
+        let disclaimerFont = UIFont.mainMedium(12)
+        disclaimerViewModel = InteractableTextViewModel(
+            inputs: content.disclaimerInputs,
+            textStyle: .init(color: .descriptionText, font: disclaimerFont),
+            linkStyle: .init(color: .linkableText, font: disclaimerFont),
+            alignment: .center
         )
         buttonViewModel = .primary(
             with: content.buttonTitle,

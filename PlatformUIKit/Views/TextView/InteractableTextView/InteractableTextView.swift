@@ -42,6 +42,7 @@ public final class InteractableTextView: UITextView {
                 .join()
             let mutableString = NSMutableAttributedString(attributedString: string)
             mutableString.add(lineSpacing: viewModel.lineSpacing)
+            mutableString.add(alignment: viewModel.alignment)
             linkTextAttributes = [.foregroundColor: viewModel.linkStyle.color]
             isEditable = false
             attributedText = mutableString

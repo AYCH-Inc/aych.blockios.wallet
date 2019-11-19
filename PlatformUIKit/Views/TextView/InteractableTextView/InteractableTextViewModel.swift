@@ -47,14 +47,20 @@ public struct InteractableTextViewModel {
     let inputs: [Input]
     let textStyle: Style
     let linkStyle: Style
+    let alignment: NSTextAlignment
     let lineSpacing: CGFloat
 
     let tapRelay = PublishRelay<TitledUrl>()
     
-    public init(inputs: [Input], textStyle: Style, linkStyle: Style, lineSpacing: CGFloat = 0) {
+    public init(inputs: [Input],
+                textStyle: Style,
+                linkStyle: Style,
+                lineSpacing: CGFloat = 0,
+                alignment: NSTextAlignment = .natural) {
         self.inputs = inputs
         self.textStyle = textStyle
         self.linkStyle = linkStyle
         self.lineSpacing = lineSpacing
+        self.alignment = alignment
     }
 }

@@ -19,7 +19,14 @@ final class KycBlockstackAirdropAnnouncement: OneTimeAnnouncement & ActionableAn
     // MARK: - Properties
     
     var viewModel: AnnouncementCardViewModel {
-        let button = ButtonViewModel.primary(with: LocalizedString.ctaButton)
+        var button = ButtonViewModel(
+            accessibility: .init(id: .value(Accessibility.Identifier.General.mainCTAButton))
+        )
+        button.theme = ButtonViewModel.Theme(
+            backgroundColor: .airdropCTAButton,
+            contentColor: .white,
+            text: LocalizedString.ctaButton
+        )
         button.tapRelay
             .bind { [weak self] in
                 guard let self = self else { return }
@@ -31,8 +38,8 @@ final class KycBlockstackAirdropAnnouncement: OneTimeAnnouncement & ActionableAn
             .disposed(by: disposeBag)
                     
         return AnnouncementCardViewModel(
-            backgroundColor: .blockastackCardBackground,
-            image: AnnouncementCardViewModel.Image(name: "blockstack_icon"),
+            background: .init(color: .white, imageName: "card-background-stx-airdrop"),
+            image: .init(name: "card-icon-stx-airdrop"),
             title: LocalizedString.title,
             description: LocalizedString.description,
             buttons: [button],

@@ -8,6 +8,11 @@
 
 public final class NavigationController: UINavigationController, UIGestureRecognizerDelegate {
     
+    public init() {
+        super.init(nibName: nil, bundle: nil)
+        setup()
+    }
+    
     public override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
         setup()

@@ -40,7 +40,7 @@ extension Array where Element: Equatable {
     
     /// Returns `true` if if all elements are equal to a given value
     public func areAllElements(equal element: Element) -> Bool {
-        return !dropFirst().contains { $0 != element }
+        return !contains { $0 != element }
     }
 }
 

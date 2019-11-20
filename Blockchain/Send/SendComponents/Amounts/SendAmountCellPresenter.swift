@@ -6,7 +6,6 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
 import RxSwift
 import RxRelay
 import RxCocoa
@@ -107,11 +106,14 @@ final class SendAmountCellPresenter {
         
         let transferredValue = Observable
             .combineLatest(interactor.calculationState, fiatCurrencyChange)
-            .map { (state, fiatCurrency) -> TransferredValue in
+            .map { (state, fiatCurrency) -> FiatCryptoPair in
                 if let value = state.value {
                     return value
                 } else {
-                    return .zero(of: asset, fiatCurrencyCode: fiatCurrency.code)
+                    return .zero(
+                        of: asset.cryptoCurrency,
+                        fiatCurrencyCode: fiatCurrency.code
+                    )
                 }
             }
             .share(replay: 1)

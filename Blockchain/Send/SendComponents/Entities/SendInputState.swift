@@ -6,7 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformKit
 import PlatformUIKit
 import EthereumKit
 
@@ -60,8 +60,8 @@ extension SendInputState {
         self = .invalid(StateError(error: error))
     }
     
-    init(amountCalculationState: SendCalculationState,
-         feeCalculationState: SendCalculationState,
+    init(amountCalculationState: FiatCryptoPairCalculationState,
+         feeCalculationState: FiatCryptoPairCalculationState,
          sourceAccountState: SendSourceAccountState,
          destinationAccountState: SendDestinationAccountState,
          amountBalanceRatio: AmountBalanceRatio) {

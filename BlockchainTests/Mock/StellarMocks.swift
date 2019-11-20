@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 import stellarsdk
 import PlatformKit
 import StellarKit
@@ -56,13 +57,22 @@ class StellarTransactionMock: StellarTransactionAPI {
 }
 
 class StellarAccountMock: StellarAccountAPI {
-
     typealias AccountID = String
     typealias CompletionHandler = ((Result<Bool, Error>) -> Void)
     typealias AccountDetailsCompletion = ((Result<StellarAccount, Error>) -> Void)
 
     var currentAccount: StellarAccount?
 
+    var balance: Single<CryptoValue> {
+        return Single.error(NSError())
+    }
+    var balanceObservable: Observable<CryptoValue> {
+        return Observable.error(NSError())
+    }
+    
+    let balanceFetchTriggerRelay = PublishRelay<Void>()
+    
+    
     func currentStellarAccount(fromCache: Bool) -> Maybe<StellarAccount> {
         return Maybe.empty()
     }

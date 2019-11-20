@@ -43,10 +43,12 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
             .disposed(by: disposeBag)
 
         return AnnouncementCardViewModel(
+            type: type,
             image: AnnouncementCardViewModel.Image(name: "logo"),
             title: LocalizationConstants.AnnouncementCards.Welcome.title,
             description: LocalizationConstants.AnnouncementCards.Welcome.description,
             buttons: [ctaButton, skipButton],
+            recorder: errorRecorder,
             dismissState: .undismissible,
             didAppear: { [weak self] in
                 guard let self = self else { return }
@@ -71,15 +73,18 @@ final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncemen
     let appearanceRules: PeriodicAnnouncementAppearanceRules
     
     private let disposeBag = DisposeBag()
-    
+    private let errorRecorder: ErrorRecording
+
     // MARK: - Setup
     
     init(cacheSuite: CacheSuite = UserDefaults.standard,
          reappearanceTimeInterval: TimeInterval,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          action: @escaping CardAnnouncementAction,
          dismiss: @escaping CardAnnouncementAction) {
-        recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.errorRecorder = errorRecorder
+        recorder = AnnouncementRecorder(cache: cacheSuite, errorRecorder: errorRecorder)
         appearanceRules = PeriodicAnnouncementAppearanceRules(
             recessDurationBetweenDismissals: reappearanceTimeInterval,
             maxDismissalCount: 3

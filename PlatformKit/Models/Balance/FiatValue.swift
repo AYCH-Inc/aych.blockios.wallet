@@ -62,6 +62,10 @@ extension FiatValue: Money {
     public var isPositive: Bool {
         return amount > 0
     }
+    
+    public var isNegative: Bool {
+        return amount < 0
+    }
 
     public var symbol: String {
         let locale = NSLocale(localeIdentifier: currencyCode)
@@ -142,6 +146,11 @@ extension FiatValue: Hashable, Equatable {
         try ensureComparable(value: lhs, other: rhs)
         return FiatValue(currencyCode: lhs.currencyCode, amount: lhs.amount * rhs.amount)
     }
+    
+    public static func /(lhs: FiatValue, rhs: FiatValue) throws -> FiatValue {
+        try ensureComparable(value: lhs, other: rhs)
+        return FiatValue(currencyCode: lhs.currencyCode, amount: lhs.amount / rhs.amount)
+    }
 
     public static func +=(lhs: inout FiatValue, rhs: FiatValue) throws {
         lhs = try lhs + rhs
@@ -154,6 +163,24 @@ extension FiatValue: Hashable, Equatable {
     public static func *= (lhs: inout FiatValue, rhs: FiatValue) throws {
         lhs = try lhs * rhs
     }
+    
+    public static func /= (lhs: inout FiatValue, rhs: FiatValue) throws {
+        lhs = try lhs / rhs
+    }
+        
+    /// Calculates the value of `self` before a given percentage change
+    /// e.g if the current value is `100` and the percentage of change is `10%`,
+    /// the `percentageChange` expected value would be `0.1`.
+    public func value(before percentageChange: Double) -> FiatValue {
+        let percentageChange = percentageChange + 1
+        guard percentageChange > 0 else {
+            return .zero(currencyCode: currencyCode)
+        }
+        return .create(
+            amount: amount / Decimal(percentageChange),
+            currencyCode: currencyCode
+        )
+    }
 }
 
 // MARK: FiatFormatterProvider
@@ -163,15 +190,21 @@ private class FiatFormatterProvider {
     static let shared = FiatFormatterProvider()
 
     private var formatterMap = [String: NumberFormatter]()
+    private let queue = DispatchQueue(label: "FiatFormatterProvider.queue")
 
+    /// Returns `NumberFormatter`. This method executes on a dedicated queue.
     func formatter(locale: Locale, fiatValue: FiatValue) -> NumberFormatter {
-        let mapKey = key(locale: locale, fiatValue: fiatValue)
-        guard let matchingFormatter = formatterMap[mapKey] else {
-            let formatter = createNumberFormatter(locale: locale, fiatValue: fiatValue)
-            formatterMap[mapKey] = formatter
-            return formatter
+        var formatter: NumberFormatter!
+        queue.sync { [unowned self] in
+            let mapKey = key(locale: locale, fiatValue: fiatValue)
+            if let matchingFormatter = formatterMap[mapKey] {
+                formatter = matchingFormatter
+            } else {
+                formatter = self.createNumberFormatter(locale: locale, fiatValue: fiatValue)
+                self.formatterMap[mapKey] = formatter
+            }
         }
-        return matchingFormatter
+        return formatter
     }
 
     private func key(locale: Locale, fiatValue: FiatValue) -> String {

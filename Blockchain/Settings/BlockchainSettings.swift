@@ -6,7 +6,7 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformUIKit
 import PlatformKit
 import RxRelay
 import RxSwift
@@ -32,13 +32,6 @@ final class BlockchainSettings: NSObject {
 
     @objc
     class App: NSObject, AppSettingsAuthenticating, SwipeToReceiveConfiguring, FiatCurrencyTypeProviding {
-        
-        struct FiatCurrency: Equatable {
-            let symbol: String
-            let code: String
-            
-            static let `default` = FiatCurrency(symbol: "$", code: "USD")
-        }
         
         static let shared = App()
 
@@ -183,17 +176,17 @@ final class BlockchainSettings: NSObject {
         }
         
         /// Current fiat currency supported by the app
-        let fiatCurrencyRelay = BehaviorRelay<FiatCurrency>(value: .default)
+        let fiatCurrencyRelay = BehaviorRelay<Settings.FiatCurrency>(value: .default)
         
         /// Streams the fiat currency once the value gets changed
-        var fiatCurrency: Observable<FiatCurrency> {
+        var fiatCurrency: Observable<Settings.FiatCurrency> {
             return fiatCurrencyRelay
                 .asObservable()
                 .distinctUntilChanged()
         }
 
         @objc var fiatCurrencySymbol: String {
-            let defaultValue = FiatCurrency.default.symbol
+            let defaultValue = Settings.FiatCurrency.default.symbol
             guard let addressResponse = WalletManager.shared.latestMultiAddressResponse else { return defaultValue }
             guard let symbol = addressResponse.symbol_local else { return defaultValue }
             guard let value = symbol.symbol else { return defaultValue }
@@ -201,7 +194,7 @@ final class BlockchainSettings: NSObject {
         }
 
         @objc var fiatCurrencyCode: String {
-            let defaultValue = FiatCurrency.default.code
+            let defaultValue = Settings.FiatCurrency.default.code
             guard let addressResponse = WalletManager.shared.latestMultiAddressResponse else { return defaultValue }
             guard let symbol = addressResponse.symbol_local else { return defaultValue }
             guard let code = symbol.code else { return defaultValue }

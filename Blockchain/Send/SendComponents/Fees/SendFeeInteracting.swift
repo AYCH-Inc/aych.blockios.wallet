@@ -13,5 +13,5 @@ import RxSwift
 protocol SendFeeInteracting: class {
     
     /// Streams the calculation state for the fee
-    var calculationState: Observable<SendCalculationState> { get }
+    var calculationState: Observable<FiatCryptoPairCalculationState> { get }
 }

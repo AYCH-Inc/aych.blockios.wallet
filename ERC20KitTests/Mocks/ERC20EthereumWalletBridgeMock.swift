@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import RxRelay
 import BigInt
 import PlatformKit
 import EthereumKit
@@ -23,16 +24,16 @@ class ERC20EthereumWalletBridgeMock: EthereumWalletBridgeAPI {
         return fetchHistoryIfNeededValue
     }
     
-    var fetchBalanceValue = Single.just(CryptoValue.paxFromMajor(string: "2.0")!)
-    var fetchBalance: Single<CryptoValue> {
-        return fetchBalanceValue
-    }
-    
-    var balanceValue: Single<CryptoValue> = Single.just(CryptoValue.paxFromMajor(string: "2.0")!)
+    var balanceValue = Single.just(CryptoValue.paxFromMajor(string: "2.0")!)
     var balance: Single<CryptoValue> {
         return balanceValue
     }
     
+    var balanceObservable: Observable<CryptoValue> {
+        return balance.asObservable()
+    }
+    let balanceFetchTriggerRelay = PublishRelay<Void>()
+        
     var nameValue: Single<String> = Single.just("")
     var name: Single<String> {
         return nameValue

@@ -27,6 +27,7 @@ final class AnnouncementPresenter: NSObject {
     private let pitCoordinator: PitCoordinator
     private let wallet: Wallet
     private let kycSettings: KYCSettingsAPI
+    private let reactiveWallet: ReactiveWallet
     
     private let interactor: AnnouncementInteracting
     
@@ -35,10 +36,12 @@ final class AnnouncementPresenter: NSObject {
     /// Returns a driver with `.none` as default value for announcement action
     /// Scheduled on be executed on main scheduler, its resources are shared and it remembers the last value.
     var announcement: Driver<AnnouncementDisplayAction> {
-        return announcementRelay.asDriver(onErrorJustReturn: .none)
+        return announcementRelay
+            .asDriver()
+            .distinctUntilChanged()
     }
     
-    private let announcementRelay = PublishRelay<AnnouncementDisplayAction>()
+    private let announcementRelay = BehaviorRelay<AnnouncementDisplayAction>(value: .hide)
     private let disposeBag = DisposeBag()
     
     private var currentAnnouncement: Announcement?
@@ -51,12 +54,14 @@ final class AnnouncementPresenter: NSObject {
          appCoordinator: AppCoordinator = .shared,
          pitCoordinator: PitCoordinator = .shared,
          kycCoordinator: KYCCoordinator = .shared,
+         reactiveWallet: ReactiveWallet = ReactiveWallet(),
          kycSettings: KYCSettingsAPI = KYCSettings.shared,
          wallet: Wallet = WalletManager.shared.wallet) {
         self.interactor = interactor
         self.appCoordinator = appCoordinator
         self.pitCoordinator = pitCoordinator
         self.kycCoordinator = kycCoordinator
+        self.reactiveWallet = reactiveWallet
         self.kycSettings = kycSettings
         self.featureConfigurator = featureConfigurator
         self.featureFetcher = featureFetcher
@@ -65,6 +70,15 @@ final class AnnouncementPresenter: NSObject {
     
     /// Refreshes announcements on demand
     func refresh() {
+        reactiveWallet
+            .waitUntilInitialized
+            .bind { [weak self] _ in
+                self?.calculate()
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func calculate() {
         let announcementsMetadata: Single<AnnouncementsMetadata> = featureFetcher.fetch(for: .announcements)
         let data: Single<AnnouncementPreliminaryData> = interactor.preliminaryData
         Single
@@ -73,7 +87,7 @@ final class AnnouncementPresenter: NSObject {
                 let action = self.resolve(metadata: payload.0, preliminaryData: payload.1)
                 return .just(action)
             }
-            .catchErrorJustReturn(.none)
+            .catchErrorJustReturn(.hide)
             .asObservable()
             .bind(to: announcementRelay)
             .disposed(by: disposeBag)

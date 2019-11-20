@@ -113,11 +113,21 @@ public struct Screen {
             /// Processing by displaying an activity indicator
             case processing
             
+            /// QR code
+            case qrCode
+            
             /// Returns the content of the button
             public var content: NavigationBarContent? {
                 switch self {
                 case .content(let content):
                     return content
+                case .qrCode:
+                    return NavigationBarContent(
+                        image: UIImage(named: "qr-code-icon"),
+                        accessibility: .init(
+                            id: .value(Accessibility.Identifier.NavigationBar.qrCodeButton)
+                        )
+                    )
                 default:
                     return nil
                 }
@@ -138,6 +148,9 @@ public struct Screen {
             /// Close button, dismisses the view controller
             case close
             
+            /// A button for opening a drawer
+            case drawer
+            
             /// Button with text
             case text(value: String)
             
@@ -146,6 +159,13 @@ public struct Screen {
                 switch self {
                 case .text(value: let text):
                     return NavigationBarContent(title: text)
+                case .drawer:
+                    return NavigationBarContent(
+                        image: UIImage(named: "drawer-icon"),
+                        accessibility: .init(
+                            id: .value(Accessibility.Identifier.NavigationBar.drawerButton)
+                        )
+                    )
                 case .back, .close:
                     return NavigationBarContent(
                         image: UIImage(named: "back_icon"),

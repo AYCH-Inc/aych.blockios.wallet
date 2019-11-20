@@ -40,6 +40,7 @@ target 'PlatformUIKit' do
   pod 'RxSwift', '5.0'
   pod 'RxCocoa', '5.0'
   pod 'zxcvbn-ios', '1.0.4'
+  pod 'Charts', '~> 3.2.1'
 
   target 'PlatformUIKitTests' do
     inherit! :search_paths
@@ -129,6 +130,7 @@ end
 target 'PlatformKit' do
   pod 'RxSwift', '5.0'
   pod 'RxRelay', '5.0'
+  pod 'RxCocoa', '5.0'
   pod 'BigInt', '~> 4.0'
 
   target 'PlatformKitTests' do

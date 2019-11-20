@@ -31,10 +31,12 @@ final class BuyBitcoinAnnouncement: PeriodicAnnouncement & ActionableAnnouncemen
             .disposed(by: disposeBag)
         
         return AnnouncementCardViewModel(
+            type: type,
             image: AnnouncementCardViewModel.Image(name: "card-icon-cart"),
             title: LocalizationConstants.AnnouncementCards.BuyBitcoin.title,
             description: LocalizationConstants.AnnouncementCards.BuyBitcoin.description,
             buttons: [button],
+            recorder: errorRecorder,
             dismissState: .dismissible { [weak self] in
                 guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
@@ -68,17 +70,20 @@ final class BuyBitcoinAnnouncement: PeriodicAnnouncement & ActionableAnnouncemen
     private let isBuyEnabled: Bool
     
     private let disposeBag = DisposeBag()
-    
+    private let errorRecorder: ErrorRecording
+
     // MARK: - Setup
     
     init(isBuyEnabled: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
          reappearanceTimeInterval: TimeInterval,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.isBuyEnabled = isBuyEnabled
-        recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.errorRecorder = errorRecorder
+        recorder = AnnouncementRecorder(cache: cacheSuite, errorRecorder: errorRecorder)
         appearanceRules = PeriodicAnnouncementAppearanceRules(recessDurationBetweenDismissals: reappearanceTimeInterval)
         self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss

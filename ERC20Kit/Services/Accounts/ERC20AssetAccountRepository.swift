@@ -49,7 +49,7 @@ open class ERC20AssetAccountRepository<Token: ERC20Token>: AssetAccountRepositor
         let accountId = "0"
         return fetchAssetAccountDetails(for: accountId)
     }
-    
+        
     // MARK: Private Functions
     
     private func fetchAssetAccountDetails(for accountID: String) -> Maybe<Details> {

@@ -30,10 +30,12 @@ final class BackupFundsAnnouncement: PeriodicAnnouncement & ActionableAnnounceme
             .disposed(by: disposeBag)
         
         return AnnouncementCardViewModel(
+            type: type,
             image: AnnouncementCardViewModel.Image(name: "card-icon-shield"),
             title: LocalizationConstants.AnnouncementCards.BackupFunds.title,
             description: LocalizationConstants.AnnouncementCards.BackupFunds.description,
             buttons: [button],
+            recorder: errorRecorder,
             dismissState: .dismissible {
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
                 self.markDismissed()
@@ -65,17 +67,20 @@ final class BackupFundsAnnouncement: PeriodicAnnouncement & ActionableAnnounceme
     private let shouldBackupFunds: Bool
 
     private let disposeBag = DisposeBag()
-    
+    private let errorRecorder: ErrorRecording
+
     // MARK: - Setup
     
     init(shouldBackupFunds: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
          reappearanceTimeInterval: TimeInterval,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.shouldBackupFunds = shouldBackupFunds
-        recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.errorRecorder = errorRecorder
+        recorder = AnnouncementRecorder(cache: cacheSuite, errorRecorder: errorRecorder)
         appearanceRules = PeriodicAnnouncementAppearanceRules(recessDurationBetweenDismissals: reappearanceTimeInterval)
         self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss

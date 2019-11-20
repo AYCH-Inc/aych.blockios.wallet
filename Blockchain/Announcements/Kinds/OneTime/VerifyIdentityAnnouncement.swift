@@ -31,10 +31,12 @@ final class VerifyIdentityAnnouncement: OneTimeAnnouncement & ActionableAnnounce
             .disposed(by: disposeBag)
 
         return AnnouncementCardViewModel(
+            type: type,
             image: AnnouncementCardViewModel.Image(name: "card-icon-v"),
             title: LocalizationConstants.AnnouncementCards.IdentityVerification.title,
             description: LocalizationConstants.AnnouncementCards.IdentityVerification.description,
             buttons: [button],
+            recorder: errorRecorder,
             dismissState: .dismissible { [weak self] in
                 guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
@@ -70,6 +72,7 @@ final class VerifyIdentityAnnouncement: OneTimeAnnouncement & ActionableAnnounce
     private let isCompletingKyc: Bool
     
     private let disposeBag = DisposeBag()
+    private let errorRecorder: ErrorRecording
 
     // MARK: - Setup
     
@@ -77,9 +80,11 @@ final class VerifyIdentityAnnouncement: OneTimeAnnouncement & ActionableAnnounce
          isCompletingKyc: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
-        self.recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.errorRecorder = errorRecorder
+        self.recorder = AnnouncementRecorder(cache: cacheSuite, errorRecorder: errorRecorder)
         self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
         self.action = action

@@ -7,6 +7,7 @@
 //
 
 import PlatformKit
+import PlatformUIKit
 
 /// This announcement introduces Bitpay
 final class BitpayAnnouncement: OneTimeAnnouncement {
@@ -15,11 +16,13 @@ final class BitpayAnnouncement: OneTimeAnnouncement {
     
     var viewModel: AnnouncementCardViewModel {
         return AnnouncementCardViewModel(
+            type: type,
             image: AnnouncementCardViewModel.Image(
                 name: "card-icon-bitpay",
                 size: CGSize(width: 115, height: 40)
             ),
             description: LocalizationConstants.AnnouncementCards.Bitpay.description,
+            recorder: errorRecorder,
             dismissState: .dismissible { [weak self] in
                 guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
@@ -42,13 +45,17 @@ final class BitpayAnnouncement: OneTimeAnnouncement {
     
     let dismiss: CardAnnouncementAction
     let recorder: AnnouncementRecorder
-    
+
+    private let errorRecorder: ErrorRecording
+
     // MARK: - Setup
     
     init(cacheSuite: CacheSuite = UserDefaults.standard,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          dismiss: @escaping CardAnnouncementAction) {
-        self.recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.errorRecorder = errorRecorder
+        self.recorder = AnnouncementRecorder(cache: cacheSuite, errorRecorder: errorRecorder)
         self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
     }

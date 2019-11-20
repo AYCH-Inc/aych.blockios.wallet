@@ -9,6 +9,8 @@
 import BigInt
 import XCTest
 
+@testable import PlatformKit
+
 class CryptoValueTests: XCTestCase {
     func testMajorValue() {
         XCTAssertEqual(Decimal(100), CryptoValue.bitcoinFromSatoshis(string: "10000000000")!.majorValue)

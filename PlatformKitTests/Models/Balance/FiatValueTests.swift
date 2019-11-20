@@ -8,6 +8,8 @@
 
 import XCTest
 
+@testable import PlatformKit
+
 class FiatValueTests: XCTestCase {
 
     func testUSDDecimalPlaces() {

@@ -27,7 +27,10 @@ public extension UIColor {
     static let background = grey000
     static let lightBorder = grey000
     static let mediumBorder = grey100
-    
+
+    static let lightShimmering = grey000
+    static let darkShimmering = grey200
+
     // Indications
     
     static let securePinGrey = greyFade400
@@ -45,6 +48,12 @@ public extension UIColor {
     static let descriptionText = grey600
     static let mutedText = grey400
     
+    static let dashboardAssetTitle = grey800
+    static let dashboardFiatPriceTitle = grey800
+    
+    static let negativePrice = red400
+    static let positivePrice = green500
+
     // Buttons
     
     static let airdropCTAButton = green600

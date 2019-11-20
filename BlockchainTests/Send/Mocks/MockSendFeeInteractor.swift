@@ -12,14 +12,14 @@ import PlatformKit
 
 final class MockSendFeeInteractor: SendFeeInteracting {
     
-    private let expectedState: SendCalculationState
+    private let expectedState: FiatCryptoPairCalculationState
     
-    init(expectedState: SendCalculationState) {
+    init(expectedState: FiatCryptoPairCalculationState) {
         self.expectedState = expectedState
     }
     
     /// Stream of the updated balance in account
-    var calculationState: Observable<SendCalculationState> {
+    var calculationState: Observable<FiatCryptoPairCalculationState> {
         return Observable.just(expectedState)
     }
 }

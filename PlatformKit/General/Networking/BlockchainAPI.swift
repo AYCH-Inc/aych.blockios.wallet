@@ -250,17 +250,4 @@ final public class BlockchainAPI: NSObject {
             return BlockchainAPI.shared.retailCoreUrl + "/markets/quotes"
         }
     }
-    
-    /// Returns the URL for retrieving chart related information.
-    ///
-    /// - Parameters:
-    ///   - window: PriceWindow
-    /// - Returns: the URL for retrieving chart related information
-    func chartsURL(window: PriceWindow) -> String {
-        let symbol = window.symbol
-        let start = String(window.start)
-        let scale = String(window.scale)
-        let code = window.code
-        return "\(apiUrl)/price/index-series?base=\(symbol)&quote=\(code)&start=\(start)&scale=\(scale)&omitnull=true"
-    }
 }

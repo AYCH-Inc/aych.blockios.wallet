@@ -108,8 +108,8 @@ import PlatformUIKit
             onboardingRouter.start()
         } else {
             window.rootViewController = slidingViewController
-            tabControllerManager.dashBoardClicked(nil)
             AuthenticationCoordinator.shared.start()
+            tabControllerManager.dashBoardClicked(nil)
         }
     }
 
@@ -130,19 +130,6 @@ import PlatformUIKit
             upgradeViewController,
             animated: true
         )
-    }
-    
-    // Shows the side menu (i.e. ECSlidingViewController)
-    @objc func toggleSideMenu() {
-        // If the sideMenu is not shown, show it
-        if slidingViewController.currentTopViewPosition == .centered {
-            slidingViewController.anchorTopViewToRight(animated: true)
-        } else {
-            slidingViewController.resetTopView(animated: true)
-        }
-        
-        // TODO remove app reference and use wallet singleton.isFe
-        walletManager.wallet.isFetchingTransactions = false
     }
 
     @objc func showBackupView() {
@@ -359,6 +346,31 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
     
     private func handleExchange() {
         ExchangeCoordinator.shared.start(rootViewController: self.tabControllerManager)
+    }
+}
+
+// MARK: - QRScannerRouting
+
+extension AppCoordinator: QRScannerRouting {
+    func routeToQrScanner() {
+        tabControllerManager.qrCodeButtonClicked()
+    }
+}
+
+// MARK: - DrawerRouting
+
+extension AppCoordinator: DrawerRouting {
+    // Shows the side menu (i.e. ECSlidingViewController)
+    @objc func toggleSideMenu() {
+        // If the sideMenu is not shown, show it
+        if slidingViewController.currentTopViewPosition == .centered {
+            slidingViewController.anchorTopViewToRight(animated: true)
+        } else {
+            slidingViewController.resetTopView(animated: true)
+        }
+        
+        // TODO remove app reference and use wallet singleton.isFe
+        walletManager.wallet.isFetchingTransactions = false
     }
 }
 

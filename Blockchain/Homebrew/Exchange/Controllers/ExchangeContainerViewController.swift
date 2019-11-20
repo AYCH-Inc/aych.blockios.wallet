@@ -41,7 +41,7 @@ class ExchangeContainerViewController: BaseNavigationController {
             .subscribe()
             .disposed(by: bag)
     }
-    
+        
     @objc func showExchange() {
         /// We want to ensure that we have the latest balances for all accounts.
         let disposable = accountsRepository.fetchAccounts()

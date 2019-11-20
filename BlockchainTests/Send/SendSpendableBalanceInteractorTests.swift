@@ -50,21 +50,21 @@ final class SendSpendableBalanceInteractorTests: XCTestCase {
     
     // MARK: - Accessors
     
-    private func feeValue(by amount: String) -> TransferredValue {
+    private func feeValue(by amount: String) -> FiatCryptoPair {
         let fiatFee = FiatValue.create(amountString: amount, currencyCode: currencyCode)
         let cryptoFee = CryptoValue.createFromMajorValue(string: amount, assetType: asset.cryptoCurrency)!
-        let fee = TransferredValue(crypto: cryptoFee, fiat: fiatFee)
+        let fee = FiatCryptoPair(crypto: cryptoFee, fiat: fiatFee)
         return fee
     }
     
     private func interactor(for asset: AssetType,
                             balance: CryptoValue,
-                            feeState: SendCalculationState) -> SendSpendableBalanceInteracting {
+                            feeState: FiatCryptoPairCalculationState) -> SendSpendableBalanceInteracting {
         let exchangeRate = FiatValue.create(amountString: "1", currencyCode: "USD")
         return SendSpendableBalanceInteractor(
             balanceFetcher: MockAccountBalanceFetcher(expectedBalance: balance),
             feeInteractor: MockSendFeeInteractor(expectedState: feeState),
-            exchangeService: MockSendExchangeService(expectedValue: exchangeRate)
+            exchangeService: MockPairExchangeService(expectedValue: exchangeRate)
         )
     }
 }

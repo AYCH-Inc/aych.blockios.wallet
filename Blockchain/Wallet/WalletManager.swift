@@ -106,7 +106,7 @@ class WalletManager: NSObject, TransactionObserving {
 
         latestMultiAddressResponse = nil
 
-        AppCoordinator.shared.tabControllerManager.forgetWallet()
+//        AppCoordinator.shared.tabControllerManager.forgetWallet()
 
         AppCoordinator.shared.reload()
 
@@ -148,7 +148,7 @@ class WalletManager: NSObject, TransactionObserving {
             appSettings.fiatCurrencyRelay.accept(.default)
             return
         }
-        let currency = BlockchainSettings.App.FiatCurrency(symbol: symbol, code: code)
+        let currency = Settings.FiatCurrency(symbol: symbol, code: code)
         appSettings.fiatCurrencyRelay.accept(currency)
     }
 

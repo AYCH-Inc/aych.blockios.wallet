@@ -32,10 +32,12 @@ final class PAXAnnouncement: OneTimeAnnouncement & ActionableAnnouncement {
             .disposed(by: disposeBag)
 
         return AnnouncementCardViewModel(
+            type: type,
             image: AnnouncementCardViewModel.Image(name: "filled_pax_small"),
             title: LocalizationConstants.AnnouncementCards.Pax.title,
             description: LocalizationConstants.AnnouncementCards.Pax.description,
             buttons: [button],
+            recorder: errorRecorder,
             dismissState: .dismissible { [weak self] in
                 guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
@@ -67,16 +69,19 @@ final class PAXAnnouncement: OneTimeAnnouncement & ActionableAnnouncement {
     private let hasTransactions: Bool
     
     private let disposeBag = DisposeBag()
+    private let errorRecorder: ErrorRecording
     
     // MARK: - Setup
 
     init(hasTransactions: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.hasTransactions = hasTransactions
-        self.recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.errorRecorder = errorRecorder
+        self.recorder = AnnouncementRecorder(cache: cacheSuite, errorRecorder: errorRecorder)
         self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
         self.action = action

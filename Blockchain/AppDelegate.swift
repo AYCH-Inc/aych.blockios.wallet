@@ -6,11 +6,11 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import UIKit
 import Fabric
 import Crashlytics
 import Firebase
 import PlatformKit
+import PlatformUIKit
 import BitcoinKit
 import FirebaseDynamicLinks
 import RxSwift
@@ -66,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         appCoordinator.window = window
         
         // Migrate announcements
-        AnnouncementRecorder.migrate()
+        AnnouncementRecorder.migrate(errorRecorder: CrashlyticsRecorder())
         
         // Register the application for remote notifications
         remoteNotificationRegistrationService.registerForRemoteNotificationsIfAuthorized()

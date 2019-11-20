@@ -94,6 +94,10 @@ open class BaseScreenViewController: UIViewController {
                 }
             case .processing:
                 itemType = .processing
+            case .qrCode:
+                itemType = .content(content: trailingButtonStyle.content!) { [weak self] in
+                    self?.navigationBarTrailingButtonPressed()
+                }
             case .none:
                 itemType = .none
             }

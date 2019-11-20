@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 public protocol HistoricalPricesAPI {
-    func historicalPrices(within window: PriceWindow) -> Single<HistoricalPrices>
+    func historicalPrices(within window: PriceWindow, currency: CryptoCurrency, code: String) -> Single<HistoricalPrices>
 }
 
 public class HistoricalPriceService: HistoricalPricesAPI {
@@ -31,10 +31,10 @@ public class HistoricalPriceService: HistoricalPricesAPI {
         self.client = client
     }
     
-    public func historicalPrices(within window: PriceWindow) -> Single<HistoricalPrices> {
-        return client.prices(within: window).map {
+    public func historicalPrices(within window: PriceWindow, currency: CryptoCurrency, code: String) -> Single<HistoricalPrices> {
+        return client.prices(within: window, currency: currency, code: code).map {
             HistoricalPrices(
-                currency: window.currency,
+                currency: currency,
                 prices: $0
             )
         }

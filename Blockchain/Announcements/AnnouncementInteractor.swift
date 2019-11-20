@@ -6,7 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformUIKit
 import RxSwift
 import ERC20Kit
 import EthereumKit

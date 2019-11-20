@@ -39,6 +39,14 @@ extension NSMutableAttributedString {
 
 extension NSAttributedString {
     
+    public convenience init(_ labelContent: LabelContent) {
+        self.init(
+            labelContent.text,
+            font: labelContent.font,
+            color: labelContent.color
+        )
+    }
+    
     public convenience init(_ text: String, font: UIFont, color: UIColor) {
         self.init(string: text, attributes: [.font: font, .foregroundColor: color])
     }

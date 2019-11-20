@@ -84,11 +84,11 @@ PODS:
     - GoogleUtilities/Logger
   - keccak.c (0.1.3)
   - LibWally (0.0.1)
-  - nanopb (0.3.901):
-    - nanopb/decode (= 0.3.901)
-    - nanopb/encode (= 0.3.901)
-  - nanopb/decode (0.3.901)
-  - nanopb/encode (0.3.901)
+  - nanopb (0.3.9011):
+    - nanopb/decode (= 0.3.9011)
+    - nanopb/encode (= 0.3.9011)
+  - nanopb/decode (0.3.9011)
+  - nanopb/encode (0.3.9011)
   - PhoneNumberKit (2.6.0):
     - PhoneNumberKit/PhoneNumberKitCore (= 2.6.0)
     - PhoneNumberKit/UIKit (= 2.6.0)
@@ -96,18 +96,18 @@ PODS:
   - PhoneNumberKit/UIKit (2.6.0):
     - PhoneNumberKit/PhoneNumberKitCore
   - Presentr (1.9)
-  - PromiseKit (6.11.0):
-    - PromiseKit/CorePromise (= 6.11.0)
-    - PromiseKit/Foundation (= 6.11.0)
-    - PromiseKit/UIKit (= 6.11.0)
-  - PromiseKit/CorePromise (6.11.0)
-  - PromiseKit/Foundation (6.11.0):
+  - PromiseKit (6.12.0):
+    - PromiseKit/CorePromise (= 6.12.0)
+    - PromiseKit/Foundation (= 6.12.0)
+    - PromiseKit/UIKit (= 6.12.0)
+  - PromiseKit/CorePromise (6.12.0)
+  - PromiseKit/Foundation (6.12.0):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (6.11.0):
+  - PromiseKit/UIKit (6.12.0):
     - PromiseKit/CorePromise
   - Protobuf (3.10.0)
   - ReachabilitySwift (4.3.1)
-  - RxBlocking (5.0.0):
+  - RxBlocking (5.0.1):
     - RxSwift (~> 5)
   - RxCocoa (5.0.0):
     - RxRelay (~> 5)
@@ -115,7 +115,7 @@ PODS:
   - RxRelay (5.0.0):
     - RxSwift (~> 5)
   - RxSwift (5.0.0)
-  - RxTest (5.0.0):
+  - RxTest (5.0.1):
     - RxSwift (~> 5)
   - scrypt.c (0.1.1)
   - secp256k1.c (0.1.2)
@@ -164,7 +164,7 @@ DEPENDENCIES:
   - zxcvbn-ios (= 1.0.4)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - BigInt
     - Charts
     - Crashlytics
@@ -244,17 +244,17 @@ SPEC CHECKSUMS:
   GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
   keccak.c: 859583afdaccb4e4fcc0f0096064d101580313f4
   LibWally: 37b7c926e9aa02cc7d4c5a2a2a3a4f8925ea5038
-  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PhoneNumberKit: 167ee1f0bbb6efce7c62559e620eae745595532f
   Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
-  PromiseKit: e4863d06976e7dee5e41c04fc7371c16b3600292
+  PromiseKit: c06835ba442ce5454ce3cdde470232804a6e4ff8
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
-  RxBlocking: c67185d26498ea3cbe3e121917c3c16739e43123
+  RxBlocking: c5e090f42d046df8b0e7752742510f349963710f
   RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
   RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
-  RxTest: 4349afe98f564e0a9bc19063368904622d17d49a
+  RxTest: 0132f952a61da82d5233abedaa559df91e5330e5
   scrypt.c: b42ae06183251329d2b2c620c226fb541a4a3592
   secp256k1.c: db47b726585d80f027423682eb369729e61b3b20
   Socket.IO-Client-Swift: c039a808195d22a7192962841b8c035cb61ea49e
@@ -267,6 +267,6 @@ SPEC CHECKSUMS:
   web3swift.pod: 98e8653f39e1bcd7b45f46dd982ec49cdfc6c46a
   zxcvbn-ios: fef98b7c80f1512ff0eec47ac1fa399fc00f7e3c
 
-PODFILE CHECKSUM: 219e4223293f62392515b8c2315ffa772be4daf3
+PODFILE CHECKSUM: d986fb8281c2f0408c6e7769c290cc421d8f971d
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.7.3

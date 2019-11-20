@@ -32,10 +32,12 @@ final class CoinifyKycAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
             .disposed(by: disposeBag)
         
         return AnnouncementCardViewModel(
+            type: type,
             image: AnnouncementCardViewModel.Image(name: "card-icon-v"),
             title: LocalizationConstants.AnnouncementCards.CoinifyKyc.title,
             description: LocalizationConstants.AnnouncementCards.CoinifyKyc.description,
             buttons: [primaryButton],
+            recorder: errorRecorder,
             dismissState: .dismissible { [weak self] in
                 guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
@@ -76,7 +78,8 @@ final class CoinifyKycAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
     private let wallet: Wallet
 
     private let disposeBag = DisposeBag()
-    
+    private let errorRecorder: ErrorRecording
+
     // MARK: - Setup
 
     init(configuration: AppFeatureConfiguration,
@@ -84,13 +87,15 @@ final class CoinifyKycAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
          wallet: Wallet,
          cacheSuite: CacheSuite = UserDefaults.standard,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          reappearanceTimeInterval: TimeInterval,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.configuration = configuration
         self.tiers = tiers
         self.wallet = wallet
-        self.recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.errorRecorder = errorRecorder
+        self.recorder = AnnouncementRecorder(cache: cacheSuite, errorRecorder: errorRecorder)
         self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss
         self.action = action

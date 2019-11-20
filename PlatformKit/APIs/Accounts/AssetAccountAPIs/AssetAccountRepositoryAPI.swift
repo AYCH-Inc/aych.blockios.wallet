@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 
+/// TODO: Change to `Single<Details>` / `Observable<Details>`
 /// All assets should have a `AssetAccountRepository`. This is
 /// separate from a `WalletAccountRepository`. 
 public protocol AssetAccountRepositoryAPI {

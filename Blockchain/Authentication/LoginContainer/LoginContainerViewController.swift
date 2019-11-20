@@ -77,9 +77,7 @@ class LoginContainerViewController: UIViewController {
         super.viewDidLoad()
         collectionView.collectionViewLayout = collectionViewFlowLayout
         collectionView.delegate = self
-        collectionView.register(UINib(nibName: String(describing: LoginContainerCollectionViewCell.self),
-                                      bundle: nil),
-                                forCellWithReuseIdentifier: String(describing: LoginContainerCollectionViewCell.self))
+        collectionView.registerNibCell(LoginContainerCollectionViewCell.className)
         pageControl.pageIndicatorTintColor = .addressPageIndicator
         pageControl.currentPageIndicatorTintColor = .tertiary
         pageControl.currentPage = 0

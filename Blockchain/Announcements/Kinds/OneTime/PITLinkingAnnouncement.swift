@@ -40,10 +40,12 @@ final class PITLinkingAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
             description = LocalizationConstants.AnnouncementCards.Pit.variantADescription
         }
         return AnnouncementCardViewModel(
+            type: type,
             image: AnnouncementCardViewModel.Image(name: "card-icon-pit"),
             title: LocalizationConstants.AnnouncementCards.Pit.title,
             description: description,
             buttons: [button],
+            recorder: errorRecorder,
             dismissState: .dismissible { [weak self] in
                 guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
@@ -76,6 +78,7 @@ final class PITLinkingAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
 
     private let shouldShowPitAnnouncement: Bool
     private let variant: FeatureTestingVariant
+    private let errorRecorder: ErrorRecording
     
     // MARK: - Setup
     
@@ -83,11 +86,13 @@ final class PITLinkingAnnouncement: OneTimeAnnouncement & ActionableAnnouncement
          variant: FeatureTestingVariant,
          cacheSuite: CacheSuite = UserDefaults.standard,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          variantFetcher: FeatureFetching = AppFeatureConfigurator.shared,
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.shouldShowPitAnnouncement = shouldShowPitAnnouncement
-        self.recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.errorRecorder = errorRecorder
+        self.recorder = AnnouncementRecorder(cache: cacheSuite, errorRecorder: errorRecorder)
         self.analyticsRecorder = analyticsRecorder
         self.variant = variant
         self.dismiss = dismiss

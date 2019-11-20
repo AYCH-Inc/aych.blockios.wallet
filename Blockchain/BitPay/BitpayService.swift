@@ -6,7 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformUIKit
 import PlatformKit
 import RxSwift
 
@@ -40,11 +40,12 @@ final class BitpayService: BitpayServiceProtocol {
     // MARK: Init
     
     init(recorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          network: NetworkCommunicatorAPI = NetworkCommunicator.shared,
          cacheSuite: CacheSuite = UserDefaults.standard) {
         self.recorder = recorder
         self.network = network
-        self.announcementRecorder = AnnouncementRecorder(cache: cacheSuite)
+        self.announcementRecorder = AnnouncementRecorder(cache: cacheSuite, errorRecorder: errorRecorder)
     }
     
     // MARK: BitpayServiceProtocol

@@ -11,6 +11,7 @@ import PlatformKit
 import EthereumKit
 import ERC20Kit
 import RxSwift
+import RxRelay
 import BigInt
 
 public class EthereumWallet: NSObject {
@@ -18,6 +19,15 @@ public class EthereumWallet: NSObject {
     typealias Dispatcher = EthereumJSInteropDispatcherAPI & EthereumJSInteropDelegateAPI
     
     typealias WalletAPI = LegacyEthereumWalletAPI & LegacyWalletAPI & MnemonicAccessAPI
+    
+    public var balanceObservable: Observable<CryptoValue> {
+        return balanceRelay.asObservable()
+    }
+    
+    public let balanceFetchTriggerRelay = PublishRelay<Void>()
+        
+    private let balanceRelay = PublishRelay<CryptoValue>()
+    private let disposeBag = DisposeBag()
     
     @objc public var delegate: EthereumJSInteropDelegateAPI {
         return dispatcher
@@ -49,9 +59,7 @@ public class EthereumWallet: NSObject {
     private var lastHistoryRefresh: Date = Date(timeIntervalSinceNow: -EthereumWallet.refreshInterval)
     
     private var ethereumAccountExists: Bool?
-    
-    private var disposeBag = DisposeBag()
-    
+        
     private let dispatcher: Dispatcher
     
     @objc convenience public init(legacyWallet: Wallet) {
@@ -61,6 +69,18 @@ public class EthereumWallet: NSObject {
     init(wallet: WalletAPI, dispatcher: Dispatcher = EthereumJSInteropDispatcher.shared) {
         self.wallet = wallet
         self.dispatcher = dispatcher
+        super.init()
+        balanceFetchTriggerRelay
+            .throttle(
+                .milliseconds(100),
+                scheduler: ConcurrentDispatchQueueScheduler(qos: .background)
+            )
+            .observeOn(MainScheduler.asyncInstance)
+            .flatMapLatest(weak: self) { (self, _) in
+                return self.balance.asObservable()
+            }
+            .bind(to: balanceRelay)
+            .disposed(by: disposeBag)
     }
     
     @objc public func setup(with context: JSContext) {
@@ -277,7 +297,7 @@ extension EthereumWallet: EthereumWalletBridgeAPI {
             }
     }
     
-    public var fetchBalance: Single<CryptoValue> {
+    public var balance: Single<CryptoValue> {
         return secondPasswordIfAccountCreationNeeded
             .flatMap(weak: self) { (self, secondPassword) -> Single<CryptoValue> in
                 return self.fetchBalance(secondPassword: secondPassword)
@@ -300,7 +320,7 @@ extension EthereumWallet: EthereumWalletBridgeAPI {
     
     // TODO: IOS-2289 add test cases to it
     /** Fetch ether transactions using an injected service */
-    func fetchEthereumTransactions(using service: EthereumHistoricalTransactionService) -> Single<[EtherTransaction]> {
+    public func fetchEthereumTransactions(using service: EthereumHistoricalTransactionService) -> Single<[EtherTransaction]> {
         return service.fetchTransactions()
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)

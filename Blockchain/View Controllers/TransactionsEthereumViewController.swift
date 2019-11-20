@@ -42,7 +42,7 @@ final class TransactionsEthereumViewController: TransactionsViewController {
     
     private var tableView: UITableView!
     private var refreshControl: UIRefreshControl!
-    private var transactions: [EtherTransaction] = []
+    private var transactions = [EtherTransaction]()
     
     private let disposables = CompositeDisposable()
     
@@ -131,7 +131,7 @@ final class TransactionsEthereumViewController: TransactionsViewController {
         let disposable = wallet.fetchEthereumTransactions(using: transactionService)
             .asObservable()
             .subscribe(onNext: { [weak self] transactions in
-                self?.transactions = transactions
+//                self?.set(transactions: transactions)
                 onCompleted()
             }, onError: { _ in
                 onCompleted()
@@ -144,6 +144,10 @@ final class TransactionsEthereumViewController: TransactionsViewController {
     override func getAssetButtonClicked() {
         let tabControllerManager: TabControllerManager = AppCoordinator.shared.tabControllerManager
         tabControllerManager.receiveCoinClicked(nil)
+    }
+    
+    func set(transactions: [EtherTransaction]) {
+        self.transactions = transactions
     }
 }
 

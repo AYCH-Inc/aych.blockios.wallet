@@ -17,13 +17,13 @@ final class SendSpendableBalanceInteractor: SendSpendableBalanceInteracting {
     // MARK: - Exposed Properties
     
     /// Streams the spendable balance
-    var calculationState: Observable<SendCalculationState> {
+    var calculationState: Observable<FiatCryptoPairCalculationState> {
         return calculationStateRelay.asObservable()
     }
     
     // MARK: - Private Properties
     
-    private let calculationStateRelay = BehaviorRelay<SendCalculationState>(value: .calculating)
+    private let calculationStateRelay = BehaviorRelay<FiatCryptoPairCalculationState>(value: .calculating)
 
     private let disposeBag = DisposeBag()
 
@@ -31,20 +31,20 @@ final class SendSpendableBalanceInteractor: SendSpendableBalanceInteracting {
     
     private let balanceFetcher: AccountBalanceFetching
     private let feeInteractor: SendFeeInteracting
-    private let exchangeService: SendExchangeServicing
+    private let exchangeService: PairExchangeServiceAPI
     
     // MARK: - Setup
     
     init(balanceFetcher: AccountBalanceFetching,
          feeInteractor: SendFeeInteracting,
-         exchangeService: SendExchangeServicing) {
+         exchangeService: PairExchangeServiceAPI) {
         self.balanceFetcher = balanceFetcher
         self.feeInteractor = feeInteractor
         self.exchangeService = exchangeService
         
         let fee = feeInteractor.calculationState
             .compactMap { $0.value }
-        let balance = balanceFetcher.fetchBalance.asObservable()
+        let balance = balanceFetcher.balance.asObservable()
         let exchangeRate = exchangeService.fiatPrice
         
         // Calculate the balance and fetch the fiat price exchange,
@@ -53,14 +53,14 @@ final class SendSpendableBalanceInteractor: SendSpendableBalanceInteracting {
         // once all are calculated and any of them emits a new one.
         Observable
             .combineLatest(balance, exchangeRate, fee)
-            .map { (balance, exchangeRate, fee) -> TransferredValue in
+            .map { (balance, exchangeRate, fee) -> FiatCryptoPair in
                 // Addition cannot fail as the fee and balance use the same underlying asset
                 var spendableBalance = try balance - fee.crypto
                 let zero = CryptoValue.zero(assetType: spendableBalance.currencyType)
                 if try spendableBalance < zero {
                     spendableBalance = zero
                 }
-                return TransferredValue(crypto: spendableBalance, exchangeRate: exchangeRate)
+                return FiatCryptoPair(crypto: spendableBalance, exchangeRate: exchangeRate)
             }
             .map { .value($0) }
             .startWith(.calculating)

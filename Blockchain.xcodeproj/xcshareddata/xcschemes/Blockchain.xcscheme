@@ -192,6 +192,16 @@
                ReferencedContainer = "container:Blockchain.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3A5AD3BC235A4E63009DDF8B"
+               BuildableName = "PlatformUIKitTests.xctest"
+               BlueprintName = "PlatformUIKitTests"
+               ReferencedContainer = "container:Blockchain.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

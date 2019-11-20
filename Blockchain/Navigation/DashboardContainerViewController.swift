@@ -13,16 +13,16 @@ import Foundation
 /// which is a handy way of specifying what screen should be shown within a nested
 /// `BaseNavigationController`. This is how we have screens within the `UITabBarController`
 /// that can push and pop views onto their own navigation stack.
-class DashboardContainerViewController: BaseNavigationController, TabContainer {
-    
-    @IBInspectable var storyboardName: String?
-    
-    override open func awakeFromNib() {
-        super.awakeFromNib()
-        setup()
-    }
-    
-    @objc var dashboard: DashboardController? {
-        return viewControllers.first as? DashboardController
-    }
-}
+//class DashboardContainerViewController: BaseNavigationController, TabContainer {
+//    
+//    @IBInspectable var storyboardName: String?
+//    
+//    override open func awakeFromNib() {
+//        super.awakeFromNib()
+//        setup()
+//    }
+//    
+//    @objc var dashboard: DashboardController? {
+//        return viewControllers.first as? DashboardController
+//    }
+//}

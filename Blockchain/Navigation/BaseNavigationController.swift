@@ -19,16 +19,15 @@ enum NavigationCTAType {
     case activityIndicator
     case none
 }
-
 fileprivate extension NavigationCTAType {
     var image: UIImage? {
         switch self {
         case .qrCode:
-            return #imageLiteral(resourceName: "qrscanner.png").withRenderingMode(.alwaysTemplate)
+            return #imageLiteral(resourceName: "qr-code-icon").withRenderingMode(.alwaysTemplate)
         case .dismiss:
             return #imageLiteral(resourceName: "close.png").withRenderingMode(.alwaysTemplate)
         case .menu:
-            return #imageLiteral(resourceName: "menu.png").withRenderingMode(.alwaysTemplate)
+            return #imageLiteral(resourceName: "drawer-icon").withRenderingMode(.alwaysTemplate)
         case .help:
             return #imageLiteral(resourceName: "icon_menu.png").withRenderingMode(.alwaysTemplate)
         case .back:

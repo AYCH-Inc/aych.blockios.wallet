@@ -8,9 +8,19 @@
 
 import Foundation
 
-/// Repository for accessing `Lockbox` objects
-class LockboxRepository {
+protocol LockboxRepositoryAPI: class {
+    var hasLockbox: Bool { get }
+    func lockboxes() -> [Lockbox]
+}
 
+/// Repository for accessing `Lockbox` objects
+final class LockboxRepository: LockboxRepositoryAPI {
+
+    /// Returns `true` if the user has a linked lockbox
+    var hasLockbox: Bool {
+        return !lockboxes().isEmpty
+    }
+    
     private let wallet: Wallet
 
     init(wallet: Wallet = WalletManager.shared.wallet) {

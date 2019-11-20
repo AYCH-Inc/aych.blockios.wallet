@@ -67,8 +67,10 @@ protocol ManualPairingServiceAPI: class {
     lazy var authHandler: AuthenticationManager.WalletAuthHandler = { [weak self] isAuthenticated, _, error in
         guard let self = self else { return }
 
-        self.loadingViewPresenter.hide()
-        
+        defer {
+            self.loadingViewPresenter.hide()
+        }
+
         /// TODO: Temporarily here
         self.isWaitingForEmailValidation = false
         

@@ -6,8 +6,8 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
 import PlatformKit
+import PlatformUIKit
 
 /// The asset type is used to distinguish between different types of digital assets.
 @objc public enum AssetType: Int {
@@ -225,15 +225,15 @@ extension AssetType {
     var brandColor: UIColor {
         switch self {
         case .bitcoin:
-            return UIColor(red: 1, green: 0.61, blue: 0.13, alpha: 1)
+            return .bitcoin
         case .ethereum:
-            return UIColor(red: 0.28, green: 0.23, blue: 0.8, alpha: 1)
+            return .ethereum
         case .bitcoinCash:
-            return UIColor(red: 0.24, green: 0.86, blue: 0.54, alpha: 1)
+            return .bitcoinCash
         case .stellar:
-            return UIColor(red: 0.07, green: 0.11, blue: 0.20, alpha: 1)
+            return .stellar
         case .pax:
-            return UIColor(red: 0, green: 0.32, blue: 0.17, alpha: 1)
+            return .paxos
         }
     }
     

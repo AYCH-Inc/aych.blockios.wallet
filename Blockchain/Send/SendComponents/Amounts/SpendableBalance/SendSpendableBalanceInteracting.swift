@@ -15,10 +15,10 @@ import PlatformKit
 protocol SendSpendableBalanceInteracting {
     
     /// Stream of the updated balance in account
-    var calculationState: Observable<SendCalculationState> { get }
+    var calculationState: Observable<FiatCryptoPairCalculationState> { get }
     
     /// The crypto balance, when applicable
-    var balance: Observable<TransferredValue> { get }
+    var balance: Observable<FiatCryptoPair> { get }
 }
 
 // MARK: - SendSpendableBalanceInteracting (default)
@@ -26,7 +26,7 @@ protocol SendSpendableBalanceInteracting {
 extension SendSpendableBalanceInteracting {
     
     /// The balance in crypto. Elements are emitted only when the calculation state contains a valid value
-    var balance: Observable<TransferredValue> {
+    var balance: Observable<FiatCryptoPair> {
         return calculationState
             .compactMap { $0.value }
     }

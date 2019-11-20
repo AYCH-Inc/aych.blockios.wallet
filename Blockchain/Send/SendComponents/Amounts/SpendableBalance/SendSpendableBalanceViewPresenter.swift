@@ -28,7 +28,7 @@ final class SendSpendableBalanceViewPresenter {
     let tapRelay = PublishRelay<Void>()
     
     /// Streams the max spendable balance upon interaction
-    let spendableBalanceTap: Observable<TransferredValue>
+    let spendableBalanceTap: Observable<FiatCryptoPair>
 
     // MARK: - Private Properties
     

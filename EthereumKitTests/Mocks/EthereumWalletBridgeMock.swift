@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 import BigInt
 import PlatformKit
 @testable import EthereumKit
@@ -37,6 +38,12 @@ class EthereumWalletBridgeMock: EthereumWalletBridgeAPI, EthereumWalletAccountBr
     var balance: Single<CryptoValue> {
         return balanceValue
     }
+    
+    var balanceObservable: Observable<CryptoValue> {
+        return balance.asObservable()
+    }
+    
+    let balanceFetchTriggerRelay = PublishRelay<Void>()
     
     var nameValue: Single<String> = Single.just("My Ether Wallet")
     var name: Single<String> {

@@ -22,15 +22,21 @@ class CryptoFormatterProvider {
     static let shared = CryptoFormatterProvider()
 
     private var formatterMap = [String: CryptoFormatter]()
+    private let queue = DispatchQueue(label: "CryptoFormatterProvider.queue")
 
+    /// Returns `CryptoFormatter`. This method executes on a dedicated queue.
     func formatter(locale: Locale, cryptoCurrency: CryptoCurrency) -> CryptoFormatter {
-        let mapKey = key(locale: locale, cryptoCurrency: cryptoCurrency)
-        guard let matchingFormatter = formatterMap[mapKey] else {
-            let formatter = CryptoFormatter(locale: locale, cryptoCurrency: cryptoCurrency)
-            formatterMap[mapKey] = formatter
-            return formatter
+        var formatter: CryptoFormatter!
+        queue.sync { [unowned self] in
+            let mapKey = key(locale: locale, cryptoCurrency: cryptoCurrency)
+            if let matchingFormatter = formatterMap[mapKey] {
+                formatter = matchingFormatter
+            } else {
+                formatter = CryptoFormatter(locale: locale, cryptoCurrency: cryptoCurrency)
+                self.formatterMap[mapKey] = formatter
+            }
         }
-        return matchingFormatter
+        return formatter
     }
 
     private func key(locale: Locale, cryptoCurrency: CryptoCurrency) -> String {

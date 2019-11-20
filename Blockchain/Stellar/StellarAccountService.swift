@@ -17,6 +17,23 @@ class StellarAccountService: StellarAccountAPI {
 
     typealias StellarTransaction = stellarsdk.Transaction
 
+    // MARK: AccountBalanceFetching
+    
+    var balance: Single<CryptoValue> {
+        return currentStellarAccount(fromCache: false)
+            .flatMap(weak: self) { (self, account) -> Single<CryptoValue> in
+                return Single.just(account.assetAccount.balance)
+            }
+    }
+    
+    var balanceObservable: Observable<CryptoValue> {
+        return balanceRelay.asObservable()
+    }
+    
+    private let balanceRelay = PublishRelay<CryptoValue>()
+    let balanceFetchTriggerRelay = PublishRelay<Void>()
+    
+    private let disposeBag = DisposeBag()
     private var disposable: Disposable?
     
     private var service: Single<AccountService> {
@@ -37,7 +54,7 @@ class StellarAccountService: StellarAccountAPI {
     private let walletOptionsAPI: WalletService
 
     init(
-        configurationService: StellarConfigurationAPI ,//= StellarConfigurationService.shared,
+        configurationService: StellarConfigurationAPI,
         ledgerService: StellarLedgerAPI,
         repository: StellarWalletAccountRepositoryAPI,
         walletService: WalletService = WalletService.shared
@@ -46,6 +63,14 @@ class StellarAccountService: StellarAccountAPI {
         self.ledgerService = ledgerService
         self.repository = repository
         self.walletOptionsAPI = walletService
+                
+        balanceFetchTriggerRelay
+            .flatMapLatest(weak: self) { (self, _) in
+                return self.balance.asObservable()
+            }
+            .catchErrorJustReturn(.lumensZero)
+            .bind(to: balanceRelay)
+            .disposed(by: disposeBag)
     }
 
     deinit {
@@ -66,6 +91,7 @@ class StellarAccountService: StellarAccountAPI {
     }
     
     // MARK: Public Functions
+    
     func clear() {
         privateAccount = BehaviorRelay<StellarAccount?>(value: nil)
     }

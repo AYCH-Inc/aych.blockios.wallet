@@ -189,6 +189,18 @@ extension CryptoValue: Hashable, Equatable {
     public static func *= (lhs: inout CryptoValue, rhs: CryptoValue) throws {
         lhs = try lhs * rhs
     }
+    
+    /// Calculates the value of `self` before a given percentage change
+    public func value(before percentageChange: Double) throws -> CryptoValue {
+        let percentage = CryptoValue.createFromMajorValue(
+            string: "\(percentageChange + 1)",
+            assetType: currencyType
+        )!
+        guard !percentage.isZero else {
+            return .zero(assetType: currencyType)
+        }
+        return try self / percentage
+    }
 }
 
 // MARK: - Shared

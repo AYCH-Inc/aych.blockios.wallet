@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import PlatformKit
 
 class CryptoFormatterTests: XCTestCase {
     private var englishLocale: Locale!

@@ -1219,10 +1219,21 @@ struct LocalizationConstants {
     }
 
     struct Dashboard {
-        static let priceCharts = NSLocalizedString(
-            "Price charts",
-            comment: "The title of the balances label in the price chart view."
-        )
+        struct Balance {
+            static let totalBalance = NSLocalizedString(
+                "Total Balance",
+                comment: "Dashboard: total balance component - title"
+            )
+            static let notice = NSLocalizedString(
+                "You have a pending {swap/buy/sell} order that may impact your total balance.",
+                comment: "Dashboard: balance notice"
+            )
+            static let lockboxNotice = NSLocalizedString(
+                "The Total Balance shown on this device does not include your linked Lockbox.",
+                comment: "Dashboard: lockbox notice"
+            )
+        }
+    
         static let chartsError = NSLocalizedString(
             "An error occurred while retrieving the latest chart data. Please try again later.",
             comment: "The error message for when the method fetchChartDataForAsset fails."
@@ -1315,6 +1326,36 @@ struct LocalizationConstants {
                 comment: "STX application complete info screen: message to share"
             )
         }
+    }
+    
+    struct TabItems {
+        static let home = NSLocalizedString(
+            "Home",
+            comment: "Tab item: home"
+        )
+        static let activity = NSLocalizedString(
+            "Activity",
+            comment: "Tab item: activity"
+        )
+        static let swap = NSLocalizedString(
+            "Swap",
+            comment: "Tab item: swap"
+        )
+        static let send = NSLocalizedString(
+            "Send",
+            comment: "Tab item: send"
+        )
+        static let request = NSLocalizedString(
+            "Request",
+            comment: "Tab item: request"
+        )
+    }
+    
+    struct DashboardScreen {
+        static let title = NSLocalizedString(
+            "Home",
+            comment: "Dashboard screen: title label"
+        )
     }
     
     struct AnnouncementCards {
@@ -3064,8 +3105,6 @@ struct LocalizationConstants {
     @objc class func notEnoughXForFees() -> String { return LocalizationConstants.Errors.notEnoughXForFees }
 
     @objc class func balances() -> String { return LocalizationConstants.balances }
-
-    @objc class func dashboardPriceCharts() -> String { return LocalizationConstants.Dashboard.priceCharts }
 
     @objc class func dashboardBitcoinPrice() -> String { return LocalizationConstants.Dashboard.bitcoinPrice }
 

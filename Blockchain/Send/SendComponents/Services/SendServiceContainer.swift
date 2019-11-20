@@ -16,7 +16,7 @@ protocol SendServiceContaining {
     var sourceAccountState: SendSourceAccountStateServicing { get }
     var pitAddressFetcher: PitAddressFetching { get }
     var executor: SendExecuting { get }
-    var exchange: SendExchangeServicing { get }
+    var exchange: PairExchangeServiceAPI { get }
     var fee: SendFeeServicing { get }
     var balance: AccountBalanceFetching { get }
     var bus: WalletActionEventBus { get }
@@ -34,7 +34,7 @@ struct SendServiceContainer: SendServiceContaining {
     let sourceAccountState: SendSourceAccountStateServicing
     let pitAddressFetcher: PitAddressFetching
     let executor: SendExecuting
-    let exchange: SendExchangeServicing
+    let exchange: PairExchangeServiceAPI
     let fee: SendFeeServicing
     let balance: AccountBalanceFetching
     let bus: WalletActionEventBus
@@ -43,12 +43,12 @@ struct SendServiceContainer: SendServiceContaining {
         self.asset = asset
         pitAddressFetcher = PitAddressFetcher()
         executor = SendExecutor(asset: asset)
-        exchange = SendExchangeService(asset: asset)
         fee = SendFeeService(asset: asset)
         sourceAccountState = SendSourceAccountStateService(asset: asset)
         bus = WalletActionEventBus()
         switch asset {
         case .ethereum:
+            exchange = DataProvider.default.exchange[.ethereum]
             sourceAccountProvider = EtherSendSourceAccountProvider()
             balance = WalletManager.shared.wallet.ethereum
         case .bitcoin, .bitcoinCash, .pax, .stellar:

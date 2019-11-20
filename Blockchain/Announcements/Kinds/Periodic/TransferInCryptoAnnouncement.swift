@@ -31,10 +31,12 @@ final class TransferInCryptoAnnouncement: PeriodicAnnouncement & ActionableAnnou
             .disposed(by: disposeBag)
         
         return AnnouncementCardViewModel(
+            type: type,
             image: AnnouncementCardViewModel.Image(name: "card-icon-transfer"),
             title: LocalizationConstants.AnnouncementCards.TransferInCrypto.title,
             description: LocalizationConstants.AnnouncementCards.TransferInCrypto.description,
             buttons: [button],
+            recorder: errorRecorder,
             dismissState: .dismissible { [weak self] in
                 guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
@@ -66,7 +68,8 @@ final class TransferInCryptoAnnouncement: PeriodicAnnouncement & ActionableAnnou
     let appearanceRules: PeriodicAnnouncementAppearanceRules
         
     private let disposeBag = DisposeBag()
-    
+    private let errorRecorder: ErrorRecording
+
     private let isKycSupported: Bool
     
     // MARK: - Setup
@@ -75,10 +78,12 @@ final class TransferInCryptoAnnouncement: PeriodicAnnouncement & ActionableAnnou
          cacheSuite: CacheSuite = UserDefaults.standard,
          reappearanceTimeInterval: TimeInterval,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.isKycSupported = isKycSupported
-        recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.errorRecorder = errorRecorder
+        recorder = AnnouncementRecorder(cache: cacheSuite, errorRecorder: errorRecorder)
         appearanceRules = PeriodicAnnouncementAppearanceRules(recessDurationBetweenDismissals: reappearanceTimeInterval)
         self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss

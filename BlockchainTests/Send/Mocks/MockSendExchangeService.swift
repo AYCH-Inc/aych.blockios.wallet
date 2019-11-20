@@ -1,5 +1,5 @@
 //
-//  MockSendExchangeService.swift
+//  MockPairExchangeService.swift
 //  BlockchainTests
 //
 //  Created by Daniel Huri on 16/08/2019.
@@ -11,7 +11,7 @@ import RxSwift
 import RxRelay
 import PlatformKit
 
-final class MockSendExchangeService: SendExchangeServicing {
+final class MockPairExchangeService: PairExchangeServiceAPI {
 
     var fiatPrice: Observable<FiatValue> {
         let value = self.expectedValue

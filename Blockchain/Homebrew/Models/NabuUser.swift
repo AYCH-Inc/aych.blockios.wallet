@@ -6,15 +6,7 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
-
-protocol NabuUserSunriverAirdropRegistering {
-    var isSunriverAirdropRegistered: Bool { get }
-}
-
-protocol NabuUserBlockstackAirdropRegistering {
-    var isBlockstackAirdropRegistered: Bool { get }
-}
+import PlatformKit
 
 struct NabuUser: Decodable {
 

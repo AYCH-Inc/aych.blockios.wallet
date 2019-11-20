@@ -32,6 +32,8 @@ extension Accessibility.Identifier {
     struct NavigationBar {
         static let prefix = "NavigationBar."
         static let backButton = "\(prefix)backButton"
+        static let drawerButton = "\(prefix)drawerButton"
+        static let qrCodeButton = "\(prefix)qrCodeButton"
         static let dismissButton = "\(prefix)dismissButton"
     }
 }
@@ -72,6 +74,12 @@ extension Accessibility.Identifier {
         static let password = "\(prefix)password"
         static let walletIdentifier = "\(prefix)walletIdentifier"
         static let recoveryPhrase = "\(prefix)recoveryPhrase"
+    }
+}
+
+extension Accessibility.Identifier {
+    struct SparklineView {
+        static let prefix = "SparklineView"
     }
 }
 

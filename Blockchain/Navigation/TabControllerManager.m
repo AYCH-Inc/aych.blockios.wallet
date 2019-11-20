@@ -16,7 +16,6 @@
 
 #pragma mark - Private Properties
 
-@property (strong, nonatomic) DashboardContainerViewController *dashboardContainer;
 @property (strong, nonatomic) SendLumensViewController *sendLumensViewController;
 @property (strong, nonatomic) TransactionsXlmViewController *transactionsStellarViewController;
 @property (strong, nonatomic) ExchangeContainerViewController *exchangeContainerViewController;
@@ -24,6 +23,8 @@
 @property (strong, nonatomic) PaxActivityViewController *paxActivityViewController;
 
 @property (strong, nonatomic) SendPaxViewController *sendPaxViewController;
+
+@property (strong, nonatomic) UINavigationController *dashboardNavigationController;
 
 // TODO: Reuse the same screen for all transfer flows
 @property (strong, nonatomic) SendViewController *transferEtherViewController;
@@ -78,7 +79,7 @@
         if (self.tabViewController.selectedIndex == [ConstantsObjcBridge tabSend]) {
             [self showSendCoinsAnimated:animated];
         } else if (self.tabViewController.selectedIndex == [ConstantsObjcBridge tabDashboard]) {
-            [self showDashboardAnimated:animated];
+            [self showDashboard];
         } else if (self.tabViewController.selectedIndex == [ConstantsObjcBridge tabTransactions]) {
             [self showTransactionsAnimated:animated];
         } else if (self.tabViewController.selectedIndex == [ConstantsObjcBridge tabReceive]) {
@@ -149,7 +150,6 @@
 
 - (void)reload
 {
-    [self.dashboardContainer.dashboard reload];
     [_sendBitcoinViewController reload];
     [_sendBitcoinCashViewController reload];
     [_transactionsBitcoinViewController reload];
@@ -161,7 +161,6 @@
 
 - (void)reloadAfterMultiAddressResponse
 {
-    [self.dashboardContainer.dashboard reload];
     [_sendBitcoinViewController reloadAfterMultiAddressResponse];
     [_sendBitcoinCashViewController reloadAfterMultiAddressResponse];
     [_transactionsBitcoinViewController reload];
@@ -551,13 +550,12 @@
 
 #pragma mark - Dashboard
 
-- (void)showDashboardAnimated:(BOOL)animated
-{
-    [_tabViewController setActiveViewController:self.dashboardContainer animated:animated index:[ConstantsObjcBridge tabDashboard]];
-    if (self.dashboardContainer.dashboard != nil) {
-        [self.dashboardContainer.dashboard.view layoutIfNeeded];
-        [self.dashboardContainer.dashboard setAssetType:self.assetType];
+- (void)showDashboard {
+    if (self.dashboardNavigationController == nil) {
+        DashboardViewController *vc = [[DashboardViewController alloc] init];
+        self.dashboardNavigationController = [[UINavigationController alloc] initWithRootViewController: vc];
     }
+    [_tabViewController setActiveViewController:self.dashboardNavigationController animated:true index:[ConstantsObjcBridge tabDashboard]];
 }
 
 #pragma mark - Transactions
@@ -666,7 +664,6 @@
 
 - (void)reloadSymbols
 {
-    [self.dashboardContainer.dashboard reloadSymbols];
     [_sendBitcoinViewController reloadSymbols];
     [_sendBitcoinCashViewController reloadSymbols];
     [_transactionsBitcoinViewController reloadSymbols];
@@ -767,7 +764,7 @@
 
 - (void)dashBoardClicked:(UITabBarItem *)sender
 {
-    [self showDashboardAnimated:YES];
+    [self showDashboard];
 }
 
 - (void)receiveCoinClicked:(UITabBarItem *)sender
@@ -974,7 +971,7 @@
     [showGetAssetsAlert addAction:[UIAlertAction actionWithTitle:BC_STRING_CANCEL style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [[AppCoordinator sharedInstance] closeSideMenu];
         [self.tabViewController dismissViewControllerAnimated:YES completion:nil];
-        [self showDashboardAnimated:YES];
+        [self showDashboard];
     }]];
 
     [self.tabViewController.presentedViewController presentViewController:showGetAssetsAlert animated:YES completion:nil];
@@ -986,14 +983,6 @@
         _exchangeContainerViewController = [storyboard instantiateInitialViewController];
     }
     return _exchangeContainerViewController;
-}
-
-- (DashboardContainerViewController *)dashboardContainer {
-    if (_dashboardContainer == nil) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"DashboardContainerViewController" bundle:[NSBundle mainBundle]];
-        _dashboardContainer = [storyboard instantiateInitialViewController];
-    }
-    return _dashboardContainer;
 }
 
 @end

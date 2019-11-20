@@ -31,10 +31,12 @@ final class Enable2FAAnnouncement: PeriodicAnnouncement & ActionableAnnouncement
             .disposed(by: disposeBag)
         
         return AnnouncementCardViewModel(
+            type: type,
             image: AnnouncementCardViewModel.Image(name: "card-icon-lock"),
             title: LocalizationConstants.AnnouncementCards.TwoFA.title,
             description: LocalizationConstants.AnnouncementCards.TwoFA.description,
             buttons: [button],
+            recorder: errorRecorder,
             dismissState: .dismissible { [weak self] in
                 guard let self = self else { return }
                 self.analyticsRecorder.record(event: self.dismissAnalyticsEvent)
@@ -68,17 +70,20 @@ final class Enable2FAAnnouncement: PeriodicAnnouncement & ActionableAnnouncement
     private let shouldEnable2FA: Bool
     
     private let disposeBag = DisposeBag()
-    
+    private let errorRecorder: ErrorRecording
+
     // MARK: - Setup
     
     init(shouldEnable2FA: Bool,
          cacheSuite: CacheSuite = UserDefaults.standard,
          reappearanceTimeInterval: TimeInterval,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
+         errorRecorder: ErrorRecording = CrashlyticsRecorder(),
          dismiss: @escaping CardAnnouncementAction,
          action: @escaping CardAnnouncementAction) {
         self.shouldEnable2FA = shouldEnable2FA
-        recorder = AnnouncementRecorder(cache: cacheSuite)
+        self.errorRecorder = errorRecorder
+        recorder = AnnouncementRecorder(cache: cacheSuite, errorRecorder: errorRecorder)
         appearanceRules = PeriodicAnnouncementAppearanceRules(recessDurationBetweenDismissals: reappearanceTimeInterval)
         self.analyticsRecorder = analyticsRecorder
         self.dismiss = dismiss

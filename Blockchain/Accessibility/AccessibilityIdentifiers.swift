@@ -24,18 +24,6 @@ class AccessibilityIdentifiers: NSObject {
         @objc static let createWalletButton = "CreateWalletScreen.createWalletButton"
     }
     
-    struct DashboardScreen {
-        private static let prefix = "DashboardScreen."
-        struct Announcement {
-            private static let prefix = "\(DashboardScreen.prefix)Announcement."
-            
-            static let titleLabel = "\(prefix)titleLabel"
-            static let descriptionLabel = "\(prefix)descriptionLabel"
-            static let imageView = "\(prefix)thumbImageView"
-            static let dismissButton = "\(prefix)dismissButton"
-        }
-    }
-    
     struct PinScreen {
         static let prefix = "PinScreen."
     

@@ -24,7 +24,7 @@ final class SendFeeInteractorTests: XCTestCase {
         let feeService = MockSendFeeService(expectedValue: fee)
         
         let fiatExchangeRate = FiatValue.create(amountString: "1", currencyCode: currencyCode)
-        let exchangeService = MockSendExchangeService(expectedValue: fiatExchangeRate)
+        let exchangeService = MockPairExchangeService(expectedValue: fiatExchangeRate)
         return SendFeeInteractor(
             feeService: feeService,
             exchangeService: exchangeService

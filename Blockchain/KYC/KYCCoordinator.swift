@@ -149,10 +149,14 @@ protocol KYCCoordinatorDelegate: class {
             with: STXApplicationCompleteInfoScreenContent(),
             action: {
                 parentViewController.dismiss(animated: true) { [weak parentViewController] in
-                    let url = URL(string: Constants.Url.airdropWaitlist)!
+                    // TODO: this will be added back once the url is live
+                    // let url = URL(string: Constants.Url.airdropWaitlist)!
                     let message = LocalizationConstants.InfoScreen.STXApplicationComplete.shareText
+                    // TODO: this will be changed back once the url is live
+                    // let activityItems = [ url, message ]
+                    let activityItems = [ message ]
                     let activityVC = UIActivityViewController(
-                        activityItems: [url, message],
+                        activityItems: activityItems,
                         applicationActivities: nil
                     )
                     parentViewController?.present(activityVC, animated: true)

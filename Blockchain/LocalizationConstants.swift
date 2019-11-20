@@ -1322,7 +1322,7 @@ struct LocalizationConstants {
                 comment: "STX application complete info screen CTA button title"
             )
             static let shareText = NSLocalizedString(
-                "Hey! I just secured my spot for Blockchain’s latest airdrop with Blockstack. Sign up and get verified to get $10 of Stacks for free!",
+                "Hey! I just secured my spot for Blockchain’s latest airdrop with Blockstack. Sign up and get verified to get free Stacks!",
                 comment: "STX application complete info screen: message to share"
             )
         }
@@ -1421,7 +1421,7 @@ struct LocalizationConstants {
                 comment: "STX airdrop announcement card description"
             )
             static let ctaButton = NSLocalizedString(
-                "Complete My Profile. Get $10.",
+                "Get Free Crypto",
                 comment: "STX airdrop announcement card CTA button title"
             )
         }

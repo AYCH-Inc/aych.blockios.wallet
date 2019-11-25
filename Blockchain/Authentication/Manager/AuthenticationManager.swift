@@ -265,7 +265,11 @@ final class AuthenticationManager: NSObject, AuthenticationManagerProtocol {
         
         loadingViewPresenter.showCircular(with: LocalizationConstants.Authentication.loadingWallet)
 
-        walletManager.wallet.load(withGuid: payload.guid, sharedKey: payload.sharedKey, password: payload.password)
+        /// NOTE: A mild delay is necessary to prevent the main queue from getting stuck as the
+        /// JS loads.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.walletManager.wallet.load(withGuid: payload.guid, sharedKey: payload.sharedKey, password: payload.password)
+        }
     }
 
     // MARK: - Authentication Errors

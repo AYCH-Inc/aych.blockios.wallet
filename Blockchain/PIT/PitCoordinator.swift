@@ -83,14 +83,17 @@ class PitCoordinator {
         let connect = PitConnectViewController.makeFromStoryboard()
         
         connect.connectRelay
-            .flatMap { return self.userRequiresEmailVerification() }
-            .subscribe(onNext: { showEmailVerification in
+            .flatMap(weak: self) { (self, _) -> Observable<Bool> in
+                self.userRequiresEmailVerification()
+            }
+            .subscribe(onNext: { [weak self] showEmailVerification in
                 if showEmailVerification {
-                    self.showEmailConfirmationScreen()
+                    self?.showEmailConfirmationScreen()
                 } else {
-                    self.syncAddressesAndLaunchPIT()
+                    self?.syncAddressesAndLaunchPIT()
                 }
-            }).disposed(by: bag)
+            })
+            .disposed(by: bag)
         
         connect.learnMoreRelay
             .withLatestFrom(campaignComposer.pitCampaign)

@@ -131,7 +131,7 @@ final class TransactionsEthereumViewController: TransactionsViewController {
         let disposable = wallet.fetchEthereumTransactions(using: transactionService)
             .asObservable()
             .subscribe(onNext: { [weak self] transactions in
-//                self?.set(transactions: transactions)
+                self?.set(transactions: transactions)
                 onCompleted()
             }, onError: { _ in
                 onCompleted()

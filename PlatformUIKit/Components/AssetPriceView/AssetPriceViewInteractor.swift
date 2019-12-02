@@ -29,7 +29,7 @@ public final class AssetPriceViewInteractor: AssetPriceViewInteracting {
     // MARK: - Setup
     
     public init(historicalPriceProvider: HistoricalFiatPriceServiceAPI) {
-                historicalPriceProvider.calculationState
+        historicalPriceProvider.calculationState
             .map { state -> InteractionState in
                 switch state {
                 case .calculating, .invalid:

@@ -46,12 +46,10 @@ final class HistoricalBalanceCellPresenter {
     
     private let interactor: HistoricalBalanceCellInteractor
     
-    init(interactor: HistoricalBalanceCellInteractor,
-         fiatCurrencyProviding: FiatCurrencyTypeProviding = BlockchainSettings.App.shared) {
+    init(interactor: HistoricalBalanceCellInteractor) {
         self.interactor = interactor
-        sparklinePresenter = AssetSparklinePresenterFactory.presenter(
-            for: interactor.cryptoCurrency,
-            fiatCurrencyProvider: fiatCurrencyProviding
+        sparklinePresenter = AssetSparklinePresenter(
+            with: interactor.sparklineInteractor
         )
         pricePresenter = AssetPriceViewPresenter(
             interactor: interactor.priceInteractor,

@@ -15,43 +15,30 @@ public class SparklineInteractor: SparklineInteracting {
     
     // MARK: - SparklineInteracting
     
-    public let window: PriceWindow
-    public let currency: CryptoCurrency
+    public let cryptoCurrency: CryptoCurrency
     
     public var calculationState: Observable<SparklineCalculationState> {
         return calculationStateRelay.asObservable()
     }
     
+    private let priceService: HistoricalFiatPriceServiceAPI
     private let calculationStateRelay = BehaviorRelay<SparklineCalculationState>(value: .invalid(.empty))
-    private let disposeBag: DisposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
-    public init(window: PriceWindow,
-                currency: CryptoCurrency,
-                fiatCurrencyProvider: FiatCurrencyTypeProviding,
-                pricesAPI: HistoricalPricesAPI = HistoricalPriceService()) {
-        self.currency = currency
-        self.window = window
-                
-        fiatCurrencyProvider.fiatCurrency
-            .flatMap { fiatCurrency -> Observable<HistoricalPrices> in
-                pricesAPI.historicalPrices(
-                    within: window,
-                    currency: currency,
-                    code: fiatCurrency.code
-                )
-                .asObservable()
+    public init(priceService: HistoricalFiatPriceServiceAPI, cryptoCurrency: CryptoCurrency) {
+        self.cryptoCurrency = cryptoCurrency
+        self.priceService = priceService
+        priceService.calculationState
+            .map { state -> SparklineCalculationState in
+                switch state {
+                case .calculating, .invalid:
+                    return .calculating
+                case .value(let value):
+                    let prices = value.0.prices.map { $0.price }
+                    return .value(prices)
+                }
             }
-            .map{ result -> [Decimal] in
-                let values = result.prices.map { $0.price }
-                return values
-            }
-            .map { .value($0) }
-            .startWith(.calculating)
             .bind(to: calculationStateRelay)
             .disposed(by: disposeBag)
-    }
-    
-    public func recalculateState() {
-        // TODO
     }
 }

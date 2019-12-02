@@ -1650,7 +1650,6 @@
 		65CB9F8C237312E10004BBC2 /* AnnouncementCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65CB9F5C237312E00004BBC2 /* AnnouncementCardView.xib */; };
 		65CB9F8D237312E10004BBC2 /* AnnouncementCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CB9F5D237312E00004BBC2 /* AnnouncementCardViewModel.swift */; };
 		65CB9F8E237312E10004BBC2 /* AnnouncementCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CB9F5E237312E00004BBC2 /* AnnouncementCardView.swift */; };
-		65CB9F8F237312E10004BBC2 /* AssetSparklineInteractorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CB9F60237312E00004BBC2 /* AssetSparklineInteractorFactory.swift */; };
 		65CB9F90237312E10004BBC2 /* AssetSparklineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CB9F61237312E00004BBC2 /* AssetSparklineView.swift */; };
 		65CB9F91237312E10004BBC2 /* AssetSparklinePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CB9F62237312E00004BBC2 /* AssetSparklinePresenter.swift */; };
 		65CB9F92237312E10004BBC2 /* AssetBalanceViewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CB9F64237312E00004BBC2 /* AssetBalanceViewInteractor.swift */; };
@@ -1667,7 +1666,6 @@
 		65CB9FA323731D200004BBC2 /* HistoricalBalanceCellInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0E5608235F8F2A0015DAB5 /* HistoricalBalanceCellInteractor.swift */; };
 		65CB9FA523731D2F0004BBC2 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E8D94523684A37003B5C9B /* DataProvider.swift */; };
 		65CB9FA623731D2F0004BBC2 /* ERC20AssetBalanceFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D6FC002368A76500A44A1D /* ERC20AssetBalanceFetcher.swift */; };
-		65CB9FA72373262F0004BBC2 /* TransactionsEthereumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6CF532242623B009123E5 /* TransactionsEthereumViewController.swift */; };
 		65CB9FA8237326360004BBC2 /* PaxActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6AF69228F303E00BF8F56 /* PaxActivityViewController.swift */; };
 		65CB9FA9237326D30004BBC2 /* PaxEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BA9FC822B13B5E00A5698F /* PaxEmptyStateView.swift */; };
 		65CB9FAA237326DA0004BBC2 /* PaxActivityDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6AFAA22936FE500BF8F56 /* PaxActivityDataProvider.swift */; };
@@ -1689,9 +1687,7 @@
 		65CB9FBC23732A4D0004BBC2 /* SendPAXInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9F72C3228604D500BF367A /* SendPAXInterface.swift */; };
 		65CB9FBD23732A5D0004BBC2 /* SendLumensViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A9511D921769DB500F26631 /* SendLumensViewController.storyboard */; };
 		65CB9FBE23732BCF0004BBC2 /* TransactionDetailViewModel+ERC20Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6AFA822936BA800BF8F56 /* TransactionDetailViewModel+ERC20Transaction.swift */; };
-		65CB9FBF23732C990004BBC2 /* EtherTransaction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AC02DD229EBD7E008B9857 /* EtherTransaction+Extensions.swift */; };
 		65CB9FC023732D020004BBC2 /* EtherTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BAD1AE22C29B6300AEB1E1 /* EtherTransaction.swift */; };
-		65CB9FC223732F2D0004BBC2 /* EtherTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BAD1AE22C29B6300AEB1E1 /* EtherTransaction.swift */; };
 		65CB9FC4237336D30004BBC2 /* Transaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F765F3C14BC7C4F00048EFB /* Transaction.m */; };
 		65CB9FC5237337660004BBC2 /* MockAccountBalanceFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416C230C687300D04A2E /* MockAccountBalanceFetcher.swift */; };
 		65CB9FC6237337690004BBC2 /* MockAccountBalanceFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416C230C687300D04A2E /* MockAccountBalanceFetcher.swift */; };
@@ -5299,7 +5295,6 @@
 		65CB9F5C237312E00004BBC2 /* AnnouncementCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnnouncementCardView.xib; sourceTree = "<group>"; };
 		65CB9F5D237312E00004BBC2 /* AnnouncementCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementCardViewModel.swift; sourceTree = "<group>"; };
 		65CB9F5E237312E00004BBC2 /* AnnouncementCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementCardView.swift; sourceTree = "<group>"; };
-		65CB9F60237312E00004BBC2 /* AssetSparklineInteractorFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetSparklineInteractorFactory.swift; sourceTree = "<group>"; };
 		65CB9F61237312E00004BBC2 /* AssetSparklineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetSparklineView.swift; sourceTree = "<group>"; };
 		65CB9F62237312E00004BBC2 /* AssetSparklinePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetSparklinePresenter.swift; sourceTree = "<group>"; };
 		65CB9F64237312E00004BBC2 /* AssetBalanceViewInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetBalanceViewInteractor.swift; sourceTree = "<group>"; };
@@ -12273,7 +12268,6 @@
 		65CB9F5F237312E00004BBC2 /* AssetSparklineView */ = {
 			isa = PBXGroup;
 			children = (
-				65CB9F60237312E00004BBC2 /* AssetSparklineInteractorFactory.swift */,
 				65CB9F61237312E00004BBC2 /* AssetSparklineView.swift */,
 				65CB9F62237312E00004BBC2 /* AssetSparklinePresenter.swift */,
 			);
@@ -16500,7 +16494,6 @@
 				3AFEC7CC23148C5F003D2C1E /* PulseContainerViewProtocol.swift in Sources */,
 				65CB9F82237312E10004BBC2 /* AnnouncementType.swift in Sources */,
 				3AAAADA822F1F1EB00989320 /* FadeInOutFlowLayout.swift in Sources */,
-				65CB9F8F237312E10004BBC2 /* AssetSparklineInteractorFactory.swift in Sources */,
 				65D5725B234C91B800D14342 /* TextFieldViewModel.swift in Sources */,
 				65CB9F8B237312E10004BBC2 /* OneTimeAnnouncement.swift in Sources */,
 				65E4B54622CF46D600EAC3CD /* UIView+Accessibility.swift in Sources */,
@@ -16697,7 +16690,6 @@
 				65550E7022BE671F00522656 /* PinInteractor.swift in Sources */,
 				AA31A7BC2098DFCF00FE6268 /* SideMenuItem.swift in Sources */,
 				AA63F85920A134DA002B719B /* BCTextField.swift in Sources */,
-				65CB9FA72373262F0004BBC2 /* TransactionsEthereumViewController.swift in Sources */,
 				650CE41B22CBD55400FA282E /* MockPinInteractor.swift in Sources */,
 				34BE77C82253D9EC0034A6BE /* StellarLedgerServiceTests.swift in Sources */,
 				C7B463D9221B572800ADDC22 /* KYCDeepLinkRouter.swift in Sources */,
@@ -16810,7 +16802,6 @@
 				65CDDB6A2330FBDF0092947C /* FirebaseInstance+FCMToken.swift in Sources */,
 				65CDDB6D2330FD230092947C /* MockFirebaseInstanceID.swift in Sources */,
 				65CB9FA223731D200004BBC2 /* HistoricalBalanceTableViewCell.swift in Sources */,
-				65CB9FBF23732C990004BBC2 /* EtherTransaction+Extensions.swift in Sources */,
 				AA722C1A20B4BBA900262A5F /* AssetAddressRepository.swift in Sources */,
 				AAE8754E231F27F900EAD34A /* BridgeAnalyticsRecorder.swift in Sources */,
 				AA787A0B2187AC0500E2D4CF /* DeepLinkRouteTests.swift in Sources */,
@@ -16893,7 +16884,6 @@
 				650CE43122CC0B7300FA282E /* AddressInteractorMock.swift in Sources */,
 				3AAAAD8C22F09E7E00989320 /* SwapIntroductionViewController.swift in Sources */,
 				519435A1208E61F3001EF882 /* BlockchainTests.swift in Sources */,
-				65CB9FC223732F2D0004BBC2 /* EtherTransaction.swift in Sources */,
 				3A7EB14822209E6E00C7E455 /* KYCOnboardingViewController.swift in Sources */,
 				AA0A412D214ADD5B00807163 /* DebugSettings.swift in Sources */,
 				3A56AEA821764D3A00044302 /* StellarTransactionAPI.swift in Sources */,

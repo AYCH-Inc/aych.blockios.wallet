@@ -14,7 +14,7 @@ final class TransactionsContainerViewController: UIViewController {
         return Bundle.main.loadNibNamed("Transactions", owner: self, options: nil)!.first as! TransactionsBitcoinViewController
     }()
     
-    private lazy var etherVC = TransactionsEthereumViewController()
+//    private lazy var etherVC = TransactionsEthereumViewController()
     private lazy var bitcoinCashVC = TransactionsBitcoinCashViewController()
     private lazy var stellarVC = TransactionsXlmViewController.make(with: .shared)
     private lazy var paxVC = PaxActivityViewController.make()
@@ -31,7 +31,8 @@ final class TransactionsContainerViewController: UIViewController {
         case .stellar:
             currentVC = stellarVC
         case .ethereum:
-            currentVC = etherVC
+            break
+//            currentVC = etherVC
         case .pax:
             currentVC = paxVC
         }

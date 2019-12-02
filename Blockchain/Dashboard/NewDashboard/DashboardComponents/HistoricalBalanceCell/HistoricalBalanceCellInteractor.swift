@@ -16,6 +16,7 @@ final class HistoricalBalanceCellInteractor {
     
     // MARK: - Properties
     
+    let sparklineInteractor: SparklineInteracting
     let priceInteractor: AssetPriceViewInteracting
     let balanceInteractor: AssetBalanceViewInteracting
     let cryptoCurrency: CryptoCurrency
@@ -28,6 +29,11 @@ final class HistoricalBalanceCellInteractor {
          historicalFiatPriceService: HistoricalFiatPriceServiceAPI,
          assetBalanceFetcher: AssetBalanceFetching) {
         self.cryptoCurrency = cryptoCurrency
+        sparklineInteractor = SparklineInteractor(
+            priceService: historicalFiatPriceService,
+            cryptoCurrency: cryptoCurrency
+        )
+        
         priceInteractor = AssetPriceViewInteractor(
             historicalPriceProvider: historicalFiatPriceService
         )

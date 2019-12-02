@@ -86,7 +86,10 @@ public final class HistoricalFiatPriceService: HistoricalFiatPriceServiceAPI {
         
         let currencyProvider = Observable
             .combineLatest(fiatCurrencyProvider.fiatCurrency, fetchTriggerRelay)
-            .throttle(.milliseconds(50), scheduler: scheduler)
+            .throttle(
+                .milliseconds(100),
+                scheduler: scheduler
+            )
             .map { $0.0 }
             .flatMapLatest { fiatCurrency -> Observable<(HistoricalPrices, String)> in
                 let prices = historicalPriceService.historicalPrices(
@@ -114,8 +117,8 @@ public final class HistoricalFiatPriceService: HistoricalFiatPriceServiceAPI {
         Observable
             .combineLatest(latestPrice, historicalPrices)
             .map { .value(($1, $0)) }
-        .startWith(.calculating)
-        .bind(to: calculationStateRelay)
-        .disposed(by: bag)
+            .startWith(.calculating)
+            .bind(to: calculationStateRelay)
+            .disposed(by: bag)
     }
 }

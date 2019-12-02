@@ -11,18 +11,12 @@ import PlatformKit
 import RxRelay
 import RxSwift
 
-public protocol SparklineInteracting {
+public protocol SparklineInteracting: class {
     
     /// The currency displayed in the Sparkline
-    var currency: CryptoCurrency { get }
-    
-    /// The window for showing the price differences over time
-    var window: PriceWindow { get }
-    
+    var cryptoCurrency: CryptoCurrency { get }
+        
     /// The historical prices and balance
     /// calculation state
     var calculationState: Observable<SparklineCalculationState> { get }
-    
-    /// Similar to `Send`. At times the page may need to reload.
-    func recalculateState()
 }

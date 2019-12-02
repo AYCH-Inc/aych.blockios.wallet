@@ -16,7 +16,7 @@ public final class AssetSparklinePresenter {
     // MARK: - Public Properties
     
     public var currency: CryptoCurrency {
-        return interactor.currency
+        return interactor.cryptoCurrency
     }
     
     public var lineColor: UIColor {

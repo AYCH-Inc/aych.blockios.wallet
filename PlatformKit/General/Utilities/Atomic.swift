@@ -23,7 +23,9 @@ public final class Atomic<Value> {
     
     private var _value: Value
     
-    private let queue = DispatchQueue(label: "Atomic read/write queue")
+    /// Allow concurrent reads to improve performance:
+    /// https://basememara.com/creating-thread-safe-generic-values-in-swift/
+    private let queue = DispatchQueue(label: "Atomic read/write queue", attributes: .concurrent)
     
     // MARK: - Init
     
@@ -40,7 +42,7 @@ public final class Atomic<Value> {
     ///
     /// - Parameter transform: transforms the wrapped value passing a `inout` parameter to allow mutation
     public func mutate(_ transform: (inout Value) -> ()) {
-        queue.sync {
+        queue.sync(flags: .barrier) {
             transform(&self._value)
         }
     }

@@ -1425,6 +1425,26 @@ struct LocalizationConstants {
                 comment: "STX airdrop announcement card CTA button title"
             )
         }
+        struct BlockstackAirdropMini {
+            static let title = NSLocalizedString(
+                "Our Latest Airdrop is Here",
+                comment: "STX airdrop announcement mini card title"
+            )
+            static let description = NSLocalizedString(
+                "Upgrade to get free crypto",
+                comment: "STX airdrop announcement mini card description"
+            )
+        }
+        struct BlockstackAirdropRegisteredMini {
+            static let title = NSLocalizedString(
+                "A Reward for Being Gold Level",
+                comment: "STX airdrop registered announcement mini card title"
+            )
+            static let description = NSLocalizedString(
+                "We're airdropping you free crypto in 2020",
+                comment: "STX airdrop registered announcement mini card description"
+            )
+        }
         struct IdentityVerification {
             static let title = NSLocalizedString(
                 "Finish Verifying Your Account",

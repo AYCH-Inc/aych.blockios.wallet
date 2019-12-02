@@ -13,12 +13,17 @@ final class AnnouncementTableViewCell: UITableViewCell {
     // MARK: - Lifecycle
 
     /// A view that represents the announcement
-    private var cardView: AnnouncementCardView!
+    private var cardView: AnnoucementCardViewConforming!
     
     var viewModel: AnnouncementCardViewModel! {
         didSet {
             guard let viewModel = viewModel else { return }
-            cardView = AnnouncementCardView(using: viewModel)
+            switch viewModel.presentation {
+            case .regular:
+                cardView = AnnouncementCardView(using: viewModel)
+            case .mini:
+                cardView = AnnouncementMiniCardView(using: viewModel)
+            }
             contentView.addSubview(cardView)
             cardView.fillSuperview()
         }

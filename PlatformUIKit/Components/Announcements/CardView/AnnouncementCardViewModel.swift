@@ -66,9 +66,20 @@ public final class AnnouncementCardViewModel {
         case undismissible
     }
     
+    /// The presentation type of the card
+    public enum Presentation {
+        
+        /// This will render a regular full size card
+        case regular
+        
+        /// This will render a mini card that can have an optional action
+        case mini
+    }
+    
     // MARK: - Properties
     
     let type: AnnouncementType
+    public let presentation: Presentation
     let background: Background
     let image: Image
     let title: String?
@@ -98,6 +109,10 @@ public final class AnnouncementCardViewModel {
         }
     }
     
+    var hasMiniCardAction: Bool {
+        return presentation == .mini && buttons.count == 1
+    }
+    
     private let dismissState: DismissState
     private let recorder: ErrorRecording
     
@@ -118,6 +133,7 @@ public final class AnnouncementCardViewModel {
     // MARK: - Setup
     
     public init(type: AnnouncementType,
+                presentation: Presentation = .regular,
                 background: Background = .white,
                 image: Image,
                 title: String? = nil,
@@ -127,6 +143,7 @@ public final class AnnouncementCardViewModel {
                 dismissState: DismissState,
                 didAppear: @escaping () -> Void) {
         self.type = type
+        self.presentation = presentation
         self.background = background
         self.image = image
         self.title = title

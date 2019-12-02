@@ -14,6 +14,8 @@ extension AnnouncementRecord {
         
         case walletIntro = "announcement-cache-wallet-intro"
         case verifyEmail = "announcement-cache-email-verification"
+        case blockstackAirdropMini = "announcement-cache-kyc-stx-airdrop-mini"
+        case blockstackAirdropRegisteredMini = "announcement-cache-stx-registered-airdrop-mini"
         
         // MARK: - Periodic
         

@@ -101,6 +101,10 @@ final class AnnouncementPresenter: NSObject {
             switch type {
             case .kycBlockstackAirdrop:
                 announcement = kycBlockstackAirdrop(user: preliminaryData.user, tiers: preliminaryData.tiers)
+            case .blockstackAirdropMini:
+                announcement = airdropKYC(user: preliminaryData.user, tiers: preliminaryData.tiers)
+            case .blockstackAirdropRegisteredMini:
+                announcement = airdropRegisterd(user: preliminaryData.user)
             case .verifyEmail:
                 announcement = verifyEmail(user: preliminaryData.user)
             case .walletIntro:
@@ -141,7 +145,7 @@ final class AnnouncementPresenter: NSObject {
             case .resubmitDocuments:
                 announcement = resubmitDocuments(user: preliminaryData.user)
             }
-            
+
             // Return the first different announcement that should show
             if announcement.shouldShow {
                 if currentAnnouncement?.type != announcement.type {
@@ -264,6 +268,27 @@ extension AnnouncementPresenter {
                     tier: tier
                 )
             }
+        )
+    }
+    
+    private func airdropKYC(user: NabuUser, tiers: KYCUserTiersResponse) -> Announcement {
+        return AirdropKYCAnnouncementMini(
+            canCompleteTier2: tiers.canCompleteTier2,
+            isAirdropRegistered: user.isBlockstackAirdropRegistered,
+            action: { [weak self] in
+                guard let self = self else { return }
+                let tier = user.tiers?.selected ?? .tier1
+                self.kycCoordinator.startKycForSTXAirdrop(
+                    from: self.appCoordinator.tabControllerManager,
+                    tier: tier
+                )
+            }
+        )
+    }
+    
+    private func airdropRegisterd(user: NabuUser) -> Announcement {
+        return AirdropRegisteredAnnouncementMini(
+            airdropRegistered: user.isBlockstackAirdropRegistered
         )
     }
     

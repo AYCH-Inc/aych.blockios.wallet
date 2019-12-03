@@ -910,7 +910,11 @@ NSString * const kLockboxInvitation = @"lockbox";
     [webSocketRequest addValue:[[BlockchainAPI sharedInstance] walletUrl] forHTTPHeaderField:@"Origin"];
 
     // TODO: migrate to CertificatePinner class
-#if CERTIFICATE_PINNING == YES
+    // Note: All `DEBUG` builds should disable certificate pinning
+    // so as QA can see network requests.
+#if DEBUG
+    return webSocketRequest;
+#else
     NSString *cerPath = [[CertificatePinner sharedInstance] localCertificatePath];
     NSData *certData = [[NSData alloc] initWithContentsOfFile:cerPath];
     CFDataRef certDataRef = (__bridge CFDataRef)certData;
@@ -921,9 +925,9 @@ NSString * const kLockboxInvitation = @"lockbox";
     [webSocketRequest setSR_comparesPublicKeys:YES];
 
     CFRelease(certRef);
-#endif
-
+    
     return webSocketRequest;
+#endif
 }
 
 - (void)pingBtcSocket

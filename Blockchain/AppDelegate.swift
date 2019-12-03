@@ -15,6 +15,10 @@ import BitcoinKit
 import FirebaseDynamicLinks
 import RxSwift
 
+#if DEBUG
+fileprivate var DISABLE_CERT_PINNING: Bool = false
+#endif
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -53,6 +57,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions
                      launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        #if DEBUG
+        DISABLE_CERT_PINNING = true
+        #endif
 
         FirebaseApp.configure()
         Fabric.with([Crashlytics.self])
@@ -106,8 +114,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         #endif
 
-        // TODO: prevent any other data tasks from executing until cert is pinned
-        CertificatePinner.shared.pinCertificate()
+        if !DISABLE_CERT_PINNING {
+            // TODO: prevent any other data tasks from executing until cert is pinned
+            CertificatePinner.shared.pinCertificate()
+        }
         
         Network.Dependencies.default.communicator.use(eventRecorder: AnalyticsEventRecorder.shared)
         

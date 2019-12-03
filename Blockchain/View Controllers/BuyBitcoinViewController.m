@@ -97,7 +97,10 @@ NSString* loginWithJsonScript(NSString*, NSString*, NSString*, NSString*, BOOL);
 }
 
 - (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
-#if DISABLE_CERT_PINNING
+    // TODO: migrate to CertificatePinner class
+    // Note: All `DEBUG` builds should disable certificate pinning
+    // so as QA can see network requests.
+#if DEBUG
     completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
 #else
     if ([challenge.protectionSpace.host hasSuffix:[[BlockchainAPI sharedInstance] blockchainDotInfo]] ||

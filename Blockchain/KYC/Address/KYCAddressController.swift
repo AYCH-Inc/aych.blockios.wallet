@@ -10,17 +10,16 @@ import PlatformUIKit
 import PlatformKit
 import UIKit
 
-class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomButtonContainerView {
-
-    // MARK: BottomButtonContainerView
-
-    var optionalOffset: CGFloat = 0
-    var originalBottomButtonConstraint: CGFloat!
-    @IBOutlet var layoutConstraintBottomButton: NSLayoutConstraint!
+class KYCAddressController: KYCBaseViewController, ValidationFormView, ProgressableView {
+    
+    // MARK: ProgressableView
+    
+    var barColor: UIColor = .green
+    var startingValue: Float = 0.6
+    @IBOutlet var progressView: UIProgressView!
 
     // MARK: - Private IBOutlets
-
-    @IBOutlet fileprivate var progressView: UIProgressView!
+    
     @IBOutlet fileprivate var searchBar: UISearchBar!
     @IBOutlet fileprivate var tableView: UITableView!
     @IBOutlet fileprivate var activityIndicator: UIActivityIndicatorView!
@@ -34,6 +33,14 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
     @IBOutlet fileprivate var stateTextField: ValidationTextField!
     @IBOutlet fileprivate var postalCodeTextField: ValidationTextField!
     @IBOutlet fileprivate var primaryButtonContainer: PrimaryButtonContainer!
+    
+    private var textFields: [ValidationTextField] {
+        return [addressTextField,
+                apartmentTextField,
+                cityTextField,
+                stateTextField,
+                postalCodeTextField]
+    }
 
     private let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
 
@@ -118,14 +125,25 @@ class KYCAddressController: KYCBaseViewController, ValidationFormView, BottomBut
             guard let this = self else { return }
             this.primaryButtonTapped()
         }
-
-        originalBottomButtonConstraint = layoutConstraintBottomButton.constant
+        
+        setupProgressView()
+        setupKeyboard()
     }
-
-    deinit {
-        cleanUp()
+    
+    private func setupKeyboard() {
+        let bar = UIToolbar()
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissKeyboard))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        bar.items = [ flexibleSpace, doneButton ]
+        bar.sizeToFit()
+        
+        textFields.forEach { $0.accessoryView = bar }
     }
-
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     // MARK: IBActions
 
     @IBAction func onFooterTapped(_ sender: UITapGestureRecognizer) {

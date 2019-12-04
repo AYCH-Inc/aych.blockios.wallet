@@ -19,7 +19,7 @@ final class KYCCountrySelectionController: KYCBaseViewController, ProgressableVi
 
     @IBOutlet var progressView: UIProgressView!
     var barColor: UIColor = .green
-    var startingValue: Float = 0.1
+    var startingValue: Float = 0.4
 
     // MARK: - IBOutlets
 

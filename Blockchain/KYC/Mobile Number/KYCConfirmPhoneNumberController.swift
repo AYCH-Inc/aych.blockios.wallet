@@ -9,7 +9,13 @@
 import Foundation
 import PlatformKit
 
-final class KYCConfirmPhoneNumberController: KYCBaseViewController, BottomButtonContainerView {
+final class KYCConfirmPhoneNumberController: KYCBaseViewController, BottomButtonContainerView, ProgressableView {
+    
+    // MARK: ProgressableView
+    
+    var barColor: UIColor = .green
+    var startingValue: Float = 0.75
+    @IBOutlet var progressView: UIProgressView!
 
     // MARK: Public Properties
 
@@ -63,6 +69,7 @@ final class KYCConfirmPhoneNumberController: KYCBaseViewController, BottomButton
         primaryButton.actionBlock = { [unowned self] in
             self.onNextTapped()
         }
+        setupProgressView()
     }
 
     override func viewDidAppear(_ animated: Bool) {

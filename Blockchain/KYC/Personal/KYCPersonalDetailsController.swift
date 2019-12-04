@@ -10,22 +10,12 @@ import UIKit
 import PlatformKit
 
 /// Personal details entry screen in KYC flow
-final class KYCPersonalDetailsController: KYCBaseViewController,
-    ValidationFormView,
-    ProgressableView,
-    BottomButtonContainerView {
-
-    // MARK: - BottomButtonContainerView
-
-    var optionalOffset: CGFloat = 0
-    var originalBottomButtonConstraint: CGFloat!
-
-    @IBOutlet var layoutConstraintBottomButton: NSLayoutConstraint!
+final class KYCPersonalDetailsController: KYCBaseViewController, ValidationFormView, ProgressableView {
 
     // MARK: - ProgressableView
 
     var barColor: UIColor = .green
-    var startingValue: Float = 0.14
+    var startingValue: Float = 0.5
 
     @IBOutlet var progressView: UIProgressView!
 
@@ -86,10 +76,6 @@ final class KYCPersonalDetailsController: KYCBaseViewController,
 
     // MARK: Lifecycle
 
-    deinit {
-        cleanUp()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -116,13 +102,27 @@ final class KYCPersonalDetailsController: KYCBaseViewController,
                 next.becomeFocused()
             }
         }
-
-        originalBottomButtonConstraint = layoutConstraintBottomButton.constant
+        
+        setupProgressView()
+        setupKeyboard()
+    }
+    
+    private func setupKeyboard() {
+        let bar = UIToolbar()
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissKeyboard))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        bar.items = [ flexibleSpace, doneButton ]
+        bar.sizeToFit()
+        
+        validationFields.forEach { $0.accessoryView = bar }
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setUpBottomButtonContainerView()
         firstNameField.becomeFocused()
     }
 

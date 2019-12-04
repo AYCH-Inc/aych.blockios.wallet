@@ -12,7 +12,13 @@ import SafariServices
 import Veriff
 
 /// Account verification screen in KYC flow
-final class KYCVerifyIdentityController: KYCBaseViewController {
+final class KYCVerifyIdentityController: KYCBaseViewController, ProgressableView {
+    
+    // MARK: ProgressableView
+    
+    var barColor: UIColor = .green
+    var startingValue: Float = 0.9
+    @IBOutlet var progressView: UIProgressView!
     
     enum VerificationProviders {
         case veriff
@@ -93,6 +99,7 @@ final class KYCVerifyIdentityController: KYCBaseViewController {
         residenceCard.text = LocalizationConstants.KYC.residencePermit
         driversLicense.text = LocalizationConstants.KYC.driversLicense
         setupCountrySupportedText()
+        setupProgressView()
     }
 
     private func setupCountrySupportedText() {

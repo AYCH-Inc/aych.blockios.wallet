@@ -10,8 +10,14 @@ import PhoneNumberKit
 import UIKit
 import PlatformKit
 
-final class KYCEnterPhoneNumberController: KYCBaseViewController, BottomButtonContainerView {
+final class KYCEnterPhoneNumberController: KYCBaseViewController, BottomButtonContainerView, ProgressableView {
+    
+    // MARK: ProgressableView
 
+    var barColor: UIColor = .green
+    var startingValue: Float = 0.7
+    @IBOutlet var progressView: UIProgressView!
+    
     // MARK: Properties
 
     private var user: NabuUser?
@@ -76,6 +82,7 @@ final class KYCEnterPhoneNumberController: KYCBaseViewController, BottomButtonCo
             self.primaryButtonTapped()
         }
         originalBottomButtonConstraint = layoutConstraintBottomButton.constant
+        setupProgressView()
     }
 
     override func viewDidAppear(_ animated: Bool) {

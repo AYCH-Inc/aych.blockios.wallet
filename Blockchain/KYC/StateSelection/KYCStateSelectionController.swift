@@ -14,10 +14,8 @@ class KYCStateSelectionController: KYCBaseViewController, ProgressableView {
 
     // MARK: - ProgressableView
     @IBOutlet var progressView: UIProgressView!
-
     var barColor: UIColor = .green
-
-    var startingValue: Float = 0.15
+    var startingValue: Float = 0.45
 
     // MARK: - IBOutlets
 

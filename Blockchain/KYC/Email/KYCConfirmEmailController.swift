@@ -15,7 +15,7 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
 
     @IBOutlet var progressView: UIProgressView!
     var barColor: UIColor = .green
-    var startingValue: Float = 0.3
+    var startingValue: Float = 0.2
 
     // MARK: BottomButtonContainerView
 
@@ -83,6 +83,7 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
             self.primaryButtonTapped()
         }
         originalBottomButtonConstraint = layoutConstraintBottomButton.constant
+        setupProgressView()
     }
 
     override func viewDidAppear(_ animated: Bool) {

@@ -12,7 +12,13 @@ import Veriff
 import PlatformUIKit
 
 /// Account verification screen in KYC flow
-final class KYCResubmitIdentityController: KYCBaseViewController {
+final class KYCResubmitIdentityController: KYCBaseViewController, ProgressableView {
+    
+    // MARK: ProgressableView
+    
+    var barColor: UIColor = .green
+    var startingValue: Float = 0.9
+    @IBOutlet var progressView: UIProgressView!
 
     enum VerificationProviders {
         case veriff
@@ -76,6 +82,7 @@ final class KYCResubmitIdentityController: KYCBaseViewController {
         if !Constants.Booleans.IsUsingScreenSizeLargerThan5s {
             imageTopConstraint.constant = 24
         }
+        setupProgressView()
     }
 
     private func dependenciesSetup() {

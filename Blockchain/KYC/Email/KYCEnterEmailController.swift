@@ -79,7 +79,7 @@ class KYCEnterEmailController: KYCBaseViewController, BottomButtonContainerView,
             self.primaryButtonTapped()
         }
         originalBottomButtonConstraint = layoutConstraintBottomButton.constant
-        
+        setupProgressView()
         AnalyticsService.shared.trackEvent(title: "kyc_email")
     }
 

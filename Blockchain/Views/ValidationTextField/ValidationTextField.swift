@@ -94,6 +94,12 @@ class ValidationTextField: NibBasedView {
     }
 
     // MARK: Public Properties
+    
+    var accessoryView: UIView? {
+        didSet {
+            textField.inputAccessoryView = accessoryView
+        }
+    }
 
     var autocapitalizationType: UITextAutocapitalizationType = .words {
         didSet {

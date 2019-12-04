@@ -51,13 +51,13 @@ final class DashboardViewController: BaseScreenViewController {
             })
             .disposed(by: disposeBag)
         presenter.setup()
+        tableView.reloadData()
+        presenter.refresh()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
         navigationController?.navigationBar.isTranslucent = false
-        presenter.refresh()
     }
         
     // MARK: - Setup

@@ -9,6 +9,7 @@
 import Foundation
 
 protocol TabSwapping {
+    func switchToSend()
     func switchTabToSwap()
     func switchTabToReceive()
 }

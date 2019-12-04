@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="79" id="wiA-DS-Hbt" customClass="MultiActionTableViewCell" customModule="Blockchain" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="79"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wiA-DS-Hbt" id="TZf-EE-5g2">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="79"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1GW-Jm-cvh" customClass="MultiActionView" customModule="Blockchain" customModuleProvider="target">
+                        <rect key="frame" x="16" y="16" width="382" height="47"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" priority="750" constant="48" id="ZK7-Ze-kBR"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="1GW-Jm-cvh" firstAttribute="top" secondItem="TZf-EE-5g2" secondAttribute="top" constant="16" id="4L4-NB-5J5"/>
+                    <constraint firstAttribute="trailing" secondItem="1GW-Jm-cvh" secondAttribute="trailing" constant="16" id="DdA-em-lXn"/>
+                    <constraint firstItem="1GW-Jm-cvh" firstAttribute="leading" secondItem="TZf-EE-5g2" secondAttribute="leading" constant="16" id="cCS-ah-Vy0"/>
+                    <constraint firstAttribute="bottom" secondItem="1GW-Jm-cvh" secondAttribute="bottom" constant="16" id="dZA-Iv-16k"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="multiActionView" destination="1GW-Jm-cvh" id="a3B-Jv-1Jc"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="84.709821428571431"/>
+        </tableViewCell>
+    </objects>
+</document>

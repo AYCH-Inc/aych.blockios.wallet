@@ -68,19 +68,19 @@ public extension PriceWindow.TimelineInterval {
     }
 }
 
-private extension CryptoCurrency {
+public extension CryptoCurrency {
     var maxStartDate: TimeInterval {
         switch self {
         case .bitcoin:
-            return 1282089600.0
+            return 1282089600
         case .bitcoinCash:
-            return 1500854400.0
+            return 1500854400
         case .ethereum:
-            return 1438992000.0
+            return 1438992000
         case .pax:
-            return 1555060318.0
+            return 1555060318
         case .stellar:
-            return 1525716000.0
+            return 1525716000
         }
     }
 }

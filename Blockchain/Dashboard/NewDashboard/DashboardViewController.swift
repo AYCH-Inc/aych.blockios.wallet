@@ -28,6 +28,16 @@ final class DashboardViewController: BaseScreenViewController {
     
     private let disposeBag = DisposeBag()
     
+    // MARK: - Lazy Properties
+    
+    private lazy var router: DashboardRouter = {
+        /// Note: In order to prevent the `UITabBar` from shifting, the router must
+        /// take a `TabViewController`. This is due to our legacy implementation of
+        /// a `UITabBar`.
+        let root = AppCoordinator.shared.tabControllerManager.tabViewController!
+        return DashboardRouter(rootViewController: root, tabSwapping: AppCoordinator.shared)
+    }()
+    
     // MARK: - Setup
     
     init() {
@@ -169,7 +179,20 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
         case .notice:
             cell = noticeCell(for: indexPath)
         }
+        cell.selectionStyle = .none
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let type = presenter.cellArrangement[indexPath.row]
+        switch type {
+        case .announcement,
+             .notice,
+             .balance:
+            break
+        case .crypto(let currency):
+            router.showDetailsScreen(for: currency)
+        }
     }
         
     // MARK: - Accessors

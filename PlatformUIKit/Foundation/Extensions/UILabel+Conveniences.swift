@@ -25,6 +25,10 @@ public struct LabelContent: Equatable {
     public static func == (lhs: LabelContent, rhs: LabelContent) -> Bool {
         return lhs.text == rhs.text
     }
+    
+    public func isEmpty() -> Bool {
+        return text == ""
+    }
 }
 
 extension UILabel {

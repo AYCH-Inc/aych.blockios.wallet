@@ -415,6 +415,10 @@ extension AppCoordinator: WalletHistoryDelegate {
 // MARK: - TabSwapping
 
 extension AppCoordinator: TabSwapping {
+    func switchToSend() {
+        tabControllerManager.sendCoinsClicked(nil)
+    }
+    
     func switchTabToSwap() {
         tabControllerManager.swapTapped(nil)
     }

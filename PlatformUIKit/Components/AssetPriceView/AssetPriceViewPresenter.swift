@@ -9,6 +9,7 @@
 import RxSwift
 import RxRelay
 import PlatformKit
+import RxCocoa
 
 public final class AssetPriceViewPresenter {
     
@@ -21,20 +22,27 @@ public final class AssetPriceViewPresenter {
             .observeOn(MainScheduler.instance)
     }
     
+    var alignment: Driver<UIStackView.Alignment> {
+        return alignmentRelay.asDriver()
+    }
+    
     // MARK: - Injected
     
     private let interactor: AssetPriceViewInteracting
     
     // MARK: - Private Accessors
     
+    private let alignmentRelay = BehaviorRelay<UIStackView.Alignment>(value: .fill)
     private let stateRelay = BehaviorRelay<PresentationState>(value: .loading)
     private let disposeBag = DisposeBag()
     
     // MARK: - Setup
     
     public init(interactor: AssetPriceViewInteracting,
+                alignment: UIStackView.Alignment = .fill,
                 descriptors: DashboardAsset.Value.Presentation.AssetPrice.Descriptors) {
         self.interactor = interactor
+        self.alignmentRelay.accept(alignment)
         
         /// Map interaction state into presnetation state
         /// and bind it to `stateRelay`

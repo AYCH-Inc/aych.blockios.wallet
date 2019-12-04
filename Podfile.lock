@@ -183,6 +183,7 @@ SPEC REPOS:
     - PhoneNumberKit
     - PromiseKit
     - Protobuf
+    - ReachabilitySwift
     - RxBlocking
     - RxCocoa
     - RxRelay
@@ -190,15 +191,13 @@ SPEC REPOS:
     - RxTest
     - scrypt.c
     - secp256k1.c
+    - Socket.IO-Client-Swift
     - Starscream
     - SwiftCheck
     - SwiftLint
-    - zxcvbn-ios
-  trunk:
-    - ReachabilitySwift
-    - Socket.IO-Client-Swift
     - VeriffSDK
     - VeriffWebRTC
+    - zxcvbn-ios
 
 EXTERNAL SOURCES:
   LibWally:

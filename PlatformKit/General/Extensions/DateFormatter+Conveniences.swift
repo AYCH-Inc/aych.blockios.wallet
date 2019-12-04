@@ -13,4 +13,11 @@ extension DateFormatter {
         let formatter = ISO8601DateFormatter()
         return formatter
     }()
+    
+    public static let medium: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        return formatter
+    }()
 }

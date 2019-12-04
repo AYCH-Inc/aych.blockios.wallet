@@ -19,16 +19,29 @@ public final class AssetBalanceView: UIView {
             guard let presenter = presenter else {
                 return
             }
+            
+            presenter.alignment
+                .drive(stackView.rx.alignment)
+                .disposed(by: disposeBag)
+            
             presenter.state
                 .compactMap { $0.value }
                 .bind(to: rx.values)
                 .disposed(by: disposeBag)
             
             presenter.state
-                .filter { $0.isLoading }
+                .map { $0.isLoading }
                 .mapToVoid()
                 .bind { [weak self] in
-                    self?.shimmer()
+                    self?.startShimmering()
+                }
+                .disposed(by: disposeBag)
+                
+            presenter.state
+                .filter { $0.isLoading == false }
+                .mapToVoid()
+                .bind { [weak self] in
+                    self?.stopShimmering()
                 }
                 .disposed(by: disposeBag)
         }
@@ -36,6 +49,7 @@ public final class AssetBalanceView: UIView {
     
     // MARK: - Private IBOutlets
     
+    @IBOutlet private var stackView: UIStackView!
     @IBOutlet fileprivate var fiatBalanceLabel: UILabel!
     @IBOutlet fileprivate var cryptoBalanceLabel: UILabel!
     
@@ -76,7 +90,30 @@ public final class AssetBalanceView: UIView {
         )
     }
     
-    private func shimmer() {
+    private func stopShimmering() {
+        guard fiatLabelShimmeringView.isShimmering && cryptoLabelShimmeringView.isShimmering else { return }
+        
+        fiatBalanceLabel.alpha = 0
+        cryptoBalanceLabel.alpha = 0
+        
+        let animation = {
+            self.fiatBalanceLabel.alpha = 1
+            self.cryptoBalanceLabel.alpha = 1
+            self.fiatLabelShimmeringView.stop()
+            self.cryptoLabelShimmeringView.stop()
+        }
+        
+        UIView.animate(
+            withDuration: 0.3,
+            delay: 0,
+            options: [.curveEaseInOut, .transitionCrossDissolve],
+            animations: animation
+        )
+    }
+    
+    private func startShimmering() {
+        guard fiatBalanceLabel.content.isEmpty() else { return }
+        guard cryptoBalanceLabel.content.isEmpty() else { return }
         fiatLabelShimmeringView.start()
         cryptoLabelShimmeringView.start()
     }
@@ -89,29 +126,6 @@ extension Reactive where Base: AssetBalanceView {
         return Binder(base) { view, values in
             view.fiatBalanceLabel.content = values.fiatBalance
             view.cryptoBalanceLabel.content = values.cryptoBalance
-            let animation = {
-                view.fiatBalanceLabel.alpha = 1
-                view.cryptoBalanceLabel.alpha = 1
-                view.cryptoLabelShimmeringView.alpha = 0
-                view.cryptoLabelShimmeringView.alpha = 0
-            }
-            let completion = { (finished: Bool) in
-                view.fiatLabelShimmeringView.stop()
-                view.cryptoLabelShimmeringView.stop()
-                view.fiatLabelShimmeringView.removeFromSuperview()
-                view.cryptoLabelShimmeringView.removeFromSuperview()
-            }
-            if view.cryptoLabelShimmeringView.isShimmering {
-                view.fiatBalanceLabel.alpha = 0
-                view.cryptoBalanceLabel.alpha = 0
-                UIView.animate(
-                    withDuration: 1,
-                    delay: 0,
-                    options: [.curveEaseInOut, .transitionCrossDissolve],
-                    animations: animation,
-                    completion: completion
-                )
-            }
         }
     }
 }

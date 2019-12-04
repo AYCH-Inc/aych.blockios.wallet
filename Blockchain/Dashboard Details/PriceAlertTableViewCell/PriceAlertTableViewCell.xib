@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="74" id="9Ag-79-Jd9" customClass="PriceAlertTableViewCell" customModule="Blockchain" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="74"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9Ag-79-Jd9" id="Wkc-vG-xR3">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="74"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9N4-ji-eyT">
+                        <rect key="frame" x="16" y="32" width="89" height="33"/>
+                        <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                        <color key="textColor" red="0.59599999999999997" green="0.63100000000000001" blue="0.69799999999999995" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="CDj-PX-gkl">
+                        <rect key="frame" x="277" y="34" width="121" height="29"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Igz-3F-nVc">
+                                <rect key="frame" x="0.0" y="0.0" width="97" height="29"/>
+                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                <state key="normal" title="Set Price Alert"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R03-mB-DnV">
+                                <rect key="frame" x="105" y="0.0" width="16" height="29"/>
+                                <state key="normal" image="Icon-Notification"/>
+                            </button>
+                        </subviews>
+                    </stackView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9xd-uW-ESK">
+                        <rect key="frame" x="16" y="73" width="382" height="1"/>
+                        <color key="backgroundColor" red="0.94099999999999995" green="0.95099999999999996" blue="0.96999999999999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="Tme-zr-xLT"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="9xd-uW-ESK" firstAttribute="leading" secondItem="Wkc-vG-xR3" secondAttribute="leading" constant="16" id="3t7-XT-wCO"/>
+                    <constraint firstItem="CDj-PX-gkl" firstAttribute="centerY" secondItem="9N4-ji-eyT" secondAttribute="centerY" id="9nM-Tc-sUx"/>
+                    <constraint firstAttribute="trailing" secondItem="9xd-uW-ESK" secondAttribute="trailing" constant="16" id="Oaf-G0-085"/>
+                    <constraint firstItem="CDj-PX-gkl" firstAttribute="trailing" secondItem="9xd-uW-ESK" secondAttribute="trailing" id="bvM-xd-NaT"/>
+                    <constraint firstAttribute="bottom" secondItem="9xd-uW-ESK" secondAttribute="bottom" id="hO3-HA-TK3"/>
+                    <constraint firstItem="9N4-ji-eyT" firstAttribute="top" secondItem="Wkc-vG-xR3" secondAttribute="top" constant="32" id="n6y-Ee-4ve"/>
+                    <constraint firstItem="9xd-uW-ESK" firstAttribute="top" secondItem="9N4-ji-eyT" secondAttribute="bottom" constant="8" id="wXQ-gn-Cvd"/>
+                    <constraint firstItem="9N4-ji-eyT" firstAttribute="leading" secondItem="9xd-uW-ESK" secondAttribute="leading" id="zVI-he-vqk"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="currentPriceLabel" destination="9N4-ji-eyT" id="hxy-fj-bm6"/>
+            </connections>
+            <point key="canvasLocation" x="-113.04347826086958" y="62.946428571428569"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Icon-Notification" width="16" height="16"/>
+    </resources>
+</document>

@@ -54,6 +54,7 @@ public final class BalanceChangeViewInteractor: AssetPriceViewInteracting {
                 }
                 return .loaded(
                     next: .init(
+                        time: .hours(24),
                         fiatValue: currentBalance,
                         changePercentage: percentage.doubleValue,
                         fiatChange: changeValue

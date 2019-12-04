@@ -53,7 +53,7 @@ final class DashboardScreenInteractor {
                 guard let self = self else { return }
                 
                 /// Refresh dashboard interaction layer
-                self.historicalProvider.refresh()
+                self.historicalProvider.refresh(window: .day(.oneHour))
                 self.balanceProvider.refresh()
                 
                 /// Record user properties once wallet is initialized

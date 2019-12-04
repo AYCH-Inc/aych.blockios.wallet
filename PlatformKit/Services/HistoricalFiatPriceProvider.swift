@@ -10,9 +10,7 @@ public protocol HistoricalFiatPriceProviding: class {
     
     /// Returns the service that matches the `CryptoCurrency`
     subscript(currency: CryptoCurrency) -> HistoricalFiatPriceServiceAPI { get }
-    
-    /// Refreshes all the services
-    func refresh()
+    func refresh(window: PriceWindow)
 }
 
 public final class HistoricalFiatPriceProvider: HistoricalFiatPriceProviding {
@@ -24,39 +22,24 @@ public final class HistoricalFiatPriceProvider: HistoricalFiatPriceProviding {
     // MARK: - Services
     
     private var services: [CryptoCurrency: HistoricalFiatPriceServiceAPI] = [:]
-        
+    
     // MARK: - Setup
     
-    public init(window: PriceWindow,
-                currencyProvider: FiatCurrencyTypeProviding) {
-        services[.ethereum] = HistoricalFiatPriceService(
-            cryptoCurrency: .ethereum,
-            priceWindow: window,
-            fiatCurrencyProvider: currencyProvider
-        )
-        services[.pax] = HistoricalFiatPriceService(
-            cryptoCurrency: .pax,
-            priceWindow: window,
-            fiatCurrencyProvider: currencyProvider
-        )
-        services[.stellar] = HistoricalFiatPriceService(
-            cryptoCurrency: .stellar,
-            priceWindow: window,
-            fiatCurrencyProvider: currencyProvider
-        )
-        services[.bitcoin] = HistoricalFiatPriceService(
-            cryptoCurrency: .bitcoin,
-            priceWindow: window,
-            fiatCurrencyProvider: currencyProvider
-        )
-        services[.bitcoinCash] = HistoricalFiatPriceService(
-            cryptoCurrency: .bitcoinCash,
-            priceWindow: window,
-            fiatCurrencyProvider: currencyProvider
-        )
+    public init(ether: HistoricalFiatPriceServiceAPI,
+                pax: HistoricalFiatPriceServiceAPI,
+                stellar: HistoricalFiatPriceServiceAPI,
+                bitcoin: HistoricalFiatPriceServiceAPI,
+                bitcoinCash: HistoricalFiatPriceServiceAPI) {
+        services[.ethereum] = ether
+        services[.pax] = pax
+        services[.stellar] = stellar
+        services[.bitcoin] = bitcoin
+        services[.bitcoinCash] = bitcoinCash
+        
+        refresh()
     }
         
-    public func refresh() {
-        services.values.forEach { $0.fetchTriggerRelay.accept(()) }
+    public func refresh(window: PriceWindow = .day(.oneHour)) {
+        services.values.forEach { $0.fetchTriggerRelay.accept(window) }
     }
 }

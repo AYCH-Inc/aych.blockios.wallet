@@ -45,17 +45,23 @@ final class APIClient: APIClientAPI {
     
     func prices(within window: PriceWindow, currency: CryptoCurrency, code: String) -> Single<[PriceInFiat]> {
         var start: TimeInterval = 0
+        var components = DateComponents()
+        
         switch window {
         case .all:
             start = currency.maxStartDate
         case .day:
-            start = Date().addingTimeInterval(-86400).timeIntervalSince1970
+            components.day = -1
+            start = Calendar.current.date(byAdding: components, to: Date())?.timeIntervalSince1970 ?? 0
         case .week:
-            start = Date().addingTimeInterval(-604800).timeIntervalSince1970
+            components.day = -7
+            start = Calendar.current.date(byAdding: components, to: Date())?.timeIntervalSince1970 ?? 0
         case .month:
-            start = Date().addingTimeInterval(-2592000).timeIntervalSince1970
+            components.month = -1
+            start = Calendar.current.date(byAdding: components, to: Date())?.timeIntervalSince1970 ?? 0
         case .year:
-            start = Date().addingTimeInterval(-31536000).timeIntervalSince1970
+            components.year = -1
+            start = Calendar.current.date(byAdding: components, to: Date())?.timeIntervalSince1970 ?? 0
         }
         
         let parameters = [
@@ -74,10 +80,6 @@ final class APIClient: APIClientAPI {
             URLQueryItem(
                 name: "scale",
                 value: String(window.scale)
-            ),
-            URLQueryItem(
-                name: "omitnull",
-                value: "true"
             )
         ]
         guard let request = requestBuilder.get(path: Endpoint.priceIndex, parameters: parameters) else {
@@ -101,22 +103,5 @@ final class APIClient: APIClientAPI {
         }
         return communicator.perform(request: request)
         
-    }
-}
-
-fileprivate extension CryptoCurrency {
-    var maxStartDate: TimeInterval {
-        switch self {
-        case .bitcoin:
-            return 1282089600.0
-        case .bitcoinCash:
-            return 1500854400.0
-        case .ethereum:
-            return 1438992000.0
-        case .pax:
-            return 1555060318.0
-        case .stellar:
-            return 1525716000.0
-        }
     }
 }

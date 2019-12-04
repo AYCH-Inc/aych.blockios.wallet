@@ -49,7 +49,7 @@ public final class AssetBalanceChangeProvider: AssetBalanceChangeProviding {
             .map { (balance, prices) in
                 guard let balanceValue = balance.value else { return .calculating }
                 guard let historicalPriceValue = prices.value else { return .calculating }
-                let before = try balanceValue.value(before: historicalPriceValue.0.delta)
+                let before = try balanceValue.value(before: historicalPriceValue.historicalPrices.delta)
                 let value = try balanceValue - before
                 return .value(value)
             }

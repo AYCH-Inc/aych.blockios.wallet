@@ -1217,7 +1217,7 @@ struct LocalizationConstants {
             comment: "Action of alert shown if the deep link requires a newer version of the app."
         )
     }
-
+    
     struct Dashboard {
         struct Balance {
             static let totalBalance = NSLocalizedString(
@@ -1261,6 +1261,19 @@ struct LocalizationConstants {
         static let activity = NSLocalizedString("Activity", comment: "Activity tab item")
         static let send = NSLocalizedString("Send", comment: "Send tab item")
         static let request = NSLocalizedString("Request", comment: "request tab item")
+    }
+    
+    struct DashboardDetails {
+        static let currentPrice = NSLocalizedString("Current Price", comment: "Current Price")
+        
+        static let send = NSLocalizedString("Send", comment: "Send")
+        static let request = NSLocalizedString("Request", comment: "Request")
+        
+        static let day = NSLocalizedString("Day", comment: "Day")
+        static let week = NSLocalizedString("Week", comment: "Week")
+        static let month = NSLocalizedString("Month", comment: "Month")
+        static let year = NSLocalizedString("Year", comment: "Year")
+        static let all = NSLocalizedString("All", comment: "All")
     }
 
     struct VersionUpdate {

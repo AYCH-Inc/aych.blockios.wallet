@@ -30,33 +30,63 @@ final class DataProvider: DataProviding {
     let balance: BalanceProviding
     
     init(fiatCurrencyProvider: FiatCurrencyTypeProviding = BlockchainSettings.App.shared) {
-        historicalPrices = HistoricalFiatPriceProvider(
-            window: .day(.oneHour),
-            currencyProvider: fiatCurrencyProvider
-        )
-        exchange = ExchangeProvider(
+        
+        self.exchange = ExchangeProvider(
             ether: PairExchangeService(
                 cryptoCurrency: .ethereum,
                 fiatCurrencyProvider: fiatCurrencyProvider
-            ),
+        ),
             pax: PairExchangeService(
-                cryptoCurrency: .pax,
-                fiatCurrencyProvider: fiatCurrencyProvider
-            ),
+            cryptoCurrency: .pax,
+            fiatCurrencyProvider: fiatCurrencyProvider
+        ),
             stellar: PairExchangeService(
                 cryptoCurrency: .stellar,
                 fiatCurrencyProvider: fiatCurrencyProvider
-            ),
+        ),
             bitcoin: PairExchangeService(
                 cryptoCurrency: .bitcoin,
                 fiatCurrencyProvider: fiatCurrencyProvider
-            ),
+        ),
             bitcoinCash: PairExchangeService(
                 cryptoCurrency: .bitcoinCash,
-                fiatCurrencyProvider: fiatCurrencyProvider
-            )
+                fiatCurrencyProvider: fiatCurrencyProvider)
         )
-
+        
+        let etherHistoricalFiatService = HistoricalFiatPriceService(
+            cryptoCurrency: .ethereum,
+            exchangeAPI: exchange[.ethereum],
+            fiatCurrencyProvider: fiatCurrencyProvider
+        )
+        let bitcoinHistoricalFiatService = HistoricalFiatPriceService(
+            cryptoCurrency: .bitcoin,
+            exchangeAPI: exchange[.bitcoin],
+            fiatCurrencyProvider: fiatCurrencyProvider
+        )
+        let bitcoinCashHistoricalFiatService = HistoricalFiatPriceService(
+            cryptoCurrency: .bitcoinCash,
+            exchangeAPI: exchange[.bitcoinCash],
+            fiatCurrencyProvider: fiatCurrencyProvider
+        )
+        let stellarHistoricalFiatService = HistoricalFiatPriceService(
+            cryptoCurrency: .stellar,
+            exchangeAPI: exchange[.stellar],
+            fiatCurrencyProvider: fiatCurrencyProvider
+        )
+        let paxHistoricalFiatService = HistoricalFiatPriceService(
+            cryptoCurrency: .pax,
+            exchangeAPI: exchange[.pax],
+            fiatCurrencyProvider: fiatCurrencyProvider
+        )
+        
+        self.historicalPrices = HistoricalFiatPriceProvider(
+            ether: etherHistoricalFiatService,
+            pax: paxHistoricalFiatService,
+            stellar: stellarHistoricalFiatService,
+            bitcoin: bitcoinHistoricalFiatService,
+            bitcoinCash: bitcoinCashHistoricalFiatService
+        )
+        
         let etherBalanceFetcher = AssetBalanceFetcher(
             balance: WalletManager.shared.wallet.ethereum,
             exchange: exchange[.ethereum]

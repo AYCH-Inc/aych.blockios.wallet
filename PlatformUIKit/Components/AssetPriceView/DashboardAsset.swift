@@ -37,6 +37,47 @@ public struct DashboardAsset {
         public struct Interaction {
             
             public struct AssetPrice {
+                
+                /// Time unit. Can be further customized in future
+                /// Each value currently refers to 1 unit
+                public enum Time {
+                    case hours(Int)
+                    case days(Int)
+                    case weeks(Int)
+                    case months(Int)
+                    case years(Int)
+                    case timestamp(Date)
+                    
+                    var string: String {
+                        switch self {
+                        case .hours(let number):
+                            let time = number > 1 ? LocalizationConstants.TimeUnit.Plural.hours : LocalizationConstants.TimeUnit.Singular.hour
+                            return "\(number) \(time)"
+                        case .days(let number):
+                            let time = number > 1 ? LocalizationConstants.TimeUnit.Plural.days : LocalizationConstants.TimeUnit.Singular.day
+                            return "\(number) \(time)"
+                        case .weeks(let number):
+                            let time = number > 1 ? LocalizationConstants.TimeUnit.Plural.weeks : LocalizationConstants.TimeUnit.Singular.week
+                            return "\(number) \(time)"
+                        case .months(let number):
+                            let time = number > 1 ? LocalizationConstants.TimeUnit.Plural.months : LocalizationConstants.TimeUnit.Singular.month
+                            return "\(number) \(time)"
+                        case .years(let number):
+                            switch number > 1 {
+                            case true:
+                                return  LocalizationConstants.TimeUnit.Plural.allTime
+                            case false:
+                                return "\(number) \(LocalizationConstants.TimeUnit.Singular.year)"
+                            }
+                        case .timestamp(let date):
+                            return DateFormatter.medium.string(from: date)
+                        }
+                    }
+                }
+                
+                /// The `Time` for the given `AssetPrice`
+                let time: Time
+                
                 /// The asset price in localized fiat currency
                 let fiatValue: FiatValue
                 
@@ -45,6 +86,13 @@ public struct DashboardAsset {
                 
                 /// The change in fiat value
                 let fiatChange: FiatValue
+                
+                public init(time: Time, fiatValue: FiatValue, changePercentage: Double, fiatChange: FiatValue) {
+                    self.time = time
+                    self.fiatValue = fiatValue
+                    self.changePercentage = changePercentage
+                    self.fiatChange = fiatChange
+                }
             }
             
             public struct AssetBalance {
@@ -105,31 +153,6 @@ public struct DashboardAsset {
                 /// Descriptors that allows customized content and style
                 public struct Descriptors {
                     
-                    /// Time unit. Can be further customized in future
-                    /// Each value currently refers to 1 unit
-                    public enum Time {
-                        case hours(Int)
-                        case days(Int)
-                        case weeks(Int)
-                        case months(Int)
-                        case years(Int)
-                        
-                        public var string: String {
-                            switch self {
-                            case .hours(let number):
-                                return "\(number)\(LocalizationConstants.TimeUnit.hours)"
-                            case .days(let number):
-                                return "\(number)\(LocalizationConstants.TimeUnit.days)"
-                            case .weeks(let number):
-                                return "\(number)\(LocalizationConstants.TimeUnit.weeks)"
-                            case .months(let number):
-                                return "\(number)\(LocalizationConstants.TimeUnit.months)"
-                            case .years(let number):
-                                return "\(number)\(LocalizationConstants.TimeUnit.years)"
-                            }
-                        }
-                    }
-                    
                     /// Options to display content
                     struct ContentOptions: OptionSet {
                         let rawValue: Int
@@ -145,7 +168,6 @@ public struct DashboardAsset {
                     }
                     
                     let contentOptions: ContentOptions
-                    let time: Time
                     let priceFontSize: CGFloat
                     let changeFontSize: CGFloat
                     let accessibilityIdSuffix: String
@@ -229,7 +251,7 @@ public struct DashboardAsset {
                     
                     let period = NSAttributedString(
                         LabelContent(
-                            text: " \(descriptors.time.string)",
+                            text: " \(value.time.string)",
                             font: .mainMedium(descriptors.changeFontSize),
                             color: .mutedText
                         )
@@ -249,7 +271,6 @@ extension DashboardAsset.Value.Presentation.AssetPrice.Descriptors {
     public static var balance: DashboardAsset.Value.Presentation.AssetPrice.Descriptors {
         return .init(
             contentOptions: [.fiat, .percentage],
-            time: .hours(24),
             priceFontSize: 24,
             changeFontSize: 14,
             accessibilityIdSuffix: Accessibility.Identifier.Dashboard.TotalBalanceCell.valueLabelSuffix
@@ -257,13 +278,35 @@ extension DashboardAsset.Value.Presentation.AssetPrice.Descriptors {
     }
     
     /// Returns a descriptor for dashboard asset price
-    public static func assetPrice(accessibilityIdSuffix: String) -> DashboardAsset.Value.Presentation.AssetPrice.Descriptors {
+    public static func assetPrice(accessibilityIdSuffix: String,
+                           priceFontSize: CGFloat = 16.0,
+                           changeFontSize: CGFloat = 14.0) -> DashboardAsset.Value.Presentation.AssetPrice.Descriptors {
         return .init(
             contentOptions: [.percentage],
-            time: .hours(24),
-            priceFontSize: 16,
-            changeFontSize: 14,
+            priceFontSize: priceFontSize,
+            changeFontSize: changeFontSize,
             accessibilityIdSuffix: accessibilityIdSuffix
         )
+    }
+}
+
+public extension PriceWindow {
+
+    typealias Time = DashboardAsset.Value.Interaction.AssetPrice.Time
+
+    func time(for currency: CryptoCurrency) -> Time {
+        switch self {
+        case .all:
+            let years = max(1.0, currency.maxStartDate / 31536000)
+            return .years(Int(years))
+        case .year:
+            return .years(1)
+        case .month:
+            return .months(1)
+        case .week:
+            return .weeks(1)
+        case .day:
+            return .hours(24)
+        }
     }
 }

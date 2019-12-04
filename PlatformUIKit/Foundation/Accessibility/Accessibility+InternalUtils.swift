@@ -23,6 +23,9 @@ public extension Accessibility.Identifier {
         public static let mainCTAButton = "mainCTAButton"
         public static let secondaryCTAButton = "secondaryCTAButton"
         public static let destructiveCTAButton = "desctructiveCTAButton"
+        
+        // Segmented Button
+        public static let primarySegmentedControl = "primarySegmentedControl"
     }
 }
 

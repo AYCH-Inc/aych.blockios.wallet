@@ -58,6 +58,34 @@ public final class ShimmeringView: UIView {
         backgroundView.fillSuperview()
         animatingView.fillSuperview()
         layoutIfNeeded()
+        start()
+    }
+    
+    public init(in superview: UIView,
+                centeredIn anchorView: UIView,
+                size: CGSize,
+                light: UIColor = .lightShimmering,
+                dark: UIColor = .darkShimmering) {
+        self.anchorView = anchorView
+        self.light = light
+        self.dark = dark
+        super.init(frame: .zero)
+        superview.addSubview(self)
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            centerXAnchor.constraint(equalTo: anchorView.centerXAnchor),
+            centerYAnchor.constraint(equalTo: anchorView.centerYAnchor),
+            widthAnchor.constraint(equalToConstant: size.width)
+        ])
+        
+        let height = heightAnchor.constraint(equalToConstant: size.height)
+        height.isActive = true
+        
+        backgroundView.fillSuperview()
+        animatingView.fillSuperview()
+        layoutIfNeeded()
+        start()
     }
 
     required init?(coder: NSCoder) {
@@ -66,10 +94,12 @@ public final class ShimmeringView: UIView {
 
     public func start() {
         animatingView.startShimmering(dark: dark, light: light)
+        alpha = 1
     }
     
     public func stop() {
         animatingView.stopShimmering()
+        alpha = 0
     }
 }
 

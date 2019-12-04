@@ -19,16 +19,28 @@ public final class AssetPriceView: UIView {
             guard let presenter = presenter else {
                 return
             }
+            presenter.alignment
+                .drive(stackView.rx.alignment)
+                .disposed(by: disposeBag)
+            
             presenter.state
                 .compactMap { $0.value }
                 .bind(to: rx.values)
                 .disposed(by: disposeBag)
             
             presenter.state
-                .filter { $0.isLoading }
+                .map { $0.isLoading }
                 .mapToVoid()
                 .bind { [weak self] in
-                    self?.shimmer()
+                    self?.startShimmering()
+                }
+                .disposed(by: disposeBag)
+                
+            presenter.state
+                .filter { $0.isLoading == false }
+                .mapToVoid()
+                .bind { [weak self] in
+                    self?.stopShimmering()
                 }
                 .disposed(by: disposeBag)
         }
@@ -38,6 +50,7 @@ public final class AssetPriceView: UIView {
     
     @IBOutlet fileprivate var priceLabel: UILabel!
     @IBOutlet fileprivate var changeLabel: UILabel!
+    @IBOutlet fileprivate var stackView: UIStackView!
 
     fileprivate var priceLabelShimmeringView: ShimmeringView!
     fileprivate var changeLabelShimmeringView: ShimmeringView!
@@ -52,6 +65,12 @@ public final class AssetPriceView: UIView {
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
+    }
+    
+    private func setup() {
+        fromNib()
+        setNeedsLayout()
+        layoutIfNeeded()
     }
     
     /// Should be called once when the parent view loads
@@ -69,11 +88,30 @@ public final class AssetPriceView: UIView {
         )
     }
     
-    private func setup() {
-        fromNib()
+    private func stopShimmering() {
+        guard priceLabelShimmeringView.isShimmering && changeLabelShimmeringView.isShimmering else { return }
+        
+        changeLabel.alpha = 0
+        priceLabel.alpha = 0
+        
+        let animation = {
+            self.priceLabel.alpha = 1
+            self.changeLabel.alpha = 1
+            self.priceLabelShimmeringView.stop()
+            self.changeLabelShimmeringView.stop()
+        }
+        
+        UIView.animate(
+            withDuration: 0.3,
+            delay: 0,
+            options: [.curveEaseInOut, .transitionCrossDissolve],
+            animations: animation
+        )
     }
     
-    private func shimmer() {
+    private func startShimmering() {
+        guard priceLabel.content.isEmpty() else { return }
+        guard changeLabel.content.isEmpty() else { return }
         priceLabelShimmeringView.start()
         changeLabelShimmeringView.start()
     }
@@ -87,29 +125,6 @@ extension Reactive where Base: AssetPriceView {
             view.priceLabel.content = values.price
             view.changeLabel.attributedText = values.change
             view.changeLabel.accessibility = values.changeAccessibility
-            let animation = {
-                view.priceLabel.alpha = 1
-                view.changeLabel.alpha = 1
-                view.priceLabelShimmeringView.alpha = 0
-                view.changeLabelShimmeringView.alpha = 0
-            }
-            let completion = { (finished: Bool) in
-                view.priceLabelShimmeringView.stop()
-                view.changeLabelShimmeringView.stop()
-                view.priceLabelShimmeringView.removeFromSuperview()
-                view.changeLabelShimmeringView.removeFromSuperview()
-            }
-            if view.priceLabelShimmeringView.isShimmering {
-                view.changeLabel.alpha = 0
-                view.priceLabel.alpha = 0
-                UIView.animate(
-                    withDuration: 1,
-                    delay: 0,
-                    options: [.curveEaseInOut, .transitionCrossDissolve],
-                    animations: animation,
-                    completion: completion
-                )
-            }
         }
     }
 }

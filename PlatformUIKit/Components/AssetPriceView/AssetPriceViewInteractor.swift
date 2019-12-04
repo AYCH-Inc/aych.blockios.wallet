@@ -35,14 +35,17 @@ public final class AssetPriceViewInteractor: AssetPriceViewInteracting {
                 case .calculating, .invalid:
                     return .loading
                 case .value(let result):
-                    let delta = result.0.delta
-                    let currentPrice = result.1
+                    let delta = result.historicalPrices.delta
+                    let currency = result.historicalPrices.currency
+                    let window = result.priceWindow
+                    let currentPrice = result.currentFiatValue
                     let fiatChange = FiatValue.create(
-                        amount: result.0.fiatChange,
-                        currencyCode: result.1.currencyCode
+                        amount: result.historicalPrices.fiatChange,
+                        currencyCode: result.currentFiatValue.currencyCode
                     )
                     return .loaded(
                         next: .init(
+                            time: window.time(for: currency),
                             fiatValue: currentPrice,
                             changePercentage: delta,
                             fiatChange: fiatChange

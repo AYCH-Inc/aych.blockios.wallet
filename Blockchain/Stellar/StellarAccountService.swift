@@ -24,6 +24,10 @@ class StellarAccountService: StellarAccountAPI {
             .flatMap(weak: self) { (self, account) -> Single<CryptoValue> in
                 return Single.just(account.assetAccount.balance)
             }
+            .catchError { (error) -> Single<CryptoValue> in
+                guard error is StellarAccountError else { return Single.error(error) }
+                return Single.just(.zero(assetType: .stellar))
+            }
     }
     
     var balanceObservable: Observable<CryptoValue> {

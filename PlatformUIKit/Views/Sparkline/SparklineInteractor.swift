@@ -34,7 +34,7 @@ public class SparklineInteractor: SparklineInteracting {
                 case .calculating, .invalid:
                     return .calculating
                 case .value(let value):
-                    let prices = value.0.prices.map { $0.price }
+                    let prices = value.historicalPrices.prices.map { $0.price }
                     return .value(prices)
                 }
             }

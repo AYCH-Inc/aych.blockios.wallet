@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window.makeKeyAndVisible()
-        window.backgroundColor = .white
+        window.backgroundColor = #colorLiteral(red: 0.0431372549, green: 0.1019607843, blue: 0.2784313725, alpha: 1)
 
         // Trigger routing hierarchy
         appCoordinator = AppCoordinator.shared

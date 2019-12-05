@@ -68,11 +68,11 @@ extension VeriffController {
             onVeriffError(message: LocalizationConstants.Errors.cameraAccessDeniedMessage)
         case .STATUS_ERROR_SESSION,
              .STATUS_ERROR_NETWORK,
-             .STATUS_ERROR_UNKNOWN:
+             .STATUS_ERROR_UNKNOWN,
+             .UNSUPPORTED_SDK_VERSION:
             onVeriffError(message: LocalizationConstants.Errors.genericError)
         case .STATUS_DONE,
-             .STATUS_SUBMITTED,
-             .STATUS_ERROR_NO_IDENTIFICATION_METHODS_AVAILABLE:
+             .STATUS_SUBMITTED:
             // DONE: The client got declined while he was still using the SDK
             // - this status can only occur if video_feature is used and FCM token is set.
             // NO_IDENTIFICATION: The session status is finished from clients perspective.

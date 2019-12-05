@@ -124,7 +124,7 @@ PODS:
   - stellar-ios-mac-sdk (1.7.0)
   - SwiftCheck (0.12.0)
   - SwiftLint (0.30.1)
-  - VeriffSDK (2.6.2):
+  - VeriffSDK (2.7.0):
     - ReachabilitySwift (~> 4.3.1)
     - Socket.IO-Client-Swift (~> 15.0.0)
     - VeriffWebRTC (~> 1.0.1)
@@ -157,7 +157,7 @@ DEPENDENCIES:
   - "stellar-ios-mac-sdk (from `git@github.com:thisisalexmcgregor/stellar-ios-mac-sdk.git`, commit `897f8acd327bb900aa97a6b92e602c6076e978bc`)"
   - SwiftCheck (~> 0.12)
   - SwiftLint (= 0.30.1)
-  - VeriffSDK (= 2.6.2)
+  - VeriffSDK (= 2.7.0)
   - "web3swift.pod (from `git@github.com:thisisalexmcgregor/web3swift.git`, commit `39abb613bef9f63f7bff5633172b3b474e54c165`)"
   - zxcvbn-ios (= 1.0.4)
 
@@ -183,7 +183,6 @@ SPEC REPOS:
     - PhoneNumberKit
     - PromiseKit
     - Protobuf
-    - ReachabilitySwift
     - RxBlocking
     - RxCocoa
     - RxRelay
@@ -191,13 +190,15 @@ SPEC REPOS:
     - RxTest
     - scrypt.c
     - secp256k1.c
-    - Socket.IO-Client-Swift
     - Starscream
     - SwiftCheck
     - SwiftLint
+    - zxcvbn-ios
+  trunk:
+    - ReachabilitySwift
+    - Socket.IO-Client-Swift
     - VeriffSDK
     - VeriffWebRTC
-    - zxcvbn-ios
 
 EXTERNAL SOURCES:
   LibWally:
@@ -258,11 +259,11 @@ SPEC CHECKSUMS:
   stellar-ios-mac-sdk: d4e826707d24d4c7d16089fe184e0b3a472790d3
   SwiftCheck: d1dd04d955cc76620b0f84e087536bd059a11c24
   SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
-  VeriffSDK: dd25d8ba9fbbe986d37e4fdaf429ad69c48c607d
+  VeriffSDK: 2ac1f95bde580d5cbe04271e8df6bc6201d2f7f5
   VeriffWebRTC: 47806fee639a69ae5f82f2b031d20f0014d4a016
   web3swift.pod: 98e8653f39e1bcd7b45f46dd982ec49cdfc6c46a
   zxcvbn-ios: fef98b7c80f1512ff0eec47ac1fa399fc00f7e3c
 
-PODFILE CHECKSUM: 03ffe3ceff153d59d582308c95aebb67f6d13d37
+PODFILE CHECKSUM: 05067c4bd9c010dc955f3efca2b1f7643af7742b
 
 COCOAPODS: 1.8.4

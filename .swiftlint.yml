@@ -22,6 +22,7 @@ excluded:
   - Submodules/
   - RxAlamofire/
   - Pods/
+  - Carthage/
   - vendor/bundle
 opt_in_rules:
   - empty_string

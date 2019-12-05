@@ -20,10 +20,8 @@ target 'Blockchain' do
   pod 'PhoneNumberKit', '~> 2.1'
   pod 'RxCocoa', '5.0'
   pod 'RxSwift', '5.0'
-  pod 'Starscream', '3.1.0'
   pod 'SwiftLint', '0.30.1'
   pod 'stellar-ios-mac-sdk', git: 'git@github.com:thisisalexmcgregor/stellar-ios-mac-sdk.git', commit: '897f8acd327bb900aa97a6b92e602c6076e978bc'
-  pod 'VeriffSDK', '2.7.0'
   pod 'zxcvbn-ios', '1.0.4'
 
   target 'BlockchainTests' do

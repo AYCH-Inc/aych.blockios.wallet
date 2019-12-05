@@ -1,0 +1,4 @@
+$(SRCROOT)/Carthage/Build/iOS/Starscream.framework
+$(SRCROOT)/Carthage/Build/iOS/WebRTC.framework
+$(SRCROOT)/Carthage/Build/iOS/SocketIO.framework
+$(SRCROOT)/Carthage/Build/iOS/Veriff.framework

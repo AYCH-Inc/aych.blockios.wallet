@@ -20,13 +20,13 @@ final class AssetLineChartTableViewCellInteractor: AssetLineChartTableViewCellIn
     let lineChartInteractor: AssetLineChartInteracting
     let assetPriceViewInteractor: AssetPriceViewInteracting
     let window = PublishRelay<PriceWindow>()
-    var isSelected: Driver<Bool> {
-        return isSelectedRelay.asDriver()
+    var isDeselected: Driver<Bool> {
+        return isDeselectedRelay.asDriver()
     }
     
     // MARK: - Private Properties
     
-    private let isSelectedRelay = BehaviorRelay<Bool>(value: false)
+    private let isDeselectedRelay = BehaviorRelay<Bool>(value: false)
     private let historicalFiatPriceService: HistoricalFiatPriceServiceAPI
     private let disposeBag = DisposeBag()
     
@@ -46,8 +46,8 @@ final class AssetLineChartTableViewCellInteractor: AssetLineChartTableViewCellIn
             chartUserInteracting: lineChartUserInteractor
         )
         
-        lineChartUserInteractor.state.map { $0 != .deselected }
-        .bind(to: isSelectedRelay)
+        lineChartUserInteractor.state.map { $0 == .deselected }
+        .bind(to: isDeselectedRelay)
         .disposed(by: disposeBag)
         
         /// Bind window relay to the `PublishRelay<PriceWindow>` on

@@ -22,7 +22,7 @@ final class CurrentBalanceTableViewCell: UITableViewCell {
         didSet {
             currencyImageView.image = currency.logo
             currencyType.text = currency.description
-            currencyTypeDescription.text = "\(LocalizationConstants.Swap.your) \(currency.description) \(LocalizationConstants.Swap.balance)"
+            currencyTypeDescription.text = "\(LocalizationConstants.Swap.your) \(currency.rawValue) \(LocalizationConstants.Swap.balance)"
         }
     }
     

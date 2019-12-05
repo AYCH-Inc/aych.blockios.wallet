@@ -35,7 +35,7 @@ protocol AssetLineChartTableViewCellInteracting {
     var window: PublishRelay<PriceWindow> { get }
     
     /// Tells the presenter if the `AssetLineChartView` is currently
-    /// selected.
-    var isSelected: Driver<Bool> { get }
+    /// deselected.
+    var isDeselected: Driver<Bool> { get }
 }
 

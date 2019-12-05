@@ -34,7 +34,6 @@
                                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             <connections>
                                                 <outlet property="dataSource" destination="-1" id="USD-Wc-iNR"/>
-                                                <outlet property="delegate" destination="-1" id="k14-v9-umI"/>
                                             </connections>
                                         </tableView>
                                     </subviews>

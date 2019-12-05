@@ -58,8 +58,8 @@ final class AssetLineChartTableViewCellPresenter: AssetLineChartTableViewCellPre
         lineChartView.rightAxis.enabled = false
         lineChartView.minOffset = 0.0
         lineChartView.legend.enabled = false
-        lineChartView.highlightPerTapEnabled = false
         lineChartView.doubleTapToZoomEnabled = false
+        lineChartView.pinchZoomEnabled = false
         lineChartView.data = LineChartData.empty
         
         self.interactor = AssetLineChartTableViewCellInteractor(
@@ -82,7 +82,7 @@ final class AssetLineChartTableViewCellPresenter: AssetLineChartTableViewCellPre
                lineChartView: lineChartView
         )
         
-        interactor.isSelected
+        interactor.isDeselected
             .drive(scrollingEnabledRelay)
             .disposed(by: disposeBag)
         

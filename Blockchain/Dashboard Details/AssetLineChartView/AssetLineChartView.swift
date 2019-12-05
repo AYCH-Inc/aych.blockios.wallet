@@ -51,12 +51,17 @@ final class AssetLineChartView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        shimmer()
         assetPriceView.shimmer(
             estimatedPriceLabelSize: CGSize(width: 150,
                                             height: 40),
             estimatedChangeLabelSize: CGSize(width: 75,
                                              height: 24)
+        )
+        
+        chartShimmeringView = ShimmeringView(
+            in: self,
+            centeredIn: chartContainer,
+            size: .init(width: chartContainer.bounds.width, height: 1.0)
         )
         
         assetPriceView.setNeedsLayout()
@@ -81,17 +86,6 @@ final class AssetLineChartView: UIView {
         self.chartView = lineChartView
         chartContainer.addSubview(chartView)
         chartView.fillSuperview()
-    }
-    
-    /// Should be called once when the parent view loads
-    public func shimmer() {
-        guard chartShimmeringView == nil else { return }
-        chartShimmeringView = ShimmeringView(
-            in: self,
-            centeredIn: chartContainer,
-            size: .init(width: chartContainer.bounds.width, height: 1.0)
-        )
-        chartShimmeringView.start()
     }
 }
 
@@ -125,18 +119,14 @@ extension Reactive where Base: AssetLineChartView {
         return Binder(base) { view, payload in
             let state = payload
             let animation = {
-                view.shimmer()
                 view.chartView.data = LineChartData.empty
                 view.chartView.setNeedsDisplay()
                 view.chartView.alpha = state.visibility.defaultAlpha
-                view.chartShimmeringView.alpha = state.shimmerVisibility.defaultAlpha
+                view.chartShimmeringView.start()
             }
             let completion = { (finished: Bool) in
                 view.chartView.alpha = state.visibility.defaultAlpha
-                view.chartShimmeringView.alpha = state.shimmerVisibility.defaultAlpha
                 view.chartShimmeringView.stop()
-                view.chartShimmeringView.removeFromSuperview()
-                view.chartShimmeringView = nil
             }
             
             switch state {

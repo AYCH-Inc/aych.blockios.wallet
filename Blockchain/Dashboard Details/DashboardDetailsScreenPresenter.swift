@@ -37,7 +37,7 @@ final class DashboardDetailsScreenPresenter {
     }
     
     var barStyle: Screen.Style.Bar {
-        return .lightContent(ignoresStatusBar: false, background: .primary)
+        return .lightContent(ignoresStatusBar: false, background: .navigationBarBackground)
     }
     
     // MARK: - Types

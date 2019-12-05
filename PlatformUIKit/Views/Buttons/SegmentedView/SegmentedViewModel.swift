@@ -219,7 +219,7 @@ extension SegmentedViewModel {
     public static func primary(
         items: [Item],
         background: UIColor = .primaryButton,
-        cornerRadius: CGFloat = 4,
+        cornerRadius: CGFloat = 8,
         accessibilityId: String = Accessibility.Identifier.General.primarySegmentedControl
         ) -> SegmentedViewModel {
         var viewModel = SegmentedViewModel(
@@ -242,7 +242,7 @@ extension SegmentedViewModel {
     public static func `plain`(
         items: [Item],
         background: UIColor = .white,
-        cornerRadius: CGFloat = 4,
+        cornerRadius: CGFloat = 8,
         accessibilityId: String = Accessibility.Identifier.General.primarySegmentedControl
         ) -> SegmentedViewModel {
         var viewModel = SegmentedViewModel(
@@ -264,7 +264,7 @@ extension SegmentedViewModel {
     public static func `default`(
         items: [Item],
         isMomentary: Bool = true,
-        cornerRadius: CGFloat = 4,
+        cornerRadius: CGFloat = 8,
         accessibilityId: String = Accessibility.Identifier.General.primarySegmentedControl
         ) -> SegmentedViewModel {
         var viewModel = SegmentedViewModel(
@@ -288,7 +288,7 @@ extension SegmentedViewModel {
     public static func legacy(
         items: [Item],
         isMomentary: Bool = true,
-        cornerRadius: CGFloat = 4,
+        cornerRadius: CGFloat = 8,
         accessibilityId: String = Accessibility.Identifier.General.primarySegmentedControl
         ) -> SegmentedViewModel {
         var viewModel = SegmentedViewModel(

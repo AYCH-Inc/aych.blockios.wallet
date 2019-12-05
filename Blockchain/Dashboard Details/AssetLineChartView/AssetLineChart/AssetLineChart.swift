@@ -65,8 +65,4 @@ extension AssetLineChart.State.Presentation {
             return .visible
         }
     }
-    
-    var shimmerVisibility: Visibility {
-        return visibility == .hidden ? .visible : .hidden
-    }
 }

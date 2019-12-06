@@ -202,7 +202,10 @@ final class BlockchainSettings: NSObject {
         }
 
         @objc func fiatSymbolFromCode(currencyCode: String) -> String? {
-            guard let currencyCodeDict = WalletManager.shared.wallet.btcRates[currencyCode] as? [String: Any] else {
+            guard let _ = WalletManager.shared.wallet.btcRates?.index(forKey: currencyCode) else {
+                return nil
+            }
+            guard let currencyCodeDict = WalletManager.shared.wallet.btcRates?[currencyCode] as? [String: Any] else {
                 return nil
             }
             return currencyCodeDict["symbol"] as? String

@@ -640,7 +640,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
         walletManager.wallet.getAccountInfo()
     }
     func updateCurrencySymbols() {
-        allCurrencySymbolsDictionary = walletManager.wallet.btcRates
+        allCurrencySymbolsDictionary = walletManager.wallet.btcRates ?? [String: Any]()
         reloadTableView()
     }
     override func viewWillAppear(_ animated: Bool) {

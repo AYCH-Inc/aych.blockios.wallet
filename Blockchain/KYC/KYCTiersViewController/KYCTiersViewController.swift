@@ -310,6 +310,7 @@ extension KYCTiersViewController {
             .catchErrorJustReturn(nil)
             .asObservable()
         return Observable.zip(BlockchainDataRepository.shared.tiers, tradesObservable)
+            .observeOn(MainScheduler.asyncInstance)
             .subscribeOn(MainScheduler.asyncInstance)
             .map { (response, limits) -> KYCTiersPageModel in
                 let userTiers = response.userTiers

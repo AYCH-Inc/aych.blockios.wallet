@@ -194,7 +194,7 @@
 @property BOOL isSyncing;
 @property BOOL isNew;
 @property NSString *twoFactorInput;
-@property (nonatomic) NSDictionary *btcRates;
+@property (nonatomic, nullable) NSDictionary<NSString *, id> *btcRates;
 
 @property (nonatomic) SRWebSocket *btcSocket;
 @property (nonatomic) SRWebSocket *bchSocket;

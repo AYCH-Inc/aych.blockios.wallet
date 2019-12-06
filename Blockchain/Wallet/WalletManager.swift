@@ -162,7 +162,7 @@ class WalletManager: NSObject, TransactionObserving {
         
         guard wallet.btcRates != nil else { return }
         
-        guard let currencySymbols = self.wallet.btcRates[fiatCode] as? [AnyHashable: Any] else {
+        guard let currencySymbols = self.wallet.btcRates?[fiatCode] as? [AnyHashable: Any] else {
             Logger.shared.warning("Currency symbols dictionary is nil")
             return
         }

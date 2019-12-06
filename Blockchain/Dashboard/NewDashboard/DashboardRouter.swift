@@ -15,15 +15,18 @@ import RxRelay
 final class DashboardRouter {
     
     private let disposeBag = DisposeBag()
+    private let currencyRouting: CurrencyRouting
     private let tabSwapping: TabSwapping
     private let rootViewController: TabViewController!
     private let dataProvider: DataProvider
     
     init(rootViewController: TabViewController,
+         currencyRouting: CurrencyRouting,
          tabSwapping: TabSwapping,
          dataProvider: DataProvider = DataProvider.default) {
         self.rootViewController = rootViewController
         self.dataProvider = dataProvider
+        self.currencyRouting = currencyRouting
         self.tabSwapping = tabSwapping
     }
     
@@ -64,9 +67,9 @@ final class DashboardRouter {
         case .buy(let currency):
             break
         case .request(let currency):
-            tabSwapping.switchTabToReceive()
+            currencyRouting.toReceive(currency)
         case .send(let currency):
-            tabSwapping.switchToSend()
+            currencyRouting.toSend(currency)
         case .swap(let currency):
             tabSwapping.switchTabToSwap()
         }

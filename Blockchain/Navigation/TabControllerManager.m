@@ -786,6 +786,16 @@
     [_receiveBitcoinCashViewController reload];
 }
 
+- (void)showReceive:(LegacyAssetType)assetType {
+    [self changeAssetSelectorAsset:assetType];
+    [self showReceiveAnimated:YES];
+}
+
+- (void)showSend:(LegacyAssetType)assetType {
+    [self changeAssetSelectorAsset:assetType];
+    [self showSendCoinsAnimated:YES];
+}
+
 - (void)showTransactionsBitcoin
 {
     [self changeAssetSelectorAsset:LegacyAssetTypeBitcoin];

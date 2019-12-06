@@ -304,7 +304,9 @@ extension KYCAddressController: UITableViewDelegate {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard searchBar.isFirstResponder else { return }
         searchBar.resignFirstResponder()
+        searchDelegate?.onSearchResigned()
     }
 }
 

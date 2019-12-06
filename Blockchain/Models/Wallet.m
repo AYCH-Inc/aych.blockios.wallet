@@ -4048,7 +4048,14 @@ NSString * const kLockboxInvitation = @"lockbox";
 - (void)did_get_bitcoin_cash_exchange_rates:(NSDictionary *)rates
 {
     NSString *currency = [self.accountInfo objectForKey:DICTIONARY_KEY_CURRENCY];
-    double lastPrice = [[[rates objectForKey:currency] objectForKey:DICTIONARY_KEY_LAST] doubleValue];
+    if (rates == nil || currency == nil) {
+        return;
+    }
+    id lastPriceNumber = [[rates objectForKey:currency] objectForKey:DICTIONARY_KEY_LAST];
+    if (lastPriceNumber == nil || ![lastPriceNumber isKindOfClass:[NSNumber class]] || [(NSNumber *)lastPriceNumber isEqualToNumber:@0]) {
+        return;
+    }
+    double lastPrice = [(NSNumber *)lastPriceNumber doubleValue];
     self.bitcoinCashConversion = [[[(NSDecimalNumber *)[NSDecimalNumber numberWithDouble:SATOSHI] decimalNumberByDividingBy: (NSDecimalNumber *)[NSDecimalNumber numberWithDouble:lastPrice]] stringValue] longLongValue];
     self.bitcoinCashExchangeRates = rates;
 }

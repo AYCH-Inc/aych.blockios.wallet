@@ -9,9 +9,7 @@
 import Foundation
 import RxSwift
 
-#if DEBUG
 fileprivate var DISABLE_CERT_PINNING: Bool = false
-#endif
 
 public protocol NetworkCommunicatorAPI {
     func perform(request: NetworkRequest) -> Completable
@@ -132,12 +130,10 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI, AnalyticsEventRe
 
 class NetworkCommunicatorSessionHandler: NetworkSessionDelegateAPI {
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping AuthChallengeHandler) {
-        #if DEBUG
         guard !DISABLE_CERT_PINNING else {
             completionHandler(.performDefaultHandling, nil)
             return
         }
-        #endif
         
         let host = challenge.protectionSpace.host
         Logger.shared.info("Received challenge from \(host)")

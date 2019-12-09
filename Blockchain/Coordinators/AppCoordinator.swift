@@ -7,6 +7,7 @@
 //
 
 import PlatformUIKit
+import PlatformKit
 
 /**
  Application coordinator.
@@ -425,6 +426,18 @@ extension AppCoordinator: TabSwapping {
     
     func switchTabToReceive() {
         tabControllerManager.receiveCoinClicked(nil)
+    }
+}
+
+extension AppCoordinator: CurrencyRouting {
+    func toSend(_ currency: CryptoCurrency) {
+        let assetType = currency.assetType.legacy
+        tabControllerManager.showSend(assetType)
+    }
+    
+    func toReceive(_ currency: CryptoCurrency) {
+        let assetType = currency.assetType.legacy
+        tabControllerManager.showReceive(assetType)
     }
 }
 

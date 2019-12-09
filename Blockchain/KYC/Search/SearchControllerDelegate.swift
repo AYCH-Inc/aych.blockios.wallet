@@ -15,4 +15,5 @@ protocol SearchControllerDelegate: class {
     func onSubmission(_ address: UserAddress, completion: @escaping () -> Void)
     func onSearchRequest(_ query: String)
     func onSearchViewCancel()
+    func onSearchResigned()
 }

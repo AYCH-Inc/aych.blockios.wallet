@@ -54,6 +54,9 @@
 - (void)transitionToIndex:(NSInteger)index;
 
 - (void)showReceiveBitcoinCash;
+- (void)showReceive:(LegacyAssetType)assetType;
+- (void)showSend:(LegacyAssetType)assetType;
+
 - (void)showTransactionsBitcoin;
 - (void)showTransactionsEther;
 - (void)showTransactionsBitcoinCash;

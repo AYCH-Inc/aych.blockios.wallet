@@ -140,6 +140,21 @@ extension LocationSuggestionCoordinator: SearchControllerDelegate {
             this.model = result
         }
     }
+    
+    func onSearchResigned() {
+        switch model.suggestions.isEmpty {
+        case true:
+            interface?.suggestionsList(.hidden)
+            interface?.termsOfServiceDisclaimer(.visible)
+            interface?.addressEntryView(.visible)
+            interface?.primaryButton(.visible)
+        case false:
+            interface?.termsOfServiceDisclaimer(.hidden)
+            interface?.suggestionsList(.visible)
+            interface?.addressEntryView(.hidden)
+            interface?.primaryButton(.hidden)
+        }
+    }
 
     func onSearchViewCancel() {
         interface?.searchFieldActive(false)

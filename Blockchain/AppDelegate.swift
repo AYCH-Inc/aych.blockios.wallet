@@ -15,9 +15,7 @@ import BitcoinKit
 import FirebaseDynamicLinks
 import RxSwift
 
-#if DEBUG
 fileprivate var DISABLE_CERT_PINNING: Bool = false
-#endif
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

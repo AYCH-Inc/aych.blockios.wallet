@@ -35,7 +35,11 @@ final class DashboardViewController: BaseScreenViewController {
         /// take a `TabViewController`. This is due to our legacy implementation of
         /// a `UITabBar`.
         let root = AppCoordinator.shared.tabControllerManager.tabViewController!
-        return DashboardRouter(rootViewController: root, tabSwapping: AppCoordinator.shared)
+        return DashboardRouter(
+            rootViewController: root,
+            currencyRouting: AppCoordinator.shared,
+            tabSwapping: AppCoordinator.shared
+        )
     }()
     
     // MARK: - Setup

@@ -6,10 +6,15 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformKit
 
 protocol TabSwapping {
     func switchToSend()
     func switchTabToSwap()
     func switchTabToReceive()
+}
+
+protocol CurrencyRouting {
+    func toSend(_ currency: CryptoCurrency)
+    func toReceive(_ currency: CryptoCurrency)
 }

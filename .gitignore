@@ -29,6 +29,7 @@ fastlane/test_output
 # Dependencies
 Pods/
 vendor/
+Carthage/
 
 # Other
 *.der

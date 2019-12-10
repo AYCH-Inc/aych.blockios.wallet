@@ -18,6 +18,7 @@ final class AssetLineChartUserInteractor: AssetLineChartUserInteracting, ChartVi
     
     var state: Observable<AssetLineChartInteractionState> {
         return stateRelay
+            .observeOn(MainScheduler.instance)
             .asObservable()
     }
     

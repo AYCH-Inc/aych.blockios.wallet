@@ -38,6 +38,7 @@ public class EthereumWallet: NSObject {
         return dispatcher
     }
     
+    private lazy var credentialsProvider: WalletCredentialsProviding = WalletManager.shared.legacyRepository
     private weak var wallet: WalletAPI?
     
     @objc private(set) var etherTransactions: [EtherTransaction] = []
@@ -66,7 +67,8 @@ public class EthereumWallet: NSObject {
         self.init(wallet: legacyWallet)
     }
     
-    init(wallet: WalletAPI, dispatcher: Dispatcher = EthereumJSInteropDispatcher.shared) {
+    init(wallet: WalletAPI,
+         dispatcher: Dispatcher = EthereumJSInteropDispatcher.shared) {
         self.wallet = wallet
         self.dispatcher = dispatcher
         super.init()
@@ -542,7 +544,7 @@ extension EthereumWallet: MnemonicAccessAPI {
 
 extension EthereumWallet: PasswordAccessAPI {
     public var password: Maybe<String> {
-        guard let password = wallet?.password else {
+        guard let password = credentialsProvider.legacyPassword else {
             return Maybe.empty()
         }
         return Maybe.just(password)

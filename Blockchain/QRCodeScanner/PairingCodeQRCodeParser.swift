@@ -44,7 +44,6 @@ final class PairingCodeQRCodeParser: QRCodeScannerParsing {
     }
     
     private func handleSuccess(pairingCode: String, completion: ((Result<PairingCode, PairingCodeParsingError>) -> Void)?) {
-        walletManager.wallet.loadBlankWallet()
         walletManager.wallet.parsePairingCode(pairingCode, success: { [weak self] pairingCodeDict in
             self?.didParsePairingCode(pairingCodeDict, completion: completion)
         }, error: { [weak self] errorMessage in

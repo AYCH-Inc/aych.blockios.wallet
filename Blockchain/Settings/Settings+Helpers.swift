@@ -66,7 +66,7 @@ extension SettingsTableViewController {
             style: .destructive,
             handler: { [weak self] _ in
                 self?.analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsWalletIdCopied)
-                UIPasteboard.general.string = WalletManager.shared.wallet.guid
+                UIPasteboard.general.string = WalletManager.shared.legacyRepository.legacyGuid
             }
         )
         let cancelAction = UIAlertAction(title: LocalizationConstants.cancel, style: .cancel, handler: nil)

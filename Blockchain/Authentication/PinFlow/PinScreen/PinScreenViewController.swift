@@ -9,6 +9,7 @@
 import RxSwift
 import RxCocoa
 import PlatformUIKit
+import PlatformKit
 
 final class PinScreenViewController: BaseScreenViewController {
     
@@ -61,8 +62,8 @@ final class PinScreenViewController: BaseScreenViewController {
         // Subscribe to pin changes
         presenter.pin
             .bind { [weak self] pin in
-                guard let pin = pin else { return }
-                self?.respond(to: pin)
+                guard pin != nil else { return }
+                self?.respondToPinChange()
             }
             .disposed(by: disposeBag)
         
@@ -148,7 +149,7 @@ final class PinScreenViewController: BaseScreenViewController {
 extension PinScreenViewController {
     
     /// Accepts a valid pin value
-    private func respond(to pin: Pin) {
+    private func respondToPinChange() {
         errorLabel.alpha = 0
         switch presenter.useCase {
         case .select:

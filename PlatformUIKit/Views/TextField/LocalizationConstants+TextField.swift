@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct LocalizationConstants {
+extension LocalizationConstants {
     struct TextField {
         struct Placeholder {
             static let email = NSLocalizedString(

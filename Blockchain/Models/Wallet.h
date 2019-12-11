@@ -49,6 +49,7 @@
        OrderTransactionLegacy,
        BitcoinWallet,
        EthereumWallet,
+       WalletRepository,
        EtherTransaction;
 
 @protocol WalletSuccessCallback, WalletDismissCallback;
@@ -142,9 +143,6 @@
 - (void)didShiftPayment;
 - (void)didCreateEthAccountForExchange;
 - (void)didFetchBitcoinCashHistory;
-- (void)wallet:(Wallet *)wallet didRequireTwoFactorAuthentication:(NSInteger)type;
-- (void)walletDidResendTwoFactorSMS:(Wallet *)wallet;
-- (void)walletDidRequireEmailAuthorization:(Wallet *)wallet;
 - (void)walletDidGetAccountInfo:(Wallet *)wallet;
 - (void)walletDidGetBtcExchangeRates:(Wallet *)wallet;
 - (void)walletDidGetAccountInfoAndExchangeRates:(Wallet *)wallet;
@@ -159,12 +157,6 @@
 
 // Core Wallet Init Properties
 @property (readonly, nonatomic) JSContext *context;
-
-@property(nonatomic, strong) NSString *_Nullable guid;
-@property(nonatomic, strong) NSString *sharedKey;
-@property(nonatomic, strong) NSString * _Nullable password;
-
-@property(nonatomic, strong) NSString *sessionToken;
 
 @property(nonatomic, strong) id<WalletDelegate> delegate;
 
@@ -212,25 +204,25 @@
 
 @property (readonly, nonatomic) BitcoinWallet * _Nonnull bitcoin;
 @property (readonly, nonatomic) EthereumWallet * _Nonnull ethereum;
+@property (nonatomic) WalletRepository * _Nonnull repository;
 
 @property (nonatomic) NSDecimalNumber *latestEthExchangeRate;
 
 - (id)init;
 
-- (void)login;
-
+/// Forces the JS layer to load - should be used to reset the context and rebind the methods
 - (void)loadJS;
 
-- (void)loadWalletWithGuid:(NSString *)_guid sharedKey:(NSString *)_sharedKey password:(NSString *)_password;
-- (void)loadBlankWallet;
+/// Load the JS - but only if needed
+- (void)loadJSIfNeeded;
+- (void)fetchWalletWith:(nonnull NSString *)password;
+- (void)loadWalletWithGuid:(nonnull NSString *)guid sharedKey:(nullable NSString *)sharedKey password:(nullable NSString *)password;
 
 - (void)resetSyncStatus;
 
 - (NSDictionary *)addressBook;
 
 - (void)setLabel:(NSString *)label forLegacyAddress:(NSString *)address;
-
-- (void)loadWalletLogin;
 
 - (void)toggleArchiveLegacyAddress:(NSString *)address;
 - (void)toggleArchiveAccount:(int)account assetType:(LegacyAssetType)assetType;
@@ -288,7 +280,6 @@
                  success:(void (^ _Nonnull)(NSDictionary * _Nonnull))success
                    error:(void (^ _Nonnull)(NSString * _Nullable))error;
 - (void)makePairingCode;
-- (void)resendTwoFactorSMS;
 
 - (NSString *)detectPrivateKeyFormat:(NSString *)privateKeyString;
 
@@ -371,7 +362,6 @@
 - (NSString *)getSMSNumber;
 - (BOOL)getSMSVerifiedStatus;
 - (NSDictionary *)getFiatCurrencies;
-- (int)getTwoStepType;
 - (BOOL)getEmailVerifiedStatus;
 
 - (void)getAccountInfoAndExchangeRates;
@@ -393,8 +383,6 @@
 // Security Center
 - (BOOL)hasVerifiedEmail;
 - (BOOL)hasVerifiedMobileNumber;
-- (BOOL)hasEnabledTwoStep;
-- (int)securityCenterScore;
 - (int)securityCenterCompletedItemsCount;
 
 // Payment Spender

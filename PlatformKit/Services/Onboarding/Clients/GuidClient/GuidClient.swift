@@ -32,7 +32,7 @@ public final class GuidClient: GuidClientAPI {
     /// Fetches the `GUID`
     public func guid(by sessionToken: String) -> Single<String> {
         let request = requestBuilder.build(sessionToken: sessionToken)
-        return self.communicator
+        return communicator
             .perform(request: request, responseType: Response.self)
             .map { $0.guid }
     }

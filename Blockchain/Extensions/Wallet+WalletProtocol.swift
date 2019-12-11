@@ -24,11 +24,12 @@ extension Wallet: AssetAddressSubscribing {
 // MARK: - WalletProtocol
 
 extension Wallet: WalletProtocol {
+    
     @objc func encrypt(_ data: String, password: String) -> String {
         return self.encrypt(
             data,
             password: password,
-            pbkdf2_iterations: Int32(Constants.Security.pinPBKDF2Iterations)
+            pbkdf2_iterations: Int32(Security.pinPBKDF2Iterations)
         )
     }
     

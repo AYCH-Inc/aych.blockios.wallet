@@ -133,7 +133,7 @@ struct PinRouting {
         typealias Logout = () -> Void
         
         enum Input {
-            case authentication(pinDecryptionKey: String)
+            case authentication(password: String)
             case pin(value: Pin)
             case none
             
@@ -146,10 +146,11 @@ struct PinRouting {
                 }
             }
             
-            var pinDecryptionKey: String? {
+            // The decrypted password using the PIN decryption key
+            var password: String? {
                 switch self {
-                case .authentication(pinDecryptionKey: let key):
-                    return key
+                case .authentication(password: let password):
+                    return password
                 default:
                     return nil
                 }

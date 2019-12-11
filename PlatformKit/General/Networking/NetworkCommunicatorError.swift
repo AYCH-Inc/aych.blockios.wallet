@@ -61,6 +61,8 @@ enum NetworkErrorEvent: AnalyticsEvent {
         switch error {
         case .failedRequest(let description):
             self = .clientError(ErrorDetails(request: request, message: description))
+        case .reachability:
+            self = .clientError(ErrorDetails(request: request, message: error.debugDescription))
         }
     }
     

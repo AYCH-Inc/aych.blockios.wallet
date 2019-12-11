@@ -130,13 +130,11 @@ protocol ExchangeCoordinatorAPI {
     
     func createEthAccountForExchange() {
         if walletManager.wallet.needsSecondPassword() {
-            AuthenticationCoordinator.shared.showPasswordConfirm(
-                withDisplayText: LocalizationConstants.Authentication.etherSecondPasswordPrompt,
-                headerText: LocalizationConstants.Authentication.secondPasswordRequired,
-                validateSecondPassword: true,
-                confirmHandler: { (secondPassword) in
-                    self.walletManager.wallet.createEthAccount(forExchange: secondPassword)
-            }
+            AuthenticationCoordinator.shared.showPasswordScreen(
+                type: .etherService,
+                confirmHandler: { [weak self] password in
+                    self?.walletManager.wallet.createEthAccount(forExchange: password)
+                }
             )
         } else {
             walletManager.wallet.createEthAccount(forExchange: nil)

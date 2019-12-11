@@ -36,7 +36,7 @@ class SecondPasswordViewController: UIViewController, UITextFieldDelegate {
         )
 
         descriptionLabel.font = UIFont(name: "GillSans", size: Constants.FontSizes.SmallMedium)
-        descriptionLabel.text = LocalizationConstants.Authentication.secondPasswordDefaultDescription
+        descriptionLabel.text = LocalizationConstants.Authentication.DefaultPasswordScreen.description
 
         password.font = UIFont(name: "Montserrat-Regular", size: Constants.FontSizes.Small)
         password.returnKeyType = .done

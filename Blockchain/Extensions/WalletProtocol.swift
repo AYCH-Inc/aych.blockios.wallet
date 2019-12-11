@@ -13,11 +13,9 @@ protocol WalletProtocol: class {
     
     var isBitcoinWalletFunded: Bool { get }
     
-    @objc var password: String? { get set }
     @objc var isNew: Bool { get set }
     @objc var delegate: WalletDelegate! { get set }
     
     @objc func encrypt(_ data: String, password: String) -> String
     @objc func isInitialized() -> Bool
-//    @objc func load(withGuid guid: String!, sharedKey: String!, password: String!)
 }

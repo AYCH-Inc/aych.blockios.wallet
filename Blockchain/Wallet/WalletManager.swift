@@ -16,7 +16,7 @@ import RxCocoa
  Manager object for operations to the Blockchain Wallet.
  */
 @objc
-class WalletManager: NSObject, TransactionObserving {
+class WalletManager: NSObject, TransactionObserving, JSContextProviderAPI {
     
     static let shared = WalletManager()
 
@@ -54,20 +54,39 @@ class WalletManager: NSObject, TransactionObserving {
     weak var keyImportDelegate: WalletKeyImportDelegate?
     weak var secondPasswordDelegate: WalletSecondPasswordDelegate?
 
+    private(set) var repository: WalletRepositoryAPI!
+    private(set) var legacyRepository: WalletRepository!
+
+    private let disposeBag = DisposeBag()
+    
     /// Once a payment is recieved any subscriber is able to get an update
     private let paymentReceivedRelay = PublishRelay<ReceivedPaymentDetails>()
     var paymentReceived: Observable<ReceivedPaymentDetails> {
         return paymentReceivedRelay.asObservable()
     }
     
-    init(wallet: Wallet = Wallet()!, appSettings: BlockchainSettings.App = .shared) {
-        self.wallet = wallet
+    init(wallet: Wallet = Wallet()!,
+         appSettings: BlockchainSettings.App = .shared) {
         self.appSettings = appSettings
+        self.wallet = wallet
         super.init()
+        let repository = WalletRepository(jsContextProvider: self, settings: appSettings)
+        self.legacyRepository = repository
+        self.repository = repository
+        self.wallet.repository = repository
         self.wallet.delegate = self
-        self.wallet.loadJS()
     }
-
+    
+    /// Returns the context. Should be invoked on the main queue always.
+    /// If the context has not been generated,
+    func fetchJSContext() -> JSContext {
+        if let context = wallet.context {
+            return context
+        }
+        wallet.loadJS()
+        return wallet.context
+    }
+    
     /// Performs closing operations on the wallet. This should be called on logout and
     /// when the app is backgrounded
     func close() {
@@ -75,7 +94,7 @@ class WalletManager: NSObject, TransactionObserving {
         closeWebSockets(withCloseCode: .loggedOut)
 
         wallet.resetSyncStatus()
-        wallet.loadBlankWallet()
+        wallet.loadJS()
         wallet.hasLoadedAccountInfo = false
 
         beginBackgroundUpdateTask()
@@ -95,18 +114,19 @@ class WalletManager: NSObject, TransactionObserving {
 
         // Clear all cookies (important one is the server session id SID)
         HTTPCookieStorage.shared.deleteAllCookies()
-
-        wallet.sessionToken = nil
-
+        
+        legacyRepository.legacySessionToken = nil
+        legacyRepository.legacyGuid = nil
+        legacyRepository.legacySharedKey = nil
+        legacyRepository.legacyPassword = nil
+        
         AssetAddressRepository.shared.removeAllSwipeAddresses()
         BlockchainSettings.App.shared.guid = nil
         BlockchainSettings.App.shared.sharedKey = nil
 
-        wallet.loadBlankWallet()
+        wallet.loadJS()
 
         latestMultiAddressResponse = nil
-
-//        AppCoordinator.shared.tabControllerManager.forgetWallet()
 
         AppCoordinator.shared.reload()
 
@@ -199,9 +219,9 @@ extension WalletManager: WalletDelegate {
 
         DispatchQueue.main.async { [unowned self] in
             self.authDelegate?.didDecryptWallet(
-                guid: self.wallet.guid,
-                sharedKey: self.wallet.sharedKey,
-                password: self.wallet.password
+                guid: self.legacyRepository.legacyGuid,
+                sharedKey: self.legacyRepository.legacySharedKey,
+                password: self.legacyRepository.legacyPassword
             )
         }
 
@@ -213,7 +233,6 @@ extension WalletManager: WalletDelegate {
 
         wallet.btcSwipeAddressToSubscribe = nil
         wallet.bchSwipeAddressToSubscribe = nil
-        wallet.twoFactorInput = nil
 
         DispatchQueue.main.async { [unowned self] in
             self.authDelegate?.authenticationCompleted()
@@ -235,31 +254,6 @@ extension WalletManager: WalletDelegate {
             self.authDelegate?.authenticationError(error: AuthenticationError(
                 code: AuthenticationError.ErrorCode.failedToLoadWallet.rawValue
             ))
-        }
-    }
-
-    func walletDidRequireEmailAuthorization(_ wallet: Wallet!) {
-        DispatchQueue.main.async { [unowned self] in
-            self.authDelegate?.emailAuthorizationRequired()
-        }
-    }
-
-    func wallet(_ wallet: Wallet!, didRequireTwoFactorAuthentication type: Int) {
-        DispatchQueue.main.async { [unowned self] in
-            guard let twoFactorType = AuthenticationTwoFactorType(rawValue: type) else {
-                self.authDelegate?.authenticationError(error: AuthenticationError(
-                    code: AuthenticationError.ErrorCode.invalidTwoFactorType.rawValue,
-                    description: LocalizationConstants.Authentication.invalidTwoFactorAuthenticationType
-                ))
-                return
-            }
-            self.authDelegate?.didRequireTwoFactorAuth(withType: twoFactorType)
-        }
-    }
-
-    func walletDidResendTwoFactorSMS(_ wallet: Wallet!) {
-        DispatchQueue.main.async { [unowned self] in
-            self.authDelegate?.didResendTwoFactorSMSCode()
         }
     }
 

@@ -64,9 +64,7 @@ public struct Network {
             if let userAgent = Network.userAgent {
                 sessionConfiguration.httpAdditionalHeaders = [HttpHeaderField.userAgent: userAgent]
             }
-            if #available(iOS 11.0, *) {
-                sessionConfiguration.waitsForConnectivity = true
-            }
+            sessionConfiguration.waitsForConnectivity = true
             let sessionDelegate = SessionDelegate()
             let session = URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
             let communicator = NetworkCommunicator(session: session, sessionDelegate: sessionDelegate)

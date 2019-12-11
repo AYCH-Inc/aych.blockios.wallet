@@ -6,141 +6,186 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
 import RxSwift
 import RxRelay
-import BitcoinKit
 import PlatformKit
 import PlatformUIKit
 
-/// Any action related to authentication should go here
-enum AuthenticationAction {
-    
-    /// authorize login
-    case authorizeLoginWithEmail
+protocol ManualPairingWalletFetching: class {
+    func authenticate(using password: String)
 }
 
-/// An authentication service API for manual pairing
-protocol ManualPairingServiceAPI: class {
-    var action: Observable<AuthenticationAction> { get }
-    func authenticate(with guid: String,
-                      password: String,
-                      twoFAHandler: @escaping (AuthenticationTwoFactorType) -> Void)
+extension AuthenticationCoordinator: ManualPairingWalletFetching {
+    /// A new method for fetching wallet - is being used after manual pairing
+    /// TODO: Remove once done migrating JS to native
+    func authenticate(using password: String) {
+        loadingViewPresenter.showCircular()
+        temporaryAuthHandler = authenticationHandler
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.walletManager.wallet.fetch(with: password)
+        }
+    }
 }
 
 @objc class AuthenticationCoordinator: NSObject, Coordinator, VersionUpdateAlertDisplaying {
 
+    // MARK: - Types
+    
+    typealias WalletAuthHandler = (_ authenticated: Bool, _
+                                   twoFactorType: AuthenticatorType?, _
+                                   error: AuthenticationError?) -> Void
+    
     @objc static let shared = AuthenticationCoordinator()
 
     @objc class func sharedInstance() -> AuthenticationCoordinator {
         return shared
     }
-
-    // TODO: Boilerplate for injecting dependencies into `self` instance
-    private(set) lazy var alertPresenter = AlertViewPresenter.shared
-    let authenticationManager: AuthenticationManager
-    private(set) lazy var appSettings = BlockchainSettings.App.shared
-    private(set) lazy var onboardingSettings = BlockchainSettings.Onboarding.shared
-    private(set) lazy var wallet = WalletManager.shared.wallet
+    
+    var postAuthenticationRoute: PostAuthenticationRoute?
+    
+    private var pinRouter: PinRouter!
+    
+    private let appSettings: BlockchainSettings.App
+    private let onboardingSettings: BlockchainSettings.Onboarding
+    private let wallet: Wallet
     private let remoteNotificationTokenSender: RemoteNotificationTokenSending
     private let remoteNotificationAuthorizer: RemoteNotificationAuthorizationRequesting
-
-    let recorder: ErrorRecording
-    
-    /// Keeps state of email validation during the onboarding
-    /// TODO: Remove this when refactoring `AuthenticationCoordinator`.
-    var isWaitingForEmailValidation = false
-    
-    let loadingViewPresenter: LoadingViewPresenting
-
-    var postAuthenticationRoute: PostAuthenticationRoute?
-
-    let actionRelay = PublishRelay<AuthenticationAction>()
-    var action: Observable<AuthenticationAction> {
-        return actionRelay.asObservable()
-    }
         
-    /// Authentication handler - this should not be a property of AuthenticationCoordinator
+    private let alertPresenter: AlertViewPresenter
+    private let loadingViewPresenter: LoadingViewPresenting
+    private let dataRepository: BlockchainDataRepository
+    private let stellarServiceProvider: StellarServiceProvider
+    private let walletManager: WalletManager
+    
+    private lazy var walletPayloadService = WalletPayloadService(
+        client: WalletPayloadClient(),
+        repository: walletManager.repository
+    )
+    
+    private let blockstackService: BlockstackServiceAPI
+
+    private let deepLinkRouter: DeepLinkRouter
+    private let pitRepository: PITAccountRepositoryAPI
+        
+    /// TODO: Delete when `AuthenticationCoordinator` is removed
+    /// Temporary handler since `AuthenticationManager` was refactored.
+    var temporaryAuthHandler: WalletAuthHandler!
+    
+    /// TODO: Delete when `AuthenticationCoordiantor` is removed and
+    /// `PasswordViewController` had it's own router.
+    var hasFinishedAuthentication = false
+    var isShowingSecondPasswordScreen = false
+    
+    private let bag = DisposeBag()
+        
+   // MARK: - Initializer
+
+   init(appSettings: BlockchainSettings.App = .shared,
+        onboardingSettings: BlockchainSettings.Onboarding = .shared,
+        wallet: Wallet = WalletManager.shared.wallet,
+        alertPresenter: AlertViewPresenter = AlertViewPresenter.shared,
+        blockstackService: BlockstackServiceAPI & AnalyticsEventRecordable = BlockstackService(),
+        walletManager: WalletManager = WalletManager.shared,
+        loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared,
+        dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
+        stellarServiceProvider: StellarServiceProvider = StellarServiceProvider.shared,
+        deepLinkRouter: DeepLinkRouter = DeepLinkRouter(),
+        remoteNotificationServiceContainer: RemoteNotificationServiceContainer = .default,
+        pitRepository: PITAccountRepositoryAPI = PITAccountRepository()) {
+       self.appSettings = appSettings
+       self.onboardingSettings = onboardingSettings
+       self.wallet = wallet
+       self.alertPresenter = alertPresenter
+       self.walletManager = walletManager
+       self.dataRepository = dataRepository
+       self.stellarServiceProvider = stellarServiceProvider
+       self.deepLinkRouter = deepLinkRouter
+       self.loadingViewPresenter = loadingViewPresenter
+       remoteNotificationAuthorizer = remoteNotificationServiceContainer.authorizer
+       remoteNotificationTokenSender = remoteNotificationServiceContainer.tokenSender
+       self.pitRepository = pitRepository
+       self.blockstackService = blockstackService
+       super.init()
+       self.walletManager.secondPasswordDelegate = self
+       self.walletManager.authDelegate = self
+        
+       blockstackService.use(eventRecorder: AnalyticsEventRecorder.shared)
+   
+    }
+    
+    /// Authentication handler - this should not be in AuthenticationCoordinator
     /// but the current way wallet creation is designed, we need to share this handler
     /// with that flow. Eventually, wallet creation should be moved with AuthenticationCoordinator
     @available(*, deprecated, message: "This method is deprected and its logic should be distributed to separate services")
-    lazy var authHandler: AuthenticationManager.WalletAuthHandler = { [weak self] isAuthenticated, _, error in
-        guard let self = self else { return }
-
+    func authenticationHandler(_ isAuthenticated: Bool,
+                               _ twoFactorType: AuthenticatorType?,
+                               _ error: AuthenticationError?) {
         defer {
             self.loadingViewPresenter.hide()
         }
 
-        /// TODO: Temporarily here
-        self.isWaitingForEmailValidation = false
-        
         // Error checking
         guard error == nil, isAuthenticated else {
             switch error!.code {
             case AuthenticationError.ErrorCode.noInternet.rawValue:
-                self.alertPresenter.showNoInternetConnectionAlert()
-            case AuthenticationError.ErrorCode.emailAuthorizationRequired.rawValue:
-                self.actionRelay.accept(.authorizeLoginWithEmail)
+                alertPresenter.showNoInternetConnectionAlert()
             case AuthenticationError.ErrorCode.failedToLoadWallet.rawValue:
-                self.handleFailedToLoadWallet()
+                handleFailedToLoadWallet()
             case AuthenticationError.ErrorCode.errorDecryptingWallet.rawValue:
-                if self.appSettings.guid == nil && WalletManager.shared.wallet.guid != nil {
+                if appSettings.guid == nil && WalletManager.shared.legacyRepository.legacyGuid != nil {
                     return
                 }
-                self.showPasswordViewController()
+                showPasswordRequiredViewController()
             default:
                 if let description = error!.description {
-                    self.alertPresenter.standardError(message: description)
+                    alertPresenter.standardError(message: description)
                 }
             }
             return
         }
         
+        alertPresenter.dismissIfNeeded()
         let topViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController
-        topViewController?.dismiss(animated: true, completion: nil)
         
-        ModalPresenter.shared.closeAllModals()
-
         let tabControllerManager = AppCoordinator.shared.tabControllerManager
         tabControllerManager.sendBitcoinViewController?.reload()
         tabControllerManager.sendBitcoinCashViewController?.reload()
 
-        self.dataRepository.prefetchData()
-        self.stellarServiceProvider.services.accounts.prefetch()
+        dataRepository.prefetchData()
+        stellarServiceProvider.services.accounts.prefetch()
         
         // Make user set up a pin if none is set. They can also optionally enable touch ID and link their email.
-        guard self.appSettings.isPinSet else {
-            self.showPinEntryView()
+        guard appSettings.isPinSet else {
+            showPinEntryView()
             return
         }
         
         /// If the user has linked to the PIT, we sync their addresses on authentication.
-        self.pitRepository.syncDepositAddressesIfLinked()
+        pitRepository.syncDepositAddressesIfLinked()
             .subscribe()
-            .disposed(by: self.bag)
+            .disposed(by: bag)
         
         // TODO: Relocate notification permissions according to the new design
-        self.remoteNotificationTokenSender.sendTokenIfNeeded()
+        remoteNotificationTokenSender.sendTokenIfNeeded()
             .subscribe()
-            .disposed(by: self.bag)
-        self.remoteNotificationAuthorizer.requestAuthorizationIfNeeded()
+            .disposed(by: bag)
+        remoteNotificationAuthorizer.requestAuthorizationIfNeeded()
             .subscribe()
-            .disposed(by: self.bag)
+            .disposed(by: bag)
         
         if let topViewController = topViewController,
             self.appSettings.isPinSet, !(topViewController is SettingsNavigationController) {
             self.alertPresenter.showMobileNoticeIfNeeded()
         }
         
-        /// Sliding view controller must be the root at the end of authentication, password required can be displayed as modal
-        UIApplication.shared.keyWindow?.rootViewController?.topMostViewController?.dismiss(animated: false, completion: nil)
         UIApplication.shared.keyWindow?.rootViewController = AppCoordinator.shared.slidingViewController
 
         // Handle any necessary routing after authentication
-        self.handlePostAuthenticationLogic()
+        handlePostAuthenticationLogic()
     }
-    
+
     func handlePostAuthenticationLogic() {
+        
         // Handle STX Airdrop registration
         self.blockstackService.registerForCampaignIfNeeded
             .subscribe()
@@ -156,58 +201,8 @@ protocol ManualPairingServiceAPI: class {
 
         // Handle airdrop routing
         deepLinkRouter.routeIfNeeded()
-    }
-
-    let dataRepository: BlockchainDataRepository
-    let stellarServiceProvider: StellarServiceProvider
-    let walletManager: WalletManager
-    private let walletService: WalletService
-
-    var pinRouter: PinRouter!
-    private let deepLinkRouter: DeepLinkRouter
-    private let analyticsRecorder: AnalyticsEventRecording
-    private let pitRepository: PITAccountRepositoryAPI
-    private let blockstackService: BlockstackServiceAPI
-    private let bag: DisposeBag = DisposeBag()
-    private var pairingCodeParserViewController: UIViewController?
-
-    private var disposable: Disposable?
-    // MARK: - Initializer
-
-    init(authenticationManager: AuthenticationManager = .shared,
-         walletManager: WalletManager = WalletManager.shared,
-         loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared,
-         walletService: WalletService = WalletService.shared,
-         dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
-         stellarServiceProvider: StellarServiceProvider = StellarServiceProvider.shared,
-         deepLinkRouter: DeepLinkRouter = DeepLinkRouter(),
-         recorder: ErrorRecording = CrashlyticsRecorder(),
-         remoteNotificationServiceContainer: RemoteNotificationServiceContainer = .default,
-         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
-         pitRepository: PITAccountRepositoryAPI = PITAccountRepository(),
-         blockstackService: BlockstackServiceAPI & AnalyticsEventRecordable = BlockstackService()) {
-        self.authenticationManager = authenticationManager
-        self.walletManager = walletManager
-        self.walletService = walletService
-        self.dataRepository = dataRepository
-        self.stellarServiceProvider = stellarServiceProvider
-        self.deepLinkRouter = deepLinkRouter
-        self.recorder = recorder
-        self.analyticsRecorder = analyticsRecorder
-        self.loadingViewPresenter = loadingViewPresenter
-        remoteNotificationAuthorizer = remoteNotificationServiceContainer.authorizer
-        remoteNotificationTokenSender = remoteNotificationServiceContainer.tokenSender
-        self.pitRepository = pitRepository
-        self.blockstackService = blockstackService
-        super.init()
-        self.walletManager.secondPasswordDelegate = self
         
-        blockstackService.use(eventRecorder: AnalyticsEventRecorder.shared)
-    }
-
-    deinit {
-        disposable?.dispose()
-        disposable = nil
+        hasFinishedAuthentication = true
     }
 
     // MARK: - Start Flows
@@ -218,7 +213,7 @@ protocol ManualPairingServiceAPI: class {
         if appSettings.isPinSet {
             authenticatePin()
         } else {
-            showPasswordViewController()
+            showPasswordRequiredViewController()
         }
     }
     
@@ -238,7 +233,7 @@ protocol ManualPairingServiceAPI: class {
         AppCoordinator.shared.reload()
 
         if showPasswordView {
-            showPasswordViewController()
+            showPasswordRequiredViewController()
         }
     }
 
@@ -254,62 +249,271 @@ protocol ManualPairingServiceAPI: class {
 
     // MARK: - Password Presentation
 
-    @objc func showPasswordViewController() {
+    @objc func showPasswordRequiredViewController() {
         guard let window = UIApplication.shared.keyWindow else { return }
         let presenter = PasswordRequiredScreenPresenter()
         let viewController = PasswordRequiredViewController(presenter: presenter)
         let navigationController = UINavigationController(rootViewController: viewController)
         window.rootViewController = navigationController
     }
-
-    /// Displays a view (modal) requesting the user to enter their password.
-    ///
-    /// - Parameters:
-    ///   - displayText: the display/description text in the view presented to the user
-    ///   - headertext: the header text to display on the presented modal
-    ///   - validateSecondPassword: if the password should be validated against the wallet password
-    ///   - handler: completion handler invoked when the user confirms their password
-    @objc func showPasswordConfirm(
-        withDisplayText displayText: String,
-        headerText: String,
-        validateSecondPassword: Bool,
-        confirmHandler: @escaping PasswordConfirmView.OnPasswordConfirmHandler,
-        dismissHandler: PasswordConfirmView.OnPasswordDismissHandler? = nil
-    ) {
-        loadingViewPresenter.hide()
-
-        let passwordConfirmView = PasswordConfirmView.instanceFromNib()
-        passwordConfirmView.updateLabelDescription(text: displayText)
-        passwordConfirmView.validateSecondPassword = validateSecondPassword
-        passwordConfirmView.confirmHandler = { [unowned self] password in
-            guard password.count > 0 else {
-                self.alertPresenter.standardError(message: LocalizationConstants.Authentication.noPasswordEntered)
-                return
-            }
-
-            guard !passwordConfirmView.validateSecondPassword || self.walletManager.wallet.validateSecondPassword(password) else {
-                self.alertPresenter.standardError(message: LocalizationConstants.Authentication.secondPasswordIncorrect)
-                return
-            }
-
-            ModalPresenter.shared.closeModal(withTransition: convertFromCATransitionType(CATransitionType.fade))
-            confirmHandler(password)
+    
+    ///   - type: The type of the screen
+    ///   - confirmHandler: Confirmation handler, receives the password
+    ///   - dismissHandler: Dismiss handler (optional - defaults to `nil`)
+    func showPasswordScreen(type: PasswordScreenType,
+                            confirmHandler: @escaping PasswordScreenPresenter.ConfirmHandler,
+                            dismissHandler: PasswordScreenPresenter.DismissHandler? = nil) {
+        guard hasFinishedAuthentication else { return }
+        guard !isShowingSecondPasswordScreen else { return }
+        guard let parent = UIApplication.shared.topMostViewController else {
+            return
         }
-        passwordConfirmView.dismissHandler = dismissHandler
-        ModalPresenter.shared.showModal(
-            withContent: passwordConfirmView,
-            closeType: ModalCloseTypeClose,
-            showHeader: true,
-            headerText: headerText
+        isShowingSecondPasswordScreen = true
+        
+        let navigationController = UINavigationController()
+        
+        let confirm: PasswordScreenPresenter.ConfirmHandler = { [weak navigationController] password in
+            navigationController?.dismiss(animated: true) {
+                confirmHandler(password)
+            }
+        }
+        
+        let dismiss: PasswordScreenPresenter.DismissHandler = { [weak navigationController] in
+            navigationController?.dismiss(animated: true) {
+                dismissHandler?()
+            }
+        }
+        
+        loadingViewPresenter.hide()
+        let interactor = PasswordScreenInteractor(type: type)
+        let presenter = PasswordScreenPresenter(
+            interactor: interactor,
+            confirmHandler: confirm,
+            dismissHandler: dismiss
         )
-
-        passwordConfirmView.showKeyboard()
+        let viewController = PasswordViewController(presenter: presenter)
+        navigationController.viewControllers = [viewController]
+        parent.present(navigationController, animated: true, completion: nil)
     }
 
+    /// ObjC compatible version of `showPasswordScreen`
+    @objc func showPasswordScreen(confirmHandler: @escaping PasswordScreenPresenter.ConfirmHandler,
+                                  dismissHandler: PasswordScreenPresenter.DismissHandler? = nil) {
+        showPasswordScreen(
+            type: .actionRequiresPassword,
+            confirmHandler: confirmHandler,
+            dismissHandler: dismissHandler
+        )
+    }
+
+}
+
+// MARK: - WalletSecondPasswordDelegate
+
+extension AuthenticationCoordinator: WalletSecondPasswordDelegate {
+    func getSecondPassword(success: WalletSuccessCallback, dismiss: WalletDismissCallback?) {
+        showPasswordScreen(
+            type: .actionRequiresPassword,
+            confirmHandler: {
+                success.success(string: $0)
+            },
+            dismissHandler: {
+                dismiss?.dismiss()
+            }
+        )
+    }
+    
+    func getPrivateKeyPassword(success: WalletSuccessCallback) {
+        showPasswordScreen(
+            type: .importPrivateKey,
+            confirmHandler: {
+                success.success(string: $0)
+            }
+        )
+    }
+}
+
+extension AuthenticationCoordinator: WalletAuthDelegate {
+    func didDecryptWallet(guid: String?, sharedKey: String?, password: String?) {
+
+        // Verify valid GUID and sharedKey
+        guard let guid = guid, guid.count == 36 else {
+            failAuth(withError: AuthenticationError(
+                code: AuthenticationError.ErrorCode.errorDecryptingWallet.rawValue,
+                description: LocalizationConstants.Authentication.errorDecryptingWallet
+            ))
+            return
+        }
+
+        guard let sharedKey = sharedKey, sharedKey.count == 36 else {
+            failAuth(withError: AuthenticationError(
+                code: AuthenticationError.ErrorCode.invalidSharedKey.rawValue,
+                description: LocalizationConstants.Authentication.invalidSharedKey
+            ))
+            return
+        }
+
+        appSettings.guid = guid
+        appSettings.sharedKey = sharedKey
+
+        clearPinIfNeeded(for: password)
+    }
+
+    private func clearPinIfNeeded(for password: String?) {
+        // Because we are not storing the password on the device. We record the first few letters of the hashed password.
+        // With the hash prefix we can then figure out if the password changed. If so, clear the pin
+        // so that the user can reset it
+        guard let password = password,
+            let passwordPartHash = password.passwordPartHash,
+            let savedPasswordPartHash = appSettings.passwordPartHash else {
+                return
+        }
+
+        guard passwordPartHash != savedPasswordPartHash else {
+            return
+        }
+
+        BlockchainSettings.App.shared.clearPin()
+    }
+
+    func authenticationError(error: AuthenticationError?) {
+        failAuth(withError: error)
+    }
+
+    func authenticationCompleted() {
+        temporaryAuthHandler(true, nil, nil)
+    }
+
+    private func failAuth(withError error: AuthenticationError? = nil) {
+        temporaryAuthHandler(false, nil, error)
+    }
+    
+    // MARK: - Authentication with Passcode
+
+    func authenticate(using payload: PasscodePayload) {
+        hasFinishedAuthentication = false
+        authenticate(using: payload, authHandler: authenticationHandler)
+    }
+    
+    /**
+     The function used to authenticate the user using a provided passcode.
+     - Parameters:
+        - payload: The passcode payload used for authenticating the user.
+        - authHandler: The completion handler for the authentication
+     */
+    func authenticate(using payload: PasscodePayload,
+                      authHandler: @escaping WalletAuthHandler) {
+        guard Reachability.hasInternetConnection() else {
+            authHandler(false, nil, AuthenticationError(code: AuthenticationError.ErrorCode.noInternet.rawValue))
+            return
+        }
+
+        guard payload.password.isEmpty == false else {
+            authHandler(false, nil, AuthenticationError(
+                code: AuthenticationError.ErrorCode.noPassword.rawValue,
+                description: LocalizationConstants.Authentication.noPasswordEntered
+            ))
+            return
+        }
+
+        temporaryAuthHandler = authHandler
+        
+        loadingViewPresenter.showCircular(with: LocalizationConstants.Authentication.loadingWallet)
+
+        walletManager.wallet.load(withGuid: payload.guid, sharedKey: payload.sharedKey, password: payload.password)
+    }
+}
+
+// MARK: - Pin Authentication
+
+/// Used as a gateway to abstract any pin related login
+extension AuthenticationCoordinator {
+
+    /// Returns `true` in case the login pin screen is displayed
+    @objc var isDisplayingLoginAuthenticationFlow: Bool {
+        return pinRouter?.isDisplayingLoginAuthentication ?? false
+    }
+    
+    /// Change existing pin code. Used from settings mostly.
+    func changePin() {
+        let logout = { [weak self] () -> Void in
+            self?.logout(showPasswordView: true)
+        }
+        let parentViewController = UIApplication.shared.topMostViewController!
+        let boxedParent = UnretainedContentBox(parentViewController)
+        let flow = PinRouting.Flow.change(parent: boxedParent, logoutRouting: logout)
+        pinRouter = PinRouter(flow: flow)
+        pinRouter.execute()
+    }
+    
+    /// Create a new pin code. Used during onboarding, when the user is required to define a pin code before entering his wallet.
+    func createPin() {
+        let parentViewController = UIApplication.shared.topMostViewController!
+        let boxedParent = UnretainedContentBox(parentViewController)
+        let flow = PinRouting.Flow.create(parent: boxedParent)
+        pinRouter = PinRouter(flow: flow) { [weak self] _ in
+            guard let self = self else { return }
+            self.alertPresenter.showMobileNoticeIfNeeded()
+            /// TODO: Inject app coordinator instead - currently there is
+            /// a crash related to circle-dependency between `AuthenticationCoordinator`
+            /// and `AppCoordinator`.
+            AppCoordinator.shared.startAfterWalletCreation()
+            self.handlePostAuthenticationLogic()
+        }
+        pinRouter.execute()
+    }
+
+    /// Authenticate using a pin code. Used during login when the app enters active state.
+    func authenticatePin() {
+        // If already authenticating, skip this as the screen is already presented
+        guard pinRouter == nil || !pinRouter.isDisplayingLoginAuthentication else {
+            return
+        }
+        let logout = { [weak self] () -> Void in
+            self?.logout(showPasswordView: true)
+        }
+        let flow = PinRouting.Flow.authenticate(from: .background, logoutRouting: logout)
+        pinRouter = PinRouter(flow: flow) { [weak self] input in
+            guard let password = input.password else { return }
+            self?.authenticate(using: password)
+        }
+        pinRouter.execute()
+    }
+    
+    /// Validates pin for any in-app flow, for example: enabling touch-id/face-id auth.
+    func enableBiometrics() {
+        let logout = { [weak self] () -> Void in
+            self?.logout(showPasswordView: true)
+        }
+        let parentViewController = UIApplication.shared.topMostViewController!
+        let boxedParent = UnretainedContentBox(parentViewController)
+        let flow = PinRouting.Flow.enableBiometrics(parent: boxedParent, logoutRouting: logout)
+        pinRouter = PinRouter(flow: flow) { [weak self] input in
+            guard let password = input.password else { return }
+            self?.authenticate(using: password)
+        }
+        pinRouter.execute()
+    }
+    
+    // TODO: Dump this in favor of using one of the new gateways to PIN flow.
+    /// Shows the pin entry view.
+    func showPinEntryView() {
+        if walletManager.didChangePassword {
+            showPasswordRequiredViewController()
+        } else if appSettings.isPinSet {
+            authenticatePin()
+        } else {
+            createPin()
+        }
+    }
+}
+
+// TODO: Move out of `AuthenticationCoordinator`
+extension AuthenticationCoordinator {
     // MARK: - Private
 
     private func handleFailedToLoadWallet() {
-        guard let topMostViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostViewController else {
+        guard let topMostViewController = UIApplication.shared.topMostViewController else {
             return
         }
 
@@ -347,49 +551,4 @@ protocol ManualPairingServiceAPI: class {
         )
         topMostViewController.present(alertController, animated: true)
     }
-}
-
-extension AuthenticationCoordinator: ManualPairingServiceAPI {
-    func authenticate(with guid: String,
-                      password: String,
-                      twoFAHandler: @escaping (AuthenticationTwoFactorType) -> Void) {
-        loadingViewPresenter.showCircular(with: LocalizationConstants.Authentication.loadingWallet)
-        let payload = PasscodePayload(guid: guid, password: password, sharedKey: "")
-        authenticationManager.authenticate(using: payload) { [weak self] isAuthenticated, twoFA, error in
-            guard let self = self else { return }
-            if let twoFA = twoFA {
-                twoFAHandler(twoFA)
-            } else {
-                self.authHandler(isAuthenticated, twoFA, error)
-            }
-        }
-    }
-}
-
-extension AuthenticationCoordinator: WalletSecondPasswordDelegate {
-    func getSecondPassword(success: WalletSuccessCallback, dismiss: WalletDismissCallback?) {
-        showPasswordConfirm(withDisplayText: LocalizationConstants.Authentication.secondPasswordDefaultDescription,
-                            headerText: LocalizationConstants.Authentication.secondPasswordRequired,
-                            validateSecondPassword: true,
-                            confirmHandler: { (secondPassword) in
-                                success.success(string: secondPassword)
-                            },
-                            dismissHandler: { dismiss?.dismiss() }
-        )
-    }
-
-    func getPrivateKeyPassword(success: WalletSuccessCallback) {
-        showPasswordConfirm(withDisplayText: LocalizationConstants.Authentication.privateKeyPasswordDefaultDescription,
-                            headerText: LocalizationConstants.Authentication.privateKeyNeeded,
-                            validateSecondPassword: false,
-                            confirmHandler: { (privateKeyPassword) in
-                                success.success(string: privateKeyPassword)
-                            }
-        )
-    }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromCATransitionType(_ input: CATransitionType) -> String {
-	return input.rawValue
 }

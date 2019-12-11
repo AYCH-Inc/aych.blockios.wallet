@@ -8,6 +8,12 @@
 
 import Foundation
 
+extension NSData {
+    public var hexValue: String {
+        return (self as Data).hexValue
+    }
+}
+
 extension Data {
     
     public var hexValue: String {

@@ -31,27 +31,25 @@ final class CreateWalletScreenInteractor: NSObject {
     
     // MARK: - Injected
     
-    private let reachability: InternentReachabilityAPI
+    private let reachability: InternetReachabilityAPI
     private let analyticsRecorder: AnalyticsEventRecording
     private let wallet: Wallet
     private let walletManager: WalletManager
-    private let authenticationManager: AuthenticationManager
     
     private let errorRelay = PublishRelay<String>()
     
     // MARK: - Setup
     
-    init(analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
-         reachability: InternentReachabilityAPI = InternentReachability(),
+    init(reachability: InternetReachabilityAPI = InternetReachability(),
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          authenticationCoordinator: AuthenticationCoordinator = .shared,
-         authenticationManager: AuthenticationManager = .shared,
          walletManager: WalletManager = .shared,
          wallet: Wallet = WalletManager.shared.wallet) {
         self.analyticsRecorder = analyticsRecorder
         self.reachability = reachability
-        self.authenticationManager = authenticationManager
         self.walletManager = walletManager
         self.wallet = wallet
+        authenticationCoordinator.temporaryAuthHandler = authenticationCoordinator.authenticationHandler
         super.init()
     }
 }
@@ -61,19 +59,15 @@ final class CreateWalletScreenInteractor: NSObject {
 extension CreateWalletScreenInteractor: RegisterWalletScreenInteracting {
     func execute() throws {
         guard reachability.canConnect else {
-            throw InternentReachability.ErrorType.interentUnreachable
+            throw InternetReachability.ErrorType.internetUnreachable
         }
         
         analyticsRecorder.record(event: AnalyticsEvents.Onboarding.walletCreation)
         
-        // TODO: Change after routers are refactors
-        authenticationManager.setAuthCoordinatorAsCreationHandler()
-        
         // Get callback when wallet is done loading
         // Continue in walletJSReady callback
         wallet.delegate = self
-        
-        wallet.loadBlankWallet()
+        wallet.loadJS()
     }
 }
 
@@ -87,7 +81,7 @@ extension CreateWalletScreenInteractor: WalletDelegate {
     func didCreateNewAccount(_ guid: String!, sharedKey: String!, password: String!) {
         wallet.delegate = walletManager
 
-        // Reset wallet
+        /// Reset wallet + `JSContext`
         walletManager.forgetWallet()
 
         // Load the newly created wallet

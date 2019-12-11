@@ -7,6 +7,7 @@
 //
 
 import Firebase
+import FirebaseInstanceID
 import FirebaseMessaging
 import RxSwift
 import PlatformKit

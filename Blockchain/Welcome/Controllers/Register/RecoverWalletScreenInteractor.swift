@@ -26,11 +26,10 @@ final class RecoverWalletScreenInteractor {
     
     // MARK: - Injected
     
-    private let reachability: InternentReachabilityAPI
+    private let reachability: InternetReachabilityAPI
     private let analyticsRecorder: AnalyticsEventRecording
     private let wallet: Wallet
     private let walletManager: WalletManager
-    private let authenticationManager: AuthenticationManager
     
     /// A passphase for recovery
     private let passphrase: String
@@ -43,16 +42,14 @@ final class RecoverWalletScreenInteractor {
     
     init(passphrase: String,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
-         reachability: InternentReachabilityAPI = InternentReachability(),
+         reachability: InternetReachabilityAPI = InternetReachability(),
          walletManager: WalletManager = .shared,
-         wallet: Wallet = WalletManager.shared.wallet,
-         authenticationManager: AuthenticationManager = .shared) {
+         wallet: Wallet = WalletManager.shared.wallet) {
         self.passphrase = passphrase
         self.analyticsRecorder = analyticsRecorder
         self.reachability = reachability
         self.walletManager = walletManager
         self.wallet = wallet
-        self.authenticationManager = authenticationManager
     }
 }
 
@@ -61,13 +58,10 @@ final class RecoverWalletScreenInteractor {
 extension RecoverWalletScreenInteractor: RegisterWalletScreenInteracting {
     func execute() throws {
         guard reachability.canConnect else {
-            throw InternentReachability.ErrorType.interentUnreachable
+            throw InternetReachability.ErrorType.internetUnreachable
         }
-        
-        // TODO: Change after routers are refactored
-        authenticationManager.setAuthCoordinatorAsCreationHandler()
-        
-        wallet.loadBlankWallet()
+
+        wallet.loadJS()
         
         wallet.recover(
             withEmail: contentStateRelay.value.email,

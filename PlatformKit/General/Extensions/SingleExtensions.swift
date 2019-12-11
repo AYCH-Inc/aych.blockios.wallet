@@ -50,6 +50,25 @@ extension PrimitiveSequence where Trait == SingleTrait {
     }
 }
 
+extension PrimitiveSequence where Trait == CompletableTrait {
+    public func flatMap<A: AnyObject>(weak object: A, _ selector: @escaping (A) throws -> Completable) -> Completable {
+        do {
+            return asObservable().ignoreElements().andThen(try selector(object))
+        } catch {
+            return .error(error)
+        }
+    }
+    
+    /// Convert from `Completable` into `Single`
+    public func flatMapSingle<A: AnyObject, R>(weak object: A, _ selector: @escaping (A) throws -> Single<R>) -> Single<R> {
+        do {
+            return asObservable().ignoreElements().andThen(try selector(object))
+        } catch {
+            return .error(error)
+        }
+    }
+}
+
 extension PrimitiveSequence where Trait == SingleTrait {
     public func flatMapCompletable<A: AnyObject>(weak object: A, _ selector: @escaping (A, Element) throws -> Completable)
         -> Completable {

@@ -15,7 +15,7 @@ final class AnalyticsUserPropertyInteractor {
     // MARK: - Properties
     
     private let recorder: UserPropertyRecording
-    private let wallet: Wallet
+    private let walletManager: WalletManager
     private let exchangeService: ExchangeHistoryAPI
     private let dataRepository: BlockchainDataRepository
     
@@ -26,10 +26,10 @@ final class AnalyticsUserPropertyInteractor {
     init(recorder: UserPropertyRecording = AnalyticsUserPropertyRecorder(),
          dataRepository: BlockchainDataRepository = .shared,
          exchangeService: ExchangeHistoryAPI = ExchangeService.shared,
-         wallet: Wallet = WalletManager.shared.wallet) {
+         walletManager: WalletManager = WalletManager.shared) {
         self.recorder = recorder
         self.dataRepository = dataRepository
-        self.wallet = wallet
+        self.walletManager = walletManager
         self.exchangeService = exchangeService
     }
     
@@ -52,7 +52,7 @@ final class AnalyticsUserPropertyInteractor {
             recorder.record(id: identifier)
         }
         
-        if let identifier = wallet.guid {
+        if let identifier = walletManager.legacyRepository.legacyGuid {
             let property = HashedUserProperty(key: .walletID, value: identifier)
             recorder.record(property)
         }

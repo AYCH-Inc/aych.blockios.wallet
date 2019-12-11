@@ -8,6 +8,7 @@
 
 import RxSwift
 import RxRelay
+import PlatformKit
 
 final class PasswordRequiredScreenInteractor {
     
@@ -27,8 +28,7 @@ final class PasswordRequiredScreenInteractor {
     /// Relay that accepts and streams the payload content
     let passwordRelay = BehaviorRelay<String>(value: "")
 
-    private let authenticationCoordinator: AuthenticationCoordinator
-    private let authenticationManager: AuthenticationManager
+    private let authenticationService: AuthenticationCoordinator
     private let appSettings: BlockchainSettings.App
     private let walletManager: WalletManager
     private let errorRelay = PublishRelay<ErrorType>()
@@ -36,12 +36,10 @@ final class PasswordRequiredScreenInteractor {
     // MARK: - Setup
     
     init(walletManager: WalletManager = .shared,
-         authenticationCoordinator: AuthenticationCoordinator = .shared,
-         authenticationManager: AuthenticationManager = .shared,
+         authenticationService: AuthenticationCoordinator = .shared,
          appSettings: BlockchainSettings.App = .shared) {
         self.walletManager = walletManager
-        self.authenticationCoordinator = authenticationCoordinator
-        self.authenticationManager = authenticationManager
+        self.authenticationService = authenticationService
         self.appSettings = appSettings
     }
     
@@ -52,7 +50,7 @@ final class PasswordRequiredScreenInteractor {
             return
         }
         let payload = PasscodePayload(guid: guid, password: passwordRelay.value, sharedKey: sharedKey)
-        authenticationManager.authenticate(using: payload, andReply: authenticationCoordinator.authHandler)
+        authenticationService.authenticate(using: payload)
     }
     
     /// Forgets the wallet

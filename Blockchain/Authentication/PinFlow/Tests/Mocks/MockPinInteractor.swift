@@ -9,16 +9,17 @@
 import Foundation
 import RxSwift
 
+@testable import PlatformKit
+
 class MockPinInteractor: PinInteracting {
-    
     var hasLogoutAttempted = false
-    let expectedPinDecryptionKey: String
+    let expectedPassword: String
     let expectedError: PinError?
     
     init(expectedError: PinError? = nil,
-         expectedPinDecryptionKey: String = "expected pin decryption key") {
+         expectedPassword: String = "expected password") {
         self.expectedError = expectedError
-        self.expectedPinDecryptionKey = expectedPinDecryptionKey
+        self.expectedPassword = expectedPassword
     }
     
     func create(using payload: PinPayload) -> Completable {
@@ -32,8 +33,12 @@ class MockPinInteractor: PinInteracting {
         if let expectedError = expectedError {
             return Single.error(expectedError)
         }
-        return Single.just(expectedPinDecryptionKey)
+        return Single.just(expectedPassword)
     }
     
     func persist(pin: Pin) {}
+    
+    func password(from pinDecryptionKey: String) -> Single<String> {
+        return .just(expectedPassword)
+    }
 }

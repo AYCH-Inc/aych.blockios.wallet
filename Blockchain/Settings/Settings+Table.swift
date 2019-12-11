@@ -98,16 +98,16 @@ extension SettingsTableViewController {
     }
 
     func prepare2FACell(_ cell: UITableViewCell) {
-        let authType = WalletManager.shared.wallet.getTwoStepType()
+        let authType = WalletManager.shared.legacyRepository.legacyAuthentocatorType
         cell.detailTextLabel?.textColor = .white
         createBadge(cell, color: .green)
-        if authType == AuthenticationTwoFactorType.sms.rawValue {
+        if authType == AuthenticatorType.sms {
             cell.detailTextLabel?.text = "SMS".localized()
-        } else if authType == AuthenticationTwoFactorType.google.rawValue {
+        } else if authType == AuthenticatorType.google {
             cell.detailTextLabel?.text = LocalizationConstants.Authentication.googleAuth
-        } else if authType == AuthenticationTwoFactorType.yubiKey.rawValue {
+        } else if authType == AuthenticatorType.yubiKey {
             cell.detailTextLabel?.text = LocalizationConstants.Authentication.yubiKey
-        } else if authType == AuthenticationTwoFactorType.none.rawValue {
+        } else if authType == AuthenticatorType.standard {
             cell.detailTextLabel?.text = LocalizationConstants.disabled
             cell.detailTextLabel?.textColor = .white
             createBadge(cell, color: .unverified)

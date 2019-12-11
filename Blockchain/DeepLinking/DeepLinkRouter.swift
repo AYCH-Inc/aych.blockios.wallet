@@ -21,6 +21,7 @@ class DeepLinkRouter {
         self.routers = routers
     }
 
+    @discardableResult
     func routeIfNeeded() -> Bool {
         return routers.map { $0.routeIfNeeded() }.first { $0 } ?? false
     }

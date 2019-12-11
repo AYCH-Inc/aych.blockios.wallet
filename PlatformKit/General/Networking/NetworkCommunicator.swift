@@ -95,10 +95,10 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI, AnalyticsEventRe
     private func execute(request: NetworkRequest) -> Single<
         Result<ServerResponse, NetworkCommunicatorError>
     > {
-        return Single<Result<ServerResponse, NetworkCommunicatorError>>.create { [weak self] observer -> Disposable in
+        return Single<Result<ServerResponse, NetworkCommunicatorError>>.create(weak: self) { (self, observer) -> Disposable in
             let urlRequest = request.URLRequest
             Logger.shared.debug("urlRequest.url: \(urlRequest.url)")
-            let task = self?.session.dataTask(with: urlRequest) { payload, response, error in
+            let task = self.session.dataTask(with: urlRequest) { payload, response, error in
                 if let error = error {
                     observer(.success(.failure(NetworkCommunicatorError.clientError(.failedRequest(description: error.localizedDescription)))))
                     return
@@ -117,10 +117,10 @@ final public class NetworkCommunicator: NetworkCommunicatorAPI, AnalyticsEventRe
                 observer(.success(.success(ServerResponse(response: httpResponse, payload: payload))))
             }
             defer {
-                task?.resume()
+                task.resume()
             }
             return Disposables.create {
-                task?.cancel()
+                task.cancel()
             }
         }
         .subscribeOn(scheduler)

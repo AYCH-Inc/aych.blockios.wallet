@@ -8,7 +8,9 @@
 
 import Foundation
 
-class MockAppSettings: AppSettingsAuthenticating, SwipeToReceiveConfiguring {
+@testable import PlatformKit
+
+class MockAppSettings: ReactiveAppSettingsAuthenticating, AppSettingsAuthenticating, SwipeToReceiveConfiguring {
     @objc var pin: String?
     @objc var pinKey: String?
     @objc var biometryEnabled: Bool

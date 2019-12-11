@@ -14,15 +14,6 @@ protocol WalletAuthDelegate: class {
     /// Callback invoked when the wallet successfully decrypts
     func didDecryptWallet(guid: String?, sharedKey: String?, password: String?)
 
-    /// Callback invoked when 2 factor authorization is required
-    func didRequireTwoFactorAuth(withType type: AuthenticationTwoFactorType)
-
-    /// Callback invoked when the SMS containing a code for 2FA was resent
-    func didResendTwoFactorSMSCode()
-
-    /// Callback invoked when an email authorization is required (only for manual pairing)
-    func emailAuthorizationRequired()
-
     /// Callback invoked when an error occurred with authenticating
     func authenticationError(error: AuthenticationError?)
 

@@ -21,18 +21,15 @@ final class AutoPairingScreenInteractor {
     
     let parser = PairingCodeQRCodeParser()
     private let authenticationCoordinator: AuthenticationCoordinator
-    private let authenticationManager: AuthenticationManager
     private let analyticsRecorder: AnalyticsEventRecording
     private let errorRelay = PublishRelay<Error>()
 
     // MARK: - Setup
     
     init(authenticationCoordinator: AuthenticationCoordinator = .shared,
-         authenticationManager: AuthenticationManager = .shared,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared) {
         self.analyticsRecorder = analyticsRecorder
         self.authenticationCoordinator = authenticationCoordinator
-        self.authenticationManager = authenticationManager
     }
     
     func handlePairingCodeResult(result: Result<PairingCodeQRCodeParser.PairingCode,
@@ -40,10 +37,7 @@ final class AutoPairingScreenInteractor {
         switch result {
         case .success(let pairingCode):
             analyticsRecorder.record(event: AnalyticsEvents.Onboarding.walletAutoPairing)
-            authenticationManager.authenticate(
-                using: pairingCode.passcodePayload,
-                andReply: authenticationCoordinator.authHandler
-            )
+            authenticationCoordinator.authenticate(using: pairingCode.passcodePayload)
         case .failure(let error):
             analyticsRecorder.record(event: AnalyticsEvents.Onboarding.walletAutoPairingError)
             errorRelay.accept(error)

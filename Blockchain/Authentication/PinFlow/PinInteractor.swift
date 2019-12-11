@@ -16,11 +16,13 @@ final class PinInteractor: PinInteracting {
 
     // MARK: - Properties
     
-    private let pinService: PinServicing
+    private let pinClient: PinClientAPI
     private let maintenanceService: MaintenanceServicing
+    private let credentialsProvider: WalletCredentialsProviding
     private let wallet: WalletProtocol
     private let appSettings: AppSettingsAuthenticating
     private let recorder: ErrorRecording
+    private let loginService: PinLoginServiceAPI
     
     /// In case the user attempted to logout while the pin was being sent to the server
     /// the app needs to disragard any future response
@@ -28,12 +30,26 @@ final class PinInteractor: PinInteracting {
     
     // MARK: - Setup
     
-    init(pinService: PinServicing = PinService(),
+    init(credentialsProvider: WalletCredentialsProviding = WalletManager.shared.legacyRepository,
+         pinClient: PinClientAPI = PinClient(),
          maintenanceService: MaintenanceServicing = WalletService.shared,
          wallet: WalletProtocol = WalletManager.shared.wallet,
-         appSettings: AppSettingsAuthenticating = BlockchainSettings.App.shared,
-         recorder: ErrorRecording = CrashlyticsRecorder()) {
-        self.pinService = pinService
+         appSettings: AppSettingsAuthenticating & ReactiveAppSettingsAuthenticating = BlockchainSettings.App.shared,
+         jsContextProvider: JSContextProviderAPI = WalletManager.shared,
+         recorder: ErrorRecording = CrashlyticsRecorder(),
+         walletPayloadClient: WalletPayloadClientAPI = WalletPayloadClient(),
+         walletRepository: WalletRepositoryAPI = WalletManager.shared.repository) {
+        loginService = PinLoginService(
+            jsContextProvider: jsContextProvider,
+            settings: appSettings,
+            service: WalletPayloadService(
+                client: walletPayloadClient,
+                repository: walletRepository
+            ),
+            walletRepository: walletRepository
+        )
+        self.credentialsProvider = credentialsProvider
+        self.pinClient = pinClient
         self.maintenanceService = maintenanceService
         self.wallet = wallet
         self.appSettings = appSettings
@@ -49,7 +65,7 @@ final class PinInteractor: PinInteracting {
         return maintenanceService.serverUnderMaintenanceMessage
             .flatMap(weak: self) { (self, message) -> Single<PinStoreResponse> in
                 if let message = message { throw PinError.serverMaintenance(message: message) }
-                return self.pinService.create(pinPayload: payload)
+                return self.pinClient.create(pinPayload: payload)
             }
             .do(onSuccess: { [weak self] response in
                 try self?.handleCreatePinResponse(response: response, payload: payload)
@@ -70,7 +86,7 @@ final class PinInteractor: PinInteracting {
         return maintenanceService.serverUnderMaintenanceMessage
             .flatMap(weak: self) { (self, message) -> Single<String> in
                 if let message = message { throw PinError.serverMaintenance(message: message) }
-                return self.pinService.validate(pinPayload: payload)
+                return self.pinClient.validate(pinPayload: payload)
                     .do(onSuccess: { [weak self] response in
                         try self?.updateCacheIfNeeded(response: response, pinPayload: payload)
                     })
@@ -82,6 +98,10 @@ final class PinInteractor: PinInteracting {
             .catchError { error in
                 throw PinError.map(from: error)
         }
+    }
+    
+    func password(from pinDecryptionKey: String) -> Single<String> {
+        return loginService.password(from: pinDecryptionKey)
     }
     
     /// Keep the PIN value on the local pin store (i.e the keychain), for biometrics auth.
@@ -97,7 +117,7 @@ final class PinInteractor: PinInteracting {
                                          payload: PinPayload) throws {
         
         // Wallet must have password at the stage
-        guard let password = wallet.password else {
+        guard let password = credentialsProvider.legacyPassword else {
             let error = PinError.serverError(LocalizationConstants.Pin.cannotSaveInvalidWalletState)
             recorder.error(error)
             throw error

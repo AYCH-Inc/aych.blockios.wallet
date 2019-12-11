@@ -44,7 +44,7 @@ extension RemoteNotificationNetworkService: RemoteNotificationNetworkServicing {
                   using credentialsProvider: WalletCredentialsProviding) -> Single<Void> {
         let body: Data
         do {
-            guard let guid = credentialsProvider.guid, let sharedKey = credentialsProvider.sharedKey else {
+            guard let guid = credentialsProvider.legacyGuid, let sharedKey = credentialsProvider.legacySharedKey else {
                 throw PushNotificationError.missingCredentials
             }
             guard !guid.isEmpty && !sharedKey.isEmpty else {

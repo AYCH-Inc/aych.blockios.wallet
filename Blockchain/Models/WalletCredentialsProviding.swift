@@ -8,9 +8,8 @@
 
 import Foundation
 
-protocol WalletCredentialsProviding {
-    var guid: String? { get }
-    var sharedKey: String! { get }
+protocol WalletCredentialsProviding: class {
+    var legacyGuid: String? { get }
+    var legacyPassword: String? { get }
+    var legacySharedKey: String? { get }
 }
-
-extension Wallet: WalletCredentialsProviding {}

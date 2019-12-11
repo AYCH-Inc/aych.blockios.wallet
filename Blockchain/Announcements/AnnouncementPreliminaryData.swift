@@ -6,7 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import PlatformKit
 
 /// Contains any needed remotely fetched data before displaying announcements.
 struct AnnouncementPreliminaryData {
@@ -27,6 +27,9 @@ struct AnnouncementPreliminaryData {
     /// The variant for pit linking
     let pitLinkingCardVariant: FeatureTestingVariant
     
+    /// The authentication type (2FA / standard)
+    let authenticatorType: AuthenticatorType
+    
     var hasLinkedPitAccount: Bool {
         return user.hasLinkedPITAccount
     }
@@ -34,18 +37,24 @@ struct AnnouncementPreliminaryData {
     var isKycSupported: Bool {
         return country?.isKycSupported ?? false
     }
+    
+    var hasTwoFA: Bool {
+        return authenticatorType != .standard
+    }
         
     init(user: NabuUser,
          tiers: KYCUserTiersResponse,
          hasTrades: Bool,
          hasPaxTransactions: Bool,
          countries: Countries,
-         pitLinkingCardVariant: FeatureTestingVariant) {
+         pitLinkingCardVariant: FeatureTestingVariant,
+         authenticatorType: AuthenticatorType) {
         self.pitLinkingCardVariant = pitLinkingCardVariant
         self.user = user
         self.tiers = tiers
         self.hasTrades = hasTrades
         self.hasPaxTransactions = hasPaxTransactions
+        self.authenticatorType = authenticatorType
         country = countries.first { $0.code == user.address?.countryCode }
     }
 }

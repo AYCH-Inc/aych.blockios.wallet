@@ -318,7 +318,7 @@ import PlatformKit
                 withJson: walletJson,
                 externalJson: externalJson,
                 magicHash: magicHash,
-                password: self.walletManager.wallet.password
+                password: self.walletManager.legacyRepository.legacyPassword
             )
             buyBitcoinViewController.delegate = self.walletManager.wallet // TODO fix this
             

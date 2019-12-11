@@ -73,9 +73,6 @@ NSString * const kLockboxInvitation = @"lockbox";
 @implementation Wallet
 
 @synthesize delegate;
-@synthesize password;
-@synthesize sharedKey;
-@synthesize guid;
 
 - (id)init
 {
@@ -207,8 +204,14 @@ NSString * const kLockboxInvitation = @"lockbox";
     };
 }
 
-- (void)loadJS
-{
+- (void)loadJSIfNeeded {
+    if (self.context) {
+        return;
+    }
+    [self loadJS];
+}
+
+- (void)loadJS {
     self.context = [[JSContext alloc] init];
 
     [self.context evaluateScript:[self getConsoleScript]];
@@ -472,14 +475,6 @@ NSString * const kLockboxInvitation = @"lockbox";
         [weakSelf getPrivateKeyPasswordSuccess:privateKeyPassword error:nil];
     };
 
-    self.context[@"objc_on_resend_two_factor_sms_success"] = ^() {
-        [weakSelf on_resend_two_factor_sms_success];
-    };
-
-    self.context[@"objc_on_resend_two_factor_sms_error"] = ^(NSString *error) {
-        [weakSelf on_resend_two_factor_sms_error:error];
-    };
-
 #pragma mark Accounts/Addresses
 
     self.context[@"objc_getRandomValues"] = ^(JSValue *intArray) {
@@ -605,10 +600,6 @@ NSString * const kLockboxInvitation = @"lockbox";
         [weakSelf on_backup_wallet_error];
     };
 
-    self.context[@"objc_on_get_session_token"] = ^(NSString *token) {
-        [weakSelf on_get_session_token:token];
-    };
-
     self.context[@"objc_ws_on_open"] = ^() {
         [weakSelf ws_on_open];
     };
@@ -723,18 +714,6 @@ NSString * const kLockboxInvitation = @"lockbox";
         [weakSelf on_resend_verification_email_success];
     };
 
-    self.context[@"objc_email_authorization_required"] = ^() {
-        [weakSelf email_authorization_required];
-    };
-    
-    self.context[@"objc_on_fetch_needs_two_factor_code"] = ^() {
-        [weakSelf on_fetch_needs_two_factor_code];
-    };
-
-    self.context[@"objc_wrong_two_factor_code"] = ^(NSString *error) {
-        [weakSelf wrong_two_factor_code:error];
-    };
-
 #pragma mark Ethereum
 
     self.context[@"objc_on_fetch_eth_history_success"] = ^() {
@@ -847,8 +826,21 @@ NSString * const kLockboxInvitation = @"lockbox";
     self.context[@"XMLHttpRequest"] = [ModuleXMLHttpRequest class];
     self.context[@"Bitcoin"][@"HDNode"] = [HDNode class];
     self.context[@"HDNode"] = [HDNode class];
+    
+    [self useDebugSettingsIfSet];
 
-    [self login];
+    if ([delegate respondsToSelector:@selector(walletJSReady)]) {
+        [delegate walletJSReady];
+    } else {
+        DLog(@"Error: delegate of class %@ does not respond to selector walletJSReady!", [delegate class]);
+    }
+
+    if ([delegate respondsToSelector:@selector(walletDidLoad)]) {
+        [delegate walletDidLoad];
+    } else {
+        DLog(@"Error: delegate of class %@ does not respond to selector walletDidLoad!", [delegate class]);
+    }
+
 }
 
 - (NSMutableArray *)pendingEthSocketMessages
@@ -991,48 +983,36 @@ NSString * const kLockboxInvitation = @"lockbox";
     [self subscribeToAddress:address assetType:assetType];
 }
 
-- (void)loadWalletWithGuid:(NSString*)_guid sharedKey:(NSString*)_sharedKey password:(NSString*)_password
-{
-    // DLog(@"guid: %@, password: %@", _guid, _password);
-    self.guid = _guid;
-    // Shared Key can be empty
-    self.sharedKey = _sharedKey;
-    self.password = _password;
+- (void)loadWalletWithGuid:(NSString*)guid sharedKey:(NSString*)sharedKey password:(NSString*)password {
+    
+    [self loadJSIfNeeded];
 
-    // Load the JS. Proceed in the webViewDidFinishLoad callback
-    [self loadJS];
+    self.repository.legacyGuid = guid;
+    self.repository.legacySharedKey = sharedKey;
+    self.repository.legacyPassword = password;
+    
+    DLog(@"Fetch Wallet");
+    
+    NSString *escapedSharedKey = sharedKey == nil ? @"" : [sharedKey escapedForJS];
+    NSString *escapedGuid = guid == nil ? @"" : [guid escapedForJS];
+    NSString *escapedPassword = password == nil ? @"" : [password escapedForJS];
+    
+    NSString *sessionToken = self.repository.legacySessionToken;
+    sessionToken = sessionToken == nil ? @"" : [sessionToken escapedForJS];
+
+    NSString *script = [NSString stringWithFormat:@"MyWalletPhone.login(\"%@\", \"%@\", false, \"%@\", \"%@\")", escapedGuid, escapedSharedKey, escapedPassword, sessionToken];
+    [self.context evaluateScript:script];
 }
 
-- (void)loadBlankWallet
-{
-    [self loadWalletWithGuid:nil sharedKey:nil password:nil];
-}
+- (void)fetchWalletWith:(nonnull NSString *)password {
+    DLog(@"Fetching wallet");
+    
+    self.repository.legacyPassword = password;
+    
+    [self loadJSIfNeeded];
 
-- (void)login
-{
-    [self useDebugSettingsIfSet];
-
-    if ([delegate respondsToSelector:@selector(walletJSReady)]) {
-        [delegate walletJSReady];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector walletJSReady!", [delegate class]);
-    }
-
-    if ([delegate respondsToSelector:@selector(walletDidLoad)]) {
-        [delegate walletDidLoad];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector walletDidLoad!", [delegate class]);
-    }
-
-    if (self.guid && self.password) {
-        DLog(@"Fetch Wallet");
-
-        NSString *escapedSharedKey = self.sharedKey == nil ? @"" : [self.sharedKey escapedForJS];
-        NSString *escapedSessionToken = self.sessionToken == nil ? @"" : [self.sessionToken escapedForJS];
-        NSString *escapedTwoFactorInput = self.twoFactorInput == nil ? @"" : [self.twoFactorInput escapedForJS];
-
-        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.login(\"%@\", \"%@\", false, \"%@\", \"%@\", \"%@\")", [self.guid escapedForJS], escapedSharedKey, [self.password escapedForJS], escapedSessionToken, escapedTwoFactorInput]];
-    }
+    NSString *escapedPassword = [password escapedForJS];
+    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.loginAfterPairing(\"%@\")", escapedPassword]];
 }
 
 - (void)resetSyncStatus
@@ -1222,6 +1202,10 @@ NSString * const kLockboxInvitation = @"lockbox";
 - (NSString *)getAPICode
 {
     return [[self.context evaluateScript:@"MyWalletPhone.getAPICode()"] toString];
+}
+
+- (void)setEncryptedWalletData {
+    [self.context evaluateScript:@"MyWalletPhone.setEncryptedWalletData()"];
 }
 
 - (BOOL)hasEncryptedWalletData
@@ -1422,15 +1406,6 @@ NSString * const kLockboxInvitation = @"lockbox";
     return [CurrencySymbol currencyNames];
 }
 
-- (int)getTwoStepType
-{
-    if (![self isInitialized]) {
-        return -1;
-    }
-
-    return [self.accountInfo[DICTIONARY_KEY_ACCOUNT_SETTINGS_TWO_STEP_TYPE] intValue];
-}
-
 - (BOOL)getEmailVerifiedStatus
 {
     if (![self isInitialized]) {
@@ -1598,18 +1573,12 @@ NSString * const kLockboxInvitation = @"lockbox";
     return [[[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.precisionToSatoshiBN(\"%@\", %lld).toString()", [requestedAmountString escapedForJS], WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc.conversion]] toNumber] longLongValue];
 }
 
-// Make a request to blockchain.info to get the session id SID in a cookie. This cookie is around for new instances of UIWebView and will be used to let the server know the user is trying to gain access from a new device. The device is recognized based on the SID.
-- (void)loadWalletLogin
-{
-    if (!self.sessionToken) {
-        [self getSessionToken];
-    }
-}
-
 - (void)parsePairingCode:(NSString *)code
                  success:(void (^ _Nonnull)(NSDictionary * _Nonnull))success
-                   error:(void (^ _Nonnull)(NSString * _Nullable))error
-{
+                   error:(void (^ _Nonnull)(NSString * _Nullable))error {
+    
+    [self loadJSIfNeeded];
+    
     [self useDebugSettingsIfSet];
         
     [self.context invokeOnceWithValueFunctionBlock:^(JSValue * _Nonnull value) {
@@ -2215,16 +2184,6 @@ NSString * const kLockboxInvitation = @"lockbox";
     [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.recoverWithPassphrase(\"%@\",\"%@\",\"%@\")", [email escapedForJS], [recoveryPassword escapedForJS], [passphrase escapedForJS]]];
 }
 
-- (void)resendTwoFactorSMS
-{
-    [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.resendTwoFactorSms(\"%@\", \"%@\")", [self.guid escapedForJS], [self.sessionToken escapedForJS]]];
-}
-
-- (NSString *)get2FAType
-{
-    return [[self.context evaluateScript:@"MyWalletPhone.get2FAType()"] toString];
-}
-
 - (void)enableEmailNotifications
 {
     if (![self isInitialized]) {
@@ -2322,11 +2281,6 @@ NSString * const kLockboxInvitation = @"lockbox";
         return [[[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.getIndexOfActiveAccount(%d)", account]] toNumber] intValue];
     }
     return 0;
-}
-
-- (void)getSessionToken
-{
-    [self.context evaluateScript:@"MyWalletPhone.getSessionToken()"];
 }
 
 - (BOOL)emailNotificationsEnabled
@@ -3072,17 +3026,6 @@ NSString * const kLockboxInvitation = @"lockbox";
     DLog(@"ws_on_close");
 }
 
-- (void)on_fetch_needs_two_factor_code
-{
-    DLog(@"on_fetch_needs_two_factor_code");
-    if ([delegate respondsToSelector:@selector(wallet:didRequireTwoFactorAuthentication:)]) {
-        NSInteger twoFactorType = [[WalletManager.sharedInstance.wallet get2FAType] integerValue];
-        [delegate wallet:self didRequireTwoFactorAuthentication:twoFactorType];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector wallet:didRequireTwoFactorAuthentication::!", [delegate class]);
-    }
-}
-
 - (void)did_set_latest_block
 {
     if (![self isInitialized]) {
@@ -3332,8 +3275,8 @@ NSString * const kLockboxInvitation = @"lockbox";
 
     [self setupEthSocket];
 
-    self.sharedKey = [[self.context evaluateScript:@"MyWallet.wallet.sharedKey"] toString];
-    self.guid = [[self.context evaluateScript:@"MyWallet.wallet.guid"] toString];
+    self.repository.legacySharedKey = [[self.context evaluateScript:@"MyWallet.wallet.sharedKey"] toString];
+    self.repository.legacyGuid = [[self.context evaluateScript:@"MyWallet.wallet.guid"] toString];
 
     if ([delegate respondsToSelector:@selector(walletDidDecrypt)]) {
         [delegate walletDidDecrypt];
@@ -3774,27 +3717,6 @@ NSString * const kLockboxInvitation = @"lockbox";
     }
 }
 
-- (void)on_resend_two_factor_sms_success
-{
-    DLog(@"on_resend_two_factor_sms_success");
-    if ([self.delegate respondsToSelector:@selector(walletDidResendTwoFactorSMS:)]) {
-        [self.delegate walletDidResendTwoFactorSMS:self];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector walletDidResendTwoFactorSMS:!", [delegate class]);
-    }
-}
-
-- (void)on_resend_two_factor_sms_error:(NSString *)error
-{
-    [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR in:nil handler:nil];
-}
-
-- (void)wrong_two_factor_code:(NSString *)error
-{
-    self.twoFactorInput = nil;
-    [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:error title:BC_STRING_ERROR in:nil handler:nil];
-}
-
 - (void)on_change_notifications_success
 {
     DLog(@"on_change_notifications_success");
@@ -3872,22 +3794,6 @@ NSString * const kLockboxInvitation = @"lockbox";
 
     if ([self.delegate respondsToSelector:@selector(updateLoadedAllTransactions:)]) {
         [self.delegate updateLoadedAllTransactions:[loadedAll boolValue]];
-    }
-}
-
-- (void)on_get_session_token:(NSString *)token
-{
-    DLog(@"on_get_session_token:");
-    self.sessionToken = token;
-}
-
-- (void)email_authorization_required
-{
-    DLog(@"email_authorization_required");
-    if ([self.delegate respondsToSelector:@selector(walletDidRequireEmailAuthorization:)]) {
-        [self.delegate walletDidRequireEmailAuthorization:self];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector walletDidRequireEmailAuthorization!", [delegate class]);
     }
 }
 
@@ -4664,37 +4570,6 @@ NSString * const kLockboxInvitation = @"lockbox";
 - (BOOL)hasVerifiedMobileNumber
 {
     return [self getSMSVerifiedStatus];
-}
-
-- (BOOL)hasEnabledTwoStep
-{
-    return [self getTwoStepType] != 0;
-}
-
-- (int)securityCenterScore
-{
-    if (self.isRecoveryPhraseVerified && [self hasEnabledTwoStep] && [self hasVerifiedEmail]) {
-        return 2;
-    } else if (self.isRecoveryPhraseVerified && [self hasEnabledTwoStep]) {
-        return 2;
-    } else if (self.isRecoveryPhraseVerified && [self hasVerifiedEmail]) {
-        return 1;
-    } else if ([self hasEnabledTwoStep] && [self hasVerifiedEmail]) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-- (int)securityCenterCompletedItemsCount
-{
-    int count = 0;
-
-    if (self.isRecoveryPhraseVerified) count++;
-    if ([self hasEnabledTwoStep]) count++;
-    if ([self hasVerifiedEmail]) count++;
-
-    return count;
 }
 
 #pragma mark - Debugging

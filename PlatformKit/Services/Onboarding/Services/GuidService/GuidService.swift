@@ -20,10 +20,14 @@ public final class GuidService: GuidServiceAPI {
     
     /// Fetches the `GUID`
     public var guid: Single<String> {
-        guard let token = sessionTokenRepository.sessionToken else {
-            return .error(FetchError.missingSessionToken)
-        }
-        return client.guid(by: token)
+        return sessionTokenRepository
+            .sessionToken
+            .flatMap(weak: self) { (self, token) -> Single<String> in
+                guard let token = token else {
+                    return .error(FetchError.missingSessionToken)
+                }
+                return self.client.guid(by: token)
+            }
     }
     
     private let sessionTokenRepository: SessionTokenRepositoryAPI

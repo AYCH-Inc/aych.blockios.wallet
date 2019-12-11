@@ -771,16 +771,15 @@ extension TradeExecutionService {
         if from.address.assetType == .stellar {
             loadXLMKeyPair()
         } else if secondaryPasswordRequired {
-            AuthenticationCoordinator.shared.showPasswordConfirm(
-                withDisplayText: LocalizationConstants.Authentication.secondPasswordDefaultDescription,
-                headerText: LocalizationConstants.Authentication.secondPasswordRequired,
-                validateSecondPassword: true,
-                confirmHandler: { (secondPass) in
-                    processAndBuild(secondPass, nil)
-            },
+            AuthenticationCoordinator.shared.showPasswordScreen(
+                type: .actionRequiresPassword,
+                confirmHandler: { password in
+                    processAndBuild(password, nil)
+                },
                 dismissHandler: {
                     error(LocalizationConstants.Authentication.secondPasswordIncorrect, nil, nil)
-            })
+                }
+            )
         } else {
             processAndBuild(nil, nil)
         }

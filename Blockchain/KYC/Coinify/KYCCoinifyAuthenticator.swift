@@ -39,6 +39,7 @@ class KYCCoinifyAuthenticator {
     
     // MARK: Private Properties
     
+    private let credentialsProvider: WalletCredentialsProviding
     private let wallet: Wallet
     private let authenticationService: NabuAuthenticationService
     private let communicator: NetworkCommunicatorAPI
@@ -46,9 +47,11 @@ class KYCCoinifyAuthenticator {
     // MARK: - Initialization
     
     init(wallet: Wallet = WalletManager.shared.wallet,
+         credentialsProvider: WalletCredentialsProviding = WalletManager.shared.legacyRepository,
          authenticationService: NabuAuthenticationService = NabuAuthenticationService.shared,
          communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared
         ) {
+        self.credentialsProvider = credentialsProvider
         self.authenticationService = authenticationService
         self.wallet = wallet
         self.communicator = communicator
@@ -117,7 +120,7 @@ class KYCCoinifyAuthenticator {
             return Single.error(WalletError.notInitialized)
         }
         
-        guard let guid = self.wallet.guid else {
+        guard let guid = credentialsProvider.legacyGuid else {
             Logger.shared.warning("Cannot get Nabu authentication token, guid is nil.")
             return Single.error(WalletError.notInitialized)
         }

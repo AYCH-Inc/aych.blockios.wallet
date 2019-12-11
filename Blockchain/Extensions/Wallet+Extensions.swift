@@ -31,11 +31,9 @@ extension Wallet: MnemonicAccessAPI {
     
     public var mnemonicForcePrompt: Maybe<Mnemonic> {
         return Maybe.create(subscribe: { observer -> Disposable in
-            AuthenticationCoordinator.shared.showPasswordConfirm(
-                withDisplayText: LocalizationConstants.Authentication.secondPasswordDefaultDescription,
-                headerText: LocalizationConstants.Authentication.secondPasswordRequired,
-                validateSecondPassword: true,
-                confirmHandler: { [weak self] password in
+            AuthenticationCoordinator.shared.showPasswordScreen(
+                type: .actionRequiresPassword,
+                confirmHandler: { [weak self ] password in
                     guard let mnemonic = self?.getMnemonic(password) else {
                         observer(.completed)
                         return
@@ -44,7 +42,7 @@ extension Wallet: MnemonicAccessAPI {
                 },
                 dismissHandler: {
                     observer(.error(StellarPaymentOperationError.cancelled))
-            }
+                }
             )
             return Disposables.create()
         })

@@ -15,7 +15,7 @@ class WalletSettingsTests: XCTestCase {
     func testWalletSettingsDecoding() {
         let guid = "test_guid"
         let currency = "USD"
-        let authType = AuthenticationTwoFactorType.none
+        let authType = AuthenticatorType.standard
         let jsonString = """
         {
             "btc_currency": "BTC",

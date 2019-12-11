@@ -9,9 +9,7 @@
 import Foundation
 
 protocol LegacyWalletAPI: class {
-    
-    var password: String? { get }
-    
+        
     func createOrderPayment(withOrderTransaction orderTransaction: OrderTransactionLegacy, completion: @escaping () -> Void, success: ((String) -> Void)!, error: @escaping (String) -> Void)
     
     func sendOrderTransaction(_ legacyAssetType: LegacyAssetType, secondPassword: String?, completion: @escaping () -> Void, success: @escaping () -> Void, error: @escaping (String) -> Void, cancel: @escaping () -> Void)

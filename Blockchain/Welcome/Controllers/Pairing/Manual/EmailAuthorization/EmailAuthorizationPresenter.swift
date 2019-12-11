@@ -19,17 +19,16 @@ final class EmailAuthorizationPresenter {
     
     private let emailAuthorizationService: EmailAuthorizationService
     private let alertPresenter: AlertViewPresenter
-    private let authenticationCoordinator: AuthenticationCoordinator
+    private unowned let routerStateProvider: OnboardingRouterStateProviding
             
     // MARK: - Setup
     
-    /// TODO: Remove `authenticationCoordinator` dependency when refactored
-    init(authenticationCoordinator: AuthenticationCoordinator = .shared,
+    init(routerStateProvider: OnboardingRouterStateProviding = AppCoordinator.shared.onboardingRouter,
          emailAuthorizationService: EmailAuthorizationService,
          alertPresenter: AlertViewPresenter = .shared) {
         self.emailAuthorizationService = emailAuthorizationService
         self.alertPresenter = alertPresenter
-        self.authenticationCoordinator = authenticationCoordinator
+        self.routerStateProvider = routerStateProvider
     }
     
     // MARK: - API
@@ -39,11 +38,11 @@ final class EmailAuthorizationPresenter {
     /// but clients of `EmailAuthorizationPresenter` may subscribe and utilize
     /// `onError(_ error: Error)` if they need to.
     func authorize() -> Completable {
-        authenticationCoordinator.isWaitingForEmailValidation = true
+        routerStateProvider.state = .pending2FA
         showAlert()
         return emailAuthorizationService.authorize
             .do(onDispose: { [weak self] in
-                self?.authenticationCoordinator.isWaitingForEmailValidation = false
+                self?.routerStateProvider.state = .standard
             })
     }
     

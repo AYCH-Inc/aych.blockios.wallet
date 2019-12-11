@@ -26,7 +26,7 @@ public extension String {
         return NSData(bytes: hash, length: digestLength)
     }
 
-    private func hexStringFromData(input: NSData) -> String {
+    func hexStringFromData(input: NSData) -> String {
         var bytes = [UInt8](repeating: 0, count: input.length)
         input.getBytes(&bytes, length: input.length)
 

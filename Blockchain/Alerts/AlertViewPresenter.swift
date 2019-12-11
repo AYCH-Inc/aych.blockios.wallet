@@ -8,6 +8,8 @@
 
 import PlatformKit
 import PlatformUIKit
+import RxSwift
+import RxCocoa
 
 @objc class AlertViewPresenter: NSObject {
     
@@ -23,13 +25,18 @@ import PlatformUIKit
 
     // MARK: - Services
     
+    private let topMostViewControllerProvider: TopMostViewControllerProviding
     private let recorder: Recording
     private let loadingViewPresenter: LoadingViewPresenting
 
+    private let disposeBag = DisposeBag()
+    
     // MARK: - Setup
     
-    private init(recorder: Recording = CrashlyticsRecorder(),
+    private init(topMostViewControllerProvider: TopMostViewControllerProviding = UIApplication.shared,
+                 recorder: Recording = CrashlyticsRecorder(),
                  loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared) {
+        self.topMostViewControllerProvider = topMostViewControllerProvider
         self.recorder = recorder
         self.loadingViewPresenter = loadingViewPresenter
         super.init()
@@ -55,6 +62,19 @@ import PlatformUIKit
             )
             self.standardNotify(alert: alert)
         }
+    }
+    
+    /// Dismisses an alert if needed
+    func dismissIfNeeded(completion: (() -> Void)? = nil) {
+        guard let viewController = topMostViewControllerProvider.topMostViewController else {
+            completion?()
+            return
+        }
+        guard let alertController = viewController.presentedViewController as? UIAlertController else {
+            completion?()
+            return
+        }
+        alertController.dismiss(animated: true, completion: completion)
     }
 
     /// Asks permission from the user to use values in the keychain. This is typically invoked
@@ -167,10 +187,7 @@ import PlatformUIKit
 
     private func standardNotify(alert: UIAlertController, in viewController: UIViewController? = nil) {
         Execution.MainQueue.dispatch {
-            guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
-                return
-            }
-            guard let topMostViewController = rootViewController.topMostViewController else {
+            guard let topMostViewController = self.topMostViewControllerProvider.topMostViewController else {
                 return
             }
             
@@ -191,25 +208,25 @@ import PlatformUIKit
             presentingVC.present(alert, animated: true, completion: nil)
         }
     }
-
 }
 
 // MARK: - 2FA alert
 
 extension AlertViewPresenter {
-        
+            
     /// Displays 2FA alert according to type
-    func notify2FA(type: AuthenticationTwoFactorType,
+    func notify2FA(type: AuthenticatorType,
+                   title: String,
+                   message: String,
                    in viewController: UIViewController? = nil,
                    resendAction: (() -> Void)? = nil,
+                   cancel: @escaping (() -> Void),
                    verifyAction: @escaping (String) -> Void) {
-        Execution.MainQueue.dispatch {
+        Execution.MainQueue.dispatch { [weak self] in
+            guard let self = self else { return }
             let alert = UIAlertController(
-                title: LocalizationConstants.Onboarding.TwoFAAlert.title,
-                message: String(
-                    format: LocalizationConstants.Onboarding.TwoFAAlert.message,
-                    type.name
-                ),
+                title: title,
+                message: message,
                 preferredStyle: .alert
             )
             var alertTextField: UITextField!
@@ -223,20 +240,28 @@ extension AlertViewPresenter {
             // Resend action applicable only for SMS
             if type == .sms {
                 let resendAction = UIAlertAction(
-                    title: LocalizationConstants.Onboarding.TwoFAAlert.resendButton,
+                    title: LocalizationConstants.Onboarding.ManualPairingScreen.TwoFAAlert.resendButton,
                     style: .default) { _ in
                         resendAction?()
                     }
                 alert.addAction(resendAction)
             }
             let verifyAction = UIAlertAction(
-                title: LocalizationConstants.Onboarding.TwoFAAlert.verifyButton,
+                title: LocalizationConstants.Onboarding.ManualPairingScreen.TwoFAAlert.verifyButton,
                 style: .default) { _ in
                     verifyAction(alertTextField.text ?? "")
                 }
             alert.addAction(verifyAction)
+            alertTextField.rx
+                .text
+                .orEmpty
+                .map { !$0.isEmpty }
+                .bind(to: verifyAction.rx.isEnabled)
+                .disposed(by: self.disposeBag)
             
-            let cancelAction = UIAlertAction(title: LocalizationConstants.cancel, style: .cancel)
+            let cancelAction = UIAlertAction(title: LocalizationConstants.cancel, style: .cancel) { _ in
+                cancel()
+            }
             alert.addAction(cancelAction)
             
             self.standardNotify(alert: alert, in: viewController)

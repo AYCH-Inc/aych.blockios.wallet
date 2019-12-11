@@ -792,6 +792,43 @@ MyWalletPhone.login = function(user_guid, shared_key, resend_code, inputedPasswo
     });
 };
 
+MyWalletPhone.loginAfterPairing = function(password) {
+
+    var other_error = function(e) {
+        objc_loading_stop();
+        objc_error_other_decrypting_wallet(e);
+        return Promise.reject(e);
+    };
+
+    var decrypt_success = function() {
+        objc_did_decrypt();
+        objc_loading_start_build_wallet();
+    };
+
+    var build_hd_success = function() {
+        objc_loading_start_multiaddr();
+    };
+
+    var history_error = function(error) {console.log(error);
+        objc_on_error_get_history(error);
+        return Promise.reject('history_error');
+    };
+
+    var login_success = function() {
+        objc_loading_stop();
+        objc_did_load_wallet();
+        MyWallet.wallet.useEthSocket(ethSocketInstance);
+    };
+
+    var success = function() {
+        var getHistory = MyWalletPhone.getHistoryForAllAssets().catch(history_error);
+        var fetchAccount = MyWallet.wallet.fetchAccountInfo();
+        Promise.all([getHistory, fetchAccount]).then(login_success);
+    };
+
+    return MyWallet.initializeWallet(password, decrypt_success, build_hd_success).then(success).catch(other_error);
+};
+
 MyWalletPhone.getInfoForTransferAllFundsToAccount = function() {
 
     var totalAddressesUsed = [];
@@ -1111,6 +1148,18 @@ MyWalletPhone.detectPrivateKeyFormat = function(privateKeyString) {
     } catch(e) {
         return null;
     }
+};
+
+MyWalletPhone.setSyncPubKeys = function(syncPubKeys) {
+    MyWallet.setSyncPubKeys(syncPubKeys);
+};
+
+MyWalletPhone.setLanguage = function(language) {
+    MyWallet.setLanguage(language);
+};
+
+MyWalletPhone.setEncryptedWalletData = function(payload) {
+    MyWallet.setEncryptedWalletData(payload);
 };
 
 MyWalletPhone.hasEncryptedWalletData = function() {

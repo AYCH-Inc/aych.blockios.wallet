@@ -110,7 +110,7 @@ final class AnnouncementPresenter: NSObject {
             case .walletIntro:
                 announcement = walletIntro(reappearanceTimeInterval: metadata.interval)
             case .twoFA:
-                announcement = twoFA(reappearanceTimeInterval: metadata.interval)
+                announcement = twoFA(data: preliminaryData, reappearanceTimeInterval: metadata.interval)
             case .backupFunds:
                 announcement = backupFunds(reappearanceTimeInterval: metadata.interval)
             case .buyBitcoin:
@@ -339,8 +339,8 @@ extension AnnouncementPresenter {
     }
     
     /// Computes 2FA announcement
-    private func twoFA(reappearanceTimeInterval: TimeInterval) -> Announcement {
-        let shouldEnable2FA = !wallet.hasEnabledTwoStep() && wallet.isBitcoinWalletFunded
+    private func twoFA(data: AnnouncementPreliminaryData, reappearanceTimeInterval: TimeInterval) -> Announcement {
+        let shouldEnable2FA = !data.hasTwoFA && wallet.isBitcoinWalletFunded
         return Enable2FAAnnouncement(
             shouldEnable2FA: shouldEnable2FA,
             reappearanceTimeInterval: reappearanceTimeInterval,

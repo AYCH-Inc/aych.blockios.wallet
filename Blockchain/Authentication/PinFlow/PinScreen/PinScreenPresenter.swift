@@ -97,8 +97,8 @@ final class PinScreenPresenter {
     private let interactor: PinInteracting
     private let recorder: Recording
     private let appSettings: AppSettingsAuthenticating & SwipeToReceiveConfiguring
-    private let authenticationManager: AuthenticationManagerProtocol
-    
+    private let biometryProvider: BiometryProviding
+
     // MARK: - View Models
     
     let digitPadViewModel: DigitPadViewModel
@@ -120,7 +120,10 @@ final class PinScreenPresenter {
     init(useCase: PinScreenUseCase,
          flow: PinRouting.Flow,
          interactor: PinInteracting = PinInteractor(),
-         authenticationManager: AuthenticationManagerProtocol = AuthenticationManager.shared,
+         biometryProvider: BiometryProviding = BiometryProvider(
+            settings: BlockchainSettings.App.shared,
+            featureConfigurator: AppFeatureConfigurator.shared
+         ),
          appSettings: AppSettingsAuthenticating & SwipeToReceiveConfiguring = BlockchainSettings.App.shared,
          recorder: Recording = CrashlyticsRecorder(),
          backwardRouting: PinRouting.RoutingType.Backward? = nil,
@@ -130,7 +133,7 @@ final class PinScreenPresenter {
         self.interactor = interactor
         self.recorder = recorder
         self.appSettings = appSettings
-        self.authenticationManager = authenticationManager
+        self.biometryProvider = biometryProvider
         self.backwardRouting = backwardRouting
         self.forwardRouting = forwardRouting
 
@@ -154,7 +157,7 @@ final class PinScreenPresenter {
         
         switch useCase {
         case .authenticateBeforeChanging, .authenticateOnLogin:
-            let currentBiometricsType = authenticationManager.configuredBiometricsType
+            let currentBiometricsType = biometryProvider.configuredType
             if currentBiometricsType.isValid {
                 let biometricButtonImage: DigitPadButtonViewModel.Content.Image!
                 switch currentBiometricsType {
@@ -253,7 +256,7 @@ extension PinScreenPresenter {
         }
         
         // Verify biometrics authenticators are enabled on device and configured in app
-        guard authenticationManager.biometricsConfigurationStatus.isConfigured else {
+        guard biometryProvider.configurationStatus.isConfigured else {
             return
         }
         
@@ -266,18 +269,16 @@ extension PinScreenPresenter {
             return
         }
 
-        authenticationManager.authenticateUsingBiometrics { [weak self] authenticated, error in
-            guard let self = self else { return }
-
-            // Make sure authentication has passed successfully
-            guard authenticated, error == nil else {
-                return
-            }
-            
-            // We reset the pin to the value kept by the app settings.
-            // That causes a chain reaction as if the user has filled the pin himself.
-            self.digitPadViewModel.reset(to: pin)
-        }
+        biometryProvider.authenticate(reason: .enterWallet)
+            .observeOn(MainScheduler.instance)
+            .subscribe(
+                onSuccess: { [weak digitPadViewModel] _ in
+                    // We reset the pin to the value kept by the app settings.
+                    // That causes a chain reaction as if the user has filled the pin himself.
+                    digitPadViewModel?.reset(to: pin)
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Changing/First Time Setting Pin
@@ -335,20 +336,24 @@ extension PinScreenPresenter {
             // Create the pin payload
             let payload = PinPayload(pinCode: pin.toString,
                                      keyPair: keyPair,
-                                     persistsLocally: self.authenticationManager.biometricsConfigurationStatus.isConfigured)
-            
+                                     persistsLocally: self.biometryProvider.configurationStatus.isConfigured)
+
             self.isProcessingRelay.accept(true)
             
             // Create the pin in the remote store
             self.interactor.create(using: payload)
                 .observeOn(MainScheduler.instance)
-                .subscribe(onCompleted: { [weak self] in
+                .do(onDispose: { [weak self] in
                     self?.isProcessingRelay.accept(false)
-                    completable(.completed)
-                }, onError: { [weak self] error in
-                    self?.isProcessingRelay.accept(false)
-                    completable(.error(error))
                 })
+                .subscribe(
+                    onCompleted: {
+                        completable(.completed)
+                    },
+                    onError: { error in
+                        completable(.error(error))
+                    }
+                )
                 .disposed(by: self.disposeBag)
             return Disposables.create()
         }
@@ -364,12 +369,18 @@ extension PinScreenPresenter {
             guard let self = self else { return Disposables.create() }
             self.verify()
                 .asCompletable()
-                .subscribe(onCompleted: { [weak self] in
-                    self?.forwardRouting(.pin(value: pin))
-                    completable(.completed)
-                    }, onError: { error in
-                        completable(.error(error))
+                .do(onDispose: { [weak self] in
+                    self?.isProcessingRelay.accept(false)
                 })
+                .subscribe(
+                    onCompleted: { [weak self] in
+                        self?.forwardRouting(.pin(value: pin))
+                        completable(.completed)
+                    },
+                    onError: { error in
+                        completable(.error(error))
+                    }
+                )
                 .disposed(by: self.disposeBag)
             return Disposables.create()
         }
@@ -378,8 +389,14 @@ extension PinScreenPresenter {
     // Invoked when user is authenticating himself using pin or biometrics
     func authenticatePin() -> Completable {
         return verify()
-            .do(onSuccess: { [weak self] decryptionKey in
-                self?.forwardRouting(.authentication(pinDecryptionKey: decryptionKey))
+            .flatMap(weak: self) { (self, pinDecryptionKey) -> Single<String> in
+                return self.interactor.password(from: pinDecryptionKey)
+            }
+            .do(onSuccess: { [weak self] password in
+                self?.forwardRouting(.authentication(password: password))
+            },
+            onDispose: { [weak self] in
+                self?.isProcessingRelay.accept(false)
             })
             .asCompletable()
     }
@@ -428,11 +445,6 @@ extension PinScreenPresenter {
 
         // Ask the interactor to validate the payload
         return interactor.validate(using: payload)
-            .do(onSuccess: { [weak self] _ in
-                self?.isProcessingRelay.accept(false)
-            }, onError: { [weak self] error in
-                self?.isProcessingRelay.accept(false)
-            })
             .observeOn(MainScheduler.instance)
     }
 }
@@ -457,8 +469,8 @@ extension PinScreenPresenter {
     
     /// Enabling biometrics alert model (if biometrics is configurable)
     var biometricsAlertModel: AlertModel? {
-        let biometricsStatus = authenticationManager.biometricsConfigurationStatus
-        
+        let biometricsStatus = biometryProvider.configurationStatus
+
         // Ensure bioemtrics is configurable before continuing
         guard biometricsStatus.isConfigurable else {
             return nil

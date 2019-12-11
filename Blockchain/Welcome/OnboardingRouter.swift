@@ -11,25 +11,26 @@ import PlatformUIKit
 import RxSwift
 import RxRelay
 
-/// An agnostic routing starter
-protocol RouteStarting: class {
-    
-    /// Expected to route to the start of the flow
-    func start()
-}
-
-/// An agnostic routing ender
-protocol RouteEnding: class {
-    
-    /// Expected to route to the end of the flow
-    /// Usually that means, starting a new flow by calling
-    /// on another dependant router `func start()`
-    func end()
+protocol OnboardingRouterStateProviding: class {
+    var state: OnboardingRouter.State { get set }
 }
 
 /// Router for the onboarding flow.
-final class OnboardingRouter: VersionUpdateAlertDisplaying {
-                
+final class OnboardingRouter: OnboardingRouterStateProviding {
+              
+    enum State {
+        /// Pending 2FA and therefore should not reset the stack
+        case pending2FA
+        
+        /// Not any unique state
+        case standard
+    }
+    
+    // MARK: - State
+    
+    /// The state
+    var state = State.standard
+    
     // MARK: - Navigation
     
     /// Onboarding navigation controller.
@@ -44,7 +45,7 @@ final class OnboardingRouter: VersionUpdateAlertDisplaying {
     // MARK: - Accessors
     
     private let bag = DisposeBag()
-
+    
     // MARK: - Setup
     
     init(webViewServiceAPI: WebViewServiceAPI = UIApplication.shared) {

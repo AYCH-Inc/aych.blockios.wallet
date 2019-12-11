@@ -161,7 +161,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // UI-related background actions
         ModalPresenter.shared.closeAllModals()
 
-        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false)
+        /// TODO: Remove this - we don't want any such logic in `AppDelegate`
+        /// We have to make sure the 2FA alerts (email / auth app) are still showing
+        /// when the user goes back to foreground
+        if appCoordinator.onboardingRouter.state != .pending2FA {
+            UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false)
+        }
 
         AppCoordinator.shared.cleanupOnAppBackgrounded()
         AuthenticationCoordinator.shared.cleanupOnAppBackgrounded()
@@ -182,10 +187,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if BlockchainSettings.App.shared.guid != nil && BlockchainSettings.App.shared.sharedKey != nil {
                 AuthenticationCoordinator.shared.start()
             } else {
-                if !AuthenticationCoordinator.shared.isWaitingForEmailValidation {
+                if appCoordinator.onboardingRouter.state == .standard {
                     appCoordinator.onboardingRouter.start(in: UIApplication.shared.keyWindow!)
                 }
-                AuthenticationCoordinator.shared.isWaitingForEmailValidation = false
             }
         }
     }
@@ -290,7 +294,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if appSettings.guid != nil && appSettings.sharedKey != nil && !appSettings.isPinSet {
             AlertViewPresenter.shared.alertUserAskingToUseOldKeychain { _ in
-                AuthenticationCoordinator.shared.showPasswordViewController()
+                AuthenticationCoordinator.shared.showPasswordRequiredViewController()
             }
         }
     }

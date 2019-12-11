@@ -23,14 +23,17 @@ final class NabuAuthenticationService: NabuAuthenticationServiceAPI {
 
     private let cachedSessionToken = BehaviorRelay<NabuSessionTokenResponse?>(value: nil)
     private let wallet: Wallet
+    private let walletManager: WalletManager
     private let walletNabuSynchronizer: WalletNabuSynchronizerAPI
 
     // MARK: - Initialization
 
     init(
+        walletManager: WalletManager = .shared,
         wallet: Wallet = WalletManager.shared.wallet,
         walletNabuSynchronizer: WalletNabuSynchronizerAPI = WalletNabuSynchronizerService()
     ) {
+        self.walletManager = walletManager
         self.wallet = wallet
         self.walletNabuSynchronizer = walletNabuSynchronizer
     }
@@ -113,7 +116,7 @@ final class NabuAuthenticationService: NabuAuthenticationServiceAPI {
 
     /// Requests a new session token from Nabu followed by caching the response if successful
     private func requestNewSessionToken(from userResponse: NabuCreateUserResponse) -> Single<NabuSessionTokenResponse> {
-        guard let guid = self.wallet.guid else {
+        guard let guid = self.walletManager.legacyRepository.legacyGuid else {
             Logger.shared.warning("Cannot get Nabu authentication token, guid is nil.")
             return Single.error(WalletError.notInitialized)
         }

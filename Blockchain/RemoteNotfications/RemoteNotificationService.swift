@@ -39,7 +39,7 @@ final class RemoteNotificationService: RemoteNotificationServicing {
          relay: RemoteNotificationEmitting = RemoteNotificationRelay(),
          externalService: ExternalNotificationProviding = ExternalNotificationServiceProvider(),
          networkService: RemoteNotificationNetworkServicing = RemoteNotificationNetworkService(),
-         credentialsProvider: WalletCredentialsProviding = WalletManager.shared.wallet) {
+         credentialsProvider: WalletCredentialsProviding = WalletManager.shared.legacyRepository) {
         self.authorizer = authorizer
         self.relay = relay
         self.externalService = externalService

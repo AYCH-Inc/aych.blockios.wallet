@@ -33,6 +33,10 @@ class PinInteractorTests: XCTestCase {
         return MockAppSettings()
     }
     
+    var credentialsProvider: WalletCredentialsProviding {
+        return MockWalletCredentialsProvider.validFake
+    }
+    
     // MARK: - Test success cases
     
     func testCreation() throws {
@@ -45,10 +49,13 @@ class PinInteractorTests: XCTestCase {
     
     /// Tests PIN operation
     private func testPin(operation: Operation) throws {
-        let interactor = PinInteractor(pinService: MockPinService(statusCode: .success),
-                                       maintenanceService: maintenanceService,
-                                       wallet: wallet,
-                                       appSettings: appSettings)
+        let interactor = PinInteractor(
+            credentialsProvider: credentialsProvider,
+            pinClient: MockPinClient(statusCode: .success),
+            maintenanceService: maintenanceService,
+            wallet: wallet,
+            appSettings: appSettings
+        )
         let payload = PinPayload(pinCode: "1234",
                                  keyPair: try .generateNewKeyPair(),
                                  persistsLocally: false)
@@ -74,7 +81,7 @@ class PinInteractorTests: XCTestCase {
     private func testMaintenanceError(for opeation: Operation) throws {
         let expectedMessage = "server under maintenance"
         let maintenanceService = MockWalletService(message: expectedMessage)
-        let interactor = PinInteractor(pinService: MockPinService(statusCode: .success),
+        let interactor = PinInteractor(pinClient: MockPinClient(statusCode: .success),
                                        maintenanceService: maintenanceService,
                                        wallet: wallet,
                                        appSettings: appSettings)
@@ -105,7 +112,7 @@ class PinInteractorTests: XCTestCase {
     
     // Incorrect pin returns proper error
     func testIncorrectPinValidation() throws {
-        let interactor = PinInteractor(pinService: MockPinService(statusCode: .incorrect),
+        let interactor = PinInteractor(pinClient: MockPinClient(statusCode: .incorrect),
                                        maintenanceService: maintenanceService,
                                        wallet: wallet,
                                        appSettings: appSettings)
@@ -121,7 +128,7 @@ class PinInteractorTests: XCTestCase {
     
     // Too many failed validation attempts
     func testTooManyFailedValidationAttempts() throws {
-        let interactor = PinInteractor(pinService: MockPinService(statusCode: .deleted),
+        let interactor = PinInteractor(pinClient: MockPinClient(statusCode: .deleted),
                                        maintenanceService: maintenanceService,
                                        wallet: wallet,
                                        appSettings: appSettings)
@@ -137,10 +144,12 @@ class PinInteractorTests: XCTestCase {
     
     // Invalid status code in response should lead to an exception
     func testFailureOnInvalidStatusCode() throws {
-        let interactor = PinInteractor(pinService: MockPinService(statusCode: nil),
-                                       maintenanceService: maintenanceService,
-                                       wallet: wallet,
-                                       appSettings: appSettings)
+        let interactor = PinInteractor(
+            pinClient: MockPinClient(statusCode: nil),
+            maintenanceService: maintenanceService,
+            wallet: wallet,
+            appSettings: appSettings
+        )
         let payload = PinPayload(pinCode: "1234",
                                  keyPair: try .generateNewKeyPair(),
                                  persistsLocally: false)
@@ -154,7 +163,7 @@ class PinInteractorTests: XCTestCase {
     // Tests the the pin is persisted no app-settings object after validating payload
     func testPersistingPinAfterValidation() throws {
         let settings = MockAppSettings()
-        let interactor = PinInteractor(pinService: MockPinService(statusCode: .success),
+        let interactor = PinInteractor(pinClient: MockPinClient(statusCode: .success),
                                        maintenanceService: maintenanceService,
                                        wallet: wallet,
                                        appSettings: settings)
@@ -169,8 +178,8 @@ class PinInteractorTests: XCTestCase {
     // Test that an error is thrown in case the server returns an error
     func testServerErrorWhileCreatingPin() throws {
         struct ServerError: Error {}
-        let pinService = MockPinService(statusCode: .success, error: "server error")
-        let interactor = PinInteractor(pinService: pinService,
+        let pinClient = MockPinClient(statusCode: .success, error: "server error")
+        let interactor = PinInteractor(pinClient: pinClient,
                                        maintenanceService: maintenanceService,
                                        wallet: wallet,
                                        appSettings: appSettings)

@@ -7,6 +7,7 @@
 //
 
 import PlatformUIKit
+import PlatformKit
 import RxSwift
 import ERC20Kit
 import EthereumKit
@@ -25,6 +26,7 @@ final class AnnouncementInteractor: AnnouncementInteracting {
     private let exchangeService: ExchangeService
     private let variantFetcher: FeatureVariantFetching
     private let paxTransactionService: AnyERC20HistoricalTransactionService<PaxToken>
+    private let repository: AuthenticatorRepositoryAPI
     
     /// Returns announcement preliminary data, according to which the relevant
     /// announcement will be displayed
@@ -33,50 +35,52 @@ final class AnnouncementInteractor: AnnouncementInteracting {
             return Single.error(AnnouncementError.uninitializedWallet)
         }
         
+        let nabuUser = dataRepository.nabuUser
+            .take(1)
+            .asSingle()
+        let tiers = dataRepository.tiers
+            .take(1)
+            .asSingle()
         let countries = dataRepository.countries
-            .asObservable()
-        
         let hasPaxTransactions = paxTransactionService.hasTransactions
-            .asObservable()
-        
         let hasTrades = exchangeService.hasExecutedTrades()
-            .asObservable()
-
         let pitLinkingCardVariant = variantFetcher
             .fetchTestingVariant(for: .pitAnnouncementVariant)
             .catchErrorJustReturn(.variantA)
-            .asObservable()
             
-        return Observable
-            .zip(dataRepository.nabuUser,
-                 dataRepository.tiers,
+        return Single
+            .zip(nabuUser,
+                 tiers,
                  hasTrades,
                  hasPaxTransactions,
                  countries,
-                 pitLinkingCardVariant)
+                 pitLinkingCardVariant,
+                 repository.authenticatorType)
             .subscribeOn(SerialDispatchQueueScheduler(internalSerialQueueName: dispatchQueueName))
             .observeOn(MainScheduler.instance)
-            .map { (user, tiers, hasTrades, hasPaxTransactions, countries, pitLinkingCardVariant) -> AnnouncementPreliminaryData in
+            .map { (user, tiers, hasTrades, hasPaxTransactions, countries, pitLinkingCardVariant, authenticatorType) -> AnnouncementPreliminaryData in
                 return AnnouncementPreliminaryData(
                     user: user,
                     tiers: tiers,
                     hasTrades: hasTrades,
                     hasPaxTransactions: hasPaxTransactions,
                     countries: countries,
-                    pitLinkingCardVariant: pitLinkingCardVariant
+                    pitLinkingCardVariant: pitLinkingCardVariant,
+                    authenticatorType: authenticatorType
                 )
             }
-            .asSingle()
     }
     
     // MARK: - Setup
     
-    init(wallet: WalletProtocol = WalletManager.shared.wallet,
+    init(repository: AuthenticatorRepositoryAPI = WalletManager.shared.repository,
+         wallet: WalletProtocol = WalletManager.shared.wallet,
          ethereumWallet: EthereumWalletBridgeAPI = WalletManager.shared.wallet.ethereum,
          dataRepository: BlockchainDataRepository = .shared,
          exchangeService: ExchangeService = .shared,
          paxAccountRepository: ERC20AssetAccountRepository<PaxToken> = PAXServiceProvider.shared.services.assetAccountRepository,
          variantFetcher: FeatureVariantFetching = AppFeatureConfigurator.shared) {
+        self.repository = repository
         self.wallet = wallet
         self.dataRepository = dataRepository
         self.exchangeService = exchangeService

@@ -89,6 +89,10 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     @IBOutlet var touchIDAsPin: SettingsToggleTableViewCell!
     @IBOutlet var swipeToReceive: SettingsToggleTableViewCell!
     
+    private let biometryProvider = BiometryProvider(
+        settings: BlockchainSettings.App.shared,
+        featureConfigurator: AppFeatureConfigurator.shared
+    )
     private let loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared
     let analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     
@@ -118,7 +122,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
 
     func mobileNumberClicked() {
         analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsPhoneClicked)
-        if walletManager.wallet.getTwoStepType() == AuthenticationTwoFactorType.sms.rawValue {
+        if walletManager.legacyRepository.legacyAuthentocatorType == .sms {
             let alertToDisableTwoFactorSMS = UIAlertController(title:
                 String(format: "2-step Verification is currently enabled for %@.", "SMS"), message:
                 String(format: "You must disable SMS 2-Step Verification before changing your mobile number (%@).",
@@ -255,24 +259,27 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     }
     @objc func biometrySwitchTapped(_ sender: UISwitch) {
         analyticsRecorder.record(event: AnalyticsEvents.Settings.settingsBiometryAuthSwitch(value: sender.isOn))
-        AuthenticationManager.sharedInstance().canAuthenticateUsingBiometry(andReply: { success, errorMessage in
-            if success {
-                self.toggleBiometry(sender)
-            } else {
-                BlockchainSettings.sharedAppInstance().biometryEnabled = false
-                let alertBiometryError = UIAlertController(title: LocalizationConstants.Errors.error, message: errorMessage, preferredStyle: .alert)
-                alertBiometryError.addAction(UIAlertAction(title: LocalizationConstants.okString, style: .cancel, handler: { _ in
-                    sender.isOn = false
-                }))
-                self.present(alertBiometryError, animated: true)
-            }
-        })
+        switch biometryProvider.canAuthenticate {
+        case .success:
+            toggleBiometry(sender)
+        case .failure(let error):
+            BlockchainSettings.sharedAppInstance().biometryEnabled = false
+            let alertBiometryError = UIAlertController(
+                title: LocalizationConstants.Errors.error,
+                message: error.message,
+                preferredStyle: .alert
+            )
+            alertBiometryError.addAction(UIAlertAction(title: LocalizationConstants.okString, style: .cancel, handler: { _ in
+                sender.isOn = false
+            }))
+            self.present(alertBiometryError, animated: true)
+        }
     }
     
     func toggleBiometry(_ sender: UISwitch) {
         let biometryEnabled = BlockchainSettings.sharedAppInstance().biometryEnabled
         if !biometryEnabled {
-            let biometryWarning = String(format: LocalizationConstantsObjcBridge.biometryWarning(), biometryTypeDescription()!)
+            let biometryWarning = String(format: LocalizationConstants.Biometry.biometryWarning, biometryTypeDescription()!)
             let alertForTogglingBiometry = UIAlertController(title: biometryTypeDescription(), message: biometryWarning, preferredStyle: .alert)
             alertForTogglingBiometry.addAction(UIAlertAction(title: LocalizationConstants.cancel, style: .cancel, handler: { _ in
                 sender.isOn = false
@@ -355,17 +362,18 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     func alertUserToChangeTwoStepVerification() {
         var alertTitle: String
         var isTwoStepEnabled = true
-        let twoStepType = walletManager.wallet.getTwoStepType()
-        if twoStepType == AuthenticationTwoFactorType.sms.rawValue {
+        let twoStepType = walletManager.legacyRepository.legacyAuthentocatorType
+        switch twoStepType {
+        case .sms:
             alertTitle = String(format: "2-step Verification is currently enabled for %@.", "SMS")
-        } else if twoStepType ==  AuthenticationTwoFactorType.google.rawValue {
+        case .google:
             alertTitle = String(format: "2-step Verification is currently enabled for %@.", "Google Authenticator")
-        } else if twoStepType ==  AuthenticationTwoFactorType.yubiKey.rawValue {
+        case .yubiKey:
             alertTitle = String(format: "2-step Verification is currently enabled for %@.", "Yubi Key")
-        } else if twoStepType ==  AuthenticationTwoFactorType.none.rawValue {
+        case .standard:
             alertTitle = "2-step Verification is currently disabled."
             isTwoStepEnabled = false
-        } else {
+        case .email, .yubikeyMtGox:
             alertTitle = "2-step Verification is cuerrently enabled for %@."
         }
         let alertForChangingTwoStep = UIAlertController(title: alertTitle, message:
@@ -388,7 +396,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
             AlertViewPresenter.sharedInstance().showNoInternetConnectionAlert()
             return
         }
-        if walletManager.wallet.getTwoStepType() == AuthenticationTwoFactorType.none.rawValue {
+        if walletManager.legacyRepository.legacyAuthentocatorType == AuthenticatorType.standard {
             isEnablingTwoStepSMS = true
             if walletManager.wallet.getSMSVerifiedStatus() == true {
                 enableTwoStepForSMS()

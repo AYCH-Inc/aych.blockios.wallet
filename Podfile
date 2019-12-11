@@ -135,6 +135,8 @@ target 'PlatformKit' do
     inherit! :search_paths
     # Pods for testing
     pod 'SwiftCheck', '~> 0.12'
+    pod 'RxBlocking', '~> 5.0'
+    pod 'RxTest', '~> 5.0'
   end
 end
 

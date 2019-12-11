@@ -164,7 +164,7 @@ public class NetworkResponseDecoder: NetworkResponseDecoderAPI {
             Logger.shared.debug("Error payload decoding error: \(decodingError)")
             let message = String(data: payload, encoding: .utf8) ?? ""
             Logger.shared.debug("Message: \(message)")
-            throw NetworkCommunicatorError.payloadError(.badData)
+            throw NetworkCommunicatorError.payloadError(.badData(rawPayload: message))
         }
         return .failure(decodedErrorResponse)
     }
@@ -188,10 +188,8 @@ public class NetworkResponseDecoder: NetworkResponseDecoderAPI {
             Logger.shared.debug("Payload decoding error: \(decodingError)")
             let message = String(data: payload, encoding: .utf8) ?? ""
             Logger.shared.debug("Message: \(message)")
-            throw NetworkCommunicatorError.payloadError(.badData)
+            throw NetworkCommunicatorError.payloadError(.badData(rawPayload: message))
         }
         return .success(decodedResponse)
     }
 }
-
-

@@ -15,10 +15,12 @@ public protocol HTTPRequestError: Error {
 // TODO: add more specific client errors based on the error returned by URLSession data task
 // NOTE: the description argument refers to the localized description returned by URLSession data task.
 public enum HTTPRequestClientError: HTTPRequestError {
+    case reachability
     case failedRequest(description: String)
     public var debugDescription: String {
         switch self {
         case .failedRequest(let description): return description
+        case .reachability: return "Internet unreachable"
         }
     }
 }
@@ -54,7 +56,10 @@ public enum HTTPRequestServerError: HTTPRequestError {
 
 // NOTE: in future cases, we may want to allow empty payloads, but this is currently not applicable for the KYC flow.
 public enum HTTPRequestPayloadError: HTTPRequestError {
-    case badData, emptyData, invalidMimeType(type: String)
+    case badData(rawPayload: String)
+    case emptyData
+    case invalidMimeType(type: String)
+    
     public var debugDescription: String {
         switch self {
         case .badData: return "The data returned by the server was bad."

@@ -6,9 +6,9 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import RxSwift
 
-/// TODO: Redesign and implement this service
-protocol WalletPayloadClientAPI: class {
-    
+public protocol WalletPayloadClientAPI: class {
+    func payload(guid: String,
+                 identifier: WalletPayloadClient.Identifier) -> Single<WalletPayloadClient.ClientResponse>
 }

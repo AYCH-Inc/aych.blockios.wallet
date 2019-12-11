@@ -47,10 +47,8 @@ extension SecondPasswordPromptable {
     @available(*, deprecated, message: "The implementation of second password prompting will be deprecated soon")
     var promptForSecondPassword: Single<String> {
         return Single.create(subscribe: { observer -> Disposable in
-            AuthenticationCoordinator.shared.showPasswordConfirm(
-                withDisplayText: LocalizationConstants.Authentication.secondPasswordDefaultDescription,
-                headerText: LocalizationConstants.Authentication.secondPasswordRequired,
-                validateSecondPassword: true,
+            AuthenticationCoordinator.shared.showPasswordScreen(
+                type: .actionRequiresPassword,
                 confirmHandler: { password in
                     observer(.success(password))
                 },

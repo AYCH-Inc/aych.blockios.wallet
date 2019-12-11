@@ -24,7 +24,9 @@ struct SecurePinViewModel {
     /// Observes count and streams it
     let fillCountRelay = BehaviorRelay<Int>(value: 0)
     var fillCount: Observable<Int> {
-        return fillCountRelay.asObservable()
+        return fillCountRelay
+            .observeOn(MainScheduler.instance)
+            .asObservable()
     }
     
     // MARK: - Setup

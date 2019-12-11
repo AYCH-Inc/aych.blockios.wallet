@@ -9,7 +9,9 @@
 import Foundation
 import RxSwift
 
-struct MockPinService: PinServicing {
+@testable import PlatformKit
+
+struct MockPinClient: PinClientAPI {
     private var response: PinStoreResponse {
         return PinStoreResponse(statusCode: statusCode,
                                 error: error,

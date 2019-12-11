@@ -142,6 +142,11 @@ import PlatformKit
         showCircular(in: nil, with: text)
     }
     
+    /// Shows the circular loader (attached to a window)
+    @objc public func showCircular() {
+        showCircular(with: nil)
+    }
+    
     /// Shows the legacy loader (attached to a window)
     /// - Parameter text: an optional String to be displayed
     @objc public func show(with text: String? = nil) {

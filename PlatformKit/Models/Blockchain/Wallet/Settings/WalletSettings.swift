@@ -17,7 +17,7 @@ public struct WalletSettings: Codable {
     public let guid: String
     public let smsVerified: Bool
     public let emailVerified: Bool
-    public let authenticationTwoFactorType: AuthenticationTwoFactorType
+    public let authenticationTwoFactorType: AuthenticatorType
     public let countryCode: String
 
     // TODO convert this into an object
@@ -58,7 +58,7 @@ public struct WalletSettings: Codable {
         smsVerified = try values.decode(Int.self, forKey: .smsVerified) == 1
         emailVerified = try values.decode(Int.self, forKey: .emailVerified) == 1
         let rawAuthType = try values.decode(Int.self, forKey: .authenticationTwoFactorType)
-        authenticationTwoFactorType = AuthenticationTwoFactorType(rawValue: rawAuthType) ?? .none
+        authenticationTwoFactorType = AuthenticatorType(rawValue: rawAuthType) ?? .standard
         countryCode = try values.decode(String.self, forKey: .countryCode)
         invited = try values.decode([String: Bool].self, forKey: .invited)
     }

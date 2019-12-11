@@ -36,8 +36,11 @@ protocol SettingsTwoSteps {
         updateUI()
     }
     func updateUI() {
-        WalletManager.shared.wallet.hasEnabledTwoStep() ?
-            twoStepButton.setTitle("Disable".localized(), for: .normal) : twoStepButton.setTitle("Enable 2-Step for SMS".localized(), for: .normal)
+        if WalletManager.shared.legacyRepository.legacyAuthentocatorType.isTwoFactor {
+            twoStepButton.setTitle("Disable".localized(), for: .normal)
+        } else {
+            twoStepButton.setTitle("Enable 2-Step for SMS".localized(), for: .normal)
+        }
     }
     @IBAction func twoStepTapped(_ sender: UIButton) {
         settingsController?.changeTwoStepTapped()

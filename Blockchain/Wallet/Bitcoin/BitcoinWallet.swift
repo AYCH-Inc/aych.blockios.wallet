@@ -24,6 +24,7 @@ final class BitcoinWallet: NSObject {
         return dispatcher
     }
     
+    private lazy var credentialsProvider: WalletCredentialsProviding = WalletManager.shared.legacyRepository
     private weak var wallet: WalletAPI?
     
     private let dispatcher: Dispatcher
@@ -32,7 +33,8 @@ final class BitcoinWallet: NSObject {
         self.init(wallet: legacyWallet)
     }
     
-    init(wallet: WalletAPI, dispatcher: Dispatcher = BitcoinJSInteropDispatcher.shared) {
+    init(wallet: WalletAPI,
+         dispatcher: Dispatcher = BitcoinJSInteropDispatcher.shared) {
         self.wallet = wallet
         self.dispatcher = dispatcher
     }
@@ -201,7 +203,7 @@ extension BitcoinWallet: SecondPasswordPromptable {
 
 extension BitcoinWallet: PasswordAccessAPI {
     public var password: Maybe<String> {
-        guard let password = wallet?.password else {
+        guard let password = credentialsProvider.legacyPassword else {
             return Maybe.empty()
         }
         return Maybe.just(password)

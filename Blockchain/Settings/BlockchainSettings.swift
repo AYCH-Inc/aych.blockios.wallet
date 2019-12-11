@@ -31,7 +31,7 @@ final class BlockchainSettings: NSObject {
     // MARK: - App
 
     @objc
-    class App: NSObject, AppSettingsAuthenticating, SwipeToReceiveConfiguring, FiatCurrencyTypeProviding {
+    class App: NSObject, AppSettingsAPI, ReactiveAppSettingsAuthenticating, AppSettingsAuthenticating, SwipeToReceiveConfiguring, FiatCurrencyTypeProviding {
         
         static let shared = App()
 
@@ -521,7 +521,7 @@ final class BlockchainSettings: NSObject {
                     return
             }
 
-            WalletManager.shared.wallet.password = password
+            WalletManager.shared.legacyRepository.legacyPassword = password
 
             Pin(code: pinUInt).save(using: self)
 

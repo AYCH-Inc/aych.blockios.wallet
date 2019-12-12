@@ -59,19 +59,21 @@ public extension ObservableType {
     func show(loader: LoadingViewPresenting,
               style: LoadingViewPresenter.LoadingViewStyle = .activityIndicator,
               text: String? = nil) -> Observable<Element> {
-        switch style {
-        case .circle:
-            loader.showCircular(with: text)
-        case .activityIndicator:
-            loader.show(with: text)
-        }
-        return map { $0 }
+        return self.do(onNext: { _ in
+            switch style {
+            case .circle:
+                loader.showCircular(with: text)
+            case .activityIndicator:
+                loader.show(with: text)
+            }
+        })
     }
     
     /// Hides the loader and returns `Element`
     func hide(loader: LoadingViewPresenting) -> Observable<Element> {
-        loader.hide()
-        return map { $0 }
+        return self.do(onNext: { _ in
+            loader.hide()
+        })
     }
 }
 

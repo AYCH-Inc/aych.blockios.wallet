@@ -1,4 +1,4 @@
 binary "https://cdn.veriff.me/ios/carthage/VeriffSDK.json"
 binary "https://cdn.veriff.me/ios/carthage/VeriffWebRTC.json" ~> 1.0.1
-github "socketio/socket.io-client-swift" ~> 15.0.0
+github "socketio/socket.io-client-swift" == 15.0.0
 github "daltoniam/Starscream" ~> 3.1.0

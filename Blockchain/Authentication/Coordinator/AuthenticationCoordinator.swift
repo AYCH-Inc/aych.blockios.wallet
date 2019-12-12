@@ -131,11 +131,6 @@ extension AuthenticationCoordinator: ManualPairingWalletFetching {
                 alertPresenter.showNoInternetConnectionAlert()
             case AuthenticationError.ErrorCode.failedToLoadWallet.rawValue:
                 handleFailedToLoadWallet()
-            case AuthenticationError.ErrorCode.errorDecryptingWallet.rawValue:
-                if appSettings.guid == nil && WalletManager.shared.legacyRepository.legacyGuid != nil {
-                    return
-                }
-                showPasswordRequiredViewController()
             default:
                 if let description = error!.description {
                     alertPresenter.standardError(message: description)

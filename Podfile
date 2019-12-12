@@ -10,7 +10,7 @@ target 'Blockchain' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   # Pods for Blockchain
   pod 'BigInt', '~> 4.0'
-  pod 'Charts', '~> 3.2.1'
+  pod 'Charts', '~> 3.4.0'
   pod 'Fabric'
   pod 'Crashlytics'
   pod 'Firebase/Core', '~> 5.17.0'
@@ -38,7 +38,7 @@ target 'PlatformUIKit' do
   pod 'RxSwift', '5.0'
   pod 'RxCocoa', '5.0'
   pod 'zxcvbn-ios', '1.0.4'
-  pod 'Charts', '~> 3.2.1'
+  pod 'Charts', '~> 3.4.0'
 
   target 'PlatformUIKitTests' do
     inherit! :search_paths

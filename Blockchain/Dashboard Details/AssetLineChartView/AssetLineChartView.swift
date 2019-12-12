@@ -117,6 +117,9 @@ extension Reactive where Base: AssetLineChartView {
 extension Reactive where Base: AssetLineChartView {
     var chartState: Binder<(AssetLineChart.State.Presentation)> {
         return Binder(base) { view, payload in
+            view.chartView.delegate?.chartValueNothingSelected?(view.chartView)
+            view.chartView.marker = nil
+            
             let state = payload
             let animation = {
                 view.chartView.data = LineChartData.empty

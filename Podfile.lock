@@ -1,8 +1,8 @@
 PODS:
   - BigInt (4.0.0)
-  - Charts (3.2.2):
-    - Charts/Core (= 3.2.2)
-  - Charts/Core (3.2.2)
+  - Charts (3.4.0):
+    - Charts/Core (= 3.4.0)
+  - Charts/Core (3.4.0)
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
   - Fabric (1.10.2)
@@ -130,7 +130,7 @@ PODS:
 
 DEPENDENCIES:
   - BigInt (~> 4.0)
-  - Charts (~> 3.2.1)
+  - Charts (~> 3.4.0)
   - Crashlytics
   - Fabric
   - Firebase/Core (~> 5.17.0)
@@ -153,7 +153,6 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - BigInt
-    - Charts
     - Crashlytics
     - Fabric
     - Firebase
@@ -182,6 +181,8 @@ SPEC REPOS:
     - SwiftCheck
     - SwiftLint
     - zxcvbn-ios
+  trunk:
+    - Charts
 
 EXTERNAL SOURCES:
   LibWally:
@@ -209,7 +210,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   BigInt: 2aad1a9942dc932ec8b84290d2c564a3d76f97ab
-  Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
+  Charts: 74c9f256eaf0460c0c416522d1cf8c634ea6b286
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   Firebase: 59d557e064217fab6a03ff00baa73c06e73832e6
@@ -242,6 +243,6 @@ SPEC CHECKSUMS:
   web3swift.pod: 98e8653f39e1bcd7b45f46dd982ec49cdfc6c46a
   zxcvbn-ios: fef98b7c80f1512ff0eec47ac1fa399fc00f7e3c
 
-PODFILE CHECKSUM: 4d08788d6496d935a9ef12753a24c06a6f6755f7
+PODFILE CHECKSUM: 30c7aae85f322d71b48377e65fd120314897179d
 
 COCOAPODS: 1.8.4

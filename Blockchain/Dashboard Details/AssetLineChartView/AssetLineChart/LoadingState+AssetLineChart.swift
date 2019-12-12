@@ -21,7 +21,7 @@ extension LineChartData {
                 data: NSNumber(integerLiteral: $0.offset)
             )
         }
-        let set = LineChartDataSet(values: entries, label: nil)
+        let set = LineChartDataSet(entries: entries, label: nil)
         let gradients = [presentationValue.color.cgColor, UIColor.clear.cgColor] as CFArray
         let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradients, locations: [1.0, 0.0])!
         set.lineCapType = .round
@@ -42,10 +42,15 @@ extension LineChartData {
     
     /// Returns an `empty` grayish pie chart data
     static var empty: LineChartData {
-        let set = LineChartDataSet(values: [ChartDataEntry(x: 0.0, y: 0.0)], label: nil)
+        let set = LineChartDataSet(entries: [ChartDataEntry(x: 0.0, y: 0.0)], label: nil)
         set.drawIconsEnabled = false
         set.drawValuesEnabled = false
-        set.colors = [.darkShimmering]
+        set.drawVerticalHighlightIndicatorEnabled = false
+        set.drawHorizontalHighlightIndicatorEnabled = false
+        set.highlightEnabled = false
+        set.drawCirclesEnabled = false
+        set.circleColors = [.clear]
+        set.drawCircleHoleEnabled = false
         return LineChartData(dataSet: set)
     }
 }

@@ -199,7 +199,12 @@ public struct SegmentedViewModel {
             .filter { $0 >= 0 }
             .map { items[$0] }
             .compactMap { $0.action }
-            .bind { $0() }
+            .bind {
+                let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+                feedbackGenerator.prepare()
+                feedbackGenerator.impactOccurred()
+                $0()
+            }
             .disposed(by: disposeBag)
     }
     

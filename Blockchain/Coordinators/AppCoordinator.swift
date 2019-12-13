@@ -9,12 +9,9 @@
 import PlatformUIKit
 import PlatformKit
 
-/**
- Application coordinator.
-
- This Singleton coordinator is in charge of coordinating the set of views that are
- presented when the app first launches.
-*/
+/// TODO: This class should be refactored so any view would load
+/// as late as possible and also would be deallocated when is no longer in use
+/// TICKET: https://blockchain.atlassian.net/browse/IOS-2619
 @objc class AppCoordinator: NSObject, Coordinator {
     
     // MARK: - Properties
@@ -41,24 +38,10 @@ import PlatformKit
     
     // MARK: - UIViewController Properties
 
-    @objc lazy var slidingViewController: ECSlidingViewController = { [unowned self] in
-        let viewController = ECSlidingViewController()
-        viewController.underLeftViewController = self.sideMenuViewController
-        viewController.topViewController = tabControllerManager
-        return viewController
-    }()
-
-    @objc lazy var tabControllerManager: TabControllerManager = {
-        let tabControllerManager = TabControllerManager.makeFromStoryboard()
-        return tabControllerManager
-    }()
-
-    private lazy var sideMenuViewController: SideMenuViewController = { [unowned self] in
-        let viewController = SideMenuViewController.makeFromStoryboard()
-        viewController.delegate = self
-        return viewController
-    }()
-
+    @objc var slidingViewController: ECSlidingViewController!
+    @objc var tabControllerManager = TabControllerManager.makeFromStoryboard()
+    private var sideMenuViewController: SideMenuViewController!
+    
     private lazy var accountsAndAddressesNavigationController: AccountsAndAddressesNavigationController = { [unowned self] in
         let storyboard = UIStoryboard(name: "AccountsAndAddresses", bundle: nil)
         let viewController = storyboard.instantiateViewController(
@@ -90,12 +73,14 @@ import PlatformKit
         self.walletManager.backupDelegate = self
         self.walletManager.historyDelegate = self
         observeSymbolChanges()
+        setupMainFlow()
     }
 
     // MARK: Public Methods
 
     func startAfterWalletCreation() {
         window.rootViewController?.dismiss(animated: true, completion: nil)
+        setupMainFlow()
         window.rootViewController = slidingViewController
         tabControllerManager.dashBoardClicked(nil)
     }
@@ -131,6 +116,26 @@ import PlatformKit
             upgradeViewController,
             animated: true
         )
+    }
+    
+    private func setupMainFlow() {
+        setupTabControllerManager()
+        setupSideMenuViewController()
+        let viewController = ECSlidingViewController()
+        viewController.underLeftViewController = sideMenuViewController
+        viewController.topViewController = tabControllerManager
+        slidingViewController = viewController
+    }
+
+    private func setupSideMenuViewController() {
+        let viewController = SideMenuViewController.makeFromStoryboard()
+        viewController.delegate = self
+        self.sideMenuViewController = viewController
+    }
+    
+    private func setupTabControllerManager() {
+        let tabControllerManager = TabControllerManager.makeFromStoryboard()
+        self.tabControllerManager = tabControllerManager
     }
 
     @objc func showBackupView() {
@@ -189,7 +194,6 @@ import PlatformKit
         tabControllerManager.transactionsBitcoinViewController?.loadedAllTransactions = false
         tabControllerManager.transactionsBitcoinViewController?.messageIdentifier = nil
         tabControllerManager.dashBoardClicked(nil)
-
         closeSideMenu()
     }
 

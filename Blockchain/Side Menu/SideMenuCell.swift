@@ -16,7 +16,7 @@ final class SideMenuCell: UITableViewCell {
     /// otherwise the `newContainer` will not be visible.
     lazy var peekPadding: CGFloat = {
         let controller = AppCoordinator.shared.slidingViewController
-        return controller.anchorRightPeekAmount
+        return controller?.anchorRightPeekAmount ?? 0
     }()
 
     static let defaultHeight: CGFloat = 54

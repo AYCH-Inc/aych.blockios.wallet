@@ -124,7 +124,9 @@ class SideMenuViewController: UIViewController {
         }
         
         // Enable Pan gesture and tap gesture to close sideMenu
-        let slidingViewController = AppCoordinator.shared.slidingViewController
+        guard let slidingViewController = AppCoordinator.shared.slidingViewController else {
+            return
+        }
         
         // Disable all interactions on main view
         tabViewController.activeViewController.view.subviews.forEach {
@@ -140,7 +142,7 @@ class SideMenuViewController: UIViewController {
         guard let tabViewController = AppCoordinator.shared.tabControllerManager.tabViewController else { return }
 
         // Disable Pan and Tap gesture on main view
-        let slidingViewController = AppCoordinator.shared.slidingViewController
+        guard let slidingViewController = AppCoordinator.shared.slidingViewController else { return }
         tabViewController.activeViewController.view.removeGestureRecognizer(slidingViewController.panGesture)
         tabViewController.activeViewController.view.removeGestureRecognizer(tapToCloseGestureRecognizerVC)
         tabViewController.removeTapGestureRecognizer(fromTabBar: tapToCloseGestureRecognizerTabBar)

@@ -821,9 +821,10 @@ MyWalletPhone.loginAfterPairing = function(password) {
     };
 
     var success = function() {
+        var getOptions = walletOptions.fetch();
         var getHistory = MyWalletPhone.getHistoryForAllAssets().catch(history_error);
         var fetchAccount = MyWallet.wallet.fetchAccountInfo();
-        Promise.all([getHistory, fetchAccount]).then(login_success);
+        Promise.all([getOptions, getHistory, fetchAccount]).then(login_success);
     };
 
     return MyWallet.initializeWallet(password, decrypt_success, build_hd_success).then(success).catch(other_error);

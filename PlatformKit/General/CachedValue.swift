@@ -36,6 +36,7 @@ public class CachedValue<Value> {
         return fetch()
             .do(onSuccess: { [weak self] value in
                 self?.cachedValue.accept(value)
+                self?.lastRefreshRelay.accept(Date())
             })
     }
     
@@ -43,12 +44,12 @@ public class CachedValue<Value> {
     
     private var shouldRefresh: Bool {
         let lastRefreshInterval = Date(timeIntervalSinceNow: -refreshInterval)
-        return lastRefresh.compare(lastRefreshInterval) == .orderedAscending
+        return lastRefreshRelay.value.compare(lastRefreshInterval) == .orderedAscending
     }
     
-    private var lastRefresh: Date
     private var fetch: (() -> Single<Value>)?
     
+    private let lastRefreshRelay: BehaviorRelay<Date>
     private let refreshInterval: TimeInterval
     private let cachedValue = BehaviorRelay<Value?>(value: nil)
     
@@ -56,7 +57,7 @@ public class CachedValue<Value> {
     
     public init(refreshInterval: TimeInterval = 60.0) {
         self.refreshInterval = refreshInterval
-        self.lastRefresh = Date(timeIntervalSinceNow: -refreshInterval)
+        self.lastRefreshRelay = BehaviorRelay(value: Date(timeIntervalSinceNow: -refreshInterval))
     }
     
     // MARK: - Public methods

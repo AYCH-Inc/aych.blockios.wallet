@@ -74,6 +74,7 @@ final class PinInteractor: PinInteracting {
                 throw PinError.map(from: error)
             }
             .asCompletable()
+            .observeOn(MainScheduler.instance)
     }
     
     /// Validates if the provided pin payload (i.e. pin code and pin key combination) is correct.
@@ -97,11 +98,13 @@ final class PinInteractor: PinInteracting {
             }
             .catchError { error in
                 throw PinError.map(from: error)
-        }
+            }
+            .observeOn(MainScheduler.instance)
     }
     
     func password(from pinDecryptionKey: String) -> Single<String> {
         return loginService.password(from: pinDecryptionKey)
+            .observeOn(MainScheduler.instance)
     }
     
     /// Keep the PIN value on the local pin store (i.e the keychain), for biometrics auth.

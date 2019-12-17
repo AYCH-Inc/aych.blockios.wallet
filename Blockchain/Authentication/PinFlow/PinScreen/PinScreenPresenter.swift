@@ -389,6 +389,7 @@ extension PinScreenPresenter {
     // Invoked when user is authenticating himself using pin or biometrics
     func authenticatePin() -> Completable {
         return verify()
+            .observeOn(MainScheduler.instance)
             .flatMap(weak: self) { (self, pinDecryptionKey) -> Single<String> in
                 return self.interactor.password(from: pinDecryptionKey)
             }

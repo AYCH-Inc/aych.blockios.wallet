@@ -57,23 +57,31 @@ final class PinRouter: NSObject {
     
     /// Executes the pin flow according to the `flow` value provided during initialization
     func execute() {
-        guard !isBeingDisplayed else { return }
-        isBeingDisplayed = true
-        switch flow {
-        case .create:
-            create()
-        case .change:
-            change()
-        case .authenticate(from: let origin, logoutRouting: _):
-            authenticate(from: origin)
-        case .enableBiometrics: // Here the origin is `.foreground`
-            authenticate(from: flow.origin)
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let self = self else { return }
+            
+            guard !self.isBeingDisplayed else { return }
+            
+            self.isBeingDisplayed = true
+            switch self.flow {
+            case .create:
+                self.create()
+            case .change:
+                self.change()
+            case .authenticate(from: let origin, logoutRouting: _):
+                self.authenticate(from: origin)
+            case .enableBiometrics: // Here the origin is `.foreground`
+                self.authenticate(from: self.flow.origin)
+            }
         }
     }
     
     /// Cleanup immediately any currently running pin flow
     func cleanup() {
-        finish(animated: false, completedSuccessfully: false)
+        DispatchQueue.main.async { [weak self] in
+            self?.finish(animated: false, completedSuccessfully: false)
+        }
     }
 }
 

@@ -134,14 +134,17 @@ extension RemoteNotificationAuthorizer: RemoteNotificationAuthorizationRequestin
                 return ()
             }
             .observeOn(MainScheduler.instance)
-            .flatMap(weak: self, { (self, status) -> Single<Void> in
+            .flatMap(weak: self) { (self, status) -> Single<Void> in
                 return self.requestAuthorization()
-            })
+            }
             .observeOn(MainScheduler.instance)
-            .do(onSuccess: { [unowned application] _ in
-                application.registerForRemoteNotifications()
-                }, onError: { error in
+            .do(
+                onSuccess: { [unowned application] _ in
+                    application.registerForRemoteNotifications()
+                },
+                onError: { error in
                     Logger.shared.error("Remote notification authorization failed with error: \(error)")
-            })
+                }
+            )
     }
 }

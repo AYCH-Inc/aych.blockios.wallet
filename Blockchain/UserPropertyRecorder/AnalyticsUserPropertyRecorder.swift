@@ -7,6 +7,7 @@
 //
 
 import FirebaseAnalytics
+import ToolKit
 import PlatformKit
 
 /// Records user properties using external analytics client

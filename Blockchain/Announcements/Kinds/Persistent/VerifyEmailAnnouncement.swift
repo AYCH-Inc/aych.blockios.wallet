@@ -6,10 +6,11 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformKit
-import PlatformUIKit
 import RxSwift
 import RxCocoa
+import ToolKit
+import PlatformKit
+import PlatformUIKit
 
 /// Verify email announcement is a persistent announcement that should persist
 /// as long as the user email is not verified.

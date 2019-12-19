@@ -10,6 +10,7 @@ import Foundation
 import RxSwift
 import RxRelay
 import RxCocoa
+import ToolKit
 import PlatformKit
 
 /// The destination account presenter on the send screen

@@ -7,9 +7,11 @@
 //
 
 import Foundation
-import PlatformUIKit
-import PlatformKit
 import RxSwift
+import ToolKit
+import NetworkKit
+import PlatformKit
+import PlatformUIKit
 
 protocol ExchangeDetailCoordinatorDelegate: class {
     func coordinator(_ detailCoordinator: ExchangeDetailCoordinator, updated model: ExchangeDetailPageModel)

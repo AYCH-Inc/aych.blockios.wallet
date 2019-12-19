@@ -6,11 +6,12 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformUIKit
-import PlatformKit
 import RxSwift
 import RxRelay
 import RxCocoa
+import ToolKit
+import PlatformKit
+import PlatformUIKit
 
 /// The view model for wallet pairing screen
 final class ManualPairingScreenPresenter {

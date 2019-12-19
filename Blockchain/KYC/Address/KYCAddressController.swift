@@ -6,9 +6,10 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformUIKit
-import PlatformKit
 import UIKit
+import ToolKit
+import PlatformKit
+import PlatformUIKit
 
 class KYCAddressController: KYCBaseViewController, ValidationFormView, ProgressableView {
     

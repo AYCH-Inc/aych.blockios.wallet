@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import NetworkKit
 
 /// Responsible for networking
 public final class PinClient: PinClientAPI {

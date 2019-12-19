@@ -7,8 +7,9 @@
 //
 
 import Foundation
-import PlatformKit
 import RxSwift
+import NetworkKit
+import PlatformKit
 
 /// PIT address fetcher, should be used to fetch the address of the PIT linked account
 final class PitAddressFetcher: PitAddressFetching {

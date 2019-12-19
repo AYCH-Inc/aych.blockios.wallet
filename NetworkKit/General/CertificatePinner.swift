@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ToolKit
 
 /**
  Handles certificate pinning for connections to blockchain.info.

@@ -8,6 +8,8 @@
 
 import Foundation
 import RxSwift
+import ToolKit
+import NetworkKit
 
 public final class CryptoFeeService<T: TransactionFee & Decodable>: CryptoFeeServiceAPI {
     public var fees: Single<T> {

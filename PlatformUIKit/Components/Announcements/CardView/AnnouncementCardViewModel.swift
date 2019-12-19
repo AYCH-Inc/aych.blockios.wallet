@@ -6,10 +6,11 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformKit
 import RxSwift
 import RxRelay
 import RxCocoa
+import ToolKit
+import PlatformKit
 
 /// An announcement card view model
 public final class AnnouncementCardViewModel {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ToolKit
 import PlatformKit
 
 /// Personal details entry screen in KYC flow

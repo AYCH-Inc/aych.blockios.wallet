@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import ToolKit
 import PlatformKit
 
 // Protocol for syncing Nabu with the wallet state by sending a JWT token to Nabu.

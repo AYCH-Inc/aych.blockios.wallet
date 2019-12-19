@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import NetworkKit
 
 public class WalletService: WalletOptionsAPI {
     

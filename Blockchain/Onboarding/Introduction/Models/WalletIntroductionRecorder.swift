@@ -6,6 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import ToolKit
 import PlatformKit
 
 /// A class that records actions taken by the user when interacting with a `WalletIntroductionEvent`.

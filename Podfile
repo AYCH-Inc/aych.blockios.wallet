@@ -34,6 +34,26 @@ target 'Blockchain' do
   end
 end
 
+target 'ToolKit' do
+  pod 'RxSwift', '5.0'
+  pod 'RxRelay', '5.0'
+  pod 'BigInt', '~> 4.0'
+
+  target 'ToolKitTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+end
+
+target 'NetworkKit' do
+  pod 'RxSwift', '5.0'
+
+  target 'NetworkKitTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+end
+
 target 'PlatformUIKit' do
   pod 'RxSwift', '5.0'
   pod 'RxCocoa', '5.0'

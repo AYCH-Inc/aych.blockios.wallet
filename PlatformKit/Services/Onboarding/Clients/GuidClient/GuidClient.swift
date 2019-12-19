@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import NetworkKit
 
 /// A network client for `GUID`
 public final class GuidClient: GuidClientAPI {

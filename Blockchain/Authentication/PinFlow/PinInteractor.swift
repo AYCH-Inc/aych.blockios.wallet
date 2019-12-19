@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import ToolKit
 import PlatformKit
 
 /// Interactor for the pin. This component interacts with the Blockchain API and the local

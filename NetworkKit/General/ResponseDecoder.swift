@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import ToolKit
 
 public struct ServerResponse {
     let response: HTTPURLResponse

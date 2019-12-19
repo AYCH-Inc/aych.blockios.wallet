@@ -6,9 +6,10 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformKit
 import RxSwift
 import RxCocoa
+import ToolKit
+import PlatformKit
 
 /// A `UIToolbar` provider that embeds toolbar setup.
 /// Typically used in screens that contain keyboard input.

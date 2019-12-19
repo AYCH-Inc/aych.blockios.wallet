@@ -7,12 +7,13 @@
 //
 
 import UIKit
-import PlatformUIKit
-import PlatformKit
 import RxSwift
 import RxRelay
 import RxCocoa
 import SafariServices
+import ToolKit
+import PlatformKit
+import PlatformUIKit
 
 /// This class was designed to replace all current send screens
 /// Should contain as little logic as possible. It's only a view

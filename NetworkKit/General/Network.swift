@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import ToolKit
 
 @available(*, deprecated, message: "Don't use this. If you're reaching for this you're doing something wrong.")
 @objc public class NetworkDependenciesObjc: NSObject {
@@ -27,19 +28,19 @@ public struct Network {
         public let apiHost: String
         public let apiCode: String
         
-        static let defaultConfig: Config = Config(
+        public static let defaultConfig: Config = Config(
             apiScheme: "https",
             apiHost: BlockchainAPI.shared.apiHost,
             apiCode: BlockchainAPI.Parameters.apiCode
         )
         
-        static let retailConfig: Config = Config(
+        public static let retailConfig: Config = Config(
             apiScheme: "https",
             apiHost: BlockchainAPI.shared.retailCoreUrl,
             apiCode: BlockchainAPI.Parameters.apiCode
         )
         
-        static let walletConfig: Config = Config(
+        public static let walletConfig: Config = Config(
             apiScheme: "https",
             apiHost: BlockchainAPI.shared.walletHost,
             apiCode: BlockchainAPI.Parameters.apiCode

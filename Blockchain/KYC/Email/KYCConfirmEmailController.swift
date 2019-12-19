@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import ToolKit
 import PlatformKit
 
 class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerView, ProgressableView {

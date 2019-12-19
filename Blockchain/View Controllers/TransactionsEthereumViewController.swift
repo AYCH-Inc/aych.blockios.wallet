@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ToolKit
 import PlatformKit
 import EthereumKit
 import ERC20Kit

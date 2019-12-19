@@ -9,6 +9,7 @@
 import XCTest
 import RxSwift
 
+@testable import ToolKit
 @testable import PlatformKit
 @testable import PlatformUIKit
 

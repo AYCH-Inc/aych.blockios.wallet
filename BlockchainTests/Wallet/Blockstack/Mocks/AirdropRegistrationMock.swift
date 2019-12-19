@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+@testable import NetworkKit
 @testable import PlatformKit
 
 class AirdropRegistrationMock: AirdropRegistrationAPI {

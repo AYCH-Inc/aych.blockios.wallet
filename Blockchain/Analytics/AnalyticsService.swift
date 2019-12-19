@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import ToolKit
 import PlatformKit
 
 class AnalyticsService: AnalyticsServiceAPI {

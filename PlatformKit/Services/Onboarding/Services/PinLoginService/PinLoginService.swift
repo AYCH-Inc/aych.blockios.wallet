@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import ToolKit
 
 public struct Security {
     /// This does not need to be large because the key is already 256 bits

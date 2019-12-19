@@ -7,9 +7,10 @@
 //
 
 import RxSwift
+import RxCocoa
+import ToolKit
 import PlatformKit
 import PlatformUIKit
-import RxCocoa
 
 /// Protocol definition for a view that displays a list of
 /// SideMenuItem objects.

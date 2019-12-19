@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import ToolKit
 import PlatformKit
 
 protocol UnspentOutputRepositoryAPI {
@@ -47,7 +48,7 @@ final class UnspentOutputRepository: UnspentOutputRepositoryAPI {
         
         cachedUnspentOutputs.setFetch { [weak self] in
             guard let self = self else {
-                return Single.error(PlatformKitError.nullReference(Self.self))
+                return Single.error(ToolKitError.nullReference(Self.self))
             }
             return self.fetchAllUnspentOutputs()
         }

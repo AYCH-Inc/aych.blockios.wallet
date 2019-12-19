@@ -6,10 +6,11 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformUIKit
-import PlatformKit
-import RxRelay
 import RxSwift
+import RxRelay
+import ToolKit
+import PlatformKit
+import PlatformUIKit
 
 /**
  Settings for the current user.

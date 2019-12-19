@@ -7,6 +7,7 @@
 //
 
 import Firebase
+import ToolKit
 import PlatformKit
 
 class DeepLinkHandler {

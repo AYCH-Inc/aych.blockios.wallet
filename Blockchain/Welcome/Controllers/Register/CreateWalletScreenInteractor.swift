@@ -8,6 +8,7 @@
 
 import RxSwift
 import RxRelay
+import ToolKit
 import PlatformKit
 
 // TODO: Refactor this when the coordinators are refactored

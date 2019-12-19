@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ToolKit
 
 public enum NetworkCommunicatorError: Error {
     case clientError(HTTPRequestClientError)

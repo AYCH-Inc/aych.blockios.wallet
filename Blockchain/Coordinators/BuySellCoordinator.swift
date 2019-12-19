@@ -7,10 +7,11 @@
 //
 
 import Foundation
-import PlatformUIKit
 import SafariServices
 import RxSwift
+import ToolKit
 import PlatformKit
+import PlatformUIKit
 
 @objc class BuySellCoordinator: NSObject, Coordinator {
     static let shared = BuySellCoordinator()

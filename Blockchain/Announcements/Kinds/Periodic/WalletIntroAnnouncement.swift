@@ -6,10 +6,11 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformUIKit
-import PlatformKit
 import RxSwift
 import RxCocoa
+import ToolKit
+import PlatformKit
+import PlatformUIKit
 
 /// Wallet Intro announcement is a periodic announcement that can also be entirely removed
 final class WalletIntroAnnouncement: PeriodicAnnouncement & RemovableAnnouncement & ActionableAnnouncement {

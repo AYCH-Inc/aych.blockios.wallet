@@ -10,6 +10,7 @@ import XCTest
 import RxSwift
 import RxTest
 import web3swift
+@testable import NetworkKit
 @testable import PlatformKit
 @testable import EthereumKit
 @testable import Blockchain
@@ -20,7 +21,7 @@ class EthereumAPIClientTests: XCTestCase {
     var disposeBag: DisposeBag!
 
     var communicator: MockNetworkCommunicator!
-    var networkConfig: PlatformKit.Network.Config!
+    var networkConfig: NetworkKit.Network.Config!
     var subject: EthereumKit.APIClient!
 
     override func setUp() {
@@ -30,7 +31,7 @@ class EthereumAPIClientTests: XCTestCase {
         disposeBag = DisposeBag()
 
         communicator = MockNetworkCommunicator()
-        networkConfig = PlatformKit.Network.Config.defaultConfig
+        networkConfig = NetworkKit.Network.Config.defaultConfig
 
         subject = EthereumKit.APIClient(
             communicator: communicator,

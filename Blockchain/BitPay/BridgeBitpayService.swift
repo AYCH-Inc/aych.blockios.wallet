@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import NetworkKit
 import PlatformKit
 
 // TODO: Remove this layer once the send screens are migrated to Swift

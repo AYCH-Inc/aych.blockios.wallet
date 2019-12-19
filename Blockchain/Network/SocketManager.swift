@@ -9,6 +9,7 @@
 import Foundation
 import Starscream
 import RxSwift
+import ToolKit
 import PlatformKit
 
 class SocketManager {

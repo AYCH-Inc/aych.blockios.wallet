@@ -7,6 +7,8 @@
 //
 
 import RxSwift
+import ToolKit
+import NetworkKit
 
 // TODO: hook up to fees for ETH and the same for PAX
 public protocol PriceServiceAPI {

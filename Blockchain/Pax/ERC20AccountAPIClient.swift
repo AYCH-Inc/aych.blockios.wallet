@@ -8,6 +8,8 @@
 
 import Foundation
 import RxSwift
+import ToolKit
+import NetworkKit
 import PlatformKit
 import EthereumKit
 import ERC20Kit

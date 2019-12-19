@@ -6,10 +6,11 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformKit
-import PlatformUIKit
 import RxSwift
 import RxCocoa
+import ToolKit
+import PlatformKit
+import PlatformUIKit
 
 /// Card announcement for blockstack airdrop announcement
 final class KycBlockstackAirdropAnnouncement: OneTimeAnnouncement & ActionableAnnouncement {

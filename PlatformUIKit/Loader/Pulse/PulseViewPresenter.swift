@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import ToolKit
 import PlatformKit
 
 /// Presenter in charge of displaying a `PulseAnimationView`.

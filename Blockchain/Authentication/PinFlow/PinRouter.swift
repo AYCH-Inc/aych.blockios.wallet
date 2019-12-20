@@ -8,6 +8,7 @@
 
 import PlatformUIKit
 import PlatformKit
+import ToolKit
 
 /// PIN creation / changing / authentication. Responsible for routing screens during flow.
 final class PinRouter: NSObject {

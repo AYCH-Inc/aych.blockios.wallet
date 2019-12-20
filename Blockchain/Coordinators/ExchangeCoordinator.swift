@@ -8,8 +8,10 @@
 
 import Foundation
 import RxSwift
-import StellarKit
+import ToolKit
+import NetworkKit
 import PlatformKit
+import StellarKit
 
 enum ExchangeCoordinatorEvent {
     case confirmExchange(orderTransaction: OrderTransaction, conversion: Conversion)

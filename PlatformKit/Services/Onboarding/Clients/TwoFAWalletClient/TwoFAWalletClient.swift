@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import NetworkKit
 
 public final class TwoFAWalletClient: TwoFAWalletClientAPI {
 

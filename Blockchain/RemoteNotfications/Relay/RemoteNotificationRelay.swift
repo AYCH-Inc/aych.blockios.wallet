@@ -8,9 +8,10 @@
 
 import UserNotifications
 import FirebaseMessaging
-import PlatformKit
 import RxSwift
 import RxRelay
+import ToolKit
+import PlatformKit
 
 /// The class is responsible for receiving notifications and streaming to subscribers
 final class RemoteNotificationRelay: NSObject {

@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import NetworkKit
 
 /// TODO: fetch using a `sharedKey`
 public final class WalletPayloadClient: WalletPayloadClientAPI {

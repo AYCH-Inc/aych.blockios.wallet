@@ -6,6 +6,8 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import NetworkKit
+
 /// Model for a quoted price by the Service-Price endpoint in fiat for a single asset type.
 public struct PriceInFiat: Codable, Equatable {
     public let timestamp: Date?
@@ -16,6 +18,20 @@ public struct PriceInFiat: Codable, Equatable {
         return lhs.timestamp == rhs.timestamp &&
         lhs.price == rhs.price &&
         lhs.volume24h == rhs.volume24h
+    }
+    
+    public init(timestamp: Date?, price: Decimal, volume24h: Decimal?) {
+        self.timestamp = timestamp
+        self.price = price
+        self.volume24h = volume24h
+    }
+    
+    public init(response: PriceInFiatResponse) throws {
+        self.init(
+            timestamp: response.timestamp,
+            price: response.price,
+            volume24h: response.volume24h
+        )
     }
 }
 

@@ -8,6 +8,7 @@
 
 import RxSwift
 import UserNotifications
+import ToolKit
 import PlatformKit
 
 final class RemoteNotificationAuthorizer {

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ToolKit
 import PlatformKit
 
 // A closure executed when the user taps on a `selection` in a

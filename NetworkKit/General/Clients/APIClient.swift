@@ -8,16 +8,20 @@
 
 import Foundation
 import RxSwift
+import ToolKit
 
 enum APIClientError: Error {
     case unknown
 }
 
-protocol APIClientAPI: AirdropRegistrationAPI {
-    func prices(within window: PriceWindow, currency: CryptoCurrency, code: String) -> Single<[PriceInFiat]>
+public protocol APIClientAPI {
+    
+    func prices(base: String, quote: String, start: String, scale: String) -> Single<[PriceInFiatResponse]>
+    
+    func submitRegistrationRequest(_ registrationRequest: AirdropRegistrationRequest) -> Single<AirdropRegistrationResponse>
 }
 
-final class APIClient: APIClientAPI {
+public final class APIClient: APIClientAPI {
     
     struct Endpoint {
         
@@ -33,7 +37,7 @@ final class APIClient: APIClientAPI {
     
     // MARK: - Init
 
-    init(communicator: NetworkCommunicatorAPI = Network.Dependencies.default.communicator,
+    public init(communicator: NetworkCommunicatorAPI = Network.Dependencies.default.communicator,
          config: Network.Config = Network.Dependencies.default.blockchainAPIConfig,
          requestBuilder: RequestBuilder = RequestBuilder(networkConfig: Network.Dependencies.default.blockchainAPIConfig)) {
         self.communicator = communicator
@@ -43,43 +47,23 @@ final class APIClient: APIClientAPI {
     
     // MARK: - APIClientAPI
     
-    func prices(within window: PriceWindow, currency: CryptoCurrency, code: String) -> Single<[PriceInFiat]> {
-        var start: TimeInterval = 0
-        var components = DateComponents()
-        
-        switch window {
-        case .all:
-            start = currency.maxStartDate
-        case .day:
-            components.day = -1
-            start = Calendar.current.date(byAdding: components, to: Date())?.timeIntervalSince1970 ?? 0
-        case .week:
-            components.day = -7
-            start = Calendar.current.date(byAdding: components, to: Date())?.timeIntervalSince1970 ?? 0
-        case .month:
-            components.month = -1
-            start = Calendar.current.date(byAdding: components, to: Date())?.timeIntervalSince1970 ?? 0
-        case .year:
-            components.year = -1
-            start = Calendar.current.date(byAdding: components, to: Date())?.timeIntervalSince1970 ?? 0
-        }
-        
+    public func prices(base: String, quote: String, start: String, scale: String) -> Single<[PriceInFiatResponse]> {
         let parameters = [
             URLQueryItem(
                 name: "base",
-                value: currency.symbol
+                value: base
             ),
             URLQueryItem(
                 name: "quote",
-                value: code
+                value: quote
             ),
             URLQueryItem(
                 name: "start",
-                value: String(Int(start))
+                value: start
             ),
             URLQueryItem(
                 name: "scale",
-                value: String(window.scale)
+                value: scale
             )
         ]
         guard let request = requestBuilder.get(path: Endpoint.priceIndex, parameters: parameters) else {
@@ -88,20 +72,21 @@ final class APIClient: APIClientAPI {
         return communicator.perform(request: request)
     }
     
-    func submitRegistrationRequest(_ registrationRequest: AirdropRegistrationRequest) -> Single<AirdropRegistrationResponse> {
+    public func submitRegistrationRequest(_ registrationRequest: AirdropRegistrationRequest) -> Single<AirdropRegistrationResponse> {
         let payload = AirdropRegistrationPayload(
             publicKey: registrationRequest.publicKey,
             isNewUser: registrationRequest.newUser
         )
         let data = try? JSONEncoder().encode(payload)
         
-        let headers: HTTPHeaders = [HttpHeaderField.authorization: registrationRequest.authToken,
-                                    HttpHeaderField.airdropCampaign: registrationRequest.campaignIdentifier]
+        let headers: HTTPHeaders = [
+            HttpHeaderField.authorization: registrationRequest.authToken,
+            HttpHeaderField.airdropCampaign: registrationRequest.campaignIdentifier
+        ]
         
         guard let request = requestBuilder.put(path: Endpoint.airdropRegistration, body: data, headers: headers) else {
             return Single.error(APIClientError.unknown)
         }
         return communicator.perform(request: request)
-        
     }
 }

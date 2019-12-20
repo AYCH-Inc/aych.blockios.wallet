@@ -10,6 +10,7 @@ import Foundation
 import stellarsdk
 import RxSwift
 import RxCocoa
+import ToolKit
 import StellarKit
 import PlatformKit
 

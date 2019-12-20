@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import NetworkKit
 import PlatformKit
 @testable import Blockchain
 

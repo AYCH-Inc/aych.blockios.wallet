@@ -8,8 +8,9 @@
 
 import Foundation
 import SafariServices
-import PlatformUIKit
+import ToolKit
 import PlatformKit
+import PlatformUIKit
 
 protocol ExchangeDetailDelegate: class {
     func onViewLoaded()

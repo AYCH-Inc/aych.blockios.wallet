@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import NetworkKit
 import PlatformKit
 
 @objc extension BlockchainAPI {

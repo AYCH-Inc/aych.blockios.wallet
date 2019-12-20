@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import ToolKit
 
 fileprivate var DISABLE_CERT_PINNING: Bool = false
 

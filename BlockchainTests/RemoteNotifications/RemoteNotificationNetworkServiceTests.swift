@@ -10,6 +10,7 @@ import XCTest
 import RxSwift
 import RxBlocking
 import UserNotifications
+import NetworkKit
 import PlatformKit
 
 @testable import Blockchain

@@ -6,8 +6,9 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformUIKit
+import ToolKit
 import PlatformKit
+import PlatformUIKit
 
 protocol TradingPairViewDelegate: class {
     func onLeftButtonTapped(_ view: TradingPairView, title: String)

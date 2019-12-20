@@ -6,10 +6,11 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformKit
 import RxSwift
 import RxCocoa
 import RxRelay
+import ToolKit
+import PlatformKit
 
 /// A service that coordinates
 final class RemoteNotificationService: RemoteNotificationServicing {

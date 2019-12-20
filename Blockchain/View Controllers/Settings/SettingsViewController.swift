@@ -10,6 +10,7 @@ import UIKit
 import LocalAuthentication
 import CoreFoundation
 import RxSwift
+import ToolKit
 import PlatformKit
 import PlatformUIKit
 

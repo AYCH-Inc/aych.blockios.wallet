@@ -8,6 +8,7 @@
 
 import RxSwift
 import RxCocoa
+import ToolKit
 import PlatformKit
 import PlatformUIKit
 import LocalAuthentication

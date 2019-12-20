@@ -6,9 +6,10 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformKit
 import RxRelay
 import RxSwift
+import ToolKit
+import PlatformKit
 
 final class AutoPairingScreenInteractor {
     

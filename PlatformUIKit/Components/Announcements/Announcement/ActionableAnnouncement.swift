@@ -6,6 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import ToolKit
 import PlatformKit
 
 /// Action that takes place when tapping CTA / dismiss button in card announcement

@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import NetworkKit
 import PlatformKit
 import PlatformUIKit
 

@@ -9,9 +9,10 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import BigInt
+import ToolKit
 import PlatformKit
 import EthereumKit
-import BigInt
 import ERC20Kit
 
 class SendPaxCoordinator {

@@ -6,6 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import ToolKit
 import PlatformKit
 
 /// Protocol for an announcement that is shown to the user. These are typically

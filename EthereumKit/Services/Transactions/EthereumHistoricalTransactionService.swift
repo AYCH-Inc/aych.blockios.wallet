@@ -7,10 +7,11 @@
 //
 
 import Foundation
-import PlatformKit
 import RxRelay
 import RxSwift
 import BigInt
+import ToolKit
+import PlatformKit
 
 public final class EthereumHistoricalTransactionService: HistoricalTransactionAPI {
     
@@ -53,21 +54,21 @@ public final class EthereumHistoricalTransactionService: HistoricalTransactionAP
         
         cachedAccount.setFetch { [weak self] in
             guard let self = self else {
-                return Single.error(PlatformKitError.nullReference(Self.self))
+                return Single.error(ToolKitError.nullReference(Self.self))
             }
             return self.bridge.account
         }
         
         cachedTransactions.setFetch { [weak self] in
             guard let self = self else {
-                return Single.error(PlatformKitError.nullReference(Self.self))
+                return Single.error(ToolKitError.nullReference(Self.self))
             }
             return self.fetchTransactions()
         }
         
         cachedLatestBlock.setFetch { [weak self] in
             guard let self = self else {
-                return Single.error(PlatformKitError.nullReference(Self.self))
+                return Single.error(ToolKitError.nullReference(Self.self))
             }
             return self.fetchLatestBlock
         }

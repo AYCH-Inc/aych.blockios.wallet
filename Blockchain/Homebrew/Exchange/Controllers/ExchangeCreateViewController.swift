@@ -7,10 +7,11 @@
 //
 
 import Foundation
-import PlatformUIKit
-import PlatformKit
 import SafariServices
 import RxSwift
+import ToolKit
+import PlatformKit
+import PlatformUIKit
 
 protocol ExchangeCreateDelegate: NumberKeypadViewDelegate {
     func onViewDidLoad()

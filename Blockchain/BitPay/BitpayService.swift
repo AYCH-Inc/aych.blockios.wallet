@@ -6,9 +6,11 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformUIKit
-import PlatformKit
 import RxSwift
+import ToolKit
+import NetworkKit
+import PlatformKit
+import PlatformUIKit
 
 final class BitpayService: BitpayServiceProtocol {
     

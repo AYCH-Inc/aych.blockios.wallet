@@ -8,9 +8,10 @@
 
 import Foundation
 import JavaScriptCore
-import PlatformKit
 import RxSwift
 import RxCocoa
+import ToolKit
+import PlatformKit
 
 /**
  Manager object for operations to the Blockchain Wallet.

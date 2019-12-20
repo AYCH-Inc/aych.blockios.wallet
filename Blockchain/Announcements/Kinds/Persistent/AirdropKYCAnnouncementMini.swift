@@ -7,10 +7,11 @@
 //
 
 import Foundation
-import PlatformKit
-import PlatformUIKit
 import RxSwift
 import RxCocoa
+import ToolKit
+import PlatformKit
+import PlatformUIKit
 
 /// Mini card announcement for blockstack airdrop announcement
 final class AirdropKYCAnnouncementMini: PersistentAnnouncement & ActionableAnnouncement {

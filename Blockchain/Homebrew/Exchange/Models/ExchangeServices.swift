@@ -7,8 +7,9 @@
 //
 
 import Foundation
-import StellarKit
+import ToolKit
 import PlatformKit
+import StellarKit
 
 protocol ExchangeDependencies {
     var service: ExchangeHistoryAPI { get }

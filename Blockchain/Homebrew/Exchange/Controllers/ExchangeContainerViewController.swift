@@ -7,10 +7,12 @@
 //
 
 import Foundation
-import PlatformUIKit
-import PlatformKit
 import SafariServices
 import RxSwift
+import ToolKit
+import NetworkKit
+import PlatformKit
+import PlatformUIKit
 
 class ExchangeContainerViewController: BaseNavigationController {
     

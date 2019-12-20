@@ -6,8 +6,9 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import RxSwift
 import UIKit
+import RxSwift
+import ToolKit
 import PlatformKit
 
 typealias Countries = [KYCCountry]

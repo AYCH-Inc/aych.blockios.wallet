@@ -8,6 +8,7 @@
 
 import RxSwift
 import RxRelay
+import ToolKit
 import PlatformKit
 
 final class RecoverWalletScreenInteractor {

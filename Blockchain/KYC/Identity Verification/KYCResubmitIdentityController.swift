@@ -7,8 +7,9 @@
 //
 
 import Foundation
-import PlatformKit
 import Veriff
+import ToolKit
+import PlatformKit
 import PlatformUIKit
 
 /// Account verification screen in KYC flow

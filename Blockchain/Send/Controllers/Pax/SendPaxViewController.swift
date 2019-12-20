@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import SafariServices
 import RxSwift
 import RxCocoa
+import ToolKit
 import PlatformKit
 import PlatformUIKit
 import EthereumKit
 import ERC20Kit
-import SafariServices
 
 protocol SendPaxViewControllerDelegate: class {
     func onLoad()

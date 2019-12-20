@@ -8,6 +8,7 @@
 
 import ERC20Kit
 import RxSwift
+import NetworkKit
 import PlatformKit
 import BitcoinKit
 import EthereumKit

@@ -6,9 +6,10 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import EthereumKit
+import ToolKit
 import PlatformKit
 import PlatformUIKit
+import EthereumKit
 import StellarKit
 
 final class ReceiveCryptoTextViewModel: ReceiveCryptoTextViewModelProtocol {

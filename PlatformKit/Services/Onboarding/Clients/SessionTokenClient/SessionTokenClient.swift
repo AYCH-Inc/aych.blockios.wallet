@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import NetworkKit
 
 /// A session token client implementation
 public final class SessionTokenClient: SessionTokenClientAPI {

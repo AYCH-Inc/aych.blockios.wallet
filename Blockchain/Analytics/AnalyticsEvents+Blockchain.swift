@@ -6,6 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import ToolKit
 import PlatformKit
 
 /// Analytics events classified by flow as described in the following Google Sheet:

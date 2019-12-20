@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import BigInt
+import NetworkKit
 import PlatformKit
 
 enum EthereumAPIClientError: Error {

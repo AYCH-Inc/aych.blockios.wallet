@@ -8,6 +8,7 @@
 
 import PhoneNumberKit
 import RxSwift
+import ToolKit
 import PlatformKit
 
 protocol KYCVerifyPhoneNumberView: class {

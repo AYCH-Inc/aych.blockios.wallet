@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import NetworkKit
 import PlatformKit
 
 typealias ExchangeCompletion = ((Result<[ExchangeTradeCellModel], Error>) -> Void)

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import NetworkKit
 import PlatformKit
 
 // If TransactionDetailViewModel is converted to Swift, it should implement

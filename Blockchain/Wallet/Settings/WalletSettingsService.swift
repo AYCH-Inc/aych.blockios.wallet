@@ -6,8 +6,9 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformKit
 import RxSwift
+import NetworkKit
+import PlatformKit
 
 /// Concrete implementation of WalletSettingsAPI
 class WalletSettingsService: WalletSettingsAPI {

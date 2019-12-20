@@ -9,6 +9,7 @@
 import XCTest
 import RxSwift
 import RxBlocking
+import NetworkKit
 import PlatformKit
 
 @testable import Blockchain

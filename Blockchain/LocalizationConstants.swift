@@ -1437,6 +1437,21 @@ struct LocalizationConstants {
         
         // MARK: - One time
         
+        struct BlockstackAirdropReceived {
+            static let title = NSLocalizedString(
+                "Your Airdrop Has Landed",
+                comment: "STX airdrop received announcement card title"
+            )
+            static let description = NSLocalizedString(
+                "Your stacks are now in your wallet. We’ll let you know as soon as these are available to be used.",
+                comment: "STX airdrop received announcement card description"
+            )
+            static let ctaButton = NSLocalizedString(
+                "View Details",
+                comment: "STX airdrop received announcement card CTA button title"
+            )
+        }
+        
         struct BlockstackAirdrop {
             static let title = NSLocalizedString(
                 "Get Free Crypto",
@@ -1802,6 +1817,10 @@ struct LocalizationConstants {
         static let backupFunds = NSLocalizedString(
             "Backup Funds",
             comment: "Item displayed on the side menu of the app for when the user wants to back up their funds by saving their 12 word mneumonic phrase."
+        )
+        static let airdrops = NSLocalizedString(
+            "Airdrops",
+            comment: "Item displayed on the side menu of the app for airdrop center navigation"
         )
         static let swap = NSLocalizedString(
             "Swap",
@@ -2962,7 +2981,126 @@ struct LocalizationConstants {
         )
     }
 
+    struct GeneralError {
+        static let loadingData = NSLocalizedString(
+            "An error occurred while loading the data. Please try again.",
+            comment: "A general data loading error display in an alert controller"
+        )
+    }
+    
     struct Airdrop {
+        struct CenterScreen {
+            static let title = NSLocalizedString(
+                "Airdrops",
+                comment: "Airdrop center screen: title"
+            )
+            struct Cell {
+                static let fiatTitle = NSLocalizedString(
+                    "%@ of %@",
+                    comment: "Airdrop center screen: cell title"
+                )
+                static let availableDescription = NSLocalizedString(
+                    "Drops on %@",
+                    comment: "Airdrop center screen: available cell description"
+                )
+                static let endedDescription = NSLocalizedString(
+                    "Ended on %@",
+                    comment: "Airdrop center screen: ended cell description"
+                )
+            }
+            
+            struct Header {
+                static let startedTitle = NSLocalizedString(
+                    "Available",
+                    comment: "Airdrop center screen: available header title"
+                )
+                static let endedTitle = NSLocalizedString(
+                    "Ended",
+                    comment: "Airdrop center screen: ended header title"
+                )
+            }
+        }
+        struct StatusScreen {
+            static let title = NSLocalizedString(
+                "Airdrop",
+                comment: "Airdrop status screen: title"
+            )
+            struct Blockstack {
+                static let title = NSLocalizedString(
+                    "Blockstack (STX)",
+                    comment: "Airdrop status screen: blockstack, title"
+                )
+                static let description = NSLocalizedString(
+                    "Own your digital identity and data with hundreds of decentralized apps built with Blockstack.",
+                    comment: "Airdrop status screen: blockstack, description"
+                )
+            }
+            struct Stellar {
+                static let title = NSLocalizedString(
+                    "Stellar (XLM)",
+                    comment: "Airdrop status screen: stellar, title"
+                )
+                static let description = NSLocalizedString(
+                    "Stellar is an open-source, decentralized payment protocol that allows for fast and cheap cross-border transactions between any pair of currencies.",
+                    comment: "Airdrop status screen: stellar, description"
+                )
+            }
+            struct Cell {
+                struct Status {
+                    static let label = NSLocalizedString(
+                        "Status",
+                        comment: "Airdrop status screen: blockstack, status"
+                    )
+                    static let received = NSLocalizedString(
+                        "Received",
+                        comment: "Airdrop status screen: received status"
+                    )
+                    static let expired = NSLocalizedString(
+                        "Offer Expired",
+                        comment: "Airdrop status screen: received status"
+                    )
+                    static let failed = NSLocalizedString(
+                        "Ineligible",
+                        comment: "Airdrop status screen: received status"
+                    )
+                    static let claimed = NSLocalizedString(
+                        "Claimed",
+                        comment: "Airdrop status screen: claimed status"
+                    )
+                    static let enrolled = NSLocalizedString(
+                        "Enrolled",
+                        comment: "Airdrop status screen: enrolled status"
+                    )
+                    static let notRegistered = NSLocalizedString(
+                        "Not Registered",
+                        comment: "Airdrop status screen: not registered status"
+                    )
+                }
+                struct Amount {
+                    static let label = NSLocalizedString(
+                        "Amount",
+                        comment: "Airdrop status screen: amount label"
+                    )
+                    static let value = NSLocalizedString(
+                        "xxx %@ (%@ %@)",
+                        comment: "Airdrop status screen: amount value format"
+                    )
+                }
+                static let date = NSLocalizedString(
+                    "Date",
+                    comment: "Airdrop status screen: date"
+                )
+
+                static let airdropName = NSLocalizedString(
+                    "Airdrop",
+                    comment: "Airdrop status screen: airdrop name"
+                )
+                static let currency = NSLocalizedString(
+                    "Currency",
+                    comment: "Airdrop status screen: currency"
+                )
+            }
+        }
         struct IntroScreen {
             static let title = NSLocalizedString(
                 "Get Free Crypto.",

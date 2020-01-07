@@ -69,6 +69,18 @@ extension PrimitiveSequence where Trait == CompletableTrait {
     }
 }
 
+extension ObservableType {
+    public static func create<A: AnyObject>(weak object: A, subscribe: @escaping (A, (AnyObserver<Element>)) -> Disposable) -> Observable<Element> {
+        return Observable<Element>.create { [weak object] observer -> Disposable in
+            guard let object = object else {
+                observer.on(.error(ToolKitError.nullReference(A.self)))
+                return Disposables.create()
+            }
+            return subscribe(object, observer)
+        }
+    }
+}
+
 extension PrimitiveSequence where Trait == SingleTrait {
     public func flatMapCompletable<A: AnyObject>(weak object: A, _ selector: @escaping (A, Element) throws -> Completable)
         -> Completable {

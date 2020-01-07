@@ -26,17 +26,21 @@ public extension CryptoCurrency {
     }
     
     var logo: UIImage {
+        return UIImage(named: logoImageName)!
+    }
+    
+    var logoImageName: String {
         switch self {
         case .bitcoin:
-            return #imageLiteral(resourceName: "filled_btc_small")
+            return "filled_btc_small"
         case .bitcoinCash:
-            return #imageLiteral(resourceName: "filled_bch_large")
+            return "filled_bch_large"
         case .ethereum:
-            return #imageLiteral(resourceName: "filled_eth_large")
+            return "filled_eth_large"
         case .pax:
-            return #imageLiteral(resourceName: "filled_pax_large")
+            return "filled_pax_large"
         case .stellar:
-            return #imageLiteral(resourceName: "filled_xlm_large")
+            return "filled_xlm_large"
         }
     }
 }

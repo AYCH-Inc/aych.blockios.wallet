@@ -35,6 +35,8 @@ import PlatformKit
     private let walletManager: WalletManager
     private let paymentPresenter: PaymentPresenter
     private let loadingViewPresenter: LoadingViewPresenting
+
+    let airdropRouter: AirdropRouterAPI
     
     // MARK: - UIViewController Properties
 
@@ -61,7 +63,9 @@ import PlatformKit
                  onboardingRouter: OnboardingRouter = OnboardingRouter(),
                  walletManager: WalletManager = WalletManager.shared,
                  paymentPresenter: PaymentPresenter = PaymentPresenter(),
+                 airdropRouter: AirdropRouterAPI = AirdropRouter(topMostViewControllerProvider: UIApplication.shared),
                  loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared) {
+        self.airdropRouter = airdropRouter
         self.authenticationCoordinator = authenticationCoordinator
         self.blockchainSettings = blockchainSettings
         self.onboardingRouter = onboardingRouter
@@ -240,6 +244,8 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
             handleWebLogin()
         case .support:
             handleSupport()
+        case .airdrops:
+            handleAirdrops()
         case .logout:
             handleLogout()
         case .buyBitcoin:
@@ -255,6 +261,10 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
         }
     }
 
+    private func handleAirdrops() {
+        airdropRouter.presentAirdropCenterScreen()
+    }
+    
     private func handleUpgrade() {
         AppCoordinator.shared.showHdUpgradeView()
     }

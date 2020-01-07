@@ -27,7 +27,7 @@ final class DashboardViewController: BaseScreenViewController {
     // MARK: - Accessors
     
     private let disposeBag = DisposeBag()
-    
+        
     // MARK: - Lazy Properties
     
     private lazy var router: DashboardRouter = {
@@ -118,10 +118,10 @@ final class DashboardViewController: BaseScreenViewController {
         let index = presenter.indexByCellType[.balance]! + 1
         let indexPaths = [IndexPath(item: index, section: 0)]
         switch noticeState {
-        case .show where presenter.noticeState == .hidden:
+        case .show where !presenter.noticeState.isVisible:
             tableView.insertRows(at: indexPaths, with: .automatic)
-            presenter.noticeState = .visible
-        case .hide where presenter.noticeState == .visible:
+            presenter.noticeState = .visible(index: index)
+        case .hide where presenter.noticeState.isVisible:
             tableView.deleteRows(at: indexPaths, with: .automatic)
             presenter.noticeState = .hidden
         default:
@@ -131,12 +131,27 @@ final class DashboardViewController: BaseScreenViewController {
     
     private func execute(announcementAction: AnnouncementDisplayAction) {
         switch announcementAction {
-        case .hide where presenter.cardState == .visible:
-            tableView.deleteFirst()
+        case .hide:
+            switch presenter.cardState {
+            case .visible(index: let index):
+                tableView.deleteRows(at: [.init(row: index, section: 0)], with: .automatic)
+            case .hidden:
+                break
+            }
             presenter.cardState = .hidden
-        case .show where presenter.cardState == .hidden:
-            tableView.insertFirst()
-            presenter.cardState = .visible
+        case .show where !presenter.cardState.isVisible:
+            switch presenter.announcementCardArrangement {
+            case .top:
+                tableView.insertRows(at: [.firstRowInFirstSection], with: .automatic)
+                presenter.cardState = .visible(index: 0)
+            case .bottom:
+                /// Must not be `nil`. Otherwise there is a presentation error
+                let index = presenter.announcementCellIndex!
+                tableView.insertRows(at: [.init(row: index, section: 0)], with: .automatic)
+                presenter.cardState = .visible(index: index)
+            case .none:
+                break
+            }
         default:
             break
         }

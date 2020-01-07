@@ -21,6 +21,12 @@ public extension UITableView {
         deleteRows(at: [.firstRowInFirstSection], with: animation)
     }
     
+    // MARK: - Register header / footer
+    
+    func register<HeaderType: UITableViewHeaderFooterView>(_ headerType: HeaderType.Type) {
+        register(headerType, forHeaderFooterViewReuseIdentifier: headerType.objectName)
+    }
+    
     // MARK: - Register cell type
     
     func register<CellType: UITableViewCell>(_ cellType: CellType.Type) {
@@ -53,5 +59,9 @@ public extension UITableView {
     
     func dequeue<CellType: UITableViewCell>(_ identifier: String, for indexPath: IndexPath) -> CellType {
         return dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! CellType
+    }
+    
+    func dequeue<HeaderType: UITableViewHeaderFooterView>(_ type: HeaderType.Type) -> HeaderType {
+        return dequeueReusableHeaderFooterView(withIdentifier: type.objectName) as! HeaderType
     }
 }

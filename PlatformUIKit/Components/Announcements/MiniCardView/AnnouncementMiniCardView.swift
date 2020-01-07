@@ -14,6 +14,7 @@ public final class AnnouncementMiniCardView: UIView, AnnoucementCardViewConformi
     
     // MARK: - Subviews
     
+    private var backgroundButton: UIButton!
     private var backgroundImageView: UIImageView!
     private var thumbImageView: UIImageView!
     private var titleLabel: UILabel!
@@ -49,12 +50,6 @@ public final class AnnouncementMiniCardView: UIView, AnnoucementCardViewConformi
     }
     
     // MARK: - Private methods
-    
-    @objc private func onTap(_ sender: UITapGestureRecognizer) {
-        if let button = viewModel.buttons.first {
-            button.tapRelay.accept(())
-        }
-    }
 
     private func setup() {
         
@@ -66,6 +61,7 @@ public final class AnnouncementMiniCardView: UIView, AnnoucementCardViewConformi
         descriptionLabel = UILabel()
         disclosureIndicatorImageView = UIImageView()
         bottomSeparatorView = UIView()
+        backgroundButton = UIButton()
         
         // Configuration
         
@@ -93,6 +89,11 @@ public final class AnnouncementMiniCardView: UIView, AnnoucementCardViewConformi
         
         bottomSeparatorView.backgroundColor = .mediumBorder
         
+        backgroundButton.isHidden = !viewModel.interaction.isTappable
+        backgroundButton.addTarget(self, action: #selector(backgroundTouchDown), for: .touchDown)
+        backgroundButton.addTarget(self, action: #selector(backgroundTouchUp), for: [.touchCancel, .touchUpOutside])
+        backgroundButton.addTarget(self, action: #selector(backgroundTouchUpInside), for: .touchUpInside)
+        
         setupAccessibility()
         
         // Layout
@@ -105,7 +106,7 @@ public final class AnnouncementMiniCardView: UIView, AnnoucementCardViewConformi
         bottomSeparatorView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(backgroundImageView)
-        
+    
         let textStackView = UIStackView(
             arrangedSubviews: [
                 titleLabel,
@@ -130,15 +131,12 @@ public final class AnnouncementMiniCardView: UIView, AnnoucementCardViewConformi
         stackView.spacing = 20.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        if viewModel.hasMiniCardAction {
+        if viewModel.interaction.isTappable {
             stackView.insertArrangedSubview(
                 disclosureIndicatorImageView,
                 at: stackView.arrangedSubviews.count
             )
             stackView.setCustomSpacing(24.0, after: disclosureIndicatorImageView)
-            
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTap(_:)))
-            addGestureRecognizer(tapGesture)
         }
         
         addSubview(stackView)
@@ -192,6 +190,8 @@ public final class AnnouncementMiniCardView: UIView, AnnoucementCardViewConformi
             disclosureIndicatorImageView.heightAnchor.constraint(equalToConstant: disclosureIndicatorImageViewSize.height)
         ])
         
+        addSubview(backgroundButton)
+        backgroundButton.fillSuperview()
     }
     
     private func setupAccessibility() {
@@ -199,5 +199,25 @@ public final class AnnouncementMiniCardView: UIView, AnnoucementCardViewConformi
         titleLabel.accessibility = .init(id: .value(Identifier.titleLabel))
         descriptionLabel.accessibility = .init(id: .value(Identifier.descriptionLabel))
         thumbImageView.accessibility = .init(id: .value(Identifier.imageView))
+        backgroundButton.accessibility = .id(Identifier.backgroundButton)
+    }
+    
+    // MARK: - Interaction
+    
+    @objc private func backgroundTouchDown() {
+        alpha = 0.85
+    }
+    
+    @objc private func backgroundTouchUp() {
+        alpha = 1
+    }
+    
+    @objc private func backgroundTouchUpInside() {
+        switch viewModel.interaction {
+        case .tappable(let action):
+            action()
+        case .none:
+            break
+        }
     }
 }

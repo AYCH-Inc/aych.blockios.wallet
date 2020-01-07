@@ -167,25 +167,11 @@ DEPENDENCIES:
   - zxcvbn-ios (= 1.0.4)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - BigInt
+    - Charts
     - Crashlytics
     - Fabric
-    - keccak.c
-    - PhoneNumberKit
-    - PromiseKit
-    - RxBlocking
-    - RxCocoa
-    - RxRelay
-    - RxSwift
-    - RxTest
-    - scrypt.c
-    - secp256k1.c
-    - SwiftCheck
-    - SwiftLint
-    - zxcvbn-ios
-  trunk:
-    - Charts
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -201,8 +187,21 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
+    - keccak.c
     - nanopb
+    - PhoneNumberKit
+    - PromiseKit
     - Protobuf
+    - RxBlocking
+    - RxCocoa
+    - RxRelay
+    - RxSwift
+    - RxTest
+    - scrypt.c
+    - secp256k1.c
+    - SwiftCheck
+    - SwiftLint
+    - zxcvbn-ios
 
 EXTERNAL SOURCES:
   LibWally:
@@ -218,7 +217,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   LibWally:
-    :commit: 97282e9b773ae867c70b547eb11f811ab56090c0
+    :commit: fc38082243575a7b5c626272790cb764062a836b
     :git: "git@github.com:blockchain/libwally-swift.git"
     :submodules: true
   stellar-ios-mac-sdk:

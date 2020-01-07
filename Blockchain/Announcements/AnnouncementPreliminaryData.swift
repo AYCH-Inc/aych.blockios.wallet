@@ -41,15 +41,26 @@ struct AnnouncementPreliminaryData {
     var hasTwoFA: Bool {
         return authenticatorType != .standard
     }
+    
+    var hasReceivedBlockstackAirdrop: Bool {
+        guard let campaign = airdropCampaigns.campaign(by: .blockstack) else {
+            return false
+        }
+        return campaign.currentState == .received
+    }
+    
+    private let airdropCampaigns: AirdropCampaigns
         
     init(user: NabuUser,
          tiers: KYCUserTiersResponse,
+         airdropCampaigns: AirdropCampaigns,
          hasTrades: Bool,
          hasPaxTransactions: Bool,
          countries: Countries,
          pitLinkingCardVariant: FeatureTestingVariant,
          authenticatorType: AuthenticatorType) {
         self.pitLinkingCardVariant = pitLinkingCardVariant
+        self.airdropCampaigns = airdropCampaigns
         self.user = user
         self.tiers = tiers
         self.hasTrades = hasTrades

@@ -12,6 +12,7 @@ import PlatformUIKit
 import RxSwift
 import RxCocoa
 
+/// TODO: Move into `PlatformUIKit`
 @objc class AlertViewPresenter: NSObject {
     
     struct Content {

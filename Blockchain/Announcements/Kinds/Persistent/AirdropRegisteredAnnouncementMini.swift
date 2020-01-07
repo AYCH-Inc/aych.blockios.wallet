@@ -41,17 +41,21 @@ final class AirdropRegisteredAnnouncementMini: PersistentAnnouncement {
         return airdropRegistered
     }
     
-    let type = AnnouncementType.verifyEmail
+    let type = AnnouncementType.blockstackAirdropRegisteredMini
     let analyticsRecorder: AnalyticsEventRecording
     
-    private let airdropRegistered: Bool
     private let errorRecorder: ErrorRecording
+    
+    private let airdropRegistered: Bool
+    private let router: AirdropRouterAPI
 
     // MARK: - Setup
     
-    init(airdropRegistered: Bool,
+    init(router: AirdropRouterAPI,
+         airdropRegistered: Bool,
          analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          errorRecorder: ErrorRecording = CrashlyticsRecorder()) {
+        self.router = router
         self.airdropRegistered = airdropRegistered
         self.errorRecorder = errorRecorder
         self.analyticsRecorder = analyticsRecorder

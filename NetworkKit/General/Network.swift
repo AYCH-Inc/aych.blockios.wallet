@@ -36,7 +36,7 @@ public struct Network {
         
         public static let retailConfig: Config = Config(
             apiScheme: "https",
-            apiHost: BlockchainAPI.shared.retailCoreUrl,
+            apiHost: BlockchainAPI.shared.retailHost,
             apiCode: BlockchainAPI.Parameters.apiCode
         )
         

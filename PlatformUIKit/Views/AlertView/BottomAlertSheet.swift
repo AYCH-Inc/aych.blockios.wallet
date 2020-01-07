@@ -12,7 +12,7 @@ public enum BottomAlertType {
     case image(UIImage)
     case loading
 }
-
+ 
 public protocol BottomAlertModel {
     var title: String { get }
     var subtitle: String { get }

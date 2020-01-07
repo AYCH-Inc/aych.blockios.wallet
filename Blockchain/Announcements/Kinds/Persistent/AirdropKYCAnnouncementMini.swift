@@ -21,25 +21,18 @@ final class AirdropKYCAnnouncementMini: PersistentAnnouncement & ActionableAnnou
     // MARK: - Properties
     
     var viewModel: AnnouncementCardViewModel {
-        let button = ButtonViewModel(
-            accessibility: .init(id: .value(Accessibility.Identifier.General.mainCTAButton))
-        )
-        button.tapRelay
-            .bind { [weak self] in
-                guard let self = self else { return }
-                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
-                self.action()
-            }
-            .disposed(by: disposeBag)
-                    
         return AnnouncementCardViewModel(
             type: .blockstackAirdropMini,
             presentation: .mini,
+            interaction: .tappable { [weak self] in
+                guard let self = self else { return }
+                self.analyticsRecorder.record(event: self.actionAnalyticsEvent)
+                self.action()
+            },
             background: .init(color: .white, imageName: "card-background-stx-airdrop"),
             image: .init(name: "card-icon-stx-airdrop"),
             title: LocalizedString.title,
             description: LocalizedString.description,
-            buttons: [ button ],
             recorder: errorRecorder,
             dismissState: .undismissible,
             didAppear: { [weak self] in
@@ -63,7 +56,6 @@ final class AirdropKYCAnnouncementMini: PersistentAnnouncement & ActionableAnnou
     private let canCompleteTier2: Bool
     private let isAirdropRegistered: Bool
     
-    private let disposeBag = DisposeBag()
     private let errorRecorder: ErrorRecording
 
     // MARK: - Setup

@@ -15,6 +15,18 @@ extension DateFormatter {
         formatter.timeStyle = .none
         return formatter
     }()
+    
+    static var nominalReadable: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM. dd, yyyy"
+        return formatter
+    }
+    
+    static func ddMMyyyy(separatedBy separator: String) -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd\(separator)MM\(separator)yyyy"
+        return formatter
+    }
 
     /// The format that the server sends down the expiration date for session tokens
     static let sessionDateFormat: DateFormatter = {
@@ -33,7 +45,7 @@ extension DateFormatter {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:SS'Z'"
         return formatter
     }()
-
+    
     /// The API expects the user's DOB to be formatted
     /// this way.
     static let birthday: DateFormatter = {

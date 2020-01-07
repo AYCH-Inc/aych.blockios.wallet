@@ -32,12 +32,33 @@ enum DashboardCollectionAction {
 
 enum DashboardItemState {
     case hidden
-    case visible
+    case visible(index: Int)
+    
+    var isVisible: Bool {
+        switch self {
+        case .visible:
+            return true
+        case .hidden:
+            return false
+        }
+    }
 }
 
 final class DashboardScreenPresenter {
     
     // MARK: - Types
+    
+    enum AnnouncementArrangement {
+        
+        /// Announcement card should show at the top of the dashboard
+        case top
+        
+        /// Announcement card should show at the bottom of the dashboard
+        case bottom
+        
+        /// Announcement card should not show at all
+        case none
+    }
     
     enum CellType: Hashable {
         case announcement
@@ -61,9 +82,6 @@ final class DashboardScreenPresenter {
     /// Returns the ordered cell types
     var cellArrangement: [CellType] {
         var cellTypes: [CellType] = []
-        if shouldShowAnnouncementCard {
-            cellTypes.append(.announcement)
-        }
         cellTypes.append(.balance)
         if shouldShowNotice {
             cellTypes.append(.notice)
@@ -71,6 +89,16 @@ final class DashboardScreenPresenter {
         
         let assetCells: [CellType] = CryptoCurrency.all.map { return .crypto($0) }
         assetCells.forEach { cellTypes.append($0) }
+        
+        switch announcementCardArrangement {
+        case .top: // Prepend
+            cellTypes = [.announcement] + cellTypes
+        case .bottom: // Append
+            cellTypes += [.announcement]
+        case .none:
+            break
+        }
+        
         return cellTypes
     }
     
@@ -78,6 +106,10 @@ final class DashboardScreenPresenter {
         let firstCrypto = historicalBalanceCellPresenters[0].cryptoCurrency
         let firstCryptoCellType = CellType.crypto(firstCrypto)
         return indexByCellType[firstCryptoCellType]!
+    }
+    
+    var announcementCellIndex: Int? {
+        return indexByCellType[.announcement]
     }
         
     var indexByCellType: [CellType: Int] {
@@ -91,8 +123,16 @@ final class DashboardScreenPresenter {
     // MARK: - Announcement
     
     /// `true` in case a card announcement should show
-    var shouldShowAnnouncementCard: Bool {
-        return announcementCardViewModel != nil
+    var announcementCardArrangement: AnnouncementArrangement {
+        guard let announcementCardViewModel = announcementCardViewModel else {
+            return .none
+        }
+        switch announcementCardViewModel.priority {
+        case .high:
+            return .top
+        case .low:
+            return .bottom
+        }
     }
         
     var cardState = DashboardItemState.hidden

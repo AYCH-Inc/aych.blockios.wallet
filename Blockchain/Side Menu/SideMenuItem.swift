@@ -18,6 +18,7 @@ enum SideMenuItem {
     case backup
     case buyBitcoin(PulseAction?)
     case logout
+    case airdrops
     case settings
     case support
     case upgrade
@@ -40,6 +41,8 @@ extension SideMenuItem {
             return .sideNavLogout
         case .settings:
             return .sideNavSettings
+        case .airdrops:
+            return .sideNavAirdropCenter
         case .support:
             return .sideNavSupport
         case .upgrade:
@@ -65,6 +68,8 @@ extension SideMenuItem {
             return LocalizationConstants.SideMenu.logout
         case .settings:
             return LocalizationConstants.SideMenu.settings
+        case .airdrops:
+            return LocalizationConstants.SideMenu.airdrops
         case .support:
             return LocalizationConstants.SideMenu.support
         case .upgrade:
@@ -88,6 +93,8 @@ extension SideMenuItem {
             return #imageLiteral(resourceName: "Icon-Buy")
         case .logout:
             return #imageLiteral(resourceName: "Icon-Logout")
+        case .airdrops:
+            return #imageLiteral(resourceName: "airdrop_icon")
         case .settings:
             return #imageLiteral(resourceName: "icon_settings")
         case .support:
@@ -111,6 +118,7 @@ extension SideMenuItem {
              .logout,
              .settings,
              .support,
+             .airdrops,
              .upgrade,
              .lockbox,
              .webLogin:

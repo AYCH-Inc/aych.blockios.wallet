@@ -142,6 +142,10 @@ final public class BlockchainAPI: NSObject {
         return Bundle.main.infoDictionary!["WALLET_SERVER"] as! String
     }
     
+    public var retailHost: String {
+        return Bundle.main.infoDictionary!["RETAIL_CORE_URL"] as! String
+    }
+    
     @objc public var apiUrl: String {
         return "https://\(apiHost)"
     }
@@ -157,8 +161,7 @@ final public class BlockchainAPI: NSObject {
     }
     
     @objc public var retailCoreUrl: String {
-        let host = Bundle.main.infoDictionary!["RETAIL_CORE_URL"] as! String
-        return "https://\(host)"
+        return "https://\(retailHost)"
     }
     
     @objc public var retailCoreSocketUrl: String {

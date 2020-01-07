@@ -8,7 +8,7 @@
 
 import PlatformUIKit
 
-struct AirdropIntroCellData {
+struct AirdropStatusCellData {
     
     struct CellContent {
         let text: String
@@ -19,14 +19,14 @@ struct AirdropIntroCellData {
     let value: CellContent
 }
 
-final class AirdropIntroCellPresenter {
+final class AirdropStatusCellPresenter {
     
     // MARK: - Properties
     
     let title: LabelContent
     let value: LabelContent
     
-    init(data: AirdropIntroCellData) {
+    init(data: AirdropStatusCellData) {
         title = LabelContent(
             text: data.title.text,
             font: .mainMedium(14),

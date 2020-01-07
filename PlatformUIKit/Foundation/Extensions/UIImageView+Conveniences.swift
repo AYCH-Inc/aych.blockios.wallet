@@ -13,7 +13,7 @@ public struct ImageViewContent {
     let image: UIImage?
     let accessibility: Accessibility
     
-    public init(image: UIImage?, accessibility: Accessibility = .none) {
+    public init(image: UIImage? = nil, accessibility: Accessibility = .none) {
         self.image = image
         self.accessibility = accessibility
     }

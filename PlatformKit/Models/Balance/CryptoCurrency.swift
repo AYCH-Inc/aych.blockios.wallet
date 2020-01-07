@@ -76,3 +76,12 @@ extension CryptoCurrency {
         return [.bitcoin, .ethereum, .bitcoinCash, .stellar, .pax]
     }()
 }
+
+extension CryptoCurrency {
+    init?(symbol: String) {
+        guard let value = CryptoCurrency.all.first(where: { $0.symbol == symbol }) else {
+            return nil
+        }
+        self = value
+    }
+}

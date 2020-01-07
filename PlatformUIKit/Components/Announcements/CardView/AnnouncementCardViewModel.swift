@@ -17,6 +17,12 @@ public final class AnnouncementCardViewModel {
 
     // MARK: - Types
 
+    /// The priority under which the announcement should show
+    public enum Priority {
+        case high
+        case low
+    }
+    
     /// The style of the background
     public struct Background {
 
@@ -77,10 +83,40 @@ public final class AnnouncementCardViewModel {
         case mini
     }
     
+    /// The interaction of the user with the card itself
+    public enum Interaction {
+        
+        /// The background is tappable
+        case tappable(() -> Void)
+        
+        /// No interaction
+        case none
+        
+        var isTappable: Bool {
+            switch self {
+            case .tappable:
+                return true
+            case .none:
+                return false
+            }
+        }
+    }
+    
     // MARK: - Properties
     
-    let type: AnnouncementType
+    public var priority: Priority {
+        switch type {
+        case .blockstackAirdropRegisteredMini:
+            return .low
+        default:
+            return .high
+        }
+    }
+    
     public let presentation: Presentation
+    
+    let type: AnnouncementType
+    let interaction: Interaction
     let background: Background
     let image: Image
     let title: String?
@@ -109,11 +145,7 @@ public final class AnnouncementCardViewModel {
             return nil
         }
     }
-    
-    var hasMiniCardAction: Bool {
-        return presentation == .mini && buttons.count == 1
-    }
-    
+        
     private let dismissState: DismissState
     private let recorder: ErrorRecording
     
@@ -135,6 +167,7 @@ public final class AnnouncementCardViewModel {
     
     public init(type: AnnouncementType,
                 presentation: Presentation = .regular,
+                interaction: Interaction = .none,
                 background: Background = .white,
                 image: Image,
                 title: String? = nil,
@@ -145,6 +178,7 @@ public final class AnnouncementCardViewModel {
                 didAppear: @escaping () -> Void) {
         self.type = type
         self.presentation = presentation
+        self.interaction = interaction
         self.background = background
         self.image = image
         self.title = title

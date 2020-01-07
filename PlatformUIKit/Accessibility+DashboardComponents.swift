@@ -36,6 +36,7 @@ extension Accessibility.Identifier {
             static let descriptionLabel = "\(prefix)descriptionLabel"
             static let imageView = "\(prefix)thumbImageView"
             static let dismissButton = "\(prefix)dismissButton"
+            static let backgroundButton = "\(prefix)backgroundButton"
         }
     }
 }

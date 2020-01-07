@@ -15,7 +15,10 @@ public struct LabelContent: Equatable {
     let color: UIColor
     let accessibility: Accessibility
     
-    public init(text: String, font: UIFont, color: UIColor, accessibility: Accessibility = .none) {
+    public init(text: String = "",
+                font: UIFont = .systemFont(ofSize: 12),
+                color: UIColor = .clear,
+                accessibility: Accessibility = .none) {
         self.text = text
         self.font = font
         self.color = color

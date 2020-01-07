@@ -174,7 +174,7 @@ class SideMenuPresenter {
             items.append(.buyBitcoin(pulseAction))
         }
         
-        items += [.support, .settings]
+        items += [.support, .airdrops, .settings]
         
         if pitConfiguration.isEnabled {
             items.append(.pit(pitTitle))

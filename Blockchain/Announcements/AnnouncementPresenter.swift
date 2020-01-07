@@ -23,6 +23,7 @@ final class AnnouncementPresenter: NSObject {
     private let appCoordinator: AppCoordinator
     private let featureConfigurator: FeatureConfiguring
     private let featureFetcher: FeatureFetching
+    private let airdropRouter: AirdropRouterAPI
     private let kycCoordinator: KYCCoordinator
     private let pitCoordinator: PitCoordinator
     private let wallet: Wallet
@@ -51,6 +52,7 @@ final class AnnouncementPresenter: NSObject {
     init(interactor: AnnouncementInteracting = AnnouncementInteractor(),
          featureConfigurator: FeatureConfiguring = AppFeatureConfigurator.shared,
          featureFetcher: FeatureFetching = AppFeatureConfigurator.shared,
+         airdropRouter: AirdropRouterAPI = AppCoordinator.shared.airdropRouter,
          appCoordinator: AppCoordinator = .shared,
          pitCoordinator: PitCoordinator = .shared,
          kycCoordinator: KYCCoordinator = .shared,
@@ -61,6 +63,7 @@ final class AnnouncementPresenter: NSObject {
         self.appCoordinator = appCoordinator
         self.pitCoordinator = pitCoordinator
         self.kycCoordinator = kycCoordinator
+        self.airdropRouter = airdropRouter
         self.reactiveWallet = reactiveWallet
         self.kycSettings = kycSettings
         self.featureConfigurator = featureConfigurator
@@ -99,6 +102,10 @@ final class AnnouncementPresenter: NSObject {
         for type in metadata.order {
             let announcement: Announcement
             switch type {
+            case .blockstackAirdropReceived:
+                announcement = receivedBlockstackAirdrop(
+                    hasReceivedBlockstackAirdrop: preliminaryData.hasReceivedBlockstackAirdrop
+                )
             case .kycBlockstackAirdrop:
                 announcement = kycBlockstackAirdrop(user: preliminaryData.user, tiers: preliminaryData.tiers)
             case .blockstackAirdropMini:
@@ -244,7 +251,7 @@ extension AnnouncementPresenter {
         return BitpayAnnouncement(dismiss: hideAnnouncement)
     }
     
-    // Computes Wallet-PIT linking announcement
+    /// Computes Wallet-PIT linking announcement
     private func pitLinking(user: NabuUser, variant: FeatureTestingVariant) -> Announcement {
         let isFeatureEnabled = featureConfigurator.configuration(for: .pitAnnouncement).isEnabled
         let shouldShowPitAnnouncement = isFeatureEnabled && !user.hasLinkedPITAccount
@@ -253,6 +260,20 @@ extension AnnouncementPresenter {
             variant: variant,
             dismiss: hideAnnouncement,
             action: pitCoordinator.start
+        )
+    }
+    
+    /// Computes an airdrop received card announcement
+    private func receivedBlockstackAirdrop(hasReceivedBlockstackAirdrop: Bool) -> Announcement {
+        return BlockstackAirdropReceivedAnnouncement(
+            hasReceivedBlockstackAirdrop: hasReceivedBlockstackAirdrop,
+            dismiss: hideAnnouncement,
+            action: { [weak self] in
+                self?.airdropRouter.presentAirdropStatusScreen(
+                    for: .blockstack,
+                    presentationType: .modalOverTopMost
+                )
+            }
         )
     }
     
@@ -288,6 +309,7 @@ extension AnnouncementPresenter {
     
     private func airdropRegisterd(user: NabuUser) -> Announcement {
         return AirdropRegisteredAnnouncementMini(
+            router: airdropRouter,
             airdropRegistered: user.isBlockstackAirdropRegistered
         )
     }

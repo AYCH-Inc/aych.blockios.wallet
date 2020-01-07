@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Localization
 
 /// The type of the text field
 public enum TextFieldType {

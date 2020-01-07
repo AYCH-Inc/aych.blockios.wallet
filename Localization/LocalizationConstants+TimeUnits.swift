@@ -8,53 +8,53 @@
 
 import Foundation
 
-extension LocalizationConstants {
+public extension LocalizationConstants {
     struct TimeUnit {
-        struct Singular {
-            static let hour = NSLocalizedString(
+        public struct Singular {
+            public static let hour = NSLocalizedString(
                 "hr",
                 comment: "Dashboard: balance component - hourly price movement"
             )
-            static let day = NSLocalizedString(
+            public static let day = NSLocalizedString(
                 "day",
                 comment: "Dashboard: balance component - daily price movement"
             )
-            static let week = NSLocalizedString(
+            public static let week = NSLocalizedString(
                 "week",
                 comment: "Dashboard: balance component - weekly price movement"
             )
-            static let month = NSLocalizedString(
+            public static let month = NSLocalizedString(
                 "month",
                 comment: "Dashboard: balance component - monthly price movement"
             )
-            static let year = NSLocalizedString(
+            public static let year = NSLocalizedString(
                 "year",
                 comment: "Dashboard: balance component - years price movement"
             )
         }
         
-        struct Plural {
-            static let hours = NSLocalizedString(
+        public struct Plural {
+            public static let hours = NSLocalizedString(
                 "hrs",
                 comment: "Dashboard: balance component - hourly price movement"
             )
-            static let days = NSLocalizedString(
+            public static let days = NSLocalizedString(
                 "days",
                 comment: "Dashboard: balance component - daily price movement"
             )
-            static let weeks = NSLocalizedString(
+            public static let weeks = NSLocalizedString(
                 "weeks",
                 comment: "Dashboard: balance component - weekly price movement"
             )
-            static let months = NSLocalizedString(
+            public static let months = NSLocalizedString(
                 "months",
                 comment: "Dashboard: balance component - monthly price movement"
             )
-            static let years = NSLocalizedString(
+            public static let years = NSLocalizedString(
                 "years",
                 comment: "Dashboard: balance component - years price movement"
             )
-            static let allTime = NSLocalizedString(
+            public static let allTime = NSLocalizedString(
                 "All Time",
                 comment: "Dashboard: balance component - years price movement"
             )

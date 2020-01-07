@@ -7,6 +7,7 @@
 //
 
 import PlatformKit
+import Localization
 
 public struct DashboardAsset {
     

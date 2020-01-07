@@ -9,6 +9,7 @@
 import RxSwift
 import RxRelay
 import RxCocoa
+import Localization
 
 /// A view model for text field
 public class TextFieldViewModel {

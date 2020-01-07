@@ -8,6 +8,7 @@
 
 import LocalAuthentication
 import PlatformKit
+import Localization
 
 public struct Biometry {
     

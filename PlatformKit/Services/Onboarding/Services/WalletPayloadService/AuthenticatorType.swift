@@ -34,19 +34,4 @@ public enum AuthenticatorType: Int, CaseIterable, Codable {
     public var isTwoFactor: Bool {
         return self != .standard
     }
-    
-    public var name: String {
-        switch self {
-        case .google:
-            return LocalizationConstants.AuthType.google
-        case .yubiKey:
-            return LocalizationConstants.AuthType.yubiKey
-        case .sms:
-            return LocalizationConstants.AuthType.sms
-        case .standard:
-            return ""
-        default: // Other are unsupported
-            return ""
-        }
-    }
 }

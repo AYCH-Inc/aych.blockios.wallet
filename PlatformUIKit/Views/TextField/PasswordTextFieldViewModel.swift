@@ -9,6 +9,7 @@
 import RxSwift
 import RxRelay
 import RxCocoa
+import Localization
 
 /// A view model that represents a password text field
 public final class PasswordTextFieldViewModel: TextFieldViewModel {

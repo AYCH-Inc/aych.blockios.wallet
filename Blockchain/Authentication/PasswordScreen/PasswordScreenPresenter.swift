@@ -6,9 +6,10 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import PlatformUIKit
 import RxSwift
 import RxRelay
+import ToolKit
+import PlatformUIKit
 
 final class PasswordScreenPresenter {
     
@@ -42,6 +43,7 @@ final class PasswordScreenPresenter {
     // TODO: Remove dependency
     private let authenticationCoordinator: AuthenticationCoordinator
     private let interactor: PasswordScreenInteracting
+    private let analyticsRecorder: AnalyticsEventRecording
     private let alertPresenter: AlertViewPresenter
     private let confirmHandler: ConfirmHandler
     private let dismissHandler: DismissHandler
@@ -56,11 +58,13 @@ final class PasswordScreenPresenter {
     
     init(authenticationCoordinator: AuthenticationCoordinator = .shared,
          alertPresenter: AlertViewPresenter = .shared,
+         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared,
          interactor: PasswordScreenInteracting,
          confirmHandler: @escaping ConfirmHandler,
          dismissHandler: @escaping DismissHandler) {
         self.authenticationCoordinator = authenticationCoordinator
         self.alertPresenter = alertPresenter
+        self.analyticsRecorder = analyticsRecorder
         self.interactor = interactor
         self.confirmHandler = confirmHandler
         self.dismissHandler = dismissHandler
@@ -124,6 +128,7 @@ final class PasswordScreenPresenter {
     }
     
     func viewWillAppear() {
+        analyticsRecorder.record(event: AnalyticsEvents.Onboarding.loginSecondPasswordViewed)
         authenticationCoordinator.isShowingSecondPasswordScreen = true
     }
 }

@@ -50,10 +50,12 @@ extension AnalyticsEvents {
     
     enum Onboarding: AnalyticsEvent {
         case walletCreation
-        case walletCreationError(error: String)
+        case walletCreationError
         case walletManualLogin
         case walletAutoPairingError
         case walletAutoPairing
+        case walletDashboard
+        case loginSecondPasswordViewed
         
         var name: String {
             switch self {
@@ -72,6 +74,12 @@ extension AnalyticsEvents {
             // User logs in automatically to the Wallet
             case .walletAutoPairing:
                 return "wallet_auto_pairing"
+            // User sees the dashboard
+            case .walletDashboard:
+                return "wallet_dashboard"
+            // User sees second password
+            case .loginSecondPasswordViewed:
+                return "login_second_password_viewed"
             }
         }
     }

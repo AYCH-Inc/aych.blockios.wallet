@@ -17,9 +17,7 @@ public enum AnnouncementType: String, Codable {
     case twoFA = "two_fa"
     case backupFunds = "backup_funds"
     case verifyIdentity = "kyc_incomplete"
-    case kycBlockstackAirdrop = "kyc_stx_airdrop"
     case blockstackAirdropReceived = "stx_airdrop_complete"
-    case blockstackAirdropMini = "kyc_stx_airdrop_mini"
     case blockstackAirdropRegisteredMini = "stx_registered_airdrop_mini"
     case swap = "swap"
     case pax = "pax"
@@ -32,12 +30,8 @@ public enum AnnouncementType: String, Codable {
         switch self {
         case .blockstackAirdropReceived:
             return .blockstackAirdropReceived
-        case .blockstackAirdropMini:
-            return .blockstackAirdropMini
         case .blockstackAirdropRegisteredMini:
             return .blockstackAirdropRegisteredMini
-        case .kycBlockstackAirdrop:
-            return .kycBlockstackAirdrop
         case .walletIntro:
             return .walletIntro
         case .verifyEmail:

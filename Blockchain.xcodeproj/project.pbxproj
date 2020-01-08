@@ -120,7 +120,6 @@
 		344C42E0227C4D4D00CFAC33 /* EthereumKeyPairDeriverMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344C42DF227C4D4D00CFAC33 /* EthereumKeyPairDeriverMock.swift */; };
 		344C42EB227C50C500CFAC33 /* EthereumTransactionEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344C42EA227C50C500CFAC33 /* EthereumTransactionEncoder.swift */; };
 		344C42ED227C8F2900CFAC33 /* EthereumTransactionEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344C42EC227C8F2900CFAC33 /* EthereumTransactionEncoderTests.swift */; };
-		344C7E8A239142B20021C126 /* AirdropKYCAnnouncementMini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344C7E89239142B20021C126 /* AirdropKYCAnnouncementMini.swift */; };
 		3455E1F42306CB77005E69BF /* HDPublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3455E1F32306CB77005E69BF /* HDPublicKey.swift */; };
 		3455E1FF2306CC01005E69BF /* Seed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3455E1FE2306CC01005E69BF /* Seed.swift */; };
 		3455E2012306CC82005E69BF /* Entropy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3455E2002306CC82005E69BF /* Entropy.swift */; };
@@ -212,9 +211,6 @@
 		34998C4F228F97D7005B5CDD /* ERC20BalanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34998C4E228F97D7005B5CDD /* ERC20BalanceService.swift */; };
 		34998C7E2290754E005B5CDD /* EthereumWalletAccountRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BE8B202285ED830097F535 /* EthereumWalletAccountRepositoryMock.swift */; };
 		349C4B99221887A500332BFF /* QRCodeScannerParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349C4B98221887A500332BFF /* QRCodeScannerParsing.swift */; };
-		349DBD242368D60000A05E46 /* BlockstackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349DBD232368D60000A05E46 /* BlockstackService.swift */; };
-		349DBD282368FDF700A05E46 /* BlockstackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349DBD232368D60000A05E46 /* BlockstackService.swift */; };
-		349DBD40236900AC00A05E46 /* BlockstackServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349DBD3F236900AC00A05E46 /* BlockstackServiceTests.swift */; };
 		34A0BBEA2225597400F349CD /* Importable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A0BBE92225597400F349CD /* Importable.swift */; };
 		34A0BC02222585BE00F349CD /* LegacyEthereumWalletMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A0BC01222585BE00F349CD /* LegacyEthereumWalletMock.swift */; };
 		34A3FEE222A1A9A1003AD20F /* ERC20BridgeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A3FEE122A1A9A1003AD20F /* ERC20BridgeAPI.swift */; };
@@ -442,7 +438,7 @@
 		3A1822A923846F03006D493B /* MultiActionViewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB1E24237379A800AA63D5 /* MultiActionViewInteractor.swift */; };
 		3A1822AA23846F61006D493B /* DashboardDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB1DE22373547C00AA63D5 /* DashboardDetailsViewController.swift */; };
 		3A1822AB23846F70006D493B /* MultiActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB1E152373720F00AA63D5 /* MultiActionTableViewCell.swift */; };
-		3A1822AC23846F7E006D493B /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		3A1822AC23846F7E006D493B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		3A1822AD23846F86006D493B /* CurrentBalanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB1E192373723000AA63D5 /* CurrentBalanceTableViewCell.swift */; };
 		3A1822AE2384705F006D493B /* MultiActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB1E1E2373790900AA63D5 /* MultiActionView.swift */; };
 		3A1822B5238486D4006D493B /* AssetLineChartTableViewCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC87BB237C938A007A44BD /* AssetLineChartTableViewCellPresenter.swift */; };
@@ -1665,16 +1661,12 @@
 		65A8DEF0235F5ADD00D06CAC /* DashboardScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A8DEEE235F5ADD00D06CAC /* DashboardScreenPresenter.swift */; };
 		65A8DEF2235F5AEA00D06CAC /* DashboardScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A8DEF1235F5AEA00D06CAC /* DashboardScreenInteractor.swift */; };
 		65A8DEF3235F5AEA00D06CAC /* DashboardScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A8DEF1235F5AEA00D06CAC /* DashboardScreenInteractor.swift */; };
-		65AE576A237595D600677025 /* KycBlockstackAirdropAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE5769237595D600677025 /* KycBlockstackAirdropAnnouncement.swift */; };
 		65AE57982375A2C700677025 /* UILabel+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE578D2375A2C700677025 /* UILabel+Conveniences.swift */; };
 		65AE57992375A2C700677025 /* UIImageView+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE57972375A2C700677025 /* UIImageView+Conveniences.swift */; };
 		65AE579A2375C0DC00677025 /* InfoScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE577523759A0E00677025 /* InfoScreenViewController.swift */; };
 		65AE579B2375C0DC00677025 /* InfoScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE577623759A0E00677025 /* InfoScreenPresenter.swift */; };
 		65AE579C2375C0DC00677025 /* InfoScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65AE577723759A0E00677025 /* InfoScreenViewController.xib */; };
 		65AE579D2375C0DC00677025 /* InfoScreen+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE577E23759A5D00677025 /* InfoScreen+Accessibility.swift */; };
-		65AE57A02375C12A00677025 /* InfoScreenContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE579F2375C12A00677025 /* InfoScreenContent.swift */; };
-		65AE57A12375C12A00677025 /* InfoScreenContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE579F2375C12A00677025 /* InfoScreenContent.swift */; };
-		65AE57A82375D45800677025 /* KycBlockstackAirdropAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE5769237595D600677025 /* KycBlockstackAirdropAnnouncement.swift */; };
 		65AE5D7223990C08001A4731 /* SharedKeyRepositoryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE5D7023990C08001A4731 /* SharedKeyRepositoryAPI.swift */; };
 		65AE5D7323990C08001A4731 /* PasswordRepositoryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE5D7123990C08001A4731 /* PasswordRepositoryAPI.swift */; };
 		65B24C5C239F9F9600004F15 /* AuthenticatorRepositoryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B24C5B239F9F9600004F15 /* AuthenticatorRepositoryAPI.swift */; };
@@ -1946,7 +1938,6 @@
 		65E91D6023BE478F00F82BD0 /* NavigationControllerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E91D5F23BE478F00F82BD0 /* NavigationControllerAPI.swift */; };
 		65E91D6223BE479E00F82BD0 /* ViewControllerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E91D6123BE479E00F82BD0 /* ViewControllerAPI.swift */; };
 		65E91D7123BE61AA00F82BD0 /* AirdropCampaigns+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E91D7023BE61AA00F82BD0 /* AirdropCampaigns+Mock.swift */; };
-		65E91D7323BE698500F82BD0 /* AirdropKYCAnnouncementMini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344C7E89239142B20021C126 /* AirdropKYCAnnouncementMini.swift */; };
 		65E91D7423BE698500F82BD0 /* AirdropRegisteredAnnouncementMini.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413E3C8238FECA600B69C45 /* AirdropRegisteredAnnouncementMini.swift */; };
 		65E91D7523BE69A000F82BD0 /* Accessibility+Airdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656766E023BA3D6A005DFCCC /* Accessibility+Airdrop.swift */; };
 		65E91D7623BE69A000F82BD0 /* AirdropRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656766FB23BB7DAE005DFCCC /* AirdropRouter.swift */; };
@@ -1973,7 +1964,7 @@
 		65EEA0DB236713D000BAD26A /* NoticeDisplayAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EEA0D9236713D000BAD26A /* NoticeDisplayAction.swift */; };
 		65EEA0DD2367277800BAD26A /* DashboardNoticePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EEA0DC2367277800BAD26A /* DashboardNoticePresenter.swift */; };
 		65EEA0DE2367277800BAD26A /* DashboardNoticePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EEA0DC2367277800BAD26A /* DashboardNoticePresenter.swift */; };
-		65F20AB623326D4C00CA4410 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		65F20AB623326D4C00CA4410 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		65F5E70122C36D0D00D00F50 /* QRAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F5E70022C36D0D00D00F50 /* QRAddressView.swift */; };
 		65F5E70222C36D0D00D00F50 /* QRAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F5E70022C36D0D00D00F50 /* QRAddressView.swift */; };
 		65F5E70422C36D1F00D00F50 /* QRAddressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65F5E70322C36D1F00D00F50 /* QRAddressView.xib */; };
@@ -3274,7 +3265,6 @@
 		344C42DF227C4D4D00CFAC33 /* EthereumKeyPairDeriverMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumKeyPairDeriverMock.swift; sourceTree = "<group>"; };
 		344C42EA227C50C500CFAC33 /* EthereumTransactionEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionEncoder.swift; sourceTree = "<group>"; };
 		344C42EC227C8F2900CFAC33 /* EthereumTransactionEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionEncoderTests.swift; sourceTree = "<group>"; };
-		344C7E89239142B20021C126 /* AirdropKYCAnnouncementMini.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropKYCAnnouncementMini.swift; sourceTree = "<group>"; };
 		3455E1F32306CB77005E69BF /* HDPublicKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDPublicKey.swift; sourceTree = "<group>"; };
 		3455E1FE2306CC01005E69BF /* Seed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seed.swift; sourceTree = "<group>"; };
 		3455E2002306CC82005E69BF /* Entropy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entropy.swift; sourceTree = "<group>"; };
@@ -3344,8 +3334,6 @@
 		34998C41228F7061005B5CDD /* EthereumTransactionSendingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumTransactionSendingService.swift; sourceTree = "<group>"; };
 		34998C4E228F97D7005B5CDD /* ERC20BalanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ERC20BalanceService.swift; sourceTree = "<group>"; };
 		349C4B98221887A500332BFF /* QRCodeScannerParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerParsing.swift; sourceTree = "<group>"; };
-		349DBD232368D60000A05E46 /* BlockstackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockstackService.swift; sourceTree = "<group>"; };
-		349DBD3F236900AC00A05E46 /* BlockstackServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockstackServiceTests.swift; sourceTree = "<group>"; };
 		34A0BBE92225597400F349CD /* Importable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Importable.swift; sourceTree = "<group>"; };
 		34A0BC01222585BE00F349CD /* LegacyEthereumWalletMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyEthereumWalletMock.swift; sourceTree = "<group>"; };
 		34A3FEE122A1A9A1003AD20F /* ERC20BridgeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ERC20BridgeAPI.swift; sourceTree = "<group>"; };
@@ -5635,14 +5623,12 @@
 		65A8DEE9235F5A1300D06CAC /* DashboardViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DashboardViewController.xib; sourceTree = "<group>"; };
 		65A8DEEE235F5ADD00D06CAC /* DashboardScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardScreenPresenter.swift; sourceTree = "<group>"; };
 		65A8DEF1235F5AEA00D06CAC /* DashboardScreenInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardScreenInteractor.swift; sourceTree = "<group>"; };
-		65AE5769237595D600677025 /* KycBlockstackAirdropAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KycBlockstackAirdropAnnouncement.swift; sourceTree = "<group>"; };
 		65AE577523759A0E00677025 /* InfoScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoScreenViewController.swift; sourceTree = "<group>"; };
 		65AE577623759A0E00677025 /* InfoScreenPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoScreenPresenter.swift; sourceTree = "<group>"; };
 		65AE577723759A0E00677025 /* InfoScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoScreenViewController.xib; sourceTree = "<group>"; };
 		65AE577E23759A5D00677025 /* InfoScreen+Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InfoScreen+Accessibility.swift"; sourceTree = "<group>"; };
 		65AE578D2375A2C700677025 /* UILabel+Conveniences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Conveniences.swift"; sourceTree = "<group>"; };
 		65AE57972375A2C700677025 /* UIImageView+Conveniences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Conveniences.swift"; sourceTree = "<group>"; };
-		65AE579F2375C12A00677025 /* InfoScreenContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoScreenContent.swift; sourceTree = "<group>"; };
 		65AE5D6323990AAA001A4731 /* PinLoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinLoginService.swift; sourceTree = "<group>"; };
 		65AE5D6423990AAA001A4731 /* PinLoginServiceAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinLoginServiceAPI.swift; sourceTree = "<group>"; };
 		65AE5D7023990C08001A4731 /* SharedKeyRepositoryAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedKeyRepositoryAPI.swift; sourceTree = "<group>"; };
@@ -7405,19 +7391,10 @@
 			path = ERC20Token;
 			sourceTree = "<group>";
 		};
-		349DBD192368D5E500A05E46 /* Blockstack */ = {
-			isa = PBXGroup;
-			children = (
-				349DBD232368D60000A05E46 /* BlockstackService.swift */,
-			);
-			path = Blockstack;
-			sourceTree = "<group>";
-		};
 		349DBD352369009800A05E46 /* Blockstack */ = {
 			isa = PBXGroup;
 			children = (
 				347E57A0236933780034B58B /* Mocks */,
-				349DBD3F236900AC00A05E46 /* BlockstackServiceTests.swift */,
 			);
 			path = Blockstack;
 			sourceTree = "<group>";
@@ -10244,7 +10221,6 @@
 		602B9CA62118E15200BD3D60 /* KYC */ = {
 			isa = PBXGroup;
 			children = (
-				65AE579E2375C11500677025 /* Info */,
 				3A7293D3225BA4A100F17646 /* Coinify */,
 				3A7EB14922209E9700C7E455 /* Onboarding */,
 				3AFDD8B12200D60A00CA7A21 /* Permissions */,
@@ -12345,7 +12321,6 @@
 			isa = PBXGroup;
 			children = (
 				653333AC230D83D9008B3ADF /* VerifyEmailAnnouncement.swift */,
-				344C7E89239142B20021C126 /* AirdropKYCAnnouncementMini.swift */,
 				3413E3C8238FECA600B69C45 /* AirdropRegisteredAnnouncementMini.swift */,
 			);
 			path = Persistent;
@@ -12374,7 +12349,6 @@
 				652CDFFA230FDC000044E899 /* BitpayAnnouncement.swift */,
 				6509998322E1F7FD0092BFB9 /* ResubmitDocumentsAnnouncement.swift */,
 				6509997922E1DCBC0092BFB9 /* CoinifyKycAnnouncement.swift */,
-				65AE5769237595D600677025 /* KycBlockstackAirdropAnnouncement.swift */,
 				656766EA23BA7854005DFCCC /* BlockstackAirdropReceivedAnnouncement.swift */,
 			);
 			path = OneTime;
@@ -13008,14 +12982,6 @@
 				65AE577E23759A5D00677025 /* InfoScreen+Accessibility.swift */,
 			);
 			path = InfoScreen;
-			sourceTree = "<group>";
-		};
-		65AE579E2375C11500677025 /* Info */ = {
-			isa = PBXGroup;
-			children = (
-				65AE579F2375C12A00677025 /* InfoScreenContent.swift */,
-			);
-			path = Info;
 			sourceTree = "<group>";
 		};
 		65AEB84C233CFB860093561F /* UserProperty */ = {
@@ -14485,7 +14451,6 @@
 				AABF8FFF219E35CA004E8C12 /* Settings */,
 				34DED978232A6B3F000BA63B /* Bitcoin */,
 				34E1C1D722244941006E70D3 /* Ethereum */,
-				349DBD192368D5E500A05E46 /* Blockstack */,
 				347B69F722CBA761002C80E9 /* LegacyWalletAPI.swift */,
 				3441720A233278BF008C32CA /* SecondPasswordPromptable.swift */,
 			);
@@ -18173,7 +18138,7 @@
 				AACE31CD2092A99B00B7B806 /* BitcoinCashAddress.swift in Sources */,
 				65B6E1482371783000259CA2 /* Wallet+Rx.swift in Sources */,
 				653C42112345F99500AAD154 /* AnalyticsEvents+Blockchain.swift in Sources */,
-				65F20AB623326D4C00CA4410 /* BuildFile in Sources */,
+				65F20AB623326D4C00CA4410 /* (null) in Sources */,
 				6541551222C54A2300E78814 /* ReceivedPaymentDetails.swift in Sources */,
 				602B9D0B2118E23200BD3D60 /* KYCInformationController.swift in Sources */,
 				34A5121F225BB3D600C53DD6 /* AccessibilityIdentifiers.swift in Sources */,
@@ -18216,7 +18181,6 @@
 				3A4075A22321868100A9BE50 /* SwapWalletIntroductionEvent.swift in Sources */,
 				AAC9FCEF20AE456400E28B7A /* WalletTransactionDelegate.swift in Sources */,
 				3A8A1D4823874941008E0679 /* AssetLineChartTableViewCellPresenting.swift in Sources */,
-				65AE57A82375D45800677025 /* KycBlockstackAirdropAnnouncement.swift in Sources */,
 				3AFDD8B42200D64300CA7A21 /* PermissionsRequestor.swift in Sources */,
 				AA63F84C20A12AE9002B719B /* URLs.swift in Sources */,
 				3AAEF96221421C6F005852D1 /* TextCell.swift in Sources */,
@@ -18486,7 +18450,7 @@
 				651060F92356447400C871C0 /* PasswordRequiredViewController.swift in Sources */,
 				65B54184230C687300D04A2E /* SendInteractorTests.swift in Sources */,
 				654154F622C4F0CA00E78814 /* DisplayAddressStatus.swift in Sources */,
-				3A1822AC23846F7E006D493B /* BuildFile in Sources */,
+				3A1822AC23846F7E006D493B /* (null) in Sources */,
 				34BD9736221B123000D40D4C /* PairingCodeQRCodeParser.swift in Sources */,
 				602B9D1D2118E26900BD3D60 /* KYCCountry.swift in Sources */,
 				602B9D0A2118E22B00BD3D60 /* KYCNetworkRequest.swift in Sources */,
@@ -18500,7 +18464,6 @@
 				3A40759F2321867900A9BE50 /* HomeWalletIntroductionEvent.swift in Sources */,
 				C732DF1E2200BC6B00F3687A /* DeepLinkRouting.swift in Sources */,
 				6512847323423869008776DC /* SendPitAddressStatePresenter.swift in Sources */,
-				349DBD40236900AC00A05E46 /* BlockstackServiceTests.swift in Sources */,
 				F7B8C84321A5EB81005CAA0D /* DeepLinkPayloadTests.swift in Sources */,
 				65B54186230C687300D04A2E /* SendDestinationInteractorTests.swift in Sources */,
 				C7A85928217A294000502935 /* Identifiable.swift in Sources */,
@@ -18548,7 +18511,6 @@
 				65F5E70222C36D0D00D00F50 /* QRAddressView.swift in Sources */,
 				AA46ECB2219A14310077B351 /* KYCDocumentType.swift in Sources */,
 				6587FD3322F9863F00206575 /* SendSourceAccountCellPresenter.swift in Sources */,
-				65AE57A12375C12A00677025 /* InfoScreenContent.swift in Sources */,
 				C73037AB218B508C00F38BA8 /* InformationViewController.swift in Sources */,
 				602B9D132118E24C00BD3D60 /* SearchControllerDelegate.swift in Sources */,
 				3ADFE6EE214862E000E7E2D5 /* ExchangeInputComponent.swift in Sources */,
@@ -18565,7 +18527,6 @@
 				6510614423572A1400C871C0 /* AutoPairingViewController.swift in Sources */,
 				3A78F28E230CADAB005398DC /* BitPayMemo.swift in Sources */,
 				5159C3212109156400955BD6 /* KYCCountrySelectionControllerTests.swift in Sources */,
-				349DBD282368FDF700A05E46 /* BlockstackService.swift in Sources */,
 				65B77D4722F99D69009AE141 /* SendDestinationAccountInteractor.swift in Sources */,
 				65EEA0DB236713D000BAD26A /* NoticeDisplayAction.swift in Sources */,
 				65E91D8423BE69A000F82BD0 /* AirdropTypeCellInteractor.swift in Sources */,
@@ -18711,7 +18672,6 @@
 				65CCEA21232B92E100D78987 /* ExternalNotificationServiceProvider.swift in Sources */,
 				AABE35EC21939AC00001AE4A /* WalletError.swift in Sources */,
 				AA447BDB2127BC1100EC0FA0 /* SideMenuViewController.swift in Sources */,
-				65E91D7323BE698500F82BD0 /* AirdropKYCAnnouncementMini.swift in Sources */,
 				657FDA0D22FE1BF50090C1D7 /* SendRouter.swift in Sources */,
 				3A8A1D4523874721008E0679 /* AssetLineChartPresenterContainer.swift in Sources */,
 				AA47709D211B7BC3006356B1 /* BottomButtonContainerView.swift in Sources */,
@@ -18887,7 +18847,6 @@
 				670595A41AB0F59D00D2D6D9 /* KeychainItemWrapper.m in Sources */,
 				3A3D5DD0211CA2CD00E6C241 /* PersonalDetailsInterface.swift in Sources */,
 				AAFA97B5211511D000D19ED3 /* Settings+Helpers.swift in Sources */,
-				65AE576A237595D600677025 /* KycBlockstackAirdropAnnouncement.swift in Sources */,
 				6509999322E224970092BFB9 /* PITLinkingAnnouncement.swift in Sources */,
 				606399F62110FC2D005B6DF5 /* SRError.m in Sources */,
 				3AB5EB4C2347DEAA00A11BD6 /* WelcomeScreenPresenter.swift in Sources */,
@@ -19243,7 +19202,6 @@
 				65E4B50F22CE180500EAC3CD /* AppSettingsFeaturing.swift in Sources */,
 				606399E22110FC2D005B6DF5 /* SRSecurityPolicy.m in Sources */,
 				23107F831BBEF0AC00A6A9D4 /* BCConfirmPaymentView.m in Sources */,
-				349DBD242368D60000A05E46 /* BlockstackService.swift in Sources */,
 				602B9CE72118E15300BD3D60 /* KYCCountry.swift in Sources */,
 				3AD7EE7621124F0C006B924F /* ValidationTextField.swift in Sources */,
 				65550E8722BE671F00522656 /* DigitPadViewModel.swift in Sources */,
@@ -19567,7 +19525,6 @@
 				3AFD18AF21221D95007145EA /* KYCPageModel.swift in Sources */,
 				653159FE22F4B6220018ED32 /* BridgeDeepLinkQRCodeRouter.swift in Sources */,
 				AAC9FCEE20AE456400E28B7A /* WalletTransactionDelegate.swift in Sources */,
-				344C7E8A239142B20021C126 /* AirdropKYCAnnouncementMini.swift in Sources */,
 				65550E7B22BE671F00522656 /* SecurePinView.swift in Sources */,
 				6567FDF822CA0BFE0035CB16 /* PaymentPresenter.swift in Sources */,
 				3A742842237BA38200A96CF6 /* AssetLineChartInteractor.swift in Sources */,
@@ -19592,7 +19549,6 @@
 				23444F841DCD217000573C8C /* NSData+BTCData.m in Sources */,
 				3A1552ED2136EAF000683CEB /* TradeLimits.swift in Sources */,
 				65639BEA23B65E7F00869483 /* AirdropTypeCellInteractor.swift in Sources */,
-				65AE57A02375C12A00677025 /* InfoScreenContent.swift in Sources */,
 				34615BC4225F809D00CEC8C4 /* ERC20AccountAPIClient.swift in Sources */,
 				34BA9FC922B13B5E00A5698F /* PaxEmptyStateView.swift in Sources */,
 				3AECA26422CFE1AA004ED7B7 /* PITAccountRepository.swift in Sources */,
@@ -20690,12 +20646,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -20776,12 +20732,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -20862,12 +20818,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -20931,12 +20887,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -20984,12 +20940,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -21359,12 +21315,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -21443,12 +21399,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -21527,12 +21483,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -21594,12 +21550,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -21645,12 +21601,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -22017,12 +21973,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -22103,12 +22059,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -22189,12 +22145,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -22258,12 +22214,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -22311,12 +22267,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -22687,12 +22643,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -22772,12 +22728,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -22857,12 +22813,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -22924,12 +22880,12 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -22975,12 +22931,12 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -23349,13 +23305,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -23436,13 +23392,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -23523,13 +23479,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -23593,13 +23549,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -23647,13 +23603,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -24022,13 +23978,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -24109,13 +24065,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -24196,13 +24152,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -24266,13 +24222,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -24320,13 +24276,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -24695,12 +24651,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -24780,12 +24736,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -24865,12 +24821,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -24932,12 +24888,12 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -25565,12 +25521,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -25650,12 +25606,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -25735,12 +25691,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -25820,12 +25776,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -25887,12 +25843,12 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -26291,12 +26247,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -26376,12 +26332,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -26461,12 +26417,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -26546,12 +26502,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -26613,12 +26569,12 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -26682,12 +26638,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -26767,12 +26723,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -26852,12 +26808,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -26937,12 +26893,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -27004,12 +26960,12 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -27413,12 +27369,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -27498,12 +27454,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -27583,12 +27539,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -27650,12 +27606,12 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -27983,13 +27939,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -28068,13 +28024,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -28153,13 +28109,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -28221,13 +28177,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -28273,13 +28229,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -28379,7 +28335,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2.7.1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = YES;
@@ -28499,7 +28455,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2.7.1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = YES;
@@ -28619,7 +28575,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2.7.1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -28743,7 +28699,10 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
-				"WARNING_CFLAGS[arch=*]" = "-fdiagnostics-show-option -Wno-nullability-completeness";
+				"WARNING_CFLAGS[arch=*]" = (
+					"-fdiagnostics-show-option",
+					"-Wno-nullability-completeness",
+				);
 			};
 			name = "Debug Production";
 		};
@@ -28824,7 +28783,10 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
-				"WARNING_CFLAGS[arch=*]" = "-fdiagnostics-show-option -Wno-nullability-completeness";
+				"WARNING_CFLAGS[arch=*]" = (
+					"-fdiagnostics-show-option",
+					"-Wno-nullability-completeness",
+				);
 			};
 			name = "Debug Staging";
 		};
@@ -28905,7 +28867,12 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blockchain.app/Blockchain";
-				"WARNING_CFLAGS[arch=*]" = "-fdiagnostics-show-option -Wno-nullability-completeness -Wno-incompatible-property-type -Wno-objc-property-synthesis";
+				"WARNING_CFLAGS[arch=*]" = (
+					"-fdiagnostics-show-option",
+					"-Wno-nullability-completeness",
+					"-Wno-incompatible-property-type",
+					"-Wno-objc-property-synthesis",
+				);
 			};
 			name = "Debug Dev";
 		};
@@ -29026,7 +28993,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2.7.1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = YES;
@@ -29145,7 +29112,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2.7.1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = NZ6PH75U7K;
 				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -29255,12 +29222,12 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -29345,12 +29312,12 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -29396,12 +29363,12 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -29487,12 +29454,12 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -29578,12 +29545,12 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

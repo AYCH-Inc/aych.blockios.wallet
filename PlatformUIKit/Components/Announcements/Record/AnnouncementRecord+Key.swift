@@ -14,7 +14,6 @@ extension AnnouncementRecord {
         
         case walletIntro = "announcement-cache-wallet-intro"
         case verifyEmail = "announcement-cache-email-verification"
-        case blockstackAirdropMini = "announcement-cache-kyc-stx-airdrop-mini"
         case blockstackAirdropRegisteredMini = "announcement-cache-stx-registered-airdrop-mini"
         
         // MARK: - Periodic
@@ -29,7 +28,6 @@ extension AnnouncementRecord {
         // MARK: - One Time
         
         case blockstackAirdropReceived = "announcement-cache-kyc-stx-airdrop-received"
-        case kycBlockstackAirdrop = "announcement-cache-kyc-stx-airdrop"
         case identityVerification = "announcement-cache-identity-verification"
         case pax = "announcement-cache-pax"
         case pit = "announcement-cache-pit"

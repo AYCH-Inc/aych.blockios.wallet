@@ -64,8 +64,6 @@ extension AuthenticationCoordinator: ManualPairingWalletFetching {
         repository: walletManager.repository
     )
     
-    private let blockstackService: BlockstackServiceAPI
-
     private let deepLinkRouter: DeepLinkRouter
     private let pitRepository: PITAccountRepositoryAPI
         
@@ -86,7 +84,6 @@ extension AuthenticationCoordinator: ManualPairingWalletFetching {
         onboardingSettings: BlockchainSettings.Onboarding = .shared,
         wallet: Wallet = WalletManager.shared.wallet,
         alertPresenter: AlertViewPresenter = AlertViewPresenter.shared,
-        blockstackService: BlockstackServiceAPI & AnalyticsEventRecordable = BlockstackService(),
         walletManager: WalletManager = WalletManager.shared,
         loadingViewPresenter: LoadingViewPresenting = LoadingViewPresenter.shared,
         dataRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
@@ -106,13 +103,9 @@ extension AuthenticationCoordinator: ManualPairingWalletFetching {
        remoteNotificationAuthorizer = remoteNotificationServiceContainer.authorizer
        remoteNotificationTokenSender = remoteNotificationServiceContainer.tokenSender
        self.pitRepository = pitRepository
-       self.blockstackService = blockstackService
        super.init()
        self.walletManager.secondPasswordDelegate = self
        self.walletManager.authDelegate = self
-        
-       blockstackService.use(eventRecorder: AnalyticsEventRecorder.shared)
-   
     }
     
     /// Authentication handler - this should not be in AuthenticationCoordinator
@@ -182,12 +175,6 @@ extension AuthenticationCoordinator: ManualPairingWalletFetching {
     }
 
     func handlePostAuthenticationLogic() {
-        
-        // Handle STX Airdrop registration
-        self.blockstackService.registerForCampaignIfNeeded
-            .subscribe()
-            .disposed(by: self.bag)
-        
         if let route = postAuthenticationRoute {
             switch route {
             case .sendCoins:

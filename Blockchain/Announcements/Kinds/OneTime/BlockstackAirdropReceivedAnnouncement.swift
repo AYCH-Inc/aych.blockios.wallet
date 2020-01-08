@@ -32,7 +32,7 @@ final class BlockstackAirdropReceivedAnnouncement: OneTimeAnnouncement & Actiona
             .disposed(by: disposeBag)
                     
         return AnnouncementCardViewModel(
-            type: .kycBlockstackAirdrop,
+            type: type,
             image: .init(name: "blockstack_icon"),
             title: LocalizedString.title,
             description: LocalizedString.description,

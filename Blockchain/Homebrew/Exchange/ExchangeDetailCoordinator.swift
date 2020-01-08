@@ -100,7 +100,7 @@ class ExchangeDetailCoordinator: NSObject {
                         )
                         
                         let value = ExchangeCellModel.Plain(
-                            description: LocalizationConstants.Exchange.value,
+                            description: LocalizationConstants.Swap.value,
                             value: self.valueString(
                                 for: conversion.quote.currencyRatio.counter.fiat.value,
                                 currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol
@@ -114,7 +114,7 @@ class ExchangeDetailCoordinator: NSObject {
                         let feeAssetType = from.isERC20 ? .ethereum : from
                         
                         let fees = ExchangeCellModel.Plain(
-                            description: LocalizationConstants.Exchange.fees,
+                            description: LocalizationConstants.Swap.fees,
                             value: orderTransaction.fees + " " + feeAssetType.symbol,
                             backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1),
                             descriptionAccessibilityId: AccessibilityIdentifier.feesDescriptionLabel,
@@ -122,7 +122,7 @@ class ExchangeDetailCoordinator: NSObject {
                         )
                         
                         let receive = ExchangeCellModel.Plain(
-                            description: LocalizationConstants.Exchange.receive,
+                            description: LocalizationConstants.Swap.receive,
                             value: orderTransaction.amountToReceive + " " + TradingPair(string: conversion.quote.pair)!.to.symbol,
                             backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1),
                             bold: true,
@@ -131,7 +131,7 @@ class ExchangeDetailCoordinator: NSObject {
                         )
                         
                         let sendTo = ExchangeCellModel.Plain(
-                            description: LocalizationConstants.Exchange.sendTo,
+                            description: LocalizationConstants.Swap.sendTo,
                             value: name,
                             backgroundColor: #colorLiteral(red: 0.96, green: 0.97, blue: 0.98, alpha: 1),
                             descriptionAccessibilityId: AccessibilityIdentifier.destinationDescriptionLabel,
@@ -148,8 +148,8 @@ class ExchangeDetailCoordinator: NSObject {
                         )
                         
                         let footer = ActionableFooterModel(
-                            title: LocalizationConstants.Exchange.confirm,
-                            description: LocalizationConstants.Exchange.amountVariation +  " \n\n " + LocalizationConstants.Exchange.orderStartDisclaimer
+                            title: LocalizationConstants.Swap.confirm,
+                            description: LocalizationConstants.Swap.amountVariation +  " \n\n " + LocalizationConstants.Swap.orderStartDisclaimer
                         )
                         
                         self.current.cells = cellModels
@@ -185,7 +185,7 @@ class ExchangeDetailCoordinator: NSObject {
                         )
                         
                         let value = ExchangeCellModel.Plain(
-                            description: LocalizationConstants.Exchange.value,
+                            description: LocalizationConstants.Swap.value,
                             value: self.valueString(
                                 for: conversion.quote.currencyRatio.counter.fiat.value,
                                 currencyCode: conversion.quote.currencyRatio.counter.fiat.symbol
@@ -195,14 +195,14 @@ class ExchangeDetailCoordinator: NSObject {
                         )
                         
                         let fees = ExchangeCellModel.Plain(
-                            description: LocalizationConstants.Exchange.fees,
+                            description: LocalizationConstants.Swap.fees,
                             value: orderTransaction.fees + " " + orderTransaction.from.address.assetType.symbol,
                             descriptionAccessibilityId: AccessibilityIdentifier.feesDescriptionLabel,
                             valueAccessibilityId: AccessibilityIdentifier.feesValueLabel
                         )
                         
                         let receive = ExchangeCellModel.Plain(
-                            description: LocalizationConstants.Exchange.receive,
+                            description: LocalizationConstants.Swap.receive,
                             value: orderTransaction.amountToReceive + " " + TradingPair(string: conversion.quote.pair)!.to.symbol,
                             bold: true,
                             descriptionAccessibilityId: AccessibilityIdentifier.receiveDescriptionLabel,
@@ -210,14 +210,14 @@ class ExchangeDetailCoordinator: NSObject {
                         )
                         
                         let sendTo = ExchangeCellModel.Plain(
-                            description: LocalizationConstants.Exchange.sendTo,
+                            description: LocalizationConstants.Swap.sendTo,
                             value: name,
                             descriptionAccessibilityId: AccessibilityIdentifier.destinationDescriptionLabel,
                             valueAccessibilityId: AccessibilityIdentifier.destinationValueLabel
                         )
                         
                         var orderId = ExchangeCellModel.Plain(
-                            description: LocalizationConstants.Exchange.orderID,
+                            description: LocalizationConstants.Swap.orderID,
                             value: orderTransaction.orderIdentifier ?? "",
                             descriptionAccessibilityId: AccessibilityIdentifier.orderIdDescriptionLabel,
                             valueAccessibilityId: AccessibilityIdentifier.orderIdValueLabel
@@ -233,7 +233,7 @@ class ExchangeDetailCoordinator: NSObject {
                             )
                         }
                         
-                        let footer = ActionableFooterModel(title: LocalizationConstants.Exchange.done)
+                        let footer = ActionableFooterModel(title: LocalizationConstants.Swap.done)
                         
                         cellModels.append(contentsOf: [
                             .tradingPair(pair),
@@ -258,11 +258,11 @@ class ExchangeDetailCoordinator: NSObject {
                     appearance: NavigationBarAppearanceDark,
                     color: trade.alertModel != nil ? #colorLiteral(red: 0.41, green: 0.44, blue: 0.52, alpha: 1) : .brandPrimary
                 )
-                interface?.updateTitle(LocalizationConstants.Exchange.orderID + " " + trade.identifier)
+                interface?.updateTitle(LocalizationConstants.Swap.orderID + " " + trade.identifier)
                 interface?.navigationBarVisibility(.visible)
 
                 let status = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.status,
+                    description: LocalizationConstants.Swap.status,
                     value: trade.status.displayValue,
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
                     statusVisibility: .visible,
@@ -272,7 +272,7 @@ class ExchangeDetailCoordinator: NSObject {
                 )
 
                 let value = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.value,
+                    description: LocalizationConstants.Swap.value,
                     value: valueString(for: trade.amountFiatValue, currencyCode: trade.amountFiatSymbol),
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
                     descriptionAccessibilityId: AccessibilityIdentifier.fiatDescriptionLabel,
@@ -280,7 +280,7 @@ class ExchangeDetailCoordinator: NSObject {
                 )
 
                 let exchange = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.exchange,
+                    description: LocalizationConstants.Swap.exchange,
                     value: trade.amountDepositedCrypto,
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
                     descriptionAccessibilityId: AccessibilityIdentifier.cryptoDescriptionLabel,
@@ -288,7 +288,7 @@ class ExchangeDetailCoordinator: NSObject {
                 )
 
                 let receive = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.receive,
+                    description: LocalizationConstants.Swap.receive,
                     value: trade.amountReceivedCrypto,
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
                     bold: true,
@@ -297,7 +297,7 @@ class ExchangeDetailCoordinator: NSObject {
                 )
                 
                 var orderId = ExchangeCellModel.Plain(
-                    description: LocalizationConstants.Exchange.orderID,
+                    description: LocalizationConstants.Swap.orderID,
                     value: trade.identifier,
                     backgroundColor: #colorLiteral(red: 0.9450980392, green: 0.9529411765, blue: 0.9607843137, alpha: 1),
                     descriptionAccessibilityId: AccessibilityIdentifier.orderIdDescriptionLabel,
@@ -373,7 +373,7 @@ class ExchangeDetailCoordinator: NSObject {
                         extras: [WalletAction.ExtraKeys.assetType: transaction.from.address.assetType]
                     )
                     self.interface?.loadingVisibility(.hidden)
-                    ExchangeCoordinator.shared.handle(
+                    SwapCoordinator.shared.handle(
                         event: .sentTransaction(
                             orderTransaction: orderTransaction,
                             conversion: lastConversion
@@ -506,9 +506,9 @@ extension ExchangeDetailCoordinator {
     // MARK: AlertModel
     
     fileprivate func belowMinimumAlert(_ value: FiatValue) -> AlertModel {
-        let body = LocalizationConstants.Exchange.marketMovementMinimum + " " + value.toDisplayString()
+        let body = LocalizationConstants.Swap.marketMovementMinimum + " " + value.toDisplayString()
         return AlertModel(
-            headline: LocalizationConstants.Exchange.marketsMoving,
+            headline: LocalizationConstants.Swap.marketsMoving,
             body: body,
             actions: [updateOrderAction(), moreInfoAction()],
             style: .sheet
@@ -516,9 +516,9 @@ extension ExchangeDetailCoordinator {
     }
     
     fileprivate func aboveMaximumAlert(_ value: FiatValue) -> AlertModel {
-        let body = LocalizationConstants.Exchange.marketMovementMaximum + " " + value.toDisplayString()
+        let body = LocalizationConstants.Swap.marketMovementMaximum + " " + value.toDisplayString()
         return AlertModel(
-            headline: LocalizationConstants.Exchange.marketsMoving,
+            headline: LocalizationConstants.Swap.marketsMoving,
             body: body,
             actions: [updateOrderAction(), moreInfoAction()],
             style: .sheet
@@ -526,9 +526,9 @@ extension ExchangeDetailCoordinator {
     }
     
     fileprivate func aboveDailyAlert(_ value: FiatValue) -> AlertModel {
-        let body = LocalizationConstants.Exchange.dailyAnnualLimitExceeded + " " + value.toDisplayString()
+        let body = LocalizationConstants.Swap.dailyAnnualLimitExceeded + " " + value.toDisplayString()
         return AlertModel(
-            headline: LocalizationConstants.Exchange.holdHorses,
+            headline: LocalizationConstants.Swap.holdHorses,
             body: body,
             actions: [updateOrderAction(), moreInfoAction()],
             style: .sheet
@@ -536,9 +536,9 @@ extension ExchangeDetailCoordinator {
     }
     
     fileprivate func aboveAnnualAlert(_ value: FiatValue) -> AlertModel {
-        let body = LocalizationConstants.Exchange.dailyAnnualLimitExceeded + " " + value.toDisplayString()
+        let body = LocalizationConstants.Swap.dailyAnnualLimitExceeded + " " + value.toDisplayString()
         return AlertModel(
-            headline: LocalizationConstants.Exchange.holdHorses,
+            headline: LocalizationConstants.Swap.holdHorses,
             body: body,
             actions: [updateOrderAction(), increaseLimitsAction()],
             style: .sheet
@@ -547,8 +547,8 @@ extension ExchangeDetailCoordinator {
     
     fileprivate func aboveBalanceAlert(_ value: FiatValue) -> AlertModel {
         return AlertModel(
-            headline: LocalizationConstants.Exchange.marketsMoving,
-            body: LocalizationConstants.Exchange.marketMovementMaximum,
+            headline: LocalizationConstants.Swap.marketsMoving,
+            body: LocalizationConstants.Swap.marketMovementMaximum,
             actions: [updateOrderAction(), moreInfoAction()],
             style: .sheet
         )
@@ -556,8 +556,8 @@ extension ExchangeDetailCoordinator {
     
     fileprivate func albertErrorAlert() -> AlertModel {
         return AlertModel(
-            headline: LocalizationConstants.Exchange.oopsSomethingWentWrong,
-            body: LocalizationConstants.Exchange.oopsSwapDescription,
+            headline: LocalizationConstants.Swap.oopsSomethingWentWrong,
+            body: LocalizationConstants.Swap.oopsSwapDescription,
             actions: [tryAgainAction()],
             style: .sheet
         )
@@ -567,7 +567,7 @@ extension ExchangeDetailCoordinator {
     
     fileprivate func updateOrderAction() -> AlertAction {
         return AlertAction(
-            style: .confirm(LocalizationConstants.Exchange.updateOrder),
+            style: .confirm(LocalizationConstants.Swap.updateOrder),
             metadata: .pop
         )
     }
@@ -575,14 +575,14 @@ extension ExchangeDetailCoordinator {
     fileprivate func moreInfoAction() -> AlertAction {
         let url = URL(string: "https://support.blockchain.com/hc/en-us/articles/360023819571-Order-exceeds-wallet-balance")!
         return AlertAction(
-            style: .default(LocalizationConstants.Exchange.moreInfo),
+            style: .default(LocalizationConstants.Swap.moreInfo),
             metadata: .url(url)
         )
     }
     
     fileprivate func increaseLimitsAction() -> AlertAction {
         return AlertAction(
-            style: .default(LocalizationConstants.Exchange.increaseMyLimits),
+            style: .default(LocalizationConstants.Swap.increaseMyLimits),
             metadata: .block({ [weak self] in
                 guard let this = self else { return }
                 this.interface?.presentTiers()
@@ -592,7 +592,7 @@ extension ExchangeDetailCoordinator {
     
     fileprivate func tryAgainAction() -> AlertAction {
         return AlertAction(
-            style: .confirm(LocalizationConstants.Exchange.tryAgain),
+            style: .confirm(LocalizationConstants.Swap.tryAgain),
             metadata: .block({ [weak self] in
                 guard let this = self else { return }
                 guard case let .confirm(transaction, _) = this.current.pageType else { return }

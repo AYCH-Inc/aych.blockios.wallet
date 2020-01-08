@@ -135,8 +135,8 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
 
         var message: String {
             switch self {
-            case .aboveTradingLimit: return LocalizationConstants.Exchange.aboveTradingLimit
-            case .belowTradingLimit: return LocalizationConstants.Exchange.belowTradingLimit
+            case .aboveTradingLimit: return LocalizationConstants.Swap.aboveTradingLimit
+            case .belowTradingLimit: return LocalizationConstants.Swap.belowTradingLimit
             case .unknown: return LocalizationConstants.Errors.error
             }
         }

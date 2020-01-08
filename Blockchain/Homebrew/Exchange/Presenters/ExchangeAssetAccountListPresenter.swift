@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import Localization
 
 enum ExchangeAction {
     case exchanging
@@ -15,8 +16,8 @@ enum ExchangeAction {
 
     var title: String {
         switch self {
-        case .exchanging: return LocalizationConstants.Exchange.whatDoYouWantToExchange
-        case .receiving: return LocalizationConstants.Exchange.whatDoYouWantToReceive
+        case .exchanging: return LocalizationConstants.Swap.whatDoYouWantToExchange
+        case .receiving: return LocalizationConstants.Swap.whatDoYouWantToReceive
         }
     }
 }

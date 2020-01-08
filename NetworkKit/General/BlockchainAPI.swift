@@ -169,8 +169,8 @@ final public class BlockchainAPI: NSObject {
         return "wss://\(host)"
     }
     
-    @objc public var pitURL: String {
-        let host = Bundle.main.infoDictionary!["PIT_URL"] as! String
+    @objc public var exchangeURL: String {
+        let host = Bundle.main.infoDictionary!["EXCHANGE_URL"] as! String
         return "https://\(host)"
     }
     

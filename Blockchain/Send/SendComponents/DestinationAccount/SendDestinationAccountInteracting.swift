@@ -16,13 +16,13 @@ protocol SendDestinationAccountInteracting {
     /// The interacted asset
     var asset: AssetType { get }
     
-    /// Streams boolean value on whether the source account is connected to the PIT and has a valid PIT address
-    var hasPitAccount: Observable<Bool> { get }
+    /// Streams boolean value on whether the source account is connected to the Exchange and has a valid Exchange address
+    var hasExchangeAccount: Observable<Bool> { get }
     
-    /// Select PIT address
-    var pitSelectedRelay: PublishRelay<Bool> { get }
+    /// Select exchange address
+    var exchangeSelectedRelay: PublishRelay<Bool> { get }
     
-    /// Whether 2FA configuration is required to send to the PIT
+    /// Whether 2FA configuration is required to send crypto to the Exchange
     var isTwoFAConfigurationRequired: Observable<Bool> { get }
     
     /// The selected / inserted destination account state

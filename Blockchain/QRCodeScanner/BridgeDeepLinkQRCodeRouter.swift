@@ -10,7 +10,7 @@ import Foundation
 
 /// Legacy for old QR - should NOT be used in new components!
 @objc class BridgeDeepLinkQRCodeRouter: NSObject {
-    let router = DeepLinkQRCodeRouter(supportedRoutes: [.pitLinking])
+    let router = DeepLinkQRCodeRouter(supportedRoutes: [.exchangeLinking])
 
     @objc func handle(deepLink: String) -> Bool {
         return router.routeIfNeeded(using: deepLink)

@@ -56,7 +56,7 @@ class BlockstackServiceTests: XCTestCase {
     func test_register_for_airdrop() {
         // Arrange
         dataRepository.mockNabuUser = NabuUser(
-            hasLinkedPITAccount: false,
+            hasLinkedExchangeAccount: false,
             personalDetails: PersonalDetails(
                 id: "id",
                 first: "first",
@@ -85,7 +85,7 @@ class BlockstackServiceTests: XCTestCase {
                 next: .tier2
             ),
             needsDocumentResubmission: nil,
-            pitUserName: nil,
+            userName: nil,
             depositAddresses: [],
             settings: nil
         )

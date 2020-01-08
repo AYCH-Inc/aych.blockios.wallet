@@ -26,7 +26,7 @@ struct NabuUser: Decodable {
     let tiers: NabuUserTiers?
     let tags: Tags?
     let needsDocumentResubmission: DocumentResubmission?
-    let pitUserName: String?
+    let userName: String?
     let depositAddresses: [DepositAddress]?
     let settings: NabuUserSettings?
     
@@ -61,7 +61,7 @@ struct NabuUser: Decodable {
     }
 
     init(
-        hasLinkedPITAccount: Bool = false,
+        hasLinkedExchangeAccount: Bool = false,
         personalDetails: PersonalDetails?,
         address: UserAddress?,
         email: Email,
@@ -71,7 +71,7 @@ struct NabuUser: Decodable {
         tags: Tags?,
         tiers: NabuUserTiers?,
         needsDocumentResubmission: DocumentResubmission?,
-        pitUserName: String? = nil,
+        userName: String? = nil,
         depositAddresses: [DepositAddress]? = nil,
         settings: NabuUserSettings? = nil,
         kycCreationDate: String? = nil,
@@ -86,7 +86,7 @@ struct NabuUser: Decodable {
         self.tags = tags
         self.tiers = tiers
         self.needsDocumentResubmission = needsDocumentResubmission
-        self.pitUserName = pitUserName
+        self.userName = userName
         self.depositAddresses = depositAddresses
         self.settings = settings
         self.kycCreationDate = kycCreationDate
@@ -107,7 +107,7 @@ struct NabuUser: Decodable {
         address = try values.decodeIfPresent(UserAddress.self, forKey: .address)
         tiers = try values.decodeIfPresent(NabuUserTiers.self, forKey: .tiers)
         let birthdayValue = try values.decodeIfPresent(String.self, forKey: .dob)
-        pitUserName = try values.decodeIfPresent(String.self, forKey: .userName)
+        userName = try values.decodeIfPresent(String.self, forKey: .userName)
         settings = try values.decodeIfPresent(NabuUserSettings.self, forKey: .settings)
         let depositAddresses = try values.decodeIfPresent([String: String].self, forKey: .walletAddresses)
         
@@ -158,7 +158,7 @@ struct NabuUser: Decodable {
 }
 
 extension NabuUser {
-    var hasLinkedPITAccount: Bool {
+    var hasLinkedExchangeAccount: Bool {
         return settings != nil
     }
 }

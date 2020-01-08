@@ -16,9 +16,9 @@ extension SendBitcoinViewController {
     }
     
     @objc
-    func reportPitButtonClick() {
+    func reportExchangeButtonClick() {
         AnalyticsEventRecorder.shared.record(
-            event: AnalyticsEvents.Send.sendFormPitButtonClick(asset: asset)
+            event: AnalyticsEvents.Send.sendFormExchangeButtonClick(asset: asset)
         )
     }
     

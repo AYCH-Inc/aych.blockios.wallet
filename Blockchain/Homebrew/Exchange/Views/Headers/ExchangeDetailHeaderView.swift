@@ -54,6 +54,6 @@ struct ExchangeDetailHeaderModel {
 
 extension ExchangeDetailHeaderModel {
     static let locked: ExchangeDetailHeaderModel = ExchangeDetailHeaderModel(
-        title: LocalizationConstants.Exchange.exchangeLocked
+        title: LocalizationConstants.Swap.exchangeLocked
     )
 }

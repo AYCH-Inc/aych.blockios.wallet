@@ -36,13 +36,11 @@ final class AnnouncementTests: XCTestCase {
     
     // MARK: PIT
     
-    func testPitLinkingAnnouncementShows() {
+    func testExchangeLinkingAnnouncementShows() {
         let cache = MemoryCacheSuite()
-        let announcement = PITLinkingAnnouncement(
-            shouldShowPitAnnouncement: true,
-            variant: .variantA,
+        let announcement = ExchangeLinkingAnnouncement(
+            shouldShowExchangeAnnouncement: true,
             cacheSuite: cache,
-            variantFetcher: MockFeatureFetcher(),
             dismiss: {},
             action: {}
         )

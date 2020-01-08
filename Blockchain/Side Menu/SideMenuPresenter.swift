@@ -26,25 +26,25 @@ class SideMenuPresenter {
     
     // MARK: Public Properties
     
-    var presentationEvent: Driver<[SideMenuItem]> {
-        return introductionRelay.map { [weak self] in
-            guard let self = self else { return [] }
-            let pitTitle = self.pitTitleVariantRelay.value
-            switch $0 {
-            case .pulse(let model):
-                return self.menuItems(model.action, pitTitle: pitTitle)
-            case .sheet(let model):
-                self.buySellPlaceholderController.presentIntroductionViewModel(model)
-                return self.menuItems(pitTitle: pitTitle)
-            case .none:
-                return self.menuItems(pitTitle: pitTitle)
+    var presentationEvent: Signal<[SideMenuItem]> {
+        return introductionRelay
+            .asSignal()
+            .map { [weak self] type in
+                guard let self = self else { return [] }
+                switch type {
+                case .pulse(let model):
+                    return self.menuItems(model.action)
+                case .sheet(let model):
+                    self.buySellPlaceholderController.presentIntroductionViewModel(model)
+                    return self.menuItems()
+                case .none:
+                    return self.menuItems()
+                }
             }
-        }.asDriver(onErrorJustReturn: menuItems(pitTitle: pitTitleVariantRelay.value))
     }
     
-    var itemSelection: Driver<SideMenuItem> {
-        /// This should never throw an error.
-        return itemSelectionRelay.asDriver(onErrorJustReturn: .settings)
+    var itemSelection: Signal<SideMenuItem> {
+        return itemSelectionRelay.asSignal()
     }
 
     private weak var view: SideMenuView?
@@ -53,13 +53,12 @@ class SideMenuPresenter {
     private let variantFetcher: FeatureVariantFetching
     private let introductionRelay = PublishRelay<WalletIntroductionEventType>()
     private let itemSelectionRelay = PublishRelay<SideMenuItem>()
-    private let pitTitleVariantRelay = BehaviorRelay<String>(value: LocalizationConstants.SideMenu.PITMenuItem.titleA)
     
     // MARK: - Services
     
     private let wallet: Wallet
     private let walletService: WalletService
-    private let pitConfiguration: AppFeatureConfiguration
+    private let exchangeConfiguration: AppFeatureConfiguration
     private let analyticsRecorder: AnalyticsEventRecording
     private let disposeBag = DisposeBag()
     private var disposable: Disposable?
@@ -69,14 +68,14 @@ class SideMenuPresenter {
         wallet: Wallet = WalletManager.shared.wallet,
         walletService: WalletService = WalletService.shared,
         variantFetcher: FeatureVariantFetching = AppFeatureConfigurator.shared,
-        pitConfiguration: AppFeatureConfiguration = AppFeatureConfigurator.shared.configuration(for: .pitLinking),
+        exchangeConfiguration: AppFeatureConfiguration = AppFeatureConfigurator.shared.configuration(for: .exchangeLinking),
         onboardingSettings: BlockchainSettings.Onboarding = .shared,
         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     ) {
         self.view = view
         self.wallet = wallet
         self.walletService = walletService
-        self.pitConfiguration = pitConfiguration
+        self.exchangeConfiguration = exchangeConfiguration
         self.interactor = WalletIntroductionInteractor(onboardingSettings: onboardingSettings, screen: .sideMenu)
         self.analyticsRecorder = analyticsRecorder
         self.variantFetcher = variantFetcher
@@ -88,29 +87,14 @@ class SideMenuPresenter {
     }
 
     func loadSideMenu() {
-        let pitTitle = variantFetcher
-            .fetchTestingVariant(for: .pitSideNavigationVariant, onErrorReturn: .variantA)
-            .map { variant -> String in
-                switch variant {
-                case .variantA:
-                    return LocalizationConstants.SideMenu.PITMenuItem.titleA
-                case .variantB:
-                    return LocalizationConstants.SideMenu.PITMenuItem.titleB
-                case .variantC:
-                    return LocalizationConstants.SideMenu.PITMenuItem.titleC
-                }
-            }
-        
         let startingLocation = interactor.startingLocation
             .map { [weak self] location -> [WalletIntroductionEvent] in
                 return self?.startingWithLocation(location) ?? []
         }.catchErrorJustReturn([])
         
-        Single.zip(startingLocation, pitTitle)
-            .subscribe(onSuccess: { [weak self] result in
-                let events = result.0
+        startingLocation
+            .subscribe(onSuccess: { [weak self] events in
                 guard let self = self else { return }
-                self.pitTitleVariantRelay.accept(result.1)
                 self.execute(events: events)
                 }, onError: { [weak self] error in
                     guard let self = self else { return }
@@ -157,7 +141,7 @@ class SideMenuPresenter {
         triggerNextStep()
     }
 
-    private func menuItems(_ pulseAction: SideMenuItem.PulseAction? = nil, pitTitle: String) -> [SideMenuItem] {
+    private func menuItems(_ pulseAction: SideMenuItem.PulseAction? = nil) -> [SideMenuItem] {
         var items: [SideMenuItem] = [.accountsAndAddresses]
         
         if wallet.isLockboxEnabled() {
@@ -176,8 +160,8 @@ class SideMenuPresenter {
         
         items += [.support, .airdrops, .settings]
         
-        if pitConfiguration.isEnabled {
-            items.append(.pit(pitTitle))
+        if exchangeConfiguration.isEnabled {
+            items.append(.exchange)
         }
         
         return items

@@ -11,8 +11,8 @@ import Foundation
 /// The source of the address on the send screen
 enum SendAssetAddressSource {
     
-    /// PIT address (PIT button)
-    case pit
+    /// Exchange address (Exchange button)
+    case exchange
     
     /// Standard address (keyboard source)
     case standard

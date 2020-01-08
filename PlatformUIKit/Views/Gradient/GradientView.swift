@@ -19,7 +19,7 @@ public struct Gradient {
 }
 
 public extension Gradient {
-    static let pit: Gradient = .init(start: #colorLiteral(red: 0.3, green: 0.09, blue: 0.73, alpha: 1), end: #colorLiteral(red: 0.05, green: 0.09, blue: 0.09, alpha: 1))
+    static let exchange: Gradient = .init(start: #colorLiteral(red: 0.3, green: 0.09, blue: 0.73, alpha: 1), end: #colorLiteral(red: 0.05, green: 0.09, blue: 0.09, alpha: 1))
 }
 
 public enum Radius: Int {

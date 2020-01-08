@@ -1,18 +1,18 @@
 //
 //  LocalizationConstants.swift
 //  Localization
-//
+
 //  Created by AlexM on 1/6/20.
 //  Copyright © 2020 Blockchain Luxembourg S.A. All rights reserved.
-//
-
-import Foundation
 
 // swiftlint:disable line_length
 // swiftlint:disable identifier_name
 // swiftlint:disable type_body_length
+
+import Foundation
+
+//: Onboarding
 public struct LocalizationConstants {
-    
     public struct ObjCStrings {
         public static let  BC_STRING_ALL_WALLETS = NSLocalizedString("All Wallets", comment: "")
         public static let  BC_STRING_WALLETS = NSLocalizedString("Wallets", comment: "")
@@ -1514,22 +1514,18 @@ public struct LocalizationConstants {
                 comment: "Pax announcement card CTA button title"
             )
         }
-        public struct Pit {
+        public struct Exchange {
             public static let title = NSLocalizedString(
-                "Introducing The PIT",
-                comment: "PIT announcement card title"
+                "Introducing the Exchange",
+                comment: "Exchange announcement card title"
             )
-            public static let variantADescription = NSLocalizedString(
-                "Trade crypto & fiat on The PIT, Blockchain’s new lighting fast exchange.",
-                comment: "PIT announcement card description - variantA"
-            )
-            public static let variantBDescription = NSLocalizedString(
-                "Link your Wallet and trade crypto & fiat on The PIT, Blockchain’s new lighting fast exchange.",
-                comment: "PIT announcement card description - variantB"
+            public static let description = NSLocalizedString(
+                "It's time to Level Up to a better crypto exchange. Buy, sell, and trade more digital assets in the Blockchain.com Exchange.",
+                comment: "Exchange announcement card description"
             )
             public static let ctaButton = NSLocalizedString(
-                "Get Started",
-                comment: "PIT announcement card CTA button title"
+                "Checkout the Exchange",
+                comment: "Exchange announcement card CTA button title"
             )
         }
         public struct Bitpay {
@@ -1641,23 +1637,23 @@ public struct LocalizationConstants {
         }
     }
     
-    public struct PIT {
-        public static let title = NSLocalizedString("The PIT", comment: "The PIT")
+    public struct Exchange {
+        public static let title = NSLocalizedString("Exchange", comment: "Title for the Exchange")
         public static let connect = NSLocalizedString("Connect", comment: "Connect")
         public static let connected = NSLocalizedString("Connected", comment: "Connected")
-        public static let twoFactorNotEnabled = NSLocalizedString("Please enable 2FA on your PIT account to complete deposit.", comment: "User must have 2FA enabled to deposit from send.")
+        public static let twoFactorNotEnabled = NSLocalizedString("Please enable 2FA on your Exchange account to complete deposit.", comment: "User must have 2FA enabled to deposit from send.")
         public struct Alerts {
-            public static let connectingYou = NSLocalizedString("Connecting You To The PIT", comment: "Connecting You To The PIT")
+            public static let connectingYou = NSLocalizedString("Connecting You To The Exchange", comment: "Connecting You To The Exchange")
             public static let newWindow = NSLocalizedString("A new window should open within 10 seconds.", comment: "A new window should open within 10 seconds.")
             public static let success = NSLocalizedString("Success!", comment: "Success!")
-            public static let successDescription = NSLocalizedString("Please return to The PIT to complete account setup.", comment: "Please return to The PIT to complete account setup.")
+            public static let successDescription = NSLocalizedString("Please return to the Exchange to complete account setup.", comment: "Please return to the Exchange to complete account setup.")
             public static let error = NSLocalizedString("Connection Error", comment: "Connection Error")
-            public static let errorDescription = NSLocalizedString("We could not connect your Wallet to The PIT. Please try again", comment: "We could not connect your Wallet to The PIT. Please try again")
+            public static let errorDescription = NSLocalizedString("We could not connect your Wallet to The Exchange. Please try again", comment: "We could not connect your Wallet to The Exchange. Please try again")
         }
         public struct EmailVerification {
             public static let title = NSLocalizedString("Verify Your Email", comment: "")
             public static let description = NSLocalizedString(
-                "We just sent you a verification email. Your email address needs to be verified before you can connect to The PIT.",
+                "We just sent you a verification email. Your email address needs to be verified before you can connect to The Exchange.",
                 comment: ""
             )
             public static let didNotGetEmail = NSLocalizedString("Didn't get the email?", comment: "")
@@ -1666,31 +1662,31 @@ public struct LocalizationConstants {
             public static let justAMoment = NSLocalizedString("Just a moment.", comment: "")
             public static let verified = NSLocalizedString("Email Verified", comment: "")
             public static let verifiedDescription = NSLocalizedString(
-                "You’re all set to connect your Blockchain Wallet to The PIT.",
+                "You’re all set to connect your Blockchain Wallet to the Exchange.",
                 comment: ""
             )
         }
         public struct Launch {
-            public static let launchPIT = NSLocalizedString("Launch The PIT", comment: "")
+            public static let launchExchange = NSLocalizedString("Launch The Exchange", comment: "")
             public static let contactSupport = NSLocalizedString("Contact Support", comment: "")
         }
         public struct ConnectionPage {
             public struct Descriptors {
-                public static let description = NSLocalizedString("There's a new way to trade. Link your Wallet for instant access.", comment: "Description of the pit.")
+                public static let description = NSLocalizedString("There's a new way to trade. Link your Wallet for instant access.", comment: "Description of the exchange.")
                 public static let lightningFast = NSLocalizedString("Trade Lightning Fast", comment: "")
                 public static let withdrawDollars = NSLocalizedString("Deposit & Withdraw Euros/Dollars", comment: "")
                 public static let accessCryptos = NSLocalizedString("Access More Cryptos", comment: "")
-                public static let builtByBlockchain = NSLocalizedString("Built by Blockchain", comment: "")
+                public static let builtByBlockchain = NSLocalizedString("Built by Blockchain.com", comment: "")
             }
             
             public struct Features {
-                public static let pitWillBeAbleTo = NSLocalizedString("The PIT will be able to:", comment: "")
+                public static let exchangeWillBeAbleTo = NSLocalizedString("Our Exchange will be able to:", comment: "")
                 public static let shareStatus = NSLocalizedString("Share your Gold or Silver Level status for unlimited trading", comment: "")
                 public static let shareAddresses = NSLocalizedString("Sync addresses with your Wallet so you can securely sweep crypto between accounts", comment: "")
                 public static let lowFees = NSLocalizedString("Low Fees", comment: "")
                 public static let builtByBlockchain = NSLocalizedString("Built by Blockchain.com", comment: "")
                 
-                public static let pitWillNotBeAbleTo = NSLocalizedString("Will Not:", comment: "")
+                public static let exchangeWillNotBeAbleTo = NSLocalizedString("Will Not:", comment: "")
                 public static let viewYourPassword = NSLocalizedString("Access the crypto in your wallet, access your keys, or view your password.", comment: "")
             }
             
@@ -1701,16 +1697,16 @@ public struct LocalizationConstants {
             
             public struct Send {
                 public static let destination = NSLocalizedString(
-                    "My PIT %@ Wallet",
-                    comment: "PIT address as per asset type"
+                    "Exchange %@ Wallet",
+                    comment: "Exchange address as per asset type"
                 )
             }
         }
         
         public struct Send {
             public static let destination = NSLocalizedString(
-                "My PIT %@ Wallet",
-                comment: "PIT address for a wallet"
+                "Exchange %@ Wallet",
+                comment: "Exchange address for a wallet"
             )
         }
     }
@@ -1734,9 +1730,9 @@ public struct LocalizationConstants {
                 "Enter %@ address",
                 comment: "Transfer screen: destination address / account placeholder"
             )
-            public static let pitCover = NSLocalizedString(
-                "My PIT %@ Wallet",
-                comment: "PIT address for a wallet"
+            public static let exchangeCover = NSLocalizedString(
+                "Exchange %@ Address",
+                comment: "Exchange address for a wallet"
             )
         }
         
@@ -1842,11 +1838,10 @@ public struct LocalizationConstants {
             "Lockbox",
             comment: "Lockbox menu item title."
         )
-        public struct PITMenuItem {
-            public static let titleA = NSLocalizedString("The PIT Exchange", comment: "The PIT Exchange")
-            public static let titleB = NSLocalizedString("Crypto Exchange", comment: "Crypto Exchange")
-            public static let titleC = NSLocalizedString("Crypto Trading", comment: "Crypto Trading")
-        }
+        public static let exchange = NSLocalizedString(
+            "Exchange",
+            comment: "The Exchange"
+        )
     }
 
     public struct BuySell {
@@ -1858,223 +1853,6 @@ public struct LocalizationConstants {
             "By tapping Begin Now, you agree to Coinify's Terms of Service & Privacy Policy",
             comment: "Disclaimer shown when starting KYC from Buy-Sell"
         )
-    }
-    
-    public struct Exchange {
-        public static let navigationTitle = NSLocalizedString(
-            "Exchange",
-            comment: "Title text shown on navigation bar for exchanging a crypto asset for another"
-        )
-        public static let complete = NSLocalizedString(
-            "Complete",
-            comment: "Text shown on the exchange list cell indicating the trade status"
-        )
-        public static let delayed = NSLocalizedString(
-            "Delayed",
-            comment: "Text shown on the exchange list cell indicating the trade status"
-        )
-        public static let expired = NSLocalizedString(
-            "Expired",
-            comment: "Text shown on the exchange list cell indicating the trade status"
-        )
-        public static let failed = NSLocalizedString(
-            "Failed",
-            comment: "Text shown on the exchange list cell indicating the trade status"
-        )
-        public static let inProgress = NSLocalizedString(
-            "In Progress",
-            comment: "Text shown on the exchange list cell indicating the trade status"
-        )
-        public static let refundInProgress = NSLocalizedString(
-            "Refund in Progress",
-            comment: "Text shown on the exchange list cell indicating the trade status"
-        )
-        public static let refunded = NSLocalizedString(
-            "Refunded",
-            comment: "Text shown on the exchange list cell indicating the trade status"
-        )
-
-        public static let orderHistory = NSLocalizedString(
-            "Order History",
-            comment: "Header for the exchange list"
-        )
-
-        public static let loading = NSLocalizedString(
-            "Loading Exchange",
-            comment: "Text presented when the wallet is loading the exchange"
-        )
-        public static let loadingTransactions = NSLocalizedString("Loading transactions", comment: "")
-        public static let gettingQuote = NSLocalizedString("Getting quote", comment: "")
-        public static let confirming = NSLocalizedString("Confirming", comment: "")
-        public static let useMin = NSLocalizedString(
-            "Use min",
-            comment: "Text displayed on button for user to tap to create a trade with the minimum amount of crypto allowed"
-        )
-        public static let useMax = NSLocalizedString(
-            "Use max",
-            comment: "Text displayed on button for user to tap to create a trade with the maximum amount of crypto allowed"
-        )
-        public static let to = NSLocalizedString("To", comment: "Label for exchanging to a specific type of crypto")
-        public static let from = NSLocalizedString("From", comment: "Label for exchanging from a specific type of crypto")
-        public static let homebrewInformationText = NSLocalizedString(
-            "All amounts are correct at this time but might change depending on the market price and transaction rates at the time your order is processed",
-            comment: "Text displayed on exchange screen to inform user of changing market rates"
-        )
-        public static let orderID = NSLocalizedString("Order ID", comment: "Label in the exchange locked screen.")
-        public static let exchangeLocked = NSLocalizedString("Exchange Locked", comment: "Header title for the Exchange Locked screen.")
-        public static let done = NSLocalizedString("Done", comment: "Footer button title")
-        public static let confirm = NSLocalizedString("Confirm", comment: "Footer button title for Exchange Confirmation screen")
-        public static let creatingOrder = NSLocalizedString("Creating order", comment: "Loading text shown when a final exchange order is being created")
-        public static let sendingOrder = NSLocalizedString("Sending order", comment: "Loading text shown when a final exchange order is being sent")
-        public static let exchangeXForY = NSLocalizedString(
-            "Exchange %@ for %@",
-            comment: "Text displayed on the primary action button for the exchange screen when exchanging between 2 assets."
-        )
-        public static let receive = NSLocalizedString(
-            "Receive",
-            comment: "Text displayed when reviewing the amount to be received for an exchange order")
-        public static let estimatedFees = NSLocalizedString(
-            "Estimated fees",
-            comment: "Text displayed when reviewing the estimated amount of fees to pay for an exchange order")
-        public static let value = NSLocalizedString(
-            "Value",
-            comment: "Text displayed when reviewing the fiat value of an exchange order")
-        public static let sendTo = NSLocalizedString(
-            "Send to",
-            comment: "Text displayed when reviewing where the result of an exchange order will be sent to")
-        public static let expiredDescription = NSLocalizedString(
-            "Your order has expired. No funds left your account.",
-            comment: "Helper text shown when a user is viewing an order that has expired."
-        )
-        public static let delayedDescription = NSLocalizedString(
-            "Your order has not completed yet due to network delays. It will be processed as soon as funds are received.",
-            comment: "Helper text shown when a user is viewing an order that is delayed."
-        )
-        public static let tradeProblemWindow = NSLocalizedString(
-            "Unfortunately, there is a problem with your order. We are researching and will resolve very soon.",
-            comment: "Helper text shown when a user is viewing an order that is stuck (e.g. pending withdrawal and older than 24 hours)."
-        )
-        public static let failedDescription = NSLocalizedString(
-            "There was a problem with your order.",
-            comment: "Helper text shown when a user is viewing an order that has expired."
-        )
-        public static let whatDoYouWantToExchange = NSLocalizedString(
-            "What do you want to exchange?",
-            comment: "Text displayed on the action sheet that is presented when the user is selecting an account to exchange from."
-        )
-        public static let whatDoYouWantToReceive = NSLocalizedString(
-            "What do you want to receive?",
-            comment: "Text displayed on the action sheet that is presented when the user is selecting an account to exchange into."
-        )
-
-        public static let fees = NSLocalizedString("Fees", comment: "Fees")
-        public static let confirmExchange = NSLocalizedString(
-            "Confirm Exchange",
-            comment: "Confirm Exchange"
-        )
-        public static let amountVariation = NSLocalizedString(
-            "The amounts you send and receive may change slightly due to market activity.",
-            comment: "Disclaimer in exchange locked screen"
-        )
-        public static let orderStartDisclaimer = NSLocalizedString(
-            "Once an order starts, we are unable to stop it.",
-            comment: "Second disclaimer in exchange locked screen"
-        )
-        public static let status = NSLocalizedString(
-            "Status",
-            comment: "Status of a trade in the exchange overview screen"
-        )
-        public static let exchange = NSLocalizedString(
-            "Exchange",
-            comment: "Exchange"
-        )
-        public static let aboveTradingLimit = NSLocalizedString(
-            "Above trading limit",
-            comment: "Error message shown when a user is attempting to exchange an amount above their designated limit"
-        )
-        public static let belowTradingLimit = NSLocalizedString(
-            "Below trading limit",
-            comment: "Error message shown when a user is attempting to exchange an amount below their designated limit"
-        )
-        public static let insufficientFunds = NSLocalizedString(
-            "Insufficient funds",
-            comment: "Error message shown when a user is attempting to exchange an amount greater than their balance"
-        )
-
-        public static let yourMin = NSLocalizedString(
-            "Your Min is",
-            comment: "Error that displays what the minimum amount of fiat is required for a trade"
-        )
-        public static let yourMax = NSLocalizedString(
-            "Your Max is",
-            comment: "Error that displays what the maximum amount of fiat allowed for a trade"
-        )
-        public static let notEnough = NSLocalizedString(
-            "Not enough",
-            comment: "Part of error message shown when the user doesn't have enough funds to make an exchange"
-        )
-        public static let yourBalance = NSLocalizedString(
-            "Your balance is",
-            comment: "Part of error message shown when the user doesn't have enough funds to make an exchange"
-        )
-        public static let tradeExecutionError = NSLocalizedString(
-            "Sorry, an order cannot be placed at this time.",
-            comment: "Error message shown to a user if something went wrong during the exchange process and the user cannot continue"
-        )
-        public static let exchangeListError = NSLocalizedString(
-            "Sorry, your orders cannot be fetched at this time.",
-            comment: "Error message shown to a user if something went wrong while fetching the user's exchange orders"
-        )
-        public static let yourSpendableBalance = NSLocalizedString(
-            "Your spendable balance is",
-            comment: "Error message shown to a user if they try to exchange more than what is permitted."
-        )
-        public static let marketsMoving = NSLocalizedString(
-            "Markets are Moving 🚀",
-            comment: "Error title when markets are fluctuating on the order confirmation screen"
-        )
-        public static let holdHorses = NSLocalizedString(
-            "Whoa! Hold your horses. 🐴",
-            comment: "Error title shown when users are exceeding their limits in the order confirmation screen."
-        )
-        public static let marketMovementMinimum = NSLocalizedString(
-            "Due to market movement, your order value is now below the minimum required threshold of",
-            comment: "Error message shown to a user if they try to exchange too little."
-        )
-        public static let marketMovementMaximum = NSLocalizedString(
-            "Due to market movement, your order value is now above the maximum allowable threshold of",
-            comment: "Error message shown to a user if they try to exchange too much."
-        )
-        public static let dailyAnnualLimitExceeded = NSLocalizedString(
-            "There is a limit to how much crypto you can exchange. The value of your order must be less than your limit of",
-            comment: "Error message shown to a user if they try to exchange beyond their limits whether annual or daily."
-        )
-        public static let oopsSomethingWentWrong = NSLocalizedString(
-            "Ooops! Something went wrong.",
-            comment: "Oops error title"
-        )
-        public static let oopsSwapDescription = NSLocalizedString(
-            "We're not sure what happened but we didn't receive your order details.  Unfortunately, you're going to have to enter your order again.",
-            comment: "Message that coincides with the `Oops! Something went wrong.` error title."
-        )
-        public static let somethingNotRight = NSLocalizedString(
-            "Hmm, something's not right. 👀",
-            comment: "Error title shown when a trade's status is `stuck`."
-        )
-        public static let somethingNotRightDetails = NSLocalizedString(
-            "Most exchanges on Swap are completed seamlessly in two hours.  Please contact us. Together, we can figure this out.",
-            comment: "Error description that coincides with `something's not right`."
-        )
-        public static let networkDelay = NSLocalizedString("Network Delays", comment: "Network Delays")
-        public static let dontWorry = NSLocalizedString(
-            "Don't worry, your exchange is in process. Swap trades are competed on-chain. If transaction volumes are high, there are sometimes delays.",
-            comment: "Network delay description."
-        )
-        public static let moreInfo = NSLocalizedString("More Info", comment: "More Info")
-        public static let updateOrder = NSLocalizedString("Update Order", comment: "Update Order")
-        public static let tryAgain = NSLocalizedString("Try Again", comment: "try again")
-        public static let increaseMyLimits = NSLocalizedString("Increase My Limits", comment: "Increase My Limits")
-        public static let learnMore = NSLocalizedString("Learn More", comment: "Learn More")
     }
 
     public struct AddressAndKeyImport {
@@ -2106,7 +1884,7 @@ public struct LocalizationConstants {
         public static let keyBelongsToOtherAddressNotWatchOnly = NSLocalizedString("This private key belongs to another address that is not watch only", comment: "")
         public static let unknownKeyFormat = NSLocalizedString("Unknown key format", comment: "")
         public static let unsupportedPrivateKey = NSLocalizedString("Unsupported Private Key Format", comment: "")
-        public static let addWatchOnlyAddressWarning = NSLocalizedString("You are about to import a watch-only address, an address (or public key script) stored in the wallet without the corresponding private key. This means that the funds can be spent ONLY if you have the private key stored elsewhere. If you do not have the private key stored, do NOT inpublic struct anyone to send you bitcoin to the watch-only address.", comment: "")
+        public static let addWatchOnlyAddressWarning = NSLocalizedString("You are about to import a watch-only address, an address (or public key script) stored in the wallet without the corresponding private key. This means that the funds can be spent ONLY if you have the private key stored elsewhere. If you do not have the private key stored, do NOT instruct anyone to send you bitcoin to the watch-only address.", comment: "")
         public static let addWatchOnlyAddressWarningPrompt = NSLocalizedString("These options are recommended for advanced users only. Continue?", comment: "")
     }
 
@@ -2782,9 +2560,6 @@ public struct LocalizationConstants {
         public static let swap = NSLocalizedString(
             "Swap", comment: "Text shown for the crypto exchange service."
         )
-        public static let exchange = NSLocalizedString(
-            "Exchange", comment: "Button text shown on the exchange screen to progress to the confirm screen"
-        )
         public static let confirmSwap = NSLocalizedString(
             "Confirm Swap", comment: "Button text shown on the exchange confirm screen to execute the swap"
         )
@@ -2831,6 +2606,215 @@ public struct LocalizationConstants {
                 public static let subtitle = NSLocalizedString("Introducing Digital US Dollars (USD PAX) to de-risk your crypto investment or lock-in gains.", comment: "")
             }
         }
+        
+        public static let navigationTitle = NSLocalizedString(
+            "Exchange",
+            comment: "Title text shown on navigation bar for exchanging a crypto asset for another"
+        )
+        public static let complete = NSLocalizedString(
+            "Complete",
+            comment: "Text shown on the exchange list cell indicating the trade status"
+        )
+        public static let delayed = NSLocalizedString(
+            "Delayed",
+            comment: "Text shown on the exchange list cell indicating the trade status"
+        )
+        public static let expired = NSLocalizedString(
+            "Expired",
+            comment: "Text shown on the exchange list cell indicating the trade status"
+        )
+        public static let failed = NSLocalizedString(
+            "Failed",
+            comment: "Text shown on the exchange list cell indicating the trade status"
+        )
+        public static let inProgress = NSLocalizedString(
+            "In Progress",
+            comment: "Text shown on the exchange list cell indicating the trade status"
+        )
+        public static let refundInProgress = NSLocalizedString(
+            "Refund in Progress",
+            comment: "Text shown on the exchange list cell indicating the trade status"
+        )
+        public static let refunded = NSLocalizedString(
+            "Refunded",
+            comment: "Text shown on the exchange list cell indicating the trade status"
+        )
+        public static let loading = NSLocalizedString(
+            "Loading Exchange",
+            comment: "Text presented when the wallet is loading the exchange"
+        )
+        public static let loadingTransactions = NSLocalizedString("Loading transactions", comment: "")
+        public static let gettingQuote = NSLocalizedString("Getting quote", comment: "")
+        public static let confirming = NSLocalizedString("Confirming", comment: "")
+        public static let useMin = NSLocalizedString(
+            "Use min",
+            comment: "Text displayed on button for user to tap to create a trade with the minimum amount of crypto allowed"
+        )
+        public static let useMax = NSLocalizedString(
+            "Use max",
+            comment: "Text displayed on button for user to tap to create a trade with the maximum amount of crypto allowed"
+        )
+        public static let to = NSLocalizedString("To", comment: "Label for exchanging to a specific type of crypto")
+        public static let from = NSLocalizedString("From", comment: "Label for exchanging from a specific type of crypto")
+        public static let homebrewInformationText = NSLocalizedString(
+            "All amounts are correct at this time but might change depending on the market price and transaction rates at the time your order is processed",
+            comment: "Text displayed on exchange screen to inform user of changing market rates"
+        )
+        public static let orderID = NSLocalizedString("Order ID", comment: "Label in the exchange locked screen.")
+        public static let exchangeLocked = NSLocalizedString("Exchange Locked", comment: "Header title for the Exchange Locked screen.")
+        public static let done = NSLocalizedString("Done", comment: "Footer button title")
+        public static let confirm = NSLocalizedString("Confirm", comment: "Footer button title for Exchange Confirmation screen")
+        public static let creatingOrder = NSLocalizedString("Creating order", comment: "Loading text shown when a final exchange order is being created")
+        public static let sendingOrder = NSLocalizedString("Sending order", comment: "Loading text shown when a final exchange order is being sent")
+        public static let exchangeXForY = NSLocalizedString(
+            "Exchange %@ for %@",
+            comment: "Text displayed on the primary action button for the exchange screen when exchanging between 2 assets."
+        )
+        public static let receive = NSLocalizedString(
+            "Receive",
+            comment: "Text displayed when reviewing the amount to be received for an exchange order")
+        public static let estimatedFees = NSLocalizedString(
+            "Estimated fees",
+            comment: "Text displayed when reviewing the estimated amount of fees to pay for an exchange order")
+        public static let value = NSLocalizedString(
+            "Value",
+            comment: "Text displayed when reviewing the fiat value of an exchange order")
+        public static let sendTo = NSLocalizedString(
+            "Send to",
+            comment: "Text displayed when reviewing where the result of an exchange order will be sent to")
+        public static let expiredDescription = NSLocalizedString(
+            "Your order has expired. No funds left your account.",
+            comment: "Helper text shown when a user is viewing an order that has expired."
+        )
+        public static let delayedDescription = NSLocalizedString(
+            "Your order has not completed yet due to network delays. It will be processed as soon as funds are received.",
+            comment: "Helper text shown when a user is viewing an order that is delayed."
+        )
+        public static let tradeProblemWindow = NSLocalizedString(
+            "Unfortunately, there is a problem with your order. We are researching and will resolve very soon.",
+            comment: "Helper text shown when a user is viewing an order that is stuck (e.g. pending withdrawal and older than 24 hours)."
+        )
+        public static let failedDescription = NSLocalizedString(
+            "There was a problem with your order.",
+            comment: "Helper text shown when a user is viewing an order that has expired."
+        )
+        public static let whatDoYouWantToExchange = NSLocalizedString(
+            "What do you want to exchange?",
+            comment: "Text displayed on the action sheet that is presented when the user is selecting an account to exchange from."
+        )
+        public static let whatDoYouWantToReceive = NSLocalizedString(
+            "What do you want to receive?",
+            comment: "Text displayed on the action sheet that is presented when the user is selecting an account to exchange into."
+        )
+
+        public static let fees = NSLocalizedString("Fees", comment: "Fees")
+        public static let confirmExchange = NSLocalizedString(
+            "Confirm Exchange",
+            comment: "Confirm Exchange"
+        )
+        public static let amountVariation = NSLocalizedString(
+            "The amounts you send and receive may change slightly due to market activity.",
+            comment: "Disclaimer in exchange locked screen"
+        )
+        public static let orderStartDisclaimer = NSLocalizedString(
+            "Once an order starts, we are unable to stop it.",
+            comment: "Second disclaimer in exchange locked screen"
+        )
+        public static let status = NSLocalizedString(
+            "Status",
+            comment: "Status of a trade in the exchange overview screen"
+        )
+        public static let exchange = NSLocalizedString(
+            "Exchange",
+            comment: "Exchange"
+        )
+        public static let aboveTradingLimit = NSLocalizedString(
+            "Above trading limit",
+            comment: "Error message shown when a user is attempting to exchange an amount above their designated limit"
+        )
+        public static let belowTradingLimit = NSLocalizedString(
+            "Below trading limit",
+            comment: "Error message shown when a user is attempting to exchange an amount below their designated limit"
+        )
+        public static let insufficientFunds = NSLocalizedString(
+            "Insufficient funds",
+            comment: "Error message shown when a user is attempting to exchange an amount greater than their balance"
+        )
+
+        public static let yourMin = NSLocalizedString(
+            "Your Min is",
+            comment: "Error that displays what the minimum amount of fiat is required for a trade"
+        )
+        public static let yourMax = NSLocalizedString(
+            "Your Max is",
+            comment: "Error that displays what the maximum amount of fiat allowed for a trade"
+        )
+        public static let notEnough = NSLocalizedString(
+            "Not enough",
+            comment: "Part of error message shown when the user doesn't have enough funds to make an exchange"
+        )
+        public static let yourBalance = NSLocalizedString(
+            "Your balance is",
+            comment: "Part of error message shown when the user doesn't have enough funds to make an exchange"
+        )
+        public static let tradeExecutionError = NSLocalizedString(
+            "Sorry, an order cannot be placed at this time.",
+            comment: "Error message shown to a user if something went wrong during the exchange process and the user cannot continue"
+        )
+        public static let exchangeListError = NSLocalizedString(
+            "Sorry, your orders cannot be fetched at this time.",
+            comment: "Error message shown to a user if something went wrong while fetching the user's exchange orders"
+        )
+        public static let yourSpendableBalance = NSLocalizedString(
+            "Your spendable balance is",
+            comment: "Error message shown to a user if they try to exchange more than what is permitted."
+        )
+        public static let marketsMoving = NSLocalizedString(
+            "Markets are Moving 🚀",
+            comment: "Error title when markets are fluctuating on the order confirmation screen"
+        )
+        public static let holdHorses = NSLocalizedString(
+            "Whoa! Hold your horses. 🐴",
+            comment: "Error title shown when users are exceeding their limits in the order confirmation screen."
+        )
+        public static let marketMovementMinimum = NSLocalizedString(
+            "Due to market movement, your order value is now below the minimum required threshold of",
+            comment: "Error message shown to a user if they try to exchange too little."
+        )
+        public static let marketMovementMaximum = NSLocalizedString(
+            "Due to market movement, your order value is now above the maximum allowable threshold of",
+            comment: "Error message shown to a user if they try to exchange too much."
+        )
+        public static let dailyAnnualLimitExceeded = NSLocalizedString(
+            "There is a limit to how much crypto you can exchange. The value of your order must be less than your limit of",
+            comment: "Error message shown to a user if they try to exchange beyond their limits whether annual or daily."
+        )
+        public static let oopsSomethingWentWrong = NSLocalizedString(
+            "Ooops! Something went wrong.",
+            comment: "Oops error title"
+        )
+        public static let oopsSwapDescription = NSLocalizedString(
+            "We're not sure what happened but we didn't receive your order details.  Unfortunately, you're going to have to enter your order again.",
+            comment: "Message that coincides with the `Oops! Something went wrong.` error title."
+        )
+        public static let somethingNotRight = NSLocalizedString(
+            "Hmm, something's not right. 👀",
+            comment: "Error title shown when a trade's status is `stuck`."
+        )
+        public static let somethingNotRightDetails = NSLocalizedString(
+            "Most exchanges on Swap are completed seamlessly in two hours.  Please contact us. Together, we can figure this out.",
+            comment: "Error description that coincides with `something's not right`."
+        )
+        public static let networkDelay = NSLocalizedString("Network Delays", comment: "Network Delays")
+        public static let dontWorry = NSLocalizedString(
+            "Don't worry, your exchange is in process. Swap trades are competed on-chain. If transaction volumes are high, there are sometimes delays.",
+            comment: "Network delay description."
+        )
+        public static let moreInfo = NSLocalizedString("More Info", comment: "More Info")
+        public static let updateOrder = NSLocalizedString("Update Order", comment: "Update Order")
+        public static let tryAgain = NSLocalizedString("Try Again", comment: "try again")
+        public static let increaseMyLimits = NSLocalizedString("Increase My Limits", comment: "Increase My Limits")
+        public static let learnMore = NSLocalizedString("Learn More", comment: "Learn More")
     }
 
     public struct Lockbox {
@@ -2972,14 +2956,14 @@ public struct LocalizationConstants {
             comment: "Error title shown when deep linking from a claim your XLM link."
         )
     }
-    
+
     public struct GeneralError {
         public static let loadingData = NSLocalizedString(
             "An error occurred while loading the data. Please try again.",
             comment: "A general data loading error display in an alert controller"
         )
     }
-
+    
     public struct Airdrop {
         
         public struct CenterScreen {
@@ -3200,9 +3184,9 @@ public struct LocalizationConstants {
         return LocalizationConstants.privacyPolicy
     }
     
-    @objc public class func twoFactorPITDisabled() -> String { return LocalizationConstants.PIT.twoFactorNotEnabled }
+    @objc public class func twoFactorExchangeDisabled() -> String { return LocalizationConstants.Exchange.twoFactorNotEnabled }
     
-    @objc public class func sendAssetPitDestination() -> String { return LocalizationConstants.PIT.Send.destination }
+    @objc public class func sendAssetExchangeDestination() -> String { return LocalizationConstants.Exchange.Send.destination }
 
     @objc public class func tapToCopyThisAddress() -> String { return LocalizationConstants.Receive.tapToCopyThisAddress }
 
@@ -3258,11 +3242,11 @@ public struct LocalizationConstants {
 
     @objc public class func cookiePolicy() -> String { return LocalizationConstants.Settings.cookiePolicy }
 
-    @objc public class func gettingQuote() -> String { return LocalizationConstants.Exchange.gettingQuote }
+    @objc public class func gettingQuote() -> String { return LocalizationConstants.Swap.gettingQuote }
 
-    @objc public class func confirming() -> String { return LocalizationConstants.Exchange.confirming }
+    @objc public class func confirming() -> String { return LocalizationConstants.Swap.confirming }
 
-    @objc public class func loadingTransactions() -> String { return LocalizationConstants.Exchange.loadingTransactions }
+    @objc public class func loadingTransactions() -> String { return LocalizationConstants.Swap.loadingTransactions }
 
     @objc public class func xPaymentRequest() -> String { return LocalizationConstants.ReceiveAsset.xPaymentRequest }
 
@@ -3288,7 +3272,7 @@ public struct LocalizationConstants {
 
     @objc public class func dontShowAgain() -> String { return LocalizationConstants.dontShowAgain }
 
-    @objc public class func loadingExchange() -> String { return LocalizationConstants.Exchange.loading }
+    @objc public class func loadingExchange() -> String { return LocalizationConstants.Swap.loading }
 
     @objc public class func myEtherWallet() -> String { return LocalizationConstants.myEtherWallet }
 

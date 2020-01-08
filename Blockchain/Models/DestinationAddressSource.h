@@ -15,7 +15,7 @@ typedef enum {
     DestinationAddressSourcePaste,
     DestinationAddressSourceURI,
     DestinationAddressSourceDropDown,
-    DestinationAddressSourcePit,
+    DestinationAddressSourceExchange,
     DestinationAddressSourceBitPay
 } DestinationAddressSource;
 

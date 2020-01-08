@@ -13,7 +13,7 @@ struct MockSendServiceContainer: SendServiceContaining {
     let asset: AssetType
     let sourceAccountProvider: SendSourceAccountProviding
     var sourceAccountState: SendSourceAccountStateServicing
-    let pitAddressFetcher: PitAddressFetching
+    let exchangeAddressFetcher: ExchangeAddressFetching
     let executor: SendExecuting
     let exchange: PairExchangeServiceAPI
     let fee: SendFeeServicing
@@ -25,10 +25,10 @@ struct MockSendServiceContainer: SendServiceContaining {
          fee: CryptoValue,
          exchange: FiatValue,
          sourceAccountStateValue: SendSourceAccountState,
-         pitAddressFetchResult: Result<PitAddressFetcher.PitAddressResponseBody.State, PitAddressFetcher.FetchingError>,
+         pitAddressFetchResult: Result<ExchangeAddressFetcher.AddressResponseBody.State, ExchangeAddressFetcher.FetchingError>,
          transferExecutionResult: Result<Void, Error>) {
         self.asset = asset
-        pitAddressFetcher = MockPitAddressFetcher(expectedResult: pitAddressFetchResult)
+        exchangeAddressFetcher = MockExchangeAddressFetcher(expectedResult: pitAddressFetchResult)
         executor = MockSendExecutor(expectedResult: transferExecutionResult)
         self.exchange = MockPairExchangeService(expectedValue: exchange)
         self.fee = MockSendFeeService(expectedValue: fee)

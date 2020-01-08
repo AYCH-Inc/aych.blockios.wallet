@@ -25,7 +25,7 @@ protocol SendPaxViewControllerDelegate: class {
     func onFiatEntry(_ value: FiatValue)
     func onAddressEntry(_ value: String?)
     func onErrorBarButtonItemTapped()
-    func onPitAddressButtonTapped()
+    func onExchangeAddressButtonTapped()
     func onQRBarButtonItemTapped()
     
     var rightNavigationCTAType: NavigationCTAType { get }
@@ -61,7 +61,7 @@ class SendPaxViewController: UIViewController {
     @IBOutlet private var fiatAmountTextField: UITextField!
     
     @IBOutlet private var sendNowButton: UIButton!
-    @IBOutlet private var pitAddressButton: UIButton!
+    @IBOutlet private var exchangeAddressButton: UIButton!
     
     private var fields: [UITextField] {
         return [
@@ -114,7 +114,7 @@ class SendPaxViewController: UIViewController {
         super.viewDidLoad()
         coordinator = SendPaxCoordinator(
             interface: self,
-            pitAddressPresenter: SendPitAddressStatePresenter(assetType: .pax)
+            exchangeAddressPresenter: SendExchangeAddressStatePresenter(assetType: .pax)
         )
         fields.forEach({ $0.delegate = self })
         topGravityStackView.addBackgroundColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
@@ -150,7 +150,7 @@ class SendPaxViewController: UIViewController {
         fiatTitleLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.fiatTitleLabel
         fiatAmountTextField.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.fiatAmountTextField
         
-        pitAddressButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.pitAddressButton
+        exchangeAddressButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.exchangeAddressButton
         
         sendNowButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.continueButton
     }
@@ -229,23 +229,23 @@ class SendPaxViewController: UIViewController {
             }
         case .fiatCurrencyLabel(let fiatCurrency):
             fiatTitleLabel.text = fiatCurrency
-        case .pitAddressButtonVisibility(let isVisible):
-            pitAddressButton.isHidden = !isVisible
-        case .usePitAddress(let address):
+        case .exchangeAddressButtonVisibility(let isVisible):
+            exchangeAddressButton.isHidden = !isVisible
+        case .useExchangeAddress(let address):
             destinationAddressTextField.text = address
             if address == nil {
-                pitAddressButton.setImage(UIImage(named: "pit_icon_small"), for: .normal)
+                exchangeAddressButton.setImage(UIImage(named: "exchange-icon-small"), for: .normal)
                 destinationAddressTextField.isHidden = false
                 destinationAddressIndicatorLabel.text = nil
             } else {
-                pitAddressButton.setImage(UIImage(named: "cancel_icon"), for: .normal)
+                exchangeAddressButton.setImage(UIImage(named: "cancel_icon"), for: .normal)
                 destinationAddressTextField.isHidden = true
-                destinationAddressIndicatorLabel.text = String(format: LocalizationConstants.PIT.Send.destination,
+                destinationAddressIndicatorLabel.text = String(format: LocalizationConstants.Exchange.Send.destination,
                                                                AssetType.pax.symbol)
             }
         case .showAlertForEnabling2FA:
             alertViewPresenter.standardNotify(
-                message: LocalizationConstants.PIT.twoFactorNotEnabled,
+                message: LocalizationConstants.Exchange.twoFactorNotEnabled,
                 title: LocalizationConstants.Errors.error
             )
         }
@@ -308,8 +308,8 @@ class SendPaxViewController: UIViewController {
         delegate?.onSendProposed()
     }
     
-    @IBAction private func pitAddressButtonPressed() {
-        delegate?.onPitAddressButtonTapped()
+    @IBAction private func exchangeAddressButtonPressed() {
+        delegate?.onExchangeAddressButtonTapped()
     }
 }
 
@@ -443,7 +443,7 @@ extension SendPaxViewController {
         
         qrScannerViewModel = QRCodeScannerViewModel(
             parser: parser,
-            additionalParsingOptions: .lax(routes: [.pitLinking]),
+            additionalParsingOptions: .lax(routes: [.exchangeLinking]),
             textViewModel: textViewModel,
             scanner: scanner,
             completed: { [weak self] result in

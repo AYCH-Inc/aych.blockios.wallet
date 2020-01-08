@@ -68,7 +68,7 @@ typedef enum {
 @property (nonatomic) UILabel *feeDescriptionLabel;
 @property (nonatomic) UILabel *feeAmountLabel;
 @property (nonatomic) UILabel *feeWarningLabel;
-@property (nonatomic) UIButton *pitAddressButton;
+@property (nonatomic) UIButton *exchangeAddressButton;
 @property (nonatomic) NSDictionary *fees;
 
 @property (nonatomic) NSString *noteToSet;
@@ -85,11 +85,11 @@ typedef enum {
 
 @property (nonatomic) BCNavigationController *contactRequestNavigationController;
 
-@property (nonatomic) SendPitAddressStatePresenter *pitAddressPresenter;
+@property (nonatomic) SendExchangeAddressStatePresenter *exchangeAddressPresenter;
 @property (nonatomic) BridgeBitpayService *bitpayService;
 @property (nonatomic) BridgeAnalyticsRecorder *analyticsRecorder;
 
-@property (nonatomic, strong) PITAddressViewModel *pitAddressViewModel;
+@property (nonatomic, strong) ExchangeAddressViewModel *exchangeAddressViewModel;
 
 @property (nonatomic, strong) BridgeDeepLinkQRCodeRouter *deepLinkQRCodeRouter;
 
@@ -157,7 +157,7 @@ BOOL displayingLocalSymbolSend;
 
     self.deepLinkQRCodeRouter = [[BridgeDeepLinkQRCodeRouter alloc] init];
     
-    self.pitAddressPresenter = [[SendPitAddressStatePresenter alloc] initWithAssetType:self.assetType];
+    self.exchangeAddressPresenter = [[SendExchangeAddressStatePresenter alloc] initWithAssetType:self.assetType];
     
     self.bitpayService = [[BridgeBitpayService alloc] init];
     self.analyticsRecorder = [[BridgeAnalyticsRecorder alloc] init];
@@ -171,14 +171,14 @@ BOOL displayingLocalSymbolSend;
 
     [addressBookButton changeXPosition:self.view.frame.size.width - addressBookButton.frame.size.width];
 
-    CGFloat pitAddressButtonWidth = 50.0f;
-    UIButton *pitAddressButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - addressBookButton.bounds.size.width - pitAddressButtonWidth, addressBookButton.frame.origin.y, pitAddressButtonWidth, addressBookButton.bounds.size.height)];
-    [pitAddressButton setImage:[UIImage imageNamed:@"pit_icon_small"] forState:UIControlStateNormal];
-    [pitAddressButton addTarget:self action:@selector(pitAddressButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    pitAddressButton.hidden = true;
-    [self.view addSubview:pitAddressButton];
-    self.pitAddressButton = pitAddressButton;
-    [self.pitAddressButton changeXPosition:self.view.bounds.size.width - addressBookButton.frame.size.width - self.pitAddressButton.bounds.size.width];
+    CGFloat exchangeAddressButtonWidth = 50.0f;
+    UIButton *exchangeAddressButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - addressBookButton.bounds.size.width - exchangeAddressButtonWidth, addressBookButton.frame.origin.y, exchangeAddressButtonWidth, addressBookButton.bounds.size.height)];
+    [exchangeAddressButton setImage:[UIImage imageNamed:@"exchange-icon-small"] forState:UIControlStateNormal];
+    [exchangeAddressButton addTarget:self action:@selector(exchangeAddressButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    exchangeAddressButton.hidden = true;
+    [self.view addSubview:exchangeAddressButton];
+    self.exchangeAddressButton = exchangeAddressButton;
+    [self.exchangeAddressButton changeXPosition:self.view.bounds.size.width - addressBookButton.frame.size.width - self.exchangeAddressButton.bounds.size.width];
 
     self.bitpayLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, lineBelowFeeField.superview.frame.origin.y + lineBelowFeeField.superview.frame.size.height + 2, self.view.frame.size.width, 64)];
     [self.view addSubview:self.bitpayLabel];
@@ -205,13 +205,13 @@ BOOL displayingLocalSymbolSend;
     [self.view addSubview:self.lineBelowBitpayLabel];
 
     
-    [toField changeWidth:self.view.frame.size.width - toLabel.frame.size.width - addressBookButton.frame.size.width - self.pitAddressButton.bounds.size.width - 16];
+    [toField changeWidth:self.view.frame.size.width - toLabel.frame.size.width - addressBookButton.frame.size.width - self.exchangeAddressButton.bounds.size.width - 16];
     
     destinationAddressIndicatorLabel = [[UILabel alloc] initWithFrame:toField.frame];
     destinationAddressIndicatorLabel.font = selectAddressTextField.font;
     destinationAddressIndicatorLabel.textColor = selectAddressTextField.textColor;
     NSString *symbol = [AssetTypeLegacyHelper symbolFor:self.assetType];
-    destinationAddressIndicatorLabel.text = [NSString stringWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], symbol];
+    destinationAddressIndicatorLabel.text = [NSString stringWithFormat:[LocalizationConstantsObjcBridge sendAssetExchangeDestination], symbol];
     destinationAddressIndicatorLabel.hidden = true;
     [self.view addSubview:destinationAddressIndicatorLabel];
     
@@ -421,11 +421,11 @@ BOOL displayingLocalSymbolSend;
     
     __weak SendBitcoinViewController *weakSelf = self;
     
-    self.pitAddressPresenter = [[SendPitAddressStatePresenter alloc] initWithAssetType:self.assetType];
+    self.exchangeAddressPresenter = [[SendExchangeAddressStatePresenter alloc] initWithAssetType:self.assetType];
     
-    [self.pitAddressPresenter fetchAddressViewModelWithCompletion:^(PITAddressViewModel * _Nonnull viewModel) {
-        weakSelf.pitAddressViewModel = viewModel;
-        weakSelf.pitAddressButton.hidden = viewModel.isPITLinked == NO;
+    [self.exchangeAddressPresenter fetchAddressViewModelWithCompletion:^(ExchangeAddressViewModel * _Nonnull viewModel) {
+        weakSelf.exchangeAddressViewModel = viewModel;
+        weakSelf.exchangeAddressButton.hidden = viewModel.isExchangeLinked == NO;
     }];
 }
 
@@ -549,12 +549,12 @@ BOOL displayingLocalSymbolSend;
     }
 }
 
-#pragma mark - Pit address button
+#pragma mark - Exchange address button
 
-- (void)pitAddressButtonPressed {
+- (void)exchangeAddressButtonPressed {
     switch (self.addressSource) {
-        case DestinationAddressSourcePit:
-            [self.pitAddressButton setImage:[UIImage imageNamed:@"pit_icon_small"] forState:UIControlStateNormal];
+        case DestinationAddressSourceExchange:
+            [self.exchangeAddressButton setImage:[UIImage imageNamed:@"exchange-icon-small"] forState:UIControlStateNormal];
             self.addressSource = DestinationAddressSourcePaste;
             self.toAddress = nil;
             toField.hidden = false;
@@ -562,18 +562,18 @@ BOOL displayingLocalSymbolSend;
             destinationAddressIndicatorLabel.hidden = true;
             break;
         default: // Any other state (doesn't matter which)
-            [self reportPitButtonClick];
-            /// The user tapped the PIT button to send funds to the PIT.
+            [self reportExchangeButtonClick];
+            /// The user tapped the Exchange button to send funds to the Exchange.
             /// We must confirm that 2FA is enabled otherwise we will not have a destination address
-            if (self.pitAddressViewModel != nil && self.pitAddressViewModel.legacyAssetType == self.assetType) {
-                if (self.pitAddressViewModel.address != nil) {
-                    [self.pitAddressButton setImage:[UIImage imageNamed:@"cancel_icon"] forState:UIControlStateNormal];
-                    self.addressSource = DestinationAddressSourcePit;
+            if (self.exchangeAddressViewModel != nil && self.exchangeAddressViewModel.legacyAssetType == self.assetType) {
+                if (self.exchangeAddressViewModel.address != nil) {
+                    [self.exchangeAddressButton setImage:[UIImage imageNamed:@"cancel_icon"] forState:UIControlStateNormal];
+                    self.addressSource = DestinationAddressSourceExchange;
                     toField.hidden = true;
-                    [self selectToAddress:self.pitAddressViewModel.address];
+                    [self selectToAddress:self.exchangeAddressViewModel.address];
                     destinationAddressIndicatorLabel.hidden = false;
                 } else {
-                    [AlertViewPresenter.sharedInstance standardErrorWithMessage:[LocalizationConstantsObjcBridge twoFactorPITDisabled] title:BC_STRING_ERROR in:self handler:nil];
+                    [AlertViewPresenter.sharedInstance standardErrorWithMessage:[LocalizationConstantsObjcBridge twoFactorExchangeDisabled] title:BC_STRING_ERROR in:self handler:nil];
                 }
             }
             break;
@@ -1026,9 +1026,9 @@ BOOL displayingLocalSymbolSend;
         NSString *displayDestinationAddress;
         NSString *symbol;
         switch (self.addressSource) {
-            case DestinationAddressSourcePit:
+            case DestinationAddressSourceExchange:
                 symbol = [AssetTypeLegacyHelper symbolFor: self.assetType];
-                displayDestinationAddress = [NSString stringWithFormat:[LocalizationConstantsObjcBridge sendAssetPitDestination], symbol];
+                displayDestinationAddress = [NSString stringWithFormat:[LocalizationConstantsObjcBridge sendAssetExchangeDestination], symbol];
                 break;
             case DestinationAddressSourceBitPay:
                 displayDestinationAddress = [NSString stringWithFormat: @"BitPay[%@]", self.bitpayMerchant];
@@ -1771,7 +1771,7 @@ BOOL displayingLocalSymbolSend;
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
-    self.pitAddressButton.hidden = NO;
+    self.exchangeAddressButton.hidden = NO;
     return YES;
 }
 
@@ -1883,7 +1883,7 @@ BOOL displayingLocalSymbolSend;
             self.addressSource = DestinationAddressSourcePaste;
             return NO;
         } else {
-            self.pitAddressButton.hidden = self.toAddress.length > 0;
+            self.exchangeAddressButton.hidden = self.toAddress.length > 0;
         }
         
         DLog(@"toAddress: %@", self.toAddress);
@@ -1942,7 +1942,7 @@ BOOL displayingLocalSymbolSend;
     self.toAddress = address;
     DLog(@"toAddress: %@", address);
     
-    self.pitAddressButton.hidden = self.addressSource != DestinationAddressSourcePit;
+    self.exchangeAddressButton.hidden = self.addressSource != DestinationAddressSourceExchange;
     
     [WalletManager.sharedInstance.wallet changePaymentToAddress:address assetType:self.assetType];
     
@@ -1972,7 +1972,7 @@ BOOL displayingLocalSymbolSend;
 
     toField.text = [WalletManager.sharedInstance.wallet getLabelForAccount:account assetType:self.assetType];
     self.toAccount = account;
-    self.pitAddressButton.hidden = YES;
+    self.exchangeAddressButton.hidden = YES;
     
     self.toAddress = @"";
     DLog(@"toAccount: %@", [WalletManager.sharedInstance.wallet getLabelForAccount:account assetType:self.assetType]);
@@ -2013,7 +2013,7 @@ BOOL displayingLocalSymbolSend;
 
 - (void)setDropdownAddressSource {
     self.addressSource = DestinationAddressSourceDropDown;
-    [self.pitAddressButton setImage:[UIImage imageNamed:@"pit_icon_small"] forState:UIControlStateNormal];
+    [self.exchangeAddressButton setImage:[UIImage imageNamed:@"exchange-icon-small"] forState:UIControlStateNormal];
     toField.hidden = false;
     destinationAddressIndicatorLabel.hidden = true;
 }

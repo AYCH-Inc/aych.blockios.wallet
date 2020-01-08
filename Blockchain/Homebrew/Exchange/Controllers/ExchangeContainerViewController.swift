@@ -20,7 +20,7 @@ class ExchangeContainerViewController: BaseNavigationController {
     
     private let bag: DisposeBag = DisposeBag()
     private let disposables = CompositeDisposable()
-    private let coordinator: ExchangeCoordinator = ExchangeCoordinator.shared
+    private let coordinator: SwapCoordinator = SwapCoordinator.shared
     private let wallet: Wallet = WalletManager.shared.wallet
     private let accountsRepository: AssetAccountRepository = AssetAccountRepository.shared
     private var tiersViewController: KYCTiersViewController?

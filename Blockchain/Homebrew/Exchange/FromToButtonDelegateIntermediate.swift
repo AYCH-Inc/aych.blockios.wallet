@@ -53,8 +53,8 @@ addressSelectionDelegate and the FromToView's delegate are weakly referenced.
         presentingController.pushViewController(viewController, animated: true)
 
         switch selectMode {
-        case SelectModeExchangeAccountTo: presentingController.headerTitle = LocalizationConstants.Exchange.to
-        case SelectModeExchangeAccountFrom: presentingController.headerTitle = LocalizationConstants.Exchange.from
+        case SelectModeExchangeAccountTo: presentingController.headerTitle = LocalizationConstants.Swap.to
+        case SelectModeExchangeAccountFrom: presentingController.headerTitle = LocalizationConstants.Swap.from
         default: Logger.shared.warning("Unsupported address select mode")
         }
     }

@@ -22,16 +22,16 @@ class SendXLMCoordinator {
     }
     private let analyticsRecorder: AnalyticsEventRecording
     
-    /// pit address presenter
-    private let pitAddressPresenter: SendPitAddressStatePresenter
-    private var pitAddressViewModel = PITAddressViewModel(assetType: .stellar)
+    /// Exchange address presenter
+    private let exchangeAddressPresenter: SendExchangeAddressStatePresenter
+    private var exchangeAddressViewModel = ExchangeAddressViewModel(assetType: .stellar)
     
     /// The source of the address
     private var addressSource = SendAssetAddressSource.standard
     
-    /// The pit address
-    private var pitAddress: String!
-    private var pitMemo: String!
+    /// The Exchange address
+    private var exchangeAddress: String!
+    private var exchangeMemo: String!
 
     private let bag = DisposeBag()
     
@@ -39,13 +39,13 @@ class SendXLMCoordinator {
         serviceProvider: StellarServiceProvider,
         interface: SendXLMInterface,
         modelInterface: SendXLMModelInterface,
-        pitAddressPresenter: SendPitAddressStatePresenter,
+        exchangeAddressPresenter: SendExchangeAddressStatePresenter,
         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     ) {
         self.serviceProvider = serviceProvider
         self.interface = interface
         self.modelInterface = modelInterface
-        self.pitAddressPresenter = pitAddressPresenter
+        self.exchangeAddressPresenter = exchangeAddressPresenter
         self.analyticsRecorder = analyticsRecorder
         if let controller = interface as? SendLumensViewController {
             controller.delegate = self
@@ -65,8 +65,8 @@ class SendXLMCoordinator {
     
     // MARK: Private Functions
     
-    private func isPITAddress() -> Single<Bool> {
-        return Single.just(addressSource == .pit)
+    private func isExchangeAddress() -> Single<Bool> {
+        return Single.just(addressSource == .exchange)
     }
 
     fileprivate func accountDetailsTrigger() -> Observable<StellarAccount> {
@@ -131,21 +131,21 @@ class SendXLMCoordinator {
 
 extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     func onLoad() {
-        interface.apply(updates: [.pitAddressButtonVisibility(.hidden),
-                                  .usePitAddress(nil)])
+        interface.apply(updates: [.exchangeAddressButtonVisibility(.hidden),
+                                  .useExchangeAddress(nil)])
         
-        // Fetch the PIT address for asset and apply changes to the interface
-        pitAddressPresenter.viewModel
+        // Fetch the Exchange address for asset and apply changes to the interface
+        exchangeAddressPresenter.viewModel
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] viewModel in
                 guard let self = self else { return }
-                self.pitAddressViewModel = viewModel
+                self.exchangeAddressViewModel = viewModel
                 let split = viewModel.address?.components(separatedBy: ":") ?? []
-                self.pitAddress = split.first ?? ""
-                self.pitMemo = split.last ?? ""
-                self.interface.apply(updates: [.pitAddressButtonVisibility(.visible)])
+                self.exchangeAddress = split.first ?? ""
+                self.exchangeMemo = split.last ?? ""
+                self.interface.apply(updates: [.exchangeAddressButtonVisibility(.visible)])
             }, onError: { [weak self] error in
-                self?.interface.apply(updates: [.pitAddressButtonVisibility(.hidden)])
+                self?.interface.apply(updates: [.exchangeAddressButtonVisibility(.hidden)])
             })
             .disposed(by: bag)
         
@@ -228,7 +228,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
     }
     
     func onMemoTextSelection() {
-        guard addressSource != .pit else { return }
+        guard addressSource != .exchange else { return }
         interface.apply(updates: [.memoTextFieldVisibility(.visible),
                                   .memoIDTextFieldVisibility(.hidden),
                                   .memoTextFieldShouldBeginEditing,
@@ -281,7 +281,7 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             .errorLabelVisibility(.hidden)
         ]
         if let entry = value {
-            Single.zip(services.accounts.isExchangeAddress(entry), isPITAddress())
+            Single.zip(services.accounts.isExchangeAddress(entry), isExchangeAddress())
                 .map { return $0 && $1 }
                 .observeOn(MainScheduler.instance)
                 .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
@@ -409,8 +409,8 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
             
             let displayAddress: String
             switch self.addressSource {
-            case .pit:
-                displayAddress = String(format: LocalizationConstants.PIT.Send.destination,
+            case .exchange:
+                displayAddress = String(format: LocalizationConstants.Exchange.Send.destination,
                                         AssetType.stellar.symbol)
             case .standard:
                 displayAddress = toAddress
@@ -471,25 +471,25 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         disposables.insertWithDiscardableResult(disposable)
     }
 
-    func onPitAddressButtonTapped() {
+    func onExchangeAddressButtonTapped() {
         switch addressSource {
-        case .pit:
+        case .exchange:
             addressSource = .standard
-            interface.apply(updates: [.usePitAddress(nil),
+            interface.apply(updates: [.useExchangeAddress(nil),
                                       .memoTextFieldText(nil),
                                       .memoTextFieldVisibility(.visible),
                                       .memoIDTextFieldVisibility(.hidden),
                                       .memoSelectionButtonVisibility(.visible)])
         case .standard:
-            analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormPitButtonClick(asset: .stellar))
-            if !pitAddressViewModel.isTwoFactorEnabled {
+            analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormExchangeButtonClick(asset: .stellar))
+            if !exchangeAddressViewModel.isTwoFactorEnabled {
                 interface.apply(updates: [.showAlertForEnabling2FA])
             } else {
-                addressSource = .pit
+                addressSource = .exchange
                 interface.apply(
                     updates: [
-                        .usePitAddress(pitAddress),
-                        .memoTextFieldText(pitMemo),
+                        .useExchangeAddress(exchangeAddress),
+                        .memoTextFieldText(exchangeMemo),
                         .memoTextFieldVisibility(.visible),
                         .memoIDTextFieldVisibility(.hidden),
                         .memoSelectionButtonVisibility(.hidden)
@@ -498,8 +498,8 @@ extension SendXLMCoordinator: SendXLMViewControllerDelegate {
         }
     }
     
-    var sendingToPIT: Bool {
-        return addressSource == .pit
+    var sendingToExchange: Bool {
+        return addressSource == .exchange
     }
     
     // MARK: - Private

@@ -25,7 +25,7 @@ final class SendInteractorTests: XCTestCase {
     
     // MARK: - Success Test Cases
     
-    func testSuccessfulTransferToPitAddress() throws {
+    func testSuccessfulTransferToExchangeAddress() throws {
         for asset in assets {
             let interactor = self.interactor(
                 for: asset,
@@ -38,7 +38,7 @@ final class SendInteractorTests: XCTestCase {
             )
             
             // Select PIT and set amount
-            interactor.destinationInteractor.pitSelectedRelay.accept(true)
+            interactor.destinationInteractor.exchangeSelectedRelay.accept(true)
             interactor.set(cryptoAmount: "1")
         
             do {
@@ -93,7 +93,7 @@ final class SendInteractorTests: XCTestCase {
     
     // MARK: - Failure Test Cases
    
-    func testSendingToPitWhenAccountSelectedButMissing() throws {
+    func testSendingToExchangeWhenAccountSelectedButMissing() throws {
         for asset in assets {
             let interactor = self.interactor(
                 for: asset,
@@ -106,7 +106,7 @@ final class SendInteractorTests: XCTestCase {
             )
             
             // Test sending to pit when there is no PIT connected
-            interactor.destinationInteractor.pitSelectedRelay.accept(true)
+            interactor.destinationInteractor.exchangeSelectedRelay.accept(true)
             interactor.set(cryptoAmount: "1")
             
             do {
@@ -278,7 +278,7 @@ final class SendInteractorTests: XCTestCase {
         feeMajor: String,
         fiatExchangeRate: String,
         sourceAccountStateValue: SendSourceAccountState,
-        pitAddressFetchResult: Result<PitAddressFetcher.PitAddressResponseBody.State, PitAddressFetcher.FetchingError>,
+        pitAddressFetchResult: Result<ExchangeAddressFetcher.AddressResponseBody.State, ExchangeAddressFetcher.FetchingError>,
         transferExecutionResult: Result<Void, Error>
         ) -> SendInteracting {
         let balance = CryptoValue.createFromMajorValue(string: balanceMajor, assetType: asset.cryptoCurrency)!

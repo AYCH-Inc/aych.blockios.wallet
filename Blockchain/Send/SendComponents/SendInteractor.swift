@@ -113,7 +113,7 @@ final class SendInteractor: SendInteracting {
         )
         destinationInteractor = SendDestinationAccountInteractor(
             asset: asset,
-            pitAddressFetcher: services.pitAddressFetcher
+            exchangeAddressFetcher: services.exchangeAddressFetcher
         )
 
         // Flatten sub-interactors states into a one unified state (`SendInputState`).

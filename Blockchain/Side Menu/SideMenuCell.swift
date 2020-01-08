@@ -32,6 +32,7 @@ final class SideMenuCell: UITableViewCell {
         didSet {
             title.text = item?.title
             icon.image = item?.image.withRenderingMode(.alwaysTemplate)
+            icon.contentMode = .center
             guard let value = item else {
                 newContainerView.alpha = 0.0
                 return
@@ -44,9 +45,12 @@ final class SideMenuCell: UITableViewCell {
         super.awakeFromNib()
         title.textColor = #colorLiteral(red: 0.51, green: 0.55, blue: 0.62, alpha: 1)
         title.highlightedTextColor = #colorLiteral(red: 0.51, green: 0.55, blue: 0.62, alpha: 1)
+        title.font = .mainMedium(17)
         icon.tintColor = #colorLiteral(red: 0.51, green: 0.55, blue: 0.62, alpha: 1)
         newContainerView.layer.cornerRadius = 4.0
+        newContainerView.backgroundColor = .primaryButton
         newLabel.text = LocalizationConstants.SideMenu.new
+        newLabel.font = .mainMedium(15)
         let padding = SideMenuCell.newContainerViewTrailingPadding
         guard newContainerTrailingConstraint.constant != padding + peekPadding else { return }
         newContainerTrailingConstraint.constant = padding + peekPadding

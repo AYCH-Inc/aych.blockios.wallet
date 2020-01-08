@@ -19,22 +19,22 @@ final class SendDestinationAccountTableViewCell: UITableViewCell {
     
     @IBOutlet private var subjectLabel: UILabel!
     
-    /// A label that provides a cover for the input in case the account are being chosen from a list, e.g PIT
+    /// A label that provides a cover for the input in case the account are being chosen from a list, e.g Exchange
     @IBOutlet private var coverLabel: UILabel!
     
     /// The destination address text field
     @IBOutlet private var textField: UITextField!
     
-    /// Accessory stack view that can contain various views (e.g PIT, disclosure buttons)
+    /// Accessory stack view that can contain various views (e.g Exchange, disclosure buttons)
     @IBOutlet private var accessoryStackView: UIStackView!
     
-    /// The PIT address button that should be configured only if PIT address is available for the asset
-    private var pitButton: UIButton!
+    /// The exchange address button that should be configured only if the exchange address is available for the asset
+    private var exchangeButton: UIButton!
     
     // MARK: - Rx
     
     private var disposeBag: DisposeBag!
-    private var pitButtonDisposeBag: DisposeBag!
+    private var exchangeButtonDisposeBag: DisposeBag!
     
     // MARK: - Injected
     
@@ -43,7 +43,7 @@ final class SendDestinationAccountTableViewCell: UITableViewCell {
             guard presenter != nil else { return }
             setupTextField()
             setupCoverLabel()
-            configurePitButtonIfNeeded()
+            configureExchangeButtonIfNeeded()
         }
     }
         
@@ -53,7 +53,7 @@ final class SendDestinationAccountTableViewCell: UITableViewCell {
         super.awakeFromNib()
         selectionStyle = .none
         disposeBag = DisposeBag()
-        pitButtonDisposeBag = DisposeBag()
+        exchangeButtonDisposeBag = DisposeBag()
         subjectLabel.text = LocalizationConstants.Send.Destination.subject
         setupAccessibility()
     }
@@ -62,7 +62,7 @@ final class SendDestinationAccountTableViewCell: UITableViewCell {
         super.prepareForReuse()
         presenter = nil
         disposeBag = DisposeBag()
-        pitButtonDisposeBag = DisposeBag()
+        exchangeButtonDisposeBag = DisposeBag()
     }
     
     // MARK: - Setup
@@ -105,43 +105,43 @@ final class SendDestinationAccountTableViewCell: UITableViewCell {
             .disposed(by: disposeBag)
     }
     
-    private func configurePitButtonIfNeeded() {
-        presenter.isPitButtonVisible
+    private func configureExchangeButtonIfNeeded() {
+        presenter.isExchangeButtonVisible
             .subscribe(onNext: { [weak self] isVisible in
                 guard let self = self else { return }
                 if isVisible {
-                    self.setupPitButton()
+                    self.setupExchangeButton()
                 } else {
-                    self.removePitButton()
+                    self.removeExchangeButton()
                 }
             })
             .disposed(by: disposeBag)
     }
     
-    private func setupPitButton() {
-        guard pitButton == nil else { return }
-        pitButton = UIButton()
-        pitButton.contentMode = .center
-        pitButton.translatesAutoresizingMaskIntoConstraints = false
+    private func setupExchangeButton() {
+        guard exchangeButton == nil else { return }
+        exchangeButton = UIButton()
+        exchangeButton.contentMode = .center
+        exchangeButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            pitButton.widthAnchor.constraint(equalToConstant: 50)
+            exchangeButton.widthAnchor.constraint(equalToConstant: 50)
         ])
-        pitButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.pitAddressButton
-        accessoryStackView.addArrangedSubview(pitButton)
+        exchangeButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.exchangeAddressButton
+        accessoryStackView.addArrangedSubview(exchangeButton)
         
-        presenter.pitButtonImage
-            .drive(pitButton.rx.image(for: .normal))
-            .disposed(by: pitButtonDisposeBag)
+        presenter.exchangeButtonImage
+            .drive(exchangeButton.rx.image(for: .normal))
+            .disposed(by: exchangeButtonDisposeBag)
         
-        pitButton.rx.tap
-            .bind(to: presenter.pitButtonTapRelay)
-            .disposed(by: pitButtonDisposeBag)
+        exchangeButton.rx.tap
+            .bind(to: presenter.exchangeButtonTapRelay)
+            .disposed(by: exchangeButtonDisposeBag)
     }
     
-    private func removePitButton() {
-        pitButton?.removeFromSuperview()
-        pitButton = nil
-        pitButtonDisposeBag = DisposeBag()
+    private func removeExchangeButton() {
+        exchangeButton?.removeFromSuperview()
+        exchangeButton = nil
+        exchangeButtonDisposeBag = DisposeBag()
     }
 }
 

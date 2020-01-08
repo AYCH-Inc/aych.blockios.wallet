@@ -31,7 +31,9 @@ class SideMenuFooterView: NibBasedView {
         super.awakeFromNib()
         
         pairButton.setTitle(LocalizationConstants.SideMenu.loginToWebWallet, for: .normal)
+        pairButton.titleLabel?.font = .mainMedium(17)
         logoutButton.setTitle(LocalizationConstants.SideMenu.logout, for: .normal)
+        logoutButton.titleLabel?.font = .mainMedium(17)
     }
     
     @IBAction func pairTapped(_ sender: UIButton) {

@@ -24,28 +24,20 @@ public enum AppFeature: Int, CaseIterable {
     /// Coinify
     case notifyCoinifyUserToKyc
     
-    /// Pit linking enabled
-    case pitLinking
+    /// Exchange linking enabled
+    case exchangeLinking
     
-    /// Pit announcement visibility
-    case pitAnnouncement
+    /// Exchange announcement visibility
+    case exchangeAnnouncement
     
-    /// Pit announcement variant used for A/B testings
-    case pitAnnouncementVariant
-
     /// The announcments
     case announcements
-    
-    /// Title for the PIT side menu
-    case pitSideNavigationVariant
 }
 
 extension AppFeature {
     /// The remote key which determines if this feature is enabled or not
     public var remoteEnabledKey: String? {
         switch self {
-        case .pitAnnouncementVariant:
-            return "ab_the_pit_announcement_variant"
         case .stellarAirdrop:
             return "ios_sunriver_airdrop_enabled"
         case .notifyCoinifyUserToKyc:
@@ -54,14 +46,12 @@ extension AppFeature {
             return "get_free_xlm_popup"
         case .stellarLargeBacklog:
             return "sunriver_has_large_backlog"
-        case .pitLinking:
+        case .exchangeLinking:
             return "pit_linking_enabled"
-        case .pitAnnouncement:
+        case .exchangeAnnouncement:
             return "pit_show_announcement"
         case .announcements:
             return "announcements"
-        case .pitSideNavigationVariant:
-            return "ab_the_pit_side_nav_variant"
         default:
             return nil
         }

@@ -9,7 +9,7 @@
 import RxSwift
 
 public enum ContextParameter: String {
-    case pitSignup = "PIT_SIGNUP"
+    case exchangeSignup = "PIT_SIGNUP"
     case kyc = "KYC"
     case settings = "SETTINGS"
 }

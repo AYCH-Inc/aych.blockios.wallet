@@ -16,12 +16,12 @@ class ExchangeListHeaderView: UITableViewHeaderFooterView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        title.text = LocalizationConstants.Exchange.orderHistory
+        title.text = LocalizationConstants.Swap.orderHistory
         background.backgroundColor = #colorLiteral(red: 0.9647058824, green: 0.968627451, blue: 0.9764705882, alpha: 1)
     }
     
     static func height() -> CGFloat {
-        let header = LocalizationConstants.Exchange.orderHistory
+        let header = LocalizationConstants.Swap.orderHistory
         guard let headerFont = UIFont(name: Constants.FontNames.montserratRegular, size: 12) else { return 0.0 }
         
         let headerHeight = NSAttributedString(string: header, attributes: [NSAttributedString.Key.font: headerFont]).height

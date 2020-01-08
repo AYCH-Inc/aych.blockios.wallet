@@ -65,9 +65,9 @@ extension ExchangeError {
         switch self {
         case .belowTradingLimit,
              .noVolumeProvided:
-            return LocalizationConstants.Exchange.belowTradingLimit
+            return LocalizationConstants.Swap.belowTradingLimit
         case .aboveTradingLimit:
-            return LocalizationConstants.Exchange.aboveTradingLimit
+            return LocalizationConstants.Swap.aboveTradingLimit
         case .aboveTierLimit:
             return LocalizationConstants.Swap.upgradeNow
         case .aboveMaxVolume(let cryptoValue):
@@ -78,7 +78,7 @@ extension ExchangeError {
             return LocalizationConstants.Stellar.notEnoughXLM
         case .insufficientFunds(let cryptoValue):
             let symbol = cryptoValue.symbol
-            let notEnouch = LocalizationConstants.Exchange.notEnough + " " + symbol + "."
+            let notEnouch = LocalizationConstants.Swap.notEnough + " " + symbol + "."
             return notEnouch
         case .insufficientFundsForFees(let cryptoValue):
             return String(format: LocalizationConstants.Errors.notEnoughXForFees, cryptoValue.symbol)
@@ -94,22 +94,22 @@ extension ExchangeError {
     var description: String? {
         switch self {
         case .belowTradingLimit(let value, _):
-            let yourMin = LocalizationConstants.Exchange.yourMin
+            let yourMin = LocalizationConstants.Swap.yourMin
             let result = yourMin + " " + (value?.toDisplayString(includeSymbol: true, locale: .current) ?? "")
             return result
         case .aboveTradingLimit(let value, _):
-            let yourMax = LocalizationConstants.Exchange.yourMax
+            let yourMax = LocalizationConstants.Swap.yourMax
             let result = yourMax + " " + (value?.toDisplayString(includeSymbol: true, locale: .current) ?? "")
             return result
         case .aboveTierLimit(let fiatValue, _):
             let message = LocalizationConstants.Swap.tierlimitErrorMessage + fiatValue.toDisplayString(includeSymbol: true, locale: .current)
             return message
         case .aboveMaxVolume(let cryptoValue):
-            let description = LocalizationConstants.Exchange.yourSpendableBalance
+            let description = LocalizationConstants.Swap.yourSpendableBalance
             let result = description + " " + cryptoValue.toDisplayString(includeSymbol: true, locale: .current)
             return result
         case .insufficientFunds(let cryptoValue):
-            let yourBalance = LocalizationConstants.Exchange.yourBalance + " " + cryptoValue.toDisplayString(includeSymbol: true, locale: .current)
+            let yourBalance = LocalizationConstants.Swap.yourBalance + " " + cryptoValue.toDisplayString(includeSymbol: true, locale: .current)
             return yourBalance + "."
         case .insufficientFundsForFees(let assetType):
             return String(format: LocalizationConstants.Errors.notEnoughXForFees, assetType.symbol)

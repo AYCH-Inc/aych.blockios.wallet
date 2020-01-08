@@ -76,22 +76,22 @@ extension TradeStatus {
         switch self {
         case .complete,
              .resolved:
-            return LocalizationConstants.Exchange.complete
+            return LocalizationConstants.Swap.complete
         case .delayed:
-            return LocalizationConstants.Exchange.delayed
+            return LocalizationConstants.Swap.delayed
         case .pendingRefund:
-            return LocalizationConstants.Exchange.refundInProgress
+            return LocalizationConstants.Swap.refundInProgress
         case .refunded,
              .cancelled:
-            return LocalizationConstants.Exchange.refunded
+            return LocalizationConstants.Swap.refunded
         case .failed:
-            return LocalizationConstants.Exchange.failed
+            return LocalizationConstants.Swap.failed
         case .expired:
-            return LocalizationConstants.Exchange.expired
+            return LocalizationConstants.Swap.expired
         case .inProgress,
              .noDeposits,
              .none:
-            return LocalizationConstants.Exchange.inProgress
+            return LocalizationConstants.Swap.inProgress
         }
     }
 }
@@ -107,8 +107,8 @@ extension ExchangeTradeCellModel {
             metadata: .url(supportURL)
         )
         let generic = AlertModel(
-            headline: LocalizationConstants.Exchange.somethingNotRight,
-            body: LocalizationConstants.Exchange.somethingNotRightDetails,
+            headline: LocalizationConstants.Swap.somethingNotRight,
+            body: LocalizationConstants.Swap.somethingNotRightDetails,
             actions: [action],
             style: .sheet
         )
@@ -130,12 +130,12 @@ extension ExchangeTradeCellModel {
                 return nil
             }
             let learnMore = AlertAction(
-                style: .confirm(LocalizationConstants.Exchange.learnMore),
+                style: .confirm(LocalizationConstants.Swap.learnMore),
                 metadata: .url(url)
             )
             let delayed = AlertModel(
-                headline: LocalizationConstants.Exchange.networkDelay,
-                body: LocalizationConstants.Exchange.dontWorry,
+                headline: LocalizationConstants.Swap.networkDelay,
+                body: LocalizationConstants.Swap.dontWorry,
                 actions: [learnMore],
                 style: .sheet
             )

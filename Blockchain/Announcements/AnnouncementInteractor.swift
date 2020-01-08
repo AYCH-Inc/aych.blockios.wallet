@@ -25,7 +25,6 @@ final class AnnouncementInteractor: AnnouncementInteracting {
     private let dataRepository: BlockchainDataRepository
     private let exchangeService: ExchangeService
     private let airdropCenterService: AirdropCenterServiceAPI
-    private let variantFetcher: FeatureVariantFetching
     private let paxTransactionService: AnyERC20HistoricalTransactionService<PaxToken>
     private let repository: AuthenticatorRepositoryAPI
     
@@ -45,9 +44,6 @@ final class AnnouncementInteractor: AnnouncementInteracting {
         let countries = dataRepository.countries
         let hasPaxTransactions = paxTransactionService.hasTransactions
         let hasTrades = exchangeService.hasExecutedTrades()
-        let pitLinkingCardVariant = variantFetcher
-            .fetchTestingVariant(for: .pitAnnouncementVariant)
-            .catchErrorJustReturn(.variantA)
             
         let airdropCampaigns = airdropCenterService
             .fetchCampaignsCalculationState(useCache: true)
@@ -62,11 +58,10 @@ final class AnnouncementInteractor: AnnouncementInteracting {
                  hasTrades,
                  hasPaxTransactions,
                  countries,
-                 pitLinkingCardVariant,
                  repository.authenticatorType)
             .subscribeOn(SerialDispatchQueueScheduler(internalSerialQueueName: dispatchQueueName))
             .observeOn(MainScheduler.instance)
-            .map { (user, tiers, airdropCampaigns, hasTrades, hasPaxTransactions, countries, pitLinkingCardVariant, authenticatorType) -> AnnouncementPreliminaryData in
+            .map { (user, tiers, airdropCampaigns, hasTrades, hasPaxTransactions, countries, authenticatorType) -> AnnouncementPreliminaryData in
                 return AnnouncementPreliminaryData(
                     user: user,
                     tiers: tiers,
@@ -74,7 +69,6 @@ final class AnnouncementInteractor: AnnouncementInteracting {
                     hasTrades: hasTrades,
                     hasPaxTransactions: hasPaxTransactions,
                     countries: countries,
-                    pitLinkingCardVariant: pitLinkingCardVariant,
                     authenticatorType: authenticatorType
                 )
             }
@@ -88,8 +82,7 @@ final class AnnouncementInteractor: AnnouncementInteracting {
          dataRepository: BlockchainDataRepository = .shared,
          exchangeService: ExchangeService = .shared,
          airdropCenterService: AirdropCenterServiceAPI = AirdropCenterService.shared,
-         paxAccountRepository: ERC20AssetAccountRepository<PaxToken> = PAXServiceProvider.shared.services.assetAccountRepository,
-         variantFetcher: FeatureVariantFetching = AppFeatureConfigurator.shared) {
+         paxAccountRepository: ERC20AssetAccountRepository<PaxToken> = PAXServiceProvider.shared.services.assetAccountRepository) {
         self.repository = repository
         self.wallet = wallet
         self.dataRepository = dataRepository
@@ -98,6 +91,5 @@ final class AnnouncementInteractor: AnnouncementInteracting {
         // TODO: Move this into a difference service that aggregates this logic
         // for all assets and utilize it in other flows (dashboard, send, swap, activity).
         self.paxTransactionService = AnyERC20HistoricalTransactionService<PaxToken>(bridge: ethereumWallet)
-        self.variantFetcher = variantFetcher
     }
 }

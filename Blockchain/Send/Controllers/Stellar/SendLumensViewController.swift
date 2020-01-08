@@ -24,9 +24,9 @@ protocol SendXLMViewControllerDelegate: class {
     func onMinimumBalanceInfoTapped()
     
     /// Invoked upon tapping the pit address button
-    func onPitAddressButtonTapped()
+    func onExchangeAddressButtonTapped()
     
-    var sendingToPIT: Bool { get }
+    var sendingToExchange: Bool { get }
 }
 
 @objc class SendLumensViewController: UIViewController, BottomButtonContainerView {
@@ -62,7 +62,7 @@ protocol SendXLMViewControllerDelegate: class {
     @IBOutlet fileprivate var addMemoLabel: UILabel!
     
     @IBOutlet private var destinationAddressIndicatorLabel: UILabel!
-    @IBOutlet private var pitAddressButton: UIButton!
+    @IBOutlet private var exchangeAddressButton: UIButton!
     
     @IBOutlet fileprivate var stellarAddressField: UITextField!
     @IBOutlet fileprivate var stellarAmountField: UITextField!
@@ -115,7 +115,7 @@ protocol SendXLMViewControllerDelegate: class {
             serviceProvider: provider,
             interface: controller,
             modelInterface: controller,
-            pitAddressPresenter: SendPitAddressStatePresenter(assetType: .stellar)
+            exchangeAddressPresenter: SendExchangeAddressStatePresenter(assetType: .stellar)
         )
         return controller
     }
@@ -130,7 +130,7 @@ protocol SendXLMViewControllerDelegate: class {
         case memoTextFieldVisibility(Visibility)
         case memoIDTextFieldVisibility(Visibility)
         case memoSelectionButtonVisibility(Visibility)
-        case pitAddressButtonVisibility(Visibility)
+        case exchangeAddressButtonVisibility(Visibility)
         case memoRequiredDisclaimerVisibility(Visibility)
         case memoTextFieldShouldBeginEditing
         case memoIDFieldShouldBeginEditing
@@ -149,7 +149,7 @@ protocol SendXLMViewControllerDelegate: class {
         case stellarAmountText(String?)
         case fiatAmountText(String?)
         case fiatSymbolLabel(String?)
-        case usePitAddress(String?)
+        case useExchangeAddress(String?)
         case showAlertForEnabling2FA
     }
 
@@ -164,7 +164,7 @@ protocol SendXLMViewControllerDelegate: class {
         
         qrScannerViewModel = QRCodeScannerViewModel(
             parser: parser,
-            additionalParsingOptions: .lax(routes: [.pitLinking]),
+            additionalParsingOptions: .lax(routes: [.exchangeLinking]),
             textViewModel: textViewModel,
             scanner: scanner,
             completed: { [weak self] result in
@@ -250,7 +250,7 @@ protocol SendXLMViewControllerDelegate: class {
         
         useMaxLabel.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.maxAvailableLabel
         
-        pitAddressButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.pitAddressButton
+        exchangeAddressButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.exchangeAddressButton
         
         memoSelectionTypeButton.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.Stellar.memoSelectionTypeButton
         memoIDTextField.accessibilityIdentifier = AccessibilityIdentifiers.SendScreen.Stellar.memoIDTextField
@@ -404,23 +404,23 @@ protocol SendXLMViewControllerDelegate: class {
             fiatAmountField.text = text
         case .fiatSymbolLabel(let text):
             fiatSymbolLabel.text = text
-        case .pitAddressButtonVisibility(let visibility):
-            pitAddressButton.isHidden = visibility.isHidden
-        case .usePitAddress(let address):
+        case .exchangeAddressButtonVisibility(let visibility):
+            exchangeAddressButton.isHidden = visibility.isHidden
+        case .useExchangeAddress(let address):
             stellarAddressField.text = address
             if address == nil {
-                pitAddressButton.setImage(UIImage(named: "pit_icon_small"), for: .normal)
+                exchangeAddressButton.setImage(UIImage(named: "exchange-icon-small"), for: .normal)
                 stellarAddressField.isHidden = false
                 destinationAddressIndicatorLabel.text = nil
             } else {
-                pitAddressButton.setImage(UIImage(named: "cancel_icon"), for: .normal)
+                exchangeAddressButton.setImage(UIImage(named: "cancel_icon"), for: .normal)
                 stellarAddressField.isHidden = true
-                destinationAddressIndicatorLabel.text = String(format: LocalizationConstants.PIT.Send.destination,
+                destinationAddressIndicatorLabel.text = String(format: LocalizationConstants.Exchange.Send.destination,
                                                                AssetType.stellar.symbol)
             }
         case .showAlertForEnabling2FA:
             alertViewPresenter.standardNotify(
-                message: LocalizationConstants.PIT.twoFactorNotEnabled,
+                message: LocalizationConstants.Exchange.twoFactorNotEnabled,
                 title: LocalizationConstants.Errors.error
             )
         }
@@ -485,8 +485,8 @@ protocol SendXLMViewControllerDelegate: class {
         present(controller, animated: true, completion: nil)
     }
     
-    @IBAction private func pitAddressButtonPressed() {
-        delegate?.onPitAddressButtonTapped()
+    @IBAction private func exchangeAddressButtonPressed() {
+        delegate?.onExchangeAddressButtonTapped()
     }
 }
 
@@ -659,10 +659,10 @@ extension SendLumensViewController: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         guard [memoTextField].contains(textField) else { return true }
-        /// If the user is sending XLM funds to the PIT, we don't
+        /// If the user is sending XLM funds to the Exchange, we don't
         /// want them to change the memo value, otherwise they
         /// risk losing their funds. 
-        guard delegate?.sendingToPIT == false else { return false }
+        guard delegate?.sendingToExchange == false else { return false }
         return true
     }
     

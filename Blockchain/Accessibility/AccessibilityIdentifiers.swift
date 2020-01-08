@@ -141,7 +141,7 @@ class AccessibilityIdentifiers: NSObject {
         
         static let maxAvailableLabel = "\(prefix)maxAvailableLabel"
 
-        static let pitAddressButton = "\(prefix)pitAddressButton"
+        static let exchangeAddressButton = "\(prefix)exchangeAddressButton"
         static let addressesButton = "\(prefix)addressesButton"
         
         static let errorLabel = "\(prefix)errorLabel"

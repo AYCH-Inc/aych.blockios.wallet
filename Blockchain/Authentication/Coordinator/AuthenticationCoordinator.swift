@@ -67,7 +67,7 @@ extension AuthenticationCoordinator: ManualPairingWalletFetching {
     private let blockstackService: BlockstackServiceAPI
 
     private let deepLinkRouter: DeepLinkRouter
-    private let pitRepository: PITAccountRepositoryAPI
+    private let exchangeRepository: ExchangeAccountRepositoryAPI
         
     /// TODO: Delete when `AuthenticationCoordinator` is removed
     /// Temporary handler since `AuthenticationManager` was refactored.
@@ -93,7 +93,7 @@ extension AuthenticationCoordinator: ManualPairingWalletFetching {
         stellarServiceProvider: StellarServiceProvider = StellarServiceProvider.shared,
         deepLinkRouter: DeepLinkRouter = DeepLinkRouter(),
         remoteNotificationServiceContainer: RemoteNotificationServiceContainer = .default,
-        pitRepository: PITAccountRepositoryAPI = PITAccountRepository()) {
+        exchangeRepository: ExchangeAccountRepositoryAPI = ExchangeAccountRepository()) {
        self.appSettings = appSettings
        self.onboardingSettings = onboardingSettings
        self.wallet = wallet
@@ -105,7 +105,7 @@ extension AuthenticationCoordinator: ManualPairingWalletFetching {
        self.loadingViewPresenter = loadingViewPresenter
        remoteNotificationAuthorizer = remoteNotificationServiceContainer.authorizer
        remoteNotificationTokenSender = remoteNotificationServiceContainer.tokenSender
-       self.pitRepository = pitRepository
+       self.exchangeRepository = exchangeRepository
        self.blockstackService = blockstackService
        super.init()
        self.walletManager.secondPasswordDelegate = self
@@ -157,8 +157,8 @@ extension AuthenticationCoordinator: ManualPairingWalletFetching {
             return
         }
         
-        /// If the user has linked to the PIT, we sync their addresses on authentication.
-        pitRepository.syncDepositAddressesIfLinked()
+        /// If the user has linked to the Exchange, we sync their addresses on authentication.
+        exchangeRepository.syncDepositAddressesIfLinked()
             .subscribe()
             .disposed(by: bag)
         

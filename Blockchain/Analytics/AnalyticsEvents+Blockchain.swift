@@ -24,6 +24,28 @@ extension AnalyticsEvents {
         static let currency = "currency"
     }
     
+    // MARK: - Exchange
+    
+    enum Exchange: AnalyticsEvent {
+        case exchangeConnectNowTapped
+        case exchangeLearnMoreTapped
+        case exchangeAnnouncementTapped
+        
+        var name: String {
+            switch self {
+            // User taps on "Connect Now" in the Exchange splash screen
+            case .exchangeConnectNowTapped:
+                return "exchange_connect_now_tapped"
+            // User taps on "Learn More" in the Exchange splash screen
+            case .exchangeLearnMoreTapped:
+                return "exchange_learn_more_tapped"
+            // Users taps on the CTA in the Exchange announcement
+            case .exchangeAnnouncementTapped:
+                return "exchange_announcement_tapped"
+            }
+        }
+    }
+    
     // MARK: - Login / Signup
     
     enum Onboarding: AnalyticsEvent {
@@ -67,7 +89,7 @@ extension AnalyticsEvents {
         case sideNavWebLogin
         case sideNavAirdropCenter
         case sideNavLockbox
-        case sideNavPit
+        case sideNavExchange
         
         var name: String {
             switch self {
@@ -101,9 +123,9 @@ extension AnalyticsEvents {
             // Menu - lockbox clicked
             case .sideNavLockbox:
                 return "side_nav_lockbox"
-            // Menu - pit clicked
-            case .sideNavPit:
-                return "side_nav_pit"
+            // Menu - exchange clicked
+            case .sideNavExchange:
+                return "side_nav_exchange"
             }
         }
     }
@@ -206,7 +228,7 @@ extension AnalyticsEvents {
         case sendFormErrorAppear(asset: AssetType)
         case sendFormErrorClick(asset: AssetType)
         case sendFormUseBalanceClick(asset: AssetType)
-        case sendFormPitButtonClick(asset: AssetType)
+        case sendFormExchangeButtonClick(asset: AssetType)
         case sendFormQrButtonClick(asset: AssetType)
         case sendSummaryConfirmClick(asset: AssetType)
         case sendSummaryConfirmSuccess(asset: AssetType)
@@ -240,9 +262,9 @@ extension AnalyticsEvents {
             // Send - use spendable balance click
             case .sendFormUseBalanceClick:
                 return "send_form_use_balance_click"
-            // Send - PIT button click
-            case .sendFormPitButtonClick:
-                return "send_form_pit_button_click"
+            // Send - Exchange button click
+            case .sendFormExchangeButtonClick:
+                return "send_form_exchange_button_click"
             // Send - QR button click
             case .sendFormQrButtonClick:
                 return "send_form_qr_button_click"
@@ -283,7 +305,7 @@ extension AnalyticsEvents {
                 return [assetParamName: asset.symbol]
             case .sendFormShowErrorAlert(asset: let asset):
                 return [assetParamName: asset.symbol]
-            case .sendFormPitButtonClick(asset: let asset):
+            case .sendFormExchangeButtonClick(asset: let asset):
                 return [assetParamName: asset.symbol]
             case .sendFormQrButtonClick(asset: let asset):
                 return [assetParamName: asset.symbol]

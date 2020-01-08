@@ -24,6 +24,7 @@ class SideMenuViewController: UIViewController {
 
     // MARK: - Private Properties
 
+    @IBOutlet private var tableViewBackgroundView: UIView!
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var footerView: SideMenuFooterView!
     
@@ -49,6 +50,8 @@ class SideMenuViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .navigationBarBackground
+        tableViewBackgroundView.backgroundColor = .navigationBarBackground
         AppCoordinator.shared.slidingViewController.delegate = self
         tapToCloseGestureRecognizerTabBar = UITapGestureRecognizer(
             target: AppCoordinator.shared,
@@ -63,19 +66,21 @@ class SideMenuViewController: UIViewController {
         addShadow()
         footerView.delegate = self
         
-        presenter.presentationEvent.drive(onNext: { [weak self] items in
-            guard let self = self else { return }
-            self.sideMenuItems = items
-            self.tableView?.reloadData()
-        })
-        .disposed(by: disposeBag)
+        presenter.presentationEvent
+            .emit(onNext: { [weak self] items in
+                guard let self = self else { return }
+                self.sideMenuItems = items
+                self.tableView?.reloadData()
+            })
+            .disposed(by: disposeBag)
         
-        presenter.itemSelection.drive(onNext: { [weak self] item in
-            guard let self = self else { return }
-            self.analyticsRecorder.record(event: item.analyticsEvent)
-            self.delegate?.sideMenuViewController(self, didTapOn: item)
-        })
-        .disposed(by: disposeBag)
+        presenter.itemSelection
+            .emit(onNext: { [weak self] item in
+                guard let self = self else { return }
+                self.analyticsRecorder.record(event: item.analyticsEvent)
+                self.delegate?.sideMenuViewController(self, didTapOn: item)
+            })
+            .disposed(by: disposeBag)
     }
 
     override func viewWillAppear(_ animated: Bool) {

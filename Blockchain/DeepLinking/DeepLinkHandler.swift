@@ -34,9 +34,9 @@ class DeepLinkHandler {
             handleKyc()
         case .kycDocumentResubmission:
             handleKycDocumentResubmission(payload.params)
-        case .pitVerifyEmail,
-             .pitLinking:
-            handlePitLinking(payload.params)
+        case .exchangeVerifyEmail,
+             .exchangeLinking:
+            handleExchangeLinking(payload.params)
         }
     }
 
@@ -51,9 +51,9 @@ class DeepLinkHandler {
         appSettings.documentResubmissionLinkReason = params[DeepLinkConstant.documentResubmissionReason]
     }
     
-    private func handlePitLinking(_ params: [String: String]) {
-        appSettings.didTapOnPitDeepLink = true
-        appSettings.pitLinkIdentifier = params[DeepLinkConstant.linkId]
+    private func handleExchangeLinking(_ params: [String: String]) {
+        appSettings.didTapOnExchangeDeepLink = true
+        appSettings.exchangeLinkIdentifier = params[DeepLinkConstant.linkId]
     }
 
     private func handleKyc() {

@@ -442,23 +442,23 @@ final class BlockchainSettings: NSObject {
             }
         }
         
-        /// Users that are linking their PIT account to their blockchain wallet will deep-link
-        /// from the PIT into the mobile app.
-        var pitLinkIdentifier: String? {
+        /// Users that are linking their Exchange account to their blockchain wallet will deep-link
+        /// from the Exchange into the mobile app.
+        var exchangeLinkIdentifier: String? {
             get {
-                return defaults.string(forKey: UserDefaults.Keys.pitLinkIdentifier.rawValue)
+                return defaults.string(forKey: UserDefaults.Keys.exchangeLinkIdentifier.rawValue)
             }
             set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.pitLinkIdentifier.rawValue)
+                defaults.set(newValue, forKey: UserDefaults.Keys.exchangeLinkIdentifier.rawValue)
             }
         }
         
-        var didTapOnPitDeepLink: Bool {
+        var didTapOnExchangeDeepLink: Bool {
             get {
-                return defaults.bool(forKey: UserDefaults.Keys.didTapOnPitDeepLink.rawValue)
+                return defaults.bool(forKey: UserDefaults.Keys.didTapOnExchangeDeepLink.rawValue)
             }
             set {
-                defaults.set(newValue, forKey: UserDefaults.Keys.didTapOnPitDeepLink.rawValue)
+                defaults.set(newValue, forKey: UserDefaults.Keys.didTapOnExchangeDeepLink.rawValue)
             }
         }
 
@@ -489,11 +489,11 @@ final class BlockchainSettings: NSObject {
             clearPin()
             appBecameActiveCount = 0
             didTapOnAirdropDeepLink = false
-            didTapOnPitDeepLink = false
+            didTapOnExchangeDeepLink = false
             didAttemptToRouteForAirdrop = false
             didTapOnKycDeepLink = false
             didAcceptCoinifyTOS = false
-            pitLinkIdentifier = nil
+            exchangeLinkIdentifier = nil
 
             KYCSettings.shared.reset()
             AnnouncementRecorder.reset()

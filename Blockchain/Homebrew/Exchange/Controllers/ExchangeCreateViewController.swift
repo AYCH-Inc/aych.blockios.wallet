@@ -491,7 +491,7 @@ extension ExchangeCreateViewController: ExchangeCreateInterface {
         case .loadingIndicator(let visibility):
             switch visibility {
             case .visible:
-                loadingViewPresenter.show(with: LocalizationConstants.Exchange.confirming)
+                loadingViewPresenter.show(with: LocalizationConstants.Swap.confirming)
             case .hidden:
                 loadingViewPresenter.hide()
             }
@@ -680,11 +680,11 @@ extension ExchangeCreateViewController: NavigatableView {
                 event: AnalyticsEvents.Swap.swapFormConfirmErrorClick(error: value)
             )
             
-            let action = AlertAction(style: .default(LocalizationConstants.Exchange.done))
+            let action = AlertAction(style: .default(LocalizationConstants.Swap.done))
             var actions = [action]
             if let url = value.url {
                 let learnMore = AlertAction(
-                    style: .confirm(LocalizationConstants.Exchange.learnMore),
+                    style: .confirm(LocalizationConstants.Swap.learnMore),
                     metadata: .url(url)
                 )
                 actions.append(learnMore)

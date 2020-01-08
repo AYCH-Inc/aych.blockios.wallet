@@ -23,15 +23,12 @@ struct AnnouncementPreliminaryData {
     let hasPaxTransactions: Bool
     
     let country: KYCCountry?
-        
-    /// The variant for pit linking
-    let pitLinkingCardVariant: FeatureTestingVariant
-    
+            
     /// The authentication type (2FA / standard)
     let authenticatorType: AuthenticatorType
     
-    var hasLinkedPitAccount: Bool {
-        return user.hasLinkedPITAccount
+    var hasLinkedExchangeAccount: Bool {
+        return user.hasLinkedExchangeAccount
     }
     
     var isKycSupported: Bool {
@@ -41,7 +38,7 @@ struct AnnouncementPreliminaryData {
     var hasTwoFA: Bool {
         return authenticatorType != .standard
     }
-    
+
     var hasReceivedBlockstackAirdrop: Bool {
         guard let campaign = airdropCampaigns.campaign(by: .blockstack) else {
             return false
@@ -57,9 +54,7 @@ struct AnnouncementPreliminaryData {
          hasTrades: Bool,
          hasPaxTransactions: Bool,
          countries: Countries,
-         pitLinkingCardVariant: FeatureTestingVariant,
          authenticatorType: AuthenticatorType) {
-        self.pitLinkingCardVariant = pitLinkingCardVariant
         self.airdropCampaigns = airdropCampaigns
         self.user = user
         self.tiers = tiers

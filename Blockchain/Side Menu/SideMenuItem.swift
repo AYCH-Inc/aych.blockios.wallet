@@ -24,7 +24,7 @@ enum SideMenuItem {
     case upgrade
     case webLogin
     case lockbox
-    case pit(Title)
+    case exchange
 }
 
 extension SideMenuItem {
@@ -51,8 +51,8 @@ extension SideMenuItem {
             return .sideNavWebLogin
         case .lockbox:
             return .sideNavLockbox
-        case .pit:
-            return .sideNavPit
+        case .exchange:
+            return .sideNavExchange
         }
     }
     
@@ -78,36 +78,40 @@ extension SideMenuItem {
             return LocalizationConstants.SideMenu.loginToWebWallet
         case .lockbox:
             return LocalizationConstants.SideMenu.lockbox
-        case .pit(let value):
-            return value
+        case .exchange:
+            return LocalizationConstants.SideMenu.exchange
+        }
+    }
+
+    private var imageName: String {
+        switch self {
+        case .accountsAndAddresses:
+            return "menu-icon-addresses"
+        case .backup:
+            return "menu-icon-backup"
+        case .buyBitcoin:
+            return "menu-icon-buy"
+        case .logout:
+            return "menu-icon-logout"
+        case .airdrops:
+            return "menu-icon-airdrop"
+        case .settings:
+            return "menu-icon-settings"
+        case .support:
+            return "menu-icon-help"
+        case .upgrade:
+            return "menu-icon-upgrade"
+        case .webLogin:
+            return "menu-icon-pair-web-wallet"
+        case .lockbox:
+            return "menu-icon-lockbox"
+        case .exchange:
+            return "menu-icon-exchange"
         }
     }
 
     var image: UIImage {
-        switch self {
-        case .accountsAndAddresses:
-            return #imageLiteral(resourceName: "icon_wallet")
-        case .backup:
-            return #imageLiteral(resourceName: "icon_backup")
-        case .buyBitcoin:
-            return #imageLiteral(resourceName: "Icon-Buy")
-        case .logout:
-            return #imageLiteral(resourceName: "Icon-Logout")
-        case .airdrops:
-            return #imageLiteral(resourceName: "airdrop_icon")
-        case .settings:
-            return #imageLiteral(resourceName: "icon_settings")
-        case .support:
-            return #imageLiteral(resourceName: "icon_help")
-        case .upgrade:
-            return #imageLiteral(resourceName: "icon_upgrade")
-        case .webLogin:
-            return #imageLiteral(resourceName: "Icon-Web")
-        case .lockbox:
-            return #imageLiteral(resourceName: "icon_lbx")
-        case .pit:
-            return #imageLiteral(resourceName: "pit-menu-logo")
-        }
+        return UIImage(named: imageName)!
     }
     
     var isNew: Bool {
@@ -123,7 +127,7 @@ extension SideMenuItem {
              .lockbox,
              .webLogin:
             return false
-        case .pit:
+        case .exchange:
             return true
         }
     }

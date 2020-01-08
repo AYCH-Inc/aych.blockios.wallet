@@ -25,14 +25,14 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     struct Sections {
         let profile = 0
         let preferences = 1
-        let pit = 2
+        let exchange = 2
         let security = 3
         let about = 4
         
-        let includesPitLinking: Bool
+        let includesExchangeLinking: Bool
         
-        init(pitConfig: AppFeatureConfiguration = AppFeatureConfigurator.shared.configuration(for: .pitLinking)) {
-            includesPitLinking = pitConfig.isEnabled
+        init(exchangeConfig: AppFeatureConfiguration = AppFeatureConfigurator.shared.configuration(for: .exchangeLinking)) {
+            includesExchangeLinking = exchangeConfig.isEnabled
         }
     }
     
@@ -58,7 +58,7 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     let aboutCookiePolicy = 3
     let pinBiometry = 4
     let pinSwipeToReceive = 5
-    let pitIndex = 0
+    let exchangeIndex = 0
     
     let sections = Sections()
     
@@ -79,8 +79,8 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
     let walletManager: WalletManager
     let authenticationService: NabuAuthenticationService
     
-    lazy var repositoryAPI: PITAccountRepository = {
-        return PITAccountRepository()
+    lazy var repositoryAPI: ExchangeAccountRepository = {
+        return ExchangeAccountRepository()
     }()
     
     let bag: DisposeBag = DisposeBag()
@@ -682,8 +682,8 @@ AppSettingsController, UITextFieldDelegate, EmailDelegate, WalletAccountInfoDele
                 swipeToReceive?.isHidden = false
                 return 56
             }
-        case (sections.pit, _):
-            return sections.includesPitLinking ? 56 : 0
+        case (sections.exchange, _):
+            return sections.includesExchangeLinking ? 56 : 0
         default:
             break
         }

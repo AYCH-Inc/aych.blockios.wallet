@@ -32,7 +32,7 @@ extension AnnouncementRecord {
         case kycBlockstackAirdrop = "announcement-cache-kyc-stx-airdrop"
         case identityVerification = "announcement-cache-identity-verification"
         case pax = "announcement-cache-pax"
-        case pit = "announcement-cache-pit"
+        case exchange = "announcement-cache-pit"
         case bitpay = "announcement-cache-bitpay"
         case coinifyKyc = "announcement-cache-coinify-kyc"
         case resubmitDocuments = "announcement-cache-resubmit-documents"
@@ -49,7 +49,7 @@ extension AnnouncementRecord {
             case .hasSeenPAXCard:
                 return .pax
             case .shouldHidePITLinkingCard:
-                return .pit
+                return .exchange
             }
         }
     }

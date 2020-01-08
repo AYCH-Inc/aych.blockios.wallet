@@ -9,13 +9,13 @@
 import Foundation
 import PlatformKit
 
-enum DeepLinkRoute: String, CaseIterable {
+enum DeepLinkRoute: CaseIterable {
     case xlmAirdop
     case kyc
     case kycVerifyEmail
     case kycDocumentResubmission
-    case pitVerifyEmail
-    case pitLinking
+    case exchangeVerifyEmail
+    case exchangeLinking
 }
 
 extension DeepLinkRoute {
@@ -60,7 +60,7 @@ extension DeepLinkRoute {
                     if let optionalKey = route.optionalKeyParameter,
                         let value = routeParameters[optionalKey],
                         let context = ContextParameter(rawValue: value) {
-                        return route == .pitVerifyEmail && context == .pitSignup
+                        return route == .exchangeVerifyEmail && context == .exchangeSignup
                     } else {
                         return routeParameters[key] == value
                     }
@@ -77,11 +77,11 @@ extension DeepLinkRoute {
             return "referral"
         case .kycVerifyEmail,
              .kycDocumentResubmission,
-             .pitVerifyEmail:
+             .exchangeVerifyEmail:
             return "login"
         case .kyc:
             return "kyc"
-        case .pitLinking:
+        case .exchangeLinking:
             return "link-account"
         }
     }
@@ -93,9 +93,9 @@ extension DeepLinkRoute {
         case .kyc,
              .kycVerifyEmail,
              .kycDocumentResubmission,
-             .pitVerifyEmail:
+             .exchangeVerifyEmail:
             return "deep_link_path"
-        case .pitLinking:
+        case .exchangeLinking:
             return nil
         }
     }
@@ -105,26 +105,26 @@ extension DeepLinkRoute {
         case .xlmAirdop:
             return "sunriver"
         case .kycVerifyEmail,
-             .pitVerifyEmail:
+             .exchangeVerifyEmail:
             return "email_verified"
         case .kycDocumentResubmission:
             return "verification"
         case .kyc:
             return "kyc"
-        case .pitLinking:
+        case .exchangeLinking:
             return nil
         }
     }
     
     private var optionalKeyParameter: String? {
         switch self {
-        case .pitVerifyEmail,
+        case .exchangeVerifyEmail,
              .kycVerifyEmail:
             return "context"
         case .kyc,
              .kycDocumentResubmission,
              .xlmAirdop,
-             .pitLinking:
+             .exchangeLinking:
             return nil
         }
     }

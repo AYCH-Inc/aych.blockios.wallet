@@ -84,6 +84,7 @@ public extension UIColor {
     
     // MARK: - Feature Themes
     
-    static let pitTheme = pitBackground
+    static let exchangeAnnouncementButton = grey800
+    static let exchangeTheme = exchangeBackground
     static let blockastackCardBackground = blockstackBackground
 }

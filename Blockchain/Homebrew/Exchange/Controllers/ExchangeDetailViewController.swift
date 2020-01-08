@@ -360,7 +360,7 @@ extension ExchangeDetailViewController: ExchangeDetailInterface {
         if visibility == .hidden {
             loadingViewPresenter.hide()
         } else {
-            loadingViewPresenter.show(with: LocalizationConstants.Exchange.sendingOrder)
+            loadingViewPresenter.show(with: LocalizationConstants.Swap.sendingOrder)
         }
     }
 }

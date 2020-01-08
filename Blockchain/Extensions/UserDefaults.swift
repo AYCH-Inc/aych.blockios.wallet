@@ -64,8 +64,8 @@ extension UserDefaults {
         case didTapOnDocumentResubmissionDeepLink
         case documentResubmissionLinkReason
         case didAcceptCoinifyTOS
-        case pitLinkIdentifier
-        case didTapOnPitDeepLink
+        case exchangeLinkIdentifier = "pitLinkIdentifier"
+        case didTapOnExchangeDeepLink = "didTapOnPitDeepLink"
         case walletIntroLatestLocation
     }
 

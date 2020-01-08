@@ -17,30 +17,30 @@ final class SendDestinationInteractorTests: XCTestCase {
     // TODO: Add any supported asset to this test case
     private let assets = [AssetType.ethereum]
     
-    // MARK: - PIT Account Test Cases
+    // MARK: - Exchange Account Test Cases
     
-    func testHasPitAccount() throws {
+    func testHasExchangeAccount() throws {
         for asset in assets {
-            let interactor = self.interactor(for: asset, hasPitAccount: true)
-            let hasPitAccount = try interactor.hasPitAccount.toBlocking().first()!
-            XCTAssertTrue(hasPitAccount)
+            let interactor = self.interactor(for: asset, hasExchangeAccount: true)
+            let hasExchangeAccount = try interactor.hasExchangeAccount.toBlocking().first()!
+            XCTAssertTrue(hasExchangeAccount)
         }
     }
     
-    func testPitAccountSelectionWhenPitAccountAvailable() throws {
-        try testPitAccountSelection(when: true)
+    func testExchangeAccountSelectionWhenExchangeAccountAvailable() throws {
+        try testExchangeAccountSelection(when: true)
     }
     
-    func testPitAccountSelectionWhenPitAccountNotAvailable() throws {
-        try testPitAccountSelection(when: false)
+    func testExchangeAccountSelectionWhenExchangeAccountNotAvailable() throws {
+        try testExchangeAccountSelection(when: false)
     }
     
-    private func testPitAccountSelection(when hasPitAccount: Bool) throws {
+    private func testExchangeAccountSelection(when hasExchangeAccount: Bool) throws {
         for asset in assets {
-            let interactor = self.interactor(for: asset, hasPitAccount: hasPitAccount)
-            interactor.pitSelectedRelay.accept(true)
+            let interactor = self.interactor(for: asset, hasExchangeAccount: hasExchangeAccount)
+            interactor.exchangeSelectedRelay.accept(true)
             let state = try interactor.accountState.toBlocking().first()!
-            XCTAssertEqual(hasPitAccount, state.isValid)
+            XCTAssertEqual(hasExchangeAccount, state.isValid)
         }
     }
     
@@ -69,7 +69,7 @@ final class SendDestinationInteractorTests: XCTestCase {
     }
     
     private func test(destination: String, for asset: AssetType, expectedState: SendDestinationAccountState) throws {
-        let interactor = self.interactor(for: asset, hasPitAccount: true)
+        let interactor = self.interactor(for: asset, hasExchangeAccount: true)
         interactor.set(address: destination)
         
         let accountState = interactor.accountState.toBlocking()
@@ -80,13 +80,13 @@ final class SendDestinationInteractorTests: XCTestCase {
     
     // MARK: - Accessors
     
-    private func interactor(for asset: AssetType, hasPitAccount: Bool) -> SendDestinationAccountInteracting {
-        let pitAddressFetcher: PitAddressFetching
-        if hasPitAccount {
-            pitAddressFetcher = MockPitAddressFetcher(expectedResult: .success(.active))
+    private func interactor(for asset: AssetType, hasExchangeAccount: Bool) -> SendDestinationAccountInteracting {
+        let exchangeAddressFetcher: ExchangeAddressFetching
+        if hasExchangeAccount {
+            exchangeAddressFetcher = MockExchangeAddressFetcher(expectedResult: .success(.active))
         } else {
-            pitAddressFetcher = MockPitAddressFetcher(expectedResult: .success(.blocked))
+            exchangeAddressFetcher = MockExchangeAddressFetcher(expectedResult: .success(.blocked))
         }
-        return SendDestinationAccountInteractor(asset: asset, pitAddressFetcher: pitAddressFetcher)
+        return SendDestinationAccountInteractor(asset: asset, exchangeAddressFetcher: exchangeAddressFetcher)
     }
 }

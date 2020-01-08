@@ -161,13 +161,13 @@ class TradeExecutionService: TradeExecutionAPI {
         error: @escaping ((String) -> Void)
     ) {
         guard let pair = TradingPair(string: conversion.quote.pair) else {
-            error(LocalizationConstants.Exchange.tradeExecutionError)
+            error(LocalizationConstants.Swap.tradeExecutionError)
             Logger.shared.error("Invalid pair returned from server: \(conversion.quote.pair)")
             return
         }
         guard pair.from == from.address.assetType,
             pair.to == to.address.assetType else {
-                error(LocalizationConstants.Exchange.tradeExecutionError)
+                error(LocalizationConstants.Swap.tradeExecutionError)
                 Logger.shared.error("Asset types don't match.")
                 return
         }

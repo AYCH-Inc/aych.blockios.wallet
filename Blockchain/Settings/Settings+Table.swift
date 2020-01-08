@@ -16,7 +16,7 @@ import SafariServices
 extension SettingsTableViewController {
 
     enum SettingsCell {
-        case base, identity, wallet, pit, email, phoneNumber, currency, recovery, emailNotifications, twoFA, biometry, swipeReceive
+        case base, identity, wallet, exchange, email, phoneNumber, currency, recovery, emailNotifications, twoFA, biometry, swipeReceive
     }
 
     func reloadTableView() {
@@ -30,11 +30,11 @@ extension SettingsTableViewController {
         cell.detailTextLabel?.adjustsFontSizeToFitWidth = true
     }
     
-    func preparePITLinkingCell(_ cell: UITableViewCell) {
+    func prepareExchangeLinkingCell(_ cell: UITableViewCell) {
         getPITLinkingStatus { [weak self] linked in
             guard let self = self else { return }
-            cell.textLabel?.text = LocalizationConstants.PIT.title
-            cell.detailTextLabel?.text = linked ? LocalizationConstants.PIT.connected.uppercased() : LocalizationConstants.PIT.connect.uppercased()
+            cell.textLabel?.text = LocalizationConstants.Exchange.title
+            cell.detailTextLabel?.text = linked ? LocalizationConstants.Exchange.connected.uppercased() : LocalizationConstants.Exchange.connect.uppercased()
             self.createBadge(cell, color: .brandSecondary)
         }
     }
@@ -138,8 +138,7 @@ extension SettingsTableViewController {
     }
 
     func getPITLinkingStatus(handler: @escaping (Bool) -> Void) {
-        repositoryAPI.hasLinkedPITAccount
-            .subscribeOn(MainScheduler.asyncInstance)
+        repositoryAPI.hasLinkedExchangeAccount
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { value in
                 handler(value)
@@ -198,7 +197,7 @@ extension SettingsTableViewController {
         switch format {
         case .identity: prepareIdentityCell(cell)
         case .base: prepareBaseCell(cell)
-        case .pit: preparePITLinkingCell(cell)
+        case .exchange: prepareExchangeLinkingCell(cell)
         case .biometry: prepareBiometryCell(cell)
         case .wallet: prepareWalletCell(cell)
         case .email: prepareEmailCell(cell)
@@ -227,14 +226,14 @@ extension SettingsTableViewController {
         case (sections.security, securityWalletRecoveryPhrase): prepareRow(cell, .recovery)
         case (sections.security, pinBiometry): prepareRow(cell, .biometry)
         case (sections.security, pinSwipeToReceive): prepareRow(cell, .swipeReceive)
-        case (sections.pit, pitIndex): prepareRow(cell, .pit)
+        case (sections.exchange, exchangeIndex): prepareRow(cell, .exchange)
         default: break
         }
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         switch section {
-        case sections.pit where !sections.includesPitLinking:
+        case sections.exchange where !sections.includesExchangeLinking:
             return UIView()
         default:
             let sectionHeaderView = SettingsTableSectionHeader.fromNib() as SettingsTableSectionHeader
@@ -245,7 +244,7 @@ extension SettingsTableViewController {
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
-        case sections.pit where !sections.includesPitLinking:
+        case sections.exchange where !sections.includesExchangeLinking:
             return 1 // Because 0 is disregarded
         default:
             return 50
@@ -283,27 +282,27 @@ extension SettingsTableViewController {
             default:
                 return
             }
-        case sections.pit:
+        case sections.exchange:
             switch indexPath.row {
-            case pitIndex:
-                guard let supportURL = URL(string: Constants.Url.pitSupport) else { return }
+            case exchangeIndex:
+                guard let supportURL = URL(string: Constants.Url.exchangeSupport) else { return }
                 let startPITCoordinator = { [weak self] in
                     guard let self = self else { return }
-                    PitCoordinator.shared.start(from: self)
+                    ExchangeCoordinator.shared.start(from: self)
                 }
-                let launchPIT = AlertAction(
-                    style: .confirm(LocalizationConstants.PIT.Launch.launchPIT),
+                let launchExchange = AlertAction(
+                    style: .confirm(LocalizationConstants.Exchange.Launch.launchExchange),
                     metadata: .block(startPITCoordinator)
                 )
                 let contactSupport = AlertAction(
-                    style: .default(LocalizationConstants.PIT.Launch.contactSupport),
+                    style: .default(LocalizationConstants.Exchange.Launch.contactSupport),
                     metadata: .url(supportURL)
                 )
                 let model = AlertModel(
-                    headline: LocalizationConstants.PIT.title,
+                    headline: LocalizationConstants.Exchange.title,
                     body: nil,
-                    actions: [launchPIT, contactSupport],
-                    image: #imageLiteral(resourceName: "pit-icon"),
+                    actions: [launchExchange, contactSupport],
+                    image: #imageLiteral(resourceName: "exchange-icon-small"),
                     dismissable: true,
                     style: .sheet
                 )

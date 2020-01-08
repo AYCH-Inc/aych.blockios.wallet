@@ -260,7 +260,7 @@ private extension ExchangeCreateView {
         useMinButton.titleLabel?.font = buttonFont
         useMinButton.backgroundColor = UIColor.white
         useMinButton.setTitleColor(UIColor.brandSecondary, for: .normal)
-        useMinButton.setTitle(LocalizationConstants.Exchange.useMin, for: .normal)
+        useMinButton.setTitle(LocalizationConstants.Swap.useMin, for: .normal)
         useMinButton.addTarget(self, action: #selector(self.useMinButtonTapped), for: .touchUpInside)
         buttonsView.addSubview(useMinButton)
 
@@ -274,7 +274,7 @@ private extension ExchangeCreateView {
         useMaxButton.titleLabel?.font = buttonFont
         useMaxButton.backgroundColor = UIColor.white
         useMaxButton.setTitleColor(UIColor.brandSecondary, for: .normal)
-        useMaxButton.setTitle(LocalizationConstants.Exchange.useMax, for: .normal)
+        useMaxButton.setTitle(LocalizationConstants.Swap.useMax, for: .normal)
         useMaxButton.addTarget(self, action: #selector(self.useMaxButtonTapped), for: .touchUpInside)
         buttonsView.addSubview(useMaxButton)
     }
@@ -326,7 +326,7 @@ private extension ExchangeCreateView {
         textView.textColor = UIColor.gray5
         textView.backgroundColor = UIColor.clear
         textView.font = UIFont(name: Constants.FontNames.montserratRegular, size: Constants.FontSizes.ExtraSmall)
-        textView.text = LocalizationConstants.Exchange.homebrewInformationText
+        textView.text = LocalizationConstants.Swap.homebrewInformationText
 
         // Set height according to content, stretching to the use min/max buttons at the most
         let fittedSize = textView.sizeThatFits(CGSize(

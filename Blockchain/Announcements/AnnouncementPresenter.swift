@@ -25,7 +25,7 @@ final class AnnouncementPresenter: NSObject {
     private let featureFetcher: FeatureFetching
     private let airdropRouter: AirdropRouterAPI
     private let kycCoordinator: KYCCoordinator
-    private let pitCoordinator: PitCoordinator
+    private let exchangeCoordinator: ExchangeCoordinator
     private let wallet: Wallet
     private let kycSettings: KYCSettingsAPI
     private let reactiveWallet: ReactiveWallet
@@ -54,14 +54,14 @@ final class AnnouncementPresenter: NSObject {
          featureFetcher: FeatureFetching = AppFeatureConfigurator.shared,
          airdropRouter: AirdropRouterAPI = AppCoordinator.shared.airdropRouter,
          appCoordinator: AppCoordinator = .shared,
-         pitCoordinator: PitCoordinator = .shared,
+         exchangeCoordinator: ExchangeCoordinator = .shared,
          kycCoordinator: KYCCoordinator = .shared,
          reactiveWallet: ReactiveWallet = ReactiveWallet(),
          kycSettings: KYCSettingsAPI = KYCSettings.shared,
          wallet: Wallet = WalletManager.shared.wallet) {
         self.interactor = interactor
         self.appCoordinator = appCoordinator
-        self.pitCoordinator = pitCoordinator
+        self.exchangeCoordinator = exchangeCoordinator
         self.kycCoordinator = kycCoordinator
         self.airdropRouter = airdropRouter
         self.reactiveWallet = reactiveWallet
@@ -140,11 +140,8 @@ final class AnnouncementPresenter: NSObject {
                 announcement = swap(using: preliminaryData, reappearanceTimeInterval: metadata.interval)
             case .coinifyKyc:
                 announcement = coinifyKyc(tiers: preliminaryData.tiers, reappearanceTimeInterval: metadata.interval)
-            case .pitLinking:
-                announcement = pitLinking(
-                    user: preliminaryData.user,
-                    variant: preliminaryData.pitLinkingCardVariant
-                )
+            case .exchangeLinking:
+                announcement = exchangeLinking(user: preliminaryData.user)
             case .bitpay:
                 announcement = bitpay
             case .pax:
@@ -251,18 +248,17 @@ extension AnnouncementPresenter {
         return BitpayAnnouncement(dismiss: hideAnnouncement)
     }
     
-    /// Computes Wallet-PIT linking announcement
-    private func pitLinking(user: NabuUser, variant: FeatureTestingVariant) -> Announcement {
-        let isFeatureEnabled = featureConfigurator.configuration(for: .pitAnnouncement).isEnabled
-        let shouldShowPitAnnouncement = isFeatureEnabled && !user.hasLinkedPITAccount
-        return PITLinkingAnnouncement(
-            shouldShowPitAnnouncement: shouldShowPitAnnouncement,
-            variant: variant,
+    /// Computes Wallet-Exchange linking announcement
+    private func exchangeLinking(user: NabuUser) -> Announcement {
+        let isFeatureEnabled = featureConfigurator.configuration(for: .exchangeAnnouncement).isEnabled
+        let shouldShowExchangeAnnouncement = isFeatureEnabled && !user.hasLinkedExchangeAccount
+        return ExchangeLinkingAnnouncement(
+            shouldShowExchangeAnnouncement: shouldShowExchangeAnnouncement,
             dismiss: hideAnnouncement,
-            action: pitCoordinator.start
+            action: exchangeCoordinator.start
         )
     }
-    
+        
     /// Computes an airdrop received card announcement
     private func receivedBlockstackAirdrop(hasReceivedBlockstackAirdrop: Bool) -> Announcement {
         return BlockstackAirdropReceivedAnnouncement(

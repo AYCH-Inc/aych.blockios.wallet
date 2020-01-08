@@ -14,7 +14,7 @@ protocol SendServiceContaining {
     var asset: AssetType { get }
     var sourceAccountProvider: SendSourceAccountProviding { get }
     var sourceAccountState: SendSourceAccountStateServicing { get }
-    var pitAddressFetcher: PitAddressFetching { get }
+    var exchangeAddressFetcher: ExchangeAddressFetching { get }
     var executor: SendExecuting { get }
     var exchange: PairExchangeServiceAPI { get }
     var fee: SendFeeServicing { get }
@@ -32,7 +32,7 @@ struct SendServiceContainer: SendServiceContaining {
     let asset: AssetType
     let sourceAccountProvider: SendSourceAccountProviding
     let sourceAccountState: SendSourceAccountStateServicing
-    let pitAddressFetcher: PitAddressFetching
+    let exchangeAddressFetcher: ExchangeAddressFetching
     let executor: SendExecuting
     let exchange: PairExchangeServiceAPI
     let fee: SendFeeServicing
@@ -41,7 +41,7 @@ struct SendServiceContainer: SendServiceContaining {
     
     init(asset: AssetType) {
         self.asset = asset
-        pitAddressFetcher = PitAddressFetcher()
+        exchangeAddressFetcher = ExchangeAddressFetcher()
         executor = SendExecutor(asset: asset)
         fee = SendFeeService(asset: asset)
         sourceAccountState = SendSourceAccountStateService(asset: asset)

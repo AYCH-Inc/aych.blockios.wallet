@@ -24,22 +24,23 @@ final class SendDestinationAccountInteractor: SendDestinationAccountInteracting 
         return accountRelay.asObservable()
     }
     
-    /// Streams boolean value on whether the source account is connected to the PIT and has a valid PIT address
-    var hasPitAccount: Observable<Bool> {
+    /// Streams boolean value on whether the source account is connected to the Exchange and has a valid Exchange address
+    var hasExchangeAccount: Observable<Bool> {
         return Observable
-            .combineLatest(pitAccountRelay, isTwoFAConfigurationRequired)
+            .combineLatest(exchangeAccountRelay, isTwoFAConfigurationRequired)
             .map { $0.0.isValid || $0.1 }
             .distinctUntilChanged()
             .asObservable()
     }
     
-    /// Streams boolean value indicating whether 2-fa configuration required (used upon tapping the PIT address button)
+    /// Streams boolean value indicating whether 2-fa configuration required.
+    /// used upon tapping the Exchange address button.
     var isTwoFAConfigurationRequired: Observable<Bool> {
         return twoFAConfigurationRequiredRelay.asObservable()
     }
         
-    /// A relay for PIT address selection
-    let pitSelectedRelay = PublishRelay<Bool>()
+    /// A relay for Exchange address selection
+    let exchangeSelectedRelay = PublishRelay<Bool>()
     
     /// The associated asset
     let asset: AssetType
@@ -47,40 +48,40 @@ final class SendDestinationAccountInteractor: SendDestinationAccountInteracting 
     // MARK: - Private Properties
     
     private let accountRelay = BehaviorRelay<SendDestinationAccountState>(value: .invalid(.empty))
-    private let pitAccountRelay = BehaviorRelay<SendDestinationAccountState>(value: .invalid(.empty))
+    private let exchangeAccountRelay = BehaviorRelay<SendDestinationAccountState>(value: .invalid(.empty))
     private let twoFAConfigurationRequiredRelay = BehaviorRelay<Bool>(value: false)
     private let disposeBag = DisposeBag()
     
     // MARK: - Services
     
-    private let pitAddressFetcher: PitAddressFetching
+    private let exchangeAddressFetcher: ExchangeAddressFetching
     private let accountValidator = AccountValidator()
     
     // MARK: - Setup
     
     init(asset: AssetType,
-         pitAddressFetcher: PitAddressFetching) {
+         exchangeAddressFetcher: ExchangeAddressFetching) {
         self.asset = asset
-        self.pitAddressFetcher = pitAddressFetcher
+        self.exchangeAddressFetcher = exchangeAddressFetcher
         
-        pitAddressFetcher.fetchAddress(for: asset)
+        exchangeAddressFetcher.fetchAddress(for: asset)
             .subscribe(onSuccess: { [weak self] address in
                 guard let self = self else { return }
-                self.pitAccountRelay.accept(.valid(address: address))
+                self.exchangeAccountRelay.accept(.valid(address: address))
                 self.twoFAConfigurationRequiredRelay.accept(false)
             }, onError: { [weak self] error in
                 guard let self = self else { return }
                 switch error {
-                case PitAddressFetcher.FetchingError.twoFactorRequired:
+                case ExchangeAddressFetcher.FetchingError.twoFactorRequired:
                     self.twoFAConfigurationRequiredRelay.accept(true)
                 default:
-                    self.pitAccountRelay.accept(.invalid(.fetch))
+                    self.exchangeAccountRelay.accept(.invalid(.fetch))
                 }
             })
             .disposed(by: disposeBag)
         
         Observable
-            .combineLatest(pitSelectedRelay.asObservable(), pitAccountRelay.asObservable())
+            .combineLatest(exchangeSelectedRelay.asObservable(), exchangeAccountRelay.asObservable())
             .filter { (isSelected, accountState) -> Bool in
                 return isSelected
             }
@@ -93,7 +94,7 @@ final class SendDestinationAccountInteractor: SendDestinationAccountInteracting 
             }
             .disposed(by: disposeBag)
         
-        pitSelectedRelay
+        exchangeSelectedRelay
             .filter { !$0 }
             .map { _ in SendDestinationAccountState.invalid(.empty) }
             .bind(to: accountRelay)

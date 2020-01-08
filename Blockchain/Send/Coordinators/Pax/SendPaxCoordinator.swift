@@ -36,9 +36,9 @@ class SendPaxCoordinator {
     /// The source of the address
     private var addressSource = SendAssetAddressSource.standard
     
-    /// pit address presenter
-    private let pitAddressPresenter: SendPitAddressStatePresenter
-    private var pitAddressViewModel = PITAddressViewModel(assetType: .pax)
+    /// Exchange address presenter
+    private let exchangeAddressPresenter: SendExchangeAddressStatePresenter
+    private var exchangeAddressViewModel = ExchangeAddressViewModel(assetType: .pax)
 
     private var fees: Single<EthereumTransactionFee> {
         return services.feeService.fees
@@ -48,7 +48,7 @@ class SendPaxCoordinator {
         interface: SendPAXInterface,
         serviceProvider: PAXServiceProvider = PAXServiceProvider.shared,
         priceService: PriceServiceAPI = PriceServiceClient(),
-        pitAddressPresenter: SendPitAddressStatePresenter,
+        exchangeAddressPresenter: SendExchangeAddressStatePresenter,
         bus: WalletActionEventBus = WalletActionEventBus.shared,
         analyticsRecorder: AnalyticsEventRecording = AnalyticsEventRecorder.shared
     ) {
@@ -56,7 +56,7 @@ class SendPaxCoordinator {
         self.calculator = SendPaxCalculator(erc20Service: serviceProvider.services.paxService)
         self.serviceProvider = serviceProvider
         self.priceAPI = priceService
-        self.pitAddressPresenter = pitAddressPresenter
+        self.exchangeAddressPresenter = exchangeAddressPresenter
         self.bus = bus
         self.analyticsRecorder = analyticsRecorder
         if let controller = interface as? SendPaxViewController {
@@ -187,18 +187,18 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
     
     func onLoad() {
         interface.apply(updates: [.maxAvailable(nil),
-                                  .pitAddressButtonVisibility(false),
-                                  .usePitAddress(nil)])
+                                  .exchangeAddressButtonVisibility(false),
+                                  .useExchangeAddress(nil)])
 
-        // Fetch the PIT address for PAX asset and apply changes to the interface
-        pitAddressPresenter.viewModel
+        // Fetch the Exchange address for PAX asset and apply changes to the interface
+        exchangeAddressPresenter.viewModel
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] viewModel in
                 guard let self = self else { return }
-                self.pitAddressViewModel = viewModel
-                self.interface.apply(updates: [.pitAddressButtonVisibility(true)])
+                self.exchangeAddressViewModel = viewModel
+                self.interface.apply(updates: [.exchangeAddressButtonVisibility(true)])
             }, onError: { [weak self] error in
-                self?.interface.apply(updates: [.pitAddressButtonVisibility(false)])
+                self?.interface.apply(updates: [.exchangeAddressButtonVisibility(false)])
             })
             .disposed(by: bag)
         
@@ -286,8 +286,8 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
         
         let displayAddress: String
         switch addressSource {
-        case .pit:
-            displayAddress = String(format: LocalizationConstants.PIT.Send.destination,
+        case .exchange:
+            displayAddress = String(format: LocalizationConstants.Exchange.Send.destination,
                                     AssetType.pax.symbol)
         case .standard:
             displayAddress = address.rawValue
@@ -376,19 +376,19 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
         interface.displayQRCodeScanner()
     }
     
-    func onPitAddressButtonTapped() {
+    func onExchangeAddressButtonTapped() {
         switch addressSource {
-        case .pit:
+        case .exchange:
             addressSource = .standard
-            interface.apply(updates: [.usePitAddress(nil)])
+            interface.apply(updates: [.useExchangeAddress(nil)])
         case .standard:
-            analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormPitButtonClick(asset: .pax))
-            if !pitAddressViewModel.isTwoFactorEnabled {
+            analyticsRecorder.record(event: AnalyticsEvents.Send.sendFormExchangeButtonClick(asset: .pax))
+            if !exchangeAddressViewModel.isTwoFactorEnabled {
                 interface.apply(updates: [.showAlertForEnabling2FA])
             } else {
-                addressSource = .pit
-                onAddressEntry(pitAddressViewModel.address)
-                interface.apply(updates: [.usePitAddress(pitAddressViewModel.address)])
+                addressSource = .exchange
+                onAddressEntry(exchangeAddressViewModel.address)
+                interface.apply(updates: [.useExchangeAddress(exchangeAddressViewModel.address)])
             }
         }
     }

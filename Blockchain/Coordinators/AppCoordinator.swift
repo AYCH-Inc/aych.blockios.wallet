@@ -250,8 +250,8 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
             handleLogout()
         case .buyBitcoin:
             handleBuyBitcoin()
-        case .pit:
-            handlePit()
+        case .exchange:
+            handleExchange()
         case .lockbox:
             let storyboard = UIStoryboard(name: "LockboxViewController", bundle: nil)
             let lockboxViewController = storyboard.instantiateViewController(withIdentifier: "LockboxViewController") as! LockboxViewController
@@ -298,8 +298,8 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
         showSettingsView()
     }
     
-    private func handlePit() {
-        PitCoordinator.shared.start(from: tabControllerManager)
+    private func handleExchange() {
+        ExchangeCoordinator.shared.start(from: tabControllerManager)
     }
 
     private func handleWebLogin() {
@@ -357,10 +357,6 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
 
     func handleBuyBitcoin() {
         BuySellCoordinator.shared.showBuyBitcoinView()
-    }
-    
-    private func handleExchange() {
-        ExchangeCoordinator.shared.start(rootViewController: self.tabControllerManager)
     }
 }
 

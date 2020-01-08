@@ -1310,49 +1310,6 @@ public struct LocalizationConstants {
             comment: "`Update` button for an alert that notifies the user that a new app version is available on the store"
         )
     }
-
-    public struct InfoScreen {
-        public struct Airdrop {
-            public static let title = NSLocalizedString(
-                "Unlock Access to Airdrops",
-                comment: "airdrop info screen title"
-            )
-            public static let description = NSLocalizedString(
-                "Our next airdrop with Blockstack is launching soon! Get free Stacks (STX) by upgrading your profile to Gold Level.",
-                comment: "airdrop info screen description"
-            )
-            public static let disclaimerPrefix = NSLocalizedString(
-                "*For regulatory reasons, USA, Canada and Japan nationals can’t participate in the airdrop. ",
-                comment: "airdrop info screen disclaimer prefix"
-            )
-            public static let disclaimerLearnMoreLink = NSLocalizedString(
-                "Learn more",
-                comment: "airdrop info screen disclaimer learn more link"
-            )
-            public static let ctaButton = NSLocalizedString(
-                "Complete My Profile",
-                comment: "airdrop info screen CTA button title"
-            )
-        }
-        public struct STXApplicationComplete {
-            public static let title = NSLocalizedString(
-                "Application Complete",
-                comment: "STX application complete info screen title"
-            )
-            public static let description = NSLocalizedString(
-                "Once your verification is confirmed, you’ll automatically secure a spot in the Airdrop for Stacks.",
-                comment: "STX application complete info screen description"
-            )
-            public static let ctaButton = NSLocalizedString(
-                "Share Now",
-                comment: "STX application complete info screen CTA button title"
-            )
-            public static let shareText = NSLocalizedString(
-                "Hey! I just secured my spot for Blockchain’s latest airdrop with Blockstack. Sign up and get verified to get free Stacks!",
-                comment: "STX application complete info screen: message to share"
-            )
-        }
-    }
     
     public struct TabItems {
         public static let home = NSLocalizedString(
@@ -1449,31 +1406,6 @@ public struct LocalizationConstants {
             public static let ctaButton = NSLocalizedString(
                 "View Details",
                 comment: "STX airdrop received announcement card CTA button title"
-            )
-        }
-        
-        public struct BlockstackAirdrop {
-            public static let title = NSLocalizedString(
-                "Get Free Crypto",
-                comment: "STX airdrop announcement card title"
-            )
-            public static let description = NSLocalizedString(
-                "Upgrade your profile to Gold to access the Airdrop and get free Stacks (STX) from Blockstack.",
-                comment: "STX airdrop announcement card description"
-            )
-            public static let ctaButton = NSLocalizedString(
-                "Get Free Crypto",
-                comment: "STX airdrop announcement card CTA button title"
-            )
-        }
-        public struct BlockstackAirdropMini {
-            public static let title = NSLocalizedString(
-                "Our Latest Airdrop is Here",
-                comment: "STX airdrop announcement mini card title"
-            )
-            public static let description = NSLocalizedString(
-                "Upgrade to get free crypto",
-                comment: "STX airdrop announcement mini card description"
             )
         }
         public struct BlockstackAirdropRegisteredMini {

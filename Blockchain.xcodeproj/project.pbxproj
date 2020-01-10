@@ -1606,6 +1606,7 @@
 		65804B6E232943C600D0DAB0 /* MockSendSourceAccountStateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65804B6C232943C600D0DAB0 /* MockSendSourceAccountStateService.swift */; };
 		6585855D23C7ADA40067E01E /* Localization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD00A5923C3AAF2004BF792 /* Localization.framework */; };
 		6585855E23C7ADAF0067E01E /* Localization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD00A5923C3AAF2004BF792 /* Localization.framework */; };
+		6585858023C88D3C0067E01E /* Localization.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD00A5923C3AAF2004BF792 /* Localization.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6587FD1322F97F5F00206575 /* SendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6587FD1122F97F5F00206575 /* SendViewController.swift */; };
 		6587FD1422F97F5F00206575 /* SendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6587FD1122F97F5F00206575 /* SendViewController.swift */; };
 		6587FD1522F97F5F00206575 /* SendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6587FD1222F97F5F00206575 /* SendViewController.xib */; };
@@ -3016,6 +3017,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6585858023C88D3C0067E01E /* Localization.framework in Embed Frameworks */,
 				34EE987223AA5B3100074EC0 /* NetworkKit.framework in Embed Frameworks */,
 				3A4E489721BF3070001A799D /* BitcoinKit.framework in Embed Frameworks */,
 				3A6A1A2D21B9A64D00D97C74 /* EthereumKit.framework in Embed Frameworks */,

@@ -17,13 +17,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84f-M8-506">
-                        <rect key="frame" x="24" y="16" width="136" height="34"/>
+                        <rect key="frame" x="0.0" y="16" width="160" height="34"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ou-P9-EVI">
-                        <rect key="frame" x="160" y="16" width="136" height="34"/>
+                        <rect key="frame" x="160" y="16" width="160" height="34"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -33,12 +33,12 @@
                     <constraint firstAttribute="centerX" secondItem="84f-M8-506" secondAttribute="trailing" id="FNP-9A-yXN"/>
                     <constraint firstItem="3Ou-P9-EVI" firstAttribute="top" secondItem="84f-M8-506" secondAttribute="top" id="R9Y-TR-TcP"/>
                     <constraint firstItem="3Ou-P9-EVI" firstAttribute="bottom" secondItem="84f-M8-506" secondAttribute="bottom" id="Sen-lQ-EtY"/>
-                    <constraint firstItem="84f-M8-506" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="24" id="Vxc-40-wHt"/>
+                    <constraint firstItem="84f-M8-506" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Vxc-40-wHt"/>
                     <constraint firstItem="3Ou-P9-EVI" firstAttribute="leading" secondItem="84f-M8-506" secondAttribute="trailing" id="gPC-Mk-nJi"/>
                     <constraint firstItem="3Ou-P9-EVI" firstAttribute="centerY" secondItem="84f-M8-506" secondAttribute="centerY" id="qA2-Uv-Ibj"/>
                     <constraint firstAttribute="bottom" secondItem="84f-M8-506" secondAttribute="bottom" priority="999" constant="16" id="rbv-eA-ZnF"/>
                     <constraint firstItem="84f-M8-506" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" priority="999" constant="16" id="tWu-bt-AUK"/>
-                    <constraint firstAttribute="trailing" secondItem="3Ou-P9-EVI" secondAttribute="trailing" constant="24" id="wVI-VS-qfS"/>
+                    <constraint firstAttribute="trailing" secondItem="3Ou-P9-EVI" secondAttribute="trailing" id="wVI-VS-qfS"/>
                     <constraint firstItem="84f-M8-506" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ytI-5r-lC7"/>
                 </constraints>
             </tableViewCellContentView>

@@ -151,12 +151,17 @@ final class AirdropStatusScreenPresenter {
         
         // Drop amount
         if let transaction = campaign.latestTransaction {
-            let amount = String(
+            var amount = String(
                 format: LocalizedString.Cell.Amount.value,
                 transaction.withdrawalCurrency,
                 transaction.fiat.toDisplayString(includeSymbol: false),
                 transaction.fiatCurrency
             )
+            
+            /// Prepend either the crypto amount if exists, or a placeholder otherwise
+            let crypto = transaction.crypto?.toDisplayString(includeSymbol: false) ?? LocalizedString.Cell.Amount.valuePlaceholder
+            amount = crypto + amount
+
             dataSource.append(
                 AirdropStatusCellData(
                     title: .init(

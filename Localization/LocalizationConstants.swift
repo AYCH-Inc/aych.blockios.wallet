@@ -2991,8 +2991,12 @@ public struct LocalizationConstants {
                         "Amount",
                         comment: "Airdrop status screen: amount label"
                     )
+                    public static let valuePlaceholder = NSLocalizedString(
+                        "xxx",
+                        comment: "Airdrop status screen: amount value placeholder label"
+                    )
                     public static let value = NSLocalizedString(
-                        "xxx %@ (%@ %@)",
+                        " %@ (%@ %@)",
                         comment: "Airdrop status screen: amount value format"
                     )
                 }

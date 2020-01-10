@@ -27,6 +27,15 @@ public enum TriageCryptoCurrency: Equatable {
             return currency.symbol
         }
     }
+    
+    public var cryptoCurrency: CryptoCurrency? {
+        switch self {
+        case .supported(let currency):
+            return currency
+        case .blockstack:
+            return nil
+        }
+    }
 }
 
 extension TriageCryptoCurrency {

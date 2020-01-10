@@ -6,6 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+import BigInt
 import ToolKit
 import PlatformKit
 
@@ -107,6 +108,19 @@ struct AirdropCampaigns {
             
             var fiat: FiatValue {
                 return FiatValue.create(amount: fiatValue / 100, currencyCode: fiatCurrency)
+            }
+            
+            var crypto: CryptoValue? {
+                guard let cryptoCurrency = cryptoCurrency.cryptoCurrency else {
+                    return nil
+                }
+                guard let amount = BigInt("\(withdrawalQuantity)") else {
+                    return nil
+                }
+                return CryptoValue.createFromMinorValue(
+                    amount,
+                    assetType: cryptoCurrency
+                )
             }
             
             var withdrawalDate: Date! {

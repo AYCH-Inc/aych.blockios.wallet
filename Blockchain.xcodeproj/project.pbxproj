@@ -1463,6 +1463,7 @@
 		653FB97223C4C04C0030220F /* ExchangeEmailVerificationViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 653FB96B23C4C04C0030220F /* ExchangeEmailVerificationViewController.storyboard */; };
 		653FB97323C4C04C0030220F /* ExchangeConnectViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 653FB96C23C4C04C0030220F /* ExchangeConnectViewController.storyboard */; };
 		653FB97423C4C04C0030220F /* ExchangeConnectViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 653FB96C23C4C04C0030220F /* ExchangeConnectViewController.storyboard */; };
+		653FBA4E23C732230030220F /* CampaignComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653FBA4423C732230030220F /* CampaignComposer.swift */; };
 		654026CC236CBF61008683A2 /* ShimmeringViewing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6567FDE222C8B0750035CB16 /* ShimmeringViewing.swift */; };
 		654026CE236CBF71008683A2 /* ShimmeringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654026CD236CBF70008683A2 /* ShimmeringView.swift */; };
 		654154F522C4F0CA00E78814 /* DisplayAddressStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654154F422C4F0CA00E78814 /* DisplayAddressStatus.swift */; };
@@ -1607,6 +1608,7 @@
 		6585855D23C7ADA40067E01E /* Localization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD00A5923C3AAF2004BF792 /* Localization.framework */; };
 		6585855E23C7ADAF0067E01E /* Localization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD00A5923C3AAF2004BF792 /* Localization.framework */; };
 		6585858023C88D3C0067E01E /* Localization.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD00A5923C3AAF2004BF792 /* Localization.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6585859C23C899FE0067E01E /* CampaignComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653FBA4423C732230030220F /* CampaignComposer.swift */; };
 		6587FD1322F97F5F00206575 /* SendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6587FD1122F97F5F00206575 /* SendViewController.swift */; };
 		6587FD1422F97F5F00206575 /* SendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6587FD1122F97F5F00206575 /* SendViewController.swift */; };
 		6587FD1522F97F5F00206575 /* SendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6587FD1222F97F5F00206575 /* SendViewController.xib */; };
@@ -5479,6 +5481,7 @@
 		653FB96A23C4C04C0030220F /* ExchangeEmailVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeEmailVerificationViewController.swift; sourceTree = "<group>"; };
 		653FB96B23C4C04C0030220F /* ExchangeEmailVerificationViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExchangeEmailVerificationViewController.storyboard; sourceTree = "<group>"; };
 		653FB96C23C4C04C0030220F /* ExchangeConnectViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExchangeConnectViewController.storyboard; sourceTree = "<group>"; };
+		653FBA4423C732230030220F /* CampaignComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignComposer.swift; sourceTree = "<group>"; };
 		654026CD236CBF70008683A2 /* ShimmeringView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmeringView.swift; sourceTree = "<group>"; };
 		654154F422C4F0CA00E78814 /* DisplayAddressStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayAddressStatus.swift; sourceTree = "<group>"; };
 		6541550022C549E700E78814 /* AddressFetchingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFetchingError.swift; sourceTree = "<group>"; };
@@ -9059,6 +9062,7 @@
 				3AECA26322CFE1AA004ED7B7 /* ExchangeAccountRepository.swift */,
 				3A5AF01322D5354E007C5717 /* ExchangeCoordinator.swift */,
 				3A204AF022DCF8EA008FCD0B /* ExchangeAccountAuthenticator.swift */,
+				653FBA4423C732230030220F /* CampaignComposer.swift */,
 			);
 			path = Exchange;
 			sourceTree = "<group>";
@@ -18301,6 +18305,7 @@
 				3A8A1D41238743E0008E0679 /* AssetLineChartTableViewCellInteracting.swift in Sources */,
 				AAE94F4420C736E9005A3595 /* AssetURLPayloadFactoryTests.swift in Sources */,
 				3AC7C2B822E6A8380021C841 /* ExchangeCoordinator.swift in Sources */,
+				6585859C23C899FE0067E01E /* CampaignComposer.swift in Sources */,
 				3AC25E6922443DA40033FB9D /* ExchangeInteractorStatus.swift in Sources */,
 				602B9D172118E25A00BD3D60 /* LocationSuggestionInterface.swift in Sources */,
 				3A56AEB02176620400044302 /* StellarTransactionService.swift in Sources */,
@@ -19259,6 +19264,7 @@
 				C769B2DA1FC4ABA9009632B6 /* ContinueButtonInputAccessoryView.m in Sources */,
 				652CDFEF230FDA900044E899 /* BuyBitcoinAnnouncement.swift in Sources */,
 				653C42102345F99500AAD154 /* AnalyticsEvents+Blockchain.swift in Sources */,
+				653FBA4E23C732230030220F /* CampaignComposer.swift in Sources */,
 				51D17A9920A33A700071E7E0 /* PrivateKeyReader.swift in Sources */,
 				65D5720D234B515E00D14342 /* AssetSelectorView+Analytics.swift in Sources */,
 				3A26AFA2212B58A8003A8A08 /* ExchangeListDataProvider.swift in Sources */,

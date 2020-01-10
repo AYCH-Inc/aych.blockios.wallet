@@ -30,14 +30,17 @@ class ExchangeCoordinator {
     private let authenticator: ExchangeAccountAuthenticatorAPI
     private let loadingIndicatorAPI: LoadingViewPresenting
     private let appSettings: BlockchainSettings.App
+    private let campaignComposer: CampaignComposer
     
     // MARK: Init
     
     init(repository: ExchangeAccountRepositoryAPI = ExchangeAccountRepository(),
          authenticator: ExchangeAccountAuthenticatorAPI = ExchangeAccountAuthenticator(),
          loadingIndicatorAPI: LoadingViewPresenting = LoadingViewPresenter.shared,
+         campaignComposer: CampaignComposer = CampaignComposer(),
          appSettings: BlockchainSettings.App = BlockchainSettings.App.shared) {
         self.repository = repository
+        self.campaignComposer = campaignComposer
         self.authenticator = authenticator
         self.loadingIndicatorAPI = loadingIndicatorAPI
         self.appSettings = appSettings
@@ -95,9 +98,12 @@ class ExchangeCoordinator {
             .disposed(by: bag)
         
         connect.learnMoreRelay
-            .map { _ -> URLComponents in
+            .map(weak: self) { (self, _) -> URLComponents in
                 var components = URLComponents()
                 components.path = BlockchainAPI.shared.exchangeURL
+                components.queryItems = self.campaignComposer.generalQueryValuePairs.map {
+                    URLQueryItem(name: $0.rawValue, value: $1.rawValue)
+                }
                 return components
             }
             .compactMap { $0.string?.removingPercentEncoding }

@@ -25,12 +25,15 @@ class ExchangeAccountAuthenticator: ExchangeAccountAuthenticatorAPI {
     private let blockchainRepository: BlockchainDataRepository
     private let authenticationService: NabuAuthenticationServiceAPI
     private let client: ExchangeClientAPI
+    private let campaignComposer: CampaignComposer
     
     init(blockchainRepository: BlockchainDataRepository = BlockchainDataRepository.shared,
          authenticationService: NabuAuthenticationServiceAPI = NabuAuthenticationService.shared,
+         campaignComposer: CampaignComposer = CampaignComposer(),
          clientAPI: ExchangeClientAPI = ExchangeClient(communicatorAPI: NetworkCommunicator.shared)) {
         self.blockchainRepository = blockchainRepository
         self.authenticationService = authenticationService
+        self.campaignComposer = campaignComposer
         self.client = clientAPI
     }
     
@@ -54,7 +57,11 @@ class ExchangeAccountAuthenticator: ExchangeAccountAuthenticatorAPI {
                 }
                 
                 let pathComponents = ["trade", "link", linkID]
-                let queryParams = ["email": email]
+                var queryParams = Dictionary(
+                    uniqueKeysWithValues: self.campaignComposer.generalQueryValuePairs
+                        .map { ($0.rawValue, $1.rawValue) }
+                )
+                queryParams += ["email": email]
                 
                 guard let endpoint = URL.endpoint(apiURL, pathComponents: pathComponents, queryParameters: queryParams) else {
                     return Single.error(ExchangeLinkingAPIError.unknown)

@@ -38,8 +38,16 @@ public class EthereumWallet: NSObject {
         return dispatcher
     }
     
+    @available(*, deprecated, message: "Please don't use this. It's here only to support legacy code")
+    @objc var legacyEthBalance: NSDecimalNumber = 0
+    
     private lazy var credentialsProvider: WalletCredentialsProviding = WalletManager.shared.legacyRepository
     private weak var wallet: WalletAPI?
+    private let walletOptionsService: WalletOptionsAPI
+    
+    /// This is lazy because we got a massive retain cycle, and injecting using `EthereumWallet` initializer
+    /// overflows the function stack with initializers that call one another
+    private lazy var dependencies: ETHDependencies = ETHServiceProvider.shared.services
     
     @objc private(set) var etherTransactions: [EtherTransaction] = []
     
@@ -49,16 +57,7 @@ public class EthereumWallet: NSObject {
         hasSeen: false,
         transactionNotes: [String: String]()
     )
-    
-    private static let refreshInterval: TimeInterval = 60.0
-    
-    private var shouldRefreshHistory: Bool {
-        let lastRefreshInterval = Date(timeIntervalSinceNow: -EthereumWallet.refreshInterval)
-        return lastHistoryRefresh.compare(lastRefreshInterval) == .orderedAscending
-    }
-    
-    private var lastHistoryRefresh: Date = Date(timeIntervalSinceNow: -EthereumWallet.refreshInterval)
-    
+            
     private var ethereumAccountExists: Bool?
         
     private let dispatcher: Dispatcher
@@ -67,8 +66,10 @@ public class EthereumWallet: NSObject {
         self.init(wallet: legacyWallet)
     }
     
-    init(wallet: WalletAPI,
+    init(walletOptionsService: WalletOptionsAPI = WalletService.shared,
+         wallet: WalletAPI,
          dispatcher: Dispatcher = EthereumJSInteropDispatcher.shared) {
+        self.walletOptionsService = walletOptionsService
         self.wallet = wallet
         self.dispatcher = dispatcher
         super.init()
@@ -77,7 +78,6 @@ public class EthereumWallet: NSObject {
                 .milliseconds(100),
                 scheduler: ConcurrentDispatchQueueScheduler(qos: .background)
             )
-            .observeOn(MainScheduler.asyncInstance)
             .flatMapLatest(weak: self) { (self, _) in
                 return self.balance.asObservable()
             }
@@ -100,41 +100,13 @@ public class EthereumWallet: NSObject {
             self?.delegate.didFailToSaveERC20Tokens(errorMessage: errorMessage)
         }
         
-        context.setJsFunction(named: "objc_on_isWaitingOnTransactionAsync" as NSString) { [weak self] isWaiting in
-            self?.delegate.didGetIsWaitingOnTransaction(isWaiting)
-        }
-        context.setJsFunction(named: "objc_on_isWaitingOnTransactionAsync_error" as NSString) { [weak self] errorMessage in
-            self?.delegate.didFailToGetIsWaitingOnTransaction(errorMessage: errorMessage)
-        }
-        
         context.setJsFunction(named: "objc_on_get_ether_address_success" as NSString) { [weak self] address in
             self?.delegate.didGetAddress(address)
         }
         context.setJsFunction(named: "objc_on_get_ether_address_error" as NSString) { [weak self] errorMessage in
             self?.delegate.didFailToGetAddress(errorMessage: errorMessage)
         }
-        
-        context.setJsFunction(named: "objc_on_didGetEtherTransactionNonceAsync" as NSString) { [weak self] nonce in
-            self?.delegate.didGetNonce(nonce)
-        }
-        context.setJsFunction(named: "objc_on_error_gettingEtherTransactionNonceAsync" as NSString) { [weak self] errorMessage in
-            self?.delegate.didFailToGetNonce(errorMessage: errorMessage)
-        }
-        
-        context.setJsFunction(named: "objc_on_fetch_available_eth_balance_success" as NSString) { [weak self] balance in
-            self?.delegate.didFetchBalance(balance)
-        }
-        context.setJsFunction(named: "objc_on_fetch_available_eth_balance_error" as NSString) { [weak self] errorMessage in
-            self?.delegate.didFailToFetchBalance(errorMessage: errorMessage)
-        }
-        
-        context.setJsFunction(named: "objc_on_recordLastTransactionAsync_success" as NSString) { [weak self] in
-            self?.delegate.didRecordLastTransaction()
-        }
-        context.setJsFunction(named: "objc_on_recordLastTransactionAsync_error" as NSString) { [weak self] errorMessage in
-            self?.delegate.didFailToRecordLastTransaction(errorMessage: errorMessage)
-        }
-        
+                
         context.setJsFunction(named: "objc_on_didGetEtherAccountsAsync" as NSString) { [weak self] accounts in
             self?.delegate.didGetAccounts(accounts)
         }
@@ -142,11 +114,11 @@ public class EthereumWallet: NSObject {
             self?.delegate.didFailToGetAccounts(errorMessage: errorMessage)
         }
         
-        context.setJsFunction(named: "objc_on_fetch_eth_history_async_success" as NSString) { [weak self] in
-            self?.delegate.didFetchHistory()
+        context.setJsFunction(named: "objc_on_recordLastTransactionAsync_success" as NSString) { [weak self] in
+            self?.delegate.didRecordLastTransaction()
         }
-        context.setJsFunction(named: "objc_on_fetch_eth_history_async_error" as NSString) { [weak self] errorMessage in
-            self?.delegate.didFailToFetchHistory(errorMessage: errorMessage)
+        context.setJsFunction(named: "objc_on_recordLastTransactionAsync_error" as NSString) { [weak self] errorMessage in
+            self?.delegate.didFailToRecordLastTransaction(errorMessage: errorMessage)
         }
     }
     
@@ -285,18 +257,8 @@ extension EthereumWallet: ERC20BridgeAPI {
 
 extension EthereumWallet: EthereumWalletBridgeAPI {
     
-    public var fetchHistoryIfNeeded: Single<Void> {
-        return secondPasswordIfAccountCreationNeeded
-            .flatMap(weak: self) { (self, secondPassword) -> Single<Void> in
-                self.fetchHistoryIfNeeded(secondPassword: secondPassword)
-            }
-    }
-    
-    public var fetchHistory: Single<Void> {
-        return secondPasswordIfAccountCreationNeeded
-            .flatMap(weak: self) { (self, secondPassword) -> Single<Void> in
-                self.fetchHistory(secondPassword: secondPassword)
-            }
+    public var history: Single<Void> {
+        return fetchHistory(fromCache: false)
     }
     
     public var balance: Single<CryptoValue> {
@@ -324,8 +286,6 @@ extension EthereumWallet: EthereumWalletBridgeAPI {
     /** Fetch ether transactions using an injected service */
     public func fetchEthereumTransactions(using service: EthereumHistoricalTransactionService) -> Single<[EtherTransaction]> {
         return service.fetchTransactions()
-            .subscribeOn(MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.instance)
             .map { [weak self] legacyTransactions in
                 let result = legacyTransactions
                     .map { $0.legacyTransaction }
@@ -350,52 +310,132 @@ extension EthereumWallet: EthereumWalletBridgeAPI {
             }
     }
     
+    /// Streams the nonce of the address
     public var nonce: Single<BigUInt> {
-        return secondPasswordIfAccountCreationNeeded
-            .flatMap(weak: self) { (self, secondPassword) -> Single<BigUInt> in
-                return self.nonce(secondPassword: secondPassword)
-            }
+        return dependencies
+            .assetAccountRepository
+            .assetAccountDetails
+            .map { BigUInt(integerLiteral: $0.nonce) }
     }
     
-    public var isWaitingOnEtherTransaction: Single<Bool> {
-        return secondPasswordIfAccountCreationNeeded
-            .flatMap(weak: self) { (self, secondPassword) -> Single<String?> in
-                self.fetchHistoryIfNeeded(secondPassword: secondPassword)
-                    .flatMap { _ -> Single<String?> in
-                        Single.just(secondPassword)
+    /// Streams `true` if there is a prending transaction
+    public var isWaitingOnTransaction: Single<Bool> {
+        guard let wallet = wallet else {
+            return .error(WalletError.notInitialized)
+        }
+        return Single
+            .zip(
+                wallet.hasLastTransactionDetails,
+                dependencies.transactionService.hasTransactions
+            )
+            .map { (hasLastTransactionDetails, hasTransactions) -> Bool in
+                /// Return `false` if no last transaction
+                guard hasLastTransactionDetails else {
+                    return false
+                }
+                /// Return `false` if transactions
+                guard hasTransactions else {
+                    return false
+                }
+                /// Return `true` to keep verifying whether the transaction has been processed / dropped
+                return true
+            }
+            .flatMap(weak: self) { (self, shouldVerifyLastTransaction) -> Single<Bool> in
+                guard shouldVerifyLastTransaction else {
+                    return .just(false)
+                }
+                /// Analyze last transaction - whether it has been droppped by not being mined
+                /// until the `lastTxFuse` time has passed, or alternately,
+                /// it has been processed already
+                return Single
+                    .zip(
+                        self.hasLastTransactionBeenProcessed,
+                        self.isLastTransactionDropped
+                    )
+                    .map { (hasBeenProcessed, isDropped) -> Bool in
+                        if hasBeenProcessed {
+                            return false
+                        }
+                        // Transaction is has not been processed yet - check if it was dropped
+                        return !isDropped
                     }
             }
-            .flatMap(weak: self) { (self, secondPassword) -> Single<Bool> in
-                self.isWaitingOnEtherTransaction(secondPassword: secondPassword)
+    }
+
+    /// If x time passed and transaction was not successfully mined,
+    /// the last transaction will be deemed dropped and the account
+    /// will be allowed to create a new transaction.
+    private func isTransactionDropped(transactionDate: Date) -> Single<Bool> {
+        return walletOptionsService.walletOptions
+            .map { $0.ethereum.lastTxFuse }
+            .map { TimeInterval($0) }
+            .map { Date() > transactionDate.addingTimeInterval($0) }
+    }
+        
+    public func recordLast(transaction: EthereumTransactionPublished) -> Single<EthereumTransactionPublished> {
+        return Single
+            .create(weak: self) { (self, observer) -> Disposable in
+                guard let wallet = self.wallet else {
+                    observer(.error(WalletError.notInitialized))
+                    return Disposables.create()
+                }
+                wallet.recordLastEthereumTransaction(
+                    transactionHash: transaction.transactionHash,
+                    success: {
+                        observer(.success(transaction))
+                    },
+                    error: { errorMessage in
+                        observer(.error(WalletError.unknown))
+                    }
+                )
+                return Disposables.create()
+            }
+            .subscribeOn(MainScheduler.instance)
+    }
+
+    public func fetchHistory() -> Single<Void> {
+        return fetchHistory(fromCache: false)
+    }
+    
+    /// Check if the last transaction was processed
+    private var hasLastTransactionBeenProcessed: Single<Bool> {
+        guard let wallet = wallet else {
+            return .error(WalletError.notInitialized)
+        }
+        return Single
+            .zip(
+                dependencies.transactionService.transactions,
+                 wallet.lastEthereumTransactionDetails
+            )
+            .map { (transactions, lastTxDetails) -> Bool in
+                guard let lastTxHash = lastTxDetails?.hash else {
+                    return false
+                }
+                return transactions.contains { $0.transactionHash == lastTxHash }
             }
     }
     
-    public func recordLast(transaction: EthereumTransactionPublished) -> Single<EthereumTransactionPublished> {
-        return secondPasswordIfAccountCreationNeeded
-            .flatMap(weak: self) { (self, secondPassword) -> Single<EthereumTransactionPublished> in
-                return self.recordLast(transaction: transaction, secondPassword: secondPassword)
+    /// Check if the last transaction was dropped
+    private var isLastTransactionDropped: Single<Bool> {
+        guard let wallet = wallet else {
+            return .error(WalletError.notInitialized)
+        }
+        return wallet.lastEthereumTransactionDetails
+            .flatMap(weak: self) { (self, lastTransactionDetails) -> Single<Bool> in
+                guard let lastTransactionDetails = lastTransactionDetails else {
+                    return .just(false)
+                }
+                return self.isTransactionDropped(transactionDate: lastTransactionDetails.date)
             }
     }
     
     private func fetchBalance(secondPassword: String? = nil) -> Single<CryptoValue> {
-        return Single<String>.create(subscribe: { [weak self] observer -> Disposable in
-            guard let wallet = self?.wallet else {
-                observer(.error(WalletError.notInitialized))
-                return Disposables.create()
-            }
-            wallet.fetchEthereumBalance(with: secondPassword, success: { balanceString in
-                observer(.success(balanceString))
-            }, error: { errorMessage in
-                observer(.error(WalletError.unknown))
+        return dependencies.assetAccountRepository.assetAccountDetails
+            .map { $0.balance }
+            // TODO: This side effect is necessary for backward compat. since the relevant JS logic has been removed
+            .do(onSuccess: { [weak self] cryptoValue in
+                self?.legacyEthBalance = NSDecimalNumber(decimal: cryptoValue.majorValue)
             })
-            return Disposables.create()
-        })
-        .flatMap { balanceString -> Single<CryptoValue> in
-            guard let balance = CryptoValue.etherFromMajor(string: balanceString, locale: Locale.US) else {
-                throw WalletError.unknown
-            }
-            return Single.just(balance)
-        }
     }
     
     private func accounts(secondPassword: String? = nil) -> Single<EthereumAssetAccount> {
@@ -413,109 +453,47 @@ extension EthereumWallet: EthereumWalletBridgeAPI {
     }
     
     private func label(secondPassword: String? = nil) -> Single<String> {
-        return Single<String>.create(subscribe: { [weak self] observer -> Disposable in
-            guard let wallet = self?.wallet else {
-                observer(.error(WalletError.notInitialized))
+        return Single<String>
+            .create(weak: self) { (self, observer) -> Disposable in
+                guard let wallet = self.wallet else {
+                    observer(.error(WalletError.notInitialized))
+                    return Disposables.create()
+                }
+                wallet.getLabelForEthereumAccount(with: secondPassword, success: { label in
+                    observer(.success(label))
+                }, error: { errorMessage in
+                    observer(.error(WalletError.unknown))
+                })
                 return Disposables.create()
             }
-            wallet.getLabelForEthereumAccount(with: secondPassword, success: { label in
-                observer(.success(label))
-            }, error: { errorMessage in
-                observer(.error(WalletError.unknown))
-            })
-            return Disposables.create()
-        })
+            .subscribeOn(MainScheduler.instance)
     }
     
     private func address(secondPassword: String? = nil) -> Single<String> {
-        return Single<String>.create(subscribe: { [weak self] observer -> Disposable in
-            guard let wallet = self?.wallet else {
-                observer(.error(WalletError.notInitialized))
+        return Single<String>
+            .create(weak: self) { (self, observer) -> Disposable in
+                guard let wallet = self.wallet else {
+                    observer(.error(WalletError.notInitialized))
+                    return Disposables.create()
+                }
+                wallet.getEthereumAddress(with: secondPassword, success: { address in
+                    observer(.success(address))
+                }, error: { errorMessage in
+                    observer(.error(WalletError.unknown))
+                })
                 return Disposables.create()
             }
-            wallet.getEthereumAddress(with: secondPassword, success: { address in
-                observer(.success(address))
-            }, error: { errorMessage in
-                observer(.error(WalletError.unknown))
-            })
-            return Disposables.create()
-        })
+            .subscribeOn(MainScheduler.instance)
     }
-    
-    private func nonce(secondPassword: String? = nil) -> Single<BigUInt> {
-        return Single<String>.create(subscribe: { [weak self] observer -> Disposable in
-            guard let wallet = self?.wallet else {
-                observer(.error(WalletError.notInitialized))
-                return Disposables.create()
-            }
-            wallet.getEthereumTransactionNonce(with: secondPassword, success: { nonceString in
-                observer(.success(nonceString))
-            }, error: { errorMessage in
-                observer(.error(WalletError.unknown))
-            })
-            return Disposables.create()
-        })
-        .flatMap { nonceString -> Single<BigUInt> in
-            guard let value = BigUInt(nonceString, decimals: 0) else {
-                return Single.error(WalletError.unknown)
-            }
-            return Single.just(value)
+                
+    private func fetchHistory(fromCache: Bool) -> Single<Void> {
+        let transactions: Single<[EthereumHistoricalTransaction]>
+        if fromCache {
+            transactions = dependencies.transactionService.transactions
+        } else {
+            transactions = dependencies.transactionService.fetchTransactions()
         }
-    }
-    
-    private func isWaitingOnEtherTransaction(secondPassword: String? = nil) -> Single<Bool> {
-        return Single.create(subscribe: { [weak self] observer -> Disposable in
-            guard let wallet = self?.wallet else {
-                observer(.error(WalletError.notInitialized))
-                return Disposables.create()
-            }
-            wallet.isWaitingOnEthereumTransaction(with: secondPassword, success: { isWaiting in
-                observer(.success(isWaiting))
-            }, error: { errorMessage in
-                observer(.error(WalletError.unknown))
-            })
-            return Disposables.create()
-        })
-    }
-    
-    private func fetchHistoryIfNeeded(secondPassword: String? = nil) -> Single<Void> {
-        guard self.shouldRefreshHistory else {
-            return Single.just(())
-        }
-        return self.fetchHistory(secondPassword: secondPassword)
-    }
-    
-    private func fetchHistory(secondPassword: String? = nil) -> Single<Void> {
-        return Single.create(subscribe: { [weak self] observer -> Disposable in
-            guard let wallet = self?.wallet else {
-                observer(.error(WalletError.notInitialized))
-                return Disposables.create()
-            }
-            wallet.fetchHistory(with: secondPassword, success: {
-                observer(.success(()))
-            }, error: { errorMessage in
-                observer(.error(WalletError.unknown))
-            })
-            return Disposables.create()
-        })
-        .do(onSuccess: { [weak self] in
-            self?.lastHistoryRefresh = Date()
-        })
-    }
-    
-    private func recordLast(transaction: EthereumTransactionPublished, secondPassword: String? = nil) -> Single<EthereumTransactionPublished> {
-        return Single.create(subscribe: { [weak self] observer -> Disposable in
-            guard let wallet = self?.wallet else {
-                observer(.error(WalletError.notInitialized))
-                return Disposables.create()
-            }
-            wallet.recordLastEthereumTransaction(with: secondPassword, transactionHash: transaction.transactionHash, success: {
-                observer(.success(transaction))
-            }, error: { errorMessage in
-                observer(.error(WalletError.unknown))
-            })
-            return Disposables.create()
-        })
+        return transactions.mapToVoid()
     }
 }
 

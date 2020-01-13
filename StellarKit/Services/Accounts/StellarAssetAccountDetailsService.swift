@@ -23,22 +23,24 @@ public class StellarAssetAccountDetailsService: AssetAccountDetailsAPI {
         self.configuration = configuration
     }
     
-    public func accountDetails(for accountID: AccountID) -> Maybe<AccountDetails> {
-        return accountResponse(for: accountID).map { response -> AccountDetails in
-            return response.toAssetAccountDetails()
-            }.catchError { error in
+    public func accountDetails(for accountID: String) -> Single<AccountDetails> {
+        return accountResponse(for: accountID)
+            .map { response -> AccountDetails in
+                return response.toAssetAccountDetails()
+            }
+            .catchError { error in
                 // If the network call to Horizon fails due to there not being a default account (i.e. account is not yet
                 // funded), catch that error and return a StellarAccount with 0 balance
                 if let stellarError = error as? StellarAccountError, stellarError == .noDefaultAccount {
                     return Single.just(AccountDetails.unfunded(accountID: accountID))
                 }
                 throw error
-            }.asMaybe()
+            }
     }
     
     // MARK: Private Functions
     
-    fileprivate func accountResponse(for accountID: AccountID) -> Single<AccountResponse> {
+    fileprivate func accountResponse(for accountID: String) -> Single<AccountResponse> {
         return Single<AccountResponse>.create { [weak self] event -> Disposable in
             self?.service.getAccountDetails(accountId: accountID, response: { response -> (Void) in
                 switch response {

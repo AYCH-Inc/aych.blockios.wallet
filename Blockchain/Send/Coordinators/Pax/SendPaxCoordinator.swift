@@ -339,6 +339,7 @@ extension SendPaxCoordinator: SendPaxViewControllerDelegate {
             .flatMap(weak: self) { (self, candidate) -> Single<EthereumTransactionPublished> in
                 return self.services.walletService.send(transaction: candidate)
             }
+            .subscribeOn(MainScheduler.instance)
             .do(onDispose: { [weak self] in
                 guard let self = self else { return }
                 self.interface.apply(updates: [.loadingIndicatorVisibility(.hidden)])

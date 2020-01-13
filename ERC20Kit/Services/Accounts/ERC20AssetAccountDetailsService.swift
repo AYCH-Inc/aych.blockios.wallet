@@ -33,7 +33,7 @@ public class ERC20AssetAccountDetailsService<Token: ERC20Token>: AssetAccountDet
         self.service = service
     }
     
-    public func accountDetails(for accountID: AccountID) -> Maybe<AccountDetails> {
+    public func accountDetails(for accountID: String) -> Single<AccountDetails> {
         return bridge.address
             .flatMap { [weak self] address -> Single<(String, CryptoValue)> in
                 guard let self = self else { throw ERC20Error.unknown }
@@ -59,7 +59,6 @@ public class ERC20AssetAccountDetailsService<Token: ERC20Token>: AssetAccountDet
                     )
                 )
             }
-            .asMaybe()
     }
 }
 

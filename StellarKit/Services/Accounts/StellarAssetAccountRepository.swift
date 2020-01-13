@@ -14,7 +14,7 @@ import RxCocoa
 open class StellarAssetAccountRepository: AssetAccountRepositoryAPI {
     public typealias Details = StellarAssetAccountDetails
     
-    public var assetAccountDetails: Maybe<Details> {
+    public var assetAccountDetails: Single<Details> {
         return currentAssetAccountDetails(fromCache: true)
     }
     
@@ -35,12 +35,12 @@ open class StellarAssetAccountRepository: AssetAccountRepositoryAPI {
     
     // MARK: AssetAccountRepositoryAPI
     
-    public func currentAssetAccountDetails(fromCache: Bool) -> Maybe<Details> {
+    public func currentAssetAccountDetails(fromCache: Bool) -> Single<Details> {
         if let cached = privateAccountDetails.value, fromCache == true {
-            return Maybe.just(cached)
+            return .just(cached)
         }
         guard let walletAccount = walletRepository.defaultAccount else {
-            return Maybe.error(StellarAccountError.noXLMAccount)
+            return .error(StellarAccountError.noXLMAccount)
         }
         let accountID = walletAccount.publicKey
         return fetchAssetAccountDetails(accountID)
@@ -48,9 +48,12 @@ open class StellarAssetAccountRepository: AssetAccountRepositoryAPI {
     
     // MARK: Private Functions
     
-    fileprivate func fetchAssetAccountDetails(_ accountID: String) -> Maybe<Details> {
-        return service.accountDetails(for: accountID).do(onNext: { [weak self] account in
-            self?.privateAccountDetails.accept(account)
-        })
+    fileprivate func fetchAssetAccountDetails(_ accountID: String) -> Single<Details> {
+        return service
+            .accountDetails(for: accountID)
+            .do(onSuccess: { [weak self] account in
+                self?.privateAccountDetails.accept(account)
+            }
+        )
     }
 }

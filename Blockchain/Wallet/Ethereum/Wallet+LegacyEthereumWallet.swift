@@ -7,8 +7,22 @@
 //
 
 import Foundation
- 
+import RxSwift
+import PlatformKit
+
+@available(*, deprecated, message: "Used for JS integration only - should be removed when pending transaction logic is native")
+public class LegacyLastTransactionDetails {
+    let hash: String
+    let date: Date
+    
+    init(hash: String, date: Date) {
+        self.hash = hash
+        self.date = date
+    }
+}
+
 extension Wallet: LegacyEthereumWalletAPI {
+    
     public func ethereumAccounts(with secondPassword: String?, success: @escaping ([[String: Any]]) -> Void, error: @escaping (String) -> Void) {
         guard isInitialized() else {
             error("Wallet is not yet initialized.")
@@ -88,122 +102,6 @@ extension Wallet: LegacyEthereumWalletAPI {
         })
     }
     
-    public func fetchEthereumBalance(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void) {
-        guard isInitialized() else {
-            error("Wallet is not yet initialized.")
-            return
-        }
-        ethereum.interopDispatcher.fetchBalance.addObserver { result in
-            switch result {
-            case .success(let balance):
-                success(balance)
-            case .failure(let errorMessage):
-                error(errorMessage.localizedDescription)
-            }
-        }
-        let function: String = "MyWalletPhone.getAvailableEthBalanceAsync"
-        let script: String
-        if let escapedSecondPassword = secondPassword?.escapedForJS() {
-            script = "\(function)(\(escapedSecondPassword))"
-        } else {
-            script = "\(function)()"
-        }
-        context.evaluateScript(script)
-    }
-    
-    public func fetchHistory(with secondPassword: String?, success: @escaping () -> Void, error: @escaping (String) -> Void) {
-        guard isInitialized() else {
-            error("Wallet is not yet initialized.")
-            return
-        }
-        ethereum.interopDispatcher.fetchHistory.addObserver { result in
-            switch result {
-            case .success:
-                success()
-            case .failure(let errorMessage):
-                error(errorMessage.localizedDescription)
-            }
-        }
-        let function: String = "MyWalletPhone.fetchETHHistoryAsync"
-        let script: String
-        if let escapedSecondPassword = secondPassword?.escapedForJS() {
-            script = "\(function)(\(escapedSecondPassword))"
-        } else {
-            script = "\(function)()"
-        }
-        context.evaluateScript(script)
-    }
-    
-    public func isWaitingOnEthereumTransaction(with secondPassword: String?, success: @escaping (Bool) -> Void, error: @escaping (String) -> Void) {
-        guard isInitialized() else {
-            error("Wallet is not yet initialized.")
-            return
-        }
-        ethereum.interopDispatcher.getIsWaitingOnTransaction.addObserver { result in
-            switch result {
-            case .success(let isWaiting):
-                success(isWaiting)
-            case .failure(let errorMessage):
-                error(errorMessage.localizedDescription)
-            }
-        }
-        let function: String = "MyWalletPhone.isWaitingOnTransactionAsync"
-        let script: String
-        if let escapedSecondPassword = secondPassword?.escapedForJS() {
-            script = "\(function)(\(escapedSecondPassword))"
-        } else {
-            script = "\(function)()"
-        }
-        context.evaluateScript(script)
-    }
-    
-    public func recordLastEthereumTransaction(with secondPassword: String?, transactionHash: String, success: @escaping () -> Void, error: @escaping (String) -> Void) {
-        guard isInitialized() else {
-            error("Wallet is not yet initialized.")
-            return
-        }
-        ethereum.interopDispatcher.recordLastTransaction.addObserver { result in
-            switch result {
-            case .success:
-                success()
-            case .failure(let errorMessage):
-                error(errorMessage.localizedDescription)
-            }
-        }
-        let escapedTransactionHash = "'\(transactionHash.escapedForJS())'"
-        let function: String = "MyWalletPhone.recordLastTransactionAsync"
-        let script: String
-        if let escapedSecondPassword = secondPassword?.escapedForJS() {
-            script = "\(function)(\(escapedTransactionHash), \(escapedSecondPassword))"
-        } else {
-            script = "\(function)(\(escapedTransactionHash))"
-        }
-        context.evaluateScript(script)
-    }
-    
-    public func getEthereumTransactionNonce(with secondPassword: String?, success: @escaping (String) -> Void, error: @escaping (String) -> Void) {
-        guard isInitialized() else {
-            error("Wallet is not yet initialized.")
-            return
-        }
-        ethereum.interopDispatcher.getNonce.addObserver { result in
-            switch result {
-            case .success(let nonce):
-                success(nonce)
-            case .failure(let errorMessage):
-                error(errorMessage.localizedDescription)
-            }
-        }
-        let function: String = "MyWalletPhone.getEtherTransactionNonceAsync"
-        let script: String
-        if let escapedSecondPassword = secondPassword?.escapedForJS() {
-            script = "\(function)(\(escapedSecondPassword))"
-        } else {
-            script = "\(function)()"
-        }
-        context.evaluateScript(script)
-    }
-    
     public func erc20Tokens(with secondPassword: String?, success: @escaping ([String: [String: Any]]) -> Void, error: @escaping (String) -> Void) {
         guard isInitialized() else {
             error("Wallet is not yet initialized.")
@@ -254,5 +152,68 @@ extension Wallet: LegacyEthereumWalletAPI {
     @objc public func checkIfEthereumAccountExists() -> Bool {
         guard isInitialized() else { return false }
         return context.evaluateScript("MyWalletPhone.ethereumAccountExists()").toBool()
+    }
+        
+    /// Checks of there is a last transaction details available (hash and timestamp)
+    public var hasLastTransactionDetails: Single<Bool> {
+        return Single
+            .create(weak: self) { (self, observer) -> Disposable in
+                let hasLastTxScript = "MyWalletPhone.hasLastEthTransaction()"
+                observer(.success(self.context.evaluateScript(hasLastTxScript)?.toBool() ?? false))
+                return Disposables.create()
+            }
+            .subscribeOn(MainScheduler.instance)
+    }
+    
+    /// Streams the last transaction details of `nil` if not found
+    public var lastEthereumTransactionDetails: Single<LegacyLastTransactionDetails?> {
+        return Single
+            .create(weak: self) { (self, observer) -> Disposable in
+                guard self.isInitialized() else {
+                    observer(.error(WalletError.notInitialized))
+                    return Disposables.create()
+                }
+                let transactionHashScript = "MyWalletPhone.lastEthTransactionHash()"
+                guard let transactionHash = self.context.evaluateScript(transactionHashScript)?.toString() else {
+                    observer(.success(nil))
+                    return Disposables.create()
+                }
+                
+                let transactionTimestampScript = "MyWalletPhone.lastEthTransactionTimestamp()"
+                guard let transactionTimestamp = self.context.evaluateScript(transactionTimestampScript)?.toDouble() else {
+                    observer(.success(nil))
+                    return Disposables.create()
+                }
+                
+                observer(
+                    .success(
+                        LegacyLastTransactionDetails(
+                            hash: transactionHash,
+                            date: Date(timeIntervalSince1970: transactionTimestamp)
+                        )
+                    )
+                )
+                return Disposables.create()
+            }
+            .subscribeOn(MainScheduler.instance)
+    }
+    
+    public func recordLastEthereumTransaction(transactionHash: String, success: @escaping () -> Void, error: @escaping (String) -> Void) {
+        guard isInitialized() else {
+            error("Wallet is not yet initialized.")
+            return
+        }
+        ethereum.interopDispatcher.recordLastTransaction.addObserver { result in
+            switch result {
+            case .success:
+                success()
+            case .failure(let errorMessage):
+                error(errorMessage.localizedDescription)
+            }
+        }
+        let escapedTransactionHash = "'\(transactionHash.escapedForJS())'"
+        let function: String = "MyWalletPhone.recordLastTransactionAsync"
+        let script = "\(function)(\(escapedTransactionHash))"
+        context.evaluateScript(script)
     }
 }

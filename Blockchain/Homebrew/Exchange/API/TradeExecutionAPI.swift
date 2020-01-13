@@ -62,7 +62,7 @@ protocol TradeExecutionAPI {
 
     /// Currently the wallet is unable to support sending another ether
     /// transaction until the last one is confirmed.
-    func canTradeAssetType(_ assetType: AssetType) -> Bool
+    func canTradeAssetType(_ assetType: AssetType) -> Single<Bool>
     
     /// This differs from `canTradeAssetType` in that it takes a `volume` parameter.
     /// Initially a volume parameter was added to `canTradeAssetType` but not we

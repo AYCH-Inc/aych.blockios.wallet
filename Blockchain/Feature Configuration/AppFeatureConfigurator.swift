@@ -7,7 +7,7 @@
 //
 
 import PlatformKit
-import Firebase
+import FirebaseRemoteConfig
 import RxSwift
 
 @objc class AppFeatureConfigurator: NSObject, FeatureConfiguring {

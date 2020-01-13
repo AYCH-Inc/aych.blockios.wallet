@@ -2396,25 +2396,6 @@ MyWalletPhone.getEthExchangeRate = function(currencyCode) {
     return BlockchainAPI.getExchangeRate(currencyCode, 'ETH').then(success).catch(error);
 }
 
-MyWalletPhone.getEthBalance = function() {
-    var eth = MyWallet.wallet.eth;
-
-    if (eth.defaultAccount) {
-        return eth.defaultAccount.balance;
-    } else {
-        return 0;
-    }
-}
-
-MyWalletPhone.getEthTransactions = function() {
-    var eth = MyWallet.wallet.eth;
-    if (eth.defaultAccount) {
-        return MyWalletPhone.convertEthTransactionsToJSON(eth.defaultAccount.txs);
-    } else {
-        return {};
-    }
-}
-
 MyWalletPhone.createEthAccountIfNeeded = function(secondPassword) {
     var eth = MyWallet.wallet.eth;
     if (eth && eth.defaultAccount) { 
@@ -2432,46 +2413,6 @@ MyWalletPhone.createEthAccountIfNeeded = function(secondPassword) {
     } else {
         return eth.createAccount(void 0);
     };
-}
-
-MyWalletPhone.convertEthTransactionsToJSON = function(transactions) {
-    return transactions.map(function (tx) {
-       var result = tx.toJSON();
-       result.txType = tx.getTxType(MyWallet.wallet.eth.activeAccountsWithLegacy);
-       result.amount = result.txType === 'sent' ? parseFloat(result.fee) + parseFloat(result.amount) : parseFloat(result.amount);
-       return result;
-    });
-}
-
-MyWalletPhone.getEthHistory = function() {
-
-    var success = function() {
-        console.log('Success fetching eth history')
-        objc_on_fetch_eth_history_success();
-    };
-
-    var error = function(error) {
-        console.log('Error fetching eth history')
-        console.log(error);
-        objc_on_fetch_eth_history_error(error);
-    };
-
-    MyWallet.wallet.eth.fetchHistory().then(success).catch(error);
-}
-
-MyWalletPhone.createNewEtherPayment = function() {
-    console.log('Creating new ether payment');
-
-    var eth = MyWallet.wallet.eth;
-
-    currentEtherPayment = eth.defaultAccount.createPayment();
-
-    eth.fetchFees().then(function(fees) {
-        currentEtherPayment.setGasPrice(fees.regular);
-        currentEtherPayment.setGasLimit(fees.gasLimit);
-
-        MyWalletPhone.updateEtherPayment();
-    });
 }
 
 MyWalletPhone.hasEthAccount = function() {
@@ -2535,100 +2476,8 @@ MyWalletPhone.createEthAccountForExchange = function(secondPassword, helperText)
     }
 }
 
-MyWalletPhone.updateEtherPayment = function(isSweep) {
-
-    var paymentInfo = {
-        amount : currentEtherPayment.amount,
-        available : currentEtherPayment.available,
-        fee : currentEtherPayment.fee,
-        sweep : isSweep
-    };
-
-    console.log(JSON.stringify(paymentInfo));
-
-    objc_update_eth_payment(paymentInfo);
-}
-
-MyWalletPhone.setEtherPaymentTo = function(to) {
-    currentEtherPayment.setTo(to);
-}
-
-MyWalletPhone.setEtherPaymentAmount = function(amount) {
-    if (amount == null) amount = 0;
-    currentEtherPayment.setValue(amount);
-    MyWalletPhone.updateEtherPayment();
-}
-
 MyWalletPhone.isEthAddress = function(address) {
     return Helpers.isEtherAddress(address);
-}
-
-MyWalletPhone.getEthPaymentTotal = function() {
-    return currentEtherPayment.amount + currentEtherPayment.fee;
-}
-
-MyWalletPhone.sendEtherPaymentWithNote = function(note) {
-
-    var eth = MyWallet.wallet.eth;
-
-    var success = function(tx) {
-        if (note != '') eth.setTxNote(tx.txHash, note);
-        console.log('Send ether success');
-        objc_on_send_ether_payment_success();
-    }
-
-    var error = function(e) {
-        console.log('Send ether error');
-        console.log(e);
-        objc_on_send_ether_payment_error(e);
-    }
-
-    MyWalletPhone.sendEtherPayment(currentEtherPayment, null, success, error);
-}
-
-MyWalletPhone.sendEtherPayment = function(payment, secondPassword, success, error, dismiss) {
-    var eth = MyWallet.wallet.eth;
-
-    let recordTx = function(tx) {
-        MyWalletPhone.recordLastTransaction(tx.txHash);
-        return tx;
-    }
-
-    if (MyWallet.wallet.isDoubleEncrypted) {
-        if (secondPassword) {
-            var privateKey = eth.getPrivateKeyForAccount(eth.defaultAccount, secondPassword);
-            payment.sign(privateKey);
-            payment
-            .publish()
-            .then(recordTx)
-            .then(success)
-            .catch(function(e) {
-                error(JSON.stringify(e))
-            })
-        } else {
-            MyWalletPhone.getSecondPassword(function (pw) {
-                var privateKey = eth.getPrivateKeyForAccount(eth.defaultAccount, pw);
-                payment.sign(privateKey);
-                payment
-                .publish()
-                .then(recordTx)
-                .then(success)
-                .catch(function(e) {
-                        error(JSON.stringify(e))
-                })
-            }, dismiss);
-        }
-    } else {
-        var privateKey = eth.getPrivateKeyForAccount(eth.defaultAccount);
-        payment.sign(privateKey);
-        payment
-        .publish()
-        .then(recordTx)
-        .then(success)
-        .catch(function(e){
-            error(JSON.stringify(e))
-        })
-    }
 }
 
 MyWalletPhone.saveEtherNote = function(txHash, note) {
@@ -2661,30 +2510,6 @@ MyWalletPhone.getEtherAddress = function(helperText) {
     }
 }
 
-MyWalletPhone.getEtherTransactionNonceAsync = function () {
-    var success = function (nonce) {
-        objc_on_didGetEtherTransactionNonceAsync(nonce);
-    };
-
-    var error = function (e) {
-        objc_on_error_gettingEtherTransactionNonceAsync(e);
-    };
-
-    var fetchNonce = function () {
-        var eth = MyWallet.wallet.eth;
-        if (!eth && !eth.defaultAccount) {
-            return Promise.reject('No defaultAccount');
-        }
-        var nonce = eth.defaultAccount.nonce;
-        if (nonce == null || nonce.length == 0) {
-            return Promise.reject('Invalid nonce');
-        }
-        return Promise.resolve(eth.defaultAccount.nonce);
-    }
-
-    fetchNonce().then(success, error);
-};
-
 MyWalletPhone.getEtherAddressAsync = function(secondPassword) {
     var success = function () {
         objc_on_get_ether_address_success(MyWallet.wallet.eth.defaultAccount.address);
@@ -2701,18 +2526,9 @@ MyWalletPhone.getEtherAddressAsync = function(secondPassword) {
         .then(getLastAddress)
         .then(success)
         .catch(error);
-}
+};
 
-MyWalletPhone.sweepEtherPayment = function() {
-    currentEtherPayment.setSweep();
-    MyWalletPhone.updateEtherPayment(true);
-}
-
-MyWalletPhone.recordLastTransaction = function(hash) {
-    MyWallet.wallet.eth.setLastTx(hash);
-}
-
-MyWalletPhone.recordLastTransactionAsync = function(txHash, secondPassword) {
+MyWalletPhone.recordLastTransactionAsync = function(txHash) {
     var success = function () {
         objc_on_recordLastTransactionAsync_success();
     };
@@ -2721,57 +2537,22 @@ MyWalletPhone.recordLastTransactionAsync = function(txHash, secondPassword) {
         console.log(e);
         objc_on_recordLastTransactionAsync_error(e);
     };
-    var setLastTx = function (hash) {
-        return MyWallet.wallet.eth.setLastTxAndSync(hash);
-    };
-    MyWalletPhone.createEthAccountIfNeeded(secondPassword)
-        .then(setLastTx(txHash))
-        .then(success)
-        .catch(error);
-}
-
-MyWalletPhone.isWaitingOnTransaction = function() {
-    var eth = MyWallet.wallet.eth;
-    var options = walletOptions.getValue();
-    var lastTxFuse = options.ethereum.lastTxFuse;
-
-    return null != eth.lastTx && null == eth.txs.find(function(tx) {
-       return tx.hash === eth.lastTx;
-    }) &&
-    eth.lastTxTimestamp + lastTxFuse * 1000 > new Date().getTime();
-};
-
-MyWalletPhone.isWaitingOnTransactionAsync = function(secondPassword) {
-    var success = function (isWaiting) {
-        objc_on_isWaitingOnTransactionAsync(isWaiting);
-    };
-    var error = function (e) {
-        objc_on_isWaitingOnTransactionAsync_error(e);
-    };
-    var waiting = function () {
-        return Promise.resolve(MyWalletPhone.isWaitingOnTransaction());
-    };
-    MyWalletPhone.createEthAccountIfNeeded(secondPassword)
-        .then(waiting)
+    return MyWallet.wallet.eth.setLastTxAndSync(txHash)
         .then(success)
         .catch(error);
 };
 
-MyWalletPhone.fetchETHHistoryAsync = function (secondPassword) {
-    var success = function() {
-        console.log('Success fetching eth history')
-        objc_on_fetch_eth_history_async_success();
-    };
-    var error = function(error) {
-        console.log('Error fetching eth history')
-        console.log(error);
-        objc_on_fetch_eth_history_async_error(error);
-    };
-    MyWalletPhone.createEthAccountIfNeeded(secondPassword)
-        .then(MyWallet.wallet.eth.fetchHistory())
-        .then(success)
-        .catch(error);
-}
+MyWalletPhone.hasLastEthTransaction = function() {
+    return MyWallet.wallet.eth.lastTx != null && MyWallet.wallet.eth.lastTxTimestamp != null;
+};
+
+MyWalletPhone.lastEthTransactionHash = function() {
+    return MyWallet.wallet.eth.lastTx;
+};
+
+MyWalletPhone.lastEthTransactionTimestamp = function() {
+    return MyWallet.wallet.eth.lastTxTimestamp;
+};
 
 MyWalletPhone.saveEtherAccountAsync = function (privateKey, label) {
     var success = function () {
@@ -2990,40 +2771,6 @@ MyWalletPhone.getAvailableBtcBalanceForAccount = function(accountIndex) {
     }
 
     MyWallet.wallet.hdwallet.accounts[accountIndex].getAvailableBalance('priority').then(success).catch(error);
-}
-
-MyWalletPhone.getAvailableEthBalance = function() {
-
-    var success = function(result) {
-        objc_on_get_available_eth_balance_success(result.amount, result.fee);
-    }
-
-    var error = function(e) {
-        console.log('Error getting eth balance');
-        console.log(e);
-        objc_on_get_available_eth_balance_error(e);
-    }
-    
-    MyWallet.wallet.eth.accounts[0].fetchBalance().then(function() {
-            MyWallet.wallet.eth.accounts[0].getAvailableBalance().then(success).catch(error);
-    });
-}
-
-MyWalletPhone.getAvailableEthBalanceAsync = function(secondPassword) {
-    var success = function(result) {
-        objc_on_fetch_available_eth_balance_success(result.amount, result.fee);
-    };
-    var error = function(e) {
-        console.log('Error getting eth balance');
-        console.log(e);
-        objc_on_fetch_available_eth_balance_error(e);
-    };
-    var fetchBalance = function () {
-        return MyWallet.wallet.eth.accounts[0].fetchBalance().then(function() {
-            MyWallet.wallet.eth.accounts[0].getAvailableBalance().then(success).catch(error);
-        });
-    };
-    MyWalletPhone.createEthAccountIfNeeded(secondPassword).then(fetchBalance);
 }
 
 MyWalletPhone.getLabelForEthAccount = function() {
@@ -3548,11 +3295,9 @@ MyWalletPhone.loadMetadata = function() {
 
 MyWalletPhone.getHistoryForAllAssets = function() {
     var getBitcoinHistory = MyWallet.wallet.getHistory();
-    var eth = MyWallet.wallet.eth;
-    var getEtherHistory = eth ? eth.fetchHistory() : {};
     var bch = MyWallet.wallet.bch;
     var getBitcoinCashHistory = bch ? bch.getHistory() : {};
-    return Promise.all([getBitcoinHistory, getEtherHistory, getBitcoinCashHistory]);
+    return Promise.all([getBitcoinHistory, getBitcoinCashHistory]);
 }
 
 MyWalletPhone.coinify = {
@@ -3617,20 +3362,5 @@ MyWalletPhone.tradeExecution = {
         send: function(secondPassword) {
             MyWalletPhone.sendBitcoinPayment(currentBitcoinCashPayment, secondPassword, objc_on_send_order_transaction_success, objc_on_send_order_transaction_error, objc_on_send_order_transaction_dismiss);
         },
-    },
-
-    ether: {
-        createPayment: function(from, to, amount, feePerByte, gas) {
-            let eth = MyWallet.wallet.eth;
-            currentEtherPayment = eth.defaultAccount.createPayment();
-            currentEtherPayment.setGasPrice(feePerByte);
-            currentEtherPayment.setGasLimit(gas);
-            currentEtherPayment.setTo(to);
-            currentEtherPayment.setValue(amount);
-            objc_on_create_order_payment_success(currentEtherPayment.fee);
-        },
-        send: function(secondPassword) {
-            MyWalletPhone.sendEtherPayment(currentEtherPayment, secondPassword, objc_on_send_order_transaction_success, objc_on_send_order_transaction_error, objc_on_send_order_transaction_dismiss);
-        }
     }
 }

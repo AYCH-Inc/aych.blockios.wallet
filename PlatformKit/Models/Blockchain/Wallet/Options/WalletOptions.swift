@@ -50,6 +50,8 @@ public struct WalletOptions: Decodable {
         static let partners = "partners"
         static let coinify = "coinify"
         static let partnerId = "partnerId"
+        static let ethereum = "ethereum"
+        static let lastTxFuse = "lastTxFuse"
         static let countries = "countries"
         static let mobile = "mobile"
         static let walletRoot = "walletRoot"
@@ -73,6 +75,7 @@ public struct WalletOptions: Decodable {
         case mobile
         case walletRoot
         case maintenance
+        case ethereum
         case mobileInfo
         case shapeshift
         case xlm
@@ -123,6 +126,10 @@ public struct WalletOptions: Decodable {
             guard let input = value else { return nil }
             self.message = input
         }
+    }
+    
+    public struct Ethereum: Decodable {
+        public let lastTxFuse: Int64
     }
     
     public struct Coinify: Decodable {
@@ -207,6 +214,8 @@ public struct WalletOptions: Decodable {
     public let coinifyMetadata: Coinify?
     
     public let xlmMetadata: XLMMetadata?
+
+    public let ethereum: Ethereum
     
     public let xlmExchangeAddresses: [String]?
 }
@@ -310,6 +319,13 @@ public extension WalletOptions.UpdateType {
     }
 }
 
+public extension WalletOptions.Ethereum {
+    init(json: JSON) {
+        let ethereum = json[WalletOptions.Keys.ethereum] as? [String: Any]
+        lastTxFuse = ethereum?[WalletOptions.Keys.lastTxFuse] as? Int64 ?? 0
+    }
+}
+
 public extension WalletOptions {
     init(json: JSON) {
         self.domains = WalletOptions.Domains(json: json)
@@ -321,6 +337,7 @@ public extension WalletOptions {
         updateType = WalletOptions.UpdateType(json: json)
         let xlmExchangeContainer = json[CodingKeys.xlmExchange.rawValue] as? [String: [String]]
         self.xlmExchangeAddresses = xlmExchangeContainer?[CodingKeys.exchangeAddresses.rawValue] ?? nil
+        self.ethereum = WalletOptions.Ethereum(json: json)
     }
     
     init(from decoder: Decoder) throws {
@@ -348,5 +365,6 @@ public extension WalletOptions {
         } else {
             updateType = .none
         }
+        self.ethereum = try values.decode(Ethereum.self, forKey: .ethereum)
     }
 }

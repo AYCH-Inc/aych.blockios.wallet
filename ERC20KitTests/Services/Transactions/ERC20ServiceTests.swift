@@ -103,6 +103,9 @@ class ERC20ServiceTests: XCTestCase {
             data: Data.fromHex(dataHexString)
         )
         
+        let cryptoValue = CryptoValue.etherFromMajor(string: "10.0")!
+        ethereumAPIAccountClient.balanceDetailsValue = Single.just(.init(balance: cryptoValue.amount.string(), nonce: 1))
+        
         let to = EthereumAddress(rawValue: MockEthereumWalletTestData.Transaction.to)!
         let amountCrypto = CryptoValue.paxFromMajor(string: "1.0")!
         let amount = try ERC20TokenValue<PaxToken>(crypto: amountCrypto)
@@ -126,6 +129,10 @@ class ERC20ServiceTests: XCTestCase {
     
     func test_build_transfer_amount_over_token_balance() throws {
         // Arrange
+        
+        let ethBalance = CryptoValue.etherFromMajor(string: "10.0")!
+        ethereumAPIAccountClient.balanceDetailsValue = Single.just(.init(balance: ethBalance.amount.string(), nonce: 1))
+        
         let balance = CryptoValue.paxFromMajor(string: "0.1")!.amount
             .string(unitDecimals: 0)
         let accountResponse = ERC20AccountResponse<PaxToken>(
@@ -135,7 +142,7 @@ class ERC20ServiceTests: XCTestCase {
             decimals: 0
         )
         accountAPIClient.fetchWalletAccountResponse = Single<ERC20AccountResponse<PaxToken>>.just(accountResponse)
-        
+                
         let cryptoValue = CryptoValue.paxFromMajor(string: "1.0")!
         let amount = try ERC20TokenValue<PaxToken>(crypto: cryptoValue)
         let to = EthereumAddress(
@@ -176,8 +183,9 @@ class ERC20ServiceTests: XCTestCase {
             gasLimitContract: Int(MockEthereumWalletTestData.Transaction.gasLimitContract)
         )
         feeService.feesValue = Single.just(fee)
-        ethereumAPIAccountClient.balanceFromAddressValue = Single.just(CryptoValue.etherFromMajor(string: "0.01")!)
         
+        ethereumAPIAccountClient.balanceDetailsValue = .just(BalanceDetailsResponse(balance: "0.01", nonce: 1))
+         
         let transferObservable = subject.transfer(to: to, amount: amount).asObservable()
         
         // Act
@@ -200,14 +208,13 @@ class ERC20ServiceTests: XCTestCase {
             rawValue: MockEthereumWalletTestData.Transaction.to
         )!
 
-        ethereumAPIAccountClient.balanceFromAddressValue = Single.error(ERC20ServiceMockError.mockError)
+        ethereumAPIAccountClient.balanceDetailsValue = Single.error(ERC20ServiceMockError.mockError)
 
         let transferObservable = subject.transfer(to: to, amount: amount).asObservable()
         
         // Act
         let result: TestableObserver<EthereumTransactionCandidate> = scheduler
             .start { transferObservable }
-
 
         // Assert
         let expectedEvents: [Recorded<Event<EthereumTransactionCandidate>>] = Recorded.events(
@@ -232,7 +239,6 @@ class ERC20ServiceTests: XCTestCase {
         // Act
         let result: TestableObserver<EthereumTransactionCandidate> = scheduler
             .start { transferObservable }
-
         
         // Assert
         let expectedEvents: [Recorded<Event<EthereumTransactionCandidate>>] = Recorded.events(

@@ -10,6 +10,7 @@ import XCTest
 import HDWalletKit
 import RxSwift
 import RxBlocking
+
 @testable import PlatformUIKit
 
 final class MnemonicTextViewTests: XCTestCase {

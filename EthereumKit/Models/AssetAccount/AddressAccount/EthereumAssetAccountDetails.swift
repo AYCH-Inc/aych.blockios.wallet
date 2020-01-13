@@ -14,9 +14,11 @@ public struct EthereumAssetAccountDetails: AssetAccountDetails, Equatable {
     
     public var account: Account
     public var balance: CryptoValue
+    public var nonce: UInt64
     
-    public init(account: Account, balance: CryptoValue) {
+    public init(account: Account, balance: CryptoValue, nonce: UInt64) {
         self.account = account
         self.balance = balance
+        self.nonce = nonce
     }
 }

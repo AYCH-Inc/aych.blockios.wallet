@@ -116,6 +116,28 @@ class StellarAccountService: StellarAccountAPI {
             self?.privateAccount.accept(account)
         })
     }
+    
+    func currentStellarAccountAsSingle(fromCache: Bool) -> Single<StellarAccount?> {
+        return currentStellarAccount(fromCache: fromCache)
+            .asObservable()
+            .materialize()
+            /// Map `completed` event into `.next(nil)` in order to convert later to `Single`.
+            .map { event -> Event<StellarAccount?> in
+                switch event {
+                case .next(let account):
+                    return .next(account)
+                case .error(let error):
+                    return .error(error)
+                case .completed:
+                    return .next(nil)
+                }
+            }
+            .dematerialize()
+            /// Only take the first - make sure that success will
+            /// be streamed right after the first element.
+            .take(1)
+            .asSingle()
+    }
 
     func accountResponse(for accountID: AccountID) -> Single<AccountResponse> {
         return service.flatMap(weak: self) { (self, service) -> Single<AccountResponse> in

@@ -263,7 +263,7 @@ class ExchangeCreateViewController: UIViewController {
             let btcAccount = self.dependencies.assetAccountRepository.accounts(for: .bitcoin)
             let ethAccount = self.dependencies.assetAccountRepository.accounts(for: .ethereum)
             
-            let disposable = Maybe.zip(btcAccount, ethAccount)
+            let disposable = Single.zip(btcAccount, ethAccount)
                 .subscribeOn(MainScheduler.asyncInstance)
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { [weak self] (bitcoin, ethereum) in

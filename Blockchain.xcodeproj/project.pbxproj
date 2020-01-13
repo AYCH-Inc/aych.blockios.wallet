@@ -130,8 +130,6 @@
 		3455E2182309732D005E69BF /* HDWalletKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3455E2172309732D005E69BF /* HDWalletKitError.swift */; };
 		34579859224BC53E00F50F92 /* CryptoFeeServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34579858224BC53E00F50F92 /* CryptoFeeServiceAPI.swift */; };
 		34579864224BC65D00F50F92 /* CryptoFeeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34579863224BC65C00F50F92 /* CryptoFeeService.swift */; };
-		345DF35D234B724F00179996 /* LegacyEthereumWalletAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345DF35C234B724F00179996 /* LegacyEthereumWalletAPI.swift */; };
-		345DF367234B734300179996 /* LegacyEthereumWalletAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345DF35C234B724F00179996 /* LegacyEthereumWalletAPI.swift */; };
 		345DF368234B751500179996 /* ExchangeServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EB143222078F900C7E455 /* ExchangeServices.swift */; };
 		345DF369234B751F00179996 /* Wallet+LegacyEthereumWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AC02E8229EBDFA008B9857 /* Wallet+LegacyEthereumWallet.swift */; };
 		345F7DBD22AA8E590049F236 /* ERC20TransactionProposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345F7DBC22AA8E590049F236 /* ERC20TransactionProposal.swift */; };
@@ -165,8 +163,6 @@
 		347B69EA22CB739B002C80E9 /* BigIntExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347B69E922CB739B002C80E9 /* BigIntExtensions.swift */; };
 		347B69EC22CB80C7002C80E9 /* rates.json in Resources */ = {isa = PBXBuildFile; fileRef = 347B69EB22CB80C7002C80E9 /* rates.json */; };
 		347B69F022CB8E37002C80E9 /* TradeExecutionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347B69EF22CB8E37002C80E9 /* TradeExecutionServiceTests.swift */; };
-		347B69F822CBA761002C80E9 /* LegacyWalletAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347B69F722CBA761002C80E9 /* LegacyWalletAPI.swift */; };
-		347B6A0222CBB220002C80E9 /* LegacyWalletAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347B69F722CBA761002C80E9 /* LegacyWalletAPI.swift */; };
 		347B6A0422CBD894002C80E9 /* conversion.json in Resources */ = {isa = PBXBuildFile; fileRef = 347B6A0322CBD894002C80E9 /* conversion.json */; };
 		347B6A0622CCD377002C80E9 /* PaxERC20ServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347B6A0522CCD377002C80E9 /* PaxERC20ServiceMock.swift */; };
 		347B6A0722CCD37D002C80E9 /* PaxERC20ServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347B6A0522CCD377002C80E9 /* PaxERC20ServiceMock.swift */; };
@@ -399,7 +395,6 @@
 		34EE996823ABC40B00074EC0 /* AnalyticsUserPropertyValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653C41E72344D1DC00AAD154 /* AnalyticsUserPropertyValidator.swift */; };
 		34EE997623ABCDFB00074EC0 /* HashedUserProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AEB849233CF8F40093561F /* HashedUserProperty.swift */; };
 		34EE997823ABCE3500074EC0 /* HashedUserProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EE997723ABCE3400074EC0 /* HashedUserProperty.swift */; };
-		34EFC7D12220815C00273640 /* EthereumWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EFC7D02220815C00273640 /* EthereumWalletTests.swift */; };
 		34F0DADC225CD340004997D3 /* EthereumKeyPairDeriverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F0DADB225CD340004997D3 /* EthereumKeyPairDeriverTests.swift */; };
 		361E7C3BD03476B03D70C3C3 /* Pods_EthereumKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D23F121079F6DE01622E583 /* Pods_EthereumKitTests.framework */; };
 		399DA79CA811ABAC4EF9A170 /* Pods_ToolKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9704AF09F001CEC5AAC7767 /* Pods_ToolKitTests.framework */; };
@@ -426,7 +421,6 @@
 		3A1552E7213600B400683CEB /* TradingPairConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552E6213600B400683CEB /* TradingPairConfiguration.swift */; };
 		3A1552E8213600B400683CEB /* TradingPairConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552E6213600B400683CEB /* TradingPairConfiguration.swift */; };
 		3A1552EA2136EA8D00683CEB /* TradeExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552E92136EA8D00683CEB /* TradeExecutionService.swift */; };
-		3A1552EB2136EA8D00683CEB /* TradeExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552E92136EA8D00683CEB /* TradeExecutionService.swift */; };
 		3A1552ED2136EAF000683CEB /* TradeLimits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552EC2136EAF000683CEB /* TradeLimits.swift */; };
 		3A1552EE2136EAF000683CEB /* TradeLimits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552EC2136EAF000683CEB /* TradeLimits.swift */; };
 		3A1552F02136FFE200683CEB /* TradeExecutionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552EF2136FFE200683CEB /* TradeExecutionAPI.swift */; };
@@ -1490,6 +1484,7 @@
 		65427BD22305942B00D90A27 /* AccountValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65427BD02305942B00D90A27 /* AccountValidator.swift */; };
 		65463CAF22DC9AA7005E5BF6 /* AddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65463CAE22DC9AA7005E5BF6 /* AddressViewController.swift */; };
 		65463D3422DCCB02005E5BF6 /* AddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65463CAE22DC9AA7005E5BF6 /* AddressViewController.swift */; };
+		654693C823CC919000EF3773 /* ExchangeAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512846523423814008776DC /* ExchangeAddressViewModel.swift */; };
 		6552629D233106B40093A371 /* MockRemoteNotificationRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6552629B233106B40093A371 /* MockRemoteNotificationRelay.swift */; };
 		655262A92331070F0093A371 /* MockExternalNotificationServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655262A72331070F0093A371 /* MockExternalNotificationServiceProvider.swift */; };
 		655262AC23310A8A0093A371 /* MockRemoteNotificationAuthorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655262AA23310A8A0093A371 /* MockRemoteNotificationAuthorizer.swift */; };
@@ -1685,6 +1680,11 @@
 		65B3306E239AB99100B5331E /* WalletRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654202E8237EE80A00E09918 /* WalletRepository.swift */; };
 		65B3306F239AB99100B5331E /* WalletRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654202E8237EE80A00E09918 /* WalletRepository.swift */; };
 		65B3D1E9231EB20B0081B22B /* EthereumWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E1C1E122244972006E70D3 /* EthereumWallet.swift */; };
+		65B40AC723B0E1B8001557FB /* LegacyWalletAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347B69F722CBA761002C80E9 /* LegacyWalletAPI.swift */; };
+		65B40AC823B0E1B9001557FB /* LegacyWalletAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347B69F722CBA761002C80E9 /* LegacyWalletAPI.swift */; };
+		65B40AC923B0E258001557FB /* LegacyEthereumWalletAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345DF35C234B724F00179996 /* LegacyEthereumWalletAPI.swift */; };
+		65B40ACA23B0E25A001557FB /* LegacyEthereumWalletAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345DF35C234B724F00179996 /* LegacyEthereumWalletAPI.swift */; };
+		65B40ACB23B0E43E001557FB /* EthereumWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EFC7D02220815C00273640 /* EthereumWalletTests.swift */; };
 		65B5417E230C687300D04A2E /* MockSendExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416B230C687300D04A2E /* MockSendExecutor.swift */; };
 		65B54180230C687300D04A2E /* MockSendFeeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416D230C687300D04A2E /* MockSendFeeInteractor.swift */; };
 		65B54181230C687300D04A2E /* MockSendServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416E230C687300D04A2E /* MockSendServiceContainer.swift */; };
@@ -1730,8 +1730,8 @@
 		65B77DB322FB1CB1009AE141 /* SendSpendableBalanceInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B77DB122FB1CB1009AE141 /* SendSpendableBalanceInteractor.swift */; };
 		65B77DB522FB1CC7009AE141 /* SendSpendableBalanceInteracting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B77DB422FB1CC7009AE141 /* SendSpendableBalanceInteracting.swift */; };
 		65B77DB622FB1CC7009AE141 /* SendSpendableBalanceInteracting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B77DB422FB1CC7009AE141 /* SendSpendableBalanceInteracting.swift */; };
-		65B7C1C123C390C8008A5FA1 /* ExchangeAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512846523423814008776DC /* ExchangeAddressViewModel.swift */; };
 		65B7C1C223C390CA008A5FA1 /* ExchangeAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512846523423814008776DC /* ExchangeAddressViewModel.swift */; };
+		65B7DA0F23A3D9690095C4C5 /* TradeExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1552E92136EA8D00683CEB /* TradeExecutionService.swift */; };
 		65B8D82B22CFD5C4000ADA47 /* AssetAccountRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347B6A0F22CCD541002C80E9 /* AssetAccountRepositoryMock.swift */; };
 		65BDB41023508DF700D10435 /* PairingIntroScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BDB40F23508DF700D10435 /* PairingIntroScreenPresenter.swift */; };
 		65BDB4162350988700D10435 /* InstructionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BDB4152350988700D10435 /* InstructionTableView.swift */; };
@@ -17992,7 +17992,6 @@
 				AA084416215EF04A0007BFD1 /* LockboxAsset.swift in Sources */,
 				3AE200D5238C6D180060FD7E /* AssetLineChartMarkerView.swift in Sources */,
 				65FCB4EE23843FAD001262A4 /* AnnouncementTests.swift in Sources */,
-				347B6A0222CBB220002C80E9 /* LegacyWalletAPI.swift in Sources */,
 				AAA6648A21234250009C1C64 /* LocationUpdateAPI.swift in Sources */,
 				3A33894F2384887500372B84 /* LoadingState+AssetLineChart.swift in Sources */,
 				3AEE969E221DF95600F8B5D5 /* BaseNavigationController.swift in Sources */,
@@ -18011,16 +18010,19 @@
 				65E91D7623BE69A000F82BD0 /* AirdropRouter.swift in Sources */,
 				C7F157CA21795F6800A56376 /* SimpleListPresenter.swift in Sources */,
 				AACE31D02092A99B00B7B806 /* AuthenticationError.swift in Sources */,
+				65B40ACB23B0E43E001557FB /* EthereumWalletTests.swift in Sources */,
 				6510612023571BC800C871C0 /* RecoverFundsViewController.swift in Sources */,
 				65C7BEEE236082FB002E5E0E /* RequestContainerViewController.swift in Sources */,
 				653333B4230DA0F7008B3ADF /* BackupFundsAnnouncement.swift in Sources */,
 				65550E9022BE671F00522656 /* PinScreenViewController.swift in Sources */,
+				65B40AC823B0E1B9001557FB /* LegacyWalletAPI.swift in Sources */,
 				3AC4F97D21234966003AA207 /* KYCPageModel.swift in Sources */,
 				AA2BA64420DC754600F01954 /* BitcoinAddressTests.swift in Sources */,
 				AAD2582A219E4E3E00D9CEA1 /* WalletSettingsRequest.swift in Sources */,
 				65C7BEDD23605729002E5E0E /* AnnouncementTableViewCell.swift in Sources */,
 				65B77D5622F99F13009AE141 /* SendFeeCellPresenter.swift in Sources */,
 				65B54185230C687300D04A2E /* SendSpendableBalanceInteractorTests.swift in Sources */,
+				65B40ACA23B0E25A001557FB /* LegacyEthereumWalletAPI.swift in Sources */,
 				51C2ADD420BDD3EA00D66108 /* AddressValidatorTests.swift in Sources */,
 				602B9D142118E24F00BD3D60 /* LocationSuggestionCoordinator.swift in Sources */,
 				3A3389622385C30A00372B84 /* InstantAssetPriceViewInteractor.swift in Sources */,
@@ -18287,7 +18289,6 @@
 				3430443E224BE0530036345B /* CryptoFeeService.swift in Sources */,
 				AACE31D72092A99B00B7B806 /* Enum+Enumeratable.swift in Sources */,
 				65CB9FC6237337690004BBC2 /* MockAccountBalanceFetcher.swift in Sources */,
-				3A1552EB2136EA8D00683CEB /* TradeExecutionService.swift in Sources */,
 				659B2C0722C3E0EF00114B50 /* LoginContainerCollectionViewCell.swift in Sources */,
 				65F5E71E22C3AFDC00D00F50 /* Pasteboarding.swift in Sources */,
 				AA46ECBE219A2D270077B351 /* KYCSupportedDocumentsResponse.swift in Sources */,
@@ -18396,7 +18397,6 @@
 				3A40759B2321855800A9BE50 /* WalletIntroductionPresenter.swift in Sources */,
 				AA126D2B212D23FE005886A3 /* KYCUpdateMobileRequest.swift in Sources */,
 				C7A85981217A5BAE00502935 /* StellarTransactionServiceAPI.swift in Sources */,
-				345DF367234B734300179996 /* LegacyEthereumWalletAPI.swift in Sources */,
 				650CE41922CBD54600FA282E /* MockWalletData.swift in Sources */,
 				65380DE8239834CF00BE66E7 /* PasswordViewController.swift in Sources */,
 				AA0A41AC214C83A800807163 /* KYCCountrySelectionInteractor.swift in Sources */,
@@ -18562,6 +18562,7 @@
 				65A8DEF3235F5AEA00D06CAC /* DashboardScreenInteractor.swift in Sources */,
 				AA08439A215C0E210007BFD1 /* SocketMessageTests.swift in Sources */,
 				653159FF22F4B6220018ED32 /* BridgeDeepLinkQRCodeRouter.swift in Sources */,
+				65B7DA0F23A3D9690095C4C5 /* TradeExecutionService.swift in Sources */,
 				602B9D272118E28E00BD3D60 /* ValidationTextField.swift in Sources */,
 				65380E6423983A4D00BE66E7 /* InstanceID+Token.swift in Sources */,
 				6587FD2C22F9814F00206575 /* SendFeeTableViewCell.swift in Sources */,
@@ -18684,7 +18685,6 @@
 				602B9D0D2118E23800BD3D60 /* KYCOnboardingNavigationController.swift in Sources */,
 				AA0A4158214B3A3700807163 /* AssetAccountRepository.swift in Sources */,
 				340ABDAB230ACFC30032278D /* MockEthereumWalletTestData.swift in Sources */,
-				34EFC7D12220815C00273640 /* EthereumWalletTests.swift in Sources */,
 				3AC7C2C322E6A8460021C841 /* ExchangeAccountAuthenticator.swift in Sources */,
 				6509997B22E1DCBC0092BFB9 /* CoinifyKycAnnouncement.swift in Sources */,
 				65D179C722CBC908001D3544 /* AddressSubscriber.swift in Sources */,
@@ -18856,11 +18856,11 @@
 				6524B3232382DF5A00218974 /* AirdropStatusCellPresenter.swift in Sources */,
 				60AEA56821125AB20053A753 /* SettingsTwoStepVC.swift in Sources */,
 				65C7BEEA2360828A002E5E0E /* SendContainerViewController.swift in Sources */,
+				654693C823CC919000EF3773 /* ExchangeAddressViewModel.swift in Sources */,
 				65550E9322BE671F00522656 /* PinRouter.swift in Sources */,
 				9F765F3214BC622E00048EFB /* TransactionsBitcoinViewController.m in Sources */,
 				3A4FF222221DC26E00AA18AF /* TabContainer.swift in Sources */,
 				AAD92FBA2202658B005DA575 /* NavigationCTA.swift in Sources */,
-				347B69F822CBA761002C80E9 /* LegacyWalletAPI.swift in Sources */,
 				C711351721C1993C00F70AF0 /* KYCUserTiersBadgeModel.swift in Sources */,
 				AA126CDF212C9735005886A3 /* KYCPageError.swift in Sources */,
 				65550EA122BE671F00522656 /* PinRouting.swift in Sources */,
@@ -19361,6 +19361,7 @@
 				AA8F21E121C7191B00F45C42 /* WalletNabuSynchronizerAPI.swift in Sources */,
 				3A8A1D4A23874C49008E0679 /* AssetLineChartInteractionPresenting.swift in Sources */,
 				65B77DAF22FB1C8F009AE141 /* SendSpendableBalanceViewPresenter.swift in Sources */,
+				65B40AC923B0E258001557FB /* LegacyEthereumWalletAPI.swift in Sources */,
 				AACE31222091004A00B7B806 /* UIApplication+Suspend.m in Sources */,
 				AAFA97B6211511D000D19ED3 /* Settings+Table.swift in Sources */,
 				602B9CED2118E15300BD3D60 /* LocationSuggestionService.swift in Sources */,
@@ -19468,6 +19469,7 @@
 				3A7EB14722209E6E00C7E455 /* KYCOnboardingViewController.swift in Sources */,
 				232E17F91C29F0EF0044942E /* UINavigationController+PopToRootWithCompletion.swift in Sources */,
 				652A3841232FA7EF00A3F957 /* RemoteNotificationEmitting.swift in Sources */,
+				65B40AC723B0E1B8001557FB /* LegacyWalletAPI.swift in Sources */,
 				23BD046A1D7761C000DB69E6 /* UITextView+AssertionFailureFix.m in Sources */,
 				23D423991D0878BE000054AA /* ModuleXMLHttpRequest.m in Sources */,
 				65E11C472362F50B00C0154C /* TotalBalanceViewPresenter.swift in Sources */,
@@ -19509,7 +19511,6 @@
 				3A7F7EE3210F6C77001E20AF /* Visibility.swift in Sources */,
 				23444F931DCD21B700573C8C /* BTCBase58.m in Sources */,
 				3ADB1DEB237354CC00AA63D5 /* DashboardDetailsScreenInteractor.swift in Sources */,
-				345DF35D234B724F00179996 /* LegacyEthereumWalletAPI.swift in Sources */,
 				65550E7F22BE671F00522656 /* DigitPadView.swift in Sources */,
 				606399DC2110FC2D005B6DF5 /* SRWebSocket.m in Sources */,
 				AA46ECBD219A2D270077B351 /* KYCSupportedDocumentsResponse.swift in Sources */,
@@ -19535,7 +19536,6 @@
 				C790E1241E5358540063D141 /* BCVerifyMobileNumberViewController.m in Sources */,
 				C7F1263D21C49BDC008D8F2A /* KYCSettings.swift in Sources */,
 				C7773330217E21F200899930 /* TransactionsXlmPresenter.swift in Sources */,
-				65B7C1C123C390C8008A5FA1 /* ExchangeAddressViewModel.swift in Sources */,
 				34DED985232A7479000BA63B /* Wallet+LegacyBitcoinWalletProtocol.swift in Sources */,
 				C7B6855B1F17AE2A00A18A5C /* BCEmptyPageView.m in Sources */,
 				3A8B228A211E0B380091E706 /* KYCPersonalDetailsController.swift in Sources */,

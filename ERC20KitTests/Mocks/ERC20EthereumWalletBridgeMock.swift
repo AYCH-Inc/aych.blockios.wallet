@@ -14,16 +14,21 @@ import EthereumKit
 @testable import ERC20Kit
 
 class ERC20EthereumWalletBridgeMock: EthereumWalletBridgeAPI {
-    var fetchHistoryValue = Single.just(())
-    var fetchHistory: Single<Void> {
-        return fetchHistoryValue
+
+    var isWaitingOnTransactionValue = Single.just(true)
+    var isWaitingOnTransaction: Single<Bool> {
+        return isWaitingOnTransactionValue
     }
     
-    var fetchHistoryIfNeededValue = Single.just(())
-    var fetchHistoryIfNeeded: Single<Void> {
-        return fetchHistoryIfNeededValue
+    var historyValue = Single.just(())
+    var history: Single<Void> {
+        return historyValue
     }
     
+    func fetchHistory() -> Single<Void> {
+        history
+    }
+
     var balanceValue = Single.just(CryptoValue.paxFromMajor(string: "2.0")!)
     var balance: Single<CryptoValue> {
         return balanceValue
@@ -60,13 +65,7 @@ class ERC20EthereumWalletBridgeMock: EthereumWalletBridgeAPI {
         return nonceValue
     }
     
-    var isWaitingOnEtherTransactionValue = Single.just(true)
-    var isWaitingOnEtherTransaction: Single<Bool> {
-        return isWaitingOnEtherTransactionValue
-    }
-    
-    var recordLastTransactionValue = Single<EthereumTransactionPublished>.error(EthereumKitError.unknown)
     func recordLast(transaction: EthereumTransactionPublished) -> Single<EthereumTransactionPublished> {
-        return recordLastTransactionValue
+        return .just(transaction)
     }
 }

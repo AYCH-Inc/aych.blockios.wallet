@@ -11,11 +11,7 @@ import Foundation
 class LegacyWalletMock: LegacyWalletAPI {
     
     var password: String?
-    
-    func isWaitingOnEtherTransaction() -> Bool {
-        return false
-    }
-    
+        
     func createOrderPayment(withOrderTransaction orderTransaction: OrderTransactionLegacy, completion: @escaping () -> Void, success: ((String) -> Void)!, error: @escaping (String) -> Void) {
         success("")
         completion()

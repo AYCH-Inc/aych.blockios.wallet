@@ -14,7 +14,7 @@ import RxRelay
 open class EthereumAssetAccountRepository: AssetAccountRepositoryAPI {
     public typealias Details = EthereumAssetAccountDetails
     
-    public var assetAccountDetails: Maybe<Details> {
+    public var assetAccountDetails: Single<Details> {
         return currentAssetAccountDetails(fromCache: true)
     }
     
@@ -26,16 +26,18 @@ open class EthereumAssetAccountRepository: AssetAccountRepositoryAPI {
         self.service = service
     }
     
-    public func currentAssetAccountDetails(fromCache: Bool) -> Maybe<Details> {
+    public func currentAssetAccountDetails(fromCache: Bool) -> Single<Details> {
         let accountId = "0"
         return fetchAssetAccountDetails(for: accountId)
     }
     
     // MARK: Private Functions
     
-    fileprivate func fetchAssetAccountDetails(for accountID: String) -> Maybe<Details> {
-        return service.accountDetails(for: accountID).do(onNext: { [weak self] account in
-            self?.privateAccountDetails.accept(account)
-        })
+    fileprivate func fetchAssetAccountDetails(for accountID: String) -> Single<Details> {
+        return service.accountDetails(for: accountID)
+            .do(onSuccess: { [weak self] account in
+                self?.privateAccountDetails.accept(account)
+            }
+        )
     }
 }

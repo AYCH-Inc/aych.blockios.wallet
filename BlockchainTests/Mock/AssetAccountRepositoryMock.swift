@@ -10,15 +10,15 @@ import Foundation
 import RxSwift
 
 class AssetAccountRepositoryMock: AssetAccountRepositoryAPI {
-    func accounts(for assetType: AssetType, fromCache: Bool) -> Maybe<[AssetAccount]> {
-        return Maybe.empty()
+    func accounts(for assetType: AssetType, fromCache: Bool) -> Single<[AssetAccount]> {
+        return .just([])
     }
     
     func defaultStellarAccount() -> AssetAccount? {
         return nil
     }
     
-    var accounts: Observable<[AssetAccount]> {
-        return Observable.empty()
+    var accounts: Single<[AssetAccount]> {
+        return .just([])
     }
 }

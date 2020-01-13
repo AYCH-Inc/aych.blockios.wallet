@@ -19,14 +19,18 @@ enum EthereumWalletBridgeMockError: Error {
 
 class EthereumWalletBridgeMock: EthereumWalletBridgeAPI, EthereumWalletAccountBridgeAPI, MnemonicAccessAPI, PasswordAccessAPI {
     
-    var fetchHistoryValue = Single.just(())
-    var fetchHistory: Single<Void> {
-        return fetchHistoryValue
+    var isWaitingOnTransactionValue = Single.just(false)
+    var isWaitingOnTransaction: Single<Bool> {
+        return isWaitingOnTransactionValue
     }
     
-    var fetchHistoryIfNeededValue = Single.just(())
-    var fetchHistoryIfNeeded: Single<Void> {
-        return fetchHistoryIfNeededValue
+    var historyValue = Single.just(())
+    var history: Single<Void> {
+        return historyValue
+    }
+    
+    func fetchHistory() -> Single<Void> {
+        history
     }
     
     var fetchBalanceValue: Single<CryptoValue> = Single.just(CryptoValue.etherFromMajor(string: "2.0")!)
@@ -74,11 +78,6 @@ class EthereumWalletBridgeMock: EthereumWalletBridgeAPI, EthereumWalletAccountBr
     var nonceValue = Single.just(BigUInt(9))
     var nonce: Single<BigUInt> {
         return nonceValue
-    }
-    
-    var isWaitingOnEtherTransactionValue = Single.just(false)
-    var isWaitingOnEtherTransaction: Single<Bool> {
-        return isWaitingOnEtherTransactionValue
     }
     
     var recordLastTransactionValue: Single<EthereumTransactionPublished> = Single<EthereumTransactionPublished>.error(EthereumKitError.unknown)

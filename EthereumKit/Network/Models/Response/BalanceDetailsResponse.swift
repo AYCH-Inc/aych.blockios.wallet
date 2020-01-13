@@ -12,20 +12,21 @@ import PlatformKit
 
 /// TODO: `BalanceDetails` can likely be re-used for other asset types for native
 /// balance fetching.
-struct BalanceDetailsResponse: Decodable {
+public struct BalanceDetailsResponse {
     let balance: String
-    let nonce: Int
-    
+    let nonce: UInt64
+}
+
+extension BalanceDetailsResponse: Decodable {
     enum CodingKeys: String, CodingKey {
-        case address
         case balance
         case nonce
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         balance = try values.decode(String.self, forKey: .balance)
-        nonce = try values.decode(Int.self, forKey: .nonce)
+        nonce = try values.decode(UInt64.self, forKey: .nonce)
     }
 }
 

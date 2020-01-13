@@ -424,7 +424,9 @@ class ExchangeDetailCoordinator: NSObject {
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { account in
-                let balance = account.balance
+                guard let balance = account?.balance else {
+                    return
+                }
                 AnalyticsService.shared.trackEvent(
                     title: "swap_failure",
                     parameters: [

@@ -11,8 +11,6 @@ import web3swift
 import BigInt
 import PlatformKit
 
-
-
 public protocol EthereumFeeServiceAPI {
     var fees: Single<EthereumTransactionFee> { get }
 }
@@ -31,7 +29,7 @@ public final class EthereumTransactionSendingService: EthereumTransactionSending
     public typealias Bridge = EthereumWalletBridgeAPI
     
     private let bridge: Bridge
-    private let client: APIClientAPI
+    private let client: APIClientProtocol
     private let feeService: EthereumFeeServiceAPI
     private let transactionBuilder: EthereumTransactionBuilderAPI
     private let transactionSigner: EthereumTransactionSignerAPI
@@ -39,7 +37,7 @@ public final class EthereumTransactionSendingService: EthereumTransactionSending
     
     public init(
         with bridge: Bridge,
-        client: APIClientAPI,
+        client: APIClientProtocol,
         feeService: EthereumFeeServiceAPI,
         transactionBuilder: EthereumTransactionBuilderAPI = EthereumTransactionBuilder.shared,
         transactionSigner: EthereumTransactionSignerAPI = EthereumTransactionSigner.shared,

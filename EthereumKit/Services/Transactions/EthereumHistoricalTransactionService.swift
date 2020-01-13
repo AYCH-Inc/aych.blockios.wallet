@@ -21,12 +21,16 @@ public final class EthereumHistoricalTransactionService: HistoricalTransactionAP
     
     public var transactions: Single<[EthereumHistoricalTransaction]> { cachedTransactions.value }
     
-    // MARK: - Private properties
-    
-    // TODO: This will eventually come from the websocket
-    private var fetchLatestBlock: Single<Int> {
-        client.latestBlock.map { $0.number }
+    public var latestTransaction: Single<EthereumHistoricalTransaction?> {
+        cachedTransactions.value.map { $0.first }
     }
+    
+    /// Streams a boolean indicating whether there are transactions in the account
+    public var hasTransactions: Single<Bool> {
+        transactions.map { !$0.isEmpty }
+    }
+    
+    // MARK: - Private properties
     
     private var latestBlock: Single<Int> {
         cachedLatestBlock.value
@@ -39,11 +43,11 @@ public final class EthereumHistoricalTransactionService: HistoricalTransactionAP
     private let cachedLatestBlock: CachedValue<Int>
     
     private let bridge: Bridge
-    private let client: APIClientAPI
+    private let client: APIClientProtocol
 
     // MARK: - Init
     
-    public init(with bridge: Bridge, client: APIClientAPI) {
+    public init(with bridge: Bridge, client: APIClientProtocol) {
         self.bridge = bridge
         self.client = client
         self.cachedAccount = CachedValue<EthereumAssetAccount>(
@@ -63,36 +67,64 @@ public final class EthereumHistoricalTransactionService: HistoricalTransactionAP
             guard let self = self else {
                 return Single.error(ToolKitError.nullReference(Self.self))
             }
-            return self.fetchTransactions()
+            return self.fetch()
         }
         
         cachedLatestBlock.setFetch { [weak self] in
             guard let self = self else {
                 return Single.error(ToolKitError.nullReference(Self.self))
             }
-            return self.fetchLatestBlock
+            return self.fetchLatestBlock()
         }
     }
     
     // MARK: - HistoricalTransactionAPI
     
+    /// Triggers transaction fetch and caches the new transactions
     public func fetchTransactions() -> Single<[EthereumHistoricalTransaction]> {
-        return Single.zip(account, latestBlock)
+        cachedTransactions.fetchValue
+    }
+    
+    public func hasTransactionBeenProcessed(transactionHash: String) -> Single<Bool> {
+        return transactions
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .map { $0.contains { $0.transactionHash == transactionHash } }
+    }
+    
+    // MARK: - Privately used accessors
+        
+    private func fetch() -> Single<[EthereumHistoricalTransaction]> {
+        return Single
+            .zip(account, latestBlock)
             .flatMap(weak: self) { (self, tuple) -> Single<[EthereumHistoricalTransaction]> in
                 let (account, latestBlock) = tuple
                 return self.client.transactions(for: account.accountAddress)
-                    .map { transactions -> [EthereumHistoricalTransaction] in
-                        return transactions.map { transactionResponse -> EthereumHistoricalTransaction in
-                            return EthereumHistoricalTransaction(
-                                response: transactionResponse,
-                                accountAddress: account.accountAddress,
-                                latestBlock: latestBlock
-                            )
-                        }
+                    .map(weak: self) { (self, response) -> [EthereumHistoricalTransaction] in
+                        return self.transactions(
+                            from: account.accountAddress,
+                            latestBlock: latestBlock,
+                            response: response
+                        )
                     }
             }
     }
+    
+    private func fetchLatestBlock() -> Single<Int> {
+        client.latestBlock.map { $0.number }
+    }
+    
+    private func transactions(from address: String,
+                              latestBlock: Int,
+                              response: [EthereumHistoricalTransactionResponse]) -> [EthereumHistoricalTransaction] {
+        return response
+            .map { transactionResponse -> EthereumHistoricalTransaction in
+                return EthereumHistoricalTransaction(
+                    response: transactionResponse,
+                    accountAddress: address,
+                    latestBlock: latestBlock
+                )
+            }
+            // Sort backwards
+            .sorted(by: >)
+    }
 }
-
-
-

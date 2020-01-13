@@ -26,9 +26,16 @@ public protocol EthereumWalletBridgeAPI: AccountBalanceFetching {
     var address: Single<String> { get }
     var account: Single<EthereumAssetAccount> { get }
     var nonce: Single<BigUInt> { get }
-    var fetchHistory: Single<Void> { get }
-    var fetchHistoryIfNeeded: Single<Void> { get }
-    var isWaitingOnEtherTransaction: Single<Bool> { get }
     
-    func recordLast(transaction: EthereumTransactionPublished) -> Single<EthereumTransactionPublished> // TODO: CHECK THIS
+    /// Streams a boolean value indicating whether if there is transaction that should complete
+    var isWaitingOnTransaction: Single<Bool> { get }
+
+    /// Fetches the previously cached history
+    var history: Single<Void> { get }
+    
+    /// Fetches the history (expected to make a network call to do so).
+    /// Always returns the updated history
+    func fetchHistory() -> Single<Void>
+    
+    func recordLast(transaction: EthereumTransactionPublished) -> Single<EthereumTransactionPublished>
 }

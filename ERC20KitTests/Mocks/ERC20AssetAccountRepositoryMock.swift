@@ -15,9 +15,9 @@ class ERC20AssetAccountRepositoryMock: PlatformKit.AssetAccountRepositoryAPI {
     
     typealias Details = ERC20AssetAccountDetails
     
-    var assetAccountDetails: Maybe<ERC20AssetAccountDetails> = Maybe.empty()
+    var assetAccountDetails: Single<ERC20AssetAccountDetails> = Single.error(NSError())
     
-    func currentAssetAccountDetails(fromCache: Bool) -> Maybe<ERC20AssetAccountDetails> {
-        return Maybe.empty()
+    func currentAssetAccountDetails(fromCache: Bool) -> Single<ERC20AssetAccountDetails> {
+        return .error(NSError())
     }
 }

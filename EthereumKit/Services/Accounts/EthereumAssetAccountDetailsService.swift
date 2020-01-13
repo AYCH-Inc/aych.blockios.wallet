@@ -12,45 +12,38 @@ import PlatformKit
 import BigInt
 
 public class EthereumAssetAccountDetailsService: AssetAccountDetailsAPI {
-    public typealias AccountDetails = EthereumAssetAccountDetails
-    public typealias Bridge = EthereumWalletBridgeAPI
+            
+    // MARK: - Properties
+
+    private var balanceDetails: Single<BalanceDetailsResponse> {
+        return bridge.address
+            .flatMap(weak: self) { (self, address) -> Single<BalanceDetailsResponse> in
+                 return self.client.balanceDetails(from: address)
+            }
+    }
+    
+    // MARK: - Injected
     
     private let bridge: EthereumWalletBridgeAPI
-    private let client: APIClientAPI
+    private let client: APIClientProtocol
     
-    public init(with bridge: Bridge, client: APIClientAPI) {
+    // MARK: - Setup
+    
+    public init(with bridge: EthereumWalletBridgeAPI, client: APIClientProtocol) {
         self.bridge = bridge
         self.client = client
     }
     
-    public func accountDetails(for accountID: AccountID) -> Maybe<AccountDetails> {
-        #if DEBUG
-            return getAccountDetailsPlatform(for: accountID)
-        #else
-            return getAccountDetailsLegacy(for: accountID)
-        #endif
-    }
-    
-    private func getAccountDetailsPlatform(for accountID: AccountID) -> Maybe<AccountDetails> {
-        // TODO: get account natively
-        return getAccountDetailsLegacy(for: accountID)
-    }
-    
-    private func getAccountDetailsLegacy(for accountID: AccountID) -> Maybe<AccountDetails> {
-        // FIXME: account id unused
-        return Single.zip(bridge.account, balance)
-            .flatMap { account, ethereumBalance -> Single<EthereumAssetAccountDetails> in
-                Single.just(EthereumAssetAccountDetails(
-                    account: account,
-                    balance: ethereumBalance
-                ))
+    /// Streams the account details
+    public func accountDetails(for accountID: String) -> Single<EthereumAssetAccountDetails> {
+        return Single
+            .zip(bridge.account, balanceDetails)
+            .map { accountAndDetails -> EthereumAssetAccountDetails in
+                return EthereumAssetAccountDetails(
+                    account: accountAndDetails.0,
+                    balance: accountAndDetails.1.cryptoValue,
+                    nonce: accountAndDetails.1.nonce
+                )
             }
-            .asMaybe()
-    }
-    
-    private var balance: Single<CryptoValue> {
-        return bridge.address.flatMap(weak: self) { (self, address) -> Single<CryptoValue> in
-             self.client.balance(from: address)
-        }
     }
 }

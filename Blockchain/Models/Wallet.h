@@ -137,7 +137,6 @@
 - (void)didGetExchangeTrades:(NSArray *)trades;
 - (void)didFailToGetExchangeTrades:(NSString *)errorDescription;
 - (void)didGetExchangeRate:(ExchangeRate *)result;
-- (void)didGetAvailableEthBalance:(NSDictionary *)result;
 - (void)didGetAvailableBtcBalance:(NSDictionary *)result;
 - (void)didBuildExchangeTrade:(NSDictionary *)tradeInfo;
 - (void)didShiftPayment;
@@ -423,20 +422,13 @@
 
 - (JSValue *)executeJSSynchronous:(NSString *)command;
 
-// Ethereum
-- (NSString *)getEthBalance;
-- (void)getEthExchangeRate;
+- (NSDecimalNumber *)getEthBalance;
 
 // Ether send
-
-- (void)sendEtherPaymentWithNote:(NSString *)note;
-
-- (BOOL)isWaitingOnEtherTransaction;
 
 - (NSString * _Nullable)getEtherAddress __deprecated_msg("Use `getEthereumAddressWithSuccess:error` instead.");
 
 - (void)isEtherContractAddress:(NSString *)address completion:(void (^ __nullable)(NSData *data, NSURLResponse *response, NSError *error))completion;
-- (void)sweepEtherPayment;
 - (BOOL)hasEthAccount;
 
 // Bitcoin Cash
@@ -498,7 +490,6 @@
 - (void)sendOrderTransaction:(LegacyAssetType)legacyAssetType secondPassword:(NSString* _Nullable)secondPassword completion:(void (^ _Nonnull)(void))completion success:(void (^ _Nonnull)(void))success error:(void (^ _Nonnull)(NSString *_Nonnull))error cancel:(void (^ _Nonnull)(void))cancel;
 // Top Bar Display
 - (NSDecimalNumber *)btcDecimalBalance;
-- (NSDecimalNumber *)ethDecimalBalance;
 
 - (NSString *)getMobileMessage;
 @end

@@ -12,7 +12,7 @@ import PlatformKit
 import EthereumKit
 
 public protocol ERC20BridgeAPI: class {
-    var isWaitingOnEtherTransaction: Single<Bool> { get }
+    var isWaitingOnTransaction: Single<Bool> { get }
     
     var erc20TokenAccounts: Single<[String: ERC20TokenAccount]> { get }
    

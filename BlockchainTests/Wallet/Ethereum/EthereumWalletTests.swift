@@ -30,6 +30,7 @@ class EthereumWalletTests: XCTestCase {
         disposeBag = DisposeBag()
         
         legacyWalletMock = MockLegacyEthereumWallet()
+        // Hack to make things compile
         subject = EthereumWallet(wallet: legacyWalletMock)
         _ = subject.walletLoaded().subscribeOn(scheduler)
     }

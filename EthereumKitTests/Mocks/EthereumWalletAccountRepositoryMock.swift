@@ -46,7 +46,12 @@ enum EthereumAPIClientMockError: Error {
     case mockError
 }
 
-class EthereumAPIClientMock: EthereumKit.APIClientAPI {
+class EthereumAPIClientMock: EthereumKit.APIClientProtocol {
+    
+    var balanceDetailsValue = Single<BalanceDetailsResponse>.error(EthereumAPIClientMockError.mockError)
+    func balanceDetails(from address: String) -> Single<BalanceDetailsResponse> {
+        return balanceDetailsValue
+    }
     
     var latestBlockValue: Single<LatestBlockResponse> = Single.error(EthereumAPIClientMockError.mockError)
     var latestBlock: Single<LatestBlockResponse> {
@@ -65,13 +70,6 @@ class EthereumAPIClientMock: EthereumKit.APIClientAPI {
     func transactions(for account: String) -> Single<[EthereumHistoricalTransactionResponse]> {
         lastTransactionsForAccount = account
         return transactionsForAccountValue
-    }
-    
-    var lastBalanceFromAddress: String?
-    var balanceFromAddressValue: Single<CryptoValue> = Single.just(CryptoValue.createFromMajorValue(string: "2.0", assetType: .ethereum)!)
-    func balance(from address: String) -> Single<CryptoValue> {
-        lastBalanceFromAddress = address
-        return balanceFromAddressValue
     }
     
     var lastPushedTransaction: EthereumTransactionFinalised?

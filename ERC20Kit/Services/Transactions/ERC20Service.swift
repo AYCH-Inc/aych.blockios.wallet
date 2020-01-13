@@ -90,7 +90,7 @@ public class ERC20Service<Token: ERC20Token>: ERC20API, ERC20TransactionEvaluati
     }
     
     private var handlePendingTransaction: Single<Void> {
-        return bridge.isWaitingOnEtherTransaction
+        return bridge.isWaitingOnTransaction
             .flatMap { isWaiting -> Single<Void> in
                 guard !isWaiting else {
                     throw ERC20ValidationError.pendingTransaction

@@ -17,9 +17,9 @@ import StellarKit
 import ERC20Kit
 
 protocol AssetAccountRepositoryAPI {
-    func accounts(for assetType: AssetType, fromCache: Bool) -> Maybe<[AssetAccount]>
+    func accounts(for assetType: AssetType, fromCache: Bool) -> Single<[AssetAccount]>
     func defaultStellarAccount() -> AssetAccount?
-    var accounts: Observable<[AssetAccount]> { get }
+    var accounts: Single<[AssetAccount]> { get }
 }
 
 /// A repository for `AssetAccount` objects
@@ -58,80 +58,90 @@ class AssetAccountRepository: AssetAccountRepositoryAPI {
 
     // MARK: Public Methods
     
-    func accounts(for assetType: AssetType, fromCache: Bool = true) -> Maybe<[AssetAccount]> {
+    func accounts(for assetType: AssetType, fromCache: Bool = true) -> Single<[AssetAccount]> {
         // A crash occurs in the for loop if wallet.getActiveAccountsCount returns 0
         // "Fatal error: Can't form Range with upperBound < lowerBound"
         if !wallet.isInitialized() {
-            return Maybe.empty()
+            return .just([])
         }
         
         if assetType == .pax {
             if fromCache {
-                return paxAccountRepository.assetAccountDetails.flatMap {
-                    let balance = $0.balance.majorValue
-                    Logger.shared.info("Balance for PAX: \(balance)")
-                    let account = AssetAccount(
-                        index: 0,
-                        address: AssetAddressFactory.create(
-                            fromAddressString: $0.account.accountAddress,
-                            assetType: .pax
-                        ),
-                        balance: $0.balance,
-                        name: $0.account.name
-                    )
-                    return Maybe.just([account])
-                }
+                return paxAccountRepository.assetAccountDetails
+                    .flatMap {
+                        let balance = $0.balance.majorValue
+                        Logger.shared.info("Balance for PAX: \(balance)")
+                        let account = AssetAccount(
+                            index: 0,
+                            address: AssetAddressFactory.create(
+                                fromAddressString: $0.account.accountAddress,
+                                assetType: .pax
+                            ),
+                            balance: $0.balance,
+                            name: $0.account.name
+                        )
+                        return .just([account])
+                    }
             } else {
-                return paxAccountRepository.currentAssetAccountDetails(fromCache: false).flatMap {
-                    let balance = $0.balance.majorValue
-                    Logger.shared.info("Balance for PAX: \(balance)")
-                    let account = AssetAccount(
-                        index: 0,
-                        address: AssetAddressFactory.create(
-                            fromAddressString: $0.account.accountAddress,
-                            assetType: .pax
-                        ),
-                        balance: $0.balance,
-                        name: $0.account.name
-                    )
-                    return Maybe.just([account])
-                }
+                return paxAccountRepository.currentAssetAccountDetails(fromCache: false)
+                    .flatMap {
+                        let balance = $0.balance.majorValue
+                        Logger.shared.info("Balance for PAX: \(balance)")
+                        let account = AssetAccount(
+                            index: 0,
+                            address: AssetAddressFactory.create(
+                                fromAddressString: $0.account.accountAddress,
+                                assetType: .pax
+                            ),
+                            balance: $0.balance,
+                            name: $0.account.name
+                        )
+                        return .just([account])
+                    }
             }
         }
         
         if fromCache {
-            return accounts.asMaybe().flatMap { result -> Maybe<[AssetAccount]> in
+            return accounts.flatMap { result -> Single<[AssetAccount]> in
                 let cached = result.filter({ $0.address.assetType == assetType })
-                return Maybe.just(cached)
+                return .just(cached)
             }
         }
         
         if assetType == .ethereum {
-            return defaultEthereumAccount().flatMap({
-                return Maybe.just([$0])
-            })
+            return defaultEthereumAccount()
+                .map { account in
+                    guard let account = account else { return [] }
+                    return [account]
+                }
         }
         
         if assetType == .stellar {
             if fromCache == false {
-                return stellarAccountService.currentStellarAccount(fromCache: false)
-                    .catchError { error -> Maybe<StellarAccount> in
+                return stellarAccountService
+                    .currentStellarAccountAsSingle(fromCache: false)
+                    .map { account in
+                        guard let account = account else {
+                            return []
+                        }
+                        return [account.assetAccount]
+                    }
+                    .catchError { error -> Single<[AssetAccount]> in
                         /// Should Horizon go down or should we have an error when
                         /// retrieving the user's account details, we just want to return
                         /// a `Maybe.empty()`. If we return an error, the user will not be able
                         /// to see any of their available accounts in `Swap`. 
                         guard error is StellarServiceError else {
-                            return Maybe.error(error)
+                            return .error(error)
                         }
-                        return Maybe.empty()
+                        return .just([])
                     }
-                    .map({ return [$0.assetAccount] })
             }
             if let stellarAccount = defaultStellarAccount() {
-                return Maybe.just([stellarAccount])
+                return .just([stellarAccount])
             }
             
-            return Maybe.empty()
+            return .just([])
         }
         
         // Handle BTC and BCH
@@ -144,14 +154,14 @@ class AssetAccountRepository: AssetAccountRepositoryAPI {
                 result.append(assetAccount)
             }
         }
-        return Maybe.just(result)
+        return .just(result)
     }
     
-    var accounts: Observable<[AssetAccount]> {
+    var accounts: Single<[AssetAccount]> {
         guard let value = cachedAccounts.value else {
-            return fetchAccounts().asObservable()
+            return fetchAccounts()
         }
-        return Observable.just(value)
+        return .just(value)
     }
     
     var fetchETHHistoryIfNeeded: Single<Void> {
@@ -162,7 +172,6 @@ class AssetAccountRepository: AssetAccountRepositoryAPI {
         var observables: [Observable<[AssetAccount]>] = []
         AssetType.all.forEach {
             let observable = accounts(for: $0, fromCache: false)
-                .ifEmpty(default: [])
                 .asObservable()
             observables.append(observable)
         }
@@ -180,29 +189,29 @@ class AssetAccountRepository: AssetAccountRepositoryAPI {
         }
     }
 
-    func defaultAccount(for assetType: AssetType, fromCache: Bool = true) -> Maybe<AssetAccount> {
+    func defaultAccount(for assetType: AssetType, fromCache: Bool = true) -> Single<AssetAccount?> {
         if assetType == .ethereum {
             return defaultEthereumAccount()
         } else if assetType == .stellar {
             if let account = defaultStellarAccount() {
-                return Maybe.just(account)
+                return .just(account)
             } else {
-                return Maybe.empty()
+                return .just(nil)
             }
         }
         let index = wallet.getDefaultAccountIndex(for: assetType.legacy)
         let account = AssetAccount.create(assetType: assetType, index: index, wallet: wallet)
         if let result = account {
-            return Maybe.just(result)
+            return .just(result)
         } else {
-            return Maybe.empty()
+            return .just(nil)
         }
     }
 
-    func defaultEthereumAccount() -> Maybe<AssetAccount> {
+    func defaultEthereumAccount() -> Single<AssetAccount?> {
         guard let ethereumAddress = self.wallet.getEtherAddress(), self.wallet.hasEthAccount() else {
             Logger.shared.debug("This wallet has no ethereum address.")
-            return Maybe.empty()
+            return .just(nil)
         }
         
         let fallback = EthereumAssetAccount(
@@ -212,12 +221,13 @@ class AssetAccountRepository: AssetAccountRepositoryAPI {
         )
         let details = EthereumAssetAccountDetails(
             account: fallback,
-            balance: CryptoValue.zero(assetType: .ethereum)
+            balance: .etherZero,
+            nonce: 0
         )
         
         return ethereumAccountRepository.assetAccountDetails
             .catchErrorJustReturn(details)
-            .flatMap({ details -> Maybe<AssetAccount> in
+            .flatMap({ details -> Single<AssetAccount?> in
                 let account = AssetAccount(
                     index: 0,
                     address: AssetAddressFactory.create(
@@ -227,7 +237,7 @@ class AssetAccountRepository: AssetAccountRepositoryAPI {
                     balance: details.balance,
                     name: LocalizationConstants.myEtherWallet
                 )
-                return Maybe.just(account)
+                return .just(account)
         })
     }
 
@@ -283,12 +293,13 @@ extension AssetAccountRepository {
         return networkObservable.startWith(cached)
     }
     
-    func nameOfAccountContaining(address: String, currencyType: CryptoCurrency) -> Maybe<String> {
-        return accounts.asSingle().flatMapMaybe { output -> Maybe<String> in
-            guard let result = output.first(where: { $0.address.address == address && $0.balance.currencyType == currencyType }) else {
-                return Maybe.empty()
+    func nameOfAccountContaining(address: String, currencyType: CryptoCurrency) -> Single<String> {
+        return accounts
+            .flatMap { output -> Single<String> in
+                guard let result = output.first(where: { $0.address.address == address && $0.balance.currencyType == currencyType }) else {
+                    return .error(NSError())
             }
-            return Maybe.just(result.name)
+            return .just(result.name)
         }
     }
 }

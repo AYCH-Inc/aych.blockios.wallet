@@ -167,7 +167,7 @@ class EthereumWalletServiceTests: XCTestCase {
         // Arrange
         let candidate = EthereumTransactionCandidateBuilder().build()!
         
-        bridge.isWaitingOnEtherTransactionValue = Single.just(true)
+        bridge.isWaitingOnTransactionValue = Single.just(true)
         
         let sendObservable: Observable<EthereumTransactionPublished> = subject
             .send(transaction: candidate)
@@ -193,7 +193,7 @@ class EthereumWalletServiceTests: XCTestCase {
             rawValue: MockEthereumWalletTestData.Transaction.to
         )!
         
-        client.balanceFromAddressValue = Single.just(CryptoValue.etherFromMajor(string: "0.1")!)
+        client.balanceDetailsValue = .just(BalanceDetailsResponse(balance: "0.1", nonce: 1))
 
         let buildObservable: Observable<EthereumTransactionCandidate> = subject
             .buildTransaction(with: ethereumValue, to: toAddress)
@@ -231,8 +231,9 @@ class EthereumWalletServiceTests: XCTestCase {
             gasLimitContract: Int(MockEthereumWalletTestData.Transaction.gasLimitContract)
         )
         feeService.feesValue = Single.just(fee)
-        client.balanceFromAddressValue = Single.just(CryptoValue.etherFromMajor(string: "0.02")!)
 
+        client.balanceDetailsValue = .just(BalanceDetailsResponse(balance: "0.02", nonce: 1))
+        
         let buildObservable: Observable<EthereumTransactionCandidate> = subject
             .buildTransaction(with: ethereumValue, to: toAddress)
             .asObservable()
@@ -372,7 +373,7 @@ class EthereumWalletServiceTests: XCTestCase {
             rawValue: MockEthereumWalletTestData.Transaction.to
         )!
         
-        client.balanceFromAddressValue = Single.error(EthereumWalletBridgeMockError.mockError)
+        client.balanceDetailsValue = Single.error(EthereumWalletBridgeMockError.mockError)
 
         let buildObservable: Observable<EthereumTransactionCandidate> = subject
             .buildTransaction(with: ethereumValue, to: toAddress)

@@ -46,7 +46,7 @@ class ExchangeAssetAccountListPresenter {
         let disposable = assetAccountRepository.accounts
             .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] accounts in
+            .subscribe(onSuccess: { [weak self] accounts in
                 guard let self = self else { return }
                 let available = accounts.filter({ $0 != assetAccount })
                 self.view?.showPicker(for: available, action: action)

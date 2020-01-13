@@ -21,45 +21,30 @@ public enum EthereumJSInteropDispatcherError: Error {
     func didSaveAccount()
     func didFailToSaveAccount(errorMessage: JSValue)
 
-    func didFetchBalance(_ balance: JSValue)
-    func didFailToFetchBalance(errorMessage: JSValue)
-    
     func didGetAddress(_ address: JSValue)
     func didFailToGetAddress(errorMessage: JSValue)
-    
-    func didFetchHistory()
-    func didFailToFetchHistory(errorMessage: JSValue)
-
-    func didRecordLastTransaction()
-    func didFailToRecordLastTransaction(errorMessage: JSValue)
-
-    func didGetIsWaitingOnTransaction(_ isWaitingOnTransaction: JSValue)
-    func didFailToGetIsWaitingOnTransaction(errorMessage: JSValue)
-
-    func didGetNonce(_ nonce: JSValue)
-    func didFailToGetNonce(errorMessage: JSValue)
     
     func didGetERC20Tokens(_ tokens: JSValue)
     func didFailToGetERC20Tokens(errorMessage: JSValue)
     
     func didSaveERC20Tokens()
     func didFailToSaveERC20Tokens(errorMessage: JSValue)
+
+    func didRecordLastTransaction()
+    func didFailToRecordLastTransaction(errorMessage: JSValue)
 }
 
 public protocol EthereumJSInteropDispatcherAPI {
     var getAccounts: Dispatcher<[[String: Any]]> { get }
     var saveAccount: Dispatcher<Void> { get }
     
-    var fetchHistory: Dispatcher<Void> { get }
-    var fetchBalance: Dispatcher<String> { get }
     var getAddress: Dispatcher<String> { get }
+        
+    var getERC20Tokens: Dispatcher<[String: [String: Any]]> { get }
+    var saveERC20Tokens: Dispatcher<Void> { get }
     
     var recordLastTransaction: Dispatcher<Void> { get }
     var getIsWaitingOnTransaction: Dispatcher<Bool> { get }
-    var getNonce: Dispatcher<String> { get }
-    
-    var getERC20Tokens: Dispatcher<[String: [String: Any]]> { get }
-    var saveERC20Tokens: Dispatcher<Void> { get }
 }
 
 public class EthereumJSInteropDispatcher: EthereumJSInteropDispatcherAPI {
@@ -68,19 +53,24 @@ public class EthereumJSInteropDispatcher: EthereumJSInteropDispatcherAPI {
     public let getAccounts = Dispatcher<[[String: Any]]>()
     public let saveAccount = Dispatcher<Void>()
     
-    public let fetchHistory = Dispatcher<Void>()
-    public let fetchBalance = Dispatcher<String>()
-    public let getAddress = Dispatcher<String>()
-    
     public let recordLastTransaction = Dispatcher<Void>()
     public let getIsWaitingOnTransaction = Dispatcher<Bool>()
-    public let getNonce = Dispatcher<String>()
+    
+    public let getAddress = Dispatcher<String>()
     
     public let getERC20Tokens = Dispatcher<[String: [String: Any]]>()
     public let saveERC20Tokens = Dispatcher<Void>()
 }
 
 extension EthereumJSInteropDispatcher: EthereumJSInteropDelegateAPI {
+    public func didRecordLastTransaction() {
+        recordLastTransaction.sendSuccess(with: ())
+    }
+    
+    public func didFailToRecordLastTransaction(errorMessage: JSValue) {
+        sendFailure(dispatcher: recordLastTransaction, errorMessage: errorMessage)
+    }
+    
     public func didGetAccounts(_ accounts: JSValue) {
         guard let accountsDictionaries = accounts.toArray() as? [[String: Any]] else {
             getAccounts.sendFailure(.unknown)
@@ -101,18 +91,6 @@ extension EthereumJSInteropDispatcher: EthereumJSInteropDelegateAPI {
         sendFailure(dispatcher: saveAccount, errorMessage: errorMessage)
     }
     
-    public func didFetchBalance(_ balance: JSValue) {
-        guard let balance = balance.toString() else {
-            fetchBalance.sendFailure(.unknown)
-            return
-        }
-        fetchBalance.sendSuccess(with: balance)
-    }
-    
-    public func didFailToFetchBalance(errorMessage: JSValue) {
-        sendFailure(dispatcher: fetchBalance, errorMessage: errorMessage)
-    }
-    
     public func didGetAddress(_ address: JSValue) {
         guard let address = address.toString() else {
             getAddress.sendFailure(.unknown)
@@ -123,42 +101,6 @@ extension EthereumJSInteropDispatcher: EthereumJSInteropDelegateAPI {
     
     public func didFailToGetAddress(errorMessage: JSValue) {
         sendFailure(dispatcher: getAddress, errorMessage: errorMessage)
-    }
-    
-    public func didFetchHistory() {
-        fetchHistory.sendSuccess(with: ())
-    }
-    
-    public func didFailToFetchHistory(errorMessage: JSValue) {
-        sendFailure(dispatcher: fetchHistory, errorMessage: errorMessage)
-    }
-    
-    public func didRecordLastTransaction() {
-        recordLastTransaction.sendSuccess(with: ())
-    }
-    
-    public func didFailToRecordLastTransaction(errorMessage: JSValue) {
-        sendFailure(dispatcher: recordLastTransaction, errorMessage: errorMessage)
-    }
-    
-    public func didGetIsWaitingOnTransaction(_ isWaitingOnTransaction: JSValue) {
-        getIsWaitingOnTransaction.sendSuccess(with: isWaitingOnTransaction.toBool())
-    }
-    
-    public func didFailToGetIsWaitingOnTransaction(errorMessage: JSValue) {
-        sendFailure(dispatcher: getIsWaitingOnTransaction, errorMessage: errorMessage)
-    }
-    
-    public func didGetNonce(_ nonce: JSValue) {
-        guard let nonce = nonce.toString() else {
-            getNonce.sendFailure(.unknown)
-            return
-        }
-        getNonce.sendSuccess(with: nonce)
-    }
-    
-    public func didFailToGetNonce(errorMessage: JSValue) {
-        sendFailure(dispatcher: getNonce, errorMessage: errorMessage)
     }
     
     public func didGetERC20Tokens(_ tokens: JSValue) {

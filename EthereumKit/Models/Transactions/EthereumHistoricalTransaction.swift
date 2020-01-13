@@ -15,7 +15,6 @@ public protocol EthereumTransaction {
 }
 
 public struct EthereumHistoricalTransaction: EthereumTransaction, HistoricalTransaction, Mineable {
-    
     public typealias Address = EthereumAssetAddress
     
     public var fromAddress: EthereumAssetAddress
@@ -120,5 +119,17 @@ public struct EthereumHistoricalTransaction: EthereumTransaction, HistoricalTran
             return 0
         }
         return UInt(confirmations)
+    }
+}
+
+extension EthereumHistoricalTransaction: Comparable {
+    public static func < (lhs: EthereumHistoricalTransaction, rhs: EthereumHistoricalTransaction) -> Bool {
+        return lhs.createdAt < rhs.createdAt
+    }
+}
+
+extension EthereumHistoricalTransaction: Equatable {
+    public static func == (lhs: EthereumHistoricalTransaction, rhs: EthereumHistoricalTransaction) -> Bool {
+        return lhs.identifier == rhs.identifier
     }
 }

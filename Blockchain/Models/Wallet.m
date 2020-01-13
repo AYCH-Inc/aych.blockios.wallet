@@ -716,20 +716,8 @@ NSString * const kLockboxInvitation = @"lockbox";
 
 #pragma mark Ethereum
 
-    self.context[@"objc_on_fetch_eth_history_success"] = ^() {
-        [weakSelf on_fetch_eth_history_success];
-    };
-
     self.context[@"objc_on_create_eth_account_for_exchange_success"] = ^() {
         [weakSelf on_create_eth_account_for_exchange_success];
-    };
-
-    self.context[@"objc_on_fetch_eth_history_error"] = ^(JSValue *error) {
-        [weakSelf on_fetch_eth_history_error:[error toString]];
-    };
-
-    self.context[@"objc_update_eth_payment"] = ^(JSValue *etherPayment) {
-        [weakSelf on_update_eth_payment:[etherPayment toDictionary]];
     };
 
     self.context[@"objc_on_fetch_eth_exchange_rate_success"] = ^(JSValue *rate, JSValue *code) {
@@ -738,14 +726,6 @@ NSString * const kLockboxInvitation = @"lockbox";
 
     self.context[@"objc_eth_socket_send"] = ^(JSValue *message) {
         [weakSelf eth_socket_send:[message toString]];
-    };
-
-    self.context[@"objc_on_send_ether_payment_success"] = ^() {
-        [weakSelf on_send_ether_payment_success];
-    };
-
-    self.context[@"objc_on_send_ether_payment_error"] = ^(JSValue *error) {
-        [weakSelf on_send_ether_payment_error:error];
     };
 
     self.context[@"objc_did_get_ether_address_with_second_password"] = ^() {
@@ -802,15 +782,6 @@ NSString * const kLockboxInvitation = @"lockbox";
 
     self.context[@"objc_on_get_available_btc_balance_error"] = ^(JSValue *result) {
         [weakSelf on_get_available_balance_error:[result toString] symbol:CURRENCY_SYMBOL_BTC];
-    };
-
-    self.context[@"objc_on_get_available_eth_balance_success"] = ^(JSValue *amount, JSValue *fee) {
-        NSDictionary *dict = @{DICTIONARY_KEY_AMOUNT : [amount toNumber], DICTIONARY_KEY_FEE : [fee toNumber]};
-        [weakSelf on_get_available_eth_balance_success:dict];
-    };
-
-    self.context[@"objc_on_get_available_eth_balance_error"] = ^(JSValue *result) {
-        [weakSelf on_get_available_balance_error:[result toString] symbol:CURRENCY_SYMBOL_ETH];
     };
 
     self.context[@"objc_on_shift_payment_success"] = ^(JSValue *result) {
@@ -1034,14 +1005,6 @@ NSString * const kLockboxInvitation = @"lockbox";
 - (NSDecimalNumber *)btcDecimalBalance
 {
     return [NSNumberFormatter formatSatoshiInLocalCurrency:[WalletManager.sharedInstance.wallet getTotalActiveBalance]];
-}
-
-- (NSDecimalNumber *)ethDecimalBalance
-{
-    TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;
-    NSString *fiatString = [NSNumberFormatter formatEthToFiat:[WalletManager.sharedInstance.wallet getEthBalance] exchangeRate:tabControllerManager.latestEthExchangeRate localCurrencyFormatter:[NSNumberFormatter localCurrencyFormatterWithUSLocale]];
-    NSDecimalNumber *balance = [NSDecimalNumber decimalNumberWithString:fiatString ? : @"0"];
-    return balance;
 }
 
 # pragma mark - Socket Delegate
@@ -1943,8 +1906,6 @@ NSString * const kLockboxInvitation = @"lockbox";
         [self.context evaluateScript:@"MyWalletPhone.createNewBitcoinPayment()"];
     } else if (assetType == LegacyAssetTypeBitcoinCash) {
         DLog(@"Bitcoin cash - creating payment is done in selecting from");
-    } else if (assetType == LegacyAssetTypeEther) {
-        [self.context evaluateScript:@"MyWalletPhone.createNewEtherPayment()"];
     }
 }
 
@@ -1993,8 +1954,6 @@ NSString * const kLockboxInvitation = @"lockbox";
         [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.changePaymentTo(\"%@\")", [toString escapedForJS]]];
     } else if (assetType == LegacyAssetTypeBitcoinCash) {
         [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.changePaymentToAddress(\"%@\")", [toString escapedForJS]]];
-    } else if (assetType == LegacyAssetTypeEther) {
-        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.setEtherPaymentTo(\"%@\")", [toString escapedForJS]]];
     }
 }
 
@@ -2008,8 +1967,6 @@ NSString * const kLockboxInvitation = @"lockbox";
         [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.changePaymentAmount(%lld)", [amount longLongValue]]];
     } else if (assetType == LegacyAssetTypeBitcoinCash) {
         [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.changePaymentAmount(%lld)", [amount longLongValue]]];
-    } else if (assetType == LegacyAssetTypeEther) {
-        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.setEtherPaymentAmount(\"%@\")", amount ? : @0]];
     }
 }
 
@@ -2670,32 +2627,9 @@ NSString * const kLockboxInvitation = @"lockbox";
     }
 }
 
-- (NSString *)getEthBalance
+- (NSDecimalNumber *)getEthBalance
 {
-    return [self getBalanceForAccount:0 assetType:LegacyAssetTypeEther];
-}
-
-- (void)getEthExchangeRate
-{
-    if ([self isInitialized]) {
-        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.getEthExchangeRate(\"%@\")", WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code]];
-    }
-}
-
-- (void)sendEtherPaymentWithNote:(NSString *)note
-{
-    if ([self isInitialized]) {
-        [self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.sendEtherPaymentWithNote(\"%@\")", note ? [note escapedForJS] : @""]];
-    }
-}
-
-- (BOOL)isWaitingOnEtherTransaction
-{
-    if ([self isInitialized]) {
-        return [[self.context evaluateScript:@"MyWalletPhone.isWaitingOnTransaction()"] toBool];
-    }
-    
-    return NO;
+    return _ethereum.legacyEthBalance;
 }
 
 - (nullable NSString *)getEtherAddress
@@ -2721,13 +2655,6 @@ NSString * const kLockboxInvitation = @"lockbox";
         });
     }];
     [task resume];
-}
-
-- (void)sweepEtherPayment
-{
-    if ([self isInitialized]) {
-        [self.context evaluateScript:@"MyWalletPhone.sweepEtherPayment()"];
-    }
 }
 
 - (BOOL)hasEthAccount
@@ -3853,35 +3780,12 @@ NSString * const kLockboxInvitation = @"lockbox";
     [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[error toString] title:BC_STRING_ERROR in:nil handler:nil];
 }
 
-- (void)on_fetch_eth_history_success
-{
-    if ([self.delegate respondsToSelector:@selector(didFetchEthHistory)]) {
-        [self.delegate didFetchEthHistory];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector didFetchEthHistory!", [delegate class]);
-    }
-}
-
-- (void)on_fetch_eth_history_error:(NSString *)error
-{
-
-}
-
 - (void)on_create_eth_account_for_exchange_success
 {
     if ([self.delegate respondsToSelector:@selector(didCreateEthAccountForExchange)]) {
         [self.delegate didCreateEthAccountForExchange];
     } else {
         DLog(@"Error: delegate of class %@ does not respond to selector didCreateEthAccountForExchange!", [delegate class]);
-    }
-}
-
-- (void)on_update_eth_payment:(NSDictionary *)payment
-{
-    if ([self.delegate respondsToSelector:@selector(didUpdateEthPayment:)]) {
-        [self.delegate didUpdateEthPayment:payment];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector didUpdateEthPayment!", [delegate class]);
     }
 }
 
@@ -3913,24 +3817,6 @@ NSString * const kLockboxInvitation = @"lockbox";
     NSError *error;
     [self.ethSocket sendString:message error:&error];
     if (error) DLog(@"Error sending eth socket message: %@", [error localizedDescription]);
-}
-
-- (void)on_send_ether_payment_success
-{
-    if ([self.delegate respondsToSelector:@selector(didSendEther)]) {
-        [self.delegate didSendEther];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector didSendEther!", [delegate class]);
-    }
-}
-
-- (void)on_send_ether_payment_error:(JSValue *)error
-{
-    if ([self.delegate respondsToSelector:@selector(didErrorDuringEtherSend:)]) {
-        [self.delegate didErrorDuringEtherSend:[error toString]];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector didErrorDuringEtherSend!", [delegate class]);
-    }
 }
 
 - (void)did_get_ether_address_with_second_password
@@ -4030,15 +3916,6 @@ NSString * const kLockboxInvitation = @"lockbox";
         [self.delegate didGetAvailableBtcBalance:nil];
     } else {
         [[AlertViewPresenter sharedInstance] standardNotifyWithMessage:[NSString stringWithFormat:BC_STRING_ERROR_GETTING_BALANCE_ARGUMENT_ASSET_ARGUMENT_MESSAGE, currencySymbol, error] title:BC_STRING_ERROR in:nil handler:nil];
-    }
-}
-
-- (void)on_get_available_eth_balance_success:(NSDictionary *)result
-{
-    if ([self.delegate respondsToSelector:@selector(didGetAvailableEthBalance:)]) {
-        [self.delegate didGetAvailableEthBalance:result];
-    } else {
-        DLog(@"Error: delegate of class %@ does not respond to selector didGetAvailableEthBalance:!", [delegate class]);
     }
 }
 
@@ -4288,13 +4165,6 @@ NSString * const kLockboxInvitation = @"lockbox";
             return @0;
         }
         return [[self.context evaluateScript:[NSString stringWithFormat:@"MyWalletPhone.bch.getBalanceForAccount(%d)", account]] toNumber];
-    } else if (assetType == LegacyAssetTypeEther) {
-        if (![self isInitialized]) {
-            return nil;
-        }
-        if ([WalletManager.sharedInstance.wallet hasEthAccount]) {
-            return [[self.context evaluateScript:@"MyWalletPhone.getEthBalance()"] toString];
-        }
     }
     return nil;
 }

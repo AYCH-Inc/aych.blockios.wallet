@@ -26,9 +26,7 @@ protocol TradeExecutionServiceDependenciesAPI {
 }
 
 class TradeExecutionService: TradeExecutionAPI {
-    
-    typealias LegacyWallet = LegacyWalletAPI & LegacyEthereumWalletAPI
-    
+        
     // MARK: Models
     
     struct Dependencies: TradeExecutionServiceDependenciesAPI {
@@ -70,6 +68,8 @@ class TradeExecutionService: TradeExecutionAPI {
         )
     }
     
+    typealias WalletAPI = LegacyWalletAPI & LegacyEthereumWalletAPI
+    
     // MARK: Public Properties
     
     var isExecuting: Bool = false
@@ -77,12 +77,13 @@ class TradeExecutionService: TradeExecutionAPI {
     // MARK: Private Properties
     
     private let authentication: NabuAuthenticationServiceAPI
-    private let wallet: LegacyWallet
+    private let wallet: WalletAPI
     private let assetAccountRepository: AssetAccountRepositoryAPI
     private let dependencies: TradeExecutionServiceDependenciesAPI
     private let disposables = CompositeDisposable()
     private let bag: DisposeBag = DisposeBag()
     private var pendingXlmPaymentOperation: StellarPaymentOperation?
+    private let ethereumWallet: EthereumWalletBridgeAPI
     private var ethereumTransactionCandidate: EthereumTransactionCandidate?
     
     private var bitcoinTransactionFee: Single<BitcoinTransactionFee> {
@@ -106,11 +107,13 @@ class TradeExecutionService: TradeExecutionAPI {
     // MARK: Init
     
     init(
+        ethereumWallet: EthereumWalletBridgeAPI = WalletManager.shared.wallet.ethereum,
         service: NabuAuthenticationServiceAPI = NabuAuthenticationService.shared,
-        wallet: LegacyWallet,
+        wallet: WalletAPI,
         dependencies: TradeExecutionServiceDependenciesAPI,
         communicator: NetworkCommunicatorAPI = NetworkCommunicator.shared
         ) {
+        self.ethereumWallet = ethereumWallet
         self.authentication = service
         self.wallet = wallet
         self.dependencies = dependencies
@@ -124,12 +127,14 @@ class TradeExecutionService: TradeExecutionAPI {
     
     // MARK: TradeExecutionAPI
     
-    func canTradeAssetType(_ assetType: AssetType) -> Bool {
+    func canTradeAssetType(_ assetType: AssetType) -> Single<Bool> {
         switch assetType {
         case .ethereum, .pax:
-            return !wallet.isWaitingOnEtherTransaction()
+            return ethereumWallet.isWaitingOnTransaction
+                .map { !$0 }
+                .observeOn(MainScheduler.instance)
         default:
-            return true
+            return .just(true)
         }
     }
     
@@ -795,9 +800,11 @@ private extension TradeExecutionService {
             return Maybe.just(address)
         }
         if assetType == .pax {
-            return dependencies.erc20AccountRepository.assetAccountDetails.flatMap { details -> Maybe<String> in
-                return Maybe.just(details.account.accountAddress)
-            }
+            return dependencies.erc20AccountRepository.assetAccountDetails
+                .asMaybe()
+                .flatMap { details -> Maybe<String> in
+                    return Maybe.just(details.account.accountAddress)
+                }
         }
         guard let receiveAddress = wallet.getReceiveAddress(forAccount: account, assetType: assetType.legacy) else {
             return Maybe.empty()

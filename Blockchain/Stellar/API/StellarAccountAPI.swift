@@ -20,6 +20,9 @@ protocol StellarAccountAPI: AccountBalanceFetching {
     
     var currentAccount: StellarAccount? { get }
     
+    func currentStellarAccountAsSingle(fromCache: Bool) -> Single<StellarAccount?>
+    
+    @available(*, deprecated, message: "Prefer `currentStellarAccountAsSingle` over `currentStellarAccount`")
     func currentStellarAccount(fromCache: Bool) -> Maybe<StellarAccount>
     func accountResponse(for accountID: AccountID) -> Single<AccountResponse>
     func accountDetails(for accountID: AccountID) -> Maybe<StellarAccount>

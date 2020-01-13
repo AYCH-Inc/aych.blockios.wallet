@@ -528,7 +528,7 @@ typedef enum {
                 zeroBalance = btcBalance == 0;
                 cell.balanceLabel.text = [NSNumberFormatter formatMoney:btcBalance];
             } else if (section == ethAccountsSectionNumber) {
-                NSDecimalNumber *ethBalance = [[NSDecimalNumber alloc] initWithString:[WalletManager.sharedInstance.wallet getEthBalance]];
+                NSDecimalNumber *ethBalance = [WalletManager.sharedInstance.wallet getEthBalance];
                 NSComparisonResult result = [ethBalance compare:[NSDecimalNumber numberWithInt:0]];
                 zeroBalance = result == NSOrderedDescending || result == NSOrderedSame;
                 TabControllerManager *tabControllerManager = [AppCoordinator sharedInstance].tabControllerManager;

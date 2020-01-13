@@ -72,6 +72,9 @@ class StellarAccountMock: StellarAccountAPI {
     
     let balanceFetchTriggerRelay = PublishRelay<Void>()
     
+    func currentStellarAccountAsSingle(fromCache: Bool) -> Single<StellarAccount?> {
+        return .just(nil)
+    }
     
     func currentStellarAccount(fromCache: Bool) -> Maybe<StellarAccount> {
         return Maybe.empty()

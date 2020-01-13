@@ -54,12 +54,14 @@ class EthereumAssetAccountDetailsServiceTests: XCTestCase {
             accountAddress: MockEthereumWalletTestData.account,
             name: "My Ether Wallet"
         )
-        let balance = CryptoValue.etherFromMajor(string: "2.0")!
+        let balanceDetails = BalanceDetailsResponse(balance: "2.0", nonce: 1)
+        client.balanceDetailsValue = .just(balanceDetails)
         let expectedAccountDetails = EthereumAssetAccountDetails(
             account: account,
-            balance: balance
+            balance: balanceDetails.cryptoValue,
+            nonce: balanceDetails.nonce
         )
-        
+
         let sendObservable: Observable<EthereumAssetAccountDetails> = subject
             .accountDetails(for: accountID)
             .asObservable()

@@ -15,9 +15,9 @@ import EthereumKit
 
 class ERC20BridgeMock: ERC20BridgeAPI {
     
-    var isWaitingOnEtherTransactionValue: Single<Bool> = Single.just(false)
-    var isWaitingOnEtherTransaction: Single<Bool> {
-        return isWaitingOnEtherTransactionValue
+    var isWaitingOnTransactionValue: Single<Bool> = Single.just(false)
+    var isWaitingOnTransaction: Single<Bool> {
+        return isWaitingOnTransactionValue
     }
     
     func tokenAccount(for key: String) -> Single<ERC20TokenAccount?> {

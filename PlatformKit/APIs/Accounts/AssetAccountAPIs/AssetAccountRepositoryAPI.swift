@@ -18,10 +18,10 @@ public protocol AssetAccountRepositoryAPI {
     /// The getter should return a `BehaviorRelay<Account?>`. It
     /// is supposed to be a computed property. It should default to what is
     /// cached, otherwise it will fetch the user's account details.
-    var assetAccountDetails: Maybe<Details> { get }
+    var assetAccountDetails: Single<Details> { get }
     
     /// When the account details are fetched, you should call
     /// `privateAccountDetails.accept(account)` in order to cache the
     /// `AssetAccountDetails`.
-    func currentAssetAccountDetails(fromCache: Bool) -> Maybe<Details>
+    func currentAssetAccountDetails(fromCache: Bool) -> Single<Details>
 }

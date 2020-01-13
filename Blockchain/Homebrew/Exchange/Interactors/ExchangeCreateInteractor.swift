@@ -59,6 +59,8 @@ class ExchangeCreateInteractor {
     fileprivate let tradeLimitService: TradeLimitsAPI
     private let analyticsRecorder: AnalyticsEventRecording
 
+    private let disposeBag = DisposeBag()
+    
     private(set) var model: MarketsModel? {
         didSet {
             didSetModel(oldModel: oldValue)
@@ -160,16 +162,31 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         // Authenticate, then listen for conversions
         disposables = CompositeDisposable()
         guard let model = model else { return }
-        if tradeExecution.canTradeAssetType(model.pair.from) == false {
-            if let _ = errorMessage(for: model.pair.from) {
-                status = .error(.waitingOnEthereumPayment)
-            } else {
-                status = .error(.default(nil))
-            }
-        }
         
+        tradeExecution
+            .canTradeAssetType(model.pair.from)
+            .subscribe(
+                onSuccess: { [weak self] canTrade in
+                    guard let self = self else { return }
+                    if let _ = self.errorMessage(for: model.pair.from) {
+                        self.status = .error(.waitingOnEthereumPayment)
+                    } else {
+                        self.status = .error(.default(nil))
+                    }
+                    self.postResume()
+                },
+                onError: { error in
+                    self.status = .error(.default(nil))
+                    self.postResume()
+                }
+            )
+            .disposed(by: disposeBag)
+        
+    }
+    
+    func postResume() {
+        guard let model = model else { return }
         updateOutput()
-
         markets.authenticate(completion: { [unowned self] in
             self.subscribeToVolumeChanges()
             self.tradeLimitService.initialize(withFiatCurrency: model.fiatCurrencyCode)
@@ -464,7 +481,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
             })
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] payload in
-                guard let strongSelf = self else { return }
+                guard let self = self else { return }
                 let model = payload.0
                 let accounts = payload.1
                 let address = model.marketPair.fromAccount.address.address
@@ -476,33 +493,33 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                         switch value {
                         case .insufficientFunds,
                              .insufficientFundsForNewAccount:
-                            strongSelf.status = .error(.insufficientFunds(account.balance))
+                            self.status = .error(.insufficientFunds(account.balance))
                         }
                     }
                     if let value = validationError as? ERC20ValidationError {
                         switch value {
                         case .insufficientEthereumBalance:
-                            strongSelf.status = .error(.insufficientGasForERC20Tx(fromAssetType))
+                            self.status = .error(.insufficientGasForERC20Tx(fromAssetType))
                         case .pendingTransaction:
-                            strongSelf.status = .error(.waitingOnEthereumPayment)
+                            self.status = .error(.waitingOnEthereumPayment)
                         case .cryptoValueBelowMinimumSpendable:
-                            strongSelf.status = .error(.belowTradingLimit(nil, fromAssetType))
+                            self.status = .error(.belowTradingLimit(nil, fromAssetType))
                         case .insufficientTokenBalance:
-                            strongSelf.status = .error(.insufficientFunds(account.balance))
+                            self.status = .error(.insufficientFunds(account.balance))
                         case .invalidCryptoValue:
-                            strongSelf.status = .error(.default(nil))
+                            self.status = .error(.default(nil))
                         }
                     }
                     if let value = validationError as? EthereumKitValidationError {
                         switch value {
                         case .insufficientFeeCoverage:
-                            strongSelf.status = .error(.insufficientFundsForFees(fromAssetType))
+                            self.status = .error(.insufficientFundsForFees(fromAssetType))
                         case .insufficientFunds:
-                            strongSelf.status = .error(.insufficientFunds(account.balance))
+                            self.status = .error(.insufficientFunds(account.balance))
                         case .invalidAmount:
-                            strongSelf.status = .error(.default(nil))
+                            self.status = .error(.default(nil))
                         case .waitingOnPendingTransaction:
-                            strongSelf.status = .error(.waitingOnEthereumPayment)
+                            self.status = .error(.waitingOnEthereumPayment)
                         }
                     }
                     return
@@ -512,57 +529,68 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                     Logger.shared.error("No conversion stored")
                     return
                 }
-                guard let output = strongSelf.output else { return }
+                guard let output = self.output else { return }
                 guard let candidate = Decimal(string: conversion.baseFiatValue, locale: Locale.current) else {
                     return
                 }
 
-                // TICKET: IOS-2243
-                // Description: Input validation should be broken up into its own component and this interactor
-                // can request the concrete input validator based on the desired cryptocurrency type that the
-                // user is swapping from. Currently all asset validation is done in one place and this can get
-                // out of hand.
-                let volume = payload.7
-                guard strongSelf.tradeExecution.canTradeAssetType(model.pair.from) else {
-                    if strongSelf.errorMessage(for: fromAssetType) != nil {
-                        strongSelf.status = .error(.waitingOnEthereumPayment)
-                    } else {
-                        // This shouldn't happen because the only case (eth) should have an error message,
-                        // but just in case show an error here
-                        strongSelf.status = .error(.default(nil))
-                    }
-                    return
-                }
-                
-                let minValue = payload.2
-                let maxValue = payload.3
-                let daily = payload.4
-                let annual = payload.5
-                
-                if account.balance.amount < volume.amount {
-                    strongSelf.status = .error(.insufficientFunds(account.balance))
-                    return
-                }
+                self.tradeExecution
+                    .canTradeAssetType(model.pair.from)
+                    .subscribe(
+                        onSuccess: { [weak self] canTrade in
+                            guard let self = self else { return }
+                            guard canTrade else {
+                                if self.errorMessage(for: fromAssetType) != nil {
+                                    self.status = .error(.waitingOnEthereumPayment)
+                                } else {
+                                    // This shouldn't happen because the only case (eth) should have an error message,
+                                    // but just in case show an error here
+                                    self.status = .error(.default(nil))
+                                }
+                                return
+                            }
+                            // TICKET: IOS-2243
+                            // Description: Input validation should be broken up into its own component and this interactor
+                            // can request the concrete input validator based on the desired cryptocurrency type that the
+                            // user is swapping from. Currently all asset validation is done in one place and this can get
+                            // out of hand.
+                            let volume = payload.7
+                            let minValue = payload.2
+                            let maxValue = payload.3
+                            let daily = payload.4
+                            let annual = payload.5
 
-                let greatestFiniteMagnitude = Decimal.greatestFiniteMagnitude
+                            if account.balance.amount < volume.amount {
+                                self.status = .error(.insufficientFunds(account.balance))
+                                return
+                            }
 
-                let periodicLimit = daily ?? annual ?? 0
+                            let greatestFiniteMagnitude = Decimal.greatestFiniteMagnitude
 
-                switch candidate {
-                case ..<minValue:
-                    let fiatValue = FiatValue.create(amount: minValue, currencyCode: model.fiatCurrencyCode)
-                    strongSelf.status = .error(.belowTradingLimit(fiatValue, fromAssetType))
-                case periodicLimit..<greatestFiniteMagnitude:
-                    let fiatValue = FiatValue.create(amount: daily ?? 0, currencyCode: model.fiatCurrencyCode)
-                    strongSelf.status = .error(.aboveTierLimit(fiatValue, fromAssetType))
-                case maxValue..<greatestFiniteMagnitude:
-                    let fiatValue = FiatValue.create(amount: maxValue, currencyCode: model.fiatCurrencyCode)
-                    strongSelf.status = .error(.aboveTradingLimit(fiatValue, fromAssetType))
-                default:
-                    strongSelf.status = .valid
-                    output.exchangeButtonVisibility(.visible)
-                    output.exchangeButtonEnabled(true)
-                }
+                            let periodicLimit = daily ?? annual ?? 0
+
+                            switch candidate {
+                            case ..<minValue:
+                                let fiatValue = FiatValue.create(amount: minValue, currencyCode: model.fiatCurrencyCode)
+                                self.status = .error(.belowTradingLimit(fiatValue, fromAssetType))
+                            case periodicLimit..<greatestFiniteMagnitude:
+                                let fiatValue = FiatValue.create(amount: daily ?? 0, currencyCode: model.fiatCurrencyCode)
+                                self.status = .error(.aboveTierLimit(fiatValue, fromAssetType))
+                            case maxValue..<greatestFiniteMagnitude:
+                                let fiatValue = FiatValue.create(amount: maxValue, currencyCode: model.fiatCurrencyCode)
+                                self.status = .error(.aboveTradingLimit(fiatValue, fromAssetType))
+                            default:
+                                self.status = .valid
+                                output.exchangeButtonVisibility(.visible)
+                                output.exchangeButtonEnabled(true)
+                            }
+                        },
+                        onError: { error in
+                            self.status = .error(.default(nil))
+                        }
+                    )
+                    .disposed(by: self.disposeBag)
+
             }, onError: { error in
                 Logger.shared.error(error)
             })
@@ -673,68 +701,85 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
         })
 
         let errorDisposable = markets.errors.subscribe(onNext: { [weak self] socketError in
-            guard let this = self else { return }
-            guard let model = this.model else { return }
-            guard let output = this.output else { return }
+            guard let self = self else { return }
+            guard let model = self.model else { return }
 
-            guard this.tradeExecution.canTradeAssetType(model.pair.from) else {
-                if let _ = this.errorMessage(for: model.pair.from) {
-                    this.status = .error(.waitingOnEthereumPayment)
-                } else {
-                    // This shouldn't happen because the only case (eth) should have an error message,
-                    // but just in case show an error here
-                    this.status = .error(.default(nil))
-                }
-                return
-            }
-            guard model.volume != "0" else {
-                this.status = .error(.noVolumeProvided)
-                return
-            }
-
-            let symbol = model.fiatCurrencySymbol
-            let suffix = model.pair.from.symbol
-            
-            let secondaryAmount = "0.00"
-            let secondaryResult = model.isUsingFiat ? (secondaryAmount + " " + suffix) : (symbol + secondaryAmount)
-            
-            /// When users are above or below the trading limit, `conversion.output` will not be updated
-            /// with the correct conversion value. This is because the volume entered is either too little
-            /// or too large. In this case we want the `secondaryAmountLabel` to read as `0.00`. We don't
-            /// want to update `conversion.output` manually though as that'd be a side-effect.
-            output.updatedInput(
-                primary: this.inputs.attributedInputValue,
-                secondary: secondaryResult
-            )
-
-            let min = this.minTradingLimit().asObservable()
-            let max = this.maxTradingLimit().asObservable()
-            let disposable = Observable.zip(min, max)
-                .subscribeOn(MainScheduler.asyncInstance)
-                .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { (minimum, maximum) in
-                    let minFiat = FiatValue.create(amount: minimum, currencyCode: model.fiatCurrencyCode)
-                    let maxFiat = FiatValue.create(amount: maximum, currencyCode: model.fiatCurrencyCode)
-                    switch socketError.errorType {
-                    case .currencyRatioError:
-                        switch socketError.code {
-                        case .tooBigVolume:
-                            this.status = .error(.aboveTradingLimit(maxFiat, model.marketPair.pair.from))
-                        case .tooSmallVolume,
-                             .resultCurrencyRatioTooSmall:
-                            this.status = .error(.belowTradingLimit(minFiat, model.marketPair.pair.from))
-                        default:
-                            this.status = .error(.default(nil))
+            self.tradeExecution
+                .canTradeAssetType(model.pair.from)
+                .subscribe(
+                    onSuccess: { [weak self] canTrade in
+                        guard let self = self else { return }
+                        if !canTrade {
+                            if let _ = self.errorMessage(for: model.pair.from) {
+                                self.status = .error(.waitingOnEthereumPayment)
+                            } else {
+                                // This shouldn't happen because the only case (eth) should have an error message,
+                                // but just in case show an error here
+                                self.status = .error(.default(nil))
+                            }
+                        } else {
+                            self.postSubscribeToConversations(socketError: socketError)
                         }
-                    case .default:
-                        this.status = .error(.default(nil))
+                    },
+                    onError: { error in
+                        self.status = .error(.default(nil))
                     }
-                })
-            this.disposables.insertWithDiscardableResult(disposable)
+                )
+                .disposed(by: self.disposeBag)
         })
 
         disposables.insertWithDiscardableResult(conversionsDisposable)
         disposables.insertWithDiscardableResult(errorDisposable)
+    }
+    
+    private func postSubscribeToConversations(socketError: SocketError) {
+        guard let model = self.model else { return }
+        guard let output = self.output else { return }
+        
+        guard model.volume != "0" else {
+            self.status = .error(.noVolumeProvided)
+            return
+        }
+
+        let symbol = model.fiatCurrencySymbol
+        let suffix = model.pair.from.symbol
+        
+        let secondaryAmount = "0.00"
+        let secondaryResult = model.isUsingFiat ? (secondaryAmount + " " + suffix) : (symbol + secondaryAmount)
+        
+        /// When users are above or below the trading limit, `conversion.output` will not be updated
+        /// with the correct conversion value. This is because the volume entered is either too little
+        /// or too large. In this case we want the `secondaryAmountLabel` to read as `0.00`. We don't
+        /// want to update `conversion.output` manually though as that'd be a side-effect.
+        output.updatedInput(
+            primary: self.inputs.attributedInputValue,
+            secondary: secondaryResult
+        )
+
+        let min = self.minTradingLimit().asObservable()
+        let max = self.maxTradingLimit().asObservable()
+        let disposable = Observable.zip(min, max)
+            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { (minimum, maximum) in
+                let minFiat = FiatValue.create(amount: minimum, currencyCode: model.fiatCurrencyCode)
+                let maxFiat = FiatValue.create(amount: maximum, currencyCode: model.fiatCurrencyCode)
+                switch socketError.errorType {
+                case .currencyRatioError:
+                    switch socketError.code {
+                    case .tooBigVolume:
+                        self.status = .error(.aboveTradingLimit(maxFiat, model.marketPair.pair.from))
+                    case .tooSmallVolume,
+                         .resultCurrencyRatioTooSmall:
+                        self.status = .error(.belowTradingLimit(minFiat, model.marketPair.pair.from))
+                    default:
+                        self.status = .error(.default(nil))
+                    }
+                case .default:
+                    self.status = .error(.default(nil))
+                }
+            })
+        self.disposables.insertWithDiscardableResult(disposable)
     }
     
     /// If the user's volume is not equivalent to the `receivedConversion`

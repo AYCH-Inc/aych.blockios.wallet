@@ -13,19 +13,19 @@ import RxCocoa
 public class AnyERC20AssetAccountRepository<Token: ERC20Token>: AssetAccountRepositoryAPI {
     public typealias Details = ERC20AssetAccountDetails
     
-    private let assetAccountDetailsValue: Maybe<Details>
-    private let currentAssetAccountDetailsClosure: (Bool) -> Maybe<ERC20AssetAccountDetails>
+    private let assetAccountDetailsValue: Single<Details>
+    private let currentAssetAccountDetailsClosure: (Bool) -> Single<ERC20AssetAccountDetails>
     
     public init<R: AssetAccountRepositoryAPI>(_ repository: R) where R.Details == Details {
         self.assetAccountDetailsValue = repository.assetAccountDetails
         self.currentAssetAccountDetailsClosure = repository.currentAssetAccountDetails
     }
     
-    public var assetAccountDetails: Maybe<Details> {
+    public var assetAccountDetails: Single<Details> {
         return assetAccountDetailsValue
     }
     
-    public func currentAssetAccountDetails(fromCache: Bool) -> Maybe<Details> {
+    public func currentAssetAccountDetails(fromCache: Bool) -> Single<Details> {
         return currentAssetAccountDetailsClosure(fromCache)
     }
 }
@@ -33,7 +33,7 @@ public class AnyERC20AssetAccountRepository<Token: ERC20Token>: AssetAccountRepo
 open class ERC20AssetAccountRepository<Token: ERC20Token>: AssetAccountRepositoryAPI {
     public typealias Details = ERC20AssetAccountDetails
     
-    public var assetAccountDetails: Maybe<Details> {
+    public var assetAccountDetails: Single<Details> {
         return currentAssetAccountDetails(fromCache: true)
     }
     
@@ -45,16 +45,18 @@ open class ERC20AssetAccountRepository<Token: ERC20Token>: AssetAccountRepositor
         self.service = service
     }
     
-    public func currentAssetAccountDetails(fromCache: Bool) -> Maybe<Details> {
+    public func currentAssetAccountDetails(fromCache: Bool) -> Single<Details> {
         let accountId = "0"
         return fetchAssetAccountDetails(for: accountId)
     }
         
     // MARK: Private Functions
     
-    private func fetchAssetAccountDetails(for accountID: String) -> Maybe<Details> {
-        return service.accountDetails(for: accountID).do(onNext: { [weak self] account in
-            self?.privateAccountDetails.accept(account)
-        })
+    private func fetchAssetAccountDetails(for accountID: String) -> Single<Details> {
+        return service.accountDetails(for: accountID)
+            .do(onSuccess: { [weak self] account in
+                self?.privateAccountDetails.accept(account)
+            }
+        )
     }
 }

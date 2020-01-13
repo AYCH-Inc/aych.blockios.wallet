@@ -95,7 +95,6 @@ final class TransactionsEthereumViewController: TransactionsViewController {
     
     private func updateBalance() {
         let disposable = assetAccountRepository.currentAssetAccountDetails(fromCache: false)
-            .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] details in
                 let balance = details.balance
@@ -131,6 +130,7 @@ final class TransactionsEthereumViewController: TransactionsViewController {
         
         let disposable = wallet.fetchEthereumTransactions(using: transactionService)
             .asObservable()
+            .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] transactions in
                 self?.set(transactions: transactions)
                 onCompleted()

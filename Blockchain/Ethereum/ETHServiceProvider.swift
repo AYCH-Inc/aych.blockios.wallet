@@ -30,12 +30,12 @@ struct ETHServices: ETHDependencies {
         self.assetAccountRepository = EthereumAssetAccountRepository(
             service: EthereumAssetAccountDetailsService(
                 with: wallet.ethereum,
-                client: EthereumKit.APIClient.shared
+                client: EthereumKit.APIClient()
             )
         )
         self.transactionService = EthereumHistoricalTransactionService(
             with: wallet.ethereum,
-            client: EthereumKit.APIClient.shared
+            client: EthereumKit.APIClient()
         )
         self.qrMetadataFactory = EthereumQRMetadataFactory()
     }

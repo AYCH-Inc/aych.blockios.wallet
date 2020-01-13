@@ -1400,7 +1400,7 @@ public struct LocalizationConstants {
                 comment: "STX airdrop received announcement card title"
             )
             public static let description = NSLocalizedString(
-                "Your stacks are now in your wallet. We’ll let you know as soon as these are available to be used.",
+                "Your Stacks are now in your wallet. We’ll let you know as soon as these are available to be used.",
                 comment: "STX airdrop received announcement card description"
             )
             public static let ctaButton = NSLocalizedString(

@@ -218,6 +218,12 @@ struct AirdropCampaigns {
         
         /// The airdrop date
         var dropDate: Date? {
+            
+            /// If the end date is known it's simple - just return it.
+            /// Typically, if a campaign ends, the date will be known
+            if let endDate = endDate {
+                return endDate
+            }
             /// If the latest transaction exists and `withdrawalData` not nil
             /// just return it as this is the most reliable date of the transaction
             if let date = latestTransaction?.withdrawalDate {
@@ -239,7 +245,7 @@ struct AirdropCampaigns {
                 default:
                     /// NOTE: Blockstack campaign `dropDate`'s value is hardcoded because the backend
                     /// does not return that data in case the `userState` is NOT `rewardReceived`.
-                    return Calendar.current.date(from: .init(year: 2020, month: 2, day: 29))
+                    return Calendar.current.date(from: .init(year: 2020, month: 1, day: 7))
                 }
             case .sunriver: // For XLM, return thr last update date
                 return updateDate
@@ -248,6 +254,7 @@ struct AirdropCampaigns {
         
         let name: String
         let state: GeneralState
+        
         private let userState: UserState
         private let attributes: Attributes
         
@@ -255,20 +262,23 @@ struct AirdropCampaigns {
         private let transactions: [Transaction]
     
         /// The date of the last status change on the backend side.
-        private(set) var updateDate: Date?
+        private let endDate: Date?
+        private let updateDate: Date?
         
         init(name: String,
              state: GeneralState,
              userState: UserState,
              attributes: Attributes,
              transactions: [Transaction],
-             updateDate: Date?) {
+             updateDate: Date?,
+             endDate: Date?) {
             self.name = name
             self.state = state
             self.userState = userState
             self.attributes = attributes
             self.transactions = transactions
             self.updateDate = updateDate
+            self.endDate = endDate
         }
     }
     
@@ -325,6 +335,7 @@ extension AirdropCampaigns.Campaign: Decodable {
         case name = "campaignName"
         case state = "campaignState"
         case userState = "userCampaignState"
+        case endDate = "campaignEndDate"
         case updateDate = "updatedAt"
         case attributes
         case transactions = "userCampaignTransactionResponseList"
@@ -333,11 +344,17 @@ extension AirdropCampaigns.Campaign: Decodable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         name = try values.decode(String.self, forKey: .name)
-        
-        let dateFormatter = AirdropCampaigns.dateFormatter
-        
+                
         if let updateDate = try values.decodeIfPresent(String.self, forKey: .updateDate) {
-            self.updateDate = dateFormatter.date(from: updateDate)
+            self.updateDate = AirdropCampaigns.dateFormatter.date(from: updateDate)
+        } else {
+            updateDate = nil
+        }
+        
+        if let endDate = try values.decodeIfPresent(String.self, forKey: .endDate) {
+            self.endDate = AirdropCampaigns.dateFormatter.date(from: endDate)
+        } else {
+            endDate = nil
         }
 
         state = try values.decodeIfPresent(GeneralState.self, forKey: .state) ?? .none

@@ -27,7 +27,8 @@ extension AirdropCampaigns {
                     withdrawalAt: "2018-12-27T14:54:16.347Z"
                 )
             ],
-            updateDate: Date().addingTimeInterval(-259200)
+            updateDate: Date().addingTimeInterval(-259200),
+            endDate: Date().addingTimeInterval(-259200)
         )
         let pax = AirdropCampaigns.Campaign(
             name: "POWER_PAX",
@@ -44,7 +45,8 @@ extension AirdropCampaigns {
                     withdrawalAt: "2020-01-15T14:54:16.347Z"
                 )
             ],
-            updateDate: Date().addingTimeInterval(-100000)
+            updateDate: Date().addingTimeInterval(-100000),
+            endDate: Date().addingTimeInterval(-259200)
         )
         let sunriver = AirdropCampaigns.Campaign(
             name: "SUNRIVER",
@@ -61,7 +63,8 @@ extension AirdropCampaigns {
                     withdrawalAt: "2018-12-27T14:54:16.347Z"
                 )
             ],
-            updateDate: Date().addingTimeInterval(-759200)
+            updateDate: Date().addingTimeInterval(-759200),
+            endDate: Date().addingTimeInterval(-259200)
         )
         return .init(campaigns: Set([blockstack, sunriver, pax]))
     }

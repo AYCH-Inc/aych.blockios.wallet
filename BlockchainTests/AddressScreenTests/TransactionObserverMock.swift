@@ -8,6 +8,8 @@
 
 import RxSwift
 
+@testable import Blockchain
+
 struct TransactionObserverMock: TransactionObserving {
     
     let paymentDetails: ReceivedPaymentDetails

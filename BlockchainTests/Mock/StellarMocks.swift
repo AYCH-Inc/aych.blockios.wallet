@@ -13,6 +13,8 @@ import stellarsdk
 import PlatformKit
 import StellarKit
 
+@testable import Blockchain
+
 class StellarTradeLimitsMock: StellarTradeLimitsAPI {
     typealias AccountID = String
 

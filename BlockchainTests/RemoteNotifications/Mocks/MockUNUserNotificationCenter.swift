@@ -8,6 +8,8 @@
 
 import UserNotifications
 
+@testable import Blockchain
+
 final class MockUNUserNotificationCenter: UNUserNotificationCenterAPI {
     
     struct FakeError: Error {

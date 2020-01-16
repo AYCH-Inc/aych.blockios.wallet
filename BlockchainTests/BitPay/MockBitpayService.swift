@@ -10,6 +10,8 @@ import Foundation
 import PlatformKit
 import RxSwift
 
+@testable import Blockchain
+
 class MockBitpayService: BitpayServiceProtocol {
     
     func verifySignedTransaction(invoiceID: String, currency: CryptoCurrency, transactionHex: String, transactionSize: Int) -> Single<BitPayMemo> {

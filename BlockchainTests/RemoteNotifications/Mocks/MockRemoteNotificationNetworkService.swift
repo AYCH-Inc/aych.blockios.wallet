@@ -9,6 +9,8 @@
 import PlatformKit
 import RxSwift
 
+@testable import Blockchain
+
 final class MockRemoteNotificationNetworkService: RemoteNotificationNetworkServicing {
     let expectedResult: Result<Void, RemoteNotificationNetworkService.PushNotificationError>
     

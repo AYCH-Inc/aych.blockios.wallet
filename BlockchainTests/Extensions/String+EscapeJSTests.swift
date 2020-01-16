@@ -8,6 +8,9 @@
 
 import XCTest
 
+@testable import ToolKit
+@testable import Blockchain
+
 class StringEscapeJSTests: XCTestCase {
     
     override func setUp() {

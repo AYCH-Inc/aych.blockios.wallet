@@ -9,6 +9,8 @@
 import Foundation
 import RxSwift
 
+@testable import Blockchain
+
 class NabuAuthenticationServiceMock: NabuAuthenticationServiceAPI {
     
     static let token = NabuSessionTokenResponse(

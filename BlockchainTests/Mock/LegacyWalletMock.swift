@@ -8,6 +8,8 @@
 
 import Foundation
 
+@testable import Blockchain
+
 class LegacyWalletMock: LegacyWalletAPI {
     
     var password: String?

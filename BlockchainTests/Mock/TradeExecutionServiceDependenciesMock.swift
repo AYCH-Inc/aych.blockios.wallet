@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import stellarsdk
+
 @testable import Blockchain
 @testable import PlatformKit
 @testable import BitcoinKit
@@ -17,7 +18,7 @@ import stellarsdk
 @testable import ERC20Kit
 
 class StellarOperationMock: StellarOperationsAPI {
-    var operations: Observable<[StellarOperation]> = Observable.just([])
+    var operations: Observable<[Blockchain.StellarOperation]> = Observable.just([])
     
     func isStreaming() -> Bool {
         return true
@@ -52,7 +53,7 @@ final class PriceServiceMock: PriceServiceAPI {
 }
 
 class TradeExecutionServiceDependenciesMock: TradeExecutionServiceDependenciesAPI {
-    var assetAccountRepository: AssetAccountRepositoryAPI = AssetAccountRepositoryMock()
+    var assetAccountRepository: Blockchain.AssetAccountRepositoryAPI = AssetAccountRepositoryMock()
     var feeService: FeeServiceAPI = FeeServiceMock()
     var stellar: StellarDependenciesAPI = StellarDependenciesMock()
     var erc20Service: AnyERC20Service<PaxToken> = AnyERC20Service<PaxToken>(PaxERC20ServiceMock())

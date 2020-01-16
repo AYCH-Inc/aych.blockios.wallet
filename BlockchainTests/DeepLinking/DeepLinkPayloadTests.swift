@@ -7,8 +7,9 @@
 //
 
 import Foundation
-
 import XCTest
+
+@testable import Blockchain
 
 class DeepLinkPayloadTests: XCTestCase {
     func testAirdropPayloadWithParams() {

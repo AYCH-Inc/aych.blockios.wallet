@@ -6,6 +6,8 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
+@testable import Blockchain
+
 class MockWalletCredentialsProvider: WalletCredentialsProviding {
     static var validFake: MockWalletCredentialsProvider {
         return MockWalletCredentialsProvider(

@@ -9,6 +9,8 @@
 import Foundation
 import XCTest
 
+@testable import Blockchain
+
 class MockKYCConfirmPhoneNumberView: KYCConfirmPhoneNumberView {
     var didCallShowLoadingViewExpectation: XCTestExpectation?
     var didCallStartVerifSuccessExpectation: XCTestExpectation?

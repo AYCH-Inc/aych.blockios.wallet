@@ -8,6 +8,8 @@
 
 import Foundation
 
+@testable import Blockchain
+
 class MockBlockchainSettingsApp: BlockchainSettings.App {
     var mockDidAttemptToRouteForAirdrop: Bool = false
     var mockDidTapOnAirdropDeepLink: Bool = false

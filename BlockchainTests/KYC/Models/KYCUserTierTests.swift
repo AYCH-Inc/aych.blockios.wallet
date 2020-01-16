@@ -8,6 +8,8 @@
 
 import XCTest
 
+@testable import Blockchain
+
 class KYCUserTierTests: XCTestCase {
     func testLockedState() {
         let userTier1 = KYCUserTier(tier: .tier1, state: .none)

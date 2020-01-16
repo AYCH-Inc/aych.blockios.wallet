@@ -9,6 +9,8 @@
 import RxSwift
 import XCTest
 
+@testable import Blockchain
+
 class MockBlockchainDataRepository: BlockchainDataRepository {
 
     var mockNabuUser: NabuUser?

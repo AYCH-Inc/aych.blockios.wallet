@@ -10,6 +10,8 @@ import Foundation
 import RxSwift
 import PlatformKit
 
+@testable import Blockchain
+
 final class MockSendExecutor: SendExecuting {
     
     private let expectedResult: Result<Void, Error>

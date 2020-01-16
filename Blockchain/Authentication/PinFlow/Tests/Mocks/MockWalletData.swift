@@ -8,6 +8,8 @@
 
 import Foundation
 
+@testable import Blockchain
+
 class MockWalletData: WalletProtocol {
     
     @objc var password: String? = "password"

@@ -8,6 +8,8 @@
 
 import RxSwift
 
+@testable import Blockchain
+
 class AssetAddressRepositoryMock: AssetAddressFetching {
     
     let isReusable: Bool

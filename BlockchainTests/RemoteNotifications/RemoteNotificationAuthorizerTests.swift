@@ -7,11 +7,11 @@
 //
 
 import XCTest
+import UserNotifications
 import RxSwift
 import RxBlocking
-import UserNotifications
-import PlatformKit
 
+@testable import PlatformKit
 @testable import Blockchain
 
 final class RemoteNotificationAuthorizerTests: XCTestCase {

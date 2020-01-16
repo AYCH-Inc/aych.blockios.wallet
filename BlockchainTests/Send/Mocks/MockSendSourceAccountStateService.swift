@@ -9,6 +9,8 @@
 import Foundation
 import RxSwift
 
+@testable import Blockchain
+
 final class MockSendSourceAccountStateService: SendSourceAccountStateServicing {
 
     let stateRawValue: SendSourceAccountState

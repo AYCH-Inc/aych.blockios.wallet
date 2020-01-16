@@ -8,13 +8,14 @@
 
 import Foundation
 import RxSwift
+
 @testable import PlatformKit
 @testable import EthereumKit
 @testable import PlatformUIKit
 @testable import Blockchain
 
-extension Blockchain.LegacyEthereumWalletAPI {
-    var lastEthereumTransactionDetails: Single<Blockchain.LegacyLastTransactionDetails?> {
+extension LegacyEthereumWalletAPI {
+    var lastEthereumTransactionDetails: Single<LegacyLastTransactionDetails?> {
         return .just(nil)
     }
     var hasLastTransactionDetails: Single<Bool> {
@@ -22,20 +23,20 @@ extension Blockchain.LegacyEthereumWalletAPI {
     }
 }
 
-class MockLegacyEthereumWallet: Blockchain.LegacyEthereumWalletAPI & Blockchain.LegacyWalletAPI & MnemonicAccessAPI {
+class MockLegacyEthereumWallet: LegacyEthereumWalletAPI & LegacyWalletAPI & MnemonicAccessAPI {
     
     // MARK: - LegacyWalletAPI
     
-    func createOrderPayment(withOrderTransaction orderTransaction: Blockchain.OrderTransactionLegacy, completion: @escaping () -> Void, success: ((String) -> Void)!, error: @escaping (String) -> Void) {
+    func createOrderPayment(withOrderTransaction orderTransaction: OrderTransactionLegacy, completion: @escaping () -> Void, success: ((String) -> Void)!, error: @escaping (String) -> Void) {
         error("Not implemented")
     }
     
-    func sendOrderTransaction(_ legacyAssetType: Blockchain.LegacyAssetType, secondPassword: String?, completion: @escaping () -> Void, success: @escaping () -> Void, error: @escaping (String) -> Void, cancel: @escaping () -> Void) {
+    func sendOrderTransaction(_ legacyAssetType: LegacyAssetType, secondPassword: String?, completion: @escaping () -> Void, success: @escaping () -> Void, error: @escaping (String) -> Void, cancel: @escaping () -> Void) {
         error("Not implemented")
     }
         
     var receiveAddress: String = "ReceiveAddress"
-    func getReceiveAddress(forAccount account: Int32, assetType: Blockchain.LegacyAssetType) -> String! {
+    func getReceiveAddress(forAccount account: Int32, assetType: LegacyAssetType) -> String! {
         return receiveAddress
     }
     
@@ -229,18 +230,5 @@ class MockLegacyEthereumWallet: Blockchain.LegacyEthereumWalletAPI & Blockchain.
     var mnemonicPromptingIfNeededMaybe = Maybe.just("")
     var mnemonicPromptingIfNeeded: Maybe<String> {
         return mnemonicPromptingIfNeededMaybe
-    }
-}
-
-extension MockLegacyEthereumWallet: TradeExecutionService.WalletAPI {
-    var lastEthereumTransactionDetails: Single<LegacyLastTransactionDetails?> {
-        return .just(nil)
-    }
-    
-    func createOrderPayment(withOrderTransaction orderTransaction: OrderTransactionLegacy,
-                            completion: @escaping () -> Void,
-                            success: ((String) -> Void)!,
-                            error: @escaping (String) -> Void) {
-        
     }
 }

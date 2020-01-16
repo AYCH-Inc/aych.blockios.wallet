@@ -8,6 +8,8 @@
 
 import XCTest
 
+@testable import Blockchain
+
 class KYCPagerTests: XCTestCase {
 
     private var pager: KYCPagerAPI!

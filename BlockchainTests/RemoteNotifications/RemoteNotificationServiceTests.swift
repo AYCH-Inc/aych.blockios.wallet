@@ -9,9 +9,9 @@
 import XCTest
 import RxSwift
 import RxBlocking
-import NetworkKit
-import PlatformKit
 
+@testable import NetworkKit
+@testable import PlatformKit
 @testable import Blockchain
 
 final class RemoteNotificationServiceTests: XCTestCase {

@@ -7,7 +7,8 @@
 //
 
 import XCTest
-import Blockchain
+
+@testable import Blockchain
 
 class KYCCountrySelectionControllerTests: XCTestCase {
 

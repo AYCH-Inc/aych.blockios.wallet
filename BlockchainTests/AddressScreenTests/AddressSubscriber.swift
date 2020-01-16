@@ -8,6 +8,8 @@
 
 import Foundation
 
+@testable import Blockchain
+
 struct AddressSubscriberMock: AssetAddressSubscribing {
     func subscribe(to address: String, asset: AssetType, addressType: AssetAddressType) {}
 }

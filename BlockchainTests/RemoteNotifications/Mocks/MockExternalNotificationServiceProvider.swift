@@ -9,6 +9,8 @@
 import RxSwift
 import PlatformKit
 
+@testable import Blockchain
+
 /// A class that is a gateway to external notification service functionality
 final class MockExternalNotificationServiceProvider: ExternalNotificationProviding {
     

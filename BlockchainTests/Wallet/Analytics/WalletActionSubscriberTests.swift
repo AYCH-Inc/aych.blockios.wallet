@@ -8,6 +8,8 @@
 
 import XCTest
 
+@testable import Blockchain
+
 class WalletActionSubscriberTests: XCTestCase {
 
     private var mockAppSettings: MockBlockchainSettingsApp!

@@ -8,6 +8,8 @@
 
 import Foundation
 
+@testable import Blockchain
+
 class MockPasteboard: Pasteboarding {
     var string: String?
     var image: UIImage?

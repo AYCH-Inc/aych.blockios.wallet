@@ -8,6 +8,8 @@
 
 import FirebaseMessaging
 
+@testable import Blockchain
+
 final class MockMessagingService: FCMServiceAPI {
     
     enum FakeError: Error {

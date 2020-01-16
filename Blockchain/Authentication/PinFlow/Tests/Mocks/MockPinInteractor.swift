@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 
+@testable import Blockchain
 @testable import PlatformKit
 
 class MockPinInteractor: PinInteracting {

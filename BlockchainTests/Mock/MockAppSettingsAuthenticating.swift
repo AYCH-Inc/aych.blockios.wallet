@@ -8,6 +8,7 @@
 
 import Foundation
 
+@testable import Blockchain
 @testable import PlatformKit
 
 class MockAppSettings: ReactiveAppSettingsAuthenticating, AppSettingsAuthenticating, SwipeToReceiveConfiguring {

@@ -8,6 +8,8 @@
 
 import XCTest
 
+@testable import Blockchain
+
 class MockKYCCountrySelectionView: KYCCountrySelectionView {
     var didCallContinueKycFlow: XCTestExpectation?
     var didCallStartPartnerExchangeFlow: XCTestExpectation?

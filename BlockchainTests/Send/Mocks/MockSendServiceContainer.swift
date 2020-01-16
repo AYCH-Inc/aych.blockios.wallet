@@ -9,6 +9,8 @@
 import RxSwift
 import PlatformKit
 
+@testable import Blockchain
+
 struct MockSendServiceContainer: SendServiceContaining {
     let asset: AssetType
     let sourceAccountProvider: SendSourceAccountProviding

@@ -9,6 +9,8 @@
 import Foundation
 import RxSwift
 
+@testable import Blockchain
+
 /// Fake address provider by type
 class FakeAddress {
     static func address(for type: AssetType) -> String {

@@ -6,8 +6,10 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import RxSwift
 import XCTest
+import RxSwift
+
+@testable import Blockchain
 
 class NabuAuthenticationServiceTests: XCTestCase {
 

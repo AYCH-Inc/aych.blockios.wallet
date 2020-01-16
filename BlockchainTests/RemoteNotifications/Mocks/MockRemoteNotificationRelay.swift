@@ -9,6 +9,8 @@
 import RxSwift
 import RxRelay
 
+@testable import Blockchain
+
 final class MockRemoteNotificationRelay: RemoteNotificationEmitting {
     let relay = PublishRelay<RemoteNotification.NotificationType>()
     var notification: Observable<RemoteNotification.NotificationType> {

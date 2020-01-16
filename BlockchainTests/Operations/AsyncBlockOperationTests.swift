@@ -8,6 +8,8 @@
 
 import XCTest
 
+@testable import Blockchain
+
 class AsyncBlockOperationTests: XCTestCase {
     
     func testCompletionBlockFulfillment() {

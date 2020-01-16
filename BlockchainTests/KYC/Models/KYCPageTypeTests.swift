@@ -8,6 +8,8 @@
 
 import XCTest
 
+@testable import Blockchain
+
 class KYCPageTypeTests: XCTestCase {
     
     /// A `KYCUserTiersResponse` where the user has been verified for tier1

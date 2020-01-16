@@ -9,6 +9,8 @@
 import Foundation
 import RxSwift
 
+@testable import Blockchain
+
 class AssetAccountRepositoryMock: AssetAccountRepositoryAPI {
     func accounts(for assetType: AssetType, fromCache: Bool) -> Single<[AssetAccount]> {
         return .just([])

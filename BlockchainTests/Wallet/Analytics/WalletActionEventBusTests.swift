@@ -9,6 +9,8 @@
 import RxSwift
 import XCTest
 
+@testable import Blockchain
+
 class WalletActionEventBusTests: XCTestCase {
 
     /// Tests that a WalletAction is published and propagated through the event bus

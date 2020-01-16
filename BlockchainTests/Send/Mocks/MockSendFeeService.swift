@@ -11,6 +11,8 @@ import RxSwift
 import RxRelay
 import PlatformKit
 
+@testable import Blockchain
+
 final class MockSendFeeService: SendFeeServicing {
     
     var fee: Observable<CryptoValue> {

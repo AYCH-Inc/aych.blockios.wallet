@@ -8,6 +8,8 @@
 
 import Foundation
 
+@testable import Blockchain
+
 class KYCSettingsMock: KYCSettingsAPI {
     
     var isCompletingKyc: Bool = false

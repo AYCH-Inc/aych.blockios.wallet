@@ -8,6 +8,8 @@
 
 import Foundation
 
+@testable import Blockchain
+
 class MockWallet: Wallet {
 
     var mockIsInitialized: Bool = false

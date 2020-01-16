@@ -8,7 +8,9 @@
 
 import Foundation
 import RxSwift
-import PlatformKit
+
+@testable import PlatformKit
+@testable import Blockchain
 
 final class MockSendFeeInteractor: SendFeeInteracting {
     

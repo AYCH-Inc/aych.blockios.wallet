@@ -13,6 +13,7 @@ import BitcoinKit
 import StellarKit
 import EthereumKit
 import TestKit
+
 @testable import Blockchain
 
 class TradeExecutionServiceTests: XCTestCase {
@@ -165,7 +166,7 @@ class TradeExecutionServiceTests: XCTestCase {
 }
 
 extension OrderTransaction: Equatable {
-    static func == (lhs: OrderTransaction, rhs: OrderTransaction) -> Bool {
+    public static func == (lhs: OrderTransaction, rhs: OrderTransaction) -> Bool {
         return lhs.amountToReceive == rhs.amountToReceive
             && lhs.amountToSend == rhs.amountToSend
             && lhs.destination == rhs.destination

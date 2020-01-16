@@ -8,7 +8,9 @@
 
 import RxSwift
 import NetworkKit
-import PlatformKit
+
+@testable import PlatformKit
+@testable import Blockchain
 
 class MockKYCVerifyPhoneNumberInteractor: KYCVerifyPhoneNumberInteractor {
     var shouldSucceed = true

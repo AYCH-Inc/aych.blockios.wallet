@@ -9,6 +9,8 @@
 import JavaScriptCore
 import XCTest
 
+@testable import Blockchain
+
 class JSContextHelpersTests: XCTestCase {
 
     /// Tests that the function provided in the invokeOnce method is invoked correctly

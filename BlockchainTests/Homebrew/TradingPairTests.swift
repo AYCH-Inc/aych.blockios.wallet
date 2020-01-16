@@ -8,6 +8,8 @@
 
 import XCTest
 
+@testable import Blockchain
+
 class TradingPairTests: XCTestCase {
 
     override func setUp() {

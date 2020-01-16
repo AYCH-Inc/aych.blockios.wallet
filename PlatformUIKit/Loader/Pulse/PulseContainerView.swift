@@ -47,9 +47,9 @@ final class PulseContainerView: PassthroughView {
         
         addSubview(button)
         addSubview(pulseAnimationView)
-        button.layoutToSuperview(.center)
-        pulseAnimationView.layoutToSuperview(.center)
-        pulseAnimationView.layoutSize(to: CGSize(width: frame.min(max).width, height: frame.min(max).height))
+        button.layoutToSuperviewCenter()
+        pulseAnimationView.layoutToSuperviewCenter()
+        pulseAnimationView.layout(size: CGSize(width: frame.min(max).width, height: frame.min(max).height))
     }
     
     required init?(coder aDecoder: NSCoder) {

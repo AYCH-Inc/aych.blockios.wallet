@@ -134,7 +134,8 @@ import PlatformKit
     /// Add the view to a superview
     private func attach(to superview: UIView) {
         superview.addSubview(view.viewRepresentation)
-        view.viewRepresentation.layoutToSuperview(.horizontal, .vertical)
+        view.viewRepresentation.layoutToSuperview(axis: .horizontal)
+        view.viewRepresentation.layoutToSuperview(axis: .vertical)
         superview.layoutIfNeeded()
     }
 }

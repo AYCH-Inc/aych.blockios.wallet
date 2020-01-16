@@ -41,8 +41,8 @@ final class LoadingContainerView: UIView {
         
         for view in [loadingBackgroundView, loadingView] {
             self.addSubview(view)
-            view.layoutToSuperview(.center)
-            view.layoutSize(to: CGSize(width: frame.min(max).width, height: frame.min(max).height))
+            view.layoutToSuperviewCenter()
+            view.layout(size: CGSize(width: frame.min(max).width, height: frame.min(max).height))
         }
         
         alpha = Visibility.hidden.defaultAlpha
@@ -69,7 +69,7 @@ final class LoadingContainerView: UIView {
             traits: .value(.updatesFrequently)
         )
         addSubview(statusLabel)
-        statusLabel.layoutToSuperview(.horizontal, offset: 50)
+        statusLabel.layoutToSuperview(axis: .horizontal, offset: 50)
         statusLabel.topAnchor.constraint(equalTo: loadingView.bottomAnchor, constant: 32).isActive = true
     }
 }

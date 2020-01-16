@@ -22,7 +22,8 @@ extension UIView {
             return nil
         }
         addSubview(contentView)
-        contentView.layoutToSuperview(.center, .size)
+        contentView.layoutToSuperview(axis: .horizontal)
+        contentView.layoutToSuperview(axis: .vertical)
         return contentView
     }
 }

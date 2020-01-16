@@ -50,13 +50,14 @@ public final class PasswordTextFieldView: TextFieldView {
     
     private func setupScoreLabel() {
         accessoryView.addSubview(scoreLabel)
-        scoreLabel.layoutToSuperview(.horizontal, .vertical)
+        scoreLabel.layoutToSuperview(axis: .horizontal)
+        scoreLabel.layoutToSuperview(axis: .vertical)
         scoreLabel.font = .mainMedium(16)
     }
     
     private func setupPasswordStrengthIndicatorView() {
         addSubview(passwordStrengthIndicatorView)
-        passwordStrengthIndicatorView.layoutToSuperview(.horizontal)
+        passwordStrengthIndicatorView.layoutToSuperview(axis: .horizontal)
         NSLayoutConstraint.activate([
             passwordStrengthIndicatorView.heightAnchor.constraint(equalToConstant: 1),
             passwordStrengthIndicatorView.bottomAnchor.constraint(equalTo: separatorView.bottomAnchor)

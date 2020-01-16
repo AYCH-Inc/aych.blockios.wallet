@@ -71,7 +71,7 @@ final class RegisterWalletViewController: BaseScreenViewController {
             .disposed(by: disposeBag)
 
         // Setup the terms text view
-        termsOfUseTextView.layoutToSuperview(.horizontal, offset: 16)
+        termsOfUseTextView.layoutToSuperview(axis: .horizontal, offset: 16)
         NSLayoutConstraint.activate([
             termsOfUseTextView.topAnchor.constraint(equalTo: stackView.bottomAnchor)
         ])

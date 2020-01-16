@@ -60,7 +60,7 @@ class AssetSelectorContainerViewController: UIViewController {
         children.forEach({ $0.removeFromParent() })
         addChild(viewController)
         containerView.addSubview(viewController.view)
-        viewController.view.layoutToSuperview(.horizontal)
+        viewController.view.layoutToSuperview(axis: .horizontal)
         NSLayoutConstraint.activate([
             viewController.view.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Constants.Measurements.assetTypeCellHeight),
             viewController.view.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)

@@ -52,7 +52,7 @@ public final class AnnouncementCardView: UIView, AnnoucementCardViewConforming {
         backgroundColor = viewModel.background.color
         backgroundImageView.image = viewModel.background.image
         thumbImageView.image = UIImage(named: viewModel.image.name)
-        thumbImageView.layoutSize(to: viewModel.image.size)
+        thumbImageView.layout(size: viewModel.image.size)
         titleLabel.text = viewModel.title
         titleLabel.textColor = .titleText
         descriptionLabel.text = viewModel.description

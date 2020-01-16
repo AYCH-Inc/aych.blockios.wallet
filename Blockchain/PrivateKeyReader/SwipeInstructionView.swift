@@ -76,14 +76,14 @@ extension SwipeInstructionView {
         
         private func setup() {
             addSubview(label)
-            label.layoutToSuperview(.vertical)
+            label.layoutToSuperview(axis: .vertical)
             label.setContentHuggingPriority(.required, for: .vertical)
             label.setContentHuggingPriority(.required, for: .horizontal)
             label.setContentCompressionResistancePriority(.required, for: .vertical)
             
             imageView.image = UIImage(named: "back_icon")!.withRenderingMode(.alwaysTemplate)
             addSubview(imageView)
-            imageView.layoutToSuperview(.vertical)
+            imageView.layoutToSuperview(axis: .vertical)
             
             let imageToLabelSpace: CGFloat = 8
             NSLayoutConstraint.activate([

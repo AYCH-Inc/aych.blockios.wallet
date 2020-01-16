@@ -26,8 +26,8 @@ public final class SimpleHeaderView: UITableViewHeaderFooterView {
         backgroundView.backgroundColor = .background
         self.backgroundView = backgroundView
         
-        label.layoutToSuperview(.horizontal, offset: 16)
-        label.layoutToSuperview(.vertical, offset: 10)
+        label.layoutToSuperview(axis: .horizontal, offset: 16)
+        label.layoutToSuperview(axis: .vertical, offset: 10)
         label.font = .mainMedium(12)
         label.textColor = .descriptionText
         label.verticalContentHuggingPriority = .required

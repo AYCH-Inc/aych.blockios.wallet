@@ -47,7 +47,7 @@ open class BaseScreenViewController: UIViewController {
             case .image(name: let image, width: let width):
                 let view = UIImageView(image: UIImage(named: image))
                 view.contentMode = .scaleAspectFit
-                view.layoutSize(to: CGSize(width: width, height: Constant.titleViewHeight))
+                view.layout(size: CGSize(width: width, height: Constant.titleViewHeight))
                 navigationItem.titleView = view
                 navigationItem.title = nil
             case .none:

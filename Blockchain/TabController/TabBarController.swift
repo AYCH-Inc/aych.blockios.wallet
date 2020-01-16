@@ -58,7 +58,7 @@ final class TabBarController: UITabBarController {
     private func setupDrawerGesture() {
         drawerGestureView = UIView()
         view.addSubview(drawerGestureView)
-        drawerGestureView.layoutToSuperview(.vertical)
+        drawerGestureView.layoutToSuperview(axis: .vertical)
         NSLayoutConstraint.activate([
             drawerGestureView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             drawerGestureView.heightAnchor.constraint(equalToConstant: 20)

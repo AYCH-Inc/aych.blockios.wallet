@@ -16,7 +16,8 @@ class LoginContainerCollectionViewCell: UICollectionViewCell {
         didSet {
             let view = input.view
             contentView.addSubview(view)
-            view.layoutToSuperview(.center, .size)
+            view.layoutToSuperviewCenter()
+            view.layoutToSuperviewSize()
             contentView.layoutIfNeeded()
         }
     }

@@ -29,7 +29,7 @@ extension AuthenticationCoordinator: ManualPairingWalletFetching {
     }
 }
 
-@objc class AuthenticationCoordinator: NSObject, Coordinator, VersionUpdateAlertDisplaying {
+@objc class AuthenticationCoordinator: NSObject, VersionUpdateAlertDisplaying {
 
     // MARK: - Types
     
@@ -193,16 +193,16 @@ extension AuthenticationCoordinator: ManualPairingWalletFetching {
 
     /// Starts the authentication flow. If the user has a pin set, it will trigger
     /// present the pin entry screen, otherwise, it will show the password screen.
-    @objc func start() {
+    @objc func start(flowProvider: MainFlowProviding = AppCoordinator.shared) {
         if appSettings.isPinSet {
-            authenticatePin()
+            authenticatePin(flowProvider: flowProvider)
         } else {
             showPasswordRequiredViewController()
         }
     }
     
     /// Unauthenticates the user
-    @objc func logout(showPasswordView: Bool) {
+    @objc func logout() {
         WalletManager.shared.close()
 
         dataRepository.clearCache()
@@ -212,13 +212,8 @@ extension AuthenticationCoordinator: ManualPairingWalletFetching {
         appSettings.reset()
         onboardingSettings.reset()
         
-        AppCoordinator.shared.tabControllerManager.clearSendToAddressAndAmountFields()
-        AppCoordinator.shared.closeSideMenu()
-        AppCoordinator.shared.reload()
-
-        if showPasswordView {
-            showPasswordRequiredViewController()
-        }
+        showPasswordRequiredViewController()
+        AppCoordinator.shared.clearOnLogout()
     }
 
     /// Cleanup any running authentication flows when the app is backgrounded.
@@ -421,7 +416,7 @@ extension AuthenticationCoordinator {
     /// Change existing pin code. Used from settings mostly.
     func changePin() {
         let logout = { [weak self] () -> Void in
-            self?.logout(showPasswordView: true)
+            self?.logout()
         }
         let parentViewController = UIApplication.shared.topMostViewController!
         let boxedParent = UnretainedContentBox(parentViewController)
@@ -448,15 +443,16 @@ extension AuthenticationCoordinator {
     }
 
     /// Authenticate using a pin code. Used during login when the app enters active state.
-    func authenticatePin() {
+    func authenticatePin(flowProvider: MainFlowProviding = AppCoordinator.shared) {
         // If already authenticating, skip this as the screen is already presented
         guard pinRouter == nil || !pinRouter.isDisplayingLoginAuthentication else {
             return
         }
-        let logout = { [weak self] () -> Void in
-            self?.logout(showPasswordView: true)
-        }
-        let flow = PinRouting.Flow.authenticate(from: .background, logoutRouting: logout)
+        let boxedFlowProvider = UnretainedContentBox(flowProvider)
+        let flow = PinRouting.Flow.authenticate(
+            from: .background(flowProvider: boxedFlowProvider),
+            logoutRouting: logout
+        )
         pinRouter = PinRouter(flow: flow) { [weak self] input in
             guard let password = input.password else { return }
             self?.authenticate(using: password)
@@ -467,7 +463,7 @@ extension AuthenticationCoordinator {
     /// Validates pin for any in-app flow, for example: enabling touch-id/face-id auth.
     func enableBiometrics() {
         let logout = { [weak self] () -> Void in
-            self?.logout(showPasswordView: true)
+            self?.logout()
         }
         let parentViewController = UIApplication.shared.topMostViewController!
         let boxedParent = UnretainedContentBox(parentViewController)

@@ -29,9 +29,6 @@ final class PinRouter: NSObject {
     /// Wrap up the current flow and move to the next
     private let completion: PinRouting.RoutingType.Forward?
     
-    /// Reference to previous view controller
-    private var previousRootViewController: UIViewController!
-
     /// Weakly references the pin navigation controller as we don't want to keep it while it's not currently presented
     private weak var navigationController: UINavigationController!
     
@@ -58,23 +55,18 @@ final class PinRouter: NSObject {
     
     /// Executes the pin flow according to the `flow` value provided during initialization
     func execute() {
-        DispatchQueue.main.async { [weak self] in
-            
-            guard let self = self else { return }
-            
-            guard !self.isBeingDisplayed else { return }
-            
-            self.isBeingDisplayed = true
-            switch self.flow {
-            case .create:
-                self.create()
-            case .change:
-                self.change()
-            case .authenticate(from: let origin, logoutRouting: _):
-                self.authenticate(from: origin)
-            case .enableBiometrics: // Here the origin is `.foreground`
-                self.authenticate(from: self.flow.origin)
-            }
+        guard !self.isBeingDisplayed else { return }
+        
+        self.isBeingDisplayed = true
+        switch self.flow {
+        case .create:
+            self.create()
+        case .change:
+            self.change()
+        case .authenticate(from: let origin, logoutRouting: _):
+            self.authenticate(from: origin)
+        case .enableBiometrics: // Here the origin is `.foreground`
+            self.authenticate(from: self.flow.origin)
         }
     }
     
@@ -215,9 +207,7 @@ extension PinRouter {
             navigationController.delegate = self
             switch flow.origin {
             case .background:
-                let window = UIApplication.shared.keyWindow!
-                previousRootViewController = window.rootViewController!
-                window.rootViewController = navigationController
+                UIApplication.shared.keyWindow!.rootViewController = navigationController
             case .foreground(parent: let boxedParent):
                 if let parent = boxedParent.value {
                     navigationController.modalPresentationStyle = .fullScreen
@@ -239,7 +229,6 @@ extension PinRouter {
         let cleanup = { [weak self] in
             guard let self = self else { return }
             self.navigationController = nil
-            self.previousRootViewController = nil
             self.isBeingDisplayed = false
             if completedSuccessfully && performsCompletionAfterDismissal {
                 self.completion?(completionInput)
@@ -258,8 +247,10 @@ extension PinRouter {
                 completion?(completionInput)
             }
             controller.dismiss(animated: animated, completion: cleanup)
-        case .background:
-            UIApplication.shared.keyWindow!.rootViewController = previousRootViewController
+        case .background(flowProvider: let box):
+            if let provider = box.value, completedSuccessfully {
+                UIApplication.shared.keyWindow!.rootViewController = provider.setupMainFlow(forced: false)
+            }
             cleanup()
         }
     }

@@ -10,15 +10,19 @@ import Foundation
 import XCTest
 import RxSwift
 
+@testable import ToolKit
 @testable import PlatformKit
 @testable import Blockchain
 
 /// Tests the pin screen presenter
 class PinScreenPresenterTests: XCTestCase {
+        
+    private let flowProvider: MainFlowProviding = AppCoordinator.shared
     
     // Tests a standard authentication case on login
     func testAuthenticationSuccessOnLogin() {
-        let flow = PinRouting.Flow.authenticate(from: .background, logoutRouting: {})
+        let box = UnretainedContentBox(flowProvider)
+        let flow = PinRouting.Flow.authenticate(from: .background(flowProvider: box), logoutRouting: {})
         let useCase = PinScreenUseCase.authenticateOnLogin
         let interactor = MockPinInteractor()
         let biometryProvider = MockBiometryProvider(
@@ -48,7 +52,8 @@ class PinScreenPresenterTests: XCTestCase {
     
     // Tests a case where the pin inserted is detected as incorrect by the interactor
     func testAuthenticationPinIncorrectOnLogin() {
-        let flow = PinRouting.Flow.authenticate(from: .background, logoutRouting: {})
+        let box = UnretainedContentBox(flowProvider)
+        let flow = PinRouting.Flow.authenticate(from: .background(flowProvider: box), logoutRouting: {})
         let useCase = PinScreenUseCase.authenticateOnLogin
         let interactor = MockPinInteractor(expectedError: .incorrectPin("pin incorrect"))
         let biometryProvider = MockBiometryProvider(

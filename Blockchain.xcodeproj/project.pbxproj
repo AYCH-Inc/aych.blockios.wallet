@@ -1296,6 +1296,8 @@
 		6510614923572A4100C871C0 /* AutoPairingScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510614723572A4100C871C0 /* AutoPairingScreenPresenter.swift */; };
 		6510614B23572C4900C871C0 /* AutoPairingScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510614A23572C4900C871C0 /* AutoPairingScreenInteractor.swift */; };
 		6510614C23572C4900C871C0 /* AutoPairingScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510614A23572C4900C871C0 /* AutoPairingScreenInteractor.swift */; };
+		6511792D23CE0FE600186276 /* MainFlowProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6511792C23CE0FE600186276 /* MainFlowProviding.swift */; };
+		6511793723CE10C100186276 /* MainFlowProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6511792C23CE0FE600186276 /* MainFlowProviding.swift */; };
 		6512847223423869008776DC /* SendExchangeAddressStatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512847123423869008776DC /* SendExchangeAddressStatePresenter.swift */; };
 		6512847323423869008776DC /* SendExchangeAddressStatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6512847123423869008776DC /* SendExchangeAddressStatePresenter.swift */; };
 		651284A123434C3B008776DC /* MockUserPropertyRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AEB84D233CFBA40093561F /* MockUserPropertyRecorder.swift */; };
@@ -5362,6 +5364,7 @@
 		6510614223572A1400C871C0 /* AutoPairingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AutoPairingViewController.xib; sourceTree = "<group>"; };
 		6510614723572A4100C871C0 /* AutoPairingScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoPairingScreenPresenter.swift; sourceTree = "<group>"; };
 		6510614A23572C4900C871C0 /* AutoPairingScreenInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoPairingScreenInteractor.swift; sourceTree = "<group>"; };
+		6511792C23CE0FE600186276 /* MainFlowProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowProviding.swift; sourceTree = "<group>"; };
 		6512846523423814008776DC /* ExchangeAddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeAddressViewModel.swift; sourceTree = "<group>"; };
 		6512847123423869008776DC /* SendExchangeAddressStatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendExchangeAddressStatePresenter.swift; sourceTree = "<group>"; };
 		651284A3234352F2008776DC /* AnalyticsUserPropertyInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsUserPropertyInteractor.swift; sourceTree = "<group>"; };
@@ -14348,6 +14351,7 @@
 			children = (
 				650999A222E333D60092BFB9 /* Protocols */,
 				6567FDF722CA0BFE0035CB16 /* PaymentPresenter.swift */,
+				6511792C23CE0FE600186276 /* MainFlowProviding.swift */,
 				AA69F6582086A2720054EFCE /* AppCoordinator.swift */,
 				C7BEE13A20C828B20096003B /* BuySellCoordinator.swift */,
 				AAA3333A2088115C0019AD55 /* Coordinator.swift */,
@@ -18211,6 +18215,7 @@
 				34BD973D221B124500D40D4C /* QRCodeScannerView.swift in Sources */,
 				AA374A5122946CEA00243A4B /* ETHServiceProvider.swift in Sources */,
 				655262AC23310A8A0093A371 /* MockRemoteNotificationAuthorizer.swift in Sources */,
+				6511793723CE10C100186276 /* MainFlowProviding.swift in Sources */,
 				348DAB7A221C27F80058782B /* MockQRCodeScanner.swift in Sources */,
 				651060F32356446900C871C0 /* PairingIntroViewController.swift in Sources */,
 				650999C622E60CFD0092BFB9 /* ExchangeAccountAuthenticator.swift in Sources */,
@@ -19094,6 +19099,7 @@
 				AADF6B4521C0A9DA00F8CA43 /* KYCPagerAPI.swift in Sources */,
 				34BFDF452271E5AF008160CD /* PaxComingSoonViewController.swift in Sources */,
 				C78893EE20A4D690003C0A8F /* WalletSendBitcoinDelegate.swift in Sources */,
+				6511792D23CE0FE600186276 /* MainFlowProviding.swift in Sources */,
 				6512847223423869008776DC /* SendExchangeAddressStatePresenter.swift in Sources */,
 				3AE5419B217A677A001DDE02 /* StellarTransaction.swift in Sources */,
 				3AB452EF234E71A1000C33C5 /* RecoverFundsScreenPresenter.swift in Sources */,

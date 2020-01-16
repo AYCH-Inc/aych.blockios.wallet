@@ -58,7 +58,6 @@ import PlatformUIKit
 
     func start() {
         disposable = walletService.walletOptions
-            .subscribeOn(MainScheduler.asyncInstance)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { walletOptions in
                 guard let rootURL = walletOptions.mobile?.walletRoot else {

@@ -134,29 +134,31 @@ class SideMenuViewController: UIViewController {
             return
         }
         
-        // Disable all interactions on main view
-        tabViewController.activeViewController.view.subviews.forEach {
-            $0.isUserInteractionEnabled = false
+        if let activeViewController = tabViewController.activeViewController {
+            // Disable all interactions on main view
+            activeViewController.view.subviews.forEach {
+                $0.isUserInteractionEnabled = false
+            }
+            activeViewController.view.isUserInteractionEnabled = true
+            activeViewController.view.addGestureRecognizer(slidingViewController.panGesture)
+            activeViewController.view.addGestureRecognizer(tapToCloseGestureRecognizerVC)
         }
-        tabViewController.activeViewController.view.isUserInteractionEnabled = true
-        tabViewController.activeViewController.view.addGestureRecognizer(slidingViewController.panGesture)
-        tabViewController.activeViewController.view.addGestureRecognizer(tapToCloseGestureRecognizerVC)
+
         tabViewController.addTapGestureRecognizer(toTabBar: tapToCloseGestureRecognizerTabBar)
     }
 
     private func resetSideMenuGestures() {
         guard let tabViewController = AppCoordinator.shared.tabControllerManager.tabViewController else { return }
-
-        // Disable Pan and Tap gesture on main view
         guard let slidingViewController = AppCoordinator.shared.slidingViewController else { return }
-        tabViewController.activeViewController.view.removeGestureRecognizer(slidingViewController.panGesture)
-        tabViewController.activeViewController.view.removeGestureRecognizer(tapToCloseGestureRecognizerVC)
-        tabViewController.removeTapGestureRecognizer(fromTabBar: tapToCloseGestureRecognizerTabBar)
-
-        // Enable interaction on main view
-        tabViewController.activeViewController.view.subviews.forEach {
-            $0.isUserInteractionEnabled = true
+        if let activeViewController = tabViewController.activeViewController {
+            activeViewController.view.removeGestureRecognizer(slidingViewController.panGesture)
+            activeViewController.view.removeGestureRecognizer(tapToCloseGestureRecognizerVC)
+            activeViewController.view.subviews.forEach {
+                $0.isUserInteractionEnabled = true
+            }
         }
+
+        tabViewController.removeTapGestureRecognizer(fromTabBar: tapToCloseGestureRecognizerTabBar)
 
         // Enable swipe to open side menu gesture on small bar on the left of main view
         tabViewController.menuSwipeRecognizerView.isUserInteractionEnabled = true

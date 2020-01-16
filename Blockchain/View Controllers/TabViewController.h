@@ -40,7 +40,7 @@
 @property (nonatomic, strong) BridgedDisposeBag *disposeBag;
 @property (nonatomic, strong) WalletIntroductionPresenter *introductionPresenter;
 @property (nonatomic, retain) UINavigationBar *navigationBar;
-@property (nonatomic, retain) UIViewController *activeViewController;
+@property (nonatomic, retain, nullable) UIViewController *activeViewController;
 @property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *tabBarBottomConstraint;
 @property (strong, nonatomic) UIView *assetControlContainer;

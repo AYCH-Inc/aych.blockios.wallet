@@ -12,7 +12,7 @@ import PlatformKit
 /// TODO: This class should be refactored so any view would load
 /// as late as possible and also would be deallocated when is no longer in use
 /// TICKET: https://blockchain.atlassian.net/browse/IOS-2619
-@objc class AppCoordinator: NSObject, Coordinator {
+@objc class AppCoordinator: NSObject, Coordinator, MainFlowProviding {
     
     // MARK: - Properties
 
@@ -42,7 +42,7 @@ import PlatformKit
 
     @objc var slidingViewController: ECSlidingViewController!
     @objc var tabControllerManager = TabControllerManager.makeFromStoryboard()
-    private var sideMenuViewController: SideMenuViewController!
+    private(set) var sideMenuViewController: SideMenuViewController!
     
     private lazy var accountsAndAddressesNavigationController: AccountsAndAddressesNavigationController = { [unowned self] in
         let storyboard = UIStoryboard(name: "AccountsAndAddresses", bundle: nil)
@@ -77,14 +77,13 @@ import PlatformKit
         self.walletManager.backupDelegate = self
         self.walletManager.historyDelegate = self
         observeSymbolChanges()
-        setupMainFlow()
     }
 
-    // MARK: Public Methods
+    // MARK: Public Methodsº
 
     func startAfterWalletCreation() {
         window.rootViewController?.dismiss(animated: true, completion: nil)
-        setupMainFlow()
+        setupMainFlow(forced: true)
         window.rootViewController = slidingViewController
         tabControllerManager.dashBoardClicked(nil)
     }
@@ -97,9 +96,7 @@ import PlatformKit
         if blockchainSettings.guid == nil || blockchainSettings.sharedKey == nil {
             onboardingRouter.start()
         } else {
-            window.rootViewController = slidingViewController
             AuthenticationCoordinator.shared.start()
-            tabControllerManager.dashBoardClicked(nil)
         }
     }
 
@@ -122,13 +119,26 @@ import PlatformKit
         )
     }
     
-    private func setupMainFlow() {
-        setupTabControllerManager()
-        setupSideMenuViewController()
-        let viewController = ECSlidingViewController()
-        viewController.underLeftViewController = sideMenuViewController
-        viewController.topViewController = tabControllerManager
-        slidingViewController = viewController
+    func setupMainFlow(forced: Bool) -> UIViewController {
+        let setupAndReturnSideMenuController = { [unowned self] () -> UIViewController in
+            self.setupTabControllerManager()
+            self.setupSideMenuViewController()
+            let viewController = ECSlidingViewController()
+            viewController.underLeftViewController = self.sideMenuViewController
+            viewController.topViewController = self.tabControllerManager
+            self.slidingViewController = viewController
+            self.tabControllerManager.view.layoutIfNeeded()
+            self.tabControllerManager.dashBoardClicked(nil)
+            return viewController
+        }
+        
+        if forced {
+            return setupAndReturnSideMenuController()
+        } else if let slidingViewController = slidingViewController {
+            return slidingViewController
+        } else {
+            return setupAndReturnSideMenuController()
+        }
     }
 
     private func setupSideMenuViewController() {
@@ -170,6 +180,9 @@ import PlatformKit
     }
 
     @objc func closeSideMenu() {
+        guard let slidingViewController = slidingViewController else {
+            return
+        }
         guard slidingViewController.currentTopViewPosition != .centered else {
             return
         }
@@ -182,10 +195,8 @@ import PlatformKit
         settingsNavigationController?.reload()
         accountsAndAddressesNavigationController.reload()
 
-        if let sideMenuViewController = slidingViewController.underLeftViewController as? SideMenuViewController {
-            sideMenuViewController.reload()
-        }
-
+        sideMenuViewController?.reload()
+        
         NotificationCenter.default.post(name: Constants.NotificationKeys.reloadToDismissViews, object: nil)
 
         // Legacy code for generating new addresses
@@ -194,6 +205,11 @@ import PlatformKit
 
     /// Method to "cleanup" state when the app is backgrounded.
     func cleanupOnAppBackgrounded() {
+        
+        /// Keep going only if the user is logged in
+        guard slidingViewController != nil else {
+            return
+        }
         tabControllerManager.hideSendAndReceiveKeyboards()
         tabControllerManager.transactionsBitcoinViewController?.loadedAllTransactions = false
         tabControllerManager.transactionsBitcoinViewController?.messageIdentifier = nil
@@ -206,7 +222,7 @@ import PlatformKit
         BlockchainSettings.App.shared.onSymbolLocalChanged = { [unowned self] _ in
             self.tabControllerManager.reloadSymbols()
             self.accountsAndAddressesNavigationController.reload()
-            self.sideMenuViewController.reload()
+            self.sideMenuViewController?.reload()
         }
     }
 
@@ -221,7 +237,7 @@ import PlatformKit
         tabControllerManager.reloadAfterMultiAddressResponse()
         settingsNavigationController?.reloadAfterMultiAddressResponse()
         accountsAndAddressesNavigationController.reload()
-        sideMenuViewController.reload()
+        sideMenuViewController?.reload()
 
         NotificationCenter.default.post(name: Constants.NotificationKeys.reloadToDismissViews, object: nil)
         NotificationCenter.default.post(name: Constants.NotificationKeys.newAddress, object: nil)
@@ -345,7 +361,7 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
         )
         alert.addAction(
             UIAlertAction(title: LocalizationConstants.okString, style: .default) { _ in
-                AuthenticationCoordinator.shared.logout(showPasswordView: true)
+                AuthenticationCoordinator.shared.logout()
             }
         )
         alert.addAction(UIAlertAction(title: LocalizationConstants.cancel, style: .cancel))
@@ -353,6 +369,11 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
             alert,
             animated: true
         )
+    }
+    
+    func clearOnLogout() {
+        slidingViewController = nil
+        sideMenuViewController = nil
     }
 
     func handleBuyBitcoin() {

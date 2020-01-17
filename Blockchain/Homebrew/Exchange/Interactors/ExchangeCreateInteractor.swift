@@ -171,7 +171,7 @@ extension ExchangeCreateInteractor: ExchangeCreateInput {
                     if let _ = self.errorMessage(for: model.pair.from) {
                         self.status = .error(.waitingOnEthereumPayment)
                     } else {
-                        self.status = .error(.default(nil))
+                        self.status = .unknown
                     }
                     self.postResume()
                 },

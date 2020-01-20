@@ -6,7 +6,7 @@
 //  Copyright © 2019 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Foundation
+import BigInt
 
 /// This pattern is used to temporarily present new crypto-currencies in features like airdrops.
 /// When the currency is fully supported, the case should be removed from `TriageCryptoCurrency`
@@ -35,6 +35,37 @@ public enum TriageCryptoCurrency: Equatable {
         case .blockstack:
             return nil
         }
+    }
+    
+    public var maxDecimalPlaces: Int {
+        switch self {
+        case .supported(let currency):
+            return currency.maxDecimalPlaces
+        case .blockstack:
+            return 7
+        }
+    }
+    
+    public var maxDisplayableDecimalPlaces: Int {
+        switch self {
+        case .supported(let currency):
+            return currency.maxDecimalPlaces
+        case .blockstack:
+            return 7
+        }
+    }
+        
+    public func displayValue(amount: BigInt, locale: Locale = Locale.current) -> String {
+        let divisor = BigInt(10).power(maxDecimalPlaces)
+        var majorValue = amount.decimalDivision(divisor: divisor)
+        majorValue = majorValue.roundTo(places: maxDecimalPlaces)
+        
+        let formatter = NumberFormatter.cryptoFormatter(
+            locale: locale,
+            minfractionDigits: 1,
+            maxfractionDigits: maxDisplayableDecimalPlaces
+        )
+        return formatter.string(from: NSDecimalNumber(decimal: majorValue)) ?? "\(majorValue)"
     }
 }
 

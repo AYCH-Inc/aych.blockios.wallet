@@ -159,7 +159,7 @@ final class AirdropStatusScreenPresenter {
             )
             
             /// Prepend either the crypto amount if exists, or a placeholder otherwise
-            let crypto = transaction.crypto?.toDisplayString(includeSymbol: false) ?? LocalizedString.Cell.Amount.valuePlaceholder
+            let crypto = campaign.cryptoDisplayValue ?? LocalizedString.Cell.Amount.valuePlaceholder
             amount = crypto + amount
 
             dataSource.append(

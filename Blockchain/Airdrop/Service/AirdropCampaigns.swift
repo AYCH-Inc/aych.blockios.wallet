@@ -109,6 +109,18 @@ struct AirdropCampaigns {
             var fiat: FiatValue {
                 return FiatValue.create(amount: fiatValue / 100, currencyCode: fiatCurrency)
             }
+                    
+            var withdrawalDate: Date! {
+                return AirdropCampaigns.dateFormatter.date(from: withdrawalAt)
+            }
+            
+            var cryptoCurrency: TriageCryptoCurrency! {
+                return try? TriageCryptoCurrency(symbol: withdrawalCurrency)
+            }
+            
+            var isValid: Bool {
+                return cryptoCurrency != nil && withdrawalDate != nil
+            }
             
             var crypto: CryptoValue? {
                 guard let cryptoCurrency = cryptoCurrency.cryptoCurrency else {
@@ -121,18 +133,6 @@ struct AirdropCampaigns {
                     amount,
                     assetType: cryptoCurrency
                 )
-            }
-            
-            var withdrawalDate: Date! {
-                return AirdropCampaigns.dateFormatter.date(from: withdrawalAt)
-            }
-            
-            var cryptoCurrency: TriageCryptoCurrency! {
-                return try? TriageCryptoCurrency(symbol: withdrawalCurrency)
-            }
-            
-            var isValid: Bool {
-                return cryptoCurrency != nil && withdrawalDate != nil
             }
             
             init(from decoder: Decoder) throws {
@@ -187,6 +187,23 @@ struct AirdropCampaigns {
                 return .blockstack
             case .sunriver:
                 return TriageCryptoCurrency(cryptoCurrency: .stellar)
+            }
+        }
+        
+        var cryptoDisplayValue: String? {
+            guard let latestTransaction = latestTransaction else { return nil }
+            if let cryptoDisplayValue = latestTransaction.crypto?.toDisplayString(includeSymbol: false) {
+                return cryptoDisplayValue
+            }
+            guard let name = Name(rawValue: name) else {
+                return nil
+            }
+            switch name {
+            case .blockstack:
+                guard let amount = BigInt("\(latestTransaction.withdrawalQuantity)") else { return nil }
+                return latestTransaction.cryptoCurrency.displayValue(amount: amount)
+            default:
+                return nil
             }
         }
         

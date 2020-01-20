@@ -1687,6 +1687,7 @@
 		65B40AC923B0E258001557FB /* LegacyEthereumWalletAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345DF35C234B724F00179996 /* LegacyEthereumWalletAPI.swift */; };
 		65B40ACA23B0E25A001557FB /* LegacyEthereumWalletAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345DF35C234B724F00179996 /* LegacyEthereumWalletAPI.swift */; };
 		65B40ACB23B0E43E001557FB /* EthereumWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EFC7D02220815C00273640 /* EthereumWalletTests.swift */; };
+		65B52F1023D612CA0070929B /* TriageCryptoCurrencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B52F0F23D612CA0070929B /* TriageCryptoCurrencyTests.swift */; };
 		65B5417E230C687300D04A2E /* MockSendExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416B230C687300D04A2E /* MockSendExecutor.swift */; };
 		65B54180230C687300D04A2E /* MockSendFeeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416D230C687300D04A2E /* MockSendFeeInteractor.swift */; };
 		65B54181230C687300D04A2E /* MockSendServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B5416E230C687300D04A2E /* MockSendServiceContainer.swift */; };
@@ -5639,6 +5640,7 @@
 		65B24C8A239FDC5E00004F15 /* WalletPayloadServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPayloadServiceTests.swift; sourceTree = "<group>"; };
 		65B24C8C239FE41200004F15 /* MockWalletRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWalletRepository.swift; sourceTree = "<group>"; };
 		65B33047239A6E2F00B5331E /* JSContextProviderAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSContextProviderAPI.swift; sourceTree = "<group>"; };
+		65B52F0F23D612CA0070929B /* TriageCryptoCurrencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriageCryptoCurrencyTests.swift; sourceTree = "<group>"; };
 		65B5416B230C687300D04A2E /* MockSendExecutor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSendExecutor.swift; sourceTree = "<group>"; };
 		65B5416C230C687300D04A2E /* MockAccountBalanceFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAccountBalanceFetcher.swift; sourceTree = "<group>"; };
 		65B5416D230C687300D04A2E /* MockSendFeeInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSendFeeInteractor.swift; sourceTree = "<group>"; };
@@ -8790,6 +8792,7 @@
 				3A68656E219A0BBB0009FF29 /* Info.plist */,
 				3A68656C219A0BBB0009FF29 /* PlatformKitTests.swift */,
 				AACD861021B8B5A300C860D1 /* Models */,
+				65B52F0F23D612CA0070929B /* TriageCryptoCurrencyTests.swift */,
 			);
 			path = PlatformKitTests;
 			sourceTree = "<group>";
@@ -17607,6 +17610,7 @@
 				651284A123434C3B008776DC /* MockUserPropertyRecorder.swift in Sources */,
 				3AA3A60A22FCDBC300374439 /* WalletOptions.swift in Sources */,
 				65B24C8B239FDC5E00004F15 /* WalletPayloadServiceTests.swift in Sources */,
+				65B52F1023D612CA0070929B /* TriageCryptoCurrencyTests.swift in Sources */,
 				65B24C88239FDBDF00004F15 /* WalletPayloadService+FakeClientResponse.swift in Sources */,
 				653C41F32344DB6F00AAD154 /* AnalyticsUserPropertyValidationTests.swift in Sources */,
 				65B24C86239FD68B00004F15 /* MockWalletPayloadService.swift in Sources */,

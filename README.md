@@ -6,6 +6,11 @@
 
 # Building
 
+## Install Xcode
+
+After installing Xcode, open it to begin the Command Line Tools installation. After finished, make sure that a valid CL Tool version is selected in `Xcode > Preferences > Locations > Command Line Tools`.
+
+
 ## Install `homebrew`
 
 https://brew.sh/
@@ -18,19 +23,23 @@ https://brew.sh/
 
 Install a node version manager such as [nvm](https://github.com/creationix/nvm) or [n](https://github.com/tj/n).
 
-    # use node v7.9.0
+    # Install Yarn dependency
+    $ brew install yarn
+
+    # Install/Use node v7.9.0
     $ npm install -g n
     $ n v7.9.0
 
-    # use npm 5.6.0
+    # Use npm 5.6.0
     $ npm install -g npm@5.6.0
 
-    # checkout ios branch
+    # Checkout ios branch from Submodules/My-Wallet-V3
     $ cd Submodules/My-Wallet-V3
     $ git checkout ios
     $ cd ../..
 
-    # install and build js files
+
+    # Install and build js files
     $ sh scripts/install-js.sh && sh scripts/build-js.sh
 
 ## Prepare OpenSSL
@@ -68,6 +77,10 @@ Then the project ruby dependencies (`cocoapods`, `fastlane`, etc.):
 ## Install Cocoapods Dependencies
 
     $ bundle exec pod install
+
+## Bootstrap Carthage Dependencies
+
+    $ carthage bootstrap
 
 ## Add production Config file
 
@@ -113,15 +126,8 @@ Then the project ruby dependencies (`cocoapods`, `fastlane`, etc.):
 
 ## Add Firebase Config Files
 
-Create the following directories:
-
-```
-./Blockchain/Firebase/Dev
-./Blockchain/Firebase/Staging
-./Blockchain/Firebase/Prod
-```
-
-    In each directory, you'll need to copy/paste the environment-specific GoogleService-Info.plist files that are in `wallet-ios-credentials` repository.
+Create directories `./Blockchain/Firebase/Dev`, `./Blockchain/Firebase/Staging`, and `./Blockchain/Firebase/Prod`.
+Open `wallet-ios-credentials` repository on `firebase` branch and copy each environment-specific GoogleService-Info.plist into its respective directory you just created.
 
 ## Open the project in Xcode
 

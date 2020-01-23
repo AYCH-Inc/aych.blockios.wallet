@@ -77,7 +77,7 @@ class CryptoFormatter {
 }
 
 extension NumberFormatter {
-    fileprivate static func cryptoFormatter(locale: Locale, minfractionDigits: Int, maxfractionDigits: Int) -> NumberFormatter {
+    static func cryptoFormatter(locale: Locale, minfractionDigits: Int, maxfractionDigits: Int) -> NumberFormatter {
         let formatter = NumberFormatter()
         formatter.locale = locale
         formatter.numberStyle = .decimal

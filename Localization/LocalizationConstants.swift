@@ -1872,13 +1872,107 @@ public struct LocalizationConstants {
     }
 
     public struct Settings {
+        public struct Section {
+            public static let profile = NSLocalizedString("Profile", comment: "Profile")
+            public static let preferences = NSLocalizedString("Preferences", comment: "Preferences")
+            public static let walletConnect = NSLocalizedString("Wallet Connect", comment: "Wallet Connect")
+            public static let security = NSLocalizedString("Security", comment: "Security")
+            public static let about = NSLocalizedString("About", comment: "About")
+        }
+        
+        public struct Badge {
+            public struct Limits {
+                public static let unlockGold = NSLocalizedString("Unlock Gold", comment: "Unlock Gold")
+                public static let unlockSilver = NSLocalizedString("Unlock Silver", comment: "Unlock Silver")
+                public static let inReview = NSLocalizedString("In Review", comment: "KYC status is under review")
+                public static let failed = NSLocalizedString("Failed", comment: "Verification Failed")
+            }
+            public static let mobileNumber = NSLocalizedString("Mobile Number", comment: "Mobile Number")
+            public static let twoFactorAuthentication = NSLocalizedString("2-Step Verification", comment: "2-Step Verification")
+            public static let email = NSLocalizedString("Email", comment: "Email")
+            public static let blockchainExchange = NSLocalizedString("Blockchain Exchange", comment: "Blockchain Exchange")
+            public static let recoveryPhrase = NSLocalizedString("Recovery Phrase", comment: "Recovery Phrase")
+            public static let confirmed = NSLocalizedString("Confirmed", comment: "Confirmed")
+            public static let unconfirmed = NSLocalizedString("Unconfirmed", comment: "Unconfirmed")
+            public static let localCurrency = NSLocalizedString("Local Currency", comment: "Local Currency")
+        }
+        
+        public static let emailNotifications = NSLocalizedString("Email Notifications", comment: "Email Notifications")
         public static let notificationsDisabled = NSLocalizedString(
-        """
+            """
         You currently have email notifications enabled. Changing your email will disable email notifications.
         """, comment: "")
-        public static let cookiePolicy = NSLocalizedString("Cookie Policy", comment: "")
-        public static let allRightsReserved = NSLocalizedString("All rights reserved.", comment: "")
+        public static let cookiePolicy = NSLocalizedString("Cookie Policy", comment: "Cookie Policy")
+        public static let allRightsReserved = NSLocalizedString("All rights reserved.", comment: "All rights reserved")
         public static let useBiometricsAsPin = NSLocalizedString("Use %@ as PIN", comment: "")
+        public static let walletID = NSLocalizedString("Wallet ID", comment: "Wallet ID")
+        public static let aboutUs = NSLocalizedString("About Us", comment: "About Us")
+        public static let termsOfService = NSLocalizedString("Terms of Service", comment: "Terms of Service")
+        public static let privacyPolicy = NSLocalizedString("Privacy Policy", comment: "Privacy Policy")
+        public static let cookiesPolicy = NSLocalizedString("Cookies Policy", comment: "Cookies Policy")
+        public static let changePIN = NSLocalizedString("Change PIN", comment: "Change PIN")
+        public static let loginToWebWallet = NSLocalizedString("Log in to Web Wallet", comment: "Log in to Web Wallet")
+        public static let changePassword = NSLocalizedString("Change Password", comment: "Change Password")
+        public static let enableTouchID = NSLocalizedString("Enable Touch ID", comment: "Enable Touch ID")
+        public static let enableFaceID = NSLocalizedString("Enable Face ID", comment: "Enable Face ID")
+        public static let swipeToReceive = NSLocalizedString("Swipe to Receive", comment: "Swipe to Receive")
+    }
+    
+    public struct BackupFundsScreen {
+        public static let title = NSLocalizedString("Backup Funds", comment: "Backup Funds")
+        public static let subtitle = NSLocalizedString("Backup Needed", comment: "Backup Needed")
+        public static let startBackup = NSLocalizedString("Start Backup", comment: "Start Backup")
+        
+        public struct Description {
+            public static let partA = NSLocalizedString(
+                "Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you a way to restore your and access your funds.",
+                comment: "Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you a way to restore your and access your funds."
+            )
+            public static let partB = NSLocalizedString(
+                "Before you get started, we created a printable template make it easier to store your phrase. Feel free to download and print it out.",
+                comment: "Before you get started, we created a printable template make it easier to store your phrase. Feel free to download and print it out."
+            )
+        }
+    }
+    
+    public struct RecoveryPhraseScreen {
+        public static let title = NSLocalizedString("Recovery Phrase", comment: "Recovery Phrase")
+        public static let subtitle = NSLocalizedString("Write Down Recovery Phrase", comment: "Write Down Recovery Phrase")
+        public static let description = NSLocalizedString(
+            "Carefully write down these 12 words in order, do not email or screenshot your recovery phrase.",
+            comment: "Carefully write down these 12 words in order, do not email or screenshot your recovery phrase."
+        )
+        public static let copyToClipboard = NSLocalizedString("Copy to Clipboard", comment: "Copy to Clipboard")
+        public static let next = NSLocalizedString("Next", comment: "Next")
+    }
+    
+    public struct VerifyBackupScreen {
+        public static let title = NSLocalizedString("Verify Your Backup", comment: "Verify Your Backup")
+        public static let description = NSLocalizedString(
+            "Enter the following words from your Recovery Phrase to complete the backup process.",
+            comment: "Enter the following words from your Recovery Phrase to complete the backup process."
+        )
+        public static let action = NSLocalizedString("Verify", comment: "Verify")
+        public static let errorDescription = NSLocalizedString(
+            "The words in your Recovery Phrase didn’t match. You can go back to the previous step and double check you wrote it down correctly",
+            comment: "The words in your Recovery Phrase didn’t match. You can go back to the previous step and double check you wrote it down correctly"
+        )
+        
+        public struct Index {
+            
+            public static let first = NSLocalizedString("first", comment: "first")
+            public static let second = NSLocalizedString("second", comment: "second")
+            public static let third = NSLocalizedString("third", comment: "third")
+            public static let fourth = NSLocalizedString("fourth", comment: "fourth")
+            public static let fifth = NSLocalizedString("fifth", comment: "fifth")
+            public static let sixth = NSLocalizedString("sixth", comment: "sixth")
+            public static let seventh = NSLocalizedString("seventh", comment: "seventh")
+            public static let eigth = NSLocalizedString("eigth", comment: "eigth")
+            public static let ninth = NSLocalizedString("ninth", comment: "ninth")
+            public static let tenth = NSLocalizedString("tenth", comment: "tenth")
+            public static let eleventh = NSLocalizedString("eleventh", comment: "eleventh")
+            public static let twelfth = NSLocalizedString("twelfth", comment: "twelfth")
+        }
     }
     
     public struct PaymentReceivedAlert {

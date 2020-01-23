@@ -75,7 +75,7 @@ extension UIColor {
     // Green
     
     static let green000 = #colorLiteral(red: 0.90, green: 0.98, blue: 0.93, alpha: 1.0)
-    static let green100 = #colorLiteral(red: 0.82, green: 0.94, blue: 0.86, alpha: 1.0)
+    static let green100 = #colorLiteral(red: 0.82, green: 0.941, blue: 0.859, alpha: 1)
     static let green200 = #colorLiteral(red: 0.68, green: 0.90, blue: 0.79, alpha: 1.0)
     static let green300 = #colorLiteral(red: 0.55, green: 0.86, blue: 0.70, alpha: 1.0)
     static let green400 = #colorLiteral(red: 0.09, green: 0.81, blue: 0.45, alpha: 1.0)

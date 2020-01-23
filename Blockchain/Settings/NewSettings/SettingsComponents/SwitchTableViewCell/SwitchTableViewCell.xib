@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="77" id="P47-8p-QOD" customClass="SwitchTableViewCell" customModule="Blockchain" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="77"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="P47-8p-QOD" id="WfS-Yd-iTt">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="77"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log in to Web Wallet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ew-hs-Hj6">
+                        <rect key="frame" x="16" y="16" width="156" height="45"/>
+                        <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FuX-Pe-MpZ" customClass="SwitchView" customModule="PlatformUIKit">
+                        <rect key="frame" x="347" y="23" width="51" height="31"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="51" id="6JT-rB-GDf"/>
+                            <constraint firstAttribute="height" constant="31" id="tTR-dl-1sd"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="4ew-hs-Hj6" firstAttribute="top" secondItem="WfS-Yd-iTt" secondAttribute="top" constant="16" id="0KA-xp-a3h"/>
+                    <constraint firstItem="4ew-hs-Hj6" firstAttribute="leading" secondItem="WfS-Yd-iTt" secondAttribute="leading" constant="16" id="0xd-kn-gcU"/>
+                    <constraint firstItem="FuX-Pe-MpZ" firstAttribute="centerY" secondItem="4ew-hs-Hj6" secondAttribute="centerY" id="HdH-0M-8Ls"/>
+                    <constraint firstAttribute="trailing" secondItem="FuX-Pe-MpZ" secondAttribute="trailing" constant="16" id="ZsQ-uy-6UA"/>
+                    <constraint firstAttribute="bottom" secondItem="4ew-hs-Hj6" secondAttribute="bottom" constant="16" id="iv3-Te-OXB"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="switchView" destination="FuX-Pe-MpZ" id="KpM-BM-lac"/>
+                <outlet property="titleLabel" destination="4ew-hs-Hj6" id="fKt-06-KOb"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="92.745535714285708"/>
+        </tableViewCell>
+    </objects>
+</document>

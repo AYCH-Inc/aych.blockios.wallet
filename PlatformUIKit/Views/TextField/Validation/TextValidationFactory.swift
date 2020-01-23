@@ -31,7 +31,11 @@ public final class TextValidationFactory {
         return AlwaysValidValidator()
     }
     
-    public static func mnemonic(words: Set<String>) -> MnemonicValidating {
-        return MnemonicValidator(words: words)
+    public static func mnemonic(words: Set<String>, mnemonicLength: Int = 12) -> MnemonicValidating {
+        return MnemonicValidator(words: words, mnemonicLength: mnemonicLength)
+    }
+    
+    public static func word(value: String) -> TextValidating {
+        return WordValidator(word: value)
     }
 }

@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import PlatformKit
 
 /// Protocol definition for a component that can synchronize state between the wallet
 /// and Nabu.

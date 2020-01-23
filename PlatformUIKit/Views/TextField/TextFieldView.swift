@@ -30,7 +30,8 @@ public class TextFieldView: UIView {
     @IBOutlet private(set) var separatorView: UIView!
     @IBOutlet fileprivate var gestureMessageLabel: UILabel!
     @IBOutlet private(set) var accessoryView: UIView!
-        
+    @IBOutlet private(set) var accessoryViewWidthConstraint: NSLayoutConstraint!
+    
     private var keyboardInteractionController: KeyboardInteractionController!
     
     // Mutable since we would like to make the text field

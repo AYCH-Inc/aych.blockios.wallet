@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SwitchView" customModule="PlatformUIKit" customModuleProvider="target">
+            <connections>
+                <outlet property="switchView" destination="ayp-Oo-H8U" id="O0B-CZ-qRq"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="hQq-W0-og2">
+            <rect key="frame" x="0.0" y="0.0" width="49" height="31"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ayp-Oo-H8U">
+                    <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
+                </switch>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="ayp-Oo-H8U" firstAttribute="leading" secondItem="hQq-W0-og2" secondAttribute="leading" id="5TV-LI-JgX"/>
+                <constraint firstAttribute="bottom" secondItem="ayp-Oo-H8U" secondAttribute="bottom" id="Aib-iI-K23"/>
+                <constraint firstItem="ayp-Oo-H8U" firstAttribute="top" secondItem="hQq-W0-og2" secondAttribute="top" id="BO6-Nx-4eL"/>
+                <constraint firstAttribute="trailing" secondItem="ayp-Oo-H8U" secondAttribute="trailing" id="vVr-up-7nc"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vmE-fz-Xt5"/>
+            <point key="canvasLocation" x="42" y="99"/>
+        </view>
+    </objects>
+</document>

@@ -8,6 +8,9 @@
 
 import Foundation
 import RxSwift
+import PlatformKit
+
+@testable import Blockchain
 
 @testable import Blockchain
 

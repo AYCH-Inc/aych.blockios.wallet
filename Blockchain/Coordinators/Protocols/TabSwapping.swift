@@ -8,13 +8,13 @@
 
 import PlatformKit
 
-protocol TabSwapping {
+protocol TabSwapping: class {
     func switchToSend()
     func switchTabToSwap()
     func switchTabToReceive()
 }
 
-protocol CurrencyRouting {
+protocol CurrencyRouting: class {
     func toSend(_ currency: CryptoCurrency)
     func toReceive(_ currency: CryptoCurrency)
 }

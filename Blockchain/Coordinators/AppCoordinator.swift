@@ -40,6 +40,7 @@ import PlatformKit
     
     // MARK: - UIViewController Properties
 
+    @objc private var settingsNavigationController: SettingsNavigationController?
     @objc var slidingViewController: ECSlidingViewController!
     @objc var tabControllerManager = TabControllerManager.makeFromStoryboard()
     private(set) var sideMenuViewController: SideMenuViewController!
@@ -53,8 +54,6 @@ import PlatformKit
         viewController.modalTransitionStyle = .coverVertical
         return viewController
     }()
-
-    @objc private var settingsNavigationController: SettingsNavigationController?
 
     // MARK: NSObject
 
@@ -162,6 +161,7 @@ import PlatformKit
     }
 
     @objc func showSettingsView(completion: ((_ settingViewController: SettingsNavigationController) -> Void)? = nil) {
+        
         let storyboard = UIStoryboard(name: "Settings", bundle: nil)
         let viewController = storyboard.instantiateViewController(
             withIdentifier: "SettingsNavigationController"
@@ -192,9 +192,8 @@ import PlatformKit
     /// Reloads contained view controllers
     @objc func reload() {
         tabControllerManager.reload()
-        settingsNavigationController?.reload()
         accountsAndAddressesNavigationController.reload()
-
+        settingsNavigationController?.reload()
         sideMenuViewController?.reload()
         
         NotificationCenter.default.post(name: Constants.NotificationKeys.reloadToDismissViews, object: nil)
@@ -234,8 +233,8 @@ import PlatformKit
             }
         }
 
-        tabControllerManager.reloadAfterMultiAddressResponse()
         settingsNavigationController?.reloadAfterMultiAddressResponse()
+        tabControllerManager.reloadAfterMultiAddressResponse()
         accountsAndAddressesNavigationController.reload()
         sideMenuViewController?.reload()
 

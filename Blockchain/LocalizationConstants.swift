@@ -1948,13 +1948,46 @@ struct LocalizationConstants {
     }
 
     struct Settings {
+        struct Section {
+            static let profile = NSLocalizedString("Profile", comment: "Profile")
+            static let preferences = NSLocalizedString("Preferences", comment: "Preferences")
+            static let walletConnect = NSLocalizedString("Wallet Connect", comment: "Wallet Connect")
+            static let security = NSLocalizedString("Security", comment: "Security")
+            static let about = NSLocalizedString("About", comment: "About")
+        }
+        
+        struct Badge {
+            struct Limits {
+                static let unlockGold = NSLocalizedString("Unlock Gold", comment: "Unlock Gold")
+                static let unlockSilver = NSLocalizedString("Unlock Silver", comment: "Unlock Silver")
+                static let inReview = NSLocalizedString("In Review", comment: "KYC status is under review")
+                static let failed = NSLocalizedString("Failed", comment: "Verification Failed")
+            }
+            static let mobileNumber = NSLocalizedString("Mobile Number", comment: "Mobile Number")
+            static let twoFactorAuthentication = NSLocalizedString("2-Step Verification", comment: "2-Step Verification")
+            static let email = NSLocalizedString("Email", comment: "Email")
+            static let blockchainExchange = NSLocalizedString("Blockchain Exchange", comment: "Blockchain Exchange")
+            static let recoveryPhrase = NSLocalizedString("Recovery Phrase", comment: "Recovery Phrase")
+            static let confirmed = NSLocalizedString("Confirmed", comment: "Confirmed")
+            static let unconfirmed = NSLocalizedString("Unconfirmed", comment: "Unconfirmed")
+            static let localCurrency = NSLocalizedString("Local Currency", comment: "Local Currency")
+        }
+        
         static let notificationsDisabled = NSLocalizedString(
         """
         You currently have email notifications enabled. Changing your email will disable email notifications.
         """, comment: "")
-        static let cookiePolicy = NSLocalizedString("Cookie Policy", comment: "")
-        static let allRightsReserved = NSLocalizedString("All rights reserved.", comment: "")
+        static let cookiePolicy = NSLocalizedString("Cookie Policy", comment: "Cookie Policy")
+        static let allRightsReserved = NSLocalizedString("All rights reserved.", comment: "All rights reserved")
         static let useBiometricsAsPin = NSLocalizedString("Use %@ as PIN", comment: "")
+        static let walletID = NSLocalizedString("Wallet ID", comment: "Wallet ID")
+        static let aboutUs = NSLocalizedString("About Us", comment: "About Us")
+        static let termsOfService = NSLocalizedString("Terms of Service", comment: "Terms of Service")
+        static let privacyPolicy = NSLocalizedString("Privacy Policy", comment: "Privacy Policy")
+        static let cookiesPolicy = NSLocalizedString("Cookies Policy", comment: "Cookies Policy")
+        static let changePIN = NSLocalizedString("Change PIN", comment: "Change PIN")
+        static let loginToWebWallet = NSLocalizedString("Log in to Web Wallet", comment: "Log in to Web Wallet")
+        static let changePassword = NSLocalizedString("Change Password", comment: "Change Password")
     }
     
     struct PaymentReceivedAlert {

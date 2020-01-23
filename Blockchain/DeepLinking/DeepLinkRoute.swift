@@ -59,7 +59,7 @@ extension DeepLinkRoute {
                     
                     if let optionalKey = route.optionalKeyParameter,
                         let value = routeParameters[optionalKey],
-                        let context = ContextParameter(rawValue: value) {
+                        let context = FlowContext(rawValue: value) {
                         return route == .exchangeVerifyEmail && context == .exchangeSignup
                     } else {
                         return routeParameters[key] == value

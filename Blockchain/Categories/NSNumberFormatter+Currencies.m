@@ -13,20 +13,6 @@
 
 #pragma mark - Format helpers
 
-+ (NSString *)localCurrencyCode
-{
-    return WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.code;
-}
-
-+ (NSDecimalNumber *)formatSatoshiInLocalCurrency:(uint64_t)value
-{
-    if (WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.conversion) {
-        return [(NSDecimalNumber*)[NSDecimalNumber numberWithLongLong:value] decimalNumberByDividingBy:(NSDecimalNumber*)[NSDecimalNumber numberWithDouble:(double)WalletManager.sharedInstance.latestMultiAddressResponse.symbol_local.conversion]];
-    } else {
-        return nil;
-    }
-}
-
 + (NSString *)satoshiToBTC:(uint64_t)value
 {
     uint64_t currentConversion = WalletManager.sharedInstance.latestMultiAddressResponse.symbol_btc.conversion;

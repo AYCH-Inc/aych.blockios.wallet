@@ -24,8 +24,15 @@ public extension Accessibility.Identifier {
         public static let secondaryCTAButton = "secondaryCTAButton"
         public static let destructiveCTAButton = "desctructiveCTAButton"
         
+        public static let destructiveBadgeView = "desctructiveBadgeView"
+        public static let affirmativeBadgeView = "affirmativeBadgeView"
+        public static let defaultBadgeView = "defaultBadgeView"
+        
         // Segmented Button
         public static let primarySegmentedControl = "primarySegmentedControl"
+        
+        // Switch
+        public static let defaultSwitchView = "defaultSwitchView"
     }
 }
 
@@ -77,6 +84,7 @@ extension Accessibility.Identifier {
         static let password = "\(prefix)password"
         static let walletIdentifier = "\(prefix)walletIdentifier"
         static let recoveryPhrase = "\(prefix)recoveryPhrase"
+        static let backupVerfication = "\(prefix)backupVerfication"
     }
 }
 

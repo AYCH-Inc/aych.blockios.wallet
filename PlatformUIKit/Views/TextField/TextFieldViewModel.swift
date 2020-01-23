@@ -143,7 +143,8 @@ public class TextFieldViewModel {
                         return LocalizationConstants.TextField.Gesture.invalidRecoveryPhrase
                     case .newPassword,
                          .confirmNewPassword,
-                         .password:
+                         .password,
+                         .backupVerfication:
                         return ""
                     case .walletIdentifier:
                         return LocalizationConstants.TextField.Gesture.walletId
@@ -152,6 +153,8 @@ public class TextFieldViewModel {
                     switch type {
                     case .confirmNewPassword, .newPassword:
                         return LocalizationConstants.TextField.Gesture.passwordMismatch
+                    case .backupVerfication:
+                        return LocalizationConstants.TextField.Gesture.recoveryMismatch
                     case .email, .password, .walletIdentifier, .recoveryPhrase:
                         return ""
                     }
@@ -198,6 +201,16 @@ extension TextFieldViewModel {
                 return value
             default:
                 return nil
+            }
+        }
+        
+        /// Returns whether or not the currenty entry is valid
+        public var isValid: Bool {
+            switch self {
+            case .valid:
+                return true
+            default:
+                return false
             }
         }
         

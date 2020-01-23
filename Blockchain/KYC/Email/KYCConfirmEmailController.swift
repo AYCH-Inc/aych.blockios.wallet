@@ -38,11 +38,9 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
         return VerifyEmailPresenter(view: self)
     }()
 
-    internal var disposable: Disposable?
-
     // MARK: Properties
 
-    var email: EmailAddress = "" {
+    var email: String = "" {
         didSet {
             guard isViewLoaded else { return }
             validationTextFieldEmail.text = email
@@ -90,13 +88,12 @@ class KYCConfirmEmailController: KYCBaseViewController, BottomButtonContainerVie
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setUpBottomButtonContainerView()
-        disposable = presenter.waitForEmailConfirmation()
+        presenter.waitForEmailConfirmation()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
-        disposable?.dispose()
-        disposable = nil
         super.viewDidDisappear(animated)
+        presenter.cancel()
     }
 
     // MARK: - Actions

@@ -38,3 +38,5 @@ public enum LoadingState<Content> {
         }
     }
 }
+
+extension LoadingState: Equatable where Content: Equatable {}

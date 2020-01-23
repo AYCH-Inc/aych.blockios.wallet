@@ -346,6 +346,7 @@ extension KYCTiersViewController {
                     navController.pushViewController(controller, animated: true)
                 } else {
                     let navController = BCNavigationController(rootViewController: controller)
+                    navController.modalPresentationStyle = .fullScreen
                     fromViewController.present(navController, animated: true, completion: nil)
                 }
             })

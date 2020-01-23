@@ -17,18 +17,20 @@ class WalletActionSubscriber {
 
     private let appSettings: BlockchainSettings.App
     private let bus: WalletActionEventBus
-    private let walletSettings: WalletSettingsAPI
+    private let lastTransactionUpdateService: LastTransactionSettingsUpdateServiceAPI
 
     private var disposable: Disposable?
 
+    private let disposeBag = DisposeBag()
+    
     init(
         appSettings: BlockchainSettings.App = BlockchainSettings.App.shared,
         bus: WalletActionEventBus = WalletActionEventBus.shared,
-        walletSettings: WalletSettingsAPI = WalletSettingsService()
+        lastTransactionUpdateService: LastTransactionSettingsUpdateServiceAPI = UserInformationServiceProvider.default.settings
     ) {
         self.appSettings = appSettings
         self.bus = bus
-        self.walletSettings = walletSettings
+        self.lastTransactionUpdateService = lastTransactionUpdateService
     }
 
     deinit {
@@ -72,18 +74,8 @@ class WalletActionSubscriber {
     }
 
     private func updateLastTxTime() {
-        guard let guid = appSettings.guid else {
-            Logger.shared.warning("Cannot update last-tx-time, guid is nil.")
-            return
-        }
-        guard let sharedKey = appSettings.sharedKey else {
-            Logger.shared.warning("Cannot update last-tx-time, sharedKey is nil.")
-            return
-        }
-        _ = walletSettings.updateLastTxTimeToCurrentTime(guid: guid, sharedKey: sharedKey).subscribe(onCompleted: {
-            Logger.shared.info("last-tx-time updated.")
-        }, onError: { error in
-            Logger.shared.error("Failed to update last-tx-time. Error: \(error.localizedDescription)")
-        })
+        lastTransactionUpdateService.updateLastTransaction()
+            .subscribe()
+            .disposed(by: disposeBag)
     }
 }

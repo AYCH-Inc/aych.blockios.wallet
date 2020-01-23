@@ -16,6 +16,10 @@ extension Array {
 
         return self[index]
     }
+    
+    public func pick(_ amount: Int) -> Array<Element> {
+        return Array(shuffled().prefix(amount))
+    }
 }
 
 // MARK: - Hashable

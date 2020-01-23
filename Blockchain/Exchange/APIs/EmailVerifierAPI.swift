@@ -11,7 +11,7 @@ import RxSwift
 import PlatformKit
 
 protocol EmailVerifierAPI {
-    func sendVerificationEmail(to email: EmailAddress, contextParameter: ContextParameter?) -> Completable
+    func sendVerificationEmail(to email: String, contextParameter: FlowContext?) -> Completable
     func pollWalletSettings() -> Observable<WalletSettings>
     func waitForEmailVerification() -> Observable<Bool>
     var userEmail: Single<Email> { get }

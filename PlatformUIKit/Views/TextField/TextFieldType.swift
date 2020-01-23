@@ -8,6 +8,7 @@
 
 import Foundation
 import Localization
+import ToolKit
 
 /// The type of the text field
 public enum TextFieldType {
@@ -29,6 +30,10 @@ public enum TextFieldType {
     
     /// Mnemonic for recovering funds
     case recoveryPhrase
+    
+    /// A single word from the mnemonic used for backup verification.
+    /// The index is the index of the word in the mnemonic.
+    case backupVerfication(index: Int)
 }
 
 // MARK: - Information Sensitivity
@@ -42,7 +47,8 @@ extension TextFieldType {
              .password,
              .newPassword,
              .confirmNewPassword,
-             .recoveryPhrase:
+             .recoveryPhrase,
+             .backupVerfication:
             return true
         case .email:
             return false
@@ -68,6 +74,8 @@ extension TextFieldType {
             return Accessibility(id: .value(Accessibility.Identifier.TextFieldView.walletIdentifier))
         case .recoveryPhrase:
             return Accessibility(id: .value(Accessibility.Identifier.TextFieldView.recoveryPhrase))
+        case .backupVerfication:
+            return Accessibility(id: .value(Accessibility.Identifier.TextFieldView.backupVerfication))
         }
     }
 }
@@ -79,7 +87,8 @@ extension TextFieldType {
     /// This is `true` if the text field should show hints during typing
     var showsHintWhileTyping: Bool {
         switch self {
-        case .email:
+        case .email,
+             .backupVerfication:
             return false
         case .password,
              .newPassword,
@@ -107,9 +116,48 @@ extension TextFieldType {
             return LocalizationConstants.TextField.Placeholder.recoveryPhrase
         case .walletIdentifier:
             return LocalizationConstants.TextField.Placeholder.walletIdentifier
+        case .backupVerfication(index: let index):
+            return index.placeholder
         }
     }
 }
+
+fileprivate extension Int {
+    typealias Index = LocalizationConstants.VerifyBackupScreen.Index
+    var placeholder: String {
+        let word = LocalizationConstants.TextField.Placeholder.word
+        switch self {
+        case 0:
+            return "\(Index.first) \(word)"
+        case 1:
+            return "\(Index.second) \(word)"
+        case 2:
+            return "\(Index.third) \(word)"
+        case 3:
+            return "\(Index.fourth) \(word)"
+        case 4:
+            return "\(Index.fifth) \(word)"
+        case 5:
+            return "\(Index.sixth) \(word)"
+        case 6:
+            return "\(Index.seventh) \(word)"
+        case 7:
+            return "\(Index.eigth) \(word)"
+        case 8:
+            return "\(Index.ninth) \(word)"
+        case 9:
+            return "\(Index.tenth) \(word)"
+        case 10:
+            return "\(Index.eleventh) \(word)"
+        case 11:
+            return "\(Index.twelfth) \(word)"
+        default:
+            return ""
+        }
+    }
+    
+}
+
 
 // MARK: - Secure
 
@@ -118,7 +166,7 @@ extension TextFieldType {
     /// Returns `true` if the text-field's input has to be secure
     var isSecure: Bool {
         switch self {
-        case .email, .walletIdentifier, .recoveryPhrase:
+        case .email, .walletIdentifier, .recoveryPhrase, .backupVerfication:
             return false
         case .newPassword, .confirmNewPassword, .password:
             return true
@@ -145,7 +193,8 @@ extension TextFieldType {
     /// drive auto-fill behavior.
     var contentType: UITextContentType? {
         switch self {
-        case .recoveryPhrase:
+        case .recoveryPhrase,
+             .backupVerfication:
             return nil
         case .walletIdentifier:
             return .username

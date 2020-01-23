@@ -10,68 +10,74 @@ import RxSwift
 import ToolKit
 import PlatformKit
 
-typealias EmailAddress = String
-
 protocol EmailConfirmationInterface: EmailVerificationInterface {
     func emailVerifiedSuccess()
 }
 
-class VerifyEmailPresenter {
+final class VerifyEmailPresenter {
 
-    private weak var view: EmailVerificationInterface?
-    private let interactor: EmailVerificationService
-    private let disposables = CompositeDisposable()
-
-    deinit {
-        disposables.dispose()
-    }
-
-    init(view: EmailVerificationInterface, interactor: EmailVerificationService = EmailVerificationService()) {
-        self.view = view
-        self.interactor = interactor
-    }
-
-    func waitForEmailConfirmation() -> Disposable {
-        return interactor.waitForEmailVerification()
-            .subscribe(onNext: { [weak self] isEmailVerified in
-                guard let strongSelf = self else {
-                    return
-                }
-                guard isEmailVerified else {
-                    Logger.shared.debug("Email not verified")
-                    return
-                }
-                guard let confirmView = strongSelf.view as? EmailConfirmationInterface else {
-                    return
-                }
-                confirmView.emailVerifiedSuccess()
-            })
+    var email: Single<String> {
+        return emailSettingsService.email
+            .observeOn(MainScheduler.instance)
     }
     
-    var userEmail: Single<Email> {
-        return interactor.userEmail
+    // MARK: - Private Properties
+    
+    private weak var view: EmailVerificationInterface?
+    private let emailVerificationService: EmailVerificationServiceAPI
+    private let emailSettingsService: EmailSettingsServiceAPI
+    private let disposeBag = DisposeBag()
+
+    // MARK: - Setup
+    
+    init(view: EmailVerificationInterface,
+         emailVerificationService: EmailVerificationServiceAPI = UserInformationServiceProvider.default.emailVerification,
+         emailSettingsService: EmailSettingsServiceAPI = UserInformationServiceProvider.default.settings) {
+        self.view = view
+        self.emailVerificationService = emailVerificationService
+        self.emailSettingsService = emailSettingsService
     }
 
-    func sendVerificationEmail(to email: EmailAddress, contextParameter: ContextParameter? = nil) {
-        view?.updateLoadingViewVisibility(.visible)
-        let disposable = interactor.sendVerificationEmail(to: email, contextParameter: contextParameter)
-            .subscribeOn(MainScheduler.asyncInstance)
+    func waitForEmailConfirmation() {
+        emailVerificationService.verifyEmail()
             .observeOn(MainScheduler.instance)
-            .do(onDispose: { [weak self] in
-                self?.view?.updateLoadingViewVisibility(.hidden)
-            })
-            .subscribe(onCompleted: { [weak self] in
-                guard let strongSelf = self else {
-                    return
+            .subscribe(
+                onCompleted: { [weak view] in
+                    guard let view = view as? EmailConfirmationInterface else {
+                        return
+                    }
+                    view.emailVerifiedSuccess()
                 }
-                strongSelf.view?.sendEmailVerificationSuccess()
-            }, onError: { [weak self] error in
-                Logger.shared.error("Failed to send verification email: \(error.localizedDescription)")
-                guard let strongSelf = self else {
-                    return
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    func cancel() {
+        emailVerificationService.cancel()
+            .subscribe()
+            .disposed(by: disposeBag)
+    }
+
+    func sendVerificationEmail(to email: String,
+                               contextParameter: FlowContext? = nil) {
+        emailSettingsService.update(email: email, context: contextParameter)
+            .observeOn(MainScheduler.instance)
+            .do(
+                onSubscribed: { [weak view] in
+                    view?.updateLoadingViewVisibility(.visible)
+                },
+                onDispose: { [weak view] in
+                    view?.updateLoadingViewVisibility(.hidden)
                 }
-                strongSelf.view?.showError(message: LocalizationConstants.KYC.failedToSendVerificationEmail)
-            })
-        disposables.insertWithDiscardableResult(disposable)
+            )
+            .subscribe(
+                onCompleted: { [weak view] in
+                    view?.sendEmailVerificationSuccess()
+                },
+                onError: { [weak view] error in
+                    view?.showError(message: LocalizationConstants.KYC.failedToSendVerificationEmail)
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }

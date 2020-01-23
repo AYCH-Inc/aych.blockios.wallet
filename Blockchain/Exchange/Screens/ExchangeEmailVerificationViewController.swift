@@ -69,7 +69,7 @@ class ExchangeEmailVerificationViewController: UIViewController, BottomButtonCon
     
     private var bag: DisposeBag = DisposeBag()
     private var verificationRelay: PublishRelay<Void> = PublishRelay()
-    private var email: EmailAddress = "" {
+    private var email: String = "" {
         didSet {
             guard isViewLoaded else { return }
             emailTextField.text = email
@@ -118,11 +118,9 @@ class ExchangeEmailVerificationViewController: UIViewController, BottomButtonCon
         emailSentLabel.attributedText = emailSentAttributedText
         waitingLabel.attributedText = loadingAttributedText
         
-        presenter.userEmail
-            .subscribe(onSuccess: { [weak self] email in
-                guard let self = self else { return }
-                self.email = email.address
-                self.emailTextField.text = email.address
+        presenter.email
+            .subscribe(onSuccess: { [weak emailTextField] email in
+                emailTextField?.text = email
             })
             .disposed(by: bag)
         
@@ -144,12 +142,12 @@ class ExchangeEmailVerificationViewController: UIViewController, BottomButtonCon
         super.viewDidAppear(animated)
         setUpBottomButtonContainerView()
         emailTextField.becomeFirstResponder()
-        presenter.waitForEmailConfirmation().disposed(by: bag)
+        presenter.waitForEmailConfirmation()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        bag = DisposeBag()
+        presenter.cancel()
     }
 }
     

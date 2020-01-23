@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BackupFundsViewController" customModule="Blockchain" customModuleProvider="target">
+            <connections>
+                <outlet property="dashedImageView" destination="ECj-3e-k9H" id="Jfv-Gs-bd7"/>
+                <outlet property="lockIllustrationImageView" destination="9lR-9x-0sp" id="bZ9-cO-cFN"/>
+                <outlet property="primaryDescriptionLabel" destination="k4i-ca-tUs" id="p40-pQ-JGb"/>
+                <outlet property="secondaryDescriptionLabel" destination="fM8-Ip-Tn6" id="LfQ-Fh-FcQ"/>
+                <outlet property="startBackupButtonView" destination="7N9-GK-aBg" id="i7W-9d-hb6"/>
+                <outlet property="subtitleLabel" destination="yUA-uo-dY9" id="ygS-D8-C9v"/>
+                <outlet property="view" destination="iN0-l3-epB" id="ihf-fQ-7p7"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="05V-Vo-xgo">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="k6B-i7-gXW">
+                            <rect key="frame" x="0.0" y="20" width="414" height="818"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="fc2-6U-z5n">
+                                    <rect key="frame" x="16" y="0.0" width="382" height="359.5"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yUA-uo-dY9">
+                                            <rect key="frame" x="0.0" y="0.0" width="42" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k4i-ca-tUs">
+                                            <rect key="frame" x="0.0" y="36.5" width="42" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fM8-Ip-Tn6">
+                                            <rect key="frame" x="0.0" y="73" width="42" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eJV-9h-iVc">
+                                            <rect key="frame" x="0.0" y="109.5" width="382" height="250"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backup-password-dash" translatesAutoresizingMaskIntoConstraints="NO" id="ECj-3e-k9H">
+                                                    <rect key="frame" x="20" y="20" width="342" height="250"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="250" id="VBY-eK-qrC"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backup-lock-illustration" translatesAutoresizingMaskIntoConstraints="NO" id="9lR-9x-0sp">
+                                                    <rect key="frame" x="20" y="20" width="342" height="250"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="250" id="pWw-sr-WV5"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="ECj-3e-k9H" secondAttribute="trailing" constant="20" symbolic="YES" id="UhJ-jI-X7I"/>
+                                                <constraint firstAttribute="trailing" secondItem="9lR-9x-0sp" secondAttribute="trailing" constant="20" symbolic="YES" id="bwX-4C-4nI"/>
+                                                <constraint firstItem="ECj-3e-k9H" firstAttribute="leading" secondItem="eJV-9h-iVc" secondAttribute="leading" constant="20" symbolic="YES" id="hik-ID-sQ1"/>
+                                                <constraint firstAttribute="height" constant="250" id="iUs-gk-PG2"/>
+                                                <constraint firstItem="9lR-9x-0sp" firstAttribute="top" secondItem="eJV-9h-iVc" secondAttribute="top" constant="20" symbolic="YES" id="j7K-OT-BIE"/>
+                                                <constraint firstItem="9lR-9x-0sp" firstAttribute="leading" secondItem="eJV-9h-iVc" secondAttribute="leading" constant="20" symbolic="YES" id="qH4-aJ-ToX"/>
+                                                <constraint firstItem="ECj-3e-k9H" firstAttribute="top" secondItem="eJV-9h-iVc" secondAttribute="top" constant="20" symbolic="YES" id="qsb-y1-lHU"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                </stackView>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7N9-GK-aBg" customClass="ButtonView" customModule="PlatformUIKit">
+                                    <rect key="frame" x="16" y="770" width="382" height="48"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="48" id="LiT-2T-fXQ"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="7N9-GK-aBg" secondAttribute="trailing" constant="16" id="WPS-X0-Hxh"/>
+                                <constraint firstItem="7N9-GK-aBg" firstAttribute="leading" secondItem="k6B-i7-gXW" secondAttribute="leading" constant="16" id="eeY-vS-SRp"/>
+                                <constraint firstItem="fc2-6U-z5n" firstAttribute="leading" secondItem="k6B-i7-gXW" secondAttribute="leading" constant="16" id="gWd-GN-4gm"/>
+                                <constraint firstAttribute="trailing" secondItem="fc2-6U-z5n" secondAttribute="trailing" constant="16" id="k3t-QI-Fj1"/>
+                            </constraints>
+                        </stackView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="6ib-EW-Fi3" firstAttribute="bottom" secondItem="k6B-i7-gXW" secondAttribute="bottom" id="0H9-u4-cNd"/>
+                        <constraint firstAttribute="trailing" secondItem="k6B-i7-gXW" secondAttribute="trailing" constant="-1" id="2AX-ex-sMn"/>
+                        <constraint firstItem="k6B-i7-gXW" firstAttribute="leading" secondItem="05V-Vo-xgo" secondAttribute="leading" id="9an-OE-WrL"/>
+                        <constraint firstItem="k6B-i7-gXW" firstAttribute="centerX" secondItem="05V-Vo-xgo" secondAttribute="centerX" id="KeY-PL-Tn5"/>
+                        <constraint firstItem="k6B-i7-gXW" firstAttribute="height" relation="greaterThanOrEqual" secondItem="05V-Vo-xgo" secondAttribute="height" id="Sxf-MO-Hye"/>
+                        <constraint firstItem="k6B-i7-gXW" firstAttribute="top" secondItem="05V-Vo-xgo" secondAttribute="top" constant="20" symbolic="YES" id="ucP-Ts-yaa"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="6ib-EW-Fi3"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="CN7-Fr-bsZ"/>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="05V-Vo-xgo" secondAttribute="trailing" id="FsG-FN-WBN"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="05V-Vo-xgo" secondAttribute="bottom" id="X6r-Gk-TxA"/>
+                <constraint firstItem="05V-Vo-xgo" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="erq-FW-phJ"/>
+                <constraint firstItem="05V-Vo-xgo" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="ugk-IL-k0h"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="137.68115942028987" y="85.714285714285708"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="backup-lock-illustration" width="230" height="191"/>
+        <image name="backup-password-dash" width="375" height="223"/>
+    </resources>
+</document>

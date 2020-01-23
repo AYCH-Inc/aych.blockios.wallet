@@ -10,7 +10,7 @@ import PlatformUIKit
 import RxSwift
 
 final class MockBiometryProvider: BiometryProviding {
-        
+    var supportedBiometricsType: Biometry.BiometryType = .touchId
     let canAuthenticate: Result<Void, Biometry.EvaluationError>
     var configuredType: Biometry.BiometryType
     let configurationStatus: Biometry.Status

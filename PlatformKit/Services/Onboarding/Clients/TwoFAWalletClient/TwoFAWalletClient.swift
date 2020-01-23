@@ -82,7 +82,7 @@ public final class TwoFAWalletClient: TwoFAWalletClientAPI {
     }
 }
 
-// MARK: - GuidRequestBuilder
+// MARK: - TwoFAWalletClient
 
 extension TwoFAWalletClient {
     

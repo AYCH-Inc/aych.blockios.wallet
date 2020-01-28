@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseCrashlytics
 import ToolKit
 import PlatformKit
 
@@ -20,7 +20,7 @@ final class CrashlyticsRecorder: Recording {
     
     // MARK: - Setup
     
-    init(crashlytics: Crashlytics = .sharedInstance()) {
+    init(crashlytics: Crashlytics = Crashlytics.crashlytics()) {
         self.crashlytics = crashlytics
     }
     
@@ -30,7 +30,7 @@ final class CrashlyticsRecorder: Recording {
     /// If the only necessary recording data is the context, just call `error()` with no `error` parameter.
     /// - Parameter error: The error to be recorded by the crash service. defaults to `BreadcrumbError` instance.
     func error(_ error: Error) {
-        crashlytics.recordError(error)
+        crashlytics.record(error: error as NSError)
     }
     
     /// Breadcrumbs an error
@@ -49,7 +49,7 @@ final class CrashlyticsRecorder: Recording {
     /// If the only necessary recording data is the context, just call `record()` with no `message` parameter.
     /// - Parameter message: The message to be recorded by the crash service. defaults to an empty string.
     func record(_ message: String) {
-        CLSLogv("%@", getVaList([message]))
+        crashlytics.log(message)
     }
     
     /// Breadcrumbs a message

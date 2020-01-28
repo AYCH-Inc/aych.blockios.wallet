@@ -6,9 +6,8 @@
 //  Copyright © 2018 Blockchain Luxembourg S.A. All rights reserved.
 //
 
-import Fabric
-import Crashlytics
 import Firebase
+import FirebaseCrashlytics
 import FirebaseDynamicLinks
 import RxSwift
 import ToolKit
@@ -63,7 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
 
         FirebaseApp.configure()
-        Fabric.with([Crashlytics.self])
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window.makeKeyAndVisible()

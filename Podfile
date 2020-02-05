@@ -111,8 +111,8 @@ end
 target 'BitcoinKit' do
   pod 'RxSwift', '5.0'
   pod 'BigInt', '~> 4.0'
-  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'master', :submodules => true
-
+  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', commit: 'fc38082243575a7b5c626272790cb764062a836b', submodules: true
+  
   target 'BitcoinKitTests' do
     inherit! :search_paths
     # Pods for testing
@@ -124,8 +124,8 @@ end
 
 target 'HDWalletKit' do
   pod 'BigInt', '~> 4.0'
-  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'master', :submodules => true
-
+  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', commit: 'fc38082243575a7b5c626272790cb764062a836b', submodules: true
+  
   target 'HDWalletKitTests' do
     inherit! :search_paths
     # Pods for testing
@@ -135,7 +135,7 @@ end
 
 target 'CommonCryptoKit' do
   pod 'BigInt', '~> 4.0'
-  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', :branch => 'master', :submodules => true
+  pod 'LibWally', git: 'git@github.com:blockchain/libwally-swift.git', commit: 'fc38082243575a7b5c626272790cb764062a836b', submodules: true
 
   target 'CommonCryptoKitTests' do
     inherit! :search_paths

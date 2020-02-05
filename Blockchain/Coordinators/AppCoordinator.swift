@@ -376,7 +376,13 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
     }
 
     func handleBuyBitcoin() {
-        BuySellCoordinator.shared.showBuyBitcoinView()
+        AlertViewPresenter.shared.standardNotify(
+            message: LocalizationConstants.BuySell.DeprecationError.message,
+            title: LocalizationConstants.Errors.error,
+            actions: [
+                UIAlertAction(title: LocalizationConstants.okString, style: .default)
+            ]
+        )
     }
 }
 

@@ -1785,6 +1785,10 @@ public struct LocalizationConstants {
             "By tapping Begin Now, you agree to Coinify's Terms of Service & Privacy Policy",
             comment: "Disclaimer shown when starting KYC from Buy-Sell"
         )
+        
+        public struct DeprecationError {
+            public static let message = NSLocalizedString("This feature is currently unavailable on iOS. Please visit our web wallet at Blockchain.com to proceed.", comment: "")
+        }
     }
 
     public struct AddressAndKeyImport {

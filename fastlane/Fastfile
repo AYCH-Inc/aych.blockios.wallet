@@ -12,10 +12,12 @@ opt_out_usage
 
 default_platform(:ios)
 platform :ios do
+
   before_all do
     # This is required to setup the temporary keychain
     setup_circle_ci
   end
+
   desc "Builds using the dev environment"
   lane :dev do
     sync_code_signing(type: "appstore", readonly: true)
@@ -32,7 +34,8 @@ platform :ios do
       # slack(message: "App successfully build!")
     end
   end
-  desc "Deploys staging environment build to TestFlight"
+
+  desc "Builds using the staging environment"
   lane :staging do
     build_app(
       clean: true,
@@ -41,9 +44,9 @@ platform :ios do
       scheme: "Blockchain (Staging)",
       workspace: "Blockchain.xcworkspace"
     )
-    # upload_to_testflight
   end
-  desc "Runs all unit tests"
+
+  desc "Runs all unit tests on Blockchain (Staging) scheme"
   lane :execute_tests do
     scan(
       workspace: "Blockchain.xcworkspace",
@@ -52,12 +55,14 @@ platform :ios do
       clean: true
     )
   end
-  desc "Builds using the production environment"
+
+  desc "Updates code signing on the current machine"
   lane :code_signing do
     # Global parameters are loaded from the Matchfile
     match(type: "appstore", readonly: true)
     match(type: "adhoc", force_for_new_devices: true)
   end
+
   desc "Upload to TestFlight"
   lane :upload do
     match(type: "appstore", readonly: true)
@@ -67,10 +72,15 @@ platform :ios do
       skip_waiting_for_build_processing: true
     )
   end
+
   desc "Download dSYM file from iTunes and uploads it to Crashlytics"
   lane :upload_dsyms do
+    # Assumes there is a 'blockchain-dsyms.zip' file in `./output` directory.
+    # To create the zip file, execute the following commands:
+    # cd $BITRISE_SOURCE_DIR/output/Blockchain.xcarchive/dSYMs/
+    # zip -r $BITRISE_SOURCE_DIR/output/blockchain-dsyms.zip . 
     upload_symbols_to_crashlytics(
-      dsym_path: "./output/Blockchain.app.dSYM.zip",
+      dsym_path: "./output/blockchain-dsyms.zip",
       gsp_path: "./Blockchain/Firebase/Prod/GoogleService-Info.plist"
     )
   end

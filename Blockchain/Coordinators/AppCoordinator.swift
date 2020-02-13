@@ -376,13 +376,15 @@ extension AppCoordinator: SideMenuViewControllerDelegate {
     }
 
     func handleBuyBitcoin() {
-        AlertViewPresenter.shared.standardNotify(
-            message: LocalizationConstants.BuySell.DeprecationError.message,
-            title: LocalizationConstants.Errors.error,
-            actions: [
-                UIAlertAction(title: LocalizationConstants.okString, style: .default)
-            ]
-        )
+        BuySellCoordinator.shared.showBuyBitcoinView()
+        // TODO: IOS-2833 - Remove previous line and uncomment following code to disable Coinify once Simple Buy is ready for release.
+        // AlertViewPresenter.shared.standardNotify(
+        //   message: LocalizationConstants.BuySell.DeprecationError.message,
+        //   title: LocalizationConstants.Errors.error,
+        //   actions: [
+        //     UIAlertAction(title: LocalizationConstants.okString, style: .default)
+        //   ]
+        // )
     }
 }
 

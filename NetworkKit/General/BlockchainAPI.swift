@@ -48,7 +48,7 @@ final public class BlockchainAPI: NSObject {
         coinify = "app-api.coinify.com",
         stellarchain = "stellarchain.io",
         googleAnalytics = "www.google-analytics.com",
-        iSignThis = "verify.isignthis.com",
+        iSignThis = "coinify-verify.isignthis.com",
         sfox = "api.sfox.com",
         sfoxKYC = "sfox-kyc.s3.amazonaws.com",
         sfoxQuotes = "quotes.sfox.com",
@@ -70,47 +70,17 @@ final public class BlockchainAPI: NSObject {
 
     // MARK: - Temporary Objective-C bridging functions
 
-    // TODO: remove these once migration is complete
-    @objc public func blockchainAPI() -> String {
-        return Hosts.blockchainAPI.rawValue
-    }
+    // TODO: Remove these once migration is complete
     @objc public func blockchainDotInfo() -> String {
         return Hosts.blockchainDotInfo.rawValue
     }
     @objc public func blockchainDotCom() -> String {
         return Hosts.blockchainDotCom.rawValue
     }
-    @objc public func bitpay() -> String {
-        return PartnerHosts.bitpay.rawValue
-    }
-    @objc public func coinify() -> String {
-        return PartnerHosts.coinify.rawValue
-    }
     @objc public func etherExplorer() -> String {
         return etherExplorerUrl
     }
-    @objc public func bitcoinCashExplorer() -> String {
-        return bitcoinCashExplorerUrl
-    }
-    @objc public func googleAnalytics() -> String {
-        return PartnerHosts.googleAnalytics.rawValue
-    }
-    @objc public func iSignThis() -> String {
-        return PartnerHosts.iSignThis.rawValue
-    }
-    @objc public func sfox() -> String {
-        return PartnerHosts.sfox.rawValue
-    }
-    @objc public func sfoxKYC() -> String {
-        return PartnerHosts.sfoxKYC.rawValue
-    }
-    @objc public func sfoxQuotes() -> String {
-        return PartnerHosts.sfoxQuotes.rawValue
-    }
-    @objc public func shapeshift() -> String {
-        return PartnerHosts.shapeshift.rawValue
-    }
-    
+
     // MARK: URI
     
     @objc public var webSocketUri: String? {

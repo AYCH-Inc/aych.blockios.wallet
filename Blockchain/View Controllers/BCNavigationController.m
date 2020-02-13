@@ -15,9 +15,10 @@
 
 @implementation BCNavigationController
 
-- (id)initWithRootViewController:(UIViewController *)rootViewController title:(NSString *)headerTitle;
+- (instancetype)initWithRootViewController:(UIViewController *)rootViewController title:(NSString *)headerTitle;
 {
-    if (self = [super initWithRootViewController:rootViewController]) {
+    self = [super initWithRootViewController:rootViewController];
+    if (self) {
         self.headerTitle = headerTitle;
         self.shouldHideBusyView = YES; // default behavior
     }
@@ -29,21 +30,14 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
+    UIEdgeInsets safeAreaInsets = UIApplication.sharedApplication.keyWindow.rootViewController.view.safeAreaInsets;
 
-    UIWindow *window = UIApplication.sharedApplication.keyWindow;
-    CGFloat safeAreaInsetTop;
-    if (@available(iOS 11.0, *)) {
-        safeAreaInsetTop = window.rootViewController.view.safeAreaInsets.top;
-    } else {
-        safeAreaInsetTop = 20;
-    }
-
-    CGFloat topBarHeight = ConstantsObjcBridge.defaultNavigationBarHeight + safeAreaInsetTop;
+    CGFloat topBarHeight = ConstantsObjcBridge.defaultNavigationBarHeight + safeAreaInsets.top;
     self.topBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, topBarHeight)];
     self.topBar.backgroundColor = UIColor.brandPrimary;
     [self.view addSubview:self.topBar];
     
-    self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, safeAreaInsetTop + 6, 200, 30)];
+    self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, safeAreaInsets.top + 6, 200, 30)];
     self.headerLabel.font = [UIFont fontWithName:FONT_MONTSERRAT_REGULAR size:FONT_SIZE_TOP_BAR_TEXT];
     self.headerLabel.textColor = [UIColor whiteColor];
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
@@ -102,7 +96,6 @@
     [super viewDidLayoutSubviews];
     
     if (self.viewControllers.count > 1) {
-        self.
         self.backButton.hidden = NO;
         self.closeButton.hidden = YES;
     } else {
@@ -119,14 +112,18 @@
         [self dismiss];
     }
     
-    if (self.onPopViewController) self.onPopViewController();
+    if (self.onPopViewController) {
+        self.onPopViewController();
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
-    if (self.onViewWillDisappear) self.onViewWillDisappear();
+    if (self.onViewWillDisappear) {
+        self.onViewWillDisappear();
+    }
 }
 
 - (void)dismiss
